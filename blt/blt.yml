@@ -1,0 +1,20 @@
+project:
+  machine_name: mars
+  prefix: MARS
+  human_name: Mars
+  profile:
+    name: lightning
+  local:
+    protocol: http
+    hostname: mars.lndo.site
+git:
+  default_branch: master
+  remotes: {}
+deploy:
+  tag_source: true
+drush:
+  aliases:
+    remote: '${project.machine_name}.test'
+    local: self
+    ci: self
+  default_alias: '${drush.aliases.local}'
