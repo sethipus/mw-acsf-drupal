@@ -9,7 +9,7 @@ project:
     hostname: mars.lndo.site
 git:
   default_branch: master
-  remotes: {}
+  remotes: {  }
 deploy:
   tag_source: true
 drush:
@@ -18,3 +18,5 @@ drush:
     local: self
     ci: self
   default_alias: '${drush.aliases.local}'
+validate:
+  acsf: true

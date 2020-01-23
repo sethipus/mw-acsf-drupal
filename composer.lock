@@ -4,8 +4,66 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3514347f92cb47323f858c32ccde4541",
+    "content-hash": "10bcf3700ee6ebff8098202adaa05eee",
     "packages": [
+        {
+            "name": "acquia/acsf-tools",
+            "version": "dev-9.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acquia/acsf-tools.git",
+                "reference": "8e4505019b03e80a2f82dd8e2e98629041038988"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acquia/acsf-tools/zipball/8e4505019b03e80a2f82dd8e2e98629041038988",
+                "reference": "8e4505019b03e80a2f82dd8e2e98629041038988",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "~1.0",
+                "php": ">=5.6.0",
+                "symfony/yaml": "^3.0"
+            },
+            "type": "drupal-drush",
+            "extra": {
+                "installer-name": "acsf_tools",
+                "installer-paths": {
+                    "drush/Commands/{$name}": [
+                        "acquia/acsf-tools"
+                    ]
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Drush\\Commands\\acsf_tools\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Sherron (msherron)",
+                    "homepage": "https://www.drupal.org/u/msherron",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Sylvain Delbosc (sdelbosc)",
+                    "homepage": "https://www.drupal.org/u/sdelbosc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Drush powered command line tools for working with Acquia Cloud Site Factory.",
+            "homepage": "https://github.com/acquia/acsf-tools",
+            "time": "2019-07-10T13:21:37+00:00"
+        },
         {
             "name": "acquia/blt",
             "version": "11.1.1",
@@ -2965,6 +3023,327 @@
             "homepage": "https://www.drupal.org/project/acquia_purge",
             "support": {
                 "source": "https://git.drupalcode.org/project/acquia_purge"
+            }
+        },
+        {
+            "name": "drupal/acsf",
+            "version": "2.63.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/acsf.git",
+                "reference": "8.x-2.63"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/acsf-8.x-2.63.zip",
+                "reference": "8.x-2.63",
+                "shasum": "809bdf522af53068d34bdd44af9fd1b2ed68206d"
+            },
+            "require": {
+                "drupal/acsf_duplication": "*",
+                "drupal/acsf_theme": "*",
+                "drupal/acsf_variables": "*",
+                "drupal/core": "~8.0",
+                "ext-json": "*"
+            },
+            "require-dev": {
+                "acquia/coding-standards": "^0.4.0",
+                "drupal/acsf_variables": "*",
+                "drupal/samlauth": "^2.0.0-alpha1",
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev",
+                    "dev-8.x-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.63",
+                    "datestamp": "1576067285",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Drupal\\acsf\\": "src/"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Acquia",
+                    "homepage": "https://www.drupal.org/user/14023",
+                    "email": "support@acquia.com"
+                },
+                {
+                    "name": "Rok Žlender",
+                    "homepage": "https://www.drupal.org/user/61873"
+                },
+                {
+                    "name": "acquia",
+                    "homepage": "https://www.drupal.org/user/1231722"
+                },
+                {
+                    "name": "acquia.sf.ci",
+                    "homepage": "https://www.drupal.org/user/3285763"
+                },
+                {
+                    "name": "attila.fekete",
+                    "homepage": "https://www.drupal.org/user/762986"
+                },
+                {
+                    "name": "drabik",
+                    "homepage": "https://www.drupal.org/user/928682"
+                },
+                {
+                    "name": "glitchinfinity",
+                    "homepage": "https://www.drupal.org/user/3603140"
+                },
+                {
+                    "name": "nagba",
+                    "homepage": "https://www.drupal.org/user/21231"
+                },
+                {
+                    "name": "nikgregory",
+                    "homepage": "https://www.drupal.org/user/419643"
+                },
+                {
+                    "name": "roderik",
+                    "homepage": "https://www.drupal.org/user/8841"
+                }
+            ],
+            "description": "Connects a site with Acquia Cloud Site Factory.",
+            "homepage": "https://www.drupal.org/project/acsf",
+            "support": {
+                "source": "https://git.drupalcode.org/project/acsf"
+            }
+        },
+        {
+            "name": "drupal/acsf_duplication",
+            "version": "2.63.0",
+            "require": {
+                "drupal/acsf": "self.version",
+                "drupal/core": "~8.0"
+            },
+            "type": "metapackage",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.63",
+                    "datestamp": "1576067285",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Alan Evans",
+                    "homepage": "https://www.drupal.org/user/14023"
+                },
+                {
+                    "name": "Rok Žlender",
+                    "homepage": "https://www.drupal.org/user/61873"
+                },
+                {
+                    "name": "acquia",
+                    "homepage": "https://www.drupal.org/user/1231722"
+                },
+                {
+                    "name": "acquia.sf.ci",
+                    "homepage": "https://www.drupal.org/user/3285763"
+                },
+                {
+                    "name": "attila.fekete",
+                    "homepage": "https://www.drupal.org/user/762986"
+                },
+                {
+                    "name": "drabik",
+                    "homepage": "https://www.drupal.org/user/928682"
+                },
+                {
+                    "name": "glitchinfinity",
+                    "homepage": "https://www.drupal.org/user/3603140"
+                },
+                {
+                    "name": "nagba",
+                    "homepage": "https://www.drupal.org/user/21231"
+                },
+                {
+                    "name": "nikgregory",
+                    "homepage": "https://www.drupal.org/user/419643"
+                },
+                {
+                    "name": "roderik",
+                    "homepage": "https://www.drupal.org/user/8841"
+                }
+            ],
+            "description": "Helper module for duplicating Acquia Cloud Site Factory sites.",
+            "homepage": "https://www.drupal.org/project/acsf",
+            "support": {
+                "source": "https://git.drupalcode.org/project/acsf"
+            }
+        },
+        {
+            "name": "drupal/acsf_theme",
+            "version": "2.63.0",
+            "require": {
+                "drupal/acsf": "self.version",
+                "drupal/acsf_variables": "*",
+                "drupal/core": "~8.0"
+            },
+            "type": "metapackage",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.63",
+                    "datestamp": "1576067285",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Alan Evans",
+                    "homepage": "https://www.drupal.org/user/14023"
+                },
+                {
+                    "name": "Rok Žlender",
+                    "homepage": "https://www.drupal.org/user/61873"
+                },
+                {
+                    "name": "acquia",
+                    "homepage": "https://www.drupal.org/user/1231722"
+                },
+                {
+                    "name": "acquia.sf.ci",
+                    "homepage": "https://www.drupal.org/user/3285763"
+                },
+                {
+                    "name": "attila.fekete",
+                    "homepage": "https://www.drupal.org/user/762986"
+                },
+                {
+                    "name": "drabik",
+                    "homepage": "https://www.drupal.org/user/928682"
+                },
+                {
+                    "name": "glitchinfinity",
+                    "homepage": "https://www.drupal.org/user/3603140"
+                },
+                {
+                    "name": "nagba",
+                    "homepage": "https://www.drupal.org/user/21231"
+                },
+                {
+                    "name": "nikgregory",
+                    "homepage": "https://www.drupal.org/user/419643"
+                },
+                {
+                    "name": "roderik",
+                    "homepage": "https://www.drupal.org/user/8841"
+                }
+            ],
+            "description": "Handles VCS-based themes on Acquia Cloud Site Factory.",
+            "homepage": "https://www.drupal.org/project/acsf",
+            "support": {
+                "source": "https://git.drupalcode.org/project/acsf"
+            }
+        },
+        {
+            "name": "drupal/acsf_variables",
+            "version": "2.63.0",
+            "require": {
+                "drupal/acsf": "self.version",
+                "drupal/core": "~8.0"
+            },
+            "type": "metapackage",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.63",
+                    "datestamp": "1576067285",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Alan Evans",
+                    "homepage": "https://www.drupal.org/user/14023"
+                },
+                {
+                    "name": "Rok Žlender",
+                    "homepage": "https://www.drupal.org/user/61873"
+                },
+                {
+                    "name": "acquia",
+                    "homepage": "https://www.drupal.org/user/1231722"
+                },
+                {
+                    "name": "acquia.sf.ci",
+                    "homepage": "https://www.drupal.org/user/3285763"
+                },
+                {
+                    "name": "attila.fekete",
+                    "homepage": "https://www.drupal.org/user/762986"
+                },
+                {
+                    "name": "drabik",
+                    "homepage": "https://www.drupal.org/user/928682"
+                },
+                {
+                    "name": "glitchinfinity",
+                    "homepage": "https://www.drupal.org/user/3603140"
+                },
+                {
+                    "name": "nagba",
+                    "homepage": "https://www.drupal.org/user/21231"
+                },
+                {
+                    "name": "nikgregory",
+                    "homepage": "https://www.drupal.org/user/419643"
+                },
+                {
+                    "name": "roderik",
+                    "homepage": "https://www.drupal.org/user/8841"
+                }
+            ],
+            "description": "Stores sensitive variables in a single place for easy scrubbing.",
+            "homepage": "https://www.drupal.org/project/acsf",
+            "support": {
+                "source": "https://git.drupalcode.org/project/acsf"
             }
         },
         {
@@ -9861,6 +10240,36 @@
             "time": "2016-07-25T17:07:32+00:00"
         },
         {
+            "name": "nedsbeds/profile_split_enable",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nedsbeds/profile_split_enable.git",
+                "reference": "3de314026fae8548be7b0a1ec40cbcab825c3efc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nedsbeds/profile_split_enable/zipball/3de314026fae8548be7b0a1ec40cbcab825c3efc",
+                "reference": "3de314026fae8548be7b0a1ec40cbcab825c3efc",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/config_filter": "^1.0.0",
+                "drupal/core": "^8.6"
+            },
+            "suggest": {
+                "drupal/config_split": "^1.0.0"
+            },
+            "type": "drupal-module",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Allows Drupal sites using multiple profiles, CMI and config split to have a config split defined for each profile",
+            "homepage": "https://github.com/nedsbeds/profile_split_enable",
+            "time": "2019-05-18T17:34:14+00:00"
+        },
+        {
             "name": "nette/bootstrap",
             "version": "v3.0.1",
             "source": {
@@ -15654,6 +16063,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "acquia/acsf-tools": 20,
         "acquia/composer-scaffold": 20,
         "acquia/lightning": 20,
         "acquia/blt-require-dev": 20
