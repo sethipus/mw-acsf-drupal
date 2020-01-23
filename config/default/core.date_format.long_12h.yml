@@ -1,0 +1,10 @@
+uuid: 86371d99-8d3c-4590-9d99-eb4e83a62cc3
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: zBhiYw7olUNrdJxMPbhXU7rdGChY521rpMySh3bYaqc
+id: long_12h
+label: 'Long (12-hour)'
+locked: false
+pattern: 'F j, Y \a\t g:i A'
