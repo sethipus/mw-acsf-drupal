@@ -5,6 +5,7 @@
     "license": "GPL-2.0-only",
     "require": {
         "php": ">=7.3",
+        "acquia/acsf-tools": "dev-9.x-dev",
         "acquia/blt": "^11.1.0",
         "acquia/composer-scaffold": "dev-master",
         "acquia/drupal-spec-tool": "*",
@@ -12,6 +13,7 @@
         "acquia/memcache-settings": "*",
         "drupal/acquia_connector": "^1.5.0",
         "drupal/acquia_purge": "^1.0-beta3",
+        "drupal/acsf": "^2.47.0",
         "drupal/cog": "^1.0.0",
         "drupal/config_split": "^1.0.0",
         "drupal/core-recommended": "^8.8.0",
@@ -19,7 +21,8 @@
         "drupal/features": "^3.8.0",
         "drupal/qa_accounts": "^1.0.0-alpha1",
         "drupal/seckit": "^1.0.0-alpha2",
-        "drupal/shield": "^1.2.0"
+        "drupal/shield": "^1.2.0",
+        "nedsbeds/profile_split_enable": "^1.0"
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev"
@@ -40,17 +43,12 @@
                 "drupal/core": "*"
             },
             "file-mapping": {
-                "[web-root]/sites/default/default.services.yml": {
-                    "mode": "replace",
-                    "path": "docroot/core/assets/scaffold/files/default.services.yml",
-                    "overwrite": false
-                },
-                "[web-root]/sites/default/default.settings.php": {
-                    "mode": "replace",
-                    "path": "docroot/core/assets/scaffold/files/default.settings.php",
-                    "overwrite": false
-                }
-            }
+                "[web-root]/.htaccess": false
+            },
+            "excludes": [
+                ".htaccess"
+            ],
+            "gitignore": false
         },
         "enable-patching": true,
         "installer-paths": {
