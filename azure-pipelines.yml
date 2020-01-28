@@ -53,3 +53,8 @@ steps:
     displayName: 'Run Tests'
     inputs:
       filePath: 'blt/scripts/azure/test.sh'
+  - task: Bash@3
+    displayName: 'Deploy'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      filePath: 'blt/scripts/azure/deploy_artifact.sh'
