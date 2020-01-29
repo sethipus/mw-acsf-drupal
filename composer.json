@@ -14,16 +14,21 @@
         "drupal/acquia_connector": "^1.5.0",
         "drupal/acquia_purge": "^1.0-beta3",
         "drupal/acsf": "^2.47.0",
+        "drupal/admin_toolbar": "^2.0",
+        "drupal/adminimal_admin_toolbar": "^1.10",
         "drupal/cog": "^1.0.0",
+        "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
         "drupal/core-recommended": "^8.8.0",
         "drupal/devel": "^2.0.0",
-        "drupal/features": "^3.8.0",
+        "drupal/environment_indicator": "^3.7",
+        "drupal/inline_entity_form": "^1.0@RC",
         "drupal/qa_accounts": "^1.0.0-alpha1",
+        "drupal/redirect": "^1.5",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0",
-        "nedsbeds/profile_split_enable": "^1.0",
-        "mglaman/drupal-check": "1.0.14"
+        "mglaman/drupal-check": "1.0.14",
+        "nedsbeds/profile_split_enable": "^1.0"
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev"
@@ -90,7 +95,11 @@
         "patchLevel": {
             "drupal/core": "-p2"
         },
-        "patches": {}
+        "patches": {
+            "drupal/config_ignore": {
+                "correct drush filtering": "https://www.drupal.org/files/issues/2018-10-14/support-for-export-2857247-24.patch"
+            }
+        }
     },
     "autoload": {
         "psr-4": {

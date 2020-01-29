@@ -6,7 +6,13 @@ id: stage
 label: Stage
 description: ''
 folder: ../config/envs/stage
-module: {  }
+module:
+  acquia_connector: 0
+  acsf: 0
+  acsf_duplication: 0
+  acsf_theme: 0
+  acsf_variables: 0
+  syslog: 0
 theme: {  }
 blacklist: {  }
 graylist: {  }

@@ -6,7 +6,8 @@ id: local
 label: Local
 description: ''
 folder: ../config/envs/local
-module: {  }
+module:
+  dblog: 0
 theme: {  }
 blacklist: {  }
 graylist: {  }
