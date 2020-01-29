@@ -1,4 +1,7 @@
 module:
+  admin_toolbar: 0
+  admin_toolbar_tools: 0
+  adminimal_admin_toolbar: 0
   autosave_form: 0
   bg_image_formatter: 0
   blazy: 0
@@ -6,8 +9,10 @@ module:
   block_content: 0
   breakpoint: 0
   ckeditor: 0
+  color: 0
   config: 0
   config_filter: 0
+  config_ignore: 0
   config_split: 0
   conflict: 0
   consumers: 0
@@ -18,7 +23,6 @@ module:
   crop: 0
   ctools: 0
   datetime: 0
-  dblog: 0
   diff: 0
   dropzonejs: 0
   editor: 0
@@ -28,6 +32,7 @@ module:
   entity_browser_block: 0
   entity_embed: 0
   entity_reference: 0
+  environment_indicator: 0
   field: 0
   field_ui: 0
   file: 0
@@ -86,6 +91,7 @@ module:
   panels: 0
   path: 0
   path_alias: 0
+  platform_core: 0
   quickedit: 0
   rdf: 0
   redirect: 0
@@ -105,6 +111,7 @@ module:
   text: 0
   token: 0
   toolbar: 0
+  update: 0
   user: 0
   video_embed_field: 0
   video_embed_media: 0
