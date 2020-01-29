@@ -22,7 +22,8 @@
         "drupal/qa_accounts": "^1.0.0-alpha1",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0",
-        "nedsbeds/profile_split_enable": "^1.0"
+        "nedsbeds/profile_split_enable": "^1.0",
+        "mglaman/drupal-check": "1.0.14"
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev"
@@ -93,8 +94,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Example\\": "blt/src/"
-        }
+            "Acquia\\Blt\\Overrides\\": "blt/src/"
+        },
+        "classmap": ["blt/src/Blt/Plugin/EnvironmentDetector"]
     },
     "autoload-dev": {
         "psr-4": {

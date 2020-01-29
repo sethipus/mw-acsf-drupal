@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10bcf3700ee6ebff8098202adaa05eee",
+    "content-hash": "bcb4c342a6494a761c8925781f0a14b5",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -179,12 +179,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/composer-scaffold.git",
-                "reference": "a3619db0a13c946edcddf1bfa206a426c12a0266"
+                "reference": "37b9bc857c6cbabd796ca0bc7d1ee000b8c91c13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/composer-scaffold/zipball/a3619db0a13c946edcddf1bfa206a426c12a0266",
-                "reference": "a3619db0a13c946edcddf1bfa206a426c12a0266",
+                "url": "https://api.github.com/repos/acquia/composer-scaffold/zipball/37b9bc857c6cbabd796ca0bc7d1ee000b8c91c13",
+                "reference": "37b9bc857c6cbabd796ca0bc7d1ee000b8c91c13",
                 "shasum": ""
             },
             "require": {
@@ -210,7 +210,7 @@
                 }
             ],
             "description": "Composer Scaffold definitions for Acquia hosting",
-            "time": "2019-12-11T17:10:04+00:00"
+            "time": "2020-01-11T00:59:08+00:00"
         },
         {
             "name": "acquia/drupal-spec-tool",
@@ -8687,16 +8687,16 @@
         },
         {
             "name": "drush/drush",
-            "version": "10.1.1",
+            "version": "10.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "f2aa8651b371ecf4e859ddbad14fb2efbb4024da"
+                "reference": "f068021102caf90042f83a280c9316eb7e29ca12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/f2aa8651b371ecf4e859ddbad14fb2efbb4024da",
-                "reference": "f2aa8651b371ecf4e859ddbad14fb2efbb4024da",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/f068021102caf90042f83a280c9316eb7e29ca12",
+                "reference": "f068021102caf90042f83a280c9316eb7e29ca12",
                 "shasum": ""
             },
             "require": {
@@ -8813,7 +8813,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2019-12-13T15:13:40+00:00"
+            "time": "2020-01-25T17:04:39+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
@@ -9420,16 +9420,16 @@
         },
         {
             "name": "instaclick/php-webdriver",
-            "version": "1.4.6",
+            "version": "1.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/instaclick/php-webdriver.git",
-                "reference": "bd9405077ca04129a73059a06873bedb5e138402"
+                "reference": "b5f330e900e9b3edfc18024a5ec8c07136075712"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/instaclick/php-webdriver/zipball/bd9405077ca04129a73059a06873bedb5e138402",
-                "reference": "bd9405077ca04129a73059a06873bedb5e138402",
+                "url": "https://api.github.com/repos/instaclick/php-webdriver/zipball/b5f330e900e9b3edfc18024a5ec8c07136075712",
+                "reference": "b5f330e900e9b3edfc18024a5ec8c07136075712",
                 "shasum": ""
             },
             "require": {
@@ -9475,7 +9475,7 @@
                 "webdriver",
                 "webtest"
             ],
-            "time": "2019-09-23T15:50:44+00:00"
+            "time": "2019-09-25T09:05:11+00:00"
         },
         {
             "name": "j7mbo/twitter-api-php",

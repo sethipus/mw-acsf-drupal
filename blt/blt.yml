@@ -6,7 +6,8 @@ project:
     name: lightning
   local:
     protocol: http
-    hostname: mars.lndo.site
+    # hostname: mars.lndo.ste:8000
+    hostname: local.mars.com
 git:
   default_branch: master
   remotes: {  }
