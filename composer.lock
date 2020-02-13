@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7616b70118cb444123d41e9f9dababb9",
+    "content-hash": "f1ea58fce63a48c1368bf161789c1cd0",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -962,7 +962,7 @@
             "version": "3.4.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "15bc73803f76bc53b654b9fdbbbc096f56d7c03d"
             },
             "dist": {
@@ -10316,6 +10316,46 @@
             "time": "2019-02-15T19:43:32+00:00"
         },
         {
+            "name": "mikemadison13/blt-azure-pipelines",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mikemadison13/blt-azure-pipelines",
+                "reference": "91846c80a6f6404d41188e243f8fcd90e8e93e02"
+            },
+            "require": {
+                "acquia/blt": "^10 | ^11"
+            },
+            "type": "library",
+            "extra": {
+                "patches": {
+                    "acquia/blt": {
+                        "Extend Environment Detector per BLT issue 4011": "patches/environmentdetector-4011.patch"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Acquia\\AzurePipelines\\": "./src/"
+                },
+                "classmap": [
+                    "src/Blt/Plugin/EnvironmentDetector/AzureDetector.php"
+                ]
+            },
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Mike Madison",
+                    "homepage": "https://mikemadison.net",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Azure Pipelines integration for Acquia BLT.",
+            "time": "2020-02-13T20:41:22+00:00"
+        },
+        {
             "name": "mkalkbrenner/php-htmldiff-advanced",
             "version": "0.0.8",
             "source": {
@@ -16180,6 +16220,7 @@
         "acquia/composer-scaffold": 20,
         "acquia/lightning": 20,
         "drupal/inline_entity_form": 5,
+        "mikemadison13/blt-azure-pipelines": 20,
         "acquia/blt-require-dev": 20
     },
     "prefer-stable": true,

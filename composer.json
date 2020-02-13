@@ -28,7 +28,8 @@
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0",
         "mglaman/drupal-check": "1.0.14",
-        "nedsbeds/profile_split_enable": "^1.0"
+        "nedsbeds/profile_split_enable": "^1.0",
+        "mikemadison13/blt-azure-pipelines": "dev-master"
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev"
@@ -120,6 +121,10 @@
         "asset-packagist": {
             "type": "composer",
             "url": "https://asset-packagist.org"
+        },
+        "blt-azure-pipelinest": {
+            "type": "git",
+            "url": "https://github.com/mikemadison13/blt-azure-pipelines"
         }
     },
     "minimum-stability": "dev",
