@@ -105,8 +105,7 @@
     "autoload": {
         "psr-4": {
             "Acquia\\Blt\\Overrides\\": "blt/src/"
-        },
-        "classmap": ["blt/src/Blt/Plugin/EnvironmentDetector"]
+        }
     },
     "autoload-dev": {
         "psr-4": {
