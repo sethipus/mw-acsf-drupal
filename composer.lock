@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf573a56e6b78b5b529c5317b9e54516",
+    "content-hash": "761c4a93861e901a035be71e111ded2b",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -9855,6 +9855,45 @@
             "time": "2019-10-25T12:34:43+00:00"
         },
         {
+            "name": "lcatlett/blt-ddev",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcatlett/blt-ddev.git",
+                "reference": "773a2795d9ae4f8bb215726a48ab0e6685fb953b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcatlett/blt-ddev/zipball/773a2795d9ae4f8bb215726a48ab0e6685fb953b",
+                "reference": "773a2795d9ae4f8bb215726a48ab0e6685fb953b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lcatlett\\BltDdev\\": "./src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lindsey Catlett",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "ddev integration for Acquia BLT",
+            "homepage": "https://github.com/lcatlett/blt-ddev",
+            "keywords": [
+                "acquia",
+                "blt",
+                "ddev"
+            ],
+            "time": "2020-01-22T17:30:03+00:00"
+        },
+        {
             "name": "lcobucci/jwt",
             "version": "3.3.1",
             "source": {
@@ -16249,6 +16288,7 @@
         "acquia/composer-scaffold": 20,
         "acquia/lightning": 20,
         "drupal/inline_entity_form": 5,
+        "lcatlett/blt-ddev": 20,
         "mikemadison13/blt-azure-pipelines": 20,
         "acquia/blt-require-dev": 20
     },

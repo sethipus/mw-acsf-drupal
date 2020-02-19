@@ -21,9 +21,3 @@ drush:
   default_alias: '${drush.aliases.local}'
 validate:
   acsf: true
-drupal:
-  db:
-    database: drupal8
-    username: drupal8
-    password: drupal8
-    host: database
