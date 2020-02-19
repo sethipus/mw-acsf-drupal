@@ -32,7 +32,6 @@ module:
   entity_browser_block: 0
   entity_embed: 0
   entity_reference: 0
-  environment_indicator: 0
   field: 0
   field_ui: 0
   file: 0

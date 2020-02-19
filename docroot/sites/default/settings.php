@@ -752,7 +752,7 @@ $settings['entity_update_backup'] = TRUE;
 /**
  * Environment Specific Customizations based on the Environment Indicator.
  */
-require DRUPAL_ROOT . "/sites/default/settings/environment.settings.php";
+# require DRUPAL_ROOT . "/sites/default/settings/environment.settings.php";
 
 /**
  * Load local development override configuration, if available.
