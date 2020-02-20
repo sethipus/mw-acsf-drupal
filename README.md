@@ -4,10 +4,10 @@ This repository contains the code to support the Mars ACSF project.
 
 # Getting Started
 
-This project is based on BLT, an open-source project template and tool that enables building, testing, and deploying Drupal installations following Acquia Professional Services best practices. While this is one of many methodologies, it is our recommended methodology. 
+This project is based on BLT, an open-source project template and tool that enables building, testing, and deploying Drupal installations following Acquia Professional Services best practices. While this is one of many methodologies, it is our recommended methodology.
 
 1. Review the [Required / Recommended Skills](https://docs.acquia.com/blt/developer/skills/) for working with a BLT project.
-2. Ensure that your computer meets the minimum installation requirements (and then install the required applications). See the [BLT System Requirements](https://docs.acquia.com/blt/install/) and [Lando System Requirements](https://docs.lando.dev/basics/installation.html).
+2. Ensure that your computer meets the minimum installation requirements (and then install the required applications). See the [BLT System Requirements](https://docs.acquia.com/blt/install/) and [DDev System Requirements](https://ddev.readthedocs.io/en/stable/#system-requirements).
 3. Request access to organization that owns the project repo in GitHub (if needed).
 4. Fork the project repository in GitHub.
 5. Request access to the Acquia Cloud Environment for your project (if needed).
@@ -29,7 +29,7 @@ This project is based on BLT, an open-source project template and tool that enab
 ----
 # Setup Local Environment.
 
-BLT provides an automation layer for testing, building, and launching Drupal 8 applications. For ease when updating codebase it is recommended to use [Lando](https://docs.acquia.com/blt/install/alt-env/lando/).
+BLT provides an automation layer for testing, building, and launching Drupal 8 applications. For ease when updating codebase it is recommended to use [DDev](https://docs.acquia.com/blt/install/alt-env/ddev/).
 1. Install Composer dependencies.
 After you have forked, cloned the project and setup your blt.yml file install Composer Dependencies. (Warning: this can take some time based on internet speeds.)
     ```
@@ -39,7 +39,7 @@ After you have forked, cloned the project and setup your blt.yml file install Co
 Setup the VM with the configuration from this repository's [configuration files](#important-configuration-files).
 
     ```
-    $ lando start
+    $ ddev start
     ```
 
 3. Setup a local blt alias.
@@ -51,17 +51,17 @@ If the blt alias is not available use this command outside and inside vagrant (o
 4. Setup a local Drupal site with an empty database.
 Use BLT to setup the site with configuration.  If it is a multisite you can identify a specific site.
    ```
-     $ lando blt setup
+     $ ddev blt setup
     ```
    or
    ```
-   $ lando blt setup --site=[sitename]
+   $ ddev blt setup --site=[sitename]
    ```
 
 6. Log into your site with drush.
 Access the site and do necessary work at #LOCAL_DEV_URL by running the following commands.
     ```
-    $ lando drush uli
+    $ ddev drush uli
     ```
 
 ---
@@ -76,24 +76,24 @@ After the initial theme setup you can configure `blt/blt.yml` to install and con
 Use BLT to pull all files down from your Cloud environment.
 
    ```
-   $ lando blt drupal:sync:files
+   $ ddev blt drupal:sync:files
    ```
 
 3. Sync the Cloud Database.
 If you have an existing database you can use BLT to pull down the database from your Cloud environment.
    ```
-   $ lando blt sync
+   $ ddev blt sync
    ```
 
 
 ---
 
-# Resources 
+# Resources
 
 Additional [BLT documentation](https://docs.acquia.com/blt/) may be useful. You may also access a list of BLT commands by running this:
 ```
-$ lando blt
-``` 
+$ ddev blt
+```
 
 Note the following properties of this project:
 * Primary development branch: #GIT_PRIMARY_DEV_BRANCH
@@ -102,7 +102,7 @@ Note the following properties of this project:
 
 ## Working With a BLT Project
 
-BLT projects are designed to instill software development best practices (including git workflows). 
+BLT projects are designed to instill software development best practices (including git workflows).
 
 Our BLT Developer documentation includes an [example workflow](https://docs.acquia.com/blt/developer/dev-workflow/).
 
@@ -112,7 +112,6 @@ BLT uses a number of configuration (`.yml` or `.json`) files to define and custo
 
 * `blt/blt.yml` (formerly blt/project.yml prior to BLT 9.x)
 * `blt/local.blt.yml` (local only specific blt configuration)
-* `box/config.yml` (if using Drupal VM)
 * `drush/sites` (contains Drush aliases for this project)
 * `composer.json` (includes required components, including Drupal Modules, for this project)
 
