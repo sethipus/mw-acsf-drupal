@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf573a56e6b78b5b529c5317b9e54516",
+    "content-hash": "250f28235e7c7a80e14711165e72499f",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -8810,56 +8810,49 @@
         },
         {
             "name": "drush/drush",
-            "version": "9.7.2",
+            "version": "10.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "ab5e345a72c9187a7d770486a09691f6526826aa"
+                "reference": "756e7a9e82bfe424f02ff5eb006bf514b9a4365d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/ab5e345a72c9187a7d770486a09691f6526826aa",
-                "reference": "ab5e345a72c9187a7d770486a09691f6526826aa",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/756e7a9e82bfe424f02ff5eb006bf514b9a4365d",
+                "reference": "756e7a9e82bfe424f02ff5eb006bf514b9a4365d",
                 "shasum": ""
             },
             "require": {
-                "chi-teck/drupal-code-generator": "^1.28.1",
+                "chi-teck/drupal-code-generator": "^1.30.5",
                 "composer/semver": "^1.4",
-                "consolidation/annotated-command": "^2.12",
                 "consolidation/config": "^1.2",
                 "consolidation/filter-via-dot-access-data": "^1",
-                "consolidation/output-formatters": "^3.3.1",
-                "consolidation/robo": "^1.4.6",
+                "consolidation/robo": "^1 || ^2",
                 "consolidation/site-alias": "^3.0.0@stable",
-                "consolidation/site-process": "^2.0.3",
+                "consolidation/site-process": "^2.1 || ^4",
                 "ext-dom": "*",
                 "grasmash/yaml-expander": "^1.1.1",
                 "league/container": "~2",
-                "php": ">=5.6.0",
+                "php": ">=7.1.3",
                 "psr/log": "~1.0",
                 "psy/psysh": "~0.6",
-                "symfony/console": "^3.4",
                 "symfony/event-dispatcher": "^3.4 || ^4.0",
                 "symfony/finder": "^3.4 || ^4.0",
-                "symfony/process": "^3.4",
-                "symfony/var-dumper": "^3.4 || ^4.0",
-                "symfony/yaml": "^3.4",
-                "webflo/drupal-finder": "^1.1",
+                "symfony/var-dumper": "^3.4 || ^4.0 || ^5.0",
+                "symfony/yaml": "^3.4 || ^4.0",
+                "webflo/drupal-finder": "^1.2",
                 "webmozart/path-util": "^2.1.0"
             },
             "require-dev": {
-                "composer/installers": "^1.2",
+                "composer/installers": "^1.7",
                 "cweagans/composer-patches": "~1.0",
                 "drupal/alinks": "1.0.0",
-                "drupal/devel": "^2",
-                "drupal/empty_theme": "1.0",
+                "drupal/core-recommended": "^8.8",
                 "g1a/composer-test-scenarios": "^3",
                 "lox/xhprof": "dev-master",
                 "phpunit/phpunit": "^4.8.36 || ^6.1",
                 "squizlabs/php_codesniffer": "^2.7 || ^3",
-                "vlucas/phpdotenv": "^2.4",
-                "webflo/drupal-core-require-dev": "8.7.x-dev",
-                "webflo/drupal-core-strict": "8.7.x-dev"
+                "vlucas/phpdotenv": "^2.4"
             },
             "bin": [
                 "drush"
@@ -8892,21 +8885,8 @@
                         "type:drupal-drush"
                     ]
                 },
-                "scenarios": {
-                    "php5": {
-                        "config": {
-                            "platform": {
-                                "php": "5.6.38"
-                            }
-                        },
-                        "require-dev": {
-                            "webflo/drupal-core-strict": "8.6.x-dev",
-                            "webflo/drupal-core-require-dev": "8.6.x-dev"
-                        }
-                    }
-                },
                 "branch-alias": {
-                    "dev-master": "9.x-dev"
+                    "dev-master": "10.x-dev"
                 }
             },
             "autoload": {
@@ -8955,7 +8935,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2020-02-09T17:29:51+00:00"
+            "time": "2020-02-07T17:53:36+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
@@ -9853,6 +9833,45 @@
                 "html"
             ],
             "time": "2019-10-25T12:34:43+00:00"
+        },
+        {
+            "name": "lcatlett/blt-ddev",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcatlett/blt-ddev.git",
+                "reference": "773a2795d9ae4f8bb215726a48ab0e6685fb953b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcatlett/blt-ddev/zipball/773a2795d9ae4f8bb215726a48ab0e6685fb953b",
+                "reference": "773a2795d9ae4f8bb215726a48ab0e6685fb953b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lcatlett\\BltDdev\\": "./src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lindsey Catlett",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "ddev integration for Acquia BLT",
+            "homepage": "https://github.com/lcatlett/blt-ddev",
+            "keywords": [
+                "acquia",
+                "blt",
+                "ddev"
+            ],
+            "time": "2020-01-22T17:30:03+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -16249,6 +16268,7 @@
         "acquia/composer-scaffold": 20,
         "acquia/lightning": 20,
         "drupal/inline_entity_form": 5,
+        "lcatlett/blt-ddev": 20,
         "mikemadison13/blt-azure-pipelines": 20,
         "acquia/blt-require-dev": 20
     },

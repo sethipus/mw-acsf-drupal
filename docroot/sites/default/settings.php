@@ -752,7 +752,7 @@ $settings['entity_update_backup'] = TRUE;
 /**
  * Environment Specific Customizations based on the Environment Indicator.
  */
-require DRUPAL_ROOT . "/sites/default/settings/environment.settings.php";
+# require DRUPAL_ROOT . "/sites/default/settings/environment.settings.php";
 
 /**
  * Load local development override configuration, if available.
@@ -777,3 +777,8 @@ require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
  *
  * @link https://docs.acquia.com/blt/
  */
+
+// Automatically generated include for settings managed by ddev.
+if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
+  include $app_root . '/' . $site_path . '/settings.ddev.php';
+}
