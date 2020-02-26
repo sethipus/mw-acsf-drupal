@@ -10,7 +10,8 @@ project:
     # hostname: local.mars.com
 git:
   default_branch: master
-  remotes: {  }
+  remotes:
+    - 's5e466c97436f8@svn-2420.devcloud.hosting.acquia.com:s5e466c97436f8.git'
 deploy:
   tag_source: true
 drush:
