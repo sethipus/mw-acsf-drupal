@@ -144,7 +144,7 @@
                 },
                 "phpcodesniffer-search-depth": 4,
                 "patches_applied": {
-                    "Extend Environment Detector per BLT issue 4011": "https://github.com/acquia/blt/pull/4013.patch"
+                    "Extend Environment Detector per BLT issue 4011": "https://github.com/acquia/blt/pull/4017.patch"
                 }
             },
             "autoload": {
@@ -940,7 +940,7 @@
             "version": "v2.3.4",
             "source": {
                 "type": "git",
-                "url": "git@github.com:fengyuanchen/cropper.git",
+                "url": "https://github.com/fengyuanchen/cropper.git",
                 "reference": "30c58b29ee21010e17e58ebab165fbd84285c685"
             },
             "dist": {
@@ -10369,7 +10369,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikemadison13/blt-azure-pipelines",
-                "reference": "c2fde73b78a400d95e7c28c2d44a8c2c526d10e9"
+                "reference": "215258bd54000c96e1e9167f8b9b6af2a2e23de6"
             },
             "require": {
                 "acquia/blt": "^10 | ^11"
@@ -10378,7 +10378,7 @@
             "extra": {
                 "patches": {
                     "acquia/blt": {
-                        "Extend Environment Detector per BLT issue 4011": "https://github.com/acquia/blt/pull/4013.patch"
+                        "Extend Environment Detector per BLT issue 4011": "https://github.com/acquia/blt/pull/4017.patch"
                     }
                 }
             },
@@ -10401,7 +10401,7 @@
                 }
             ],
             "description": "Azure Pipelines integration for Acquia BLT.",
-            "time": "2020-02-14T01:30:03+00:00"
+            "time": "2020-02-26T16:04:03+00:00"
         },
         {
             "name": "mkalkbrenner/php-htmldiff-advanced",
