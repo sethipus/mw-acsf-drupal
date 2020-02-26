@@ -1,5 +1,7 @@
 # Mars ACSF Platform
 
+[![Build Status](https://marsdevteam.visualstudio.com/acsf/_apis/build/status/digital-experience-platform.acsf?branchName=master)](https://marsdevteam.visualstudio.com/acsf/_build/latest?definitionId=1894&branchName=master)
+
 This repository contains the code to support the Mars ACSF project.
 
 # Getting Started
