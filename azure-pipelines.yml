@@ -58,6 +58,6 @@ steps:
       filePath: '$(scriptDir)/test.sh'
   - task: Bash@3
     displayName: 'Deploy'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
     inputs:
       filePath: '$(scriptDir)/deploy_artifact.sh'
