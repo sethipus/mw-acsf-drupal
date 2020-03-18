@@ -1,6 +1,7 @@
 admin_css: true
+fx: ''
+noscript: false
 responsive_image: false
-unbreakpoints: false
 one_pixel: true
 placeholder: ''
 extras: {  }
@@ -9,6 +10,7 @@ blazy:
   offset: 100
   saveViewportOffsetDelay: 50
   validateDelay: 25
+  container: ''
 io:
   enabled: false
   unblazy: false
@@ -16,4 +18,4 @@ io:
   threshold: '0'
   disconnect: false
 _core:
-  default_config_hash: MoIDT81wRK8LzAqRkc8yBE2Sv0aAZhzxWus0qtWww-8
+  default_config_hash: hQu_5Svi0TQ5SE3dzjC55vecrEOKTYurvK-K7IJ8oXk
