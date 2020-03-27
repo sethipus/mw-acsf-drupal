@@ -119,7 +119,7 @@ BLT uses a number of configuration (`.yml` or `.json`) files to define and custo
 
 ## Resources
 
-* Azure Devops Boards - #JIRA_URL
+* Azure Devops Boards - https://marsdevteam.visualstudio.com/MarsExperiencePlatform/_backlogs/backlog/StarterKit/Features
 * GitHub - https://github.mars.com/digital-experience-platform/acsf
-* Acquia Cloud subscription - #ACQUIA_CLOUD_URL
-* Azure Pipelines - #TRAVIS_URL
+* Acquia Cloud subscription - https://cloud.acquia.com/
+* Azure Pipelines - https://marsdevteam.visualstudio.com/MarsExperiencePlatform/_build
