@@ -11,7 +11,7 @@ project:
 git:
   default_branch: master
   remotes:
-    - 's5e466c97436f8@svn-2420.devcloud.hosting.acquia.com:s5e466c97436f8.git'
+    - 'mars@svn-2398.enterprise-g1.hosting.acquia.com:mars.git'
 deploy:
   tag_source: true
 drush:
