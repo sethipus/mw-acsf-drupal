@@ -2,7 +2,7 @@
 
 [![Build Status](https://marsdevteam.visualstudio.com/acsf/_apis/build/status/digital-experience-platform.acsf?branchName=master)](https://marsdevteam.visualstudio.com/acsf/_build/latest?definitionId=1894&branchName=master)
 
-This repository contains the code to support the Mars ACSF project.
+This repository contains the code to support the Mars ACSF project. 2020 stack.
 
 # Getting Started
 
@@ -31,11 +31,11 @@ This project is based on BLT, an open-source project template and tool that enab
 ----
 # Setup Local Environment.
 
-BLT provides an automation layer for testing, building, and launching Drupal 8 applications. For ease when updating codebase it is recommended to use [DDev](https://docs.acquia.com/blt/install/alt-env/ddev/).
+BLT provides an automation layer for testing, building, and launching Drupal 8 applications. For ease when updating codebase it is recommended to use [DDev](https://ddev.readthedocs.io/en/stable/).
 1. Install Composer dependencies.
 After you have forked, cloned the project and setup your blt.yml file install Composer Dependencies. (Warning: this can take some time based on internet speeds.)
     ```
-    $ composer install
+    $ ddev composer install
     ```
 2. Setup VM.
 Setup the VM with the configuration from this repository's [configuration files](#important-configuration-files).
@@ -47,7 +47,11 @@ Setup the VM with the configuration from this repository's [configuration files]
 3. Setup a local blt alias.
 If the blt alias is not available use this command outside and inside vagrant (one time only).
     ```
-    $ composer run-script blt-alias
+    $ ddev composer run-script blt-alias
+    ```
+in case if it's not working try a direct call
+    ```
+    $ ddev composer run-script `./vendor/bin/blt blt:init:shell-alias`
     ```
 
 4. Setup a local Drupal site with an empty database.
@@ -90,6 +94,42 @@ If you have an existing database you can use BLT to pull down the database from 
 
 ---
 
+# Naming convention
+
+* Commits - Use AB# mention to link from GitHub to Azure Boards work items. For example, AB#125 will link to work item ID 125.
+    ```
+    AB#125: Carousel structure.
+    ```
+   More information can be found in [here](https://docs.microsoft.com/en-us/azure/devops/boards/github/link-to-from-github)
+
+* Branches - A good way would be to add type of the branch and an issue number in a branch name.
+    ```
+    bugfix/AB#125-description
+    feature/AB#125-description
+    hotfix/AB#125-description
+    ```
+
+---
+
+# Branching strategy
+
+TBD
+
+---
+
+# Project links
+
+* Repository: https://github.mars.com/digital-experience-platform/acsf
+* Azure Devops: https://marsdevteam.visualstudio.com/acsf
+* Azure Pipelines: https://marsdevteam.visualstudio.com/acsf/_build
+* Acquia Cloud: https://cloud.acquia.com/app/develop/applications/07d06816-f520-403b-a439-581f056b46d6
+* Acquia Site Factory UI:
+    * Live: https://www.mars.acsitefactory.com
+    * Test: https://www.test-mars.acsitefactory.com
+    * Dev: https://www.dev-mars.acsitefactory.com
+
+---
+
 # Resources
 
 Additional [BLT documentation](https://docs.acquia.com/blt/) may be useful. You may also access a list of BLT commands by running this:
@@ -116,10 +156,3 @@ BLT uses a number of configuration (`.yml` or `.json`) files to define and custo
 * `blt/local.blt.yml` (local only specific blt configuration)
 * `drush/sites` (contains Drush aliases for this project)
 * `composer.json` (includes required components, including Drupal Modules, for this project)
-
-## Resources
-
-* Azure Devops Boards - https://marsdevteam.visualstudio.com/MarsExperiencePlatform/_backlogs/backlog/StarterKit/Features
-* GitHub - https://github.mars.com/digital-experience-platform/acsf
-* Acquia Cloud subscription - https://cloud.acquia.com/
-* Azure Pipelines - https://marsdevteam.visualstudio.com/MarsExperiencePlatform/_build
