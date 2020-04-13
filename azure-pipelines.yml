@@ -13,9 +13,9 @@ variables:
 steps:
   - task: InstallSSHKey@0
     inputs:
-      knownHostsEntry: $(host)
-      sshPublicKey: $(public)
-      sshKeySecureFile: 'mars'
+      knownHostsEntry: $(known_hosts)
+      sshPublicKey: $(public_ssh_key)
+      sshKeySecureFile: 'mars_ssh_key'
   - checkout: self
     persistCredentials: true
   - task: Bash@3
