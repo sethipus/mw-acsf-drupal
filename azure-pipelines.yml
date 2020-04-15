@@ -12,10 +12,17 @@ variables:
 
 steps:
   - task: InstallSSHKey@0
+    displayName: 'install ssh key for GitHub'
     inputs:
       knownHostsEntry: $(known_hosts)
       sshPublicKey: $(public_ssh_key)
       sshKeySecureFile: 'mars_ssh_key'
+  - task: InstallSSHKey@0
+    displayName: 'install ssh key for Acquia Cloud'
+    inputs:
+      knownHostsEntry: $(known_hosts_acquia)
+      sshPublicKey: $(public_ssh_key_acquia)
+      sshKeySecureFile: 'acquia_cloud'
   - checkout: self
     persistCredentials: true
   - task: Bash@3
