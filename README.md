@@ -127,14 +127,14 @@ Fixing multiple bugs: issue #123 and user story AB#234 |	Links to GitHub issue 1
 
 # Project links
 
-* Repository: https://github.mars.com/digital-experience-platform/acsf
-* Azure Devops: https://marsdevteam.visualstudio.com/MarsExperiencePlatform
-* Azure Pipelines: https://marsdevteam.visualstudio.com/acsf/_build
-* Acquia Cloud: https://cloud.acquia.com/app/develop/applications/07d06816-f520-403b-a439-581f056b46d6
+* [Repository](https://github.mars.com/digital-experience-platform/acsf)
+* [Azure Devops](https://marsdevteam.visualstudio.com/MarsExperiencePlatform)
+* [Azure Pipelines](https://marsdevteam.visualstudio.com/acsf/_build)
+* [Acquia Cloud](https://cloud.acquia.com/app/develop/applications/07d06816-f520-403b-a439-581f056b46d6)
 * Acquia Site Factory UI:
-    * Live: https://www.mars.acsitefactory.com
-    * Test: https://www.test-mars.acsitefactory.com
-    * Dev: https://www.dev-mars.acsitefactory.com
+    * [Live](https://www.mars.acsitefactory.com)
+    * [Test](https://www.test-mars.acsitefactory.com)
+    * [Dev](https://www.dev-mars.acsitefactory.com)
 
 ---
 
