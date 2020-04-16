@@ -47,10 +47,6 @@ Setup the VM with the configuration from this repository's [configuration files]
 3. Setup a local blt alias.
 If the blt alias is not available use this command outside and inside vagrant (one time only).
     ```
-    $ ddev composer run-script blt-alias
-    ```
-in case if it's not working try a direct call
-    ```
     $ ddev composer run-script `./vendor/bin/blt blt:init:shell-alias`
     ```
 
@@ -63,15 +59,17 @@ Use BLT to setup the site with configuration.  If it is a multisite you can iden
    ```
    $ ddev blt setup --site=[sitename]
    ```
+   or you can use web UI.
 
 6. Log into your site with drush.
 Access the site and do necessary work at #LOCAL_DEV_URL by running the following commands.
     ```
     $ ddev drush uli
     ```
+    If you used web UI to install your site, than you can go `/user` page.
 
 ---
-## Other Local Setup Steps
+## (Optional) Other Local Setup Steps
 
 1. Set up frontend build and theme.
 By default BLT sets up a site with the lightning profile and a cog base theme. You can choose your own profile before setup in the blt.yml file. If you do choose to use cog, see [Cog's documentation](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/README.md#create-cog-sub-theme) for installation.
@@ -91,16 +89,27 @@ If you have an existing database you can use BLT to pull down the database from 
    $ ddev blt sync
    ```
 
-
 ---
 
 # Naming convention
 
-* Commits - Use AB# mention to link from GitHub to Azure Boards work items. For example, AB#125 will link to work item ID 125.
+* Commits - Use AB# mention somewhere in you commit message to link from GitHub to Azure Boards work items. For example, AB#125 will link to Azure work item ID 125.
+    For example,
     ```
     AB#125: Carousel structure.
     ```
-   More information can be found in [here](https://docs.microsoft.com/en-us/azure/devops/boards/github/link-to-from-github)
+    
+    In addition, you can enter a commit or pull request message to transition the work item. The system will recognize `fix`, `fixes`, `fixed` and *apply* it to the #-mention item that follows. Some examples are provided as shown.
+
+    Examples:
+
+    Commit message |	Action
+    --- | ---
+    Fixed AB#123 |	Links and transitions the work item to the "done" state.
+    Adds a new feature, fixes AB#123. |	Links and transitions the work item to the "done" state.
+    Fixes AB#123, AB#124, and AB#126|	Links to Azure Boards work items 123, 124, and 126. Transitions only the first item, 123 to the "done" state.
+    Fixes AB#123, Fixes AB#124, Fixes AB#125 | Links to Azure Boards work items 123, 124, and 126. Transitions all items to the "done" state.
+    Fixing multiple bugs: issue #123 and user story AB#234 |	Links to GitHub issue 123 and Azure Boards work item 234. No transitions.
 
 * Branches - A good way would be to add type of the branch and an issue number in a branch name.
     ```
@@ -113,20 +122,20 @@ If you have an existing database you can use BLT to pull down the database from 
 
 # Branching strategy
 
-TBD
+ Please, follow [gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) strategy. Feature branches should be made against "develop" and PRs should opened against upstream (from a forked repository) to the "develop" branch.
 
 ---
 
 # Project links
 
-* Repository: https://github.mars.com/digital-experience-platform/acsf
-* Azure Devops: https://marsdevteam.visualstudio.com/acsf
-* Azure Pipelines: https://marsdevteam.visualstudio.com/acsf/_build
-* Acquia Cloud: https://cloud.acquia.com/app/develop/applications/07d06816-f520-403b-a439-581f056b46d6
+* [Repository](https://github.mars.com/digital-experience-platform/acsf)
+* [Azure Devops](https://marsdevteam.visualstudio.com/MarsExperiencePlatform)
+* [Azure Pipelines](https://marsdevteam.visualstudio.com/acsf/_build)
+* [Acquia Cloud](https://cloud.acquia.com/app/develop/applications/07d06816-f520-403b-a439-581f056b46d6)
 * Acquia Site Factory UI:
-    * Live: https://www.mars.acsitefactory.com
-    * Test: https://www.test-mars.acsitefactory.com
-    * Dev: https://www.dev-mars.acsitefactory.com
+    * [Live](https://www.mars.acsitefactory.com)
+    * [Test](https://www.test-mars.acsitefactory.com)
+    * [Dev](https://www.dev-mars.acsitefactory.com)
 
 ---
 
