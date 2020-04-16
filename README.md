@@ -93,22 +93,23 @@ If you have an existing database you can use BLT to pull down the database from 
 
 # Naming convention
 
-* Commits - Use AB# mention to link from GitHub to Azure Boards work items. For example, AB#125 will link to work item ID 125.
+* Commits - Use AB# mention somewhere in you commit message to link from GitHub to Azure Boards work items. For example, AB#125 will link to Azure work item ID 125.
     For example,
     ```
     AB#125: Carousel structure.
     ```
-In addition, you can enter a commit or pull request message to transition the work item. The system will recognize fix, fixes, fixed and apply it to the #-mention item that follows. Some examples are provided as shown.
+    
+    In addition, you can enter a commit or pull request message to transition the work item. The system will recognize `fix`, `fixes`, `fixed` and *apply* it to the #-mention item that follows. Some examples are provided as shown.
 
-Examples:
+    Examples:
 
-Commit message |	Action
---- | ---
-Fixed AB#123 |	Links and transitions the work item to the "done" state.
-Adds a new feature, fixes AB#123. |	Links and transitions the work item to the "done" state.
-Fixes AB#123, AB#124, and AB#126|	Links to Azure Boards work items 123, 124, and 126. Transitions only the first item, 123 to the "done" state.
-Fixes AB#123, Fixes AB#124, Fixes AB#125 | Links to Azure Boards work items 123, 124, and 126. Transitions all items to the "done" state.
-Fixing multiple bugs: issue #123 and user story AB#234 |	Links to GitHub issue 123 and Azure Boards work item 234. No transitions.
+    Commit message |	Action
+    --- | ---
+    Fixed AB#123 |	Links and transitions the work item to the "done" state.
+    Adds a new feature, fixes AB#123. |	Links and transitions the work item to the "done" state.
+    Fixes AB#123, AB#124, and AB#126|	Links to Azure Boards work items 123, 124, and 126. Transitions only the first item, 123 to the "done" state.
+    Fixes AB#123, Fixes AB#124, Fixes AB#125 | Links to Azure Boards work items 123, 124, and 126. Transitions all items to the "done" state.
+    Fixing multiple bugs: issue #123 and user story AB#234 |	Links to GitHub issue 123 and Azure Boards work item 234. No transitions.
 
 * Branches - A good way would be to add type of the branch and an issue number in a branch name.
     ```
