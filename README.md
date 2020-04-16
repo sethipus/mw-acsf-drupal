@@ -122,7 +122,7 @@ If you have an existing database you can use BLT to pull down the database from 
 
 # Branching strategy
 
- Please, follow [gitflow] (https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) strategy. Feature branches should be made against "develop" and PRs should opened against upstream (from a forked repository) to the "develop" branch.
+ Please, follow [gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) strategy. Feature branches should be made against "develop" and PRs should opened against upstream (from a forked repository) to the "develop" branch.
 
 ---
 
