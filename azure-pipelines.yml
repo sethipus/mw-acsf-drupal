@@ -79,4 +79,4 @@ steps:
     displayName: 'Deploy'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
     inputs:
-      filePath: '$(scriptDir)/deploy_artifact.sh'
+      filePath: './scripts/deploy_artifact.sh'
