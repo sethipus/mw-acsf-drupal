@@ -40,6 +40,17 @@ steps:
     displayName: 'Install Node JS'
     inputs:
       versionSpec: '10.x'
+  - task: SonarQubePrepare@4
+    inputs:
+      SonarQube: 'sonarqubetest'
+      scannerMode: 'CLI'
+      configMode: 'file'
+  - task: SonarQubeAnalyze@4
+    displayName: 'SonarQube validation'
+  - task: SonarQubePublish@4
+    displayName: 'SonarQube publish'
+    inputs:
+      pollingTimeoutSec: '300'
   - task: Bash@3
     displayName: 'Install Dependencies'
     inputs:
@@ -52,33 +63,6 @@ steps:
     displayName: 'BLT Validation'
     inputs:
       filePath: '$(scriptDir)/validate.sh'
-  - task: SonarSource.sonarqube.15B84CA1-B62F-4A2A-A403-89B77A063157.SonarQubePrepare@4
-    displayName: 'SonarQube Preparation'
-    inputs:
-      SonarQube: sonarqube
-      projectKey: newstack
-      scannerMode: CLI
-      extraProperties: |
-        # must be unique in a given SonarQube instance
-        sonar.projectKey=org.photon.sonar:mars.com-elevate
-        # this is the name and version displayed in the SonarQube UI. Was mandatory prior to SonarQube 6.1.
-        sonar.projectName=MarsPlatform
-        sonar.projectVersion=1.0
-
-        # Path is relative to the sonar-project.properties file. Replace "\" by "/" on Windows.
-        # This property is optional if sonar.modules is set.
-        sonar.sources=./docroot/modules/custom,./docroot/profiles/custom,./docroot/themes/custom
-
-        # Encoding of the source code. Default is default system encoding
-        #sonar.sourceEncoding=UTF-8
-
-        # coverage reporting
-        sonar.javascript.lcov.reportPaths=./reports/coverage/lcov.info
-
-        sonar.log.level= DEBUG
-        sonar.verbose=true
-  - task: SonarQubeAnalyze@4
-    displayName: 'SonarQube Validation'
   - task: Bash@3
     displayName: 'Setup Environment'
     inputs:
