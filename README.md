@@ -1,6 +1,6 @@
 # Mars ACSF Platform
 
-[![Build Status](https://marsdevteam.visualstudio.com/acsf/_apis/build/status/digital-experience-platform.acsf?branchName=master)](https://marsdevteam.visualstudio.com/acsf/_build/latest?definitionId=1894&branchName=master)
+[![Build Status](https://marsdevteam.visualstudio.com/MarsExperiencePlatform/_apis/build/status/New%20Stack?branchName=master)](https://marsdevteam.visualstudio.com/MarsExperiencePlatform/_build/latest?definitionId=2092&branchName=master)
 
 This repository contains the code to support the Mars ACSF project. 2020 stack.
 
