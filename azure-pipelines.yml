@@ -4,9 +4,6 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/php
 
 trigger:
-  branches:
-    include:
-    - '*'
   tags:
     include:
     - '*'
@@ -87,9 +84,9 @@ steps:
     displayName: 'Deploy branch'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/heads/'))
     inputs:
-      filePath: '$(scriptDir)/deploy_branch.sh'
+      filePath: './scripts/deploy_branch.sh'
   - task: Bash@3
     displayName: 'Deploy tag'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
     inputs:
-      filePath: '$(scriptDir)/deploy_tag.sh'
+      filePath: './scripts/deploy_tag.sh'
