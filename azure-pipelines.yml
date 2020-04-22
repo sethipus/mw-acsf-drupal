@@ -3,6 +3,14 @@
 # Add steps that run tests, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/php
 
+trigger:
+  branches:
+    include:
+    - '*'
+  tags:
+    include:
+    - '*'
+
 pool:
   vmImage: 'ubuntu-16.04'
 
@@ -76,7 +84,12 @@ steps:
     inputs:
       filePath: '$(scriptDir)/test.sh'
   - task: Bash@3
-    displayName: 'Deploy'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
+    displayName: 'Deploy branch'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/heads/'))
     inputs:
-      filePath: './scripts/deploy_artifact.sh'
+      filePath: '$(scriptDir)/deploy_branch.sh'
+  - task: Bash@3
+    displayName: 'Deploy tag'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
+    inputs:
+      filePath: '$(scriptDir)/deploy_tag.sh'
