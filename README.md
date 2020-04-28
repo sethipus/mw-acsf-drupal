@@ -259,7 +259,7 @@ Iterating over fileset files.php.custom.themes...
 
   * Pull the requestor fork changes into the local machine:
   ```
-  git fetch madismik 
+  git fetch <alias> 
   git checkout <pr branch>
   ```
   * Install dependencies and run BLT Validation:
