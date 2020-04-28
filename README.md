@@ -70,7 +70,7 @@ ddev ssh
 composer run-script `./vendor/bin/blt blt:init:shell-alias`
 ```
 
-* Setup a local Drupal site with an empty database.
+* **Important:** Setup a local Drupal site with an empty database.
 
 ```
 ddev blt setup
@@ -87,11 +87,8 @@ ddev drush uli
 ## (Optional) Other Local Setup Steps
 
 * Set up frontend build and theme.
-By default BLT sets up a site with the lightning profile and a cog base theme. You can choose your own profile before setup in the blt.yml file. If you do choose to use cog, see [Cog's documentation](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/README.md#create-cog-sub-theme) for installation.
-See [BLT's Frontend docs](https://docs.acquia.com/blt/developer/frontend/) to see how to automate the theme requirements and frontend tests.
-After the initial theme setup you can configure `blt/blt.yml` to install and configure your frontend dependencies with `blt setup`.
 
-* Pull Files locally, Use BLT to pull all files down from your Cloud environment.
+* Pull files locally, and use BLT to pull all files down from your Cloud environment.
 
 ```
 ddev blt drupal:sync:files
@@ -106,42 +103,46 @@ ddev blt sync
 
 ---
 
-## Local frontend build
+## Local Frontend Build
 
-Please reference readme in the custom themes for building sass frontend assets.
+See [BLT's Frontend docs](https://docs.acquia.com/blt/developer/frontend/) to see how to automate the theme requirements and frontend tests.
 
-To install npm dependencies:
+Also, please reference readme in the custom themes for building sass frontend assets if necessary.
+
+To install npm dependencies (Not required):
 
 ```
 npm install npm@latest -g
 ```
 
----
+# Coding Standards
 
-# Commit Naming convention
+Please be sure that you are familiar with Drupal coding standards when committing to the repository.
+Ensure that you are familiar and up to date on [Drupal Coding Standards](https://www.drupal.org/docs/develop/standards).
 
-Commits - Use AB#XXX in your commit message to link from GitHub to Azure Boards work items. For example, AB#125 will link to Azure work item ID 125.
+Be sure to use [Drupal javascript coding standards](https://www.drupal.org/docs/develop/standards/javascript/javascript-coding-standards) as well.
 
-Example:
+`blt setup` ensures that a general suite of validation checks are run, including PHPCS Drupal Coding Standard rules, but it is highly suggested that you run code linting within your IDE.
 
-```
-AB#125: Carousel structure.
-```
-In addition, you can enter a commit or pull request message to transition the work item. The system will recognize `fix`, `fixes`, `fixed` and *apply* it to the #-mention item that follows. Some examples are provided as shown.
+For information on setup, see:
 
-## Examples:
+* [PHPStorm and general info](https://www.drupal.org/docs/8/modules/code-review-module/installing-coder-sniffer#s-ide-and-editor-configuration)
+* [Sublime, Atom, Komodo, VS Code, and others](https://www.drupal.org/docs/8/modules/code-review-module/installing-drupal-code-sniffer-on-vim-sublime-text-visual-studio)
 
-Commit message                                         |	Action
------------------------------------------------------- | -------
-Fixed AB#123                                           |	Links and transitions the work item to the "done" state.
-Adds a new feature, fixes AB#123.                      |	Links and transitions the work item to the "done" state.
-Fixes AB#123, AB#124, and AB#126                       |	Links to Azure Boards work items 123, 124, and 126. Transitions only the first item, 123 to the "done" state.
-Fixes AB#123, Fixes AB#124, Fixes AB#125               | Links to Azure Boards work items 123, 124, and 126. Transitions all items to the "done" state.
-Fixing multiple bugs: issue #123 and user story AB#234 |	Links to GitHub issue 123 and Azure Boards work item 234. No transitions.
+If you are not familiar with basic engineering principals such as those listed below, please review their respective links:
+* [DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
+* [KISS](https://en.wikipedia.org/wiki/KISS_principle)
+* [SOLID](https://en.wikipedia.org/wiki/SOLID)
+
+Following best practices for engineering your solution and code syntax ensures that we have a consistent, readable, and secure codebase that will be easily maintainable throughout the life of the platform.
 
 ---
 
-# Branching strategy
+# Code Collaboration
+
+* Understand the requirements or bug fix clearly for which the PR raised. Ensure you have access to DevOps ticket where the User story or Bug fix is maintained.
+
+* Ensure the modules present in the PR are reviewed and approved by MARS EA & platform teams
 
 ## Pull code from the upstream develop branch and create a new branch:
 
@@ -158,15 +159,44 @@ git add <file names>
 git commit –m “AB#1234 <description of your change>”
 ```
 
-Make multiple commits if necessary, do not include changes to different features or components in one Pull Request, this increases the difficulty of testing.
+### Commit Messages
 
-Push your branch to a fork of the repository “digital-experience-platform/acsf repository.
+Use of AB#XXX in your commit message is required and creates a link from GitHub to Azure Boards work items. For example, AB#125 will link to Azure work item ID 125.
+
+**Example:**
 
 ```
-git push <my repository> <my-new-feature>
+AB#125: Carousel structure.
 ```
+In addition, you can enter a commit or pull request message to transition the work item. The system will recognize `fix`, `fixes`, `fixed` and apply it to the #-mention item that follows. Some detailed examples of transitions are provided below.
 
-Ensure all validation test run on push, they should look like:
+**Transitions:**
+
+Commit message                                         |	Action
+------------------------------------------------------ | -------
+Fixed AB#123                                           |	Links and transitions the work item to the "done" state.
+Adds a new feature, fixes AB#123.                      |	Links and transitions the work item to the "done" state.
+Fixes AB#123, AB#124, and AB#126                       |	Links to Azure Boards work items 123, 124, and 126. Transitions only the first item, 123 to the "done" state.
+Fixes AB#123, Fixes AB#124, Fixes AB#125               | Links to Azure Boards work items 123, 124, and 126. Transitions all items to the "done" state.
+Fixing multiple bugs: issue #123 and user story AB#234 |	Links to GitHub issue 123 and Azure Boards work item 234. No transitions.
+
+### Committing to PRs
+
+* Make multiple commits if necessary, do not include changes to different features or components in one Pull Request, this increases the difficulty of testing.
+
+* Push your branch to a fork of the repository “digital-experience-platform/acsf repository.
+  ```
+  git push <my repository> <my-new-feature>
+  ```
+
+  **Example:**
+
+  Remote URL: https://github.mars.com/ted/acsf
+  ```
+   git push ted my-new-feature
+  ```
+
+* Ensure all validation test run on push, they should look like:
 
 ```
 Executing .git/hooks/pre-push...
@@ -187,51 +217,61 @@ Iterating over fileset files.php.custom.themes...
 > tests:phpcs:sniff:all
 [ExecStack] '/Users/ted_slesinski/repos/acsf/vendor/bin/phpcs'
 ............................................................   60 / 2090 (3%)
-............................................................  120 / 2090 (6%)
-............................................................  180 / 2090 (9%)
-............................................................  240 / 2090 (11%)
-............................................................  300 / 2090 (14%)
-............................................................  360 / 2090 (17%)
-............................................................  420 / 2090 (20%)
-............................................................  480 / 2090 (23%)
-............................................................  540 / 2090 (26%)
-............................................................  600 / 2090 (29%)
-............................................................  660 / 2090 (32%)
-............................................................  720 / 2090 (34%)
-............................................................  780 / 2090 (37%)
-............................................................  840 / 2090 (40%)
-............................................................  900 / 2090 (43%)
-............................................................  960 / 2090 (46%)
-............................................................ 1020 / 2090 (49%)
-............................................................ 1080 / 2090 (52%)
-............................................................ 1140 / 2090 (55%)
-............................................................ 1200 / 2090 (57%)
-............................................................ 1260 / 2090 (60%)
-............................................................ 1320 / 2090 (63%)
-............................................................ 1380 / 2090 (66%)
-............................................................ 1440 / 2090 (69%)
-............................................................ 1500 / 2090 (72%)
-............................................................ 1560 / 2090 (75%)
-............................................................ 1620 / 2090 (78%)
-............................................................ 1680 / 2090 (80%)
-............................................................ 1740 / 2090 (83%)
-............................................................ 1800 / 2090 (86%)
-............................................................ 1860 / 2090 (89%)
-............................................................ 1920 / 2090 (92%)
-............................................................ 1980 / 2090 (95%)
-............................................................ 2040 / 2090 (98%)
+...
 ..................................................           2090 / 2090 (100%)
 ```
+* Open a PR to: digital-experience-platform/acsf:develop
 
-Open a PR to: digital-experience-platform/acsf:develop
-
-Ensure all CI Tests are passing and assign to a reviewer.
+* Ensure all CI Tests are passing and assign to a reviewer.
 
 ---
 
-# QA
+# Code Review
 
-TBD
+* Ensure the modules present in the PR are reviewed and approved by MARS EA & platform teams
+
+  * To do this, check if there are changes to the `composer.json` file.
+
+  * Modules additions are added after the require key:
+  ```
+  "require": {
+      "php": ">=7.2",
+      "acquia/acsf-tools": "dev-9.x-dev",
+    ...
+  ```
+
+* Ensure the pull request is fully tested with the following process:
+  * Verify the PR for Ticket reference and check that all changes are included.
+
+  * Pull the PR to the local machine for validation .
+
+  * Add the remote  alias, if necessary (You can review added remotes with the command: `git remote`):
+  ```
+  git remote add <requestor username> <requestor's repository>
+  ```
+
+    **Example:**
+
+    Remote URL: https://github.mars.com/ted/acsf
+    ```
+     git remote add ted git@github.mars.com:ted/acsf.git
+    ```
+
+  * Pull the requestor fork changes into the local machine:
+  ```
+  git fetch madismik 
+  git checkout <pr branch>
+  ```
+  * Install dependencies and run BLT Validation:
+  ```
+  composer install 
+  blt validate
+  ```
+  * Import configuration
+
+  * Test from local website
+
+* if there are unresolved issues, request changes and reassign or approve the PR if everything works as expected. 
 
 ---
 
