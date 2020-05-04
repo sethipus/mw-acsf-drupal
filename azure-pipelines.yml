@@ -21,13 +21,13 @@ variables:
 
 steps:
   - task: InstallSSHKey@0
-    displayName: 'install ssh key for GitHub'
+    displayName: 'Install SSH Key for GitHub'
     inputs:
       knownHostsEntry: $(known_hosts)
       sshPublicKey: $(public_ssh_key)
       sshKeySecureFile: 'mars_ssh_key'
   - task: InstallSSHKey@0
-    displayName: 'install ssh key for Acquia Cloud'
+    displayName: 'Install SSH Key for Acquia Cloud'
     inputs:
       knownHostsEntry: $(known_hosts_acquia)
       sshPublicKey: $(public_ssh_key_acquia)
@@ -50,18 +50,19 @@ steps:
     inputs:
       versionSpec: '10.x'
   - task: SonarQubePrepare@4
+    displayName: 'SonarQube Prepare'
     inputs:
       SonarQube: 'sonarqubetest'
       scannerMode: 'CLI'
       configMode: 'file'
   - task: SonarQubeAnalyze@4
-    displayName: 'SonarQube validation'
+    displayName: 'SonarQube Validation'
   - task: SonarQubePublish@4
-    displayName: 'SonarQube publish'
+    displayName: 'SonarQube Publish'
     inputs:
       pollingTimeoutSec: '300'
   - task: Cache@2
-    displayName: Cache composer packages
+    displayName: 'Cache Composer Packages'
     inputs:
       key: 'composer | "$(Agent.OS)" | composer.lock'
       restoreKeys: |
