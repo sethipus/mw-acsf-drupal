@@ -6,7 +6,7 @@
 trigger:
   branches:
     include:
-    - 'master'
+    - 'develop'
   tags:
     include:
     - '*'
@@ -95,7 +95,7 @@ steps:
       filePath: '$(scriptDir)/test.sh'
   - task: Bash@3
     displayName: 'Deploy Branch'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'master'))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'develop'))
     inputs:
       filePath: './scripts/deploy_branch.sh'
   - task: Bash@3
