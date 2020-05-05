@@ -828,7 +828,12 @@ function gardens_site_data_alert_send($scope, $issue_type) {
         'site_group' => $site,
         'site_env' => $env,
         'server' => $webnode,
-        'timestamp' => REQUEST_TIME,
+        // Instead of \Drupal::time()->getRequestTime() we're going to use
+        // time() here because there is no definite usage of \Drupal at this
+        // point in the bootstrap.
+        // Rest of the code above also does a class_exists() check against
+        // 'Drupal', probably due to the same reason.
+        'timestamp' => time(),
       ],
     ];
     $creds = gardens_site_data_shared_creds_get($site, $env);
