@@ -1,9 +1,126 @@
-local:
-  docker:
-    service: appserver
-    exec:
-      options: --user www-data -e COLUMNS=${DRUSH_COLUMNS} -e DRUSH_PATHS_ALIAS_PATH=/app/drush/sites
-  uri: http://mars.lndo.site:8000
-  root: /app/docroot
+# Application 'mars', environment '0101qa'.
+0101qa:
+  root: /var/www/html/mars.0101qa/docroot
+  ac-site: mars
+  ac-env: 0101qa
+  ac-realm: enterprise-g1
+  uri: mars0101qa.enterprise-g1.acquia-sites.com
+  0101qa.livedev:
+    parent: '@mars.0101qa'
+    root: /mnt/gfs/mars.0101qa/livedev/docroot
+  host: mars0101qa.ssh.enterprise-g1.acquia-sites.com
+  user: mars.0101qa
   paths:
-    drush-script: /app/vendor/drush/drush/drush
+    drush-script: drush9
+
+
+# Application 'mars', environment '0101qaup'.
+0101qaup:
+  root: /var/www/html/mars.0101qaup/docroot
+  ac-site: mars
+  ac-env: 0101qaup
+  ac-realm: enterprise-g1
+  uri: mars0101qaup.enterprise-g1.acquia-sites.com
+  0101qaup.livedev:
+    parent: '@mars.0101qaup'
+    root: /mnt/gfs/mars.0101qaup/livedev/docroot
+  host: mars0101qaup.ssh.enterprise-g1.acquia-sites.com
+  user: mars.0101qaup
+  paths:
+    drush-script: drush9
+
+
+# Application 'mars', environment '01dev'.
+01dev:
+  root: /var/www/html/mars.01dev/docroot
+  ac-site: mars
+  ac-env: 01dev
+  ac-realm: enterprise-g1
+  uri: mars01dev.enterprise-g1.acquia-sites.com
+  01dev.livedev:
+    parent: '@mars.01dev'
+    root: /mnt/gfs/mars.01dev/livedev/docroot
+  host: mars01dev.ssh.enterprise-g1.acquia-sites.com
+  user: mars.01dev
+  paths:
+    drush-script: drush9
+
+
+# Application 'mars', environment '01devup'.
+01devup:
+  root: /var/www/html/mars.01devup/docroot
+  ac-site: mars
+  ac-env: 01devup
+  ac-realm: enterprise-g1
+  uri: mars01devup.enterprise-g1.acquia-sites.com
+  01devup.livedev:
+    parent: '@mars.01devup'
+    root: /mnt/gfs/mars.01devup/livedev/docroot
+  host: mars01devup.ssh.enterprise-g1.acquia-sites.com
+  user: mars.01devup
+  paths:
+    drush-script: drush9
+
+
+# Application 'mars', environment '01live'.
+01live:
+  root: /var/www/html/mars.01live/docroot
+  ac-site: mars
+  ac-env: 01live
+  ac-realm: enterprise-g1
+  uri: mars01live.enterprise-g1.acquia-sites.com
+  01live.livedev:
+    parent: '@mars.01live'
+    root: /mnt/gfs/mars.01live/livedev/docroot
+  host: mars01live.ssh.enterprise-g1.acquia-sites.com
+  user: mars.01live
+  paths:
+    drush-script: drush9
+
+
+# Application 'mars', environment '01test'.
+01test:
+  root: /var/www/html/mars.01test/docroot
+  ac-site: mars
+  ac-env: 01test
+  ac-realm: enterprise-g1
+  uri: mars01test.enterprise-g1.acquia-sites.com
+  01test.livedev:
+    parent: '@mars.01test'
+    root: /mnt/gfs/mars.01test/livedev/docroot
+  host: mars01test.ssh.enterprise-g1.acquia-sites.com
+  user: mars.01test
+  paths:
+    drush-script: drush9
+
+
+# Application 'mars', environment '01testup'.
+01testup:
+  root: /var/www/html/mars.01testup/docroot
+  ac-site: mars
+  ac-env: 01testup
+  ac-realm: enterprise-g1
+  uri: mars01testup.enterprise-g1.acquia-sites.com
+  01testup.livedev:
+    parent: '@mars.01testup'
+    root: /mnt/gfs/mars.01testup/livedev/docroot
+  host: mars01testup.ssh.enterprise-g1.acquia-sites.com
+  user: mars.01testup
+  paths:
+    drush-script: drush9
+
+
+# Application 'mars', environment '01update'.
+01update:
+  root: /var/www/html/mars.01update/docroot
+  ac-site: mars
+  ac-env: 01update
+  ac-realm: enterprise-g1
+  uri: mars01update.enterprise-g1.acquia-sites.com
+  01update.livedev:
+    parent: '@mars.01update'
+    root: /mnt/gfs/mars.01update/livedev/docroot
+  host: mars01update.ssh.enterprise-g1.acquia-sites.com
+  user: mars.01update
+  paths:
+    drush-script: drush9
