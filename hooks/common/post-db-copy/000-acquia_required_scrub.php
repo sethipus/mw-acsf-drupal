@@ -67,11 +67,29 @@ $cache_directory = sprintf('/mnt/tmp/%s.%s/drush_tmp_cache/%s', $site, $env, md5
 shell_exec(sprintf('mkdir -p %s', escapeshellarg($cache_directory)));
 // phpcs:enable
 
+// Explicitly run a cache-rebuild before anything else.
+$cache_rebuild = sprintf(
+  'DRUSH_PATHS_CACHE_DIRECTORY=%1$s CACHE_PREFIX=%1$s AH_SITE_ENVIRONMENT=%2$s \drush8 -r %3$s -l %4$s -y cache-rebuild 2>&1',
+  escapeshellarg($cache_directory),
+  escapeshellarg($env),
+  escapeshellarg($docroot),
+  escapeshellarg('https://' . $new_domain)
+);
+fwrite(STDERR, "Executing: $cache_rebuild;\n");
+$result = 0;
+$output = [];
+// Acquia rules disallow exec() with dynamic arguments.
+// phpcs:disable
+exec($cache_rebuild, $output, $result);
+// phpcs:enable
+print implode("\n", $output);
+fwrite(STDERR, "Command execution returned status code: $result!\n");
+
 // Execute the scrub. If we execute code on the update environment (as per
 // above), we must change AH_SITE_ENVIRONMENT to match the docroot during
 // execution; see sites.php.
 $command = sprintf(
-  'CACHE_PREFIX=%s AH_SITE_ENVIRONMENT=%s \drush8 -r %s -l %s -y acsf-site-scrub',
+  'DRUSH_PATHS_CACHE_DIRECTORY=%1$s CACHE_PREFIX=%1$s AH_SITE_ENVIRONMENT=%2$s \drush8 -r %3$s -l %4$s -y acsf-site-scrub 2>&1',
   escapeshellarg($cache_directory),
   escapeshellarg($env),
   escapeshellarg($docroot),
