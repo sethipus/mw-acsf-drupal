@@ -1,0 +1,18 @@
+media:
+  field_external_id: 'assertId'
+  field_segment: 'segment'
+  field_brand: 'brand'
+  field_sub_brand: 'subBrand'
+  field_category: 'category'
+#  field_type: 'fileType'
+  field_sub_type: 'subType'
+  field_region: 'region'
+  field_marketing_country: 'mktingCountry'
+  field_language: 'language'
+  field_agency: 'agencyPartnerVendor'
+  field_last_mod_date: 'lastModDate'
+
+file:
+  name: 'assetName'
+  uri: 'uls.001orig'
+  filemime: 'fileType'

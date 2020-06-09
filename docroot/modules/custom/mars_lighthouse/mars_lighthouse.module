@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Lighthouse module main file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_lighthouse_theme($existing, $type, $theme, $path) {
+  return [
+    'lighthouse_gallery' => [
+      'variables' => [
+        'data' => NULL,
+      ],
+    ],
+  ];
+}

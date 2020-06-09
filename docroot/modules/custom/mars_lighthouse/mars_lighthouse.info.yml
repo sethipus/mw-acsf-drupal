@@ -1,0 +1,5 @@
+name: 'Mars Lighthouse'
+type: module
+description: 'Lighthouse integration module.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'

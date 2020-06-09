@@ -1,0 +1,8 @@
+services:
+  lighthouse.client:
+    class: '\Drupal\mars_lighthouse\Client\LighthouseClient'
+    arguments: ['@http_client', '@config.factory']
+
+  lighthouse.adapter:
+    class: '\Drupal\mars_lighthouse\Controller\LighthouseAdapter'
+    arguments: ['@lighthouse.client']

@@ -1,0 +1,35 @@
+{% set classes = [
+  'views-view-grid',
+  'horizontal',
+  'cols-' ~ 3,
+  'clearfix',
+] %}
+{% set row_classes = [
+  'views-row',
+] %}
+{% set col_classes = [
+  'views-col',
+] %}
+
+<div class="eb-media view view-media view-content">
+  <div class="view-content">
+    <div class="views-infinite-scroll-content-wrapper clearfix">
+      <div{{ attributes.addClass(classes) }}>
+        {% for row in data %}
+          <div class={{ 'views-row row-' ~ loop.index }}>
+            {% for col in row %}
+              <div class={{ 'views-col col-' ~ loop.index }}>
+                <div class='views-field views-field-thumbnail__target-id'>
+                  <span class="field-content">
+                    {{ col.name }}
+                    <img src="{{ col.uri }}" width="50" height="50" alt="alt" class="image-style-medium"/>
+                  </span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
