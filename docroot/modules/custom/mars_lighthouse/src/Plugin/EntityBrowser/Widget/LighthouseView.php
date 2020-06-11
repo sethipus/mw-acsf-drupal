@@ -17,7 +17,8 @@ use Drupal\mars_lighthouse\LighthouseInterface;
  * @EntityBrowserWidget(
  *   id = "lighthouse_view",
  *   label = @Translation("Lighthouse View"),
- *   description = @Translation("Uses a lighthouse requests to provide entity listing in a browser's widget."),
+ *   description = @Translation("Uses a lighthouse requests to provide entity
+ *   listing in a browser's widget."),
  *   auto_select = TRUE
  * )
  */
@@ -56,18 +57,71 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
   /**
    * {@inheritdoc}
    */
+  public function validate(array &$form, FormStateInterface $form_state) {
+    // TODO add validation.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function prepareEntities(array $form, FormStateInterface $form_state) {
+    // TODO write the function.
+    // Copied from \Drupal\entity_browser\Plugin\EntityBrowser\Widget\View::prepareEntities.
+    if (is_array($form_state->getUserInput()['entity_browser_select'])) {
+      $selected_rows = array_values(array_filter($form_state->getUserInput()['entity_browser_select']));
+    }
+    else {
+      $selected_rows = [$form_state->getUserInput()['entity_browser_select']];
+    }
+
+    $entities = [];
+    foreach ($selected_rows as $row) {
+      $item = explode(':', $row);
+      if (count($item) == 2) {
+        [$type, $id] = $item;
+        $storage = $this->entityTypeManager->getStorage($type);
+        if ($entity = $storage->load($id)) {
+          $entities[] = $entity;
+        }
+      }
+    }
+    return $entities;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getForm(array &$original_form, FormStateInterface $form_state, array $additional_widget_parameters) {
     $form = parent::getForm($original_form, $form_state, $additional_widget_parameters);
     $form['#attached']['library'] = ['entity_browser/view'];
 
-    $data = $this->lighthouseAdapter->getMediaDataList('cat');
+    $form['filter']['text'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Text'),
+      '#size' => 60,
+    ];
+    $form['filter']['submit'] = [
+      '#type' => 'button',
+      '#value' => $this->t('Filter'),
+      '#ajax' => [
+        'callback' => [$this, 'searchCallback'],
+        'wrapper' => 'gallery-view',
+        'progress' => [
+          'type' => 'throbber',
+          'message' => $this->t('Searching...'),
+        ],
+      ],
+    ];
 
+    $data = $this->lighthouseAdapter->getMediaDataList('cat');
     // Split into rows.
     $data = array_chunk($data, 3);
 
     $form['view'] = [
       '#theme' => 'lighthouse_gallery',
       '#data' => $data,
+      '#prefix' => '<div id="gallery-view">',
+      '#suffix' => '</div>',
     ];
     return $form;
   }
@@ -81,6 +135,32 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
       '#markup' => 'Test markup',
     ];
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submit(array &$element, array &$form, FormStateInterface $form_state) {
+    // TODO write submit function.
+    parent::submit($element, $form, $form_state);
+  }
+
+  /**
+   * Ajax search response.
+   */
+  public function searchCallback(array $form, FormStateInterface $form_state) {
+    $text = $form_state->getValue('text');
+
+    $data = $this->lighthouseAdapter->getMediaDataList($text);
+    // Split into rows.
+    $data = array_chunk($data, 3);
+
+    return [
+      '#theme' => 'lighthouse_gallery',
+      '#data' => $data,
+      '#prefix' => '<div id="gallery-view">',
+      '#suffix' => '</div>',
+    ];
   }
 
 }
