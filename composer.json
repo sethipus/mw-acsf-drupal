@@ -31,6 +31,7 @@
         "drupal/redirect": "^1.5",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0",
+        "drupal/simplesamlphp_auth": "^3.2",
         "lcatlett/blt-ddev": "dev-master",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
