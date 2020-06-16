@@ -25,6 +25,11 @@ use Drupal\mars_lighthouse\LighthouseInterface;
 class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterface {
 
   /**
+   * Number of columns in grid.
+   */
+  const COLUMN_NUM = 3;
+
+  /**
    * Lighthouse adapter.
    *
    * @var \Drupal\mars_lighthouse\LighthouseInterface
@@ -58,32 +63,19 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function validate(array &$form, FormStateInterface $form_state) {
-    // TODO add validation.
+    // TODO: Add a validation.
   }
 
   /**
    * {@inheritdoc}
    */
   protected function prepareEntities(array $form, FormStateInterface $form_state) {
-    // TODO write the function.
-    // Copied from \Drupal\entity_browser\Plugin\EntityBrowser\Widget\View::prepareEntities.
-    if (is_array($form_state->getUserInput()['entity_browser_select'])) {
-      $selected_rows = array_values(array_filter($form_state->getUserInput()['entity_browser_select']));
-    }
-    else {
-      $selected_rows = [$form_state->getUserInput()['entity_browser_select']];
-    }
+    $selected_rows = array_filter($form_state->cleanValues()
+      ->getUserInput()['checkboxes']);
 
     $entities = [];
     foreach ($selected_rows as $row) {
-      $item = explode(':', $row);
-      if (count($item) == 2) {
-        [$type, $id] = $item;
-        $storage = $this->entityTypeManager->getStorage($type);
-        if ($entity = $storage->load($id)) {
-          $entities[] = $entity;
-        }
-      }
+      $entities[] = $this->lighthouseAdapter->getMediaEntity($row);
     }
     return $entities;
   }
@@ -113,15 +105,20 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
       ],
     ];
 
-    $data = $this->lighthouseAdapter->getMediaDataList('cat');
+    $data = $this->lighthouseAdapter->getMediaDataList();
     // Split into rows.
-    $data = array_chunk($data, 3);
+    $grid = array_chunk($data, $this::COLUMN_NUM);
 
-    $form['view'] = [
+    $form['view']['data'] = [
       '#theme' => 'lighthouse_gallery',
-      '#data' => $data,
+      '#data' => $grid,
       '#prefix' => '<div id="gallery-view">',
       '#suffix' => '</div>',
+    ];
+    // TODO: create a better view.
+    $form['view']['checkboxes'] = [
+      '#type' => 'checkboxes',
+      '#options' => array_flip(array_column($data, 'assetId')),
     ];
     return $form;
   }
@@ -130,19 +127,15 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildConfigurationForm($form, $form_state);
-    $form['view']['view'] = [
-      '#markup' => 'Test markup',
-    ];
-    return $form;
+    return [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function submit(array &$element, array &$form, FormStateInterface $form_state) {
-    // TODO write submit function.
-    parent::submit($element, $form, $form_state);
+    $entities = $this->prepareEntities($form, $form_state);
+    $this->selectEntities($entities, $form_state);
   }
 
   /**
@@ -153,7 +146,7 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
 
     $data = $this->lighthouseAdapter->getMediaDataList($text);
     // Split into rows.
-    $data = array_chunk($data, 3);
+    $data = array_chunk($data, $this::COLUMN_NUM);
 
     return [
       '#theme' => 'lighthouse_gallery',

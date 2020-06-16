@@ -79,7 +79,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * {@inheritdoc}
    */
-  public function getMediaDataList($text, $filters = [], $sort_by = [], $offset = 0, $limit = 10): array {
+  public function getMediaDataList($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10): array {
     $params = $this->lighthouseClient->getToken();
     $params['access_token'] = $params['response']['lhisToken'];
     unset($params['response']);
@@ -99,9 +99,10 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   protected function prepareMediaDataList(array $data) {
     $data_list = [];
     foreach ($data as $item) {
-      $data_list[$item['assetId']] = [
-        'uri' => $item['urls']['001default'],
-        'name' => $item['assetName'],
+      $data_list[] = [
+        'uri' => $item['urls']['001tnmd2'] ?? NULL,
+        'name' => $item['assetName'] ?? '',
+        'assetId' => $item['assetId'] ?? '',
       ];
     }
     return $data_list;
@@ -111,12 +112,78 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * {@inheritdoc}
    */
   public function getMediaEntity($id) {
-    $media = $this->mediaStorage->loadByProperties(['external_id' => $id]);
-    if (!$media) {
-      // TODO: get media by id from API.
+    if ($media = $this->mediaStorage->loadByProperties(['field_external_id' => $id])) {
+      return array_shift($media);
+    }
+    $params = $this->lighthouseClient->getToken();
+    $params['access_token'] = $params['response']['lhisToken'];
+    unset($params['response']);
+    $data = $this->lighthouseClient->getAssetById($id, $params);
+    if (!$data) {
       return NULL;
     }
-    return array_shift($media);
+    return $this->createMediaEntity($data);
+  }
+
+  /**
+   * Creates media entity from API response.
+   *
+   * @param array $data
+   *   Response data with one entity.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface
+   *   Media entity.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  protected function createMediaEntity(array $data) {
+    $mapping = $this->getFieldsMapping();
+    $file_mapping = $mapping->get('media');
+    $file_id = $this->createFileEntity($data);
+    $fields_values = [
+      'bundle' => $this::MEDIA_BUNDLE,
+      'field_media_image' => ['target_id' => $file_id],
+      'status' => TRUE,
+    ];
+
+    foreach ($file_mapping as $field_name => $path_to_value) {
+      $fields_values[$field_name] = $data[$path_to_value] ?? NULL;
+    }
+
+    $media = $this->mediaStorage->create($fields_values);
+    $media->save();
+
+    return $media;
+  }
+
+  /**
+   * Creates file entity from API response.
+   *
+   * @param array $data
+   *   Response data with one entity.
+   *
+   * @return int
+   *   ID of File entity.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  protected function createFileEntity(array $data) {
+    $mapping = $this->getFieldsMapping();
+    $file_mapping = $mapping->get('file');
+    $fields_values = [];
+
+    foreach ($file_mapping as $field_name => $path_to_value) {
+      $path_to_value = explode('.', $path_to_value);
+      $value = $data[array_shift($path_to_value)] ?? NULL;
+      while ($path_to_value) {
+        $value = $value[array_shift($path_to_value)] ?? NULL;
+      }
+      $fields_values[$field_name] = $value;
+    }
+
+    $file = $this->fileStorage->create($fields_values);
+    $file->save();
+    return $file->id();
   }
 
 }

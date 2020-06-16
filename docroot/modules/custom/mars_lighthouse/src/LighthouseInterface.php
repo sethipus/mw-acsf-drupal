@@ -26,7 +26,7 @@ interface LighthouseInterface {
    * @return array
    *   Media data array ready for a rendering.
    */
-  public function getMediaDataList(string $text, array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10): array;
+  public function getMediaDataList(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10): array;
 
   /**
    * Returns lighthouse media entity, creates if it's needed.

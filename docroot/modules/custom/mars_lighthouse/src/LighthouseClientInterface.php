@@ -36,7 +36,7 @@ interface LighthouseClientInterface {
    * @return array
    *   Response with media data items.
    */
-  public function search(string $text, array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []);
+  public function search(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []);
 
   /**
    * Returns configuration for Lighthouse client.
@@ -45,5 +45,18 @@ interface LighthouseClientInterface {
    *   Configuration for Lighthouse client.
    */
   public function getConfiguration();
+
+  /**
+   * Get an asset data by its Id.
+   *
+   * @param string $id
+   *   Asset Id.
+   * @param array $params
+   *   Headers and access token.
+   *
+   * @return array
+   *   An asset data.
+   */
+  public function getAssetById(string $id, array $params = []): array;
 
 }
