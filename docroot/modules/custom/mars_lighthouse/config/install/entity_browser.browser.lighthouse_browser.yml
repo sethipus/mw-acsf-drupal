@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - mars_lighthouse
+name: lighthouse_browser
+label: 'Lighthouse browser'
+display: modal
+display_configuration:
+  width: '800'
+  height: ''
+  link_text: 'Select entities'
+  auto_open: false
+selection_display: no_display
+selection_display_configuration: {  }
+widget_selector: tabs
+widget_selector_configuration: {  }
+widgets:
+  e1c849dd-3906-42b7-b061-397ebf372775:
+    settings:
+      submit_text: 'Select entities'
+      auto_select: false
+    uuid: e1c849dd-3906-42b7-b061-397ebf372775
+    weight: 1
+    label: 'Search Lighthouse'
+    id: lighthouse_view

@@ -19,7 +19,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * Media bundle name for Lighthouse entities.
    */
-  const MEDIA_BUNDLE = 'otmm_image';
+  const MEDIA_BUNDLE = 'lighthouse_image';
 
   /**
    * Lighthouse client.
