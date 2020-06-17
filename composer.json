@@ -34,6 +34,7 @@
         "drupal/remote_stream_wrapper_widget": "^1.2",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0",
+        "drupal/site_settings": "^1.19",
         "drupal/simplesamlphp_auth": "^3.2",
         "lcatlett/blt-ddev": "dev-master",
         "mglaman/drupal-check": "1.0.14",

@@ -39,4 +39,15 @@ interface LighthouseInterface {
    */
   public function getMediaEntity(int $id);
 
+  /**
+   * Get access tokens.
+   *
+   * @param bool $generate_new
+   *   Force to create new tokens.
+   *
+   * @return array
+   *   Access tokens.
+   */
+  public function getToken(bool $generate_new = FALSE): array;
+
 }

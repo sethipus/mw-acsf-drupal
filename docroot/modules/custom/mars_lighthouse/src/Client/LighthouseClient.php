@@ -99,7 +99,7 @@ class LighthouseClient implements LighthouseClientInterface {
     $response = Json::decode($response);
 
     return [
-      'headers' => [$configuration['header_name'] => $header_value],
+      'mars_lighthouse.headers' => [$configuration['header_name'] => $header_value],
       'response' => $response,
     ];
   }
@@ -108,13 +108,13 @@ class LighthouseClient implements LighthouseClientInterface {
    * {@inheritdoc}
    */
   public function search($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $params = []) {
-    if (!isset($params['headers']) && !isset($params['access_token'])) {
+    if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
 
     $body = [
       'requestTime' => date('Y-m-d-H-i-s Z'),
-      'token' => $params['access_token'],
+      'token' => $params['mars_lighthouse.access_token'],
       'text' => $text,
       'orderBy' => '',
       'brand' => [],
@@ -136,7 +136,7 @@ class LighthouseClient implements LighthouseClientInterface {
         $endpoint_full_path,
         [
           'json' => $body,
-          'headers' => $params['headers'],
+          'headers' => $params['mars_lighthouse.headers'],
         ]
       );
     }
@@ -156,21 +156,21 @@ class LighthouseClient implements LighthouseClientInterface {
    * {@inheritdoc}
    */
   public function getAssetById(string $id, array $params = []): array {
-    if (!isset($params['headers']) && !isset($params['access_token'])) {
+    if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
 
     $endpoint_full_path = $this->getEndpointFullPath('asset_by_id') . '/' . $id;
 
-    $params['headers']['Content-Type'] = 'application/json';
+    $params['mars_lighthouse.headers']['Content-Type'] = 'application/json';
     try {
       /**@var \Psr\Http\Message\ResponseInterface $response */
       $response = $this->httpClient->get(
         $endpoint_full_path,
         [
-          'headers' => $params['headers'],
+          'headers' => $params['mars_lighthouse.headers'],
           'query' => [
-            'token' => $params['access_token'],
+            'token' => $params['mars_lighthouse.access_token'],
           ],
         ]
       );
