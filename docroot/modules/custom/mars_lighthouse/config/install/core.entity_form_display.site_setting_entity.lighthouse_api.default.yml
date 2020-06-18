@@ -1,0 +1,99 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.site_setting_entity.lighthouse_api.field_api_key
+    - field.field.site_setting_entity.lighthouse_api.field_base_path
+    - field.field.site_setting_entity.lighthouse_api.field_client_id
+    - field.field.site_setting_entity.lighthouse_api.field_client_secret
+    - field.field.site_setting_entity.lighthouse_api.field_header_name
+    - field.field.site_setting_entity.lighthouse_api.field_port
+    - field.field.site_setting_entity.lighthouse_api.field_subpath
+    - site_settings.site_setting_entity_type.lighthouse_api
+id: site_setting_entity.lighthouse_api.default
+targetEntityType: site_setting_entity
+bundle: lighthouse_api
+mode: default
+content:
+  field_api_key:
+    weight: 16
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_base_path:
+    weight: 13
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_client_id:
+    weight: 11
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_client_secret:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_header_name:
+    weight: 17
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_port:
+    weight: 15
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_subpath:
+    weight: 14
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  fieldset:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+hidden: {  }

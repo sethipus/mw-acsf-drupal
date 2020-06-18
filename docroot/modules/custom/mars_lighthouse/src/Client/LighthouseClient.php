@@ -38,7 +38,20 @@ class LighthouseClient implements LighthouseClientInterface {
    * {@inheritdoc}
    */
   public function getConfiguration() {
-    // TODO: will be updated to editable config.
+    // TODO: check secrets php for global settings.
+    // Check for overwritten settings.
+    $site_settings = \Drupal::service('site_settings.loader');
+    $settings = $site_settings->loadByFieldset('lighthouse_api');
+    if (array_key_exists('lighthouse_api', $settings)) {
+      $settings = $settings['lighthouse_api'];
+      foreach ($settings as $key => $value) {
+        $settings[str_replace('field_', '', $key)] = $value;
+        unset($settings[$key]);
+      }
+      return $settings;
+    }
+
+    // TODO show a message when there is no settings found.
     // Return test credentials.
     return [
       'client_id' => 'DrupalTest',
@@ -85,8 +98,7 @@ class LighthouseClient implements LighthouseClientInterface {
           ],
         ]
       );
-    }
-    catch (RequestException $exception) {
+    } catch (RequestException $exception) {
       \Drupal::logger('mars_lighthouse')
         ->error('Failed to receive access token "%error"', ['%error' => $exception->getMessage()]);
       return [];
@@ -139,8 +151,7 @@ class LighthouseClient implements LighthouseClientInterface {
           'headers' => $params['mars_lighthouse.headers'],
         ]
       );
-    }
-    catch (RequestException $exception) {
+    } catch (RequestException $exception) {
       \Drupal::logger('mars_lighthouse')
         ->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
       return [];
@@ -174,8 +185,7 @@ class LighthouseClient implements LighthouseClientInterface {
           ],
         ]
       );
-    }
-    catch (RequestException $exception) {
+    } catch (RequestException $exception) {
       \Drupal::logger('mars_lighthouse')
         ->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
       return [];

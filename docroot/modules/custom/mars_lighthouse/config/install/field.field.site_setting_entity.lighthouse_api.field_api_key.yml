@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.site_setting_entity.field_api_key
+    - site_settings.site_setting_entity_type.lighthouse_api
+id: site_setting_entity.lighthouse_api.field_api_key
+field_name: field_api_key
+entity_type: site_setting_entity
+bundle: lighthouse_api
+label: 'API key'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
