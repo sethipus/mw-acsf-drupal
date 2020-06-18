@@ -42,7 +42,7 @@ class LighthouseClient implements LighthouseClientInterface {
     // Check for overwritten settings.
     $site_settings = \Drupal::service('site_settings.loader');
     $settings = $site_settings->loadByFieldset('lighthouse_api');
-    if (array_key_exists('lighthouse_api', $settings)) {
+    if (array_key_exists('lighthouse_api', $settings) && is_array($settings['lighthouse_api'])) {
       $settings = $settings['lighthouse_api'];
       foreach ($settings as $key => $value) {
         $settings[str_replace('field_', '', $key)] = $value;
