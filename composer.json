@@ -22,7 +22,7 @@
         "drupal/cog": "^1.0.0",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
-        "drupal/core-recommended": "^8.8.0",
+        "drupal/core-recommended": "8.9.1",
         "drupal/devel": "^2.0.0",
         "drupal/environment_indicator": "^3.7",
         "drupal/google_tag": "^1.3",
