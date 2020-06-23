@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "70d672e54e90b63ecaf4a709b825f895",
+    "content-hash": "b8c33c33998655478e5c435aaf776acd",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/acsf-tools.git",
-                "reference": "febca2e34ea012a37fd44708652561db43360300"
+                "reference": "a852cf24dbc08afa22e3c4b32dceb5c984851a05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/acsf-tools/zipball/febca2e34ea012a37fd44708652561db43360300",
-                "reference": "febca2e34ea012a37fd44708652561db43360300",
+                "url": "https://api.github.com/repos/acquia/acsf-tools/zipball/a852cf24dbc08afa22e3c4b32dceb5c984851a05",
+                "reference": "a852cf24dbc08afa22e3c4b32dceb5c984851a05",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
             ],
             "description": "Drush powered command line tools for working with Acquia Cloud Site Factory.",
             "homepage": "https://github.com/acquia/acsf-tools",
-            "time": "2020-02-26T15:05:24+00:00"
+            "time": "2020-06-19T10:35:02+00:00"
         },
         {
             "name": "acquia/blt",
@@ -1109,7 +1109,7 @@
             "version": "v5.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/enyo/dropzone.git",
+                "url": "git@github.com:enyo/dropzone.git",
                 "reference": "5b82186d5f18540a1d13b6f4914fdc6220617ef5"
             },
             "dist": {
@@ -3814,9 +3814,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.1",
                     "datestamp": "1579005183",
@@ -4523,16 +4520,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "8.9.0",
+            "version": "8.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "f90882ab0723becda2333e4d33e1a6ab27cb8f0c"
+                "reference": "e8ee964c562870381876e85d3f5eaaf8c8ecc9ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/f90882ab0723becda2333e4d33e1a6ab27cb8f0c",
-                "reference": "f90882ab0723becda2333e4d33e1a6ab27cb8f0c",
+                "url": "https://api.github.com/repos/drupal/core/zipball/e8ee964c562870381876e85d3f5eaaf8c8ecc9ee",
+                "reference": "e8ee964c562870381876e85d3f5eaaf8c8ecc9ee",
                 "shasum": ""
             },
             "require": {
@@ -4756,7 +4753,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2020-06-03T16:44:36+00:00"
+            "time": "2020-06-17T17:57:48+00:00"
         },
         {
             "name": "drupal/core-composer-scaffold",
@@ -4807,16 +4804,16 @@
         },
         {
             "name": "drupal/core-recommended",
-            "version": "8.9.0",
+            "version": "8.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-recommended.git",
-                "reference": "1b87cf5dea633a66a1c4f22d635bc92c127071d9"
+                "reference": "41042f9eaa35b027e6b2c42fa03edcb85da54a06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/1b87cf5dea633a66a1c4f22d635bc92c127071d9",
-                "reference": "1b87cf5dea633a66a1c4f22d635bc92c127071d9",
+                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/41042f9eaa35b027e6b2c42fa03edcb85da54a06",
+                "reference": "41042f9eaa35b027e6b2c42fa03edcb85da54a06",
                 "shasum": ""
             },
             "require": {
@@ -4828,7 +4825,7 @@
                 "doctrine/common": "v2.7.3",
                 "doctrine/inflector": "v1.2.0",
                 "doctrine/lexer": "1.0.2",
-                "drupal/core": "8.9.0",
+                "drupal/core": "8.9.1",
                 "easyrdf/easyrdf": "0.9.1",
                 "egulias/email-validator": "2.1.17",
                 "guzzlehttp/guzzle": "6.5.4",
@@ -4885,7 +4882,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Locked core dependencies; require this project INSTEAD OF drupal/core.",
-            "time": "2020-06-03T16:44:36+00:00"
+            "time": "2020-06-17T17:57:48+00:00"
         },
         {
             "name": "drupal/crop",
@@ -9038,9 +9035,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-3.x": "3.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-3.2",
                     "datestamp": "1580423953",
@@ -12628,6 +12622,12 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "funding": [
+                {
+                    "url": "https://github.com/synchro",
+                    "type": "github"
+                }
+            ],
             "time": "2020-05-27T12:24:03+00:00"
         },
         {
@@ -19039,5 +19039,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.3"
-    }
+    },
+    "plugin-api-version": "1.1.0"
 }
