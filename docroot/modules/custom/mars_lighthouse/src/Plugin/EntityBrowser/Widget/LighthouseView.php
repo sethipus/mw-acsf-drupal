@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\entity_browser\WidgetBase;
 use Drupal\entity_browser\WidgetValidationManager;
+use Drupal\mars_lighthouse\LighthouseException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Drupal\mars_lighthouse\LighthouseInterface;
@@ -150,10 +151,6 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
    *   Render array.
    */
   protected function getView(FormStateInterface $form_state) {
-    // Prepare data to render.
-    $text = $form_state->getValue('text');
-    $data = $this->lighthouseAdapter->getMediaDataList($text);
-
     $view = [
       '#type' => 'container',
       '#tree' => TRUE,
@@ -166,6 +163,23 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
     ];
 
     // Get data from API.
+    try {
+      $text = $form_state->getValue('text');
+      $data = $this->lighthouseAdapter->getMediaDataList($text);
+    }
+    catch (LighthouseException $e) {
+      $view['markup'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'p',
+        '#value' => $e->getMessage(),
+        '#attributes' => [
+          'class' => ['lighthouse-gallery__no-results'],
+        ],
+      ];
+      return $view;
+    }
+
+    // Prepare data to render.
     if (!empty($data)) {
       foreach ($data as $item) {
         // Adds a checkbox for each image.

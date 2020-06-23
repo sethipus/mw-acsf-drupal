@@ -3,7 +3,6 @@
 namespace Drupal\mars_lighthouse\Controller;
 
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\file\FileInterface;
 use Drupal\mars_lighthouse\LighthouseException;
 use Drupal\mars_lighthouse\LighthouseInterface;
 use Drupal\Core\Controller\ControllerBase;
@@ -218,12 +217,12 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * @param array $data
    *   Response data with one entity.
    *
-   * @return int
+   * @return string
    *   ID of File entity.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function createFileEntity(array $data): FileInterface {
+  protected function createFileEntity(array $data): string {
     $file_mapping = $this->mapping->get('file');
     $fields_values = [];
 
