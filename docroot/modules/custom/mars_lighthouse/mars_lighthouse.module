@@ -10,10 +10,24 @@
  */
 function mars_lighthouse_theme($existing, $type, $theme, $path) {
   return [
-    'lighthouse_gallery' => [
-      'variables' => [
-        'data' => NULL,
-      ],
+    'lighthouse_gallery_item' => [
+      'render element' => 'element',
     ],
   ];
+}
+
+/**
+ * Implements module_preprocess_lighthouse_gallery_item().
+ *
+ * Some minor custom adjustments for a TWIG.
+ */
+function mars_lighthouse_preprocess_lighthouse_gallery_item(&$variables) {
+  // We need uri and alt to render image.
+  $variables['uri'] = $variables['element']['#uri'];
+  $variables['alt'] = $variables['element']['#title'];
+  // We will provide custom wrapping HTML and label.
+  $variables['label'] = $variables['element']['#title'];
+  $variables['label_for'] = $variables['attributes']['id'];
+  // I don't think that we need a classes for the input in a such custom widget.
+  unset($variables['attributes']['class']);
 }

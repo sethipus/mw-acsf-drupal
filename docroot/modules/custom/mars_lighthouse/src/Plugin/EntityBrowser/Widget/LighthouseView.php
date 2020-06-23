@@ -25,11 +25,6 @@ use Drupal\mars_lighthouse\LighthouseInterface;
 class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterface {
 
   /**
-   * Number of columns in grid.
-   */
-  const COLUMN_NUM = 3;
-
-  /**
    * Lighthouse adapter.
    *
    * @var \Drupal\mars_lighthouse\LighthouseInterface
@@ -62,20 +57,18 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
   /**
    * {@inheritdoc}
    */
-  public function validate(array &$form, FormStateInterface $form_state) {
-    // TODO: Add a validation.
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   protected function prepareEntities(array $form, FormStateInterface $form_state) {
-    $selected_rows = array_filter($form_state->cleanValues()
-      ->getUserInput()['checkboxes']);
+    $userInput = $form_state->cleanValues()->getUserInput();
+    // If you are using checkboxes - you will get
+    // an array of them, which might be filtered.
+    // But if you are using radios - then you will get a string.
+    $selected_rows = is_array($userInput['view']) ? array_filter($userInput['view']) : [$userInput['view'] => ''];
 
     $entities = [];
-    foreach ($selected_rows as $row) {
-      $entities[] = $this->lighthouseAdapter->getMediaEntity($row);
+    if (!empty($selected_rows)) {
+      foreach ($selected_rows as $assetId => $true) {
+        $entities[] = $this->lighthouseAdapter->getMediaEntity($assetId);
+      }
     }
     return $entities;
   }
@@ -85,19 +78,26 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
    */
   public function getForm(array &$original_form, FormStateInterface $form_state, array $additional_widget_parameters) {
     $form = parent::getForm($original_form, $form_state, $additional_widget_parameters);
-    $form['#attached']['library'] = ['entity_browser/view'];
+    // Disable caching on this form.
+    $form_state->setCached(FALSE);
+
+    $form['#attached']['library'] = [
+      'entity_browser/view',
+      'mars_lighthouse/lighthouse-gallery',
+    ];
 
     $form['filter']['text'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Text'),
       '#size' => 60,
     ];
+
     $form['filter']['submit'] = [
       '#type' => 'button',
       '#value' => $this->t('Filter'),
       '#ajax' => [
         'callback' => [$this, 'searchCallback'],
-        'wrapper' => 'gallery-view',
+        'wrapper' => 'lighthouse-gallery',
         'progress' => [
           'type' => 'throbber',
           'message' => $this->t('Searching...'),
@@ -105,29 +105,16 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
       ],
     ];
 
-    $data = $this->lighthouseAdapter->getMediaDataList();
-    // Split into rows.
-    $grid = array_chunk($data, $this::COLUMN_NUM);
+    $form['view'] = $this->getView($form_state);
 
-    $form['view']['data'] = [
-      '#theme' => 'lighthouse_gallery',
-      '#data' => $grid,
-      '#prefix' => '<div id="gallery-view">',
-      '#suffix' => '</div>',
-    ];
-    // TODO: create a better view.
-    $form['view']['checkboxes'] = [
-      '#type' => 'checkboxes',
-      '#options' => array_flip(array_column($data, 'assetId')),
-    ];
     return $form;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    return [];
+  public function validate(array &$form, FormStateInterface $form_state) {
+    // TODO: Add a validation.
   }
 
   /**
@@ -139,21 +126,72 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    return [];
+  }
+
+  /**
    * Ajax search response.
    */
-  public function searchCallback(array $form, FormStateInterface $form_state) {
+  public function searchCallback(array &$form, FormStateInterface $form_state) {
+    $form['view'] = $this->getView($form_state);
+    return $form['view'];
+  }
+
+  /**
+   * Get render array to view Lighthouse gallery.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Form state object which is used to process pager and search text.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getView(FormStateInterface $form_state) {
+    // Prepare data to render.
     $text = $form_state->getValue('text');
-
     $data = $this->lighthouseAdapter->getMediaDataList($text);
-    // Split into rows.
-    $data = array_chunk($data, $this::COLUMN_NUM);
 
-    return [
-      '#theme' => 'lighthouse_gallery',
-      '#data' => $data,
-      '#prefix' => '<div id="gallery-view">',
-      '#suffix' => '</div>',
+    $view = [
+      '#type' => 'container',
+      '#tree' => TRUE,
+      '#attributes' => [
+        // We need this ID in order to complete AJAX request.
+        'id' => 'lighthouse-gallery',
+        // This class was added for styling purposes.
+        'class' => ['lighthouse-gallery', 'clearfix'],
+      ],
     ];
+
+    // Get data from API.
+    if (!empty($data)) {
+      foreach ($data as $item) {
+        // Adds a checkbox for each image.
+        $view[$item['assetId']] = [
+          // '#type' => 'lighthouse_gallery_radio',
+          '#type' => 'lighthouse_gallery_checkbox',
+          '#title' => $item['name'],
+          '#uri' => $item['uri'],
+          // '#return_value' => $item['assetId'],
+          // '#parents' => ['view'],
+        ];
+      }
+    }
+    // Empty text.
+    else {
+      $view['markup'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'p',
+        '#value' => $this->t('There are no results for this search.'),
+        '#attributes' => [
+          'class' => ['lighthouse-gallery__no-results'],
+        ],
+      ];
+    }
+
+    return $view;
   }
 
 }
