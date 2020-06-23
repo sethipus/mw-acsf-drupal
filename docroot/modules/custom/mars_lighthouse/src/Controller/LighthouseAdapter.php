@@ -2,9 +2,13 @@
 
 namespace Drupal\mars_lighthouse\Controller;
 
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\file\FileInterface;
+use Drupal\mars_lighthouse\LighthouseException;
 use Drupal\mars_lighthouse\LighthouseInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
+use Drupal\media\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -117,8 +121,10 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    */
   public function getMediaDataList($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10): array {
     $params = $this->getToken();
-    $response = $this->lighthouseClient->search($text, $filters, $sort_by, $offset, $limit, $params);
-    if (!$response) {
+    try {
+      $response = $this->lighthouseClient->search($text, $filters, $sort_by, $offset, $limit, $params);
+    }
+    catch (LighthouseException $e) {
       // Try to refresh token.
       $params = $this->getToken(TRUE);
       $response = $this->lighthouseClient->search($text, $filters, $sort_by, $offset, $limit, $params);
@@ -150,18 +156,26 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * {@inheritdoc}
    */
-  public function getMediaEntity($id) {
+  public function getMediaEntity($id): ?MediaInterface {
     if ($media = $this->mediaStorage->loadByProperties(['field_external_id' => $id])) {
       return array_shift($media);
     }
     $params = $this->getToken();
-    $data = $this->lighthouseClient->getAssetById($id, $params);
-    if (!$data) {
+    try {
+      $data = $this->lighthouseClient->getAssetById($id, $params);
+    }
+    catch (LighthouseException $e) {
       // Try to refresh token.
       $params = $this->getToken(TRUE);
       $data = $this->lighthouseClient->getAssetById($id, $params);
     }
-    return $this->createMediaEntity($data);
+    try {
+      return $this->createMediaEntity($data);
+    }
+    catch (EntityStorageException $e) {
+      // Smth went wrong. API response was incorrect.
+      return NULL;
+    }
   }
 
   /**
@@ -175,7 +189,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function createMediaEntity(array $data) {
+  protected function createMediaEntity(array $data): ?MediaInterface {
     if (!$data) {
       return NULL;
     }
@@ -209,7 +223,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function createFileEntity(array $data) {
+  protected function createFileEntity(array $data): FileInterface {
     $file_mapping = $this->mapping->get('file');
     $fields_values = [];
 

@@ -14,6 +14,8 @@ interface LighthouseClientInterface {
    *
    * @return mixed
    *   Array with access tokens and headers.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function getToken();
 
@@ -35,6 +37,8 @@ interface LighthouseClientInterface {
    *
    * @return array
    *   Response with media data items.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function search(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []);
 
@@ -43,6 +47,8 @@ interface LighthouseClientInterface {
    *
    * @return array
    *   Configuration for Lighthouse client.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function getConfiguration();
 
@@ -56,6 +62,8 @@ interface LighthouseClientInterface {
    *
    * @return array
    *   An asset data.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function getAssetById(string $id, array $params = []): array;
 

@@ -4,9 +4,11 @@ namespace Drupal\mars_lighthouse\Client;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
-use Drupal\Core\Config\ConfigFactory;
+use Drupal\site_settings\SiteSettingsLoader;
+use Drupal\mars_lighthouse\LighthouseException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 
 /**
  * Class LighthouseClient.
@@ -23,15 +25,33 @@ class LighthouseClient implements LighthouseClientInterface {
   protected $httpClient;
 
   /**
+   * Logger for this channel.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
+   * Lighthouse API overwritten settings.
+   *
+   * @var array
+   */
+  protected $settings;
+
+  /**
    * LighthouseClient constructor.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
    *   Http client.
-   * @param \Drupal\Core\Config\ConfigFactory $config_factory
-   *   Config factory.
+   * @param \Drupal\site_settings\SiteSettingsLoader $site_settings_loader
+   *   Site settings loader.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   Logger factory.
    */
-  public function __construct(ClientInterface $http_client, ConfigFactory $config_factory) {
+  public function __construct(ClientInterface $http_client, SiteSettingsLoader $site_settings_loader, LoggerChannelFactoryInterface $logger_factory) {
     $this->httpClient = $http_client;
+    $this->settings = $site_settings_loader->loadByFieldset('lighthouse_api');
+    $this->logger = $logger_factory->get('mars_lighthouse');
   }
 
   /**
@@ -40,10 +60,8 @@ class LighthouseClient implements LighthouseClientInterface {
   public function getConfiguration() {
     // TODO: check secrets php for global settings.
     // Check for overwritten settings.
-    $site_settings = \Drupal::service('site_settings.loader');
-    $settings = $site_settings->loadByFieldset('lighthouse_api');
-    if (array_key_exists('lighthouse_api', $settings) && is_array($settings['lighthouse_api'])) {
-      $settings = $settings['lighthouse_api'];
+    if (array_key_exists('lighthouse_api', $this->settings) && is_array($this->settings['lighthouse_api'])) {
+      $settings = $this->settings['lighthouse_api'];
       foreach ($settings as $key => $value) {
         $settings[str_replace('field_', '', $key)] = $value;
         unset($settings[$key]);
@@ -51,17 +69,7 @@ class LighthouseClient implements LighthouseClientInterface {
       return $settings;
     }
 
-    // TODO show a message when there is no settings found.
-    // Return test credentials.
-    return [
-      'client_id' => 'DrupalTest',
-      'client_secret' => 'DrupalTest@1234',
-      'base_path' => 'https://lighthouse-api-dev.mars.com',
-      'subpath' => '/lh-integration/api/v1',
-      'port' => '443',
-      'api_key' => 'sample-apikey',
-      'header_name' => 'x-lighthouse-authen',
-    ];
+    throw new LighthouseException('Please, check that Lighthouse configuration is set.');
   }
 
   /**
@@ -98,10 +106,10 @@ class LighthouseClient implements LighthouseClientInterface {
           ],
         ]
       );
-    } catch (RequestException $exception) {
-      \Drupal::logger('mars_lighthouse')
-        ->error('Failed to receive access token "%error"', ['%error' => $exception->getMessage()]);
-      return [];
+    }
+    catch (RequestException $exception) {
+      $this->logger->error('Failed to receive access token "%error"', ['%error' => $exception->getMessage()]);
+      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
     $header_value = $response->getHeaders()[$configuration['header_name']];
@@ -151,10 +159,10 @@ class LighthouseClient implements LighthouseClientInterface {
           'headers' => $params['mars_lighthouse.headers'],
         ]
       );
-    } catch (RequestException $exception) {
-      \Drupal::logger('mars_lighthouse')
-        ->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
-      return [];
+    }
+    catch (RequestException $exception) {
+      $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
+      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
     $content = $response->getBody()->getContents();
@@ -185,10 +193,10 @@ class LighthouseClient implements LighthouseClientInterface {
           ],
         ]
       );
-    } catch (RequestException $exception) {
-      \Drupal::logger('mars_lighthouse')
-        ->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
-      return [];
+    }
+    catch (RequestException $exception) {
+      $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
+      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
     $content = $response->getBody()->getContents();
@@ -205,6 +213,8 @@ class LighthouseClient implements LighthouseClientInterface {
    *
    * @return string
    *   Endpoint full path.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   protected function getEndpointFullPath(string $endpoint_path): string {
     $configuration = $this->getConfiguration();

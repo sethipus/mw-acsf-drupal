@@ -2,6 +2,8 @@
 
 namespace Drupal\mars_lighthouse;
 
+use Drupal\media\MediaInterface;
+
 /**
  * Interface LighthouseInterface.
  *
@@ -25,6 +27,8 @@ interface LighthouseInterface {
    *
    * @return array
    *   Media data array ready for a rendering.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function getMediaDataList(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10): array;
 
@@ -36,8 +40,10 @@ interface LighthouseInterface {
    *
    * @return \Drupal\media\MediaInterface
    *   Media entity.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function getMediaEntity(int $id);
+  public function getMediaEntity(int $id): ?MediaInterface;
 
   /**
    * Get access tokens.
@@ -47,6 +53,8 @@ interface LighthouseInterface {
    *
    * @return array
    *   Access tokens.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function getToken(bool $generate_new = FALSE): array;
 
