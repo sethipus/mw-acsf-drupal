@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.site_setting_entity.field_header_name
+    - site_settings.site_setting_entity_type.lighthouse_api
+id: site_setting_entity.lighthouse_api.field_header_name
+field_name: field_header_name
+entity_type: site_setting_entity
+bundle: lighthouse_api
+label: 'Header name'
+description: 'Name of an access token which should be passed in the header.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
