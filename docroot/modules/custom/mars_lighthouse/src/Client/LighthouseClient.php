@@ -99,8 +99,8 @@ class LighthouseClient implements LighthouseClientInterface {
         $endpoint_full_path,
         [
           'json' => [
-            'username' => 'DrupalTest',
-            'password' => 'DrupalTest@1234',
+            'username' => $configuration['client_id'],
+            'password' => $configuration['client_secret'],
             "apikey" => $configuration['api_key'],
             "requestTime" => date('Y-m-d-H-i-s Z'),
           ],
