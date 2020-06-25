@@ -3,13 +3,25 @@ status: false
 dependencies:
   config:
     - core.entity_form_mode.media.media_library
+    - field.field.media.lighthouse_image.field_agency
+    - field.field.media.lighthouse_image.field_brand
+    - field.field.media.lighthouse_image.field_category
     - field.field.media.lighthouse_image.field_external_id
+    - field.field.media.lighthouse_image.field_language
+    - field.field.media.lighthouse_image.field_last_mod_date
+    - field.field.media.lighthouse_image.field_marketing_country
     - field.field.media.lighthouse_image.field_media_image
     - field.field.media.lighthouse_image.field_media_in_library
+    - field.field.media.lighthouse_image.field_region
+    - field.field.media.lighthouse_image.field_segment
+    - field.field.media.lighthouse_image.field_sub_brand
+    - field.field.media.lighthouse_image.field_sub_type
     - image.style.thumbnail
     - media.type.lighthouse_image
   module:
     - image
+_core:
+  default_config_hash: oilB2I60BPgBw8w-uCJUNT1ES58IKforormJryo59es
 id: media.lighthouse_image.media_library
 targetEntityType: media
 bundle: lighthouse_image
@@ -33,8 +45,18 @@ content:
     region: content
 hidden:
   created: true
+  field_agency: true
+  field_brand: true
+  field_category: true
   field_external_id: true
+  field_language: true
+  field_last_mod_date: true
+  field_marketing_country: true
   field_media_in_library: true
+  field_region: true
+  field_segment: true
+  field_sub_brand: true
+  field_sub_type: true
   path: true
   status: true
   uid: true
