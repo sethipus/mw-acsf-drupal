@@ -118,7 +118,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * {@inheritdoc}
    */
-  public function getMediaDataList($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10): array {
+  public function getMediaDataList($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 12): array {
     // TODO remove force regeneration when a refreshing way will be implemented.
     $params = $this->getToken(TRUE);
     try {
