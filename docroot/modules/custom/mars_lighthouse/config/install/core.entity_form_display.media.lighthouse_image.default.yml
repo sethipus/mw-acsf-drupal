@@ -2,13 +2,25 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.lighthouse_image.field_agency
+    - field.field.media.lighthouse_image.field_brand
+    - field.field.media.lighthouse_image.field_category
     - field.field.media.lighthouse_image.field_external_id
+    - field.field.media.lighthouse_image.field_language
+    - field.field.media.lighthouse_image.field_last_mod_date
+    - field.field.media.lighthouse_image.field_marketing_country
     - field.field.media.lighthouse_image.field_media_image
     - field.field.media.lighthouse_image.field_media_in_library
+    - field.field.media.lighthouse_image.field_region
+    - field.field.media.lighthouse_image.field_segment
+    - field.field.media.lighthouse_image.field_sub_brand
+    - field.field.media.lighthouse_image.field_sub_type
     - media.type.lighthouse_image
   module:
     - path
     - remote_stream_wrapper_widget
+_core:
+  default_config_hash: RRLLWLolll9X_4ptBG2NyLkK4eU4uNdwh-VuXn3eu8o
 id: media.lighthouse_image.default
 targetEntityType: media
 bundle: lighthouse_image
@@ -20,8 +32,56 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_agency:
+    weight: 34
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_brand:
+    weight: 27
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_category:
+    weight: 29
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_external_id:
     weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_language:
+    weight: 33
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_last_mod_date:
+    weight: 35
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_marketing_country:
+    weight: 32
     settings:
       size: 60
       placeholder: ''
@@ -40,6 +100,38 @@ content:
       display_label: true
     weight: 7
     third_party_settings: {  }
+    region: content
+  field_region:
+    weight: 31
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_segment:
+    weight: 26
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_sub_brand:
+    weight: 28
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_sub_type:
+    weight: 30
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   name:
     type: string_textfield
