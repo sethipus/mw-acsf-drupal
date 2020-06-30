@@ -21,7 +21,7 @@ user="$4"
 api_key="$5"
 
 # add comma to "code,db" if not already entered
-if [ "$update_type" == "code,db" ]
+if [ "$update_type" = "code,db" ]
 then
 update_type="code, db"
 fi
