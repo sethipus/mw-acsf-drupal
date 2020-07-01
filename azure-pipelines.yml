@@ -115,7 +115,6 @@ steps:
     displayName: 'Trigger Application Deployment on ACSF'
     condition: eq(variables['Build.Reason'], 'Schedule')
     inputs:
-      failOnStderr: true
       targetType: 'inline'
       script: |
         ./scripts/deploy_branch.sh
