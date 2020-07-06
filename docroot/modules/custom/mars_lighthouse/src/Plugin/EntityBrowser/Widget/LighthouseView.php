@@ -83,7 +83,6 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
     $form_state->setCached(FALSE);
 
     $form['#attached']['library'] = [
-      'entity_browser/view',
       'mars_lighthouse/lighthouse-gallery',
     ];
 
@@ -94,16 +93,9 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
     ];
 
     $form['filter']['submit'] = [
-      '#type' => 'button',
+      '#type' => 'submit',
+      '#submit' => [[$this, 'searchCallback']],
       '#value' => $this->t('Filter'),
-      '#ajax' => [
-        'callback' => [$this, 'searchCallback'],
-        'wrapper' => 'lighthouse-gallery',
-        'progress' => [
-          'type' => 'throbber',
-          'message' => $this->t('Searching...'),
-        ],
-      ],
     ];
 
     $form['view'] = $this->getView($form_state);
@@ -137,8 +129,7 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
    * Ajax search response.
    */
   public function searchCallback(array &$form, FormStateInterface $form_state) {
-    $form['view'] = $this->getView($form_state);
-    return $form['view'];
+    $form_state->setRebuild(TRUE);
   }
 
   /**

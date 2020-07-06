@@ -81,7 +81,7 @@ class LighthouseClient implements LighthouseClientInterface {
   public function getApiPaths() {
     return [
       'get_token' => '/session',
-      'search' => '/search',
+      'search' => '/search/001',
       'asset_by_id' => '/asset',
     ];
   }
@@ -137,10 +137,10 @@ class LighthouseClient implements LighthouseClientInterface {
       'token' => $params['mars_lighthouse.access_token'],
       'text' => $text,
       'orderBy' => '',
-      'brand' => [],
-      'subBrand' => [],
-      'subtype' => [],
-      'category' => [],
+      'brand' => '',
+      // 'subBrand' => [],
+      // 'subtype' => [],
+      // 'category' => [],
       'contentType' => 'image',
       'pagingConfig' => [
         'startRow' => $offset,
