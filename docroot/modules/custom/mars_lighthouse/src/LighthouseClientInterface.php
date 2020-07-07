@@ -12,12 +12,25 @@ interface LighthouseClientInterface {
   /**
    * Returns access tokens.
    *
-   * @return mixed
+   * @return array
    *   Array with access tokens and headers.
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function getToken();
+  public function getToken(): array;
+
+  /**
+   * Refresh access tokens.
+   *
+   * @param array $params
+   *   Expired headers and access token.
+   *
+   * @return array
+   *   Array with access tokens and headers.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function refreshToken(array $params): array;
 
   /**
    * Search request.
@@ -39,8 +52,9 @@ interface LighthouseClientInterface {
    *   Response with media data items.
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
    */
-  public function search(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []);
+  public function search(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []): array;
 
   /**
    * Returns configuration for Lighthouse client.
@@ -50,7 +64,7 @@ interface LighthouseClientInterface {
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function getConfiguration();
+  public function getConfiguration(): array;
 
   /**
    * Get an asset data by its Id.
@@ -64,6 +78,7 @@ interface LighthouseClientInterface {
    *   An asset data.
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
    */
   public function getAssetById(string $id, array $params = []): array;
 

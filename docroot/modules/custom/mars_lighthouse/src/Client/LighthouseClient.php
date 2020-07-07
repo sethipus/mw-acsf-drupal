@@ -9,6 +9,7 @@ use Drupal\mars_lighthouse\LighthouseException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\mars_lighthouse\TokenIsExpiredException;
 
 /**
  * Class LighthouseClient.
@@ -16,6 +17,16 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
  * @package Drupal\mars_lighthouse\Client
  */
 class LighthouseClient implements LighthouseClientInterface {
+
+  /**
+   * Date format required by API.
+   */
+  const DATE_FORMAT = 'Y-m-d-H-i-s Z';
+
+  /**
+   * Error code when an access token is expired.
+   */
+  const TOKEN_IS_EXPIRED_ERROR_CODE = 400;
 
   /**
    * An http client.
@@ -57,7 +68,7 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function getConfiguration() {
+  public function getConfiguration(): array {
     // TODO: check secrets php for global settings.
     // Check for overwritten settings.
     if (array_key_exists('lighthouse_api', $this->settings) && is_array($this->settings['lighthouse_api'])) {
@@ -78,9 +89,10 @@ class LighthouseClient implements LighthouseClientInterface {
    * @return array
    *   Array path name => path.
    */
-  public function getApiPaths() {
+  public function getApiPaths(): array {
     return [
       'get_token' => '/session',
+      'refresh_token' => '/session/refresh',
       'search' => '/search/001',
       'asset_by_id' => '/asset',
     ];
@@ -89,7 +101,7 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function getToken() {
+  public function getToken($params = []): array {
     $configuration = $this->getConfiguration();
     $endpoint_full_path = $this->getEndpointFullPath('get_token');
 
@@ -102,7 +114,7 @@ class LighthouseClient implements LighthouseClientInterface {
             'username' => $configuration['client_id'],
             'password' => $configuration['client_secret'],
             "apikey" => $configuration['api_key'],
-            "requestTime" => date('Y-m-d-H-i-s Z'),
+            "requestTime" => date(self::DATE_FORMAT),
           ],
         ]
       );
@@ -127,13 +139,51 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function search($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $params = []) {
+  public function refreshToken($params): array {
+    $configuration = $this->getConfiguration();
+    $endpoint_full_path = $this->getEndpointFullPath('refresh_token');
+
+    try {
+      /**@var \Psr\Http\Message\ResponseInterface $response */
+      $response = $this->httpClient->post(
+        $endpoint_full_path,
+        [
+          'json' => [
+            'refreshToken' => $params['mars_lighthouse.refresh_token'] ?? '',
+            'token' => $params['mars_lighthouse.access_token'] ?? '',
+            'requestTime' => date(self::DATE_FORMAT),
+          ],
+          'headers' => $params['mars_lighthouse.headers'],
+        ]
+      );
+    }
+    catch (RequestException $exception) {
+      $this->logger->error('Failed to refresh access token "%error"', ['%error' => $exception->getMessage()]);
+      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
+    }
+
+    $header_value = $response->getHeaders()[$configuration['header_name']];
+    $header_value = is_array($header_value) ? array_shift($header_value) : $header_value;
+
+    $response = $response->getBody()->getContents();
+    $response = Json::decode($response);
+
+    return [
+      'mars_lighthouse.headers' => [$configuration['header_name'] => $header_value],
+      'response' => $response,
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function search($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $params = []): array {
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
 
     $body = [
-      'requestTime' => date('Y-m-d-H-i-s Z'),
+      'requestTime' => date(self::DATE_FORMAT),
       'token' => $params['mars_lighthouse.access_token'],
       'text' => $text,
       'orderBy' => '',
@@ -161,8 +211,13 @@ class LighthouseClient implements LighthouseClientInterface {
       );
     }
     catch (RequestException $exception) {
-      $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
-      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
+      if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
+        throw new TokenIsExpiredException('Access token is expired.');
+      }
+      else {
+        $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
+        throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
+      }
     }
 
     $content = $response->getBody()->getContents();
@@ -195,8 +250,13 @@ class LighthouseClient implements LighthouseClientInterface {
       );
     }
     catch (RequestException $exception) {
-      $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
-      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
+      if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
+        throw new TokenIsExpiredException('Access token is expired.');
+      }
+      else {
+        $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
+        throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
+      }
     }
 
     $content = $response->getBody()->getContents();

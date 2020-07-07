@@ -58,4 +58,14 @@ interface LighthouseInterface {
    */
   public function getToken(bool $generate_new = FALSE): array;
 
+  /**
+   * Refresh access tokens.
+   *
+   * @return array
+   *   Access tokens.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function refreshToken(): array;
+
 }
