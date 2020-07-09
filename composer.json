@@ -36,6 +36,7 @@
         "drupal/shield": "^1.2.0",
         "drupal/site_settings": "^1.19",
         "drupal/simplesamlphp_auth": "^3.2",
+        "emulsify-ds/emulsify-drupal": "^1.0@beta",
         "lcatlett/blt-ddev": "dev-master",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
