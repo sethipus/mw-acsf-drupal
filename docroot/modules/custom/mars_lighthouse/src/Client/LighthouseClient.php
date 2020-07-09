@@ -10,6 +10,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\mars_lighthouse\TokenIsExpiredException;
+use Drupal\mars_lighthouse\LighthouseAccessException;
 
 /**
  * Class LighthouseClient.
@@ -27,6 +28,11 @@ class LighthouseClient implements LighthouseClientInterface {
    * Error code when an access token is expired.
    */
   const TOKEN_IS_EXPIRED_ERROR_CODE = 400;
+
+  /**
+   * Error code when an access token is not found at Lighthouse.
+   */
+  const ACCESS_ERROR_CODE = 403;
 
   /**
    * An http client.
@@ -101,7 +107,7 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function getToken($params = []): array {
+  public function getToken(): array {
     $configuration = $this->getConfiguration();
     $endpoint_full_path = $this->getEndpointFullPath('get_token');
 
@@ -177,7 +183,7 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function search($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $params = []): array {
+  public function search(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $params = []): array {
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
@@ -214,6 +220,9 @@ class LighthouseClient implements LighthouseClientInterface {
       if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
         throw new TokenIsExpiredException('Access token is expired.');
       }
+      elseif ($exception->getCode() == self::ACCESS_ERROR_CODE) {
+        throw new LighthouseAccessException('Access token is invalid. A new one should be forced requested.');
+      }
       else {
         $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
         throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
@@ -223,6 +232,7 @@ class LighthouseClient implements LighthouseClientInterface {
     $content = $response->getBody()->getContents();
     $content = Json::decode($content);
 
+    $total_found = $content['paging']['totalFound'] ?? 0;
     return $content['assetList'] ?? [];
   }
 
@@ -253,8 +263,11 @@ class LighthouseClient implements LighthouseClientInterface {
       if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
         throw new TokenIsExpiredException('Access token is expired.');
       }
+      elseif ($exception->getCode() == self::ACCESS_ERROR_CODE) {
+        throw new LighthouseAccessException('Access token is invalid. A new one should be forced requested.');
+      }
       else {
-        $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
+        $this->logger->error('Failed to run asset_by_id "%error"', ['%error' => $exception->getMessage()]);
         throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
       }
     }

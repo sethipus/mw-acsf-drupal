@@ -3,6 +3,7 @@
 namespace Drupal\mars_lighthouse\Controller;
 
 use Drupal\Core\Entity\EntityStorageException;
+use Drupal\mars_lighthouse\LighthouseAccessException;
 use Drupal\mars_lighthouse\LighthouseInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
@@ -134,15 +135,20 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * {@inheritdoc}
    */
-  public function getMediaDataList($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 12): array {
+  public function getMediaDataList(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 12): array {
     $params = $this->getToken();
     try {
-      $response = $this->lighthouseClient->search($text, $filters, $sort_by, $offset, $limit, $params);
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
     }
     catch (TokenIsExpiredException $e) {
       // Try to refresh token.
       $params = $this->refreshToken();
-      $response = $this->lighthouseClient->search($text, $filters, $sort_by, $offset, $limit, $params);
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
+    }
+    catch (LighthouseAccessException $e) {
+      // Try to force request new token.
+      $params = $this->getToken(TRUE);
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
     }
     return $this->prepareMediaDataList($response);
   }

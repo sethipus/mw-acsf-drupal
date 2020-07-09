@@ -35,6 +35,8 @@ interface LighthouseClientInterface {
   /**
    * Search request.
    *
+   * @param int $total_found
+   *   Returns the amount of results.
    * @param string $text
    *   Text filter.
    * @param array $filters
@@ -53,8 +55,9 @@ interface LighthouseClientInterface {
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
-  public function search(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []): array;
+  public function search(int &$total_found, string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []): array;
 
   /**
    * Returns configuration for Lighthouse client.
@@ -79,6 +82,7 @@ interface LighthouseClientInterface {
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
   public function getAssetById(string $id, array $params = []): array;
 

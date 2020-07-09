@@ -14,6 +14,8 @@ interface LighthouseInterface {
   /**
    * Process search request.
    *
+   * @param int $total_found
+   *   Returns the amount of results.
    * @param string $text
    *   Text filter.
    * @param array $filters
@@ -30,7 +32,7 @@ interface LighthouseInterface {
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function getMediaDataList(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10): array;
+  public function getMediaDataList(int &$total_found, string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10): array;
 
   /**
    * Returns lighthouse media entity, creates if it's needed.
