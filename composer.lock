@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4dc860915f96bd75a4677caef6b464f0",
+    "content-hash": "918d0b39235956b9118a6f5f9c426f84",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/acsf-tools.git",
-                "reference": "a852cf24dbc08afa22e3c4b32dceb5c984851a05"
+                "reference": "95b8112055508ccb97b47a82da54ed491fce2530"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/acsf-tools/zipball/a852cf24dbc08afa22e3c4b32dceb5c984851a05",
-                "reference": "a852cf24dbc08afa22e3c4b32dceb5c984851a05",
+                "url": "https://api.github.com/repos/acquia/acsf-tools/zipball/95b8112055508ccb97b47a82da54ed491fce2530",
+                "reference": "95b8112055508ccb97b47a82da54ed491fce2530",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
             ],
             "description": "Drush powered command line tools for working with Acquia Cloud Site Factory.",
             "homepage": "https://github.com/acquia/acsf-tools",
-            "time": "2020-06-19T10:35:02+00:00"
+            "time": "2020-07-08T00:55:25+00:00"
         },
         {
             "name": "acquia/blt",
@@ -405,21 +405,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/lightning.git",
-                "reference": "13f4a930449870bccba20be387d2729040ce1024"
+                "reference": "bdbae9341e6f44afa868d77f62e3902022f61e40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/lightning/zipball/13f4a930449870bccba20be387d2729040ce1024",
-                "reference": "13f4a930449870bccba20be387d2729040ce1024",
+                "url": "https://api.github.com/repos/acquia/lightning/zipball/bdbae9341e6f44afa868d77f62e3902022f61e40",
+                "reference": "bdbae9341e6f44afa868d77f62e3902022f61e40",
                 "shasum": ""
             },
             "require": {
                 "cweagans/composer-patches": "^1.6",
                 "drupal/acquia_connector": "*",
-                "drupal/core": "^8.8.6",
+                "drupal/core": "^8.8.8",
                 "drupal/lightning_api": "^4.4",
                 "drupal/lightning_core": "^5.2",
-                "drupal/lightning_layout": "^2.4",
+                "drupal/lightning_layout": "^2.6",
                 "drupal/lightning_media": "^3.14",
                 "drupal/lightning_workflow": "^3.14",
                 "ext-dom": "*"
@@ -521,7 +521,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "The best of Drupal, curated by Acquia",
-            "time": "2020-05-20T18:37:01+00:00"
+            "time": "2020-06-18T13:57:14+00:00"
         },
         {
             "name": "acquia/memcache-settings",
@@ -529,12 +529,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/memcache-settings.git",
-                "reference": "c381d911d84fdfeac34ca3c6f56254be5ade6840"
+                "reference": "a45c708cb88a57324f9c7a2259ebc61aa8438fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/memcache-settings/zipball/c381d911d84fdfeac34ca3c6f56254be5ade6840",
-                "reference": "c381d911d84fdfeac34ca3c6f56254be5ade6840",
+                "url": "https://api.github.com/repos/acquia/memcache-settings/zipball/a45c708cb88a57324f9c7a2259ebc61aa8438fc7",
+                "reference": "a45c708cb88a57324f9c7a2259ebc61aa8438fc7",
                 "shasum": ""
             },
             "require": {
@@ -553,7 +553,7 @@
                 }
             ],
             "description": "Recommended Memcache settings for use with Acquia hosting.",
-            "time": "2020-02-11T01:17:40+00:00"
+            "time": "2020-07-02T14:36:03+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -1124,7 +1124,7 @@
             "version": "3.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
@@ -1564,6 +1564,12 @@
             "keywords": [
                 "Xdebug",
                 "performance"
+            ],
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                }
             ],
             "time": "2020-03-01T12:26:26+00:00"
         },
@@ -3841,9 +3847,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.1",
                     "datestamp": "1579005183",
@@ -4107,9 +4110,6 @@
             },
             "type": "drupal-theme",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.15",
                     "datestamp": "1584454088",
@@ -4182,9 +4182,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.5",
                     "datestamp": "1572542288",
@@ -4249,9 +4246,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-2.2",
                     "datestamp": "1576528386",
@@ -4313,9 +4307,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.4",
                     "datestamp": "1537971780",
@@ -4501,9 +4492,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0",
                     "datestamp": "1578466387",
@@ -4753,10 +4741,10 @@
                     }
                 },
                 "patches_applied": {
-                    "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch",
+                    "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2020-02-07/2869592-remove-update-warning-34.patch",
+                    "2815221 - Add quickedit to the latest-revision route": "https://www.drupal.org/files/issues/2019-11-27/2815221-125.patch",
                     "1356276 - Allow profiles to define a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2019-11-05/1356276-531-8.8.x-4.patch",
-                    "2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2018-07-09/2914389-8-do-not-test.patch",
-                    "2815221 - Add quickedit to the latest-revision route": "https://www.drupal.org/files/issues/2019-11-27/2815221-125.patch"
+                    "2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2018-07-09/2914389-8-do-not-test.patch"
                 }
             },
             "autoload": {
@@ -5210,9 +5198,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-2.1",
                     "datestamp": "1556799496",
@@ -5257,18 +5242,6 @@
                 {
                     "name": "See contributors",
                     "homepage": "https://www.drupal.org/node/3236/committers"
-                },
-                {
-                    "name": "pcambra",
-                    "homepage": "https://www.drupal.org/user/122101"
-                },
-                {
-                    "name": "salvis",
-                    "homepage": "https://www.drupal.org/user/82964"
-                },
-                {
-                    "name": "willzyx",
-                    "homepage": "https://www.drupal.org/user/1043862"
                 }
             ],
             "description": "Various blocks, pages, and functions for developers.",
@@ -5299,9 +5272,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0",
                     "datestamp": "1578322688",
@@ -5384,7 +5354,7 @@
                 "shasum": "75d3170db7ed26ced39e63f1461906f33f34c72a"
             },
             "require": {
-                "drupal/core": "*"
+                "drupal/core": "^8"
             },
             "require-dev": {
                 "drupal/entity_browser": "*"
@@ -5394,9 +5364,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-2.0-alpha5",
                     "datestamp": "1579100883",
@@ -5430,6 +5397,10 @@
                     "name": "See other contributors",
                     "homepage": "https://www.drupal.org/node/1998478/committers",
                     "role": "contributor"
+                },
+                {
+                    "name": "jungle",
+                    "homepage": "https://www.drupal.org/user/2919723"
                 },
                 {
                     "name": "slashrsm",
@@ -5668,9 +5639,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0",
                     "datestamp": "1582735747",
@@ -5704,6 +5672,10 @@
                 {
                     "name": "fago",
                     "homepage": "https://www.drupal.org/user/16747"
+                },
+                {
+                    "name": "mglaman",
+                    "homepage": "https://www.drupal.org/user/2416470"
                 }
             ],
             "description": "Provides expanded entity APIs, which will be moved to Drupal core one day.",
@@ -5731,9 +5703,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-beta2",
                     "datestamp": "1580800935",
@@ -5884,9 +5853,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.1",
                     "datestamp": "1581284770",
@@ -6005,13 +5971,10 @@
                 "shasum": "c5e27581a10f446f7c88568279454f20f5910dc9"
             },
             "require": {
-                "drupal/core": "*"
+                "drupal/core": "^8"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-3.x": "3.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-3.7",
                     "datestamp": "1568149685",
@@ -6033,6 +5996,10 @@
                 {
                     "name": "mrfelton",
                     "homepage": "https://www.drupal.org/user/305669"
+                },
+                {
+                    "name": "pratik_kamble",
+                    "homepage": "https://www.drupal.org/user/3204909"
                 }
             ],
             "description": "Adds a color indicator for the different environments.",
@@ -6091,6 +6058,62 @@
             "homepage": "https://www.drupal.org/project/externalauth",
             "support": {
                 "source": "https://git.drupalcode.org/project/externalauth"
+            }
+        },
+        {
+            "name": "drupal/gdpr_onetrust",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/gdpr_onetrust.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/gdpr_onetrust-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "6c3265356f75aea705df050e993715163517c5e4"
+            },
+            "require": {
+                "drupal/core": "^8"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1561465385",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Punyasloka",
+                    "homepage": "https://www.drupal.org/user/3308629"
+                },
+                {
+                    "name": "Ragesh",
+                    "homepage": "https://www.drupal.org/user/1048544"
+                },
+                {
+                    "name": "sudheeshps",
+                    "homepage": "https://www.drupal.org/user/337121"
+                },
+                {
+                    "name": "vinothkannan",
+                    "homepage": "https://www.drupal.org/user/2815173"
+                }
+            ],
+            "description": "GDPR One Trust Implementation for EMEA sites.",
+            "homepage": "https://www.drupal.org/project/gdpr_onetrust",
+            "support": {
+                "source": "https://git.drupalcode.org/project/gdpr_onetrust"
             }
         },
         {
@@ -6500,9 +6523,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-beta2",
                     "datestamp": "1582217387",
@@ -6563,9 +6583,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-3.x": "3.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-3.0-alpha1",
                     "datestamp": "1517046484",
@@ -6645,10 +6662,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev",
-                    "dev-8.x-4.x": "4.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-4.5",
                     "datestamp": "1583505030",
@@ -6656,6 +6669,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "branch-alias": {
+                    "dev-8.x-4.x": "4.x-dev"
                 },
                 "drupal-scaffold": {
                     "locations": {
@@ -6741,6 +6757,10 @@
                 {
                     "name": "balsama",
                     "homepage": "https://www.drupal.org/user/223087"
+                },
+                {
+                    "name": "katherined",
+                    "homepage": "https://www.drupal.org/user/109870"
                 },
                 {
                     "name": "phenaproxima",
@@ -7126,10 +7146,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-3.x": "3.x-dev",
-                    "dev-8.x-3.x": "3.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-3.16",
                     "datestamp": "1582235390",
@@ -7137,6 +7153,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "branch-alias": {
+                    "dev-8.x-3.x": "3.x-dev"
                 },
                 "enable-patching": true,
                 "installer-paths": {
@@ -7214,6 +7233,10 @@
                 {
                     "name": "balsama",
                     "homepage": "https://www.drupal.org/user/223087"
+                },
+                {
+                    "name": "katherined",
+                    "homepage": "https://www.drupal.org/user/109870"
                 },
                 {
                     "name": "phenaproxima",
@@ -7397,7 +7420,7 @@
                 "shasum": "c0ab77156c0e431f958d615f043e0255486db155"
             },
             "require": {
-                "drupal/core": "*",
+                "drupal/core": "^8",
                 "drupal/entity": "*"
             },
             "require-dev": {
@@ -7502,9 +7525,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.3",
                     "datestamp": "1525218780",
@@ -7998,9 +8018,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-2.0-rc2",
                     "datestamp": "1583438671",
@@ -8113,9 +8130,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-rc2",
                     "datestamp": "1560864485",
@@ -8161,9 +8175,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-rc2",
                     "datestamp": "1538143680",
@@ -8210,9 +8221,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.0-rc3",
                     "datestamp": "1545018184",
@@ -8416,9 +8424,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
@@ -8489,14 +8494,11 @@
             "name": "drupal/panels_ipe",
             "version": "4.4.0",
             "require": {
-                "drupal/core": "*",
+                "drupal/core": "^8",
                 "drupal/panels": "self.version"
             },
             "type": "metapackage",
             "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
@@ -8850,9 +8852,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.2",
                     "datestamp": "1559752088",
@@ -9131,9 +9130,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.2",
                     "datestamp": "1561463889",
@@ -9500,12 +9496,9 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-2.0",
-                    "datestamp": "1577874483",
+                    "datestamp": "1581756259",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -9562,9 +9555,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-2.0",
                     "datestamp": "1581259945",
@@ -9743,9 +9733,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.7",
                     "datestamp": "1584489857",
@@ -9763,6 +9750,10 @@
                 {
                     "name": "Bobík",
                     "homepage": "https://www.drupal.org/user/123612"
+                },
+                {
+                    "name": "Neslee Canil Pinto",
+                    "homepage": "https://www.drupal.org/user/3580850"
                 },
                 {
                     "name": "Remon",
@@ -11737,7 +11728,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikemadison13/blt-azure-pipelines",
-                "reference": "5a612dbb99551f4c9cd972c7d517b5136089259f"
+                "reference": "98ee713d53e6d82fe6df313b39c58315505bfe60"
             },
             "type": "library",
             "autoload": {
@@ -11759,7 +11750,7 @@
                 }
             ],
             "description": "Azure Pipelines integration for Acquia BLT.",
-            "time": "2020-04-17T18:02:05+00:00"
+            "time": "2020-06-19T14:40:01+00:00"
         },
         {
             "name": "mkalkbrenner/php-htmldiff-advanced",
