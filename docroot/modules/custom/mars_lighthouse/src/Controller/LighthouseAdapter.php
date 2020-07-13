@@ -3,10 +3,11 @@
 namespace Drupal\mars_lighthouse\Controller;
 
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\mars_lighthouse\LighthouseException;
+use Drupal\mars_lighthouse\LighthouseAccessException;
 use Drupal\mars_lighthouse\LighthouseInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
+use Drupal\mars_lighthouse\TokenIsExpiredException;
 use Drupal\media\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -108,6 +109,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     if ($generate_new) {
       $tokens = $this->lighthouseClient->getToken();
       $tokens['mars_lighthouse.access_token'] = $tokens['response']['lhisToken'];
+      $tokens['mars_lighthouse.refresh_token'] = $tokens['response']['refreshToken'];
       unset($tokens['response']);
       $this->state()->setMultiple($tokens);
     }
@@ -118,16 +120,35 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * {@inheritdoc}
    */
-  public function getMediaDataList($text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 12): array {
-    // TODO remove force regeneration when a refreshing way will be implemented.
-    $params = $this->getToken(TRUE);
+  public function refreshToken(): array {
+    $tokens = $this->lighthouseClient->refreshToken($this->getToken());
+
+    // Save refreshed tokens.
+    $tokens['mars_lighthouse.access_token'] = $tokens['response']['lhisToken'];
+    $tokens['mars_lighthouse.refresh_token'] = $tokens['response']['refreshToken'];
+    unset($tokens['response']);
+    $this->state()->setMultiple($tokens);
+
+    return $tokens;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMediaDataList(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 12): array {
+    $params = $this->getToken();
     try {
-      $response = $this->lighthouseClient->search($text, $filters, $sort_by, $offset, $limit, $params);
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
     }
-    catch (LighthouseException $e) {
+    catch (TokenIsExpiredException $e) {
       // Try to refresh token.
+      $params = $this->refreshToken();
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
+    }
+    catch (LighthouseAccessException $e) {
+      // Try to force request new token.
       $params = $this->getToken(TRUE);
-      $response = $this->lighthouseClient->search($text, $filters, $sort_by, $offset, $limit, $params);
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
     }
     return $this->prepareMediaDataList($response);
   }
@@ -164,9 +185,9 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     try {
       $data = $this->lighthouseClient->getAssetById($id, $params);
     }
-    catch (LighthouseException $e) {
+    catch (TokenIsExpiredException $e) {
       // Try to refresh token.
-      $params = $this->getToken(TRUE);
+      $params = $this->refreshToken();
       $data = $this->lighthouseClient->getAssetById($id, $params);
     }
     try {
