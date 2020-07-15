@@ -11,6 +11,15 @@ git:
   default_branch: master
   remotes:
     - 'mars@svn-2398.enterprise-g1.hosting.acquia.com:mars.git'
+  commit-msg:
+    # Commit messages must conform to this pattern.
+    pattern: "/(^AB#[0-9]+(: )[^ ].{15,}\\.)|(Merge branch (.)+)/"
+    # Human readable help description explaining the pattern/restrictions.
+    help_description: "The commit message should include your project prefix,
+                        followed by a hash mark and ticket number, followed by a colon and a space,
+                        fifteen characters or more describing the commit, and end with a period."
+    # Provide an example of a valid commit message.
+    example: "AB#123456: Update module configuration."
 deploy:
   tag_source: true
 drush:
