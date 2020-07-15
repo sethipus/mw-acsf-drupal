@@ -1,8 +1,9 @@
 ignored_config_entities:
-  0: 'system.site:name'
-  2: 'system.site:mail'
-  4: 'system.site:page.front'
-  6: acquia_connector.settings
+  - 'system.site:name'
+  - 'system.site:mail'
+  - 'system.site:page.front'
+  - acquia_connector.settings
+  - samlauth.authentication
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'
