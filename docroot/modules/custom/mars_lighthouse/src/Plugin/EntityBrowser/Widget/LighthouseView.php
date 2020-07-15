@@ -120,6 +120,15 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
     ];
     $form_state->setValue('text', $text_value);
 
+    $brand_value = $form_state->getValue('brand') ?? $this->currentRequest->query->get('brand') ?? '';
+    $brand_options = $this->lighthouseAdapter->getBrands();
+    $form['filter']['brand'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Brand'),
+      '#options' => $brand_options,
+      '#default_value' => $brand_value,
+    ];
+
     $form['filter']['submit'] = [
       '#type' => 'submit',
       '#submit' => [[$this, 'searchCallback']],
@@ -135,7 +144,8 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
         '#type' => 'pager',
         '#quantity' => 3,
         '#parameters' => [
-          'text' => $form_state->getValue('text'),
+          'text' => $text_value,
+          'brand' => $brand_value,
         ],
       ];
     }
@@ -198,8 +208,11 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
     // Get data from API.
     try {
       $text = $form_state->getValue('text');
+      $filters = [
+        'brand' => $form_state->getValue('brand'),
+      ];
       $page = $this->currentRequest->query->get('page') ?? 0;
-      $data = $this->lighthouseAdapter->getMediaDataList($total_found, $text, [], [], $page * self::PAGE_LIMIT, self::PAGE_LIMIT);
+      $data = $this->lighthouseAdapter->getMediaDataList($total_found, $text, $filters, [], $page * self::PAGE_LIMIT, self::PAGE_LIMIT);
     }
     catch (LighthouseException $e) {
       $view['markup'] = [

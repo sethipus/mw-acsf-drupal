@@ -90,6 +90,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     $keys = [
       'mars_lighthouse.access_token',
       'mars_lighthouse.headers',
+      'mars_lighthouse.refresh_token',
     ];
     $tokens = $this->state()->getMultiple($keys);
 
@@ -154,27 +155,6 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   }
 
   /**
-   * Prepare search response for rendering.
-   *
-   * @param array $data
-   *   Raw response array.
-   *
-   * @return array
-   *   Array ready for render.
-   */
-  protected function prepareMediaDataList(array $data) {
-    $data_list = [];
-    foreach ($data as $item) {
-      $data_list[] = [
-        'uri' => $item['urls']['001tnmd'] ?? NULL,
-        'name' => $item['assetName'] ?? '',
-        'assetId' => $item['assetId'] ?? '',
-      ];
-    }
-    return $data_list;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function getMediaEntity($id): ?MediaInterface {
@@ -197,6 +177,54 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
       // Smth went wrong. API response was incorrect.
       return NULL;
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBrands(): array {
+    $params = $this->getToken();
+    try {
+      $data = $this->lighthouseClient->getBrands($params);
+    }
+    catch (TokenIsExpiredException $e) {
+      // Try to refresh token.
+      $params = $this->refreshToken();
+      $data = $this->lighthouseClient->getBrands($params);
+    }
+    catch (LighthouseAccessException $e) {
+      // Try to force request new token.
+      $params = $this->getToken(TRUE);
+      $data = $this->lighthouseClient->getBrands($params);
+    }
+
+    $brand_options = ['' => '-- Any --'];
+    foreach ($data as $v) {
+      $brand_options[$v] = $v;
+    }
+
+    return $brand_options;
+  }
+
+  /**
+   * Prepare search response for rendering.
+   *
+   * @param array $data
+   *   Raw response array.
+   *
+   * @return array
+   *   Array ready for render.
+   */
+  protected function prepareMediaDataList(array $data) {
+    $data_list = [];
+    foreach ($data as $item) {
+      $data_list[] = [
+        'uri' => $item['urls']['001tnmd'] ?? NULL,
+        'name' => $item['assetName'] ?? '',
+        'assetId' => $item['assetId'] ?? '',
+      ];
+    }
+    return $data_list;
   }
 
   /**

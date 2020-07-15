@@ -101,6 +101,7 @@ class LighthouseClient implements LighthouseClientInterface {
       'refresh_token' => '/session/refresh',
       'search' => '/search/001',
       'asset_by_id' => '/asset',
+      'get_brands' => '/lookup/brand',
     ];
   }
 
@@ -193,7 +194,7 @@ class LighthouseClient implements LighthouseClientInterface {
       'token' => $params['mars_lighthouse.access_token'],
       'text' => $text,
       'orderBy' => '',
-      'brand' => '',
+      'brand' => $filters['brand'] ?? '',
       // 'subBrand' => [],
       // 'subtype' => [],
       // 'category' => [],
@@ -246,6 +247,58 @@ class LighthouseClient implements LighthouseClientInterface {
 
     $endpoint_full_path = $this->getEndpointFullPath('asset_by_id') . '/' . $id;
 
+    $content = $this->get($endpoint_full_path, $params);
+
+    return $content['assetList'][0] ?? [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBrands(array $params = []): array {
+    if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
+      return [];
+    }
+    $endpoint_full_path = $this->getEndpointFullPath('get_brands');
+
+    $content = $this->get($endpoint_full_path, $params);
+
+    return $content['valueList'] ?? [];
+  }
+
+  /**
+   * Build an endpoint full path.
+   *
+   * @param string $endpoint_path
+   *   Endpoint name.
+   *
+   * @return string
+   *   Endpoint full path.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  protected function getEndpointFullPath(string $endpoint_path): string {
+    $configuration = $this->getConfiguration();
+    $endpoint_path = $this->getApiPaths()[$endpoint_path] ?? '';
+    return $configuration['base_path'] . ':' . $configuration['port'] . $configuration['subpath'] . $endpoint_path;
+  }
+
+  /**
+   * Performs GET request to Lighthouse API.
+   *
+   * @param string $endpoint_full_path
+   *   Endpoint to trigger.
+   * @param array $params
+   *   Headers and access token.
+   *
+   * @return array
+   *   Response data.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   */
+  protected function get(string $endpoint_full_path, array $params): array {
     $params['mars_lighthouse.headers']['Content-Type'] = 'application/json';
     try {
       /**@var \Psr\Http\Message\ResponseInterface $response */
@@ -274,25 +327,7 @@ class LighthouseClient implements LighthouseClientInterface {
 
     $content = $response->getBody()->getContents();
     $content = Json::decode($content);
-
-    return $content['assetList'][0] ?? [];
-  }
-
-  /**
-   * Build an endpoint full path.
-   *
-   * @param string $endpoint_path
-   *   Endpoint name.
-   *
-   * @return string
-   *   Endpoint full path.
-   *
-   * @throws \Drupal\mars_lighthouse\LighthouseException
-   */
-  protected function getEndpointFullPath(string $endpoint_path): string {
-    $configuration = $this->getConfiguration();
-    $endpoint_path = $this->getApiPaths()[$endpoint_path] ?? '';
-    return $configuration['base_path'] . ':' . $configuration['port'] . $configuration['subpath'] . $endpoint_path;
+    return $content;
   }
 
 }
