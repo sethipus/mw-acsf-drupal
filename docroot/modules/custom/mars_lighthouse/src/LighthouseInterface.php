@@ -80,4 +80,14 @@ interface LighthouseInterface {
    */
   public function getBrands(): array;
 
+  /**
+   * Get list of market options.
+   *
+   * @return array
+   *   List of markets.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function getMarkets(): array;
+
 }

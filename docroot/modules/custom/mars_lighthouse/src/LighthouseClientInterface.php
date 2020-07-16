@@ -101,4 +101,19 @@ interface LighthouseClientInterface {
    */
   public function getBrands(array $params = []): array;
 
+  /**
+   * Markets list.
+   *
+   * @param array $params
+   *   Headers and access token.
+   *
+   * @return array
+   *   List of markets.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   */
+  public function getMarkets(array $params = []): array;
+
 }

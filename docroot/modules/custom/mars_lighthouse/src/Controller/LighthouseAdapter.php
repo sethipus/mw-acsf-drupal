@@ -183,6 +183,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * {@inheritdoc}
    */
   public function getBrands(): array {
+    // TODO Cache response?
     $params = $this->getToken();
     try {
       $data = $this->lighthouseClient->getBrands($params);
@@ -198,12 +199,40 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
       $data = $this->lighthouseClient->getBrands($params);
     }
 
-    $brand_options = ['' => '-- Any --'];
+    $options = ['' => '-- Any --'];
     foreach ($data as $v) {
-      $brand_options[$v] = $v;
+      $options[$v] = $v;
     }
 
-    return $brand_options;
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMarkets(): array {
+    // TODO Cache response?
+    $params = $this->getToken();
+    try {
+      $data = $this->lighthouseClient->getMarkets($params);
+    }
+    catch (TokenIsExpiredException $e) {
+      // Try to refresh token.
+      $params = $this->refreshToken();
+      $data = $this->lighthouseClient->getMarkets($params);
+    }
+    catch (LighthouseAccessException $e) {
+      // Try to force request new token.
+      $params = $this->getToken(TRUE);
+      $data = $this->lighthouseClient->getMarkets($params);
+    }
+
+    $options = ['' => '-- Any --'];
+    foreach ($data as $v) {
+      $options[$v] = $v;
+    }
+
+    return $options;
   }
 
   /**

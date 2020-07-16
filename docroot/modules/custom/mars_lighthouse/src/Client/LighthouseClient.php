@@ -102,6 +102,7 @@ class LighthouseClient implements LighthouseClientInterface {
       'search' => '/search/001',
       'asset_by_id' => '/asset',
       'get_brands' => '/lookup/brand',
+      'get_markets' => '/lookup/market',
     ];
   }
 
@@ -195,6 +196,7 @@ class LighthouseClient implements LighthouseClientInterface {
       'text' => $text,
       'orderBy' => '',
       'brand' => $filters['brand'] ?? '',
+      'market' => $filters['market'] ?? '',
       // 'subBrand' => [],
       // 'subtype' => [],
       // 'category' => [],
@@ -260,6 +262,20 @@ class LighthouseClient implements LighthouseClientInterface {
       return [];
     }
     $endpoint_full_path = $this->getEndpointFullPath('get_brands');
+
+    $content = $this->get($endpoint_full_path, $params);
+
+    return $content['valueList'] ?? [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMarkets(array $params = []): array {
+    if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
+      return [];
+    }
+    $endpoint_full_path = $this->getEndpointFullPath('get_markets');
 
     $content = $this->get($endpoint_full_path, $params);
 
