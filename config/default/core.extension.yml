@@ -127,9 +127,6 @@ theme:
   classy: 0
   bartik: 0
   claro: 0
-blacklist:
-  - acsf_sso
-  - simplesamlphp_auth
 profile: lightning
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
