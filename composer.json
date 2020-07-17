@@ -1,8 +1,8 @@
 {
-    "name": "mars/mars",
+    "name": "mars/acsf",
     "type": "project",
-    "description": "Project template for Drupal 8 sites built with BLT.",
-    "license": "GPL-2.0-only",
+    "description": "Project template for Mars Experience Platform",
+    "license": "proprietary",
     "require": {
         "php": ">=7.3",
         "acquia/acsf-tools": "dev-9.x-dev",
