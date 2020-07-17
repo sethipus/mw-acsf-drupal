@@ -10,6 +10,7 @@ use Drupal\mars_lighthouse\LighthouseClientInterface;
 use Drupal\mars_lighthouse\TokenIsExpiredException;
 use Drupal\media\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
 
 /**
  * Class LighthouseView.
@@ -38,6 +39,13 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   protected $lighthouseClient;
 
   /**
+   * The cache backend.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $cache;
+
+  /**
    * Media entity storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
@@ -63,7 +71,8 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('lighthouse.client')
+      $container->get('lighthouse.client'),
+      $container->get('cache.default')
     );
   }
 
@@ -72,15 +81,18 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *
    * @param \Drupal\mars_lighthouse\LighthouseClientInterface $lighthouse_client
    *   Lighthouse API client.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache
+   *   Cache container.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(LighthouseClientInterface $lighthouse_client) {
+  public function __construct(LighthouseClientInterface $lighthouse_client, CacheBackendInterface $cache) {
     $this->lighthouseClient = $lighthouse_client;
     $this->mediaStorage = $this->entityTypeManager()->getStorage('media');
     $this->fileStorage = $this->entityTypeManager()->getStorage('file');
     $this->mapping = $this->config(self::CONFIG_NAME);
+    $this->cache = $cache;
   }
 
   /**
@@ -183,7 +195,10 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * {@inheritdoc}
    */
   public function getBrands(): array {
-    // TODO Cache response?
+    if ($options = $this->cache->get('mars_lighthouse_brands')) {
+      return $options->data;
+    }
+
     $params = $this->getToken();
     try {
       $data = $this->lighthouseClient->getBrands($params);
@@ -204,6 +219,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
       $options[$v] = $v;
     }
 
+    $this->cache->set('mars_lighthouse_brands', $options, strtotime("+60 minutes"));
     return $options;
   }
 
@@ -211,7 +227,10 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * {@inheritdoc}
    */
   public function getMarkets(): array {
-    // TODO Cache response?
+    if ($options = $this->cache->get('mars_lighthouse_markets')) {
+      return $options->data;
+    }
+
     $params = $this->getToken();
     try {
       $data = $this->lighthouseClient->getMarkets($params);
@@ -232,6 +251,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
       $options[$v] = $v;
     }
 
+    $this->cache->set('mars_lighthouse_markets', $options, strtotime("+60 minutes"));
     return $options;
   }
 
