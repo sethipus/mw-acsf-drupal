@@ -3,24 +3,28 @@
  # Otherwise, set the path relative to the Component Library. #}
 {% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
 
-<header {{ bem(header__base_class) }}>
+<header {{ bem(header__base_class) }} data-theme="twix">
   <div {{ bem('inner', [], header__base_class) }}>
     <div {{ bem('primary', [], header__base_class) }}>
       <div {{ bem('branding', [], header__base_class) }}>
         {% block header__branding %}
+        <div {{ bem('logo', [], header__base_class) }}>
           {% embed "@atoms/links/link/link.twig" with {
-            link_base_class: 'logo-link',
+            link_modifiers: ['logo'],
             link_url: logo_link__url|default('/'),
           } %}
             {% block link_content %}
               {% include "@atoms/images/image/responsive-image.twig" with {
                 output_image_tag: true,
-                image_src: header__logo_src,
                 image_alt: 'Logo',
+                image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
+                image_sizes: '212px',
+                image_src: 'twix-logo.png',
                 responsive_image_blockname: 'logo',
               } %}
             {% endblock %}
           {% endembed %}
+        </div>
         {% endblock %}
       </div>
       <div {{ bem('menu', [], header__base_class) }}>
@@ -28,11 +32,18 @@
           {% include "@molecules/menus/main-menu/main-menu.twig" %}
         {% endblock %}
       </div>
+      <div {{ bem('menu', ['secondary'], header__base_class) }}>
+        {% block header__menu_secondary %}
+          {% include "@molecules/menus/inline/inline-menu.twig" %}
+        {% endblock %}
+      </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>
-      {% block header__breadcrumbs %}
-        {% include "@molecules/menus/breadcrumbs/breadcrumbs.twig" %}
-      {% endblock %}
+        <div {{ bem('alert', [], header__base_class) }}>
+          <span {{ bem('alert_text', [], header__base_class) }}>
+            Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection
+          </span>
+        </div>
     </div>
   </div>
 </header>

@@ -8,22 +8,6 @@
   @include medium {
     border-top: none;
     display: inline-block;
-
-    /* Only top level */
-    &:not(.main-menu__item--sub):hover {
-      background-color: clr(accent-high);
-      transition: all 0.2s;
-
-      & > .main-menu--sub {
-        display: block;
-      }
-    }
-  }
-
-  &:hover {
-    .main-menu__link::after {
-      color: clr(text);
-    }
   }
 }
 
