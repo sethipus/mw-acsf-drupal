@@ -1,16 +1,47 @@
 {% set footer__base_class = 'footer' %}
 
-<footer {{ bem(footer__base_class) }}>
-  <div {{ bem('inner', [], footer__base_class) }}>
-    <div {{ bem('social', [], footer__base_class) }}>
-      {% block footer__social %}
-        {% include "@molecules/menus/social/social-menu.twig" %}
-      {% endblock %}
+<footer {{ bem(footer__base_class) }} data-theme="twix">
+  <div {{ bem('section', ['primary'], footer__base_class) }}>
+    <div {{ bem('section-content', [], footer__base_class) }}>
+      <div {{ bem('logo', [], footer__base_class) }}>
+        {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: 'Logo',
+          image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
+          image_sizes: '212px',
+          image_src: 'twix-logo.png',
+          responsive_image_blockname: 'logo',
+        } %}
+      </div>
+      <div {{ bem('menu', [], footer__base_class) }}>
+        {% block footer__menu %}
+          {% include "@molecules/menus/inline/inline-menu.twig" %}
+        {% endblock %}
+      </div>
     </div>
-    <div {{ bem('menu', [], footer__base_class) }}>
-      {% block footer__menu %}
-        {% include "@molecules/menus/inline/inline-menu.twig" %}
-      {% endblock %}
+  </div>
+  <div {{ bem('section', ['secondary'], footer__base_class) }}>
+    <div {{ bem('section-content', [], footer__base_class) }}>
+      <div {{ bem('social', [], footer__base_class) }}>
+        {% block footer__social %}
+          {% include "@molecules/menus/social/social-menu.twig" %}
+        {% endblock %}
+      </div>
+      <div {{ bem('secondary-menu', [], footer__base_class) }}>
+        {% block footer__social %}
+          {% include "@molecules/menus/social/social-menu.twig" %}
+        {% endblock %}
+      </div>
+      <div {{ bem('region-selector', [], footer__base_class) }}>
+        {% block footer__social %}
+          {% include "@molecules/menus/social/social-menu.twig" %}
+        {% endblock %}
+      </div>
+      <div {{ bem('info', [], footer__base_class) }}>
+        {% block footer__social %}
+          {% include "@molecules/menus/social/social-menu.twig" %}
+        {% endblock %}
+      </div>
     </div>
   </div>
 </footer>

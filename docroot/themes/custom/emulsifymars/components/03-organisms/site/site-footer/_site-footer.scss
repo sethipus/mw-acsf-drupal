@@ -1,26 +1,29 @@
+$fence-part-size: 1440px*2/101;
+
 .footer {
   background-color: clr(highlight-high);
-  padding: $space 0;
+  // padding: $space 0;
 
-  &__inner {
-    @include wrapper;
+  &__section {
+    &--primary {
+      background-image: radial-gradient(circle at 50% 50%, rgba(245, 225, 164, 0.6), clr(secondary));
+      border-bottom: 15px solid transparent;
+    }
 
+    &--secondary {
+      min-height: 400px;
+      background-color: clr(primary);
+    }
+  }
+
+  &__section-content {
+    padding: 20px;
     display: flex;
     flex-flow: column nowrap;
 
-    @include large {
-      flex-direction: row;
+    @include medium {
+      flex-flow: row wrap;
     }
-  }
-}
-
-.footer__social {
-  margin-bottom: $space;
-
-  @include large {
-    flex: 0 1 30%;
-    margin-bottom: 0;
-    margin-right: $space;
   }
 }
 
@@ -29,5 +32,55 @@
     flex: 1 1 100%;
     margin-left: auto;
     text-align: right;
+  }
+}
+
+.footer__social {
+  margin-bottom: $space;
+  flex: 0 1 100%;
+  order: 1;
+
+  @include medium {
+    flex: 0 1 50%;
+  }
+
+  @include xl {
+    flex: 0 1 33%;
+  }
+}
+
+.footer__secondary-menu {
+  margin-bottom: $space;
+  flex: 0 1 100%;
+  order: 3;
+
+  @include xl {
+    flex: 0 1 66%;
+    order: 2;
+  }
+}
+
+.footer__region-selector {
+  margin-bottom: $space;
+  flex: 0 1 100%;
+  order: 2;
+
+  @include medium {
+    flex: 0 1 50%;
+  }
+
+  @include xl {
+    flex: 0 1 33%;
+    order: 3;
+  }
+}
+
+.footer__info {
+  margin-bottom: $space;
+  flex: 0 1 100%;
+  order: 4;
+
+  @include xl {
+    flex: 0 1 66%;
   }
 }

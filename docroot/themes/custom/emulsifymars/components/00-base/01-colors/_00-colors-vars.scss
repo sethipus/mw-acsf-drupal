@@ -1,6 +1,6 @@
-// Color variables - it is better to use the colors in 
+// Color variables - it is better to use the colors in
 // components/00-base/01-colors/_01-colors-used.scss rather than
-// these colors directly. 
+// these colors directly.
 
 // Grayscale
 $white: white;
@@ -22,7 +22,44 @@ $green-light: #cfefc2;
 $purple: #610c63;
 $blue: #005de0;
 
-// Mars Wrigley
-$blue-navy: #3005f2;
-$blue: #775bf5;
-$blue-light: #a897f7;
+// Use color names from name-that-color service http://chir.ag/projects/name-that-color/#6195ED
+
+// ------------------
+// -- Mars Wrigley --
+// ------------------
+$navy-blue: #0a00a0;
+$downy: #61d5ba;
+$governor-bay: #3e45b1;
+$blue-marguerite: #7f81ca;
+$mine-shaft: #3c3c3c;
+$cararra: #f4f3f0;
+
+// ----------
+// -- Twix --
+// ----------
+$alizarin-crimson: #e62b1e;
+$web-orange: #eaaa00;
+$brown-pod: #490e00;
+$sandwisp: #f5e1a4;
+// $white
+$silver: #c4c4c4;
+
+// ----------
+// -- Dove --
+// ----------
+$metallic-bronze: #502c1c;
+// $white
+$alizarin-crimson-1: #e42525;
+$tussock: #cb9f53;
+$merino: #f9f5ef;
+// $cararra: #f4f3f0;
+
+// ------------
+// -- Galaxy --
+// ------------
+// $metallic-bronze: #502c1c;
+// $white
+$cerise-red: #e02466;
+// $tussock: #cb9f53;
+// $merino: #f9f5ef;
+// $cararra: #f4f3f0;

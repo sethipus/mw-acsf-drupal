@@ -45,8 +45,34 @@
   }
 }
 
-// Style dark color swatches
-@each $name, $color in $darkColors {
+@each $name, $color in $marsColors {
+  .cl-colors__item--dark {
+    &-#{$name} {
+      background-color: clr($name);
+      color: set-color($color, muted, accent-high);
+    }
+  }
+}
+
+@each $name, $color in $twixColors {
+  .cl-colors__item--dark {
+    &-#{$name} {
+      background-color: clr($name);
+      color: set-color($color, muted, accent-high);
+    }
+  }
+}
+
+@each $name, $color in $doveColors {
+  .cl-colors__item--dark {
+    &-#{$name} {
+      background-color: clr($name);
+      color: set-color($color, muted, accent-high);
+    }
+  }
+}
+
+@each $name, $color in $galaxyColors {
   .cl-colors__item--dark {
     &-#{$name} {
       background-color: clr($name);
