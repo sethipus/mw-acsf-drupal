@@ -31,3 +31,8 @@ drush:
   default_alias: '${drush.aliases.local}'
 validate:
   acsf: true
+tests:
+  phpunit:
+    -
+      config: '${docroot}/core/phpunit.xml.dist'
+      directory: '${docroot}/modules/custom'
