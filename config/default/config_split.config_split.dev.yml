@@ -13,8 +13,6 @@ module:
   acsf_sso: 0
   acsf_theme: 0
   acsf_variables: 0
-  externalauth: 0
-  samlauth: 0
   syslog: 0
 theme: {  }
 blacklist: {  }
