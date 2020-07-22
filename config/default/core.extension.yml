@@ -32,6 +32,7 @@ module:
   entity_browser_block: 0
   entity_embed: 0
   entity_reference: 0
+  externalauth: 0
   field: 0
   field_ui: 0
   file: 0
@@ -95,6 +96,7 @@ module:
   quickedit: 0
   rdf: 0
   redirect: 0
+  samlauth: 0
   schemata: 0
   schemata_json_schema: 0
   search_api: 0

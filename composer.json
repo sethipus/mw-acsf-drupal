@@ -46,7 +46,8 @@
         "nedsbeds/profile_split_enable": "^1.0"
     },
     "require-dev": {
-        "acquia/blt-require-dev": "11.x-dev"
+        "acquia/blt-require-dev": "11.x-dev",
+        "symfony/phpunit-bridge": "^5.1"
     },
     "config": {
         "platform": {
