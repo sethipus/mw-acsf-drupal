@@ -10,6 +10,7 @@ use Drupal\mars_lighthouse\LighthouseClientInterface;
 use Drupal\mars_lighthouse\TokenIsExpiredException;
 use Drupal\media\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
 
 /**
  * Class LighthouseView.
@@ -38,6 +39,13 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   protected $lighthouseClient;
 
   /**
+   * The cache backend.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $cache;
+
+  /**
    * Media entity storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
@@ -63,7 +71,8 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('lighthouse.client')
+      $container->get('lighthouse.client'),
+      $container->get('cache.default')
     );
   }
 
@@ -72,15 +81,18 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *
    * @param \Drupal\mars_lighthouse\LighthouseClientInterface $lighthouse_client
    *   Lighthouse API client.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache
+   *   Cache container.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(LighthouseClientInterface $lighthouse_client) {
+  public function __construct(LighthouseClientInterface $lighthouse_client, CacheBackendInterface $cache) {
     $this->lighthouseClient = $lighthouse_client;
     $this->mediaStorage = $this->entityTypeManager()->getStorage('media');
     $this->fileStorage = $this->entityTypeManager()->getStorage('file');
     $this->mapping = $this->config(self::CONFIG_NAME);
+    $this->cache = $cache;
   }
 
   /**
@@ -90,6 +102,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     $keys = [
       'mars_lighthouse.access_token',
       'mars_lighthouse.headers',
+      'mars_lighthouse.refresh_token',
     ];
     $tokens = $this->state()->getMultiple($keys);
 
@@ -154,27 +167,6 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   }
 
   /**
-   * Prepare search response for rendering.
-   *
-   * @param array $data
-   *   Raw response array.
-   *
-   * @return array
-   *   Array ready for render.
-   */
-  protected function prepareMediaDataList(array $data) {
-    $data_list = [];
-    foreach ($data as $item) {
-      $data_list[] = [
-        'uri' => $item['urls']['001tnmd'] ?? NULL,
-        'name' => $item['assetName'] ?? '',
-        'assetId' => $item['assetId'] ?? '',
-      ];
-    }
-    return $data_list;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function getMediaEntity($id): ?MediaInterface {
@@ -197,6 +189,91 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
       // Smth went wrong. API response was incorrect.
       return NULL;
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBrands(): array {
+    if ($options = $this->cache->get('mars_lighthouse_brands')) {
+      return $options->data;
+    }
+
+    $params = $this->getToken();
+    try {
+      $data = $this->lighthouseClient->getBrands($params);
+    }
+    catch (TokenIsExpiredException $e) {
+      // Try to refresh token.
+      $params = $this->refreshToken();
+      $data = $this->lighthouseClient->getBrands($params);
+    }
+    catch (LighthouseAccessException $e) {
+      // Try to force request new token.
+      $params = $this->getToken(TRUE);
+      $data = $this->lighthouseClient->getBrands($params);
+    }
+
+    $options = ['' => '-- Any --'];
+    foreach ($data as $v) {
+      $options[$v] = $v;
+    }
+
+    $this->cache->set('mars_lighthouse_brands', $options, strtotime("+60 minutes"));
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMarkets(): array {
+    if ($options = $this->cache->get('mars_lighthouse_markets')) {
+      return $options->data;
+    }
+
+    $params = $this->getToken();
+    try {
+      $data = $this->lighthouseClient->getMarkets($params);
+    }
+    catch (TokenIsExpiredException $e) {
+      // Try to refresh token.
+      $params = $this->refreshToken();
+      $data = $this->lighthouseClient->getMarkets($params);
+    }
+    catch (LighthouseAccessException $e) {
+      // Try to force request new token.
+      $params = $this->getToken(TRUE);
+      $data = $this->lighthouseClient->getMarkets($params);
+    }
+
+    $options = ['' => '-- Any --'];
+    foreach ($data as $v) {
+      $options[$v] = $v;
+    }
+
+    $this->cache->set('mars_lighthouse_markets', $options, strtotime("+60 minutes"));
+    return $options;
+  }
+
+  /**
+   * Prepare search response for rendering.
+   *
+   * @param array $data
+   *   Raw response array.
+   *
+   * @return array
+   *   Array ready for render.
+   */
+  protected function prepareMediaDataList(array $data) {
+    $data_list = [];
+    foreach ($data as $item) {
+      $data_list[] = [
+        'uri' => $item['urls']['001tnmd'] ?? NULL,
+        'name' => $item['assetName'] ?? '',
+        'assetId' => $item['assetId'] ?? '',
+      ];
+    }
+    return $data_list;
   }
 
   /**

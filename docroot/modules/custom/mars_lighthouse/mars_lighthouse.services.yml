@@ -5,4 +5,4 @@ services:
 
   lighthouse.adapter:
     class: '\Drupal\mars_lighthouse\Controller\LighthouseAdapter'
-    arguments: ['@lighthouse.client']
+    arguments: ['@lighthouse.client', '@cache.default']

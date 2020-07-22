@@ -70,4 +70,24 @@ interface LighthouseInterface {
    */
   public function refreshToken(): array;
 
+  /**
+   * Get list of brand options.
+   *
+   * @return array
+   *   List of brands.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function getBrands(): array;
+
+  /**
+   * Get list of market options.
+   *
+   * @return array
+   *   List of markets.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function getMarkets(): array;
+
 }

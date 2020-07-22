@@ -32,6 +32,7 @@ module:
   entity_browser_block: 0
   entity_embed: 0
   entity_reference: 0
+  externalauth: 0
   field: 0
   field_ui: 0
   file: 0
@@ -95,6 +96,7 @@ module:
   quickedit: 0
   rdf: 0
   redirect: 0
+  samlauth: 0
   schemata: 0
   schemata_json_schema: 0
   search_api: 0
@@ -127,9 +129,6 @@ theme:
   classy: 0
   bartik: 0
   claro: 0
-blacklist:
-  - acsf_sso
-  - simplesamlphp_auth
 profile: lightning
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
