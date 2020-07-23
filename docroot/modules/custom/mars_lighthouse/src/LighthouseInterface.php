@@ -14,6 +14,8 @@ interface LighthouseInterface {
   /**
    * Process search request.
    *
+   * @param int $total_found
+   *   Returns the amount of results.
    * @param string $text
    *   Text filter.
    * @param array $filters
@@ -30,7 +32,7 @@ interface LighthouseInterface {
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function getMediaDataList(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10): array;
+  public function getMediaDataList(int &$total_found, string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10): array;
 
   /**
    * Returns lighthouse media entity, creates if it's needed.
@@ -57,5 +59,35 @@ interface LighthouseInterface {
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function getToken(bool $generate_new = FALSE): array;
+
+  /**
+   * Refresh access tokens.
+   *
+   * @return array
+   *   Access tokens.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function refreshToken(): array;
+
+  /**
+   * Get list of brand options.
+   *
+   * @return array
+   *   List of brands.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function getBrands(): array;
+
+  /**
+   * Get list of market options.
+   *
+   * @return array
+   *   List of markets.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function getMarkets(): array;
 
 }

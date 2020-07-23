@@ -12,16 +12,31 @@ interface LighthouseClientInterface {
   /**
    * Returns access tokens.
    *
-   * @return mixed
+   * @return array
    *   Array with access tokens and headers.
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function getToken();
+  public function getToken(): array;
+
+  /**
+   * Refresh access tokens.
+   *
+   * @param array $params
+   *   Expired headers and access token.
+   *
+   * @return array
+   *   Array with access tokens and headers.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   */
+  public function refreshToken(array $params): array;
 
   /**
    * Search request.
    *
+   * @param int $total_found
+   *   Returns the amount of results.
    * @param string $text
    *   Text filter.
    * @param array $filters
@@ -39,8 +54,10 @@ interface LighthouseClientInterface {
    *   Response with media data items.
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
-  public function search(string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []);
+  public function search(int &$total_found, string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []): array;
 
   /**
    * Returns configuration for Lighthouse client.
@@ -50,7 +67,7 @@ interface LighthouseClientInterface {
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function getConfiguration();
+  public function getConfiguration(): array;
 
   /**
    * Get an asset data by its Id.
@@ -64,7 +81,39 @@ interface LighthouseClientInterface {
    *   An asset data.
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
   public function getAssetById(string $id, array $params = []): array;
+
+  /**
+   * Brands list.
+   *
+   * @param array $params
+   *   Headers and access token.
+   *
+   * @return array
+   *   List of brands.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   */
+  public function getBrands(array $params = []): array;
+
+  /**
+   * Markets list.
+   *
+   * @param array $params
+   *   Headers and access token.
+   *
+   * @return array
+   *   List of markets.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   */
+  public function getMarkets(array $params = []): array;
 
 }

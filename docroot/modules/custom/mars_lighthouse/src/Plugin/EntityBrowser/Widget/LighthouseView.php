@@ -11,6 +11,8 @@ use Drupal\mars_lighthouse\LighthouseException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Drupal\mars_lighthouse\LighthouseInterface;
+use Drupal\Core\Pager\PagerManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Uses a lighthouse requests to provide entity listing in a browser's widget.
@@ -26,6 +28,11 @@ use Drupal\mars_lighthouse\LighthouseInterface;
 class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterface {
 
   /**
+   * Limit of items presented in a gallery.
+   */
+  const PAGE_LIMIT = 12;
+
+  /**
    * Lighthouse adapter.
    *
    * @var \Drupal\mars_lighthouse\LighthouseInterface
@@ -33,11 +40,27 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
   protected $lighthouseAdapter;
 
   /**
+   * Page manager.
+   *
+   * @var \Drupal\Core\Pager\PagerManagerInterface
+   */
+  protected $pageManager;
+
+  /**
+   * Current request.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  protected $currentRequest;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $event_dispatcher, EntityTypeManagerInterface $entity_type_manager, WidgetValidationManager $validation_manager, LighthouseInterface $lighthouse) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $event_dispatcher, EntityTypeManagerInterface $entity_type_manager, WidgetValidationManager $validation_manager, LighthouseInterface $lighthouse, PagerManagerInterface $page_manager, RequestStack $request_stack) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $event_dispatcher, $entity_type_manager, $validation_manager);
     $this->lighthouseAdapter = $lighthouse;
+    $this->pageManager = $page_manager;
+    $this->currentRequest = $request_stack->getCurrentRequest();
   }
 
   /**
@@ -51,7 +74,9 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
       $container->get('event_dispatcher'),
       $container->get('entity_type.manager'),
       $container->get('plugin.manager.entity_browser.widget_validation'),
-      $container->get('lighthouse.adapter')
+      $container->get('lighthouse.adapter'),
+      $container->get('pager.manager'),
+      $container->get('request_stack')
     );
   }
 
@@ -82,8 +107,20 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
     // Disable caching on this form.
     $form_state->setCached(FALSE);
 
+    // Get filter values.
+    $text_value = $form_state->getValue('text') ?? $this->currentRequest->query->get('text') ?? '';
+    $brand_value = $form_state->getValue('brand') ?? $this->currentRequest->query->get('brand') ?? '';
+    $market_value = $form_state->getValue('market') ?? $this->currentRequest->query->get('market') ?? '';
+    // Get filter options.
+    try {
+      $brand_options = $this->lighthouseAdapter->getBrands();
+      $market_options = $this->lighthouseAdapter->getMarkets();
+    }
+    catch (LighthouseException $e) {
+      $brand_options = $market_options = [];
+    }
+
     $form['#attached']['library'] = [
-      'entity_browser/view',
       'mars_lighthouse/lighthouse-gallery',
     ];
 
@@ -91,22 +128,44 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
       '#type' => 'textfield',
       '#title' => $this->t('Text'),
       '#size' => 60,
+      '#default_value' => $text_value,
+    ];
+    $form_state->setValue('text', $text_value);
+
+    $form['filter']['brand'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Brand'),
+      '#options' => $brand_options,
+      '#default_value' => $brand_value,
+    ];
+    $form['filter']['market'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Market'),
+      '#options' => $market_options,
+      '#default_value' => $market_value,
     ];
 
     $form['filter']['submit'] = [
-      '#type' => 'button',
+      '#type' => 'submit',
+      '#submit' => [[$this, 'searchCallback']],
       '#value' => $this->t('Filter'),
-      '#ajax' => [
-        'callback' => [$this, 'searchCallback'],
-        'wrapper' => 'lighthouse-gallery',
-        'progress' => [
-          'type' => 'throbber',
-          'message' => $this->t('Searching...'),
-        ],
-      ],
     ];
 
-    $form['view'] = $this->getView($form_state);
+    $total_found = 0;
+    $form['view'] = $this->getView($total_found, $form_state);
+
+    if ($total_found) {
+      $this->pageManager->createPager($total_found, self::PAGE_LIMIT);
+      $form['pagination'] = [
+        '#type' => 'pager',
+        '#quantity' => 3,
+        '#parameters' => [
+          'text' => $text_value,
+          'brand' => $brand_value,
+          'market' => $market_value,
+        ],
+      ];
+    }
 
     return $form;
   }
@@ -137,20 +196,21 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
    * Ajax search response.
    */
   public function searchCallback(array &$form, FormStateInterface $form_state) {
-    $form['view'] = $this->getView($form_state);
-    return $form['view'];
+    $form_state->setRebuild(TRUE);
   }
 
   /**
    * Get render array to view Lighthouse gallery.
    *
+   * @param int $total_found
+   *   Returns the amount of results.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Form state object which is used to process pager and search text.
    *
    * @return array
    *   Render array.
    */
-  protected function getView(FormStateInterface $form_state) {
+  protected function getView(&$total_found, FormStateInterface $form_state) {
     $view = [
       '#type' => 'container',
       '#tree' => TRUE,
@@ -165,7 +225,12 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
     // Get data from API.
     try {
       $text = $form_state->getValue('text');
-      $data = $this->lighthouseAdapter->getMediaDataList($text);
+      $filters = [
+        'brand' => $form_state->getValue('brand'),
+        'market' => $form_state->getValue('market'),
+      ];
+      $page = $this->currentRequest->query->get('page') ?? 0;
+      $data = $this->lighthouseAdapter->getMediaDataList($total_found, $text, $filters, [], $page * self::PAGE_LIMIT, self::PAGE_LIMIT);
     }
     catch (LighthouseException $e) {
       $view['markup'] = [
