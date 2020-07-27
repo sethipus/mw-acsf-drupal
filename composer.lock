@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c902113a26ebae91e158cd9fbf61a9d1",
+    "content-hash": "1a80c62408b966075bd6963c1820ff1c",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/acsf-tools.git",
-                "reference": "a852cf24dbc08afa22e3c4b32dceb5c984851a05"
+                "reference": "95b8112055508ccb97b47a82da54ed491fce2530"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/acsf-tools/zipball/a852cf24dbc08afa22e3c4b32dceb5c984851a05",
-                "reference": "a852cf24dbc08afa22e3c4b32dceb5c984851a05",
+                "url": "https://api.github.com/repos/acquia/acsf-tools/zipball/95b8112055508ccb97b47a82da54ed491fce2530",
+                "reference": "95b8112055508ccb97b47a82da54ed491fce2530",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
             ],
             "description": "Drush powered command line tools for working with Acquia Cloud Site Factory.",
             "homepage": "https://github.com/acquia/acsf-tools",
-            "time": "2020-06-19T10:35:02+00:00"
+            "time": "2020-07-08T00:55:25+00:00"
         },
         {
             "name": "acquia/blt",
@@ -172,6 +172,97 @@
                 "testing"
             ],
             "time": "2020-04-15T16:48:04+00:00"
+        },
+        {
+            "name": "acquia/cohesion",
+            "version": "6.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acquia/cohesion.git",
+                "reference": "70bf082382cb55f49a18d32990ba82246739e229"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acquia/cohesion/zipball/70bf082382cb55f49a18d32990ba82246739e229",
+                "reference": "70bf082382cb55f49a18d32990ba82246739e229",
+                "shasum": ""
+            },
+            "require": {
+                "cweagans/composer-patches": "^1.6",
+                "drupal/entity_reference_revisions": "^1.7",
+                "drupal/imce": "^2.2",
+                "drupal/token": "^1.5",
+                "ext-json": "*"
+            },
+            "require-dev": {
+                "acquia/coding-standards": "^0.4.1",
+                "behat/mink": "^1.7",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "phpunit/phpunit": "^6.5",
+                "symfony/phpunit-bridge": "^4.3"
+            },
+            "suggest": {
+                "drupal/admin_toolbar": "Provides a better UX for the standard admin toolbar",
+                "drupal/context": "Provides a UI for contexts.",
+                "drupal/google_analytics": "Provides integration with Google Analytics",
+                "drupal/menu_item_extras": "Make the Menu Link Content entity fully fieldable.",
+                "drupal/menu_link_attributes": "This module allows you to add attributes to your menu links or their wrapping <li> elements.",
+                "drupal/request_data_conditions": "Defines a set of conditions via the Drupal 8 Conditions Plugin API for use with the context module",
+                "drupal/search_api": "Provides a framework for easily creating searches on any entity known to Drupal, using any kind of search engine.",
+                "drupal/views_infinite_scroll": "Provides infinite scroll functionality to Views",
+                "drupal/webform": "This module allows you to use webforms."
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9"
+                    }
+                },
+                "enable-patching": true
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Acquia Engineering",
+                    "homepage": "https://www.acquia.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Site Studio",
+            "time": "2020-07-15T12:27:03+00:00"
+        },
+        {
+            "name": "acquia/cohesion-theme",
+            "version": "6.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acquia/cohesion-theme.git",
+                "reference": "dc4ec09dace2752b5e193eb1076794350a0e4ac6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acquia/cohesion-theme/zipball/dc4ec09dace2752b5e193eb1076794350a0e4ac6",
+                "reference": "dc4ec09dace2752b5e193eb1076794350a0e4ac6",
+                "shasum": ""
+            },
+            "type": "drupal-theme",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Acquia Engineering",
+                    "homepage": "https://www.acquia.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Site Studio minimal theme",
+            "time": "2020-07-15T12:27:22+00:00"
         },
         {
             "name": "acquia/composer-scaffold",
@@ -405,21 +496,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/lightning.git",
-                "reference": "13f4a930449870bccba20be387d2729040ce1024"
+                "reference": "bdbae9341e6f44afa868d77f62e3902022f61e40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/lightning/zipball/13f4a930449870bccba20be387d2729040ce1024",
-                "reference": "13f4a930449870bccba20be387d2729040ce1024",
+                "url": "https://api.github.com/repos/acquia/lightning/zipball/bdbae9341e6f44afa868d77f62e3902022f61e40",
+                "reference": "bdbae9341e6f44afa868d77f62e3902022f61e40",
                 "shasum": ""
             },
             "require": {
                 "cweagans/composer-patches": "^1.6",
                 "drupal/acquia_connector": "*",
-                "drupal/core": "^8.8.6",
+                "drupal/core": "^8.8.8",
                 "drupal/lightning_api": "^4.4",
                 "drupal/lightning_core": "^5.2",
-                "drupal/lightning_layout": "^2.4",
+                "drupal/lightning_layout": "^2.6",
                 "drupal/lightning_media": "^3.14",
                 "drupal/lightning_workflow": "^3.14",
                 "ext-dom": "*"
@@ -521,7 +612,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "The best of Drupal, curated by Acquia",
-            "time": "2020-05-20T18:37:01+00:00"
+            "time": "2020-06-18T13:57:14+00:00"
         },
         {
             "name": "acquia/memcache-settings",
@@ -529,12 +620,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/memcache-settings.git",
-                "reference": "c381d911d84fdfeac34ca3c6f56254be5ade6840"
+                "reference": "a45c708cb88a57324f9c7a2259ebc61aa8438fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/memcache-settings/zipball/c381d911d84fdfeac34ca3c6f56254be5ade6840",
-                "reference": "c381d911d84fdfeac34ca3c6f56254be5ade6840",
+                "url": "https://api.github.com/repos/acquia/memcache-settings/zipball/a45c708cb88a57324f9c7a2259ebc61aa8438fc7",
+                "reference": "a45c708cb88a57324f9c7a2259ebc61aa8438fc7",
                 "shasum": ""
             },
             "require": {
@@ -553,7 +644,7 @@
                 }
             ],
             "description": "Recommended Memcache settings for use with Acquia hosting.",
-            "time": "2020-02-11T01:17:40+00:00"
+            "time": "2020-07-02T14:36:03+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -1109,7 +1200,7 @@
             "version": "v5.7.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:enyo/dropzone.git",
+                "url": "https://github.com/enyo/dropzone.git",
                 "reference": "5b82186d5f18540a1d13b6f4914fdc6220617ef5"
             },
             "dist": {
@@ -1124,7 +1215,7 @@
             "version": "3.5.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
@@ -6103,6 +6194,65 @@
             }
         },
         {
+            "name": "drupal/entity_reference_revisions",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/entity_reference_revisions.git",
+                "reference": "8.x-1.8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity_reference_revisions-8.x-1.8.zip",
+                "reference": "8.x-1.8",
+                "shasum": "c1279e6c683edc2dbccedba8de1505340c8a62b6"
+            },
+            "require": {
+                "drupal/core": "^8.7.7 || ^9"
+            },
+            "require-dev": {
+                "drupal/diff": "1.x-dev"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.8",
+                    "datestamp": "1583961846",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "Frans",
+                    "homepage": "https://www.drupal.org/user/514222"
+                },
+                {
+                    "name": "jeroen.b",
+                    "homepage": "https://www.drupal.org/user/1853532"
+                },
+                {
+                    "name": "miro_dietiker",
+                    "homepage": "https://www.drupal.org/user/227761"
+                }
+            ],
+            "description": "Entity Reference Revisions",
+            "homepage": "https://www.drupal.org/project/entity_reference_revisions",
+            "support": {
+                "source": "https://git.drupalcode.org/project/entity_reference_revisions"
+            }
+        },
+        {
             "name": "drupal/environment_indicator",
             "version": "3.7.0",
             "source": {
@@ -6203,6 +6353,62 @@
             "homepage": "https://www.drupal.org/project/externalauth",
             "support": {
                 "source": "https://git.drupalcode.org/project/externalauth"
+            }
+        },
+        {
+            "name": "drupal/gdpr_onetrust",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/gdpr_onetrust.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/gdpr_onetrust-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "6c3265356f75aea705df050e993715163517c5e4"
+            },
+            "require": {
+                "drupal/core": "^8"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1561465385",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Punyasloka",
+                    "homepage": "https://www.drupal.org/user/3308629"
+                },
+                {
+                    "name": "Ragesh",
+                    "homepage": "https://www.drupal.org/user/1048544"
+                },
+                {
+                    "name": "sudheeshps",
+                    "homepage": "https://www.drupal.org/user/337121"
+                },
+                {
+                    "name": "vinothkannan",
+                    "homepage": "https://www.drupal.org/user/2815173"
+                }
+            ],
+            "description": "GDPR One Trust Implementation for EMEA sites.",
+            "homepage": "https://www.drupal.org/project/gdpr_onetrust",
+            "support": {
+                "source": "https://git.drupalcode.org/project/gdpr_onetrust"
             }
         },
         {
@@ -6323,6 +6529,56 @@
                 "source": "https://www.drupal.org/project/image_widget_crop",
                 "issues": "https://www.drupal.org/project/issues/image_widget_crop",
                 "irc": "irc://irc.freenode.org/drupal-contribute"
+            }
+        },
+        {
+            "name": "drupal/imce",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/imce.git",
+                "reference": "8.x-2.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/imce-8.x-2.2.zip",
+                "reference": "8.x-2.2",
+                "shasum": "afc77eff2cb146885dd115c303993a8f83ece003"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.2",
+                    "datestamp": "1586699977",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "See contributors",
+                    "homepage": "https://www.drupal.org/node/2841111/committers",
+                    "role": "Developer"
+                },
+                {
+                    "name": "ufku",
+                    "homepage": "https://www.drupal.org/user/9910"
+                }
+            ],
+            "description": "Provides a file manager supporting personal folders.",
+            "homepage": "https://drupal.org/project/imce",
+            "support": {
+                "source": "https://git.drupalcode.org/project/imce",
+                "issues": "https://www.drupal.org/project/issues/imce?version=8.x"
             }
         },
         {
@@ -8042,6 +8298,246 @@
             }
         },
         {
+            "name": "drupal/migrate_plus",
+            "version": "5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/migrate_plus.git",
+                "reference": "8.x-5.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/migrate_plus-8.x-5.1.zip",
+                "reference": "8.x-5.1",
+                "shasum": "1257427ab0c64459c3c1e42bb2a98d3114b77163"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "drupal/migrate_example_advanced_setup": "*",
+                "drupal/migrate_example_setup": "*"
+            },
+            "suggest": {
+                "ext-soap": "*",
+                "sainsburys/guzzle-oauth2-plugin": "3.0 required for the OAuth2 authentication plugin"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-5.1",
+                    "datestamp": "1588261060",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Mike Ryan",
+                    "homepage": "https://www.drupal.org/u/mikeryan",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Lucas Hedding",
+                    "homepage": "https://www.drupal.org/u/heddn",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Enhancements to core migration support.",
+            "homepage": "https://www.drupal.org/project/migrate_plus",
+            "support": {
+                "source": "https://git.drupalcode.org/project/migrate_plus",
+                "issues": "https://www.drupal.org/project/issues/migrate_plus",
+                "slack": "#migrate"
+            }
+        },
+        {
+            "name": "drupal/migrate_source_csv",
+            "version": "3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/migrate_source_csv.git",
+                "reference": "8.x-3.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/migrate_source_csv-8.x-3.4.zip",
+                "reference": "8.x-3.4",
+                "shasum": "12990ad8c3b99e16c1b2a1be955aaa28581e5d1c"
+            },
+            "require": {
+                "drupal/core": "^8.7 || ^9.0",
+                "league/csv": "^9.1",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "drupal/migrate_plus": "5.x-dev"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-3.4",
+                    "datestamp": "1588260548",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Lucas Hedding",
+                    "homepage": "https://www.drupal.org/u/heddn",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "heddn",
+                    "homepage": "https://www.drupal.org/user/1463982"
+                }
+            ],
+            "description": "CSV source migration.",
+            "homepage": "https://www.drupal.org/project/migrate_source_csv",
+            "support": {
+                "source": "https://cgit.drupalcode.org/migrate_source_csv",
+                "issues": "https://www.drupal.org/project/issues/migrate_source_csv",
+                "irc": "irc://irc.freenode.org/drupal-migrate"
+            }
+        },
+        {
+            "name": "drupal/migrate_tools",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/migrate_tools.git",
+                "reference": "8.x-5.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/migrate_tools-8.x-5.0.zip",
+                "reference": "8.x-5.0",
+                "shasum": "b7c91aa6f7de9d6d548f65f83c8736e47e5926a1"
+            },
+            "require": {
+                "drupal/core": "^8.8 | ^9",
+                "drupal/migrate_plus": "^5",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "drupal/migrate_plus": "^5",
+                "drupal/migrate_source_csv": "^3",
+                "drush/drush": "^10"
+            },
+            "suggest": {
+                "drush/drush": "^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-5.0",
+                    "datestamp": "1588260531",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9 || ^10"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Mike Ryan",
+                    "homepage": "https://www.drupal.org/u/mikeryan",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Lucas Hedding",
+                    "homepage": "https://www.drupal.org/u/heddn",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Tools to assist in developing and running migrations.",
+            "homepage": "http://drupal.org/project/migrate_tools",
+            "support": {
+                "source": "https://git.drupalcode.org/project/migrate_tools",
+                "issues": "https://www.drupal.org/project/issues/migrate_tools",
+                "slack": "#migrate"
+            }
+        },
+        {
+            "name": "drupal/migration_tools",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/migration_tools.git",
+                "reference": "8.x-2.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/migration_tools-8.x-2.2.zip",
+                "reference": "8.x-2.2",
+                "shasum": "9781debfcbb66460525f5cbe6f92e6a19a56ae77"
+            },
+            "require": {
+                "drupal/core": "^8"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.2",
+                    "datestamp": "1574306290",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "fmizzell",
+                    "homepage": "https://www.drupal.org/user/1312210"
+                },
+                {
+                    "name": "kducharm",
+                    "homepage": "https://www.drupal.org/user/3072643"
+                },
+                {
+                    "name": "swirt",
+                    "homepage": "https://www.drupal.org/user/138230"
+                }
+            ],
+            "description": "Tools to help process difficult migrations.",
+            "homepage": "https://www.drupal.org/project/migration_tools",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/migration_tools",
+                "issues": "https://www.drupal.org/project/issues/migration_tools"
+            }
+        },
+        {
             "name": "drupal/moderation_dashboard",
             "version": "1.0.0-beta2",
             "source": {
@@ -9106,6 +9602,68 @@
             "homepage": "https://www.drupal.org/project/remote_stream_wrapper_widget",
             "support": {
                 "source": "https://git.drupalcode.org/project/remote_stream_wrapper_widget"
+            }
+        },
+        {
+            "name": "drupal/samlauth",
+            "version": "3.0.0-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/samlauth.git",
+                "reference": "8.x-3.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/samlauth-8.x-3.0-alpha2.zip",
+                "reference": "8.x-3.0-alpha2",
+                "shasum": "d525663e769418f0627d13589f36cc8c90206f23"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9",
+                "drupal/externalauth": "^1.3",
+                "onelogin/php-saml": "^3.3.1"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-3.0-alpha2",
+                    "datestamp": "1588183221",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                },
+                "branch-alias": {
+                    "dev-8.x-3.x": "3.x-dev"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "cweagans",
+                    "homepage": "https://www.drupal.org/user/404732"
+                },
+                {
+                    "name": "japerry",
+                    "homepage": "https://www.drupal.org/user/45640"
+                },
+                {
+                    "name": "roderik",
+                    "homepage": "https://www.drupal.org/user/8841"
+                },
+                {
+                    "name": "smfsh",
+                    "homepage": "https://www.drupal.org/user/3348892"
+                }
+            ],
+            "description": "Allows users to authenticate against an external SAML identity provider.",
+            "homepage": "http://drupal.org/project/samlauth",
+            "support": {
+                "source": "http://cgit.drupalcode.org/samlauth",
+                "issues": "http://drupal.org/project/samlauth"
             }
         },
         {
@@ -11652,6 +12210,83 @@
             "time": "2017-05-10T09:20:27+00:00"
         },
         {
+            "name": "league/csv",
+            "version": "9.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "7351a74625601914409b42b32cabb91a93773b7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/7351a74625601914409b42b32cabb91a93773b7b",
+                "reference": "7351a74625601914409b42b32cabb91a93773b7b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.2.5"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.0",
+                "phpstan/phpstan-phpunit": "^0.12.0",
+                "phpstan/phpstan-strict-rules": "^0.12.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "suggest": {
+                "ext-dom": "Required to use the XMLConverter and or the HTMLConverter classes",
+                "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CSV data manipulation made easy in PHP",
+            "homepage": "http://csv.thephpleague.com",
+            "keywords": [
+                "convert",
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "transform",
+                "write"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/nyamsprod",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-03-17T15:15:35+00:00"
+        },
+        {
             "name": "league/event",
             "version": "2.2.0",
             "source": {
@@ -12027,7 +12662,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikemadison13/blt-azure-pipelines",
-                "reference": "5a612dbb99551f4c9cd972c7d517b5136089259f"
+                "reference": "98ee713d53e6d82fe6df313b39c58315505bfe60"
             },
             "type": "library",
             "autoload": {
@@ -12049,7 +12684,7 @@
                 }
             ],
             "description": "Azure Pipelines integration for Acquia BLT.",
-            "time": "2020-04-17T18:02:05+00:00"
+            "time": "2020-06-19T14:40:01+00:00"
         },
         {
             "name": "mkalkbrenner/php-htmldiff-advanced",
@@ -12756,6 +13391,56 @@
             "time": "2019-11-15T16:17:10+00:00"
         },
         {
+            "name": "onelogin/php-saml",
+            "version": "3.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/onelogin/php-saml.git",
+                "reference": "5fbf3486704ac9835b68184023ab54862c95f213"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/onelogin/php-saml/zipball/5fbf3486704ac9835b68184023ab54862c95f213",
+                "reference": "5fbf3486704ac9835b68184023ab54862c95f213",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "robrichards/xmlseclibs": ">=3.0.4"
+            },
+            "require-dev": {
+                "pdepend/pdepend": "^2.5.0",
+                "php-coveralls/php-coveralls": "^1.0.2 || ^2.0",
+                "phploc/phploc": "^2.1 || ^3.0 || ^4.0",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5 || ^7.1",
+                "sebastian/phpcpd": "^2.0 || ^3.0 || ^4.0",
+                "squizlabs/php_codesniffer": "^3.1.1"
+            },
+            "suggest": {
+                "ext-curl": "Install curl lib to be able to use the IdPMetadataParser for parsing remote XMLs",
+                "ext-gettext": "Install gettext and php5-gettext libs to handle translations",
+                "ext-openssl": "Install openssl lib in order to handle with x509 certs (require to support sign and encryption)"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "OneLogin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "OneLogin PHP SAML Toolkit",
+            "homepage": "https://developers.onelogin.com/saml/php",
+            "keywords": [
+                "SAML2",
+                "onelogin",
+                "saml"
+            ],
+            "time": "2019-11-25T17:30:07+00:00"
+        },
+        {
             "name": "oomphinc/composer-installers-extender",
             "version": "v1.1.2",
             "source": {
@@ -13276,16 +13961,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.1.6",
+            "version": "v6.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "c2796cb1cb99d7717290b48c4e6f32cb6c60b7b3"
+                "reference": "2c2370ba3df7034f9eb7b8f387c97b52b2ba5ad0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/c2796cb1cb99d7717290b48c4e6f32cb6c60b7b3",
-                "reference": "c2796cb1cb99d7717290b48c4e6f32cb6c60b7b3",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2c2370ba3df7034f9eb7b8f387c97b52b2ba5ad0",
+                "reference": "2c2370ba3df7034f9eb7b8f387c97b52b2ba5ad0",
                 "shasum": ""
             },
             "require": {
@@ -13340,7 +14025,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-05-27T12:24:03+00:00"
+            "time": "2020-07-14T18:50:27+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -14413,25 +15098,25 @@
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-authx509",
-            "version": "v0.9.3",
+            "version": "v0.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/simplesamlphp-module-authX509.git",
-                "reference": "a7bda5abccc17e0e6cc057d7315e1f94a9409f44"
+                "reference": "79389f3ede83dc457cc7fe04e9d870290d53d3d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-module-authX509/zipball/a7bda5abccc17e0e6cc057d7315e1f94a9409f44",
-                "reference": "a7bda5abccc17e0e6cc057d7315e1f94a9409f44",
+                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-module-authX509/zipball/79389f3ede83dc457cc7fe04e9d870290d53d3d1",
+                "reference": "79389f3ede83dc457cc7fe04e9d870290d53d3d1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5",
                 "simplesamlphp/composer-module-installer": "~1.1",
-                "simplesamlphp/simplesamlphp-module-ldap": "^0.9.5"
+                "simplesamlphp/simplesamlphp-module-ldap": "^0.9"
             },
             "require-dev": {
-                "simplesamlphp/simplesamlphp": "^1.18",
+                "simplesamlphp/simplesamlphp": "^1.17",
                 "simplesamlphp/simplesamlphp-test-framework": "^0.0.15"
             },
             "type": "simplesamlphp-module",
@@ -14462,7 +15147,7 @@
                 "simplesamlphp",
                 "x509"
             ],
-            "time": "2020-05-24T20:07:14+00:00"
+            "time": "2020-07-14T17:00:28+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-authyubikey",
@@ -14844,16 +15529,16 @@
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-ldap",
-            "version": "v0.9.8",
+            "version": "v0.9.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/simplesamlphp-module-ldap.git",
-                "reference": "49c1f5854a6ff33d24f4562533f72c2fdf3c5149"
+                "reference": "27f0ef60482ff6a063dac5b7d59e8d3d407b52ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-module-ldap/zipball/49c1f5854a6ff33d24f4562533f72c2fdf3c5149",
-                "reference": "49c1f5854a6ff33d24f4562533f72c2fdf3c5149",
+                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-module-ldap/zipball/27f0ef60482ff6a063dac5b7d59e8d3d407b52ac",
+                "reference": "27f0ef60482ff6a063dac5b7d59e8d3d407b52ac",
                 "shasum": ""
             },
             "require": {
@@ -14892,7 +15577,7 @@
                 "ldap",
                 "simplesamlphp"
             ],
-            "time": "2020-05-26T08:41:54+00:00"
+            "time": "2020-07-14T16:33:01+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-memcachemonitor",
@@ -15036,16 +15721,16 @@
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-negotiate",
-            "version": "v0.9.5",
+            "version": "v0.9.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/simplesamlphp-module-negotiate.git",
-                "reference": "6bbbbf798ab05ac20625b0c9cf4f8d80bd0875c3"
+                "reference": "2c6599b8b5c8ecbdec6d9cbd6d82a9af5dfdd63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-module-negotiate/zipball/6bbbbf798ab05ac20625b0c9cf4f8d80bd0875c3",
-                "reference": "6bbbbf798ab05ac20625b0c9cf4f8d80bd0875c3",
+                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-module-negotiate/zipball/2c6599b8b5c8ecbdec6d9cbd6d82a9af5dfdd63b",
+                "reference": "2c6599b8b5c8ecbdec6d9cbd6d82a9af5dfdd63b",
                 "shasum": ""
             },
             "require": {
@@ -15056,7 +15741,10 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "~5.7",
-                "simplesamlphp/simplesamlphp": "^1.17"
+                "sensiolabs/security-checker": "^5.0.3",
+                "simplesamlphp/simplesamlphp": "dev-testing-1.18",
+                "simplesamlphp/simplesamlphp-test-framework": "^0.0.14",
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "suggest": {
                 "ext-krb5": "Needed in case the SimpleSAMLphp negotiate module is used"
@@ -15069,7 +15757,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-3.0-or-later"
+                "LGPL-2.1-or-later"
             ],
             "authors": [
                 {
@@ -15082,7 +15770,7 @@
                 "negotiate",
                 "simplesamlphp"
             ],
-            "time": "2020-02-27T16:11:42+00:00"
+            "time": "2020-07-14T17:11:57+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-oauth",
@@ -15859,7 +16547,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v3.4.41",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -16379,7 +17067,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.4.41",
+            "version": "v3.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -20071,6 +20759,85 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
+        },
+        {
+            "name": "symfony/phpunit-bridge",
+            "version": "v5.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/phpunit-bridge.git",
+                "reference": "de5f0fec631a0cbfe98630b053be1fad7b75aece"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/de5f0fec631a0cbfe98630b053be1fad7b75aece",
+                "reference": "de5f0fec631a0cbfe98630b053be1fad7b75aece",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "conflict": {
+                "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0|<6.4,>=6.0|9.1.2"
+            },
+            "suggest": {
+                "symfony/error-handler": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
+            },
+            "bin": [
+                "bin/simple-phpunit"
+            ],
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.1-dev"
+                },
+                "thanks": {
+                    "name": "phpunit/phpunit",
+                    "url": "https://github.com/sebastianbergmann/phpunit"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Bridge\\PhpUnit\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony PHPUnit Bridge",
+            "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-06-09T09:56:30+00:00"
         },
         {
             "name": "textalk/websocket",
