@@ -23,22 +23,22 @@
   <div {{ bem('section', ['secondary'], footer__base_class) }}>
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('social', [], footer__base_class) }}>
-        {% block footer__social %}
+        {% block footer__social__1 %}
           {% include "@molecules/menus/social/social-menu.twig" %}
         {% endblock %}
       </div>
       <div {{ bem('secondary-menu', [], footer__base_class) }}>
-        {% block footer__social %}
+        {% block footer__social__2 %}
           {% include "@molecules/menus/social/social-menu.twig" %}
         {% endblock %}
       </div>
       <div {{ bem('region-selector', [], footer__base_class) }}>
-        {% block footer__social %}
+        {% block footer__social__3 %}
           {% include "@molecules/menus/social/social-menu.twig" %}
         {% endblock %}
       </div>
       <div {{ bem('info', [], footer__base_class) }}>
-        {% block footer__social %}
+        {% block footer__social__4 %}
           {% include "@molecules/menus/social/social-menu.twig" %}
         {% endblock %}
       </div>

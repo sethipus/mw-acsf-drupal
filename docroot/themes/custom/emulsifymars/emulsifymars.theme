@@ -10,10 +10,6 @@ use Drupal\Core\File\Exception\FileException;
 
 /**
  * Implements hook_form_FORM_ID_alter().
- *
- * @param array $form
- * @param FormStateInterface $form_state
- * @param String $form_id
  */
 function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterface $form_state, $form_id = NULL) {
   // Init social networks links settings.
@@ -257,16 +253,24 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
  * Add new social link callback.
  *
  * @param array $form
- * @param FormStateInterface $form_state
+ *   Theme settings form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
+ *
+ * @return array
+ *   Social container of theme settings.
  */
-function emulsifymars_theme_settings_ajax_add_social($form, $form_state) {
+function emulsifymars_theme_settings_ajax_add_social(array $form, FormStateInterface $form_state): array {
   return $form['social'];
 }
 
 /**
  * Helper function font fields list.
+ *
+ * @return array
+ *   Return list of font form elements.
  */
-function _emulsifymars_get_font_fields() {
+function _emulsifymars_get_font_fields(): array {
   return [
     'primary_font',
     'secondary_font',
@@ -276,8 +280,11 @@ function _emulsifymars_get_font_fields() {
 
 /**
  * Helper function font fields list.
+ *
+ * @return array
+ *   Return list of theme images form elements.
  */
-function _emulsifymars_get_icon_fields() {
+function _emulsifymars_get_icon_fields(): array {
   return [
     'graphic_divider',
     'brand_shape',
@@ -290,7 +297,9 @@ function _emulsifymars_get_icon_fields() {
  * Validate theme settings form.
  *
  * @param array $form
- * @param FormStateInterface $form_state
+ *   Theme settings form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
  */
 function _emulsifymars_form_system_theme_settings_validate(array &$form, FormStateInterface $form_state) {
   if (\Drupal::moduleHandler()->moduleExists('file')) {
@@ -307,10 +316,13 @@ function _emulsifymars_form_system_theme_settings_validate(array &$form, FormSta
  * Helper function for uploading files from settings from.
  *
  * @param array $form_element
- * @param FormStateInterface $form_state
- * @param String $value_name
+ *   Form element to process uploaded file state.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
+ * @param string $value_name
+ *   File value to store.
  */
-function _emulsifymars_file_save_process(array $form_element, FormStateInterface &$form_state, String $value_name) {
+function _emulsifymars_file_save_process(array $form_element, FormStateInterface &$form_state, string $value_name) {
   $file = _file_save_upload_from_form($form_element, $form_state, 0);
   if ($file) {
     // Put the temporary file in form_values so we can save it on submit.
@@ -322,7 +334,9 @@ function _emulsifymars_file_save_process(array $form_element, FormStateInterface
  * Submit theme settings form.
  *
  * @param array $form
- * @param FormStateInterface $form_state
+ *   Theme settings form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
  */
 function _emulsifymars_form_system_theme_settings_submit(array &$form, FormStateInterface $form_state) {
   $default_scheme = \Drupal::config('system.file')->get('default_scheme');
@@ -337,11 +351,14 @@ function _emulsifymars_form_system_theme_settings_submit(array &$form, FormState
 /**
  * Helper function to store file location in config.
  *
- * @param FormStateInterface $form_state
- * @param String $value_name
- * @param String $default_scheme
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
+ * @param string $value_name
+ *   File upload value.
+ * @param string $default_scheme
+ *   Default file scheme.
  */
-function _emulsifymars_file_store_process(FormStateInterface &$form_state, String $value_name, String $default_scheme) {
+function _emulsifymars_file_store_process(FormStateInterface &$form_state, string $value_name, string $default_scheme) {
   $values = $form_state->getValues();
   try {
     if (!empty($values[$value_name])) {
