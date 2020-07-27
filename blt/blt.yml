@@ -40,6 +40,10 @@ drush:
   default_alias: '${drush.aliases.local}'
 validate:
   acsf: true
+  twig:
+    functions:
+      - bem
+      - add_attributes
 tests:
   phpunit:
     -

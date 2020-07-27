@@ -1,0 +1,7 @@
+menu_items:
+  - title: 'Our Products'
+    url: '#'
+  - title: 'Pick A Side'
+    url: '#'
+  - title: 'Our Story'
+    url: '#'

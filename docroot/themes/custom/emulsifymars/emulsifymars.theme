@@ -1,0 +1,373 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\File\Exception\FileException;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterface $form_state, $form_id = NULL) {
+  // Init social networks links settings.
+  $storage = $form_state->getStorage('social');
+  $triggered = $form_state->getTriggeringElement();
+  if (isset($triggered['#parents'][1]) && $triggered['#parents'][1] == 'remove_social') {
+    unset($storage['social'][$triggered['#parents'][0]]);
+  }
+  if (isset($triggered['#parents'][0]) && $triggered['#parents'][0] == 'add_social') {
+    array_push($storage['social'], ['link' => '']);
+  }
+  if (!isset($storage['social'])) {
+    $storage['social'] = [
+      ['link' => ''],
+    ];
+  }
+  $form_state->setStorage($storage);
+
+  $form['color_settings'] = [
+    '#type'        => 'details',
+    '#title'       => t('Color settings'),
+    '#open'        => TRUE,
+    '#description' => t("MARS theme settings for color pallete."),
+  ];
+  $form['color_settings']['color_a'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => t('Color A'),
+    '#default_value' => theme_get_setting('color_a'),
+    '#description'   => t('Primary Color. Will be used as a main color throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['color_b'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => t('Color B'),
+    '#default_value' => theme_get_setting('color_b'),
+    '#description'   => t('Secondary Color. Will be used as a main color throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['color_c'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => t('Color C'),
+    '#default_value' => theme_get_setting('color_c'),
+    '#description'   => t('Includes the option to select a radial gradient variation (white in the center, assigned color on the outside) or keep the default flat color. Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['color_d'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => t('Color D'),
+    '#default_value' => theme_get_setting('color_d'),
+    '#description'   => t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['color_e'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => t('Color E'),
+    '#default_value' => theme_get_setting('color_e'),
+    '#description'   => t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['color_f'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => t('Color F'),
+    '#default_value' => theme_get_setting('color_f'),
+    '#description'   => t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['card_background'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => t('Card Background'),
+    '#default_value' => theme_get_setting('card_background'),
+    '#description'   => t('If gradient check box is checked, use HEX color with white to create radial gradient.'),
+  ];
+
+  $form['font_settings'] = [
+    '#type'        => 'details',
+    '#title'       => t('Theme font settings'),
+    '#open'        => TRUE,
+    '#description' => t("MARS theme settings for font upload."),
+  ];
+  $form['font_settings']['primary_font_path'] = [
+    '#type' => 'textfield',
+    '#title' => t('Path to Primary Typeface'),
+    '#default_value' => theme_get_setting('primary_font_path'),
+  ];
+  $form['font_settings']['primary_font'] = [
+    '#type'              => 'file',
+    '#title'             => t('Primary Typeface'),
+    '#default_value'     => '',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['woff'],
+    ],
+  ];
+  $form['font_settings']['secondary_font_path'] = [
+    '#type' => 'textfield',
+    '#title' => t('Path to Secondary Typeface'),
+    '#default_value' => theme_get_setting('secondary_font_path'),
+  ];
+  $form['font_settings']['secondary_font'] = [
+    '#type'              => 'file',
+    '#title'             => t('Secondary Typeface'),
+    '#default_value'     => '',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['woff'],
+    ],
+  ];
+  $form['font_settings']['tertiary_font_path'] = [
+    '#type' => 'textfield',
+    '#title' => t('Path to Tertiary Typeface'),
+    '#default_value' => theme_get_setting('tertiary_font_path'),
+  ];
+  $form['font_settings']['tertiary_font'] = [
+    '#type'              => 'file',
+    '#title'             => t('Tertiary Typeface'),
+    '#default_value'     => '',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['woff'],
+    ],
+  ];
+
+  $form['icons_settings'] = [
+    '#type'        => 'details',
+    '#title'       => t('Theme images settings'),
+    '#open'        => TRUE,
+    '#description' => t("MARS theme settings for icons/images upload."),
+  ];
+  $form['icons_settings']['graphic_divider_path'] = [
+    '#type' => 'textfield',
+    '#title' => t('Path to Graphic Divider'),
+    '#default_value' => theme_get_setting('graphic_divider_path'),
+  ];
+  $form['icons_settings']['graphic_divider'] = [
+    '#type'              => 'file',
+    '#title'             => t('Graphic Divider'),
+    '#description'       => t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#default_value'     => '',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['svg'],
+    ],
+  ];
+  $form['icons_settings']['brand_shape_path'] = [
+    '#type' => 'textfield',
+    '#title' => t('Path to Brand Shape'),
+    '#default_value' => theme_get_setting('brand_shape_path'),
+  ];
+  $form['icons_settings']['brand_shape'] = [
+    '#type'          => 'file',
+    '#title'         => t('Brand Shape'),
+    '#description'   => t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#default_value' => '',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['svg'],
+    ],
+  ];
+  $form['icons_settings']['brand_borders_path'] = [
+    '#type' => 'textfield',
+    '#title' => t('Path to Brand Borders'),
+    '#default_value' => theme_get_setting('brand_borders_path'),
+  ];
+  $form['icons_settings']['brand_borders'] = [
+    '#type'          => 'file',
+    '#title'         => t('Brand Borders'),
+    '#description'   => t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#default_value' => '',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['svg'],
+    ],
+  ];
+  $form['icons_settings']['png_asset_path'] = [
+    '#type' => 'textfield',
+    '#title' => t('Path to PNG Asset'),
+    '#default_value' => theme_get_setting('png_asset_path'),
+  ];
+  $form['icons_settings']['png_asset'] = [
+    '#type'          => 'file',
+    '#title'         => t('PNG Asset'),
+    '#description'   => t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#default_value' => '',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['svg'],
+    ],
+  ];
+  $form['icons_settings']['button_style'] = [
+    '#type'          => 'select',
+    '#title'         => t('Button/Card Style'),
+    '#description'   => t('Designates rounded buttons or sharp corner buttons and card corner.'),
+    '#default_value' => '',
+    '#options' => [
+      '1' => t('Round'),
+      '2' => t('Sharp Radio Buttons'),
+    ],
+  ];
+
+  $form['social'] = [
+    '#type'        => 'details',
+    '#title'       => t('Theme social link settings'),
+    '#open'        => TRUE,
+    '#description' => t("MARS theme settings for icons/images upload."),
+    '#prefix'      => '<div id="social">',
+    '#suffix'      => '</div>',
+  ];
+
+  if (isset($storage['social'])) {
+    foreach ($storage['social'] as $key => $value) {
+      $form['social'][$key] = [
+        '#type' => 'fieldset',
+        '#tree' => TRUE,
+      ];
+      $form['social'][$key]['icon'] = [
+        '#title'             => t('Social network icon'),
+        '#type'              => 'file',
+        '#upload_validators' => [
+          'file_validate_extensions' => ['svg'],
+        ],
+      ];
+      $form['social'][$key]['link'] = [
+        '#title' => t('Social network link'),
+        '#type'  => 'textfield',
+        '#value' => $value['link'],
+      ];
+      $form['social'][$key]['remove_social'] = [
+        '#type'  => 'button',
+        '#value' => t('Remove social link'),
+        '#href'  => '',
+        '#ajax'  => [
+          'callback' => 'emulsifymars_theme_settings_ajax_add_social',
+          'wrapper' => 'social',
+        ],
+      ];
+    }
+  }
+
+  $form['social']['add_social'] = [
+    '#type' => 'button',
+    '#value' => t('Add new social link'),
+    '#href' => '',
+    '#ajax' => [
+      'callback' => 'emulsifymars_theme_settings_ajax_add_social',
+      'wrapper' => 'social',
+    ],
+  ];
+
+  $form['#validate'] = ['_emulsifymars_form_system_theme_settings_validate'];
+  $form['#submit'] = ['_emulsifymars_form_system_theme_settings_submit'];
+}
+
+/**
+ * Add new social link callback.
+ *
+ * @param array $form
+ *   Theme settings form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
+ *
+ * @return array
+ *   Social container of theme settings.
+ */
+function emulsifymars_theme_settings_ajax_add_social(array $form, FormStateInterface $form_state): array {
+  return $form['social'];
+}
+
+/**
+ * Helper function font fields list.
+ *
+ * @return array
+ *   Return list of font form elements.
+ */
+function _emulsifymars_get_font_fields(): array {
+  return [
+    'primary_font',
+    'secondary_font',
+    'tertiary_font',
+  ];
+}
+
+/**
+ * Helper function font fields list.
+ *
+ * @return array
+ *   Return list of theme images form elements.
+ */
+function _emulsifymars_get_icon_fields(): array {
+  return [
+    'graphic_divider',
+    'brand_shape',
+    'brand_borders',
+    'png_asset',
+  ];
+}
+
+/**
+ * Validate theme settings form.
+ *
+ * @param array $form
+ *   Theme settings form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
+ */
+function _emulsifymars_form_system_theme_settings_validate(array &$form, FormStateInterface $form_state) {
+  if (\Drupal::moduleHandler()->moduleExists('file')) {
+    foreach (_emulsifymars_get_font_fields() as $font) {
+      _emulsifymars_file_save_process($form['font_settings'][$font], $form_state, $font);
+    }
+    foreach (_emulsifymars_get_icon_fields() as $icon) {
+      _emulsifymars_file_save_process($form['icons_settings'][$icon], $form_state, $icon);
+    }
+  }
+}
+
+/**
+ * Helper function for uploading files from settings from.
+ *
+ * @param array $form_element
+ *   Form element to process uploaded file state.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
+ * @param string $value_name
+ *   File value to store.
+ */
+function _emulsifymars_file_save_process(array $form_element, FormStateInterface &$form_state, string $value_name) {
+  $file = _file_save_upload_from_form($form_element, $form_state, 0);
+  if ($file) {
+    // Put the temporary file in form_values so we can save it on submit.
+    $form_state->setValue($value_name, $file);
+  }
+}
+
+/**
+ * Submit theme settings form.
+ *
+ * @param array $form
+ *   Theme settings form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
+ */
+function _emulsifymars_form_system_theme_settings_submit(array &$form, FormStateInterface $form_state) {
+  $default_scheme = \Drupal::config('system.file')->get('default_scheme');
+  foreach (_emulsifymars_get_font_fields() as $font) {
+    _emulsifymars_file_store_process($form_state, $font, $default_scheme);
+  }
+  foreach (_emulsifymars_get_icon_fields() as $icon) {
+    _emulsifymars_file_store_process($form_state, $icon, $default_scheme);
+  }
+}
+
+/**
+ * Helper function to store file location in config.
+ *
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Theme settings form state.
+ * @param string $value_name
+ *   File upload value.
+ * @param string $default_scheme
+ *   Default file scheme.
+ */
+function _emulsifymars_file_store_process(FormStateInterface &$form_state, string $value_name, string $default_scheme) {
+  $values = $form_state->getValues();
+  try {
+    if (!empty($values[$value_name])) {
+      $filename = \Drupal::service('file_system')->copy($values[$value_name]->getFileUri(), $default_scheme . '://');
+      $form_state->setValue($value_name, '');
+      $form_state->setValue($value_name . '_path', $filename);
+    }
+  }
+  catch (FileException $e) {
+    // Ignore.
+  }
+}

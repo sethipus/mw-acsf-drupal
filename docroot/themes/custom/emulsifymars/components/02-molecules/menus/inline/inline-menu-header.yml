@@ -1,0 +1,7 @@
+inline_menu_items:
+  - title: 'Where To Buy'
+    url: '#'
+  - title: 'Contact & Help'
+    url: '#'
+  - title: 'Search'
+    url: '#'

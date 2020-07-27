@@ -31,7 +31,9 @@
         "drupal/gdpr_onetrust": "^1.0",
         "drupal/google_tag": "^1.3",
         "drupal/inline_entity_form": "^1.0@RC",
+        "drupal/jquery_colorpicker": "^1.4",
         "drupal/media_entity_image": "^1.3",
+        "drupal/menu_item_extras": "^2.11",
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^5.0",
@@ -43,7 +45,10 @@
         "drupal/samlauth": "3.0-alpha2",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0",
+        "drupal/simplesamlphp_auth": "^3.2",
         "drupal/site_settings": "^1.19",
+        "emulsify-ds/emulsify-drupal": "^1.0@beta",
+        "eyecon/jquery_colorpicker": "master",
         "lcatlett/blt-ddev": "dev-master",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -143,6 +148,22 @@
         "blt-azure-pipelinest": {
             "type": "git",
             "url": "https://github.com/mikemadison13/blt-azure-pipelines"
+        },
+        "jquery_colorpicker": {
+            "type": "package",
+            "package": {
+                "name": "eyecon/jquery_colorpicker",
+                "version": "master",
+                "type": "drupal-library",
+                "dist": {
+                   "type": "zip",
+                   "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
+                   "reference": "master"
+                },
+                "autoload": {
+                   "classmap": ["."]
+                }
+            }
         }
     },
     "minimum-stability": "dev",
