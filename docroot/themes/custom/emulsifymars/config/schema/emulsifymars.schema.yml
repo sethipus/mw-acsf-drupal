@@ -1,0 +1,54 @@
+# Schema for the configuration files of the Bootstrap Barrio Subtheme.
+
+emulsifymars.settings:
+  type: theme_settings
+  label: 'MARS theme settings'
+  mapping:
+
+# Color.
+# ----------------------------
+color_a:
+  type: text
+  label: 'Primary Color. Will be used as a main color throughout the site. Must be AA compliant.'
+color_b:
+  type: text
+  label: 'Secondary Color. Will be used as a main color throughout the site. Must be AA compliant.'
+color_c:
+  type: text
+  label: 'Includes the option to select a radial gradient variation (white in the center, assigned color on the outside) or keep the default flat color. Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+color_d:
+  type: text
+  label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+color_e:
+  type: text
+  label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+color_f:
+  type: text
+  label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+
+# Font.
+# ----------------------------
+primary_font_path:
+  type: text
+  label: 'Primary Typeface'
+secondary_font_path:
+  type: text
+  label: 'Secondary Typeface'
+tertiary_font_path:
+  type: text
+  label: 'Tertiary Typeface'
+
+# Icons.
+# ----------------------------
+graphic_divider_path:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+brand_shape_path:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+brand_borders_path:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+png_asset_path:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'

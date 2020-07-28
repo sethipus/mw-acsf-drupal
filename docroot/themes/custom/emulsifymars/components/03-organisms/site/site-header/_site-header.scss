@@ -1,0 +1,50 @@
+.header {
+  background-color: clr(highlight-high);
+
+  &__inner {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+  &__primary {
+    background-image: radial-gradient(circle at 50% 50%, rgba(245, 225, 164, 0.6), clr(secondary));
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: $space 0;
+  }
+
+  &__branding {
+    flex: 0 0 272px;
+    margin: 32px 30px;
+  }
+
+  &__menu {
+    flex: 1 0 auto;
+
+    &--secondary {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 2.8rem 4rem;
+    }
+  }
+
+  &__alert {
+    background: clr(primary);
+    padding: 2.2rem 4rem 2.1rem;
+    text-align: center;
+
+    &_text {
+      font-size: 1.8rem;
+      line-height: 1.2;
+      color: clr(subcolor-3);
+    }
+  }
+
+}
+
+//ToDo: optimize with logo.twig
+.logo__image {
+  width: 100%;
+}

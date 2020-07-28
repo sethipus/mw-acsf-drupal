@@ -1,0 +1,7 @@
+@mixin link {
+  color: clr(subcolor-1);
+}
+
+.link {
+  @include link;
+}
