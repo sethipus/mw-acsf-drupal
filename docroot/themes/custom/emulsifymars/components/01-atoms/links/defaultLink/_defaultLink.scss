@@ -1,0 +1,14 @@
+.default-link {
+    color: clr(text-inverse);
+    background-color: clr(subcolor-1);
+    text-transform: uppercase;;
+    font-size: 1.6rem;
+    letter-spacing: 0.16rem;
+    text-decoration: none;
+    line-height: 6rem;
+    padding: 2rem 5.7rem;
+
+    &--rounded {
+        border-radius: 3rem;
+    }
+}
