@@ -101,6 +101,12 @@ steps:
     displayName: 'Run Tests'
     inputs:
       filePath: '$(scriptDir)/test.sh'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'reports/phpunit/*.xml'
+      mergeTestResults: true
+      testRunTitle: 'Unit tests'
   - task: Bash@3
     displayName: 'Deploy Branch'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release-'))
