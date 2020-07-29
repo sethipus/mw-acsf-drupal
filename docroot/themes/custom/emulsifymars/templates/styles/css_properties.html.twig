@@ -1,0 +1,11 @@
+:root {
+  {% for key, color in settings.colors %}
+    --{{ key }}: #{{ color }}
+  {% endfor %}
+  {% for key, icon in settings.icons %}
+    --{{ key }}: {{ icon }}
+  {% endfor %}
+  {% for key, font in settings.fonts %}
+    --{{ key }}: {{ font }}
+  {% endfor %}
+}

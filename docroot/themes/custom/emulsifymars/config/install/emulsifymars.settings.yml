@@ -15,7 +15,14 @@ tertiary_font_path: 'font3'
 
 # Icons.
 # ----------------------------
-graphic_divider_path: 'icon1'
-brand_shape_path: 'icon2'
-brand_borders_path: 'icon3'
-png_asset_path: 'icon4'
+graphic_divider: 0
+brand_shape: 0
+brand_borders: 0
+png_asset: 0
+
+# Social links.
+# ----------------------------
+social_links:
+  - name: 'facebook'
+    link: 'facebook.com'
+    icon_path: 'social_icon1'

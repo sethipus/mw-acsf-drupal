@@ -1,4 +1,4 @@
-# Schema for the configuration files of the Bootstrap Barrio Subtheme.
+# Schema for the configuration files of the Emulsify Subtheme.
 
 emulsifymars.settings:
   type: theme_settings
@@ -40,15 +40,29 @@ tertiary_font_path:
 
 # Icons.
 # ----------------------------
-graphic_divider_path:
-  type: text
+graphic_divider:
+  type: integer
   label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
-brand_shape_path:
-  type: text
+brand_shape:
+  type: integer
   label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
-brand_borders_path:
-  type: text
+brand_borders:
+  type: integer
   label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
-png_asset_path:
-  type: text
+png_asset:
+  type: integer
   label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+
+# Social links.
+# ----------------------------
+social_links:
+  type: sequence
+  sequence:
+    type: mapping
+    mapping:
+      name:
+        type: label
+      link:
+        type: text
+      icon:
+        type: integer
