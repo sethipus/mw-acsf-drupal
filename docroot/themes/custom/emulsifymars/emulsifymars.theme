@@ -315,6 +315,21 @@ function emulsifymars_theme_settings_ajax_remove_social(array $form, FormStateIn
 }
 
 /**
+ * Helper function icon fields list.
+ *
+ * @return array
+ *   Return list of font form elements.
+ */
+function _emulsifymars_get_icon_fields(): array {
+  return [
+    'graphic_divider',
+    'brand_shape',
+    'brand_borders',
+    'png_asset',
+  ];
+}
+
+/**
  * Helper function font fields list.
  *
  * @return array
@@ -497,17 +512,10 @@ function emulsifymars_preprocess_css_properties_loader(&$variables) {
     'color_e' => $variables['settings']['color_e'],
     'color_f' => $variables['settings']['color_f'],
   ];
-  if (count($variables['settings']['graphic_divider']) > 0 && $graphic_divider = File::load($variables['settings']['graphic_divider'][0])) {
-    $settings['icons']['graphic_divider'] = file_create_url($graphic_divider->getFileUri());
-  }
-  if (count($variables['settings']['brand_shape']) > 0 && $brand_shape = File::load($variables['settings']['brand_shape'][0])) {
-    $settings['icons']['brand_shape'] = file_create_url($brand_shape->getFileUri());
-  }
-  if (count($variables['settings']['brand_borders']) > 0 && $brand_borders = File::load($variables['settings']['brand_borders'][0])) {
-    $settings['icons']['brand_borders'] = file_create_url($brand_borders->getFileUri());
-  }
-  if (count($variables['settings']['png_asset']) > 0 && $png_asset = File::load($variables['settings']['png_asset'][0])) {
-    $settings['icons']['png_asset'] = file_create_url($$png_asset->getFileUri());
+  foreach (_emulsifymars_get_icon_fields() as $icon) {
+    if (count($variables['settings'][$icon]) > 0 && $file = File::load($variables['settings'][$icon][0])) {
+      $settings['icons'][$icon] = $file->createFileUrl();
+    }
   }
   $settings['fonts'] = [
     'primary_font'   => $variables['settings']['primary_font_path'],
