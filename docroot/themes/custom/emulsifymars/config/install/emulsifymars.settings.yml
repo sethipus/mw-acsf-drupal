@@ -19,10 +19,11 @@ graphic_divider: 0
 brand_shape: 0
 brand_borders: 0
 png_asset: 0
+button_style: '0px'
 
 # Social links.
 # ----------------------------
 social_links:
   - name: 'facebook'
     link: 'facebook.com'
-    icon_path: 'social_icon1'
+    icon: 'social_icon1'

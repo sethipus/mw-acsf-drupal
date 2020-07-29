@@ -24,7 +24,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     }
     else {
       $social_storage['social'] = [
-        ['icon_path' => '', 'link' => ''],
+        ['icon' => '', 'link' => ''],
       ];
     }
   }
@@ -212,14 +212,10 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   ];
 
   $form['icons_settings']['button_style'] = [
-    '#type'          => 'select',
+    '#type'          => 'textfield',
     '#title'         => $translation->translate('Button/Card Style'),
-    '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner.'),
-    '#default_value' => '',
-    '#options'       => [
-      '1' => $translation->translate('Round'),
-      '2' => $translation->translate('Sharp Radio Buttons'),
-    ],
+    '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner. For example: 5px.'),
+    '#default_value' => theme_get_setting('button_style'),
   ];
 
   $form['social'] = [
@@ -516,7 +512,7 @@ function emulsifymars_preprocess_css_properties_loader(&$variables) {
     'color_f' => $variables['settings']['color_f'],
   ];
   foreach (_emulsifymars_get_icon_fields() as $icon) {
-    if (count($variables['settings'][$icon]) > 0 && $file = File::load($variables['settings'][$icon][0])) {
+    if (is_array($variables['settings'][$icon]) && count($variables['settings'][$icon]) > 0 && $file = File::load($variables['settings'][$icon][0])) {
       $settings['icons'][$icon] = $file->createFileUrl();
     }
   }

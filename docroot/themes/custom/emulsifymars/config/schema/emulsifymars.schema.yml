@@ -52,6 +52,9 @@ brand_borders:
 png_asset:
   type: integer
   label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+button_style:
+  type: text
+  label: 'Designates rounded buttons or sharp corner buttons and card corner. For example: 5px.'
 
 # Social links.
 # ----------------------------
