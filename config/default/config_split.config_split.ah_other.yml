@@ -1,0 +1,22 @@
+uuid: 5b81ec49-98d2-4049-9891-84112d8b018b
+langcode: en
+status: true
+dependencies: {  }
+id: ah_other
+label: QA
+description: ''
+folder: ../config/envs/qa
+module:
+  acquia_connector: 0
+  acsf: 0
+  acsf_duplication: 0
+  acsf_sso: 0
+  acsf_theme: 0
+  acsf_variables: 0
+  syslog: 0
+theme: {  }
+blacklist: {  }
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 1
