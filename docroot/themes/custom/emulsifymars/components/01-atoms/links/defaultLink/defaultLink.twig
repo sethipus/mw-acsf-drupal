@@ -1,16 +1,17 @@
 {# 
   Available variables:
     default_link_base_class - base class of the link
-    default_link_modifier - CSS modifier, sets border radius, 'square' (default) or 'rounded'
+    default_link_border_radius - defines border radius in pixels
     default_link_attributes - attributes array, like href, target, rel, ...
     default_link_content - content of the link, image or text
  #}
 
 {% set default_link_base_class = default_link_base_class|default('default-link') %}
-{% set default_link_modifier = default_link_modifier|default('square') %}
+{% set default_link_border_radius = default_link_border_radius|default(0) %}
 
 <a 
-  {{ bem(default_link_base_class, [default_link_modifier]) }}
+  {{ bem(default_link_base_class) }}
+  style="{{ 'border-radius: ' ~ default_link_border_radius ~ 'px' }}"
   {% for key, value in default_link_attributes %}
     {{ key }}="{{ value }}"
   {% endfor %}
