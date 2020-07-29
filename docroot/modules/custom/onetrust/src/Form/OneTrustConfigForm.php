@@ -40,13 +40,6 @@ class OneTrustConfigForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('onetrust.settings')
       ->set('onetrust.data_domain', $form_state->getValue('data_domain'))
