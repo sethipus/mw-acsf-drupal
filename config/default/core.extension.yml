@@ -81,6 +81,7 @@ module:
   moderation_dashboard: 0
   moderation_sidebar: 0
   node: 0
+  onetrust: 0
   openapi: 0
   openapi_jsonapi: 0
   openapi_ui: 0
