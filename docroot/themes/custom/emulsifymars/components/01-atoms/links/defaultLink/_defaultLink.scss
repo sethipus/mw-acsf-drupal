@@ -1,14 +1,53 @@
 .default-link {
-    color: clr(text-inverse);
-    background-color: clr(subcolor-1);
-    text-transform: uppercase;;
-    font-size: 1.6rem;
-    letter-spacing: 0.16rem;
-    text-decoration: none;
-    line-height: 6rem;
-    padding: 2rem 5.7rem;
+  color: clr(text-inverse);
+  background-color: clr(subcolor-1);
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  letter-spacing: 0.16rem;
+  text-decoration: none;
+  line-height: 6rem;
+  padding: 0 5.7rem;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
 
-    &--rounded {
-        border-radius: 3rem;
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    bottom: -35px;
+    left: -45px;
+    width: 300px;
+    transform: rotate(18deg);
+    height: 0;
+    background-color: clr(text-inverse);
+    transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
+  }
+
+  &:hover {
+    color: clr(subcolor-1);
+
+    &::after {
+      height: 150px;
     }
+  }
+
+  &__label {
+    position: relative;
+    z-index: 1;
+  }
+
+  &--rounded {
+    border-radius: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+    padding: 0 3.7rem;
+  }
+
+  @media (max-width: 375px) {
+    padding: 0 2.7rem;
+  }
 }

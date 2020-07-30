@@ -4,9 +4,11 @@ import heading from './headings/_heading.twig';
 import blockquote from './text/02-blockquote.twig';
 import pre from './text/05-pre.twig';
 import paragraph from './text/03-inline-elements.twig';
+import eyebrow from './eyebrow/eyebrow.twig';
 
 import blockquoteData from './text/blockquote.yml';
 import headingData from './headings/headings.yml';
+import eyebrowData from './eyebrow/eyebrow.yml';
 
 /**
  * Storybook Definition.
@@ -27,4 +29,7 @@ export const preformatted = () => (
 );
 export const random = () => (
   <div dangerouslySetInnerHTML={{ __html: paragraph({}) }} />
+);
+export const eyebrowExample = () => (
+  <div dangerouslySetInnerHTML={{ __html: eyebrow(eyebrowData) }} />
 );
