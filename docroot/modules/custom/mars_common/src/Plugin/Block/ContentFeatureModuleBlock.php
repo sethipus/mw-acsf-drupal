@@ -6,7 +6,6 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\media\Entity\Media;
 
 /**
  * Provides a content feature module block.
@@ -44,31 +43,28 @@ class ContentFeatureModuleBlock extends BlockBase {
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 15,
-      '#description' => $this->t(''),
-      '#default_value' => '',
+      '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
     $form['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 35,
-      '#description' => $this->t(''),
-      '#default_value' => '',
+      '#default_value' => $this->configuration['label'] ?? '',
       '#required' => TRUE,
     ];
     $form['background'] = [
       '#type' => 'entity_autocomplete',
       '#title' => 'Background',
       '#target_type' => 'media',
-      //      '#default_value' => $media,
+//      '#default_value' => $media,
       '#required' => TRUE,
     ];
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#maxlength' => 65,
-      '#description' => $this->t(''),
-      '#default_value' => '',
+      '#default_value' => $this->configuration['description'] ?? '',
       '#required' => TRUE,
     ];
     $form['explore_cta'] = [
@@ -80,6 +76,10 @@ class ContentFeatureModuleBlock extends BlockBase {
     ];
 
     return $form;
+  }
+
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration = $form_state->getValues();
   }
 
 }
