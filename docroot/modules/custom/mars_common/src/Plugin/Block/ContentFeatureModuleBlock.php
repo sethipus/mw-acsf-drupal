@@ -4,8 +4,10 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\media\Entity\Media;
 
 /**
  * Provides a content feature module block.
@@ -57,7 +59,7 @@ class ContentFeatureModuleBlock extends BlockBase {
       '#type' => 'entity_autocomplete',
       '#title' => 'Background',
       '#target_type' => 'media',
-//      '#default_value' => $media,
+      '#default_value' => $this->getBackgroundEntity(),
       '#required' => TRUE,
     ];
     $form['description'] = [
@@ -80,6 +82,15 @@ class ContentFeatureModuleBlock extends BlockBase {
 
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->configuration = $form_state->getValues();
+  }
+
+  private function getBackgroundEntity(): ?EntityInterface {
+    $backgroundEntityId = $this->configuration['background'] ?? NULL;
+    if (!$backgroundEntityId) {
+      return NULL;
+    }
+
+    return Media::load($backgroundEntityId);
   }
 
 }
