@@ -1,0 +1,7 @@
+<div>
+  {% for selection in select %}
+    {% include "@atoms/forms/select/_select-item.twig" with {
+      select_item: selection.title
+    } %}
+  {% endfor %}
+</div>
