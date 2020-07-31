@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\juicer_io\Model;
+namespace Drupal\Tests\juicer_io\Unit\Model;
 
 use Drupal\juicer_io\Model\Feed;
 use Drupal\juicer_io\Model\FeedItem;

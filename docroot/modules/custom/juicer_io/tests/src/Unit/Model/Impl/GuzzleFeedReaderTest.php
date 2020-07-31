@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\juicer_io\Model\Impl;
+namespace Drupal\Tests\juicer_io\Unit\Model\Impl;
 
 use Closure;
 use Drupal\juicer_io\Entity\FeedConfiguration;
