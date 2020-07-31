@@ -8,7 +8,10 @@
           output_image_tag: true,
           image_alt: 'Logo',
           image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
-          image_sizes: '212px',
+          image_sizes: '(max-width: 375px) 101px,
+            (max-width: 768px) 151px,
+            (max-width: 1024px) 212px,
+            212px',
           image_src: 'twix-logo.png',
           responsive_image_blockname: 'logo',
         } %}
@@ -28,14 +31,14 @@
           {% include "@molecules/menus/social/social-menu.twig" %}
         {% endblock %}
       </div>
-      <div {{ bem('secondary-menu', [], footer__base_class) }}>
-        {% block footer__secondary_menu %}
-          {% include "@molecules/menus/secondary-footer/secondary-footer-menu.twig" %}
+      <div {{ bem('legal-links', [], footer__base_class) }}>
+        {% block footer__legal_links %}
+          {% include "@molecules/menus/legal-links/legal-links-menu.twig" %}
         {% endblock %}
       </div>
       <div {{ bem('region-selector', [], footer__base_class) }}>
-        {% block footer__social %}
-          {% include "@molecules/menus/social/social-menu.twig" %}
+        {% block footer__region_selector %}
+          {% include "@molecules/region-selector/region-selector.twig" %}
         {% endblock %}
       </div>
       <div {{ bem('info', [], footer__base_class) }}>
