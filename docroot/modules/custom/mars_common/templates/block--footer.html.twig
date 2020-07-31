@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Footer block.
+ 'top_footer_menu' => NULL,
+        'footer_menu' => NULL,
+        'copyright' => NULL,
+        'corporate_tout' => NULL,
+        'social_links' => NULL,
+        'region_selector' => NULL,
+ */
+#}
+<div>
+  {{ top_footer_menu }}
+  {{ footer_menu }}
+  {{ copyright }}
+  <a href="{{ corporate_tout.url }}">{{ corporate_tout.title }}</a>
+</div>
