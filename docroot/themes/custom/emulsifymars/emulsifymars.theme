@@ -254,6 +254,11 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
         '#type'          => 'textfield',
         '#default_value' => $value['link'],
       ];
+      $form['social'][$key]['title'] = [
+        '#title'         => $translation->translate('Social network title'),
+        '#type'          => 'textfield',
+        '#default_value' => $value['title'],
+      ];
       $form['social'][$key]['remove_social'] = [
         '#type'  => 'button',
         '#name' => 'social_' . $key,
@@ -542,6 +547,23 @@ function emulsifymars_preprocess_css_properties_loader(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_social_icons().
+ */
+function emulsifymars_preprocess_social_icons(&$variables) {
+  $social_menu_items = &$variables['social_menu_items'];
+  $theme_settings = \Drupal::config('emulsifymars.settings')->get();
+  foreach ($theme_settings['social'] as $key => $social_settings) {
+    $social_menu_items[$key]['title'] = $social_settings['title'];
+    $social_menu_items[$key]['url'] = $social_settings['link'];
+    if (!empty($social_settings['icon'])) {
+      $fid = reset($social_settings['icon']);
+      $file = File::load($fid);
+    }
+    $social_menu_items[$key]['icon'] = !empty($file) ? $file->createFileUrl() : '';
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function emulsifymars_theme() {
@@ -550,6 +572,12 @@ function emulsifymars_theme() {
       'template'   => 'styles/css_properties',
       'variables'  => [
         'settings' => [],
+      ],
+    ],
+    'social_icons' => [
+      'template'   => 'misc/social-menu',
+      'variables'  => [
+        'social_menu_items' => [],
       ],
     ],
   ];
