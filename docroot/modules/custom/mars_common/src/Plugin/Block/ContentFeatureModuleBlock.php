@@ -36,7 +36,7 @@ class ContentFeatureModuleBlock extends BlockBase {
 
   public function defaultConfiguration(): array {
     return [
-      'explore_cta' => $this->t('Explore'),
+      'explore_cta' => $this->configuration['explore_cta'] ?? $this->t('Explore'),
     ];
   }
 
@@ -69,12 +69,22 @@ class ContentFeatureModuleBlock extends BlockBase {
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => TRUE,
     ];
-    $form['explore_cta'] = [
-      '#type' => 'textfield',
+    $form['explore_group'] = [
+      '#type' => 'fieldset',
       '#title' => $this->t('Explore CTA'),
-      '#maxlength' => 15,
-      '#default_value' => $this->configuration['explore_cta'],
-      '#required' => FALSE,
+      'explore_cta' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Button Label'),
+        '#maxlength' => 15,
+        '#default_value' => $this->configuration['explore_group']['explore_cta'],
+        '#required' => FALSE,
+      ],
+      'explore_cta_link' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('URL'),
+        '#default_value' => $this->configuration['explore_group']['explore_cta_link'] ?? '',
+        '#required' => FALSE,
+      ],
     ];
 
     return $form;
