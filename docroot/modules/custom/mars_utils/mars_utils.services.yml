@@ -1,0 +1,3 @@
+services:
+  mars_utils.time_provider:
+    class: 'Drupal\mars_utils\Time\TimeProvider'

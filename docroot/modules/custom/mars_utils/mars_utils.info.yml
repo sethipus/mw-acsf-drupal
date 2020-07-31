@@ -1,0 +1,5 @@
+name: 'Mars Utilities'
+type: module
+description: 'Module for utilities.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
