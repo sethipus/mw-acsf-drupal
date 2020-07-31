@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Theme override for social menu.
+ *
+ * Available variables:
+ * - social_menu_items: Array of the social menu values.
+ *   - title: Social title.
+ *   - icon: Social title.
+ *   - url: Social link.
+#}
+
+{% include "@molecules/menus/social/social-menu.twig" with {
+  "social_menu_items": social_menu_items
+} %}
