@@ -6,7 +6,7 @@ import siteHeader from './site-header/site-header.twig';
 
 import footerSocial from '../../02-molecules/menus/social/social-menu.yml';
 import footerMenu from '../../02-molecules/menus/footer/footer-menu.yml';
-import secondaryMenuData from '../../02-molecules/menus/inline/inline-menu-header.yml';
+import secondaryMenuData from '../../02-molecules/menus/inline/header-inline-menu/inline-menu-header.yml';
 import mainMenuData from '../../02-molecules/menus/main-menu/main-menu.yml';
 
 import legalLinksData from '../../02-molecules/menus/legal-links/legal-links-menu.yml';

@@ -1,7 +1,7 @@
-@mixin link {
-  color: clr(subcolor-1);
-}
-
 .link {
   @include link;
+}
+
+.text_link {
+  @include text_link;
 }

@@ -6,25 +6,19 @@
     display: none;
   }
 
-  display: inline-block;
   padding: $space;
   text-decoration: none;
   width: 100%;
-
-  /* See main-menu.js */
-  &--open {
-    background-color: clr(accent);
-  }
+  display: flex;
+  flex-flow: row nowrap;
 }
 
 .toggle-expand__text {
   display: block;
-  font-size: 0.9rem;
+  font-size: 1.8rem;
   font-weight: bold;
-
-  .toggle-expand--open & {
-    color: clr(background);
-  }
+  text-transform: uppercase;
+  color: clr(subcolor-1);
 }
 
 /* SVG icon */
@@ -32,30 +26,21 @@
   height: 3rem;
   width: 3rem;
   margin: 0 auto;
-}
+  border: 1px solid black;
 
-.toggle-expand__open {
-  display: inline-block;
-  text-align: center;
-
-  .toggle-expand--open & {
-    display: none;
-  }
-}
-
-.toggle-expand__close {
-  display: none;
-  text-align: center;
-
-  &::before {
-    color: clr(background);
-    content: 'X';
-    display: block;
-    font-size: 2.5rem;
-    line-height: 2;
-  }
-
-  .toggle-expand--open & {
+  &--open {
     display: inline-block;
+
+    .toggle-expand--open & {
+      display: none;
+    }
+  }
+
+  &--close {
+    display: none;
+
+    .toggle-expand--open & {
+      display: inline-block;
+    }
   }
 }
