@@ -8,6 +8,7 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\File\Exception\FileException;
 use Drupal\file\Entity\File;
+use Drupal\Core\Render\Markup;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -474,8 +475,6 @@ function emulsifymars_process_image_widget(array &$element, FormStateInterface $
 
   return $element;
 }
-
-use Drupal\Core\Render\Markup;
 
 /**
  * Implements hook_preprocess_html().
