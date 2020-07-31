@@ -4,7 +4,7 @@ ignored_config_entities:
   - 'system.site:page.front'
   - acquia_connector.settings
   - samlauth.authentication
-  - onetrust.settings
+  - 'juicer_io.feed.*'
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'
