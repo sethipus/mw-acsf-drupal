@@ -24,7 +24,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     }
     else {
       $social_storage['social'] = [
-        ['icon' => '', 'link' => ''],
+        ['icon' => '', 'link' => '', 'name' => ''],
       ];
     }
   }
@@ -34,7 +34,11 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     unset($social_storage['social'][$triggered['#parents'][1]]);
   }
   if (isset($triggered['#parents'][1]) && $triggered['#parents'][1] == 'add_social') {
-    array_push($social_storage['social'], ['link' => '']);
+    array_push($social_storage['social'], [
+      'icon' => '',
+      'link' => '',
+      'name' => '',
+    ]);
   }
   $form_state->setStorage($social_storage);
 
@@ -254,10 +258,10 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
         '#type'          => 'textfield',
         '#default_value' => $value['link'],
       ];
-      $form['social'][$key]['title'] = [
+      $form['social'][$key]['name'] = [
         '#title'         => $translation->translate('Social network title'),
         '#type'          => 'textfield',
-        '#default_value' => $value['title'],
+        '#default_value' => $value['name'],
       ];
       $form['social'][$key]['remove_social'] = [
         '#type'  => 'button',
@@ -536,7 +540,7 @@ function emulsifymars_preprocess_social_icons(&$variables) {
   $social_menu_items = &$variables['social_menu_items'];
   $theme_settings = \Drupal::config('emulsifymars.settings')->get();
   foreach ($theme_settings['social'] as $key => $social_settings) {
-    $social_menu_items[$key]['title'] = $social_settings['title'];
+    $social_menu_items[$key]['title'] = $social_settings['name'];
     $social_menu_items[$key]['url'] = $social_settings['link'];
     if (!empty($social_settings['icon'])) {
       $fid = reset($social_settings['icon']);

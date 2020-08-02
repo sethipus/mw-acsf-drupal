@@ -4,6 +4,7 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -36,12 +37,35 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $menuStorage;
 
   /**
+   * File storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
+
+  /**
+   * Config Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $config;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MenuLinkTreeInterface $menu_link_tree, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    MenuLinkTreeInterface $menu_link_tree,
+    EntityTypeManagerInterface $entity_type_manager,
+    ConfigFactoryInterface $config_factory
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
+    $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->config = $config_factory;
   }
 
   /**
@@ -53,7 +77,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_id,
       $plugin_definition,
       $container->get('menu.link_tree'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('config.factory')
     );
   }
 
@@ -62,9 +87,17 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   public function build() {
     $conf = $this->getConfiguration();
+    $theme_settings = $this->config->get('emulsifymars.settings')->get();
+    $build['#logo'] = $theme_settings['logo']['path'];
+    $build['#social_links'] = [];
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
-    $build['#footer_menu'] = $this->buildMenu($conf['footer_menu']);
+    $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
+    $build['#marketing'] = [
+      '#type' => 'processed_text',
+      '#text' => $conf['marketing']['value'] ?? '',
+      '#format' => $conf['marketing']['format'] ?? 'plain_text',
+    ];
     $build['#copyright'] = [
       '#type' => 'processed_text',
       '#text' => $conf['copyright']['value'] ?? '',
@@ -73,8 +106,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#corporate_tout'] = $conf['corporate_tout'];
 
     if ($conf['social_links_toggle']) {
-      // TODO add social links.
-      $build['#social_links'] = NULL;
+      $build['#social_links'] = $this->socialLinks($theme_settings);
     }
 
     if ($conf['region_selector_toggle']) {
@@ -84,6 +116,28 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#theme'] = 'footer_block';
     return $build;
+  }
+
+  /**
+   * Prepare social links data.
+   *
+   * @param array $theme_settings
+   *   Theme settings config.
+   *
+   * @return array
+   *   Rendered menu.
+   */
+  protected function socialLinks(array $theme_settings) {
+    foreach ($theme_settings['social'] as $key => $social_settings) {
+      $social_menu_items[$key]['title'] = $social_settings['name'];
+      $social_menu_items[$key]['url'] = $social_settings['link'];
+      if (!empty($social_settings['icon'])) {
+        $fid = reset($social_settings['icon']);
+        $file = $this->fileStorage->load($fid);
+      }
+      $social_menu_items[$key]['icon'] = !empty($file) ? $file->createFileUrl() : '';
+    }
+    return $social_menu_items;
   }
 
   /**
@@ -111,7 +165,14 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $tree = $this->menuLinkTree->transform($tree, $manipulators);
 
     // And the last step is to actually build the tree.
-    return $this->menuLinkTree->build($tree);
+    $menu = $this->menuLinkTree->build($tree);
+    $menu_links = [];
+    if (!empty($menu['#items'])) {
+      foreach ($menu['#items'] as $item) {
+        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
+      }
+    }
+    return $menu_links;
   }
 
   /**
@@ -128,16 +189,22 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#required' => TRUE,
       '#default_value' => isset($config['top_footer_menu']) ? $this->menuStorage->load($this->configuration['top_footer_menu']) : NULL,
     ];
-    $form['footer_menu'] = [
+    $form['legal_links'] = [
       '#type' => 'entity_autocomplete',
       '#target_type' => 'menu',
-      '#title' => $this->t('Footer menu'),
+      '#title' => $this->t('Legal links menu'),
       '#required' => TRUE,
-      '#default_value' => isset($config['footer_menu']) ? $this->menuStorage->load($this->configuration['footer_menu']) : NULL,
+      '#default_value' => isset($config['legal_links']) ? $this->menuStorage->load($this->configuration['legal_links']) : NULL,
+    ];
+    $form['marketing'] = [
+      '#type' => 'text_format',
+      '#title' => $this->t('Marketing messaging'),
+      '#default_value' => $config['marketing']['value'] ?? '',
+      '#format' => $config['marketing']['format'] ?? 'plain_text',
     ];
     $form['copyright'] = [
       '#type' => 'text_format',
-      '#title' => $this->t('Marketing & copyright messaging'),
+      '#title' => $this->t('Copyright messaging'),
       '#default_value' => $config['copyright']['value'] ?? '',
       '#format' => $config['copyright']['format'] ?? 'plain_text',
     ];
