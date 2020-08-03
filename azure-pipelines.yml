@@ -81,11 +81,11 @@ steps:
     inputs:
       command: 'install'
       workingDir: 'docroot/themes/custom/emulsifymars'
-  - task: Npm@2
+  - task: Npm@1
     inputs:
-        command: 'custom'
-        workingDir: 'docroot/themes/custom/emulsifymars'
-        customCommand: 'run build'
+      command: 'custom'
+      workingDir: 'docroot/themes/custom/emulsifymars'
+      customCommand: 'run build'
   - task: Bash@3
     displayName: 'BLT Validation'
     inputs:
