@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\juicer_io\Unit\Form;
 
+if (!defined('SAVED_NEW')) {
+  define('SAVED_NEW', 1);
+}
+if (!defined('SAVED_UPDATED')) {
+  define('SAVED_UPDATED', 2);
+}
+
 use Drupal;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;

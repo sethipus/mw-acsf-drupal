@@ -4,13 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\juicer_io\Form;
 
-if (!defined('SAVED_NEW')) {
-  define('SAVED_NEW', 1);
-}
-if (!defined('SAVED_UPDATED')) {
-  define('SAVED_UPDATED', 2);
-}
-
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
