@@ -33,7 +33,7 @@ class FeedConfigurationForm extends EntityForm {
       '#type' => 'machine_name',
       '#default_value' => $feed->id(),
       '#machine_name' => [
-        'exists' => '\Drupal\juicer_io\Entity\Feed::load',
+        'exists' => '\Drupal\juicer_io\Entity\FeedConfiguration::load',
       ],
       '#disabled' => !$feed->isNew(),
     ];
