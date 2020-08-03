@@ -79,6 +79,10 @@ steps:
         npm install npm@latest -g
   - task: Npm@1
     inputs:
+      command: 'install'
+      workingDir: 'docroot/themes/custom/emulsifymars'
+  - task: Npm@2
+    inputs:
         command: 'custom'
         workingDir: 'docroot/themes/custom/emulsifymars'
         customCommand: 'run build'
