@@ -77,7 +77,6 @@ module:
   lightning_workflow: 0
   link: 0
   mars_common: 0
-  mars_utils: 0
   media: 0
   media_entity_instagram: 0
   media_entity_twitter: 0

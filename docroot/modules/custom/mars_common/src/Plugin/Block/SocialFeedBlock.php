@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -11,7 +12,6 @@ use Drupal\juicer_io\Entity\FeedConfiguration;
 use Drupal\juicer_io\Model\Feed;
 use Drupal\juicer_io\Model\FeedFactory;
 use Drupal\juicer_io\Model\FeedItem;
-use Drupal\mars_utils\Time\TimeProvider;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -43,11 +43,11 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   private $feedFactory;
 
   /**
-   * Time provider service.
+   * Time service.
    *
-   * @var \Drupal\mars_utils\Time\TimeProvider
+   * @var \Drupal\Component\Datetime\TimeInterface
    */
-  private $timeProvider;
+  private $timeService;
 
   /**
    * Cache service.
@@ -68,7 +68,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $entity_type_manager = $container->get('entity_type.manager');
     $entity_storage = $entity_type_manager->getStorage('juicer_io_feed');
     $feed_factory = $container->get('juicer_io.feed_factory');
-    $time_provider = $container->get('mars_utils.time_provider');
+    $time_service = $container->get('datetime.time');
     $cache_backend = $container->get('cache.default');
 
     return new self(
@@ -77,7 +77,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $plugin_definition,
       $entity_storage,
       $feed_factory,
-      $time_provider,
+      $time_service,
       $cache_backend
     );
   }
@@ -91,13 +91,13 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $plugin_definition,
     EntityStorageInterface $entity_storage,
     FeedFactory $feed_factory,
-    TimeProvider $time_provider,
+    TimeInterface $time_service,
     CacheBackendInterface $cache_backend
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityStorage = $entity_storage;
     $this->feedFactory = $feed_factory;
-    $this->timeProvider = $time_provider;
+    $this->timeService = $time_service;
     $this->cacheBackend = $cache_backend;
   }
 
@@ -203,7 +203,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $this->cacheBackend->set(
         $cacheKey,
         $feedItems,
-        $this->timeProvider->timestamp() + self::MAX_AGE_1_DAY,
+        $this->timeService->getCurrentTime() + self::MAX_AGE_1_DAY,
         $feedConfig->getCacheTags()
       );
     }
