@@ -6,17 +6,10 @@
 trigger:
   branches:
     include:
-    - '*'
+    - 'develop'
   tags:
     include:
     - '*'
-
-schedules:
-- cron: "0 3,8,14 * * Mon-Fri"
-  displayName: Daily Scheduled Build
-  branches:
-    include:
-    - 'dev'
 
 pool:
   vmImage: 'ubuntu-16.04'
@@ -25,7 +18,6 @@ variables:
   phpVersion: 7.3
   scriptDir: $(Build.Repository.LocalPath)/vendor/mikemadison13/blt-azure-pipelines/scripts/azure
   COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
-  deployment_user: 'digie'
 
 steps:
   - task: InstallSSHKey@0
@@ -85,6 +77,11 @@ steps:
         composer validate --no-check-all --ansi
         composer install
         npm install npm@latest -g
+  - task: Npm@1
+    inputs:
+        command: 'custom'
+        workingDir: 'docroot/themes/custom/emulsifymars'
+        customCommand: 'run build'
   - task: Bash@3
     displayName: 'BLT Validation'
     inputs:
@@ -101,15 +98,9 @@ steps:
     displayName: 'Run Tests'
     inputs:
       filePath: '$(scriptDir)/test.sh'
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: 'reports/phpunit/*.xml'
-      mergeTestResults: true
-      testRunTitle: 'Unit tests'
   - task: Bash@3
     displayName: 'Deploy Branch'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release-'))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'develop'))
     inputs:
       filePath: './scripts/deploy_branch.sh'
   - task: Bash@3
@@ -117,11 +108,3 @@ steps:
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
     inputs:
       filePath: './scripts/deploy_tag.sh'
-  - task: Bash@3
-    displayName: 'Trigger Application Deployment on ACSF'
-    condition: eq(variables['Build.Reason'], 'Schedule')
-    inputs:
-      targetType: 'inline'
-      script: |
-        ./scripts/deploy_branch.sh
-        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
