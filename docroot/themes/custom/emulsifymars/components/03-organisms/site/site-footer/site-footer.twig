@@ -5,15 +5,22 @@
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('logo', [], footer__base_class) }}>
         {% block footer__logo %}
-          {% include "@atoms/images/image/_image.twig" with {
-            image_alt: 'Logo',
-            image_sizes: '(max-width: 375px) 101px,
-              (max-width: 768px) 151px,
-              (max-width: 1024px) 212px,
-              212px',
-            image_src: 'twix-logo.png',
-            responsive_image_blockname: 'logo',
-          } %}
+          <a href="#">
+            {% include "@atoms/images/image/_image.twig" with {
+              output_image_tag: true,
+              image_alt: 'Logo',
+              image_srcset: 'twix-logo-102-x2.png 200w,
+                twix-logo-302-x2.png 200w,
+                twix-logo-414-x2.png 200w,
+                twix-logo-414-x2.png 200w',
+              image_sizes: '(max-width: 375px) 101px,
+                (max-width: 768px) 151px,
+                (max-width: 1024px) 212px,
+                232px',
+              image_src: 'twix-logo.png',
+              responsive_image_blockname: 'logo',
+            } %}
+          </a>
         {% endblock %}
       </div>
       <div {{ bem('menu', [], footer__base_class) }}>
@@ -73,11 +80,8 @@
       <div {{ bem('corporate-tout', [], footer__base_class) }}>
         <div {{ bem('corporate-tout__text', []) }}>{{ corporate_tout_text }}</div>
         {% include "@atoms/buttons/twig/button.twig" with {
-          button_base_class: card__button__base_class|default('button'),
-          button_modifiers: card__button__modifiers,
-          button_blockname: card__base_class,
-          button_attributes: card__button__attributes,
-          button_content: card__button__content,
+          button_base_class: 'corporate-tout__button',
+          button_content: 'See All',
           button_url: '/',
         } %}
       </div>
