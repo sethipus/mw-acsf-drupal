@@ -1,0 +1,33 @@
+uuid: 47baa3ce-8e52-4271-bd16-ffa6b720c010
+langcode: en
+status: true
+dependencies:
+  module:
+    - mars_common
+  theme:
+    - emulsifymars
+id: footerblock
+theme: emulsifymars
+region: footer
+weight: 0
+provider: null
+plugin: footer_block
+settings:
+  id: footer_block
+  label: 'Footer block'
+  provider: mars_common
+  label_display: '0'
+  top_footer_menu: top-footer
+  legal_links: legal-links-menu
+  marketing:
+    value: "This is a marketing site\r\nThis site includes information, games, advertisements and promotional offers featuring our products. Children should get a parent’s permission before visiting any website or giving personal information. You must be 18 or older to shop online."
+    format: plain_text
+  copyright:
+    value: '®/ TM Trademarks © Mars, Incorporated 2020. Other trademarks are property of their respective owners.'
+    format: plain_text
+  corporate_tout:
+    url: 'http://mars.com'
+    title: 'LOVE TWIX? Check out more brands from Mars.'
+  social_links_toggle: 1
+  region_selector_toggle: 1
+visibility: {  }

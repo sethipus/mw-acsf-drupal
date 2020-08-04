@@ -93,17 +93,9 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
-    $build['#marketing'] = [
-      '#type' => 'processed_text',
-      '#text' => $conf['marketing']['value'] ?? '',
-      '#format' => $conf['marketing']['format'] ?? 'plain_text',
-    ];
-    $build['#copyright'] = [
-      '#type' => 'processed_text',
-      '#text' => $conf['copyright']['value'] ?? '',
-      '#format' => $conf['copyright']['format'] ?? 'plain_text',
-    ];
-    $build['#corporate_tout'] = $conf['corporate_tout'];
+    $build['#marketing'] = $conf['marketing']['value'];
+    $build['#copyright'] = $conf['copyright']['value'];
+    $build['#corporate_tout'] = $conf['corporate_tout']['title'];
 
     if ($conf['social_links_toggle']) {
       $build['#social_links'] = $this->socialLinks($theme_settings);
@@ -111,7 +103,10 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     if ($conf['region_selector_toggle']) {
       // TODO add region selector.
-      $build['#region_selector'] = NULL;
+      $build['#region_selector'] = [
+        ['title' => $this->t('North America: USA')],
+        ['title' => $this->t('United Kingdom')],
+      ];
     }
 
     $build['#theme'] = 'footer_block';

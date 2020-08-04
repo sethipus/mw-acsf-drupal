@@ -13,6 +13,8 @@
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
 {% set logo_title = 'Logo' | t %}
+{% set corporate_tout_button = 'See all' | t %}
+{% set region_title = 'Select Region' | t %}
 
 {% embed "@organisms/site/site-footer/site-footer.twig" with {
   footer_menu_items: top_footer_menu,
@@ -20,6 +22,10 @@
   marketing_text: marketing,
   copyright_text: copyright,
   social_menu_items: social_links,
+  region_title: region_title,
+  regions: region_selector,
+  corporate_tout_text: corporate_tout,
+  card__button__content: corporate_tout_button
 } %}
 
   {% block footer__logo %}
@@ -40,6 +46,7 @@
     <div {{ bem('section-header', [], footer__base_class) }}>{{ 'Follow Us On' | t }}</div>
     {% include "@molecules/menus/social/social-menu.twig" with {
       social_menu_items: social_menu_items,
+      configured_icons: true
     }%}
   {% endblock %}
 

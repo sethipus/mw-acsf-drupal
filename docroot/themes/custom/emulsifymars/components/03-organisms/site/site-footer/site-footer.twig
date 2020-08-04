@@ -5,10 +5,8 @@
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('logo', [], footer__base_class) }}>
         {% block footer__logo %}
-          {% include "@atoms/images/image/responsive-image.twig" with {
-            output_image_tag: true,
+          {% include "@atoms/images/image/_image.twig" with {
             image_alt: 'Logo',
-            image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
             image_sizes: '(max-width: 375px) 101px,
               (max-width: 768px) 151px,
               (max-width: 1024px) 212px,
@@ -49,7 +47,10 @@
       </div>
       <div {{ bem('region-selector', [], footer__base_class) }}>
         {% block footer__region_selector %}
-          {% include "@molecules/region-selector/region-selector.twig" %}
+          {% include "@atoms/forms/select/select.twig" with {
+            select: regions,
+            title: region_title,
+          } %}
         {% endblock %}
       </div>
       <div {{ bem('info', [], footer__base_class) }}>
@@ -77,7 +78,7 @@
           button_blockname: card__base_class,
           button_attributes: card__button__attributes,
           button_content: card__button__content,
-          button_url: '#',
+          button_url: '/',
         } %}
       </div>
     </div>

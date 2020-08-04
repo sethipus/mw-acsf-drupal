@@ -88,6 +88,13 @@ $fence-part-size: 1440px*2/101;
     flex: 0 1 33%;
     order: 3;
   }
+  
+  .region-selector {
+    background-color: clr(background-section);
+    padding: $space-triple;
+    text-align: center;
+    text-transform: uppercase;
+  }  
 }
 
 .footer__info {
