@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * MARS Common module main file.
+ */
+
+/**
  * Implements hook_theme().
  */
 function mars_common_theme($existing, $type, $theme, $path) {
