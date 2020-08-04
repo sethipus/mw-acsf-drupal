@@ -59,18 +59,31 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
    * {@inheritdoc}
    */
   public function build() {
-    $build['#eyebrow'] = $this->configuration['eyebrow'];
+    $conf = $this->getConfiguration();
+
+    $build['#eyebrow'] = $conf['eyebrow'] ?? '';
+    $build['#label'] = $conf['label'] ?? '';
+    $build['#background'] = $this->getBackgroundEntity();
+    $build['#description'] = $conf['description'] ?? '';
+    $build['#explore_cta'] = $conf['explore_cta'] ?? '';
+    $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
+
     $build['#theme'] = 'content_feature_module_block';
+
     return $build;
   }
 
   public function defaultConfiguration(): array {
+    $conf = $this->getConfiguration();
+
     return [
-      'explore_cta' => $this->configuration['explore_cta'] ?? $this->t('Explore'),
+      'explore_cta' => $conf['explore_cta'] ?? $this->t('Explore'),
     ];
   }
 
-  public function blockForm($form, FormStateInterface $form_state): array {
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
@@ -131,7 +144,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   }
 
   private function getBackgroundEntity(): ?EntityInterface {
-    $backgroundEntityId = $this->configuration['background'] ?? NULL;
+    $backgroundEntityId = $this->getConfiguration()['background'] ?? NULL;
     if (!$backgroundEntityId) {
       return NULL;
     }
