@@ -13,11 +13,11 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'footer_block' => [
       'variables' => [
         'logo'            => NULL,
+        'twix_border'     => NULL,
         'social_links'    => NULL,
         'top_footer_menu' => NULL,
         'legal_links'     => NULL,
         'marketing'       => NULL,
-        'copyright'       => NULL,
         'corporate_tout'  => NULL,
         'region_selector' => NULL,
       ],

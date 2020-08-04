@@ -89,14 +89,19 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $conf = $this->getConfiguration();
     $theme_settings = $this->config->get('emulsifymars.settings')->get();
     $build['#logo'] = $theme_settings['logo']['path'];
-    $build['#social_links'] = [];
+
+    // Get graphic devider path.
+    if (!empty($theme_settings['graphic_divider']) && count($theme_settings['graphic_divider']) > 0) {
+      $devider_file = $this->fileStorage->load($theme_settings['graphic_divider'][0]);
+      $build['#twix_border'] = !empty($devider_file) ? $devider_file->createFileUrl() : '';
+    }
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
     $build['#marketing'] = $conf['marketing']['value'];
-    $build['#copyright'] = $conf['copyright']['value'];
     $build['#corporate_tout'] = $conf['corporate_tout']['title'];
 
+    $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {
       $build['#social_links'] = $this->socialLinks($theme_settings);
     }
@@ -193,15 +198,9 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ];
     $form['marketing'] = [
       '#type' => 'text_format',
-      '#title' => $this->t('Marketing messaging'),
+      '#title' => $this->t('Marketing & Copyright Messaging'),
       '#default_value' => $config['marketing']['value'] ?? '',
       '#format' => $config['marketing']['format'] ?? 'plain_text',
-    ];
-    $form['copyright'] = [
-      '#type' => 'text_format',
-      '#title' => $this->t('Copyright messaging'),
-      '#default_value' => $config['copyright']['value'] ?? '',
-      '#format' => $config['copyright']['format'] ?? 'plain_text',
     ];
     $form['corporate_tout'] = [
       '#type' => 'details',

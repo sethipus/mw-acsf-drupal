@@ -17,15 +17,15 @@
 {% set region_title = 'Select Region' | t %}
 
 {% embed "@organisms/site/site-footer/site-footer.twig" with {
+  theme_styles: 'drupal',
   footer_menu_items: top_footer_menu,
   legal_links_menu_items: legal_links,
-  marketing_text: marketing,
-  copyright_text: copyright,
+  marketing_raw_text: marketing,
   social_menu_items: social_links,
   region_title: region_title,
   regions: region_selector,
   corporate_tout_text: corporate_tout,
-  card__button__content: corporate_tout_button
+  card__button__content: corporate_tout_button,
 } %}
 
   {% block footer__logo %}
@@ -39,6 +39,14 @@
         212px',
       image_src: logo_src,
       responsive_image_blockname: 'logo',
+    } %}
+  {% endblock %}
+
+  {% block footer__brand_border %}
+    {% include "@atoms/images/image/background-image.twig" with {
+      image_src: twix_border,
+      background_repeat: 'repeat',
+      height: '15px',
     } %}
   {% endblock %}
 
