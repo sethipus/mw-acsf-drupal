@@ -1,0 +1,19 @@
+uuid: c134f27d-8c97-4790-acd0-ed614dc9a559
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_potassium
+    - node.type.product_variant
+id: node.product_variant.field_product_potassium
+field_name: field_product_potassium
+entity_type: node
+bundle: product_variant
+label: Potassium
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
