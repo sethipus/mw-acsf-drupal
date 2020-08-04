@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Mars common module main file.
+ * MARS Common module main file.
  */
 
 /**
@@ -10,6 +10,17 @@
  */
 function mars_common_theme($existing, $type, $theme, $path) {
   return [
+    'content_feature_module_block' => [
+      'variables' => [
+        'eyebrow' => NULL,
+        'label' => NULL,
+        'background' => NULL,
+        'description' => NULL,
+        'explore_cta' => NULL,
+        'explore_cta_link' => NULL,
+      ],
+      'template' => 'content-feature-module-block',
+    ],
     'social_feed_block' => [
       'variables' => [
         'title' => '',
