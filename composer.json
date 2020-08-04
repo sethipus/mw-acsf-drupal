@@ -5,6 +5,7 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.3",
+        "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
         "acquia/blt": "^11.1.0",
         "acquia/cohesion": "6.2.0",
@@ -52,7 +53,8 @@
         "lcatlett/blt-ddev": "dev-master",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
-        "nedsbeds/profile_split_enable": "^1.0"
+        "nedsbeds/profile_split_enable": "^1.0",
+        "symfony/string": "^5.1"
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev",

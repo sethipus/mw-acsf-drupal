@@ -1,0 +1,6 @@
+name: 'Juicer.io module'
+type: module
+description: 'Integration for juicer.io feeds.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
+configure: entity.juicer_io_feed.collection

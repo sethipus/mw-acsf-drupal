@@ -1,0 +1,5 @@
+juicer_io.admin_config_page:
+  title: 'Juicer.io feeds'
+  route_name: entity.juicer_io_feed.collection
+  description: 'List juicer.io feeds'
+  parent: system.admin_config_services

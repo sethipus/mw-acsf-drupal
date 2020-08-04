@@ -1,11 +1,6 @@
 <?php
 
 /**
- * @file
- * MARS Common module main file.
- */
-
-/**
  * Implements hook_theme().
  */
 function mars_common_theme($existing, $type, $theme, $path) {
@@ -20,6 +15,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'explore_cta_link' => NULL,
       ],
       'template' => 'content-feature-module-block',
+    ],
+    'social_feed_block' => [
+      'variables' => [
+        'title' => '',
+        'items' => [],
+      ],
     ],
   ];
 }
