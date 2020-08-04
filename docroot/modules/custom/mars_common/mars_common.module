@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * MARS Common module main file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_common_theme($existing, $type, $theme, $path) {
+  return [
+    'content_feature_module_block' => [
+      'variables' => [
+        'eyebrow_text: NULL',
+
+        'heading' => NULL,
+        'heading_level' => NULL,
+        'heading_url' => NULL,
+
+        'separator_style' => NULL,
+
+        'paragraph_size' => NULL,
+        'paragraph_content' => NULL,
+        'paragraph_base_class' => NULL,
+        'paragraph_modifiers' => NULL,
+
+        'default_link_content' => NULL,
+        'default_link_base_class' => NULL,
+        'default_link_border_radius' => NULL,
+        'default_link_attributes' => [
+          'target' => NULL,
+          'href' => NULL,
+        ],
+      ],
+      'template' => 'content-feature-module-block'
+    ],
+  ];
+}

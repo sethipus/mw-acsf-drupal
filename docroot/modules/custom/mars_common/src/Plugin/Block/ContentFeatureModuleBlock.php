@@ -24,14 +24,9 @@ class ContentFeatureModuleBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $build['content'] = [
-      '#markup' => $this->t(''),
-    ];
+    $build['#eyebrow'] = $this->configuration['eyebrow'];
+    $build['#theme'] = 'content_feature_module_block';
     return $build;
-  }
-
-  protected function blockAccess(AccountInterface $account) {
-    return AccessResult::allowedIfHasPermission($account, 'access content');
   }
 
   public function defaultConfiguration(): array {
@@ -91,6 +86,7 @@ class ContentFeatureModuleBlock extends BlockBase {
   }
 
   public function blockSubmit($form, FormStateInterface $form_state) {
+    parent::blockSubmit($form, $form_state);
     $this->configuration = $form_state->getValues();
   }
 
