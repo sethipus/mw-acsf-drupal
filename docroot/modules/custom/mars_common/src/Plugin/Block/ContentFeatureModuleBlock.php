@@ -73,6 +73,9 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     return $build;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function defaultConfiguration(): array {
     $conf = $this->getConfiguration();
 
@@ -81,6 +84,9 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     ];
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
@@ -133,6 +139,9 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
@@ -143,6 +152,9 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
   }
 
+  /**
+   * Returns the entity that's saved to the block.
+   */
   private function getBackgroundEntity(): ?EntityInterface {
     $backgroundEntityId = $this->getConfiguration()['background'] ?? NULL;
     if (!$backgroundEntityId) {

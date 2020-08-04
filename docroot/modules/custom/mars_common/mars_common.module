@@ -19,7 +19,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
       ],
-      'template' => 'content-feature-module-block'
+      'template' => 'content-feature-module-block',
     ],
   ];
 }
