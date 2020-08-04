@@ -53,5 +53,9 @@
     color: clr(subcolor-1);
     font-size: 1.4rem;
     line-height: 1.4rem;
+
+    &:hover {
+      color: clr(primary);
+    }
   }
 }

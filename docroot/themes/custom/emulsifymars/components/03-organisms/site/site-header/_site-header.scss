@@ -17,7 +17,6 @@
   
       @include medium {
         justify-content: flex-start;
-        padding: $space 0;
       }
     }
 
@@ -29,17 +28,18 @@
       left: 0;
       bottom: 0;
       width: 100%;
+      margin-bottom: 282px;
       z-index: $menu-overlay-zindex;
     }
   }
 
   &__branding {
     flex: 0 0 150px;
-    margin: 25px;
+    margin: 2.5rem;
 
     @include medium {
-      flex-basis: 272px;
-      margin: 32px 30px;
+      flex-basis: 212px;
+      margin: 3.2rem $space-triple;
     }
   }
 

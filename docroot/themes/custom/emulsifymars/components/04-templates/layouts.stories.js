@@ -6,7 +6,6 @@ import withSidebarTwig from './with-sidebar.twig';
 import mainMenu from '../02-molecules/menus/main-menu/main-menu.yml';
 import socialMenu from '../02-molecules/menus/social/social-menu.yml';
 import footerMenu from '../02-molecules/menus/footer/footer-menu.yml';
-import footerMenu from '../02-molecules/menus/inline/inline-menu/inline-menu.yml';
 
 /**
  * Storybook Definition.

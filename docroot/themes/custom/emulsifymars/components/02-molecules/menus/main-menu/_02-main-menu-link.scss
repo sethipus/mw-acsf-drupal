@@ -2,15 +2,12 @@
 .main-menu__link {
   color: clr(subcolor-1);
   display: block;
+  width: 100%;
   font-size: 3.2rem;
   line-height: 1.5;
   padding: $space $space-quadruple;
   text-decoration: none;
   font-weight: bold;
-
-  &:hover {
-    color: clr(primary);
-  }
 
   &--with-sub {
     width: 80%;
@@ -20,10 +17,30 @@
     border-bottom: none;
     display: inline-block;
     font-size: 1.8rem;
-    padding: $space;
+    padding: $space $space-triple;
     text-transform: none;
     position: relative;
     width: auto;
+
+    &.active,
+    &:active,
+    &:hover {
+      color: clr(primary);
+
+      & .menu_chevron__icon {
+        transform: scaleX(-1);
+      }
+    }
+  }
+}
+
+.menu_chevron__icon {
+  display: none;
+  width: 12px;
+  height: 7px;
+
+  @include medium {
+    display: inline-block;
   }
 }
 
@@ -32,22 +49,28 @@
  */
 
 /* A (Nested) */
-// .main-menu__link--sub {
-//   color: clr(accent);
-//   padding-left: $space-triple;
-//   font-weight: normal;
+.main-menu__link--sub {
+  color: clr(subcolor-1);
+  padding-left: $space-triple;
+  font-weight: normal;
 
-//   @include medium {
-//     color: clr(highlight);
-//     display: block;
-//     padding: $space-one-third $space;
-//   }
-// }
+  @include medium {
+    color: clr(primary);
+    display: block;
+    padding: 1.2rem $space-double;
+    font-weight: 1.4rem;
+    font-weight: normal;
+    letter-spacing: 0.7px;
 
-// .main-menu--sub-2 {
-//   background-color: clr(highlight-high);
-// }
+    &.active,
+    &:active,
+    &:hover {
+      color: clr(subcolor-1);
+      font-weight: 500;
 
-// .main-menu__link--sub-2 {
-//   padding-left: $space-quadruple;
-// }
+      & .menu_chevron__icon {
+        transform: scaleX(-1);
+      }
+    }
+  }
+}
