@@ -1,0 +1,46 @@
+.social-feed {
+    background-color: clr(background);
+    padding: 2rem 0 4rem 0;
+}
+
+.social-feed-heading {
+    text-align: center;
+    color: clr(subcolor-1);
+    text-transform: uppercase;
+}
+
+.swiper-container {
+    width: 1400px;
+    height: 355px;
+}
+
+.swiper-slide-link {
+    text-decoration: none;
+    color: clr(text-inverse);
+    font-size: 1.4rem;
+}
+
+.slide-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0) 83%);
+    position: absolute;
+    width: 100%;
+}
+
+.createdAt {
+    padding: 1rem 1rem 2rem 1rem;
+}
+
+.swiper-button-disabled {
+    opacity: 0 !important;
+}
+
+.swiper-container.swiper-container-horizontal > .swiper-scrollbar {
+    height: 8px;
+}
+
+.swiper-container.swiper-container-horizontal > .swiper-scrollbar .swiper-scrollbar-drag {
+    background: clr(subcolor-1);
+}
