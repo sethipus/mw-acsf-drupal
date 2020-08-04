@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Template for the social feed component.
+ *
+ * Available variables:
+ * - title: Title for the component.
+ * - items: Array of items for the feed.
+ *
+ */
+#}
+
+<h4>{{ title }}</h4>
+<ul>
+  {% for item in items %}
+    <li>{{ item|json_encode }}</li>
+  {% endfor %}
+</ul>
