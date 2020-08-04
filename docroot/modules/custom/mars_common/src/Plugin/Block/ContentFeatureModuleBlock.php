@@ -2,12 +2,12 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
-use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Session\AccountInterface;
-use Drupal\media\Entity\Media;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a content feature module block.
@@ -18,7 +18,42 @@ use Drupal\media\Entity\Media;
  *   category = @Translation("Custom")
  * )
  */
-class ContentFeatureModuleBlock extends BlockBase {
+class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * Media storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $mediaStorage;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $entity_type_manager = $container->get('entity_type.manager');
+    $entity_storage = $entity_type_manager->getStorage('media');
+
+    return new self(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $entity_storage
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityStorageInterface $entity_storage
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->mediaStorage = $entity_storage;
+  }
 
   /**
    * {@inheritdoc}
@@ -71,13 +106,13 @@ class ContentFeatureModuleBlock extends BlockBase {
         '#type' => 'textfield',
         '#title' => $this->t('Button Label'),
         '#maxlength' => 15,
-        '#default_value' => $this->configuration['explore_group']['explore_cta'],
+        '#default_value' => $this->configuration['explore_cta'],
         '#required' => FALSE,
       ],
       'explore_cta_link' => [
         '#type' => 'textfield',
         '#title' => $this->t('URL'),
-        '#default_value' => $this->configuration['explore_group']['explore_cta_link'] ?? '',
+        '#default_value' => $this->configuration['explore_cta_link'] ?? '',
         '#required' => FALSE,
       ],
     ];
@@ -87,7 +122,12 @@ class ContentFeatureModuleBlock extends BlockBase {
 
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
-    $this->configuration = $form_state->getValues();
+    $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
+    $this->configuration['label'] = $form_state->getValue('label');
+    $this->configuration['background'] = $form_state->getValue('background');
+    $this->configuration['description'] = $form_state->getValue('description');
+    $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
+    $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
   }
 
   private function getBackgroundEntity(): ?EntityInterface {
@@ -96,7 +136,7 @@ class ContentFeatureModuleBlock extends BlockBase {
       return NULL;
     }
 
-    return Media::load($backgroundEntityId);
+    return $this->mediaStorage->load($backgroundEntityId);
   }
 
 }
