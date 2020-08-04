@@ -523,17 +523,6 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
 
   // Default setting.
   // TODO Update logic for dynamic variables and default for all themes.
-  $properties .= sprintf(" --c-text: #%s;", '666');
-  $properties .= sprintf(" --c-text-inverse: #%s;", 'fff');
-  $properties .= sprintf(" --c-background: #%s;", 'fff');
-  $properties .= sprintf(" --c-background-section: #%s;", 'e5e5e5');
-  $properties .= sprintf(" --c-accent-high: #%s;", '000');
-  $properties .= sprintf(" --c-highlight: #%s;", 'ccc');
-  $properties .= sprintf(" --c-highlight-high: #%s;", 'e5e5e5');
-  $properties .= sprintf(" --c-muted: #%s;", 'f2f2f2');
-  $properties .= sprintf(" --c-warning: #%s;", 'f9fb93');
-  $properties .= sprintf(" --c-error: #%s;", 'fbe3e4');
-  $properties .= sprintf(" --c-message: #%s;", 'cfefc2');
   $properties .= sprintf(" --c-subcolor-1: #%s;", '490e00');
   $properties .= sprintf(" --c-subcolor-2: #%s;", 'f5e1a4');
   $properties .= sprintf(" --c-subcolor-3: #%s;", 'fff');
