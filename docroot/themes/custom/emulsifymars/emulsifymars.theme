@@ -489,11 +489,6 @@ function emulsifymars_process_image_widget(array &$element, FormStateInterface $
  */
 function emulsifymars_preprocess_html(&$variables) {
   $theme_settings = \Drupal::config('emulsifymars.settings')->get();
-  $style_theme = [
-    '#theme'    => 'css_properties_loader',
-    '#settings' => $theme_settings,
-  ];
-  $style_tag = \Drupal::service('renderer')->renderPlain($style_theme);
   $style_tag = sprintf(":root [data-theme='drupal'] {%s}", _emulsifymars_preprocess_css_properties($theme_settings));
   $variables['page']['#attached']['html_head'][] = [
     [
