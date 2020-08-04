@@ -1,0 +1,19 @@
+uuid: ec098a0d-7f6f-44fa-885f-e693439c0e71
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_market
+    - node.type.product
+id: node.product.field_product_market
+field_name: field_product_market
+entity_type: node
+bundle: product
+label: Market
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
