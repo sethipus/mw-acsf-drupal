@@ -1,0 +1,33 @@
+colors_heading: 'Palettes:'
+palettes:
+  - palette_heading: 'Default'
+    colors:
+      - name: 'Text'
+      - name: 'Background'
+      - name: 'Primary'
+      - name: 'Secondary'
+      - name: 'Accent'
+      - name: 'Accent High'
+      - name: 'Highlight'
+      - name: 'Highlight High'
+      - name: 'Muted'
+      - name: 'Warning'
+      - name: 'Error'
+      - name: 'Message'
+  - palette_heading: 'Dark'
+    colors:
+      - name: 'Text'
+      - name: 'Background'
+      - name: 'Primary'
+      - name: 'Secondary'
+      - name: 'Accent'
+      - name: 'Accent High'
+      - name: 'Highlight'
+      - name: 'Highlight High'
+      - name: 'Muted'
+      - name: 'Warning'
+      - name: 'Error'
+      - name: 'Message'
+  - palette_heading: 'Mars Wrigley'
+    colors:
+      - name: 

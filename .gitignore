@@ -97,6 +97,7 @@ tramp
 
 # User-specific stuff:
 .idea/
+.ssh/
 
 #XHProf
 xhprof_*
@@ -126,6 +127,10 @@ nbproject/*
 
 # PHPStorm
 atlassian-ide-plugin.xml
+
+#VSCode IDE
+.vscode
+.vscode/*
 
 #NPM
 npm-debug.log

@@ -1,0 +1,10 @@
+juicer_io.feed.*:
+  type: config_entity
+  label: 'Juicer.io feed config'
+  mapping:
+    label:
+      type: label
+      label: 'Label'
+    feed_id:
+      type: string
+      label: 'Feed id'

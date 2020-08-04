@@ -1,0 +1,29 @@
+# Color.
+# ----------------------------
+color_a: '#FFFFFF'
+color_b: '#FFFFFF'
+color_c: '#FFFFFF'
+color_d: '#FFFFFF'
+color_e: '#FFFFFF'
+color_f: '#FFFFFF'
+
+# Font.
+# ----------------------------
+primary_font_path: 'font1'
+secondary_font_path: 'font2'
+tertiary_font_path: 'font3'
+
+# Icons.
+# ----------------------------
+graphic_divider: 0
+brand_shape: 0
+brand_borders: 0
+png_asset: 0
+button_style: '0px'
+
+# Social links.
+# ----------------------------
+social_links:
+  - name: 'facebook'
+    link: 'facebook.com'
+    icon: 'social_icon1'
