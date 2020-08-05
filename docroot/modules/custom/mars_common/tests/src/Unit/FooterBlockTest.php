@@ -45,7 +45,21 @@ class FooterBlockTest extends UnitTestCase {
    */
   protected function setUp() {
     parent::setUp();
-    Drupal::setContainer($this->createMock(ContainerInterface::class));
+    $this->createMocks();
+    \Drupal::setContainer($this->containerMock);
+
+    // We should create it in test to import different configs.
+    $this->oneTrustConfigForm = new FooterBlock(
+      $configuration,
+      'footer_block',
+      [],
+      $this->menuLinkTree,
+      $this->entityTypeManager,
+      $this->config
+    );
+
+    /*
+    \Drupal::setContainer($this->createMock(ContainerInterface::class));
 
     $this->menuLinkTree = $this->createMock(MenuLinkTreeInterface::class);
     $this->entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
@@ -59,7 +73,8 @@ class FooterBlockTest extends UnitTestCase {
         ],
       'social' => [],
     ];
-    $this->config->method('get')
+    $this->config
+      ->method('get')
       ->with('emulsifymars.settings')
       ->willReturn($theme_config);
 
@@ -74,6 +89,21 @@ class FooterBlockTest extends UnitTestCase {
     $this->entityTypeManager->method('getStorage')
       ->with('menu')
       ->willReturn($menu_storage);
+    */
+  }
+
+  /**
+   * Create all mocks for tests.
+   */
+  private function createMocks(): void {
+    $this->containerMock = $this->createMock(ContainerInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->menuLinkTree = $this->createMock(MenuLinkTreeInterface::class);
+    $this->entity = $this->createMock(EntityTypeManagerInterface::class);
+    /*
+    $this->configMock = $this->createMock(Config::class);
+    $this->messengerMock = $this->createMock(MessengerInterface::class);
+    */
   }
 
   /**
@@ -87,7 +117,6 @@ class FooterBlockTest extends UnitTestCase {
       'top_footer_menu' => 'top-footer',
       'legal_links' => 'footer',
       'marketing' => [],
-      'copyright' => [],
       'corporate_tout' => [
         'url' => 'https://www.mars.com',
         'title' => 'Check out more brands from Mars.',
