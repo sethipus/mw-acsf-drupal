@@ -18,7 +18,8 @@
 {% embed "@organisms/site/site-header/site-header.twig" with {
   theme_styles: 'drupal',
   menu_items: primary_menu,
-  inline_menu_items: secondary_menu,
+  header_inline_menu_items: secondary_menu,
+  header_inline_menu_search_item: search_menu,
   search_block: search_block,
   language_selector: language_selector,
   alert_banner: alert_banner,
@@ -32,9 +33,8 @@
   {% endblock %}
 
   {% block header__menu_secondary %}
-    {% include "@molecules/menus/inline/inline-menu.twig" with {
+    {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" with {
       menu_class: 'header-secondary-menu',
-      items: inline_menu_items,
     } %}
   {% endblock %}
 
@@ -67,14 +67,3 @@
   {% endblock %}
 
 {% endembed %}
-
-{% block language_selector %}
-  {% if language_selector %}
-    <p>Language Selector block PLACEHOLDER</p>
-  {% endif %}
-{% endblock %}
-{% block search_block %}
-  {% if search_block %}
-    <p>Search block PLACEHOLDER</p>
-  {% endif %}
-{% endblock %}

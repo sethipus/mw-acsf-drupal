@@ -1,4 +1,4 @@
-uuid: 5da82b50-5880-4961-9def-79628f3dffd8
+uuid: 45f3fa8c-d6a1-4594-a1fd-9b9412dea86a
 langcode: en
 status: true
 dependencies:
@@ -18,10 +18,10 @@ settings:
   provider: mars_common
   label_display: '0'
   primary_menu: main
-  secondary_menu: account
+  secondary_menu: top-footer
   search_block: 1
   language_selector: 1
   alert_banner:
-    value: 'TEXT Alert banner TEXT'
+    value: 'Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection'
     format: plain_text
 visibility: {  }

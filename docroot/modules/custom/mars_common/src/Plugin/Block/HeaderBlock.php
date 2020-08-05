@@ -10,6 +10,7 @@ use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Provides a Header block.
@@ -44,6 +45,12 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $config;
+  /**
+   * Request.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  protected $request;
 
   /**
    * {@inheritdoc}
@@ -54,13 +61,15 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_definition,
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    Request $request
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
+    $this->request = $request;
   }
 
   /**
@@ -73,7 +82,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_definition,
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('request_stack')->getCurrentRequest()
     );
   }
 
@@ -143,17 +153,11 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#logo'] = $theme_settings['logo']['path'] ?? '';
 
-    $build['#alert_banner'] = [
-      '#type' => 'processed_text',
-      '#text' => $config['alert_banner']['value'] ?? '',
-      '#format' => $config['alert_banner']['format'] ?? 'plain_text',
-    ];
-    $build['#search_block'] = [
-      '#markup' => $config['search_block'] ?? 0,
-    ];
-    $build['#language_selector'] = [
-      '#markup' => $config['language_selector'] ?? 0,
-    ];
+    $build['#alert_banner'] = $config['alert_banner']['value'];
+    if ($config['search_block']) {
+      $host = $this->request->getSchemeAndHttpHost();
+      $build['#search_menu'] = [['title' => 'Search', 'url' => $host]];
+    }
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu']);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
 
@@ -166,9 +170,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function getMenus() {
-    $menus = \Drupal::entityTypeManager()
-      ->getStorage('menu')
-      ->loadMultiple();
+    $menus = $this->menuStorage->loadMultiple();
 
     $options = ['' => $this->t('None')];
     foreach ($menus as $menu) {
