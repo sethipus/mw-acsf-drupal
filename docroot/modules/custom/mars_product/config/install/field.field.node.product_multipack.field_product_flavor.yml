@@ -1,0 +1,19 @@
+uuid: a39e9295-3374-4f3b-88b8-a6ee470658d5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_flavor
+    - node.type.product_multipack
+id: node.product_multipack.field_product_flavor
+field_name: field_product_flavor
+entity_type: node
+bundle: product_multipack
+label: Flavor
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

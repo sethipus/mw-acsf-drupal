@@ -1,0 +1,21 @@
+uuid: 0e5e4f1b-ea13-40e0-9629-0c1a0a5a312f
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_workflow
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  lightning_workflow:
+    workflow: editorial
+name: 'Product Multipack'
+type: product_multipack
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

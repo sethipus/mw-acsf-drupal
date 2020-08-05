@@ -1,0 +1,19 @@
+uuid: 2d3816b9-3c09-4afe-bff3-3788e3349bf4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_dietary_daily
+    - node.type.product_variant
+id: node.product_variant.field_product_dietary_daily
+field_name: field_product_dietary_daily
+entity_type: node
+bundle: product_variant
+label: 'Dietary Fiber % Daily Value'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
