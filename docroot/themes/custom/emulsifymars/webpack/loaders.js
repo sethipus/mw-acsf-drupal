@@ -36,6 +36,15 @@ const CSSLoader = {
   ],
 };
 
+const FontLoader = {
+  test: /\.(eot|ttf|woff|woff2)$/i,
+  exclude: /node_modules/,
+  loader: 'file-loader',
+  options: {
+    limit: 8192,
+  },
+};
+
 const SVGSpriteLoader = {
   test: /icons\/.*\.svg$/, // your icons directory
   loader: 'svg-sprite-loader',
@@ -47,6 +56,7 @@ const SVGSpriteLoader = {
 
 module.exports = {
   CSSLoader,
+  FontLoader,
   SVGSpriteLoader,
   ImageLoader,
 };

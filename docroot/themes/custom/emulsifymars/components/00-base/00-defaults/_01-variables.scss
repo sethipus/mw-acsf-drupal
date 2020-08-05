@@ -37,3 +37,96 @@ $space-one-eighth: $space/8;
 @mixin space-stack-page {
   margin-bottom: $space-double;
 }
+
+// twix-1.ttf
+
+@font-face {
+  font-family: 'TwixHeadlineCampaignFont';
+  src: url('../fonts/twix-1.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'TwixSecondaryTypeface';
+  src: url('../fonts/twix-2.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'TwixPrimaryTypefaceFont';
+  src: url('../fonts/twix-3.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'twix';
+  src: url('../fonts/twix-4.ttf') format('opentype');
+}
+
+$defaultVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+);
+
+$marsVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+);
+
+$twixVariables: (
+  heading-font: 'TwixHeadlineCampaignFont',
+  primary-font: 'TwixPrimaryTypefaceFont',
+  secondary-font: 'TwixSecondaryTypeface',
+);
+
+$doveVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+);
+
+$galaxyVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+);
+
+@function variable($varChoice) {
+  @return var(--v-#{$varChoice});
+}
+
+:root {
+  // Create custom properties for default colors
+  @each $variable, $value in $defaultVariables {
+    --v-#{$variable}: #{$value};
+  }
+
+  [data-theme='default'] {
+    @each $variable, $value in $defaultVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='mars'] {
+    @each $variable, $value in $marsVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='twix'] {
+    @each $variable, $value in $twixVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='dove'] {
+    @each $variable, $value in $doveVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='galaxy'] {
+    @each $variable, $value in $galaxyVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+}
