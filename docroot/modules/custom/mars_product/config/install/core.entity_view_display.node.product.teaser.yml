@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser
     - field.field.node.product.field_product_brand
     - field.field.node.product.field_product_description
     - field.field.node.product.field_product_flavor

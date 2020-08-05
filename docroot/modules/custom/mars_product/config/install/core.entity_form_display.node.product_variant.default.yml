@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_browser
     - field.field.node.product_variant.field_product_allergen_statement
     - field.field.node.product_variant.field_product_allergen_warnings
     - field.field.node.product_variant.field_product_calcium
@@ -53,7 +52,6 @@ dependencies:
     - field.field.node.product_variant.field_product_vitamin_d
     - field.field.node.product_variant.field_product_vitamin_d_daily
     - node.type.product_variant
-    - workflows.workflow.editorial
   module:
     - content_moderation
     - entity_browser
