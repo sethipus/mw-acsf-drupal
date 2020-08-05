@@ -1,23 +1,34 @@
 {{ attach_library('emulsifymars/main-menu') }}
 
-<nav>
-  <a href="#" id="toggle-expand" class="toggle-expand">
-    <span class="toggle-expand__open">
-      {% include "@atoms/images/icons/_icon.twig" with {
-        icon_base_class: "icon",
-        icon_blockname: "toggle-expand",
-        icon_name: "menu",
-      } %}
-      <span class="toggle-expand__text">Main Menu</span>
-    </span>
-    <span class="toggle-expand__close">
-      <span class="toggle-expand__text">Close</span>
-    </span>
-  </a>
-  <div id="main-nav" class="main-nav">
-    {% include "@molecules/menus/_menu.twig" with {
-      menu_class: "main-menu",
-      items: menu_items,
-    } %}
+<nav class="main-nav__desktop">
+  {% include "@molecules/menus/_menu.twig" with {
+    menu_class: "main-menu",
+    items: menu_items,
+  } %}
+</nav>
+<a href="#" id="toggle-expand" class="toggle-expand">
+  {% include "@atoms/images/icons/_icon.twig" with {
+    icon_base_class: "icon",
+    icon_blockname: "toggle-expand",
+    icon_modifiers: ['open'],
+    icon_name: "hamburger",
+  } %}
+  {% include "@atoms/images/icons/_icon.twig" with {
+    icon_base_class: "icon",
+    icon_blockname: "toggle-expand",
+    icon_modifiers: ['close'],
+    icon_name: "close",
+  } %}
+  <span class="toggle-expand__text">Menu</span>
+</a>
+<nav class="main-nav__mobile">
+  {% include "@molecules/menus/_menu.twig" with {
+    menu_class: "main-menu",
+    items: menu_items,
+  } %}
+  <div {{ bem('menu', ['secondary-mobile'], header__base_class) }}>
+    {% block header__menu_secondary %}
+      {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
+    {% endblock %}
   </div>
 </nav>

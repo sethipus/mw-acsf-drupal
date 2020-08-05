@@ -7,26 +7,76 @@
   }
 
   &__primary {
-    background-image: radial-gradient(circle at 50% 50%, rgba(245, 225, 164, 0.6), clr(secondary));
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    padding: $space 0;
+    background-image: radial-gradient(circle at 50% 50%, clr(subcolor-2), clr(secondary));
+
+    &-container {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: space-between;
+  
+      @include medium {
+        justify-content: flex-start;
+      }
+    }
+
+    &--open {
+      overflow-y: scroll;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      margin-bottom: 282px;
+      z-index: $menu-overlay-zindex;
+    }
   }
 
   &__branding {
-    flex: 0 0 272px;
-    margin: 32px 30px;
+    flex: 0 0 150px;
+    margin: 2.5rem;
+
+    @include medium {
+      flex-basis: 212px;
+      margin: 3.2rem $space-triple;
+    }
   }
 
   &__menu {
-    flex: 1 0 auto;
+    flex: 0 0 auto;
+
+    @include medium {
+      flex: 1 0 auto;
+    }
 
     &--secondary {
+      display: none;
       position: absolute;
       top: 0;
       right: 0;
-      padding: 2.8rem 4rem;
+      padding: 0 4rem;
+
+      @include medium {
+        display: block;
+        width: 100%;
+        text-align-last: right;
+      }
+    }
+
+    &--secondary-mobile {
+      position: fixed;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      padding: 40px 60px;
+      background: clr(primary);
+      display: flex;
+      flex-flow: column-reverse nowrap;
+
+      @include medium {
+        display: none;
+      }
     }
   }
 
