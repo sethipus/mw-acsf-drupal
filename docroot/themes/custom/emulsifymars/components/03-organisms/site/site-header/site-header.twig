@@ -3,7 +3,7 @@
  # Otherwise, set the path relative to the Component Library. #}
 {% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
 
-<header {{ bem(header__base_class) }} data-theme="twix">
+<header {{ bem(header__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('inner', [], header__base_class) }}>
     <div {{ bem('primary', [], header__base_class) }} id="header-menu-trigger">
       <div {{ bem('primary-container', [], header__base_class) }}>

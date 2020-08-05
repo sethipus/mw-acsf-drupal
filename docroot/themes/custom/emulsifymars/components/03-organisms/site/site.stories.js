@@ -12,6 +12,7 @@ import mainMenuData from '../../02-molecules/menus/main-menu/main-menu.yml';
 import legalLinksData from '../../02-molecules/menus/legal-links/legal-links-menu.yml';
 
 import siteFooterData from './site-footer/site-footer.yml';
+import siteHeaderData from './site-header/site-header.yml';
 
 import '../../02-molecules/menus/main-menu/main-menu';
 
@@ -40,6 +41,7 @@ export const header = () => {
         __html: siteHeader({
           ...mainMenuData,
           ...secondaryMenuData,
+          ...siteHeaderData,
         }),
       }}
     />

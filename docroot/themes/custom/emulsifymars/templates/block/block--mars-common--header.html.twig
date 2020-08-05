@@ -16,6 +16,7 @@
 {% set logo_title = 'Logo' | t %}
 
 {% embed "@organisms/site/site-header/site-header.twig" with {
+  theme_styles: 'drupal',
   menu_items: primary_menu,
   inline_menu_items: secondary_menu,
   search_block: search_block,
