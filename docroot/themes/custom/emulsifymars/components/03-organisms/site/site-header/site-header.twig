@@ -39,11 +39,13 @@
       </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>
+      {% block alert_banner %}
         <div {{ bem('alert', [], header__base_class) }}>
           <span {{ bem('alert_text', [], header__base_class) }}>
-            Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection
+            {{ alert_banner }}
           </span>
         </div>
+      {% endblock %}
     </div>
   </div>
 </header>
