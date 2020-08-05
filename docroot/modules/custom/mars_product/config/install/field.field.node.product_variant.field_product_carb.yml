@@ -1,0 +1,19 @@
+uuid: 9b221630-4289-435c-884f-3492b447934f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_carb
+    - node.type.product_variant
+id: node.product_variant.field_product_carb
+field_name: field_product_carb
+entity_type: node
+bundle: product_variant
+label: 'Total Carbohydrates'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
