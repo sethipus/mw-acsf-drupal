@@ -23,11 +23,24 @@
               link_blockname: menu_class,
             } %}
               {% block link_content %}
-                {% include "@atoms/images/icons/_icon.twig" with {
-                  icon_name: item.icon,
-                  icon_blockname: menu_class,
-                } %}
-                <span {{ bem('text', [], menu_class) }}>{{ item.title }}</span>
+                {% if configured_icons %}
+                  {% include "@atoms/images/image/_image.twig" with {
+                    image_base_class: 'icon',
+                    image_blockname: 'social-menu',
+                    image_alt: item.title,
+                    image_title: item.title,
+                    image_sizes: '(max-width: 375px) 20px,
+                      (max-width: 768px) 20px,
+                      (max-width: 1024px) 20px,
+                      20px',
+                    image_src: item.icon,
+                  } %}
+                {% else %}
+                  {% include "@atoms/images/icons/_icon.twig" with {
+                    icon_name: item.icon,
+                    icon_blockname: menu_class,
+                  } %}
+                {% endif %}
               {% endblock %}
             {% endembed %}
           {% endblock %}

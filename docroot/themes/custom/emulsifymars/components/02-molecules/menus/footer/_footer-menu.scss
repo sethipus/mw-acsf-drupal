@@ -6,13 +6,15 @@
   margin-top: 10px;
 
   @include xl {
-    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+    margin: 0 0 0 125px;
   }
 }
 
 .footer-menu__item {
   flex: 0 1 50%;
-  margin: 0.75rem 0;
+  margin: 0 0 26px 0;
 
   @include medium {
     flex: 0 0 33%;
@@ -20,6 +22,7 @@
 
   @include xl {
     flex: 0 1 auto;
+    margin: 0 60px 0 0;
   }
 }
 
@@ -30,4 +33,9 @@
   font-size: 16px;
   color: clr(subcolor-1);
   text-decoration: none;
+  letter-spacing: 0.65px;
+
+  @include xl {
+    font-size: 18px;
+  }
 }

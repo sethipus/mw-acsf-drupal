@@ -1,0 +1,19 @@
+uuid: c5a9b2f3-d4c9-402d-969f-e48ccc3610f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_protein
+    - node.type.product_variant
+id: node.product_variant.field_product_protein
+field_name: field_product_protein
+entity_type: node
+bundle: product_variant
+label: Protein
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

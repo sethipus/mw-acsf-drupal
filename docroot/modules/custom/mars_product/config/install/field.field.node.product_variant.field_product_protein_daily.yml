@@ -1,0 +1,19 @@
+uuid: bc73f1d8-cc7d-4fc0-8a45-e2eaa2e13838
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_protein_daily
+    - node.type.product_variant
+id: node.product_variant.field_product_protein_daily
+field_name: field_product_protein_daily
+entity_type: node
+bundle: product_variant
+label: 'Protein % Daily Value'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
