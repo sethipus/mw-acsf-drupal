@@ -118,7 +118,7 @@ steps:
       testRunTitle: 'Unit tests'
   - task: Bash@3
     displayName: 'Deploy Branch'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release-'))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
     inputs:
       filePath: './scripts/deploy_branch.sh'
   - task: Bash@3
