@@ -1,17 +1,20 @@
 .social-feed {
     background-color: clr(background);
-    padding: 2rem 0 4rem 0;
+    padding: 2rem 4rem 4rem 4rem;
+    overflow-x: hidden;
 }
 
 .social-feed-heading {
     text-align: center;
     color: clr(subcolor-1);
     text-transform: uppercase;
+    font-size: 6.4rem;
+    line-height: 6.4rem;
 }
 
-.swiper-container {
-    width: 1400px;
-    height: 355px;
+.createdAt {
+    padding: 1rem 1rem 2rem 1rem;
+    font-size: 1.4rem;
 }
 
 .swiper-slide-link {
@@ -29,9 +32,25 @@
     width: 100%;
 }
 
-.createdAt {
-    padding: 1rem 1rem 2rem 1rem;
+.swiper-container {
+    width: 1460px;
+    height: 355px;
+    @media (max-width: 1460px) {
+        width: 1160px;
+        height: 390px
+    }
+    @media (max-width: 1024px) {
+        width: 955px;
+        height: 530px;
+    }
+    @media (max-width: 768px) {
+        width: 650px;
+        height: 675px;
+    }
 }
+
+// overrides for the default styles of swiper
+// TODO: need to find a better way to override default styles
 
 .swiper-button-disabled {
     opacity: 0 !important;
@@ -43,4 +62,14 @@
 
 .swiper-container.swiper-container-horizontal > .swiper-scrollbar .swiper-scrollbar-drag {
     background: clr(subcolor-1);
+}
+
+#swiper-button {
+    background-color: clr(text-inverse);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    &::after {
+        color: clr(primary);
+    }
 }
