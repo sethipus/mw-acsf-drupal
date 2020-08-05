@@ -1,0 +1,28 @@
+uuid: 0c30284e-c6c2-4d02-8061-27737d7bdd4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_image_3_override
+    - media.type.image
+    - node.type.product_variant
+id: node.product_variant.field_product_image_3_override
+field_name: field_product_image_3_override
+entity_type: node
+bundle: product_variant
+label: 'Supporting Image 3 Override'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

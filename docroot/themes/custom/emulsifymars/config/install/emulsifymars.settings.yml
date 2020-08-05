@@ -1,11 +1,11 @@
 # Color.
 # ----------------------------
-color_a: '#FFFFFF'
-color_b: '#FFFFFF'
-color_c: '#FFFFFF'
-color_d: '#FFFFFF'
-color_e: '#FFFFFF'
-color_f: '#FFFFFF'
+color_a: 'e62b1e'
+color_b: 'e6ce8d'
+color_c: '4c4c4c'
+color_d: '4c4c4c'
+color_e: '4c4c4c'
+color_f: '4c4c4c'
 
 # Font.
 # ----------------------------
@@ -15,10 +15,10 @@ tertiary_font_path: 'font3'
 
 # Icons.
 # ----------------------------
-graphic_divider: 0
-brand_shape: 0
-brand_borders: 0
-png_asset: 0
+graphic_divider: { }
+brand_shape: { }
+brand_borders: { }
+png_asset: { }
 button_style: '0px'
 
 # Social links.

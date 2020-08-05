@@ -1,0 +1,19 @@
+uuid: 6a5ef4ae-a2bb-464e-85e2-f194f37bfb9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_iron
+    - node.type.product_variant
+id: node.product_variant.field_product_iron
+field_name: field_product_iron
+entity_type: node
+bundle: product_variant
+label: Iron
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

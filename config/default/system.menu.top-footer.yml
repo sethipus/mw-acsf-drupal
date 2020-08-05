@@ -1,0 +1,8 @@
+uuid: 6cfde2d6-beab-438f-a7b1-f9d36666f396
+langcode: en
+status: true
+dependencies: {  }
+id: top-footer
+label: 'Top footer'
+description: 'Links at the top of a footer block.'
+locked: false
