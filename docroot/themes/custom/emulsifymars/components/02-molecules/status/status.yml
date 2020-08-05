@@ -6,3 +6,5 @@ message_list:
     message: 'This is a warning message'
   error:
     message: 'This is an error message'
+  alert:
+    message: 'Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection'
