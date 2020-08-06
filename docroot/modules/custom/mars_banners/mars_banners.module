@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * MARS Banners module main file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_banners_theme($existing, $type, $theme, $path) {
+  return [
+    'homepage_hero_video_block' => [
+      'variables' => [
+        'title' => NULL,
+        'eyebrow' => NULL,
+        'cta_url' => NULL,
+        'cta_title' => NULL,
+        'background_video' => NULL,
+      ],
+      'template' => 'homepage-hero-video-block',
+    ],
+  ];
+}
