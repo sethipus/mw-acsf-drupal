@@ -43,6 +43,13 @@ class FooterBlockTest extends UnitTestCase {
   protected $menuLinkTreeMock;
 
   /**
+   * File storage.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $menuStorageMock;
+
+  /**
    * Entity type manager mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityTypeManagerInterface
@@ -85,6 +92,13 @@ class FooterBlockTest extends UnitTestCase {
   private $configuration;
 
   /**
+   * Test theme settings.
+   *
+   * @var array
+   */
+  private $themeSettings;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -102,12 +116,29 @@ class FooterBlockTest extends UnitTestCase {
         'url' => 'http://mars.com',
         'title' => 'Corporate tout text',
       ],
-      'social_links_toggle' => TRUE,
+      'social_links_toggle' => FALSE,
       'region_selector_toggle' => TRUE,
     ];
     $definitions = [
       'provider'    => 'test',
       'admin_label' => 'test',
+    ];
+    $this->themeSettings = [
+      'logo' => [
+        'path' => '',
+      ],
+      'graphic_divider' => ['1'],
+      'social' => [
+        [
+          'name' => 'name1',
+          'link' => 'link.com',
+          'icon' => [0],
+        ],
+        [
+          'name' => 'name2',
+          'link' => 'link.net',
+        ],
+      ],
     ];
 
     $this->entityTypeManagerMock
@@ -117,7 +148,7 @@ class FooterBlockTest extends UnitTestCase {
         [$this->equalTo('menu')],
         [$this->equalTo('file')]
       )
-      ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->fileStorageMock));
+      ->will($this->onConsecutiveCalls($this->menuStorageMock, $this->fileStorageMock));
 
     // We should create it in test to import different configs.
     $this->footerBlock = new FooterBlock(
@@ -141,6 +172,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->configMock = $this->createMock(Config::class);
     $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->menuStorageMock = $this->createMock(EntityStorageInterface::class);
   }
 
   /**
@@ -191,29 +223,101 @@ class FooterBlockTest extends UnitTestCase {
       ->method('createFileUrl')
       ->will($this->onConsecutiveCalls('http://mars.com', ''));
 
-    $theme_settings = [
-      'social' => [
-        [
-          'name' => 'name1',
-          'link' => 'link.com',
-          'icon' => [0],
-        ],
-        [
-          'name' => 'name2',
-          'link' => 'link.net',
-        ],
-      ],
-    ];
-
     $reflection = new \ReflectionClass($this->footerBlock);
     $method = $reflection->getMethod('socialLinks');
     $method->setAccessible(TRUE);
 
-    $social_menu = $method->invokeArgs($this->footerBlock, [$theme_settings]);
+    $social_menu = $method->invokeArgs($this->footerBlock, [$this->themeSettings]);
     $this->assertCount(2, $social_menu);
     $this->assertArrayHasKey('icon', $social_menu[0]);
     $this->assertEquals('http://mars.com', $social_menu[0]['icon']);
     $this->assertEquals('', $social_menu[1]['icon']);
+  }
+
+  /**
+   * Test configuration form.
+   */
+  public function testBuildConfigurationFormProperly() {
+    $this->menuStorageMock
+      ->expects($this->exactly(2))
+      ->method('load')
+      ->withConsecutive(
+        [$this->equalTo('top footer menu')],
+        [$this->equalTo('legal menu links')]
+      )
+      ->will($this->onConsecutiveCalls('', ''));
+
+    $reflection = new \ReflectionClass($this->footerBlock);
+    $method = $reflection->getMethod('buildConfigurationForm');
+    $method->setAccessible(TRUE);
+
+    $config_form = $method->invokeArgs($this->footerBlock, ['arg1' => [], 'arg2' => $this->formStateMock]);
+    $this->assertCount(11, $config_form);
+    $this->assertArrayHasKey('top_footer_menu', $config_form);
+    $this->assertArrayHasKey('legal_links', $config_form);
+    $this->assertArrayHasKey('marketing', $config_form);
+    $this->assertArrayHasKey('corporate_tout', $config_form);
+    $this->assertArrayHasKey('social_links_toggle', $config_form);
+    $this->assertArrayHasKey('region_selector_toggle', $config_form);
+  }
+
+  /**
+   * Test building block.
+   */
+  public function testBuildBlockRenderArrayProperly() {
+    $configGetMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['get'])
+      ->getMock();
+
+    $this->configFactoryMock
+      ->expects($this->exactly(1))
+      ->method('get')
+      ->with($this->equalTo('emulsifymars.settings'))
+      ->willReturn($configGetMock);
+
+    $configGetMock
+      ->expects($this->exactly(1))
+      ->method('get')
+      ->willReturn($this->themeSettings);
+
+    $fileMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['createFileUrl'])
+      ->getMock();
+
+    $this->fileStorageMock
+      ->expects($this->any())
+      ->method('load')
+      ->willReturn($fileMock);
+
+    $fileMock
+      ->expects($this->any())
+      ->method('createFileUrl')
+      ->willReturn('http://mars.com');
+
+    $this->menuLinkTreeMock
+      ->expects($this->exactly(2))
+      ->method('load')
+      ->willReturn([]);
+
+    $this->menuLinkTreeMock
+      ->expects($this->exactly(2))
+      ->method('transform')
+      ->willReturn([]);
+
+    $this->menuLinkTreeMock
+      ->expects($this->exactly(2))
+      ->method('build');
+
+    $build = $this->footerBlock->build();
+
+    $this->assertCount(9, $build);
+    $this->assertArrayHasKey('#top_footer_menu', $build);
+    $this->assertArrayHasKey('#legal_links', $build);
+    $this->assertArrayHasKey('#marketing', $build);
+    $this->assertArrayHasKey('#corporate_tout', $build);
+    $this->assertCount(0, $build['#social_links']);
+    $this->assertArrayHasKey('#region_selector', $build);
+    $this->assertEquals('footer_block', $build['#theme']);
   }
 
 }
