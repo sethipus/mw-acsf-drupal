@@ -15,6 +15,18 @@ content-feature:
   dependencies:
     - core/drupal
 
+social-feed:
+  js:
+    dist/js/02-molecules/social-feed/social-feed.js: {}
+  dependencies:
+    - core/drupal
+
+slide:
+  js:
+    dist/js/02-molecules/slide/slide.js: {}
+  dependencies:
+    - core/drupal
+
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
 sprite:

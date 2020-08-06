@@ -1,75 +1,66 @@
 .social-feed {
-    background-color: clr(background);
-    padding: 2rem 4rem 4rem 4rem;
-    overflow-x: hidden;
-}
+  background-color: clr(background);
+  padding: 2rem 0 4rem 0;
+  overflow-x: hidden;
 
-.social-feed-heading {
-    text-align: center;
-    color: clr(subcolor-1);
-    text-transform: uppercase;
-    font-size: 6.4rem;
-    line-height: 6.4rem;
-}
+  &__heading {
+    &--main-heading {
+      text-align: center;
+      color: clr(subcolor-1);
+      text-transform: uppercase;
+      font-size: 6.4rem;
+      line-height: 6.4rem;
+      font-family: variable(heading-font);
+    }
+  }
 
-.createdAt {
-    padding: 1rem 1rem 2rem 1rem;
-    font-size: 1.4rem;
-}
-
-.swiper-slide-link {
-    text-decoration: none;
-    color: clr(text-inverse);
-    font-size: 1.4rem;
-}
-
-.slide-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0) 83%);
-    position: absolute;
+  // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
+  .swiper-container {
     width: 100%;
-}
+    height: 35.5rem;
 
-.swiper-container {
-    width: 1460px;
-    height: 355px;
-    @media (max-width: 1460px) {
-        width: 1160px;
-        height: 390px
-    }
-    @media (max-width: 1024px) {
-        width: 955px;
-        height: 530px;
-    }
     @media (max-width: 768px) {
-        width: 650px;
-        height: 675px;
+      height: 25rem;
     }
-}
 
-// overrides for the default styles of swiper
-// TODO: need to find a better way to override default styles
+    @media (max-width: 375px) {
+      height: 27.5rem;
+    }
+  }
 
-.swiper-button-disabled {
-    opacity: 0 !important;
-}
+  // increasing specificity to avoid using !important
+  .swiper-container.swiper-container-horizontal>.swiper-scrollbar {
+    height: 16px;
+    transform: scale(.5);
 
-.swiper-container.swiper-container-horizontal > .swiper-scrollbar {
-    height: 8px;
-}
+    & .swiper-scrollbar-drag {
+      background: clr(subcolor-1);
+    }
+  }
 
-.swiper-container.swiper-container-horizontal > .swiper-scrollbar .swiper-scrollbar-drag {
-    background: clr(subcolor-1);
-}
-
-#swiper-button {
+  #swiper-button {
     background-color: clr(text-inverse);
-    width: 70px;
-    height: 70px;
     border-radius: 50%;
-    &::after {
-        color: clr(primary);
+    width: 7rem;
+    height: 7rem;
+
+    @media (max-width: 768px) {
+      width: 6rem;
+      height: 6rem;
     }
+
+    @media (max-width: 375px) {
+      width: 5.5rem;
+      height: 5.5rem;
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0;
+    }
+
+    &::after {
+      color: clr(primary);
+      font-size: 2.5rem;
+    }
+  }
 }
