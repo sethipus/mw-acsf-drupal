@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Template for the parent page header component.
+ *
+ * Available variables:
+ * 'eyebrow' => NULL,
+ * 'label' => NULL,
+ * 'background' => NULL,
+ * 'description' => NULL,
+ */
+#}
+
+{% set background = file_url(background.image.entity.fileuri) %}
+
+{% include "@molecules/parent-page-header/parent-page-header.twig" with {
+  eyebrow_text: eyebrow,
+  heading: label,
+  paragraph_content: description,
+  background_image: background,
+  heading_level: '1',
+  paragraph_base_class: 'paragraph',
+  paragraph_modifiers: 'large',
+  separator_style: 'triangle'
+} %}
