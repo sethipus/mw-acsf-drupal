@@ -1,0 +1,31 @@
+{#
+/**
+ * Available variables:
+ * - button_trigger_base_class - the content of the button (typically text)
+ * - button_trigger_modifiers - the content of the button (typically text)
+ * - button_trigger_blockname - the content of the button (typically text)
+ * - button_trigger_base_id - the content of the button (typically text)
+ *
+ * Available blocks:
+ * - button_content - used to replace the content of the button with something other than text
+ *   for example: to insert an icon
+ */
+#}
+
+{% set button_trigger_base_class = button_trigger_base_class|default('button') %}
+{% set button_trigger_base_id = button_trigger_base_id|default('button') %}
+
+{% set additional_attributes = {
+  class: bem(button_trigger_base_class, button_trigger_modifiers, button_trigger_blockname),
+  id: button_trigger_base_id,
+  "aria-label": 'button',
+  "data-toggle": 'dropdown',
+  "aria-haspopup": 'true',
+  "aria-expanded": 'false',
+} %}
+
+<button {{ add_attributes(additional_attributes) }}>
+  {% block button_content %}
+    {{ button_content }}
+  {% endblock %}
+</button>
