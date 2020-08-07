@@ -12,7 +12,7 @@ module.exports = {
     css: path.resolve(webpackDir, 'css.js'),
   },
   module: {
-    rules: [loaders.SVGSpriteLoader, loaders.CSSLoader, loaders.ImageLoader],
+    rules: [loaders.SVGSpriteLoader, loaders.CSSLoader, loaders.ImageLoader, loaders.FontLoader],
   },
   plugins: [
     plugins.ImageminPlugin,

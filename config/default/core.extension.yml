@@ -46,6 +46,7 @@ module:
   inline_entity_form: 0
   jquery_colorpicker: 0
   jsonapi: 0
+  juicer_io: 0
   layout_builder: 0
   layout_builder_restrictions: 0
   layout_builder_styles: 0
@@ -75,6 +76,7 @@ module:
   lightning_search: 0
   lightning_workflow: 0
   link: 0
+  mars_common: 0
   media: 0
   media_entity_instagram: 0
   media_entity_twitter: 0

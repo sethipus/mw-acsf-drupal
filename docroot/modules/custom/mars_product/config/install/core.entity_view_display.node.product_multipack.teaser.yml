@@ -1,0 +1,39 @@
+uuid: 89591cfd-291c-437c-bc0e-ad683f141060
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.product_multipack.field_product_brand
+    - field.field.node.product_multipack.field_product_description
+    - field.field.node.product_multipack.field_product_flavor
+    - field.field.node.product_multipack.field_product_market
+    - field.field.node.product_multipack.field_product_name
+    - field.field.node.product_multipack.field_product_pack_items
+    - field.field.node.product_multipack.field_product_segment
+    - field.field.node.product_multipack.field_product_sub_brand
+    - field.field.node.product_multipack.field_product_variants
+    - node.type.product_multipack
+  module:
+    - user
+id: node.product_multipack.teaser
+targetEntityType: node
+bundle: product_multipack
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  field_product_brand: true
+  field_product_description: true
+  field_product_flavor: true
+  field_product_market: true
+  field_product_name: true
+  field_product_pack_items: true
+  field_product_segment: true
+  field_product_sub_brand: true
+  field_product_variants: true
+  search_api_excerpt: true

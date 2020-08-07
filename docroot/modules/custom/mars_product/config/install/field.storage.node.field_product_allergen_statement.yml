@@ -1,0 +1,54 @@
+uuid: eb5b9b36-6644-41ff-8726-a1a46c101267
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_product_allergen_statement
+field_name: field_product_allergen_statement
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'Gluten free'
+      label: 'Gluten free'
+    -
+      value: 'Kosher Certified'
+      label: 'Kosher Certified'
+    -
+      value: Vegetarian
+      label: Vegetarian
+    -
+      value: Vegan
+      label: Vegan
+    -
+      value: 'Non GMO Ingredients'
+      label: 'Non GMO Ingredients'
+    -
+      value: 'No artificial flavors or preservatives'
+      label: 'No artificial flavors or preservatives'
+    -
+      value: 'Dairy free'
+      label: 'Dairy free'
+    -
+      value: 'Nut free'
+      label: 'Nut free'
+    -
+      value: Halva
+      label: Halva
+    -
+      value: 'Soy Free'
+      label: 'Soy Free'
+    -
+      value: 'Shellfish Free'
+      label: 'Shellfish Free'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

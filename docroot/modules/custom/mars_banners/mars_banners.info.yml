@@ -1,0 +1,5 @@
+name: 'Mars Banners'
+type: module
+description: 'Global components.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'

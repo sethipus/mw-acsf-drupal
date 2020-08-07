@@ -1,0 +1,27 @@
+uuid: 3013bac7-d07e-4f02-9e5f-c7e6cd1a2216
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_key_image
+    - node.type.product_variant
+id: node.product_variant.field_product_key_image
+field_name: field_product_key_image
+entity_type: node
+bundle: product_variant
+label: 'Key Product Pack Image'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

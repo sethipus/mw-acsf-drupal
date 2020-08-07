@@ -1,0 +1,33 @@
+{{ attach_library('emulsifymars/content-feature') }}
+{% set content_feature_base_class = 'content-feature' %}
+
+<section {{ bem(content_feature_base_class) }} id="content-feature" style="background-image: url('{{ background_image }}');">
+
+  {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+    eyebrow_text: eyebrow_text
+  } %}
+
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: heading,
+    heading_level: heading_level,
+    heading_url: default_link_attributes.href
+  } %}
+
+  {% include "@atoms/separators/horizontal-img/horizontal-img.twig" with {
+    horizontal_img_style: separator_style
+  } %}
+
+  {% include "@atoms/text/text/01-paragraph.twig" with {
+    paragraph_size: paragraph_size,
+    paragraph_content: paragraph_content,
+    paragraph_base_class: paragraph_base_class,
+    paragraph_modifiers: paragraph_modifiers
+  } %}
+
+  {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+    default_link_content: default_link_content,
+    default_link_base_class: default_link_base_class,
+    default_link_border_radius: default_link_border_radius,
+    default_link_attributes: default_link_attributes
+  } %}
+</section>

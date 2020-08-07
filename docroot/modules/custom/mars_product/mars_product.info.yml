@@ -1,0 +1,14 @@
+name: Mars Product
+type: module
+description: 'Mars Product functionality.'
+package: 'Mars'
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - options
+  - entity_reference
+  - field_group
+  - content_moderation
+  - entity_browser
+  - lightning_workflow
+  - media

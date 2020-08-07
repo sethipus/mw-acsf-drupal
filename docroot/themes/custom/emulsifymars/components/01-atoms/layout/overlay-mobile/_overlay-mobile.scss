@@ -1,0 +1,17 @@
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  padding: 0;
+  z-index: $menu-overlay-zindex;
+}
+
+.overlay_content {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  z-index: $menu-overlay-content-zindex;
+}
