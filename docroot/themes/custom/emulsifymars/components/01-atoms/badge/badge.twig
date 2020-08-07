@@ -1,0 +1,5 @@
+{% set badge_base_class = badge_base_class|default('badge') %}
+
+<span {{ bem(badge_base_class) }} data-theme="dove">
+  {{ badge_text }}
+</span>
