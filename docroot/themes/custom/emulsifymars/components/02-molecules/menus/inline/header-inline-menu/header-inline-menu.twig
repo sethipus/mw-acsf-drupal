@@ -1,0 +1,9 @@
+{% include "@molecules/menus/_menu.twig" with {
+  menu_class: 'header-inline-menu',
+  items: header_inline_menu_items,
+} %}
+{% include "@molecules/menus/_menu.twig" with {
+  menu_class: 'header-inline-menu',
+  menu_modifiers: ['search'],
+  items: header_inline_menu_search_item,
+} %}

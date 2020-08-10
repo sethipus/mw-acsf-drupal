@@ -1,0 +1,9 @@
+.sronly {
+  position: absolute;
+  top: 0;
+  left: -10000px;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
