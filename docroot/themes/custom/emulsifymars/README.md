@@ -10,12 +10,12 @@ emulsifymars-mars is an open-source tool for creating design systems with reusab
 
 ## Documentation
 
-[docs.emulsifymars.info](https://docs.emulsifymars.info/)
+[docs.emulsify.info](https://docs.emulsify.info/)
 
 ### Quick Links
 
-1. [Installation](https://docs.emulsifymars.info/installation/design-system)
-2. [Usage](https://docs.emulsifymars.info/usage/commands)
+1. [Installation](https://docs.emulsify.info/installation/design-system)
+2. [Usage](https://docs.emulsify.info/usage/commands)
 
 ## Demo
 
