@@ -134,7 +134,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $form['feed'] = [
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Feed'),
-      '#description' => $this->t('Juicer.io feed as data source.'),
+      '#description' => $this->t('Please select a feed with at least 4 items in it for best results.'),
       '#target_type' => 'juicer_io_feed',
       '#required' => TRUE,
     ];

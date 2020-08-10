@@ -1,0 +1,28 @@
+{#
+/**
+ * Available variables:
+ * - overlay_content - the content of the overlay
+ * - overlay_base_class - the base class name, default for overlay
+ * - overlay_content_base_class - the base class name, default for overlay content
+ * - overlay_modifiers - array of modifiers to add to the base classname
+ * - overlay_blockname - blockname prepended to the base classname
+ *
+ * Available blocks:
+ * - overlay_content - used to replace the content of the overlay
+ *     Example: to insert the image component
+ */
+#}
+{% set overlay_base_id = overlay_base_class|default('overlay') %}
+{% set overlay_base_class = overlay_base_class|default('overlay') %}
+{% set overlay_content_base_class = overlay_content_base_class|default('overlay_content') %}
+
+<div
+  {{ bem(overlay_base_class, overlay_modifiers, overlay_blockname) }}
+  id={{ overlay_base_id }}
+>
+  <div {{ bem(overlay_content_base_class, overlay_modifiers, overlay_blockname) }}> 
+    {% block overlay_content %}
+      {{ overlay_content }}
+    {% endblock %}
+  </div>
+</div>
