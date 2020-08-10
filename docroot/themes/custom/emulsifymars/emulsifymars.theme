@@ -8,6 +8,7 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\File\Exception\FileException;
 use Drupal\file\Entity\File;
+use Drupal\Core\Render\Markup;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -500,6 +501,21 @@ function emulsifymars_preprocess_html(&$variables) {
       ],
     ],
     'custom-css-properties',
+  ];
+
+  // CSS Variables Polyfill for IE11 package ie11-custom-properties.
+  $url = "https://cdn.jsdelivr.net/gh/nuxodin/ie11CustomProperties@4.1.0/ie11CustomProperties.min.js";
+  $script = "window.MSInputMethodContext && document.documentMode && document.write('<script src=\"$url\"><\/script>');";
+  $variables['page']['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'script',
+      '#value' => Markup::create($script),
+      '#attributes' => [
+        'type' => 'text/javascript',
+      ],
+    ],
+    'custom-css',
   ];
 }
 
