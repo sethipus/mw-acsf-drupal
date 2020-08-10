@@ -10,6 +10,18 @@
  */
 function mars_common_theme($existing, $type, $theme, $path) {
   return [
+    'header_block' => [
+      'variables' => [
+        'logo'              => NULL,
+        'primary_menu'      => NULL,
+        'secondary_menu'    => NULL,
+        'search_menu'       => NULL,
+        'language_selector' => NULL,
+        'search_block'      => NULL,
+        'alert_banner'      => NULL,
+      ],
+      'template' => 'block--mars-common--header',
+    ],
     'footer_block' => [
       'variables' => [
         'logo'            => NULL,

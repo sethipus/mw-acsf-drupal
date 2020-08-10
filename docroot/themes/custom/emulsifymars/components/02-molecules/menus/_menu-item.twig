@@ -36,7 +36,11 @@
       } %}
     {% endif %}
     {% if item.below %}
-      <span class="expand-sub"></span>
+      {% include "@atoms/images/icons/_icon.twig" with {
+        icon_base_class: "icon",
+        icon_blockname: "menu_chevron",
+        icon_name: "chevron",
+      } %}
       {{ menus.menu_links(item.below, attributes, menu_level + 1, menu_class, menu_modifiers, menu_blockname, item_base_class, original_item_modifiers, item_blockname, directory) }}
     {% endif %}
   {% endblock %}
