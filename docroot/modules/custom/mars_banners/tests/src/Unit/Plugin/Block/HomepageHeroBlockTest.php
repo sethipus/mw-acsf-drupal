@@ -4,20 +4,20 @@ namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\mars_banners\Plugin\Block\HomepageHeroVideoBlock;
+use Drupal\mars_banners\Plugin\Block\HomepageHeroBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @coversDefaultClass \Drupal\mars_banners\Plugin\Block\HomepageHeroVideoBlock
+ * @coversDefaultClass \Drupal\mars_banners\Plugin\Block\HomepageHeroBlock
  * @group mars
  * @group mars_banners
  */
-class HomepageHeroVideoBlockTest extends UnitTestCase {
+class HomepageHeroBlockTest extends UnitTestCase {
 
   private const TEST_CONFIGURATION = [
-    'id' => 'homepage_hero_video_block',
-    'label' => 'Homepage hero video block',
+    'id' => 'homepage_hero_block',
+    'label' => 'Homepage Hero block',
     'provider' => 'mars_banners',
     'label_display' => '0',
     'eyebrow' => 'test eyebrow',
@@ -36,7 +36,7 @@ class HomepageHeroVideoBlockTest extends UnitTestCase {
   /**
    * System under test.
    *
-   * @var \Drupal\mars_banners\Plugin\Block\HomepageHeroVideoBlock
+   * @var \Drupal\mars_banners\Plugin\Block\HomepageHeroBlock
    */
   private $homepageBlock;
 
@@ -68,9 +68,9 @@ class HomepageHeroVideoBlockTest extends UnitTestCase {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
-    $this->homepageBlock = new HomepageHeroVideoBlock(
+    $this->homepageBlock = new HomepageHeroBlock(
       self::TEST_CONFIGURATION,
-      'homepage_hero_video_block',
+      'homepage_hero_block',
       self::TEST_DEFENITION
     );
   }
@@ -81,7 +81,7 @@ class HomepageHeroVideoBlockTest extends UnitTestCase {
   public function testShouldBuild() {
     $block_build = $this->homepageBlock->build();
     $this->assertSame(
-      'Homepage hero video block',
+      'Homepage Hero block',
       $block_build['#title']
     );
     $this->assertIsArray($block_build);
