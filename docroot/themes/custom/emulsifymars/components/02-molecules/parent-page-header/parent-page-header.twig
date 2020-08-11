@@ -1,0 +1,42 @@
+{% set pp_header_base_class = pp_header_base_class|default('parent-page-header') %}
+
+{% if parent_page_media_url %}
+  {% set pp_header_modifiers = ['with-bg-media'] %}
+{% endif %}
+
+<section 
+  {{ bem(pp_header_base_class, pp_header_modifiers, pp_header_extra_classes) }} 
+  data-theme="twix"
+  {% if parent_page_media_url and parent_page_media_type == 'image' %}
+    style="background-image: url('{{ parent_page_media_url }}');"
+  {% endif %}
+>
+  {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+    eyebrow_text: pp_header_eyebrow_text,
+    eyebrow_modifiers: pp_header_eyebrow_modifiers
+  } %}
+
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: pp_header_heading,
+    heading_level: pp_header_heading_level,
+    heading_base_class: pp_header_heading_base_class
+  } %}
+
+  {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
+
+  {% include "@atoms/text/text/01-paragraph.twig" with {
+    paragraph_size: pp_header_paragraph_size,
+    paragraph_content: pp_header_paragraph_content,
+    paragraph_base_class: pp_header_paragraph_base_class
+  } %}
+
+  {% if parent_page_media_url and parent_page_media_type == 'video' %}
+    <video id='video' preload="auto" width="100%" muted="true" autoplay="true" class="parent-page-header__video">
+      <source id='mp4' src="http://media.w3.org/2010/05/sintel/trailer.mp4" type='video/mp4' />
+      <source id='webm' src="http://media.w3.org/2010/05/sintel/trailer.webm" type='video/webm' />
+      <source id='ogv' src="http://media.w3.org/2010/05/sintel/trailer.ogv" type='video/ogg' />
+    </video>
+  {% endif %}
+
+  
+</section>
