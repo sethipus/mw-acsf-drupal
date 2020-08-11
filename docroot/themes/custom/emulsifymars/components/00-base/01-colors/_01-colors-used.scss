@@ -1,10 +1,12 @@
 // Color Usage variables - use these (via the `clr` function below)
 // rather than color variables directly.
 $defaultColors: (
+  play-button: $red,
   text: $gray,
   text-inverse: $white,
   background: $white,
   background-section: $gray-lightest,
+  background-button: $gray-tranparent,
   primary: $blue,
   secondary: $purple,
   accent: $gray-dark,

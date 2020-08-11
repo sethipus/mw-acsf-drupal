@@ -1,0 +1,102 @@
+.card__heading {
+  @include heading-large($font-size: 1.3rem);
+  @include no-bottom;
+
+  &-link {
+    @include link;
+  }
+}
+
+.card__subheading {
+  @include heading-medium($font-size: 1rem);
+  @include no-bottom;
+
+  color: clr(text);
+}
+
+.card__body {
+  margin: 0.7em 0 1em;
+}
+
+.card__link {
+  @include link;
+}
+
+.card__button {
+  @include button-base;
+  @include button-color-primary;
+  @include button-medium;
+}
+
+
+#video-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  video {
+    width: 100%;
+  }
+
+  button[data-state="play"] {
+    width: 60px;
+    height: 60px;
+    left: 10px;
+    border-radius: 50%;
+    border: hidden;
+    background-color: clr(background);
+    position: absolute;
+    bottom: 30px;
+    z-index: 1;
+
+    &:hover {
+      cursor: pointer;
+      width: 62px;
+      height: 62px;
+    }
+
+    &:focus {
+      outline: 0;
+    }
+  
+    .inner {
+      width: 0;
+      height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-left: 20px solid clr(play-button);
+      margin: auto 35%
+    }
+  }
+
+  button[data-state="pause"] {
+    width: 60px;
+    height: 60px;
+    left: 10px;
+    border-radius: 50%;
+    border: hidden;
+    background-color: clr(background-button);
+    position: absolute;
+    bottom: 30px;
+    z-index: 1;
+
+    &:hover {
+      cursor: pointer;
+      width: 62px;
+      height: 62px;
+    }
+
+    &:focus {
+      outline: 0;
+    }
+  
+    .inner {
+      width: 14px;
+      height: 18px;
+      border-right: 4px solid clr(background);
+      border-left: 4px solid clr(background);
+      margin: auto;
+    }
+  }
+
+}
