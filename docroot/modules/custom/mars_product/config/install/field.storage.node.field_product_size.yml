@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: lLVDcZAcLoxUiwq2G9EpvKT4EbX5NuWmQq9nODO0IdI
 id: node.field_product_size
 field_name: field_product_size
 entity_type: node
