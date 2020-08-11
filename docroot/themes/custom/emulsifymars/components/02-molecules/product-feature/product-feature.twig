@@ -2,19 +2,18 @@
 {% set product_feature_base_class = 'product-feature' %}
 
 <section {{ bem(product_feature_base_class) }} id="product-feature" data-theme="{{ theme_styles }}">
-    <div {{ bem('bubble_1', [], product_feature_base_class) }} style="background-image: url('{{ background_image_1 }}');" id="product-feature__bubble_1">
-    </div>
-    <div {{ bem('bubble_2', [], product_feature_base_class) }} style="background-image: url('{{ background_image_2 }}');" id="product-feature__bubble_2">
-    </div>
-    <div {{ bem('bubble_3', [], product_feature_base_class) }} style="background-image: url('{{ background_image_3 }}');" id="product-feature__bubble_3">
-    </div>
   <div {{ bem('inner', [], product_feature_base_class) }}>
-
+  <div {{ bem('bubble_1', [], product_feature_base_class) }} style="background-image: url('{{ background_image }}');" id="product-feature__bubble_1">
+  </div>
+  <div {{ bem('bubble_2', [], product_feature_base_class) }} style="background-image: url('{{ background_image }}');" id="product-feature__bubble_2">
+  </div>
+  <div {{ bem('bubble_3', [], product_feature_base_class) }} style="background-image: url('{{ background_image }}');" id="product-feature__bubble_3">
+  </div>
     <div {{ bem('product_image', [], product_feature_base_class) }}>
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
         image_alt: 'product image',
-        image_srcset: 'twix-104.png',
+        image_srcset: 'twix-104.png, twix-104-2x.png, twix-104-2x.png',
         image_sizes: '212px',
         image_src: 'twix-104.png',
         responsive_image_blockname: 'product_image',
