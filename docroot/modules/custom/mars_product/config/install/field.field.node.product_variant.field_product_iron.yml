@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_iron
     - node.type.product_variant
+_core:
+  default_config_hash: oalcERkzu2i7mILkBWIMfeVg_3afK3aSUofId6PewbI
 id: node.product_variant.field_product_iron
 field_name: field_product_iron
 entity_type: node

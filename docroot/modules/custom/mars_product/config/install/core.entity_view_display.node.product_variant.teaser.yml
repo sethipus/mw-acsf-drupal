@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.teaser
     - field.field.node.product_variant.field_product_allergen_statement
     - field.field.node.product_variant.field_product_allergen_warnings
     - field.field.node.product_variant.field_product_calcium
@@ -13,6 +14,7 @@ dependencies:
     - field.field.node.product_variant.field_product_carb_daily
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
+    - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
     - field.field.node.product_variant.field_product_dietary_fiber
     - field.field.node.product_variant.field_product_image_1
@@ -54,6 +56,8 @@ dependencies:
     - node.type.product_variant
   module:
     - user
+_core:
+  default_config_hash: yrrIDfJa1XqnN5WG_11mQiXa6qf9F1LwLwUBu6s4a0M
 id: node.product_variant.teaser
 targetEntityType: node
 bundle: product_variant
@@ -76,6 +80,7 @@ hidden:
   field_product_carb_daily: true
   field_product_cholesterol: true
   field_product_cholesterol_daily: true
+  field_product_diet_allergens: true
   field_product_dietary_daily: true
   field_product_dietary_fiber: true
   field_product_image_1: true

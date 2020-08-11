@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_protein
     - node.type.product_variant
+_core:
+  default_config_hash: YjIXVcAz5JRwxFvqRsu_wgxWmjyBELi1yf_hRdyBfvw
 id: node.product_variant.field_product_protein
 field_name: field_product_protein
 entity_type: node

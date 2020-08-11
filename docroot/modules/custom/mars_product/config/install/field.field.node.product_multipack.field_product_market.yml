@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_market
     - node.type.product_multipack
+_core:
+  default_config_hash: iMS_IWQE1g_BA5231uwYHJaBCsr7g1Y35yEtsia37n0
 id: node.product_multipack.field_product_market
 field_name: field_product_market
 entity_type: node
