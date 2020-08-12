@@ -10,3 +10,6 @@ pp_header_paragraph_content: 'Plus, I am all in whenever Twix are involved. Exce
 pp_header_paragraph_base_class: 'parent-page-paragraph'
 
 # parent_page_img_url: ''
+
+pp_header_video_src: 'http://media.w3.org/2010/05/sintel/trailer.mp4'
+pp_header_video_type: 'video/mp4'
