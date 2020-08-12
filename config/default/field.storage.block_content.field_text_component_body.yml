@@ -1,18 +1,16 @@
-uuid: ba64f249-98c5-4681-b095-5d7f6bd5439f
+uuid: f989ed39-2e36-4fec-8ea0-2153e008fcff
 langcode: en
 status: true
 dependencies:
   module:
     - block_content
-id: block_content.field_text_header
-field_name: field_text_header
+    - text
+id: block_content.field_text_component_body
+field_name: field_text_component_body
 entity_type: block_content
-type: string
-settings:
-  max_length: 55
-  is_ascii: false
-  case_sensitive: false
-module: core
+type: text_long
+settings: {  }
+module: text
 locked: false
 cardinality: 1
 translatable: true

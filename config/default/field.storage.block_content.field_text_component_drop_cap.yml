@@ -1,16 +1,15 @@
-uuid: ac4655fe-1944-4c9c-a367-4d4d299fae78
+uuid: 2f47aa96-1398-423f-a7ee-3f3e24602b82
 langcode: en
 status: true
 dependencies:
   module:
     - block_content
-    - text
-id: block_content.field_text_body
-field_name: field_text_body
+id: block_content.field_text_component_drop_cap
+field_name: field_text_component_drop_cap
 entity_type: block_content
-type: text_long
+type: boolean
 settings: {  }
-module: text
+module: core
 locked: false
 cardinality: 1
 translatable: true

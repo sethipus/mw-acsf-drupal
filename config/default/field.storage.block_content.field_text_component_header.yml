@@ -1,14 +1,17 @@
-uuid: cd83858a-ec93-4159-a123-4e4bf911fdeb
+uuid: fe70b3f7-4edf-49db-9048-a3cf53c6ef60
 langcode: en
 status: true
 dependencies:
   module:
     - block_content
-id: block_content.field_text_drop_cap
-field_name: field_text_drop_cap
+id: block_content.field_text_component_header
+field_name: field_text_component_header
 entity_type: block_content
-type: boolean
-settings: {  }
+type: string
+settings:
+  max_length: 55
+  is_ascii: false
+  case_sensitive: false
 module: core
 locked: false
 cardinality: 1

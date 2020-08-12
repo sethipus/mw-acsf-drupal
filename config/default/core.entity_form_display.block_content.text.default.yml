@@ -1,48 +1,34 @@
-uuid: 0edf1dab-3291-4c13-9785-49d87169e249
+uuid: f81cc9df-27be-4dce-82e0-d8de2f348256
 langcode: en
 status: true
 dependencies:
   config:
     - block_content.type.text
-    - field.field.block_content.text.field_text_body
-    - field.field.block_content.text.field_text_drop_cap
-    - field.field.block_content.text.field_text_header
+    - field.field.block_content.text.body
   module:
     - text
+_core:
+  default_config_hash: BNCuXJPvIp5LwqJERsg3FhYYAY6rDoTwx6Sdu-RC0sg
 id: block_content.text.default
 targetEntityType: block_content
 bundle: text
 mode: default
 content:
-  field_text_body:
-    weight: 2
+  body:
+    type: text_textarea_with_summary
+    weight: 0
     settings:
-      rows: 5
+      rows: 9
+      summary_rows: 3
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
-  field_text_drop_cap:
-    weight: 3
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
-  field_text_header:
-    weight: 1
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
     region: content
   info:
     type: string_textfield
-    weight: 0
-    region: content
+    weight: -5
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
 hidden: {  }
