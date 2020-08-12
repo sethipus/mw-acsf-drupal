@@ -38,7 +38,7 @@
    </div>
    <div {{ bem('right', [], homepage_hero__base_class) }}>
     <div {{ bem('right__wrapper', [], homepage_hero__base_class) }} style="background-image:url('{{ ellipse_background  }}');">
-      {% include "@molecules/homepage-hero/homepage-hero-block.twig" with {
+      {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
         separate_class: 'first',
         block_eyebrow_text: block1_eyebrow,
         block_title_label: block1_title_label,
@@ -47,7 +47,7 @@
         cta_block: block1_cta
       }
       %}
-      {% include "@molecules/homepage-hero/homepage-hero-block.twig" with {
+      {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
         separate_class: 'second',
         block_eyebrow_text: block2_eyebrow,
         block_title_label: block2_title_label,
