@@ -1,19 +1,29 @@
-uuid: 72de8ce1-181d-49db-ab44-27e3cedf7f5d
+uuid: 7637d128-7fe1-4558-a96c-11b6f1a750b3
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_product_brand
     - node.type.product
+    - taxonomy.vocabulary.mars_brand_initiatives
 id: node.product.field_product_brand
 field_name: field_product_brand
 entity_type: node
 bundle: product
 label: Brand
 description: ''
-required: true
-translatable: false
+required: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
-settings: {  }
-field_type: string
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_brand_initiatives: mars_brand_initiatives
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

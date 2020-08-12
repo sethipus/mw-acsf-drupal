@@ -12,6 +12,8 @@ third_party_settings:
     parent: 'main:'
   lightning_workflow:
     workflow: editorial
+_core:
+  default_config_hash: H4AIbCVMTj1e7d4wBo2eteQgbSbm4gmSPRWLYkS-V40
 name: 'Product Variant'
 type: product_variant
 description: ''

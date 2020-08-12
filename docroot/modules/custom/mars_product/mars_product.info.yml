@@ -11,4 +11,5 @@ dependencies:
   - content_moderation
   - entity_browser
   - lightning_workflow
-  - media
+  - lightning_media
+  - taxonomy

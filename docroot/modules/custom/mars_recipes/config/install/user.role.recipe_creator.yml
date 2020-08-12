@@ -1,0 +1,27 @@
+uuid: 25d9e913-87f1-478d-9324-52dd108f5564
+langcode: en
+status: true
+dependencies: {  }
+id: recipe_creator
+label: 'Recipe creator'
+weight: 15
+is_admin: false
+permissions:
+  - 'access ckeditor_media_browser entity browser pages'
+  - 'access contextual links'
+  - 'access image_browser entity browser pages'
+  - 'access in-place editing'
+  - 'access media_browser entity browser pages'
+  - 'access toolbar'
+  - 'configure any layout'
+  - 'create recipe content'
+  - 'create url aliases'
+  - 'edit own recipe content'
+  - 'use editorial transition create_new_draft'
+  - 'use editorial transition review'
+  - 'use moderation sidebar'
+  - 'use text format rich_text'
+  - 'view any unpublished content'
+  - 'view latest version'
+  - 'view own unpublished content'
+  - 'view recipe revisions'
