@@ -1,0 +1,29 @@
+uuid: becf11c3-881a-4b13-b275-1efa111442b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.recipe.field_recipe_cooking_time
+    - field.field.node.recipe.field_recipe_description
+    - field.field.node.recipe.field_recipe_image
+    - field.field.node.recipe.field_recipe_ingredients_number
+    - node.type.recipe
+  module:
+    - user
+id: node.recipe.teaser
+targetEntityType: node
+bundle: recipe
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_recipe_cooking_time: true
+  field_recipe_description: true
+  field_recipe_image: true
+  field_recipe_ingredients_number: true
+  search_api_excerpt: true
