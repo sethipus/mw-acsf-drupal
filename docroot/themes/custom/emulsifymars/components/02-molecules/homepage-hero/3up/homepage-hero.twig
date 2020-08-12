@@ -1,0 +1,65 @@
+{% set homepage_hero__base_class = 'homepage-hero' %}
+
+<section {{ bem(homepage_hero__base_class) }} id="homepage-hero" data-theme="{{ theme_styles }}">
+
+  <div {{ bem('inner', [], homepage_hero__base_class) }}>
+    <div {{ bem('left', [], homepage_hero__base_class) }}  style="background-image:url('{{ background }}');">
+       <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
+         {% include "@atoms/images/image/responsive-image.twig" with {
+           output_image_tag: true,
+           image_alt: '',
+           image_srcset: hero_image.srcset,
+           image_sizes: '(max-width: 375px) 375px,
+                (max-width: 768px) 768px,
+                (max-width: 1024px) 1024px,
+                1440px',
+           image_src: hero_image.src,
+           responsive_image_blockname: 'homepage-hero-image',
+         } %}
+       </div>
+
+       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+         eyebrow_text: eyebrow
+       } %}
+
+       {% include "@atoms/text/headings/_heading.twig" with {
+         heading_level: 2,
+         heading: title_label,
+         heading_base_class:'heading',
+         heading_url: title_href
+       }
+       %}
+
+       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+         default_link_content: cta_title,
+         default_link_border_radius: cta_border_radius,
+         default_link_attributes: cta_link_attributes
+       } %}
+   </div>
+   <div {{ bem('right', [], homepage_hero__base_class) }}>
+    <div {{ bem('right__wrapper', [], homepage_hero__base_class) }} style="background-image:url('{{ ellipse_background  }}');">
+      {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
+        separate_class: 'first',
+        block_eyebrow_text: block1_eyebrow,
+        block_title_label: block1_title_label,
+        block_title_href: '#',
+        block_image: block1_image,
+        cta_block: block1_cta
+      }
+      %}
+      {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
+        separate_class: 'second',
+        block_eyebrow_text: block2_eyebrow,
+        block_title_label: block2_title_label,
+        block_title_href: '#',
+        block_image: block2_image,
+        cta_block: block2_cta
+      }
+      %}
+    </div>
+   </div>
+ </div>
+</section>
+
+
+
