@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Template for the PDP Hero component.
+ *
+ * Available variables:
+ * 'eyebrow' => NULL,
+ * 'label' => NULL,
+ * 'background' => NULL,
+ * 'description' => NULL,
+ */
+#}
+
+{% include "@molecules/pdp/pdp-hero/pdp-hero.twig" with {
+  theme_styles: 'drupal',
+  product_label: eyebrow,
+  product_name: product_name,
+  size_label: available_sizes,
+  product_description: product_description|striptags,
+  product_CTA_title: cta_label,
+  product_CTA_border_radius: wtb_border_radius,
+  product_CTA_link_attributes: {
+    href: cta_link,
+  },
+  image_items: image_items,
+  size_items: size_items,
+  mobile_sections_items: mobile_items,
+} %}
