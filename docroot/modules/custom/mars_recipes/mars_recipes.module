@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * MARS Recipes module main file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_recipes_theme($existing, $type, $theme, $path) {
+  return [
+    'recipe_detail_hero_block' => [
+      'variables' => [
+        'title' => NULL,
+        'image' => NULL,
+        'video' => NULL,
+        'cooking_time' => NULL,
+        'ingredients_number' => NULL,
+        'description' => NULL,
+        'social_links' => NULL,
+        'alert_banner' => NULL,
+      ],
+      'template' => 'block--mars-recipes--recipe-detail-hero',
+    ],
+  ];
+}

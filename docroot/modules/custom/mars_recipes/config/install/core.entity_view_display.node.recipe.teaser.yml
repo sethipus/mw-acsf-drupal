@@ -8,22 +8,60 @@ dependencies:
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients_number
+    - field.field.node.recipe.field_recipe_number_of_servings
     - node.type.recipe
   module:
+    - text
     - user
+_core:
+  default_config_hash: YQH5UWjhRZr-gbr5XSRsPXVMDZSs-Sab7-TyZlAtcJA
 id: node.recipe.teaser
 targetEntityType: node
 bundle: recipe
 mode: teaser
 content:
-  links:
-    weight: 100
+  field_recipe_cooking_time:
+    type: number_integer
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+  field_recipe_description:
+    type: text_default
+    weight: 4
+    region: content
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+  field_recipe_image:
+    type: entity_reference_label
+    weight: 3
     region: content
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_recipe_ingredients_number:
+    type: number_integer
+    weight: 1
+    region: content
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+  field_recipe_number_of_servings:
+    type: number_integer
+    weight: 2
+    region: content
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
 hidden:
-  field_recipe_cooking_time: true
-  field_recipe_description: true
-  field_recipe_image: true
-  field_recipe_ingredients_number: true
+  links: true
   search_api_excerpt: true

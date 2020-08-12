@@ -7,10 +7,13 @@ dependencies:
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients_number
+    - field.field.node.recipe.field_recipe_number_of_servings
     - node.type.recipe
   module:
     - text
     - user
+_core:
+  default_config_hash: RMah-rjqsUH9gT4jN1EavO3LMXA1HyhLcWdSG5mFpTU
 id: node.recipe.default
 targetEntityType: node
 bundle: recipe
@@ -43,6 +46,15 @@ content:
     region: content
   field_recipe_ingredients_number:
     weight: 103
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_recipe_number_of_servings:
+    weight: 105
     label: above
     settings:
       thousand_separator: ''

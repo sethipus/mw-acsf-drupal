@@ -5,6 +5,8 @@ dependencies:
   module:
     - media
     - node
+_core:
+  default_config_hash: NkmuhQAv5sudD_Ar9Z4DlAN2wBUEAWiSE6rUra851yw
 id: node.field_recipe_image
 field_name: field_recipe_image
 entity_type: node

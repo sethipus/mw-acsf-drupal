@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - node.type.recipe
+_core:
+  default_config_hash: NRzXB9NiEURpYCowbjSQX2378SW3MaWXVF-wIz2z8w0
 id: node.recipe.status
 field_name: status
 entity_type: node
