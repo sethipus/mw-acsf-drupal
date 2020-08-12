@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: EssgVHOx38jO3A0pCu3rw9S9LYgtfp9HigxF_IV0sZI
 id: node.field_product_dietary_fiber
 field_name: field_product_dietary_fiber
 entity_type: node

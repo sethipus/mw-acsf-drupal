@@ -12,6 +12,8 @@ third_party_settings:
     parent: 'main:'
   lightning_workflow:
     workflow: editorial
+_core:
+  default_config_hash: Csgeq3PjlH_dplKxPRRMTfrrDwOhHhubQzJUhp3H2N4
 name: 'Product Multipack'
 type: product_multipack
 description: ''
