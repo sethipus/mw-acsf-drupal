@@ -10,7 +10,8 @@ const glob = require('glob');
 const imagePath = path.resolve(__dirname, '../images');
 
 const MiniCssExtractPlugin = new _MiniCssExtractPlugin({
-  filename: 'style.css',
+  filename: 'css/[name].css',
+  chunkFilename: 'css/[name].css',
 });
 
 const ImageminPlugin = new _ImageminPlugin({
@@ -34,7 +35,8 @@ module.exports = {
   ImageminPlugin,
   SpriteLoaderPlugin,
   CleanWebpackPlugin: new CleanWebpackPlugin({
+    protectWebpackAssets: false,
     cleanOnceBeforeBuildPatterns: ['!*.{png,jpg,gif,svg}'],
-    cleanAfterEveryBuildPatterns: ['remove/**', '!js', '!*.{png,jpg,gif,svg}'],
+    cleanAfterEveryBuildPatterns: ['!js', '!*.{png,jpg,gif,svg}','js/{theme_style,svgSprite}.js'],
   }),
 };

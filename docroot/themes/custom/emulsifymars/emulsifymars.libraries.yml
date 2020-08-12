@@ -1,7 +1,7 @@
 global:
   css:
     theme:
-      dist/style.css: {}
+      dist/css/theme_style.css: {}
 
 main-menu:
   js:
@@ -12,6 +12,23 @@ main-menu:
 content-feature:
   js:
     dist/js/02-molecules/content-feature/content-feature.js: {}
+  dependencies:
+    - core/drupal
+
+social-feed:
+  css:
+    component:
+      dist/css/vendors~social_feed.css: {}
+  js:
+    dist/js/social_feed.js: {}
+    dist/js/vendors~social_feed.js: {}
+  dependencies:
+    - core/drupal
+
+slide:
+  js:
+    dist/js/slide.js: {}
+    dist/js/vendors~slide.js: {}
   dependencies:
     - core/drupal
 
