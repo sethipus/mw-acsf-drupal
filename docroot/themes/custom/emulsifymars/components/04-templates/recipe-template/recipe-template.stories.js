@@ -1,0 +1,19 @@
+import React from 'react';
+
+import recipeTemplateTwig from './recipe-template.twig';
+import recipeTemplateData from './recipe-template.yml';
+import recipeSocial from '../../02-molecules/menus/social/social-menu.yml';
+
+/**
+ * Storybook Definition.
+ */
+export default { title: 'Templates/Recipe Template' };
+
+export const recipeTemplate = () => (
+  <div dangerouslySetInnerHTML={{ __html: recipeTemplateTwig({
+      ...recipeTemplateData,
+      ...recipeSocial
+    }) }} />
+);
+
+
