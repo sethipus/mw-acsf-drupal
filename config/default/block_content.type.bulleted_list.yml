@@ -1,0 +1,8 @@
+uuid: 39e21bed-3abd-428d-a7cc-4d4b3c58fa86
+langcode: en
+status: true
+dependencies: {  }
+id: bulleted_list
+label: 'Bulleted list'
+revision: 1
+description: 'Bulleted list - inline component'
