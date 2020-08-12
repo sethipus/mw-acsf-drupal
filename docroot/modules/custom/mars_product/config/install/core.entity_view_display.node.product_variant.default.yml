@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.product_variant.field_product_carb_daily
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
+    - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
     - field.field.node.product_variant.field_product_dietary_fiber
     - field.field.node.product_variant.field_product_image_1
@@ -56,6 +57,8 @@ dependencies:
     - options
     - text
     - user
+_core:
+  default_config_hash: Eos8J1DyLIj5Dt23XZGKsWqc45bfhp18_N3CPKalDUY
 id: node.product_variant.default
 targetEntityType: node
 bundle: product_variant
@@ -138,6 +141,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_product_diet_allergens:
+    weight: 150
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
     region: content
   field_product_dietary_daily:
     weight: 134
