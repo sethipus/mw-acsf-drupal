@@ -4,6 +4,7 @@ namespace Drupal\mars_banners\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,15 +28,24 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $config;
 
   /**
+   * File storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
   }
 
@@ -47,6 +57,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('entity_type.manager'),
       $container->get('config.factory')
     );
   }
@@ -65,7 +76,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#cta_title'] = $config['cta']['title'];
     $build['#block_type'] = $config['block_type'];
     $build['#background_default'] = $config['background_default'];
-    $build['#background_image'] = $config['background_image'];
+    $fid = reset($config['background_image']);
+    if (!empty($fid)) {
+      $file = $this->fileStorage->load($fid);
+    }
+    $build['#background_image'] = !empty($file) ? $file->createFileUrl() : '';
     $build['#background_video'] = $config['background_video'];
 
     $build['#theme'] = 'homepage_hero_block';
