@@ -192,7 +192,154 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
 
+    $form['card'] = [
+      '#type' => 'fieldset',
+      '#tree' => TRUE,
+      '#title' => $this->t('Setup 3UP variant'),
+      '#description' => $this->t('2 additional cards for hero block on homepage.'),
+      '#prefix' => '<div id="cards-wrapper">',
+      '#suffix' => '</div>',
+    ];
+
+    $card_settings = $config['card'];
+    $card_storage = $form_state->get('card_storage');
+    if (!isset($card_storage)) {
+      if (!empty($card_settings)) {
+        $card_storage = array_keys($card_settings);
+      }
+      else {
+        $card_storage = [];
+      }
+      $form_state->set('card_storage', $card_storage);
+    }
+
+    $triggered = $form_state->getTriggeringElement();
+    if (isset($triggered['#parents'][3]) && $triggered['#parents'][3] == 'remove_card') {
+      $card_storage = $form_state->get('card_storage');
+      $id = $triggered['#parents'][2];
+      unset($card_storage[$id]);
+    }
+
+    foreach ($card_storage as $key => $value) {
+      $form['card'][$key] = [
+        '#type' => 'details',
+        '#title' => $this->t('Product card'),
+        '#open' => TRUE,
+      ];
+      $form['card'][$key]['eyebrow'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Card Eyebrow'),
+        '#maxlength' => 15,
+        '#default_value' => $config['card'][$key]['eyebrow'] ?? '',
+      ];
+      $form['card'][$key]['title']['label'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Card Title label'),
+        '#maxlength' => 45,
+        '#default_value' => $config['card'][$key]['title']['label'] ?? '',
+      ];
+      $form['card'][$key]['title']['url'] = [
+        '#type' => 'url',
+        '#title' => $this->t('Card Title Link URL'),
+        '#maxlength' => 2048,
+        '#default_value' => $config['card'][$key]['title']['url'] ?? '',
+      ];
+      $form['card'][$key]['cta']['title'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('CTA Link Title'),
+        '#maxlength' => 15,
+        '#default_value' => $config['card'][$key]['cta']['title'] ?? 'Explore',
+      ];
+      $form['card'][$key]['cta']['url'] = [
+        '#type' => 'url',
+        '#title' => $this->t('CTA Link URL'),
+        '#maxlength' => 2048,
+        '#default_value' => $config['card'][$key]['cta']['url'] ?? '',
+      ];
+      $form['card'][$key]['foreground_image'] = [
+        '#title'           => $this->t('Foreground Image'),
+        '#type'            => 'managed_file',
+        '#process'         => [
+          ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
+          'mars_banners_process_image_widget',
+        ],
+        '#upload_validators' => [
+          'file_validate_extensions' => ['gif png jpg jpeg svg'],
+        ],
+        '#theme' => 'image_widget',
+        '#upload_location' => 'public://',
+        '#preview_image_style' => 'medium',
+        '#default_value'       => $config['card'][$key]['foreground_image'] ?? '',
+      ];
+      $form['card'][$key]['remove_card'] = [
+        '#type'  => 'button',
+        '#name' => 'card_' . $key,
+        '#value' => $this->t('Remove card'),
+        '#ajax'  => [
+          'callback' => [$this, 'ajaxRemoveCardCallback'],
+          'wrapper' => 'cards-wrapper',
+        ],
+      ];
+    }
+    if (count($card_storage) < 2) {
+      $form['card']['add_card'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Add card'),
+        '#ajax' => [
+          'callback' => [$this, 'ajaxAddCardCallback'],
+          'wrapper' => 'cards-wrapper',
+        ],
+        '#limit_validation_errors' => [],
+        '#submit' => [[$this, 'addCardSubmited']],
+      ];
+    }
+
     return $form;
+  }
+
+  /**
+   * Add new card link callback.
+   *
+   * @param array $form
+   *   Theme settings form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Theme settings form state.
+   *
+   * @return array
+   *   Card container of configuration settings.
+   */
+  public function ajaxAddCardCallback(array $form, FormStateInterface $form_state) {
+    return $form['settings']['card'];
+  }
+
+  /**
+   * Add remove card callback.
+   *
+   * @param array $form
+   *   Theme settings form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Theme settings form state.
+   *
+   * @return array
+   *   Card container of configuration settings.
+   */
+  public function ajaxRemoveCardCallback(array $form, FormStateInterface $form_state) {
+    return $form['settings']['card'];
+  }
+
+  /**
+   * Custom submit card configuration settings form.
+   *
+   * @param array $form
+   *   Theme settings form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Theme settings form state.
+   */
+  public function addCardSubmited(array $form, FormStateInterface $form_state) {
+    $storage = $form_state->get('card_storage');
+    array_push($storage, 1);
+    $form_state->set('card_storage', $storage);
+    $form_state->setRebuild(TRUE);
   }
 
   /**
