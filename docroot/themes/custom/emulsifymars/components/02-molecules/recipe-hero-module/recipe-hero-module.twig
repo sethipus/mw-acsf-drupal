@@ -1,0 +1,56 @@
+{% set recipe_template__base_class = 'recipe-detail' %}
+
+<div class="recipe-header" data-theme="{{ theme_styles }}">
+  <div class="recipe-header__title">Recipe</div>
+  <div class="recipe-header__text">{{ recipe_header_text }}</div>
+</div>
+<div class="recipe-media" data-theme="{{ theme_styles }}">
+  {% block recipe_media_image %}
+    {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: image_title,
+      image_srcset: image_srcset,
+      image_sizes: '',
+      image_src: image_src,
+      responsive_image_blockname: 'recipe-media',
+    } %}
+  {% endblock %}
+  <div class="recipe-media__info">
+    <div class="recipe-details">
+      <div class="recipe-details-item">
+        {% include "@atoms/images/image/_image.twig" with {
+          image_src: icon_clock,
+        } %}
+        <div class="recipe-details-item__info">
+          <div class="recipe-details-item__label">Time</div>
+          <div class="recipe-details-item__value">{{ recipe_cooking_time }} mins</div>
+        </div>
+      </div>
+      <div class="recipe-details-item">
+        {% include "@atoms/images/image/_image.twig" with {
+          image_src: icon_ingredients,
+        } %}
+        <div class="recipe-details-item__info">
+          <div class="recipe-details-item__label">Ingredients</div>
+          <div class="recipe-details-item__value">{{ recipe_ingredients_number }} items</div>
+        </div>
+      </div>
+      <div class="recipe-details-item">
+        {% include "@atoms/images/image/_image.twig" with {
+          image_src: icon_makes,
+        } %}
+        <div class="recipe-details-item__info">
+          <div class="recipe-details-item__label">Makes</div>
+          <div class="recipe-details-item__value">{{ recipe_number_of_servings }} servings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="recipe-info" data-theme="{{ theme_styles }}">
+  <div class="recipe-info__text">{{ recipe_description_text }}</div>
+  <div class="recipe-info__social">
+    <div class="recipe-info__social-text">Share</div>
+    {% include "@molecules/menus/social/social-menu.twig" %}
+  </div>
+</div>
