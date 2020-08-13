@@ -4,6 +4,7 @@ namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_banners\Plugin\Block\HomepageHeroBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,6 +20,11 @@ class HomepageHeroBlockTest extends UnitTestCase {
     'id' => 'homepage_hero_block',
     'label' => 'Homepage Hero block',
     'provider' => 'mars_banners',
+    'title' => [
+      'url' => '',
+      'label' => 'Homepage Hero block',
+    ],
+    'block_type' => 'video',
     'label_display' => '0',
     'eyebrow' => 'test eyebrow',
     'cta' => [
@@ -26,6 +32,8 @@ class HomepageHeroBlockTest extends UnitTestCase {
       'title' => 'Explore',
     ],
     'background_video' => 'background video',
+    'background_default' => 'background_default',
+    'background_image' => 'background_default',
   ];
 
   private const TEST_DEFENITION = [
@@ -62,6 +70,13 @@ class HomepageHeroBlockTest extends UnitTestCase {
   private $translationMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -71,7 +86,8 @@ class HomepageHeroBlockTest extends UnitTestCase {
     $this->homepageBlock = new HomepageHeroBlock(
       self::TEST_CONFIGURATION,
       'homepage_hero_block',
-      self::TEST_DEFENITION
+      self::TEST_DEFENITION,
+      $this->configFactoryMock
     );
   }
 
@@ -82,7 +98,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
     $block_build = $this->homepageBlock->build();
     $this->assertSame(
       'Homepage Hero block',
-      $block_build['#title']
+      $block_build['#title_label']
     );
     $this->assertIsArray($block_build);
   }
@@ -105,6 +121,23 @@ class HomepageHeroBlockTest extends UnitTestCase {
           ],
         ]
       );
+
+    $configMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['get'])
+      ->getMock();
+
+    $this->configFactoryMock
+      ->expects($this->once())
+      ->method('get')
+      ->with('emulsifymars.settings')
+      ->willReturn(
+        $configMock
+      );
+
+    $configMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn([]);
 
     $block_form = $this->homepageBlock->buildConfigurationForm(
       $form_array,
@@ -141,6 +174,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
   }
 
 }
