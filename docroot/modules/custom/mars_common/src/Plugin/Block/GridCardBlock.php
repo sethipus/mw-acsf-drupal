@@ -3,7 +3,6 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -60,11 +59,16 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
    * {@inheritdoc}
    */
   public function build(): array {
-    $build['#view'] = $this->getView();
-    $build['#product_variant'] = $this->getProductVariant();
-    $build['#theme'] = 'grid_card_block';
+    $conf = $this->getConfiguration();
+    $myView = Views::getView($conf['view']);
+    if (!is_object($myView)) {
+      return [];
+    }
 
-    return $build;
+    $myView->setDisplay($conf['display']);
+    $myView->preExecute();
+
+    return $myView->render($conf['display']);
   }
 
   /**
@@ -74,6 +78,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $conf = $this->getConfiguration();
     $form = parent::buildConfigurationForm($form, $form_state);
 
+    unset($form['label_display']);
     $form['view'] = [
       '#title' => 'View',
       '#type' => 'select',
@@ -160,30 +165,6 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     ];
 
     return $form['display'];
-  }
-
-  /**
-   * Returns the view that's saved to the block.
-   */
-  private function getView(): ?EntityInterface {
-    $view = $this->getConfiguration()['view'] ?? NULL;
-    if (!$view) {
-      return NULL;
-    }
-
-    return $this->entityStorage->load($view);
-  }
-
-  /**
-   * Returns the Product Variant entity that's saved to the block.
-   */
-  private function getProductVariant(): ?EntityInterface {
-    $productVariantEntityId = $this->getConfiguration()['product_variant'] ?? NULL;
-    if (!$productVariantEntityId) {
-      return NULL;
-    }
-
-    return $this->entityStorage->load($productVariantEntityId);
   }
 
   /**
