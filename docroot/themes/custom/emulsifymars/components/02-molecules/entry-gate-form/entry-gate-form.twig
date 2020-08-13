@@ -1,0 +1,20 @@
+{% set entry_gate_form_base_class = 'entry-gate-form' %}
+
+<form {{ bem(entry_gate_form_base_class, entry_gate_form_modifiers) }} data-theme="twix">
+  <fieldset class="entry-gate-form__fieldset">
+    <div class="entry-gate-form__input-container">
+      <input id="day" class="entry-gate-form__input entry-gate-form__input--rounded-left" type="text" pattern="\d*" maxlength="2" placeholder={{entry_gate_form_day_placeholder}} />
+    </div>
+    <div class="entry-gate-form__input-container">
+      <input id="month" class="entry-gate-form__input" type="text" pattern="\d*" maxlength="2" placeholder={{entry_gate_form_month_placeholder}} />
+    </div>
+    <div class="entry-gate-form__input-container">
+      <input id="year" class="entry-gate-form__input entry-gate-form__input--rounded-right" type="text" pattern="\d*" maxlength="4" placeholder={{entry_gate_form_year_placeholder}} />
+    </div>
+  </fieldset>
+    {% include "@atoms/buttons/twig/button.twig" with {
+        button_base_class: 'entry-gate-form__submit-btn',
+        button_content: entry_gate_form_submit_text
+    } %}
+</form>
+<span class="entry-gate-form__error-message">{{ entry_gate_form_error_message }}</span>

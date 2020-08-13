@@ -1,0 +1,23 @@
+entry_gate_heading: 'Our promise'
+entry_gate_heading_level: 2
+entry_gate_heading_base_class: 'entry-gate__heading'
+
+entry_gate_paragraph_size: 'large'
+entry_gate_paragraph_content: 'As a responsible manufacturer and in accordance with our marketing code, we have to check your age at this point.'
+entry_gate_paragraph_base_class: 'entry-gate__paragraph'
+
+entry_gate_eyebrow_text: 'Please confirm your date of birth: '
+entry_gate_eyebrow_base_class: 'entry-gate__eyebrow'
+
+entry_gate_form_submit_text: 'Submit'
+entry_gate_form_day_placeholder: 'DD'
+entry_gate_form_month_placeholder: 'MM'
+entry_gate_form_year_placeholder: 'YYYY'
+
+entry_gate_bottom_paragraph_size: 'large'
+entry_gate_bottom_paragraph_content: 'For more information about responsible use of our products, please follow the link to the <a href="https://twix.de/assets/media/Mars-Code.pdf">Mars Marketing Code</a>.'
+entry_gate_bottom_paragraph_base_class: 'entry-gate__bottom-paragraph'
+
+entry_gate_form_error_message: 'Please check your details!'
+
+entry_gate_minimal_age: 18

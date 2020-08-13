@@ -1,0 +1,87 @@
+.entry-gate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+
+  &__inner {
+    text-align: center;
+    border-radius: 1.5rem;
+    padding: 0 11rem 6rem 11rem;
+    max-width: 89.6rem;
+    background-color: #ccc;
+
+    @media (max-width: 610px) {
+      padding: 0 3rem 6rem 3rem;
+    }
+  }
+
+  &__heading {
+    font-size: 6.4rem;
+    line-height: 6.4rem;
+    font-family: variable(heading-font);
+    color: clr(subcolor-1);
+
+    @media (max-width: 768px) {
+      font-size: 5.6rem;
+      line-height: 5.6rem;
+    }
+
+    @media (max-width: 375px) {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
+  }
+
+  &__paragraph {
+    font-size: 1.8rem;
+    line-height: 2.5rem;
+    font-family: variable(secondary-font);
+    color: clr(subcolor-1);
+    margin-bottom: 3.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      line-height: 2.2rem;
+    }
+  }
+
+  &__separator-line {
+    border: 1px solid clr(subcolor-4);
+    margin-bottom: 3.5rem;
+  }
+
+  &__eyebrow {
+    display: block;
+    color: clr(subcolor-1);
+    font-family: variable(secondary-font);
+    font-size: 1.8rem;
+    line-height: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 3.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      line-height: 2.2rem;
+    }
+  }
+
+  &__bottom-paragraph,
+  &__bottom-paragraph a {
+    color: clr(subcolor-1);
+    font-family: variable(secondary-font);
+    font-size: 1.6rem;
+    line-height: 2rem;
+    display: inline;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+      line-height: 1.8rem;
+    }
+  }
+}
