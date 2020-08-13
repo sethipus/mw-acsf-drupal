@@ -61,7 +61,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#eyebrow'] = $config['eyebrow'];
     $build['#title_url'] = $config['title']['url'];
     $build['#title_label'] = $config['title']['label'];
-    $build['#cta_url'] = $config['cta']['url'];
+    $build['#cta_url'] = ['href' => $config['cta']['url']];
     $build['#cta_title'] = $config['cta']['title'];
     $build['#block_type'] = $config['block_type'];
     $build['#background_default'] = $config['background_default'];

@@ -10,7 +10,7 @@ Drupal.behaviors.inlineVideoPlayer = {
   
       // Video settings
       video.controls = false;
-      video.muted = true;
+      video.muted = false;
 
       // Obtain handles to buttons and other elements
       var playpause = document.getElementById('playpause');

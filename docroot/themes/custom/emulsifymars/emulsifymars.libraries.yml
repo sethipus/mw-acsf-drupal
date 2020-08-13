@@ -9,6 +9,12 @@ main-menu:
   dependencies:
     - core/drupal
 
+ambient-video:
+  js:
+    dist/js/01-atoms/video/ambient-video/video.js: {}
+  dependencies:
+    - core/drupal
+
 content-feature:
   js:
     dist/js/02-molecules/content-feature/content-feature.js: {}
