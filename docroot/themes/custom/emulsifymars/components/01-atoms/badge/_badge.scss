@@ -1,0 +1,13 @@
+.badge {
+  display: inline-block;
+  text-transform: uppercase;
+  padding: 0 1.5rem;
+  font-family: variable(primary-font);
+  font-weight: 600;
+  line-height: 7.7rem;
+  font-size: 2rem;
+  border-radius: 50%;
+  border: .6rem solid clr(text-inverse);
+  color: clr(text-inverse);
+  background-color: clr(subcolor-1);
+}
