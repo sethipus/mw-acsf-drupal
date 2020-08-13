@@ -38,27 +38,19 @@
    </div>
    <div {{ bem('right', [], homepage_hero__base_class) }}>
     <div {{ bem('right__wrapper', [], homepage_hero__base_class) }} style="background-image:url('{{ ellipse_background  }}');">
-      {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
-        separate_class: 'first',
-        block_eyebrow_text: block1_eyebrow,
-        block_title_label: block1_title_label,
-        block_title_href: '#',
-        block_image: block1_image,
-        cta_block: block1_cta
-      }
-      %}
-      {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
-        separate_class: 'second',
-        block_eyebrow_text: block2_eyebrow,
-        block_title_label: block2_title_label,
-        block_title_href: '#',
-        block_image: block2_image,
-        cta_block: block2_cta
-      }
-      %}
+      {% for block in blocks %}
+        {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
+          separate_class: 'block-' ~ loop.index,
+          block_eyebrow_text: block.eyebrow,
+          block_title_label: block.title_label,
+          block_title_href: block.title_href,
+          block_image: block.image.0,
+          cta_block: block.cta.0
+        }
+        %}
+      {% endfor %}
     </div>
    </div>
-  </div>
 </section>
 
 

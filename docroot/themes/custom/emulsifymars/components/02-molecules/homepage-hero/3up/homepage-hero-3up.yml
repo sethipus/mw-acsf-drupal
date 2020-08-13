@@ -12,25 +12,31 @@ hero_image:
 cta_border_radius: 30
 background: 'hero-bg.svg'
 ellipse_background: 'ellipse3.svg'
-block1_eyebrow: 'New'
-block1_title_label: 'New Creamy <br> Peanut Butter'
-block1_title_href: '#'
-block1_image:
-  'srcset': 'Bitmap.png, Bitmap@2x.png 2x, Bitmap@3x.png 3x'
-  'src': 'Bitmap.png'
-  'class': 'block1-small'
-block1_cta:
-  'title': 'Explore'
-  'link_attributes':
-    'href': '#link_attr1'
-block2_eyebrow: 'New'
-block2_title_label: 'Twix Minis <br> Caramel Bar'
-block2_title_href: '#'
-block2_image:
-  'srcset': 'image9.png, image9@2x.png 2x, image9@3x.png 3x'
-  'src': 'image9.png'
-  'class': 'block2-small'
-block2_cta:
-  'title': 'Explore'
-  'link_attributes':
-    'href': '#link_attr2'
+regions:
+    - country: 'Us'
+      title: 'East America: USA'
+    - country: 'UK'
+      title: 'East Europe'
+blocks:
+  - eyebrow: 'New'
+    title_label: 'New Creamy <br> Peanut Butter'
+    title_href: '#'
+    image:
+      - srcset: 'Bitmap.png, Bitmap@2x.png 2x, Bitmap@3x.png 3x'
+        src: 'Bitmap.png'
+        class: 'block1-small'
+    cta:
+      - title: 'Explore'
+        link_attributes:
+          - href: '#link_attr1'
+  - eyebrow: 'New'
+    title_label: 'Twix Minis <br> Caramel Bar'
+    title_href: '#'
+    image:
+      - srcset: 'image9.png, image9@2x.png 2x, image9@3x.png 3x'
+        src: 'image9.png'
+        class: 'block1-small'
+    cta:
+      - title: 'Explore'
+        link_attributes:
+          - href: '#link_attr2'

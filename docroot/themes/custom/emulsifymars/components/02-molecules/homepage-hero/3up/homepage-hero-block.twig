@@ -8,6 +8,7 @@
  * - block_title_href - href for the heading title
  * - block_eyebrow_text - the content of the block
  * - block_image - the content of the block
+ * - block_list - the content of the block
  * - separate_class
  */
 #}
@@ -19,7 +20,6 @@
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: block_eyebrow_text
       } %}
-
       {% include "@atoms/text/headings/_heading.twig" with {
         heading_level: 3,
         heading: block_title_label,
@@ -27,25 +27,25 @@
         heading_url: block_title_href
       }
       %}
-
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
         default_link_content: cta_block.title,
         default_link_border_radius: 0,
-        default_link_attributes: cta_block.link_attributes
+        default_link_attributes: cta_block.link_attributes.0
       } %}
+
     </div>
     <div {{ bem('right', [], homepage_hero__block_class) }}>
       {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: '',
-        image_srcset: block_image.srcset,
-        image_sizes: '(max-width: 375px) 375px,
-                (max-width: 768px) 768px,
-                (max-width: 1024px) 1024px,
-                1440px',
-        image_src: block_image.src,
-        responsive_image_blockname: block_image.class,
-      } %}
+              output_image_tag: true,
+              image_alt: '',
+              image_srcset: block_image.srcset,
+              image_sizes: '(max-width: 375px) 375px,
+                      (max-width: 768px) 768px,
+                      (max-width: 1024px) 1024px,
+                      1440px',
+              image_src: block_image.src,
+              responsive_image_blockname: block_image.class,
+            } %}
     </div>
   </div>
 </div>
