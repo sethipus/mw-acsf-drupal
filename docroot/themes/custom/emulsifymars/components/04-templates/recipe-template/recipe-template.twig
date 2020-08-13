@@ -2,7 +2,7 @@
 
 <section {{ bem(recipe_template__base_class) }} data-theme="twix">
   <div class="recipe-header">
-    <div class="recipe-header__title">{{ recipe_header_title }}</div>
+    <div class="recipe-header__title">{{ 'Recipe' | t }}</div>
     <div class="recipe-header__text">{{ recipe_header_text }}</div>
   </div>
   <div class="recipe-media">
@@ -25,8 +25,8 @@
             icon_name: "clock",
           } %}
           <div class="recipe-details-item__info">
-            <div class="recipe-details-item__label">Time</div>
-            <div class="recipe-details-item__value">35 mins</div>
+            <div class="recipe-details-item__label">{{ 'Time' | t }}</div>
+            <div class="recipe-details-item__value">{{ recipe_cooking_time }}</div>
           </div>
         </div>
         <div class="recipe-details-item">
@@ -36,8 +36,8 @@
             icon_name: "ingredients",
           } %}
           <div class="recipe-details-item__info">
-            <div class="recipe-details-item__label">Ingredients</div>
-            <div class="recipe-details-item__value">10 items</div>
+            <div class="recipe-details-item__label">{{ 'Ingredients' | t }}</div>
+            <div class="recipe-details-item__value">{{ recipe_ingredients_number }}</div>
           </div>
         </div>
         <div class="recipe-details-item">
@@ -47,8 +47,8 @@
             icon_name: "makes",
           } %}
           <div class="recipe-details-item__info">
-            <div class="recipe-details-item__label">Makes</div>
-            <div class="recipe-details-item__value">24 servings</div>
+            <div class="recipe-details-item__label">{{ 'Makes' | t }}</div>
+            <div class="recipe-details-item__value">{{ recipe_number_of_servings }}</div>
           </div>
         </div>
       </div>

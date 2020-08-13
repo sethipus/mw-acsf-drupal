@@ -19,5 +19,5 @@ settings:
   min: 1
   max: null
   prefix: ''
-  suffix: servings
+  suffix: ' servings'
 field_type: integer

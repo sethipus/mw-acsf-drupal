@@ -1,21 +1,18 @@
-{#{% embed "@templates/recipe-template/recipe-template.twig" with {#}
-{#  recipe_header_title: "Recipe",#}
-{#  recipe_header_text: label,#}
-{#  recipe_description_text: content.field_recipe_description#}
-{#} %}d#}
-{#    {% block recipe_media_image %}#}
-{#      {% include "@atoms/images/image/responsive-image.twig" with {#}
-{#        output_image_tag: true,#}
-{#        image_alt: content.field_recipe_image.label,#}
-{#        image_srcset: image_srcset,#}
-{#        image_sizes: '',#}
-{#        image_src: content.field_recipe_image.uri,#}
-{#        responsive_image_blockname: 'recipe-media',#}
-{#      } %}#}
-{#    {% endblock %}#}
-{#
-Variables:
-* label
-* content.field_recipe_description
-* and other field from content.
-#}
+{% embed "@templates/recipe-template/recipe-template.twig" with {
+  recipe_header_text: label,
+  recipe_description_text: content.field_recipe_description,
+  recipe_cooking_time: content.field_recipe_cooking_time,
+  recipe_ingredients_number: content.field_recipe_ingredients_number,
+  recipe_number_of_servings: content.field_recipe_number_of_servings
+} %}
+    {% block recipe_media_image %}
+      {% include "@atoms/images/image/responsive-image.twig" with {
+        output_image_tag: true,
+        image_alt: content.field_recipe_image.label,
+        image_srcset: content.field_recipe_image.uri,
+        image_sizes: '',
+        image_src: content.field_recipe_image.uri,
+        responsive_image_blockname: 'recipe-media',
+      } %}
+    {% endblock %}
+{% endembed %}
