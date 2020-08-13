@@ -4,15 +4,13 @@
  * Template for the social feed component.
  *
  * Available variables:
- * - title: Title for the component.
+ * - label: Label for the component.
  * - items: Array of items for the feed.
  *
  */
 #}
 
-<h4>{{ title }}</h4>
-<ul>
-  {% for item in items %}
-    <li>{{ item|json_encode }}</li>
-  {% endfor %}
-</ul>
+{% include "@molecules/social-feed/social-feed.twig" with {
+  title: label,
+  items: items,
+} %}

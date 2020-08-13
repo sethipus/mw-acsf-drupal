@@ -129,3 +129,8 @@ steps:
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
     inputs:
       filePath: './scripts/deploy_tag.sh'
+  - task: Bash@3
+    displayName: 'Deploy Release Branch For QA Environment'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release'))
+    inputs:
+      filePath: './scripts/deploy_branch.sh'
