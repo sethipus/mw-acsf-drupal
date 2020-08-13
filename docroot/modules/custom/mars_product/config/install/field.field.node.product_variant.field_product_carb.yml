@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_carb
     - node.type.product_variant
+_core:
+  default_config_hash: EnjK4z3H2yidwfIIKkKQ_zr-MoexuCy8_l0T6oPKiHU
 id: node.product_variant.field_product_carb
 field_name: field_product_carb
 entity_type: node

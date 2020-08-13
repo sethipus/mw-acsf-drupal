@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.media_browser
     - field.field.node.product_variant.field_product_allergen_statement
     - field.field.node.product_variant.field_product_allergen_warnings
     - field.field.node.product_variant.field_product_calcium
@@ -13,6 +14,7 @@ dependencies:
     - field.field.node.product_variant.field_product_carb_daily
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
+    - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
     - field.field.node.product_variant.field_product_dietary_fiber
     - field.field.node.product_variant.field_product_image_1
@@ -52,6 +54,7 @@ dependencies:
     - field.field.node.product_variant.field_product_vitamin_d
     - field.field.node.product_variant.field_product_vitamin_d_daily
     - node.type.product_variant
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - entity_browser
@@ -96,6 +99,7 @@ third_party_settings:
     group_allergen_information:
       children:
         - field_product_allergen_statement
+        - field_product_diet_allergens
         - field_product_allergen_warnings
       parent_name: group_product_variant
       weight: 33
@@ -124,7 +128,7 @@ third_party_settings:
         - field_product_trans_fat_daily
         - field_product_cholesterol
         - field_product_cholesterol_daily
-        - field_sodium
+        - field_product_sodium
         - field_product_sodium_daily
         - field_product_carb
         - field_product_carb_daily
@@ -212,6 +216,8 @@ third_party_settings:
         required_fields: true
         description: ''
       label: System
+_core:
+  default_config_hash: Xp1jkBIOtr6a929uKxWo50lJ14lbPR4VCJU7nsTNJ88
 id: node.product_variant.default
 targetEntityType: node
 bundle: product_variant
@@ -230,7 +236,7 @@ content:
     type: options_select
     region: content
   field_product_allergen_warnings:
-    weight: 12
+    weight: 13
     settings:
       rows: 5
       placeholder: ''
@@ -300,6 +306,16 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_product_diet_allergens:
+    weight: 12
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_product_dietary_daily:
     weight: 30
@@ -564,7 +580,7 @@ content:
     type: string_textfield
     region: content
   field_product_sodium:
-    weight: 49
+    weight: 25
     settings:
       size: 60
       placeholder: ''

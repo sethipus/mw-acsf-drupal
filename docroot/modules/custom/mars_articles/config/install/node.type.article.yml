@@ -1,0 +1,17 @@
+uuid: 6689707c-0558-49b2-a1a0-92d263276b25
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Article
+type: article
+description: "Articles are solely focused on relaying information to consumers about different initiatives, detailed information, and pathing to other relevant articles.\r\n"
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

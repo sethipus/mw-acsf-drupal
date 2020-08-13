@@ -30,6 +30,6 @@ fi
 # part of your domain name.
 
 curl "https://www.${env}-mars.acsitefactory.com/api/v1/update" \
--v -u ${user}:${api_key} -k -X POST \
+-f -v -u ${user}:${api_key} -k -X POST \
 -H 'Content-Type: application/json' \
 -d "{\"sites_ref\": \"${branch}\", \"sites_type\": \"${update_type}\"}"

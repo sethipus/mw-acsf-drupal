@@ -5,6 +5,8 @@ dependencies:
   module:
     - node
     - text
+_core:
+  default_config_hash: _BtGIaiNTAYIShyzCngxRs3yyPP0r6AunI-2rfudMvc
 id: node.field_product_allergen_warnings
 field_name: field_product_allergen_warnings
 entity_type: node

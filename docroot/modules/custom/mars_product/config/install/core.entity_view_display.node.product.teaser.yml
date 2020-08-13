@@ -3,11 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.teaser
     - field.field.node.product.field_product_brand
     - field.field.node.product.field_product_description
     - field.field.node.product.field_product_flavor
+    - field.field.node.product.field_product_format
     - field.field.node.product.field_product_market
     - field.field.node.product.field_product_name
+    - field.field.node.product.field_product_occasions
     - field.field.node.product.field_product_segment
     - field.field.node.product.field_product_sub_brand
     - field.field.node.product.field_product_trade_description
@@ -15,6 +18,8 @@ dependencies:
     - node.type.product
   module:
     - user
+_core:
+  default_config_hash: '-PflpBDMYzpPB7ePD82Gwi92lEakLIb1ppUW54DWWhA'
 id: node.product.teaser
 targetEntityType: node
 bundle: product
@@ -30,8 +35,10 @@ hidden:
   field_product_brand: true
   field_product_description: true
   field_product_flavor: true
+  field_product_format: true
   field_product_market: true
   field_product_name: true
+  field_product_occasions: true
   field_product_segment: true
   field_product_sub_brand: true
   field_product_trade_description: true

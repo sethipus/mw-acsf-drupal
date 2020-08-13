@@ -26,13 +26,13 @@ This project is based on BLT, an open-source project template and tool that enab
 * Clone your forked repository. By default, Git names this "origin" on your local.
 
 ```
-$ git clone git@github.com:digital-experience-platform/acsf.git
+$ git clone git@github.mars.com:[your_login]/acsf.git
 ```
 
 * To ensure that upstream changes to the parent repository may be tracked, add the upstream locally as well.
 
 ```
-$ git remote add upstream git@github.com:digital-experience-platform/acsf.git
+$ git remote add upstream git@github.mars.com:digital-experience-platform/acsf.git
 ```
 
 ----

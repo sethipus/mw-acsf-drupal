@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_serving_size
     - node.type.product_variant
+_core:
+  default_config_hash: k2dv4rYn8RTRaCVyOkhF0473fAqK8LReOvmrn3XgmQI
 id: node.product_variant.field_product_serving_size
 field_name: field_product_serving_size
 entity_type: node

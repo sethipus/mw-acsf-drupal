@@ -4,7 +4,10 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_product_image_2_override
+    - media.type.image
     - node.type.product_variant
+_core:
+  default_config_hash: Q6axS_Zsqmpm8rnZAuta6XK3szO27Rezp9erIIplq0A
 id: node.product_variant.field_product_image_2_override
 field_name: field_product_image_2_override
 entity_type: node

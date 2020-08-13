@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: VU_4rnNLWV6Mb0eUd6_JnQXvmP3usf42fVtVA6PMZ7w
 id: node.field_product_variants
 field_name: field_product_variants
 entity_type: node

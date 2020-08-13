@@ -7,6 +7,8 @@ dependencies:
     - node.type.product_multipack
   module:
     - text
+_core:
+  default_config_hash: yYuRI8oLfOqzMk3uqNixvnM-5Z5XwoVqEE64GnNp8CY
 id: node.product_multipack.field_product_description
 field_name: field_product_description
 entity_type: node

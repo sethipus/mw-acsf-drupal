@@ -1,0 +1,14 @@
+uuid: ebca3a25-f3d5-420c-974b-2aa23a9aa5a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.recipe_reviewer
+  module:
+    - user
+id: user_remove_role_action.recipe_reviewer
+label: 'Remove the Recipe reviewer role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: recipe_reviewer
