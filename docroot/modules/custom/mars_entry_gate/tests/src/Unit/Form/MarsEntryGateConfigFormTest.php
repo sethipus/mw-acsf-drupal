@@ -125,7 +125,8 @@ class MarsEntryGateConfigFormTest extends UnitTestCase {
       'marketing_message',
       'minimum_age',
       'error_title',
-      'input_error_message',
+      'error_link_1',
+      'error_link_2',
     ];
 
     foreach ($expected_keys as $expected_key) {
@@ -148,7 +149,8 @@ class MarsEntryGateConfigFormTest extends UnitTestCase {
       ['marketing_message', NULL, ['value' => 'test_marketing_message']],
       ['minimum_age', NULL, 20],
       ['error_title', NULL, 'test_error_title'],
-      ['input_error_message', NULL, 'test_input_error_message'],
+      ['error_link_1', NULL, 'http://error1.test'],
+      ['error_link_2', NULL, 'http://error2.test'],
     ];
 
     $this->formStateMock

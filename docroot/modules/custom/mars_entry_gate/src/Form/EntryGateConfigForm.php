@@ -52,7 +52,7 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#default_value' => $config->get('description') ?? 'As a responsible manufacturer and in accordance with our marketing code, we have to check your age at this point.',
-      '#maxlength' => 120,
+      '#maxlength' => 150,
       '#required' => TRUE,
     ];
 
@@ -86,6 +86,7 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Error title'),
       '#default_value' => $config->get('error_title') ?? 'We are sorry',
+      '#maxlength' => 25,
       '#required' => TRUE,
     ];
 
@@ -93,14 +94,21 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Error message'),
       '#default_value' => $config->get('error_message') ?? 'Our marketing code states that you are not authorized to access the content you requested. Unfortunately, you cannot view the additional content in this section of the website.',
+      '#maxlength' => 180,
       '#required' => TRUE,
     ];
 
-    $form['input_error_message'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Input error message'),
-      '#description' => $this->t('Error message shown in case of input validation error.'),
-      '#default_value' => $config->get('input_error_message') ?? 'Please check your details',
+    $form['error_link_1'] = [
+      '#type' => 'url',
+      '#title' => $this->t('Error link 1 (marketing code)'),
+      '#default_value' => $config->get('error_link_1') ?? 'https://twix.de/assets/media/Mars-Code.pdf',
+      '#required' => TRUE,
+    ];
+
+    $form['error_link_2'] = [
+      '#type' => 'url',
+      '#title' => $this->t('Error link 2 (imprint)'),
+      '#default_value' => $config->get('error_link_2') ?? 'https://deu.mars.com/site-owner',
       '#required' => TRUE,
     ];
 
@@ -124,10 +132,8 @@ class EntryGateConfigForm extends ConfigFormBase {
     $config->set('minimum_age', $form_state->getValue('minimum_age'));
     $config->set('error_title', $form_state->getValue('error_title'));
     $config->set('error_message', $form_state->getValue('error_message'));
-    $config->set(
-      'input_error_message',
-      $form_state->getValue('input_error_message')
-    );
+    $config->set('error_link_1', $form_state->getValue('error_link_1'));
+    $config->set('error_link_2', $form_state->getValue('error_link_2'));
     $config->save();
 
     parent::submitForm($form, $form_state);

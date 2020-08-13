@@ -19,7 +19,8 @@ function mars_entry_gate_theme($existing, $type, $theme, $path) {
         'minimum_age' => '',
         'error_title' => '',
         'error_message' => '',
-        'input_error_message' => '',
+        'error_link_1' => '',
+        'error_link_2' => '',
       ],
       'template' => 'entry-gate',
     ],
@@ -44,7 +45,8 @@ function mars_entry_gate_preprocess_page(&$variables) {
     'minimum_age',
     'error_title',
     'error_message',
-    'input_error_message',
+    'error_link_1',
+    'error_link_2',
   ];
 
   $entry_gate_render_array = [

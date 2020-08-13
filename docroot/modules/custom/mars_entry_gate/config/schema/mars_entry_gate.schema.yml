@@ -29,6 +29,9 @@ mars_entry_gate.settings:
         error_message:
           type: label
           label: 'Error message'
-        input_error_message:
-          type: label
-          label: 'Input error message'
+        error_link_1:
+          type: string
+          label: 'Error link 1'
+        error_link_2:
+          type: string
+          label: 'Error link 2'
