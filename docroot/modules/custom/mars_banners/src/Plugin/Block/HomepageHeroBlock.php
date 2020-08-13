@@ -83,6 +83,33 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#background_image'] = !empty($file) ? $file->createFileUrl() : '';
     $build['#background_video'] = $config['background_video'];
 
+    if (!empty($config['card'])) {
+      foreach ($config['card'] as $key => $card) {
+        $build['#blocks'][$key]['eyebrow'] = $card['eyebrow'];
+        $build['#blocks'][$key]['title_label'] = $card['title']['label'];
+        $build['#blocks'][$key]['title_href'] = $card['title']['url'];
+        $fid = reset($card['foreground_image']);
+        if (!empty($fid)) {
+          $file = $this->fileStorage->load($fid);
+        }
+        $file_url = !empty($file) ? $file->createFileUrl() : '';
+        $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
+        $build['#blocks'][$key]['image'][] = [
+          'srcset' => sprintf($format, $file_url, $file_url, $file_url, $file_url),
+          'src' => $file_url,
+          'class' => 'block1-small',
+        ];
+        $build['#blocks'][$key]['cta'][] = [
+          'title' => $card['cta']['title'],
+          'link_attributes' => [
+            [
+              'href' => $card['cta']['url'],
+            ],
+          ],
+        ];
+      }
+    }
+
     $build['#theme'] = 'homepage_hero_block';
     return $build;
   }

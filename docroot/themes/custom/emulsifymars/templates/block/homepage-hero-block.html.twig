@@ -12,6 +12,7 @@
  * 'background_default' => []
  * 'background_image' => NULL,
  * 'background_video' => NULL,
+ * 'blocks' => [],
  */
 #}
 {{ attach_library('emulsifymars/ambient-video') }}
@@ -53,3 +54,14 @@
 {% elseif block_type == 'default' %}
 
 {% endif %}
+
+{% for block in blocks %}
+  {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
+    separate_class: 'block-' ~ loop.index,
+    block_eyebrow_text: block.eyebrow,
+    block_title_label: block.title_label,
+    block_title_href: block.title_href,
+    block_image: block.image.0,
+    cta_block: block.cta.0
+  } %}
+{% endfor %}
