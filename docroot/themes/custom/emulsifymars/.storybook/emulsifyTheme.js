@@ -5,8 +5,8 @@ import { create } from '@storybook/theming';
 export default create({
   base: 'light',
   // Branding
-  brandTitle: 'Emulsify',
-  brandUrl: 'https://emulsify.info',
+  brandTitle: 'MARS',
+  brandUrl: 'https://www.mars.com',
   brandImage:
-    'https://raw.githubusercontent.com/emulsify-ds/emulsify-design-system/master/images/logo.png',
+    'https://www.mars.com/sites/g/files/jydpyr316/files/Mars%20Wordmark%20RGB%20Blue.png',
 });
