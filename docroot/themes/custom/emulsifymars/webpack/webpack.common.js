@@ -13,7 +13,8 @@ module.exports = {
     social_feed_slide: path.resolve(distDir + '/js/02-molecules/slide/social-feed-slide', 'social-feed-slide.js'),
     social_feed: path.resolve(distDir + '/js/02-molecules/social-feed', 'social-feed.js'),
     entry_gate: path.resolve(distDir + '/js/02-molecules/entry-gate', 'entry-gate.js'),
-  },
+    pdp_hero: path.resolve(distDir + '/js/02-molecules/pdp/pdp-hero', 'pdp-hero.js'),
+  }, 
   module: {
     rules: [loaders.SVGSpriteLoader, loaders.CSSLoader,loaders.SASSLoader, loaders.ImageLoader, loaders.FontLoader],
   },

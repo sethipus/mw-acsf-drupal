@@ -1,0 +1,45 @@
+theme_styles: 'twix'
+image_items:
+  - image:
+      srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
+      src: 'Front3x.png'
+      alt: 'Twix'
+  - image:
+      srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
+      src: 'image-23x.png'
+      alt: 'Twix'
+  - image:
+      srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
+      src: 'image-23x.png'
+      alt: 'Twix'
+  - image:
+      srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
+      src: 'image-23x.png'
+      alt: 'Twix'
+product_label: 'PRODUCTS'
+product_name: 'TWIX® Cookies &amp; Creme Chocolate Bar'
+product_description: 'Whether youre a Left TWIX Bar or Right TWIX Bar person, everyone can agree the delicious taste of cookies and creme needs to be in everyones favorite chocolate cookie candy bar.'
+product_CTA_title: 'WHERE TO BUY'
+product_CTA_link_attributes:
+  'href': '#'
+product_CTA_border_radius: 30
+product_nutrition_CTA_title: 'NUTRITION & INGREDIENTS'
+product_nutrition_CTA_link_attributes:
+  'href': '#'
+product_nutrition_CTA_border_radius: 30
+product_allergens_CTA_title: 'DIET &amp; ALLERGENS'
+product_allergens_CTA_link_attributes:
+  'href': '#'
+product_allergens_CTA_border_radius: 30
+product_related_CTA_title: 'RELATED PRODUCTS'
+product_related_CTA_link_attributes:
+  'href': '#'
+product_related_CTA_border_radius: 30
+size_label: 'Available Sizes'
+size_items:
+  - title: '1.36 oz'
+    link_url: '#'
+  - title: '4 oz'
+    link_url: '#'
+  - title: '6 oz'
+    link_url: '#'

@@ -1,0 +1,159 @@
+.pdp-hero {
+  padding: 4.8rem 4rem 18rem;
+  background-color: $deepskyblue;
+
+  &__container {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  &__content-container {
+    flex: 1 0 50%;
+    padding-top: 4.2rem;
+    padding-right: 6rem;
+  }
+
+  &__content-mobile {
+    display: block;
+  
+    @include medium {
+      display: none;
+    }
+  }
+
+  &__product-label {
+    margin: .3rem 0;
+    font-family: variable(primary-font);
+    font-size: 1.6rem;
+    font-weight: normal;
+    letter-spacing: 1.6px;
+    color: clr(subcolor-3);
+  }
+
+  &__product-name {
+    margin: 2.8rem 0 3.5rem;
+    font-family: variable(primary-font);
+    font-weight: normal;
+    font-size: 4.8rem;
+    line-height: 1;
+    color: clr(subcolor-3);
+  }
+
+  &__description {
+    margin: 3.6rem 10rem 3.6rem 0;
+    font-family: variable(secondary-font);
+    font-size: 1.6rem;
+    line-height: 1.4;
+    color: clr(subcolor-3);
+  }
+
+  &__size-container {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0.9rem 0;
+  }
+
+  &__size-label {
+    flex: 1 0 auto;
+    font-family: variable(secondary-font);
+    font-size: 1.6rem;
+    line-height: 1.3;
+    color: clr(subcolor-3);
+  }
+
+  &__size-list {
+    @include list-reset;
+
+    flex: 1 0 auto;
+    display: flex;
+  }
+
+  &__list-item {
+    flex: 0 0 auto;
+
+    &--link {
+      padding: 1.5rem;
+      font-family: variable(secondary-font);
+      font-size: 1.6rem;
+      line-height: 1.3;
+      text-decoration: none;
+      color: clr(subcolor-3);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__slider-container {
+    position: relative;
+    display: none;
+    flex: 1 0 50%;
+    padding-right: 13.2rem;
+  
+    @include medium {
+      display: block;
+    }
+
+    .swiper-pagination {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      flex-flow: column nowrap;
+    }
+  
+    .swiper-pagination-bullet {
+      width: .5rem;
+      height: 3.5rem;
+      border-radius: 3px;
+      margin: .7rem 0;
+      background: clr(subcolor-3);
+    }
+
+    .swiper-control {
+      position: absolute;
+      top:0;
+      right: 0;
+      width: 6rem;
+      height: 6rem;
+      border-radius: 50%;
+      box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+      background-color: clr(subcolor-3);
+      opacity: 0.2;
+    }
+  }
+}
+
+// overrides for the default styles of swiper - container, progress bar and buttons of the carousel
+.swiper-container.pdp-hero-swiper-container {
+  position: relative;
+  width: 100%;
+
+  &::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  .swiper-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.default-link {
+  padding: 0 3.4rem;
+
+  &--pdp-hero {
+    font-family: variable(primary-font);
+    background-color: clr(primary);
+    color: clr(subcolor-3);
+
+    &:hover {
+      color: clr(primary);
+    }
+  }
+}
