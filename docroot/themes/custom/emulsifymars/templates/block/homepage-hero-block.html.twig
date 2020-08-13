@@ -10,7 +10,7 @@
  * 'title_label' => NULL,
  * 'block_type' => NULL
  * 'background_default' => []
- * 'background_image' => [],
+ * 'background_image' => NULL,
  * 'background_video' => NULL,
  */
 #}
@@ -28,4 +28,28 @@
     cta_border_radius: '30',
     video__src__url: background_video,
   } %}
+{% elseif block_type == 'image' %}
+
+  {% set background_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' |
+    format(background_image, background_image, background_image, background_image) %}
+
+  {% set hero_image = {
+    'srcset': background_srcset,
+    'src': background_image}
+  %}
+
+  {% include "@molecules/homepage-hero/standard/homepage-hero-standard.twig" with {
+    theme_styles: 'drupal',
+    eyebrow: eyebrow,
+    title_label: title_label,
+    title_href: title_url,
+    cta_title: cta_title,
+    cta_link_attributes: cta_url,
+    cta_base_class: 'cta-link',
+    cta_border_radius: '30',
+    image_srcset: hero_image,
+    image_src: hero_image,
+  } %}
+{% elseif block_type == 'default' %}
+
 {% endif %}
