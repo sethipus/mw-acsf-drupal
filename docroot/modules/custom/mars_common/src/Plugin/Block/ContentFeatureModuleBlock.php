@@ -90,7 +90,6 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
-    unset($form['label_display']);
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
