@@ -1,6 +1,6 @@
 {% set entry_gate_base_class = 'entry-gate' %}
 
-<div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme="twix">
+<div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme={{product}}>
   <section class="entry-gate__inner">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: entry_gate_heading,

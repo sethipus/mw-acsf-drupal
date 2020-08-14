@@ -21,3 +21,5 @@ entry_gate_bottom_paragraph_base_class: 'entry-gate__bottom-paragraph'
 entry_gate_form_error_message: 'Please check your details!'
 
 entry_gate_minimal_age: 18
+
+product: 'twix'
