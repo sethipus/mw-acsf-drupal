@@ -71,6 +71,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
  */
 function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id === 'block_form') {
-    unset($form['settings']['label_display']);
+    $form['settings']['label_display']['#access'] = FALSE;
   }
 }
