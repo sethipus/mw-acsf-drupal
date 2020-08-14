@@ -5,6 +5,8 @@
  * MARS Common module main file.
  */
 
+use Drupal\Core\Render\Element;
+
 /**
  * Implements hook_theme().
  */
@@ -52,5 +54,43 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'items' => [],
       ],
     ],
+    'carousel_item_widget' => [
+      'render element' => 'element',
+    ],
+    'carousel_item_formatter' => [
+      'variables' => [
+        'item_url' => NULL,
+        'item_description' => NULL,
+        'media_type' => NULL,
+      ],
+    ],
   ];
+}
+
+/**
+ * Prepares variables for carousel item widget templates.
+ *
+ * Default template: carousel-item-widget.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - element: A render element representing the carousel item field widget.
+ */
+function template_preprocess_carousel_item_widget(array &$variables) {
+  $element = $variables['element'];
+
+  $variables['attributes'] = [
+    'class' => [
+      'carousel-item-widget',
+      'js-form-managed-file',
+      'form-managed-file',
+      'clearfix',
+    ],
+  ];
+
+  $variables['data'] = [];
+  foreach (Element::children($element) as $child) {
+    $variables['data'][$child] = $element[$child];
+  }
+
 }
