@@ -3,7 +3,6 @@
     display: flex;
     flex-flow: row wrap;
     min-height: 580px;
-    overflow: hidden;
 
     @include large {
       flex-flow: row nowrap;
