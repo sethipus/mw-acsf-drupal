@@ -1,14 +1,11 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 import 'swiper/swiper-bundle.css';
 
-Drupal.behaviors.socialFeed = {
+Drupal.behaviors.carouselFeed = {
   attach(context) {
     // init swiper
     Swiper.use([Navigation, Pagination, Scrollbar]);
-    const swiper = new Swiper('.social-feed-swiper-container', {
-      slidesPerView: 'auto',
-      spaceBetween: 20,
-      slidesOffsetBefore: 50,
+    const carousel = new Swiper('.carousel-container', {
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
@@ -16,11 +13,9 @@ Drupal.behaviors.socialFeed = {
       scrollbar: {
         el: '.swiper-scrollbar'
       },
-      breakpoints: {
-        768: {
-          spaceBetween: 30
-        }
-      }
+      spaceBetween: 0,
+      mousewheel: true,
+      keyboard: true,
     });
   },
 };

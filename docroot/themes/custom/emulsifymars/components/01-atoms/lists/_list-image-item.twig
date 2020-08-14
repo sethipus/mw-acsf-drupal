@@ -6,6 +6,7 @@
  * - li_blockname - blockname prepended to the base classname
  * - list_item_label - (optional) a <strong> label before the list item itself
  * - list_item_content - the content of the list_item (typically text)
+ * - list_item_image - the image of the list_item
  *
  * Available blocks:
  * - list_item_content - used to replace the content of the list_item with something other than text
@@ -16,6 +17,19 @@
 
 <li {{ bem(li_base_class, li_modifiers, li_blockname) }}>
   {% block list_item_content %}
-    {{ list_item_content }}
+    {% if list_item_label %}<strong>{{ list_item_label }}</strong> {% endif %}
+    <div {{ bem('content', [], li_base_class) }}>
+      {{ list_item_content }}
+    </div>
+    {% if list_item_image %}
+      {% include "@atoms/images/image/_image.twig" with {
+        image_base_class: base_class,
+        image_modifiers: image_modifiers,
+        image_blockname: image_blockname,
+        image_src: list_item_image.src,
+        image_alt: list_item_image.alt,
+        image_title: list_item_image.title,
+      } %}
+    {% endif %}
   {% endblock %}
 </li>
