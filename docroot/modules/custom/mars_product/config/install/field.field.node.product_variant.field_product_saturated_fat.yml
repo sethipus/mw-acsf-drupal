@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_saturated_fat
     - node.type.product_variant
+_core:
+  default_config_hash: x64IAFR9xUOF9_lCToXMwZZdTIwBmTHUTli-Epm21Yk
 id: node.product_variant.field_product_saturated_fat
 field_name: field_product_saturated_fat
 entity_type: node

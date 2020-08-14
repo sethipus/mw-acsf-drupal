@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_total_fat
     - node.type.product_variant
+_core:
+  default_config_hash: YM_55GaxjW47-Pqebjbo2sOFU5_Y5WyXdTlF_8lfHo8
 id: node.product_variant.field_product_total_fat
 field_name: field_product_total_fat
 entity_type: node

@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_trans_fat_daily
     - node.type.product_variant
+_core:
+  default_config_hash: rO_8KGvcTmfDt6t4sI6m9p6QtaDVQByNyhWytiIVBus
 id: node.product_variant.field_product_trans_fat_daily
 field_name: field_product_trans_fat_daily
 entity_type: node

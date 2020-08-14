@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: l4K3t2Kh84PuCT0RUiW3ITJqOJcRInpmKPzo2kRGZzs
 id: node.field_product_cholesterol
 field_name: field_product_cholesterol
 entity_type: node

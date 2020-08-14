@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_vitamin_c
     - node.type.product_variant
+_core:
+  default_config_hash: TiL8jJcjL8Cu_5vfgePMmYU3HA2kizrCCryas0h2ZRI
 id: node.product_variant.field_product_vitamin_c
 field_name: field_product_vitamin_c
 entity_type: node

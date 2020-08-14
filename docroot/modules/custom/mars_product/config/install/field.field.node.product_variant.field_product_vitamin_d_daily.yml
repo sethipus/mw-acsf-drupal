@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_vitamin_d_daily
     - node.type.product_variant
+_core:
+  default_config_hash: JMbYLzLn2LXYZG9Wn5rYxv_NcS_GFaZRUKfLA_xqIOA
 id: node.product_variant.field_product_vitamin_d_daily
 field_name: field_product_vitamin_d_daily
 entity_type: node

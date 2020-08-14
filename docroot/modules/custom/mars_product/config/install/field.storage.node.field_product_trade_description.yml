@@ -1,17 +1,16 @@
-uuid: 37c979da-31d1-4055-a38f-fca72066d039
+uuid: 9e2ad0dc-5f54-4661-ace1-3e877ec2741e
 langcode: en
 status: true
 dependencies:
   module:
     - node
+    - taxonomy
 id: node.field_product_trade_description
 field_name: field_product_trade_description
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  is_ascii: false
-  case_sensitive: false
+  target_type: taxonomy_term
 module: core
 locked: false
 cardinality: 1

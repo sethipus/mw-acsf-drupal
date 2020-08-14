@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: WBL4xGsQUnwsDot-5Vs7MmI9PIqmENKNOue3mUUaCaE
 id: node.field_product_saturated_fat
 field_name: field_product_saturated_fat
 entity_type: node
