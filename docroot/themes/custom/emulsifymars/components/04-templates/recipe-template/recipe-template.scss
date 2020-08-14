@@ -5,127 +5,23 @@
   grid-column-gap: 30px;
   max-width: 1360px;
   margin: auto;
-}
 
-.recipe-header {
-  background-color: var(--c-recipe-header-color, #f9f1db);
-  padding-top: 40px;
-  margin-bottom: -190px;
-
-  &__title {
-    font: 16px/16px variable(primary-font);
-    color: clr(subcolor-1);
-    text-transform: uppercase;
-    text-align: center;
-    letter-spacing: 1px;
+  .recipe-media {
+    grid-column: span 12;
+    margin: 0;
   }
 
-  &__text {
-    font: 64px/64px variable(primary-font);
-    color: clr(subcolor-1);
-    text-align: center;
-    margin-top: 26px;
+  .recipe-header,
+  .more-recipes {
+    grid-column: span 12;
+    width: 100vw;
+    margin-left: calc((100% - 100vw) / 2);
   }
 
-  @include xl {
-    padding-top: 60px;
-    height: 400px;
-  }
-}
-
-.recipe-media {
-  grid-column: span 12;
-  height: 583px;
-  position: relative;
-  box-shadow: inset 0 0 0 1px #f00;
-
-  &__info {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-  }
-
-  &__image {
-    position: absolute;
-  }
-}
-
-.recipe-details {
-  color: inherit;
-  background-color: white;
-  display: flex;
-  padding: 30px 30px 0 125px;
-}
-
-.recipe-details-item {
-  display: flex;
-  padding: 25px 30px;
-  border-right: 1px solid rgba(196, 196, 196, 0.6);
-
-  &__icon {
-    background-color: lightgray;
-    height: 45px;
-    width: 45px;
-  }
-
-  &__info {
-    color: inherit;
-    margin-left: 18px;
-  }
-
-  &__label {
-    font: 20px/20px variable(primary-font);
-    color: clr(subcolor-1);
-    letter-spacing: 0.8px;
-  }
-
-  &__value {
-    font: 20px/20px variable(primary-font);
-    color: clr(primary);
-    letter-spacing: 0.8px;
-    margin-top: 12px;
-  }
-
-  &:first-child {
-    padding-left: 0;
-  }
-
-  &:last-child {
-    border-right: none;
-  }
-}
-
-.recipe-header,
-.more-recipes {
-  grid-column: span 12;
-  width: 100vw;
-  margin-left: calc((100% - 100vw) / 2);
-}
-
-.recipe-info {
-  grid-column: 2 / span 6;
-  padding-top: 60px;
-  border-bottom: 1px solid rgba(196, 196, 196, 0.6);
-
-  &__text {
-    font: 20px/1.8em variable(secondary-font);
-    color: clr(subcolor-1);
-    letter-spacing: -1.2px;
-  }
-
-  &__social {
-    margin-top: 52px;
-  }
-
-  &__social-text {
-    font: 20px/20px variable(primary-font);
-    color: clr(subcolor-1);
-    text-transform: uppercase;
-    letter-spacing: 1.6px;
-  }
-
-  .social-menu__icon {
-    fill: green;
+  .recipe-info {
+    grid-column: 2 / span 6;
+    width: auto;
+    margin-left: auto;
   }
 }
 
@@ -158,10 +54,18 @@
   background-image: radial-gradient(circle at 50% 50%, clr(subcolor-2), clr(secondary));
 }
 
-.ingredients {
+.ingredients,
+.instructions {
   grid-column: 2 / span 6;
 }
 
-.instructions {
-  grid-column: 2 / span 6;
+/* body styles */
+
+.ingredients__title,
+.instructions__title {
+  margin-top: 60px;
+  font: 28px/31px variable(primary-font);
+  color: clr(subcolor-1);
+  text-transform: capitalize;
+  letter-spacing: 1.12px;
 }
