@@ -2,6 +2,9 @@
 
 namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
+use Drupal;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -33,7 +36,8 @@ class HomepageHeroBlockTest extends UnitTestCase {
     ],
     'background_video' => 'background video',
     'background_default' => 'background_default',
-    'background_image' => 'background_default',
+    'background_image' => [0 => 'background_default'],
+    'card' => [],
   ];
 
   private const TEST_DEFENITION = [
@@ -72,6 +76,20 @@ class HomepageHeroBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  private $entityTypeManagerMock;
+
+  /**
+   * File storage.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorageMock;
+
+  /**
+   * Mock.
+   *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactoryInterface
    */
   private $configFactoryMock;
@@ -82,11 +100,21 @@ class HomepageHeroBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
-    \Drupal::setContainer($this->containerMock);
+    Drupal::setContainer($this->containerMock);
+
+    $this->entityTypeManagerMock
+      ->expects($this->any())
+      ->method('getStorage')
+      ->withConsecutive(
+        [$this->equalTo('file')]
+      )
+      ->will($this->onConsecutiveCalls($this->fileStorageMock));
+
     $this->homepageBlock = new HomepageHeroBlock(
       self::TEST_CONFIGURATION,
       'homepage_hero_block',
       self::TEST_DEFENITION,
+      $this->entityTypeManagerMock,
       $this->configFactoryMock
     );
   }
@@ -174,6 +202,8 @@ class HomepageHeroBlockTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
+    $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
   }
 

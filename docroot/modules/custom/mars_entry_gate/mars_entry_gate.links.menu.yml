@@ -1,0 +1,5 @@
+mars_entry_gate.configration_form:
+  title: 'Entry gate configuration'
+  description: 'Settings related for the entry gate functionality.'
+  route_name: mars_entry_gate.configuration_form
+  parent: 'system.admin_config_services'
