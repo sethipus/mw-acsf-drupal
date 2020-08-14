@@ -4,8 +4,8 @@
   {% set pp_header_modifiers = ['with-bg-media'] %}
 {% endif %}
 
-<section 
-  {{ bem(pp_header_base_class, pp_header_modifiers, pp_header_extra_classes) }} 
+<section
+  {{ bem(pp_header_base_class, pp_header_modifiers, pp_header_extra_classes) }}
   data-theme="twix"
   {% if parent_page_media_url and parent_page_media_type == 'image' %}
     style="background-image: url('{{ parent_page_media_url }}');"
@@ -33,7 +33,7 @@
   {% if parent_page_media_url and parent_page_media_type == 'video' %}
     <div class="bg-video">
       {% include "@atoms/video/background-video/background-video.twig" with {
-        bg_video_src: pp_header_video_src,
+        bg_video_src: parent_page_media_url,
         bg_video_type: pp_header_video_type
       } %}
     </div>
