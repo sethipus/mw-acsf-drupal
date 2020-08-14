@@ -1,0 +1,5 @@
+name: 'Mars Entry Gate'
+type: module
+description: 'Module that provides entry gate functionality.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
