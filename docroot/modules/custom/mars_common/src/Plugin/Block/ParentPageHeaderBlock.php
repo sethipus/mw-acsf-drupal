@@ -65,8 +65,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $build['#label'] = $conf['label'] ?? '';
     $build['#background'] = $this->getBackgroundEntity();
     $build['#description'] = $conf['description'] ?? '';
-    $build['#explore_cta'] = $conf['explore_cta'] ?? '';
-    $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
 
     $build['#theme'] = 'parent_page_header_block';
 
@@ -96,7 +94,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     ];
     $form['background'] = [
       '#type' => 'entity_autocomplete',
-      '#title' => 'Background media',
+      '#title' => $this->t('Background media'),
       '#target_type' => 'media',
       '#default_value' => $this->getBackgroundEntity(),
       '#required' => TRUE,
