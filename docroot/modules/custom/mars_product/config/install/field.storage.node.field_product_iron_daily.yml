@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: PaHTgF8DFoNfX2h5WLAXe9fNrEhACL0iAdX8Gg9-djg
 id: node.field_product_iron_daily
 field_name: field_product_iron_daily
 entity_type: node

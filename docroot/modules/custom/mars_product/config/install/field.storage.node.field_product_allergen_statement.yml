@@ -5,6 +5,8 @@ dependencies:
   module:
     - node
     - options
+_core:
+  default_config_hash: Se-t2e6o7BUu614BEOcqufAxmWAdhq9kYA8P0iQMP9w
 id: node.field_product_allergen_statement
 field_name: field_product_allergen_statement
 entity_type: node

@@ -6,6 +6,8 @@ dependencies:
     - field.storage.node.field_product_variants
     - node.type.product_multipack
     - node.type.product_variant
+_core:
+  default_config_hash: yETKALSpyyXuwipTR_CS9ed_70tWU1xaaMXq8bJKjyU
 id: node.product_multipack.field_product_variants
 field_name: field_product_variants
 entity_type: node
