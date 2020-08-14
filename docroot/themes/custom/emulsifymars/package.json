@@ -81,7 +81,7 @@
     "build-babel": "npx babel components -d dist/js --ignore 'components/**/*.component.js','components/**/*.stories.js'",
     "webpack": "webpack -d --watch --config ./webpack/webpack.dev.js --display-error-details",
     "build-webpack": "webpack -p --config ./webpack/webpack.prod.js --display-error-details",
-    "build": "npm run build-babel & npm run build-webpack",
+    "build": "npm run build-babel && npm run build-webpack",
     "develop": "concurrently --raw \"npm run webpack\" \"npm run babel\" \"npm run storybook\""
   },
   "devDependencies": {
