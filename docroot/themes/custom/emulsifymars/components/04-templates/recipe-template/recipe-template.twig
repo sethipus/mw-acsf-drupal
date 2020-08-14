@@ -3,17 +3,6 @@
 <section {{ bem(recipe_template__base_class) }} data-theme="twix">
   <!-- Recipe Hero Module -->
   {% include "@molecules/recipe-hero-module/recipe-hero-module.twig" %}
-  <div class="product-used">
-    <div class="product-used__title">{{ products_used }}</div>
-    <div class="product-used-items">
-      <div class="product-used-item"></div>
-    </div>
-  </div>
-  <div class="ingredients">
-    <div class="ingredients__title">ingredients</div>
-  </div>
-  <div class="instructions">
-    <div class="instructions__title">instructions</div>
-  </div>
-  <div class="more-recipes">more-recipes</div>
+  <!-- Recipe Body -->
+  {% include "@organisms/recipe-body/recipe-body.twig" %}
 </section>

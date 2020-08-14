@@ -1,0 +1,17 @@
+<div class="product-used" data-theme="twix">
+  <div class="product-used__title">{{ products_used }}</div>
+  <div class="product-used-items">
+    {% for item in product_used_items %}
+      <div class="product-used-item">
+        {% include "@molecules/card/product-card/product-card.twig" %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="ingredients" data-theme="twix">
+  <div class="ingredients__title">ingredients</div>
+</div>
+<div class="instructions" data-theme="twix">
+  <div class="instructions__title">instructions</div>
+</div>
+<div class="more-recipes" data-theme="twix">more-recipes</div>

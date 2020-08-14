@@ -1,0 +1,24 @@
+.product-used {
+  padding-top: 60px;
+  position: relative;
+
+  &__title {
+    font: 28px/30px variable(primary-font);
+    color: clr(subcolor-1);
+    text-transform: capitalize;
+    letter-spacing: 1px;
+  }
+}
+
+.product-used-item {
+  margin-top: 30px;
+}
+
+.ingredients__title,
+.instructions__title {
+  margin-top: 60px;
+  font: 28px/31px variable(primary-font);
+  color: clr(subcolor-1);
+  text-transform: capitalize;
+  letter-spacing: 1.12px;
+}

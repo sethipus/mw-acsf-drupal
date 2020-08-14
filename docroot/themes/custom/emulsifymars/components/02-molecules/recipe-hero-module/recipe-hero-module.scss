@@ -30,9 +30,7 @@ $xl-gap-width: 30px;
 .recipe-media {
   max-width: 1360px;
   margin: auto;
-  height: 583px;
   position: relative;
-  box-shadow: inset 0 0 0 1px #f00;
 
   &__info {
     position: absolute;
@@ -43,6 +41,14 @@ $xl-gap-width: 30px;
 
   &__image {
     position: absolute;
+  }
+
+  #playpause[data-state="play"] {
+    top: 40px;
+    right: 40px;
+    left: auto;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
   }
 }
 

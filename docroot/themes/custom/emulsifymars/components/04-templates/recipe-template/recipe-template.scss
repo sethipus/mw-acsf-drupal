@@ -23,49 +23,22 @@
     width: auto;
     margin-left: auto;
   }
-}
 
-.product-used {
-  grid-column: 2 / span 6;
-  padding-top: 60px;
-  position: relative;
+  .product-used {
+    grid-column: 2 / span 6;
 
-  @include large {
-    grid-column: 9 / span 3;
+    @include large {
+      grid-column: 9 / span 3;
+    }
   }
 
-  &__title {
-    font: 28px/30px variable(primary-font);
-    color: clr(subcolor-1);
-    text-transform: capitalize;
-    letter-spacing: 1px;
-    margin-bottom: 30px;
+  .product-used-items {
+    position: absolute;
+    width: 100%;
   }
-}
 
-.product-used-items {
-  position: absolute;
-  width: 100%;
-}
-
-.product-used-item {
-  height: 520px;
-  border-radius: 20px;
-  background-image: radial-gradient(circle at 50% 50%, clr(subcolor-2), clr(secondary));
-}
-
-.ingredients,
-.instructions {
-  grid-column: 2 / span 6;
-}
-
-/* body styles */
-
-.ingredients__title,
-.instructions__title {
-  margin-top: 60px;
-  font: 28px/31px variable(primary-font);
-  color: clr(subcolor-1);
-  text-transform: capitalize;
-  letter-spacing: 1.12px;
+  .ingredients,
+  .instructions {
+    grid-column: 2 / span 6;
+  }
 }
