@@ -36,7 +36,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
     'background_video' => 'background video',
     'background_default' => 'background_default',
     'background_image' => [0 => 'background_default'],
-    'card' => []
+    'card' => [],
   ];
 
   private const TEST_DEFENITION = [
