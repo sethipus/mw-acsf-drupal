@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: Tcj5EW-6LvEOr30iwGLjUTzwNSkeRpBcvNaGt_cUpD4
 id: node.field_product_vitamin_c_daily
 field_name: field_product_vitamin_c_daily
 entity_type: node

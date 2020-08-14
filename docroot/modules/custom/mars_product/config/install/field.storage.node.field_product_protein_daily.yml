@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: krxC8J-5bTtjUhfGqy81CR6VtlWm64iNWNvKVwxcick
 id: node.field_product_protein_daily
 field_name: field_product_protein_daily
 entity_type: node

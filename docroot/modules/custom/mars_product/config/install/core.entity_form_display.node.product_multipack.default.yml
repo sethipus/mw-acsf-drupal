@@ -6,11 +6,14 @@ dependencies:
     - field.field.node.product_multipack.field_product_brand
     - field.field.node.product_multipack.field_product_description
     - field.field.node.product_multipack.field_product_flavor
+    - field.field.node.product_multipack.field_product_format
     - field.field.node.product_multipack.field_product_market
     - field.field.node.product_multipack.field_product_name
+    - field.field.node.product_multipack.field_product_occasions
     - field.field.node.product_multipack.field_product_pack_items
     - field.field.node.product_multipack.field_product_segment
     - field.field.node.product_multipack.field_product_sub_brand
+    - field.field.node.product_multipack.field_product_trade_description
     - field.field.node.product_multipack.field_product_variants
     - node.type.product_multipack
     - workflows.workflow.editorial
@@ -40,12 +43,15 @@ third_party_settings:
       children:
         - title
         - field_product_brand
-        - field_product_description
         - field_product_flavor
+        - field_product_description
         - field_product_market
         - field_product_name
         - field_product_segment
         - field_product_sub_brand
+        - field_product_format
+        - field_product_occasions
+        - field_product_trade_description
       parent_name: group_product_multipack
       weight: 20
       format_type: accordion_item
@@ -106,6 +112,8 @@ third_party_settings:
         required_fields: true
         description: ''
       label: System
+_core:
+  default_config_hash: 7LFCWAheGYOiypzE0nWhxq-qfXMeZv723VWT_o25Yg0
 id: node.product_multipack.default
 targetEntityType: node
 bundle: product_multipack
@@ -118,32 +126,34 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_product_brand:
-    type: string_textfield
-    weight: 0
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
+    weight: 1
+    settings: {  }
     third_party_settings: {  }
+    type: options_select
+    region: content
   field_product_description:
     type: text_textarea
-    weight: 0
+    weight: 3
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
   field_product_flavor:
-    type: string_textfield
-    weight: 0
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
+    weight: 2
+    settings: {  }
     third_party_settings: {  }
+    type: options_select
+    region: content
+  field_product_format:
+    weight: 8
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_product_market:
     type: string_textfield
-    weight: 0
+    weight: 4
     region: content
     settings:
       size: 60
@@ -151,12 +161,18 @@ content:
     third_party_settings: {  }
   field_product_name:
     type: string_textfield
-    weight: 0
+    weight: 5
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_product_occasions:
+    weight: 9
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_product_pack_items:
     weight: 27
     settings:
@@ -169,7 +185,7 @@ content:
     region: content
   field_product_segment:
     type: string_textfield
-    weight: 0
+    weight: 6
     region: content
     settings:
       size: 60
@@ -177,12 +193,18 @@ content:
     third_party_settings: {  }
   field_product_sub_brand:
     type: string_textfield
-    weight: 0
+    weight: 7
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_product_trade_description:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_product_variants:
     weight: 26
     settings:

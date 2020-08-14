@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: iQjm2YnoCEy1Sp2xlzFeJodr7gDOT71wMF0VThioVsg
 id: node.field_product_potassium
 field_name: field_product_potassium
 entity_type: node

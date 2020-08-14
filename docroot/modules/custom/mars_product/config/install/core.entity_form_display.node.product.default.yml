@@ -6,13 +6,16 @@ dependencies:
     - field.field.node.product.field_product_brand
     - field.field.node.product.field_product_description
     - field.field.node.product.field_product_flavor
+    - field.field.node.product.field_product_format
     - field.field.node.product.field_product_market
     - field.field.node.product.field_product_name
+    - field.field.node.product.field_product_occasions
     - field.field.node.product.field_product_segment
     - field.field.node.product.field_product_sub_brand
     - field.field.node.product.field_product_trade_description
     - field.field.node.product.field_product_variants
     - node.type.product
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - field_group
@@ -24,13 +27,15 @@ third_party_settings:
       children:
         - title
         - field_product_brand
+        - field_product_flavor
         - field_product_market
         - field_product_sub_brand
-        - field_product_trade_description
         - field_product_segment
         - field_product_name
         - field_product_description
-        - field_product_flavor
+        - field_product_format
+        - field_product_occasions
+        - field_product_trade_description
       parent_name: group_product
       weight: 1
       format_type: accordion_item
@@ -91,6 +96,8 @@ third_party_settings:
         required_fields: true
         description: ''
       label: Variants
+_core:
+  default_config_hash: '-5GiiCIYVn341c0eClUHKpXO91n4WBEIMQf4AXXYXIs'
 id: node.product.default
 targetEntityType: node
 bundle: product
@@ -104,11 +111,9 @@ content:
     third_party_settings: {  }
   field_product_brand:
     weight: 2
-    settings:
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
-    type: string_textfield
+    type: options_select
     region: content
   field_product_description:
     weight: 8
@@ -119,15 +124,19 @@ content:
     type: text_textarea
     region: content
   field_product_flavor:
-    weight: 9
-    settings:
-      size: 60
-      placeholder: ''
+    weight: 3
+    settings: {  }
     third_party_settings: {  }
-    type: string_textfield
+    type: options_select
+    region: content
+  field_product_format:
+    weight: 9
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
     region: content
   field_product_market:
-    weight: 3
+    weight: 4
     settings:
       size: 60
       placeholder: ''
@@ -142,6 +151,12 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_occasions:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_product_segment:
     weight: 6
     settings:
@@ -151,7 +166,7 @@ content:
     type: string_textfield
     region: content
   field_product_sub_brand:
-    weight: 4
+    weight: 5
     settings:
       size: 60
       placeholder: ''
@@ -159,12 +174,10 @@ content:
     type: string_textfield
     region: content
   field_product_trade_description:
-    weight: 5
-    settings:
-      size: 60
-      placeholder: ''
+    weight: 11
+    settings: {  }
     third_party_settings: {  }
-    type: string_textfield
+    type: options_select
     region: content
   field_product_variants:
     weight: 3

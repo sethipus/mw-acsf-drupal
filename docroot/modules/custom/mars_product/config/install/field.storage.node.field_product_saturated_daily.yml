@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: of2h61A6jginRm5IgRN6wuLDlb0VdKKY6yWKNJEa73E
 id: node.field_product_saturated_daily
 field_name: field_product_saturated_daily
 entity_type: node

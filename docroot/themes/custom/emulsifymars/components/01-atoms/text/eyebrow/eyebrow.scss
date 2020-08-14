@@ -7,6 +7,13 @@
   display: block;
   margin-bottom: 3rem;
 
+  &--parent-page {
+    font-size: 1.4rem;
+    font-family: variable(primary-font);
+    color: clr(subcolor-1);
+    text-align: center;
+  }
+
   @media (max-width: 375px) {
     line-height: 1.4rem;
   }

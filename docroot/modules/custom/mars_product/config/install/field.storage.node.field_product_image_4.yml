@@ -5,6 +5,8 @@ dependencies:
   module:
     - media
     - node
+_core:
+  default_config_hash: dWRiu16BDLTT-qvTM2CQZPOsVrcmEPTtkAdcD8iqgMA
 id: node.field_product_image_4
 field_name: field_product_image_4
 entity_type: node

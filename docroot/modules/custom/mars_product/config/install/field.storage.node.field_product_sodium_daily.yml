@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: AiPsXA3QVyKNJdu6CJuTjEH8VjuS4sdU60BEoOJpY40
 id: node.field_product_sodium_daily
 field_name: field_product_sodium_daily
 entity_type: node

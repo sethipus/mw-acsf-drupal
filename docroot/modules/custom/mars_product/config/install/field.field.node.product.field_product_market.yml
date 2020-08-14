@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_market
     - node.type.product
+_core:
+  default_config_hash: iMzH2MrKs8i0CitKWhNKJ1cGe1HWMbwwVk--aFJAXdY
 id: node.product.field_product_market
 field_name: field_product_market
 entity_type: node

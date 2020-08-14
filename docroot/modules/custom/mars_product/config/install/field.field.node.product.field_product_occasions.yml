@@ -1,0 +1,29 @@
+uuid: 30da6706-84ed-47f8-a15c-20235e5368de
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_occasions
+    - node.type.product
+    - taxonomy.vocabulary.mars_occasions
+id: node.product.field_product_occasions
+field_name: field_product_occasions
+entity_type: node
+bundle: product
+label: Occasions
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_occasions: mars_occasions
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

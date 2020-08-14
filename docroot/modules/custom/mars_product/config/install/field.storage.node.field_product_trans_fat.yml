@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: 25BVHfGiCLfQq6GU0f5lEeOG8qnJD1gfgZS0UQhdY1Q
 id: node.field_product_trans_fat
 field_name: field_product_trans_fat
 entity_type: node
