@@ -79,6 +79,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
+    unset($form['label_display']);
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
@@ -95,7 +96,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     ];
     $form['background'] = [
       '#type' => 'entity_autocomplete',
-      '#title' => 'Background',
+      '#title' => 'Background media',
       '#target_type' => 'media',
       '#default_value' => $this->getBackgroundEntity(),
       '#required' => TRUE,
@@ -126,7 +127,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
    * Returns the entity that's saved to the block.
    */
   private function getBackgroundEntity(): ?EntityInterface {
-    // TODO default image comes from the Theme Configurator, but should be possible to replace with an image or video
     $backgroundEntityId = $this->getConfiguration()['background'] ?? NULL;
     if (!$backgroundEntityId) {
       return NULL;
