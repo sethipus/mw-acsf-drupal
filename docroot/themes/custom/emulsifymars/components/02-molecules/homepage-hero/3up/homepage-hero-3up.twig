@@ -1,9 +1,9 @@
-{% set homepage_hero__base_class = 'homepage-hero' %}
+{% set homepage_hero__base_class = 'homepage-hero-3up' %}
 
 <section {{ bem(homepage_hero__base_class) }} id="homepage-hero" data-theme="{{ theme_styles }}">
-
   <div {{ bem('inner', [], homepage_hero__base_class) }}>
-    <div {{ bem('left', [], homepage_hero__base_class) }}  style="background-image:url('{{ background }}');">
+    <div {{ bem('left', [], homepage_hero__base_class) }} >
+      <div class="wrapper" style="background-image:url('{{ background }}');">
        <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
          {% include "@atoms/images/image/responsive-image.twig" with {
            output_image_tag: true,
@@ -11,13 +11,12 @@
            image_srcset: hero_image.srcset,
            image_sizes: '(max-width: 375px) 375px,
                 (max-width: 768px) 768px,
-                (max-width: 1024px) 1024px,
                 1440px',
            image_src: hero_image.src,
            responsive_image_blockname: 'homepage-hero-image',
          } %}
        </div>
-
+        <div {{ bem('container', ['hero-text'], homepage_hero__base_class) }}>
        {% include "@atoms/text/eyebrow/eyebrow.twig" with {
          eyebrow_text: eyebrow
        } %}
@@ -35,9 +34,11 @@
          default_link_border_radius: cta_border_radius,
          default_link_attributes: cta_link_attributes
        } %}
+      </div>
+    </div>
    </div>
    <div {{ bem('right', [], homepage_hero__base_class) }}>
-    <div {{ bem('right__wrapper', [], homepage_hero__base_class) }} style="background-image:url('{{ ellipse_background  }}');">
+    <div {{ bem('right__wrapper', [], homepage_hero__base_class) }} style="background-image:url('{{ ellipse_background }}');">
       {% for block in blocks %}
         {% include "@molecules/homepage-hero/3up/homepage-hero-block.twig" with {
           separate_class: 'block-' ~ loop.index,
