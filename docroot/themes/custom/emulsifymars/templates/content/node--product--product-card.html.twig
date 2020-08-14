@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Template for the content feature module component.
+ *
+ * Available variables:
+ * 'field_product_key_image' => NULL,
+ */
+#}
+
+{#{% set background = file_url(background.image.entity.fileuri) %}#}
+
+{% include "@molecules/card/product-card/product-card.twig" with {
+  card__image__src: content.field_product_key_image,
+  paragraph_content: content.field_product_name['#object'].title.value
+} %}

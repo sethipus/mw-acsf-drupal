@@ -14,8 +14,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "grid_card",
- *   admin_label = @Translation("Grid Card"),
- *   category = @Translation("Custom")
+ *   admin_label = @Translation("MARS: Grid Card"),
+ *   category = @Translation("Mars Common")
  * )
  */
 class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface {
@@ -78,9 +78,8 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $conf = $this->getConfiguration();
     $form = parent::buildConfigurationForm($form, $form_state);
 
-    unset($form['label_display']);
     $form['view'] = [
-      '#title' => 'View',
+      '#title' => $this->t('View'),
       '#type' => 'select',
       '#options' => $this->getViews(),
       '#default_value' => $conf['view'] ?? NULL,
@@ -102,7 +101,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
       $displayOptions = $this->getDisplays($conf['view']);
     }
     $form['display'] = [
-      '#title' => 'Display',
+      '#title' => $this->t('Display'),
       '#type' => 'select',
       '#options' => $displayOptions,
       '#default_value' => $conf['display'] ?? NULL,
