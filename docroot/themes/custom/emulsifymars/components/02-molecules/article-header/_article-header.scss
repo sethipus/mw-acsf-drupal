@@ -3,18 +3,55 @@
   font-family: variable(primary-font);
   color: clr(primary);
 
+  &__inner--no-image {
+    position: relative;
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 50% auto;
+    padding-top: 120px;
+
+    @include medium {
+      background-size: 40% auto;
+    }
+
+    @include large {
+      background-size: 30% auto;
+    }
+
+    .curve {
+      position: absolute;
+      width: 100%;
+      height: 96px;
+      bottom: -5px;
+      background-size: 100%;
+      background-repeat-x: no-repeat;
+      background-repeat-y: no-repeat;
+      background-position: bottom center;
+    }
+
+  }
+
   & .heading {
     font-style: normal;
     font-weight: 500;
-    font-size: 48px;
+    font-size: 40px;
     line-height: 100%;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+
+    @include large {
+      font-size: 48px;
+    }
   }
 
   &__text_wrapper {
-    width: 70%;
+    width: 90%;
     margin: 0 auto;
+    margin-top: 20px;
+
+      @include large {
+        width: 70%;
+      }
 
     & .eyebrow {
       font-style: normal;
@@ -86,11 +123,16 @@
   &__image {
     position: relative;
     overflow: hidden;
-    .curve {
+
+   & .curve {
       position: absolute;
       width: 100%;
       height: 96px;
       bottom: -5px;
+      background-size: 100%;
+      background-repeat-x: no-repeat;
+      background-repeat-y: no-repeat;
+      background-position: bottom center;
     }
   }
 

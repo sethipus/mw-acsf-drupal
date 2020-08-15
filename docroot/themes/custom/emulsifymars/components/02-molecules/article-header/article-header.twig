@@ -1,6 +1,12 @@
 {% set article_header = 'article-header' %}
 
 <div {{ bem(article_header) }} data-theme="{{ theme_styles }}">
+  {% if image %}
+    <div {{ bem('inner', ['image'], article_header) }}>
+  {% else %}
+    <div {{ bem('inner', ['no-image'], article_header) }} style="background-image:url('{{ shape }}');">
+  {% endif %}
+
   <div {{ bem('inner', [], article_header) }}>
     {% if image %}
       <div {{ bem('image', [], article_header) }}>
@@ -74,5 +80,8 @@
 
       </div>
     </div>
+    {% if image is empty %}
+      <div class="curve" style="background-image:url('{{ curve }}');"></div>
+    {% endif %}
   </div>
 </div>
