@@ -1,5 +1,4 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
-import 'swiper/swiper-bundle.css';
 
 Drupal.behaviors.socialFeed = {
   attach(context) {

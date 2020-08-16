@@ -15,14 +15,21 @@
     <div class="swiper-wrapper">
       {% for item in items %}
         <div class="swiper-slide">
-          {% include "@atoms/images/image/_image.twig" with {
-            image_base_class: base_class,
-            image_modifiers: image_modifiers,
-            image_blockname: image_blockname,
-            image_src: item.src,
-            image_alt: item.alt,
-            image_title: item.title,
-          } %}
+          {% if item.image %}
+            {% include "@atoms/images/image/_image.twig" with {
+              image_base_class: base_class,
+              image_modifiers: image_modifiers,
+              image_blockname: image_blockname,
+              image_src: item.src,
+              image_alt: item.alt,
+              image_title: item.title,
+            } %}
+          {% elseif item.video %}
+            {% include "@atoms/video/fullscreen-video/video.twig" with {
+              video__src__url: item.src
+            } %}
+            <button {{ bem('control', [], 'video') }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
+          {% endif %}
         </div>
       {% endfor %}
     </div>

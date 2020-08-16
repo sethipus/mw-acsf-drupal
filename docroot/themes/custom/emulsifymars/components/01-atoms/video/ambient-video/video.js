@@ -6,8 +6,7 @@ Drupal.behaviors.inlineVideoPlayer = {
       return;
     }
     // Obtain handles to main elements
-    var videoContainer = document.getElementById('video-container');
-    var video = document.getElementById('video');
+    var video = document.getElementById('ambient-video');
 
     // Video settings
     if (video === null) {

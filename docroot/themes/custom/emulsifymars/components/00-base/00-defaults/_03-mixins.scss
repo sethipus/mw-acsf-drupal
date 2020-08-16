@@ -82,3 +82,49 @@ $outer-container-break: $small;
     text-decoration: underline;
   }
 }
+
+@mixin playbutton {
+  display: block;
+  border-radius: 50%;
+  border: hidden;
+  background-color: clr(background);
+  position: absolute;
+  z-index: 1;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  >div {
+    width: 0;
+    height: 0;
+    margin: auto 35%
+  }
+}
+
+@mixin pausebutton {
+  display: block;
+  border-radius: 50%;
+  border: hidden;
+  background-color: clr(background-button);
+  position: absolute;
+  z-index: 1;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  >div {
+    width: 14px;
+    height: 18px;
+    margin: auto;
+  }
+}
