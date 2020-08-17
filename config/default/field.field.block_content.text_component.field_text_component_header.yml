@@ -1,0 +1,19 @@
+uuid: fb7d5e47-aa3d-4b43-b670-bd1c73db4907
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.text_component
+    - field.storage.block_content.field_text_component_header
+id: block_content.text_component.field_text_component_header
+field_name: field_text_component_header
+entity_type: block_content
+bundle: text_component
+label: Header
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

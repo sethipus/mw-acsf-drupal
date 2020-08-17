@@ -5,7 +5,6 @@
  * - ol_modifiers - array of modifiers to add to the base classname
  * - ol_blockname - blockname prepended to the base classname
  *
- * - listItems - TBD
  */
 #}
 {% set ol_base_class = ol_base_class|default('ol') %}
@@ -13,9 +12,10 @@
 <ol {{ bem(ol_base_class, ol_modifiers, ol_blockname) }}>
   {% block list_content %}
     {% for ol_item in ol_items %}
-      {% include "@atoms/lists/_list-item.twig" with {
+      {% include "@atoms/lists/_list-image-item.twig" with {
         list_item_label: ol_item.label,
         list_item_content: ol_item.content,
+        list_item_image: ol_item.image,
         li_base_class: ol_item.li_base_class,
         li_base_class: ol_item.li_base_class,
         li_modifiers: ol_item.li_modifiers,
