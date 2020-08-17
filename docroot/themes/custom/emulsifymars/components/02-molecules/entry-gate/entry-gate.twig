@@ -35,4 +35,34 @@
       paragraph_base_class: entry_gate_bottom_paragraph_base_class
     } %}
   </section>
+
+  <section class="entry-gate__error">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: entry_gate_error_heading,
+      heading_level: entry_gate_error_heading_level,
+      heading_base_class: entry_gate_error_heading_base_class
+    } %}
+
+    {% include "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_size: entry_gate_error_paragraph_size,
+      paragraph_content: entry_gate_error_paragraph_content,
+      paragraph_base_class: entry_gate_error_paragraph_base_class
+    } %}
+
+    <hr class="entry-gate__separator-line"/>
+
+    {% include "@atoms/links/link/link.twig" with {
+      link_base_class: entry_gate_error_top_link_base_class,
+      link_content: entry_gate_error_top_link_content ~ " >",
+      link_url: entry_gate_error_top_link_url,
+      link_attributes: entry_gate_error_top_link_attributes
+    } %}
+
+    {% include "@atoms/links/link/link.twig" with {
+      link_base_class: entry_gate_error_bottom_link_base_class,
+      link_content: entry_gate_error_bottom_link_content ~ " >",
+      link_url: entry_gate_error_bottom_link_url,
+      link_attributes: entry_gate_error_bottom_link_attributes
+    } %}
+  </section>
 </div>

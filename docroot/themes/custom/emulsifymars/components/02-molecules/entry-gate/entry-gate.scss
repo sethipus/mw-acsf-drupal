@@ -7,47 +7,91 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
 
-  &__inner {
+  &__error {
+    display: none;
     text-align: center;
     border-radius: 1.5rem;
     padding: 0 11rem 6rem 11rem;
     max-width: 89.6rem;
     background-color: clr(pp-header-bg);
+  }
 
-    @media (max-width: 610px) {
-      padding: 0 3rem 6rem 3rem;
+  &.age-error {
+    .entry-gate__error {
+      display: block;
+    }
+
+    .entry-gate__inner {
+      display: none;
+    }
+  }
+
+  &__error-link {
+    color: clr(primary);
+    display: block;
+    font-size: 1.8rem;
+    font-family: variable(primary-font);
+    text-decoration: none;
+    padding-right: 1rem;
+  }
+
+  &__inner {
+    text-align: center;
+    border-radius: 1.5rem;
+    max-width: 89.6rem;
+    background-color: clr(pp-header-bg);
+    background-image: variable(brand-shape);
+    background-repeat: no-repeat;
+    background-position: center 28rem;
+    background-size: 105%;
+
+    @include small {
+      padding: 0 5rem 3rem 5rem;
+    }
+
+    @include medium {
+      padding: 0 6rem 6rem 6rem;
+    }
+
+    @include large {
+      padding: 0 11rem 6rem 11rem;
     }
   }
 
   &__heading {
-    font-size: 6.4rem;
-    line-height: 6.4rem;
     font-family: variable(heading-font);
     color: clr(subcolor-1);
 
-    @media (max-width: 768px) {
+    @include small {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
+
+    @include medium {
       font-size: 5.6rem;
       line-height: 5.6rem;
     }
 
-    @media (max-width: 375px) {
-      font-size: 4rem;
-      line-height: 4rem;
+    @include large {
+      font-size: 6.4rem;
+      line-height: 6.4rem;
     }
   }
 
   &__paragraph {
-    font-size: 1.8rem;
-    line-height: 2.5rem;
     font-family: variable(secondary-font);
     color: clr(subcolor-1);
     margin-bottom: 3.5rem;
 
-    @media (max-width: 768px) {
+    @include medium {
       font-size: 1.6rem;
       line-height: 2.2rem;
+    }
+
+    @include large {
+      font-size: 1.8rem;
+      line-height: 2.5rem;
     }
   }
 
@@ -65,9 +109,14 @@
     font-weight: 600;
     margin-bottom: 3.5rem;
 
-    @media (max-width: 768px) {
+    @include medium {
       font-size: 1.6rem;
       line-height: 2.2rem;
+    }
+
+    @include large {
+      font-size: 1.8rem;
+      line-height: 2.5rem;
     }
   }
 
@@ -75,13 +124,16 @@
   &__bottom-paragraph a {
     color: clr(subcolor-1);
     font-family: variable(secondary-font);
-    font-size: 1.6rem;
-    line-height: 2rem;
     display: inline;
 
-    @media (max-width: 768px) {
+    @include medium {
       font-size: 1.4rem;
       line-height: 1.8rem;
+    }
+
+    @include large {
+      font-size: 1.6rem;
+      line-height: 2rem;
     }
   }
 }
