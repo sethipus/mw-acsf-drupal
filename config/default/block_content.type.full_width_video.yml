@@ -1,0 +1,8 @@
+uuid: c04879b7-1556-4a77-a2b2-823349201272
+langcode: en
+status: true
+dependencies: {  }
+id: full_width_video
+label: 'Full width video'
+revision: 1
+description: 'Full width video - inline component'

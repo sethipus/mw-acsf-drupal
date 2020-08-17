@@ -1,0 +1,19 @@
+uuid: 20843a99-7354-4924-b0fb-98da253dee95
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.inline_image
+    - field.storage.block_content.field_inline_image_description
+id: block_content.inline_image.field_inline_image_description
+field_name: field_inline_image_description
+entity_type: block_content
+bundle: inline_image
+label: 'Image description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
