@@ -7,8 +7,8 @@ dependencies:
   module:
     - node
     - user
-id: product_card
-label: 'Product Card'
+id: grid_card
+label: 'Grid Card'
 module: views
 description: ''
 tag: ''
