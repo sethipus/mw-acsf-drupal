@@ -2,7 +2,6 @@
   &__wrapper {
     min-height: 490px;
     position: relative;
-    background-color: clr(primary);
 
     @include medium {
       min-height: 580px;
@@ -16,6 +15,45 @@
     .ambient-video__control {
       margin-left: 40px;
       z-index: 4;
+    }
+  }
+
+  &__container {
+    #playpause[data-state="play"] {
+      @include playbutton;
+      
+      @include playbutton;
+  
+      width: 60px;
+      height: 60px;
+      left: 10px;
+      bottom: 25px;
+    
+      >div {
+        width: 0;
+        height: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 20px solid clr(player);
+        margin: auto 35%
+      }
+    }
+    
+    #playpause[data-state="pause"] {
+      @include pausebutton;
+    
+      width: 60px;
+      height: 60px;
+      left: 10px;
+      bottom: 30px;
+    
+      >div {
+        width: 14px;
+        height: 18px;
+        border-right: 4px solid clr(text-inverse);
+        border-left: 4px solid clr(text-inverse);
+        margin: auto;
+      }
     }
   }
 

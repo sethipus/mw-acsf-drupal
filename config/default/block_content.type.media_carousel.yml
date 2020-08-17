@@ -1,0 +1,8 @@
+uuid: c3d9f957-4069-464c-8bd4-2ef8cc2bd33d
+langcode: en
+status: true
+dependencies: {  }
+id: media_carousel
+label: 'Media carousel'
+revision: 1
+description: 'Media carousel - inline component'

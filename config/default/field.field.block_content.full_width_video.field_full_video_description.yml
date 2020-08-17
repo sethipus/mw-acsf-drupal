@@ -1,0 +1,19 @@
+uuid: e56e1061-16d3-4489-b165-82577f4a8f4a
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.full_width_video
+    - field.storage.block_content.field_full_video_description
+id: block_content.full_width_video.field_full_video_description
+field_name: field_full_video_description
+entity_type: block_content
+bundle: full_width_video
+label: 'Video description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

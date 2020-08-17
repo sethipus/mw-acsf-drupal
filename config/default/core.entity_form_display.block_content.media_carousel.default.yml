@@ -1,0 +1,32 @@
+uuid: 709bb3c8-27e6-4a30-9028-b73c169e705a
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.media_carousel
+    - field.field.block_content.media_carousel.field_carousel_items
+    - field.field.block_content.media_carousel.field_carousel_title
+  module:
+    - mars_common
+id: block_content.media_carousel.default
+targetEntityType: block_content
+bundle: media_carousel
+mode: default
+content:
+  field_carousel_items:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: carousel_item_default_widget
+    region: content
+  field_carousel_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  info: true
