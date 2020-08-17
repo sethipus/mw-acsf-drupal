@@ -44,7 +44,7 @@
   }
 
 
-  h1 {
+  .recipe-body-content-header {
     margin: 31px 0 13px;
     font: 20px/1.1em variable(primary-font);
     color: clr(subcolor-1);
@@ -63,7 +63,7 @@
     }
   }
 
-  ul {
+  .recipe-body-ingredients-list {
     list-style-position: inside;
     list-style-type: none;
     font: 18px/29px variable(secondary-font);
@@ -77,7 +77,7 @@
       line-height: 36px;
     }
 
-    li {
+    .list-item {
       position: relative;
       text-indent: 16px;
 

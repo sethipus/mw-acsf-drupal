@@ -1,17 +1,9 @@
 <div class="recipe-body-content" data-theme="twix">
-  <h1>ingredients</h1>
-  <ul>
-    <li>3/4 cup butter, melted</li>
-    <li>2 cups light brown sugar</li>
-    <li>3 eggs</li>
-    <li>2 teaspoons vanilla</li>
-    <li>2 teaspoons baking powder</li>
-    <li>1 teaspoon flaked (or coarse) sea salt</li>
-    <li>2 1/2 cup all purpose flour</li>
-    <li>30 mini Twix bars coarsely chopped</li>
-    <li>1 cup semi-sweet chocolate chips</li>
-    <li>Optional – more flaked sea salt for sprinkling</li>
-  </ul>
+  <h1 class="recipe-body-content-header">ingredients</h1>
+  {% include "@atoms/lists/ul.twig" with {
+    ul_items: ingredients_list,
+    ul_base_class: 'recipe-body-ingredients-list'
+  }%}
 </div>
 <div class="product-used" data-theme="twix">
   <div class="product-used__title">{{ products_used }}</div>
@@ -24,12 +16,10 @@
   </div>
 </div>
 <div class="recipe-body-content" data-theme="twix">
-  <h1>Instructions</h1>
-  <ol>
-    <li>Preheat oven to 350°. Line a 9×13 baking pan with foil and coat with nonstick spray. Set aside.</li>
-    <li>In the bowl of your stand mixer fitted with the paddle attachment combine the butter and brown sugar on low speed. Add in the eggs, vanilla, baking powder and salt and mix until smooth.</li>
-    <li>With the mixer still on low add the the flour and mix until just combined.</li>
-    <li>Stir in the Twix and chocolate chips until evenly incorporated.</li>
-  </ol>
+  <h1 class="recipe-body-content-header">Instructions</h1>
+  {% include "@atoms/lists/ol.twig" with {
+    ol_items: instructions_list,
+    ol_base_class: 'recipe-body-instructions-list'
+  }%}
 </div>
 <div class="more-recipes" data-theme="twix">more-recipes</div>
