@@ -1,103 +1,100 @@
-.homepage-hero {
+.homepage-hero-standard {
   &__inner {
     display: flex;
     flex-flow: row wrap;
     min-height: 580px;
+    background-size: cover;
 
-  }
-  &__container--image {
-    position: absolute;
-    right: 0;
-    top:0;
-    object-fit: cover;
-
-     small {
-      width: 212px;
-      right: 50px;
+    @include large {
+      flex-flow: row nowrap;
     }
   }
-
   &__left {
-    flex-grow: 2;
-    background-color: clr(primary);
-    background-size: auto 100%;
-    background-position: right;
-    background-repeat: no-repeat;
-    padding-left: 2.5rem;
-    position: relative;
+    flex-grow: 1;
+    order: 2;
 
-    .eyebrow {
-      font-family: variable(primary-font);
-      font-size: 16px;
-      color: clr(subcolor-3);
-      text-decoration: none;
-      letter-spacing: 1.6px;
-      margin-top: 212px;
-      margin-bottom: 0;
-      padding: 0;
-
-      @include small {
-        margin-top: 154px;
-      }
+    @include large {
+      order: 1;
     }
 
-    .heading {
-      width: 400px;
-      display: block;
-      margin-top: 20px;
-      margin-bottom:0;
-
-      &__link {
-        font-family: variable(heading-font);
+    & .wrapper {
+      & .eyebrow {
+        font-family: variable(primary-font);
+        font-size: 14px;
         color: clr(subcolor-3);
-        font-size: 5.25rem;
-        line-height: 75.6px;
         text-decoration: none;
-        font-weight: 300;
+        letter-spacing: 1.4px;
+      }
 
-        @include small {
+      & .heading {
+        margin: 0;
+        max-width: 70%;
+
+        &__link {
+          font-family: variable(heading-font);
+          color: clr(subcolor-3);
+          text-decoration: none;
+          font-weight: 300;
+          word-wrap: break-spaces;
           font-size: 48px;
           line-height: 43.2px;
-          font-weight: 375;
-          display: inline-block;
-          width: 335px;
+
+          @include large {
+            font-size: 84px;
+            line-height: 75.6px;
+          }
         }
       }
-    }
 
-    .default-link {
-      display: inline-block;
-      margin-top: -60px;
-      background-color: clr(subcolor-2);
-      padding: 0;
-
-      @include small {
-        margin-top: 30px;
-        margin-bottom: 20px;
-      }
-
-      &__label {
+      & .default-link {
+        margin: 30px 0;
+        height: 50px;
+        line-height: 50px;
+        background-color: clr(subcolor-2);
         color: clr(primary);
-        text-transform: uppercase;
-        font-size: 16px;
-        width: 200px;
-        height: 60px;
-        line-height: 60px;
-        text-align: center;
-        display: block;
       }
     }
-
   }
+
   &__right {
     flex-grow: 1;
-    &__wrapper {
-      display: flex;
-      height: 100%;
-      flex-flow: column nowrap;
-      background-repeat: no-repeat;
-      background-position: right center;
-    }
+    order:1;
 
+    @include large {
+      order: 2;
+    }
+  }
+
+  &__container--image {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+
+    & img {
+      width: 173px;
+
+      @include medium {
+        width: 315px;
+        align-items: flex-end;
+      }
+
+      @include large {
+        height: 100%;
+        width: 541px;
+        align-items: flex-end;
+        padding: 0 40px;
+      }
+    }
+  }
+
+  &__container--hero-text {
+    padding: 50px 0 0 20px;
+    position: relative;
+    z-index: 1;
+
+    @include large {
+      padding: 150px 0 0 20px;
+    }
   }
 }
