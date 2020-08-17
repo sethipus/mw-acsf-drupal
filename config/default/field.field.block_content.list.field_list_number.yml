@@ -1,0 +1,25 @@
+uuid: fa95f7fc-7e2c-4c5b-86bd-33cfb962c1f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.list
+    - field.storage.block_content.field_list_number
+id: block_content.list.field_list_number
+field_name: field_list_number
+entity_type: block_content
+bundle: list
+label: 'List number'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
