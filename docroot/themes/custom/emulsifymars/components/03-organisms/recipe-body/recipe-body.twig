@@ -1,5 +1,5 @@
 <div class="recipe-body-content" data-theme="twix">
-  <h1 class="recipe-body-content-header">ingredients</h1>
+  <h1 class="recipe-body-content-header">{{ "ingredients" | t }}</h1>
   {% include "@atoms/lists/ul.twig" with {
     ul_items: ingredients_list,
     ul_base_class: 'recipe-body-ingredients-list'
@@ -16,7 +16,7 @@
   </div>
 </div>
 <div class="recipe-body-content" data-theme="twix">
-  <h1 class="recipe-body-content-header">Instructions</h1>
+  <h1 class="recipe-body-content-header">{{ "Instructions" | t }}</h1>
   {% include "@atoms/lists/ol.twig" with {
     ol_items: instructions_list,
     ol_base_class: 'recipe-body-instructions-list'
