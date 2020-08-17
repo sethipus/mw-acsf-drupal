@@ -76,7 +76,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
  *   An associative array containing:
  *   - element: A render element representing the carousel item field widget.
  */
-function template_preprocess_carousel_item_widget(array &$variables) {
+function mars_common_preprocess_carousel_item_widget(array &$variables) {
   $element = $variables['element'];
 
   $variables['attributes'] = [
@@ -93,4 +93,25 @@ function template_preprocess_carousel_item_widget(array &$variables) {
     $variables['data'][$child] = $element[$child];
   }
 
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__media_carousel(array &$variables) {
+  $field_carousel_title = $variables['content']['field_carousel_title'];
+  $field_carousel_items = $variables['content']['field_carousel_items'];
+
+  $media_items = [];
+  foreach ($field_carousel_items as $item_key => $item_value) {
+    if (is_numeric($item_key)) {
+      $media_items[] = [
+        'src' => $item_value['#item_url']->getUri(),
+        'description' => $item_value['#item_description'],
+      ];
+    }
+  }
+
+  $variables['title'] = $field_carousel_title['#items'][0]->value;
+  $variables['items'] = $media_items;
 }
