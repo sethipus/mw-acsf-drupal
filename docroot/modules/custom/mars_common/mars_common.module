@@ -54,9 +54,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'items' => [],
       ],
     ],
-    'product_card_block' => [
-      'variables' => [],
-    ],
     'parent_page_header_block' => [
       'variables' => [
         'eyebrow' => NULL,
