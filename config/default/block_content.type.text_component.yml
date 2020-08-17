@@ -1,0 +1,8 @@
+uuid: a98c76c2-f052-44a2-96aa-6a49fda515fe
+langcode: en
+status: true
+dependencies: {  }
+id: text_component
+label: 'Text component'
+revision: 1
+description: 'Text component - inline text component'

@@ -9,6 +9,7 @@ module.exports = api => {
         useBuiltIns: 'usage',
       },
     ],
+    '@babel/preset-react',
     'minify',
   ];
 

@@ -1,0 +1,82 @@
+.product-card {
+  border-radius: 20px;
+  width: 315px;
+  height: 520px;
+  //background-color: clr(secondary);
+  transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
+  background-image: radial-gradient(circle at 50% 40%, clr(text-inverse) 10%, clr(secondary));
+
+  img {
+    transition: transform 0.8s;
+  }
+
+  &:hover {
+    background-image: radial-gradient(circle at 50% 50%, clr(primary), clr(primary));
+    transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
+
+    p, a {
+      color: clr(text-inverse);
+    }
+
+    img {
+      transform: scale(1.1);
+      transition: transform 0.8s;
+    }
+
+  }
+
+  &__image {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    padding: 40px;
+    min-height: 235px;
+    min-width: 235px;
+    height: 255px;
+    width: 255px;
+  }
+
+  &__title {
+    font-size: 2.2rem;
+    font-family: variable(primary-font);
+    max-width: 75%;
+    margin: 2rem auto 0;
+
+    p {
+      max-width: 255px;
+      color: clr(subcolor-1);
+    }
+
+  }
+
+  &__link_section {
+    display: flex;
+    flex-direction: row;
+    padding-top: 3rem;
+  }
+
+  &__button{
+    position: relative;
+    left: -1rem;
+    a {
+      padding: 1rem 2rem;
+      line-height: 3rem;
+      font-size: 1.4rem;
+    }
+
+    &:hover {
+      a {
+        color: clr(subcolor-1);
+      }
+    }
+  }
+
+  & .text_link{
+      padding: 1.5rem 2rem;
+      line-height: 5rem;
+      font-size: 1.4rem;
+      text-decoration: none;
+      font-weight: bold;
+  }
+
+}

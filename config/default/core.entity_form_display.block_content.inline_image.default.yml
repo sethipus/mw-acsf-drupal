@@ -1,0 +1,64 @@
+uuid: 4fe378e0-69fe-48b9-bc47-94bb0e952a0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.inline_image
+    - entity_browser.browser.image_browser
+    - field.field.block_content.inline_image.field_inline_image_description
+    - field.field.block_content.inline_image.field_inline_image_file
+    - field.field.block_content.inline_image.field_inline_image_svg_asset
+    - field.field.block_content.inline_image.field_inline_image_title
+  module:
+    - entity_browser
+id: block_content.inline_image.default
+targetEntityType: block_content
+bundle: inline_image
+mode: default
+content:
+  field_inline_image_description:
+    weight: 28
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_inline_image_file:
+    type: entity_browser_file
+    weight: 27
+    settings:
+      entity_browser: image_browser
+      field_widget_edit: true
+      field_widget_remove: true
+      view_mode: default
+      preview_image_style: thumbnail
+      open: true
+      field_widget_replace: false
+      selection_mode: selection_append
+    region: content
+    third_party_settings: {  }
+  field_inline_image_svg_asset:
+    weight: 29
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_inline_image_title:
+    weight: 26
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  info:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }
