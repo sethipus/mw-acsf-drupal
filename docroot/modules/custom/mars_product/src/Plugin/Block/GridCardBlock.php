@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_common\Plugin\Block;
+namespace Drupal\mars_product\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @Block(
  *   id = "grid_card",
  *   admin_label = @Translation("MARS: Grid Card"),
- *   category = @Translation("Mars Common")
+ *   category = @Translation("Mars Product")
  * )
  */
 class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface {
