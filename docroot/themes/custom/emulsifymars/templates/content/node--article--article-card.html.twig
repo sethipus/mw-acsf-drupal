@@ -5,7 +5,7 @@
  */
 #}
 
-{% set background_img = content.field_article_image[0]['#media'].image.entity.fileuri %}
+{% set background_img = file_url(content.field_article_image[0]['#media'].image.entity.fileuri) %}
 
 {% include "@molecules/article-card/article-card.twig" with {
   article_card_background_img_url: background_img,
