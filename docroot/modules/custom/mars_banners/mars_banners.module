@@ -61,7 +61,7 @@ function mars_banners_process_image_widget(array &$element, FormStateInterface $
     $file_variables['height'] = $element['#value']['height'];
   }
   else {
-    $image = \Drupal::service('image.factory')->get($file->getFileUri());
+    $image = Drupal::service('image.factory')->get($file->getFileUri());
     if ($image->isValid()) {
       $file_variables['width'] = $image->getWidth();
       $file_variables['height'] = $image->getHeight();

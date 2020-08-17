@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
+use Drupal;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -99,7 +100,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
-    \Drupal::setContainer($this->containerMock);
+    Drupal::setContainer($this->containerMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())
