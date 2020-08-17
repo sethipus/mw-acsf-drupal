@@ -84,6 +84,37 @@
     img {
       width: 100%;
     }
+
+    #fullscreen-play[data-state="play"] {
+      top: calc(50% - 7rem / 2);;
+      left: calc(50% - 6.6rem / 2);;
+      width: 6.6rem;
+      height: 7rem;
+      background-color: clr(text-inverse);  
+
+      @include clearfix;
+
+      @include playbutton;
+
+      >div {
+        width: 0;
+        height: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 20px solid clr(player);
+        margin: auto 35%
+      }
+    }
+
+    .fullscreen-video__main {
+      width: 100%;
+    }
+
+    .fullscreen-video svg {
+      position: absolute;
+      bottom: 2px;
+    }
+    
   }
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
@@ -106,19 +137,20 @@
     background-color: clr(text-inverse);
     border-radius: 50%;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-    width: 7rem;
-    height: 7rem;
-    top: 90%;
+    width: 5.5rem;
+    height: 5.5rem;
+    top: 85%;
 
-    @media (max-width: 768px) {
+    @include small {
       width: 6rem;
       height: 6rem;
     }
 
-    @media (max-width: 375px) {
-      width: 5.5rem;
-      height: 5.5rem;
-    }
+    @include medium {
+      width: 7rem;
+      height: 7rem;
+      top: 88%;
+      }
 
     &.swiper-button-disabled {
       opacity: 0;
