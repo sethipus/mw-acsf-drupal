@@ -1,0 +1,8 @@
+uuid: c6c2bee5-2a82-4acd-905f-e4f33e644f63
+langcode: en
+status: true
+dependencies: {  }
+id: inline_image
+label: 'Inline image'
+revision: 1
+description: 'Inline image - inline component'
