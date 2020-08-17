@@ -18,7 +18,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  *   admin_label = @Translation("Recipe detail hero"),
  *   category = @Translation("Hero"),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label = @Translation("Recipe"))
+ *     "node" = @ContextDefinition("entity:node", label =
+ *   @Translation("Recipe"))
  *   }
  * )
  *
@@ -58,7 +59,28 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    */
   public function build() {
     $node = $this->getContextValue('node');
-    return $this->viewBuilder->view($node, 'teaser');
+
+    $build = [
+      '#label' => $node->label(),
+      '#description' => $node->field_recipe_description->value,
+      '#cooking_time' => $node->field_recipe_cooking_time->value,
+      '#ingredients_number' => $node->field_recipe_ingredients_number->value,
+      '#number_of_servings' => $node->field_recipe_number_of_servings->value,
+      '#image' => [
+        'label' => $node->field_recipe_image->entity->label(),
+        'url' => $node->field_recipe_image->entity->image->entity->createFileUrl(),
+      ],
+      '#theme' => 'recipe_detail_hero_block',
+    ];
+
+    if ($node->hasField('field_recipe_video') && $node->field_recipe_video->entity) {
+      $build['#video'] = [
+        'url' => $node->field_recipe_video->entity->video->entity->createFileUrl(),
+      ];
+    }
+
+    // TODO Add social share block.
+    return $build;
   }
 
   /**

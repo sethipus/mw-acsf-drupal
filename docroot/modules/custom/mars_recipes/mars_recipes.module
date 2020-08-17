@@ -12,14 +12,14 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
   return [
     'recipe_detail_hero_block' => [
       'variables' => [
-        'title' => NULL,
-        'image' => NULL,
-        'video' => NULL,
+        'label' => NULL,
+        'description' => NULL,
         'cooking_time' => NULL,
         'ingredients_number' => NULL,
-        'description' => NULL,
+        'number_of_servings' => NULL,
+        'image' => NULL,
+        'video' => NULL,
         'social_links' => NULL,
-        'alert_banner' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
     ],
