@@ -1,71 +1,53 @@
 .recipe-detail {
-  display: grid;
-  grid-template-rows: repeat(auto-fill, auto);
-  grid-template-columns: repeat(12, 1fr);
-  grid-column-gap: 30px;
-  max-width: 1360px;
-  margin: auto;
+  @include xl {
+    display: grid;
+    grid-template-rows: repeat(auto-fill, auto);
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: 30px;
+    max-width: 1360px;
+    margin: auto;
+  }
 
   .recipe-media {
-    grid-column: span 12;
-    margin: 0;
+    @include xl {
+      grid-column: span 12;
+      margin: 0;
+    }
   }
 
   .recipe-header,
   .more-recipes {
-    grid-column: span 12;
-    width: 100vw;
-    margin-left: calc((100% - 100vw) / 2);
+    @include xl {
+      grid-column: span 12;
+      width: 100vw;
+      margin-left: calc((100% - 100vw) / 2);
+    }
   }
 
   .recipe-info {
+    @include xl {
+      grid-column: 2 / span 6;
+      width: auto;
+      margin-left: auto;
+    }
+  }
+
+  .product-used {
+    @include xl {
+      grid-column: 9 / span 3;
+      grid-row: 3;
+    }
+  }
+
+  .product-used-items {
+    width: 100%;
+
+    @include xl {
+      position: absolute;
+    }
+  }
+
+  .recipe-body-content {
     grid-column: 2 / span 6;
-    width: auto;
-    margin-left: auto;
   }
-}
-
-.product-used {
-  grid-column: 2 / span 6;
-  padding-top: 60px;
-  position: relative;
-
-  @include large {
-    grid-column: 9 / span 3;
-  }
-
-  &__title {
-    font: 28px/30px variable(primary-font);
-    color: clr(subcolor-1);
-    text-transform: capitalize;
-    letter-spacing: 1px;
-    margin-bottom: 30px;
-  }
-}
-
-.product-used-items {
-  position: absolute;
-  width: 100%;
-}
-
-.product-used-item {
-  height: 520px;
-  border-radius: 20px;
-  background-image: radial-gradient(circle at 50% 50%, clr(subcolor-2), clr(secondary));
-}
-
-.ingredients,
-.instructions {
-  grid-column: 2 / span 6;
-}
-
-/* body styles */
-
-.ingredients__title,
-.instructions__title {
-  margin-top: 60px;
-  font: 28px/31px variable(primary-font);
-  color: clr(subcolor-1);
-  text-transform: capitalize;
-  letter-spacing: 1.12px;
 }

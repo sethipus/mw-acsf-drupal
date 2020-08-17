@@ -1,0 +1,6 @@
+bg_video_preload: 'auto'
+bg_video_width: '100%'
+bg_video_muted: true
+bg_video_autoplay: true
+bg_video_src: 'http://media.w3.org/2010/05/sintel/trailer.mp4'
+bg_video_type: 'video/mp4'

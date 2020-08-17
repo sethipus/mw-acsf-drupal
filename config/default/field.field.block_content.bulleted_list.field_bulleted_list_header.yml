@@ -1,0 +1,19 @@
+uuid: f2772a46-a2b0-49f3-8c4c-8830e5249822
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.bulleted_list
+    - field.storage.block_content.field_bulleted_list_header
+id: block_content.bulleted_list.field_bulleted_list_header
+field_name: field_bulleted_list_header
+entity_type: block_content
+bundle: bulleted_list
+label: Header
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

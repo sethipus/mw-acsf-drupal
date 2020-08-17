@@ -1,0 +1,25 @@
+<div class="recipe-body-content" data-theme="twix">
+  <h1 class="recipe-body-content-header">ingredients</h1>
+  {% include "@atoms/lists/ul.twig" with {
+    ul_items: ingredients_list,
+    ul_base_class: 'recipe-body-ingredients-list'
+  }%}
+</div>
+<div class="product-used" data-theme="twix">
+  <div class="product-used__title">{{ products_used }}</div>
+  <div class="product-used-items">
+    {% for item in product_used_items %}
+      <div class="product-used-item">
+        {% include "@molecules/card/product-card/product-card.twig" %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="recipe-body-content" data-theme="twix">
+  <h1 class="recipe-body-content-header">Instructions</h1>
+  {% include "@atoms/lists/ol.twig" with {
+    ol_items: instructions_list,
+    ol_base_class: 'recipe-body-instructions-list'
+  }%}
+</div>
+<div class="more-recipes" data-theme="twix">more-recipes</div>
