@@ -1,3 +1,5 @@
+{{ attach_library('emulsifymars/entry-gate') }}
+
 {% set entry_gate_base_class = 'entry-gate' %}
 {% set entry_gate_heading_base_class = entry_gate_heading_base_class|default('entry-gate__heading') %}
 {% set entry_gate_paragraph_base_class = entry_gate_paragraph_base_class|default('entry-gate__paragraph') %}
@@ -36,11 +38,15 @@
       entry_gate_form_error_message: entry_gate_form_error_message
     } %}
 
-    {% include "@atoms/text/text/01-paragraph.twig" with {
+    {% embed "@atoms/text/text/01-paragraph.twig" with {
       paragraph_size: entry_gate_bottom_paragraph_size,
-      paragraph_content: entry_gate_bottom_paragraph_content,
+
       paragraph_base_class: entry_gate_bottom_paragraph_base_class
     } %}
+      {% block paragraph_content %}
+        {{ entry_gate_bottom_paragraph_content | raw }}
+      {% endblock %}
+    {% endembed %}
   </section>
 
   <section class="entry-gate__error">
