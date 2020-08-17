@@ -1,4 +1,11 @@
 {% set entry_gate_base_class = 'entry-gate' %}
+{% set entry_gate_heading_base_class = entry_gate_heading_base_class|default('entry-gate__heading') %}
+{% set entry_gate_paragraph_base_class = entry_gate_paragraph_base_class|default('entry-gate__paragraph') %}
+{% set entry_gate_eyebrow_base_class = entry_gate_eyebrow_base_class|default('entry-gate__eyebrow') %}
+{% set entry_gate_bottom_paragraph_base_class = entry_gate_bottom_paragraph_base_class|default('entry-gate__bottom-paragraph') %}
+{% set entry_gate_error_heading_base_class = entry_gate_heading_base_class|default('entry-gate__heading') %}
+{% set entry_gate_error_paragraph_base_class = entry_gate_paragraph_base_class|default('entry-gate__paragraph') %}
+{% set entry_gate_error_link_base_class = entry_gate_error_link_base_class|default('entry-gate__error-link') %}
 
 <div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme={{product}}>
   <section class="entry-gate__inner">
@@ -52,14 +59,14 @@
     <hr class="entry-gate__separator-line"/>
 
     {% include "@atoms/links/link/link.twig" with {
-      link_base_class: entry_gate_error_top_link_base_class,
+      link_base_class: entry_gate_error_link_base_class,
       link_content: entry_gate_error_top_link_content ~ " >",
       link_url: entry_gate_error_top_link_url,
       link_attributes: entry_gate_error_top_link_attributes
     } %}
 
     {% include "@atoms/links/link/link.twig" with {
-      link_base_class: entry_gate_error_bottom_link_base_class,
+      link_base_class: entry_gate_error_link_base_class,
       link_content: entry_gate_error_bottom_link_content ~ " >",
       link_url: entry_gate_error_bottom_link_url,
       link_attributes: entry_gate_error_bottom_link_attributes

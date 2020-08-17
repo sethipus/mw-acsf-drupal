@@ -16,6 +16,10 @@
     padding: 0 11rem 6rem 11rem;
     max-width: 89.6rem;
     background-color: clr(pp-header-bg);
+    background-image: variable(brand-shape);
+    background-repeat: no-repeat;
+    background-position: center 28rem;
+    background-size: 105%;
   }
 
   &.age-error {

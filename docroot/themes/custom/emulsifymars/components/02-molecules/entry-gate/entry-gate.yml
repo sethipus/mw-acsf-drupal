@@ -1,13 +1,10 @@
 entry_gate_heading: 'Our promise'
 entry_gate_heading_level: 2
-entry_gate_heading_base_class: 'entry-gate__heading'
 
 entry_gate_paragraph_size: 'large'
 entry_gate_paragraph_content: 'As a responsible manufacturer and in accordance with our marketing code, we have to check your age at this point.'
-entry_gate_paragraph_base_class: 'entry-gate__paragraph'
 
 entry_gate_eyebrow_text: 'Please confirm your date of birth: '
-entry_gate_eyebrow_base_class: 'entry-gate__eyebrow'
 
 entry_gate_form_submit_text: 'Submit'
 entry_gate_form_day_placeholder: 'DD'
@@ -16,7 +13,6 @@ entry_gate_form_year_placeholder: 'YYYY'
 
 entry_gate_bottom_paragraph_size: 'large'
 entry_gate_bottom_paragraph_content: 'For more information about responsible use of our products, please follow the link to the <a href="https://twix.de/assets/media/Mars-Code.pdf">Mars Marketing Code</a>.'
-entry_gate_bottom_paragraph_base_class: 'entry-gate__bottom-paragraph'
 
 entry_gate_form_error_message: 'Please check your details!'
 
@@ -26,19 +22,15 @@ product: 'twix'
 
 entry_gate_error_heading: 'We are sorry'
 entry_gate_error_heading_level: 2
-entry_gate_error_heading_base_class: 'entry-gate__heading'
 
 entry_gate_error_paragraph_size: 'large'
 entry_gate_error_paragraph_content: 'Our marketing code states that you are not authorized to access the content you requested. Unfortunately, you cannot view the additional content in this section of the website.'
-entry_gate_error_paragraph_base_class: 'entry-gate__paragraph'
 
-entry_gate_error_top_link_base_class: 'entry-gate__error-link'
 entry_gate_error_top_link_content: 'More information about the mars marketing code'
 entry_gate_error_top_link_url: 'https://storybook.js.org/'
 entry_gate_error_top_link_attributes:
   target: '_blank'
 
-entry_gate_error_bottom_link_base_class: 'entry-gate__error-link'
 entry_gate_error_bottom_link_content: 'Imprint'
 entry_gate_error_bottom_link_url: 'https://storybook.js.org/'
 entry_gate_error_bottom_link_attributes:
