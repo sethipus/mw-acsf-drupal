@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Template for the article card component.
+ */
+#}
+
+{% set background_img = content.field_article_image[0]['#media'].image.entity.fileuri %}
+
+{% include "@molecules/article-card/article-card.twig" with {
+  article_card_background_img_url: background_img,
+
+  article_card_heading: content.field_article_image['#object'].title.value,
+  article_card_heading_level: 3,
+  article_card_heading_base_class: 'article-card-heading',
+
+  article_card_text: elements['#node'].field_article_description.value,
+  article_card_button_text: '',
+  article_card_paragraph_base_class: 'article-card-paragraph',
+  article_card_paragraph_size: 'large',
+  article_card_paragraph_modifiers: ['xs'],
+
+  article_card_button_modifiers: ['small'],
+  article_card_button_text: 'EXPLORE'
+} %}
