@@ -1,14 +1,7 @@
-{% set article_header = 'article-header' %}
+{% set article_header = 'article-header-image' %}
 
 <div {{ bem(article_header) }} data-theme="{{ theme_styles }}">
-  {% if image %}
-    <div {{ bem('inner', ['image'], article_header) }}>
-  {% else %}
-    <div {{ bem('inner', ['no-image'], article_header) }} style="background-image:url('{{ shape }}');">
-  {% endif %}
-
-  <div {{ bem('inner', [], article_header) }}>
-    {% if image %}
+    <div {{ bem('inner', [], article_header) }}>
       <div {{ bem('image', [], article_header) }}>
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
@@ -20,9 +13,10 @@
           image_src: image.0.src,
           responsive_image_blockname: image.0.class,
         } %}
-        <div class="curve" style="background-image:url('{{ curve }}');"></div>
+        <div class="curve">
+          {{ shape }}
+        </div>
       </div>
-    {% endif %}
 
     <div {{ bem('text_wrapper', [], article_header) }}>
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
@@ -76,12 +70,7 @@
           link_base_class: 'download-link'
         }
         %}
-
-
       </div>
     </div>
-    {% if image is empty %}
-      <div class="curve" style="background-image:url('{{ curve }}');"></div>
-    {% endif %}
   </div>
 </div>

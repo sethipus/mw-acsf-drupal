@@ -1,0 +1,63 @@
+{% set article_header = 'article-header-noimage' %}
+
+<div {{ bem(article_header) }} data-theme="{{ theme_styles }}">
+    <div {{ bem('inner', [], article_header) }}>
+        <div {{ bem('text_wrapper', ['noimage'], article_header) }}>
+      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+        eyebrow_text: eyebrow
+      } %}
+
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 2,
+        heading: heading,
+        heading_base_class:'heading'
+      }
+      %}
+
+      {% include "@atoms/text/text/07-span.twig" with {
+        span_base_class: 'published',
+        span_content: date_published
+      }
+      %}
+
+      <div class="share-block">
+        {% include "@atoms/text/text/07-span.twig" with {
+          span_base_class: 'share-text',
+          span_content: share_text
+        }
+        %}
+
+        {% include "@atoms/links/link/link.twig" with {
+          link_content: '<i class="icon-pinterest" aria-hidden="true"></i>',
+          link_url: '#',
+          link_base_class: 'pinterest-link'
+        }
+        %}
+
+        {% include "@atoms/links/link/link.twig" with {
+          link_content: '<i class="icon-facebook" aria-hidden="true"></i>',
+          link_url: '#',
+          link_base_class: 'facebook-link'
+        }
+        %}
+
+        {% include "@atoms/links/link/link.twig" with {
+          link_content: '<i class="icon-twitter" aria-hidden="true"></i>',
+          link_url: '#',
+          link_base_class: 'twitter-link'
+        }
+        %}
+
+        {% include "@atoms/links/link/link.twig" with {
+          link_content: '<i class="icon-pinterest" aria-hidden="true"></i>',
+          link_url: '#',
+          link_base_class: 'download-link'
+        }
+        %}
+      </div>
+    </div>
+    <div class="curve">
+      {{ shape }}
+    </div>
+    </div>
+</div>

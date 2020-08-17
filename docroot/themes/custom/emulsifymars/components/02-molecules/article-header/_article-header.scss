@@ -1,138 +1,177 @@
-.article-header {
-  background-color: clr(subcolor-3);
+.article-header-image, .article-header-noimage {
   font-family: variable(primary-font);
   color: clr(primary);
+  background-color: clr(subcolor-3);
 
-  &__inner--no-image {
+    &__text_wrapper {
+      width: 90%;
+      margin: 0 auto;
+
+      @include large {
+        width: 70%;
+        padding-top: 0;
+        padding-bottom: 96px;
+      }
+
+      & .heading {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 28px;
+        line-height: 100%;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+
+        @include large {
+          font-size: 48px;
+        }
+      }
+
+
+      & .eyebrow {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 16px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: clr(primary);
+      }
+
+      & .published {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 140%;
+        margin-bottom: 40px;
+        display: block;
+      }
+
+      & .share-block {
+        padding-top: 42.2px;
+        padding-bottom: 62.2px;
+        border-top: 1px solid rgba(196, 196, 196, .6);
+
+        & .share-text {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 18px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+
+          @include large {
+            font-size: 20px;
+            line-height: 22px;
+          }
+        }
+
+        a {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          margin: 0 15px;
+
+          &.pinterest-link {
+            background-image: url('../images/pinterest.svg');
+            background-repeat: no-repeat;
+            background-position: center center;
+          }
+
+          &.facebook-link {
+            background-image: url('../images/facebook.svg');
+            background-repeat: no-repeat;
+            background-position: center center;
+          }
+
+          &.twitter-link {
+            background-image: url('../images/twitter.svg');
+            background-repeat: no-repeat;
+            background-position: center center;
+          }
+
+          &.download-link {
+            background-image: url('../images/download.svg');
+            background-repeat: no-repeat;
+            background-position: center center;
+          }
+        }
+
+      }
+
+
+    }
+}
+
+.article-header-image {
+  font-family: variable(primary-font);
+
+    &__image {
+      position: relative;
+
+      & .curve {
+        position: absolute;
+        width: 100%;
+        height: auto;
+        z-index: 2;
+        bottom: -5px;
+
+        svg {
+          path {
+            fill: clr(subcolor-3);
+            width: 100%;
+          }
+          rect {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+}
+
+.article-header-noimage {
+  font-family: variable(primary-font);
+
+  &__inner {
     position: relative;
     background-position: right top;
     background-repeat: no-repeat;
-    background-size: 50% auto;
-    padding-top: 120px;
+    background-size: 60% auto;
 
     @include medium {
       background-size: 40% auto;
     }
 
     @include large {
-      background-size: 30% auto;
+      background-size: 38% auto;
     }
 
     .curve {
       position: absolute;
       width: 100%;
-      height: 96px;
+      height: auto;
+      z-index: 2;
       bottom: -5px;
-      background-size: 100%;
-      background-repeat-x: no-repeat;
-      background-repeat-y: no-repeat;
-      background-position: bottom center;
-    }
 
-  }
+      svg {
+        path {
+          fill: clr(secondary);
+          width: 100%;
+        }
 
-  & .heading {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 100%;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-
-    @include large {
-      font-size: 48px;
+        rect {
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
   }
 
   &__text_wrapper {
-    width: 90%;
-    margin: 0 auto;
-    margin-top: 20px;
+    padding-top: 30px;
 
-      @include large {
-        width: 70%;
-      }
-
-    & .eyebrow {
-      font-style: normal;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 16px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: clr(primary);
-    }
-
-    & .published {
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 140%;
-      margin-bottom: 40px;
-      display: block;
-    }
-
-    & .share-block {
-      padding-top: 42.2px;
-      padding-bottom: 62.2px;
-      border-top: 1px solid rgba(196, 196, 196, .6);
-
-      & .share-text {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 22px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-      }
-
-      a {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        margin: 0 15px;
-
-        &.pinterest-link {
-          background-image: url('../images/pinterest.svg');
-          background-repeat: no-repeat;
-          background-position: center center;
-        }
-
-        &.facebook-link {
-          background-image: url('../images/facebook.svg');
-          background-repeat: no-repeat;
-          background-position: center center;
-        }
-
-        &.twitter-link {
-          background-image: url('../images/twitter.svg');
-          background-repeat: no-repeat;
-          background-position: center center;
-        }
-
-        &.download-link {
-          background-image: url('../images/download.svg');
-          background-repeat: no-repeat;
-          background-position: center center;
-        }
-      }
-
-    }
-  }
-
-  &__image {
-    position: relative;
-    overflow: hidden;
-
-   & .curve {
-      position: absolute;
-      width: 100%;
-      height: 96px;
-      bottom: -5px;
-      background-size: 100%;
-      background-repeat-x: no-repeat;
-      background-repeat-y: no-repeat;
-      background-position: bottom center;
+    @include large {
+      padding-top: 120px;
     }
   }
 
