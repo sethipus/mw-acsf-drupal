@@ -373,7 +373,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
-    $this->setConfiguration($form_state->getValues());
+    $values = $form_state->getValues();
+    unset($values['card']['add_card']);
+    $this->setConfiguration($values);
   }
 
 }
