@@ -90,9 +90,20 @@
       left: calc(50% - 6.6rem / 2);;
       width: 6.6rem;
       height: 7rem;
-      background-color: clr(text-inverse);
+      background-color: clr(text-inverse);  
 
       @include clearfix;
+
+      @include playbutton;
+
+      >div {
+        width: 0;
+        height: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 20px solid clr(player);
+        margin: auto 35%
+      }
     }
 
     .fullscreen-video__main {

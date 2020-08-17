@@ -8,8 +8,8 @@ import fullscreenVideoData from './fullscreen-video/video.yml';
 import video from './video-frame/video.twig';
 import videoData from './video-frame/video.yml';
 import videoFullData from './video-frame/video-full.yml';
-import backgroundVideo from './background-video.twig';
-import backgroundVideoData from './background-video.yml';
+import backgroundVideo from './background-video/background-video.twig';
+import backgroundVideoData from './background-video/background-video.yml';
 
 import './ambient-video/video';
 import './fullscreen-video/video';

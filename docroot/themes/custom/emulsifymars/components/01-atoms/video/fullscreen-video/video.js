@@ -15,7 +15,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
       return;
     }
     video.controls = false;
-    video.muted = true;
+    video.muted = false;
 
     // Hide the default controls
     video.controls = false;
@@ -90,6 +90,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         else if (document.msExitFullscreen) document.msExitFullscreen();
         videoControls.setAttribute('data-state', 'hidden');
         fullscreenPlay.setAttribute('data-state', 'play');
+        video.pause();
         setFullscreenData(false);
       } else {
         // ...otherwise enter fullscreen mode
