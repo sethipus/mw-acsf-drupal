@@ -25,29 +25,48 @@
     } %}
   {% endblock %}
   <div class="recipe-media__info">
+    {% block footer__brand_border %}
+      {% include "@atoms/images/image/background-image.twig" with {
+        image_src: 'twix-border-white.svg',
+        background_repeat: 'repeat',
+        height: '50px',
+      } %}
+    {% endblock %}
     <div class="recipe-details">
       <div class="recipe-details-item">
-        {% include "@atoms/images/image/_image.twig" with {
-          image_src: icon_clock,
-        } %}
+        <div class="recipe-details-item__icon-container">
+          {% include "@atoms/images/image/_image.twig" with {
+            image_base_class: 'recipe-details-item__icon',
+            image_modifiers: ['clock'],
+            image_src: icon_clock,
+          } %}
+        </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">Time</div>
           <div class="recipe-details-item__value">{{ recipe_cooking_time }} mins</div>
         </div>
       </div>
       <div class="recipe-details-item">
-        {% include "@atoms/images/image/_image.twig" with {
-          image_src: icon_ingredients,
-        } %}
+        <div class="recipe-details-item__icon-container">
+          {% include "@atoms/images/image/_image.twig" with {
+            image_base_class: 'recipe-details-item__icon',
+            image_modifiers: ['ingredients'],
+            image_src: icon_ingredients,
+          } %}
+        </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">Ingredients</div>
           <div class="recipe-details-item__value">{{ recipe_ingredients_number }} items</div>
         </div>
       </div>
       <div class="recipe-details-item">
-        {% include "@atoms/images/image/_image.twig" with {
-          image_src: icon_makes,
-        } %}
+        <div class="recipe-details-item__icon-container">
+          {% include "@atoms/images/image/_image.twig" with {
+            image_base_class: 'recipe-details-item__icon',
+            image_modifiers: ['makes'],
+            image_src: icon_makes,
+          } %}
+        </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">Makes</div>
           <div class="recipe-details-item__value">{{ recipe_number_of_servings }} servings</div>
