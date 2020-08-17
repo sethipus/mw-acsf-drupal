@@ -9,6 +9,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class RecipeDetailHero.
@@ -35,11 +36,19 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $viewBuilder;
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -50,7 +59,8 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('config.factory')
     );
   }
 
@@ -63,9 +73,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build = [
       '#label' => $node->label(),
       '#description' => $node->field_recipe_description->value,
-      '#cooking_time' => $node->field_recipe_cooking_time->value,
-      '#ingredients_number' => $node->field_recipe_ingredients_number->value,
-      '#number_of_servings' => $node->field_recipe_number_of_servings->value,
+      '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
+      '#ingredients_number' => $node->field_recipe_ingredients_number->value . $node->get('field_recipe_ingredients_number')->getSettings()['suffix'],
+      '#number_of_servings' => $node->field_recipe_number_of_servings->value . $node->get('field_recipe_number_of_servings')->getSettings()['suffix'],
       '#image' => [
         'label' => $node->field_recipe_image->entity->label(),
         'url' => $node->field_recipe_image->entity->image->entity->createFileUrl(),
@@ -79,7 +89,8 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       ];
     }
 
-    // TODO Add social share block.
+    $build['#social_links'] = $this->socialLinks();
+
     return $build;
   }
 
@@ -88,6 +99,38 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    */
   protected function blockAccess(AccountInterface $account) {
     return AccessResult::allowedIf($this->getContextValue('node')->bundle() == 'recipe');
+  }
+
+  /**
+   * Prepare social links data.
+   *
+   * @return array
+   *   Rendered menu.
+   */
+  protected function socialLinks() {
+    global $base_url;
+    $social_menu_items = [];
+    $social_medias = $this->configFactory->get('social_media.settings')
+      ->get('social_media');
+
+    foreach ($social_medias as $name => $social_media) {
+      if ($social_media['enable'] != 1 || empty($social_media['api_url'])) {
+        continue;
+      }
+      $social_menu_items[$name]['title'] = $social_media['text'];
+      $social_menu_items[$name]['url'] = $social_media['api_url'];
+      $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
+
+      if (isset($social_media['default_img']) && $social_media['default_img']) {
+        $icon_path = $base_url . '/' . drupal_get_path('module', 'social_media') . '/icons/';
+        $social_menu_items[$name]['icon'] = $icon_path . $name . '.svg';
+      }
+      elseif (!empty($social_media['img'])) {
+        $social_menu_items[$name]['icon'] = $base_url . '/' . $social_media['img'];
+      }
+    }
+
+    return $social_menu_items;
   }
 
 }
