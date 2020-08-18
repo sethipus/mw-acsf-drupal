@@ -1,12 +1,12 @@
 {% set related_recipes__base_class = 'related-recipes' %}
 
 <section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}">
-
-  {% include "@organisms/grid/grid.twig" with {
-    grid_label: grid_label,
-    grid_type: grid_type,
-    item_type: item_type,
-    items: items
-  } %}
-
+  <div class="wrapper">
+    {% include "@organisms/grid/grid.twig" with {
+      grid_label: grid_label,
+      grid_type: grid_type,
+      item_type: item_type,
+      items: items
+    } %}
+  </div>
 </section>
