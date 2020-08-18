@@ -74,6 +74,17 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media_type' => NULL,
       ],
     ],
+    'product_feature_block' => [
+      'variables' => [
+        'eyebrow' => NULL,
+        'label' => NULL,
+        'background_color' => NULL,
+        'image' => NULL,
+        'explore_cta' => NULL,
+        'explore_cta_link' => NULL,
+      ],
+      'template' => 'product-feature-block',
+    ],
   ];
 }
 
