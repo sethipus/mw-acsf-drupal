@@ -1,0 +1,19 @@
+uuid: 6718b358-51e3-491f-b52a-1bd934fc2931
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.full_width_image
+    - field.storage.block_content.field_full_image_description
+id: block_content.full_width_image.field_full_image_description
+field_name: field_full_image_description
+entity_type: block_content
+bundle: full_width_image
+label: 'Image description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

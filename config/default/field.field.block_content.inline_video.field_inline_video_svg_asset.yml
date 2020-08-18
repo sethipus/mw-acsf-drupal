@@ -1,0 +1,23 @@
+uuid: 30889624-f283-47f4-af54-942a08eaba26
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.inline_video
+    - field.storage.block_content.field_inline_video_svg_asset
+id: block_content.inline_video.field_inline_video_svg_asset
+field_name: field_inline_video_svg_asset
+entity_type: block_content
+bundle: inline_video
+label: 'Add decorative brand shape element'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

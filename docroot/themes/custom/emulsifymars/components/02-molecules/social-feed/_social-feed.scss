@@ -15,7 +15,7 @@
   }
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
-  .swiper-container {
+  .social-feed-swiper-container {
     width: 100%;
     height: 35.5rem;
 
@@ -29,7 +29,7 @@
   }
 
   // increasing specificity to avoid using !important
-  .swiper-container.swiper-container-horizontal>.swiper-scrollbar {
+  .social-feed-swiper-container.swiper-container-horizontal>.swiper-scrollbar {
     height: 16px;
     transform: scale(.5);
 

@@ -8,6 +8,7 @@
  * - block_title_href - href for the heading title
  * - block_eyebrow_text - the content of the block
  * - block_image - the content of the block
+ * - block_list - the content of the block
  * - separate_class
  */
 #}
@@ -19,7 +20,6 @@
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: block_eyebrow_text
       } %}
-
       {% include "@atoms/text/headings/_heading.twig" with {
         heading_level: 3,
         heading: block_title_label,
@@ -27,11 +27,11 @@
         heading_url: block_title_href
       }
       %}
-
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+        default_link_base_class: 'cta-link',
         default_link_content: cta_block.title,
         default_link_border_radius: 0,
-        default_link_attributes: cta_block.link_attributes
+        default_link_attributes: cta_block.link_attributes.0
       } %}
     </div>
     <div {{ bem('right', [], homepage_hero__block_class) }}>

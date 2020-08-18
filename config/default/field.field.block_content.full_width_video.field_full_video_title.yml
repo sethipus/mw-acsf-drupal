@@ -1,0 +1,19 @@
+uuid: 9e7846fc-e6f3-42cd-a955-6ee4de185819
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.full_width_video
+    - field.storage.block_content.field_full_video_title
+id: block_content.full_width_video.field_full_video_title
+field_name: field_full_video_title
+entity_type: block_content
+bundle: full_width_video
+label: 'Video title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

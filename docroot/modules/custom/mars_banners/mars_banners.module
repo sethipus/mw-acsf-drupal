@@ -24,6 +24,7 @@ function mars_banners_theme($existing, $type, $theme, $path) {
         'background_default' => NULL,
         'background_image' => NULL,
         'background_video' => NULL,
+        'blocks' => [],
       ],
       'template' => 'homepage-hero-block',
     ],
