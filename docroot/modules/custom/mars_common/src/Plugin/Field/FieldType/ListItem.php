@@ -6,17 +6,17 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\TypedData\DataDefinition;
 
 /**
- * Plugin implementation of the 'carousel item' field type.
+ * Plugin implementation of the 'List item' field type.
  *
  * @FieldType(
- *   id = "carousel_item",
- *   label = @Translation("Carousel item"),
- *   description = @Translation("Carousel item."),
- *   default_widget = "carousel_item_default_widget",
- *   default_formatter = "carousel_item_formatter",
+ *   id = "list_item",
+ *   label = @Translation("List item"),
+ *   description = @Translation("List item."),
+ *   default_widget = "list_item_default_widget",
+ *   default_formatter = "list_item_formatter",
  *   column_groups = {
  *     "file" = {
- *       "label" = @Translation("Carousel item"),
+ *       "label" = @Translation("List item"),
  *       "columns" = {
  *         "target_id", "width", "height"
  *       },
@@ -31,7 +31,7 @@ use Drupal\Core\TypedData\DataDefinition;
  *   constraints = {"ReferenceAccess" = {}, "FileValidation" = {}}
  * )
  */
-class CarouselItem extends FileTextItemBase {
+class ListItem extends FileTextItemBase {
 
   /**
    * {@inheritdoc}
@@ -83,7 +83,8 @@ class CarouselItem extends FileTextItemBase {
 
     $properties['desc'] = DataDefinition::create('string')
       ->setLabel(t('Item description'))
-      ->setDescription(t("Description text, for the carousel item."));
+      ->setDescription(t("Description text, for the list item."));
+
     $properties['width'] = DataDefinition::create('integer')
       ->setLabel(t('Width'))
       ->setDescription(t('The width of the image in pixels.'));
