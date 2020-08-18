@@ -1,5 +1,8 @@
 Drupal.behaviors.contentFeature = {
   attach(context) {
+    if (context.getElementById('content-feature') === null) {
+      return;
+    }
     window.addEventListener('scroll', () => {
       const parallaxElement = context.getElementById('content-feature');
       const offset = window.pageYOffset;
