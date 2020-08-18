@@ -1,0 +1,23 @@
+uuid: 4c448656-4f00-4737-a945-f6bc9403cf52
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.text_component
+    - field.storage.block_content.field_text_component_drop_cap
+id: block_content.text_component.field_text_component_drop_cap
+field_name: field_text_component_drop_cap
+entity_type: block_content
+bundle: text_component
+label: 'Drop cap'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

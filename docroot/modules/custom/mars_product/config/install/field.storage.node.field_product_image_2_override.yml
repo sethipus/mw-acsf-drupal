@@ -5,6 +5,8 @@ dependencies:
   module:
     - media
     - node
+_core:
+  default_config_hash: 4qUHGgsIK8x8EPozoSAQjAxthagRJ7SXEO1tTy2UKmc
 id: node.field_product_image_2_override
 field_name: field_product_image_2_override
 entity_type: node

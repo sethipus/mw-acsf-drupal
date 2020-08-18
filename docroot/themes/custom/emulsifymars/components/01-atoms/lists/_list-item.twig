@@ -16,7 +16,6 @@
 
 <li {{ bem(li_base_class, li_modifiers, li_blockname) }}>
   {% block list_item_content %}
-    {% if list_item_label %}<strong>{{ list_item_label }}</strong> {% endif %}
     {{ list_item_content }}
   {% endblock %}
 </li>

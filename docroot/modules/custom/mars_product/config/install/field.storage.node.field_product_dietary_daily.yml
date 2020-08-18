@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: L0gbQfYTHmnA_4a1TzDIDWyXJ-rWXyWUt-3jfLMZ9PE
 id: node.field_product_dietary_daily
 field_name: field_product_dietary_daily
 entity_type: node

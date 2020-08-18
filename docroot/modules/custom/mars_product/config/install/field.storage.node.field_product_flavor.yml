@@ -1,17 +1,16 @@
-uuid: b292a8b9-69c1-4a49-8728-b62a67fed3fb
+uuid: acca4d18-6fa2-4e01-afe1-8f8f547e39d4
 langcode: en
 status: true
 dependencies:
   module:
     - node
+    - taxonomy
 id: node.field_product_flavor
 field_name: field_product_flavor
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  is_ascii: false
-  case_sensitive: false
+  target_type: taxonomy_term
 module: core
 locked: false
 cardinality: 1

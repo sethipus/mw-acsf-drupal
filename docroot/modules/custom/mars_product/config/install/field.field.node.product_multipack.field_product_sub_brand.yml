@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_sub_brand
     - node.type.product_multipack
+_core:
+  default_config_hash: AT_KA2IpUFJpwWJXaKM94QEihPgBZ4N8cWhTyElN6sw
 id: node.product_multipack.field_product_sub_brand
 field_name: field_product_sub_brand
 entity_type: node

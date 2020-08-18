@@ -1,0 +1,6 @@
+name: 'Mars Articles'
+type: module
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
+dependencies:
+  - mars_product
