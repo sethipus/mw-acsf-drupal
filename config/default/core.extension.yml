@@ -36,6 +36,7 @@ module:
   entity_reference: 0
   externalauth: 0
   field: 0
+  field_group: 0
   field_ui: 0
   file: 0
   filter: 0
@@ -76,8 +77,12 @@ module:
   lightning_search: 0
   lightning_workflow: 0
   link: 0
+  mars_articles: 0
+  mars_banners: 0
   mars_common: 0
   mars_entry_gate: 0
+  mars_product: 0
+  mars_recipes: 0
   media: 0
   media_entity_instagram: 0
   media_entity_twitter: 0
@@ -115,6 +120,7 @@ module:
   simple_oauth_extras: 0
   slick: 0
   slick_entityreference: 0
+  social_media: 0
   system: 0
   taxonomy: 0
   text: 0

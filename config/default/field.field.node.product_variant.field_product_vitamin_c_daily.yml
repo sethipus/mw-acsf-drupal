@@ -1,0 +1,21 @@
+uuid: 7ef653c0-4f83-4faf-bb43-7681e928a1b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_vitamin_c_daily
+    - node.type.product_variant
+_core:
+  default_config_hash: wTJiVY0UlbKej9iBKKr9McVxGwRjpmaMWxsgzPX7Rqw
+id: node.product_variant.field_product_vitamin_c_daily
+field_name: field_product_vitamin_c_daily
+entity_type: node
+bundle: product_variant
+label: 'Vitamin C % Daily Value'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

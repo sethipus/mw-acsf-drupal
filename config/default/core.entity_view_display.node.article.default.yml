@@ -1,0 +1,79 @@
+uuid: c972e754-f292-4857-a5cc-219c652b41ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.article.field_article_brand_initiatives
+    - field.field.node.article.field_article_description
+    - field.field.node.article.field_article_image
+    - field.field.node.article.field_article_new
+    - field.field.node.article.field_article_occasions
+    - field.field.node.article.field_article_related_products
+    - node.type.article
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: 5aFgQ8A4y2gkv9-vwy7WRgAoxRvtFXm4bpN8NZO7FCI
+id: node.article.default
+targetEntityType: node
+bundle: article
+mode: default
+content:
+  field_article_brand_initiatives:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_article_description:
+    weight: 107
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_article_image:
+    type: entity_reference_entity_view
+    weight: 101
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_article_new:
+    weight: 103
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_article_occasions:
+    weight: 105
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_article_related_products:
+    weight: 106
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  search_api_excerpt: true

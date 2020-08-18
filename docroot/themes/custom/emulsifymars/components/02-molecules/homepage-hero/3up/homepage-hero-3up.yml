@@ -10,13 +10,7 @@ hero_image:
   'srcset': 'image-10@1x.png 1x, image-10@2x.png 2x'
   'src': 'image-10.png'
 cta_border_radius: 30
-background: 'hero-bg.svg'
 ellipse_background: 'ellipse3.svg'
-regions:
-    - country: 'Us'
-      title: 'East America: USA'
-    - country: 'UK'
-      title: 'East Europe'
 blocks:
   - eyebrow: 'New'
     title_label: 'New Creamy <br> Peanut Butter'
