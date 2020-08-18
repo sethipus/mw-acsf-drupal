@@ -228,7 +228,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#suffix' => '</div>',
     ];
 
-    $card_settings = $config['card'];
+    $card_settings = !empty($config['card']) ? $config['card'] : '';
     $card_storage = $form_state->get('card_storage');
     if (!isset($card_storage)) {
       if (!empty($card_settings)) {
@@ -375,6 +375,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   public function blockSubmit($form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
     unset($values['card']['add_card']);
+    $fid = reset($values['background_default']);
+    if ($values['block_type'] == 'default') {
+      $values['background_image'] = !empty($fid) ? [$fid] : '';
+    }
+    elseif ($values['block_type'] == 'image' && empty($values['background_image'])) {
+      $values['background_image'] = !empty($fid) ? [$fid] : '';
+    }
     $this->setConfiguration($values);
   }
 
