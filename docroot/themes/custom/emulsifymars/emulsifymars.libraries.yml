@@ -11,7 +11,7 @@ main-menu:
 
 ambient-video:
   js:
-    dist/js/01-atoms/video/ambient-video/video.js: {}
+    dist/js/ambient_video.js: {}
   dependencies:
     - core/drupal
 
@@ -27,7 +27,7 @@ social-feed:
       dist/css/vendors~social_feed.css: {}
   js:
     dist/js/social_feed.js: {}
-    dist/js/vendors~social_feed.js: {}
+    dist/js/vendors~media_carousel~social_feed.js: {}
   dependencies:
     - core/drupal
 
@@ -58,12 +58,12 @@ parent-page-header:
 
 media-carousel:
   js:
-    dist/js/02-molecules/media-carousel/media-carousel.js: {}
+    dist/js/media_carousel.js: {}
   dependencies:
     - core/drupal
 
 fullscreen-video:
   js:
-    dist/js/01-atoms/video/fullscreen-video.js: {}
+    dist/js/fullscreen_video.js: {}
   dependencies:
     - core/drupal
