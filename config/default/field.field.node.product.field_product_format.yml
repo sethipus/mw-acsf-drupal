@@ -1,0 +1,31 @@
+uuid: 10a0073e-2908-4b0e-a505-0f5d652f8f11
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_format
+    - node.type.product
+    - taxonomy.vocabulary.mars_format
+_core:
+  default_config_hash: 3pJkdK7ofIXaxFO7SL5uMM9nBb6JG0lziZ6BCgbpJZg
+id: node.product.field_product_format
+field_name: field_product_format
+entity_type: node
+bundle: product
+label: Format
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_format: mars_format
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

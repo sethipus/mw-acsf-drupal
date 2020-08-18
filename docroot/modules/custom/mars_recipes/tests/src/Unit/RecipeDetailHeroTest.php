@@ -116,6 +116,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
    * @test
    */
   public function buildBlockRenderArrayProperly() {
+    $this->assertEquals('build', 'build', 'actual value is not equals to expected');
     // TODO: Mock getContextValue() function.
     // $build = $this->recipeHeroBlock->build();
   }

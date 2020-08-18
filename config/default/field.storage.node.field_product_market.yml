@@ -1,0 +1,23 @@
+uuid: b285f8a8-e71b-421e-9a4f-5c286fe1de6b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: rmENEBjpviK0-VU_r8P1NgkCCIXigI5TMruGO-DO9kg
+id: node.field_product_market
+field_name: field_product_market
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
