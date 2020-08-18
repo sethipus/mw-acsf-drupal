@@ -7,6 +7,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class RecipeDetailHeroTest.
@@ -38,6 +39,13 @@ class RecipeDetailHeroTest extends UnitTestCase {
   protected $entityTypeManagerMock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactoryMock;
+
+  /**
    * Tested recipe hero block.
    *
    * @var \Drupal\mars_recipes\Plugin\Block\RecipeDetailHero
@@ -67,7 +75,8 @@ class RecipeDetailHeroTest extends UnitTestCase {
       [],
       'recipe_detail_hero',
       $definitions,
-      $this->entityTypeManagerMock
+      $this->entityTypeManagerMock,
+      $this->configFactoryMock
     );
   }
 
@@ -78,12 +87,13 @@ class RecipeDetailHeroTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(1))
+      ->expects($this->exactly(2))
       ->method('get')
       ->withConsecutive(
-        [$this->equalTo('entity_type.manager')]
-      )
-      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock));
+        [$this->equalTo('entity_type.manager')],
+        [$this->equalTo('config.factory')],
+        )
+      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configFactoryMock));
 
     $this->entityTypeManagerMock
       ->expects($this->exactly(1))
@@ -117,6 +127,48 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->viewBuilderMock = $this->createMock(EntityViewBuilderInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
   }
+
+  /* @code{
+   * private function createNodeMock() {
+   * $node = $this->getMockBuilder(Node::class)
+   * ->disableOriginalConstructor()
+   * ->getMock();
+   * $node->expects($this->any())
+   * ->method('label')
+   * ->willReturn('Recipe label');
+   *
+   * $fieldStringMock = $this->getMockBuilder(FieldItemListInterface::class)
+   * ->disableOriginalConstructor()
+   * ->getMock();
+   * $fieldStringMock->expects($this->any())
+   * ->method('__get')
+   * ->with('value')
+   * ->willReturn('string');
+   *
+   * $node->expects($this->any())
+   * ->method('__get')
+   * ->with('field_recipe_description')
+   * ->willReturn($fieldStringMock);
+   *
+   * $node->expects($this->exactly(6))
+   * ->method('__get')
+   * ->withConsecutive(
+   * [$this->equalTo('field_recipe_description')],
+   * [$this->equalTo('field_recipe_cooking_time')],
+   * [$this->equalTo('field_recipe_ingredients_number')],
+   * [$this->equalTo('field_recipe_number_of_servings')],
+   * [$this->equalTo('field_recipe_image')],
+   * [$this->equalTo('field_recipe_video')]
+   * )
+   * ->will($this->onConsecutiveCalls(
+   * $fieldStringMock,
+   * $fieldStringMock,
+   * $fieldStringMock,
+   * $fieldStringMock,
+   *
+   * ));
+   * }*/
 
 }
