@@ -50,6 +50,8 @@
         padding-top: 42.2px;
         padding-bottom: 62.2px;
         border-top: 1px solid rgba(196, 196, 196, .6);
+        display:  flex;
+        flex-flow: row nowrap;
 
         & .share-text {
           font-style: normal;
@@ -65,40 +67,16 @@
           }
         }
 
-        a {
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          margin: 0 15px;
+        & .social-menu {
+          margin: 0;
+          margin-left: 30px;
 
-          &.pinterest-link {
-            background-image: url('../images/pinterest.svg');
-            background-repeat: no-repeat;
-            background-position: center center;
-          }
-
-          &.facebook-link {
-            background-image: url('../images/facebook.svg');
-            background-repeat: no-repeat;
-            background-position: center center;
-          }
-
-          &.twitter-link {
-            background-image: url('../images/twitter.svg');
-            background-repeat: no-repeat;
-            background-position: center center;
-          }
-
-          &.download-link {
-            background-image: url('../images/download.svg');
-            background-repeat: no-repeat;
-            background-position: center center;
+          .social-menu__icon {
+            fill: clr(subcolor-1);
+            margin-right: 30px;
           }
         }
-
       }
-
-
     }
 }
 

@@ -42,34 +42,7 @@
           span_content: share_text
         }
         %}
-
-        {% include "@atoms/links/link/link.twig" with {
-          link_content: '<i class="icon-pinterest" aria-hidden="true"></i>',
-          link_url: '#',
-          link_base_class: 'pinterest-link'
-        }
-        %}
-
-        {% include "@atoms/links/link/link.twig" with {
-          link_content: '<i class="icon-facebook" aria-hidden="true"></i>',
-          link_url: '#',
-          link_base_class: 'facebook-link'
-        }
-        %}
-
-        {% include "@atoms/links/link/link.twig" with {
-          link_content: '<i class="icon-twitter" aria-hidden="true"></i>',
-          link_url: '#',
-          link_base_class: 'twitter-link'
-        }
-        %}
-
-        {% include "@atoms/links/link/link.twig" with {
-          link_content: '<i class="icon-pinterest" aria-hidden="true"></i>',
-          link_url: '#',
-          link_base_class: 'download-link'
-        }
-        %}
+        {% include "@molecules/menus/social/social-menu.twig" %}
       </div>
     </div>
   </div>
