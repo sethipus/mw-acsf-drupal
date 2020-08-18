@@ -67,6 +67,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function build() {
     $config = $this->getConfiguration();
+    $theme_settings = $this->config->get('emulsifymars.settings')->get();
+    $brand_shape = $theme_settings['brand_shape'];
+    $default_fid = reset($brand_shape);
 
     $build['#label'] = $config['label'];
     $build['#eyebrow'] = $config['eyebrow'];
@@ -75,8 +78,16 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#cta_url'] = ['href' => $config['cta']['url']];
     $build['#cta_title'] = $config['cta']['title'];
     $build['#block_type'] = $config['block_type'];
-    $build['#background_default'] = $config['background_default'];
-    $fid = reset($config['background_image']);
+
+    if ($config['block_type'] == 'default') {
+      $fid = $default_fid;
+    }
+    elseif ($config['block_type'] == 'image' && empty($config['background_image'])) {
+      $fid = $default_fid;
+    }
+    elseif ($config['block_type'] == 'image' && !empty($config['background_image'])) {
+      $fid = reset($config['background_image']);
+    }
     if (!empty($fid)) {
       $file = $this->fileStorage->load($fid);
     }
@@ -120,7 +131,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-    $theme_settings = $this->config->get('emulsifymars.settings')->get();
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
@@ -176,10 +186,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         'video' => $this->t('Video'),
       ],
       '#default_value' => $config['block_type'] ?? 'default',
-    ];
-    $form['background_default'] = [
-      '#type' => 'hidden',
-      '#value' => $theme_settings['brand_shape'] ?? '',
     ];
     $form['background_image'] = [
       '#title'           => $this->t('Background Image'),
@@ -375,13 +381,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   public function blockSubmit($form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
     unset($values['card']['add_card']);
-    $fid = reset($values['background_default']);
-    if ($values['block_type'] == 'default') {
-      $values['background_image'] = !empty($fid) ? [$fid] : '';
-    }
-    elseif ($values['block_type'] == 'image' && empty($values['background_image'])) {
-      $values['background_image'] = !empty($fid) ? [$fid] : '';
-    }
     $this->setConfiguration($values);
   }
 
