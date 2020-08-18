@@ -3,6 +3,7 @@
     height: calc(100% * 1.7778);
     min-height: 520px;
     position: relative;
+    background-color: clr(primary);
 
     @include medium {
       min-height: 0;
