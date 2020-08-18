@@ -41,11 +41,19 @@
     <div class="swiper-scrollbar"></div>
   </div>
   <div {{ bem('content', [], carousel_base_class) }}>
-    {% include "@atoms/text/text/01-paragraph.twig" with {
-      paragraph_size: paragraph_size,
-      paragraph_content: content,
-      paragraph_base_class: paragraph_base_class,
-      paragraph_modifiers: paragraph_modifiers
-    } %}
+    <div class="swiper-container carousel-description-container">
+      <div class="swiper-wrapper">
+        {% for item in items %}
+          <div class="swiper-slide">
+            {% include "@atoms/text/text/01-paragraph.twig" with {
+              paragraph_size: paragraph_size,
+              paragraph_content: item.content,
+              paragraph_base_class: paragraph_base_class,
+              paragraph_modifiers: paragraph_modifiers
+            } %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </section>
