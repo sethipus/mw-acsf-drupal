@@ -18,6 +18,7 @@
 {{ attach_library('emulsifymars/ambient-video') }}
 
 {% if block_type == 'video' %}
+
   {% include "@molecules/homepage-hero/video/homepage-hero-video.twig" with {
     theme_styles: 'drupal',
     eyebrow: eyebrow,
@@ -29,7 +30,8 @@
     cta_border_radius: '30',
     video__src__url: background_video,
   } %}
-{% elseif block_type == 'image' %}
+
+{% elseif (block_type == 'image') or (block_type == 'default') %}
 
   {% set background_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' |
     format(background_image, background_image, background_image, background_image) %}
@@ -48,10 +50,9 @@
     cta_link_attributes: cta_url,
     cta_base_class: 'cta-link',
     cta_border_radius: '30',
-    image_srcset: hero_image,
-    image_src: hero_image,
+    image_srcset: background_srcset,
+    image_src: background_image,
   } %}
-{% elseif block_type == 'default' %}
 
 {% endif %}
 
