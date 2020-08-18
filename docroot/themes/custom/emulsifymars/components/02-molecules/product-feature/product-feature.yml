@@ -1,7 +1,7 @@
 theme_styles: 'twix'
 
 eyebrow_text: 'PRODUCTS'
-background_image: 'ellipse_4.svg'
+background_color: 'blue'
 
 heading_level: 1
 heading: 'The Newest Member: Twix Cookies & Creme'
