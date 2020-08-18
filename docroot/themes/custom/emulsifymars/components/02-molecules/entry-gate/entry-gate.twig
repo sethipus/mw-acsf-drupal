@@ -1,0 +1,81 @@
+{{ attach_library('emulsifymars/entry-gate') }}
+
+{% set entry_gate_base_class = 'entry-gate' %}
+{% set entry_gate_heading_base_class = entry_gate_heading_base_class|default('entry-gate__heading') %}
+{% set entry_gate_paragraph_base_class = entry_gate_paragraph_base_class|default('entry-gate__paragraph') %}
+{% set entry_gate_eyebrow_base_class = entry_gate_eyebrow_base_class|default('entry-gate__eyebrow') %}
+{% set entry_gate_bottom_paragraph_base_class = entry_gate_bottom_paragraph_base_class|default('entry-gate__bottom-paragraph') %}
+{% set entry_gate_error_heading_base_class = entry_gate_heading_base_class|default('entry-gate__heading') %}
+{% set entry_gate_error_paragraph_base_class = entry_gate_paragraph_base_class|default('entry-gate__paragraph') %}
+{% set entry_gate_error_link_base_class = entry_gate_error_link_base_class|default('entry-gate__error-link') %}
+
+<div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme={{product}}>
+  <section class="entry-gate__inner">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: entry_gate_heading,
+      heading_level: entry_gate_heading_level,
+      heading_base_class: entry_gate_heading_base_class
+    } %}
+
+    {% include "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_size: entry_gate_paragraph_size,
+      paragraph_content: entry_gate_paragraph_content,
+      paragraph_base_class: entry_gate_paragraph_base_class
+    } %}
+
+    <hr class="entry-gate__separator-line"/>
+
+    {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+      eyebrow_text: entry_gate_eyebrow_text,
+      eyebrow_base_class: entry_gate_eyebrow_base_class
+    } %}
+
+    {% include "@molecules/entry-gate-form/entry-gate-form.twig" with {
+      entry_gate_form_submit_text: entry_gate_form_submit_text,
+      entry_gate_form_day_placeholder: entry_gate_form_day_placeholder,
+      entry_gate_form_month_placeholder: entry_gate_form_month_placeholder,
+      entry_gate_form_year_placeholder: entry_gate_form_year_placeholder,
+      entry_gate_form_error_message: entry_gate_form_error_message
+    } %}
+
+    {% embed "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_size: entry_gate_bottom_paragraph_size,
+
+      paragraph_base_class: entry_gate_bottom_paragraph_base_class
+    } %}
+      {% block paragraph_content %}
+        {{ entry_gate_bottom_paragraph_content | raw }}
+      {% endblock %}
+    {% endembed %}
+  </section>
+
+  <section class="entry-gate__error">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: entry_gate_error_heading,
+      heading_level: entry_gate_error_heading_level,
+      heading_base_class: entry_gate_error_heading_base_class
+    } %}
+
+    {% include "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_size: entry_gate_error_paragraph_size,
+      paragraph_content: entry_gate_error_paragraph_content,
+      paragraph_base_class: entry_gate_error_paragraph_base_class
+    } %}
+
+    <hr class="entry-gate__separator-line"/>
+
+    {% include "@atoms/links/link/link.twig" with {
+      link_base_class: entry_gate_error_link_base_class,
+      link_content: entry_gate_error_top_link_content ~ " >",
+      link_url: entry_gate_error_top_link_url,
+      link_attributes: entry_gate_error_top_link_attributes
+    } %}
+
+    {% include "@atoms/links/link/link.twig" with {
+      link_base_class: entry_gate_error_link_base_class,
+      link_content: entry_gate_error_bottom_link_content ~ " >",
+      link_url: entry_gate_error_bottom_link_url,
+      link_attributes: entry_gate_error_bottom_link_attributes
+    } %}
+  </section>
+</div>
