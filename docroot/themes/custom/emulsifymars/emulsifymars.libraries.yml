@@ -30,11 +30,18 @@ social-feed:
     dist/js/vendors~social_feed.js: {}
   dependencies:
     - core/drupal
+    -
+entry-gate:
+  js:
+    dist/js/entry_gate.js: {}
+    dist/js/vendors~entry_gate~slide.js: {}
+  dependencies:
+    - core/drupal
 
 slide:
   js:
     dist/js/slide.js: {}
-    dist/js/vendors~slide.js: {}
+    dist/js/vendors~entry_gate~slide.js: {}
   dependencies:
     - core/drupal
 
