@@ -157,6 +157,13 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return ['label_display' => FALSE];
+  }
+
+  /**
    * Returns feed configuration.
    *
    * @return \Drupal\juicer_io\Entity\FeedConfiguration
