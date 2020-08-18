@@ -1,13 +1,11 @@
-uuid: 4be4c3b6-57be-40cf-98af-c394fffa9ce4
+uuid: 6f1460ca-e4c6-43ea-950c-8fae4d94ebdd
 langcode: en
 status: true
 dependencies:
   module:
     - node
-_core:
-  default_config_hash: AOAoDpu5dbiwFtQYG6VAxWcpxut8GZKvR9IE8BeD-YE
-id: node.field_recipe_ingredients_number
-field_name: field_recipe_ingredients_number
+id: node.field_recipe_number_of_servings
+field_name: field_recipe_number_of_servings
 entity_type: node
 type: integer
 settings:

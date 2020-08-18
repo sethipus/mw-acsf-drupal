@@ -1,14 +1,12 @@
-uuid: f12df93b-845d-46c3-937a-dad7239d15cf
+uuid: 128bd500-c633-47c7-9843-e22c34449074
 langcode: en
 status: true
 dependencies:
   module:
     - media
     - node
-_core:
-  default_config_hash: NkmuhQAv5sudD_Ar9Z4DlAN2wBUEAWiSE6rUra851yw
-id: node.field_recipe_image
-field_name: field_recipe_image
+id: node.field_recipe_video
+field_name: field_recipe_video
 entity_type: node
 type: entity_reference
 settings:
