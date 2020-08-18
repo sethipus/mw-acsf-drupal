@@ -1,0 +1,8 @@
+uuid: 13e96848-b867-4df8-aaf5-c96dd27a114e
+langcode: en
+status: true
+dependencies: {  }
+id: full_width_image
+label: 'Full width image'
+revision: 1
+description: 'Full width image - inline component'
