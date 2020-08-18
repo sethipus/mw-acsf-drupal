@@ -1,0 +1,30 @@
+uuid: 1c4835e0-7942-4f03-81af-37a99466e980
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_image_2_override
+    - media.type.image
+    - node.type.product_variant
+_core:
+  default_config_hash: QZ3qEnfC3CqbMr18OXW47PtjjBmHkJygMWODCF075t4
+id: node.product_variant.field_product_image_2_override
+field_name: field_product_image_2_override
+entity_type: node
+bundle: product_variant
+label: 'Supporting Image 2 Override'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,21 @@
+uuid: 34b4208b-0c80-484d-86c5-b0cad05d2722
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+_core:
+  default_config_hash: ttkXTgqYHKsfWIXSSQorxgNszZb6ObuktlyZrgdVNbo
+id: node.field_product_allergen_warnings
+field_name: field_product_allergen_warnings
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

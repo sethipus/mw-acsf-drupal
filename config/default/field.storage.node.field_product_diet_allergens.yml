@@ -1,0 +1,22 @@
+uuid: 8dc44b0e-436e-4122-86dd-1137e1e26bec
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+_core:
+  default_config_hash: Qqdu6I40ZHI4C8gfy5-SvLhSRrq6LiY0DFu2HigMYH0
+id: node.field_product_diet_allergens
+field_name: field_product_diet_allergens
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

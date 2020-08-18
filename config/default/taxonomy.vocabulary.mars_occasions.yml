@@ -1,0 +1,10 @@
+uuid: b9d37eba-2a87-46fb-b4bb-e5c2a191b224
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ZdtBSjup2yIaMr00h2-2DmItOshiiZbLxQ-mgDyF3_c
+name: Occasions
+vid: mars_occasions
+description: ''
+weight: 0
