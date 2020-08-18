@@ -14,8 +14,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "product_feature",
- *   admin_label = @Translation("Product Feature Block"),
- *   category = @Translation("Custom")
+ *   admin_label = @Translation("MARS: Product Feature Block"),
+ *   category = @Translation("Mars Common")
  * )
  */
 class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInterface {
@@ -63,7 +63,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
     $build['#label'] = $conf['label'] ?? '';
-    $build['#background_color_override'] = $conf['background_color_override'] ?? '';
+    $build['#background_color'] = $conf['background_color'] ?? '';
     $build['#image'] = $this->getImageEntity();
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
@@ -105,15 +105,15 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       '#default_value' => $this->configuration['label'] ?? '',
       '#required' => TRUE,
     ];
-    $form['background_color_override'] = [
+    $form['background_color'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Background Color Override'),
       '#maxlength' => 7,
-      '#default_value' => $this->configuration['background_color_override'] ?? '',
+      '#default_value' => $this->configuration['background_color'] ?? '',
       '#required' => FALSE,
     ];
     $form['image'] = [
-      '#type' => 'entity_reference',
+      '#type' => 'entity_autocomplete',
       '#title' => 'Image',
       '#target_type' => 'media',
       '#default_value' => $this->getImageEntity(),
@@ -147,7 +147,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
     $this->configuration['label'] = $form_state->getValue('label');
-    $this->configuration['background_color_override'] = $form_state->getValue('background_color_override');
+    $this->configuration['background_color'] = $form_state->getValue('background_color');
     $this->configuration['image'] = $form_state->getValue('image');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
