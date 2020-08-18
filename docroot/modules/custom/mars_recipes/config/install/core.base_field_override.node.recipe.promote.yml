@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - node.type.recipe
+_core:
+  default_config_hash: TD9-mNVX2smxMqjuEIZdONs3JZnGsH6iDu2RWbsmztY
 id: node.recipe.promote
 field_name: promote
 entity_type: node
