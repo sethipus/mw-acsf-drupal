@@ -1,0 +1,72 @@
+uuid: 6ed92c75-ca95-4dbb-ab11-c3cf3e3306c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.product_card
+    - field.field.node.product.field_product_brand
+    - field.field.node.product.field_product_description
+    - field.field.node.product.field_product_flavor
+    - field.field.node.product.field_product_market
+    - field.field.node.product.field_product_name
+    - field.field.node.product.field_product_segment
+    - field.field.node.product.field_product_sub_brand
+    - field.field.node.product.field_product_trade_description
+    - field.field.node.product.field_product_variants
+    - node.type.product
+  module:
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_library
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+  layout_library:
+    enable: false
+  layout_builder_restrictions:
+    allowed_block_categories: {  }
+    entity_view_mode_restriction:
+      whitelisted_blocks: {  }
+      blacklisted_blocks: {  }
+      allowed_layouts: {  }
+_core:
+  default_config_hash: bzAVwKxO9PSZdgswChCsQUCc83esypGZcKjCW8-0eqc
+id: node.product.product_card
+targetEntityType: node
+bundle: product
+mode: product_card
+content:
+  field_product_name:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_product_variants:
+    type: entity_reference_entity_view
+    weight: 2
+    region: content
+    label: above
+    settings:
+      view_mode: teaser
+      link: false
+    third_party_settings: {  }
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  content_moderation_control: true
+  field_product_brand: true
+  field_product_description: true
+  field_product_flavor: true
+  field_product_market: true
+  field_product_segment: true
+  field_product_sub_brand: true
+  field_product_trade_description: true
+  search_api_excerpt: true
