@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Template for the content feature module component.
+ *
+ * Available variables:
+ * 'eyebrow' => NULL,
+ * 'label' => NULL,
+ * 'image' => NULL,
+ * 'explore_cta' => NULL,
+ * 'explore_cta_link' => NULL,
+ */
+#}
+
+{% set background = file_url(background.image.entity.fileuri) %}
+
+{% include "@molecules/product-feature/product-feature.twig" with {
+  eyebrow_text: eyebrow,
+  heading: label,
+  background_image: background,
+  default_link_content: explore_cta,
+  default_link_attributes: {
+    href: explore_cta_link
+  },
+  heading_level: '1',
+  paragraph_base_class: 'paragraph',
+  paragraph_modifiers: 'large',
+  separator_style: 'wave'
+} %}

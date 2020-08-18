@@ -63,11 +63,12 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
     $build['#label'] = $conf['label'] ?? '';
-    $build['#background'] = $this->getBackgroundEntity();
+    $build['#background_color_override'] = $conf['background_color_override'] ?? '';
+    $build['#image'] = $this->getImageEntity();
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
 
-    $build['#theme'] = 'content_feature_module_block';
+    $build['#theme'] = 'product_feature_block';
 
     return $build;
   }
@@ -104,11 +105,18 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       '#default_value' => $this->configuration['label'] ?? '',
       '#required' => TRUE,
     ];
+    $form['background_color_override'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Background Color Override'),
+      '#maxlength' => 7,
+      '#default_value' => $this->configuration['background_color_override'] ?? '',
+      '#required' => FALSE,
+    ];
     $form['image'] = [
       '#type' => 'entity_reference',
       '#title' => 'Image',
       '#target_type' => 'media',
-      '#default_value' => $this->getBackgroundEntity(),
+      '#default_value' => $this->getImageEntity(),
       '#required' => TRUE,
     ];
     $form['explore_group'] = [
@@ -139,6 +147,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
     $this->configuration['label'] = $form_state->getValue('label');
+    $this->configuration['background_color_override'] = $form_state->getValue('background_color_override');
     $this->configuration['image'] = $form_state->getValue('image');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
@@ -147,13 +156,13 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   /**
    * Returns the entity that's saved to the block.
    */
-  private function getBackgroundEntity(): ?EntityInterface {
-    $backgroundEntityId = $this->getConfiguration()['background'] ?? NULL;
-    if (!$backgroundEntityId) {
+  private function getImageEntity(): ?EntityInterface {
+    $imageEntityId = $this->getConfiguration()['image'] ?? NULL;
+    if (!$imageEntityId) {
       return NULL;
     }
 
-    return $this->mediaStorage->load($backgroundEntityId);
+    return $this->mediaStorage->load($imageEntityId);
   }
 
 }
