@@ -8,25 +8,26 @@
   <div class="recipe-header__text">{{ recipe_header_text }}</div>
 </div>
 <div class="recipe-media" data-theme="{{ theme_styles }}">
-  <!--
-  {% block recipe_media_image %}
-    {% include "@atoms/images/image/responsive-image.twig" with {
-    output_image_tag: true,
-    image_alt: image_title,
-    image_srcset: image_srcset,
-    image_sizes: '',
-    image_src: image_src,
-    responsive_image_blockname: 'recipe-media',
-  } %}
-  {% endblock %}
-  -->
-  {% block recipe_media_video %}
-    {% include "@atoms/video/ambient-video/video.twig" with {
-      video__src__url: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/',
-      video__base_class: 'ambient-video',
-      video__control: true,
-    } %}
-  {% endblock %}
+  {% if video_src %}
+    {% block recipe_media_video %}
+      {% include "@atoms/video/ambient-video/video.twig" with {
+        video__src__url: video_src,
+        video__base_class: 'ambient-video',
+        video__control: true,
+      } %}
+    {% endblock %}
+  {% else %}
+    {% block recipe_media_image %}
+      {% include "@atoms/images/image/responsive-image.twig" with {
+        output_image_tag: true,
+        image_alt: image_title,
+        image_srcset: image_srcset,
+        image_sizes: '',
+        image_src: image_src,
+        responsive_image_blockname: 'recipe-media',
+      } %}
+    {% endblock %}
+  {% endif %}
   <div class="recipe-media__info">
     {% include "@atoms/images/image/background-image.twig" with {
       image_src: 'twix-border-white.svg',
