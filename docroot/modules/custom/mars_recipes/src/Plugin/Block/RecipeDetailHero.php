@@ -17,7 +17,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
  * @Block(
  *   id = "recipe_detail_hero",
  *   admin_label = @Translation("Recipe detail hero"),
- *   category = @Translation("Hero"),
+ *   category = @Translation("Recipe"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label =
  *   @Translation("Recipe"))
