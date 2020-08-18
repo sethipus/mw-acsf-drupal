@@ -95,7 +95,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $build = [
       '#label' => $node->label(),
       '#eyebrow' => $this->configuration['eyebrow'],
-      '#publication_date' => $this->dateFormatter->format($node->getCreatedTime(), 'article_header'),
+      '#publication_date' => $node->isPublished() ? $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 
     // Check which template to use.
