@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_dietary_daily
     - node.type.product_variant
+_core:
+  default_config_hash: fxFMb--K84fdBD55-kZC1mN-3Dx2M4mg8l1RlRGWxAA
 id: node.product_variant.field_product_dietary_daily
 field_name: field_product_dietary_daily
 entity_type: node

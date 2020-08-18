@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: wHMq1CZV1Rl3ZdDYlBgkbwDOgQE5wP-y4lVFTnMDEVY
 id: node.field_product_segment
 field_name: field_product_segment
 entity_type: node

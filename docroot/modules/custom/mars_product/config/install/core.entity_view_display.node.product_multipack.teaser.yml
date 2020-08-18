@@ -3,18 +3,24 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.teaser
     - field.field.node.product_multipack.field_product_brand
     - field.field.node.product_multipack.field_product_description
     - field.field.node.product_multipack.field_product_flavor
+    - field.field.node.product_multipack.field_product_format
     - field.field.node.product_multipack.field_product_market
     - field.field.node.product_multipack.field_product_name
+    - field.field.node.product_multipack.field_product_occasions
     - field.field.node.product_multipack.field_product_pack_items
     - field.field.node.product_multipack.field_product_segment
     - field.field.node.product_multipack.field_product_sub_brand
+    - field.field.node.product_multipack.field_product_trade_description
     - field.field.node.product_multipack.field_product_variants
     - node.type.product_multipack
   module:
     - user
+_core:
+  default_config_hash: zlSV-bfgjLeocvdLuZ5Xy_vZvcPBxwA61KuE62u7_cU
 id: node.product_multipack.teaser
 targetEntityType: node
 bundle: product_multipack
@@ -30,10 +36,13 @@ hidden:
   field_product_brand: true
   field_product_description: true
   field_product_flavor: true
+  field_product_format: true
   field_product_market: true
   field_product_name: true
+  field_product_occasions: true
   field_product_pack_items: true
   field_product_segment: true
   field_product_sub_brand: true
+  field_product_trade_description: true
   field_product_variants: true
   search_api_excerpt: true

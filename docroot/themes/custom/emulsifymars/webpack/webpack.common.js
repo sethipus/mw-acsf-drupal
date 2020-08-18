@@ -9,10 +9,13 @@ const distDir = path.resolve(rootDir, 'dist');
 module.exports = {
   entry: {
     svgSprite: path.resolve(webpackDir, 'svgSprite.js'),
-    css: path.resolve(webpackDir, 'css.js'),
+    theme_style: path.resolve(webpackDir, 'css.js'),
+    slide: path.resolve(distDir + '/js/02-molecules/slide', 'slide.js'),
+    social_feed: path.resolve(distDir + '/js/02-molecules/social-feed', 'social-feed.js'),
+    entry_gate: path.resolve(distDir + '/js/02-molecules/entry-gate', 'entry-gate.js'),
   },
   module: {
-    rules: [loaders.SVGSpriteLoader, loaders.CSSLoader, loaders.ImageLoader, loaders.FontLoader],
+    rules: [loaders.SVGSpriteLoader, loaders.CSSLoader,loaders.SASSLoader, loaders.ImageLoader, loaders.FontLoader],
   },
   plugins: [
     plugins.ImageminPlugin,
@@ -23,6 +26,12 @@ module.exports = {
   ],
   output: {
     path: distDir,
-    filename: 'remove/[name].js',
+    filename: 'js/[name].js',
+  },
+  optimization: {
+    splitChunks: {
+      // include all types of chunks
+      chunks: 'all'
+    }
   },
 };

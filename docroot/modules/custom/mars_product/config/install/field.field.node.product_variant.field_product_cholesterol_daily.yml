@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_cholesterol_daily
     - node.type.product_variant
+_core:
+  default_config_hash: JaDGAAXBgGuXiIjxni1tfHBYVSnoG50A5u0_ahcNDzM
 id: node.product_variant.field_product_cholesterol_daily
 field_name: field_product_cholesterol_daily
 entity_type: node

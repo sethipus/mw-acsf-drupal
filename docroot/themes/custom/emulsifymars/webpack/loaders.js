@@ -9,10 +9,28 @@ const ImageLoader = {
 };
 
 const CSSLoader = {
+  test: /\.css$/i,
+  use: [
+    {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: '../'
+      }
+    },
+    'css-loader',
+  ],
+};
+
+const SASSLoader = {
   test: /\.s[ac]ss$/i,
   exclude: /node_modules/,
   use: [
-    MiniCssExtractPlugin.loader,
+    {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: '../'
+      }
+    },
     {
       loader: 'css-loader',
     },
@@ -55,6 +73,7 @@ const SVGSpriteLoader = {
 };
 
 module.exports = {
+  SASSLoader,
   CSSLoader,
   FontLoader,
   SVGSpriteLoader,

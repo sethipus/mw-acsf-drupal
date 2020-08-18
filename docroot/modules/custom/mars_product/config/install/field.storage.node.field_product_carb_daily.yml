@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: 5XEKjJXuI0btk6EwYK2HF91u57GOPOXOV3NHcqyORCw
 id: node.field_product_carb_daily
 field_name: field_product_carb_daily
 entity_type: node

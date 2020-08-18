@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: CPPRbFQJ7QvCLqoxApsEn7WPe8SpWOVJrI-XuDgXWH4
 id: node.field_product_market
 field_name: field_product_market
 entity_type: node

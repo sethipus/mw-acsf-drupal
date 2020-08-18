@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: RV0KxaB3lTUhhjrO-rFTaGUoWgZQs-C3UVDXmHup2QI
 id: node.field_product_calories
 field_name: field_product_calories
 entity_type: node

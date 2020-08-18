@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: Qwi8K3WBqWOvoDCukF-wVyIPGmlchyEmlf8-QNRLrFg
 id: node.field_product_pack_items
 field_name: field_product_pack_items
 entity_type: node

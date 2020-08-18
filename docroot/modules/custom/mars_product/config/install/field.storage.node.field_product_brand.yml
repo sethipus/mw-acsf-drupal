@@ -1,20 +1,19 @@
-uuid: 9de253dc-e1c4-4b33-9e53-7051403c66a1
+uuid: 27487085-2d0c-47fd-80e9-3281bd0fcb7e
 langcode: en
 status: true
 dependencies:
   module:
     - node
+    - taxonomy
 id: node.field_product_brand
 field_name: field_product_brand
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  is_ascii: false
-  case_sensitive: false
+  target_type: taxonomy_term
 module: core
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false
