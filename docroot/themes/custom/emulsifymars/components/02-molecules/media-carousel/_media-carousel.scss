@@ -36,6 +36,20 @@
     }
   }
 
+  .carousel__content .swiper-slide {
+    height: auto;
+    padding-top: 1px;
+    background-color: clr(background-carousel);
+
+    @include medium {
+      height: auto;
+    }
+
+    @include xl {
+      height: auto;
+    }
+  }
+
   &__content {
     background-color: clr(background-carousel);
     color: clr(subcolor-1);
@@ -54,8 +68,6 @@
   }
 
   .swiper-slide {
-    text-align: center;
-    font-size: 18rem;
     background: clr(subcolor-3);
     height: 25rem;
 
@@ -109,12 +121,6 @@
     .fullscreen-video__main {
       width: 100%;
     }
-
-    .fullscreen-video svg {
-      position: absolute;
-      bottom: 2px;
-    }
-    
   }
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel

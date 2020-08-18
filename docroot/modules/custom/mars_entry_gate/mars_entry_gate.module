@@ -33,6 +33,8 @@ function mars_entry_gate_theme($existing, $type, $theme, $path) {
 function mars_entry_gate_preprocess_page(&$variables) {
   $config = \Drupal::config('mars_entry_gate.settings');
 
+  $variables['#cache']['tags'][] = 'config:mars_entry_gate.settings';
+
   if ($variables['is_admin'] || !$config || !$config->get('enabled')) {
     return;
   }
@@ -51,9 +53,6 @@ function mars_entry_gate_preprocess_page(&$variables) {
 
   $entry_gate_render_array = [
     '#theme' => 'entry_gate',
-    '#cache' => [
-      'tags' => ['config:mars_entry_gate.settings'],
-    ],
   ];
 
   foreach ($keys as $key) {
