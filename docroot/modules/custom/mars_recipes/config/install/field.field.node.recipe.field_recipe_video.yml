@@ -1,20 +1,18 @@
-uuid: c103c31e-2fa4-43f0-9e7b-63c51f3541b6
+uuid: 0c84acb9-fe62-40c9-a6ad-e43b68e59663
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_recipe_image
-    - media.type.image
+    - field.storage.node.field_recipe_video
+    - media.type.video
     - node.type.recipe
-_core:
-  default_config_hash: 3Wx6PJv3kmSHYquNJye93TYG8zZZx_lak2WhcAOQj2s
-id: node.recipe.field_recipe_image
-field_name: field_recipe_image
+id: node.recipe.field_recipe_video
+field_name: field_recipe_video
 entity_type: node
 bundle: recipe
-label: Image
+label: Video
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -22,7 +20,7 @@ settings:
   handler: 'default:media'
   handler_settings:
     target_bundles:
-      image: image
+      video: video
     sort:
       field: _none
     auto_create: false

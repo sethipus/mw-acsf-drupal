@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_recipe_ingredients_number
     - node.type.recipe
+_core:
+  default_config_hash: ZbK4hcH4XnGWcQDJVL_g5cb42yM5DlipoBjAwjWp8Z4
 id: node.recipe.field_recipe_ingredients_number
 field_name: field_recipe_ingredients_number
 entity_type: node
@@ -19,5 +21,5 @@ settings:
   min: 1
   max: null
   prefix: ''
-  suffix: ''
+  suffix: ' items'
 field_type: integer
