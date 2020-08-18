@@ -1,13 +1,13 @@
 {{ attach_library('emulsifymars/product-feature') }}
 {% set product_feature_base_class = 'product-feature' %}
 
-<section {{ bem(product_feature_base_class) }} id="product-feature" data-theme="{{ theme_styles }}">
+<section {{ bem(product_feature_base_class) }} id="product-feature" data-theme="{{ theme_styles }}" style="background-color: {{ background_color }};">
   <div {{ bem('inner', [], product_feature_base_class) }}>
-  <div {{ bem('bubble_1', [], product_feature_base_class) }} style="background-image: url('{{ background_image }}');" id="product-feature__bubble_1">
+  <div {{ bem('bubble_1', [], product_feature_base_class) }} id="product-feature__bubble_1">
   </div>
-  <div {{ bem('bubble_2', [], product_feature_base_class) }} style="background-image: url('{{ background_image }}');" id="product-feature__bubble_2">
+  <div {{ bem('bubble_2', [], product_feature_base_class) }} id="product-feature__bubble_2">
   </div>
-  <div {{ bem('bubble_3', [], product_feature_base_class) }} style="background-image: url('{{ background_image }}');" id="product-feature__bubble_3">
+  <div {{ bem('bubble_3', [], product_feature_base_class) }} id="product-feature__bubble_3">
   </div>
     <div {{ bem('product_image', [], product_feature_base_class) }}>
       {% include "@atoms/images/image/responsive-image.twig" with {
