@@ -8,3 +8,6 @@ video_src: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_9283
 recipe_cooking_time: '35'
 recipe_ingredients_number: '10'
 recipe_number_of_servings: '24'
+icon_clock: 'icons/clock.svg'
+icon_ingredients: 'icons/ingredients.svg'
+icon_makes: 'icons/makes.svg'
