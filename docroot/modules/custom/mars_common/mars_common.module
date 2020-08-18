@@ -64,7 +64,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'parent-page-header-block',
     ],
-    'carousel_item_widget' => [
+    'file_text_item_widget' => [
       'render element' => 'element',
     ],
     'carousel_item_formatter' => [
@@ -72,6 +72,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'item_url' => NULL,
         'item_description' => NULL,
         'media_type' => NULL,
+      ],
+    ],
+    'list_item_formatter' => [
+      'variables' => [
+        'item_url' => NULL,
+        'item_description' => NULL,
       ],
     ],
   ];
@@ -86,7 +92,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
  *   An associative array containing:
  *   - element: A render element representing the carousel item field widget.
  */
-function mars_common_preprocess_carousel_item_widget(array &$variables) {
+function mars_common_preprocess_file_text_item_widget(array &$variables) {
   $element = $variables['element'];
 
   $variables['attributes'] = [
@@ -117,7 +123,11 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
     if (is_numeric($item_key)) {
       $media_items[] = [
         'src' => $item_value['#item_url']->getUri(),
-        'description' => $item_value['#item_description'],
+        'content' => $item_value['#item_description'],
+        'video' => ($item_value['#media_type'] == 'video'),
+        'image' => ($item_value['#media_type'] == 'image'),
+        'alt' => NULL,
+        'title' => NULL,
       ];
     }
   }

@@ -12,6 +12,9 @@ module.exports = {
     theme_style: path.resolve(webpackDir, 'css.js'),
     slide: path.resolve(distDir + '/js/02-molecules/slide', 'slide.js'),
     social_feed: path.resolve(distDir + '/js/02-molecules/social-feed', 'social-feed.js'),
+    media_carousel: path.resolve(distDir + '/js/02-molecules/media-carousel', 'media-carousel.js'),
+    fullwidth_video: path.resolve(distDir + '/js/01-atoms/video/fullscreen-video', 'video.js'),
+    ambient_video: path.resolve(distDir + '/js/01-atoms/video/ambient-video', 'video.js')
   },
   module: {
     rules: [loaders.SVGSpriteLoader, loaders.CSSLoader,loaders.SASSLoader, loaders.ImageLoader, loaders.FontLoader],

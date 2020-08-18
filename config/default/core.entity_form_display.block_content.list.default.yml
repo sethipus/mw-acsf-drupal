@@ -4,45 +4,20 @@ status: true
 dependencies:
   config:
     - block_content.type.list
-    - field.field.block_content.list.field_list_description
-    - field.field.block_content.list.field_list_image
-    - field.field.block_content.list.field_list_number
-    - image.style.thumbnail
+    - field.field.block_content.list.field_list_items
   module:
-    - image
+    - mars_common
 id: block_content.list.default
 targetEntityType: block_content
 bundle: list
 mode: default
 content:
-  field_list_description:
-    weight: 27
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_list_image:
-    type: entity_browser_file
-    weight: 28
-    settings:
-      entity_browser: image_browser
-      field_widget_edit: true
-      field_widget_remove: true
-      view_mode: default
-      preview_image_style: thumbnail
-      open: true
-      field_widget_replace: false
-      selection_mode: selection_append
-    region: content
-    third_party_settings: {  }
-  field_list_number:
+  field_list_items:
     weight: 26
     settings:
-      placeholder: ''
+      progress_indicator: throbber
     third_party_settings: {  }
-    type: number
+    type: list_item_default_widget
     region: content
   info:
     type: string_textfield

@@ -48,7 +48,7 @@ class ListItemFormatter extends FileFormatterBase {
       $item = $file->_referringItem;
 
       $elements[$delta] = [
-        '#theme' => 'carousel_item_formatter',
+        '#theme' => 'list_item_formatter',
         '#item_url' => $url,
         '#item_description' => $item->get('desc')->getValue(),
         '#cache' => [

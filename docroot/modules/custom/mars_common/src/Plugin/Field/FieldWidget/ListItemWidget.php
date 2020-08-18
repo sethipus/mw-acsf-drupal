@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
  * Plugin implementation of the 'list item default' widget.
  *
  * @FieldWidget(
- *   id = "List_item_default_widget",
+ *   id = "list_item_default_widget",
  *   label = @Translation("List widget"),
  *   field_types = {
  *     "list_item"
@@ -38,7 +38,10 @@ class ListItemWidget extends FileTextWidgetBase {
       '#weight' => -12,
       '#access' => (bool) $element['#desc_field'],
       '#required' => $element['#desc_field_required'],
-      '#element_validate' => $element['#desc_field_required'] == 1 ? [[get_called_class(), 'validateRequiredFields']] : [],
+      '#element_validate' => $element['#desc_field_required'] == 1 ? [
+        [get_called_class(), 'validateRequiredFields'],
+        [get_called_class(), 'validateDescriptionField'],
+      ] : [],
     ];
 
     return parent::process($element, $form_state, $form);
