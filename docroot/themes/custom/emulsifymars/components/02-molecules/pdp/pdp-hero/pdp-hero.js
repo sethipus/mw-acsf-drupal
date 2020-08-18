@@ -6,9 +6,7 @@ Drupal.behaviors.pdpHero = {
     // init swiper
     Swiper.use([Navigation, Pagination]);
     const swiper = new Swiper('.pdp-hero-swiper-container', {
-      autoplay: {
-        delay: 30,
-      },
+      autoplay: true,
       loop: true,
       direction: 'vertical',
       slidesPerView: 1,

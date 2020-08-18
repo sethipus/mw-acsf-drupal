@@ -1,6 +1,19 @@
 .pdp-hero {
-  padding: 4.8rem 4rem 18rem;
+  padding: 2rem 2rem 3.2rem;
   background-color: $deepskyblue;
+  
+  @include small {
+    padding: 2rem 2rem 18rem;
+  }
+  
+  @include medium {
+    padding: 2rem 4rem 18.7rem;
+  }
+  
+  @include large {
+    padding-top: 4.8rem;
+    padding-bottom: 10.4rem;
+  }
 
   &__container {
     display: flex;
@@ -9,14 +22,18 @@
 
   &__content-container {
     flex: 1 0 50%;
-    padding-top: 4.2rem;
-    padding-right: 6rem;
+    padding-top: 3.4rem;
+  
+    @include large {
+      padding-top: 4.2rem;
+      padding-right: 6rem;
+    }
   }
 
   &__content-mobile {
     display: block;
   
-    @include medium {
+    @include large {
       display: none;
     }
   }
@@ -24,27 +41,57 @@
   &__product-label {
     margin: .3rem 0;
     font-family: variable(primary-font);
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: normal;
     letter-spacing: 1.6px;
     color: clr(subcolor-3);
+  
+    @include medium {
+      font-size: 1.4rem;
+    }
+  
+    @include large {
+      font-size: 1.6rem;
+    }
   }
 
   &__product-name {
-    margin: 2.8rem 0 3.5rem;
+    margin: 2rem 0 1.7rem;
     font-family: variable(primary-font);
+    font-size: 2.8rem;
     font-weight: normal;
-    font-size: 4.8rem;
     line-height: 1;
     color: clr(subcolor-3);
+  
+    @include medium {
+      font-size: 4rem;
+      margin-bottom: 2.5rem;
+    }
+  
+    @include large {
+      font-size: 4.8rem;
+      margin-top: 2.7rem;
+      margin-bottom: 3.6rem;
+    }
   }
 
   &__description {
-    margin: 3.6rem 10rem 3.6rem 0;
+    margin: 3rem 0 5rem;
     font-family: variable(secondary-font);
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     line-height: 1.4;
+    text-align: center;
     color: clr(subcolor-3);
+
+    @include medium {
+      margin: 21.4rem 13.8rem 2rem 11.8rem;
+      font-size: 1.6rem;
+    }
+
+    @include large {
+      margin: 3.7rem 17rem 3.6rem 0;
+      text-align: left;
+    }
   }
 
   &__size-container {
@@ -54,11 +101,21 @@
   }
 
   &__size-label {
-    flex: 1 0 auto;
+    flex: 1 0 42%;
     font-family: variable(secondary-font);
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     line-height: 1.3;
     color: clr(subcolor-3);
+
+    @include medium {
+      flex: 1 0 auto;
+      font-size: 1.4rem;
+    }
+
+    @include large {
+      flex: 1 0 37%;
+      font-size: 1.6rem;
+    }
   }
 
   &__size-list {
@@ -66,23 +123,97 @@
 
     flex: 1 0 auto;
     display: flex;
+    justify-content: flex-end;
+  
+    @include medium {
+      flex: 1 0 58%;
+      justify-content: flex-start;
+    }
+  
+    @include large {
+      flex: 1 0 63%;
+    }
   }
 
   &__list-item {
     flex: 0 0 auto;
 
     &--link {
-      padding: 1.5rem;
+      padding: 1.6rem 1rem;
       font-family: variable(secondary-font);
-      font-size: 1.6rem;
+      font-size: 1.2rem;
       line-height: 1.3;
       text-decoration: none;
       color: clr(subcolor-3);
+
+      @include medium {
+        font-size: 1.4rem;
+        padding: 1.6rem 1.3rem;
+      }
+  
+      @include large {
+        padding: 1.5rem;
+        font-size: 1.6rem;
+      }
 
       &:hover {
         text-decoration: underline;
       }
     }
+  }
+
+  &__main-image {
+    display: flex;
+    justify-content: center;
+
+    &-container {
+      padding: 1.8rem 3.2rem .2rem 2.6rem;
+
+      @include medium {
+        padding: 1rem 7rem 18rem;
+      }
+    }
+  }
+
+  &__side-image {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+
+    @include medium {
+      margin: 4rem 0;
+    }
+
+    &-container {
+      margin: 4.5rem 2.9rem 2rem;
+
+      @include medium {
+        margin-left: 9.8rem;
+        margin-right: 11.8rem;
+      }
+    }
+  }
+
+  &__sections-list {
+    @include list-reset;
+
+    flex: 1 0 auto;
+    margin: 1rem 0 2rem;
+  
+    @include small {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    @include medium {
+      display: none;
+    }
+  }
+
+  &__sections-item {
+    flex: 0 1 30%;
+    display: flex;
+    justify-content: center;
   }
 
   &__slider-container {
@@ -91,8 +222,9 @@
     flex: 1 0 50%;
     padding-right: 13.2rem;
   
-    @include medium {
-      display: block;
+    @include large {
+      display: flex;
+      align-items: center;
     }
 
     .swiper-pagination {
@@ -114,14 +246,54 @@
 
     .swiper-control {
       position: absolute;
-      top:0;
-      right: 0;
-      width: 6rem;
-      height: 6rem;
-      border-radius: 50%;
-      box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-      background-color: clr(subcolor-3);
-      opacity: 0.2;
+      top: 2.3rem;
+      right: 3.1rem;
+      width: 0;
+      height: 0;
+      cursor: pointer;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        transform: translate(-50%, -50%);
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+        background-color: clr(subcolor-3);
+        opacity: 0.2;
+      }
+    }
+
+    .swiper-play-icon {
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        opacity: 1;
+        width: 5px;
+        height: 16px;
+        background-color: clr(subcolor-3);
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &::before {
+        left: -8px;
+      }
+
+      &::after {
+        right: -8px;
+      }
     }
   }
 }
@@ -147,13 +319,52 @@
 .default-link {
   padding: 0 3.4rem;
 
+  &--pdp-desktop {
+    display: none;
+
+    @include large {
+      display: inline-block;
+    }
+  }
+
   &--pdp-hero {
+    width: 100%;
+    text-align: center;
     font-family: variable(primary-font);
+    line-height: 5rem;
     background-color: clr(primary);
     color: clr(subcolor-3);
 
     &:hover {
       color: clr(primary);
     }
+
+    @include medium {
+      display: none;
+    }
+
+    @include large {
+      display: inline-block;
+      width: auto;
+      line-height: 6rem;
+    }
+  }
+
+  &--pdp-sections {
+    display: flex;
+    align-items: center;
+    font-family: variable(primary-font);
+    font-size: 1.2rem;
+    line-height: 1.1;
+    letter-spacing: normal;
+    text-align: center;
+    padding: 1.8rem .6rem;
+    background-color: clr(subcolor-3);
+    color: clr(primary);
+
+    &:hover {
+      color: clr(subcolor-3);
+    }
+
   }
 }

@@ -18,23 +18,27 @@ image_items:
       alt: 'Twix'
 product_label: 'PRODUCTS'
 product_name: 'TWIX® Cookies &amp; Creme Chocolate Bar'
-product_description: 'Whether youre a Left TWIX Bar or Right TWIX Bar person, everyone can agree the delicious taste of cookies and creme needs to be in everyones favorite chocolate cookie candy bar.'
+product_description: 'Whether you’re a Left TWIX Bar or Right TWIX Bar person, everyone can agree the delicious taste of cookies and creme needs to be in everyones favorite chocolate cookie candy bar.'
 product_CTA_title: 'WHERE TO BUY'
 product_CTA_link_attributes:
   'href': '#'
 product_CTA_border_radius: 30
-product_nutrition_CTA_title: 'NUTRITION & INGREDIENTS'
-product_nutrition_CTA_link_attributes:
-  'href': '#'
-product_nutrition_CTA_border_radius: 30
-product_allergens_CTA_title: 'DIET &amp; ALLERGENS'
-product_allergens_CTA_link_attributes:
-  'href': '#'
-product_allergens_CTA_border_radius: 30
-product_related_CTA_title: 'RELATED PRODUCTS'
-product_related_CTA_link_attributes:
-  'href': '#'
-product_related_CTA_border_radius: 30
+mobile_sections_items:
+  - title: 'NUTRITION & INGREDIENTS'
+    link_url: '#'
+    border_radius: 20
+    link_attributes: 
+      'id' : 'section-nutrition'
+  - title: 'DIET &amp; ALLERGENS'
+    link_url: '#'
+    border_radius: 20
+    link_attributes: 
+      'id' : 'section-allergens'
+  - title: 'RELATED PRODUCTS'
+    link_url: '#'
+    border_radius: 20
+    link_attributes: 
+      'id' : 'section-products'
 size_label: 'Available Sizes'
 size_items:
   - title: '1.36 oz'
