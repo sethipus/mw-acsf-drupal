@@ -114,7 +114,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
     $form['image'] = [
       '#type' => 'entity_autocomplete',
-      '#title' => 'Image',
+      '#title' => $this->t('Image'),
       '#target_type' => 'media',
       '#default_value' => $this->getImageEntity(),
       '#required' => TRUE,
