@@ -1,0 +1,57 @@
+theme_styles: 'twix'
+products_used: 'products used'
+
+product_used_items:
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+ingredients_list:
+  - content: '3/4 cup butter, melted'
+  - content: '2 cups light brown sugar'
+  - content: '3 eggs'
+  - content: '2 teaspoons vanilla'
+  - content: '2 teaspoons baking powder'
+  - content: '1 teaspoon flaked (or coarse) sea salt'
+  - content: '2 1/2 cup all purpose flour'
+  - content: '30 mini Twix bars coarsely chopped'
+  - content: '1 cup semi-sweet chocolate chips'
+  - content: 'Optional – more flaked sea salt for sprinkling'
+
+instructions_list:
+  - content: 'Preheat oven to 350°. Line a 9×13 baking pan with foil and coat with nonstick spray. Set aside.'
+  - content: 'In the bowl of your stand mixer fitted with the paddle attachment combine the butter and brown sugar on low speed. Add in the eggs, vanilla, baking powder and salt and mix until smooth.'
+  - content: 'With the mixer still on low add the the flour and mix until just combined.'
+  - content: 'Stir in the Twix and chocolate chips until evenly incorporated.'

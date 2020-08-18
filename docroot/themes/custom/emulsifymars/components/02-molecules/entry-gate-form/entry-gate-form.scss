@@ -58,6 +58,10 @@
     border: none;
     outline: none;
 
+    @include xs {
+      max-width: 6rem;
+    }
+
     @include small {
       max-width: 8rem;
     }
@@ -86,13 +90,28 @@
   &__input-label {
     position: absolute;
     display: block;
-    font-size: 2rem;
-    top: -2.2rem;
-    left: 34%;
+    width: 100%;
+    text-align: center;
+    left: 0;
     pointer-events: none;
     font-family: variable(secondary-font);
     transition: all .3s ease;
     color: clr(subcolor-1);
+
+    @include xs {
+      font-size: 1.6rem;
+      top: -1.8rem;
+    }
+
+    @include small {
+      font-size: 1.6rem;
+      top: -1.8rem;
+    }
+
+    @include medium {
+      font-size: 2rem;
+      top: -2.2rem;
+    }
   }
 
   &__submit-btn {
