@@ -31,10 +31,10 @@ social-feed:
   dependencies:
     - core/drupal
 
-slide:
+social-feed-slide:
   js:
-    dist/js/slide.js: {}
-    dist/js/vendors~slide.js: {}
+    dist/js/social_feed_slide.js: {}
+    dist/js/vendors~social_feed_slide.js: {}
   dependencies:
     - core/drupal
 
