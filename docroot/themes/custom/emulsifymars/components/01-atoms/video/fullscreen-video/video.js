@@ -71,6 +71,8 @@ Drupal.behaviors.fullscreenVideoPlayer = {
       videoContainer.setAttribute('data-fullscreen', !!state);
       // Set the fullscreen button's 'data-state' which allows the correct button image to be set via CSS
       fullscreen.setAttribute('data-state', !!state ? 'cancel-fullscreen' : 'go-fullscreen');
+      fullscreenPlay.setAttribute('data-state', !!state ? 'hidden' : 'play');
+      videoControls.setAttribute('data-state', !!state ? 'visible' : 'hidden');
     }
 
     // Checks if the document is currently in fullscreen mode
@@ -89,7 +91,6 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         else if (document.webkitCancelFullScreen) document.webkitCancelFullScreen();
         else if (document.msExitFullscreen) document.msExitFullscreen();
         videoControls.setAttribute('data-state', 'hidden');
-        fullscreenPlay.setAttribute('data-state', 'play');
         video.pause();
         setFullscreenData(false);
       } else {
@@ -105,7 +106,6 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           video.webkitRequestFullScreen();
         } else if (videoContainer.msRequestFullscreen) videoContainer.msRequestFullscreen();
         videoControls.setAttribute('data-state', 'visible');
-        fullscreenPlay.setAttribute('data-state', 'hidden');
         setFullscreenData(true);
       }
     }
@@ -190,13 +190,13 @@ Drupal.behaviors.fullscreenVideoPlayer = {
       document.addEventListener('fullscreenchange', function(e) {
         setFullscreenData(!!(document.fullScreen || document.fullscreenElement));
       });
-      document.addEventListener('webkitfullscreenchange', function() {
+      document.addEventListener('webkitfullscreenchange', function(e) {
         setFullscreenData(!!document.webkitIsFullScreen);
       });
-      document.addEventListener('mozfullscreenchange', function() {
+      document.addEventListener('mozfullscreenchange', function(e) {
         setFullscreenData(!!document.mozFullScreen);
       });
-      document.addEventListener('msfullscreenchange', function() {
+      document.addEventListener('msfullscreenchange', function(e) {
         setFullscreenData(!!document.msFullscreenElement);
       });
     }

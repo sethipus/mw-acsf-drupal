@@ -51,7 +51,7 @@
   overflow: hidden;
   background: transparent;
   width: 100%;
-  height: 5%;
+  height: 30px;
   position: relative;
 
   &[data-state="hidden"] {
@@ -97,6 +97,18 @@
     }
   }
 
+  #mute {
+    background-image: url('/icons/mute.svg');
+  }
+  
+  #subtitles {
+    background-image: url('/icons/subtitles.svg');
+  }
+  
+  #fs {
+    background-image: url('/icons/fullscreen.svg');
+  }
+
   .progress {
     cursor: pointer;
     width: 75%;
@@ -114,6 +126,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     margin-top: 5px;
+    height: 24px;
   }
 
   button:hover,
