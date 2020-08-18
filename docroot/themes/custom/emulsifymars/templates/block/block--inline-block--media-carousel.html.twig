@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Media carousel component.
+ * 'title' => NULL,
+ * 'items' => NULL,
+ */
+#}
+
+<div {{ bem('block') }}>
+    {{ title_prefix }}
+    {{ title_suffix }}
+    {% block content %}
+        {% include "@molecules/media-carousel/media-carousel.twig" with {
+            heading: title,
+            items: items,
+        } %}
+    {% endblock %}
+</div>
+
