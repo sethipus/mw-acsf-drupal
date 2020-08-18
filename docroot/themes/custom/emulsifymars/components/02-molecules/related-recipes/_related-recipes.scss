@@ -1,0 +1,13 @@
+.related-recipes {
+
+  &.h2 {
+    font-family: variable(primary-font);
+    font-size: 48px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 2.4px;
+    color: clr(primary);
+  }
+}

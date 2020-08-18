@@ -8,22 +8,41 @@ dependencies:
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients_number
+    - image.style.medium
     - node.type.recipe
   module:
+    - media
+    - text
     - user
+_core:
+  default_config_hash: YQH5UWjhRZr-gbr5XSRsPXVMDZSs-Sab7-TyZlAtcJA
 id: node.recipe.teaser
 targetEntityType: node
 bundle: recipe
 mode: teaser
 content:
-  links:
-    weight: 100
+  field_recipe_description:
+    type: text_default
+    weight: 1
+    region: content
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+  field_recipe_image:
+    type: media_thumbnail
+    weight: 0
     region: content
+    label: hidden
+    settings:
+      image_style: medium
+      image_link: ''
+    third_party_settings: {  }
+  links:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_recipe_cooking_time: true
-  field_recipe_description: true
-  field_recipe_image: true
   field_recipe_ingredients_number: true
   search_api_excerpt: true
