@@ -63,6 +63,7 @@ parent-page-header:
 media-carousel:
   js:
     dist/js/media_carousel.js: {}
+    dist/js/vendors~media_carousel~social_feed.js: {}
   dependencies:
     - core/drupal
 

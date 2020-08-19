@@ -13,6 +13,7 @@
     {{ title_suffix }}
     {% block content %}
         {% include "@molecules/article-media/full-width/full-width-media.twig" with {
+            theme_styles: 'drupal',
             heading: heading,
             media: media,
             content: content,

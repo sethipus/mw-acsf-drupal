@@ -13,7 +13,7 @@ module.exports = {
     social_feed_slide: path.resolve(distDir + '/js/02-molecules/slide/social-feed-slide', 'social-feed-slide.js'),
     social_feed: path.resolve(distDir + '/js/02-molecules/social-feed', 'social-feed.js'),
     media_carousel: path.resolve(distDir + '/js/02-molecules/media-carousel', 'media-carousel.js'),
-    fullsceen_video: path.resolve(distDir + '/js/01-atoms/video/fullscreen-video', 'video.js'),
+    fullscreen_video: path.resolve(distDir + '/js/01-atoms/video/fullscreen-video', 'video.js'),
     ambient_video: path.resolve(distDir + '/js/01-atoms/video/ambient-video', 'video.js'),
     entry_gate: path.resolve(distDir + '/js/02-molecules/entry-gate', 'entry-gate.js'),
   },

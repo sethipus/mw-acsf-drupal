@@ -12,6 +12,7 @@
     {{ title_suffix }}
     {% block content %}
         {% include "@molecules/article-media/wysiwyg/article-wysiwyg.twig" with {
+            theme_styles: 'drupal',
             content: content,
         } %}
     {% endblock %}
