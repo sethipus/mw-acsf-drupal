@@ -140,6 +140,34 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
 /**
  * Implements hook_preprocess_HOOK().
  */
+function mars_common_preprocess_block__inline_block__list(array &$variables) {
+  $field_list_items = $variables['content']['field_list_items'];
+
+  $ol_items = [];
+  foreach ($field_list_items as $item_key => $item_value) {
+    if (is_numeric($item_key)) {
+      $item = [
+        'content' => $item_value['#item_description'],
+      ];
+
+      if ($item_value['#item_url'] instanceof Url) {
+        $item['image'] = [
+          'src' => $item_value['#item_url']->getUri(),
+          'alt' => NULL,
+          'title' => NULL,
+        ];
+      }
+
+      $ol_items[] = $item;
+    }
+  }
+
+  $variables['ol_items'] = $ol_items;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
 function mars_common_preprocess_block__inline_block__text_component(array &$variables) {
   $field_body = $variables['content']['field_text_component_body'];
   $field_drop_cap = $variables['content']['field_text_component_drop_cap'];
