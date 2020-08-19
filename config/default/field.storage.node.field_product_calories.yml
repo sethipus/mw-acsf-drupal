@@ -1,0 +1,23 @@
+uuid: 358e647d-5c5d-4886-ad49-f82d914c7ef9
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: 8oepOHZcddKVV5lmry8S8onI_zk1H5XYH048dzln2ck
+id: node.field_product_calories
+field_name: field_product_calories
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

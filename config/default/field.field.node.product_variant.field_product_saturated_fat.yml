@@ -1,0 +1,21 @@
+uuid: 301f33bf-2dc3-446a-89e4-3fc3a9edf3a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_saturated_fat
+    - node.type.product_variant
+_core:
+  default_config_hash: 5L3i2BaL5pyTg2mwQtC7KTV3hw1SIZzu2-8rrOfEmSU
+id: node.product_variant.field_product_saturated_fat
+field_name: field_product_saturated_fat
+entity_type: node
+bundle: product_variant
+label: 'Saturated Fat'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

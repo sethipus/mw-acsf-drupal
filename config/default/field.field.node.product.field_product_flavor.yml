@@ -1,0 +1,31 @@
+uuid: 1f1cc559-a715-42ac-8dda-d7a007ec04e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_flavor
+    - node.type.product
+    - taxonomy.vocabulary.mars_flavor
+_core:
+  default_config_hash: qU9fUFZ-It3IYmDk4Bh2xnwIOgE4NtA0yC0YKN6oD0E
+id: node.product.field_product_flavor
+field_name: field_product_flavor
+entity_type: node
+bundle: product
+label: Flavor
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_flavor: mars_flavor
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

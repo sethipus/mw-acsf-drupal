@@ -1,0 +1,21 @@
+uuid: d1c9d4b6-3961-48a6-ab39-4a14b06565d0
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: O53b9plpniFV6FF90RsLxrYcX1znsec36t7MEQMMPYI
+id: recipe_reviewer
+label: 'Recipe reviewer'
+weight: 16
+is_admin: false
+permissions:
+  - 'access content overview'
+  - 'access toolbar'
+  - 'delete any recipe content'
+  - 'edit any recipe content'
+  - 'use editorial transition archive'
+  - 'use editorial transition publish'
+  - 'use editorial transition review'
+  - 'use moderation sidebar'
+  - 'view any unpublished content'
+  - 'view latest version'

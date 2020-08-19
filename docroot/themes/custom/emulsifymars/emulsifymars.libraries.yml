@@ -22,19 +22,23 @@ content-feature:
     - core/drupal
 
 social-feed:
-  css:
-    component:
-      dist/css/vendors~social_feed.css: {}
   js:
     dist/js/social_feed.js: {}
     dist/js/vendors~media_carousel~social_feed.js: {}
   dependencies:
     - core/drupal
 
-slide:
+entry-gate:
   js:
-    dist/js/slide.js: {}
-    dist/js/vendors~slide.js: {}
+    dist/js/entry_gate.js: {}
+    dist/js/vendors~entry_gate~social_feed_slide.js: {}
+  dependencies:
+    - core/drupal
+
+social-feed-slide:
+  js:
+    dist/js/social_feed_slide.js: {}
+    dist/js/vendors~entry_gate~social_feed_slide.js: {}
   dependencies:
     - core/drupal
 

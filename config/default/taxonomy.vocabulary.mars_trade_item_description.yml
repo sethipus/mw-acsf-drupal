@@ -1,0 +1,10 @@
+uuid: 6ad4b67d-6042-40f8-90b4-6a334eb72c94
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: pdVP2pG8ByreISLCd4NEbOZnej6b5pPVaNdL7zsB3vU
+name: 'Trade item description'
+vid: mars_trade_item_description
+description: ''
+weight: 0

@@ -39,8 +39,13 @@ field_settings:
         anonymous: anonymous
       view_mode:
         'entity:node':
+          article: default
           landing_page: full
           page: default
+          product: default
+          product_multipack: default
+          product_variant: default
+          recipe: default
   status:
     label: null
     datasource_id: 'entity:node'

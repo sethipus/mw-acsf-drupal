@@ -1,0 +1,21 @@
+uuid: 66b5741f-9c15-4ab7-afdb-6344733931bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_servings_per
+    - node.type.product_variant
+_core:
+  default_config_hash: OoMFqDMsbmKCG_iICd1BVwq1aoTne7WCAvubKIC4fR0
+id: node.product_variant.field_product_servings_per
+field_name: field_product_servings_per
+entity_type: node
+bundle: product_variant
+label: 'Servings Per Container'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

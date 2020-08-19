@@ -52,7 +52,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'social_feed_block' => [
       'variables' => [
-        'title' => '',
+        'label' => '',
         'items' => [],
       ],
     ],
@@ -80,6 +80,17 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'item_url' => NULL,
         'item_description' => NULL,
       ],
+    ],
+    'product_feature_block' => [
+      'variables' => [
+        'eyebrow' => NULL,
+        'label' => NULL,
+        'background_color' => NULL,
+        'image' => NULL,
+        'explore_cta' => NULL,
+        'explore_cta_link' => NULL,
+      ],
+      'template' => 'product-feature-block',
     ],
   ];
 }
@@ -254,7 +265,11 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
  * Implements hook_form_alter().
  */
 function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  if ($form_id === 'block_form') {
+  if (
+    $form_id === 'block_form' ||
+    $form_id === 'layout_builder_add_block' ||
+    $form_id === 'layout_builder_update_block'
+  ) {
     $form['settings']['label_display']['#access'] = FALSE;
   }
 }
