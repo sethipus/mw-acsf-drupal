@@ -152,20 +152,34 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__list(array &$variables) {
-  $field_list_items = $variables['content']['field_list_items'];
+  $field_list_items = $variables['content']['field_list_items_reference'];
 
   $ol_items = [];
   foreach ($field_list_items as $item_key => $item_value) {
     if (is_numeric($item_key)) {
+
+      $item_block = $item_value['#options']['entity'];
+      $field_desc_val = $item_block->get('field_list_item_description')->value;
+      $field_image_val = $item_block->get('field_list_item_image')->getValue();
+
       $item = [
-        'content' => $item_value['#item_description'],
+        'content' => $field_desc_val,
       ];
 
-      if ($item_value['#item_url'] instanceof Url) {
+      if (isset($field_image_val[0])) {
+        $file_uri = \Drupal::entityTypeManager()
+          ->getStorage('file')
+          ->load($field_image_val[0]['target_id'])
+          ->getFileUri();
+
+        $file_url = Url::fromUri(file_create_url($file_uri));
+        $image_alt = $field_image_val[0]['alt'];
+        $image_title = $field_image_val[0]['title'];
+
         $item['image'] = [
-          'src' => $item_value['#item_url']->getUri(),
-          'alt' => NULL,
-          'title' => NULL,
+          'src' => $file_url,
+          'alt' => $image_alt,
+          'title' => $image_title,
         ];
       }
 
