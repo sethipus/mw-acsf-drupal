@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_recipe_video
     - media.type.video
+    - media.type.video_file
     - node.type.recipe
 _core:
   default_config_hash: MCAuUgYPkeZSmw7AasCO6-GshoknQupkD1IjNum9NOU
@@ -23,8 +24,9 @@ settings:
   handler_settings:
     target_bundles:
       video: video
+      video_file: video_file
     sort:
       field: _none
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: video
 field_type: entity_reference

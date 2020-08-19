@@ -2,6 +2,7 @@
 {% set icon_clock = icon_clock|default('/' ~ base_path ~ directory ~ '/images/icons/clock.svg') %}
 {% set icon_ingredients = icon_ingredients|default('/' ~ base_path ~ directory ~ '/images/icons/ingredients.svg') %}
 {% set icon_makes = icon_makes|default('/' ~ base_path ~ directory ~'/images/icons/makes.svg') %}
+{% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
 
 <div class="recipe-header" data-theme="{{ theme_styles }}">
   <div class="recipe-header__title">{{ "Recipe" | t }}</div>
@@ -30,7 +31,7 @@
   {% endif %}
   <div class="recipe-media__info">
     {% include "@atoms/images/image/background-image.twig" with {
-      image_src: 'twix-border-white.svg',
+      image_src: icon_border,
       background_repeat: 'repeat',
       height: '50px',
     } %}

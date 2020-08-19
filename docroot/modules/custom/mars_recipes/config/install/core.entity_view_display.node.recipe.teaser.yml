@@ -8,6 +8,8 @@ dependencies:
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients_number
+    - field.field.node.recipe.field_recipe_number_of_servings
+    - field.field.node.recipe.field_recipe_video
     - image.style.medium
     - node.type.recipe
   module:
@@ -15,7 +17,7 @@ dependencies:
     - text
     - user
 _core:
-  default_config_hash: YQH5UWjhRZr-gbr5XSRsPXVMDZSs-Sab7-TyZlAtcJA
+  default_config_hash: BkxoW4GYzpkl1PTl7kPB5X4od3CYhIkwfU8ldeaQU3k
 id: node.recipe.teaser
 targetEntityType: node
 bundle: recipe
@@ -45,4 +47,6 @@ content:
 hidden:
   field_recipe_cooking_time: true
   field_recipe_ingredients_number: true
+  field_recipe_number_of_servings: true
+  field_recipe_video: true
   search_api_excerpt: true

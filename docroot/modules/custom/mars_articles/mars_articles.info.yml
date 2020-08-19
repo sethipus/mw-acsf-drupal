@@ -4,3 +4,5 @@ package: 'Mars'
 core_version_requirement: '^8.8 || ^9'
 dependencies:
   - mars_product
+  - social_media:social_media
+  - publication_date:publication_date
