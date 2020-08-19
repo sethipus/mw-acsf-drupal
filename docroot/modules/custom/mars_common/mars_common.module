@@ -7,6 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_theme().
@@ -64,7 +65,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'parent-page-header-block',
     ],
-    'carousel_item_widget' => [
+    'file_text_item_widget' => [
       'render element' => 'element',
     ],
     'carousel_item_formatter' => [
@@ -72,6 +73,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'item_url' => NULL,
         'item_description' => NULL,
         'media_type' => NULL,
+      ],
+    ],
+    'list_item_formatter' => [
+      'variables' => [
+        'item_url' => NULL,
+        'item_description' => NULL,
       ],
     ],
     'product_feature_block' => [
@@ -97,7 +104,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
  *   An associative array containing:
  *   - element: A render element representing the carousel item field widget.
  */
-function mars_common_preprocess_carousel_item_widget(array &$variables) {
+function mars_common_preprocess_file_text_item_widget(array &$variables) {
   $element = $variables['element'];
 
   $variables['attributes'] = [
@@ -128,13 +135,130 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
     if (is_numeric($item_key)) {
       $media_items[] = [
         'src' => $item_value['#item_url']->getUri(),
-        'description' => $item_value['#item_description'],
+        'content' => $item_value['#item_description'],
+        'video' => ($item_value['#media_type'] == 'video'),
+        'image' => ($item_value['#media_type'] == 'image'),
+        'alt' => NULL,
+        'title' => NULL,
       ];
     }
   }
 
   $variables['title'] = $field_carousel_title['#items'][0]->value;
   $variables['items'] = $media_items;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__list(array &$variables) {
+  $field_list_items = $variables['content']['field_list_items'];
+
+  $ol_items = [];
+  foreach ($field_list_items as $item_key => $item_value) {
+    if (is_numeric($item_key)) {
+      $item = [
+        'content' => $item_value['#item_description'],
+      ];
+
+      if ($item_value['#item_url'] instanceof Url) {
+        $item['image'] = [
+          'src' => $item_value['#item_url']->getUri(),
+          'alt' => NULL,
+          'title' => NULL,
+        ];
+      }
+
+      $ol_items[] = $item;
+    }
+  }
+
+  $variables['ol_items'] = $ol_items;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__text_component(array &$variables) {
+  $field_body = $variables['content']['field_text_component_body'];
+  $field_drop_cap = $variables['content']['field_text_component_drop_cap'];
+  $variables['content'] = $field_body['#items'][0]->value;
+  $variables['drop_cap'] = $field_drop_cap['#items'][0]->value;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__inline_image(array &$variables) {
+  $field_image = $variables['content']['field_inline_image_file']['#items']->target_id;
+  $image_alt = $variables['content']['field_inline_image_file']['#items']->alt;
+  $field_shape_motif = $variables['content']['field_inline_image_svg_asset']['#items']->value;
+  $field_image_desc = $variables['content']['field_inline_image_description']['#items']->value;
+
+  $file_url = NULL;
+  if (isset($field_image)) {
+    $file_uri = \Drupal::entityTypeManager()
+      ->getStorage('file')
+      ->load($field_image)
+      ->getFileUri();
+
+    $file_url = Url::fromUri(file_create_url($file_uri));
+  }
+
+  $variables['image_src'] = $file_url;
+  $variables['image_alt'] = $image_alt;
+  $variables['image_title'] = NULL;
+  $variables['shape_motif'] = (bool) $field_shape_motif;
+  $variables['content'] = $field_image_desc;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__full_width_image(array &$variables) {
+  $field_image = $variables['content']['field_full_image_file']['#items']->target_id;
+  $image_alt = $variables['content']['field_full_image_file']['#items']->alt;
+  $field_shape_motif = $variables['content']['field_full_image_svg_asset']['#items']->value;
+  $field_image_desc = $variables['content']['field_full_image_description']['#items']->value;
+  $field_heading = $variables['content']['field_full_image_title']['#items']->value;
+
+  $file_url = NULL;
+  if (isset($field_image)) {
+    $file_uri = \Drupal::entityTypeManager()
+      ->getStorage('file')
+      ->load($field_image)
+      ->getFileUri();
+
+    $file_url = Url::fromUri(file_create_url($file_uri));
+  }
+
+  $variables['heading'] = $field_heading;
+  $variables['content'] = $field_image_desc;
+  $variables['shape_motif'] = (bool) $field_shape_motif;
+  $variables['media'] = [
+    'image' => TRUE,
+    'src' => $file_url,
+    'alt' => $image_alt,
+    'title' => NULL,
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__full_width_video(array &$variables) {
+  $field_video_url = $variables['content']['field_full_video_path']['#items']->value;
+  $field_shape_motif = $variables['content']['field_full_video_svg_asset']['#items']->value;
+  $field_video_desc = $variables['content']['field_full_video_description']['#items']->value;
+  $field_heading = $variables['content']['field_full_video_title']['#items']->value;
+
+  $variables['heading'] = $field_heading;
+  $variables['content'] = $field_video_desc;
+  $variables['shape_motif'] = (bool) $field_shape_motif;
+  $variables['media'] = [
+    'video' => TRUE,
+    'src' => $field_video_url,
+  ];
 }
 
 /**

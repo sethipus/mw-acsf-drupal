@@ -1,4 +1,4 @@
-uuid: 5218ad70-1b7e-4e25-9028-a8ff49821edd
+uuid: 3d7ffef6-f5c5-4fbb-9e06-e172d3260515
 langcode: en
 status: true
 dependencies:
@@ -6,10 +6,10 @@ dependencies:
     - block_content
     - file
     - mars_common
-id: block_content.field_carousel_items
-field_name: field_carousel_items
+id: block_content.field_list_items
+field_name: field_list_items
 entity_type: block_content
-type: carousel_item
+type: list_item
 settings:
   uri_scheme: public
   target_type: file
@@ -17,7 +17,7 @@ settings:
   display_default: false
 module: mars_common
 locked: false
-cardinality: 12
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false
