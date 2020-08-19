@@ -17,7 +17,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
  * @Block(
  *   id = "recipe_detail_hero",
  *   admin_label = @Translation("Recipe detail hero"),
- *   category = @Translation("Hero"),
+ *   category = @Translation("Recipe"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label =
  *   @Translation("Recipe"))
@@ -36,6 +36,13 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $viewBuilder;
 
   /**
+   * File storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
+
+  /**
    * The configFactory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -49,6 +56,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->configFactory = $config_factory;
+    $this->fileStorage = $entity_type_manager->getStorage('file');
   }
 
   /**
@@ -69,6 +77,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    */
   public function build() {
     $node = $this->getContextValue('node');
+    $theme_settings = $this->configFactory->get('emulsifymars.settings')->get();
 
     $build = [
       '#label' => $node->label(),
@@ -83,10 +92,14 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#theme' => 'recipe_detail_hero_block',
     ];
 
+    // Get graphic devider path.
+    if (!empty($theme_settings['graphic_divider']) && count($theme_settings['graphic_divider']) > 0) {
+      $devider_file = $this->fileStorage->load($theme_settings['graphic_divider'][0]);
+      $build['#border'] = !empty($devider_file) ? $devider_file->createFileUrl() : '';
+    }
+
     if ($node->hasField('field_recipe_video') && $node->field_recipe_video->entity) {
-      $build['#video'] = [
-        'url' => $node->field_recipe_video->entity->video->entity->createFileUrl(),
-      ];
+      $build['#video'] = $node->field_recipe_video->entity->get('field_media_video_file')->entity->createFileUrl();;
     }
 
     $build['#social_links'] = $this->socialLinks();

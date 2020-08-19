@@ -97,6 +97,13 @@ $xl-gap-width: 30px;
       border-left-color: white;
     }
   }
+
+  #playpause[data-state="pause"] {
+
+    @include medium {
+      bottom: 160px;
+    }
+  }
 }
 
 .recipe-details {

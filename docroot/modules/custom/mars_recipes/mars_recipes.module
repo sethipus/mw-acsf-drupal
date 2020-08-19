@@ -20,6 +20,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'image' => NULL,
         'video' => NULL,
         'social_links' => NULL,
+        'border' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
     ],
