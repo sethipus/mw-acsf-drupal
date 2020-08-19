@@ -15,9 +15,11 @@
           responsive_image_blockname: image.0.class,
         } %}
       {% endblock %}
-      <div class="curve">
-        {{ shape }}
-      </div>
+      {% block article_media_devider %}
+        <div class="curve">
+          {{ shape | raw }}
+        </div>
+      {% endblock %}
     </div>
 
     <div {{ bem('text_wrapper', [], article_header) }}>

@@ -1,5 +1,5 @@
 {% embed "@molecules/article-header/article-header-image.twig" with {
-  theme_styles: 'drupal',
+  theme_styles: 'dove',
   shape: graphic_divider,
   eyebrow: eyebrow,
   heading: label,
@@ -17,6 +17,11 @@
       image_src: image.url,
       responsive_image_blockname: 'article-header-image',
     } %}
+  {% endblock %}
+  {% block article_media_devider %}
+    <div class="triangle">
+      {{ shape | raw }}
+    </div>
   {% endblock %}
   {% block article_social_menu %}
     {% include "@molecules/menus/social/social-menu.twig" with {

@@ -43,6 +43,13 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $nodeStorage;
 
   /**
+   * File storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
+
+  /**
    * Config Factory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -65,6 +72,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->configFactory = $config_factory;
     $this->dateFormatter = $date_formatter;
+    $this->fileStorage = $entity_type_manager->getStorage('file');
   }
 
   /**
@@ -85,6 +93,8 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
    * {@inheritdoc}
    */
   public function build() {
+    global $base_url;
+
     $node = $this->getContextValue('node');
     $theme_settings = $this->configFactory->get('emulsifymars.settings')->get();
 
@@ -113,7 +123,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     // Get graphic divider path.
     if (!empty($theme_settings['graphic_divider']) && count($theme_settings['graphic_divider']) > 0) {
       $devider_file = $this->fileStorage->load($theme_settings['graphic_divider'][0]);
-      $build['#graphic_divider'] = !empty($devider_file) ? $devider_file->createFileUrl() : '';
+      $build['#graphic_divider'] = !empty($devider_file) ? file_get_contents($base_url . $devider_file->createFileUrl()) : '';
     }
 
     $build['#social_links'] = $this->socialLinks();

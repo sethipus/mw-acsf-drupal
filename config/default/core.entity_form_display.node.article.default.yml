@@ -10,6 +10,8 @@ dependencies:
     - field.field.node.article.field_article_new
     - field.field.node.article.field_article_occasions
     - field.field.node.article.field_article_related_products
+    - field.field.node.article.layout_builder__layout
+    - field.field.node.article.layout_selection
     - node.type.article
   module:
     - content_moderation
@@ -89,6 +91,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  layout_selection:
+    type: options_select
+    region: content
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 12
@@ -132,5 +140,6 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  layout_builder__layout: true
   promote: true
   sticky: true
