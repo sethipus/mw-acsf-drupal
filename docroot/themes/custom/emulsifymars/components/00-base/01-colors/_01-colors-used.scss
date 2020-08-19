@@ -1,12 +1,13 @@
 // Color Usage variables - use these (via the `clr` function below)
 // rather than color variables directly.
 $defaultColors: (
-  play-button: $red,
+  player: $red,
   text: $gray,
   text-inverse: $white,
   background: $white,
   background-section: $gray-lightest,
   background-button: $gray-tranparent,
+  background-carousel: $floral-white,
   primary: $blue,
   secondary: $purple,
   accent: $gray-dark,
@@ -18,6 +19,7 @@ $defaultColors: (
   error: $red-light,
   message: $green-light,
   subcolor-1: $cerise-red,
+  list: $alizarin-crimson-1,
 );
 
 $marsColors: (
@@ -40,6 +42,7 @@ $marsColors: (
   subcolor-2: $blue-marguerite,
   subcolor-3: $mine-shaft,
   subcolor-4: $cararra,
+  list: $alizarin-crimson-1,
 
   pp-header-bg: $light-brown,
 );
@@ -64,6 +67,7 @@ $twixColors: (
   subcolor-2: $sandwisp,
   subcolor-3: $white,
   subcolor-4: $silver,
+  list: $alizarin-crimson-1,
 
   pp-header-bg: $light-brown,
 );

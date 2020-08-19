@@ -1,0 +1,28 @@
+uuid: dcbd72e1-709a-46cd-89f8-cd5f5da0951b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.media_carousel
+    - field.storage.block_content.field_carousel_items
+  module:
+    - mars_common
+id: block_content.media_carousel.field_carousel_items
+field_name: field_carousel_items
+entity_type: block_content
+bundle: media_carousel
+label: 'Carousel items'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg mp4 ogg avi mpg mov'
+  max_filesize: ''
+  desc_field: 1
+  desc_field_required: 0
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: carousel_item

@@ -1,0 +1,17 @@
+{#
+/**
+ * @file
+ * Ordered list component.
+ * 'ol_items' => NULL,
+ */
+#}
+
+<div {{ bem('block') }} style="max-width:780px;margin:0 auto;">
+    {{ title_prefix }}
+    {{ title_suffix }}
+    {% block content %}
+        {% include "@atoms/lists/ol.twig" with {
+            ol_items: ol_items
+        } %}
+    {% endblock %}
+</div>

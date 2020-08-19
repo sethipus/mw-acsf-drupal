@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * MARS Articles module main file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_articles_theme($existing, $type, $theme, $path) {
+  return [
+    'article_header_block_image' => [
+      'variables' => [
+        'label' => NULL,
+        'eyebrow' => NULL,
+        'publication_date' => NULL,
+        'image' => NULL,
+        'social_links' => NULL,
+        'graphic_divider' => NULL,
+      ],
+      'template' => 'block--mars-articles--header-image',
+    ],
+    'article_header_block_no_image' => [
+      'variables' => [
+        'label' => NULL,
+        'eyebrow' => NULL,
+        'publication_date' => NULL,
+        'social_links' => NULL,
+        'graphic_divider' => NULL,
+      ],
+      'template' => 'block--mars-articles--header-no-image',
+    ],
+  ];
+}

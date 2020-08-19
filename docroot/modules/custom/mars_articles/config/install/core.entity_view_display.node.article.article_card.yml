@@ -1,0 +1,65 @@
+uuid: 89058a9d-890a-4d8d-b5db-a80e5376f069
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.article_card
+    - field.field.node.article.field_article_brand_initiatives
+    - field.field.node.article.field_article_description
+    - field.field.node.article.field_article_image
+    - field.field.node.article.field_article_new
+    - field.field.node.article.field_article_occasions
+    - field.field.node.article.field_article_related_products
+    - node.type.article
+  module:
+    - layout_builder
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+_core:
+  default_config_hash: 5aFgQ8A4y2gkv9-vwy7WRgAoxRvtFXm4bpN8NZO7FCI
+id: node.article.article_card
+targetEntityType: node
+bundle: article
+mode: article_card
+content:
+  field_article_description:
+    type: text_trimmed
+    weight: 2
+    region: content
+    label: above
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+  field_article_image:
+    type: entity_reference_entity_view
+    weight: 1
+    region: content
+    label: above
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+  field_article_new:
+    type: boolean
+    weight: 3
+    region: content
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_article_brand_initiatives: true
+  field_article_occasions: true
+  field_article_related_products: true
+  search_api_excerpt: true

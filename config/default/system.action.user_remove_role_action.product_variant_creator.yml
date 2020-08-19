@@ -1,0 +1,14 @@
+uuid: af0a2e9c-3c8c-43cf-83e4-80fe488a6fc9
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.product_variant_creator
+  module:
+    - user
+id: user_remove_role_action.product_variant_creator
+label: 'Remove the Product Variant creator role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: product_variant_creator

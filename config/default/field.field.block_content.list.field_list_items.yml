@@ -1,0 +1,28 @@
+uuid: 30b67e14-ebcb-4994-bf61-0152e19f1735
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.list
+    - field.storage.block_content.field_list_items
+  module:
+    - mars_common
+id: block_content.list.field_list_items
+field_name: field_list_items
+entity_type: block_content
+bundle: list
+label: 'List items'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg mp4'
+  max_filesize: ''
+  desc_field: 1
+  desc_field_required: 1
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: list_item

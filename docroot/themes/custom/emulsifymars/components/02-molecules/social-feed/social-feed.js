@@ -1,11 +1,10 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
-import 'swiper/swiper-bundle.css';
 
 Drupal.behaviors.socialFeed = {
   attach(context) {
     // init swiper
     Swiper.use([Navigation, Pagination, Scrollbar]);
-    const swiper = new Swiper('.swiper-container', {
+    const swiper = new Swiper('.social-feed-swiper-container', {
       slidesPerView: 'auto',
       spaceBetween: 20,
       slidesOffsetBefore: 50,

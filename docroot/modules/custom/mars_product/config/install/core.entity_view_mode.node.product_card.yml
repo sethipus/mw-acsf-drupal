@@ -1,0 +1,14 @@
+uuid: 18a948f0-c574-4260-a885-a6885431a3a1
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_core
+    - node
+third_party_settings:
+  lightning_core:
+    description: ''
+id: node.product_card
+label: 'Product Card'
+targetEntityType: node
+cache: true

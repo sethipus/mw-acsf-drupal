@@ -1,0 +1,122 @@
+.product-used {
+  padding: 30px 20px 0;
+  position: relative;
+
+  @include medium {
+    padding-top: 60px;
+  }
+
+  @include xl {
+    padding: 60px 0 0;
+  }
+
+  &__title {
+    font: 20px/1.1em variable(primary-font);
+    color: clr(subcolor-1);
+    text-transform: capitalize;
+    letter-spacing: 1px;
+
+    @include medium {
+      font-size: 28px;
+      line-height: 31px;
+    }
+  }
+}
+
+.product-used-item {
+  margin-top: 34px;
+
+  @include medium {
+    margin-top: 30px;
+  }
+}
+
+.recipe-body-content {
+  padding: 0 20px 27px;
+  position: relative;
+
+  @include medium {
+    padding: 0 40px 38px;
+  }
+
+  @include xl {
+    padding: 0 0 38px;
+  }
+
+
+  .recipe-body-content-header {
+    margin: 31px 0 13px;
+    font: 20px/1.1em variable(primary-font);
+    color: clr(subcolor-1);
+    text-transform: capitalize;
+    letter-spacing: 1.12px;
+
+    @include medium {
+      margin: 31px 0 24px;
+      font-size: 26px;
+      line-height: 29px;
+    }
+
+    @include xl {
+      font-size: 28px;
+      line-height: 31px;
+    }
+  }
+
+  .recipe-body-ingredients-list {
+    list-style-position: inside;
+    list-style-type: none;
+    font: 18px/29px variable(secondary-font);
+    color: clr(subcolor-1);
+    letter-spacing: -1.1px;
+    padding: 0;
+    margin: 13px 0;
+
+    @include xl {
+      font-size: 20px;
+      line-height: 36px;
+    }
+
+    .list-item {
+      position: relative;
+      text-indent: 16px;
+
+      @include xl {
+        text-indent: 20px;
+      }
+
+      &::before {
+        content: "";
+        background-color: clr(primary);
+        height: 7px;
+        width: 7px;
+        border-radius: 3.5px;
+        position: absolute;
+        left: 1px;
+        top: 10px;
+
+        @include xl {
+          height: 6px;
+          width: 6px;
+          border-radius: 3px;
+          top: 14px;
+        }
+      }
+    }
+  }
+
+  &::before {
+    content: "";
+    height: 1px;
+    width: calc(100% - 40px);
+    background-color: rgba(196, 196, 196, 0.6);
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+
+    @include medium {
+      width: calc(100% - 80px);
+      left: 40px;
+    }
+  }
+}

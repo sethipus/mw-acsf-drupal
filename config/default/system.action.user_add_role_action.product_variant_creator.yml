@@ -1,0 +1,14 @@
+uuid: cecd9936-c5b1-4fb1-a091-94fa3f48658f
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.product_variant_creator
+  module:
+    - user
+id: user_add_role_action.product_variant_creator
+label: 'Add the Product Variant creator role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: product_variant_creator

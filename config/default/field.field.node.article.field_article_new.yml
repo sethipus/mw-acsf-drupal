@@ -1,0 +1,25 @@
+uuid: aca30697-e4a3-4c37-9bb3-78216c34d2a5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_new
+    - node.type.article
+_core:
+  default_config_hash: SEz-CvWKX15Yr6yN7ka7dcRoRZ6ApwAOk9aJhDMdF48
+id: node.article.field_article_new
+field_name: field_article_new
+entity_type: node
+bundle: article
+label: New
+description: 'Mark article card to include a "New" badge.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: New
+  off_label: 'Not new'
+field_type: boolean

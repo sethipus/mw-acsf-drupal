@@ -6,6 +6,8 @@ dependencies:
     - field.storage.node.field_recipe_image
     - media.type.image
     - node.type.recipe
+_core:
+  default_config_hash: 3Wx6PJv3kmSHYquNJye93TYG8zZZx_lak2WhcAOQj2s
 id: node.recipe.field_recipe_image
 field_name: field_recipe_image
 entity_type: node

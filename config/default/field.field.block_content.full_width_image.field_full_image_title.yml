@@ -1,0 +1,19 @@
+uuid: 865fdbc4-e96d-4db3-9f70-8e22c84b8dd7
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.full_width_image
+    - field.storage.block_content.field_full_image_title
+id: block_content.full_width_image.field_full_image_title
+field_name: field_full_image_title
+entity_type: block_content
+bundle: full_width_image
+label: 'Image title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
