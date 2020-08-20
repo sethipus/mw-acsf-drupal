@@ -1,0 +1,21 @@
+uuid: 03f4b2b5-f6d3-4bb0-b9ad-bc4463825394
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_vitamin_d_daily
+    - node.type.product_variant
+_core:
+  default_config_hash: jqIYuM5tHJl3d4Zj-31nauTBM-8AF5WurqQO9ttgpSg
+id: node.product_variant.field_product_vitamin_d_daily
+field_name: field_product_vitamin_d_daily
+entity_type: node
+bundle: product_variant
+label: 'Vitamin D % Daily Value'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,34 +1,18 @@
-{% set full_width__base_class = 'article-inline' %}
+{% set inline_width__base_class = 'article-inline' %}
 
-<section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}">
-  <div {{ bem('heading', [], full_width__base_class) }}>
-    {% include "@atoms/text/headings/_heading.twig" with {
-      heading_level: 1,
-      heading_base_class: 'article-full-width__heading',
-      heading_modifiers: ['main-heading'],
-      heading: heading
+<section {{ bem(inline_width__base_class) }} data-theme="{{ theme_styles }}">
+  <div {{ bem('media', [], inline_width__base_class) }}>
+    {% include "@atoms/images/image/_image.twig" with {
+      image_base_class: base_class,
+      image_modifiers: image_modifiers,
+      image_blockname: image_blockname,
+      image_src: image_src,
+      image_alt: image_alt,
+      image_title: image_title,
     } %}
   </div>
 
-  <div {{ bem('media', [], full_width__base_class) }}>
-    {% if media.image %}
-      {% include "@atoms/images/image/_image.twig" with {
-        image_base_class: base_class,
-        image_modifiers: image_modifiers,
-        image_blockname: image_blockname,
-        image_src: media.src,
-        image_alt: media.alt,
-        image_title: media.title,
-      } %}
-    {% elseif media.video %}
-      {% include "@atoms/video/fullscreen-video/video.twig" with {
-        video__src__url: media.src
-      } %}
-      <button {{ bem('control', [], 'video') }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
-    {% endif %}
-  </div>
-
-  <div {{ bem('content', [], full_width__base_class) }}>
+  <div {{ bem('content', [], inline_width__base_class) }}>
     {% include "@atoms/text/text/01-paragraph.twig" with {
       paragraph_size: paragraph_size,
       paragraph_content: content,

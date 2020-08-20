@@ -1,0 +1,24 @@
+uuid: 3d7ffef6-f5c5-4fbb-9e06-e172d3260515
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - file
+    - mars_common
+id: block_content.field_list_items
+field_name: field_list_items
+entity_type: block_content
+type: list_item
+settings:
+  uri_scheme: public
+  target_type: file
+  display_field: false
+  display_default: false
+module: mars_common
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

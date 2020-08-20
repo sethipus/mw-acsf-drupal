@@ -1,0 +1,23 @@
+uuid: edd8b9d5-5b72-4706-9d82-d4b20d89037a
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.list
+    - field.field.block_content.list.field_list_items
+  module:
+    - mars_common
+id: block_content.list.default
+targetEntityType: block_content
+bundle: list
+mode: default
+content:
+  field_list_items:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_item_formatter
+    region: content
+hidden:
+  search_api_excerpt: true

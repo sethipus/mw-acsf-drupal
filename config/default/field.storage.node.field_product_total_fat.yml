@@ -1,0 +1,23 @@
+uuid: fcac93a1-af17-4fbc-84d4-709b51b1d63f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: N5IxrzNjrmTCRZS-6f3IqXQb8xaPefC1XBqMAHnOGzs
+id: node.field_product_total_fat
+field_name: field_product_total_fat
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

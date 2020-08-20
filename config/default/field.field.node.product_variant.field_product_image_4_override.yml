@@ -1,0 +1,30 @@
+uuid: c30d10d9-174e-4c21-a05a-7cdf0a6cd09d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_image_4_override
+    - media.type.image
+    - node.type.product_variant
+_core:
+  default_config_hash: qB-2AMNq1ioChE658a_8wt8pf_G3L3SeCTgL7VxFhV8
+id: node.product_variant.field_product_image_4_override
+field_name: field_product_image_4_override
+entity_type: node
+bundle: product_variant
+label: 'Supporting Image 4 Override'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
