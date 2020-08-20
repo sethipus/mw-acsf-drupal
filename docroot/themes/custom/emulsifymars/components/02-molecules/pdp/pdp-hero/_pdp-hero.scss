@@ -146,6 +146,10 @@
       text-decoration: none;
       color: clr(subcolor-3);
 
+      &[data-size-selected="true"] {
+        text-decoration: underline;
+      }
+
       @include medium {
         font-size: 1.4rem;
         padding: 1.6rem 1.3rem;
@@ -223,8 +227,12 @@
     padding-right: 13.2rem;
   
     @include large {
-      display: flex;
+      display: none;
       align-items: center;
+    }
+
+    &[data-slider-size-active="true"] {
+      display: flex;
     }
 
     .swiper-pagination {

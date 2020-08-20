@@ -30,6 +30,7 @@
                 link_blockname: pdp_hero_base_class,
                 link_content: size_item.title,
                 link_url: size_item.link_url,
+                link_attributes: size_item.size_attributes,
               } %}
             </li>
           {% endfor %}
@@ -100,16 +101,18 @@
         default_link_modifiers: ['pdp-desktop', 'pdp-hero'],
       } %}
     </div>
-    <div {{ bem('slider-container', [], pdp_hero_base_class) }}>
-      <div class="swiper-container pdp-hero-swiper-container">
-        <div class="swiper-wrapper">
-            {% for item in image_items %}
-              {% include "@molecules/slide/pdp-hero-slide/pdp-hero-slide.twig" with { item: item } %}
-            {% endfor %}
+    {% for size_item in image_items %}
+      <div {{ bem('slider-container', [], pdp_hero_base_class) }} data-slider-size-active={{size_item.active}} data-slider-size-id={{size_item.size_id}}>
+        <div class="swiper-container pdp-hero-swiper-container">
+          <div class="swiper-wrapper">
+              {% for image_item in size_item.images %}
+                {% include "@molecules/slide/pdp-hero-slide/pdp-hero-slide.twig" with { item: image_item } %}
+              {% endfor %}
+          </div>
         </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-control"><i class="swiper-play-icon"></i></div>
       </div>
-      <div class="swiper-pagination"></div>
-      <div class="swiper-control"><i class="swiper-play-icon"></i></div>
-    </div>
+    {% endfor %}
   </div>
 </section>
