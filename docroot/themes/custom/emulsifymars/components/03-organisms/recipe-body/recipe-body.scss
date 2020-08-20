@@ -105,6 +105,34 @@
     }
   }
 
+  .recipe-body-content-paragraph {
+    margin: 40px 0;
+    font: 18px/1.65em variable(secondary-font);
+    color: clr(subcolor-1);
+    letter-spacing: -1.1px;
+
+    @include xl {
+      font-size: 20px;
+      line-height: 1.8em;
+    }
+  }
+
+  .recipe-body-video {
+    &__full {
+      width: 100vw;
+      margin-left: -20px;
+
+      @include medium {
+        margin-left: -40px;
+      }
+
+      @include xl {
+        width: 1128px;
+        margin-left: 0;
+      }
+    }
+  }
+
   &::before {
     content: "";
     height: 1px;
@@ -117,6 +145,25 @@
     @include medium {
       width: calc(100% - 80px);
       left: 40px;
+    }
+  }
+
+  &__top {
+    &::before {
+      bottom: 0;
+    }
+  }
+
+  &__bottom {
+    margin-bottom: 100px;
+    padding-top: 30px;
+
+    .recipe-body-content-header {
+      margin-top: 0;
+    }
+
+    &::before {
+      top: 0;
     }
   }
 }
