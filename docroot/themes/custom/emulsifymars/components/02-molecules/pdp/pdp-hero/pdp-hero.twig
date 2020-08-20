@@ -1,5 +1,7 @@
 {{ attach_library('emulsifymars/pdp-hero') }}
 {% set pdp_hero_base_class = pdp_hero_base_class|default('pdp-hero') %}
+{% set pdp_main_image = image_items|first.images|first %}
+{% set pdp_side_images = image_items|first.images[1:] %}
 
 <section id="pdp-hero" {{ bem(pdp_hero_base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('container', [], pdp_hero_base_class) }}>
@@ -39,8 +41,8 @@
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
         <div {{ bem('main-image-container', [], pdp_hero_base_class) }}>
           {% include "@atoms/images/image/responsive-image.twig" with {
-            image_alt: image_items|first.image.alt,
-            image_srcset: image_items|first.image.srcset,
+            image_alt: pdp_main_image.image.alt,
+            image_srcset: pdp_main_image.image.srcset,
             image_sizes: '(max-width: 375px) 375px,
                 (max-width: 768px) 768px,
                 (max-width: 1024px) 1024px,
@@ -73,7 +75,7 @@
           default_link_modifiers: ['pdp-hero'],
         } %}
         <div {{ bem('side-image-container', [], pdp_hero_base_class) }}>
-          {% for item in image_items[1:] %}
+          {% for item in pdp_side_images %}
             {% include "@atoms/images/image/responsive-image.twig" with {
               image_alt: item.image.alt,
               image_srcset: item.image.srcset,
@@ -111,7 +113,7 @@
           </div>
         </div>
         <div class="swiper-pagination"></div>
-        <div class="swiper-control"><i class="swiper-play-icon"></i></div>
+        <div class="swiper-control" tabindex="0"><a href="#" class="playpause-icon"></a></div>
       </div>
     {% endfor %}
   </div>

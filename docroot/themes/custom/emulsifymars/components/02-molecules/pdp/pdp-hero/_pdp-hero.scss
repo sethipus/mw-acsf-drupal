@@ -169,6 +169,7 @@
   &__main-image {
     display: flex;
     justify-content: center;
+    animation: cubic-bezier(0, 0, 1, 1) pulse 4.8s infinite;
 
     &-container {
       padding: 1.8rem 3.2rem .2rem 2.6rem;
@@ -232,7 +233,9 @@
     }
 
     &[data-slider-size-active="true"] {
-      display: flex;
+      @include large {
+        display: flex;
+      }
     }
 
     .swiper-pagination {
@@ -258,7 +261,6 @@
       right: 3.1rem;
       width: 0;
       height: 0;
-      cursor: pointer;
 
       &::before {
         content: '';
@@ -273,34 +275,54 @@
         background-color: clr(subcolor-3);
         opacity: 0.2;
       }
-    }
 
-    .swiper-play-icon {
-      position: absolute;
-      width: 0;
-      height: 0;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-
-      &::before,
-      &::after {
-        content: '';
-        position: absolute;
+      &-play::before {
         opacity: 1;
-        width: 5px;
-        height: 16px;
-        background-color: clr(subcolor-3);
+      }
+
+      & .playpause-icon {
+        position: absolute;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
         top: 50%;
-        transform: translateY(-50%);
+        left: 50%;
+        transform: translate(-50%, -50%);
+  
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          opacity: 1;
+          width: 5px;
+          height: 16px;
+          background-color: clr(subcolor-3);
+          top: 50%;
+          transform: translateY(-50%);
+        }
+  
+        &::before {
+          left: 22px;
+        }
+  
+        &::after {
+          right: 22px;
+        }
       }
 
-      &::before {
-        left: -8px;
-      }
+      &-play .playpause-icon {
+        &::before {
+          width: 0;
+          height: 0;
+          background: transparent;
+          border-top: 12px solid transparent;
+          border-bottom: 12px solid transparent;
+          border-left: 20px solid clr(primary);
+        }
 
-      &::after {
-        right: -8px;
+        &::after {
+          display: none;
+        }
       }
     }
   }
@@ -375,4 +397,10 @@
     }
 
   }
+}
+
+@keyframes pulse {
+  0%   { transform: translateY(-16px); }
+  50%  { transform: translateY(16px); }
+  100%  { transform: translateY(-16px); }
 }
