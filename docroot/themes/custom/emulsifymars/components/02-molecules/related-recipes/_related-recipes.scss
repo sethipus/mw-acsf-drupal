@@ -5,6 +5,14 @@
   margin-top: 23px;
   padding-top: 50px;
 
+  @include medium {
+    margin-top: 40px;
+  }
+
+  @include large {
+    margin-top: 75px;
+  }
+
   & .curve {
     position: absolute;
     width: 100%;
@@ -51,26 +59,24 @@
 
   & .image-wrapper {
     text-align: center;
-
-    & .image-background:nth-child(n+1) {
-      display: inline-block;
-      position: relative;
-      background-image: variable(brand-shape);
-      background-size: 70% 70%;
-      background-repeat: no-repeat;
-      background-position: center center;
-
-      & svg {
-        circle {
-          fill: clr(subclor-2);
-        }
-      }
-    }
   }
 
   & .grid--card {
     margin: 0 20px;
     margin-top: 40px;
+
+  & .image-background {
+    text-align: center;
+    display: inline-block;
+    position: relative;
+  }
+
+
+
+    @include medium {
+      flex-flow: row nowrap;
+      flex-grow: 1;
+    }
 
     & .card {
       text-align: center;
@@ -97,10 +103,28 @@
        background-color: clr(primary);
        font-size: 14px;
        border:none;
+       margin-bottom: 20px;
 
-        //&:hover {
-        //  //color: clr(primary);
-        //}
+        &:hover {
+          color: clr(primary);
+        }
+      }
+    }
+  }
+
+  & .grid__item {
+    &:nth-child(2n-1) {
+      & .image-background {
+        background-image: variable(brand-shape);
+        background-size: 70% 70%;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+        & svg {
+          circle {
+            fill: clr(subclor-2);
+          }
+        }
       }
     }
   }
