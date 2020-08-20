@@ -5,14 +5,12 @@ item_type: 'card'
 items:
   - card__image__src: 'Bitmap.png'
     card__image__alt: 'People'
-    card__image__output_image_tag: true
     card__heading: 'TWIX® PEANUT BUTTER'
     card__link__url: '#'
     card__link__text: 'Explore'
     card__body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   - card__image__src: 'image9.png'
     card__image__alt: 'Nature'
-    card__image__output_image_tag: true
     card__heading: 'TWIX® CARAMEL COOKIE BARS - MINIS'
     card__link__url: '#'
     card__link__text: 'Explore'

@@ -42,7 +42,7 @@
  # - card__button__modifiers - array of modifiers to add to the base classname of the button.
  #}
 {% set card__base_class = 'card' %}
-
+{% set card__image__output_image_tag = true %}
 <div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }}>
   {# Image #}
   {% block card__img %}
