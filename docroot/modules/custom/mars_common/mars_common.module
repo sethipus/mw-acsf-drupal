@@ -8,6 +8,7 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 
 /**
  * Implements hook_theme().
@@ -130,6 +131,16 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
+  $divider_id = \Drupal::config('emulsifymars.settings')
+    ->get('graphic_divider');
+
+  if (isset($divider_id[0])) {
+    $file_entity = File::load($divider_id[0]);
+    $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+    $file_content = file_get_contents($file_url->getUri());
+
+  }
+
   $media_items = [];
   foreach ($field_carousel_items as $item_key => $item_value) {
     if (is_numeric($item_key)) {
@@ -146,6 +157,7 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
 
   $variables['title'] = $field_carousel_title['#items'][0]->value;
   $variables['items'] = $media_items;
+  $variables['border_divider'] = $file_content ?? '';
 }
 
 /**
