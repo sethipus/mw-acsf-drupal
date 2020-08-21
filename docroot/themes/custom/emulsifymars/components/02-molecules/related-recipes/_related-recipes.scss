@@ -58,17 +58,23 @@
   }
 
   & .image-wrapper {
-    text-align: center;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & img:hover {
+      transform: scale(1.1);
+      transition: transform 0.8s;
+    }
   }
 
   & .grid--card {
-    margin: 0 20px;
-    margin-top: 40px;
+    margin: 40px 20px 0 20px;
 
   & .image-background {
-    text-align: center;
     display: inline-block;
-    position: relative;
+    margin: auto;
   }
 
 
@@ -103,7 +109,6 @@
        background-color: clr(primary);
        font-size: 14px;
        border:none;
-       margin-bottom: 20px;
 
         &:hover {
           color: clr(primary);
@@ -113,12 +118,25 @@
   }
 
   & .grid__item {
+    display: flex;
+    flex-flow: column;
+
+    & .cta-wrapper {
+      margin-top: auto;
+      margin-bottom: 20px;
+    }
+
     &:nth-child(2n-1) {
       & .image-background {
         background-image: variable(brand-shape);
         background-size: 70% 70%;
         background-repeat: no-repeat;
         background-position: center center;
+
+        &:hover {
+          transform: scale(1.1);
+          transition: transform 0.8s ease;
+        }
 
         & svg {
           circle {

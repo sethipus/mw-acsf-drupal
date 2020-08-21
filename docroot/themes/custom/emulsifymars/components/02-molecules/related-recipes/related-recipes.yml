@@ -1,5 +1,5 @@
 theme_styles: 'twix'
-grid_label: 'More of our favorites'
+grid_label: 'Related recipes'
 grid_type: 'card'
 item_type: 'card'
 items:
