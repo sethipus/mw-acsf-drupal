@@ -60,7 +60,7 @@
     {% endif %}
   {% endblock %}
   {# Content #}
-  <div {{ bem('content', card__content__modifiers, card__base_class) }}>
+{#  <div {{ bem('content', card__content__modifiers, card__base_class) }}>#}
     {# Heading #}
     {% if card__heading %}
       {{ title_prefix }}
@@ -98,12 +98,14 @@
     {% endif %}
     {# Link #}
     {% if card__link__url and card__link__text %}
-      {% set attr = {'href': card__link__url} %}
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: card__link__text,
-        default_link_border_radius: 30,
-        default_link_attributes: attr
-      } %}
+      <div class="cta-wrapper">
+        {% set attr = {'href': card__link__url} %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: card__link__text,
+          default_link_border_radius: 30,
+          default_link_attributes: attr
+        } %}
+      </div>
     {% endif %}
     {# Button #}
     {% if card__button__url %}
@@ -116,5 +118,5 @@
         button_url: card__button__url,
       } %}
     {% endif %}
-  </div>
+{#  </div>#}
 </div>
