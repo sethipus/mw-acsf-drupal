@@ -1,0 +1,21 @@
+uuid: b5cb780f-4609-49ec-b350-7316fff81f6c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_segment
+    - node.type.product_multipack
+_core:
+  default_config_hash: t9er5zKAHLLCEH2kJSsLQcrDdWJ1gb4hco1UkXXZOxQ
+id: node.product_multipack.field_product_segment
+field_name: field_product_segment
+entity_type: node
+bundle: product_multipack
+label: Segment
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

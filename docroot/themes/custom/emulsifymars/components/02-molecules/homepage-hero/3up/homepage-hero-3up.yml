@@ -1,0 +1,36 @@
+theme_styles: 'twix'
+eyebrow: 'Left or Right'
+title_label: 'NEW TWIX WHITE CHOCOLATE'
+title_href: '#'
+cta_title: 'Explore'
+cta_link_attributes:
+  'href': '#'
+cta_base_class: 'cta-link'
+hero_image:
+  'srcset': 'image-10@1x.png 1x, image-10@2x.png 2x'
+  'src': 'image-10.png'
+cta_border_radius: 30
+ellipse_background: 'ellipse3.svg'
+blocks:
+  - eyebrow: 'New'
+    title_label: 'New Creamy <br> Peanut Butter'
+    title_href: '#'
+    image:
+      - srcset: 'Bitmap.png, Bitmap@2x.png 2x, Bitmap@3x.png 3x'
+        src: 'Bitmap.png'
+        class: 'block1-small'
+    cta:
+      - title: 'Explore'
+        link_attributes:
+          - href: '#link_attr1'
+  - eyebrow: 'New'
+    title_label: 'Twix Minis <br> Caramel Bar'
+    title_href: '#'
+    image:
+      - srcset: 'image9.png, image9@2x.png 2x, image9@3x.png 3x'
+        src: 'image9.png'
+        class: 'block1-small'
+    cta:
+      - title: 'Explore'
+        link_attributes:
+          - href: '#link_attr2'

@@ -1,0 +1,123 @@
+.product-feature {
+    text-align: left;
+    background-size: cover;
+    background-color: clr(primary);
+
+  &__inner {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      flex-flow: column nowrap;
+    }
+  }
+
+  &__bubble_1 {
+    position: absolute;
+    left: 60%;
+    top: 7%;
+    height: 117px;
+    width: 117px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: variable(brand-shape);
+
+    @media (max-width: 768px) {
+      display: block;
+      left: 80%;
+    }
+
+    @media (max-width: 375px) {
+      display: none;
+    }
+  }
+
+  &__bubble_2 {
+    position: absolute;
+    height: 587px;
+    width: 572px;
+    top: 15%;
+    left: -7.5%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: variable(brand-shape);
+
+    @media (max-width: 768px) {
+      top: 5%;
+      left: -35%;
+      height: 597px;
+      width: 433px;
+    }
+
+    @media (max-width: 375px) {
+      top: 5%;
+      height: 330px;
+      width: 242px;
+    }
+  }
+
+  &__bubble_3 {
+    position: absolute;
+    top: 80%;
+    left: 85%;
+    height: 272px;
+    width: 290px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: variable(brand-shape);
+
+    @media (max-width: 768px) {
+      top: 75%;
+      left: 70%;
+      height: 237px;
+      width: 279px;
+    }
+
+    @media (max-width: 375px) {
+      top: 75%;
+      height: 192px;
+      width: 142px;
+    }
+  }
+
+  &__product_image {
+    flex: 0 0 auto;
+    margin-right: 10rem;
+    animation: action 1.2s cubic-bezier(0, 0, 1, 1) infinite alternate;
+
+    @keyframes action {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-20px); }
+    }
+
+    @media (max-width: 768px) {
+      padding: 2rem;
+      margin-right: 0;
+    }
+  }
+
+  &__product_text {
+    flex: 0 0 auto;
+    max-width: 50%;
+
+    @media (max-width: 768px) {
+      padding: 2rem;
+      max-width: 100%;
+      & h1 {
+        font-size: 5.6rem;
+      }
+    }
+
+    @media (max-width: 375px) {
+      & h1 {
+        font-size: 4.2rem;
+      }
+    }
+  }
+}

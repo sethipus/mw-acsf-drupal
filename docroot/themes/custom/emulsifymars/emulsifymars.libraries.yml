@@ -1,11 +1,44 @@
 global:
   css:
     theme:
-      dist/style.css: {}
+      dist/css/theme_style.css: {}
 
 main-menu:
   js:
     dist/js/02-molecules/menus/main-menu/main-menu.js: {}
+  dependencies:
+    - core/drupal
+
+ambient-video:
+  js:
+    dist/js/ambient_video.js: {}
+  dependencies:
+    - core/drupal
+
+content-feature:
+  js:
+    dist/js/02-molecules/content-feature/content-feature.js: {}
+  dependencies:
+    - core/drupal
+
+social-feed:
+  js:
+    dist/js/social_feed.js: {}
+    dist/js/vendors~media_carousel~social_feed.js: {}
+  dependencies:
+    - core/drupal
+
+entry-gate:
+  js:
+    dist/js/entry_gate.js: {}
+    dist/js/vendors~entry_gate~social_feed_slide.js: {}
+  dependencies:
+    - core/drupal
+
+social-feed-slide:
+  js:
+    dist/js/social_feed_slide.js: {}
+    dist/js/vendors~entry_gate~social_feed_slide.js: {}
   dependencies:
     - core/drupal
 
@@ -18,5 +51,24 @@ sprite:
 tabs:
   js:
     dist/js/02-molecules/tabs/tabs.js: {}
+  dependencies:
+    - core/drupal
+
+parent-page-header:
+  js:
+    dist/js/02-molecules/parent-page-header/parent-page-header.js: {}
+  dependencies:
+    - core/drupal
+
+media-carousel:
+  js:
+    dist/js/media_carousel.js: {}
+    dist/js/vendors~media_carousel~social_feed.js: {}
+  dependencies:
+    - core/drupal
+
+fullscreen-video:
+  js:
+    dist/js/fullscreen_video.js: {}
   dependencies:
     - core/drupal

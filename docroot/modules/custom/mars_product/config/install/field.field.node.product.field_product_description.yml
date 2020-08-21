@@ -1,0 +1,23 @@
+uuid: 50ccdcfa-ce49-4a57-8b4e-4f684b9b74be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_description
+    - node.type.product
+  module:
+    - text
+_core:
+  default_config_hash: 8X_-0Gsl8uFhjfzIe8mg6_iz91ZEmJz5SIuEupXg3mA
+id: node.product.field_product_description
+field_name: field_product_description
+entity_type: node
+bundle: product
+label: 'Product Description'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

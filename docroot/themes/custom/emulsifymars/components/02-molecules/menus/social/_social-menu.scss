@@ -1,22 +1,26 @@
 .social-menu {
   @include list-reset;
 
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin: 15px 0 23px -5px;
+
   &__item {
     margin-bottom: $space-one-fourth;
+    flex-basis: 20px;
   }
 
   &__link {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
     text-decoration: none;
-    color: clr(text);
+    color: clr(subcolor-3);
   }
 
   &__icon {
-    height: 2rem;
-    width: 2rem;
-    margin-right: $space-one-half;
+    display: inline;
+    height: 22px;
+    width: 22px;
+    margin-right: 35px;
     fill: currentColor;
   }
 

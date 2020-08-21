@@ -1,0 +1,35 @@
+uuid: 69a2ace0-6258-4b38-8b60-b8b6dfd8ce1b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_related_products
+    - node.type.article
+    - node.type.product
+    - node.type.product_multipack
+    - node.type.product_variant
+_core:
+  default_config_hash: 123w8d21K_i92dZ9sAxYDBMxsnvhBxXj8fvrNY3fKPU
+id: node.article.field_article_related_products
+field_name: field_article_related_products
+entity_type: node
+bundle: article
+label: 'Related Products'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      product: product
+      product_multipack: product_multipack
+      product_variant: product_variant
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: product
+field_type: entity_reference

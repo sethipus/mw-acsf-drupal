@@ -1,0 +1,21 @@
+uuid: 18a9b8d3-88ee-4dee-8118-a06796e7c45f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_size
+    - node.type.product_variant
+_core:
+  default_config_hash: CRr0YlZ2gVXJ9NzKTobKrnpuD1d0CVRncNqyu499f_M
+id: node.product_variant.field_product_size
+field_name: field_product_size
+entity_type: node
+bundle: product_variant
+label: Size
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

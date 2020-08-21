@@ -1,0 +1,24 @@
+uuid: 5218ad70-1b7e-4e25-9028-a8ff49821edd
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - file
+    - mars_common
+id: block_content.field_carousel_items
+field_name: field_carousel_items
+entity_type: block_content
+type: carousel_item
+settings:
+  uri_scheme: public
+  target_type: file
+  display_field: false
+  display_default: false
+module: mars_common
+locked: false
+cardinality: 12
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

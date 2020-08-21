@@ -1,0 +1,27 @@
+{#
+ # Available variables:
+ # - video__src__url - the url the link should link to.
+ #}
+{% set video__base_class = video__base_class|default('fullscreen-video') %}
+
+<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} id="video-container" data-fullscreen="false">
+  <video id='fullscreen-video' {{ bem('main', [], video__base_class) }}>
+    <source loop src="{{ video__src__url }}" type="video/mp4" />
+  </video>
+  <div id="video-controls" class="controls" data-state="hidden">
+    <button id="playpause" type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+    <button id="stop" type="button" data-state="stop"></button>
+    <button id="mute" type="button" data-state="mute"></button>
+    <div class="progress">
+      <progress id="progress" value="0" min="0">
+        <span id="progress-bar"></span>
+      </progress>
+    </div>
+    <div id="progress-time"></div>
+    <button id="subtitles" type="button" data-state="subtitles"></button>
+    <button id="fs" type="button" data-state="go-fullscreen"></button>
+  </div>
+  {% if video__control == true %}
+    <button {{ bem('control', [], video__base_class) }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+  {% endif %}
+</figure>

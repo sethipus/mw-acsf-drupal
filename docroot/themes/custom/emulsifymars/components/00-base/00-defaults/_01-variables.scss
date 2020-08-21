@@ -6,6 +6,9 @@
  * components/00-base/base/_breakpoints.css
 */
 
+// Brand shapes
+$circle: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='50' fill='rgba(234, 170, 0, 0.2)'/%3E%3C/svg%3E");
+
 // Fonts
 $font-body: georgia, times, 'Times New Roman', serif;
 $font-heading: 'HelveticaNeue', 'Helvetica', 'Arial', sans-serif;
@@ -30,10 +33,113 @@ $space-one-sixth: $space/6;
 $space-one-seventh: $space/7;
 $space-one-eighth: $space/8;
 
+// z-index
+$menu-overlay-zindex: 1000;
+$menu-overlay-content-zindex: 1010;
+$entry-gate-zindex: 1500;
+
 /*
  * Use this on the outer wrapper of page-level elements.
  * It ensures consistent spacing between elements on the page.
  */
 @mixin space-stack-page {
   margin-bottom: $space-double;
+}
+
+// twix-1.ttf
+
+@font-face {
+  font-family: 'TwixHeadlineCampaignFont';
+  src: url('../fonts/twix-1.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'TwixSecondaryTypeface';
+  src: url('../fonts/twix-2.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'TwixPrimaryTypefaceFont';
+  src: url('../fonts/twix-3.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'twix';
+  src: url('../fonts/twix-4.ttf') format('opentype');
+}
+
+$defaultVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+  brand-shape: $circle,
+);
+
+$marsVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+  brand-shape: $circle,
+);
+
+$twixVariables: (
+  heading-font: 'TwixHeadlineCampaignFont',
+  primary-font: 'TwixPrimaryTypefaceFont',
+  secondary-font: 'TwixSecondaryTypeface',
+  brand-shape: $circle,
+);
+
+$doveVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Geomanist',
+  secondary-font: 'Times',
+  brand-shape: $circle,
+);
+
+$galaxyVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+  brand-shape: $circle,
+);
+
+@function variable($varChoice) {
+  @return var(--v-#{$varChoice});
+}
+
+:root {
+  // Create custom properties for default colors
+  @each $variable, $value in $defaultVariables {
+    --v-#{$variable}: #{$value};
+  }
+
+  [data-theme='default'] {
+    @each $variable, $value in $defaultVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='mars'] {
+    @each $variable, $value in $marsVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='twix'] {
+    @each $variable, $value in $twixVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='dove'] {
+    @each $variable, $value in $doveVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='galaxy'] {
+    @each $variable, $value in $galaxyVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
 }

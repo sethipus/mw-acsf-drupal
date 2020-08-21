@@ -1,13 +1,58 @@
 import { configure, addDecorator, addParameters } from '@storybook/react';
 import { withA11y } from '@storybook/addon-a11y';
 import { action } from '@storybook/addon-actions';
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 // Theming
 import emulsifyTheme from './emulsifyTheme';
 
+const customViewports = {
+  xs: {
+    name: 'iPhone SE, portrait',
+    styles: {
+      width: '320px',
+      height: '568px',
+    },
+  },
+  small: {
+    name: 'iPhone X, portrait',
+    styles: {
+      width: '375px',
+      height: '667px',
+    },
+  },
+  medium: {
+    name: 'iPad Mini, portrait',
+    styles: {
+      width: '768px',
+      height: '1024px',
+    },
+  },
+  large: {
+    name: 'iPad Mini, landscape',
+    styles: {
+      width: '1024px',
+      height: '768px',
+    },
+  },
+  xl: {
+    name: '13" MacBook Pro (2x scaling)',
+    styles: {
+      width: '1440px',
+      height: '1024px',
+    },
+  },
+};
+
 addParameters({
   options: {
     theme: emulsifyTheme,
+  },
+  viewport: {
+    viewports: {
+      ...INITIAL_VIEWPORTS,
+      ...customViewports,
+    },
   },
 });
 

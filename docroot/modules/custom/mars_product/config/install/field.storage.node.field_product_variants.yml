@@ -1,0 +1,21 @@
+uuid: 61696ad1-95ec-4a59-b878-1613fff6c9c5
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: VU_4rnNLWV6Mb0eUd6_JnQXvmP3usf42fVtVA6PMZ7w
+id: node.field_product_variants
+field_name: field_product_variants
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

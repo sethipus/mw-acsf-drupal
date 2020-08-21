@@ -1,0 +1,23 @@
+uuid: 0a65fc75-ae2c-4472-9073-e9b7d2e0ec02
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_recipe_description
+    - node.type.recipe
+  module:
+    - text
+_core:
+  default_config_hash: '-qFu8OPLtBBk-WhpW5yL6qJiqlNOvsSQPRQLCkb4yrQ'
+id: node.recipe.field_recipe_description
+field_name: field_recipe_description
+entity_type: node
+bundle: recipe
+label: Description
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

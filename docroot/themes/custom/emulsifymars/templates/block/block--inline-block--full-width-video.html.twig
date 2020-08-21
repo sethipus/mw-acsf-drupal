@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Full width video component.
+ * 'heading' => NULL,
+ * 'media' => NULL,
+ * 'content' => NULL,
+ */
+#}
+{{ attach_library('emulsifymars/fullscreen-video') }}
+
+<div {{ bem('block') }}>
+    {{ title_prefix }}
+    {{ title_suffix }}
+    {% block content %}
+        {% include "@molecules/article-media/full-width/full-width-media.twig" with {
+            theme_styles: 'drupal',
+            heading: heading,
+            media: media,
+            content: content,
+        } %}
+    {% endblock %}
+</div>

@@ -25,7 +25,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     }
     else {
       $social_storage['social'] = [
-        ['icon' => '', 'link' => ''],
+        ['icon' => '', 'link' => '', 'name' => ''],
       ];
     }
   }
@@ -35,7 +35,11 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     unset($social_storage['social'][$triggered['#parents'][1]]);
   }
   if (isset($triggered['#parents'][1]) && $triggered['#parents'][1] == 'add_social') {
-    array_push($social_storage['social'], ['link' => '']);
+    array_push($social_storage['social'], [
+      'icon' => '',
+      'link' => '',
+      'name' => '',
+    ]);
   }
   $form_state->setStorage($social_storage);
 
@@ -255,10 +259,10 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
         '#type'          => 'textfield',
         '#default_value' => $value['link'],
       ];
-      $form['social'][$key]['title'] = [
+      $form['social'][$key]['name'] = [
         '#title'         => $translation->translate('Social network title'),
         '#type'          => 'textfield',
-        '#default_value' => $value['title'],
+        '#default_value' => $value['name'],
       ];
       $form['social'][$key]['remove_social'] = [
         '#type'  => 'button',
@@ -486,11 +490,7 @@ function emulsifymars_process_image_widget(array &$element, FormStateInterface $
  */
 function emulsifymars_preprocess_html(&$variables) {
   $theme_settings = \Drupal::config('emulsifymars.settings')->get();
-  $style_theme = [
-    '#theme'    => 'css_properties_loader',
-    '#settings' => $theme_settings,
-  ];
-  $style_tag = \Drupal::service('renderer')->renderPlain($style_theme);
+  $style_tag = sprintf(":root [data-theme='drupal'] {%s}", _emulsifymars_preprocess_css_properties($theme_settings));
   $variables['page']['#attached']['html_head'][] = [
     [
       '#type' => 'html_tag',
@@ -498,6 +498,21 @@ function emulsifymars_preprocess_html(&$variables) {
       '#value' => $style_tag,
       '#attributes' => [
         'type' => 'text/css',
+      ],
+    ],
+    'custom-css-properties',
+  ];
+
+  // CSS Variables Polyfill for IE11 package ie11-custom-properties.
+  $url = "https://cdn.jsdelivr.net/gh/nuxodin/ie11CustomProperties@4.1.0/ie11CustomProperties.min.js";
+  $script = "window.MSInputMethodContext && document.documentMode && document.write('<script src=\"$url\"><\/script>');";
+  $variables['page']['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'script',
+      '#value' => Markup::create($script),
+      '#attributes' => [
+        'type' => 'text/javascript',
       ],
     ],
     'custom-css',
@@ -520,29 +535,45 @@ function emulsifymars_preprocess_html(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_css_properties_loader().
+ * Process css custom properties.
+ *
+ * @param array $settings
+ *   Theme settings array.
+ *
+ * @return string
+ *   Parsed custom properties string.
  */
-function emulsifymars_preprocess_css_properties_loader(&$variables) {
-  $settings = [];
-  $settings['colors'] = [
-    'color_a' => $variables['settings']['color_a'],
-    'color_b' => $variables['settings']['color_b'],
-    'color_c' => $variables['settings']['color_c'],
-    'color_d' => $variables['settings']['color_d'],
-    'color_e' => $variables['settings']['color_e'],
-    'color_f' => $variables['settings']['color_f'],
-  ];
+function _emulsifymars_preprocess_css_properties(array $settings): string {
+  $properties = '';
+  $properties .= sprintf(" --c-primary: #%s;", $settings['color_a']);
+  $properties .= sprintf(" --c-secondary: #%s;", $settings['color_b']);
+  $properties .= sprintf(" --c-accent: #%s;", $settings['color_c']);
+  $properties .= sprintf(" --c-accent-d: #%s;", $settings['color_d']);
+  $properties .= sprintf(" --c-accent-e: #%s;", $settings['color_e']);
+  $properties .= sprintf(" --c-accent-f: #%s;", $settings['color_f']);
+
+  // Default setting.
+  // TODO Update logic for dynamic variables and default for all themes.
+  $properties .= sprintf(" --c-subcolor-1: #%s;", '490e00');
+  $properties .= sprintf(" --c-subcolor-2: #%s;", 'f5e1a4');
+  $properties .= sprintf(" --c-subcolor-3: #%s;", 'fff');
+  $properties .= sprintf(" --c-subcolor-4: #%s;", 'c4c4c4');
+
+  // TODO replace font setting for dynamic variables.
+  $properties .= sprintf(" --v-heading-font: %s;", 'TwixHeadlineCampaignFont');
+  $properties .= sprintf(" --v-primary-font: %s;", 'TwixPrimaryTypefaceFont');
+  $properties .= sprintf(" --v-secondary-font: %s;", 'TwixSecondaryTypeface');
+
   foreach (_emulsifymars_get_icon_fields() as $icon) {
-    if (is_array($variables['settings'][$icon]) && count($variables['settings'][$icon]) > 0 && $file = File::load($variables['settings'][$icon][0])) {
-      $settings['icons'][$icon] = $file->createFileUrl();
+    if (is_array($settings[$icon]) && count($settings[$icon]) > 0 && $file = File::load($settings[$icon][0])) {
+      $properties .= sprintf(" --%s: %s;", $icon, $file->createFileUrl());
     }
   }
-  $settings['fonts'] = [
-    'primary_font'   => $variables['settings']['primary_font_path'],
-    'secondary_font' => $variables['settings']['secondary_font_path'],
-    'tertiary_font'  => $variables['settings']['tertiary_font_path'],
-  ];
-  $variables['settings'] = $settings;
+  $properties .= sprintf(" --primary_font: #%s;", $settings['primary_font_path']);
+  $properties .= sprintf(" --secondary_font: #%s;", $settings['secondary_font_path']);
+  $properties .= sprintf(" --tertiary_font: #%s;", $settings['tertiary_font_path']);
+
+  return $properties;
 }
 
 /**
@@ -552,7 +583,7 @@ function emulsifymars_preprocess_social_icons(&$variables) {
   $social_menu_items = &$variables['social_menu_items'];
   $theme_settings = \Drupal::config('emulsifymars.settings')->get();
   foreach ($theme_settings['social'] as $key => $social_settings) {
-    $social_menu_items[$key]['title'] = $social_settings['title'];
+    $social_menu_items[$key]['title'] = $social_settings['name'];
     $social_menu_items[$key]['url'] = $social_settings['link'];
     if (!empty($social_settings['icon'])) {
       $fid = reset($social_settings['icon']);
@@ -567,12 +598,6 @@ function emulsifymars_preprocess_social_icons(&$variables) {
  */
 function emulsifymars_theme() {
   return [
-    'css_properties_loader' => [
-      'template'   => 'styles/css_properties',
-      'variables'  => [
-        'settings' => [],
-      ],
-    ],
     'social_icons' => [
       'template'   => 'misc/social-menu',
       'variables'  => [

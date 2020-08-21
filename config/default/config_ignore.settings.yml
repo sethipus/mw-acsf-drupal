@@ -5,6 +5,9 @@ ignored_config_entities:
   - acquia_connector.settings
   - samlauth.authentication
   - onetrust.settings
+  - mars_entry_gate.settings
+  - 'juicer_io.feed.*'
+  - emulsifymars.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'

@@ -1,0 +1,23 @@
+uuid: d77f0704-4bc3-477c-9c9f-4431283d17a7
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: G78_u5xApJSu-icbqJRHHpmccusrlOE2AZf59_yyvjA
+id: node.field_product_vitamin_c
+field_name: field_product_vitamin_c
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

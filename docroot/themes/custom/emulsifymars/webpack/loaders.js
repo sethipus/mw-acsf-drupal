@@ -9,10 +9,28 @@ const ImageLoader = {
 };
 
 const CSSLoader = {
+  test: /\.css$/i,
+  use: [
+    {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: '../'
+      }
+    },
+    'css-loader',
+  ],
+};
+
+const SASSLoader = {
   test: /\.s[ac]ss$/i,
   exclude: /node_modules/,
   use: [
-    MiniCssExtractPlugin.loader,
+    {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: '../'
+      }
+    },
     {
       loader: 'css-loader',
     },
@@ -36,6 +54,15 @@ const CSSLoader = {
   ],
 };
 
+const FontLoader = {
+  test: /\.(eot|ttf|woff|woff2)$/i,
+  exclude: /node_modules/,
+  loader: 'file-loader',
+  options: {
+    limit: 8192,
+  },
+};
+
 const SVGSpriteLoader = {
   test: /icons\/.*\.svg$/, // your icons directory
   loader: 'svg-sprite-loader',
@@ -46,7 +73,9 @@ const SVGSpriteLoader = {
 };
 
 module.exports = {
+  SASSLoader,
   CSSLoader,
+  FontLoader,
   SVGSpriteLoader,
   ImageLoader,
 };

@@ -48,6 +48,7 @@ image_widget_crop: 2.2.0
 inline_entity_form: 1.0.0-rc2
 jquery_colorpicker: 1.4.0
 jsonapi: 0.0.0
+juicer_io: 0.0.0
 layout_builder: 8.8.1
 layout_builder_restrictions: 2.5.0
 layout_builder_styles: 1.0.0-beta1
@@ -78,6 +79,12 @@ lightning_scheduler: 3.14.0
 lightning_search: 5.0.0
 lightning_workflow: 3.14.0
 link: 8.8.1
+mars_articles: 0.0.0
+mars_banners: 0.0.0
+mars_common: 0.0.0
+mars_entry_gate: 0.0.0
+mars_product: 0.0.0
+mars_recipes: 0.0.0
 media: 8.8.1
 media_entity_instagram: 2.0.0
 media_entity_twitter: 2.3.0
@@ -99,6 +106,7 @@ panels: 4.4.0
 path: 8.8.1
 path_alias: 8.8.1
 pathauto: 1.6.0
+publication_date: 2.0.0-beta1
 quickedit: 8.8.1
 rdf: 8.8.1
 redirect: 1.5.0

@@ -1,0 +1,13 @@
+theme_styles: 'dove'
+image:
+  - srcset: 'Rectangle-14@3x.png, Rectangle-14@2x.png 2x, Rectangle-14.png 1x'
+    src: 'Rectangle-14.png'
+    class: 'article-header-image'
+curve: 'article-header-wave.svg'
+eyebrow: '#SHESINBUSINESS'
+heading: 'Celebrating International Women’s Day'
+date_published: 'Published July 7, 2020'
+share_text: 'Share'
+shape: '<svg viewBox="0 0 768 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M241.283 15.337C98.3615 29.6176 20.877 18.502 0 11.1592V48H768V21.4138C646.845 -9.72996 419.936 -2.51371 241.283 15.337Z" fill="#F9F5EF"/>
+        </svg>'

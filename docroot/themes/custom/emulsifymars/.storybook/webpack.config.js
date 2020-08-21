@@ -1,6 +1,7 @@
 const path = require('path');
 const globImporter = require('node-sass-glob-importer');
 const _StyleLintPlugin = require('stylelint-webpack-plugin');
+const _SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 module.exports = async ({ config }) => {
   // Below is for if Emulsify Gatsby style guide is being used
@@ -88,6 +89,22 @@ module.exports = async ({ config }) => {
       files: '**/*.scss',
       failOnError: false,
       quiet: false,
+    }),
+  );
+
+  // Build sprite
+  config.module.rules.push({
+    test: /icons\/.*\.svg$/, // your icons directory
+    loader: 'svg-sprite-loader',
+    options: {
+      extract: true,
+      spriteFilename: './icons.svg',
+    },
+  });
+
+  config.plugins.push(
+    new _SpriteLoaderPlugin({
+      plainSprite: true,
     }),
   );
 

@@ -1,0 +1,23 @@
+uuid: f854c5fc-d6ed-4cf6-9a21-a4c1e339352a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: bGIk31Q011FLr5ug9QMEqWa_mHEulRpHy2roVWbh2DY
+id: node.field_product_calcium
+field_name: field_product_calcium
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

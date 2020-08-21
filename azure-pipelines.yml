@@ -85,6 +85,15 @@ steps:
         composer validate --no-check-all --ansi
         composer install
         npm install npm@latest -g
+  - task: Npm@1
+    inputs:
+      command: 'install'
+      workingDir: 'docroot/themes/custom/emulsifymars'
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      workingDir: 'docroot/themes/custom/emulsifymars'
+      customCommand: 'run build'
   - task: Bash@3
     displayName: 'BLT Validation'
     inputs:
@@ -108,20 +117,20 @@ steps:
       mergeTestResults: true
       testRunTitle: 'Unit tests'
   - task: Bash@3
-    displayName: 'Deploy Branch'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release-'))
+    displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'), eq(variables['build.sourceBranchName'], 'dev'))
     inputs:
-      filePath: './scripts/deploy_branch.sh'
+      targetType: 'inline'
+      script: |
+        ./scripts/deploy_branch.sh
+        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
   - task: Bash@3
     displayName: 'Deploy Tag'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
     inputs:
       filePath: './scripts/deploy_tag.sh'
   - task: Bash@3
-    displayName: 'Trigger Application Deployment on ACSF'
-    condition: eq(variables['Build.Reason'], 'Schedule')
+    displayName: 'Deploy Release Branch For QA Environment'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release'))
     inputs:
-      targetType: 'inline'
-      script: |
-        ./scripts/deploy_branch.sh
-        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
+      filePath: './scripts/deploy_branch.sh'

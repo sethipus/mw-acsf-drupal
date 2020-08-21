@@ -12,7 +12,51 @@ ul {
 }
 
 ol {
-  list-style-type: decimal;
+  counter-reset: mars-counter;
+  list-style: none;
+
+  .list-item {
+    counter-increment: mars-counter;
+    position: relative;
+    margin: 10px;
+    border-radius: 20px;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.12);
+    border: solid 2px clr(text-inverse);
+    background-color: clr(text-inverse);
+    padding: 40px 20px 20px 20px;
+
+    @include medium {
+      padding: 20px 20px 20px 80px;
+    }  
+
+    &__content {
+      font-family: variable(primary-font);
+      font-size: 16px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.4;
+      letter-spacing: normal;
+      margin: 20px 0;
+    }
+  
+    &::before {
+      content: counter(mars-counter);
+      color: clr(list);
+      font-size: 22px;
+      font-weight: bold;
+      position: absolute;
+      line-height: 32px;
+      left: calc(40% + 32px / 2);
+      top: calc(32px / 2);
+
+      @include medium {
+        left: calc(20px + 32px / 2);
+        top: calc(40% - 32px / 2);
+      }  
+  
+    }
+  }
 }
 
 .list-item {

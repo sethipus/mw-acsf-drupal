@@ -1,0 +1,5 @@
+entity.juicer_io_feed.add_form:
+  route_name: 'entity.juicer_io_feed.add_form'
+  title: 'Add juicer.io feed'
+  appears_on:
+    - entity.juicer_io_feed.collection

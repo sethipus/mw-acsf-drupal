@@ -1,0 +1,20 @@
+{% embed "@molecules/article-header/article-header-image.twig" with {
+  theme_styles: 'dove',
+  shape: graphic_divider,
+  eyebrow: eyebrow,
+  heading: label,
+  date_published: publication_date,
+  share_text: 'Share'|t
+} %}
+  {% block article_social_menu %}
+    {% include "@molecules/menus/social/social-menu.twig" with {
+      social_menu_items: social_links,
+      configured_icons: true
+    } %}
+  {% endblock %}
+  {% block article_media_devider %}
+    <div class="triangle">
+      {{ shape | raw }}
+    </div>
+  {% endblock %}
+{% endembed %}

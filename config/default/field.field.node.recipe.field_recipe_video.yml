@@ -1,0 +1,32 @@
+uuid: 0c84acb9-fe62-40c9-a6ad-e43b68e59663
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_recipe_video
+    - media.type.video
+    - media.type.video_file
+    - node.type.recipe
+_core:
+  default_config_hash: MCAuUgYPkeZSmw7AasCO6-GshoknQupkD1IjNum9NOU
+id: node.recipe.field_recipe_video
+field_name: field_recipe_video
+entity_type: node
+bundle: recipe
+label: Video
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      video: video
+      video_file: video_file
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: video
+field_type: entity_reference

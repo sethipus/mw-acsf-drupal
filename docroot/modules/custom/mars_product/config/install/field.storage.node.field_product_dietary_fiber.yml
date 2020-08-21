@@ -1,0 +1,23 @@
+uuid: f7c066a8-5a12-429c-8eba-16479987a075
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: EssgVHOx38jO3A0pCu3rw9S9LYgtfp9HigxF_IV0sZI
+id: node.field_product_dietary_fiber
+field_name: field_product_dietary_fiber
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
