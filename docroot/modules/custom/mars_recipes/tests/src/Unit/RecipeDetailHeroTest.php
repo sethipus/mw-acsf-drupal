@@ -100,7 +100,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
     ];
 
     $this->recipeHeroBlock = new RecipeDetailHero(
-      [],
+      ['social_links_toggle' => FALSE],
       'recipe_detail_hero',
       $definitions,
       $this->entityTypeManagerMock,
@@ -184,6 +184,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
 
     $this->assertEquals('recipe_detail_hero_block', $build['#theme']);
     $this->assertArrayHasKey('#label', $build);
+    $this->assertEquals('Recipe label', $build['#label']);
     $this->assertArrayHasKey('#description', $build);
     $this->assertArrayHasKey('#cooking_time', $build);
     $this->assertArrayHasKey('#ingredients_number', $build);
