@@ -12,20 +12,23 @@
  * - default_row_class: A flag indicating whether default classes should be
  *   used on rows.
  *
- * @see template_preprocess_views_view_unformatted()
+ * @see emulsifymars_preprocess_views_view_unformatted()
  */
 #}
 
-{% if title %}
-  <h3>{{ title }}</h3>
-{% endif %}
-{% for row in rows %}
-  {%
-    set row_classes = [
-    default_row_class ? 'views-row',
-  ]
-  %}
-  <div{{ row.attributes.addClass(row_classes) }}>
-    {{- row.content -}}
+{% set related_recipes__base_class = 'related-recipes' %}
+
+{% set divider = '<div class=divider>'~divider~'</div>' %}
+<section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}">
+  <div class="curve">
+    {{ brand_border }}
   </div>
-{% endfor %}
+
+  {% include "@organisms/grid/grid-ff.twig" with {
+    grid_label: title,
+    grid_type: grid_type,
+    divider: divider,
+    item_type: item_type,
+    items: items
+  } %}
+</section>
