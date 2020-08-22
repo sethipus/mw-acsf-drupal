@@ -4,20 +4,30 @@ status: true
 dependencies:
   config:
     - block_content.type.list
-    - field.field.block_content.list.field_list_items
+    - field.field.block_content.list.field_list_items_reference
   module:
-    - mars_common
+    - inline_entity_form
 id: block_content.list.default
 targetEntityType: block_content
 bundle: list
 mode: default
 content:
-  field_list_items:
-    weight: 26
+  field_list_items_reference:
+    weight: 27
     settings:
-      progress_indicator: throbber
+      match_operator: CONTAINS
+      form_mode: default
+      revision: false
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      collapsible: false
+      collapsed: false
+      allow_new: true
+      allow_existing: false
+      allow_duplicate: false
     third_party_settings: {  }
-    type: list_item_default_widget
+    type: inline_entity_form_complex
     region: content
   info:
     type: string_textfield
