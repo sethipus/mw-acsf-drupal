@@ -547,17 +547,10 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties = '';
   $properties .= sprintf(" --c-primary: #%s;", $settings['color_a']);
   $properties .= sprintf(" --c-secondary: #%s;", $settings['color_b']);
-  $properties .= sprintf(" --c-accent: #%s;", $settings['color_c']);
-  $properties .= sprintf(" --c-accent-d: #%s;", $settings['color_d']);
-  $properties .= sprintf(" --c-accent-e: #%s;", $settings['color_e']);
-  $properties .= sprintf(" --c-accent-f: #%s;", $settings['color_f']);
-
-  // Default setting.
-  // TODO Update logic for dynamic variables and default for all themes.
-  $properties .= sprintf(" --c-subcolor-1: #%s;", '490e00');
-  $properties .= sprintf(" --c-subcolor-2: #%s;", 'f5e1a4');
-  $properties .= sprintf(" --c-subcolor-3: #%s;", 'fff');
-  $properties .= sprintf(" --c-subcolor-4: #%s;", 'c4c4c4');
+  $properties .= sprintf(" --c-subcolor-1: #%s;", $settings['color_c']);
+  $properties .= sprintf(" --c-subcolor-2: #%s;", $settings['color_d']);
+  $properties .= sprintf(" --c-subcolor-3: #%s;", $settings['color_e']);
+  $properties .= sprintf(" --c-subcolor-4: #%s;", $settings['color_f']);
 
   // TODO replace font setting for dynamic variables.
   $properties .= sprintf(" --v-heading-font: %s;", 'TwixHeadlineCampaignFont');

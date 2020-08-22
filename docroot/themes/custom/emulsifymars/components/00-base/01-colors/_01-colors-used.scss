@@ -1,40 +1,26 @@
 // Color Usage variables - use these (via the `clr` function below)
 // rather than color variables directly.
 $defaultColors: (
-  player: $red,
   text: $gray,
   text-inverse: $white,
   background: $white,
   background-section: $gray-lightest,
   background-button: $gray-tranparent,
-  background-carousel: $floral-white,
-  primary: $blue,
-  secondary: $purple,
+  background-carousel: $merino,
   accent: $gray-dark,
   accent-high: $black,
   highlight: $gray-lighter,
   highlight-high: $gray-lightest,
+  player: $red,
   muted: $near-white,
   warning: $yellow-light,
   error: $red-light,
   message: $green-light,
-  subcolor-1: $cerise-red,
-  list: $alizarin-crimson-1,
+  list: $persian_red,
 );
 
 $marsColors: (
-  text: $gray,
-  text-inverse: $white,
-  background: $white,
-  background-section: $gray-lightest,
-  accent: $gray-dark,
-  accent-high: $black,
-  highlight: $gray-lighter,
-  highlight-high: $gray-lightest,
-  muted: $near-white,
-  warning: $yellow-light,
-  error: $red-light,
-  message: $green-light,
+  pp-header-bg: $coconut-cream,
 
   primary: $navy-blue,
   secondary: $downy,
@@ -42,24 +28,10 @@ $marsColors: (
   subcolor-2: $blue-marguerite,
   subcolor-3: $mine-shaft,
   subcolor-4: $cararra,
-  list: $alizarin-crimson-1,
-
-  pp-header-bg: $light-brown,
 );
 
 $twixColors: (
-  text: $gray,
-  text-inverse: $white,
-  background: $light-yellow-bg,
-  background-section: $gray-lightest,
-  accent: $gray-dark,
-  accent-high: $black,
-  highlight: $gray-lighter,
-  highlight-high: $gray-lightest,
-  muted: $near-white,
-  warning: $yellow-light,
-  error: $red-light,
-  message: $green-light,
+  pp-header-bg: $coconut-cream,
 
   primary: $alizarin-crimson,
   secondary: $web-orange,
@@ -67,57 +39,28 @@ $twixColors: (
   subcolor-2: $sandwisp,
   subcolor-3: $white,
   subcolor-4: $silver,
-  list: $alizarin-crimson-1,
-
-  pp-header-bg: $light-brown,
 );
 
 $doveColors: (
-  text: $gray,
-  text-inverse: $white,
-  background: $white,
-  background-section: $gray-lightest,
-  accent: $gray-dark,
-  accent-high: $black,
-  highlight: $gray-lighter,
-  highlight-high: $gray-lightest,
-  muted: $near-white,
-  warning: $yellow-light,
-  error: $red-light,
-  message: $green-light,
+  pp-header-bg: $merino,
 
   primary: $metallic-bronze,
-  secondary: $white,
-  subcolor-1: $alizarin-crimson-1,
-  subcolor-2: $tussock,
+  secondary: $persian_red,
+  subcolor-1: $tussock,
+  subcolor-2: $white,
   subcolor-3: $merino,
   subcolor-4: $cararra,
-
-  pp-header-bg: $merino,
 );
 
 $galaxyColors: (
-  text: $gray,
-  text-inverse: $white,
-  background: $white,
-  background-section: $gray-lightest,
-  accent: $gray-dark,
-  accent-high: $black,
-  highlight: $gray-lighter,
-  highlight-high: $gray-lightest,
-  muted: $near-white,
-  warning: $yellow-light,
-  error: $red-light,
-  message: $green-light,
+  pp-header-bg: $merino,
 
   primary: $metallic-bronze,
-  secondary: $white,
-  subcolor-1: $cerise-red,
-  subcolor-2: $tussock,
+  secondary: $cerise-red,
+  subcolor-1: $tussock,
+  subcolor-2: $white,
   subcolor-3: $merino,
   subcolor-4: $cararra,
-
-  pp-header-bg: $merino,
 );
 
 ///////////
