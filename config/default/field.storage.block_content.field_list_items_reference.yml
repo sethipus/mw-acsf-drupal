@@ -1,0 +1,19 @@
+uuid: b5645a25-bcfc-4706-b39d-1e3af212f47a
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content.field_list_items_reference
+field_name: field_list_items_reference
+entity_type: block_content
+type: entity_reference
+settings:
+  target_type: block_content
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

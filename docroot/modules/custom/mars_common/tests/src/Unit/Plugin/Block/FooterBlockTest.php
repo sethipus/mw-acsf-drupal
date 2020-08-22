@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\mars_common\Unit;
+namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
