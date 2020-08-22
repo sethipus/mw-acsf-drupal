@@ -7,6 +7,8 @@ dependencies:
     - node.type.product_variant
   module:
     - text
+_core:
+  default_config_hash: 4BQ_6b5J2Q3OIC5It8Sx-vNrNrqDcvbwQUjGRL1zdzs
 id: node.product_variant.field_product_allergen_warnings
 field_name: field_product_allergen_warnings
 entity_type: node

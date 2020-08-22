@@ -1,0 +1,10 @@
+uuid: 7c098a50-060b-4aa2-bac7-8ba35a29e983
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: _rw-g05iV92b3DlNUfuvC-Py9tEmQKZtlrsL2TLm5qQ
+name: 'Diet & Allergens'
+vid: mars_diet_allergens
+description: ''
+weight: 0

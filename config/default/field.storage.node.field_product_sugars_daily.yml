@@ -1,0 +1,23 @@
+uuid: e438d5c8-f3a6-4727-80e5-a9c033f5c787
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: jn8Ln0ZuIyKRJbif7BdMidxxPw1TRDAI1h2SNOnpmHU
+id: node.field_product_sugars_daily
+field_name: field_product_sugars_daily
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

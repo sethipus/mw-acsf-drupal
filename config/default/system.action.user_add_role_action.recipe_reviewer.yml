@@ -1,0 +1,16 @@
+uuid: 57a45ab9-ad43-4ca3-9b3c-f88806691e49
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.recipe_reviewer
+  module:
+    - user
+_core:
+  default_config_hash: 5DycyeHRC7OWT1Wk09mPaSr55D_ToVySe9CNGE-zMAs
+id: user_add_role_action.recipe_reviewer
+label: 'Add the Recipe reviewer role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: recipe_reviewer

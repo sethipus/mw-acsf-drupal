@@ -1,0 +1,19 @@
+uuid: 6d2c82b2-01a9-4535-a26e-aa708482ec89
+langcode: en
+status: true
+dependencies: {  }
+id: product_variant_reviewer
+label: 'Product Variant reviewer'
+weight: 12
+is_admin: false
+permissions:
+  - 'access content overview'
+  - 'access toolbar'
+  - 'delete any product_variant content'
+  - 'edit any product_variant content'
+  - 'use editorial transition archive'
+  - 'use editorial transition publish'
+  - 'use editorial transition review'
+  - 'use moderation sidebar'
+  - 'view any unpublished content'
+  - 'view latest version'

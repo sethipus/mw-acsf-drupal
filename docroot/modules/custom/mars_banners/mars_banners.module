@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * @file
+ * MARS Banners module main file.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function mars_banners_theme($existing, $type, $theme, $path) {
+  return [
+    'homepage_hero_block' => [
+      'variables' => [
+        'label' => NULL,
+        'eyebrow' => NULL,
+        'cta_url' => NULL,
+        'cta_title' => NULL,
+        'title_url' => NULL,
+        'title_label' => NULL,
+        'block_type' => NULL,
+        'background_default' => NULL,
+        'background_image' => NULL,
+        'background_video' => NULL,
+        'blocks' => [],
+      ],
+      'template' => 'homepage-hero-block',
+    ],
+  ];
+}
+
+/**
+ * Process managed_file element to add preview element with uploaded image.
+ *
+ * @param array $element
+ *   Form element children.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ * @param array $complete_form
+ *   Processed form.
+ *
+ * @return array
+ *   Form element for further processing and theming
+ */
+function mars_banners_process_image_widget(array &$element, FormStateInterface $form_state, array &$complete_form) {
+  if (empty($element['fids']['#value'])) {
+    return $element;
+  }
+
+  $file = reset($element['#files']);
+  $file_variables = [
+    'style_name' => $element['#preview_image_style'],
+    'uri' => $file->getFileUri(),
+  ];
+
+  // Determine image dimensions.
+  if (isset($element['#value']['width']) && isset($element['#value']['height'])) {
+    $file_variables['width'] = $element['#value']['width'];
+    $file_variables['height'] = $element['#value']['height'];
+  }
+  else {
+    $image = Drupal::service('image.factory')->get($file->getFileUri());
+    if ($image->isValid()) {
+      $file_variables['width'] = $image->getWidth();
+      $file_variables['height'] = $image->getHeight();
+    }
+    else {
+      $file_variables['width'] = $file_variables['height'] = NULL;
+    }
+  }
+
+  $element['preview'] = [
+    '#weight' => -10,
+    '#theme' => 'image_style',
+    '#width' => $file_variables['width'],
+    '#height' => $file_variables['height'],
+    '#style_name' => $file_variables['style_name'],
+    '#uri' => $file_variables['uri'],
+  ];
+
+  // Store the dimensions in the form so the file doesn't have to be
+  // accessed again. This is important for remote files.
+  $element['width'] = [
+    '#type' => 'hidden',
+    '#value' => $file_variables['width'],
+  ];
+  $element['height'] = [
+    '#type' => 'hidden',
+    '#value' => $file_variables['height'],
+  ];
+
+  return $element;
+}

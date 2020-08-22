@@ -1,0 +1,10 @@
+uuid: 2a04a488-bda1-4c19-aea2-d3e4917ed657
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 0q1AFpjbrNwql6p_5do-BIkkx3iuddw54gZBkz6fp5g
+name: Format
+vid: mars_format
+description: ''
+weight: 0

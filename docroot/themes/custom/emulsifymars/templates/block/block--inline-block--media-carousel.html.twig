@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Media carousel component.
+ * 'title' => NULL,
+ * 'items' => NULL,
+ * 'border_divider' => NULL,
+ */
+#}
+{{ attach_library('emulsifymars/fullscreen-video') }}
+
+<div {{ bem('block') }}>
+    {{ title_prefix }}
+    {{ title_suffix }}
+    {% block content %}
+        {% include "@molecules/media-carousel/media-carousel.twig" with {
+            theme_styles: 'drupal',
+            border_divider: border_divider,
+            heading: title,
+            items: items,
+        } %}
+    {% endblock %}
+</div>
+

@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.node.field_product_calcium
     - node.type.product_variant
+_core:
+  default_config_hash: 04-hm1EWmITcx7PdBWq_GVfrsebXcQtI0XT21So5tEo
 id: node.product_variant.field_product_calcium
 field_name: field_product_calcium
 entity_type: node

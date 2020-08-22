@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.teaser
     - field.field.node.product_variant.field_product_allergen_statement
     - field.field.node.product_variant.field_product_allergen_warnings
     - field.field.node.product_variant.field_product_calcium
@@ -13,6 +14,7 @@ dependencies:
     - field.field.node.product_variant.field_product_carb_daily
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
+    - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
     - field.field.node.product_variant.field_product_dietary_fiber
     - field.field.node.product_variant.field_product_image_1
@@ -54,16 +56,36 @@ dependencies:
     - node.type.product_variant
   module:
     - user
+_core:
+  default_config_hash: zOXVSI-YyrXWA4V1-0XypinNtiqGPh2Myoau7YFpFvk
 id: node.product_variant.teaser
 targetEntityType: node
 bundle: product_variant
 mode: teaser
 content:
+  field_product_key_image:
+    type: entity_reference_entity_view
+    weight: 1
+    region: content
+    label: above
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+  field_product_key_image_override:
+    type: entity_reference_entity_view
+    weight: 2
+    region: content
+    label: above
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
   links:
-    weight: 100
+    weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   content_moderation_control: true
   field_product_allergen_statement: true
@@ -76,6 +98,7 @@ hidden:
   field_product_carb_daily: true
   field_product_cholesterol: true
   field_product_cholesterol_daily: true
+  field_product_diet_allergens: true
   field_product_dietary_daily: true
   field_product_dietary_fiber: true
   field_product_image_1: true
@@ -88,8 +111,6 @@ hidden:
   field_product_image_4_override: true
   field_product_iron: true
   field_product_iron_daily: true
-  field_product_key_image: true
-  field_product_key_image_override: true
   field_product_potassium: true
   field_product_potassium_daily: true
   field_product_protein: true

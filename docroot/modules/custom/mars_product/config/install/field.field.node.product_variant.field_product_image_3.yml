@@ -4,7 +4,10 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_product_image_3
+    - media.type.image
     - node.type.product_variant
+_core:
+  default_config_hash: Zbud4BLHUboQXwlipOc4TnVQy6Ug9ks2dsmMXW3z9Wg
 id: node.product_variant.field_product_image_3
 field_name: field_product_image_3
 entity_type: node

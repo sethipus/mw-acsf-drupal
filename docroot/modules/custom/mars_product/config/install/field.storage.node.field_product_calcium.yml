@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: bGIk31Q011FLr5ug9QMEqWa_mHEulRpHy2roVWbh2DY
 id: node.field_product_calcium
 field_name: field_product_calcium
 entity_type: node

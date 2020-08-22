@@ -1,0 +1,14 @@
+uuid: b679e9e9-c105-4422-92c3-6c6a9020e18a
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_core
+    - node
+third_party_settings:
+  lightning_core:
+    description: ''
+id: node.article_card
+label: 'Article Card'
+targetEntityType: node
+cache: true
