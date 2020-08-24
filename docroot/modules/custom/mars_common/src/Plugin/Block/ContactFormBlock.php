@@ -39,6 +39,7 @@ class ContactFormBlock extends BlockBase {
       '#title' => $this->t('Form ID'),
       '#default_value' => $this->configuration['form_id'] ?? '',
       '#required' => TRUE,
+      '#size' => 65,
     ];
 
     return $form;
