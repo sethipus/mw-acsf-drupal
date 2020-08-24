@@ -1,7 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: lighthouse_api
-label: 'Lighthouse API'
-fieldset: lighthouse_api
-multiple: false
