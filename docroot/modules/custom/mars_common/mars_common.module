@@ -131,7 +131,7 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
-  $divider_id = \Drupal::config('emulsifymars.settings')
+  $divider_id = Drupal::config('emulsifymars.settings')
     ->get('graphic_divider');
 
   if (isset($divider_id[0])) {
@@ -179,7 +179,7 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
       ];
 
       if (isset($field_image_val[0])) {
-        $file_uri = \Drupal::entityTypeManager()
+        $file_uri = Drupal::entityTypeManager()
           ->getStorage('file')
           ->load($field_image_val[0]['target_id'])
           ->getFileUri();
@@ -223,7 +223,7 @@ function mars_common_preprocess_block__inline_block__inline_image(array &$variab
 
   $file_url = NULL;
   if (isset($field_image)) {
-    $file_uri = \Drupal::entityTypeManager()
+    $file_uri = Drupal::entityTypeManager()
       ->getStorage('file')
       ->load($field_image)
       ->getFileUri();
@@ -250,7 +250,7 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
 
   $file_url = NULL;
   if (isset($field_image)) {
-    $file_uri = \Drupal::entityTypeManager()
+    $file_uri = Drupal::entityTypeManager()
       ->getStorage('file')
       ->load($field_image)
       ->getFileUri();
@@ -297,5 +297,20 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form_id === 'layout_builder_update_block'
   ) {
     $form['settings']['label_display']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function mars_common_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $request = Drupal::request();
+
+  if ($exception = $request->attributes->get('exception')) {
+    // Get the status code.
+    $status_code = $exception->getStatusCode();
+    if (in_array($status_code, [403, 404], TRUE)) {
+      $suggestions[] = 'page__' . $status_code;
+    }
   }
 }
