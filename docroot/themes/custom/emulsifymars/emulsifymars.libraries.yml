@@ -42,6 +42,13 @@ social-feed-slide:
   dependencies:
     - core/drupal
 
+pdp-hero:
+  js:
+    dist/js/pdp_hero.js: {}
+    dist/js/vendors~pdp_hero.js: {}
+  dependencies:
+    - core/drupal
+
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
 sprite:
