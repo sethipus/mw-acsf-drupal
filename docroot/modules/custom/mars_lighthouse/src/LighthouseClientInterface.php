@@ -60,16 +60,6 @@ interface LighthouseClientInterface {
   public function search(int &$total_found, string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []): array;
 
   /**
-   * Returns configuration for Lighthouse client.
-   *
-   * @return array
-   *   Configuration for Lighthouse client.
-   *
-   * @throws \Drupal\mars_lighthouse\LighthouseException
-   */
-  public function getConfiguration(): array;
-
-  /**
    * Get an asset data by its Id.
    *
    * @param string $id
