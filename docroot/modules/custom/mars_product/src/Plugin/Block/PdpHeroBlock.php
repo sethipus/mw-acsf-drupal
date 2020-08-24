@@ -40,6 +40,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $config;
 
   /**
+   * Route match.
+   *
    * @var \Drupal\Core\Routing\RouteMatchInterface
    */
   protected $routeMatch;
@@ -135,7 +137,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'available_sizes' => $config['available_sizes'] ?? $this->t('Available sizes'),
       'wtb' => [
         'cta_label' => $config['wtb']['cta_label'] ?? $this->t('Where to buy'),
-      ]
+      ],
     ];
   }
 
@@ -147,9 +149,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#available_sizes'] = $this->configuration['available_sizes'] ?? '';
     $build['#cta_link'] = $this->configuration['wtb']['cta_link'] ?? '#';
     $build['#cta_label'] = $this->configuration['wtb']['cta_label'] ?? '';
-    // TODO border radius - get border from Theme settings.
+    // TODO - get border from Theme settings.
     // not implemented yet.
-    $theme_settings = $this->config->get('emulsifymars.settings')->get();
     $build['#wtb_border_radius'] = 25;
 
     // Get Product dependent values.
@@ -174,15 +175,19 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * @param $node
+   * Get Image items.
+   *
+   * @param object $node
+   *   Product node.
    *
    * @return array
+   *   Size items array.
    */
   public function getImageItems($node) {
     $items = [];
     $field_size = 'field_product_size';
     $i = 0;
-    foreach ($node->field_product_variants as $key => $reference) {
+    foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
       $size = $product_variant->get($field_size)->value;
       $size_id = $this->getMachineName($size);
@@ -190,14 +195,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $state = $i == 1 ? 'true' : 'false';
       $items[$size_id] = [
         'active' => $state,
-        'size_id' => $size_id ,
+        'size_id' => $size_id,
       ];
       for ($i = 1; $i <= 4; $i++) {
         $field_name = 'field_product_image_' . $i;
         $field_name_override = 'field_product_image_' . $i . '_override';
 
         $image = $product_variant->{$field_name}->entity;
-        //$a = $product_variant->{$field_name}->first->getValue();
         $image_override = $product_variant->{$field_name_override}->entity;
 
         if (!$image && !$image_override) {
@@ -218,7 +222,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
             'srcset' => sprintf($format, $image_src, $image_src, $image_src, $image_src),
             'src' => $image_src,
             'alt' => $image_alt,
-          ]
+          ],
         ];
 
         $items[$size_id]['images'][] = $item;
@@ -229,9 +233,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * @param $node
+   * Get Size items.
+   *
+   * @param object $node
+   *   Product node.
    *
    * @return array
+   *   Size items array.
    */
   public function getSizeItems($node) {
     $items = [];
@@ -257,10 +265,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   *
    * TODO. It's a STUB. Make it configurable.
    *
    * @return array
+   *   Mobile items array.
    */
   public function getMobileItems() {
     $map = [
@@ -283,12 +291,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * @param $string
+   * Create id for html element from title.
+   *
+   * @param string $string
+   *   Product node title.
    *
    * @return string
+   *   Machine-name string.
    */
   public function getMachineName($string = '') {
-    return mb_strtolower(trim(str_replace(' ', '', $string)));
+    return mb_strtolower(str_replace(' ', '', $string));
   }
 
 }

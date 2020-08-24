@@ -2,7 +2,7 @@ theme_styles: 'twix'
 image_items:
   - size_id: '1oz'
     active: true
-    images: 
+    images:
       - image:
           srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
           src: 'Front3x.png'
@@ -21,7 +21,7 @@ image_items:
           alt: 'Twix'
   - size_id: '4oz'
     active: false
-    images: 
+    images:
       - image:
           srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
           src: 'Front3x.png'
@@ -40,7 +40,7 @@ image_items:
           alt: 'Twix'
   - size_id: '6oz'
     active: false
-    images: 
+    images:
       - image:
           srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
           src: 'image-23x.png'
@@ -68,31 +68,31 @@ mobile_sections_items:
   - title: 'NUTRITION & INGREDIENTS'
     link_url: '#'
     border_radius: 20
-    link_attributes: 
+    link_attributes:
       'id' : 'section-nutrition'
   - title: 'DIET &amp; ALLERGENS'
     link_url: '#'
     border_radius: 20
-    link_attributes: 
+    link_attributes:
       'id' : 'section-allergens'
   - title: 'RELATED PRODUCTS'
     link_url: '#'
     border_radius: 20
-    link_attributes: 
+    link_attributes:
       'id' : 'section-products'
 size_label: 'Available Sizes'
 size_items:
-  - size_attributes: 
+  - size_attributes:
       'data-size-selected' : 'true'
       'data-size-id' : '1oz'
     title: '1.36 oz'
     link_url: '#'
-  - size_attributes: 
+  - size_attributes:
       'data-size-selected' : 'false'
       'data-size-id' : '4oz'
     title: '4 oz'
     link_url: '#'
-  - size_attributes: 
+  - size_attributes:
       'data-size-selected' : 'false'
       'data-size-id' : '6oz'
     title: '6 oz'
