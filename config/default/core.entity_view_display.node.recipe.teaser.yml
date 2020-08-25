@@ -1,0 +1,55 @@
+uuid: becf11c3-881a-4b13-b275-1efa111442b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.recipe.field_recipe_cooking_time
+    - field.field.node.recipe.field_recipe_description
+    - field.field.node.recipe.field_recipe_image
+    - field.field.node.recipe.field_recipe_ingredients_number
+    - field.field.node.recipe.field_recipe_number_of_servings
+    - field.field.node.recipe.field_recipe_video
+    - image.style.medium
+    - node.type.recipe
+  module:
+    - media
+    - text
+    - user
+_core:
+  default_config_hash: BkxoW4GYzpkl1PTl7kPB5X4od3CYhIkwfU8ldeaQU3k
+id: node.recipe.teaser
+targetEntityType: node
+bundle: recipe
+mode: teaser
+content:
+  field_recipe_description:
+    type: text_default
+    weight: 1
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+  field_recipe_image:
+    type: media_thumbnail
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      image_style: medium
+      image_link: ''
+    third_party_settings: {  }
+  links:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_recipe_cooking_time: true
+  field_recipe_ingredients_number: true
+  field_recipe_number_of_servings: true
+  field_recipe_video: true
+  layout_builder__layout: true
+  layout_selection: true
+  published_at: true
+  search_api_excerpt: true

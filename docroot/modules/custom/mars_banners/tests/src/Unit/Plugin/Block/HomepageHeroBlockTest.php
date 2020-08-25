@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
+use Drupal;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -99,7 +100,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
-    \Drupal::setContainer($this->containerMock);
+    Drupal::setContainer($this->containerMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())
@@ -122,6 +123,23 @@ class HomepageHeroBlockTest extends UnitTestCase {
    * Test.
    */
   public function testShouldBuild() {
+    $configMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['get'])
+      ->getMock();
+
+    $this->configFactoryMock
+      ->expects($this->once())
+      ->method('get')
+      ->with('emulsifymars.settings')
+      ->willReturn(
+        $configMock
+      );
+
+    $configMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn(['brand_shape' => [9]]);
+
     $block_build = $this->homepageBlock->build();
     $this->assertSame(
       'Homepage Hero block',
@@ -148,23 +166,6 @@ class HomepageHeroBlockTest extends UnitTestCase {
           ],
         ]
       );
-
-    $configMock = $this->getMockBuilder(stdClass::class)
-      ->setMethods(['get'])
-      ->getMock();
-
-    $this->configFactoryMock
-      ->expects($this->once())
-      ->method('get')
-      ->with('emulsifymars.settings')
-      ->willReturn(
-        $configMock
-      );
-
-    $configMock
-      ->expects($this->once())
-      ->method('get')
-      ->willReturn([]);
 
     $block_form = $this->homepageBlock->buildConfigurationForm(
       $form_array,

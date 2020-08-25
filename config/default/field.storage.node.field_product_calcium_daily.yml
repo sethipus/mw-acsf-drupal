@@ -1,0 +1,23 @@
+uuid: cae93c05-014d-4d5c-b90b-0fd7fbe7bc0f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: uXZGX2P0dkfY9P5sxccr9xM5NWhXKAjMMzWN32L22Ww
+id: node.field_product_calcium_daily
+field_name: field_product_calcium_daily
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,21 @@
+uuid: 79e48209-7384-4575-9167-98b403269a27
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_potassium_daily
+    - node.type.product_variant
+_core:
+  default_config_hash: dKgvSwBDTxmuxpZcY5O6iMkT-y7kf8yJQdt59SvU4fI
+id: node.product_variant.field_product_potassium_daily
+field_name: field_product_potassium_daily
+entity_type: node
+bundle: product_variant
+label: 'Potassium % Daily Value'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

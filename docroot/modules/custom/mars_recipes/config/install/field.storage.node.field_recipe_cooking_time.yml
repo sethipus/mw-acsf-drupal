@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: El8NFcNxqqaIL3PY7mGzeCHMbCm3I_OgFO7vYKpFM-A
 id: node.field_recipe_cooking_time
 field_name: field_recipe_cooking_time
 entity_type: node

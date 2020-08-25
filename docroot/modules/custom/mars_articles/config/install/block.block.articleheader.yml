@@ -1,0 +1,32 @@
+uuid: 8273b3a3-4d69-45e3-9fd0-6a132767fffb
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - mars_articles
+  theme:
+    - emulsifymars
+id: articleheader
+theme: emulsifymars
+region: content
+weight: 0
+provider: null
+plugin: article_header
+settings:
+  id: article_header
+  label: 'Article header'
+  provider: mars_articles
+  label_display: '0'
+  context_mapping:
+    node: '@node.node_route_context:node'
+  eyebrow: '#eyebrow_text'
+  article: null
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      article: article
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

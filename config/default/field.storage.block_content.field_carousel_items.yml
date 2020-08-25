@@ -17,7 +17,7 @@ settings:
   display_default: false
 module: mars_common
 locked: false
-cardinality: -1
+cardinality: 12
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

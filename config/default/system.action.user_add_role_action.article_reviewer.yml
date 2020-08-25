@@ -1,0 +1,16 @@
+uuid: c67b9c36-5642-41cd-9426-af52bb6e6dc5
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.article_reviewer
+  module:
+    - user
+_core:
+  default_config_hash: '-77gY6HxwU7a_9vhsvjy5rj1PGw5OC7IYrD2LOJcx4k'
+id: user_add_role_action.article_reviewer
+label: 'Add the Article reviewer role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: article_reviewer
