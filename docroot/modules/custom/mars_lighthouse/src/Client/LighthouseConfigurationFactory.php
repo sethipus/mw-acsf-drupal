@@ -53,32 +53,32 @@ class LighthouseConfigurationFactory {
 
     $username = $config->get('client_id') ?? $this->defaultsProvider->getDefaultUsername();
     if ($username === NULL) {
-      throw new LighthouseException('Missing username configuration.');
+      throw new LighthouseException('Missing default username configuration for lighthouse.');
     }
 
     $password = $config->get('client_secret') ?? $this->defaultsProvider->getDefaultPassword();
     if ($password === NULL) {
-      throw new LighthouseException('Missing password configuration.');
+      throw new LighthouseException('Missing default password configuration for lighthouse.');
     }
 
     $api_key = $config->get('api_key') ?? $this->defaultsProvider->getDefaultApiKey();
     if ($api_key === NULL) {
-      throw new LighthouseException('Missing api key configuration.');
+      throw new LighthouseException('Missing default api key configuration for lighthouse.');
     }
 
     $base_path = $config->get('base_path') ?? $this->defaultsProvider->getDefaultBasePath();
     if ($base_path === NULL) {
-      throw new LighthouseException('Missing base path configuration.');
+      throw new LighthouseException('Missing default base path configuration for lighthouse.');
     }
 
     $port = $config->get('port') ?? $this->defaultsProvider->getDefaultPort();
     if ($port === NULL) {
-      throw new LighthouseException('Missing port configuration.');
+      throw new LighthouseException('Missing default port configuration for lighthouse.');
     }
 
     $subpath = $config->get('subpath') ?? $this->defaultsProvider->getDefaultSubpath();
     if ($subpath === NULL) {
-      throw new LighthouseException('Missing subpath configuration.');
+      throw new LighthouseException('Missing default subpath configuration for lighthouse.');
     }
 
     return new LighthouseConfiguration(
