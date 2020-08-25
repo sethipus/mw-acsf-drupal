@@ -2,7 +2,6 @@
   &__inner {
     display: flex;
     flex-flow: row wrap;
-    min-height: 580px;
 
     @include large {
       flex-flow: row nowrap;
@@ -25,6 +24,7 @@
         background-size: auto 100%;
         background-position: bottom center;
         position: relative;
+        min-height: 580px;
 
         & .eyebrow {
           font-family: variable(primary-font);
@@ -75,7 +75,7 @@
       &__wrapper {
         background-repeat: no-repeat;
         background-position: right center;
-        background-size: 45% 75%;
+        background-size: 30% 90%;
         display: flex;
         flex-flow: column nowrap;
 
@@ -86,32 +86,37 @@
     }
 
   &__container--image {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 0;
+
+    @include large {
+      position: absolute;
+      z-index: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
 
     & img {
-      width: 212px;
       margin-left: auto;
-
-      @include medium {
-        width: 315px;
-      }
+      align-self: center;
+      object-fit: cover;
+      min-height: 580px;
 
       @include large {
-        width: 541px;
+        height: 100%;
       }
     }
   }
 
   &__container--hero-text {
-    padding: 150px 0 0 20px;
-    position: relative;
+    padding: 30px 20px 0 20px;
+    position: absolute;
     z-index: 1;
+    bottom: 0;
 
     @include large {
       padding: 370px 0 0 40px;
+      position: relative;
     }
   }
 }

@@ -1,0 +1,8 @@
+uuid: 18f49e5d-d545-4550-86ea-057b9632e97b
+langcode: en
+status: true
+dependencies: {  }
+id: list_item
+label: 'List item'
+revision: 1
+description: ''

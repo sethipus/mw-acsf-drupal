@@ -72,10 +72,6 @@ $xl-gap-width: 30px;
     }
   }
 
-  &__image {
-    position: absolute;
-  }
-
   #playpause[data-state="play"] {
     top: 15px;
     right: 15px;
@@ -99,6 +95,13 @@ $xl-gap-width: 30px;
 
     & > div {
       border-left-color: white;
+    }
+  }
+
+  #playpause[data-state="pause"] {
+
+    @include medium {
+      bottom: 160px;
     }
   }
 }

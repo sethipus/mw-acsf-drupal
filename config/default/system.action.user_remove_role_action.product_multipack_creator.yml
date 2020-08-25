@@ -1,0 +1,14 @@
+uuid: ddf1672a-37c0-4fcd-9640-e9ce3975eefb
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.product_multipack_creator
+  module:
+    - user
+id: user_remove_role_action.product_multipack_creator
+label: 'Remove the Product Multipack creator role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: product_multipack_creator

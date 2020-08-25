@@ -1,0 +1,23 @@
+uuid: 29028723-7aaa-41c2-9fda-688f5fba3d52
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_allergen_statement
+    - node.type.product_variant
+  module:
+    - options
+_core:
+  default_config_hash: E8KIwFa_DyaZqOUDIJ_5rWctVnMWp7inxI4iXw_Nyps
+id: node.product_variant.field_product_allergen_statement
+field_name: field_product_allergen_statement
+entity_type: node
+bundle: product_variant
+label: 'Allergen Statement'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

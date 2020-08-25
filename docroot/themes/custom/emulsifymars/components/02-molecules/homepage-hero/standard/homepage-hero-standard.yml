@@ -1,14 +1,12 @@
 theme_styles: 'twix'
 eyebrow: 'Left or Right'
-title_label: 'NEW <br class="small"> TWIX <br class="large"> WHITE CHOCOLATE'
+title_label: 'NEW MINI WHITE CHOCOLATE'
 title_href: '#'
 cta_title: 'Explore'
 cta_link_attributes:
   'href': '#'
 cta_base_class: 'cta-link'
 hero_image:
-  'srcset': 'image-10@1x.png 1x, image-10@2x.png 2x'
-  'src': 'image-10.png'
+  'srcset': 'image-4.png, image-4@2x.png 2x, image-4@3x.png 3x '
+  'src': 'image-4.png'
 cta_border_radius: 30
-background: 'hero-bg.svg'
-ellipse_background: 'ellipse3.svg'

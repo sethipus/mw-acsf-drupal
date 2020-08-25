@@ -1,0 +1,8 @@
+uuid: 13a1dfb3-a51b-45a5-ae13-e0e135479fab
+langcode: en
+status: true
+dependencies: {  }
+id: list
+label: List
+revision: 1
+description: 'List - inline component'
