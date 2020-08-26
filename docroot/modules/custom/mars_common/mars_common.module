@@ -312,6 +312,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
       $item = [
         'card__heading' => $field_title_val,
         'card__link__url' => ($with_cta_flag) ? $field_cta_val : NULL,
+        'card__link__text' => ($with_cta_flag) ? t('Explore') : NULL,
         'card__body' => ($with_desc_flag) ? $field_desc_val : NULL,
       ];
 

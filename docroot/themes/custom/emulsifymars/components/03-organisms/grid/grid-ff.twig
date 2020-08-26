@@ -18,7 +18,7 @@
     "heading": grid_label,
   } %}
 {% endif %}
-{{ divider }}
+{{ divider | raw }}
 <div {{ bem(grid_base_class, grid_modifiers, grid_blockname) }}>
   {% block grid_content %}
     {% for item in items %}
