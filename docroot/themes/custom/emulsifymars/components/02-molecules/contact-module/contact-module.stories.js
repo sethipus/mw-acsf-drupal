@@ -6,5 +6,4 @@ export default { title: 'Molecules/Contact Module' };
 
 export const contactModuleExample = () => {
   return <div dangerouslySetInnerHTML={{ __html: contactModule(contactModuleData) }} />;
-    
 };
