@@ -301,16 +301,17 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 }
 
 /**
- * Implements hook_theme_suggestions_HOOK_alter().
+ * Implements preprocess_HOOK().
  */
-function mars_common_theme_suggestions_page_alter(array &$suggestions, array $variables) {
-  $request = Drupal::request();
+function mars_common_preprocess_page(&$variables) {
+  $current_route = Drupal::routeMatch();
+  $route_name = $current_route->getRouteName();
 
-  if ($exception = $request->attributes->get('exception')) {
-    // Get the status code.
-    $status_code = $exception->getStatusCode();
-    if (in_array($status_code, [403, 404], TRUE)) {
-      $suggestions[] = 'page__' . $status_code;
+  if ($route_name === 'system.403' ||
+      $route_name === 'system.404') {
+    $node = Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'error_page']);
+    if ($node) {
+      $variables['node'] = $node[key($node)];
     }
   }
 }
