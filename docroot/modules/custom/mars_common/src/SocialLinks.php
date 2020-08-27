@@ -56,6 +56,10 @@ class SocialLinks {
     $theme_settings = $this->configFactory->get('emulsifymars.settings')->get();
 
     foreach ($theme_settings['social'] as $key => $social_settings) {
+      if (!$social_settings['name']) {
+        continue;
+      }
+
       $social_menu_items[$key]['title'] = $social_settings['name'];
       $social_menu_items[$key]['url'] = $social_settings['link'];
       if (!empty($social_settings['icon'])) {

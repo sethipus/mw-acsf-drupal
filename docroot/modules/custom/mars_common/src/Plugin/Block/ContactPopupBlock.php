@@ -68,13 +68,31 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
   public function build() {
     $conf = $this->getConfiguration();
 
+    $phone_cta_label = '';
+    if ($conf['phone_cta_label']) {
+      $phone_cta_label = $conf['phone_cta_label'];
+    }
+    elseif ($conf['phone_cta_number']) {
+      $phone_cta_label = $conf['phone_cta_number'];
+    }
+
+    $phone_cta_number = '';
+    if ($conf['phone_cta_number']) {
+      $phone_cta_number = 'tel:' . $conf['phone_cta_number'];
+    }
+
+    $email_cta_address = '';
+    if ($conf['email_cta_address']) {
+      $email_cta_address = 'mailto:' . $conf['email_cta_address'];
+    }
+
     $build['#label'] = $conf['label'] ?? '';
     $build['#description'] = $conf['description'] ?? '';
     $build['#social_links_label'] = $conf['social_links_label'] ?? '';
-    $build['#phone_cta_label'] = $conf['phone_cta_label'] ?? '';
-    $build['#phone_cta_number'] = $conf['phone_cta_number'] ?? '';
+    $build['#phone_cta_label'] = $phone_cta_label;
+    $build['#phone_cta_link'] = $phone_cta_number;
     $build['#email_cta_label'] = $conf['email_cta_label'] ?? '';
-    $build['#email_cta_address'] = $conf['email_cta_address'] ?? '';
+    $build['#email_cta_link'] = $email_cta_address;
     $build['#help_and_contact_cta_label'] = $conf['help_and_contact_cta_label'] ?? '';
     $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
 
@@ -91,6 +109,7 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
     $conf = $this->getConfiguration();
 
     return [
+      'label_display' => FALSE,
       'help_and_contact_cta_label' => $conf['help_and_contact_cta_label'] ?? $this->t('Help & Contact'),
       'social_links_label' => $conf['social_links_label'] ?? $this->t('See More On'),
     ];
@@ -125,7 +144,6 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
         '#title' => $this->t('Label'),
         '#maxlength' => 20,
         '#default_value' => $this->configuration['phone_cta_label'] ?? '',
-        '#placeholder' => 'Phone number',
         '#required' => FALSE,
       ],
       'number' => [
@@ -157,14 +175,6 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
 
-    $form['social_links_label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Social Links label'),
-      '#maxlength' => 35,
-      '#default_value' => $this->configuration['social_links_label'] ?? '',
-      '#required' => FALSE,
-    ];
-
     $form['help_and_contact_cta'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Help & Contact CTA'),
@@ -181,6 +191,14 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
         '#default_value' => $this->configuration['help_and_contact_cta_url'] ?? '',
         '#required' => FALSE,
       ],
+    ];
+
+    $form['social_links_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Social Links label'),
+      '#maxlength' => 35,
+      '#default_value' => $this->configuration['social_links_label'] ?? '',
+      '#required' => FALSE,
     ];
 
     return $form;

@@ -8,49 +8,36 @@
  * 'description' => NULL,
  * 'social_links_label' => NULL,
  * 'phone_cta_label' => NULL,
- * 'phone_cta_number' => NULL,
+ * 'phone_cta_link' => NULL,
  * 'email_cta_label' => NULL,
- * 'email_cta_address' => NULL,
+ * 'email_cta_link' => NULL,
  * 'help_and_contact_cta_label' => NULL,
  * 'help_and_contact_cta_url' => NULL,
  * 'social_menu_items' => NULL,
  */
 #}
 
-{#pp_header_eyebrow_modifiers: ['parent-page'],#}
-{#pp_header_eyebrow_text: eyebrow,#}
-{#pp_header_heading: label,#}
-{#pp_header_heading_base_class: 'parent-page-heading',#}
-{#pp_header_paragraph_content: description,#}
-{#parent_page_media_url: background_uri,#}
-{#parent_page_media_type: media_type,#}
-{#pp_header_video_type: background_bundle == 'video_file' ? 'video/mp4' : NULL,#}
-{#pp_header_heading_level: '1',#}
-{#pp_header_paragraph_base_class: 'parent-page-paragraph',#}
 {% include "@molecules/contact-module/contact-module.twig" with {
   contact_module_heading: label,
   contact_module_heading_level: 1,
   contact_module_paragraph_content: description,
-  contact_module_default_link_content: '',
-  contact_module_default_link_attributes: [],
-  contact_module_default_link_border_radius: 40,
-  contact_module_contact_phone: '',
-  contact_module_contact_phone_attributes: {
-    href: ''
+  contact_module_default_link_content: help_and_contact_cta_label,
+  contact_module_default_link_attributes: {
+    href: help_and_contact_cta_url
   },
-  contact_module_contact_email_text: '',
+  contact_module_default_link_border_radius: 40,
+  contact_module_contact_phone: phone_cta_label,
+  contact_module_contact_phone_attributes: {
+    href: phone_cta_link
+  },
+  contact_module_contact_email_text: email_cta_label,
   contact_module_contact_email_attributes: {
-    href: ''
+    href: email_cta_link
   },
 
-  contact_module_social_heading: '',
+  contact_module_social_heading: social_links_label,
   contact_module_social_heading_level: 2,
 
   social_menu_items: social_menu_items,
   configured_icons: true
 } %}
-
-{#{% include "@molecules/menus/social/social-menu.twig" with {#}
-{#  social_menu_items: social_menu_items,#}
-{#  configured_icons: true#}
-{#}%}#}
