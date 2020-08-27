@@ -95,6 +95,15 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'contact_popup_block' => [
       'variables' => [
+        'label' => NULL,
+        'description' => NULL,
+        'social_links_label' => NULL,
+        'phone_cta_label' => NULL,
+        'phone_cta_number' => NULL,
+        'email_cta_label' => NULL,
+        'email_cta_address' => NULL,
+        'help_and_contact_cta_label' => NULL,
+        'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
       ],
       'template' => 'contact-popup-block',

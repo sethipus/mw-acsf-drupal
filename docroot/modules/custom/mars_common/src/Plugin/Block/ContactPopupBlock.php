@@ -3,7 +3,6 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -67,6 +66,18 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
    * {@inheritdoc}
    */
   public function build() {
+    $conf = $this->getConfiguration();
+
+    $build['#label'] = $conf['label'] ?? '';
+    $build['#description'] = $conf['description'] ?? '';
+    $build['#social_links_label'] = $conf['social_links_label'] ?? '';
+    $build['#phone_cta_label'] = $conf['phone_cta_label'] ?? '';
+    $build['#phone_cta_number'] = $conf['phone_cta_number'] ?? '';
+    $build['#email_cta_label'] = $conf['email_cta_label'] ?? '';
+    $build['#email_cta_address'] = $conf['email_cta_address'] ?? '';
+    $build['#help_and_contact_cta_label'] = $conf['help_and_contact_cta_label'] ?? '';
+    $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
+
     $build['#social_menu_items'] = $this->socialLinks->getRenderedItems();
     $build['#theme'] = 'contact_popup_block';
 
@@ -76,16 +87,21 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
   /**
    * {@inheritdoc}
    */
+  public function defaultConfiguration(): array {
+    $conf = $this->getConfiguration();
+
+    return [
+      'help_and_contact_cta_label' => $conf['help_and_contact_cta_label'] ?? $this->t('Help & Contact'),
+      'social_links_label' => $conf['social_links_label'] ?? $this->t('See More On'),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
-    $form['eyebrow'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
-      '#default_value' => $this->configuration['eyebrow'] ?? '',
-      '#required' => TRUE,
-    ];
     $form['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
@@ -93,19 +109,78 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
       '#default_value' => $this->configuration['label'] ?? '',
       '#required' => TRUE,
     ];
-    $form['background'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Background media'),
-      '#target_type' => 'media',
-      '#default_value' => $this->getBackgroundEntity(),
-      '#required' => TRUE,
-    ];
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 65,
+      '#maxlength' => 150,
       '#default_value' => $this->configuration['description'] ?? '',
-      '#required' => TRUE,
+      '#required' => FALSE,
+    ];
+
+    $form['phone_cta'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Phone Contact'),
+      'label' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Label'),
+        '#maxlength' => 20,
+        '#default_value' => $this->configuration['phone_cta_label'] ?? '',
+        '#placeholder' => 'Phone number',
+        '#required' => FALSE,
+      ],
+      'number' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Phone Number'),
+        '#default_value' => $this->configuration['phone_cta_number'] ?? '',
+        '#placeholder' => '222-555-1616',
+        '#required' => FALSE,
+      ],
+    ];
+
+    $form['email_cta'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('E-mail Contact'),
+      'label' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Label'),
+        '#maxlength' => 20,
+        '#default_value' => $this->configuration['email_cta_label'] ?? '',
+        '#placeholder' => 'Email Us',
+        '#required' => FALSE,
+      ],
+      'address' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('E-mail address'),
+        '#default_value' => $this->configuration['email_cta_address'] ?? '',
+        '#placeholder' => 'contact@mars.com',
+        '#required' => FALSE,
+      ],
+    ];
+
+    $form['social_links_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Social Links label'),
+      '#maxlength' => 35,
+      '#default_value' => $this->configuration['social_links_label'] ?? '',
+      '#required' => FALSE,
+    ];
+
+    $form['help_and_contact_cta'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Help & Contact CTA'),
+      'label' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Button Label'),
+        '#maxlength' => 15,
+        '#default_value' => $this->configuration['help_and_contact_cta_label'] ?? '',
+        '#required' => FALSE,
+      ],
+      'url' => [
+        '#type' => 'textfield',
+        '#title' => $this->t('Page URL'),
+        '#default_value' => $this->configuration['help_and_contact_cta_url'] ?? '',
+        '#required' => FALSE,
+      ],
     ];
 
     return $form;
@@ -116,22 +191,19 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
-    $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
+
     $this->configuration['label'] = $form_state->getValue('label');
-    $this->configuration['background'] = $form_state->getValue('background');
     $this->configuration['description'] = $form_state->getValue('description');
-  }
+    $this->configuration['social_links_label'] = $form_state->getValue('social_links_label');
 
-  /**
-   * Returns the entity that's saved to the block.
-   */
-  private function getBackgroundEntity(): ?EntityInterface {
-    $backgroundEntityId = $this->getConfiguration()['background'] ?? NULL;
-    if (!$backgroundEntityId) {
-      return NULL;
-    }
+    $this->configuration['phone_cta_label'] = $form_state->getValue('phone_cta')['label'];
+    $this->configuration['phone_cta_number'] = $form_state->getValue('phone_cta')['number'];
 
-    return $this->mediaStorage->load($backgroundEntityId);
+    $this->configuration['email_cta_label'] = $form_state->getValue('email_cta')['label'];
+    $this->configuration['email_cta_address'] = $form_state->getValue('email_cta')['address'];
+
+    $this->configuration['help_and_contact_cta_label'] = $form_state->getValue('help_and_contact_cta')['label'];
+    $this->configuration['help_and_contact_cta_url'] = $form_state->getValue('help_and_contact_cta')['url'];
   }
 
 }
