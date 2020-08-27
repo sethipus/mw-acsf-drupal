@@ -3,11 +3,11 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\SocialLinks;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -29,18 +29,11 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $mediaStorage;
 
   /**
-   * The configFactory.
+   * Media storage.
    *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   * @var \Drupal\mars_common\SocialLinks
    */
-  protected $configFactory;
-
-  /**
-   * File storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorage;
+  protected $socialLinks;
 
   /**
    * {@inheritdoc}
@@ -51,7 +44,7 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('mars_common.social_links')
     );
   }
 
@@ -63,44 +56,21 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory
+    SocialLinks $social_links
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->configFactory = $config_factory;
     $this->mediaStorage = $entity_type_manager->getStorage('media');
-    $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->socialLinks = $social_links;
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    $build['#social_menu_items'] = $this->socialLinks();
+    $build['#social_menu_items'] = $this->socialLinks->getRenderedItems();
     $build['#theme'] = 'contact_popup_block';
 
     return $build;
-  }
-
-  /**
-   * Prepare social links data.
-   *
-   * @return array
-   *   Rendered menu.
-   */
-  protected function socialLinks() {
-    $social_menu_items = [];
-    $theme_settings = $this->configFactory->get('emulsifymars.settings')->get();
-
-    foreach ($theme_settings['social'] as $key => $social_settings) {
-      $social_menu_items[$key]['title'] = $social_settings['name'];
-      $social_menu_items[$key]['url'] = $social_settings['link'];
-      if (!empty($social_settings['icon'])) {
-        $fid = reset($social_settings['icon']);
-        $file = $this->fileStorage->load($fid);
-      }
-      $social_menu_items[$key]['icon'] = !empty($file) ? $file->createFileUrl() : '';
-    }
-    return $social_menu_items;
   }
 
   /**
