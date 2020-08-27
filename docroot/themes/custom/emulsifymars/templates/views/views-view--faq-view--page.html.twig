@@ -1,9 +1,9 @@
 {#
 /**
  * @file
- * Theme override for main view template.
+ * FAQ views page componnent.
  *
- * Available variables:
+ * Views related available variables:
  * - attributes: Remaining HTML attributes for the element.
  * - css_name: A CSS-safe version of the view name.
  * - css_class: The user-specified classes names, if any.
@@ -27,7 +27,13 @@
  * - dom_id: Unique id for every view being printed to give unique class for
  *   Javascript.
  *
- * @see template_preprocess_views_view()
+ * FAQ component variables:
+ * 'faq_title' => NULL,
+ * 'qa_items' => NULL,
+ * 'cta_button_label' => NULL,
+ * 'cta_button_link' => NULL,
+ *
+ * @see mars_common_preprocess_views_view__faq_view__page()
  */
 #}
 {%
@@ -36,34 +42,11 @@
 ]
 %}
 <div{{ attributes.addClass(classes) }}>
-    {{ title_prefix }}
-    {{ title }}
-    {{ title_suffix }}
-
-    {% if header %}
-        <header>
-            {{ header }}
-        </header>
-    {% endif %}
-
-    {{ exposed }}
-    {{ attachment_before }}
-
-    {% if rows -%}
-        {{ rows }}
-    {% elseif empty -%}
-        {{ empty }}
-    {% endif %}
-    {{ pager }}
-
-    {{ attachment_after }}
-    {{ more }}
-
-    {% if footer %}
-        <footer>
-            {{ footer }}
-        </footer>
-    {% endif %}
-
-    {{ feed_icons }}
+{#    {% include "@molecules/faq-page.twig" with {#}
+{#        theme_styles: 'drupal',#}
+{#        faq_title: faq_title,#}
+{#        qa_items: qa_items,#}
+{#        cta_button_label: cta_button_label,#}
+{#        cta_button_link: cta_button_link,#}
+{#    } %}#}
 </div>
