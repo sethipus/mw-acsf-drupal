@@ -151,7 +151,7 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function search(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $params = []): array {
+  public function search(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $params = [], $media_type = 'image'): array {
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
@@ -166,7 +166,7 @@ class LighthouseClient implements LighthouseClientInterface {
       // 'subBrand' => [],
       // 'subtype' => [],
       // 'category' => [],
-      'contentType' => 'image',
+      'contentType' => $media_type,
       'pagingConfig' => [
         'startRow' => $offset,
         'perPage' => $limit,

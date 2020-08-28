@@ -1,4 +1,4 @@
-uuid: cb331a67-fdd3-43b0-8783-c1be5c69ef96
+uuid: 2817d535-4e8e-42e8-aca4-547ebf88ade6
 langcode: en
 status: true
 dependencies:
@@ -7,8 +7,8 @@ dependencies:
   module:
     - mars_lighthouse
     - views
-name: lighthouse_browser
-label: 'Lighthouse browser'
+name: lighthouse_video_browser
+label: 'Lighthouse Video browser'
 display: modal
 display_configuration:
   width: '800'
@@ -20,21 +20,21 @@ selection_display_configuration: {  }
 widget_selector: tabs
 widget_selector_configuration: {  }
 widgets:
-  e1c849dd-3906-42b7-b061-397ebf372775:
+  a632bb3e-7fc0-4544-aee2-1c84379e19a2:
     settings:
       submit_text: 'Select entities'
       auto_select: false
-    uuid: e1c849dd-3906-42b7-b061-397ebf372775
+    uuid: a632bb3e-7fc0-4544-aee2-1c84379e19a2
     weight: 1
-    label: 'Search Lighthouse'
-    id: lighthouse_view
-  bde1bcbe-9e78-40ea-a5da-d94e3a344d97:
+    label: 'Search Lighthouse Video'
+    id: lighthouse_video_view
+  270110c1-e3f7-4121-9e8d-376442245d78:
     settings:
       view: lighthouse_media
-      view_display: lighthouse_image_browser
+      view_display: lightbox_video_browser
       submit_text: 'Select entities'
       auto_select: false
-    uuid: bde1bcbe-9e78-40ea-a5da-d94e3a344d97
+    uuid: 270110c1-e3f7-4121-9e8d-376442245d78
     weight: 2
     label: 'Media used'
     id: view

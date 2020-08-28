@@ -18,14 +18,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Uses a lighthouse requests to provide entity listing in a browser's widget.
  *
  * @EntityBrowserWidget(
- *   id = "lighthouse_view",
- *   label = @Translation("Lighthouse View"),
- *   description = @Translation("Uses a lighthouse requests to provide entity
+ *   id = "lighthouse_video_view",
+ *   label = @Translation("Lighthouse Video View"),
+ *   description = @Translation("Uses a Lighthouse requests to provide entity
  *   listing in a browser's widget."),
  *   auto_select = TRUE
  * )
  */
-class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterface {
+class LighthouseVideoView extends WidgetBase implements ContainerFactoryPluginInterface {
 
   /**
    * Limit of items presented in a gallery.
@@ -58,7 +58,7 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
    *
    * @var string
    */
-  protected $mediaType = 'image';
+  protected $mediaType = 'video';
 
   /**
    * {@inheritdoc}
@@ -271,19 +271,19 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
 
     // Prepare data to render.
     if (!empty($data)) {
+      // TODO implement Video preview image,
+      // after it will be implemented on LightHouse side.
+      $icon_path = drupal_get_path('module', 'media') . '/images/icons/video.png';
+      $icon_path = file_create_url($icon_path);
       foreach ($data as $item) {
         // Adds a checkbox for each image.
         $view[$item['assetId']] = [
-          // '#type' => 'lighthouse_gallery_radio',
           '#type' => 'lighthouse_gallery_checkbox',
           '#title' => $item['name'],
-          '#uri' => $item['uri'],
-          // '#return_value' => $item['assetId'],
-          // '#parents' => ['view'],
+          '#uri' => $icon_path,
         ];
       }
     }
-    // Empty text.
     else {
       $view['markup'] = [
         '#type' => 'html_tag',
