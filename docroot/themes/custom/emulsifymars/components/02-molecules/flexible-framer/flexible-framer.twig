@@ -1,9 +1,9 @@
-{% set related_recipes__base_class = 'related-recipes' %}
+{% set related_recipes__base_class = 'flexible-framer' %}
 
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 <section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}">
   <div class="curve">
-    {{ brand_border }}
+    {{ brand_border | raw }}
   </div>
 
   {% include "@organisms/grid/grid-ff.twig" with {
