@@ -166,7 +166,7 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
 
     $form['image'] = [
       '#type' => 'entity_autocomplete',
-      '#title' => 'Image',
+      '#title' => $this->t('Image'),
       '#target_type' => 'media',
       '#default_value' => $this->getImageEntity(),
       '#required' => TRUE,
