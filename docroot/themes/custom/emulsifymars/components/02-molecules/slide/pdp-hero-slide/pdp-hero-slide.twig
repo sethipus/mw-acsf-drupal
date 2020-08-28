@@ -1,0 +1,12 @@
+<div class="swiper-slide pdp-hero-slide">
+  {% include "@atoms/images/image/responsive-image.twig" with {
+    image_alt: item.image.alt,
+    image_srcset: item.image.srcset,
+    image_sizes: '(max-width: 375px) 375px,
+        (max-width: 768px) 768px,
+        (max-width: 1024px) 1024px,
+        1440px',
+    image_src: item.image.src,
+    responsive_image_blockname: 'pdp-hero-slide',
+  } %}
+</div>
