@@ -150,7 +150,7 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'textfield',
         '#title' => $this->t('Phone Number'),
         '#default_value' => $this->configuration['phone_cta_number'] ?? '',
-        '#placeholder' => '222-555-1616',
+        '#placeholder' => $this->t('222-555-1616'),
         '#required' => FALSE,
       ],
     ];
@@ -163,14 +163,14 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
         '#title' => $this->t('Label'),
         '#maxlength' => 20,
         '#default_value' => $this->configuration['email_cta_label'] ?? '',
-        '#placeholder' => 'Email Us',
+        '#placeholder' => $this->t('Email Us'),
         '#required' => FALSE,
       ],
       'address' => [
         '#type' => 'textfield',
         '#title' => $this->t('E-mail address'),
         '#default_value' => $this->configuration['email_cta_address'] ?? '',
-        '#placeholder' => 'contact@mars.com',
+        '#placeholder' => $this->t('contact@mars.com'),
         '#required' => FALSE,
       ],
     ];
