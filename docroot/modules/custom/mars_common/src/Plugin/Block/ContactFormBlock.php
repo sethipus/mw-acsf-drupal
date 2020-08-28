@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @Block(
  *   id = "contact_form",
- *   admin_label = @Translation("Contact Form"),
+ *   admin_label = @Translation("MARS: Contact Form"),
  *   category = @Translation("Mars Common")
  * )
  */
