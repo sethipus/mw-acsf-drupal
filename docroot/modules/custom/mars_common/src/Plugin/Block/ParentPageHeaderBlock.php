@@ -74,6 +74,15 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   /**
    * {@inheritdoc}
    */
+  public function defaultConfiguration(): array {
+    return [
+      'label_display' => FALSE,
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
