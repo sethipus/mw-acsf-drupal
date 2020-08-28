@@ -80,6 +80,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $conf = $this->getConfiguration();
 
     return [
+      'label_display' => FALSE,
       'explore_cta' => $conf['explore_cta'] ?? $this->t('Explore'),
     ];
   }
