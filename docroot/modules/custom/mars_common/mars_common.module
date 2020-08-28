@@ -93,6 +93,21 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-feature-block',
     ],
+    'contact_popup_block' => [
+      'variables' => [
+        'label' => NULL,
+        'description' => NULL,
+        'social_links_label' => NULL,
+        'phone_cta_label' => NULL,
+        'phone_cta_link' => NULL,
+        'email_cta_label' => NULL,
+        'email_cta_link' => NULL,
+        'help_and_contact_cta_label' => NULL,
+        'help_and_contact_cta_url' => NULL,
+        'social_menu_items' => NULL,
+      ],
+      'template' => 'contact-popup-block',
+    ],
   ];
 }
 
@@ -131,7 +146,7 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
-  $divider_id = \Drupal::config('emulsifymars.settings')
+  $divider_id = Drupal::config('emulsifymars.settings')
     ->get('graphic_divider');
 
   if (isset($divider_id[0])) {
@@ -179,7 +194,7 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
       ];
 
       if (isset($field_image_val[0])) {
-        $file_uri = \Drupal::entityTypeManager()
+        $file_uri = Drupal::entityTypeManager()
           ->getStorage('file')
           ->load($field_image_val[0]['target_id'])
           ->getFileUri();
@@ -223,7 +238,7 @@ function mars_common_preprocess_block__inline_block__inline_image(array &$variab
 
   $file_url = NULL;
   if (isset($field_image)) {
-    $file_uri = \Drupal::entityTypeManager()
+    $file_uri = Drupal::entityTypeManager()
       ->getStorage('file')
       ->load($field_image)
       ->getFileUri();
@@ -250,7 +265,7 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
 
   $file_url = NULL;
   if (isset($field_image)) {
-    $file_uri = \Drupal::entityTypeManager()
+    $file_uri = Drupal::entityTypeManager()
       ->getStorage('file')
       ->load($field_image)
       ->getFileUri();
