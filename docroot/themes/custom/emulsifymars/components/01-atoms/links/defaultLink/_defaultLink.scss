@@ -17,9 +17,9 @@
     content: '';
     position: absolute;
     display: block;
-    bottom: -100px;
+    bottom: -180px;
     left: -120px;
-    width: 150vh;
+    width: 1000px;
     transform: rotate(18deg);
     height: 0;
     background-color: clr(text-inverse);
@@ -30,7 +30,7 @@
     color: clr(subcolor-1);
 
     &::after {
-      height: 50vh;
+      height: 1000px;
     }
   }
 
