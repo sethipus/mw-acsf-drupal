@@ -28,7 +28,6 @@
       left: 0;
       bottom: 0;
       width: 100%;
-      margin-bottom: 282px;
       z-index: $menu-overlay-zindex;
     }
   }
@@ -58,40 +57,24 @@
       padding: 0 4rem;
 
       @include medium {
-        display: block;
+        display: flex;
+        justify-content: flex-end;
         width: 100%;
-        text-align-last: right;
+        text-align: right;
       }
     }
 
     &--secondary-mobile {
-      position: fixed;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      padding: 40px 60px;
+      padding: $space-sextuple $space-quadruple;
       background: clr(primary);
       display: flex;
-      flex-flow: column-reverse nowrap;
+      flex-flow: row wrap;
 
       @include medium {
         display: none;
       }
     }
   }
-
-  &__alert {
-    background: clr(primary);
-    padding: 2.2rem 4rem 2.1rem;
-    text-align: center;
-
-    &_text {
-      font-size: 1.8rem;
-      line-height: 1.2;
-      color: clr(subcolor-3);
-    }
-  }
-
 }
 
 //ToDo: optimize with logo.twig

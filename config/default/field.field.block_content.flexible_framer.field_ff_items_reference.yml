@@ -1,0 +1,28 @@
+uuid: 9e13b44b-e2c6-44c7-a997-b9fd0f9d1d5f
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer
+    - block_content.type.flexible_framer_item
+    - field.storage.block_content.field_ff_items_reference
+id: block_content.flexible_framer.field_ff_items_reference
+field_name: field_ff_items_reference
+entity_type: block_content
+bundle: flexible_framer
+label: Items
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      flexible_framer_item: flexible_framer_item
+    sort:
+      field: _none
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

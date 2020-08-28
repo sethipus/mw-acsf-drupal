@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * MARS Product module main file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_product_theme($existing, $type, $theme, $path) {
+  return [
+    'pdp_hero_block' => [
+      'variables' => [
+        'eyebrow' => NULL,
+        'available_sizes' => NULL,
+        'cta_link' => NULL,
+        'cta_label' => NULL,
+        'product_name' => NULL,
+        'product_description' => NULL,
+        'wtb_border_radius' => NULL,
+        'image_items' => [],
+        'size_items' => [],
+        'mobile_items' => [],
+      ],
+      'template' => 'pdp-hero-block',
+    ],
+  ];
+}

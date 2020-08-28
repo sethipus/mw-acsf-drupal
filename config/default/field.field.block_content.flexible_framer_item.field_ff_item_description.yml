@@ -1,0 +1,19 @@
+uuid: b8bb7c52-f5c3-4e0a-863f-bb0e6cd52130
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer_item
+    - field.storage.block_content.field_ff_item_description
+id: block_content.flexible_framer_item.field_ff_item_description
+field_name: field_ff_item_description
+entity_type: block_content
+bundle: flexible_framer_item
+label: 'Item description'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

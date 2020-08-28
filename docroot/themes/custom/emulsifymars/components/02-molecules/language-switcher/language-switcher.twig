@@ -1,0 +1,77 @@
+{{ attach_library('emulsifymars/language-switcher') }}
+
+{#
+ # Available variables:
+ # - language_switcher__base_class - base classname of the wrapper.
+ # - language_switcher__modifiers - array of modifiers to add to the base classname of the wrapper.
+ # - language_switcher__blockname - blockname prepended to the base classname of the wrapper(s) and each component.
+ # - language_switcher_trigger__base_class - base classname of the language switch.
+#}
+{% set language_switcher__base_class = language_switcher__base_class|default('language-switcher') %}
+{% set language_switcher_trigger__base_class = language_switch__base_class|default(language_switcher__base_class ~ '__button') %}
+{% set language_switcher_trigger__base_id = 'language-switcher-trigger' %}
+
+<div {{ bem(language_switcher__base_class, language_switcher__modifiers, language_switcher__blockname) }}>
+  {% embed "@atoms/buttons/twig/button-trigger.twig" with {
+    button_trigger_base_class: language_switcher_trigger__base_class,
+    button_trigger_base_id: language_switcher_trigger__base_id,
+  } %}
+    {% block button_content %}
+      {% include "@atoms/text/text/07-span.twig" with {
+        span_content: language_switcher_label,
+      } %}
+      {% include "@atoms/images/icons/_icon.twig" with {
+        icon_base_class: "chevron",
+        icon_blockname: "language-switcher",
+        icon_name: "chevron",
+      } %}
+    {% endblock %}
+  {% endembed %}
+  <div {{ bem(language_switcher__base_class ~ '__content') }} id="language-switcher-content">
+    {% embed "@atoms/lists/ul.twig" with {
+      ul_base_class: language_switcher__base_class ~ '__list',
+      'id':'mySpecialFormRow',
+    } %}
+      {% block list_content %}
+        {% for language_item in language_items %}
+          {% if not language_item.url %}
+            {% embed "@atoms/lists/_list-item.twig" with {
+              list_item_label: language_item.title_long,
+              li_base_class: language_switcher__base_class ~ '__item',
+            } %}
+              {% block list_item_content %}
+                {% include "@atoms/text/text/07-span.twig" with {
+                  span_base_class: language_switcher__base_class ~ '__span',
+                  span_content: language_item.title_long,
+                } %}
+              {% endblock %}
+            {% endembed %}
+          {% else %}
+            {% embed "@atoms/lists/_list-item.twig" with {
+              list_item_label: language_item.title_long,
+              li_base_class: language_switcher__base_class ~ '__item',
+            } %}
+              {% block list_item_content %}
+                {% embed "@atoms/links/link/link.twig" with {
+                  link_content: language_item.title,
+                  link_url: language_item.url,
+                  link_base_class: language_switcher__base_class ~ '__link',
+                } %}
+                  {% block link_content %}
+                    {% include "@atoms/text/text/07-span.twig" with {
+                      span_base_class: language_switcher__base_class ~ '__abbr',
+                      span_content: language_item.title_short,
+                    } %}
+                    {% include "@atoms/text/text/07-span.twig" with {
+                      span_content: language_item.title_long,
+                    } %}
+                  {% endblock %}
+                {% endembed %}
+              {% endblock %}
+            {% endembed %}
+          {% endif %}
+        {% endfor %}
+      {% endblock %}
+    {% endembed %}
+  </div>
+</div>
