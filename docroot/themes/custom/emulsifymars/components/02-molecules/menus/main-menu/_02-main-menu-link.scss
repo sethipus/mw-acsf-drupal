@@ -3,21 +3,20 @@
   color: clr(subcolor-1);
   display: block;
   width: 100%;
+  font-family: variable(primary-font);
   font-size: 3.2rem;
+  font-weight: normal;
   line-height: 1.5;
   padding: $space $space-quadruple;
   text-decoration: none;
-  font-weight: bold;
-
-  &--with-sub {
-    width: 80%;
-  }
 
   @include medium {
     border-bottom: none;
     display: inline-block;
     font-size: 1.8rem;
-    padding: $space $space-triple;
+    line-height: 1;
+    letter-spacing: 0.72px;
+    padding: $space-one-and-half $space-triple;
     text-transform: none;
     position: relative;
     width: auto;
@@ -32,10 +31,23 @@
       }
     }
   }
+
+  &--with-sub {
+    width: 80%;
+
+    @include medium {
+      width: auto;
+      padding-right: $space-quintuple;
+    }
+  }
 }
 
 .menu_chevron__icon {
   display: none;
+  position: absolute;
+  right: 2.6rem;
+  top: 50%;
+  transform: translateY(-50%);
   width: 12px;
   height: 7px;
 
@@ -52,13 +64,14 @@
 .main-menu__link--sub {
   color: clr(subcolor-1);
   padding-left: $space-triple;
+  font-family: variable(secondary-font);
   font-weight: normal;
 
   @include medium {
     color: clr(primary);
     display: block;
     padding: 1.2rem $space-double;
-    font-weight: 1.4rem;
+    font-size: 1.4rem;
     font-weight: normal;
     letter-spacing: 0.7px;
 
