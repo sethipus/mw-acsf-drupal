@@ -4,11 +4,11 @@ status: true
 dependencies:
   config:
     - block_content.type.list_item
+    - entity_browser.browser.image_browser
     - field.field.block_content.list_item.field_list_item_description
     - field.field.block_content.list_item.field_list_item_image
-    - image.style.thumbnail
   module:
-    - image
+    - entity_browser
 id: block_content.list_item.default
 targetEntityType: block_content
 bundle: list_item
