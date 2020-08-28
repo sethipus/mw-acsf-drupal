@@ -102,7 +102,20 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $build['#body'] = $node->body->value;
     }
 
-    $build['#links'] = $this->buildMenu('main');
+    $linksMenu = $this->buildMenu('main');
+    $links = [];
+    foreach ($linksMenu as $linkMenu) {
+      $links[] = [
+        'content' => $linkMenu['title'],
+        'border_radius' => 30,
+        'attributes' => [
+          'target' => '_self',
+          'href' => $linkMenu['url'],
+        ],
+      ];
+    }
+
+    $build['#links'] = $links;
     $build['#image'] = $this->getImageEntity();
     $build['#image_alt'] = $conf['image_alt'] ?? '';
     $build['#theme'] = 'error_page_block';
