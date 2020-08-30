@@ -70,7 +70,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('config.factory'),
+      $container->get('config.factory')
     );
   }
 

@@ -41,6 +41,8 @@ Drupal.behaviors.pdpHero = {
       document.querySelector(`[data-size-id="${sizeId}"]`).dataset.sizeSelected = true;
       document.querySelector(`[data-slider-size-active="true"]`).dataset.sliderSizeActive = false;
       document.querySelector(`[data-slider-size-id="${sizeId}"]`).dataset.sliderSizeActive = true;
+      document.querySelector(`[data-nutrition-size-active="true"]`).dataset.nutritionSizeActive = false;
+      document.querySelector(`[data-nutrition-size-id="${sizeId}"]`).dataset.nutritionSizeActive = true;
 
       let swiperIndex = document.querySelector(`[data-slider-size-active="true"] > .pdp-hero-swiper-container`).dataset.swiperIndex;
       swiperInstances[swiperIndex].update();
