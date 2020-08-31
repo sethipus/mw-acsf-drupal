@@ -15,32 +15,35 @@
     paragraph_base_class: contact_module_paragraph_base_class
   } %}
 
-  {% if contact_module_default_link_content %}
+  {% if contact_module_default_link_content and contact_module_default_link_attributes.href %}
     {% include "@atoms/links/defaultLink/defaultLink.twig" with {
       default_link_content: contact_module_default_link_content,
       default_link_border_radius: contact_module_default_link_border_radius,
       default_link_attributes: contact_module_default_link_attributes
     } %}
-  {% elseif contact_module_contact_email_text and contact_module_contact_phone %}
+  {% else %}
     <div class="contact-module__contact-information">
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: contact_module_contact_phone,
-        default_link_border_radius: contact_module_default_link_border_radius,
-        default_link_attributes: contact_module_contact_phone_attributes
-      } %}
-
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: contact_module_contact_email_text,
-        default_link_border_radius: contact_module_default_link_border_radius,
-        default_link_attributes: contact_module_contact_email_attributes
-      } %}
+      {% if contact_module_contact_phone %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: contact_module_contact_phone,
+          default_link_border_radius: contact_module_default_link_border_radius,
+          default_link_attributes: contact_module_contact_phone_attributes
+        } %}
+      {% endif %}
+      {% if contact_module_contact_email_text and contact_module_contact_email_attributes.href %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: contact_module_contact_email_text,
+          default_link_border_radius: contact_module_default_link_border_radius,
+          default_link_attributes: contact_module_contact_email_attributes
+        } %}
+      {% endif %}
     </div>
     <div class="contact-module__contact-social">
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: contact_module_social_heading,
         heading_level: contact_module_social_heading_level,
         heading_base_class: contact_module_social_heading_base_class
-      } %}     
+      } %}
       {% include "@molecules/menus/social/social-menu.twig" %}
     </div>
   {% endif %}
