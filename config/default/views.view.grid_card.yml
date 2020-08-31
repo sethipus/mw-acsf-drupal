@@ -189,7 +189,6 @@ display:
           expose:
             label: ''
           granularity: second
-      title: 'Product Card'
       header: {  }
       footer: {  }
       empty: {  }
@@ -232,23 +231,18 @@ display:
     display_options:
       display_extenders: {  }
       display_description: ''
-      title: 'Article Card'
       defaults:
-        title: false
         relationships: false
         style: false
         row: false
         filters: false
         filter_groups: false
       style:
-        type: html_list
+        type: default
         options:
           row_class: ''
           default_row_class: true
           uses_fields: false
-          type: ul
-          wrapper_class: item-list
-          class: ''
       row:
         type: 'entity:node'
         options:
@@ -370,14 +364,11 @@ display:
       display_extenders: {  }
       display_description: ''
       style:
-        type: html_list
+        type: default
         options:
           row_class: ''
           default_row_class: true
           uses_fields: false
-          type: ul
-          wrapper_class: item-list
-          class: ''
       defaults:
         style: false
         row: false

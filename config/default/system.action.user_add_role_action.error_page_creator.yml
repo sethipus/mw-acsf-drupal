@@ -1,0 +1,14 @@
+uuid: 357e8a13-41af-4d7c-9d71-29ad4fc59c65
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.error_page_creator
+  module:
+    - user
+id: user_add_role_action.error_page_creator
+label: 'Add the Error Page creator role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: error_page_creator

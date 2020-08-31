@@ -1,16 +1,4 @@
-{# 
-    Available variables:
-        horizontal_img_base_class - CSS classname of parent element, block name in BEM methodology
-        horizontal_img_element - classname of the inner element, element name in BEM methodology
-        horizontal_img_style - could be 'triangle' OR 'wave', defines the separator image
- #}
-
 {% set horizontal_img_base_class = horizontal_img_base_class|default('horizontal-img') %}
 {% set horizontal_img_element = horizontal_img_element|default('inner') %}
-{% set horizontal_img_style = horizontal_img_style|default('triangle') %}
 
-{% if horizontal_img_style == 'triangle' %}
-    <div {{ bem(horizontal_img_element, ['triangle'], horizontal_img_base_class) }}></div>
-{% elseif horizontal_img_style == 'wave' %}
-    <div {{ bem(horizontal_img_element, ['wave'], horizontal_img_base_class) }}></div>
-{% endif %}
+<div {{ bem(horizontal_img_element, [], horizontal_img_base_class) }} ></div>
