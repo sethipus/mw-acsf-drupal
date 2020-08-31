@@ -104,7 +104,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'error-page-block',
     ],
-    'contact_popup_block' => [
+    'contact_help_banner_block' => [
       'variables' => [
         'label' => NULL,
         'description' => NULL,
@@ -117,7 +117,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
       ],
-      'template' => 'contact-popup-block',
+      'template' => 'contact-help-banner-block',
     ],
   ];
 }
@@ -342,7 +342,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
       ];
 
       if (isset($field_image_val[0])) {
-        $file_uri = \Drupal::entityTypeManager()
+        $file_uri = Drupal::entityTypeManager()
           ->getStorage('file')
           ->load($field_image_val[0]['target_id'])
           ->getFileUri();
@@ -360,7 +360,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
     }
   }
 
-  $divider_id = \Drupal::config('emulsifymars.settings')
+  $divider_id = Drupal::config('emulsifymars.settings')
     ->get('graphic_divider');
   if (isset($divider_id[0])) {
     $file_entity = File::load($divider_id[0]);
@@ -368,7 +368,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
     $file_divider_content = file_get_contents($file_url->getUri());
   }
 
-  $border_id = \Drupal::config('emulsifymars.settings')
+  $border_id = Drupal::config('emulsifymars.settings')
     ->get('brand_borders');
   if (isset($border_id[0])) {
     $file_entity = File::load($border_id[0]);

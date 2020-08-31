@@ -10,15 +10,15 @@ use Drupal\mars_common\SocialLinks;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a contact popup block.
+ * Provides a contact help banner block.
  *
  * @Block(
- *   id = "contact_popup_block",
- *   admin_label = @Translation("MARS: Contact Popup Block"),
+ *   id = "contact_help_banner_block",
+ *   admin_label = @Translation("MARS: Contact Help Banner"),
  *   category = @Translation("Mars Common")
  * )
  */
-class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * Media storage.
@@ -97,7 +97,7 @@ class ContactPopupBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
 
     $build['#social_menu_items'] = $this->socialLinks->getRenderedItems();
-    $build['#theme'] = 'contact_popup_block';
+    $build['#theme'] = 'contact_help_banner_block';
 
     return $build;
   }
