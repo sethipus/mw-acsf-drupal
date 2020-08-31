@@ -17,20 +17,28 @@
     content: '';
     position: absolute;
     display: block;
-    bottom: -180px;
-    left: -50px;
+    bottom: -100px;
+    left: -170px;
     width: 1000px;
     transform: rotate(18deg);
     height: 0;
     background-color: clr(text-inverse);
     transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
+
+    @include xs {
+      width: 1000px;
+    }
+
+    @include medium {
+      width: 350px;
+    }
   }
 
   &:hover {
     color: clr(subcolor-1);
 
     &::after {
-      height: 1000px;
+      height: 300px;
     }
   }
 
