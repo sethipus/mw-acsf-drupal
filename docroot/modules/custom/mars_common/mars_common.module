@@ -276,9 +276,9 @@ function mars_common_preprocess_views_view__faq_view__page(array &$variables) {
       $question_value = $qa_node->get('field_qa_item_question')->value;
       $answer_value = $qa_node->get('field_qa_item_answer')->value;
 
-      $faq_items[$row_key] = [
-        'item_question' => $question_value,
-        'item_answer' => $answer_value,
+      $faq_items[$row_key]['content'] = [
+        'question' => $question_value,
+        'answer' => $answer_value,
         'order' => $row_key,
       ];
     }
