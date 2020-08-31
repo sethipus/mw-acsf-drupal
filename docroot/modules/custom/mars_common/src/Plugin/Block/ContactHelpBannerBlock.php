@@ -110,7 +110,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
 
     return [
       'label_display' => FALSE,
-      'help_and_contact_cta_label' => $conf['help_and_contact_cta_label'] ?? $this->t('Help & Contact'),
+      'email_cta_label' => $conf['email_cta_label'] ?? $this->t('Email Us'),
       'social_links_label' => $conf['social_links_label'] ?? $this->t('See More On'),
     ];
   }
@@ -163,7 +163,6 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
         '#title' => $this->t('Label'),
         '#maxlength' => 20,
         '#default_value' => $this->configuration['email_cta_label'] ?? '',
-        '#placeholder' => $this->t('Email Us'),
         '#required' => FALSE,
       ],
       'address' => [
