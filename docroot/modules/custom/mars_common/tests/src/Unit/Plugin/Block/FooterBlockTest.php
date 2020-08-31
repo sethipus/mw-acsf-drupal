@@ -127,7 +127,7 @@ class FooterBlockTest extends UnitTestCase {
       'logo' => [
         'path' => '',
       ],
-      'graphic_divider' => ['1'],
+      'brand_borders' => ['1'],
       'social' => [
         [
           'name' => 'name1',

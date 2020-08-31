@@ -7,6 +7,8 @@ import siteHeader from './site-header/site-header.twig';
 import footerSocial from '../../02-molecules/menus/social/social-menu.yml';
 import footerMenu from '../../02-molecules/menus/footer/footer-menu.yml';
 import secondaryMenuData from '../../02-molecules/menus/inline/header-inline-menu/header-inline-menu.yml';
+import languageSwitcherData from '../../02-molecules/language-switcher/language-switcher.yml';
+import inlineSearchData from '../../02-molecules/search/inline-search/inline-search.yml';
 import mainMenuData from '../../02-molecules/menus/main-menu/main-menu.yml';
 
 import legalLinksData from '../../02-molecules/menus/legal-links/legal-links-menu.yml';
@@ -41,6 +43,8 @@ export const header = () => {
         __html: siteHeader({
           ...mainMenuData,
           ...secondaryMenuData,
+          ...languageSwitcherData,
+          ...inlineSearchData,
           ...siteHeaderData,
         }),
       }}

@@ -6,8 +6,9 @@
   display: block;
   text-align: center;
   font-size: 1.8rem;
+  font-family: variable(secondary-font);
   line-height: 1.2;
-  padding: $space-double $space-quadruple;
+  padding: 2.3rem $space-quadruple 1.7rem;
 
   &--warning {
     color: $gray;

@@ -42,7 +42,7 @@ ol {
   
     &::before {
       content: counter(mars-counter);
-      color: clr(list);
+      color: clr(secondary);
       font-size: 22px;
       font-weight: bold;
       position: absolute;

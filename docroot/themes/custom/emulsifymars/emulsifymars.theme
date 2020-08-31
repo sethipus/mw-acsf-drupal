@@ -98,6 +98,19 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#open'        => TRUE,
     '#description' => $translation->translate("MARS theme settings for font upload."),
   ];
+  $form['font_settings']['headline_font_path'] = [
+    '#type'  => 'textfield',
+    '#title' => $translation->translate('Path to Headline Campaign Typeface'),
+    '#default_value'   => theme_get_setting('headline_font_path'),
+  ];
+  $form['font_settings']['headline_font'] = [
+    '#type'              => 'file',
+    '#title'             => $translation->translate('Headline Campaign Typeface'),
+    '#upload_location' => 'public://theme_config/',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['woff ttf'],
+    ],
+  ];
   $form['font_settings']['primary_font_path'] = [
     '#type'  => 'textfield',
     '#title' => $translation->translate('Path to Primary Typeface'),
@@ -108,7 +121,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#title'             => $translation->translate('Primary Typeface'),
     '#upload_location' => 'public://theme_config/',
     '#upload_validators' => [
-      'file_validate_extensions' => ['woff'],
+      'file_validate_extensions' => ['woff ttf'],
     ],
   ];
   $form['font_settings']['secondary_font_path'] = [
@@ -121,20 +134,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#title'             => $translation->translate('Secondary Typeface'),
     '#upload_location' => 'public://theme_config/',
     '#upload_validators' => [
-      'file_validate_extensions' => ['woff'],
-    ],
-  ];
-  $form['font_settings']['tertiary_font_path'] = [
-    '#type'  => 'textfield',
-    '#title' => $translation->translate('Path to Tertiary Typeface'),
-    '#default_value'   => theme_get_setting('tertiary_font_path'),
-  ];
-  $form['font_settings']['tertiary_font'] = [
-    '#type'              => 'file',
-    '#title'             => $translation->translate('Tertiary Typeface'),
-    '#upload_location' => 'public://theme_config/',
-    '#upload_validators' => [
-      'file_validate_extensions' => ['woff'],
+      'file_validate_extensions' => ['woff ttf'],
     ],
   ];
 
@@ -209,7 +209,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
       'emulsifymars_process_image_widget',
     ],
     '#upload_validators' => [
-      'file_validate_extensions' => ['svg'],
+      'file_validate_extensions' => ['svg png'],
     ],
     '#theme'               => 'image_widget',
     '#preview_image_style' => 'medium',
@@ -343,9 +343,9 @@ function _emulsifymars_get_icon_fields(): array {
  */
 function _emulsifymars_get_font_fields(): array {
   return [
+    'headline_font',
     'primary_font',
     'secondary_font',
-    'tertiary_font',
   ];
 }
 
@@ -490,7 +490,10 @@ function emulsifymars_process_image_widget(array &$element, FormStateInterface $
  */
 function emulsifymars_preprocess_html(&$variables) {
   $theme_settings = \Drupal::config('emulsifymars.settings')->get();
-  $style_tag = sprintf(":root [data-theme='drupal'] {%s}", _emulsifymars_preprocess_css_properties($theme_settings));
+  $style_tag = sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype');}", $theme_settings['headline_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype');}", $theme_settings['primary_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypeface'; src: url('%s') format('opentype');}", $theme_settings['secondary_font_path']);
+  $style_tag .= sprintf(":root [data-theme='drupal'] {%s}", _emulsifymars_preprocess_css_properties($theme_settings));
   $variables['page']['#attached']['html_head'][] = [
     [
       '#type' => 'html_tag',
@@ -537,19 +540,17 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --c-subcolor-3: #%s;", $settings['color_e']);
   $properties .= sprintf(" --c-subcolor-4: #%s;", $settings['color_f']);
 
-  // TODO replace font setting for dynamic variables.
-  $properties .= sprintf(" --v-heading-font: %s;", 'TwixHeadlineCampaignFont');
-  $properties .= sprintf(" --v-primary-font: %s;", 'TwixPrimaryTypefaceFont');
-  $properties .= sprintf(" --v-secondary-font: %s;", 'TwixSecondaryTypeface');
+  $properties .= sprintf(" --v-heading-font: %s;", 'DrupalHeadlineCampaignFont');
+  $properties .= sprintf(" --v-primary-font: %s;", 'DrupalPrimaryTypefaceFont');
+  $properties .= sprintf(" --v-secondary-font: %s;", 'DrupalSecondaryTypeface');
+
+  $properties .= sprintf(" --v-border-radius: %s;", $settings['button_style']);
 
   foreach (_emulsifymars_get_icon_fields() as $icon) {
     if (is_array($settings[$icon]) && count($settings[$icon]) > 0 && $file = File::load($settings[$icon][0])) {
       $properties .= sprintf(" --%s: %s;", $icon, $file->createFileUrl());
     }
   }
-  $properties .= sprintf(" --primary_font: #%s;", $settings['primary_font_path']);
-  $properties .= sprintf(" --secondary_font: #%s;", $settings['secondary_font_path']);
-  $properties .= sprintf(" --tertiary_font: #%s;", $settings['tertiary_font_path']);
 
   return $properties;
 }

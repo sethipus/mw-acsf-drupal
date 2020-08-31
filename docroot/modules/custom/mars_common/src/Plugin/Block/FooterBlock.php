@@ -86,14 +86,16 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function build() {
+    global $base_url;
+
     $conf = $this->getConfiguration();
     $theme_settings = $this->config->get('emulsifymars.settings')->get();
     $build['#logo'] = $theme_settings['logo']['path'];
 
-    // Get graphic devider path.
-    if (!empty($theme_settings['graphic_divider']) && count($theme_settings['graphic_divider']) > 0) {
-      $devider_file = $this->fileStorage->load($theme_settings['graphic_divider'][0]);
-      $build['#twix_border'] = !empty($devider_file) ? $devider_file->createFileUrl() : '';
+    // Get brand border path.
+    if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
+      $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
+      $build['#twix_border'] = !empty($border_file) ? file_get_contents($base_url . $border_file->createFileUrl()) : '';
     }
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);

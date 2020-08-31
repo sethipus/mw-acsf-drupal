@@ -5,6 +5,7 @@
  * MARS Common module main file.
  */
 
+use Drupal\block_content\BlockContentInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
@@ -93,6 +94,21 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-feature-block',
     ],
+    'contact_popup_block' => [
+      'variables' => [
+        'label' => NULL,
+        'description' => NULL,
+        'social_links_label' => NULL,
+        'phone_cta_label' => NULL,
+        'phone_cta_link' => NULL,
+        'email_cta_label' => NULL,
+        'email_cta_link' => NULL,
+        'help_and_contact_cta_label' => NULL,
+        'help_and_contact_cta_url' => NULL,
+        'social_menu_items' => NULL,
+      ],
+      'template' => 'contact-popup-block',
+    ],
   ];
 }
 
@@ -131,11 +147,11 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
-  $divider_id = \Drupal::config('emulsifymars.settings')
-    ->get('graphic_divider');
+  $border_id = Drupal::config('emulsifymars.settings')
+    ->get('brand_borders');
 
-  if (isset($divider_id[0])) {
-    $file_entity = File::load($divider_id[0]);
+  if (isset($border_id[0])) {
+    $file_entity = File::load($border_id[0]);
     $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
     $file_content = file_get_contents($file_url->getUri());
 
@@ -157,7 +173,7 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
 
   $variables['title'] = $field_carousel_title['#items'][0]->value;
   $variables['items'] = $media_items;
-  $variables['border_divider'] = $file_content ?? '';
+  $variables['brand_borders'] = $file_content ?? '';
 }
 
 /**
@@ -179,7 +195,7 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
       ];
 
       if (isset($field_image_val[0])) {
-        $file_uri = \Drupal::entityTypeManager()
+        $file_uri = Drupal::entityTypeManager()
           ->getStorage('file')
           ->load($field_image_val[0]['target_id'])
           ->getFileUri();
@@ -223,7 +239,7 @@ function mars_common_preprocess_block__inline_block__inline_image(array &$variab
 
   $file_url = NULL;
   if (isset($field_image)) {
-    $file_uri = \Drupal::entityTypeManager()
+    $file_uri = Drupal::entityTypeManager()
       ->getStorage('file')
       ->load($field_image)
       ->getFileUri();
@@ -250,7 +266,7 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
 
   $file_url = NULL;
   if (isset($field_image)) {
-    $file_uri = \Drupal::entityTypeManager()
+    $file_uri = Drupal::entityTypeManager()
       ->getStorage('file')
       ->load($field_image)
       ->getFileUri();
@@ -288,6 +304,77 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__flexible_framer(array &$variables) {
+  $field_ff_items = $variables['content']['field_ff_items_reference'];
+  $field_ff_title = $variables['content']['field_ff_title']['#items']->value;
+
+  $with_cta_flag = (bool) $variables['content']['field_ff_with_cta']['#items']->value;
+  $with_image_flag = (bool) $variables['content']['field_ff_with_image']['#items']->value;
+  $with_desc_flag = (bool) $variables['content']['field_ff_with_description']['#items']->value;
+
+  $ff_items = [];
+  foreach ($field_ff_items as $item_key => $item_value) {
+    if (is_numeric($item_key)) {
+
+      $item_block = $item_value['#options']['entity'];
+      $field_desc_val = $item_block->get('field_ff_item_description')->value;
+      $field_title_val = $item_block->get('field_ff_item_title')->value;
+      $field_image_val = $item_block->get('field_ff_item_image')->getValue();
+      $field_cta_val = $item_block->get('field_ff_item_cta')->value;
+
+      $item = [
+        'card__heading' => $field_title_val,
+        'card__link__url' => ($with_cta_flag) ? $field_cta_val : NULL,
+        'card__link__text' => ($with_cta_flag) ? t('Explore') : NULL,
+        'card__body' => ($with_desc_flag) ? $field_desc_val : NULL,
+      ];
+
+      if (isset($field_image_val[0])) {
+        $file_uri = \Drupal::entityTypeManager()
+          ->getStorage('file')
+          ->load($field_image_val[0]['target_id'])
+          ->getFileUri();
+
+        $file_url = Url::fromUri(file_create_url($file_uri));
+        $image_alt = $field_image_val[0]['alt'];
+        $image_title = $field_image_val[0]['title'];
+
+        $item['card__image__src'] = ($with_image_flag) ? $file_url->getUri() : NULL;
+        $item['card__image__alt'] = ($with_image_flag) ? $image_alt : NULL;
+        $item['card__image__title'] = ($with_image_flag) ? $image_title : NULL;
+      }
+
+      $ff_items[] = $item;
+    }
+  }
+
+  $divider_id = \Drupal::config('emulsifymars.settings')
+    ->get('graphic_divider');
+  if (isset($divider_id[0])) {
+    $file_entity = File::load($divider_id[0]);
+    $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+    $file_divider_content = file_get_contents($file_url->getUri());
+  }
+
+  $border_id = \Drupal::config('emulsifymars.settings')
+    ->get('brand_borders');
+  if (isset($border_id[0])) {
+    $file_entity = File::load($border_id[0]);
+    $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+    $file_border_content = file_get_contents($file_url->getUri());
+  }
+
+  $variables['items'] = $ff_items;
+  $variables['grid_label'] = $field_ff_title;
+  $variables['grid_type'] = 'card';
+  $variables['item_type'] = 'card';
+  $variables['divider'] = $file_divider_content ?? NULL;
+  $variables['brand_borders'] = $file_border_content ?? NULL;
+}
+
+/**
  * Implements hook_form_alter().
  */
 function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id) {
@@ -297,5 +384,41 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form_id === 'layout_builder_update_block'
   ) {
     $form['settings']['label_display']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function mars_common_field_widget_form_alter(
+  &$element,
+  FormStateInterface $form_state,
+  $context
+) {
+  $field_name = $context['items']->getName();
+
+  if ($field_name === 'field_ff_item_description') {
+    $element['value']['#maxlength'] = 120;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function mars_common_theme_suggestions_block_alter(array &$suggestions, array $variables) {
+  $content = $variables['elements']['content'];
+  if (isset($content['#block_content'])
+    and $content['#block_content'] instanceof BlockContentInterface) {
+    $block_type_suggestion = 'block__block_content_' . $content['#block_content']->bundle();
+    // Taking care of observed duplication of block__block_content.
+    $suggestions_rev = array_reverse($suggestions);
+    $index = array_search('block__block_content', $suggestions_rev);
+    if (is_numeric($index)) {
+      array_splice($suggestions_rev, $index, 0, $block_type_suggestion);
+      $suggestions = array_reverse($suggestions_rev);
+    }
+    else {
+      $suggestions[] = $block_type_suggestion;
+    }
   }
 }
