@@ -1,0 +1,17 @@
+{#
+/**
+ * Available variables:
+ * - ol_base_class - the base classname
+ * - ol_modifiers - array of modifiers to add to the base classname
+ * - ol_blockname - blockname prepended to the base classname
+ *
+ */
+#}
+
+{% include "@atoms/lists/faq.twig" with {
+  faq_item_content: faq_item.content,
+  faq_base_class: faq_item.li_base_class,
+  faq_base_class: faq_item.li_base_class,
+  faq_modifiers: faq_item.li_modifiers,
+  faq_blockname: faq_item.li_blockname,
+} %}

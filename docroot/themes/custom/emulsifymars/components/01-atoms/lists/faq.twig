@@ -1,0 +1,25 @@
+{#
+/**
+ * Available variables:
+ * - faq_base_class - the base classname
+ * - faq_modifiers - array of modifiers to add to the base classname
+ * - faq_blockname - blockname prepended to the base classname
+ *
+ */
+#}
+{% set ol_base_class = ol_base_class|default('faq_list') %}
+
+<ol {{ bem(ol_base_class, ol_modifiers, ol_blockname) }}>
+  {% block list_content %}
+    {% for faq_item in faq_items %}
+      {% include "@atoms/lists/_list-item-faq.twig" with {
+        list_item_content: faq_item.content,
+        li_base_class: faq_item.li_base_class,
+        li_base_class: faq_item.li_base_class,
+        li_modifiers: faq_item.li_modifiers,
+        li_blockname: faq_item.li_blockname,
+      } %}
+    {% endfor %}
+  {% endblock %}
+</ol>
+
