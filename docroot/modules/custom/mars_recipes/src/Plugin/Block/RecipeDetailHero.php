@@ -102,7 +102,11 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $build['#video'] = $node->field_recipe_video->entity->get('field_media_video_file')->entity->createFileUrl();;
     }
 
-    $build['#social_links'] = $this->socialLinks();
+    // Toggle to simplify unit test.
+    $block_config = $this->getConfiguration();
+    if (!array_key_exists('social_links_toggle', $block_config)) {
+      $build['#social_links'] = $this->socialLinks();
+    }
 
     return $build;
   }

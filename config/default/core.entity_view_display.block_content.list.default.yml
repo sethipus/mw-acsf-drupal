@@ -4,20 +4,19 @@ status: true
 dependencies:
   config:
     - block_content.type.list
-    - field.field.block_content.list.field_list_items
-  module:
-    - mars_common
+    - field.field.block_content.list.field_list_items_reference
 id: block_content.list.default
 targetEntityType: block_content
 bundle: list
 mode: default
 content:
-  field_list_items:
-    weight: 0
+  field_list_items_reference:
+    weight: 1
     label: above
-    settings: {  }
+    settings:
+      link: true
     third_party_settings: {  }
-    type: list_item_formatter
+    type: entity_reference_label
     region: content
 hidden:
   search_api_excerpt: true

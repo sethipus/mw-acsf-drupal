@@ -1,0 +1,31 @@
+uuid: 0af69a9b-7387-4bda-9346-6eb3d39b7a8e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.error_page.body
+    - node.type.error_page
+  module:
+    - text
+    - user
+id: node.error_page.default
+targetEntityType: node
+bundle: error_page
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  published_at: true
+  search_api_excerpt: true

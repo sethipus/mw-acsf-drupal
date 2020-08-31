@@ -1,0 +1,24 @@
+error_component_heading: 'Oops'
+error_component_heading_level: 1
+
+error_component_paragraph_content: 'Unfortunately this page does not exist. Here are some helpful links instead: Unfortunately this page does not exist. Here are some helpful links instead: Unfortunately this page does not exist. Here are some helpful links instead:'
+
+error_component_bg_image_src: './twix-bg.png'
+error_component_bg_image_alt: 'twix chocolate'
+
+error_component_links:
+  - content: 'Home'
+    border_radius: 30
+    attributes:
+      target: '_self'
+      href: 'https://storybook.js.org/'
+  - content: 'Products'
+    border_radius: 30
+    attributes:
+      target: '_self'
+      href: 'https://storybook.js.org/'
+  - content: 'About'
+    border_radius: 30
+    attributes:
+      target: '_self'
+      href: 'https://storybook.js.org/'

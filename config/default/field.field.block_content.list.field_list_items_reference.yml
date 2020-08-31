@@ -1,0 +1,28 @@
+uuid: a9ffcd3d-d2c0-43d1-a870-d3496bdbc398
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.list
+    - block_content.type.list_item
+    - field.storage.block_content.field_list_items_reference
+id: block_content.list.field_list_items_reference
+field_name: field_list_items_reference
+entity_type: block_content
+bundle: list
+label: 'List items'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      list_item: list_item
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

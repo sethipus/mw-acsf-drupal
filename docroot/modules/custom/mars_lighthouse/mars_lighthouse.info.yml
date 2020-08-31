@@ -7,4 +7,3 @@ dependencies:
   - entity_browser:entity_browser
   - remote_stream_wrapper:remote_stream_wrapper
   - remote_stream_wrapper_widget:remote_stream_wrapper_widget
-  - site_settings:site_settings

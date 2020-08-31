@@ -1,0 +1,8 @@
+uuid: 8f81f86d-4eef-426e-a8f1-ad2748ede5e7
+langcode: en
+status: true
+dependencies: {  }
+id: flexible_framer_item
+label: 'Flexible Framer item'
+revision: 1
+description: ''

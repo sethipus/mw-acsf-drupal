@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fc8391a217a727ec4a6f4bfa1aeee45",
+    "content-hash": "3a863ae6cf5071f9563cce822b973986",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -10345,58 +10345,6 @@
             }
         },
         {
-            "name": "drupal/site_settings",
-            "version": "1.19.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/site_settings.git",
-                "reference": "8.x-1.19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/site_settings-8.x-1.19.zip",
-                "reference": "8.x-1.19",
-                "shasum": "93977299549d33c4fbaad7a332fe7d3e1e2648b8"
-            },
-            "require": {
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.19",
-                    "datestamp": "1590234916",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "scott_euser",
-                    "homepage": "https://www.drupal.org/user/3267594"
-                },
-                {
-                    "name": "stuart.wilkes@actionaid.org",
-                    "homepage": "https://www.drupal.org/user/3584735"
-                }
-            ],
-            "description": "Provides a site settings entity",
-            "homepage": "https://www.drupal.org/project/site_settings",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "http://cgit.drupalcode.org/site_settings",
-                "issues": "http://drupal.org/project/issues/site_settings"
-            }
-        },
-        {
             "name": "drupal/slick",
             "version": "2.0.0",
             "source": {
@@ -10565,6 +10513,284 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/social_media",
                 "issues": "https://www.drupal.org/project/issues/social_media"
+            }
+        },
+        {
+            "name": "drupal/tmgmt",
+            "version": "1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/tmgmt.git",
+                "reference": "8.x-1.11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/tmgmt-8.x-1.11.zip",
+                "reference": "8.x-1.11",
+                "shasum": "43d846cb6fa00539372b0a3ba94fd4bcd129b401"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9"
+            },
+            "require-dev": {
+                "drupal/metatag": "1.x-dev",
+                "drupal/pathauto": "1.x-dev",
+                "drupal/tmgmt_content": "*",
+                "drupal/tmgmt_file": "*",
+                "drupal/tmgmt_language_combination": "*",
+                "drupal/tmgmt_local": "*",
+                "drupal/tmgmt_locale": "*",
+                "drupal/webform": "5.x-dev"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.11",
+                    "datestamp": "1591123641",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "Schnitzel",
+                    "homepage": "https://www.drupal.org/user/643820"
+                },
+                {
+                    "name": "cgalli",
+                    "homepage": "https://www.drupal.org/user/77453"
+                },
+                {
+                    "name": "dawehner",
+                    "homepage": "https://www.drupal.org/user/99340"
+                },
+                {
+                    "name": "floretan",
+                    "homepage": "https://www.drupal.org/user/66163"
+                },
+                {
+                    "name": "fubhy",
+                    "homepage": "https://www.drupal.org/user/761344"
+                },
+                {
+                    "name": "miro_dietiker",
+                    "homepage": "https://www.drupal.org/user/227761"
+                },
+                {
+                    "name": "webflo",
+                    "homepage": "https://www.drupal.org/user/254778"
+                }
+            ],
+            "description": "Translation Management Tool",
+            "homepage": "https://www.drupal.org/project/tmgmt",
+            "support": {
+                "source": "https://git.drupalcode.org/project/tmgmt"
+            }
+        },
+        {
+            "name": "drupal/tmgmt_extension_suit",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/tmgmt_extension_suit.git",
+                "reference": "8.x-3.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/tmgmt_extension_suit-8.x-3.3.zip",
+                "reference": "8.x-3.3",
+                "shasum": "041c84a40e9e516acf2f62d0f29e97c83040e21d"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9",
+                "drupal/tmgmt": "~1.11",
+                "drupal/tmgmt_file": "*"
+            },
+            "require-dev": {
+                "drupal/tmgmt": "~1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-3.3",
+                    "datestamp": "1596447219",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Loparev",
+                    "homepage": "https://www.drupal.org/user/3158841"
+                },
+                {
+                    "name": "Soul88",
+                    "homepage": "https://www.drupal.org/user/1074416"
+                },
+                {
+                    "name": "creaoy",
+                    "homepage": "https://www.drupal.org/user/350147"
+                },
+                {
+                    "name": "dimitrystd",
+                    "homepage": "https://www.drupal.org/user/2947159"
+                }
+            ],
+            "description": "Some additional functionality for TMGMT module.",
+            "homepage": "https://www.drupal.org/project/tmgmt_extension_suit",
+            "support": {
+                "source": "https://git.drupalcode.org/project/tmgmt_extension_suit"
+            }
+        },
+        {
+            "name": "drupal/tmgmt_file",
+            "version": "1.11.0",
+            "require": {
+                "drupal/core": "^8.8 || ^9",
+                "drupal/tmgmt": "self.version"
+            },
+            "type": "metapackage",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.11",
+                    "datestamp": "1591123641",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9 || ^10"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "Schnitzel",
+                    "homepage": "https://www.drupal.org/user/643820"
+                },
+                {
+                    "name": "cgalli",
+                    "homepage": "https://www.drupal.org/user/77453"
+                },
+                {
+                    "name": "dawehner",
+                    "homepage": "https://www.drupal.org/user/99340"
+                },
+                {
+                    "name": "floretan",
+                    "homepage": "https://www.drupal.org/user/66163"
+                },
+                {
+                    "name": "fubhy",
+                    "homepage": "https://www.drupal.org/user/761344"
+                },
+                {
+                    "name": "miro_dietiker",
+                    "homepage": "https://www.drupal.org/user/227761"
+                },
+                {
+                    "name": "webflo",
+                    "homepage": "https://www.drupal.org/user/254778"
+                }
+            ],
+            "description": "A translator which allows you to export source data into a file and import the translated in return.",
+            "homepage": "https://www.drupal.org/project/tmgmt",
+            "support": {
+                "source": "https://git.drupalcode.org/project/tmgmt"
+            }
+        },
+        {
+            "name": "drupal/tmgmt_smartling",
+            "version": "4.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/tmgmt_smartling.git",
+                "reference": "8.x-4.10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/tmgmt_smartling-8.x-4.10.zip",
+                "reference": "8.x-4.10",
+                "shasum": "170dd1f481db90ddca30c8a6152f0aaaa1eec671"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9",
+                "drupal/tmgmt": "~1.11",
+                "drupal/tmgmt_extension_suit": "~3.3",
+                "drupal/tmgmt_file": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-4.10",
+                    "datestamp": "1597666240",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Loparev",
+                    "homepage": "https://www.drupal.org/user/3158841"
+                },
+                {
+                    "name": "Soul88",
+                    "homepage": "https://www.drupal.org/user/1074416"
+                },
+                {
+                    "name": "andypost",
+                    "homepage": "https://www.drupal.org/user/118908"
+                },
+                {
+                    "name": "creaoy",
+                    "homepage": "https://www.drupal.org/user/350147"
+                },
+                {
+                    "name": "dimitrystd",
+                    "homepage": "https://www.drupal.org/user/2947159"
+                },
+                {
+                    "name": "m1r1k",
+                    "homepage": "https://www.drupal.org/user/1835386"
+                }
+            ],
+            "description": "Smartling provider plugin",
+            "homepage": "https://www.drupal.org/project/tmgmt_smartling",
+            "support": {
+                "source": "https://git.drupalcode.org/project/tmgmt_smartling",
+                "error": "Invalid dependency: \"cohesion\" is an unknown drupal 8 package name"
             }
         },
         {

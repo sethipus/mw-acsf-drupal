@@ -4,7 +4,6 @@ namespace Drupal\mars_lighthouse\Client;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
-use Drupal\site_settings\SiteSettingsLoader;
 use Drupal\mars_lighthouse\LighthouseException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -49,69 +48,37 @@ class LighthouseClient implements LighthouseClientInterface {
   protected $logger;
 
   /**
-   * Lighthouse API overwritten settings.
+   * Lighthouse API configuration.
    *
-   * @var array
+   * @var \Drupal\mars_lighthouse\Client\LighthouseConfiguration
    */
-  protected $settings;
+  protected $config;
 
   /**
    * LighthouseClient constructor.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
    *   Http client.
-   * @param \Drupal\site_settings\SiteSettingsLoader $site_settings_loader
-   *   Site settings loader.
+   * @param \Drupal\mars_lighthouse\Client\LighthouseConfiguration $config
+   *   Client configuration.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   Logger factory.
    */
-  public function __construct(ClientInterface $http_client, SiteSettingsLoader $site_settings_loader, LoggerChannelFactoryInterface $logger_factory) {
+  public function __construct(
+    ClientInterface $http_client,
+    LighthouseConfiguration $config,
+    LoggerChannelFactoryInterface $logger_factory
+  ) {
     $this->httpClient = $http_client;
-    $this->settings = $site_settings_loader->loadByFieldset('lighthouse_api');
+    $this->config = $config;
     $this->logger = $logger_factory->get('mars_lighthouse');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getConfiguration(): array {
-    // TODO: check secrets php for global settings.
-    // Check for overwritten settings.
-    if (array_key_exists('lighthouse_api', $this->settings) && is_array($this->settings['lighthouse_api'])) {
-      $settings = $this->settings['lighthouse_api'];
-      foreach ($settings as $key => $value) {
-        $settings[str_replace('field_', '', $key)] = $value;
-        unset($settings[$key]);
-      }
-      return $settings;
-    }
-
-    throw new LighthouseException('Please, check that Lighthouse configuration is set.');
-  }
-
-  /**
-   * Returns API paths.
-   *
-   * @return array
-   *   Array path name => path.
-   */
-  public function getApiPaths(): array {
-    return [
-      'get_token' => '/session',
-      'refresh_token' => '/session/refresh',
-      'search' => '/search/001',
-      'asset_by_id' => '/asset',
-      'get_brands' => '/lookup/brand',
-      'get_markets' => '/lookup/market',
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getToken(): array {
-    $configuration = $this->getConfiguration();
-    $endpoint_full_path = $this->getEndpointFullPath('get_token');
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_GET_TOKEN);
 
     try {
       /**@var \Psr\Http\Message\ResponseInterface $response */
@@ -119,9 +86,9 @@ class LighthouseClient implements LighthouseClientInterface {
         $endpoint_full_path,
         [
           'json' => [
-            'username' => $configuration['client_id'],
-            'password' => $configuration['client_secret'],
-            "apikey" => $configuration['api_key'],
+            'username' => $this->config->getUsername(),
+            'password' => $this->config->getPassword(),
+            "apikey" => $this->config->getApiKey(),
             "requestTime" => date(self::DATE_FORMAT),
           ],
         ]
@@ -132,14 +99,14 @@ class LighthouseClient implements LighthouseClientInterface {
       throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
-    $header_value = $response->getHeaders()[$configuration['header_name']];
+    $header_value = $response->getHeaders()['x-lighthouse-authen'];
     $header_value = is_array($header_value) ? array_shift($header_value) : $header_value;
 
     $response = $response->getBody()->getContents();
     $response = Json::decode($response);
 
     return [
-      'mars_lighthouse.headers' => [$configuration['header_name'] => $header_value],
+      'mars_lighthouse.headers' => ['x-lighthouse-authen' => $header_value],
       'response' => $response,
     ];
   }
@@ -148,8 +115,7 @@ class LighthouseClient implements LighthouseClientInterface {
    * {@inheritdoc}
    */
   public function refreshToken($params): array {
-    $configuration = $this->getConfiguration();
-    $endpoint_full_path = $this->getEndpointFullPath('refresh_token');
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_REFRESH_TOKEN);
 
     try {
       /**@var \Psr\Http\Message\ResponseInterface $response */
@@ -170,14 +136,14 @@ class LighthouseClient implements LighthouseClientInterface {
       throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
-    $header_value = $response->getHeaders()[$configuration['header_name']];
+    $header_value = $response->getHeaders()['x-lighthouse-authen'];
     $header_value = is_array($header_value) ? array_shift($header_value) : $header_value;
 
     $response = $response->getBody()->getContents();
     $response = Json::decode($response);
 
     return [
-      'mars_lighthouse.headers' => [$configuration['header_name'] => $header_value],
+      'mars_lighthouse.headers' => ['x-lighthouse-authen' => $header_value],
       'response' => $response,
     ];
   }
@@ -207,7 +173,7 @@ class LighthouseClient implements LighthouseClientInterface {
       ],
     ];
 
-    $endpoint_full_path = $this->getEndpointFullPath('search');
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_SEARCH);
 
     try {
       /**@var \Psr\Http\Message\ResponseInterface $response */
@@ -247,7 +213,7 @@ class LighthouseClient implements LighthouseClientInterface {
       return [];
     }
 
-    $endpoint_full_path = $this->getEndpointFullPath('asset_by_id') . '/' . $id;
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_ASSET_BY_ID) . '/' . $id;
 
     $content = $this->get($endpoint_full_path, $params);
 
@@ -261,7 +227,7 @@ class LighthouseClient implements LighthouseClientInterface {
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
-    $endpoint_full_path = $this->getEndpointFullPath('get_brands');
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_GET_BRANDS);
 
     $content = $this->get($endpoint_full_path, $params);
 
@@ -275,28 +241,11 @@ class LighthouseClient implements LighthouseClientInterface {
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
-    $endpoint_full_path = $this->getEndpointFullPath('get_markets');
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_GET_MARKETS);
 
     $content = $this->get($endpoint_full_path, $params);
 
     return $content['valueList'] ?? [];
-  }
-
-  /**
-   * Build an endpoint full path.
-   *
-   * @param string $endpoint_path
-   *   Endpoint name.
-   *
-   * @return string
-   *   Endpoint full path.
-   *
-   * @throws \Drupal\mars_lighthouse\LighthouseException
-   */
-  protected function getEndpointFullPath(string $endpoint_path): string {
-    $configuration = $this->getConfiguration();
-    $endpoint_path = $this->getApiPaths()[$endpoint_path] ?? '';
-    return $configuration['base_path'] . ':' . $configuration['port'] . $configuration['subpath'] . $endpoint_path;
   }
 
   /**
