@@ -94,7 +94,17 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-feature-block',
     ],
-    'contact_popup_block' => [
+    'error_page_block' => [
+      'variables' => [
+        'title' => NULL,
+        'body' => NULL,
+        'links' => NULL,
+        'image' => NULL,
+        'image_alt' => NULL,
+      ],
+      'template' => 'error-page-block',
+    ],
+    'contact_help_banner_block' => [
       'variables' => [
         'label' => NULL,
         'description' => NULL,
@@ -107,7 +117,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
       ],
-      'template' => 'contact-popup-block',
+      'template' => 'contact-help-banner-block',
     ],
   ];
 }
@@ -332,7 +342,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
       ];
 
       if (isset($field_image_val[0])) {
-        $file_uri = \Drupal::entityTypeManager()
+        $file_uri = Drupal::entityTypeManager()
           ->getStorage('file')
           ->load($field_image_val[0]['target_id'])
           ->getFileUri();
@@ -350,7 +360,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
     }
   }
 
-  $divider_id = \Drupal::config('emulsifymars.settings')
+  $divider_id = Drupal::config('emulsifymars.settings')
     ->get('graphic_divider');
   if (isset($divider_id[0])) {
     $file_entity = File::load($divider_id[0]);
@@ -358,7 +368,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
     $file_divider_content = file_get_contents($file_url->getUri());
   }
 
-  $border_id = \Drupal::config('emulsifymars.settings')
+  $border_id = Drupal::config('emulsifymars.settings')
     ->get('brand_borders');
   if (isset($border_id[0])) {
     $file_entity = File::load($border_id[0]);
@@ -384,6 +394,22 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form_id === 'layout_builder_update_block'
   ) {
     $form['settings']['label_display']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements preprocess_HOOK().
+ */
+function mars_common_preprocess_page(&$variables) {
+  $current_route = Drupal::routeMatch();
+  $route_name = $current_route->getRouteName();
+
+  if ($route_name === 'system.403' ||
+      $route_name === 'system.404') {
+    $node = Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'error_page']);
+    if ($node) {
+      $variables['node'] = $node[key($node)];
+    }
   }
 }
 

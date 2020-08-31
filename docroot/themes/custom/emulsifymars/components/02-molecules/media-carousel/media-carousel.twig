@@ -1,7 +1,7 @@
 {{ attach_library('emulsifymars/media-carousel') }}
 {% set carousel_base_class = carousel_base_class|default('carousel') %}
 
-<section {{ bem(carousel_base_class) }} data-theme="twix">
+<section {{ bem(carousel_base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('heading', [], carousel_base_class) }}>
     {% include "@atoms/text/headings/_heading.twig" with {
       heading_level: 1,

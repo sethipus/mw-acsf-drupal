@@ -27,7 +27,7 @@
       width: 1128px;
 
       path {
-        fill: clr(background-carousel);
+        fill: clr(subcolor-3);
       }
       rect {
         width: 100%;
@@ -39,7 +39,7 @@
   .carousel__content .swiper-slide {
     height: auto;
     padding-top: 1px;
-    background-color: clr(background-carousel);
+    background-color: clr(subcolor-3);
 
     @include medium {
       height: auto;
@@ -51,11 +51,11 @@
   }
 
   &__content {
-    background-color: clr(background-carousel);
+    background-color: clr(subcolor-3);
     color: clr(subcolor-1);
     font-family: variable(secondary-font);
     font-size: 1.6rem;
-    line-height: 1.3rem;
+    line-height: 1.6rem;
     padding: 2rem 3rem;
 
     @include medium {

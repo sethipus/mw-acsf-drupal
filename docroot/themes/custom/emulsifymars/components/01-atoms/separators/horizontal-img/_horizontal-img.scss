@@ -4,6 +4,7 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100%;
+    background-image: variable(graphic-divider);
     margin: 0 auto 5rem auto;
     width: 12.5rem;
     height: 1.5rem;
@@ -11,14 +12,6 @@
     @media (max-width: 768px) {
       width: 10rem;
       height: 1rem;
-    }
-
-    &--triangle {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 125 15'%3E%3Cpath fill='%23EAAA00' fill-rule='evenodd' d='M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542z' clip-rule='evenodd'/%3E%3C/svg%3E%0A");
-    }
-
-    &--wave {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 128 15'%3E%3Cpath stroke='%23CB9F53' stroke-width='3' d='M2 7.426s5.969 8.36 29.727 4.18S89.004-8.343 127 12.694'/%3E%3C/svg%3E%0A");
     }
   }
 }

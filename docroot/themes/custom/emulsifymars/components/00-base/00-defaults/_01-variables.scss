@@ -9,6 +9,10 @@
 // Brand shapes
 $circle: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='50' fill='rgba(234, 170, 0, 0.2)'/%3E%3C/svg%3E");
 
+// Graphic dividers
+$triangle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 125 15'%3E%3Cpath fill='%23EAAA00' fill-rule='evenodd' d='M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542z' clip-rule='evenodd'/%3E%3C/svg%3E%0A");
+$wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 128 15'%3E%3Cpath stroke='%23CB9F53' stroke-width='3' d='M2 7.426s5.969 8.36 29.727 4.18S89.004-8.343 127 12.694'/%3E%3C/svg%3E%0A");
+
 // Fonts
 $font-body: georgia, times, 'Times New Roman', serif;
 $font-heading: 'HelveticaNeue', 'Helvetica', 'Arial', sans-serif;
@@ -79,6 +83,7 @@ $defaultVariables: (
   secondary-font: 'Times',
   brand-shape: $circle,
   border-radius: $square-border,
+  graphic-divider: $triangle
 );
 
 $marsVariables: (
@@ -87,6 +92,7 @@ $marsVariables: (
   secondary-font: 'Times',
   brand-shape: $circle,
   border-radius: $square-border,
+  graphic-divider: $wave
 );
 
 $twixVariables: (
@@ -95,6 +101,7 @@ $twixVariables: (
   secondary-font: 'TwixSecondaryTypeface',
   brand-shape: $circle,
   border-radius: $round-border,
+  graphic-divider: $triangle
 );
 
 $doveVariables: (
@@ -103,6 +110,7 @@ $doveVariables: (
   secondary-font: 'Times',
   brand-shape: $circle,
   border-radius: $square-border,
+  graphic-divider: $wave
 );
 
 $galaxyVariables: (
@@ -111,6 +119,7 @@ $galaxyVariables: (
   secondary-font: 'Times',
   brand-shape: $circle,
   border-radius: $square-border,
+  graphic-divider: $wave
 );
 
 @function variable($varChoice) {
