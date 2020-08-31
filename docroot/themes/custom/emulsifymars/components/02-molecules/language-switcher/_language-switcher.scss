@@ -1,0 +1,136 @@
+.language-switcher {
+  position: relative;
+  display: inline-block;
+  padding-top: 1.8rem;
+
+  &__button {
+    @include button-base;
+    
+    position: relative;
+    background: none;
+    border-radius: 0;
+    padding: $space 2.3rem $space $space-one-and-half;
+    color: clr(subcolor-3);
+    font-size: 1.8rem;
+    font-family: variable(primary-font);
+    line-height: 1.8rem;
+    font-weight: normal;
+    text-decoration: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    &:hover,
+    &:focus {
+      color: clr(subcolor-3);
+    }
+
+    @include medium {
+      color: clr(subcolor-1);
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -1.8rem;
+        width: 1px;
+        height: 3.9rem;
+        opacity: 0.6;
+        background: clr(subcolor-1);
+      }
+
+      &:hover,
+      &:focus {
+        color: clr(primary);
+      }
+    }
+  }
+
+  &__chevron {
+    fill: clr(subcolor-1);
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 7px;
+  }
+
+  &__list {
+    @include list-reset;
+
+    background-color: clr(secondary);
+    padding: .8rem 0;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    z-index: $menu-overlay-zindex;
+  }
+
+  &__item {
+    text-align: left;
+  }
+
+  &__span,
+  &__link {
+    color: clr(subcolor-1);
+    padding-left: $space-triple;
+    font-family: variable(secondary-font);
+    font-weight: normal;
+    text-decoration: none;
+  
+    @include medium {
+      color: clr(primary);
+      display: block;
+      padding: 1.2rem $space-double;
+      font-size: 1.4rem;
+      font-weight: normal;
+      letter-spacing: 0.7px;
+    }
+  }
+
+  &__link {
+    &.active,
+    &:active,
+    &:hover {
+      color: clr(subcolor-1);
+      font-weight: 500;
+
+      & .menu_chevron__icon {
+        transform: scaleX(-1);
+      }
+    }
+  }
+  &__abbr {
+    position: relative;
+    margin-right: $space-double;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -1rem;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 1.4em;
+      opacity: 0.6;
+      background: clr(subcolor-1);
+    }
+  }
+
+  &__content {
+    position: absolute;
+    top: 52px;
+    display: none;
+    width: 172px;
+    left: 0;
+
+    &--open {
+      display: block;
+    }
+  }
+
+  &:hover &__content {
+    display: block;
+  }
+}

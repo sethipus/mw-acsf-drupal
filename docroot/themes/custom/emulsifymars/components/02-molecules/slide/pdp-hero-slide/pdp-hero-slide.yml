@@ -1,0 +1,5 @@
+item:
+  image:
+    srcset: 'Bitmap.png 375w, Bitmap.png 768w, Bitmap.png 1024w, Bitmap.png 1440w'
+    src: 'Bitmap.png'
+    alt: 'Twix'
