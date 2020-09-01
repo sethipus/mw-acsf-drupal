@@ -45,13 +45,14 @@ social-feed-slide:
 pdp-hero:
   js:
     dist/js/pdp_hero.js: {}
-    dist/js/vendors~pdp_hero.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
   dependencies:
     - core/drupal
 
-pdp-hero:
+pdp-multipack:
   js:
     dist/js/pdp_multipack.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
   dependencies:
     - core/drupal
 
