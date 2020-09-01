@@ -1,8 +1,10 @@
+uuid: 23895e3e-12f6-42e1-af4d-6374fe47f0db
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_lighthouse_image
+    - media.type.image
     - media.type.lighthouse_image
     - node.type.demo_lighthouse
 id: node.demo_lighthouse.field_lighthouse_image
@@ -19,9 +21,10 @@ settings:
   handler: 'default:media'
   handler_settings:
     target_bundles:
+      image: image
       lighthouse_image: lighthouse_image
     sort:
       field: _none
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: image
 field_type: entity_reference
