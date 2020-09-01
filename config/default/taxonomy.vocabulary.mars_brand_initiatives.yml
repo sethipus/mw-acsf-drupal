@@ -1,0 +1,10 @@
+uuid: cc45b2b7-d300-4d8d-8849-6c0e37389cd3
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: sKFNUWTCGVDlcZni6OseaPeQnsbjfuuGqc3C-hD_s3c
+name: 'Brand Initiatives'
+vid: mars_brand_initiatives
+description: ''
+weight: 0

@@ -1,0 +1,8 @@
+uuid: 6e27fabf-d285-493f-9161-7eb68dcf1fbf
+langcode: en
+status: true
+dependencies: {  }
+id: flexible_framer
+label: 'Flexible Framer'
+revision: 1
+description: 'Flexible framer - flexible component'

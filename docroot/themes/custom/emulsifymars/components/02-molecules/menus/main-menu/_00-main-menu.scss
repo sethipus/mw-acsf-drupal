@@ -1,0 +1,74 @@
+/* Menu media */
+$main-menu-medium: $medium;
+
+/* Nav */
+.main-nav {
+  &__desktop {
+    display: none;
+  
+    @include medium {
+      display: block;
+    }
+  }
+
+  &__mobile {
+    display: none;
+    position: absolute;
+    top: 120px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    flex-flow: column nowrap;
+
+    .header__primary--open & {
+      display: flex;
+  
+      @include medium {
+        display: none;
+      }
+    }
+  }
+}
+
+/* UL */
+.main-menu {
+  flex: 1;
+  @include list-reset;
+
+  @include medium {
+    margin: 0 5.6rem;
+  }
+}
+
+/*
+ * Sub Navigation
+ */
+
+/* UL (Nested) */
+.main-menu--sub {
+  border-bottom: none;
+  height: 0;
+  margin: 0 $space-triple;
+  overflow: hidden;
+  background-color: clr(secondary);
+  width: 100%;
+
+  @include medium {
+    display: none;
+    height: auto;
+    left: 0;
+    overflow: visible;
+    padding: .8rem 0;
+    position: absolute;
+    top: 45px;
+    width: 200px;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    z-index: $menu-overlay-zindex;
+  }
+
+  /* See main-menu.js */
+  &-open {
+    height: auto;
+  }
+}

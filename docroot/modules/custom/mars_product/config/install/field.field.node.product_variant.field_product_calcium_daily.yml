@@ -1,0 +1,21 @@
+uuid: f14d6ec3-7e46-4bd2-a39c-5a1d78bea5fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_calcium_daily
+    - node.type.product_variant
+_core:
+  default_config_hash: b4sRBV-yeLlTGlRIdzCVjO4ZhNqC52OWk1XowKUlajs
+id: node.product_variant.field_product_calcium_daily
+field_name: field_product_calcium_daily
+entity_type: node
+bundle: product_variant
+label: 'Calcium % Daily Value'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

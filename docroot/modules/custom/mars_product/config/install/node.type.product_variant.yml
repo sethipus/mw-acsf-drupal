@@ -1,0 +1,23 @@
+uuid: 7af19e52-4d36-4dcb-9436-d5118e6aa376
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_workflow
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  lightning_workflow:
+    workflow: editorial
+_core:
+  default_config_hash: H4AIbCVMTj1e7d4wBo2eteQgbSbm4gmSPRWLYkS-V40
+name: 'Product Variant'
+type: product_variant
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

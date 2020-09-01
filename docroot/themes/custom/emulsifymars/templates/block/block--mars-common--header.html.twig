@@ -1,0 +1,69 @@
+{#
+/**
+ * @file
+ * Header block.
+ * 'logo' => NULL,
+ * 'primary_menu' => NULL,
+ * 'secondary_menu' => NULL,
+ * 'language_selector' => NULL,
+ * 'search_block' => NULL,
+ * 'alert_banner' => NULL,
+ */
+#}
+
+{% set logo_src = file_url(logo) %}
+{% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
+{% set logo_title = 'Logo' | t %}
+
+{% embed "@organisms/site/site-header/site-header.twig" with {
+  theme_styles: 'drupal',
+  menu_items: primary_menu,
+  header_inline_menu_items: secondary_menu,
+  header_inline_menu_search_item: search_menu,
+  search_block: search_block,
+  language_selector: language_selector,
+  alert_banner: alert_banner,
+} %}
+
+  {% block header__menu %}
+    {% include "@molecules/menus/main-menu/main-menu.twig" with {
+      menu_class: 'header-primary-menu',
+      items: menu_items,
+    } %}
+  {% endblock %}
+
+  {% block header__menu_secondary %}
+    {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" with {
+      menu_class: 'header-secondary-menu',
+    } %}
+  {% endblock %}
+
+  {% block alert_banner %}
+    <div {{ bem('alert', [], header__base_class) }}>
+      <span {{ bem('alert_text', [], header__base_class) }}>
+        {{ alert_banner }}
+      </span>
+    </div>
+  {% endblock %}
+
+  {% block header__branding %}
+    <div {{ bem('logo', [], header__base_class) }}>
+      {% embed "@atoms/links/link/link.twig" with {
+        link_modifiers: ['logo'],
+        link_url: logo_link__url|default('/'),
+      } %}
+        {% block link_content %}
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            output_image_tag: true,
+            image_alt: logo_title,
+            image_srcset: logo_srcset,
+            image_sizes: '21px',
+            image_src: logo_src,
+            responsive_image_blockname: 'logo',
+          } %}
+        {% endblock %}
+      {% endembed %}
+    </div>
+  {% endblock %}
+
+{% endembed %}

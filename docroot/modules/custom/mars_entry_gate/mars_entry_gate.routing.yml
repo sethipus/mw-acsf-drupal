@@ -1,0 +1,7 @@
+mars_entry_gate.configuration_form:
+  path: '/admin/config/services/entry_gate'
+  defaults:
+    _form: 'Drupal\mars_entry_gate\Form\EntryGateConfigForm'
+    _title: 'Entry gate configuration'
+  requirements:
+    _permission: 'administer site configuration'

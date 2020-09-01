@@ -1,0 +1,50 @@
+  {# Set classes #}
+  {% set menu_class = 'social-menu' %}
+
+  {# List #}
+  {% embed "@atoms/lists/ul.twig" with {
+    ul_base_class: menu_class,
+    ul_modifiers: menu_modifiers,
+    ul_blockname: menu_blockname,
+    social_menu_items: social_menu_items,
+  } %}
+    {% block list_content %}
+      {% for item in social_menu_items %}
+        {% embed "@atoms/lists/_list-item.twig" with {
+          li_base_class: 'item',
+          li_modifiers: item_modifiers,
+          li_blockname: menu_class,
+        } %}
+          {% block list_item_content %}
+            {% embed "@atoms/links/link/link.twig" with {
+              link_url: item.url,
+              link_base_class: 'link',
+              link_modifiers: item_modifiers,
+              link_blockname: menu_class,
+            } %}
+              {% block link_content %}
+                {% if configured_icons %}
+                  {% include "@atoms/images/image/_image.twig" with {
+                    image_base_class: 'icon',
+                    image_blockname: 'social-menu',
+                    image_alt: item.title,
+                    image_title: item.title,
+                    image_sizes: '(max-width: 375px) 20px,
+                      (max-width: 768px) 20px,
+                      (max-width: 1024px) 20px,
+                      20px',
+                    image_src: item.icon,
+                  } %}
+                {% else %}
+                  {% include "@atoms/images/icons/_icon.twig" with {
+                    icon_name: item.icon,
+                    icon_blockname: menu_class,
+                  } %}
+                {% endif %}
+              {% endblock %}
+            {% endembed %}
+          {% endblock %}
+        {% endembed %}
+      {% endfor %}
+    {% endblock %}
+  {% endembed %}

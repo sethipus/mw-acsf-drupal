@@ -1,0 +1,152 @@
+/* Mixin - list-reset
+ * Reset list item defaults when no margin, padding, list styles needed
+*/
+
+ul,
+ol {
+  padding-left: 1em;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  counter-reset: mars-counter;
+  list-style: none;
+
+  .list-item {
+    counter-increment: mars-counter;
+    position: relative;
+    margin: 10px;
+    border-radius: 20px;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.12);
+    border: solid 2px clr(text-inverse);
+    background-color: clr(text-inverse);
+    padding: 40px 20px 20px 20px;
+
+    @include medium {
+      padding: 20px 20px 20px 80px;
+    }
+
+    &__content {
+      font-family: variable(primary-font);
+      font-size: 16px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.4;
+      letter-spacing: normal;
+      margin: 20px 0;
+    }
+
+    &::before {
+      content: counter(mars-counter);
+      color: clr(list);
+      font-size: 22px;
+      font-weight: bold;
+      position: absolute;
+      line-height: 32px;
+      left: calc(40% + 32px / 2);
+      top: calc(32px / 2);
+
+      @include medium {
+        left: calc(20px + 32px / 2);
+        top: calc(40% - 32px / 2);
+      }
+
+    }
+  }
+}
+
+.list-item {
+  margin-bottom: 0.2em;
+  padding-left: 1em;
+}
+
+/* TODO: BEM selectors should be applied to wysiwyg-created content */
+
+.text-long {
+  ol,
+  ul {
+    li {
+      @extend .list-item;
+    }
+  }
+}
+
+.faq_list {
+  padding-left: 0;
+}
+
+.faq_list .list-item--faq::before {
+  content: "";
+  display: none;
+}
+
+.list-item.list-item--faq {
+
+  @include small {
+    padding: 10px;
+    margin-bottom: 40px;
+  }
+
+  @include medium {
+    padding: 10px 40px;
+    margin-bottom: 40px;
+  }
+
+  @include xl {
+    padding: 10px 40px;
+    margin-bottom: 60px;
+  }
+}
+
+.list-item__faq-mark {
+    font-family: variable(primary-font);
+    color: clr(primary);
+
+    @include small {
+      font-size: 20px;
+      margin-bottom: -16px;
+    }
+
+    @include medium {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      font-size: 26px;
+    }
+
+    @include xl {
+      font-size: 28px;
+    }
+}
+
+.list-item__question,
+.list-item__answer {
+  position: relative;
+  min-height: 40px;
+  font-family: variable(secondary-font);
+  font-weight: normal;
+  line-height: 1.4;
+
+  @include small {
+    font-size: 16px;
+    padding: 20px 17px;
+  }
+
+  @include medium {
+    font-size: 16px;
+    padding: 25px 40px 20px 75px;
+  }
+
+  @include xl {
+    font-size: 18px;
+    padding: 20px 40px 20px 75px;
+  }
+}
+
+.list-item__question {
+  border-bottom: 1px solid clr(highlight);
+}

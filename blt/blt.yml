@@ -8,19 +8,15 @@ project:
     protocol: http
     hostname: 'mars.ddev.site:8080'
 git:
-  default_branch: dev
+  default_branch: master
   remotes:
     cloud: 'mars@svn-2398.enterprise-g1.hosting.acquia.com:mars.git'
   commit-msg:
-    pattern: "/(^AB#[0-9]+.{15,})|(Merge branch (.)+)/"
+    pattern: "/(^AB#[0-9]+(: )[^ ].{15,}\\.)|(Merge branch (.)+)/"
     # Human readable help description explaining the pattern/restrictions.
     help_description: "The commit message should include Azure Boards ticket number in the format AB#XXX: followed by your commit message."
     # Provide an example of a valid commit message.
     example: "AB#23456: Update module configuration"
-git:
-  default_branch: master
-  remotes:
-    - 'mars@svn-2398.enterprise-g1.hosting.acquia.com:mars.git'
 deploy:
   tag_source: true
 drush:
@@ -31,3 +27,12 @@ drush:
   default_alias: '${drush.aliases.local}'
 validate:
   acsf: true
+  twig:
+    functions:
+      - bem
+      - add_attributes
+tests:
+  phpunit:
+    -
+      config: '${docroot}/core/phpunit.xml.dist'
+      directory: '${docroot}/modules/custom'

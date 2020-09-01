@@ -1,0 +1,60 @@
+/* Create a mixin for paragraph styles that can be implemented
+ * in components with other classnames.
+*/
+@mixin paragraph($margin: 0 0 1em) {
+  margin: $margin;
+}
+
+.paragraph {
+  @include paragraph;
+}
+
+.blockquote {
+  font-style: italic;
+  border-left: solid 3px clr(accent);
+  margin-left: 1em;
+  padding-left: 1em;
+}
+
+.hr {
+  border-style: solid;
+  border-width: 1px 0 0;
+  color: currentColor;
+}
+
+/* TODO: BEM selectors should be applied to wysiwyg-created content */
+
+@mixin paragraph-l(
+  $font-size: 2.2rem,
+  $line-height: 3.5rem,
+) {
+  color: clr(text-inverse);
+  font-size: $font-size;
+  line-height: $line-height;
+}
+
+.paragraph--large {
+  @include paragraph-l;
+
+  max-width: 81rem;
+  margin: 0 auto 5rem auto;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+    line-height: 2.8rem;
+  }
+}
+
+.text-long {
+  p {
+    @extend .paragraph;
+  }
+
+  blockquote {
+    @extend .blockquote;
+  }
+
+  hr {
+    @extend .hr;
+  }
+}

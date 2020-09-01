@@ -1,0 +1,18 @@
+uuid: dd83a7bf-8721-42c9-b4c7-4f246fb5439c
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+id: block_content.field_ff_with_description
+field_name: field_ff_with_description
+entity_type: block_content
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

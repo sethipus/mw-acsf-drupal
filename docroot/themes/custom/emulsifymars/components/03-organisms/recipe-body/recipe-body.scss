@@ -1,0 +1,201 @@
+.product-used {
+  padding: 30px 20px 0;
+  position: relative;
+
+  @include medium {
+    padding-top: 60px;
+  }
+
+  @include xl {
+    padding: 60px 0 0;
+  }
+
+  &__title {
+    font: 20px/1.1em variable(primary-font);
+    color: clr(subcolor-1);
+    text-transform: capitalize;
+    letter-spacing: 1px;
+
+    @include medium {
+      font-size: 28px;
+      line-height: 31px;
+    }
+  }
+}
+
+.product-used-item {
+  margin-top: 34px;
+
+  @include medium {
+    margin-top: 30px;
+  }
+}
+
+.product-used-items {
+  @include xl {
+    overflow: visible;
+  }
+}
+
+.recipe-body-content {
+  padding: 0 20px 27px;
+  position: relative;
+
+  @include medium {
+    padding: 0 40px 38px;
+  }
+
+  @include xl {
+    padding: 0 0 38px;
+  }
+
+
+  .recipe-body-content-header {
+    margin: 31px 0 13px;
+    font: 20px/1.1em variable(primary-font);
+    color: clr(subcolor-1);
+    text-transform: capitalize;
+    letter-spacing: 1.12px;
+
+    @include medium {
+      margin: 31px 0 24px;
+      font-size: 26px;
+      line-height: 29px;
+    }
+
+    @include xl {
+      font-size: 28px;
+      line-height: 31px;
+    }
+  }
+
+  .recipe-body-ingredients-list {
+    list-style-position: inside;
+    list-style-type: none;
+    font: 18px/29px variable(secondary-font);
+    color: clr(subcolor-1);
+    letter-spacing: -1.1px;
+    padding: 0;
+    margin: 13px 0;
+
+    @include xl {
+      font-size: 20px;
+      line-height: 36px;
+    }
+
+    .list-item {
+      position: relative;
+      text-indent: 16px;
+
+      @include xl {
+        text-indent: 20px;
+      }
+
+      &::before {
+        content: "";
+        background-color: clr(primary);
+        height: 7px;
+        width: 7px;
+        border-radius: 3.5px;
+        position: absolute;
+        left: 1px;
+        top: 10px;
+
+        @include xl {
+          height: 6px;
+          width: 6px;
+          border-radius: 3px;
+          top: 14px;
+        }
+      }
+    }
+  }
+
+  .recipe-body-instructions-list {
+    .list-item {
+      margin-top: 20px;
+
+      &__content {
+        font: 18px/1.65em variable(secondary-font);
+        color: clr(subcolor-1);
+        letter-spacing: -1.1px;
+      }
+
+      &::before {
+        font: 28px/1em variable(primary-font);
+        top: calc(50% - 0.5em);
+      }
+    }
+  }
+
+  .recipe-body-content-paragraph {
+    margin: 40px 0;
+    font: 18px/1.65em variable(secondary-font);
+    color: clr(subcolor-1);
+    letter-spacing: -1.1px;
+
+    @include xl {
+      font-size: 20px;
+      line-height: 1.8em;
+    }
+  }
+
+  .recipe-body-video {
+    &__full {
+      width: 100vw;
+      margin-left: -20px;
+
+      @include medium {
+        margin-left: -40px;
+      }
+
+      @include xl {
+        width: 1128px;
+        margin-left: 0;
+      }
+    }
+  }
+
+  &::before {
+    content: "";
+    height: 1px;
+    width: calc(100% - 40px);
+    background-color: rgba(196, 196, 196, 0.6);
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+
+    @include medium {
+      width: calc(100% - 80px);
+      left: 40px;
+    }
+
+    @include xl {
+      display: none;
+    }
+  }
+
+  &__top {
+    &::before {
+      bottom: 0;
+    }
+  }
+
+  &__bottom {
+    margin-bottom: 100px;
+    padding-top: 30px;
+
+    .recipe-body-content-header {
+      margin-top: 0;
+    }
+
+    &::before {
+      top: 0;
+    }
+  }
+
+  .ambient-video #playpause[data-state="play"] {
+    left: calc(50% - 30px);
+    top: calc(50% - 30px);
+  }
+}

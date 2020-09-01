@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * Default theme implementation for an carousel item field widget.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the containing element.
+ * - data: Render elements of the carousel item widget.
+ *
+ * @see template_preprocess_file_text_item_widget()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes }}>
+  {{ data.preview }}
+  {# Render widget data without the carousel item preview that was output already. #}
+  {{ data|without('preview') }}
+</div>

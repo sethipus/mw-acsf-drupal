@@ -1,0 +1,139 @@
+/*
+ * General Mixins (put specific ones in component files where applicable)
+*/
+
+/* Mixin - Clearfix.
+ * Adds clearfix based on http://bourbon.io/docs/#clearfix
+ * use example =   @include cleafix
+*/
+
+@mixin body-copy {
+  font-family: $font-body;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+$outer-container-break: $small;
+
+/// Mixin - Wrapper
+/// Outer container mixin for large screens
+@mixin wrapper(
+  $container-max-width: $max-width,
+  $outer-container-break: $small,
+  $v-margin: 0,
+  $v-padding: 0,
+  $h-padding: $space,
+  $h-padding-large: $h-padding
+) {
+  max-width: #{$container-max-width};
+  width: 100%;
+  margin: #{$v-margin} auto;
+  padding: #{$v-padding} #{$h-padding};
+
+  @include breakpoint($outer-container-break) {
+    padding: #{$v-padding} #{$h-padding-large};
+  }
+
+  @include breakpoint($container-max-width) {
+    padding-left: calc(
+      #{$h-padding-large} + calc(-50vw + calc(#{$container-max-width} / 2))
+    );
+    padding-right: calc(
+      #{$h-padding-large} + calc(-50vw + calc(#{$container-max-width} / 2))
+    );
+  }
+}
+
+// Mixin - Standard Margin
+@mixin margin {
+  margin-bottom: 1em;
+}
+
+@mixin no-bottom {
+  margin-bottom: 0;
+}
+
+@mixin list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin dl-reset {
+  margin: 0;
+}
+
+@mixin dd-reset {
+  display: inline;
+  margin: 0;
+}
+
+@mixin link {
+  color: clr(subcolor-1);
+
+  &:hover {
+    color: clr(primary);
+  }
+}
+
+@mixin text_link {
+  color: clr(subcolor-1);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@mixin playbutton {
+  display: block;
+  border-radius: 50%;
+  border: hidden;
+  background-color: clr(text-inverse);
+  position: absolute;
+  z-index: 1;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  >div {
+    width: 0;
+    height: 0;
+    margin: auto 35%
+  }
+}
+
+@mixin pausebutton {
+  display: block;
+  border-radius: 50%;
+  border: hidden;
+  background-color: clr(background-button);
+  position: absolute;
+  z-index: 1;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  >div {
+    width: 14px;
+    height: 18px;
+    margin: auto;
+  }
+}

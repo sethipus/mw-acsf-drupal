@@ -1,0 +1,756 @@
+uuid: b2111831-74fe-4d80-aee6-4789e7ca993f
+langcode: en
+status: true
+dependencies:
+  config:
+    - entity_browser.browser.media_browser
+    - field.field.node.product_variant.field_product_allergen_statement
+    - field.field.node.product_variant.field_product_allergen_warnings
+    - field.field.node.product_variant.field_product_calcium
+    - field.field.node.product_variant.field_product_calcium_daily
+    - field.field.node.product_variant.field_product_calories
+    - field.field.node.product_variant.field_product_calories_fat
+    - field.field.node.product_variant.field_product_carb
+    - field.field.node.product_variant.field_product_carb_daily
+    - field.field.node.product_variant.field_product_cholesterol
+    - field.field.node.product_variant.field_product_cholesterol_daily
+    - field.field.node.product_variant.field_product_diet_allergens
+    - field.field.node.product_variant.field_product_dietary_daily
+    - field.field.node.product_variant.field_product_dietary_fiber
+    - field.field.node.product_variant.field_product_image_1
+    - field.field.node.product_variant.field_product_image_1_override
+    - field.field.node.product_variant.field_product_image_2
+    - field.field.node.product_variant.field_product_image_2_override
+    - field.field.node.product_variant.field_product_image_3
+    - field.field.node.product_variant.field_product_image_3_override
+    - field.field.node.product_variant.field_product_image_4
+    - field.field.node.product_variant.field_product_image_4_override
+    - field.field.node.product_variant.field_product_iron
+    - field.field.node.product_variant.field_product_iron_daily
+    - field.field.node.product_variant.field_product_key_image
+    - field.field.node.product_variant.field_product_key_image_override
+    - field.field.node.product_variant.field_product_potassium
+    - field.field.node.product_variant.field_product_potassium_daily
+    - field.field.node.product_variant.field_product_protein
+    - field.field.node.product_variant.field_product_protein_daily
+    - field.field.node.product_variant.field_product_saturated_daily
+    - field.field.node.product_variant.field_product_saturated_fat
+    - field.field.node.product_variant.field_product_serving_size
+    - field.field.node.product_variant.field_product_servings_per
+    - field.field.node.product_variant.field_product_size
+    - field.field.node.product_variant.field_product_sku
+    - field.field.node.product_variant.field_product_sodium
+    - field.field.node.product_variant.field_product_sodium_daily
+    - field.field.node.product_variant.field_product_sugars
+    - field.field.node.product_variant.field_product_sugars_daily
+    - field.field.node.product_variant.field_product_total_fat
+    - field.field.node.product_variant.field_product_total_fat_daily
+    - field.field.node.product_variant.field_product_trans_fat
+    - field.field.node.product_variant.field_product_trans_fat_daily
+    - field.field.node.product_variant.field_product_vitamin_a
+    - field.field.node.product_variant.field_product_vitamin_a_daily
+    - field.field.node.product_variant.field_product_vitamin_c
+    - field.field.node.product_variant.field_product_vitamin_c_daily
+    - field.field.node.product_variant.field_product_vitamin_d
+    - field.field.node.product_variant.field_product_vitamin_d_daily
+    - node.type.product_variant
+    - workflows.workflow.editorial
+  module:
+    - content_moderation
+    - entity_browser
+    - field_group
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_product_variant:
+      children:
+        - group_product_overview
+        - group_media
+        - group_allergen_information
+        - group_nutritional_information
+        - group_vitamins
+        - group_system
+      parent_name: ''
+      weight: 0
+      format_type: accordion
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        effect: bounceslide
+      label: 'Product Variant'
+    group_product_overview:
+      children:
+        - title
+        - field_product_sku
+        - field_product_size
+      parent_name: group_product_variant
+      weight: 31
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: open
+        required_fields: true
+        description: ''
+      label: 'Product Overview'
+    group_allergen_information:
+      children:
+        - field_product_allergen_statement
+        - field_product_diet_allergens
+        - field_product_allergen_warnings
+      parent_name: group_product_variant
+      weight: 33
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: 'Allergen Information'
+    group_nutritional_information:
+      children:
+        - field_product_serving_size
+        - field_product_servings_per
+        - field_product_protein
+        - field_product_protein_daily
+        - field_product_calories
+        - field_product_calories_fat
+        - field_product_total_fat
+        - field_product_total_fat_daily
+        - field_product_saturated_fat
+        - field_product_saturated_daily
+        - field_product_trans_fat
+        - field_product_trans_fat_daily
+        - field_product_cholesterol
+        - field_product_cholesterol_daily
+        - field_product_sodium
+        - field_product_sodium_daily
+        - field_product_carb
+        - field_product_carb_daily
+        - field_product_dietary_fiber
+        - field_product_dietary_daily
+        - field_product_sugars
+        - field_product_sugars_daily
+      parent_name: group_product_variant
+      weight: 34
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: 'Nutritional Information'
+    group_vitamins:
+      children:
+        - field_product_calcium
+        - field_product_calcium_daily
+        - field_product_vitamin_a
+        - field_product_vitamin_a_daily
+        - field_product_vitamin_c
+        - field_product_vitamin_c_daily
+        - field_product_vitamin_d
+        - field_product_vitamin_d_daily
+        - field_product_potassium
+        - field_product_potassium_daily
+        - field_product_iron
+        - field_product_iron_daily
+      parent_name: group_product_variant
+      weight: 35
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: Vitamins
+    group_media:
+      children:
+        - field_product_key_image
+        - field_product_key_image_override
+        - field_product_image_1
+        - field_product_image_1_override
+        - field_product_image_2
+        - field_product_image_2_override
+        - field_product_image_3
+        - field_product_image_3_override
+        - field_product_image_4
+        - field_product_image_4_override
+      parent_name: group_product_variant
+      weight: 32
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: Media
+    group_system:
+      children:
+        - uid
+        - created
+        - promote
+        - sticky
+        - path
+        - url_redirects
+        - moderation_state
+        - status
+      parent_name: group_product_variant
+      weight: 36
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: System
+_core:
+  default_config_hash: Goy_ckv6s-XOsTJg_C5mJSOBwhwihp5_duzX1Td9DOA
+id: node.product_variant.default
+targetEntityType: node
+bundle: product_variant
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_product_allergen_statement:
+    weight: 11
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_product_allergen_warnings:
+    weight: 13
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_product_calcium:
+    weight: 37
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_calcium_daily:
+    weight: 38
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_calories:
+    weight: 15
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_calories_fat:
+    weight: 16
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_carb:
+    weight: 27
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_carb_daily:
+    weight: 28
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_cholesterol:
+    weight: 23
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_cholesterol_daily:
+    weight: 24
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_diet_allergens:
+    weight: 12
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_product_dietary_daily:
+    weight: 30
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_dietary_fiber:
+    weight: 29
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_image_1:
+    type: entity_browser_entity_reference
+    weight: 22
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_image_1_override:
+    type: entity_browser_entity_reference
+    weight: 23
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_image_2:
+    type: entity_browser_entity_reference
+    weight: 24
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_image_2_override:
+    type: entity_browser_entity_reference
+    weight: 25
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_image_3:
+    type: entity_browser_entity_reference
+    weight: 26
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_image_3_override:
+    type: entity_browser_entity_reference
+    weight: 27
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_image_4:
+    type: entity_browser_entity_reference
+    weight: 28
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_image_4_override:
+    type: entity_browser_entity_reference
+    weight: 29
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_iron:
+    weight: 47
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_iron_daily:
+    weight: 48
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_key_image:
+    type: entity_browser_entity_reference
+    weight: 20
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_key_image_override:
+    type: entity_browser_entity_reference
+    weight: 21
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_product_potassium:
+    weight: 45
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_potassium_daily:
+    weight: 46
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_protein:
+    weight: 13
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_protein_daily:
+    weight: 14
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_saturated_daily:
+    weight: 20
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_saturated_fat:
+    weight: 19
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_serving_size:
+    weight: 11
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_servings_per:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_size:
+    weight: 13
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sku:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sodium:
+    weight: 25
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sodium_daily:
+    weight: 26
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sugars:
+    weight: 31
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_sugars_daily:
+    weight: 32
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_total_fat:
+    weight: 17
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_total_fat_daily:
+    weight: 18
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_trans_fat:
+    weight: 21
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_trans_fat_daily:
+    weight: 22
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_vitamin_a:
+    weight: 39
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_vitamin_a_daily:
+    weight: 40
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_vitamin_c:
+    weight: 41
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_vitamin_c_daily:
+    weight: 42
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_vitamin_d:
+    weight: 43
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_vitamin_d_daily:
+    weight: 44
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 7
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 3
+    region: content
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 8
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 4
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 11
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+  url_redirects:
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

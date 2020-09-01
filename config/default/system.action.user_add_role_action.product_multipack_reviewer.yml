@@ -1,0 +1,14 @@
+uuid: ad46a802-b582-4d3e-a4a3-bff74287abfb
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.product_multipack_reviewer
+  module:
+    - user
+id: user_add_role_action.product_multipack_reviewer
+label: 'Add the Product Multipack reviewer role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: product_multipack_reviewer

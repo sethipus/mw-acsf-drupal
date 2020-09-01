@@ -1,0 +1,90 @@
+.article-full-width {
+  background-color: clr(subcolor-3);
+  padding: 2rem 0 4rem 0;
+  overflow-x: hidden;
+  max-width: 1128px;
+  margin: 0 auto;
+
+  &__heading {
+    &--main-heading {
+      text-align: center;
+      color: clr(subcolor-1);
+      text-transform: uppercase;
+      font-size: 2.8rem;
+      line-height: 1.1rem;
+      font-weight: 500;
+      font-family: variable(heading-font);
+    }
+  }
+
+
+  &__content {
+    background-color: clr(background-carousel);
+    color: clr(subcolor-1);
+    font-family: variable(secondary-font);
+    font-size: 1.4rem;
+    line-height: 1.82rem;
+    padding: 2rem 3rem;
+
+    @include medium {
+      padding: 2rem 4rem;
+    }
+
+    @include xl {
+      padding: 2rem 11.6rem;
+    }
+
+    .paragraph {
+      padding-bottom: 2rem;
+      margin: 0;
+      border-bottom: 1px solid clr(accent);
+    }
+  }
+
+  &__media {
+    text-align: center;
+    font-size: 18rem;
+    background: clr(subcolor-3);
+    height: 25rem;
+    overflow: hidden;
+    position: relative;
+
+    @include medium {
+      height: 43.4rem;
+    }
+
+    @include xl {
+      height: 63.5rem;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    #fullscreen-play[data-state="play"] {
+      top: calc(50% - 7rem / 2);;
+      left: calc(50% - 6.6rem / 2);;
+      width: 6.6rem;
+      height: 7rem;
+      background-color: clr(text-inverse);  
+
+      @include clearfix;
+
+      @include playbutton;
+
+      >div {
+        width: 0;
+        height: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 20px solid clr(player);
+        margin: auto 35%
+      }
+    }
+
+    .fullscreen-video__main {
+      width: 100%;
+    }
+  }
+}
+

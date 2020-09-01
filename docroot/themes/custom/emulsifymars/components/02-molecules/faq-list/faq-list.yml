@@ -1,0 +1,15 @@
+title: "FAQs"
+faq_items:
+  - content:
+      question: "<p>To be or not to be</p>"
+      answer: "<p>Shakespeare knows</p>"
+  - content:
+      question: "<p>Plus, I’m all in whenever Twix are involved. Except, can we just chat a quick minute?</p>"
+      answer: "<p>Plus, I’m all in whenever Twix are involved. Except, can we just chat a quick minute?</p>"
+  - content:
+      question: "<p>To be or not to be</p>"
+      answer: "<p>Shakespeare knows</p>"
+button_name: "SEE ALL"
+theme_styles: "twix"
+button_link: "#FAQ"
+default_link_border_radius: 30

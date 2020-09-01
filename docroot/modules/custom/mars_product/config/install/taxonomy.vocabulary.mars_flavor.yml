@@ -1,0 +1,8 @@
+uuid: d092230c-1fd7-474d-bb48-3302de90f86d
+langcode: en
+status: true
+dependencies: {  }
+name: Flavor
+vid: mars_flavor
+description: ''
+weight: 0

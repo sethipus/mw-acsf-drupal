@@ -1,0 +1,9 @@
+ol_items:
+  - content: 'This is the first item in the ordered list.'
+    image: 
+      src: 'https://mars.com/sites/g/files/jydpyr316/files/styles/image_copy/public/webimage-GettyImages-964172312.png?itok=IHauQ4Os'
+      alt: 'alt text'
+      title: 'title text'
+  - content: 'And here is the item that goes with the label.'
+  - content: "Here's the third item."
+  - content: "And here's the last item."

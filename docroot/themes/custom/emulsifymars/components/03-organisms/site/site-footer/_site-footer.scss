@@ -1,0 +1,244 @@
+$fence-part-size: 1440px*2/101;
+
+.footer {
+  background-color: clr(highlight-high);
+  // padding: $space 0;
+
+  &__section {
+    &--primary {
+      background-image: radial-gradient(circle at 50% 50%, rgba(245, 225, 164, 0.6), clr(secondary));
+      border-bottom: 15px solid transparent;
+
+      .footer__section-content {
+        padding: 20px 20px 5px;
+        display: flex;
+        flex-flow: column nowrap;
+
+        @include medium {
+          padding: 20px 40px 25px;
+        }
+
+        @include xl {
+          flex-flow: row nowrap;
+        }
+      }
+    }
+
+    &--secondary {
+      min-height: 400px;
+      background-color: clr(primary);
+
+      .footer__section-content {
+        padding: 48px 20px 20px;
+        display: flex;
+        flex-flow: column nowrap;
+
+        @include medium {
+          flex-flow: row wrap;
+          padding: 20px 40px;
+        }
+      }
+    }
+  }
+}
+
+.footer__menu {
+  flex: 1 1 auto;
+
+  @include large {
+    flex: 1 1 100%;
+  }
+}
+
+.footer__social {
+  margin-bottom: $space;
+  flex: 0 1 100%;
+  order: 1;
+
+  @include medium {
+    flex: 0 1 50%;
+  }
+
+  @include xl {
+    flex: 0 1 33%;
+  }
+}
+
+.footer__legal-links {
+  margin-bottom: 10px;
+  flex: 0 1 100%;
+  order: 3;
+
+  @include xl {
+    flex: 0 1 66%;
+    order: 2;
+  }
+}
+
+.footer__section-header {
+  font: 16px/16px variable(primary-font);
+  letter-spacing: 0.65px;
+  color: clr(subcolor-3);
+
+  @include medium {
+    flex: 0 1 50%;
+    font-size: 18px;
+  }
+}
+
+.footer__region-selector {
+  margin-bottom: $space;
+  flex: 0 1 100%;
+  order: 2;
+
+  @include medium {
+    flex: 0 1 50%;
+  }
+
+  @include xl {
+    flex: 0 1 33%;
+    order: 3;
+  }
+
+  .form-item__dropdown {
+    margin-top: 15px;
+    max-width: 335px;
+    border: none;
+
+    &::after {
+      border-style: solid;
+      border-color: currentColor;
+      border-width: 0 1px 1px 0;
+      content: ' ';
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      height: 9px;
+      width: 9px;
+      transform: rotate(45deg);
+    }
+  }
+
+  .form-item__select {
+    height: 50px;
+    padding: 5px 20px;
+    border-radius: 30px;
+    background-color: clr(subcolor-3);
+    font-family: variable(secondary-font);
+    font-size: 16px;
+    color: clr(subcolor-1);
+
+    &:focus {
+      border-color: clr(subcolor-3);
+    }
+  }
+}
+
+.footer__info {
+  margin-bottom: $space;
+  flex: 0 1 100%;
+  order: 4;
+
+  @include xl {
+    flex: 0 1 66%;
+  }
+}
+
+.footer__logo {
+  margin: 10px 0 26px -10px;
+
+  @include medium {
+    margin: 20px 0 26px -15px;
+  }
+
+  @include xl {
+    margin: 20px 0 12px -12px;
+  }
+
+  .logo__image {
+    width: auto;
+  }
+}
+
+.footer__marketing-text-title {
+  font: 14px/22px variable(primary-font);
+  color: clr(subcolor-3);
+}
+
+.footer__marketing-text {
+  font: 14px/22px variable(secondary-font);
+  color: clr(subcolor-3);
+
+  strong {
+    font: 14px/22px variable(primary-font);
+  }
+}
+
+.footer__copyright {
+  font: 14px/22px variable(secondary-font);
+  color: clr(subcolor-3);
+}
+
+.footer__separator {
+  height: 1px;
+  order: 5;
+  flex: 0 1 100%;
+  background-color: clr(subcolor-3);
+  opacity: .5;
+}
+
+.footer__corporate-tout {
+  display: flex;
+  flex-direction: column;
+  font: 20px/22px variable(primary-font);
+  letter-spacing: 0.75px;
+  color: clr(subcolor-3);
+  order: 6;
+  flex: 0 1 100%;
+  margin: 50px 0 30px;
+
+  @include medium {
+    margin: 30px 0 10px;
+    font-size: 26px;
+    letter-spacing: 1px;
+  }
+
+  @include large {
+    margin: 30px 0 10px;
+    font-size: 28px;
+    letter-spacing: 1px;
+  }
+
+  @include xl {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+}
+
+.corporate-tout__text {
+  margin: 0 0 18px;
+}
+
+.corporate-tout__button {
+  @include button-base;
+
+  height: 50px;
+  width: 133px;
+  border-radius: 30px;
+  background-color: clr(subcolor-3);
+  color: clr(primary);
+  font-size: 16px;
+
+  @include medium {
+    font-size: 14px;
+    height: 50px;
+    width: 157px;
+  }
+
+  @include xl {
+    font-size: 16px;
+    height: 60px;
+    width: 202px;
+  }
+}

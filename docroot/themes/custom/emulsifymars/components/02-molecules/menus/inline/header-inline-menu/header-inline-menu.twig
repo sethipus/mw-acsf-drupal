@@ -1,0 +1,7 @@
+{% include "@molecules/menus/_menu.twig" with {
+  menu_class: 'header-inline-menu',
+  items: header_inline_menu_items,
+} %}
+{% if language_switcher %}
+  {% include "@molecules/language-switcher/language-switcher.twig" %}
+{% endif %}

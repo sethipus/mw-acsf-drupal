@@ -1,0 +1,32 @@
+.status__list {
+  @include list-reset;
+}
+
+.status {
+  display: block;
+  text-align: center;
+  font-size: 1.8rem;
+  font-family: variable(secondary-font);
+  line-height: 1.2;
+  padding: 2.3rem $space-quadruple 1.7rem;
+
+  &--warning {
+    color: $gray;
+    background-color: clr(warning);
+  }
+
+  &--error {
+    color: $gray;
+    background-color: clr(error);
+  }
+
+  &--status {
+    color: $gray;
+    background-color: clr(message);
+  }
+
+  &--alert {
+    color: clr(subcolor-3);
+    background-color: clr(primary);
+  }
+}

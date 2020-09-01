@@ -1,0 +1,23 @@
+uuid: fda18c13-999d-458c-99fb-9d01a5834551
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer
+    - field.storage.block_content.field_ff_with_description
+id: block_content.flexible_framer.field_ff_with_description
+field_name: field_ff_with_description
+entity_type: block_content
+bundle: flexible_framer
+label: 'With description'
+description: 'With/without description'
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

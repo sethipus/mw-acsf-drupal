@@ -1,0 +1,23 @@
+uuid: 12b965a6-99f8-4936-bdd1-6f22a3c2377f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_description
+    - node.type.product_multipack
+  module:
+    - text
+_core:
+  default_config_hash: fI4-Tr6D6oq9sMLiBFqXOkvjDwf5sg4UhuW7L1digK4
+id: node.product_multipack.field_product_description
+field_name: field_product_description
+entity_type: node
+bundle: product_multipack
+label: 'Product Description'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

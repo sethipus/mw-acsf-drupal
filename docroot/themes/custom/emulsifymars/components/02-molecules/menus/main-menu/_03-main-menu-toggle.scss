@@ -1,0 +1,45 @@
+/* Toggle */
+.toggle-expand {
+  @include link;
+
+  @include medium {
+    display: none;
+  }
+
+  padding: $space;
+  text-decoration: none;
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.toggle-expand__text {
+  display: block;
+  font-family: variable(primary-font);
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  color: clr(subcolor-1);
+}
+
+/* SVG icon */
+.toggle-expand__icon {
+  height: 3rem;
+  width: 3rem;
+  margin: 0 auto;
+
+  &--open {
+    display: inline-block;
+
+    .toggle-expand--open & {
+      display: none;
+    }
+  }
+
+  &--close {
+    display: none;
+
+    .toggle-expand--open & {
+      display: inline-block;
+    }
+  }
+}

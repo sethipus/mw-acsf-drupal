@@ -1,0 +1,83 @@
+.header {
+  background-color: clr(highlight-high);
+
+  &__inner {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+  &__primary {
+    background-image: radial-gradient(circle at 50% 50%, clr(subcolor-2), clr(secondary));
+
+    &-container {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: space-between;
+  
+      @include medium {
+        justify-content: flex-start;
+      }
+    }
+
+    &--open {
+      overflow-y: scroll;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: $menu-overlay-zindex;
+    }
+  }
+
+  &__branding {
+    flex: 0 0 150px;
+    margin: 2.5rem;
+
+    @include medium {
+      flex-basis: 212px;
+      margin: 3.2rem $space-triple;
+    }
+  }
+
+  &__menu {
+    flex: 0 0 auto;
+
+    @include medium {
+      flex: 1 0 auto;
+    }
+
+    &--secondary {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0 4rem;
+
+      @include medium {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        text-align: right;
+      }
+    }
+
+    &--secondary-mobile {
+      padding: $space-sextuple $space-quadruple;
+      background: clr(primary);
+      display: flex;
+      flex-flow: row wrap;
+
+      @include medium {
+        display: none;
+      }
+    }
+  }
+}
+
+//ToDo: optimize with logo.twig
+.logo__image {
+  width: 100%;
+}

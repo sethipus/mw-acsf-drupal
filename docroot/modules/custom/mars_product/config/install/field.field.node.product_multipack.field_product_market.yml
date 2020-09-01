@@ -1,0 +1,21 @@
+uuid: 1e719e06-17d8-4c53-9f89-82f09d525d87
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_market
+    - node.type.product_multipack
+_core:
+  default_config_hash: iMS_IWQE1g_BA5231uwYHJaBCsr7g1Y35yEtsia37n0
+id: node.product_multipack.field_product_market
+field_name: field_product_market
+entity_type: node
+bundle: product_multipack
+label: Market
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,189 @@
+// Color Usage variables - use these (via the `clr` function below)
+// rather than color variables directly.
+$defaultColors: (
+  player: $red,
+  text: $gray,
+  text-inverse: $white,
+  background: $white,
+  background-section: $gray-lightest,
+  background-button: $gray-tranparent,
+  background-carousel: $floral-white,
+  primary: $blue,
+  secondary: $purple,
+  accent: $gray-dark,
+  accent-high: $black,
+  highlight: $gray-lighter,
+  highlight-high: $gray-lightest,
+  muted: $near-white,
+  warning: $yellow-light,
+  error: $red-light,
+  message: $green-light,
+  subcolor-1: $cerise-red,
+  list: $alizarin-crimson-1,
+);
+
+$marsColors: (
+  text: $gray,
+  text-inverse: $white,
+  background: $white,
+  background-section: $gray-lightest,
+  accent: $gray-dark,
+  accent-high: $black,
+  highlight: $gray-lighter,
+  highlight-high: $gray-lightest,
+  muted: $near-white,
+  warning: $yellow-light,
+  error: $red-light,
+  message: $green-light,
+
+  primary: $navy-blue,
+  secondary: $downy,
+  subcolor-1: $governor-bay,
+  subcolor-2: $blue-marguerite,
+  subcolor-3: $mine-shaft,
+  subcolor-4: $cararra,
+  list: $alizarin-crimson-1,
+
+  pp-header-bg: $light-brown,
+);
+
+$twixColors: (
+  text: $gray,
+  text-inverse: $white,
+  background: $light-yellow-bg,
+  background-section: $gray-lightest,
+  accent: $gray-dark,
+  accent-high: $black,
+  highlight: $gray-lighter,
+  highlight-high: $gray-lightest,
+  muted: $near-white,
+  warning: $yellow-light,
+  error: $red-light,
+  message: $green-light,
+
+  primary: $alizarin-crimson,
+  secondary: $web-orange,
+  subcolor-1: $brown-pod,
+  subcolor-2: $sandwisp,
+  subcolor-3: $white,
+  subcolor-4: $silver,
+  subcolor-5: $light-brown,
+  list: $alizarin-crimson-1,
+
+  pp-header-bg: $light-brown,
+);
+
+$doveColors: (
+  text: $gray,
+  text-inverse: $white,
+  background: $white,
+  background-section: $gray-lightest,
+  accent: $gray-dark,
+  accent-high: $black,
+  highlight: $gray-lighter,
+  highlight-high: $gray-lightest,
+  muted: $near-white,
+  warning: $yellow-light,
+  error: $red-light,
+  message: $green-light,
+
+  primary: $metallic-bronze,
+  secondary: $white,
+  subcolor-1: $alizarin-crimson-1,
+  subcolor-2: $tussock,
+  subcolor-3: $merino,
+  subcolor-4: $cararra,
+
+  pp-header-bg: $merino,
+);
+
+$galaxyColors: (
+  text: $gray,
+  text-inverse: $white,
+  background: $white,
+  background-section: $gray-lightest,
+  accent: $gray-dark,
+  accent-high: $black,
+  highlight: $gray-lighter,
+  highlight-high: $gray-lightest,
+  muted: $near-white,
+  warning: $yellow-light,
+  error: $red-light,
+  message: $green-light,
+
+  primary: $metallic-bronze,
+  secondary: $white,
+  subcolor-1: $cerise-red,
+  subcolor-2: $tussock,
+  subcolor-3: $merino,
+  subcolor-4: $cararra,
+
+  pp-header-bg: $merino,
+);
+
+///////////
+// Usage //
+///////////
+// This color function makes it easy for you to call a color by it's functional
+// name anywhere you need.
+// E.g. to use the `text` color, you type: `color: clr(text);`
+//
+// How it works:
+// This function works in conjunction with the dynamic css custom properties
+// declarations below. The item called in the function is prefixed with
+// `var(--c-` to call the custom property for that color.
+// E.g. `color: clr(text);` will return `color: var(--c-text);`
+// Note: (The `--c-` is added via the `@each` loops below)
+@function clr($colorChoice) {
+  @return var(--c-#{$colorChoice});
+}
+
+// Create CSS custom properties
+// This is what powers the built-in OS light/dark mode switching.
+// For each color variable above (e.g. `text` and `background`) a css custom
+// property will be created. (e.g. `--c-text:` and `--c-background:`).
+//
+// The first `@each` below will create a custom property for each item in the
+// `$defaultColors` map. So put all of your default colors there.
+//
+// The `prefers-color-scheme: dark` media query below will then create custom
+// properties for each of the colors in the `$darkColors` map only if the
+// browser supports that feature. If there is an exact match (e.g. `text`) in
+// both maps, the one from `$darkColors` will be used on machines that have
+// opted to use the 'dark mode' on their OS.
+:root {
+  // Create custom properties for default colors
+  @each $name, $color in $defaultColors {
+    --c-#{$name}: #{$color};
+  }
+
+  [data-theme='default'] {
+    @each $name, $color in $defaultColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+
+  [data-theme='mars'] {
+    @each $name, $color in $marsColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+
+  [data-theme='twix'] {
+    @each $name, $color in $twixColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+
+  [data-theme='dove'] {
+    @each $name, $color in $doveColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+
+  [data-theme='galaxy'] {
+    @each $name, $color in $galaxyColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+}

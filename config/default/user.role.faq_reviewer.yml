@@ -1,0 +1,19 @@
+uuid: 6807c2ff-e9f9-42e5-bd4e-eb911fc90ca8
+langcode: en
+status: true
+dependencies: {  }
+id: faq_reviewer
+label: 'FAQ reviewer'
+weight: 8
+is_admin: false
+permissions:
+  - 'access content overview'
+  - 'access toolbar'
+  - 'delete any faq content'
+  - 'edit any faq content'
+  - 'use editorial transition archive'
+  - 'use editorial transition publish'
+  - 'use editorial transition review'
+  - 'use moderation sidebar'
+  - 'view any unpublished content'
+  - 'view latest version'

@@ -1,0 +1,37 @@
+mars_entry_gate.settings:
+  type: config_object
+  label: 'Entry gate configuration'
+  mapping:
+    onetrust:
+      type: mapping
+      mapping:
+        enabled:
+          type: boolean
+          label: 'Enabled'
+        title:
+          type: label
+          label: 'Title'
+        description:
+          type: label
+          label: 'Description'
+        heading:
+          type: label
+          label: 'Heading text'
+        marketing_message:
+          type: text
+          label: 'Marketing message'
+        minimum_age:
+          type: integer
+          label: 'Minimum age'
+        error_title:
+          type: label
+          label: 'Error title'
+        error_message:
+          type: label
+          label: 'Error message'
+        error_link_1:
+          type: string
+          label: 'Error link 1'
+        error_link_2:
+          type: string
+          label: 'Error link 2'

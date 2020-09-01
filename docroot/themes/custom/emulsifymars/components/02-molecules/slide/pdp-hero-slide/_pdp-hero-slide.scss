@@ -1,0 +1,9 @@
+.pdp-hero-slide {
+  width: 100%;
+
+  &__image {
+    width: 100%;  
+    height: 100%;
+    object-fit: contain;
+  }
+}

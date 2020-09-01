@@ -1,0 +1,80 @@
+{#
+/**
+ * @file
+ * Homepage hero component (video variant).
+ * 'label' => NULL
+ * 'eyebrow' => NULL,
+ * 'cta_url' => NULL,
+ * 'cta_title' => NULL,
+ * 'title_url' => NULL,
+ * 'title_label' => NULL,
+ * 'block_type' => NULL
+ * 'background_image' => NULL,
+ * 'background_video' => NULL,
+ * 'blocks' => [],
+ */
+#}
+{{ attach_library('emulsifymars/ambient-video') }}
+
+{% if block_type == 'video' %}
+
+  {% include "@molecules/homepage-hero/video/homepage-hero-video.twig" with {
+    theme_styles: 'drupal',
+    eyebrow: eyebrow,
+    title_label: title_label,
+    title_href: title_url,
+    cta_title: cta_title,
+    cta_link_attributes: cta_url,
+    cta_base_class: 'cta-link',
+    cta_border_radius: '30',
+    video__src__url: background_video,
+  } %}
+
+{% elseif (block_type == 'default') %}
+
+  {% set background_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' |
+    format(background_image, background_image, background_image, background_image) %}
+
+  {% set hero_image = {
+    'srcset': background_srcset,
+    'src': background_image}
+  %}
+
+  {% include "@molecules/homepage-hero/standard/homepage-hero-standard.twig" with {
+    theme_styles: 'drupal',
+    eyebrow: eyebrow,
+    title_label: title_label,
+    title_href: title_url,
+    cta_title: cta_title,
+    cta_link_attributes: cta_url,
+    cta_base_class: 'cta-link',
+    cta_border_radius: '30',
+    image_srcset: hero_image,
+    image_src: hero_image,
+  } %}
+
+{% elseif (block_type == 'image') %}
+
+  {% set background_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' |
+    format(background_image, background_image, background_image, background_image) %}
+
+  {% set hero_image = {
+    'srcset': background_srcset,
+    'src': background_image}
+  %}
+
+  {% include "@molecules/homepage-hero/3up/homepage-hero-3up.twig" with {
+    theme_styles: 'drupal',
+    eyebrow: eyebrow,
+    title_label: title_label,
+    title_href: title_url,
+    cta_title: cta_title,
+    cta_link_attributes: cta_url,
+    cta_base_class: 'cta-link',
+    cta_border_radius: '30',
+    image_srcset: hero_image,
+    image_src: hero_image,
+    blocks: blocks,
+  } %}
+
+{% endif %}

@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Template for the social feed component.
+ *
+ * Available variables:
+ * - label: Label for the component.
+ * - items: Array of items for the feed.
+ *
+ */
+#}
+
+{% include "@molecules/social-feed/social-feed.twig" with {
+  title: label,
+  items: items,
+} %}

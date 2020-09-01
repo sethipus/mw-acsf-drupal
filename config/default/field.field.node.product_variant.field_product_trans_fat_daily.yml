@@ -1,0 +1,21 @@
+uuid: 187911d1-8a69-4645-8644-6e9fc9d9b705
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_trans_fat_daily
+    - node.type.product_variant
+_core:
+  default_config_hash: K239Q2868h71GMS4rBiAILVNlrTH3RyRBkle1KeQP00
+id: node.product_variant.field_product_trans_fat_daily
+field_name: field_product_trans_fat_daily
+entity_type: node
+bundle: product_variant
+label: 'Trans Fat % Daily Value'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

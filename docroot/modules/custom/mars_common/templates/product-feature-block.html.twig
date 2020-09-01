@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * Template for the product feature component.
+ *
+ * Available variables:
+ * 'eyebrow' => NULL,
+ * 'label' => NULL,
+ * 'image_src' => NULL,
+ * 'background_color' => NULL,
+ * 'explore_cta' => NULL,
+ * 'explore_cta_link' => NULL,
+ */
+#}
+
+{% set image_src = file_url(image.image.entity.fileuri) %}
+
+{% include "@molecules/product-feature/product-feature.twig" with {
+  eyebrow_text: eyebrow,
+  heading: label,
+  image_src: image_src,
+  background_image: 'ellipse_4.svg',
+  background_color: background_color,
+  default_link_base_class: 'default-link',
+  default_link_border_radius: 30,
+  default_link_content: explore_cta,
+  default_link_attributes: {
+    href: explore_cta_link
+  },
+  heading_level: 1
+} %}

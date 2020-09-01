@@ -1,0 +1,155 @@
+/*
+ * General Variables
+ * Note: colors should go into
+ * components/00-base/01-colors/_color-vars.css
+ * and breakpoint related vars into
+ * components/00-base/base/_breakpoints.css
+*/
+
+// Brand shapes
+$circle: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='50' fill='rgba(234, 170, 0, 0.2)'/%3E%3C/svg%3E");
+
+// Graphic dividers
+$triangle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 125 15'%3E%3Cpath fill='%23EAAA00' fill-rule='evenodd' d='M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542z' clip-rule='evenodd'/%3E%3C/svg%3E%0A");
+$wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 128 15'%3E%3Cpath stroke='%23CB9F53' stroke-width='3' d='M2 7.426s5.969 8.36 29.727 4.18S89.004-8.343 127 12.694'/%3E%3C/svg%3E%0A");
+
+// Fonts
+$font-body: georgia, times, 'Times New Roman', serif;
+$font-heading: 'HelveticaNeue', 'Helvetica', 'Arial', sans-serif;
+
+// Spacing
+$space: 1rem;
+
+// Times
+$space-double: $space * 2;
+$space-one-and-half: $space * 1.5;
+$space-triple: $space * 3;
+$space-quadruple: $space * 4;
+$space-quintuple: $space * 5;
+$space-sextuple: $space * 6;
+$space-septuple: $space * 7;
+
+// Divided
+$space-one-half: $space/2;
+$space-one-third: $space/3;
+$space-one-fourth: $space/4;
+$space-one-fifth: $space/5;
+$space-one-sixth: $space/6;
+$space-one-seventh: $space/7;
+$space-one-eighth: $space/8;
+
+// z-index
+$menu-overlay-zindex: 1000;
+$menu-overlay-content-zindex: 1010;
+$entry-gate-zindex: 1500;
+
+/*
+ * Use this on the outer wrapper of page-level elements.
+ * It ensures consistent spacing between elements on the page.
+ */
+@mixin space-stack-page {
+  margin-bottom: $space-double;
+}
+
+// twix-1.ttf
+
+@font-face {
+  font-family: 'TwixHeadlineCampaignFont';
+  src: url('../fonts/twix-1.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'TwixSecondaryTypeface';
+  src: url('../fonts/twix-2.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'TwixPrimaryTypefaceFont';
+  src: url('../fonts/twix-3.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'twix';
+  src: url('../fonts/twix-4.ttf') format('opentype');
+}
+
+$defaultVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+  brand-shape: $circle,
+  graphic-divider: $triangle
+);
+
+$marsVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+  brand-shape: $circle,
+  graphic-divider: $wave
+);
+
+$twixVariables: (
+  heading-font: 'TwixHeadlineCampaignFont',
+  primary-font: 'TwixPrimaryTypefaceFont',
+  secondary-font: 'TwixSecondaryTypeface',
+  brand-shape: $circle,
+  graphic-divider: $triangle
+);
+
+$doveVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Geomanist',
+  secondary-font: 'Times',
+  brand-shape: $circle,
+  graphic-divider: $wave
+);
+
+$galaxyVariables: (
+  heading-font: 'Courier New',
+  primary-font: 'Arial',
+  secondary-font: 'Times',
+  brand-shape: $circle,
+  graphic-divider: $wave
+);
+
+@function variable($varChoice) {
+  @return var(--v-#{$varChoice});
+}
+
+:root {
+  // Create custom properties for default colors
+  @each $variable, $value in $defaultVariables {
+    --v-#{$variable}: #{$value};
+  }
+
+  [data-theme='default'] {
+    @each $variable, $value in $defaultVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='mars'] {
+    @each $variable, $value in $marsVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='twix'] {
+    @each $variable, $value in $twixVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='dove'] {
+    @each $variable, $value in $doveVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+
+  [data-theme='galaxy'] {
+    @each $variable, $value in $galaxyVariables {
+      --v-#{$variable}: #{$value};
+    }
+  }
+}
