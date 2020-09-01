@@ -5,8 +5,11 @@ import pdpNutrition from './pdp-nutrition/pdp-nutrition.twig';
 import pdpNutritionData from './pdp-nutrition/pdp-nutrition.yml';
 import pdpAllergen from './pdp-allergen/pdp-allergen.twig';
 import pdpAllergenData from './pdp-allergen/pdp-allergen.yml';
+import pdpMultipack from './pdp-multipack/pdp-multipack.twig';
+import pdpMultipackData from './pdp-multipack/pdp-multipack.yml';
 import { useEffect } from '@storybook/client-api';
 import './pdp-hero/pdp-hero';
+import './pdp-multipack/pdp-multipack';
 
 /**
  * Storybook Definition.
@@ -26,4 +29,9 @@ export const pdpNutritionModule = () => {
 export const pdpAllergenModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: pdpAllergen(pdpAllergenData) }} />
+};
+
+export const pdpMultipackModule = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return <div dangerouslySetInnerHTML={{ __html: pdpMultipack(pdpMultipackData) }} />
 };

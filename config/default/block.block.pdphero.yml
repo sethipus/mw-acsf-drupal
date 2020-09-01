@@ -23,6 +23,11 @@ settings:
   wtb:
     cta_label: 'Where to buy'
     cta_link: '#'
+  nutrition:
+    label: Nutrition
+    serving_label: 'Amount per serving'
+    daily_label: '% Daily value'
+    vitamins_label: 'Vitamins | minerals'
   context_mapping:
     node: '@node.node_route_context:node'
 visibility:

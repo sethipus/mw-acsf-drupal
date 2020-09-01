@@ -471,5 +471,6 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  field_product_ingredients: true
   published_at: true
   search_api_excerpt: true

@@ -1,0 +1,25 @@
+{{ attach_library('emulsifymars/pdp-multipack') }}
+{% set pdp_multipack_base_class = pdp_multipack_base_class|default('pdp-multipack') %}
+
+<section {{ bem(pdp_multipack_base_class) }} data-theme="{{ theme_styles }}">
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading_level: 5,
+    heading: multipack_label,
+    heading_blockname: pdp_multipack_base_class,
+    heading_base_class: 'header',
+  } %}
+  <div id="pdp-multipack">
+    <div class="swiper-container pdp-multipack-swiper-container">
+      <div class="swiper-wrapper">
+          {% for item in multipack_items %}
+            <div class="swiper-slide pdp-multipack-item">
+              {% include "@molecules/card/product-card/product-card.twig" with { item: item } %}
+            </div>
+          {% endfor %}
+      </div>
+      <div class="swiper-button-prev" id="swiper-button"></div>
+      <div class="swiper-button-next" id="swiper-button"></div>
+      <div class="swiper-scrollbar"></div>
+    </div>
+  </div>
+</section>
