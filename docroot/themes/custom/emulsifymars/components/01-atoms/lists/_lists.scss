@@ -103,18 +103,17 @@ ol {
 }
 
 .list-item__faq-mark {
-    position: absolute;
-    top: 30px;
-    left: 0;
     font-family: variable(primary-font);
     color: clr(primary);
 
     @include small {
-      position: static;
       font-size: 20px;
     }
 
     @include medium {
+      position: absolute;
+      top: 30px;
+      left: 0;
       font-size: 26px;
     }
 
