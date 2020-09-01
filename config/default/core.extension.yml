@@ -83,6 +83,7 @@ module:
   mars_banners: 0
   mars_common: 0
   mars_entry_gate: 0
+  mars_lighthouse: 0
   mars_product: 0
   mars_recipes: 0
   media: 0
@@ -110,6 +111,8 @@ module:
   quickedit: 0
   rdf: 0
   redirect: 0
+  remote_stream_wrapper: 0
+  remote_stream_wrapper_widget: 0
   samlauth: 0
   schemata: 0
   schemata_json_schema: 0

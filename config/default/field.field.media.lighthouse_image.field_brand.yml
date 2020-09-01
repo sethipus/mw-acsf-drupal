@@ -1,0 +1,21 @@
+uuid: b6878e4d-4eb2-44bd-a893-10cb63ed316c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_brand
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: LKKj8-rbL4KnekX39188kT9cgN7eYMV3cwuVCZk9dQY
+id: media.lighthouse_image.field_brand
+field_name: field_brand
+entity_type: media
+bundle: lighthouse_image
+label: Brand
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
