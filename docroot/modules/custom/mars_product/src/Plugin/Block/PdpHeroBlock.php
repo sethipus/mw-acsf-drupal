@@ -117,30 +117,29 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
     $form['nutrition']['label'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Nutrition'),
+      '#title' => $this->t('Nutrition section label'),
       '#default_value' => $this->configuration['nutrition']['label'],
       '#maxlength' => 15,
       '#required' => TRUE,
     ];
     $form['nutrition']['serving_label'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Amount per serving'),
+      '#title' => $this->t('Amount per serving label'),
       '#default_value' => $this->configuration['nutrition']['serving_label'],
       '#required' => TRUE,
     ];
     $form['nutrition']['daily_label'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('% Daily value'),
+      '#title' => $this->t('Daily value label'),
       '#default_value' => $this->configuration['nutrition']['daily_label'],
       '#required' => TRUE,
     ];
     $form['nutrition']['vitamins_label'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Vitamins | Minerals') . ':',
+      '#title' => $this->t('Vitamins & minerals label'),
       '#default_value' => $this->configuration['nutrition']['vitamins_label'],
       '#required' => TRUE,
     ];
-
 
     return $form;
   }
@@ -173,7 +172,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'label' => $config['nutrition']['label'] ?? $this->t('Nutrition'),
         'serving_label' => $config['nutrition']['serving_label'] ?? $this->t('Amount per serving'),
         'daily_label' => $config['nutrition']['daily_label'] ?? $this->t('% Daily value'),
-        'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals') . ':',
+        'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
     ];
   }
