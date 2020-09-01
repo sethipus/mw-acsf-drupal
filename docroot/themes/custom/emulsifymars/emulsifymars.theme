@@ -598,6 +598,8 @@ function emulsifymars_theme() {
  * Implements hook_preprocess_views_view_unformatted().
  */
 function emulsifymars_preprocess_views_view_unformatted(&$variables) {
+  global $base_url;
+
   $view = $variables['view'];
   $id = $view->storage->id();
   $items = [];
@@ -638,14 +640,14 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
   if ($brand_border_fid) {
     $file = File::load($brand_border_fid);
   }
-  $variables['brand_border'] = !empty($file) ? $file->createFileUrl() : '';
+  $variables['brand_border'] = !empty($file) ? file_get_contents($base_url . $file->createFileUrl()) : '';
 
   $divider = theme_get_setting('graphic_divider');
   $divider_fid = !empty($divider[0]) ? $divider[0] : '';
   if ($divider_fid) {
     $file = File::load($divider_fid);
   }
-  $variables['divider'] = !empty($file) ? $file->createFileUrl() : '';
+  $variables['divider'] = !empty($file) ? file_get_contents($base_url . $file->createFileUrl()) : '';
 
   $variables['theme_styles'] = 'twix';
   $variables['grid_type'] = 'card';
