@@ -1,0 +1,14 @@
+uuid: 19b5c392-c314-4d2e-82a4-c66156d8c26a
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.error_page_reviewer
+  module:
+    - user
+id: user_add_role_action.error_page_reviewer
+label: 'Add the Error Page reviewer role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: error_page_reviewer

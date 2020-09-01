@@ -1,0 +1,132 @@
+.pdp-allergen {
+  position: relative;
+  padding: 1.8rem 2rem 2rem;
+  background: $white;
+  
+  @include medium {
+    padding: 1.7rem 4rem 4rem;
+  }
+  
+  @include large {
+    padding: 3.6rem 4rem 4rem;
+  }
+
+  &__header {
+    &--singlepack {
+      font-family: variable(primary-font);
+      font-size: 2rem;
+      line-height: 1.1;
+      letter-spacing: 0.8px;
+      color: clr(primary);
+      text-align: center;
+      margin: 0;
+      
+      @include large {
+        font-size: 2.4rem;
+        letter-spacing: 0.96px;
+      }
+    }
+
+    &--multipack {
+      position: absolute;
+      top: -4.3rem;
+      left: 2rem;
+      right: 2rem;
+      display: block;
+      margin: 0;
+      padding: 2.3rem 2.3rem 0;
+      font-family: variable(primary-font);
+      font-size: 2rem;
+      line-height: 1;
+      letter-spacing: 0.96px;
+      text-align: center;
+      background: $white;
+      border-bottom: 0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      color: clr(primary);
+    
+      @include medium {
+        left: 10rem;
+        right: 10rem;
+      }
+      
+      @include large {
+        top: -5.1rem;
+        left: 4rem;
+        right: auto;
+        padding: 2.7rem 2.8rem 0;
+        font-size: 2.4rem;
+      }
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  
+    @include medium {
+      justify-content: center;
+    }
+  
+    @include large {
+      padding-top: 3.2rem;
+    }
+  }
+
+  &__allergen-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 50%;
+    padding: 0 1rem;
+    margin-top: 2.7rem;
+  
+    @include medium {
+      flex: 0 0 auto;
+      align-items: center;
+    }
+  
+    @include large {
+      margin-top: 3rem;
+    }
+  }
+
+  &__allergen-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 8rem;
+    height: 8rem;
+    margin: 0 3rem 2rem;
+  
+    @include medium {
+      width: 6rem;
+      height: 6rem;
+      margin: 0 5rem 2rem;
+    }
+    
+    @include large {
+      width: 10.4rem;
+      height: 10.4rem;
+      margin-bottom: 3.6rem;
+    }
+  }
+
+  &__allergen-label {
+    font-family: variable(secondary-font);
+    font-size: 1.2rem;
+    line-height: 1.3;
+    letter-spacing: normal;
+    color: $nero;
+  
+    @include medium {
+      font-size: 1.4rem;
+    }
+    
+    @include large {
+      font-size: 1.6rem;
+    }
+  }
+}

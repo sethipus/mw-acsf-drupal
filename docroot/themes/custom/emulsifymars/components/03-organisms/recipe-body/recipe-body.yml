@@ -55,3 +55,133 @@ instructions_list:
   - content: 'In the bowl of your stand mixer fitted with the paddle attachment combine the butter and brown sugar on low speed. Add in the eggs, vanilla, baking powder and salt and mix until smooth.'
   - content: 'With the mixer still on low add the the flour and mix until just combined.'
   - content: 'Stir in the Twix and chocolate chips until evenly incorporated.'
+
+recommended_items:
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_border_radius: 30
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+recipe_text_1: 'This is an older recipe of mine that I posted back in 2010. I have been on a kick going through my old posts and updating the pictures. Turns out that way back in 2010 I was a little confused on what a “good picture” was.'
+recipe_text_2: 'Plus, I’m all in whenever Twix are involved. Except, can we just chat a quick minute? This is a PSA to the makers of the TWIX bar. Twix are classic and fantastic and everyone loves them. BUT, Twix makers, how about a little sprinkle of sea salt on top. I mean SALTED CARAMEL TWIX? Why isn’t that a thing in the world?'

@@ -42,11 +42,11 @@
 ]
 %}
 <div{{ attributes.addClass(classes) }}>
-{#    {% include "@molecules/faq-page.twig" with {#}
-{#        theme_styles: 'drupal',#}
-{#        faq_title: faq_title,#}
-{#        qa_items: qa_items,#}
-{#        cta_button_label: cta_button_label,#}
-{#        cta_button_link: cta_button_link,#}
-{#    } %}#}
+    {% include "@molecules/faq-list/faq-list.twig" with {
+        theme_styles: 'drupal',
+        title: faq_title,
+        faq_items: qa_items,
+        button_name: cta_button_label,
+        button_link: cta_button_link,
+    } %}
 </div>

@@ -80,6 +80,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $conf = $this->getConfiguration();
 
     return [
+      'label_display' => FALSE,
       'explore_cta' => $conf['explore_cta'] ?? $this->t('Explore'),
     ];
   }
@@ -89,7 +90,6 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    unset($form['label_display']);
 
     $form['eyebrow'] = [
       '#type' => 'textfield',

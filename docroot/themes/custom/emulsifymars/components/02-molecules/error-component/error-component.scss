@@ -1,0 +1,96 @@
+.error-component {
+  background-color: clr(pp-header-bg);
+  background-image: variable(brand-shape);
+  background-repeat: no-repeat;
+  background-position: center -30rem;
+  position: relative;
+
+  @include xs {
+    padding: 6rem 2rem 11rem 2rem;
+    background-size: 50rem 51rem;
+    background-position: center -27rem;
+  }
+
+  @include medium {
+    padding: 6rem 8rem 37rem 8rem;
+    background-size: 70rem 70rem;
+    background-position: center -35rem;
+  }
+
+  @include large {
+    background-size: 95rem 95rem;
+    background-position: center -52rem;
+  }
+
+  &__heading {
+    font-family: variable(heading-font);
+    text-align: center;
+    color: clr(subcolor-1);
+    z-index: 5;
+    position: relative;
+
+    @include xs {
+      font-size: 6rem;
+      line-height: 5.4rem;
+    }
+
+    @include medium {
+      font-size: 10rem;
+      line-height: 9rem;
+    }
+
+    @include large {
+      font-size: 12rem;
+      line-height: 10.8rem;
+    }
+  }
+
+  &__paragraph {
+    font-family: variable(secondary-font);
+    text-align: center;
+    color: clr(subcolor-1);
+    z-index: 5;
+    position: relative;
+    margin-bottom: 5rem;
+
+    @include xs {
+      font-size: 1.8rem;
+      line-height: 2.8rem;
+    }
+
+    @include medium {
+      font-size: 2rem;
+      line-height: 3.2rem;
+    }
+
+    @include large {
+      font-size: 2.2rem;
+      line-height: 3.52rem;
+    }
+  }
+
+  &__link-container {
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 65rem;
+    margin: 0 auto;
+    z-index: 5;
+    position: relative;
+
+    @include xs {
+      flex-direction: column;
+    }
+
+    @include medium {
+      flex-direction: row;
+    }
+  }
+
+  &__img-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+  }
+}
