@@ -1,0 +1,21 @@
+uuid: c3a56428-5ab8-49e7-9f5b-30cabf2ef553
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_qa_item_answer
+    - node.type.faq
+  module:
+    - text
+id: node.faq.field_qa_item_answer
+field_name: field_qa_item_answer
+entity_type: node
+bundle: faq
+label: Answer
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
