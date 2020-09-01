@@ -40,6 +40,7 @@ field_settings:
       view_mode:
         'entity:node':
           article: default
+          faq: default
           landing_page: full
           page: default
           product: default
