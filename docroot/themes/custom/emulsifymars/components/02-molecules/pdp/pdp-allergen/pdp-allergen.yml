@@ -1,0 +1,10 @@
+theme_styles: 'twix'
+allergen_label: 'DIET & ALLERGENS'
+multipack: false
+allergen_items:
+  - allergen_icon: 'twix-logo-102-x2.png'
+    allergen_label: 'CONTAINS NUT'
+  - allergen_icon: 'twix-logo-102-x2.png'
+    allergen_label: 'CONTAINS DAIRY'
+  - allergen_icon: 'twix-logo-102-x2.png'
+    allergen_label: 'CONTAINS SOY'
