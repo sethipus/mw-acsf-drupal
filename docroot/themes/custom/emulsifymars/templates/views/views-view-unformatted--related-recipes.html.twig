@@ -20,7 +20,7 @@
 {% set grid_label = title|default('Related recipes') %}
 
 {% set divider = '<div class=divider>'~divider~'</div>' %}
-<section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}" style="position: relative;">
   {# TODO replace all hardcoded components. #}
   <div class="curve" style="top: -60px;">
     {#{{ brand_border | raw }}#}
