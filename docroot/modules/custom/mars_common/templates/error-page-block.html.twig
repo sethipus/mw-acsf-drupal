@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Template for the error page component.
+ *
+ * Available variables:
+ * 'eyebrow' => NULL,
+ */
+#}
+
+{% set image_src = file_url(image.image.entity.fileuri) %}
+
+{% include "@molecules/error-component/error-component.twig" with {
+  error_component_heading: title,
+  error_component_heading_level: 1,
+  error_component_paragraph_content: body|striptags,
+  error_component_links: links,
+  error_component_bg_image_src: image_src,
+  error_component_bg_image_alt: image_alt
+} %}

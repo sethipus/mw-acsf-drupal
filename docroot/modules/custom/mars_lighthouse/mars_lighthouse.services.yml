@@ -1,8 +1,17 @@
 services:
   lighthouse.client:
     class: '\Drupal\mars_lighthouse\Client\LighthouseClient'
-    arguments: ['@http_client', '@site_settings.loader', '@logger.factory']
-
+    arguments: ['@http_client', '@mars_lighthouse.config', '@logger.factory']
   lighthouse.adapter:
     class: '\Drupal\mars_lighthouse\Controller\LighthouseAdapter'
     arguments: ['@lighthouse.client', '@cache.default']
+  mars_lighthouse.config_defaults_provider:
+    class: '\Drupal\mars_lighthouse\Client\LighthouseDefaultsProvider'
+    arguments:
+      ['@settings']
+  mars_lighthouse.config_factory:
+    class: '\Drupal\mars_lighthouse\Client\LighthouseConfigurationFactory'
+    arguments: ['@mars_lighthouse.config_defaults_provider', '@config.factory']
+  mars_lighthouse.config:
+    class: 'Drupal\mars_lighthouse\Client\LighthouseConfiguration'
+    factory: mars_lighthouse.config_factory:createConfiguration

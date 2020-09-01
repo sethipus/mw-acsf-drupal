@@ -1,0 +1,19 @@
+uuid: 7d286d57-cdd5-404f-bec7-5d9ef088c80a
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer
+    - field.storage.block_content.field_ff_title
+id: block_content.flexible_framer.field_ff_title
+field_name: field_ff_title
+entity_type: block_content
+bundle: flexible_framer
+label: 'Framer title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
