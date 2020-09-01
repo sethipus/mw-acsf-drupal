@@ -4,12 +4,16 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
+    - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients_number
     - field.field.node.recipe.field_recipe_number_of_servings
     - field.field.node.recipe.field_recipe_video
+    - field.field.node.recipe.layout_builder__layout
+    - field.field.node.recipe.layout_selection
     - image.style.medium
     - node.type.recipe
   module:
@@ -17,12 +21,20 @@ dependencies:
     - text
     - user
 _core:
-  default_config_hash: BkxoW4GYzpkl1PTl7kPB5X4od3CYhIkwfU8ldeaQU3k
+  default_config_hash: tYKMeXy2BGDHApnrd3tUKgQXjX0QTB7M10y4eNNgscE
 id: node.recipe.teaser
 targetEntityType: node
 bundle: recipe
 mode: teaser
 content:
+  field_recipe_cta:
+    type: string
+    weight: 2
+    region: content
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
   field_recipe_description:
     type: text_default
     weight: 1
@@ -39,17 +51,14 @@ content:
       image_style: medium
       image_link: ''
     third_party_settings: {  }
-  links:
-    weight: 2
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
+  field_product_reference: true
   field_recipe_cooking_time: true
   field_recipe_ingredients_number: true
   field_recipe_number_of_servings: true
   field_recipe_video: true
   layout_builder__layout: true
   layout_selection: true
+  links: true
   published_at: true
   search_api_excerpt: true
