@@ -320,7 +320,7 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 /**
  * Implements hook_preprocess_HOOK().
  */
-function mars_common_preprocess_views_view__faq_view__page(array &$variables) {
+function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $field_title = $variables['view']->getTitle();
   $rows = $variables['rows'];
 
@@ -343,7 +343,7 @@ function mars_common_preprocess_views_view__faq_view__page(array &$variables) {
   $variables['faq_title'] = $field_title;
 
   $request = \Drupal::requestStack()->getCurrentRequest();
-  if ($request->query->get('items_per_page') != 'All') {
+  if ($request->query->get('items_per_page') != 'All' && !empty($variables['exposed'])) {
     $query_params = $request->query->all();
     $query_params['items_per_page'] = 'All';
     $path_query = http_build_query($query_params);
