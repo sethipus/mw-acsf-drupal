@@ -1,17 +1,35 @@
 {#
 /**
  * Available variables:
- * - ol_base_class - the base classname
- * - ol_modifiers - array of modifiers to add to the base classname
- * - ol_blockname - blockname prepended to the base classname
+ * - faq_base_class - the base classname
+ * - faq_modifiers - array of modifiers to add to the base classname
  *
  */
 #}
 
-{% include "@atoms/lists/faq.twig" with {
-  faq_item_content: faq_item.content,
-  faq_base_class: faq_item.li_base_class,
-  faq_base_class: faq_item.li_base_class,
-  faq_modifiers: faq_item.li_modifiers,
-  faq_blockname: faq_item.li_blockname,
-} %}
+{% set faq_base_class = faq_base_class|default('faq') %}
+
+
+<div {{bem(faq_base_class)}} data-theme={{theme_styles}}>
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading_level: 1,
+    heading_base_class: 'faq-heading',
+    heading: title
+  } %}
+
+  {% include "@atoms/lists/faq.twig" %}
+
+{#
+  {% include "@atoms/buttons/twig/button.twig" with {
+      button_content: button_name
+  } %}
+  #}
+
+  <div {{bem('faq__see_all')}}>
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content: button_name,
+      default_link_modifiers: ['faq_see_all'],
+      default_link_border_radius: default_link_border_radius,
+    } %}
+  </div>
+</div>
