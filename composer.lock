@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a5367b679d8cfd76253d30511e2e79b",
+    "content-hash": "2e8a0ac49d42858d4682473ed14bd8f5",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -1215,7 +1215,7 @@
             "version": "3.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
@@ -6810,6 +6810,69 @@
             "homepage": "https://www.drupal.org/project/jquery_colorpicker",
             "support": {
                 "source": "https://git.drupalcode.org/project/jquery_colorpicker"
+            }
+        },
+        {
+            "name": "drupal/layout_builder_modal",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/layout_builder_modal.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/layout_builder_modal-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "5063c2d5e33265c92bfeed34df6682d74c973c51"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1588175915",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "John Svensson",
+                    "homepage": "https://www.drupal.org/u/johndevman",
+                    "email": "john@kodamera.se",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Emil Johnsson",
+                    "homepage": "https://www.drupal.org/u/johnzzon",
+                    "email": "emil@kodamera.se",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Henrik Larsson",
+                    "homepage": "https://www.drupal.org/u/henriklarsson",
+                    "email": "henrik@kodamera.se",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "twfahey",
+                    "homepage": "https://www.drupal.org/user/3403722"
+                }
+            ],
+            "description": "Open blocks in a modal in the Layout Builder UI.",
+            "homepage": "https://www.drupal.org/project/layout_builder_modal",
+            "support": {
+                "source": "http://cgit.drupalcode.org/layout_builder_modal",
+                "issues": "https://www.drupal.org/project/issues/layout_builder_modal"
             }
         },
         {
@@ -20122,6 +20185,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
