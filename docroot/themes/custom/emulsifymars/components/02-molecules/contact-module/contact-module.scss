@@ -6,19 +6,25 @@
 
   @include xs {
     padding: 5rem 2rem 4rem 2rem;
-    background-position: 22rem -2rem;
-    background-size: 130%;
+    background-position: 28rem -2rem;
+    background-size: 126%;
   }
 
   @include medium {
     padding: 6rem 4rem;
-    background-position: 50rem -2rem;
-    background-size: 75%;
+    background-position: 50rem -18rem;
+    background-size: 114%;
   }
 
   @include large {
     padding: 6rem 4rem;
-    background-position: 129rem -2rem;
+    background-position: 90rem -10rem;
+    background-size: 68%;
+  }
+
+  @include xl {
+    padding: 6rem 4rem;
+    background-position: 120rem -10rem;
     background-size: 43%;
   }
 
