@@ -63,6 +63,17 @@
     @include large {
       font-size: 1.8rem;
       line-height: 2.52rem;
+      margin-bottom: 6rem;
+    }
+  }
+
+  &__contact-information {
+    @include xs {
+      margin-bottom: 4rem;
+    }
+
+    @include medium {
+      margin-bottom: 6rem;
     }
   }
 
@@ -106,6 +117,14 @@
   & .default-link {
     background-color: clr(primary);
     font-size: 1.6rem;
+
+    @include xs {
+      margin-right: .5rem;
+    }
+
+    @include medium {
+      margin-right: 3.2rem;
+    }
 
     &__label {
       font-family: variable(primary-font);
