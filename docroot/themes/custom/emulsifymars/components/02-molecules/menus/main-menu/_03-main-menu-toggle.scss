@@ -15,8 +15,8 @@
 
 .toggle-expand__text {
   display: block;
+  font-family: variable(primary-font);
   font-size: 1.8rem;
-  font-weight: bold;
   text-transform: uppercase;
   color: clr(subcolor-1);
 }

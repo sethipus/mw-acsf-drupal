@@ -1,0 +1,19 @@
+uuid: 2f5bc9e3-5b95-40d7-ab99-54eefaabba79
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer_item
+    - field.storage.block_content.field_ff_item_cta
+id: block_content.flexible_framer_item.field_ff_item_cta
+field_name: field_ff_item_cta
+entity_type: block_content
+bundle: flexible_framer_item
+label: 'Item CTA'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

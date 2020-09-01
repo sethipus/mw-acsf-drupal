@@ -1,6 +1,7 @@
 .default-link {
   color: clr(text-inverse);
   background-color: clr(subcolor-1);
+  font-family: variable(primary-font);
   text-transform: uppercase;
   font-size: 1.6rem;
   letter-spacing: 0.16rem;
@@ -16,20 +17,42 @@
     content: '';
     position: absolute;
     display: block;
-    bottom: -35px;
-    left: -45px;
-    width: 300px;
+    bottom: -100px;
+    left: -170px;
+    width: 1000px;
     transform: rotate(18deg);
     height: 0;
     background-color: clr(text-inverse);
     transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
+
+    @include xs {
+      width: 1000px;
+    }
+
+    @include medium {
+      width: 350px;
+    }
   }
 
   &:hover {
     color: clr(subcolor-1);
 
     &::after {
-      height: 150px;
+      height: 300px;
+    }
+  }
+
+  &--light {
+    background-color: clr(text-inverse);
+    color: clr(primary);
+    box-shadow: 0 0 5px #ccc;
+    margin-bottom: 2rem;
+    text-align: center;
+    &::after {
+      background-color: clr(primary);
+    }
+    &:hover {
+      color: clr(text-inverse);
     }
   }
 

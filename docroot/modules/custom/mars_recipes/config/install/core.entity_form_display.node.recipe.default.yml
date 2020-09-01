@@ -4,7 +4,9 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.media_browser
+    - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
+    - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients_number
@@ -17,7 +19,7 @@ dependencies:
     - path
     - text
 _core:
-  default_config_hash: wVWqpEs2K6HcDmx-blDIwHNdz8ytXyI8BdHRC1rrlZ8
+  default_config_hash: rkTkRmZrLn5BlrQfCVXPYjUfdAjLIhskNHjvdTaNrrM
 id: node.recipe.default
 targetEntityType: node
 bundle: recipe
@@ -29,12 +31,30 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_product_reference:
+    weight: 26
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   field_recipe_cooking_time:
     weight: 5
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_recipe_cta:
+    weight: 27
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_recipe_description:
     weight: 10
@@ -100,6 +120,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
@@ -131,5 +157,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  layout_builder__layout: true
+  layout_selection: true
   promote: true
   sticky: true

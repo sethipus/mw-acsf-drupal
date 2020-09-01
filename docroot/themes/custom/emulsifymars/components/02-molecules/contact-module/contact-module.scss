@@ -1,0 +1,131 @@
+.contact-module {
+  background-color: clr(pp-header-bg);
+  border-top: 5px solid clr(primary);
+  background-image: variable(brand-shape);
+  background-repeat: no-repeat;
+
+  @include xs {
+    padding: 5rem 2rem 4rem 2rem;
+    background-position: 22rem -2rem;
+    background-size: 130%;
+  }
+
+  @include medium {
+    padding: 6rem 4rem;
+    background-position: 50rem -2rem;
+    background-size: 75%;
+  }
+
+  @include large {
+    padding: 6rem 4rem;
+    background-position: 129rem -2rem;
+    background-size: 43%;
+  }
+
+  &__heading {
+    font-family: variable(primary-font);
+    color: clr(subcolor-1);
+    text-transform: uppercase;
+
+    @include xs {
+      font-size: 2.8rem;
+      line-height: 2.8rem;
+      margin-bottom: 3rem;
+    }
+
+    @include medium {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
+
+    @include large {
+      font-size: 4.8rem;
+      line-height: 4.8rem;
+    }
+  }
+
+  &__paragraph {
+    font-family: variable(secondary-font);
+    color: clr(subcolor-1);
+
+    @include xs {
+      font-size: 1.6rem;
+      line-height: 2.2rem;
+      margin-bottom: 4rem;
+    }
+
+    @include large {
+      font-size: 1.8rem;
+      line-height: 2.52rem;
+      margin-bottom: 6rem;
+    }
+  }
+
+  &__contact-information {
+    @include xs {
+      margin-bottom: 4rem;
+    }
+
+    @include medium {
+      margin-bottom: 6rem;
+    }
+  }
+
+  &__contact-social {
+    display: flex;
+
+    @include xs {
+      flex-direction: column;
+    }
+
+    @include medium {
+      flex-direction: row;
+    }
+  }
+
+  &__social-heading {
+    font-family: variable(primary-font);
+    color: clr(subcolor-1);
+    text-transform: uppercase;
+    margin-right: 4rem;
+
+    @include xs {
+      font-size: 1.6rem;
+      line-height: 1.76rem;
+      letter-spacing: .12rem;
+    }
+
+    @include medium {
+      font-size: 1.8rem;
+      line-height: 1.98rem;
+      letter-spacing: .14rem;
+    }
+
+    @include large {
+      font-size: 2rem;
+      line-height: 2.2rem;
+      letter-spacing: .16rem;
+    }
+  }
+
+  & .default-link {
+    background-color: clr(primary);
+    font-size: 1.6rem;
+
+    @include xs {
+      margin-right: .5rem;
+    }
+
+    @include medium {
+      margin-right: 3.2rem;
+    }
+
+    &__label {
+      font-family: variable(primary-font);
+    }
+
+    &::after {
+      width: 350px;
+    }
+  }
+}
