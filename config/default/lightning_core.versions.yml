@@ -83,6 +83,7 @@ mars_articles: 0.0.0
 mars_banners: 0.0.0
 mars_common: 0.0.0
 mars_entry_gate: 0.0.0
+mars_lighthouse: 0.0.0
 mars_product: 0.0.0
 mars_recipes: 0.0.0
 media: 8.8.1
@@ -110,6 +111,8 @@ publication_date: 2.0.0-beta1
 quickedit: 8.8.1
 rdf: 8.8.1
 redirect: 1.5.0
+remote_stream_wrapper: 1.4.0
+remote_stream_wrapper_widget: 1.2.0
 schemata: 1.0.0-beta1
 schemata_json_schema: 1.0.0-beta1
 search_api: 1.15.0

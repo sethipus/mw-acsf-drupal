@@ -1,0 +1,21 @@
+uuid: 980f1d21-8cff-4dfc-8af8-de203d9bf02a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_last_mod_date
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: KQlkv-xIa839x_RV98_lRWWwgA9pmQ6JXEOHF858nfs
+id: media.lighthouse_image.field_last_mod_date
+field_name: field_last_mod_date
+entity_type: media
+bundle: lighthouse_image
+label: 'Last modified date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

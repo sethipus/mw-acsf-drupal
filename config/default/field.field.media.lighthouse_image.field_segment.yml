@@ -1,0 +1,21 @@
+uuid: 3c27e315-f01c-4b81-8823-4bd70cecd07b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_segment
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: tF7GbYaeN6VjfM4HGgt2N2SqUABW8nWESa-tL4-k6C4
+id: media.lighthouse_image.field_segment
+field_name: field_segment
+entity_type: media
+bundle: lighthouse_image
+label: Segment
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

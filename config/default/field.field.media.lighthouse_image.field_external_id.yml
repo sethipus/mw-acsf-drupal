@@ -1,0 +1,21 @@
+uuid: 7ef9f52e-1ba6-409d-9432-af9a2ceed57a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_external_id
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: AHZJpHxxPDLLz0BYMbSMlYf9go_xJNUKgRt3br5z8P4
+id: media.lighthouse_image.field_external_id
+field_name: field_external_id
+entity_type: media
+bundle: lighthouse_image
+label: 'External ID'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
