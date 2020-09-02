@@ -22,11 +22,6 @@ use Drupal\Core\Cache\CacheBackendInterface;
 class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
 
   /**
-   * Media bundle name for Lighthouse entities.
-   */
-  const MEDIA_BUNDLE = 'lighthouse_image';
-
-  /**
    * Fields mapping name.
    */
   const CONFIG_NAME = 'mars_lighthouse.mapping';
@@ -51,6 +46,29 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   private $mediaStorage;
+
+  /**
+   * Media Type config array.
+   *
+   * @var array
+   */
+  private $mediaConfig = [
+    'image' => [
+      'bundle' => 'lighthouse_image',
+      'field' => 'field_media_image',
+    ],
+    'video' => [
+      'bundle' => 'lighthouse_video',
+      'field' => 'field_media_video_file_1',
+    ],
+  ];
+
+  /**
+   * Media Type.
+   *
+   * @var string
+   */
+  protected $mediaType = 'image';
 
   /**
    * File entity storage.
@@ -148,20 +166,21 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * {@inheritdoc}
    */
-  public function getMediaDataList(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 12): array {
+  public function getMediaDataList(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 12, $media_type = 'image'): array {
+    $this->mediaType = $media_type;
     $params = $this->getToken();
     try {
-      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params, $media_type);
     }
     catch (TokenIsExpiredException $e) {
       // Try to refresh token.
       $params = $this->refreshToken();
-      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params, $media_type);
     }
     catch (LighthouseAccessException $e) {
       // Try to force request new token.
       $params = $this->getToken(TRUE);
-      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params);
+      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params, $media_type);
     }
     return $this->prepareMediaDataList($response);
   }
@@ -282,7 +301,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * @param array $data
    *   Response data with one entity.
    *
-   * @return \Drupal\Core\Entity\EntityInterface
+   * @return \Drupal\Core\Entity\EntityInterface|null
    *   Media entity.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
@@ -294,9 +313,11 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
 
     $file_mapping = $this->mapping->get('media');
     $file_id = $this->createFileEntity($data);
+
+    $field_config = $this->mediaConfig[$this->mediaType];
     $fields_values = [
-      'bundle' => $this::MEDIA_BUNDLE,
-      'field_media_image' => ['target_id' => $file_id],
+      'bundle' => $field_config['bundle'],
+      $field_config['field'] => ['target_id' => $file_id],
       'status' => TRUE,
     ];
 

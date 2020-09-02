@@ -157,14 +157,14 @@
             <dl {{ bem('section-column-list', ['additional-info'], pdp_nutrition_base_class) }}>
               <dt {{ bem('section-column-item', ['additional-info'], pdp_nutrition_base_class) }}>
                 {% include "@atoms/text/text/07-span.twig" with {
-                  span_content: ingridients_label,
+                  span_content: serving_item.ingredients_label,
                   span_base_class: 'nutrition-label',
                   span_blockname: pdp_nutrition_base_class,
                 } %}
               </dt>
               <dd {{ bem('section-column-item', ['additional-info'], pdp_nutrition_base_class) }}>
                 {% include "@atoms/text/text/07-span.twig" with {
-                  span_content: serving_item.ingridients_value,
+                  span_content: serving_item.ingredients_value,
                   span_base_class: 'nutrition-value',
                   span_blockname: pdp_nutrition_base_class,
                 } %}
@@ -175,7 +175,7 @@
             <dl {{ bem('section-column-list', ['additional-info'], pdp_nutrition_base_class) }}>
               <dt {{ bem('section-column-item', ['additional-info'], pdp_nutrition_base_class) }}>
                 {% include "@atoms/text/text/07-span.twig" with {
-                  span_content: warnings_label,
+                  span_content: serving_item.warnings_label,
                   span_base_class: 'nutrition-label',
                   span_blockname: pdp_nutrition_base_class,
                 } %}

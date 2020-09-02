@@ -92,10 +92,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#theme' => 'recipe_detail_hero_block',
     ];
 
-    // Get graphic devider path.
-    if (!empty($theme_settings['graphic_divider']) && count($theme_settings['graphic_divider']) > 0) {
-      $devider_file = $this->fileStorage->load($theme_settings['graphic_divider'][0]);
-      $build['#border'] = !empty($devider_file) ? $devider_file->createFileUrl() : '';
+    // Get brand border path.
+    if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
+      $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
+      $build['#border'] = !empty($border_file) ? $border_file->createFileUrl() : '';
     }
 
     if ($node->hasField('field_recipe_video') && $node->field_recipe_video->entity) {
