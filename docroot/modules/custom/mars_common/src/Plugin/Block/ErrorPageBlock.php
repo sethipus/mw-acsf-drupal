@@ -120,7 +120,6 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function build() {
     $conf = $this->getConfiguration();
-    $this->themeSettings = $this->config->get('emulsifymars.settings')->get();
 
     $node = $this->entityStorage->loadByProperties(['type' => 'error_page']);
     if ($node) {
@@ -146,8 +145,8 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $build['#image'] = $this->getImageEntity();
     $build['#image_alt'] = $conf['image_alt'] ?? '';
 
-    $build['#graphic_divider'] = $this->getFileContent('graphic_divider');
-    $build['#brand_shape'] = $this->getFileContent('brand_shape');
+    $build['#graphic_divider'] = $this->getFileContentFromTheme('graphic_divider');
+    $build['#brand_shape'] = $this->getFileContentFromTheme('brand_shape');
     $build['#theme'] = 'error_page_block';
 
     return $build;
@@ -241,7 +240,11 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
    * @return string
    *   File contents.
    */
-  private function getFileContent(string $field): string {
+  private function getFileContentFromTheme(string $field): string {
+    if (!$this->themeSettings) {
+      $this->themeSettings = $this->config->get('emulsifymars.settings')->get();
+    }
+
     if (!isset($this->themeSettings[$field][0])) {
       return '';
     }
