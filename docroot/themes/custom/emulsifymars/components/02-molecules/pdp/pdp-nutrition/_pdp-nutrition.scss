@@ -23,6 +23,7 @@
     font-size: 2rem;
     line-height: 1;
     letter-spacing: 0.96px;
+    text-transform: uppercase;
     text-align: center;
     background: $white;
     border-bottom: 0;
@@ -146,6 +147,7 @@
 
       &--heading {
         margin: 1.8rem 0 1.9rem;
+        text-transform: uppercase;
     
         @include large {
           margin-bottom: 1.7rem;
@@ -234,6 +236,10 @@
       &--additional-info {
         font-family: variable(primary-font);
         font-weight: bold;
+
+        &:first-child {
+          text-transform: uppercase;
+        }
       }
     }
   }

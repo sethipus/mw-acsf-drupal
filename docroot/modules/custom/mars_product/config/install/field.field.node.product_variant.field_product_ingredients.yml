@@ -1,0 +1,21 @@
+uuid: 563ec2ca-1cf6-4dd4-a1ca-ffc11d52876d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_ingredients
+    - node.type.product_variant
+  module:
+    - text
+id: node.product_variant.field_product_ingredients
+field_name: field_product_ingredients
+entity_type: node
+bundle: product_variant
+label: Ingredients
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

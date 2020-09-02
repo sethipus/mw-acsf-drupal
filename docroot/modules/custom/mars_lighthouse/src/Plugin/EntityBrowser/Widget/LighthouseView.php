@@ -54,9 +54,26 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
   protected $currentRequest;
 
   /**
+   * Media Type.
+   *
+   * @var string
+   */
+  protected $mediaType = 'image';
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EventDispatcherInterface $event_dispatcher, EntityTypeManagerInterface $entity_type_manager, WidgetValidationManager $validation_manager, LighthouseInterface $lighthouse, PagerManagerInterface $page_manager, RequestStack $request_stack) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EventDispatcherInterface $event_dispatcher,
+    EntityTypeManagerInterface $entity_type_manager,
+    WidgetValidationManager $validation_manager,
+    LighthouseInterface $lighthouse,
+    PagerManagerInterface $page_manager,
+    RequestStack $request_stack
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $event_dispatcher, $entity_type_manager, $validation_manager);
     $this->lighthouseAdapter = $lighthouse;
     $this->pageManager = $page_manager;
@@ -230,7 +247,15 @@ class LighthouseView extends WidgetBase implements ContainerFactoryPluginInterfa
         'market' => $form_state->getValue('market'),
       ];
       $page = $this->currentRequest->query->get('page') ?? 0;
-      $data = $this->lighthouseAdapter->getMediaDataList($total_found, $text, $filters, [], $page * self::PAGE_LIMIT, self::PAGE_LIMIT);
+      $data = $this->lighthouseAdapter->getMediaDataList(
+        $total_found,
+        $text,
+        $filters,
+        [],
+        $page * self::PAGE_LIMIT,
+        self::PAGE_LIMIT,
+        $this->mediaType
+      );
     }
     catch (LighthouseException $e) {
       $view['markup'] = [
