@@ -3,7 +3,6 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -11,6 +10,7 @@ use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
  * Provides a parent page header block.
@@ -52,13 +52,6 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $mediaStorage;
 
   /**
-   * Config Factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $config;
-
-  /**
    * Media storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
@@ -66,11 +59,11 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $fileStorage;
 
   /**
-   * Theme settings.
+   * ThemeConfiguratorParser.
    *
-   * @var array
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
    */
-  protected $themeSettings;
+  protected $themeConfiguratorParser;
 
   /**
    * {@inheritdoc}
@@ -82,7 +75,7 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_definition,
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -95,7 +88,7 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $plugin_definition,
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
@@ -103,7 +96,7 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $this->entityStorage = $entity_type_manager->getStorage('node');
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->fileStorage = $entity_type_manager->getStorage('file');
-    $this->config = $config_factory;
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
   /**
@@ -145,8 +138,8 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $build['#image'] = $this->getImageEntity();
     $build['#image_alt'] = $conf['image_alt'] ?? '';
 
-    $build['#graphic_divider'] = $this->getFileContentFromTheme('graphic_divider');
-    $build['#brand_shape'] = $this->getFileContentFromTheme('brand_shape');
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
     $build['#theme'] = 'error_page_block';
 
     return $build;
@@ -229,35 +222,6 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     }
 
     return $this->mediaStorage->load($imageEntityId);
-  }
-
-  /**
-   * Returns file entity content.
-   *
-   * @param string $field
-   *   Config field name.
-   *
-   * @return string
-   *   File contents.
-   */
-  private function getFileContentFromTheme(string $field): string {
-    if (!$this->themeSettings) {
-      $this->themeSettings = $this->config->get('emulsifymars.settings')->get();
-    }
-
-    if (!isset($this->themeSettings[$field][0])) {
-      return '';
-    }
-
-    $configField = $this->themeSettings[$field][0];
-    $file = $this->fileStorage->load($configField);
-
-    if ($file !== NULL) {
-      $filePath = file_create_url($file->uri->value);
-      return file_get_contents($filePath);
-    }
-
-    return '';
   }
 
 }
