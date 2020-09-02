@@ -5,6 +5,7 @@ import pdpTemplateData from './pdp-template.yml';
 import pdpHeroModuleData from '../../02-molecules/pdp/pdp-hero/pdp-hero.yml';
 import pdpNutritionModuleData from '../../02-molecules/pdp/pdp-nutrition/pdp-nutrition.yml';
 import pdpAllergenModuleData from '../../02-molecules/pdp/pdp-allergen/pdp-allergen.yml';
+import pdpMultipackModuleData from '../../02-molecules/pdp/pdp-multipack/pdp-multipack.yml';
 import { useEffect } from '@storybook/client-api';
 // import '../../02-molecules/pdp/pdp-hero/';
 
@@ -19,7 +20,8 @@ export const pdpTemplate = () => {
       ...pdpTemplateData,
       ...pdpHeroModuleData,
       ...pdpNutritionModuleData,
-      ...pdpAllergenModuleData
+      ...pdpAllergenModuleData,
+      ...pdpMultipackModuleData
     }) }} />
   };
 

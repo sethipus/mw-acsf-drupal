@@ -109,6 +109,7 @@ hidden:
   field_product_image_3_override: true
   field_product_image_4: true
   field_product_image_4_override: true
+  field_product_ingredients: true
   field_product_iron: true
   field_product_iron_daily: true
   field_product_potassium: true

@@ -1,0 +1,23 @@
+uuid: 7fa4677e-51ee-4da8-998a-6441e115c79c
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+_core:
+  default_config_hash: lfKVFWzM3EanLxoOBlkWg_qrgzvpKlb9eA04P-PZaqA
+id: media.field_agency
+field_name: field_agency
+entity_type: media
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

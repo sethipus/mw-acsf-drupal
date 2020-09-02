@@ -1,0 +1,25 @@
+uuid: ed82d210-edc1-4905-be3d-0ae597b6691d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_in_library
+    - media.type.lighthouse_video
+_core:
+  default_config_hash: wQxCoeaQWZ4Ol1j_LBJH1Ofx21pwEhQkU4DSLt1ij00
+id: media.lighthouse_video.field_media_in_library
+field_name: field_media_in_library
+entity_type: media
+bundle: lighthouse_video
+label: 'Show in media library'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'Shown in media library'
+  off_label: 'Hidden in media library'
+field_type: boolean

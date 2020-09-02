@@ -1,0 +1,25 @@
+uuid: 54473d8c-458b-4e54-ac0c-d4f9ed0096ab
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: faq_queue
+label: 'FAQ queue'
+handler: simple
+handler_configuration: {  }
+entity_settings:
+  target_type: node
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      faq: faq
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+queue_settings:
+  min_size: 0
+  max_size: 0
+  act_as_queue: false
+  reverse: false
