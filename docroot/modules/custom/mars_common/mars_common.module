@@ -323,6 +323,8 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $field_title = $variables['view']->getTitle();
   $rows = $variables['rows'];
+  $total_rows = $variables['rows'][0]['#view']->total_rows;
+  $items_per_page = $variables['view']->pager->options['items_per_page'];
 
   $faq_items = [];
   if (isset($rows[0])) {
@@ -343,7 +345,11 @@ function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $variables['faq_title'] = $field_title;
 
   $request = \Drupal::requestStack()->getCurrentRequest();
-  if ($request->query->get('items_per_page') != 'All' && !empty($variables['exposed'])) {
+  if (
+    $request->query->get('items_per_page') != 'All' &&
+    !empty($variables['exposed']) &&
+    $total_rows > $items_per_page
+  ) {
     $query_params = $request->query->all();
     $query_params['items_per_page'] = 'All';
     $path_query = http_build_query($query_params);
