@@ -1,0 +1,6 @@
+name: 'Mars Recipe Feature'
+type: module
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
+dependencies:
+  - mars_recipes
