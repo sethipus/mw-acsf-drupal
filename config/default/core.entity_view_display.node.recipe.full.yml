@@ -68,6 +68,7 @@ hidden:
   field_recipe_cta: true
   field_recipe_description: true
   field_recipe_image: true
+  field_recipe_ingredients: true
   field_recipe_ingredients_number: true
   field_recipe_number_of_servings: true
   field_recipe_video: true
