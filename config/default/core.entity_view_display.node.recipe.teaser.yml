@@ -54,6 +54,7 @@ content:
 hidden:
   field_product_reference: true
   field_recipe_cooking_time: true
+  field_recipe_ingredients: true
   field_recipe_ingredients_number: true
   field_recipe_number_of_servings: true
   field_recipe_video: true
