@@ -159,11 +159,11 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
-  $divider_id = Drupal::config('emulsifymars.settings')
-    ->get('graphic_divider');
+  $border_id = Drupal::config('emulsifymars.settings')
+    ->get('brand_borders');
 
-  if (isset($divider_id[0])) {
-    $file_entity = File::load($divider_id[0]);
+  if (isset($border_id[0])) {
+    $file_entity = File::load($border_id[0]);
     $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
     $file_content = file_get_contents($file_url->getUri());
 
@@ -185,7 +185,7 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
 
   $variables['title'] = $field_carousel_title['#items'][0]->value;
   $variables['items'] = $media_items;
-  $variables['border_divider'] = $file_content ?? '';
+  $variables['brand_borders'] = $file_content ?? '';
 }
 
 /**
@@ -425,7 +425,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   $variables['grid_type'] = 'card';
   $variables['item_type'] = 'card';
   $variables['divider'] = $file_divider_content ?? NULL;
-  $variables['brand_border'] = $file_border_content ?? NULL;
+  $variables['brand_borders'] = $file_border_content ?? NULL;
 }
 
 /**

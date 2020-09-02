@@ -120,10 +120,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $build['#theme'] = 'article_header_block_no_image';
     }
 
-    // Get graphic divider path.
-    if (!empty($theme_settings['graphic_divider']) && count($theme_settings['graphic_divider']) > 0) {
-      $devider_file = $this->fileStorage->load($theme_settings['graphic_divider'][0]);
-      $build['#graphic_divider'] = !empty($devider_file) ? file_get_contents($base_url . $devider_file->createFileUrl()) : '';
+    // Get brand border path.
+    if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
+      $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
+      $build['#brand_borders'] = !empty($border_file) ? file_get_contents($base_url . $border_file->createFileUrl()) : '';
     }
 
     $build['#social_links'] = $this->socialLinks();

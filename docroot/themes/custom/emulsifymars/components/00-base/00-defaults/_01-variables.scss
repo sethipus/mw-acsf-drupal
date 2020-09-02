@@ -17,6 +17,10 @@ $wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='n
 $font-body: georgia, times, 'Times New Roman', serif;
 $font-heading: 'HelveticaNeue', 'Helvetica', 'Arial', sans-serif;
 
+// Button border-radius
+$square-border: '0px';
+$round-border: '30px';
+
 // Spacing
 $space: 1rem;
 
@@ -78,6 +82,7 @@ $defaultVariables: (
   primary-font: 'Arial',
   secondary-font: 'Times',
   brand-shape: $circle,
+  border-radius: $square-border,
   graphic-divider: $triangle
 );
 
@@ -86,6 +91,7 @@ $marsVariables: (
   primary-font: 'Arial',
   secondary-font: 'Times',
   brand-shape: $circle,
+  border-radius: $square-border,
   graphic-divider: $wave
 );
 
@@ -94,6 +100,7 @@ $twixVariables: (
   primary-font: 'TwixPrimaryTypefaceFont',
   secondary-font: 'TwixSecondaryTypeface',
   brand-shape: $circle,
+  border-radius: $round-border,
   graphic-divider: $triangle
 );
 
@@ -102,6 +109,7 @@ $doveVariables: (
   primary-font: 'Geomanist',
   secondary-font: 'Times',
   brand-shape: $circle,
+  border-radius: $square-border,
   graphic-divider: $wave
 );
 
@@ -110,6 +118,7 @@ $galaxyVariables: (
   primary-font: 'Arial',
   secondary-font: 'Times',
   brand-shape: $circle,
+  border-radius: $square-border,
   graphic-divider: $wave
 );
 

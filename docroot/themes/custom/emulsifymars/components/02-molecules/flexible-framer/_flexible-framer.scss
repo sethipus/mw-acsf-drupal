@@ -1,6 +1,6 @@
 .flexible-framer {
   font-family: variable(primary-font);
-  background-color: clr(subcolor-5);
+  background-color: clr(pp-header-bg);
   color: clr(subcolor-1);
   margin-top: 23px;
   padding-top: 50px;
@@ -20,13 +20,13 @@
     z-index: -1;
     top: 3px;
 
-    svg {
+    > svg {
       width: 100%;
-      path {
-        fill: clr(subcolor-5);
+      > path {
+        fill: clr(pp-header-bg);
         width: 100%;
       }
-      rect {
+      > rect {
         width: 100%;
         height: 100%;
       }
