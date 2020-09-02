@@ -36,17 +36,16 @@
         <div {{ bem('menu', ['secondary'], header__base_class) }}>
           {% block header__menu_secondary %}
             {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
+            {% include "@molecules/search/inline-search/inline-search.twig" %}
           {% endblock %}
         </div>
       </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>
-     {% block alert_banner %}
-      <div {{ bem('alert', [], header__base_class) }}>
-        <span {{ bem('alert_text', [], header__base_class) }}>
-          {{ alert_banner }}
-        </span>
-      </div>
+      {% block header__secondary %}
+        {% include "@molecules/status/status.twig" with {
+          message_list: { alert: { message: alert_banner} }
+        }%}
       {% endblock %}
     </div>
   </div>

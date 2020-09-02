@@ -26,8 +26,18 @@
     menu_class: "main-menu",
     items: menu_items,
   } %}
+  <div {{ bem('brand-border', [], header__base_class) }}>
+    {% block footer__brand_border %}
+      {% include "@atoms/images/image/background-image.twig" with {
+        image_src: 'twix-border.svg',
+        background_repeat: 'repeat',
+        height: '15px',
+      } %}
+    {% endblock %}
+  </div>
   <div {{ bem('menu', ['secondary-mobile'], header__base_class) }}>
     {% block header__menu_secondary %}
+      {% include "@molecules/search/inline-search/inline-search.twig" %}
       {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
     {% endblock %}
   </div>

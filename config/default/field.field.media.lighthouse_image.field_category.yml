@@ -1,0 +1,21 @@
+uuid: 4f26090c-7fae-47c7-bc9b-91412ed3bc8b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_category
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: '-qxUHo01GOaelYKfWHAr1DrB0pdHlLdmLuvDPIzgTxw'
+id: media.lighthouse_image.field_category
+field_name: field_category
+entity_type: media
+bundle: lighthouse_image
+label: Category
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

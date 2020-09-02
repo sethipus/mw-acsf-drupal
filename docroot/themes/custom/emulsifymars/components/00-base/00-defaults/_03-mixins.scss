@@ -67,6 +67,15 @@ $outer-container-break: $small;
   padding: 0;
 }
 
+@mixin dl-reset {
+  margin: 0;
+}
+
+@mixin dd-reset {
+  display: inline;
+  margin: 0;
+}
+
 @mixin link {
   color: clr(subcolor-1);
 

@@ -1,0 +1,21 @@
+uuid: d6e2712e-5003-4c69-b511-4fada80abc36
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_language
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: wqHczRmSVRbPdYIxsIHsHULnr91coSiAkMDQnw7ty1Y
+id: media.lighthouse_image.field_language
+field_name: field_language
+entity_type: media
+bundle: lighthouse_image
+label: Language
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

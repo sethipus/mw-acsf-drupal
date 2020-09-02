@@ -49,6 +49,8 @@ interface LighthouseClientInterface {
    *   Limit number.
    * @param array $params
    *   Headers and access token.
+   * @param string $media_type
+   *   Media type to get.
    *
    * @return array
    *   Response with media data items.
@@ -57,17 +59,16 @@ interface LighthouseClientInterface {
    * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
    * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
-  public function search(int &$total_found, string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10, array $params = []): array;
-
-  /**
-   * Returns configuration for Lighthouse client.
-   *
-   * @return array
-   *   Configuration for Lighthouse client.
-   *
-   * @throws \Drupal\mars_lighthouse\LighthouseException
-   */
-  public function getConfiguration(): array;
+  public function search(
+    int &$total_found,
+    string $text = '',
+    array $filters = [],
+    array $sort_by = [],
+    int $offset = 0,
+    int $limit = 10,
+    array $params = [],
+    string $media_type = 'image'
+  ): array;
 
   /**
    * Get an asset data by its Id.
