@@ -22,31 +22,6 @@ third_party_settings:
         layout_settings:
           label: ''
         components:
-          6c9983bb-2c80-4d49-bc5d-e4e1350c64ff:
-            uuid: 6c9983bb-2c80-4d49-bc5d-e4e1350c64ff
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'extra_field_block:node:error_page:links'
-            additional: {  }
-            weight: 0
-          db1757d7-edcd-4286-b5cc-3b20157a5d24:
-            uuid: db1757d7-edcd-4286-b5cc-3b20157a5d24
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:error_page:body'
-              formatter:
-                label: hidden
-                type: text_default
-                settings: {  }
-                third_party_settings: {  }
-            additional: {  }
-            weight: 2
           a2abb4ab-b906-4f75-90d2-443448364fe0:
             uuid: a2abb4ab-b906-4f75-90d2-443448364fe0
             region: content

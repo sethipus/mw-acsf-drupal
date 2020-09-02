@@ -2,7 +2,7 @@
 {% set error_component_heading_base_class = 'error-component__heading' %}
 {% set error_component_paragraph_base_class = 'error-component__paragraph' %}
 
-<section {{ bem(error_component_base_class) }} data-theme="twix">
+<section {{ bem(error_component_base_class) }} data-theme="{{ theme_styles }}">
   <div class="error-component__brand-shape">
     {{brand_shape | raw}}
   </div>

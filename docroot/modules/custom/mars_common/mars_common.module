@@ -103,6 +103,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'links' => NULL,
         'image' => NULL,
         'image_alt' => NULL,
+        'graphic_divider' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'error-page-block',
     ],
@@ -342,7 +344,7 @@ function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $variables['qa_items'] = $faq_items;
   $variables['faq_title'] = $field_title;
 
-  $request = \Drupal::requestStack()->getCurrentRequest();
+  $request = Drupal::requestStack()->getCurrentRequest();
   if ($request->query->get('items_per_page') != 'All' && !empty($variables['exposed'])) {
     $query_params = $request->query->all();
     $query_params['items_per_page'] = 'All';
