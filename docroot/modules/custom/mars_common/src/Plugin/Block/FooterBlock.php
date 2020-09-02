@@ -95,7 +95,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     // Get brand border path.
     if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
       $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
-      $build['#twix_border'] = !empty($border_file) ? file_get_contents($base_url . $border_file->createFileUrl()) : '';
+      $build['#twix_border'] = !empty($border_file) && !empty($border_file->createFileUrl()) ? file_get_contents($base_url . $border_file->createFileUrl()) : '';
     }
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);

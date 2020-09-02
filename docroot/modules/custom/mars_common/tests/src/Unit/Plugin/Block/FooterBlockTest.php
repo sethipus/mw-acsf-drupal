@@ -292,7 +292,7 @@ class FooterBlockTest extends UnitTestCase {
     $fileMock
       ->expects($this->any())
       ->method('createFileUrl')
-      ->willReturn('http://mars.com');
+      ->willReturn('');
 
     $this->menuLinkTreeMock
       ->expects($this->exactly(2))
