@@ -1,0 +1,16 @@
+{% set related_recipes__base_class = 'related-recipes' %}
+
+{% set divider = '<div class=divider>'~divider~'</div>' %}
+<section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}">
+  <div class="curve">
+    {{ brand_borders }}
+  </div>
+
+  {% include "@organisms/grid/grid-ff.twig" with {
+    grid_label: grid_label,
+    grid_type: grid_type,
+    divider: divider,
+    item_type: item_type,
+    items: items
+  } %}
+</section>

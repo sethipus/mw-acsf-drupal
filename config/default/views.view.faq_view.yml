@@ -263,7 +263,7 @@ display:
           relationship: none
           group_type: group
           admin_label: 'Content queue'
-          required: false
+          required: true
           limit_queue: faq_queue
           entity_type: node
           plugin_id: entity_queue
