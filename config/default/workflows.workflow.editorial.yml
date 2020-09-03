@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - node.type.faq
+    - node.type.contact_help
     - node.type.landing_page
     - node.type.page
     - node.type.product
