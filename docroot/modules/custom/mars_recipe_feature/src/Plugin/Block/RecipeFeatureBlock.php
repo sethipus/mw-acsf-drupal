@@ -33,6 +33,9 @@ class RecipeFeatureBlock extends BlockBase implements ContainerFactoryPluginInte
    */
   protected $config;
 
+  /**
+   * {@inheritdoc}
+   */
   public function __construct(
     array $configuration,
     $plugin_id,
@@ -61,19 +64,17 @@ class RecipeFeatureBlock extends BlockBase implements ContainerFactoryPluginInte
    * {@inheritdoc}
    */
   public function build() {
-    $config = $this->getConfiguration();
-    $theme_settings = $this->config->get('emulsifymars.settings')->get();
+    // $config = $this->getConfiguration();
+    // $theme_settings = $this->config->get('emulsifymars.settings')->get();
     $build = [];
-    //$build['#theme'] = 'recipe_feature_block';
+    // $build['#theme'] = 'recipe_feature_block';
     return $build;
   }
-
 
   /**
    * {@inheritdoc}
    */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state)
-  {
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
 
@@ -126,4 +127,5 @@ class RecipeFeatureBlock extends BlockBase implements ContainerFactoryPluginInte
 
     return $form;
   }
+
 }
