@@ -24,5 +24,13 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
     ],
+    'recipe_detail_body_block' => [
+      'variables' => [
+        'ingredients_list' => NULL,
+        'products_used_label' => NULL,
+        'product_used_items' => NULL,
+      ],
+      'template' => 'block--mars-recipes--recipe-detail-body',
+    ],
   ];
 }

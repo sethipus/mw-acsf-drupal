@@ -1,0 +1,246 @@
+.pdp-nutrition {
+  position: relative;
+  padding: 3rem 2rem;
+  background: $white;
+  
+  @include medium {
+    padding: 4rem;
+  }
+  
+  @include large {
+    padding: 8rem 4rem 4rem;
+  }
+
+  &__header {
+    position: absolute;
+    top: -4.3rem;
+    left: 2rem;
+    right: 2rem;
+    display: block;
+    margin: 0;
+    padding: 2.3rem 2.3rem 0;
+    font-family: variable(primary-font);
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: 0.96px;
+    text-transform: uppercase;
+    text-align: center;
+    background: $white;
+    border-bottom: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: clr(primary);
+  
+    @include medium {
+      left: 10rem;
+      right: 10rem;
+    }
+    
+    @include large {
+      top: -5.1rem;
+      left: 4rem;
+      right: auto;
+      padding: 2.7rem 2.8rem 0;
+      font-size: 2.4rem;
+    }
+  }
+
+  &__container {
+    display: none;
+    padding: 2.7rem 1.7rem;
+    border: solid 1px rgba(196, 196, 196, 0.6);
+    background: rgba(196, 196, 196, 0.1);
+    border-radius: 2rem;
+
+    &[data-nutrition-size-active="true"] {
+      display: block;
+    }
+  
+    @include medium {
+      padding: 3.6rem 4rem;
+    }
+    
+    @include large {
+      padding: 4.6rem 8.6rem;
+    }
+  }
+
+  &__heading {
+    margin-bottom: 3.1rem;
+  
+    @include medium {
+      margin-bottom: 2.3rem;
+    }
+    
+    @include large {
+      margin-bottom: 4.7rem;
+    }
+  }
+
+  &__heading-list {
+    @include dl-reset;
+
+    display: flex;
+    justify-content: center;
+  }
+
+  &__heading-item {
+    @include dd-reset;
+
+    font-family: variable(primary-font);
+    font-size: 2rem;
+    line-height: 1.1;
+    letter-spacing: 0.8px;
+    color: clr(accent-high);
+  
+    @include medium {
+      font-size: 2.6rem;
+      line-height: normal;
+      letter-spacing: 1.04px;
+    }
+    
+    @include large {
+      font-size: 2.8rem;
+      line-height: 1.1;
+      letter-spacing: 1.12px;
+    }
+
+    &--label {
+      margin-right: 1rem;
+    }
+  }
+
+  &__nutrition-row {
+    display: flex;
+    flex-direction: column;
+
+    @include large {
+      flex-direction: row;
+    }
+  }
+
+  &__nutrition-column {
+    flex: 1 0 50%;
+    margin-bottom: 1rem;
+
+    @include large {
+      margin-bottom: 0;
+      padding-right: 100px;
+
+      &:last-child {
+        padding-right: 0;
+        padding-left: 100px;
+      }
+    }
+  }
+
+  &__section-column {
+    &-list {
+      @include dl-reset;
+
+      display: flex;
+      margin: .8rem 0;
+    
+      @include large {
+        margin: 1.2rem 0;
+      }
+
+      &--heading {
+        margin: 1.8rem 0 1.9rem;
+        text-transform: uppercase;
+    
+        @include large {
+          margin-bottom: 1.7rem;
+        }
+      }
+
+      &--additional-info {
+        display: block;
+
+        & + & {
+          margin-top: 2rem;
+        }
+      }
+    }
+
+    &--heading {
+      border-top: 3px solid $nero;
+    }
+
+    &--data {
+      border-bottom: 1px solid rgba(196, 196, 196, 0.6);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    &-item {
+      @include dd-reset;
+
+      flex: 1 0 auto;
+      color: $nero;
+      font-family: variable(secondary-font);
+      font-size: 1.2rem;
+      line-height: 1.1;
+    
+      @include large {
+        font-size: 1.4rem;
+      }
+
+      &--heading {
+        flex: 1 0 50%;
+        font-family: variable(primary-font);
+        font-weight: bold;
+
+        &:last-child:not(:only-child) {
+          text-align: right;
+        }
+      }
+
+      &--label {
+        flex: 1 0 61%;
+    
+        @include large {
+          flex: 1 0 42%;
+        }
+
+        &.bold {
+          font-family: variable(primary-font);
+          font-weight: bold;
+        }
+      }
+
+      &--value {
+        flex: 1 0 19%;
+    
+        @include large {
+          flex: 1 0 27%;
+        }
+
+        &:last-child {
+          flex: 1 0 58%;
+          text-align: right;
+        }
+      }
+
+      &--value-daily {
+        flex: 1 0 18%;
+        text-align: right;
+    
+        @include large {
+          flex: 1 0 30%;
+        }
+      }
+
+      &--additional-info {
+        font-family: variable(primary-font);
+        font-weight: bold;
+
+        &:first-child {
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+uuid: c5554172-92da-4409-9c67-497e7ee30a32
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_agency
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: prKo5Rs9N6kgMAbkgkRlrkTLkVl0vBVVpBU-ybcVe64
+id: media.lighthouse_image.field_agency
+field_name: field_agency
+entity_type: media
+bundle: lighthouse_image
+label: Agency/Partner/Vendor
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

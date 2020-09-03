@@ -1,0 +1,21 @@
+uuid: fa61c0df-a0bf-49f3-9095-3c76ddc6301b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_sub_type
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: 4LwUB-C0D0kfmlkv6iewcM_TL5KjGfh8QDlw1mtD6Dk
+id: media.lighthouse_image.field_sub_type
+field_name: field_sub_type
+entity_type: media
+bundle: lighthouse_image
+label: 'Sub Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

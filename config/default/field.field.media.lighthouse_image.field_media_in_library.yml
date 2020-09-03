@@ -1,0 +1,25 @@
+uuid: 9cf9ff05-a50b-4438-aaf6-239c78e55fac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_in_library
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: L3qhmQP9SHEdEfWGWY2vLRkPUhX2cRG5IPuH4FopeIs
+id: media.lighthouse_image.field_media_in_library
+field_name: field_media_in_library
+entity_type: media
+bundle: lighthouse_image
+label: 'Show in media library'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'Shown in media library'
+  off_label: 'Hidden in media library'
+field_type: boolean

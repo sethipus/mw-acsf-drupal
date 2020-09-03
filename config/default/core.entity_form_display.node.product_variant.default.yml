@@ -25,6 +25,7 @@ dependencies:
     - field.field.node.product_variant.field_product_image_3_override
     - field.field.node.product_variant.field_product_image_4
     - field.field.node.product_variant.field_product_image_4_override
+    - field.field.node.product_variant.field_product_ingredients
     - field.field.node.product_variant.field_product_iron
     - field.field.node.product_variant.field_product_iron_daily
     - field.field.node.product_variant.field_product_key_image
@@ -101,6 +102,7 @@ third_party_settings:
         - field_product_allergen_statement
         - field_product_diet_allergens
         - field_product_allergen_warnings
+        - field_product_ingredients
       parent_name: group_product_variant
       weight: 33
       format_type: accordion_item
@@ -206,7 +208,7 @@ third_party_settings:
         - moderation_state
         - status
       parent_name: group_product_variant
-      weight: 36
+      weight: 37
       format_type: accordion_item
       region: content
       format_settings:
@@ -225,7 +227,7 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 2
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -260,7 +262,7 @@ content:
     type: string_textfield
     region: content
   field_product_calories:
-    weight: 15
+    weight: 17
     settings:
       size: 60
       placeholder: ''
@@ -268,7 +270,7 @@ content:
     type: string_textfield
     region: content
   field_product_calories_fat:
-    weight: 16
+    weight: 18
     settings:
       size: 60
       placeholder: ''
@@ -276,7 +278,7 @@ content:
     type: string_textfield
     region: content
   field_product_carb:
-    weight: 27
+    weight: 29
     settings:
       size: 60
       placeholder: ''
@@ -284,7 +286,7 @@ content:
     type: string_textfield
     region: content
   field_product_carb_daily:
-    weight: 28
+    weight: 30
     settings:
       size: 60
       placeholder: ''
@@ -292,7 +294,7 @@ content:
     type: string_textfield
     region: content
   field_product_cholesterol:
-    weight: 23
+    weight: 25
     settings:
       size: 60
       placeholder: ''
@@ -300,7 +302,7 @@ content:
     type: string_textfield
     region: content
   field_product_cholesterol_daily:
-    weight: 24
+    weight: 26
     settings:
       size: 60
       placeholder: ''
@@ -318,7 +320,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_product_dietary_daily:
-    weight: 30
+    weight: 32
     settings:
       size: 60
       placeholder: ''
@@ -326,7 +328,7 @@ content:
     type: string_textfield
     region: content
   field_product_dietary_fiber:
-    weight: 29
+    weight: 31
     settings:
       size: 60
       placeholder: ''
@@ -453,6 +455,14 @@ content:
       field_widget_replace: false
     region: content
     third_party_settings: {  }
+  field_product_ingredients:
+    weight: 14
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
   field_product_iron:
     weight: 47
     settings:
@@ -516,7 +526,7 @@ content:
     type: string_textfield
     region: content
   field_product_protein:
-    weight: 13
+    weight: 15
     settings:
       size: 60
       placeholder: ''
@@ -524,7 +534,7 @@ content:
     type: string_textfield
     region: content
   field_product_protein_daily:
-    weight: 14
+    weight: 16
     settings:
       size: 60
       placeholder: ''
@@ -532,7 +542,7 @@ content:
     type: string_textfield
     region: content
   field_product_saturated_daily:
-    weight: 20
+    weight: 22
     settings:
       size: 60
       placeholder: ''
@@ -540,7 +550,7 @@ content:
     type: string_textfield
     region: content
   field_product_saturated_fat:
-    weight: 19
+    weight: 21
     settings:
       size: 60
       placeholder: ''
@@ -548,7 +558,7 @@ content:
     type: string_textfield
     region: content
   field_product_serving_size:
-    weight: 11
+    weight: 13
     settings:
       size: 60
       placeholder: ''
@@ -556,7 +566,7 @@ content:
     type: string_textfield
     region: content
   field_product_servings_per:
-    weight: 12
+    weight: 14
     settings:
       size: 60
       placeholder: ''
@@ -580,7 +590,7 @@ content:
     type: string_textfield
     region: content
   field_product_sodium:
-    weight: 25
+    weight: 27
     settings:
       size: 60
       placeholder: ''
@@ -588,7 +598,7 @@ content:
     type: string_textfield
     region: content
   field_product_sodium_daily:
-    weight: 26
+    weight: 28
     settings:
       size: 60
       placeholder: ''
@@ -596,7 +606,7 @@ content:
     type: string_textfield
     region: content
   field_product_sugars:
-    weight: 31
+    weight: 33
     settings:
       size: 60
       placeholder: ''
@@ -604,7 +614,7 @@ content:
     type: string_textfield
     region: content
   field_product_sugars_daily:
-    weight: 32
+    weight: 34
     settings:
       size: 60
       placeholder: ''
@@ -612,7 +622,7 @@ content:
     type: string_textfield
     region: content
   field_product_total_fat:
-    weight: 17
+    weight: 19
     settings:
       size: 60
       placeholder: ''
@@ -620,7 +630,7 @@ content:
     type: string_textfield
     region: content
   field_product_total_fat_daily:
-    weight: 18
+    weight: 20
     settings:
       size: 60
       placeholder: ''
@@ -628,7 +638,7 @@ content:
     type: string_textfield
     region: content
   field_product_trans_fat:
-    weight: 21
+    weight: 23
     settings:
       size: 60
       placeholder: ''
@@ -636,7 +646,7 @@ content:
     type: string_textfield
     region: content
   field_product_trans_fat_daily:
-    weight: 22
+    weight: 24
     settings:
       size: 60
       placeholder: ''
@@ -693,13 +703,13 @@ content:
     region: content
   moderation_state:
     type: moderation_state_default
-    weight: 7
+    weight: 8
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 5
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -707,7 +717,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 3
+    weight: 4
     region: content
     third_party_settings: {  }
   published_at:
@@ -720,14 +730,14 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 8
+    weight: 9
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 5
     region: content
     third_party_settings: {  }
   title:
@@ -749,7 +759,7 @@ content:
     region: content
     third_party_settings: {  }
   url_redirects:
-    weight: 6
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }

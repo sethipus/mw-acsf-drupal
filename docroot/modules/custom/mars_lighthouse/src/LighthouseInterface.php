@@ -26,13 +26,23 @@ interface LighthouseInterface {
    *   Offset index.
    * @param int $limit
    *   Limit number.
+   * @param string $media_type
+   *   Media type to get.
    *
    * @return array
    *   Media data array ready for a rendering.
    *
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function getMediaDataList(int &$total_found, string $text = '', array $filters = [], array $sort_by = [], int $offset = 0, int $limit = 10): array;
+  public function getMediaDataList(
+    int &$total_found,
+    string $text = '',
+    array $filters = [],
+    array $sort_by = [],
+    int $offset = 0,
+    int $limit = 10,
+    string $media_type = 'image'
+  ): array;
 
   /**
    * Returns lighthouse media entity, creates if it's needed.

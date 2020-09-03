@@ -36,6 +36,7 @@ entity_browser: 2.2.0
 entity_browser_block: 1.0.0
 entity_embed: 1.0.0
 entity_reference: 8.8.1
+entityqueue: 1.1.0
 environment_indicator: 3.7.0
 field: 8.8.1
 field_ui: 8.8.1
@@ -50,6 +51,7 @@ jquery_colorpicker: 1.4.0
 jsonapi: 0.0.0
 juicer_io: 0.0.0
 layout_builder: 8.8.1
+layout_builder_modal: 1.1.0
 layout_builder_restrictions: 2.5.0
 layout_builder_styles: 1.0.0-beta1
 layout_discovery: 8.8.1
@@ -83,6 +85,7 @@ mars_articles: 0.0.0
 mars_banners: 0.0.0
 mars_common: 0.0.0
 mars_entry_gate: 0.0.0
+mars_lighthouse: 0.0.0
 mars_product: 0.0.0
 mars_recipes: 0.0.0
 media: 8.8.1
@@ -110,6 +113,8 @@ publication_date: 2.0.0-beta1
 quickedit: 8.8.1
 rdf: 8.8.1
 redirect: 1.5.0
+remote_stream_wrapper: 1.4.0
+remote_stream_wrapper_widget: 1.2.0
 schemata: 1.0.0-beta1
 schemata_json_schema: 1.0.0-beta1
 search_api: 1.15.0

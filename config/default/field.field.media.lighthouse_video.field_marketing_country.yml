@@ -1,0 +1,21 @@
+uuid: 716c4145-1cb2-48ca-bf07-eaa127ab6d2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_marketing_country
+    - media.type.lighthouse_video
+_core:
+  default_config_hash: 7hyHs3oUl4JZv11WBGrCasKpFGONtAvHojhnhFuIa28
+id: media.lighthouse_video.field_marketing_country
+field_name: field_marketing_country
+entity_type: media
+bundle: lighthouse_video
+label: 'Marketing Country'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

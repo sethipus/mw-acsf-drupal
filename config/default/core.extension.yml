@@ -34,6 +34,7 @@ module:
   entity_browser_block: 0
   entity_embed: 0
   entity_reference: 0
+  entityqueue: 0
   externalauth: 0
   field: 0
   field_group: 0
@@ -49,6 +50,7 @@ module:
   jsonapi: 0
   juicer_io: 0
   layout_builder: 0
+  layout_builder_modal: 0
   layout_builder_restrictions: 0
   layout_builder_styles: 0
   layout_discovery: 0
@@ -81,6 +83,7 @@ module:
   mars_banners: 0
   mars_common: 0
   mars_entry_gate: 0
+  mars_lighthouse: 0
   mars_product: 0
   mars_recipes: 0
   media: 0
@@ -108,6 +111,8 @@ module:
   quickedit: 0
   rdf: 0
   redirect: 0
+  remote_stream_wrapper: 0
+  remote_stream_wrapper_widget: 0
   samlauth: 0
   schemata: 0
   schemata_json_schema: 0

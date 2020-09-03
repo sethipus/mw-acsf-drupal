@@ -1,0 +1,20 @@
+import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
+
+Drupal.behaviors.pdpMultipackCorousel = {
+  attach(context) {
+    // init swiper
+    Swiper.use([Navigation, Pagination, Scrollbar]);
+    const swiper = new Swiper('.pdp-multipack-swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 20,
+      slidesOffsetBefore: 50,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      scrollbar: {
+        el: '.swiper-scrollbar'
+      },
+    });
+  },
+};

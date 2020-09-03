@@ -4,7 +4,9 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.full
+    - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
+    - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients_number
@@ -61,9 +63,12 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_product_reference: true
   field_recipe_cooking_time: true
+  field_recipe_cta: true
   field_recipe_description: true
   field_recipe_image: true
+  field_recipe_ingredients: true
   field_recipe_ingredients_number: true
   field_recipe_number_of_servings: true
   field_recipe_video: true

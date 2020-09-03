@@ -4,17 +4,22 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.media_browser
+    - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
+    - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients_number
     - field.field.node.recipe.field_recipe_number_of_servings
     - field.field.node.recipe.field_recipe_video
+    - field.field.node.recipe.layout_builder__layout
+    - field.field.node.recipe.layout_selection
     - node.type.recipe
   module:
     - content_moderation
     - entity_browser
     - path
+    - publication_date
     - text
 _core:
   default_config_hash: rkTkRmZrLn5BlrQfCVXPYjUfdAjLIhskNHjvdTaNrrM
@@ -29,12 +34,30 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_product_reference:
+    weight: 26
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   field_recipe_cooking_time:
     weight: 5
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_recipe_cta:
+    weight: 27
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_recipe_description:
     weight: 10
@@ -88,6 +111,12 @@ content:
       field_widget_replace: false
     region: content
     third_party_settings: {  }
+  layout_selection:
+    type: options_select
+    region: content
+    weight: 28
+    settings: {  }
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 12
@@ -137,7 +166,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_recipe_ingredients: true
   layout_builder__layout: true
-  layout_selection: true
   promote: true
   sticky: true
