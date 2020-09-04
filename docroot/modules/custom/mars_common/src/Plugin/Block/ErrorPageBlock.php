@@ -10,6 +10,7 @@ use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
  * Provides a parent page header block.
@@ -51,6 +52,20 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $mediaStorage;
 
   /**
+   * Media storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
+
+  /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -59,7 +74,8 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_id,
       $plugin_definition,
       $container->get('menu.link_tree'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -71,13 +87,16 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $plugin_id,
     $plugin_definition,
     MenuLinkTreeInterface $menu_link_tree,
-    EntityTypeManagerInterface $entity_type_manager
+    EntityTypeManagerInterface $entity_type_manager,
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->entityStorage = $entity_type_manager->getStorage('node');
     $this->mediaStorage = $entity_type_manager->getStorage('media');
+    $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
   /**
@@ -118,6 +137,9 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $build['#links'] = $links;
     $build['#image'] = $this->getImageEntity();
     $build['#image_alt'] = $conf['image_alt'] ?? '';
+
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
     $build['#theme'] = 'error_page_block';
 
     return $build;

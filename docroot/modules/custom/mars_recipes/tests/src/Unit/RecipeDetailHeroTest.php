@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_recipes\Unit;
 
+use Drupal;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailHero;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -78,7 +79,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    \Drupal::setContainer($this->containerMock);
+    Drupal::setContainer($this->containerMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())
@@ -111,7 +112,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
       'logo' => [
         'path' => '',
       ],
-      'graphic_divider' => ['1'],
+      'brand_borders' => ['1'],
       'social' => [
         [
           'name' => 'name1',

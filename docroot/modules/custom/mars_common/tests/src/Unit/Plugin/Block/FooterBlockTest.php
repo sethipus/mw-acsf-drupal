@@ -2,7 +2,9 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal;
 use Drupal\Tests\UnitTestCase;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Drupal\Core\Config\Config;
@@ -104,7 +106,7 @@ class FooterBlockTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    \Drupal::setContainer($this->containerMock);
+    Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'top_footer_menu' => 'top footer menu',
       'legal_links' => 'legal menu links',
@@ -127,7 +129,7 @@ class FooterBlockTest extends UnitTestCase {
       'logo' => [
         'path' => '',
       ],
-      'graphic_divider' => ['1'],
+      'brand_borders' => ['1'],
       'social' => [
         [
           'name' => 'name1',
@@ -223,7 +225,7 @@ class FooterBlockTest extends UnitTestCase {
       ->method('createFileUrl')
       ->will($this->onConsecutiveCalls('http://mars.com', ''));
 
-    $reflection = new \ReflectionClass($this->footerBlock);
+    $reflection = new ReflectionClass($this->footerBlock);
     $method = $reflection->getMethod('socialLinks');
     $method->setAccessible(TRUE);
 
@@ -247,7 +249,7 @@ class FooterBlockTest extends UnitTestCase {
       )
       ->will($this->onConsecutiveCalls('', ''));
 
-    $reflection = new \ReflectionClass($this->footerBlock);
+    $reflection = new ReflectionClass($this->footerBlock);
     $method = $reflection->getMethod('buildConfigurationForm');
     $method->setAccessible(TRUE);
 
@@ -292,7 +294,7 @@ class FooterBlockTest extends UnitTestCase {
     $fileMock
       ->expects($this->any())
       ->method('createFileUrl')
-      ->willReturn('http://mars.com');
+      ->willReturn('');
 
     $this->menuLinkTreeMock
       ->expects($this->exactly(2))
