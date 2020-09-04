@@ -43,6 +43,7 @@ field_settings:
           contact_help: default
           faq: default
           landing_page: full
+          newsletter_sign_up: default
           page: default
           product: default
           product_multipack: default

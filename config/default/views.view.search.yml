@@ -80,6 +80,7 @@ display:
               contact_help: default
               faq: default
               landing_page: teaser
+              newsletter_sign_up: default
               page: teaser
               product: default
               product_multipack: default

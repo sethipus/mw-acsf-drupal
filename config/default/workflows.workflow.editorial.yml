@@ -6,6 +6,7 @@ dependencies:
     - node.type.faq
     - node.type.contact_help
     - node.type.landing_page
+    - node.type.newsletter_sign_up
     - node.type.page
     - node.type.product
     - node.type.product_multipack
@@ -78,7 +79,9 @@ type_settings:
         - review
   entity_types:
     node:
+      - contact_help
       - landing_page
+      - newsletter_sign_up
       - page
       - product
       - product_multipack
