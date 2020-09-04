@@ -140,6 +140,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['vitamins_label'],
       '#required' => TRUE,
     ];
+    $form['allergen_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Diet & Allergens part label'),
+      '#default_value' => $this->configuration['allergen_label'],
+      '#maxlength' => 50,
+      '#required' => TRUE,
+    ];
 
     return $form;
   }
@@ -174,6 +181,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'daily_label' => $config['nutrition']['daily_label'] ?? $this->t('% Daily value'),
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
+      'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
     ];
   }
 
@@ -203,9 +211,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#mobile_items'] = $this->getMobileItems();
     // Nutrition part.
     $build['#serving_items'] = $this->getServingItems($node);
+    // Allergen part.
+    $build['#allergen_label'] = $this->configuration['allergen_label'];
+    $build['#allergens_list'] = $this->getAllergenItems($node);
 
     $build['#theme'] = 'pdp_hero_block';
-
     return $build;
   }
 
@@ -383,9 +393,48 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
             $item['value_daily']
               = $product_variant->get($field_daily)->value;
           }
-          $items[$size_id][$section][] = $item;
+          if (isset($item['value']) || isset($item['value_daily'])) {
+            $items[$size_id][$section][] = $item;
+          }
         }
       }
+    }
+
+    return $items;
+  }
+
+  /**
+   * Get Allergen items.
+   *
+   * @param object $node
+   *   Product node.
+   *
+   * @return array
+   *   Size items array.
+   */
+  public function getAllergenItems($node) {
+    $items = [];
+    $i = 0;
+    foreach ($node->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $size = $product_variant->get('field_product_size')->value;
+      $size_id = $this->getMachineName($size);
+      $i++;
+      $state = $i == 1 ? 'true' : 'false';
+
+      $allergen_items = [];
+      foreach ($product_variant->field_product_diet_allergens as $ref) {
+        $allergen_term = $ref->entity;
+        $allergen_items[] = [
+          'allergen_icon' => $allergen_term->field_allergen_image->entity->createFileUrl(),
+          'allergen_label' => $allergen_term->getName(),
+        ];
+      }
+      $items[] = [
+        'active' => $state,
+        'size_id' => $size_id,
+        'allergen_items' => $allergen_items,
+      ];
     }
 
     return $items;
