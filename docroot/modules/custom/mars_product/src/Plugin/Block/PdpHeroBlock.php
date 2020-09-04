@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -47,6 +48,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $routeMatch;
 
   /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -54,11 +62,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
   /**
@@ -70,7 +80,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -193,9 +204,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#available_sizes'] = $this->configuration['available_sizes'] ?? '';
     $build['#cta_link'] = $this->configuration['wtb']['cta_link'] ?? '#';
     $build['#cta_label'] = $this->configuration['wtb']['cta_label'] ?? '';
-    // TODO - get border from Theme settings.
-    // not implemented yet.
-    $build['#wtb_border_radius'] = 25;
+    $build['#wtb_border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
 
     // Nutrition part labels.
     $build['#nutritional_label'] = $this->configuration['nutrition']['label'] ?? '';
@@ -455,8 +464,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     foreach ($map as $id => $title) {
       $items[] = [
-        // TODO border_radius get from Theme configurator.
-        'border_radius' => 20,
+        'border_radius' => $this->themeConfiguratorParser->getSettingValue('button_style'),
         'title' => $title,
         'link_attributes' => [
           'href' => '#' . $id,
