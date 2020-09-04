@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.contact_help.body
-    - field.field.node.contact_help.layout_builder__layout
     - node.type.contact_help
     - views.view.faq_view
   module:
@@ -26,17 +25,17 @@ third_party_settings:
         layout_settings:
           label: 'Parent Page Header'
         components:
-          6b7fa47d-bdd0-4fde-adaf-4182d43fa492:
-            uuid: 6b7fa47d-bdd0-4fde-adaf-4182d43fa492
+          ce3d0449-2569-4006-a3d5-e9a926edc698:
+            uuid: ce3d0449-2569-4006-a3d5-e9a926edc698
             region: content
             configuration:
               id: parent_page_header
-              label: 'Parent page header'
+              label: Title
               provider: mars_common
               label_display: ''
               eyebrow: eyebrow
-              background: '21'
-              description: Description
+              background: '16'
+              description: desc
               context_mapping: {  }
             additional: {  }
             weight: 0
@@ -55,8 +54,8 @@ third_party_settings:
         layout_settings:
           label: FAQ
         components:
-          3d6d3b79-8d2e-430d-8e22-5020afe250a3:
-            uuid: 3d6d3b79-8d2e-430d-8e22-5020afe250a3
+          6ab6679e-d80e-4956-b02f-83ca36d657a6:
+            uuid: 6ab6679e-d80e-4956-b02f-83ca36d657a6
             region: content
             configuration:
               id: 'views_block:faq_view-block_1'
@@ -83,12 +82,12 @@ third_party_settings:
         layout_settings:
           label: 'Contact Banner'
         components:
-          157acf02-6809-40d4-976b-9ebdd543de00:
-            uuid: 157acf02-6809-40d4-976b-9ebdd543de00
+          1066677c-e2ad-4ef9-9e2d-b06831a93096:
+            uuid: 1066677c-e2ad-4ef9-9e2d-b06831a93096
             region: content
             configuration:
               id: contact_help_banner_block
-              label: 'Contact Help Banner'
+              label: Title
               provider: mars_common
               label_display: ''
               email_cta_label: 'Email Us'
@@ -166,6 +165,33 @@ third_party_settings:
         - contact_help_contact_banner
         - contact_help_contact_community
       whitelisted_blocks:
+        contact_help_parent_page_header:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - parent_page_header
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
         contact_help_faq:
           all_regions:
             Article: {  }
@@ -227,33 +253,6 @@ third_party_settings:
             'Content fields': {  }
             'Custom block types': {  }
             'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        contact_help_parent_page_header:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks':
-              - parent_page_header
             'Entity Block': {  }
             'Entity Browser': {  }
             Forms: {  }
