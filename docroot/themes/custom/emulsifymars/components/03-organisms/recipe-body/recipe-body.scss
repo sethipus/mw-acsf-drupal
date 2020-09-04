@@ -1,3 +1,7 @@
+.recipe-body {
+  position: relative;
+}
+
 .product-used {
   padding: 30px 20px 0;
   position: relative;
@@ -7,6 +11,9 @@
   }
 
   @include xl {
+    position: absolute;
+    top: 0;
+    left: calc(50% + 248px);
     padding: 60px 0 0;
   }
 
@@ -56,16 +63,22 @@
     color: clr(subcolor-1);
     text-transform: capitalize;
     letter-spacing: 1.12px;
+    padding: 0 15px;
 
     @include medium {
       margin: 31px 0 24px;
       font-size: 26px;
       line-height: 29px;
+      padding: 0 40px;
     }
 
     @include xl {
+      margin-right: auto;
+      margin-left: auto;
       font-size: 28px;
       line-height: 31px;
+      max-width: 1125px;
+      padding: 0 460px 0 0;
     }
   }
 
@@ -75,12 +88,20 @@
     font: 18px/29px variable(secondary-font);
     color: clr(subcolor-1);
     letter-spacing: -1.1px;
-    padding: 0;
+    padding: 0 15px;
     margin: 13px 0;
 
+    @include medium {
+      padding: 0 40px;
+    }
+
     @include xl {
+      margin-right: auto;
+      margin-left: auto;
       font-size: 20px;
       line-height: 36px;
+      max-width: 1125px;
+      padding: 0 460px 0 0;
     }
 
     .list-item {
@@ -112,6 +133,18 @@
   }
 
   .recipe-body-instructions-list {
+    margin: auto;
+    padding: 0 15px;
+
+    @include medium {
+      padding: 0 40px;
+    }
+
+    @include xl {
+      max-width: 1125px;
+      padding: 0 460px 0 0;
+    }
+
     .list-item {
       margin-top: 20px;
 
@@ -129,29 +162,31 @@
   }
 
   .recipe-body-content-paragraph {
-    margin: 40px 0;
+    margin: 40px auto;
     font: 18px/1.65em variable(secondary-font);
     color: clr(subcolor-1);
     letter-spacing: -1.1px;
+    padding: 0 15px;
+
+    @include medium {
+      padding: 0 40px;
+    }
 
     @include xl {
       font-size: 20px;
       line-height: 1.8em;
+      max-width: 1125px;
+      padding: 0 460px 0 0;
     }
   }
 
   .recipe-body-video {
     &__full {
       width: 100vw;
-      margin-left: -20px;
-
-      @include medium {
-        margin-left: -40px;
-      }
 
       @include xl {
-        width: 1128px;
-        margin-left: 0;
+        width: 1125px;
+        margin: auto;
       }
     }
   }
