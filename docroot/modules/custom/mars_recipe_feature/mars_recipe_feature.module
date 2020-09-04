@@ -8,7 +8,7 @@
 /**
  * Implements hook_theme().
  */
-function recipe_feature_theme($existing, $type, $theme, $path) {
+function mars_recipe_feature_theme($existing, $type, $theme, $path) {
   return [
     'recipe_feature_block' => [
       'variables' => [

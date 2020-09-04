@@ -648,3 +648,10 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
   $variables['item_type'] = 'card';
   $variables['items'] = $items;
 }
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function emulsifymars_preprocess_block__recipe_feature_block(&$variables) {
+  // TODO: Add preprocess for the block.
+}
