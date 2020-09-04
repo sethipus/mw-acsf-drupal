@@ -18,8 +18,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  *   admin_label = @Translation("Recipe detail body"),
  *   category = @Translation("Recipe"),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label =
- *   @Translation("Recipe"))
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Recipe"))
  *   }
  * )
  *
@@ -59,6 +58,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
    */
   public function build() {
     $node = $this->getContextValue('node');
+    $ingredients_list = [];
     if (!$node->get('field_recipe_ingredients')->isEmpty()) {
       $ingredients = $node->get('field_recipe_ingredients')->getValue();
       $ingredients_list = array_map(
@@ -94,14 +94,12 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       }
     }
 
-    $build = [
+    return [
       '#ingredients_list' => $ingredients_list,
       '#nutrition_module' => $node->field_recipe_nutrition_module->value,
       '#product_used_items' => $product_used_items,
       '#theme' => 'recipe_detail_body_block',
     ];
-
-    return $build;
   }
 
   /**
