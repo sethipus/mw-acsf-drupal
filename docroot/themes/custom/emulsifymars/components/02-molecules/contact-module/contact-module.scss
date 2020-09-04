@@ -1,6 +1,6 @@
 .contact-module {
-  background-color: clr(pp-header-bg);
-  border-top: 5px solid clr(primary);
+  background-color: clr(subcolor-2);
+  border-top: 5px solid clr(secondary);
   background-image: variable(brand-shape);
   background-repeat: no-repeat;
 
@@ -30,7 +30,7 @@
 
   &__heading {
     font-family: variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-transform: uppercase;
 
     @include xs {
@@ -52,7 +52,7 @@
 
   &__paragraph {
     font-family: variable(secondary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
 
     @include xs {
       font-size: 1.6rem;
@@ -91,7 +91,7 @@
 
   &__social-heading {
     font-family: variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-transform: uppercase;
     margin-right: 4rem;
 
@@ -115,7 +115,7 @@
   }
 
   & .default-link {
-    background-color: clr(primary);
+    background-color: clr(secondary);
     font-size: 1.6rem;
 
     @include xs {

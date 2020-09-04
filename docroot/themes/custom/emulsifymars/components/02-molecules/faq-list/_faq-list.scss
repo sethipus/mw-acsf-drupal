@@ -17,7 +17,7 @@
   font-family: variable(primary-font);
   font-weight: normal;
   letter-spacing: 1.12px;
-  color: clr(subcolor-1);
+  color: clr(primary);
   text-align: center;
 
   @include small {
@@ -36,7 +36,7 @@
 
 .list-item__question,
 .list-item__answer {
-  color: clr(subcolor-1);
+  color: clr(primary);
 }
 
 .faq__see_all {
@@ -44,12 +44,12 @@
 }
 
 .default-link--faq_see_all {
-  background-color: clr(primary);
+  background-color: clr(secondary);
   font-family: variable(primary-font);
   color: clr(text-inverse);
 
   &:hover {
-    color: clr(primary);
+    color: clr(secondary);
   }
 
   @include small {
@@ -68,6 +68,6 @@
 
   &::after {
     bottom: -45px;
-    width: 400px;
+    width: 600px;
   }
 }

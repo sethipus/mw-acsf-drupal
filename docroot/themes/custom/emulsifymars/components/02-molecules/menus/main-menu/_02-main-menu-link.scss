@@ -1,6 +1,6 @@
 /* A */
 .main-menu__link {
-  color: clr(subcolor-1);
+  color: clr(primary);
   display: block;
   width: 100%;
   font-family: variable(primary-font);
@@ -24,7 +24,7 @@
     &.active,
     &:active,
     &:hover {
-      color: clr(primary);
+      color: clr(secondary);
 
       & .menu_chevron__icon {
         transform: scaleX(-1);
@@ -62,13 +62,13 @@
 
 /* A (Nested) */
 .main-menu__link--sub {
-  color: clr(subcolor-1);
+  color: clr(primary);
   padding-left: $space-triple;
   font-family: variable(secondary-font);
   font-weight: normal;
 
   @include medium {
-    color: clr(primary);
+    color: clr(secondary);
     display: block;
     padding: 1.2rem $space-double;
     font-size: 1.4rem;
@@ -78,7 +78,7 @@
     &.active,
     &:active,
     &:hover {
-      color: clr(subcolor-1);
+      color: clr(primary);
       font-weight: 500;
 
       & .menu_chevron__icon {
