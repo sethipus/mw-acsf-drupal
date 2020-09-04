@@ -9,6 +9,8 @@ dependencies:
     - media.type.document
     - media.type.image
     - media.type.instagram
+    - media.type.lighthouse_image
+    - media.type.lighthouse_video
     - media.type.tweet
     - media.type.video
     - media.type.video_file
@@ -28,6 +30,8 @@ settings:
   handler: 'default:media'
   handler_settings:
     target_bundles:
+      lighthouse_video: lighthouse_video
+      lighthouse_image: lighthouse_image
       video: video
       video_file: video_file
       tweet: tweet

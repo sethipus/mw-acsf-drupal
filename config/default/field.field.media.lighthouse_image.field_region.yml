@@ -1,0 +1,21 @@
+uuid: 81943354-9f56-46f4-8652-dd69064a2f8f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_region
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: ifgb8VzUYE7m9HsP1IAJ2PGzxRqcU9jOCvvSGEqy8RM
+id: media.lighthouse_image.field_region
+field_name: field_region
+entity_type: media
+bundle: lighthouse_image
+label: Region
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

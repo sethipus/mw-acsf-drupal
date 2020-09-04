@@ -1,0 +1,21 @@
+uuid: 7e416364-08fe-4e31-9855-235f62ec9212
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_sub_brand
+    - media.type.lighthouse_image
+_core:
+  default_config_hash: wO02AiT2-vbBmqY9k56IWrJNxLFU6CAL81aaVjSXp_w
+id: media.lighthouse_image.field_sub_brand
+field_name: field_sub_brand
+entity_type: media
+bundle: lighthouse_image
+label: 'Sub Brand'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

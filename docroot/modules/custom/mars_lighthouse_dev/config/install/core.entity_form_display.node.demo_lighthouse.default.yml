@@ -2,13 +2,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.lighthouse_browser
+    - entity_browser.browser.lighthouse_video_browser
     - field.field.node.demo_lighthouse.field_lighthouse_image
+    - field.field.node.demo_lighthouse.field_lighthouse_video
     - node.type.demo_lighthouse
   module:
     - content_moderation
     - entity_browser
     - path
+    - publication_date
 id: node.demo_lighthouse.default
 targetEntityType: node
 bundle: demo_lighthouse
@@ -25,6 +27,21 @@ content:
     weight: 121
     settings:
       entity_browser: lighthouse_browser
+      field_widget_display: rendered_entity
+      field_widget_display_settings:
+        view_mode: media_library
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_edit: false
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_lighthouse_video:
+    type: entity_browser_entity_reference
+    weight: 122
+    settings:
+      entity_browser: lighthouse_video_browser
       field_widget_display: rendered_entity
       field_widget_display_settings:
         view_mode: media_library
@@ -53,6 +70,12 @@ content:
       display_label: true
     weight: 15
     region: content
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.demo_lighthouse.field_lighthouse_image
+    - field.field.node.demo_lighthouse.field_lighthouse_video
     - node.type.demo_lighthouse
   module:
     - user
@@ -14,6 +15,15 @@ content:
   field_lighthouse_image:
     type: entity_reference_entity_view
     weight: 101
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_lighthouse_video:
+    type: entity_reference_entity_view
+    weight: 102
     label: above
     settings:
       view_mode: default

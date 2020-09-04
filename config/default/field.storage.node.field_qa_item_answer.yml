@@ -1,0 +1,19 @@
+uuid: 0b0ad890-48a4-47ad-a1a1-4cb7f4327950
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_qa_item_answer
+field_name: field_qa_item_answer
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

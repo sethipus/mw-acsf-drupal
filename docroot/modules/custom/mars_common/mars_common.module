@@ -6,9 +6,11 @@
  */
 
 use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
 use Drupal\file\Entity\File;
 
 /**
@@ -101,6 +103,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'links' => NULL,
         'image' => NULL,
         'image_alt' => NULL,
+        'graphic_divider' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'error-page-block',
     ],
@@ -157,11 +161,11 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
-  $divider_id = Drupal::config('emulsifymars.settings')
-    ->get('graphic_divider');
+  $border_id = Drupal::config('emulsifymars.settings')
+    ->get('brand_borders');
 
-  if (isset($divider_id[0])) {
-    $file_entity = File::load($divider_id[0]);
+  if (isset($border_id[0])) {
+    $file_entity = File::load($border_id[0]);
     $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
     $file_content = file_get_contents($file_url->getUri());
 
@@ -183,7 +187,7 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
 
   $variables['title'] = $field_carousel_title['#items'][0]->value;
   $variables['items'] = $media_items;
-  $variables['border_divider'] = $file_content ?? '';
+  $variables['brand_borders'] = $file_content ?? '';
 }
 
 /**
@@ -199,9 +203,11 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
       $item_block = $item_value['#options']['entity'];
       $field_desc_val = $item_block->get('field_list_item_description')->value;
       $field_image_val = $item_block->get('field_list_item_image')->getValue();
+      $field_item_order = $item_block->get('field_list_item_order')->value;
 
       $item = [
         'content' => $field_desc_val,
+        'order' => $field_item_order,
       ];
 
       if (isset($field_image_val[0])) {
@@ -316,6 +322,52 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 /**
  * Implements hook_preprocess_HOOK().
  */
+function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
+  $field_title = $variables['view']->getTitle();
+  $rows = $variables['rows'];
+  $total_rows = $variables['rows'][0]['#view']->total_rows;
+  $items_per_page = $variables['view']->pager->options['items_per_page'];
+
+  $faq_items = [];
+  if (isset($rows[0])) {
+    foreach ($rows[0]['#rows'] as $row_key => $row_value) {
+      $qa_node = Node::load($row_value['#row']->nid);
+      $question_value = $qa_node->get('field_qa_item_question')->value;
+      $answer_value = $qa_node->get('field_qa_item_answer')->value;
+
+      $faq_items[$row_key]['content'] = [
+        'question' => $question_value,
+        'answer' => $answer_value,
+        'order' => $row_key,
+      ];
+    }
+  }
+
+  $variables['qa_items'] = $faq_items;
+  $variables['faq_title'] = $field_title;
+
+  $request = Drupal::requestStack()->getCurrentRequest();
+  if (
+    $request->query->get('items_per_page') != 'All' &&
+    !empty($variables['exposed']) &&
+    $total_rows > $items_per_page
+  ) {
+    $query_params = $request->query->all();
+    $query_params['items_per_page'] = 'All';
+    $path_query = http_build_query($query_params);
+    $current_path = $request->getPathInfo();
+
+    $cta_button_label = $variables['exposed']['items_per_page']['#options']['All'];
+    $cta_button_link = $current_path . '?' . $path_query;
+  }
+
+  $variables['cta_button_label'] = $cta_button_label ?? NULL;
+  $variables['cta_button_link'] = $cta_button_link ?? NULL;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
 function mars_common_preprocess_block__inline_block__flexible_framer(array &$variables) {
   $field_ff_items = $variables['content']['field_ff_items_reference'];
   $field_ff_title = $variables['content']['field_ff_title']['#items']->value;
@@ -381,7 +433,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   $variables['grid_type'] = 'card';
   $variables['item_type'] = 'card';
   $variables['divider'] = $file_divider_content ?? NULL;
-  $variables['brand_border'] = $file_border_content ?? NULL;
+  $variables['brand_borders'] = $file_border_content ?? NULL;
 }
 
 /**
@@ -445,6 +497,24 @@ function mars_common_theme_suggestions_block_alter(array &$suggestions, array $v
     }
     else {
       $suggestions[] = $block_type_suggestion;
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_bundle_field_info_alter().
+ */
+function mars_common_entity_bundle_field_info_alter(
+  &$fields,
+  EntityTypeInterface $entity_type,
+  $bundle
+) {
+  foreach ($fields as $field) {
+    if ($field->getName() == 'field_list_item_order') {
+      $fields[$field->getName()]->addConstraint('RegExValidationConstraint', [
+        'regex' => '/^\d{0,2}\.{0,1}\d{0,2}$/i',
+        'errorMessage' => 'Please enter correct order number. Example: 1.1 or 1.',
+      ]);
     }
   }
 }

@@ -1,0 +1,23 @@
+uuid: 18570a33-bf25-4b11-88e1-7c358cfd7bf3
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+_core:
+  default_config_hash: Cw2gYhg6Bm3L1bBMXudXJntDx8EvwJ9UTDsDYh76YjY
+id: media.field_marketing_country
+field_name: field_marketing_country
+entity_type: media
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

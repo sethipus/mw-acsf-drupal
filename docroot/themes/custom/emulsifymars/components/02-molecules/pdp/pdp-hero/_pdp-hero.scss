@@ -1,6 +1,6 @@
 .pdp-hero {
   padding: 2rem 2rem 3.2rem;
-  background-color: $deepskyblue;
+  background-color: clr(pdp-hero);
   
   @include small {
     padding: 2rem 2rem 18rem;
@@ -44,6 +44,7 @@
     font-size: 1.4rem;
     font-weight: normal;
     letter-spacing: 1.6px;
+    text-transform: uppercase;
     color: clr(subcolor-3);
   
     @include medium {
