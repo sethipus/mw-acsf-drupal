@@ -5,6 +5,7 @@
  * - button_trigger_modifiers - the content of the button (typically text)
  * - button_trigger_blockname - the content of the button (typically text)
  * - button_trigger_base_id - the content of the button (typically text)
+ * - button_border_radius - border-radius for button
  *
  * Available blocks:
  * - button_content - used to replace the content of the button with something other than text
@@ -14,6 +15,7 @@
 
 {% set button_trigger_base_class = button_trigger_base_class|default('button') %}
 {% set button_trigger_base_id = button_trigger_base_id|default('button') %}
+{% set button_border_radius = button_border_radius|default(0) %}
 
 {% set additional_attributes = {
   class: bem(button_trigger_base_class, button_trigger_modifiers, button_trigger_blockname),
@@ -24,7 +26,7 @@
   "aria-expanded": 'false',
 } %}
 
-<button {{ add_attributes(additional_attributes) }}>
+<button {{ add_attributes(additional_attributes) }} style="{{ 'border-radius: ' ~ button_border_radius ~ 'px' }}">
   {% block button_content %}
     {{ button_content }}
   {% endblock %}

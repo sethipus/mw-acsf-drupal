@@ -6,3 +6,16 @@ header_inline_menu_items:
 header_inline_menu_search_item:
   - title: 'Search'
     url: '#'
+dropdown_border_radius: 30
+dropdown_title: 'EN'
+dropdown_label: 'Select Language'
+dropdown_items:
+  - title: 'English'
+    abbr: 'EN'
+    url: '#'
+  - title: 'Espanol'
+    abbr: 'ES'
+    url: '#'
+  - title: 'Francais'
+    abbr: 'FR'
+    url: '#'
