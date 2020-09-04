@@ -11,10 +11,13 @@
 {% set image_src = file_url(image.image.entity.fileuri) %}
 
 {% include "@molecules/error-component/error-component.twig" with {
+  theme_styles: 'drupal',
   error_component_heading: title,
   error_component_heading_level: 1,
   error_component_paragraph_content: body|striptags,
   error_component_links: links,
   error_component_bg_image_src: image_src,
-  error_component_bg_image_alt: image_alt
+  error_component_bg_image_alt: image_alt,
+  graphic_divider: graphic_divider,
+  brand_shape: brand_shape
 } %}
