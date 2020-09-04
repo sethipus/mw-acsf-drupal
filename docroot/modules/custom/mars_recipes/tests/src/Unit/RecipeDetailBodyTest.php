@@ -7,11 +7,9 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Plugin\Context\Context;
-use Drupal\Core\Entity\EntityStorageInterface;
 
 /**
  * Class RecipeDetailBodyTest.
@@ -50,13 +48,6 @@ class RecipeDetailBodyTest extends UnitTestCase {
   private $recipeBodyBlock;
 
   /**
-   * File storage.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorageMock;
-
-  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -69,14 +60,6 @@ class RecipeDetailBodyTest extends UnitTestCase {
       ->method('getViewBuilder')
       ->withConsecutive([$this->equalTo('node')])
       ->will($this->onConsecutiveCalls($this->viewBuilderMock));
-
-    $this->entityTypeManagerMock
-      ->expects($this->any())
-      ->method('getStorage')
-      ->withConsecutive(
-        [$this->equalTo('file')]
-      )
-      ->will($this->onConsecutiveCalls($this->fileStorageMock));
 
     $definitions = [
       'provider' => 'test',
@@ -155,8 +138,6 @@ class RecipeDetailBodyTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->viewBuilderMock = $this->createMock(EntityViewBuilderInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
-    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
-    $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
   }
 
   /**
