@@ -123,6 +123,13 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'contact-help-banner-block',
     ],
+    'iframe_block' => [
+      'variables' => [
+        'url' => NULL,
+        'accessibility_title' => NULL,
+      ],
+      'template' => 'iframe-block',
+    ],
   ];
 }
 
