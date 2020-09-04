@@ -100,6 +100,12 @@
   &__contact-social {
     display: flex;
 
+    .social-menu {
+      .social-menu__item {
+        margin-right: 2rem;
+      }
+    }
+
     @include xs {
       flex-direction: column;
     }
