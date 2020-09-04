@@ -71,30 +71,32 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
     $product_used_items = [];
     if (!$node->get('field_product_reference')->isEmpty()) {
       $products = $node->get('field_product_reference')->referencedEntities();
+      // Sort A-z.
+      usort($products, function ($a, $b) {
+        return strcmp($a->title->value, $b->title->value);
+      });
+      // Limit amount of cards.
+      $products = array_slice($products, 0, 2);
       foreach ($products as $product) {
         $product_used_items[] = [
           'card__image__output_image_tag' => 'true',
-          'card_url'                      => $product->toUrl('canonical', ['absolute' => FALSE])->toString(),
-          'paragraph_size'                => 'large',
-          'paragraph_content'             => $product->title->value,
-          'paragraph_base_class'          => 'paragraph',
-          'paragraph_modifiers'           => ['large'],
-          'default_link_content'          => $this->t('See details'),
-          'default_link_base_class'       => 'default-link',
-          'default_link_border_radius'    => '30',
-          'default_link_attributes'       => [
+          'card_url' => $product->toUrl('canonical', ['absolute' => FALSE])->toString(),
+          'card__image__src' => $product->field_product_variants->entity->field_product_key_image->entity->image->entity->createFileUrl() ?? '',
+          'paragraph_content' => $product->title->value,
+          'default_link_attributes' => [
             'target' => '_self',
-            'href'   => $product->toUrl('canonical', ['absolute' => FALSE])->toString(),
+            'href' => $product->toUrl('canonical', ['absolute' => FALSE])
+              ->toString(),
           ],
-          'link_base_class'               => 'text_link',
-          'link_content'                  => $this->t('BUY NOW'),
+          // TODO Add where to buy link when the page will be implemented.
+          'link_url' => '',
         ];
       }
     }
 
     $build = [
-      '#products_used_label' => $this->t('Products Used'),
       '#ingredients_list' => $ingredients_list,
+      '#nutrition_module' => $node->field_recipe_nutrition_module->value,
       '#product_used_items' => $product_used_items,
       '#theme' => 'recipe_detail_body_block',
     ];
