@@ -2,37 +2,45 @@
 {% set error_component_heading_base_class = 'error-component__heading' %}
 {% set error_component_paragraph_base_class = 'error-component__paragraph' %}
 
-<section {{ bem(error_component_base_class) }} data-theme="twix">
-  {% include "@atoms/text/headings/_heading.twig" with {
-    heading: error_component_heading,
-    heading_level: error_component_heading_level,
-    heading_base_class: error_component_heading_base_class
-  } %}
-
-  {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
-
-  {% include "@atoms/text/text/01-paragraph.twig" with {
-    paragraph_content: error_component_paragraph_content,
-    paragraph_base_class: error_component_paragraph_base_class
-  } %}
-
-  <div class="error-component__link-container">
-    {% for link in error_component_links %}
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: link.content,
-        default_link_border_radius: link.border_radius,
-        default_link_attributes: link.attributes,
-        default_link_modifiers: ['light']
-      } %}
-    {% endfor %}
+<section {{ bem(error_component_base_class) }} data-theme="{{ theme_styles }}">
+  <div class="error-component__brand-shape">
+    {{brand_shape | raw}}
   </div>
 
-  <div class="error-component__img-container">
-    {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: false,
-        image_alt: error_component_bg_image_alt,
-        image_src: error_component_bg_image_src,
-        responsive_image_blockname: 'error-bg-img',
-      } %}
+  <div class="error-component__content">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: error_component_heading,
+      heading_level: error_component_heading_level,
+      heading_base_class: error_component_heading_base_class
+    } %}
+
+    <div class="error-component__graphic-divider">
+      {{graphic_divider | raw}}
+    </div>
+
+    {% include "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_content: error_component_paragraph_content,
+      paragraph_base_class: error_component_paragraph_base_class
+    } %}
+
+    <div class="error-component__link-container">
+      {% for link in error_component_links %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: link.content,
+          default_link_border_radius: link.border_radius,
+          default_link_attributes: link.attributes,
+          default_link_modifiers: ['light']
+        } %}
+      {% endfor %}
+    </div>
+
+    <div class="error-component__img-container">
+      {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: false,
+          image_alt: error_component_bg_image_alt,
+          image_src: error_component_bg_image_src,
+          responsive_image_blockname: 'error-bg-img',
+        } %}
+    </div>
   </div>
 </section>
