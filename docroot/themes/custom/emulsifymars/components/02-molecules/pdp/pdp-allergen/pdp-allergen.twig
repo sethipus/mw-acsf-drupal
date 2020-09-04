@@ -9,24 +9,25 @@
     heading_modifiers: [header_modifiers],
     heading_base_class: 'header',
   } %}
-
-  <div {{ bem('container', [], pdp_allergen_base_class) }}>
-    {% for allergen_item in allergen_items %}
-      <div {{ bem('allergen-column', [], pdp_allergen_base_class) }}>
-        <div {{ bem('allergen-icon-container', [], pdp_allergen_base_class) }}>
-          {% include "@atoms/images/image/_image.twig" with {
-            image_base_class: pdp_allergen_base_class,
-            image_blockname: 'allergen-icon',
-            image_src: allergen_item.allergen_icon,
-            image_alt: allergen_item.allergen_label,
+  {% for allergens_list_item in allergens_list %}
+    <div {{ bem('container', [], pdp_allergen_base_class) }} data-allergen-size-active={{allergens_list_item.active}} data-allergen-size-id={{allergens_list_item.size_id}}>
+      {% for allergens_per_product in allergens_list_item.allergen_items %}
+        <div {{ bem('allergen-column', [], pdp_allergen_base_class) }}>
+          <div {{ bem('allergen-icon-container', [], pdp_allergen_base_class) }}>
+            {% include "@atoms/images/image/_image.twig" with {
+              image_base_class: pdp_allergen_base_class,
+              image_blockname: 'allergen-icon',
+              image_src: allergens_per_product.allergen_icon,
+              image_alt: allergens_per_product.allergen_label,
+            } %}
+          </div>
+          {% include "@atoms/text/text/07-span.twig" with {
+            span_content: allergens_per_product.allergen_label,
+            span_base_class: 'allergen-label',
+            span_blockname: pdp_allergen_base_class,
           } %}
         </div>
-        {% include "@atoms/text/text/07-span.twig" with {
-          span_content: allergen_item.allergen_label,
-          span_base_class: 'allergen-label',
-          span_blockname: pdp_allergen_base_class,
-        } %}
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
 </section>
