@@ -103,6 +103,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'links' => NULL,
         'image' => NULL,
         'image_alt' => NULL,
+        'graphic_divider' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'error-page-block',
     ],
@@ -159,11 +161,11 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
-  $divider_id = Drupal::config('emulsifymars.settings')
-    ->get('graphic_divider');
+  $border_id = Drupal::config('emulsifymars.settings')
+    ->get('brand_borders');
 
-  if (isset($divider_id[0])) {
-    $file_entity = File::load($divider_id[0]);
+  if (isset($border_id[0])) {
+    $file_entity = File::load($border_id[0]);
     $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
     $file_content = file_get_contents($file_url->getUri());
 
@@ -185,7 +187,7 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
 
   $variables['title'] = $field_carousel_title['#items'][0]->value;
   $variables['items'] = $media_items;
-  $variables['border_divider'] = $file_content ?? '';
+  $variables['brand_borders'] = $file_content ?? '';
 }
 
 /**
@@ -323,6 +325,8 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $field_title = $variables['view']->getTitle();
   $rows = $variables['rows'];
+  $total_rows = $variables['rows'][0]['#view']->total_rows;
+  $items_per_page = $variables['view']->pager->options['items_per_page'];
 
   $faq_items = [];
   if (isset($rows[0])) {
@@ -342,8 +346,12 @@ function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $variables['qa_items'] = $faq_items;
   $variables['faq_title'] = $field_title;
 
-  $request = \Drupal::requestStack()->getCurrentRequest();
-  if ($request->query->get('items_per_page') != 'All' && !empty($variables['exposed'])) {
+  $request = Drupal::requestStack()->getCurrentRequest();
+  if (
+    $request->query->get('items_per_page') != 'All' &&
+    !empty($variables['exposed']) &&
+    $total_rows > $items_per_page
+  ) {
     $query_params = $request->query->all();
     $query_params['items_per_page'] = 'All';
     $path_query = http_build_query($query_params);
@@ -425,7 +433,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   $variables['grid_type'] = 'card';
   $variables['item_type'] = 'card';
   $variables['divider'] = $file_divider_content ?? NULL;
-  $variables['brand_border'] = $file_border_content ?? NULL;
+  $variables['brand_borders'] = $file_border_content ?? NULL;
 }
 
 /**
