@@ -26,11 +26,11 @@
     padding-bottom: 0;
 
     &__link {
-      color: clr(subcolor-1);
+      color: clr(primary);
       font-size: 1.4rem;
       line-height: 1.4rem;
       &:hover {
-        color: clr(primary);
+        color: clr(secondary);
       }
     }
   }
