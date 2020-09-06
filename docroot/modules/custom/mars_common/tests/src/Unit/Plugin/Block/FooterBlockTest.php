@@ -127,7 +127,7 @@ class FooterBlockTest extends UnitTestCase {
       'logo' => [
         'path' => '',
       ],
-      'graphic_divider' => ['1'],
+      'brand_borders' => ['1'],
       'social' => [
         [
           'name' => 'name1',
@@ -292,7 +292,7 @@ class FooterBlockTest extends UnitTestCase {
     $fileMock
       ->expects($this->any())
       ->method('createFileUrl')
-      ->willReturn('http://mars.com');
+      ->willReturn('');
 
     $this->menuLinkTreeMock
       ->expects($this->exactly(2))

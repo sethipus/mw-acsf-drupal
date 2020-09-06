@@ -14,7 +14,7 @@ items:
     card__heading: 'TWIX® CARAMEL COOKIE BARS - MINIS'
     card__link__url: '#'
     card__link__text: 'Explore'
-brand_border: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 375 51">
+brand_borders: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 375 51">
             <mask id="49t9j9vl8a" x="0" y="0" maskUnits="userSpaceOnUse">
                 <path fill="#fff" d="M0 0H375V51H0z"/>
             </mask>

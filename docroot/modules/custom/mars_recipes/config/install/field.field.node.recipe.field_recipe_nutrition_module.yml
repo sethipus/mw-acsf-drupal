@@ -1,0 +1,21 @@
+uuid: 6b90bf60-cabd-466c-a2bd-e73b125b5816
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_recipe_nutrition_module
+    - node.type.recipe
+  module:
+    - text
+id: node.recipe.field_recipe_nutrition_module
+field_name: field_recipe_nutrition_module
+entity_type: node
+bundle: recipe
+label: 'Nutrition module'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

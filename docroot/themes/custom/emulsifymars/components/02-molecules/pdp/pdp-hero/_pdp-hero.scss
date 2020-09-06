@@ -1,6 +1,6 @@
 .pdp-hero {
   padding: 2rem 2rem 3.2rem;
-  background-color: $deepskyblue;
+  background-color: clr(pdp-hero);
   
   @include small {
     padding: 2rem 2rem 18rem;
