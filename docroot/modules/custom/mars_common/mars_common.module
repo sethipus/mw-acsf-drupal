@@ -98,17 +98,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-feature-block',
     ],
-    'contact_form_block' => [
-      'variables' => [
-        'form_id' => NULL,
-      ],
-      'template' => 'contact-form-block',
-    ],
-    'newsletter_signup_form_block' => [
+    'salesforce_form_block' => [
       'variables' => [
         'form_type' => NULL,
+        'form_id' => NULL,
       ],
-      'template' => 'newsletter-signup-form-block',
+      'template' => 'salesforce-form-block',
     ],
     'error_page_block' => [
       'variables' => [
@@ -457,8 +452,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
   if (
     $form_id === 'block_form' ||
     $form_id === 'layout_builder_add_block' ||
-    $form_id === 'layout_builder_update_block' ||
-    $form_id === 'contact_form_block'
+    $form_id === 'layout_builder_update_block'
   ) {
     $form['settings']['label']['#access'] = FALSE;
     $form['settings']['label_display']['#access'] = FALSE;

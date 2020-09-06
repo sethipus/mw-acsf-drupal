@@ -6,15 +6,15 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Provides a Newsletter Signup Form block.
+ * Provides a Salesforce Form block.
  *
  * @Block(
- *   id = "newsletter_signup_form",
- *   admin_label = @Translation("MARS: Newsletter Signup Form"),
+ *   id = "salesforce_form",
+ *   admin_label = @Translation("MARS: Salesforce Form"),
  *   category = @Translation("Mars Common")
  * )
  */
-class NewsletterSignupFormBlock extends BlockBase {
+class SalesforceFormBlock extends BlockBase {
 
   /**
    * {@inheritdoc}
@@ -22,8 +22,9 @@ class NewsletterSignupFormBlock extends BlockBase {
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#form_type'] = $conf['form_type'] ?? 'widget';
-    $build['#theme'] = 'newsletter_signup_form_block';
+    $build['#form_type'] = $conf['form_type'] ?? 'formstack';
+    $build['#form_id'] = $conf['form_id'] ?? '';
+    $build['#theme'] = 'salesforce_form_block';
 
     return $build;
   }
@@ -46,12 +47,20 @@ class NewsletterSignupFormBlock extends BlockBase {
     $form['form_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Form type'),
-      '#default_value' => $this->configuration['form_type'] ?? 'widget',
+      '#default_value' => $this->configuration['form_type'] ?? 'formstack',
       '#required' => TRUE,
       '#options' => [
-        'widget' => $this->t('Widget form'),
-        'page'   => $this->t('Form for page'),
+        'formstack' => $this->t('Contact form'),
+        'salesforce'   => $this->t('Newsletter signup form'),
       ],
+    ];
+
+    $form['form_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Form ID'),
+      '#default_value' => $this->configuration['form_id'] ?? '',
+      '#required' => TRUE,
+      '#size' => 65,
     ];
 
     return $form;
@@ -63,6 +72,7 @@ class NewsletterSignupFormBlock extends BlockBase {
   public function blockSubmit($form, FormStateInterface $form_state): void {
     parent::blockSubmit($form, $form_state);
     $this->configuration['form_type'] = $form_state->getValue('form_type');
+    $this->configuration['form_id'] = $form_state->getValue('form_id');
   }
 
 }
