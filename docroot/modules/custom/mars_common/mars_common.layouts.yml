@@ -1,0 +1,90 @@
+contact_help_parent_page_header:
+  label: 'Contact & Help - page header'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+contact_help_faq:
+  label: 'Contact & Help - FAQ'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+contact_help_contact_banner:
+  label: 'Contact & Help - Contact banner'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+contact_help_contact_community:
+  label: 'Contact & Help - Contact & Community'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+newsletter_sign_up_parent_page_header:
+  label: 'Newsletter Sign Up - page header'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+newsletter_sign_up_main_section:
+  label: 'Newsletter Sign Up - Newsletter Sign Up section'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+newsletter_sign_up_recommended_products:
+  label: 'Newsletter Sign Up - Recommended Products'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
