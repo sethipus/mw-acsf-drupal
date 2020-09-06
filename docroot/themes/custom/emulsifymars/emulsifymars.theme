@@ -360,7 +360,7 @@ function _emulsifymars_get_font_fields(): array {
  *   Theme settings form state.
  */
 function _emulsifymars_form_system_theme_settings_validate(array &$form, FormStateInterface $form_state) {
-  if (\Drupal::moduleHandler()->moduleExists('file')) {
+  if (Drupal::moduleHandler()->moduleExists('file')) {
     foreach (_emulsifymars_get_font_fields() as $font) {
       _emulsifymars_file_save_process($form['font_settings'][$font], $form_state, $font);
     }
@@ -394,7 +394,7 @@ function _emulsifymars_file_save_process(array $form_element, FormStateInterface
  *   Theme settings form state.
  */
 function _emulsifymars_form_system_theme_settings_submit(array &$form, FormStateInterface $form_state) {
-  $default_scheme = \Drupal::config('system.file')->get('default_scheme');
+  $default_scheme = Drupal::config('system.file')->get('default_scheme');
   foreach (_emulsifymars_get_font_fields() as $font) {
     _emulsifymars_file_store_process($form_state, $font, $default_scheme);
   }
@@ -414,7 +414,7 @@ function _emulsifymars_file_store_process(FormStateInterface &$form_state, strin
   $values = $form_state->getValues();
   try {
     if (!empty($values[$value_name])) {
-      $filename = \Drupal::service('file_system')->copy($values[$value_name]->getFileUri(), $default_scheme . '://');
+      $filename = Drupal::service('file_system')->copy($values[$value_name]->getFileUri(), $default_scheme . '://');
       $form_state->setValue($value_name, '');
       $form_state->setValue($value_name . '_path', file_create_url($filename));
     }
@@ -454,7 +454,7 @@ function emulsifymars_process_image_widget(array &$element, FormStateInterface $
     $file_variables['height'] = $element['#value']['height'];
   }
   else {
-    $image = \Drupal::service('image.factory')->get($file->getFileUri());
+    $image = Drupal::service('image.factory')->get($file->getFileUri());
     if ($image->isValid()) {
       $file_variables['width'] = $image->getWidth();
       $file_variables['height'] = $image->getHeight();
@@ -562,7 +562,7 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
  */
 function emulsifymars_preprocess_social_icons(&$variables) {
   $social_menu_items = &$variables['social_menu_items'];
-  $theme_settings = \Drupal::config('emulsifymars.settings')->get();
+  $theme_settings = Drupal::config('emulsifymars.settings')->get();
   foreach ($theme_settings['social'] as $key => $social_settings) {
     $social_menu_items[$key]['title'] = $social_settings['name'];
     $social_menu_items[$key]['url'] = $social_settings['link'];
