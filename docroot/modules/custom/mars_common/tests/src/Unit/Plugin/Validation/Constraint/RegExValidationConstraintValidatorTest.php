@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Validation\Constraint;
 
-use Drupal;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\mars_common\Plugin\Validation\Constraint\RegExValidationConstraint;
@@ -66,7 +65,7 @@ class RegExValidationConstraintValidatorTest extends UnitTestCase {
   protected function setUp(): void {
     parent::setUp();
     $this->createMocks();
-    Drupal::setContainer($this->containerMock);
+    \Drupal::setContainer($this->containerMock);
 
     $this->validator = new RegExValidationConstraintValidator();
   }

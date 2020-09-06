@@ -17,7 +17,7 @@ use Drupal\Core\Url;
  */
 function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterface $form_state, $form_id = NULL) {
   // Init general vars.
-  $translation = Drupal::translation();
+  $translation = \Drupal::translation();
   $social_storage = $form_state->getStorage('social');
   $social_settings = theme_get_setting('social');
   // Init social form elements.

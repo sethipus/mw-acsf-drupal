@@ -102,6 +102,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'contact-form-block',
     ],
+    'newsletter_signup_form_block' => [
+      'variables' => [
+        'form_type' => NULL,
+      ],
+      'template' => 'newsletter-signup-form-block',
+    ],
     'error_page_block' => [
       'variables' => [
         'title' => NULL,
