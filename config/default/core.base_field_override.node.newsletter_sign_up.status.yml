@@ -1,0 +1,22 @@
+uuid: fe9057d6-7520-4f84-a553-d8df426d8443
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+id: node.newsletter_sign_up.status
+field_name: status
+entity_type: node
+bundle: newsletter_sign_up
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

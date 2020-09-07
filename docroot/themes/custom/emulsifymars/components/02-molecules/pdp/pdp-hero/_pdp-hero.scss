@@ -318,7 +318,7 @@
           background: transparent;
           border-top: 12px solid transparent;
           border-bottom: 12px solid transparent;
-          border-left: 20px solid clr(primary);
+          border-left: 20px solid clr(secondary);
         }
 
         &::after {
@@ -363,11 +363,11 @@
     text-align: center;
     font-family: variable(primary-font);
     line-height: 5rem;
-    background-color: clr(primary);
+    background-color: clr(secondary);
     color: clr(subcolor-3);
 
     &:hover {
-      color: clr(primary);
+      color: clr(secondary);
     }
 
     @include medium {
@@ -391,7 +391,7 @@
     text-align: center;
     padding: 1.8rem .6rem;
     background-color: clr(subcolor-3);
-    color: clr(primary);
+    color: clr(secondary);
 
     &:hover {
       color: clr(subcolor-3);

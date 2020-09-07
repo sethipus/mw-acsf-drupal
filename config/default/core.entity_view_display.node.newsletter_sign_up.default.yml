@@ -1,0 +1,207 @@
+uuid: a38bd734-691c-42e6-ba2b-e9489f3df09b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.newsletter_sign_up.body
+    - node.type.newsletter_sign_up
+  module:
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_discovery
+    - layout_library
+    - mars_common
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: true
+    sections:
+      -
+        layout_id: newsletter_sign_up_parent_page_header
+        layout_settings:
+          label: 'Parent page header'
+        components:
+          f3468f7f-32ad-4412-b3f8-a8df9119826a:
+            uuid: f3468f7f-32ad-4412-b3f8-a8df9119826a
+            region: content
+            configuration:
+              id: parent_page_header
+              label: 'Parent page header'
+              provider: mars_common
+              label_display: ''
+              eyebrow: eyebrow
+              background: '26'
+              description: description
+              context_mapping: {  }
+            additional: {  }
+            weight: 0
+        third_party_settings: {  }
+      -
+        layout_id: newsletter_sign_up_main_section
+        layout_settings:
+          label: 'Newsletter Sign Up'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              5: 5
+              6: 6
+              7: 7
+              8: 8
+      -
+        layout_id: newsletter_sign_up_recommended_products
+        layout_settings:
+          label: 'Recommended Products'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+              8: 8
+  layout_library:
+    enable: false
+  layout_builder_restrictions:
+    allowed_block_categories:
+      - Article
+      - 'Chaos Tools'
+      - 'Content fields'
+      - 'Custom block types'
+      - 'Custom blocks'
+      - 'Entity Block'
+      - 'Entity Browser'
+      - Forms
+      - 'Global elements'
+      - Help
+      - 'Inline blocks'
+      - 'Lists (Views)'
+      - 'Mars Common'
+      - 'Mars Product'
+      - Menus
+      - 'Moderation Dashboard'
+      - Product
+      - Recipe
+      - 'Social feed'
+      - 'Social media share'
+      - System
+      - User
+      - Views
+      - core
+    entity_view_mode_restriction:
+      whitelisted_blocks: {  }
+      blacklisted_blocks: {  }
+      allowed_layouts:
+        - newsletter_sign_up_parent_page_header
+        - newsletter_sign_up_main_section
+        - newsletter_sign_up_recommended_products
+    entity_view_mode_restriction_by_region:
+      allowed_layouts:
+        - newsletter_sign_up_parent_page_header
+        - newsletter_sign_up_main_section
+        - newsletter_sign_up_recommended_products
+      whitelisted_blocks:
+        newsletter_sign_up_parent_page_header:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - parent_page_header
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        newsletter_sign_up_main_section:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        newsletter_sign_up_recommended_products:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+id: node.newsletter_sign_up.default
+targetEntityType: node
+bundle: newsletter_sign_up
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  published_at: true
+  search_api_excerpt: true

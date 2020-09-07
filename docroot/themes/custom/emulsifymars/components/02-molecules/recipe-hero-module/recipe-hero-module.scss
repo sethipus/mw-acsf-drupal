@@ -19,7 +19,7 @@ $xl-gap-width: 30px;
 
   &__title {
     font: 14px/16px variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 1px;
@@ -31,7 +31,7 @@ $xl-gap-width: 30px;
 
   &__text {
     font: 40px/40px variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-align: center;
     margin-top: 26px;
 
@@ -197,7 +197,7 @@ $xl-gap-width: 30px;
 
   &__label {
     font: 18px/25px variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     letter-spacing: 0.8px;
 
     @include xl {
@@ -210,7 +210,7 @@ $xl-gap-width: 30px;
 
   &__value {
     font: 18px/25px variable(primary-font);
-    color: clr(primary);
+    color: clr(secondary);
     letter-spacing: 0.8px;
 
     @include xl {
@@ -253,7 +253,7 @@ $xl-gap-width: 30px;
 
   &__text {
     font: 18px/1.65em variable(secondary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     letter-spacing: -1.1px;
 
     @include xl {
@@ -288,7 +288,7 @@ $xl-gap-width: 30px;
 
   &__social-text {
     font: 16px/1.1em variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-transform: uppercase;
     letter-spacing: 1.6px;
     margin-right: 30px;
@@ -305,6 +305,6 @@ $xl-gap-width: 30px;
   }
 
   .social-menu__icon {
-    fill: clr(primary);
+    fill: clr(secondary);
   }
 }

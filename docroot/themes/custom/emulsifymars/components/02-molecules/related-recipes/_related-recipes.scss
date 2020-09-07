@@ -1,6 +1,6 @@
 .related-recipes {
   font-family: variable(primary-font);
-  background-color: clr(pp-header-bg);
+  background-color: clr(subcolor-2);
   color: clr(subcolor-1);
   margin-top: 23px;
   padding-top: 50px;
@@ -23,7 +23,7 @@
     > svg {
       width: 100%;
       > path {
-        fill: clr(pp-header-bg);
+        fill: clr(subcolor-2);
         width: 100%;
       }
       > rect {
