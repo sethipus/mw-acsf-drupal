@@ -1,0 +1,55 @@
+{% set recipe_card_base_class = recipe_card_base_class|default('recipe-card') %}
+
+<section data-theme="dove" {{ bem(recipe_card_base_class) }}>
+  {% if recipe_is_new %}
+    {% include "@atoms/badge/badge.twig" %}
+  {% endif %}
+
+  <div {{ bem('media', [], recipe_card_base_class) }}>
+    <a href={{recipe_card_media_url}}>
+      {% include "@atoms/images/image/_image.twig" with {
+        output_image_tag: true,
+        image_alt: recipe_card_image_alt,
+        image_src: recipe_card_image_src,
+        responsive_image_blockname: 'recipe_image',
+      } %}
+    </a>  
+  </div>
+
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: recipe_card_heading,
+    heading_level: recipe_card_heading_level,
+    heading_url: recipe_card_button_link_attributes.href,
+    heading_base_class: recipe_card_heading_base_class
+  } %}
+
+  <div {{ bem('labels_section', [], recipe_card_base_class) }}>
+    <div class="cooking-block">
+      <label class="cooking-time">{{ label_for_cooking_time }}</label>
+        {% include "@atoms/text/text/01-paragraph.twig" with {
+          paragraph_size: recipe_card_minutes,
+          paragraph_content: recipe_card_minutes_number ~ ' mins',
+          paragraph_base_class: recipe_card_minutes_base_class,
+          paragraph_modifiers: recipe_card_minutes_modifiers
+        } %}
+    </div>
+    <div class="ingredients-block">
+      <label class="ingredients">{{ label_for_ingredients }}</label>
+        {% include "@atoms/text/text/01-paragraph.twig" with {
+          paragraph_size: recipe_card_items_size,
+          paragraph_content: recipe_card_items_number ~ ' items',
+          paragraph_base_class: recipe_card_items_base_class,
+          paragraph_modifiers: recipe_card_items_modifiers
+        } %}
+    </div> 
+  </div>
+
+  <div {{ bem('details-button', [], recipe_card_base_class) }}>
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content: recipe_card_button_text,
+      default_link_border_radius: recipe_card_border_radius,
+      default_link_attributes: recipe_card_button_link_attributes,
+      default_link_modifiers: recipe_card_button_modifiers
+    } %}
+  </div>    
+</section>

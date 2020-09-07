@@ -1,0 +1,67 @@
+.recipe-card {
+  background-color: clr(background);
+  display: inline-block;
+  max-width: 31.5rem;
+  position: relative;
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+
+  &__media {
+    max-height: 25rem;
+    overflow-y: hidden;
+  }
+
+  &-heading__link {
+    color: clr(primary);
+    font-family: variable(primary-font);
+    text-decoration: none;
+    font-size: 2.4rem;
+    line-height: 3rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    display: block;
+    padding: 0 3rem 0 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &__labels_section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 3rem 2rem 3rem;
+
+    .ingredients-block {
+      margin-right: 4rem;
+    }
+
+    .cooking-time,
+    .ingredients {
+      color: clr(primary);
+      font-family: variable(secondary-font);
+      font-size: 1.6rem;
+      line-height: 2.2rem;
+    }
+  }
+
+  &-items,
+  &-time {
+    color: clr(primary);
+    font-family: variable(secondary-font);
+    font-size: 1.8rem;
+    line-height: 0.1rem;
+    font-weight: bold;
+  }
+
+  &__details-button {
+    .default-link--small {
+      margin-left: 3rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .badge {
+    position: absolute;
+    top: -3.5rem;
+    right: -1.5rem;
+  }
+}
