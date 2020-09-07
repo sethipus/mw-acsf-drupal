@@ -18,7 +18,7 @@
     transform: scale(.5);
 
     & .swiper-scrollbar-drag {
-      background: clr(subcolor-1);
+      background: clr(primary);
     }
   }
 
@@ -47,7 +47,7 @@
     }
 
     &::after {
-      color: clr(primary);
+      color: clr(secondary);
       font-size: 2.5rem;
     }
   }

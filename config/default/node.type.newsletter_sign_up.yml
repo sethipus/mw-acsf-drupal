@@ -1,0 +1,20 @@
+uuid: 5f785be2-51e0-43c5-a276-4383d8f460c7
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_workflow
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  lightning_workflow:
+    workflow: editorial
+name: 'Newsletter Sign Up'
+type: newsletter_sign_up
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

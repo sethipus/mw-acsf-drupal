@@ -3,11 +3,11 @@
     height: calc(100% * 1.7778);
     min-height: 520px;
     position: relative;
-    background-color: clr(primary);
+    background-color: clr(secondary);
 
     @include medium {
       min-height: 0;
-      background-color: clr(text-inverse);
+      background-color: clr(subcolor-3);
     }  
   }
   
@@ -102,11 +102,11 @@
     height: 50px;
     line-height: 50px;
     background-color: clr(subcolor-2);
-    color: clr(primary);
+    color: clr(secondary);
   }
   
   #playpause[data-state="play"] {
-    background-color: clr(text-inverse);
+    background-color: clr(subcolor-3);
     bottom: 30px;
   }
 }

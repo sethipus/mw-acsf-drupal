@@ -12,6 +12,8 @@ use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
 use Drupal\file\Entity\File;
+use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
+use Drupal\layout_builder\Form\DefaultsEntityForm;
 
 /**
  * Implements hook_theme().
@@ -96,6 +98,18 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-feature-block',
     ],
+    'contact_form_block' => [
+      'variables' => [
+        'form_id' => NULL,
+      ],
+      'template' => 'contact-form-block',
+    ],
+    'newsletter_signup_form_block' => [
+      'variables' => [
+        'form_type' => NULL,
+      ],
+      'template' => 'newsletter-signup-form-block',
+    ],
     'error_page_block' => [
       'variables' => [
         'title' => NULL,
@@ -122,6 +136,13 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'social_menu_items' => NULL,
       ],
       'template' => 'contact-help-banner-block',
+    ],
+    'iframe_block' => [
+      'variables' => [
+        'url' => NULL,
+        'accessibility_title' => NULL,
+      ],
+      'template' => 'iframe-block',
     ],
   ];
 }
@@ -443,9 +464,24 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
   if (
     $form_id === 'block_form' ||
     $form_id === 'layout_builder_add_block' ||
-    $form_id === 'layout_builder_update_block'
+    $form_id === 'layout_builder_update_block' ||
+    $form_id === 'contact_form_block'
   ) {
+    $form['settings']['label']['#access'] = FALSE;
     $form['settings']['label_display']['#access'] = FALSE;
+  }
+
+  // Alter layout form related to Contact & Help content type
+  // in order to add custom validation.
+  $form_object = $form_state->getFormObject();
+  if (
+    $form_id = 'entity_view_display_layout_builder_form' &&
+    $form_object instanceof DefaultsEntityForm
+  ) {
+    $original_id = $form_state->getFormObject()->getEntity()->getOriginalId();
+    if ($original_id == 'node.contact_help.default') {
+      $form['#validate'][] = [ContactHelpLayoutFormAlter::class, 'validate'];
+    }
   }
 }
 
