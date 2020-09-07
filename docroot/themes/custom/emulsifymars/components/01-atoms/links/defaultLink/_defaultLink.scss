@@ -22,7 +22,7 @@
     width: 1000px;
     transform: rotate(18deg);
     height: 0;
-    background-color: clr(text-inverse);
+    background-color: clr(subcolor-3);
     transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
 
     @include xs {
@@ -35,7 +35,7 @@
   }
 
   &:hover {
-    color: clr(subcolor-1);
+    color: clr(primary);
 
     &::after {
       height: 300px;
