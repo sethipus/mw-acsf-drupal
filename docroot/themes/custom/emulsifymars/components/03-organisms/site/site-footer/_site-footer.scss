@@ -6,7 +6,7 @@ $fence-part-size: 1440px*2/101;
 
   &__section {
     &--primary {
-      background-image: radial-gradient(circle at 50% 50%, rgba(245, 225, 164, 0.6), clr(secondary));
+      background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
       border-bottom: 15px solid transparent;
 
       .footer__section-content {
@@ -26,7 +26,7 @@ $fence-part-size: 1440px*2/101;
 
     &--secondary {
       min-height: 400px;
-      background-color: clr(primary);
+      background-color: clr(bottom-nav);
 
       .footer__section-content {
         padding: 48px 20px 20px;
@@ -148,7 +148,7 @@ $fence-part-size: 1440px*2/101;
     background-color: clr(subcolor-3);
     font-family: variable(secondary-font);
     font-size: 16px;
-    color: clr(subcolor-1);
+    color: clr(primary);
 
     &:focus {
       border-color: clr(subcolor-3);
@@ -249,7 +249,7 @@ $fence-part-size: 1440px*2/101;
   width: 133px;
   border-radius: 30px;
   background-color: clr(subcolor-3);
-  color: clr(primary);
+  color: clr(secondary);
   font-size: 16px;
 
   @include medium {

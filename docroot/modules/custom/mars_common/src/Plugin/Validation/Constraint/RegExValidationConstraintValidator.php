@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Validation\Constraint;
 
+use Drupal;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -18,11 +19,11 @@ class RegExValidationConstraintValidator extends ConstraintValidator {
     $value = $field->getValue();
     if (!empty($value)) {
       if (!preg_match_all($constraint->regex, $value[0]['value'])) {
-        $translation = \Drupal::translation();
+        $translation = Drupal::translation();
         $this->context->addViolation(
           $translation->translate($constraint->errorMessage)
         );
-      };
+      }
     }
   }
 
