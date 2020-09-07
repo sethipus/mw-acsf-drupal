@@ -26,6 +26,8 @@ function mars_product_theme($existing, $type, $theme, $path) {
         'nutritional_info_daily_label' => NULL,
         'vitamins_info_label' => NULL,
         'serving_items' => [],
+        'product_sku' => NULL,
+        'commerce_vendor' => NULL,
       ],
       'template' => 'pdp-hero-block',
     ],
