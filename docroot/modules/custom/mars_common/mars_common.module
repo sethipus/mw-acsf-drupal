@@ -134,6 +134,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'help_and_contact_cta_label' => NULL,
         'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'contact-help-banner-block',
     ],

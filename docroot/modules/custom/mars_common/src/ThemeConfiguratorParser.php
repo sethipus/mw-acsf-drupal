@@ -55,7 +55,8 @@ class ThemeConfiguratorParser {
    */
   public function getFileContentFromTheme(string $field): string {
     if (!$this->themeSettings) {
-      $this->themeSettings = $this->configFactory->get('emulsifymars.settings')->get();
+      $this->themeSettings = $this->configFactory->get('emulsifymars.settings')
+        ->get();
     }
 
     if (!isset($this->themeSettings[$field][0])) {
@@ -64,7 +65,6 @@ class ThemeConfiguratorParser {
 
     $configField = $this->themeSettings[$field][0];
     $file = $this->fileStorage->load($configField);
-
     if ($file !== NULL) {
       $filePath = file_create_url($file->uri->value);
       return file_get_contents($filePath);
