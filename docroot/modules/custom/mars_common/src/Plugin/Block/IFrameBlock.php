@@ -31,6 +31,8 @@ class IFrameBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function defaultConfiguration(): array {
+    $conf = $this->getConfiguration();
+
     return [
       'label_display' => FALSE,
       'accessibility_title' => $conf['accessibility_title'] ?? '',
