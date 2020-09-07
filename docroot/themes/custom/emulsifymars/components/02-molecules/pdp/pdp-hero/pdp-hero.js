@@ -30,7 +30,7 @@ Drupal.behaviors.pdpHero = {
         } else {
           swiperInstances[index].autoplay.start();
           swiperControl.classList.toggle('swiper-control-play');
-        };
+        }
       });
     });
 
@@ -48,7 +48,7 @@ Drupal.behaviors.pdpHero = {
       swiperInstances[swiperIndex].update();
       swiperInstances[swiperIndex].autoplay.run();
       document.querySelector('.swiper-control-play').classList.remove('swiper-control-play');
-    };
+    }
 
     var sizeElements = document.querySelectorAll('[data-size-id]');
     sizeElements.forEach((item) => {

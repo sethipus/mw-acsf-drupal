@@ -27,7 +27,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
     'recipe_detail_body_block' => [
       'variables' => [
         'ingredients_list' => NULL,
-        'products_used_label' => NULL,
+        'nutrition_module' => NULL,
         'product_used_items' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-body',

@@ -1,5 +1,5 @@
 .header {
-  background-color: clr(highlight-high);
+  background-color: clr(subcolor-3);
 
   &__inner {
     display: flex;
@@ -7,7 +7,7 @@
   }
 
   &__primary {
-    background-image: radial-gradient(circle at 50% 50%, clr(subcolor-2), clr(secondary));
+    background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
 
     &-container {
       display: flex;
@@ -66,7 +66,7 @@
 
     &--secondary-mobile {
       padding: $space-sextuple $space-quadruple;
-      background: clr(primary);
+      background: clr(secondary);
       display: flex;
       flex-flow: row wrap;
 

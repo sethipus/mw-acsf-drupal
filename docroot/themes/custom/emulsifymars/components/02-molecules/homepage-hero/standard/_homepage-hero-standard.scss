@@ -3,7 +3,7 @@
     display: flex;
     flex-flow: row wrap;
     position: relative;
-    background-color: clr(primary);
+    background-color: clr(secondary);
 
     @include medium {
       flex-flow: row nowrap;
@@ -51,7 +51,7 @@
         height: 50px;
         line-height: 50px;
         background-color: clr(subcolor-2);
-        color: clr(primary);
+        color: clr(secondary);
       }
     }
   }
