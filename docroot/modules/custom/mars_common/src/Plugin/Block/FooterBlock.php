@@ -65,6 +65,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
     $this->config = $config_factory;
   }
 
@@ -109,11 +110,16 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
 
     if ($conf['region_selector_toggle']) {
-      // TODO add region selector.
-      $build['#region_selector'] = [
-        ['title' => $this->t('North America: USA')],
-        ['title' => $this->t('United Kingdom')],
-      ];
+
+      $vid = 'mars_regions';
+      $terms = $this->termStorage->loadTree($vid, 0, NULL, TRUE);
+      $build['#region_selector'] = [];
+      foreach ($terms as $term) {
+        $build['#region_selector'][] = [
+          'title' => $term->getName(),
+          'url' => $term->get('field_mars_url')->first()->getUrl(),
+        ];
+      }
     }
 
     $build['#theme'] = 'footer_block';
