@@ -19,8 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   admin_label = @Translation("PDP Hero"),
  *   category = @Translation("Product"),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label =
- *   @Translation("Product"))
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Product"))
  *   }
  * )
  */
@@ -94,6 +93,23 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['available_sizes'] ?? '',
       '#required' => TRUE,
     ];
+
+    $form['commerce_vendor'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Vendor'),
+      '#default_value' => $this->configuration['commerce_vendor'],
+      '#options' => [
+        'price_spider' => $this->t('Price Spider'),
+        'commerce_connector' => $this->t('Commerce Connector'),
+      ],
+      '#required' => TRUE,
+    ];
+    $form['product_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product ID'),
+      '#default_value' => $this->configuration['product_id'],
+    ];
+
     $form['wtb'] = [
       '#type' => 'details',
       '#title' => $this->t('WTB button settings'),
@@ -174,6 +190,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'daily_label' => $config['nutrition']['daily_label'] ?? $this->t('% Daily value'),
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
+      'commerce_vendor' => $config['commerce_vendor'] ?? 'price_spider',
+      'product_id' => $config['product_id'] ?? '',
     ];
   }
 
@@ -205,6 +223,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#serving_items'] = $this->getServingItems($node);
 
     $build['#theme'] = 'pdp_hero_block';
+
+    $product_sku = '';
+    foreach ($node->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $product_sku = $product_variant->get('field_product_sku')->value;
+    }
+    $build['#product_sku'] = !empty($this->configuration['product_id']) ? $this->configuration['product_id'] : $product_sku;
+    $build['#commerce_vendor'] = $this->configuration['commerce_vendor'];
+    $this->pageAttachments($build);
 
     return $build;
   }
@@ -424,6 +451,54 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getMachineName($string = '') {
     return mb_strtolower(str_replace(' ', '', $string));
+  }
+
+  /**
+   * Add page attachments.
+   *
+   * @param array $build
+   *   Build array.
+   *
+   * @return array
+   *   Return build.
+   */
+  public function pageAttachments(array &$build) {
+    if ($this->configuration['commerce_vendor'] == 'price_spider') {
+      $metatags = [
+        'ps-key' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-key',
+            'content' => '2762-5b80256eb307f7009e536b50',
+          ],
+        ],
+        'ps-country' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-country',
+            'content' => 'US',
+          ],
+        ],
+        'ps-language' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-language',
+            'content' => 'en',
+          ],
+        ],
+        'price-spider' => [
+          '#tag' => 'script',
+          '#attributes' => [
+            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+            'async' => TRUE,
+          ],
+        ],
+      ];
+      foreach ($metatags as $key => $metatag) {
+        $build['#attached']['html_head'][] = [$metatag, $key];
+      }
+    }
+    return $build;
   }
 
 }
