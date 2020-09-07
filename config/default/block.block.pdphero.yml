@@ -28,6 +28,8 @@ settings:
     serving_label: 'Amount per serving'
     daily_label: '% Daily value'
     vitamins_label: 'Vitamins | minerals'
+  commerce_vendor: price_spider
+  product_id: ''
   context_mapping:
     node: '@node.node_route_context:node'
 visibility:
