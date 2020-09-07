@@ -74,6 +74,15 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
   /**
    * {@inheritdoc}
    */
+  public function defaultConfiguration(): array {
+    return [
+      'label_display' => FALSE,
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state): array {
     $conf = $this->getConfiguration();
     $form = parent::buildConfigurationForm($form, $form_state);
