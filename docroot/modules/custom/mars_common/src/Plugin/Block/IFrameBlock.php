@@ -31,9 +31,6 @@ class IFrameBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function defaultConfiguration(): array {
-    $selectedMaxWidth = 0;
-    //$this->maxWidths[$conf['max_width']]
-
     return [
       'label_display' => FALSE,
       'accessibility_title' => $conf['accessibility_title'] ?? '',
