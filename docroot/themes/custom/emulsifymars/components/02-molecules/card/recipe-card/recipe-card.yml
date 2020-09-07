@@ -26,5 +26,4 @@ recipe_card_border_radius: 0
 label_for_cooking_time: 'Cooking Time'
 label_for_ingredients: 'Ingredients'
 
-
 # recipe_is_new: true
