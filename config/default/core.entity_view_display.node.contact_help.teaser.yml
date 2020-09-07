@@ -1,0 +1,33 @@
+uuid: a40fc229-ab2e-479e-9946-cf2623bff1ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.contact_help.body
+    - node.type.contact_help
+  module:
+    - text
+    - user
+id: node.contact_help.teaser
+targetEntityType: node
+bundle: contact_help
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  published_at: true
+  search_api_excerpt: true
