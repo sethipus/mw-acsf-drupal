@@ -1,0 +1,14 @@
+uuid: 36300fff-1890-4a18-bb26-e9b8e180d2d6
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.contact_help_reviewer
+  module:
+    - user
+id: user_remove_role_action.contact_help_reviewer
+label: 'Remove the Contact &amp; Help reviewer role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: contact_help_reviewer

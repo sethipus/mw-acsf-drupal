@@ -24,14 +24,14 @@
     flex-grow: 2;
 
     .eyebrow {
-      color: clr(subcolor-1);
+      color: clr(primary);
       font-size: 14px;
       line-height: 14px;
       letter-spacing: 1.4px;
       margin: 0;
     }
     h3 {
-      color: clr(subcolor-1);
+      color: clr(primary);
       margin-top: 20px;
 
       @include large {
@@ -39,7 +39,7 @@
       }
 
       & a {
-        color: clr(subcolor-1);
+        color: clr(primary);
         text-decoration: none;
         font-size: 20px;
         line-height: 22px;
@@ -48,7 +48,7 @@
     }
     & .cta-link {
       background: none;
-      color: clr(primary);
+      color: clr(secondary);
       padding-left: 0;
       text-transform: uppercase;
       text-decoration: none;
@@ -57,7 +57,7 @@
       letter-spacing: 1.12px;
 
       &__label::after {
-        border: solid clr(primary);
+        border: solid clr(secondary);
         border-width: 0 3px 3px 0;
         display: inline-block;
         padding: 3px;

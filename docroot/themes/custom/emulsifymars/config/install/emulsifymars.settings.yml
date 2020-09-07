@@ -6,6 +6,10 @@ color_c: '4c4c4c'
 color_d: '4c4c4c'
 color_e: '4c4c4c'
 color_f: '4c4c4c'
+card_background: '4c4c4c'
+top_nav: 'e62b1e'
+top_nav_gradient: 'e62b1e'
+bottom_nav: 'e62b1e'
 
 # Font.
 # ----------------------------
@@ -18,6 +22,7 @@ tertiary_font_path: 'font3'
 graphic_divider: { }
 brand_shape: { }
 brand_borders: { }
+brand_borders_2: { }
 png_asset: { }
 button_style: '0px'
 
