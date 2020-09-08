@@ -17,7 +17,7 @@ use Drupal\Core\Url;
  */
 function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterface $form_state, $form_id = NULL) {
   // Init general vars.
-  $translation = \Drupal::translation();
+  $translation = Drupal::translation();
   $social_storage = $form_state->getStorage('social');
   $social_settings = theme_get_setting('social');
   // Init social form elements.
@@ -528,7 +528,7 @@ function emulsifymars_process_image_widget(array &$element, FormStateInterface $
  * Implements hook_preprocess_html().
  */
 function emulsifymars_preprocess_html(&$variables) {
-  $theme_settings = \Drupal::config('emulsifymars.settings')->get();
+  $theme_settings = Drupal::config('emulsifymars.settings')->get();
   $style_tag = sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype');}", $theme_settings['headline_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype');}", $theme_settings['primary_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypeface'; src: url('%s') format('opentype');}", $theme_settings['secondary_font_path']);

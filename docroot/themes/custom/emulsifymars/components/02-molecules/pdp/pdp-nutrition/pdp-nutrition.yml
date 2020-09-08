@@ -13,9 +13,9 @@ serving_items:
       label: 'Servings Per Container:'
       value: '1'
     nutritional_info_calories:
-      label: 'Calories'
-      value: '170'
-      value_daily: ''
+      - label: 'Calories'
+        value: '170'
+        value_daily: ''
     nutritional_info_fat:
       - label: 'Total Fat'
         value: '10g'

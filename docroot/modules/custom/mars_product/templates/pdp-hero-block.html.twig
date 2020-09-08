@@ -8,12 +8,18 @@
  *   'available_sizes' => NULL,
  *   'cta_link' => NULL,
  *   'cta_label' => NULL,
- *   'product_name' => NULL,
- *   'product_description' => NULL,
+ *   'product' => NULL,
  *   'wtb_border_radius' => NULL,
  *   'image_items' => [],
  *   'size_items' => [],
  *   'mobile_items' => [],
+ *   'nutritional_label' => NULL,
+ *   'nutritional_info_serving_label' => NULL,
+ *   'nutritional_info_daily_label' => NULL,
+ *   'vitamins_info_label' => NULL,
+ *   'serving_items' => [],
+ *   'allergen_label' => NULL,
+ *   'allergens_list' => [],
  */
 #}
 
@@ -38,4 +44,7 @@
   vitamins_info_label: vitamins_info_label,
   serving_items: serving_items,
 } %}
-
+{% include "@molecules/pdp/pdp-allergen/pdp-allergen.twig" with {
+  allergen_label: allergen_label,
+  allergens_list: allergens_list,
+} %}

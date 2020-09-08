@@ -3,11 +3,11 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\mars_common\SocialLinks;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\mars_common\SocialLinks;
+use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
  * Provides a contact help banner block.
@@ -23,16 +23,16 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
   /**
    * Media storage.
    *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $mediaStorage;
-
-  /**
-   * Media storage.
-   *
    * @var \Drupal\mars_common\SocialLinks
    */
   protected $socialLinks;
+
+  /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
 
   /**
    * {@inheritdoc}
@@ -42,8 +42,8 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('mars_common.social_links')
+      $container->get('mars_common.social_links'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -54,12 +54,12 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityTypeManagerInterface $entity_type_manager,
-    SocialLinks $social_links
+    SocialLinks $social_links,
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->socialLinks = $social_links;
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
   /**
@@ -97,6 +97,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
 
     $build['#social_menu_items'] = $this->socialLinks->getRenderedItems();
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
     $build['#theme'] = 'contact_help_banner_block';
 
     return $build;
