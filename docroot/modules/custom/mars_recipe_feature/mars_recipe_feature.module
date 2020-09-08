@@ -12,7 +12,11 @@ function mars_recipe_feature_theme($existing, $type, $theme, $path) {
   return [
     'recipe_feature_block' => [
       'variables' => [
+        'brand_borders' => NULL,
         'eyebrow' => NULL,
+        'recipe_media' => [],
+        'cooking_time' => NULL,
+        'cta' => [],
       ],
       'template' => 'recipe-feature-block',
     ],
