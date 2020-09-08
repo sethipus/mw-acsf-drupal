@@ -318,6 +318,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getServingItems($node) {
     $mapping = [
+      'nutritional_info_calories' => [
+        'field_product_calories' => FALSE,
+        'field_product_calories_fat' => FALSE,
+      ],
       'nutritional_info_fat' => [
         'field_product_total_fat' => '',
         'field_product_saturated_fat' => 'field_product_saturated_daily',
@@ -365,21 +369,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'label' => $product_variant->get('field_product_servings_per')->getFieldDefinition()->getLabel() . ':',
           'value' => $product_variant->get('field_product_servings_per')->value,
         ],
-        'nutritional_info_calories' => [
-          'label' => $product_variant->get('field_product_calories')->getFieldDefinition()->getLabel(),
-          'value' => $product_variant->get('field_product_calories')->value,
-        ],
       ];
       foreach ($mapping as $section => $fields) {
         foreach ($fields as $field => $field_daily) {
-          $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
-          $items[$size_id][$section][] = [
+          $item = [
             'label' => $product_variant->get($field)
               ->getFieldDefinition()
               ->getLabel(),
             'value' => $product_variant->get($field)->value,
-            'value_daily' => $product_variant->get($field_daily)->value,
           ];
+          if ($field_daily !== FALSE) {
+            $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
+            $item['value_daily']
+              = $product_variant->get($field_daily)->value;
+          }
+          $items[$size_id][$section][] = $item;
         }
       }
     }
@@ -399,15 +403,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'section-allergens' => 'DIET & ALLERGENS',
       'section-products' => 'RELATED PRODUCTS',
     ];
-    $item = [
-      'link_url' => '#',
-      'border_radius' => 20,
-    ];
     $items = [];
     foreach ($map as $id => $title) {
-      $item['link_attributes']['id'] = $id;
-      $item['title'] = $title;
-      $items[] = $item;
+      $items[] = [
+        // TODO border_radius get from Theme configurator.
+        'border_radius' => 20,
+        'title' => $title,
+        'link_attributes' => [
+          'href' => '#' . $id,
+        ],
+      ];
     }
 
     return $items;

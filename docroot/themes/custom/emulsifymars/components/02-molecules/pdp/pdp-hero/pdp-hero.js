@@ -47,7 +47,8 @@ Drupal.behaviors.pdpHero = {
       let swiperIndex = document.querySelector(`[data-slider-size-active="true"] > .pdp-hero-swiper-container`).dataset.swiperIndex;
       swiperInstances[swiperIndex].update();
       swiperInstances[swiperIndex].autoplay.run();
-      document.querySelector('.swiper-control-play').classList.remove('swiper-control-play');
+      let swiperButtonPlay = document.querySelector('.swiper-control-play');
+      swiperButtonPlay && swiperButtonPlay.classList.remove('swiper-control-play');
     }
 
     var sizeElements = document.querySelectorAll('[data-size-id]');

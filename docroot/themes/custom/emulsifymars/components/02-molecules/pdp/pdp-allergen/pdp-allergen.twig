@@ -1,6 +1,6 @@
 {% set pdp_allergen_base_class = pdp_allergen_base_class|default('pdp-allergen') %}
 
-<section {{ bem(pdp_allergen_base_class) }} data-theme="{{ theme_styles }}">
+<section id="section-allergen" {{ bem(pdp_allergen_base_class) }} data-theme="{{ theme_styles }}">
   {% set header_modifiers = multipack ? 'multipack' : 'singlepack' %}
   {% include "@atoms/text/headings/_heading.twig" with {
     heading_level: 5,
