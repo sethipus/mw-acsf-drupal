@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,6 +29,13 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   protected $mediaStorage;
 
   /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -38,7 +46,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $entity_storage
+      $entity_storage,
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -49,10 +58,12 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityStorageInterface $entity_storage
+    EntityStorageInterface $entity_storage,
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaStorage = $entity_storage;
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
   /**
@@ -67,6 +78,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $build['#description'] = $conf['description'] ?? '';
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
+    $build['#border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
 
     $build['#theme'] = 'content_feature_module_block';
 
