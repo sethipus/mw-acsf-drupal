@@ -51,8 +51,10 @@ jquery_colorpicker: 1.4.0
 jsonapi: 0.0.0
 juicer_io: 0.0.0
 layout_builder: 8.8.1
+layout_builder_lock: 1.0.0-rc4
 layout_builder_modal: 1.1.0
 layout_builder_restrictions: 2.5.0
+layout_builder_restrictions_by_region: 2.7.0
 layout_builder_styles: 1.0.0-beta1
 layout_discovery: 8.8.1
 layout_library: 1.0.0-beta1

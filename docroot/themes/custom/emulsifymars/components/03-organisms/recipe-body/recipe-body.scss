@@ -15,7 +15,7 @@
 
   &__title {
     font: 20px/1.1em variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-transform: capitalize;
     letter-spacing: 1px;
 
@@ -75,7 +75,7 @@
   .recipe-body-content-header {
     margin: 31px 0 13px;
     font: 20px/1.1em variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-transform: capitalize;
     letter-spacing: 1.12px;
     padding: 0;
@@ -101,7 +101,7 @@
     list-style-position: inside;
     list-style-type: none;
     font: 18px/29px variable(secondary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     letter-spacing: -1.1px;
     padding: 0 15px;
     margin: 13px 0 60px;
@@ -129,7 +129,7 @@
 
       &::before {
         content: "";
-        background-color: clr(primary);
+        background-color: clrs(secondary);
         height: 7px;
         width: 7px;
         border-radius: 3.5px;
@@ -169,7 +169,7 @@
 
       &__content {
         font: 18px/1.65em variable(secondary-font);
-        color: clr(subcolor-1);
+        color: clr(primary);
         letter-spacing: -1.1px;
       }
 
@@ -187,7 +187,7 @@
   .recipe-body-content-paragraph {
     margin: 40px auto;
     font: 18px/1.65em variable(secondary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     letter-spacing: -1.1px;
     padding: 0 15px;
 
