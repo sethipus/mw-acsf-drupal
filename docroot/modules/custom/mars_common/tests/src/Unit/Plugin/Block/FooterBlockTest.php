@@ -194,7 +194,8 @@ class FooterBlockTest extends UnitTestCase {
       ->method('getStorage')
       ->withConsecutive(
         [$this->equalTo('menu')],
-        [$this->equalTo('file')]
+        [$this->equalTo('file')],
+        [$this->equalTo('taxonomy_term')]
       )
       ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->fileStorageMock));
 
