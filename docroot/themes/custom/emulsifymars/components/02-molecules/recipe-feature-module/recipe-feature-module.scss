@@ -1,0 +1,84 @@
+.recipe-feature-block {
+  margin: 0 20px;
+
+  & .media {
+    img, figure {
+      @include large {
+        width: 75%;
+      }
+    }
+
+    & .media-info {
+      background-color: clr(subcolor-3);
+      margin: -50px 17px 0 17px;
+      position: relative;
+      text-align: center;
+
+      @include medium {
+        margin-left: 60px;
+        margin-right: 60px;
+      }
+
+      @include large {
+        margin-left: 50%;
+        margin-right: 0;
+        width: 50%;
+        margin-top: -200px;
+      }
+
+      & .eyebrow {
+        padding-top: 30px;
+        font-family: variable(primary-font);
+        font-size: 14px;
+        line-height: 14px;
+        color: clr(primary);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      & h1 {
+        font-family: variable(primary-font);
+        font-size: 28px;
+        line-height: 28px;
+        color: clr(primary);
+        text-transform: capitalize;
+        font-weight: normal;
+      }
+
+      & .cooking-time {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: variable(primary-font);
+
+        &__icon {
+          width: 15px;
+          display: flex;
+        }
+
+        &__info {
+          display: flex;
+          font-size: 12px;
+          line-height: 110%;
+        }
+
+        &__label {
+          color: clr(primary);
+          margin: 0 5px;
+        }
+
+        &__value {
+          color: clr(secondary);
+        }
+      }
+
+      & .default-link {
+        margin-top: 20px;
+        background-color: clr(secondary);
+
+        &:hover {
+          color: clr(secondary);
+        }
+      }
+    }
+  }
+}
