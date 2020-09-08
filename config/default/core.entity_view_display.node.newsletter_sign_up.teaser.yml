@@ -1,0 +1,33 @@
+uuid: b424d2d3-56be-48c7-8164-bab04482791d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.newsletter_sign_up.body
+    - node.type.newsletter_sign_up
+  module:
+    - text
+    - user
+id: node.newsletter_sign_up.teaser
+targetEntityType: node
+bundle: newsletter_sign_up
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  published_at: true
+  search_api_excerpt: true

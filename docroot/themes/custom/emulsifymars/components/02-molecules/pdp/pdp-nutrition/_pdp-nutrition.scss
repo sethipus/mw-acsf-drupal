@@ -29,7 +29,7 @@
     border-bottom: 0;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    color: clr(primary);
+    color: clr(secondary);
   
     @include medium {
       left: 10rem;
@@ -219,8 +219,12 @@
         }
 
         &:last-child {
-          flex: 1 0 58%;
+          flex: 1 0 39%;
           text-align: right;
+
+          @include large {
+            flex: 1 0 58%;
+          }
         }
       }
 

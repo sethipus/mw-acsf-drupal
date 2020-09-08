@@ -11,7 +11,7 @@
     &__left {
       flex-grow: 2;
       width: 100%;
-      background-color: clr(primary);
+      background-color: clr(secondary);
       background-size: auto 100%;
       background-position: right;
       background-repeat: no-repeat;
@@ -59,7 +59,7 @@
           height: 50px;
           line-height: 50px;
           background-color: clr(subcolor-2);
-          color: clr(primary);
+          color: clr(secondary);
         }
       }
     }
@@ -76,6 +76,7 @@
         background-repeat: no-repeat;
         background-position: right center;
         background-size: 30% 90%;
+        background-color: clr(subcolor-2);
         display: flex;
         flex-flow: column nowrap;
 

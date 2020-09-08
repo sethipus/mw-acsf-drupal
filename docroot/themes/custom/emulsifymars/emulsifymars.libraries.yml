@@ -92,3 +92,9 @@ fullscreen-video:
     dist/js/fullscreen_video.js: {}
   dependencies:
     - core/drupal
+
+iframe:
+  js:
+    dist/js/01-atoms/iframe/iframe.js: {}
+  dependencies:
+    - core/drupal
