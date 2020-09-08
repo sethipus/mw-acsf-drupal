@@ -64,6 +64,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'label' => '',
         'items' => [],
+        'graphic_divider' => '',
+        'brand_border' => '',
       ],
     ],
     'parent_page_header_block' => [
