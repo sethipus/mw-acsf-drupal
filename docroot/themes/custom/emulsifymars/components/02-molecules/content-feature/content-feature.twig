@@ -1,7 +1,7 @@
 {{ attach_library('emulsifymars/content-feature') }}
 {% set content_feature_base_class = 'content-feature' %}
 
-<section {{ bem(content_feature_base_class) }} id="content-feature" style="background-image: url('{{ background_image }}');">
+<section {{ bem(content_feature_base_class) }} id="content-feature" style="background-image: url('{{ background_image }}');" data-theme="{{theme_styles}}">
 
   {% include "@atoms/text/eyebrow/eyebrow.twig" with {
     eyebrow_text: eyebrow_text

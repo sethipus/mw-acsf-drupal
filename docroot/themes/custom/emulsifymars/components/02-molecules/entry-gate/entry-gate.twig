@@ -11,6 +11,10 @@
 
 <div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme={{product}}>
   <section class="entry-gate__inner">
+    <div class="entry-gate__brand-shape">
+      {{ brand_shape | raw }}
+    </div>
+
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: entry_gate_heading,
       heading_level: entry_gate_heading_level,
@@ -50,6 +54,10 @@
   </section>
 
   <section class="entry-gate__error">
+    <div class="entry-gate__brand-shape">
+      {{ brand_shape | raw }}
+    </div>
+
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: entry_gate_error_heading,
       heading_level: entry_gate_error_heading_level,

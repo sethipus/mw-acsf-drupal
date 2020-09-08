@@ -1,7 +1,7 @@
 {{ attach_library('emulsifymars/social-feed') }}
 {% set social_feed_base_class = social_feed_base_class|default('social-feed') %}
 
-<section id="social-feed" {{ bem(social_feed_base_class) }} data-theme="twix">
+<section id="social-feed" {{ bem(social_feed_base_class) }} data-theme="{{theme_styles}}" >
   <div class="social-feed__heading">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading_level: 1,
