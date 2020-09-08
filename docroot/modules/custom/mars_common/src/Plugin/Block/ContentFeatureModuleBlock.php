@@ -73,7 +73,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $conf = $this->getConfiguration();
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#label'] = $conf['label'] ?? '';
+    $build['#title'] = $conf['title'] ?? '';
     $build['#background'] = $this->getBackgroundEntity();
     $build['#description'] = $conf['description'] ?? '';
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
@@ -111,11 +111,11 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
-    $form['label'] = [
+    $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 35,
-      '#default_value' => $this->configuration['label'] ?? '',
+      '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['background'] = [
@@ -159,7 +159,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
-    $this->configuration['label'] = $form_state->getValue('label');
+    $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['background'] = $form_state->getValue('background');
     $this->configuration['description'] = $form_state->getValue('description');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
