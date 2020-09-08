@@ -9,7 +9,7 @@ import gridCardData from './grid-cards.yml';
 import gridCtaData from './grid-ctas.yml';
 import ajaxGrid from './ajax-card-grid.twig';
 import ajaxGridData from './ajax-card-grid.yml';
-import ajaxCardGrid from './ajax-card-grid';
+import ajaxCardGrid from './ajaxcardgrid';
 
 /**
  * Storybook Definition.

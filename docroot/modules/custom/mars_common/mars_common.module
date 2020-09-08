@@ -16,6 +16,22 @@ use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
 
 /**
+ * Implements hook_preprocess().
+ */
+function mars_common_preprocess(&$variables, $hook) {
+  if ($hook === 'views_view_grid__grid_card') {
+    $divider_id = Drupal::config('emulsifymars.settings')
+      ->get('graphic_divider');
+    if (isset($divider_id[0])) {
+      $file_entity = File::load($divider_id[0]);
+      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+      $file_divider_content = file_get_contents($file_url->getUri());
+    }
+    $variables['graphic_divider'] = $file_divider_content;
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function mars_common_theme($existing, $type, $theme, $path) {

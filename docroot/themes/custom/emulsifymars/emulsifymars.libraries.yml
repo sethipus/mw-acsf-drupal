@@ -98,3 +98,9 @@ iframe:
     dist/js/01-atoms/iframe/iframe.js: {}
   dependencies:
     - core/drupal
+
+ajaxcardgrid:
+  js:
+    dist/js/03-organisms/grid/ajaxcardgrid.js: {}
+  dependencies:
+    - core/drupal
