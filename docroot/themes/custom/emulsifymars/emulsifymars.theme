@@ -581,6 +581,7 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --c-top-nav: #%s;", $settings['top_nav']);
   $properties .= sprintf(" --c-top-nav-gradient: #%s;", $settings['top_nav_gradient']);
   $properties .= sprintf(" --c-bottom-nav: #%s;", $settings['bottom_nav']);
+  $properties .= sprintf(" --c-card-background: #%s;", $settings['card_background']);
 
   $properties .= sprintf(" --v-heading-font: %s;", 'DrupalHeadlineCampaignFont');
   $properties .= sprintf(" --v-primary-font: %s;", 'DrupalPrimaryTypefaceFont');
