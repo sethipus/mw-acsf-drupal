@@ -13,12 +13,14 @@
  * - error_message: Error message for entry gate.
  * - error_link_1: Link 1 for error page.
  * - error_link_2: Link 2 for error page.
+ * - brand_shape: Brand shape asset.
  *
  */
 #}
 
 {% include "@molecules/entry-gate/entry-gate.twig" with {
   theme_styles: 'drupal',
+  brand_shape: brand_shape,
 
   entry_gate_heading: title,
   entry_gate_paragraph_content: description,
