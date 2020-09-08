@@ -121,11 +121,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $vid = 'mars_regions';
       $terms = $this->termStorage->loadTree($vid, 0, NULL, TRUE);
       $build['#region_selector'] = [];
-      foreach ($terms as $term) {
-        $build['#region_selector'][] = [
-          'title' => $term->getName(),
-          'url' => $term->get('field_mars_url')->first()->getUrl(),
-        ];
+      if (!empty($terms)) {
+        foreach ($terms as $term) {
+          $build['#region_selector'][] = [
+            'title' => $term->getName(),
+            'url' => $term->get('field_mars_url')->first()->getUrl(),
+          ];
+        }
       }
     }
 
