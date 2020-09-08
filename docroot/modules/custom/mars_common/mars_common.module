@@ -50,11 +50,13 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'content_feature_module_block' => [
       'variables' => [
         'eyebrow' => NULL,
-        'label' => NULL,
+        'title' => NULL,
         'background' => NULL,
         'description' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
+        'border_radius' => NULL,
+        'graphic_divider' => NULL,
       ],
       'template' => 'content-feature-module-block',
     ],
@@ -62,6 +64,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'label' => '',
         'items' => [],
+        'graphic_divider' => '',
+        'brand_border' => '',
       ],
     ],
     'parent_page_header_block' => [

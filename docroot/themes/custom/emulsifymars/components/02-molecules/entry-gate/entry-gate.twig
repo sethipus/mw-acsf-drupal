@@ -9,8 +9,12 @@
 {% set entry_gate_error_paragraph_base_class = entry_gate_paragraph_base_class|default('entry-gate__paragraph') %}
 {% set entry_gate_error_link_base_class = entry_gate_error_link_base_class|default('entry-gate__error-link') %}
 
-<div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme={{product}}>
+<div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme="{{ theme_styles }}">
   <section class="entry-gate__inner">
+    <div class="entry-gate__brand-shape">
+      {{ brand_shape | raw }}
+    </div>
+
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: entry_gate_heading,
       heading_level: entry_gate_heading_level,
@@ -38,18 +42,18 @@
       entry_gate_form_error_message: entry_gate_form_error_message
     } %}
 
-    {% embed "@atoms/text/text/01-paragraph.twig" with {
-      paragraph_size: entry_gate_bottom_paragraph_size,
-
-      paragraph_base_class: entry_gate_bottom_paragraph_base_class
-    } %}
-      {% block paragraph_content %}
+    {% block paragraph_content %}
+      <div class="entry-gate__bottom-paragraph">
         {{ entry_gate_bottom_paragraph_content | raw }}
-      {% endblock %}
-    {% endembed %}
+      </div>
+    {% endblock %}
   </section>
 
   <section class="entry-gate__error">
+    <div class="entry-gate__brand-shape">
+      {{ brand_shape | raw }}
+    </div>
+
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: entry_gate_error_heading,
       heading_level: entry_gate_error_heading_level,
