@@ -139,8 +139,10 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
           // Check bundle.
           $videoBundle = $node->get('field_recipe_video')->referencedEntities()[0]->bundle();
           if ($videoBundle == 'video') {
-            // $field_recipe_video = $node->get('field_recipe_video')->view('default');
-            // $field_recipe_video_rendered = $this->renderer->render($field_recipe_video);
+            // $field_recipe_video =
+            // $node->get('field_recipe_video')->view('default');
+            // $field_recipe_video_rendered =
+            // $this->renderer->render($field_recipe_video);
           }
           else {
             $media_file_id = $node->get('field_recipe_video')->target_id;
