@@ -43,6 +43,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   protected $fileStorage;
 
+   /**
+   * Term storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $termStorage;
+
   /**
    * Config Factory.
    *
