@@ -67,7 +67,7 @@ class FooterBlockTest extends UnitTestCase {
   /**
    * Term storage.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
+   * @var \PHPUnit\Framework\MockObject\MockObject
    */
   protected $termStorageMock;
 
@@ -142,7 +142,9 @@ class FooterBlockTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->configMock = $this->createMock(Config::class);
     $this->menuStorageMock = $this->createMock(EntityStorageInterface::class);
-    $this->termStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->termStorageMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['loadTree'])
+      ->getMock();
   }
 
   /**
@@ -230,14 +232,10 @@ class FooterBlockTest extends UnitTestCase {
       ->expects($this->exactly(2))
       ->method('build');
 
-    $termMock = $this->getMockBuilder(stdClass::class)
-      ->setMethods(['loadTree'])
-      ->getMock();
-
     $this->termStorageMock
       ->expects($this->any())
       ->method('loadTree')
-      ->willReturn($termMock);
+      ->willReturn([]);
 
     $build = $this->footerBlock->build();
 
