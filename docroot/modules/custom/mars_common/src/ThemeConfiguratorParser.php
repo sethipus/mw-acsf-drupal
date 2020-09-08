@@ -73,4 +73,21 @@ class ThemeConfiguratorParser {
     return '';
   }
 
+  /**
+   * Returns Setting value.
+   *
+   * @param string $setting
+   *   Config setting name.
+   *
+   * @return string
+   *   File contents.
+   */
+  public function getSettingValue(string $setting) {
+    if (!$this->themeSettings) {
+      $this->themeSettings = $this->configFactory->get('emulsifymars.settings')->get();
+    }
+
+    return $this->themeSettings[$setting] ?? '';
+  }
+
 }
