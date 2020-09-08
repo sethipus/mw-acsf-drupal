@@ -13,9 +13,9 @@
     heading_url: default_link_attributes.href
   } %}
 
-  {% include "@atoms/separators/horizontal-img/horizontal-img.twig" with {
-    horizontal_img_style: separator_style
-  } %}
+  <div class="content-feature__graphic-divider">
+    {{ graphic_divider | raw }}
+  </div>
 
   {% include "@atoms/text/text/01-paragraph.twig" with {
     paragraph_size: paragraph_size,

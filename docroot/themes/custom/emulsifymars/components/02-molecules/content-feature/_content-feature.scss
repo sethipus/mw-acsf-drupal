@@ -1,5 +1,24 @@
 .content-feature {
+  text-align: center;
+  padding: 8rem 4rem 7.2rem 4rem;
+  background-size: cover;
+
+  &__graphic-divider {
     text-align: center;
-    padding: 8rem 4rem 7.2rem 4rem;
-    background-size: cover;
+    margin: 2rem auto;
+
+    svg {
+      path {
+        fill: clr(subcolor-1);
+      }
+    }
+  }
+
+  .default-link {
+      background-color: clr(secondary);
+
+      &:hover {
+          color: clr(secondary);
+      }
+  }
 }
