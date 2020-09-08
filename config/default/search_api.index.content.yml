@@ -49,6 +49,7 @@ field_settings:
           product_multipack: default
           product_variant: default
           recipe: default
+          where_to_buy: default
   status:
     label: null
     datasource_id: 'entity:node'

@@ -11,6 +11,7 @@ dependencies:
     - node.type.product
     - node.type.product_multipack
     - node.type.product_variant
+    - node.type.where_to_buy
   module:
     - content_moderation
 _core:
@@ -86,3 +87,4 @@ type_settings:
       - product
       - product_multipack
       - product_variant
+      - where_to_buy
