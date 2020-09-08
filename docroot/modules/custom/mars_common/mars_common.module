@@ -14,6 +14,8 @@ use Drupal\node\Entity\Node;
 use Drupal\file\Entity\File;
 use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
+use Drupal\mars_common\Form\Alter\NewsletterSignUpLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\WhereToBuyLayoutFormAlter;
 
 /**
  * Implements hook_theme().
@@ -134,8 +136,16 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'help_and_contact_cta_label' => NULL,
         'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'contact-help-banner-block',
+    ],
+    'iframe_block' => [
+      'variables' => [
+        'url' => NULL,
+        'accessibility_title' => NULL,
+      ],
+      'template' => 'iframe-block',
     ],
   ];
 }
@@ -474,6 +484,12 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $original_id = $form_state->getFormObject()->getEntity()->getOriginalId();
     if ($original_id == 'node.contact_help.default') {
       $form['#validate'][] = [ContactHelpLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.newsletter_sign_up.default') {
+      $form['#validate'][] = [NewsletterSignUpLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.where_to_buy.default') {
+      $form['#validate'][] = [WhereToBuyLayoutFormAlter::class, 'validate'];
     }
   }
 }

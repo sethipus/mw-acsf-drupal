@@ -1,0 +1,33 @@
+uuid: a4b2c7eb-5432-497a-b59b-2128567d3112
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.where_to_buy.body
+    - node.type.where_to_buy
+  module:
+    - text
+    - user
+id: node.where_to_buy.teaser
+targetEntityType: node
+bundle: where_to_buy
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  published_at: true
+  search_api_excerpt: true
