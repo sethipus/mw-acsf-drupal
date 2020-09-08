@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -47,6 +48,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $routeMatch;
 
   /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -54,11 +62,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
   /**
@@ -70,7 +80,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -140,6 +151,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['vitamins_label'],
       '#required' => TRUE,
     ];
+    $form['allergen_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Diet & Allergens part label'),
+      '#default_value' => $this->configuration['allergen_label'],
+      '#maxlength' => 50,
+      '#required' => TRUE,
+    ];
 
     return $form;
   }
@@ -174,6 +192,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'daily_label' => $config['nutrition']['daily_label'] ?? $this->t('% Daily value'),
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
+      'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
     ];
   }
 
@@ -185,9 +204,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#available_sizes'] = $this->configuration['available_sizes'] ?? '';
     $build['#cta_link'] = $this->configuration['wtb']['cta_link'] ?? '#';
     $build['#cta_label'] = $this->configuration['wtb']['cta_label'] ?? '';
-    // TODO - get border from Theme settings.
-    // not implemented yet.
-    $build['#wtb_border_radius'] = 25;
+    $build['#wtb_border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
 
     // Nutrition part labels.
     $build['#nutritional_label'] = $this->configuration['nutrition']['label'] ?? '';
@@ -203,9 +220,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#mobile_items'] = $this->getMobileItems();
     // Nutrition part.
     $build['#serving_items'] = $this->getServingItems($node);
+    // Allergen part.
+    $build['#allergen_label'] = $this->configuration['allergen_label'];
+    $build['#allergens_list'] = $this->getAllergenItems($node);
 
     $build['#theme'] = 'pdp_hero_block';
-
     return $build;
   }
 
@@ -318,6 +337,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getServingItems($node) {
     $mapping = [
+      'nutritional_info_calories' => [
+        'field_product_calories' => FALSE,
+        'field_product_calories_fat' => FALSE,
+      ],
       'nutritional_info_fat' => [
         'field_product_total_fat' => '',
         'field_product_saturated_fat' => 'field_product_saturated_daily',
@@ -365,23 +388,62 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'label' => $product_variant->get('field_product_servings_per')->getFieldDefinition()->getLabel() . ':',
           'value' => $product_variant->get('field_product_servings_per')->value,
         ],
-        'nutritional_info_calories' => [
-          'label' => $product_variant->get('field_product_calories')->getFieldDefinition()->getLabel(),
-          'value' => $product_variant->get('field_product_calories')->value,
-        ],
       ];
       foreach ($mapping as $section => $fields) {
         foreach ($fields as $field => $field_daily) {
-          $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
-          $items[$size_id][$section][] = [
+          $item = [
             'label' => $product_variant->get($field)
               ->getFieldDefinition()
               ->getLabel(),
             'value' => $product_variant->get($field)->value,
-            'value_daily' => $product_variant->get($field_daily)->value,
           ];
+          if ($field_daily !== FALSE) {
+            $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
+            $item['value_daily']
+              = $product_variant->get($field_daily)->value;
+          }
+          if (isset($item['value']) || isset($item['value_daily'])) {
+            $items[$size_id][$section][] = $item;
+          }
         }
       }
+    }
+
+    return $items;
+  }
+
+  /**
+   * Get Allergen items.
+   *
+   * @param object $node
+   *   Product node.
+   *
+   * @return array
+   *   Size items array.
+   */
+  public function getAllergenItems($node) {
+    $items = [];
+    $i = 0;
+    foreach ($node->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $size = $product_variant->get('field_product_size')->value;
+      $size_id = $this->getMachineName($size);
+      $i++;
+      $state = $i == 1 ? 'true' : 'false';
+
+      $allergen_items = [];
+      foreach ($product_variant->field_product_diet_allergens as $ref) {
+        $allergen_term = $ref->entity;
+        $allergen_items[] = [
+          'allergen_icon' => $allergen_term->field_allergen_image->entity->createFileUrl(),
+          'allergen_label' => $allergen_term->getName(),
+        ];
+      }
+      $items[] = [
+        'active' => $state,
+        'size_id' => $size_id,
+        'allergen_items' => $allergen_items,
+      ];
     }
 
     return $items;
@@ -399,15 +461,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'section-allergens' => 'DIET & ALLERGENS',
       'section-products' => 'RELATED PRODUCTS',
     ];
-    $item = [
-      'link_url' => '#',
-      'border_radius' => 20,
-    ];
     $items = [];
     foreach ($map as $id => $title) {
-      $item['link_attributes']['id'] = $id;
-      $item['title'] = $title;
-      $items[] = $item;
+      $items[] = [
+        'border_radius' => $this->themeConfiguratorParser->getSettingValue('button_style'),
+        'title' => $title,
+        'link_attributes' => [
+          'href' => '#' . $id,
+        ],
+      ];
     }
 
     return $items;
