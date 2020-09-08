@@ -1,6 +1,6 @@
 {% set recipe_card_base_class = recipe_card_base_class|default('recipe-card') %}
 
-<section data-theme="dove" {{ bem(recipe_card_base_class) }}>
+<section data-theme="{{theme_styles}}" {{ bem(recipe_card_base_class) }}>
   {% if recipe_is_new %}
     {% include "@atoms/badge/badge.twig" %}
   {% endif %}
@@ -13,7 +13,7 @@
         image_src: recipe_card_image_src,
         responsive_image_blockname: 'recipe_image',
       } %}
-    </a>  
+    </a>
   </div>
 
   {% include "@atoms/text/headings/_heading.twig" with {
@@ -41,7 +41,7 @@
           paragraph_base_class: recipe_card_items_base_class,
           paragraph_modifiers: recipe_card_items_modifiers
         } %}
-    </div> 
+    </div>
   </div>
 
   <div {{ bem('details-button', [], recipe_card_base_class) }}>
@@ -51,5 +51,5 @@
       default_link_attributes: recipe_card_button_link_attributes,
       default_link_modifiers: recipe_card_button_modifiers
     } %}
-  </div>    
+  </div>
 </section>

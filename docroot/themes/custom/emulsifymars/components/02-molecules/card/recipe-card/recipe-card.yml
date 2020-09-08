@@ -1,3 +1,4 @@
+theme_styles: 'dove'
 recipe_card_image_alt: 'Recipe image'
 recipe_card_image_src: 'Recipe_Image.png'
 recipe_card_media_url: https://storybook.js.org/
@@ -18,7 +19,7 @@ recipe_card_items_modifiers: ['xs']
 
 recipe_card_button_text: 'see details'
 recipe_card_button_modifiers: ['small']
-recipe_card_button_link_attributes: 
+recipe_card_button_link_attributes:
   href: 'https://storybook.js.org/'
   target: '_blank'
 recipe_card_border_radius: 0
@@ -26,4 +27,4 @@ recipe_card_border_radius: 0
 label_for_cooking_time: 'Cooking Time'
 label_for_ingredients: 'Ingredients'
 
-# recipe_is_new: true
+recipe_is_new: true
