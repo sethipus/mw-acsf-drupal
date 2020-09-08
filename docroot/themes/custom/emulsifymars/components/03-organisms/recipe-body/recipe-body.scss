@@ -1,13 +1,9 @@
-.recipe-body {
-  position: relative;
-}
-
 .product-used {
-  padding: 30px 20px 0;
+  padding: 30px 0 0;
   position: relative;
 
   @include medium {
-    padding-top: 60px;
+    padding: 40px 40px 30px;
   }
 
   @include xl {
@@ -26,6 +22,25 @@
     @include medium {
       font-size: 28px;
       line-height: 31px;
+    }
+  }
+
+  &::before {
+    content: "";
+    height: 1px;
+    width: 100%;
+    background-color: rgba(196, 196, 196, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    @include medium {
+      width: calc(100% - 80px);
+      left: 40px;
+    }
+
+    @include xl {
+      display: none;
     }
   }
 }
@@ -49,11 +64,11 @@
   position: relative;
 
   @include medium {
-    padding: 0 40px 38px;
+    padding: 0 40px;
   }
 
   @include xl {
-    padding: 0 0 38px;
+    padding: 0;
   }
 
 
@@ -63,7 +78,7 @@
     color: clr(subcolor-1);
     text-transform: capitalize;
     letter-spacing: 1.12px;
-    padding: 0 15px;
+    padding: 0;
 
     @include medium {
       margin: 31px 0 24px;
@@ -89,7 +104,7 @@
     color: clr(subcolor-1);
     letter-spacing: -1.1px;
     padding: 0 15px;
-    margin: 13px 0;
+    margin: 13px 0 60px;
 
     @include medium {
       padding: 0 40px;
@@ -148,6 +163,10 @@
     .list-item {
       margin-top: 20px;
 
+      @include medium {
+        padding: 20px 20px 20px 80px;
+      }
+
       &__content {
         font: 18px/1.65em variable(secondary-font);
         color: clr(subcolor-1);
@@ -156,7 +175,11 @@
 
       &::before {
         font: 28px/1em variable(primary-font);
-        top: calc(50% - 0.5em);
+        top: 20px;
+
+        @include medium {
+          top: calc(50% - .5em);
+        }
       }
     }
   }
@@ -183,6 +206,11 @@
   .recipe-body-video {
     &__full {
       width: 100vw;
+      margin-left: -20px;
+
+      @include medium {
+        margin-left: -40px;
+      }
 
       @include xl {
         width: 1125px;
@@ -191,41 +219,31 @@
     }
   }
 
-  &::before {
-    content: "";
-    height: 1px;
-    width: calc(100% - 40px);
-    background-color: rgba(196, 196, 196, 0.6);
-    position: absolute;
-    bottom: 0;
-    left: 20px;
-
-    @include medium {
-      width: calc(100% - 80px);
-      left: 40px;
-    }
-
-    @include xl {
-      display: none;
-    }
-  }
-
-  &__top {
-    &::before {
-      bottom: 0;
-    }
-  }
-
   &__bottom {
     margin-bottom: 100px;
-    padding-top: 30px;
+    padding-top: 40px;
 
     .recipe-body-content-header {
       margin-top: 0;
     }
 
     &::before {
+      content: "";
+      height: 1px;
+      width: calc(100% - 40px);
+      background-color: rgba(196, 196, 196, 0.6);
+      position: absolute;
       top: 0;
+      left: 20px;
+
+      @include medium {
+        width: calc(100% - 160px);
+        left: 80px;
+      }
+
+      @include xl {
+        display: none;
+      }
     }
   }
 
