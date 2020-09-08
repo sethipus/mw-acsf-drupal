@@ -1,10 +1,10 @@
-uuid: a38bd734-691c-42e6-ba2b-e9489f3df09b
+uuid: 29b88ca5-65ef-4114-842c-db00b966d16d
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.newsletter_sign_up.body
-    - node.type.newsletter_sign_up
+    - field.field.node.where_to_buy.body
+    - node.type.where_to_buy
   module:
     - layout_builder
     - layout_builder_restrictions
@@ -19,12 +19,12 @@ third_party_settings:
     enabled: true
     sections:
       -
-        layout_id: newsletter_sign_up_parent_page_header
+        layout_id: where_to_buy_parent_page_header
         layout_settings:
           label: 'Parent Page Header'
         components:
-          f3468f7f-32ad-4412-b3f8-a8df9119826a:
-            uuid: f3468f7f-32ad-4412-b3f8-a8df9119826a
+          8a7d620d-1967-4282-a679-364578f8785c:
+            uuid: 8a7d620d-1967-4282-a679-364578f8785c
             region: content
             configuration:
               id: parent_page_header
@@ -32,8 +32,8 @@ third_party_settings:
               provider: mars_common
               label_display: ''
               eyebrow: eyebrow
-              background: '26'
-              description: description
+              background: '21'
+              description: Description
               context_mapping: {  }
             additional: {  }
             weight: 0
@@ -47,21 +47,9 @@ third_party_settings:
               7: 7
               8: 8
       -
-        layout_id: newsletter_sign_up_main_section
+        layout_id: where_to_buy_product_recommendations
         layout_settings:
-          label: 'Newsletter Sign Up'
-        components: {  }
-        third_party_settings:
-          layout_builder_lock:
-            lock:
-              5: 5
-              6: 6
-              7: 7
-              8: 8
-      -
-        layout_id: newsletter_sign_up_recommended_products
-        layout_settings:
-          label: Recommendations
+          label: 'Product Recommendations'
         components: {  }
         third_party_settings:
           layout_builder_lock:
@@ -72,6 +60,31 @@ third_party_settings:
               6: 6
               7: 7
               8: 8
+      -
+        layout_id: where_to_buy_where_to_buy
+        layout_settings:
+          label: 'Where to Buy Integration'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+              8: 8
+      -
+        layout_id: where_to_buy_community
+        layout_settings:
+          label: Community
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              5: 5
+              6: 6
+              7: 7
   layout_library:
     enable: false
   layout_builder_restrictions:
@@ -104,16 +117,18 @@ third_party_settings:
       whitelisted_blocks: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
-        - newsletter_sign_up_parent_page_header
-        - newsletter_sign_up_main_section
-        - newsletter_sign_up_recommended_products
+        - where_to_buy_parent_page_header
+        - where_to_buy_product_recommendations
+        - where_to_buy_where_to_buy
+        - where_to_buy_community
     entity_view_mode_restriction_by_region:
       allowed_layouts:
-        - newsletter_sign_up_parent_page_header
-        - newsletter_sign_up_main_section
-        - newsletter_sign_up_recommended_products
+        - where_to_buy_parent_page_header
+        - where_to_buy_product_recommendations
+        - where_to_buy_where_to_buy
+        - where_to_buy_community
       whitelisted_blocks:
-        newsletter_sign_up_main_section:
+        where_to_buy_product_recommendations:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
@@ -139,7 +154,7 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        newsletter_sign_up_recommended_products:
+        where_to_buy_where_to_buy:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
@@ -165,7 +180,7 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        newsletter_sign_up_parent_page_header:
+        where_to_buy_parent_page_header:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
@@ -192,9 +207,35 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-id: node.newsletter_sign_up.default
+        where_to_buy_community:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+id: node.where_to_buy.default
 targetEntityType: node
-bundle: newsletter_sign_up
+bundle: where_to_buy
 mode: default
 content:
   body:
