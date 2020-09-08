@@ -62,6 +62,21 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'items' => [],
       ],
     ],
+    'story_highlight_block' => [
+      'variables' => [
+        'brand_border' => NULL,
+        'title' => NULL,
+        'graphic_divider' => NULL,
+        'story_description' => NULL,
+        'story_items' => [],
+        'svg_asset_1' => NULL,
+        'svg_asset_2' => NULL,
+        'svg_asset_3' => NULL,
+        'view_more_cta_url' => NULL,
+        'view_more_cta_label' => NULL,
+      ],
+      'template' => 'story-highlight-block',
+    ],
     'parent_page_header_block' => [
       'variables' => [
         'eyebrow' => NULL,
