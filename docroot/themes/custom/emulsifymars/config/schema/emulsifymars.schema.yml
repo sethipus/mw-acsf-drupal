@@ -25,6 +25,18 @@ color_e:
 color_f:
   type: text
   label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+card_background:
+  type: text
+  label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+top_nav:
+  type: text
+  label: 'Footer top part Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+top_nav_gradient:
+  type: text
+  label: 'Footer top part gradient Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+bottom_nav:
+  type: text
+  label: 'Footer bottom part Color. Will be used for visual accents throughout the site. Must be AA compliant.'
 
 # Font.
 # ----------------------------
@@ -47,6 +59,9 @@ brand_shape:
   type: integer
   label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
 brand_borders:
+  type: integer
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+brand_borders_2:
   type: integer
   label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
 png_asset:

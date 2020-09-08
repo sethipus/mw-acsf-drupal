@@ -33,14 +33,14 @@
   }
 
   &--with-bg-img {
-    background-color: rgba(0,0,0,.5);
+    background-color: clr(subcolor-2);
     background-blend-mode: multiply;
     background-size: cover;
     background-position: top  center;
     
     .article-card-heading__link,
     .article-card-paragraph--xs {
-      color: clr(text-inverse);
+      color: clr(subcolor-3);
     }
   }
 }
