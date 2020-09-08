@@ -12,7 +12,6 @@ graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="101" height="12
 
 paragraph_size: 'large'
 paragraph_content: 'Delicious chocolate is just the beginning. Our passion extends to everything we do and influences how we do it, every step of the way. That’s why we partner with CARE® to empower female farmers and improve their voices in financial decisions.'
-paragraph_base_class: 'paragraph'
 paragraph_modifiers: ['large']
 
 default_link_content: 'Explore'
