@@ -18,7 +18,7 @@
       line-height: 1.1;
       letter-spacing: 0.8px;
       text-transform: uppercase;
-      color: clr(primary);
+      color: clr(subcolor-1);
       text-align: center;
       margin: 0;
       
@@ -46,7 +46,7 @@
       border-bottom: 0;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
-      color: clr(primary);
+      color: clr(subcolor-1);
     
       @include medium {
         left: 10rem;

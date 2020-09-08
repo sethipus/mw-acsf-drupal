@@ -1,12 +1,12 @@
 .recommendations {
-  background-color: clr(background);
+  background-color: clr(subcolor-2);
   padding: 2rem 0 4rem 0;
   overflow-x: hidden;
 
   &__heading {
     &--main-heading {
       text-align: center;
-      color: clr(subcolor-1);
+      color: clr(primary);
       text-transform: uppercase;
       font-size: 40px;
       line-height: 1.1em;
@@ -34,7 +34,7 @@
     transform: scale(.5);
 
     & .swiper-scrollbar-drag {
-      background: clr(subcolor-1);
+      background: clr(primary);
     }
   }
 
@@ -63,7 +63,7 @@
     }
 
     &::after {
-      color: clr(primary);
+      color: clr(secondary);
       font-size: 2.5rem;
     }
   }

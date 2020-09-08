@@ -1,0 +1,23 @@
+.iframe-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+
+  @media (max-width: 1440px) {
+    max-width: 1360px;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 688px;
+  }
+
+  @media (max-width: 375px) {
+    max-width: 335px;
+  }
+
+  &__inner {
+    border: none;
+    width: 100%;
+  }
+}
