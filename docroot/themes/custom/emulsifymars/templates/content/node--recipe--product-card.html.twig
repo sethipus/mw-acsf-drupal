@@ -10,7 +10,7 @@
 {% set recipe_is_new = node.field_recipe_new.0.value == 1 ? true : false %}
 
 {% include "@molecules/card/recipe-card/recipe-card.twig" with {
-  theme_styles: 'dove',
+  theme_styles: 'drupal',
   recipe_is_new: recipe_is_new,
   recipe_card_image_src: image_src,
   recipe_card_image_alt: image_alt ,
