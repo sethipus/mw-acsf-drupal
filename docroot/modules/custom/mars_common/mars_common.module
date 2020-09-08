@@ -56,7 +56,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
         'border_radius' => NULL,
-        'brand_shape' => NULL,
+        'graphic_divider' => NULL,
       ],
       'template' => 'content-feature-module-block',
     ],
