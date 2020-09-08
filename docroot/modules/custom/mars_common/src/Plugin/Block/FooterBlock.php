@@ -43,7 +43,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   protected $fileStorage;
 
-   /**
+  /**
    * Term storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
@@ -115,9 +115,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     if ($conf['social_links_toggle']) {
       $build['#social_links'] = $this->socialLinks($theme_settings);
     }
-
     if ($conf['region_selector_toggle']) {
-
       $vid = 'mars_regions';
       $terms = $this->termStorage->loadTree($vid, 0, NULL, TRUE);
       $build['#region_selector'] = [];
@@ -130,7 +128,6 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
         }
       }
     }
-
     $build['#theme'] = 'footer_block';
     return $build;
   }
