@@ -1,5 +1,7 @@
 {{ attach_library('emulsifymars/content-feature') }}
 {% set content_feature_base_class = 'content-feature' %}
+{% set content_feature_heading_base_class = 'content-feature__heading' %}
+{% set content_feature_paragraph_base_class = 'content-feature__paragraph' %}
 
 <section {{ bem(content_feature_base_class) }} id="content-feature" style="background-image: url('{{ background_image }}');" data-theme="{{theme_styles}}">
 
@@ -10,17 +12,18 @@
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: heading,
     heading_level: heading_level,
-    heading_url: default_link_attributes.href
+    heading_url: default_link_attributes.href,
+    heading_base_class: content_feature_heading_base_class
   } %}
 
-  {% include "@atoms/separators/horizontal-img/horizontal-img.twig" with {
-    horizontal_img_style: separator_style
-  } %}
+  <div class="content-feature__graphic-divider">
+    {{ graphic_divider | raw }}
+  </div>
 
   {% include "@atoms/text/text/01-paragraph.twig" with {
     paragraph_size: paragraph_size,
     paragraph_content: paragraph_content,
-    paragraph_base_class: paragraph_base_class,
+    paragraph_base_class: content_feature_paragraph_base_class,
     paragraph_modifiers: paragraph_modifiers
   } %}
 

@@ -42,15 +42,11 @@
       entry_gate_form_error_message: entry_gate_form_error_message
     } %}
 
-    {% embed "@atoms/text/text/01-paragraph.twig" with {
-      paragraph_size: entry_gate_bottom_paragraph_size,
-
-      paragraph_base_class: entry_gate_bottom_paragraph_base_class
-    } %}
-      {% block paragraph_content %}
+    {% block paragraph_content %}
+      <div class="entry-gate__bottom-paragraph">
         {{ entry_gate_bottom_paragraph_content | raw }}
-      {% endblock %}
-    {% endembed %}
+      </div>
+    {% endblock %}
   </section>
 
   <section class="entry-gate__error">
