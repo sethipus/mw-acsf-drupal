@@ -204,7 +204,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#available_sizes'] = $this->configuration['available_sizes'] ?? '';
     $build['#cta_link'] = $this->configuration['wtb']['cta_link'] ?? '#';
     $build['#cta_label'] = $this->configuration['wtb']['cta_label'] ?? '';
-    $build['#wtb_border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
 
     // Nutrition part labels.
     $build['#nutritional_label'] = $this->configuration['nutrition']['label'] ?? '';
@@ -464,7 +463,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     foreach ($map as $id => $title) {
       $items[] = [
-        'border_radius' => $this->themeConfiguratorParser->getSettingValue('button_style'),
         'title' => $title,
         'link_attributes' => [
           'href' => '#' . $id,

@@ -1,4 +1,7 @@
+theme_styles: 'twix'
 eyebrow_text: 'Initiative'
+
+background_image: '/content-feature-bg.png'
 
 heading: 'The Rainforest Alliance'
 heading_level: 1
@@ -13,7 +16,6 @@ paragraph_modifiers: ['large']
 
 default_link_content: 'Explore'
 default_link_base_class: 'default-link'
-default_link_border_radius: 0
 default_link_attributes: 
   'target': '_self'
   'href': 'https://storybook.js.org/'

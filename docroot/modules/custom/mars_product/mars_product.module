@@ -17,7 +17,6 @@ function mars_product_theme($existing, $type, $theme, $path) {
         'cta_link' => NULL,
         'cta_label' => NULL,
         'product' => NULL,
-        'wtb_border_radius' => NULL,
         'image_items' => [],
         'size_items' => [],
         'mobile_items' => [],

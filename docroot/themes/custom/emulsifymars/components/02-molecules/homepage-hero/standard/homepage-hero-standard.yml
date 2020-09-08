@@ -9,4 +9,3 @@ cta_base_class: 'cta-link'
 hero_image:
   'srcset': 'image-4.png, image-4@2x.png 2x, image-4@3x.png 3x '
   'src': 'image-4.png'
-cta_border_radius: 30

@@ -63,7 +63,6 @@ product_description: 'Whether you’re a Left TWIX Bar or Right TWIX Bar person,
 product_CTA_title: 'WHERE TO BUY'
 product_CTA_link_attributes:
   'href': '#'
-product_CTA_border_radius: 30
 mobile_sections_items:
   - title: 'NUTRITION & INGREDIENTS'
     border_radius: 20

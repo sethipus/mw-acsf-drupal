@@ -58,7 +58,7 @@
   &__heading {
     font-family: variable(heading-font);
     text-align: center;
-    color: clr(subcolor-1);
+    color: clr(primary);
     z-index: 5;
     position: relative;
 
@@ -81,7 +81,7 @@
   &__paragraph {
     font-family: variable(secondary-font);
     text-align: center;
-    color: clr(subcolor-1);
+    color: clr(primary);
     z-index: 5;
     position: relative;
     margin-bottom: 5rem;
