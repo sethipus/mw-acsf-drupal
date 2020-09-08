@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Template for the salesforce form component.
+ *
+ * Available variables:
+ * 'form_id' => NULL
+ */
+#}
+{% set contact__base_class = 'form-integration' %}
+
+<section {{ bem(contact__base_class) }}>
+  <div {{ bem('contact', [], contact__base_class) }}>
+    <script type="text/javascript" id="jsFastForms" src="https://sfapi-sandbox.formstack.io/FormEngine/Scripts/Main.js?d={{ form_id }}"></script>
+  </div>
+</section>

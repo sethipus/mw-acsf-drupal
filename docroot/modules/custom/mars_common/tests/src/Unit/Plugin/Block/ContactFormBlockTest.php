@@ -6,15 +6,15 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\mars_common\Plugin\Block\SalesforceFormBlock;
+use Drupal\mars_common\Plugin\Block\ContactFormBlock;
 
 /**
  * Class SalesforceFormBlockTest.
  *
  * @package Drupal\Tests\mars_common\Unit
- * @covers \Drupal\mars_common\Plugin\Block\SalesforceFormBlock
+ * @covers \Drupal\mars_common\Plugin\Block\ContactFormBlock
  */
-class SalesforceFormBlockTest extends UnitTestCase {
+class ContactFormBlockTest extends UnitTestCase {
 
   /**
    * Mock.
@@ -33,9 +33,9 @@ class SalesforceFormBlockTest extends UnitTestCase {
   /**
    * Tested Salesforce Form block.
    *
-   * @var \Drupal\mars_common\Plugin\Block\SalesforceFormBlock
+   * @var \Drupal\mars_common\Plugin\Block\ContactFormBlock
    */
-  private $salesforceFormBlock;
+  private $contactFormBlock;
 
   /**
    * Test block configuration.
@@ -61,9 +61,9 @@ class SalesforceFormBlockTest extends UnitTestCase {
     ];
 
     // We should create it in test to import different configs.
-    $this->salesforceFormBlock = new SalesforceFormBlock(
+    $this->contactFormBlock = new ContactFormBlock(
       $this->configuration,
-      'salesforce_form_block',
+      'contact_form_block',
       $definitions
     );
   }
@@ -80,9 +80,8 @@ class SalesforceFormBlockTest extends UnitTestCase {
    * Test configuration form.
    */
   public function testBuildConfigurationFormProperly() {
-    $config_form = $this->salesforceFormBlock->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(7, $config_form);
-    $this->assertArrayHasKey('form_type', $config_form);
+    $config_form = $this->contactFormBlock->buildConfigurationForm([], $this->formStateMock);
+    $this->assertCount(6, $config_form);
     $this->assertArrayHasKey('form_id', $config_form);
   }
 
@@ -90,12 +89,11 @@ class SalesforceFormBlockTest extends UnitTestCase {
    * Test building block.
    */
   public function testBuildBlockRenderArrayProperly() {
-    $build = $this->salesforceFormBlock->build();
+    $build = $this->contactFormBlock->build();
 
-    $this->assertCount(3, $build);
-    $this->assertArrayHasKey('#form_type', $build);
+    $this->assertCount(2, $build);
     $this->assertArrayHasKey('#form_id', $build);
-    $this->assertEquals('salesforce_form_block', $build['#theme']);
+    $this->assertEquals('contact_form_block', $build['#theme']);
   }
 
 }

@@ -100,12 +100,17 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-feature-block',
     ],
-    'salesforce_form_block' => [
+    'newsletter_signup_form_block' => [
       'variables' => [
-        'form_type' => NULL,
         'form_id' => NULL,
       ],
-      'template' => 'salesforce-form-block',
+      'template' => 'newsletter-signup-form-block',
+    ],
+    'contact_form_block' => [
+      'variables' => [
+        'form_id' => NULL,
+      ],
+      'template' => 'contact-form-block',
     ],
     'error_page_block' => [
       'variables' => [
