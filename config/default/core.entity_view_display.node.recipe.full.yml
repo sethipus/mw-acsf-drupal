@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients
     - field.field.node.recipe.field_recipe_ingredients_number
+    - field.field.node.recipe.field_recipe_new
     - field.field.node.recipe.field_recipe_number_of_servings
     - field.field.node.recipe.field_recipe_nutrition_module
     - field.field.node.recipe.field_recipe_video
@@ -72,6 +73,7 @@ hidden:
   field_recipe_image: true
   field_recipe_ingredients: true
   field_recipe_ingredients_number: true
+  field_recipe_new: true
   field_recipe_number_of_servings: true
   field_recipe_nutrition_module: true
   field_recipe_video: true

@@ -71,7 +71,6 @@ class ThemeConfiguratorParser {
 
     $configField = $this->themeSettings[$field][0];
     $file = $this->fileStorage->load($configField);
-
     if ($file !== NULL) {
       $filePath = file_create_url($file->uri->value);
       return file_get_contents($filePath);
@@ -115,6 +114,19 @@ class ThemeConfiguratorParser {
       $social_menu_items[$key]['icon'] = !empty($file) ? $file->createFileUrl() : '';
     }
     return $social_menu_items;
+  }
+
+  /**
+   * Return settings from theme configurator.
+   *
+   * @param string $setting
+   *   Config setting name.
+   *
+   * @return string
+   *   File contents.
+   */
+  public function getSettingValue(string $setting) {
+    return $this->themeSettings[$setting] ?? '';
   }
 
 }

@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients
     - field.field.node.recipe.field_recipe_ingredients_number
+    - field.field.node.recipe.field_recipe_new
     - field.field.node.recipe.field_recipe_number_of_servings
     - field.field.node.recipe.field_recipe_nutrition_module
     - field.field.node.recipe.field_recipe_video
@@ -67,6 +68,16 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     type: number_integer
+    region: content
+  field_recipe_new:
+    weight: 9
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_recipe_number_of_servings:
     weight: 5

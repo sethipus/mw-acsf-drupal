@@ -44,6 +44,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $themeConfiguratorParser;
 
   /**
+   * Term storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $termStorage;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -58,6 +65,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
   }
 
   /**
@@ -93,15 +101,19 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     if ($conf['social_links_toggle']) {
       $build['#social_links'] = $this->themeConfiguratorParser->socialLinks();
     }
-
     if ($conf['region_selector_toggle']) {
-      // TODO add region selector.
-      $build['#region_selector'] = [
-        ['title' => $this->t('North America: USA')],
-        ['title' => $this->t('United Kingdom')],
-      ];
+      $vid = 'mars_regions';
+      $terms = $this->termStorage->loadTree($vid, 0, NULL, TRUE);
+      $build['#region_selector'] = [];
+      if (!empty($terms)) {
+        foreach ($terms as $term) {
+          $build['#region_selector'][] = [
+            'title' => $term->getName(),
+            'url' => $term->get('field_mars_url')->first()->getUrl(),
+          ];
+        }
+      }
     }
-
     $build['#theme'] = 'footer_block';
     return $build;
   }

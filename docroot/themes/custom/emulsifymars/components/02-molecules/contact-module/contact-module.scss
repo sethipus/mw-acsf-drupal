@@ -6,26 +6,46 @@
 
   @include xs {
     padding: 5rem 2rem 4rem 2rem;
-    background-position: 28rem -2rem;
-    background-size: 126%;
   }
 
   @include medium {
     padding: 6rem 4rem;
-    background-position: 50rem -18rem;
-    background-size: 114%;
   }
 
-  @include large {
-    padding: 6rem 4rem;
-    background-position: 90rem -10rem;
-    background-size: 68%;
+  &__brand-shape {
+    position: absolute;
+    z-index: 1;
+
+    @include xs {
+      top: 0;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+    }
+
+    @include medium {
+      top: -5%;
+      right: -65%;
+      width: 130%;
+      height: 130%;
+    }
+
+    @include large {
+      top: -10%;
+      right: -65%;
+      width: 150%;
+      height: 150%;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
   }
 
-  @include xl {
-    padding: 6rem 4rem;
-    background-position: 120rem -10rem;
-    background-size: 43%;
+  &__content {
+    position: relative;
+    z-index: 2;
   }
 
   &__heading {

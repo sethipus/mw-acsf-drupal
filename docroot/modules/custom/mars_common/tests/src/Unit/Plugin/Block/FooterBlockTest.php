@@ -2,9 +2,10 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal;
 use Drupal\Tests\UnitTestCase;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Drupal\Core\Config\Config;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
@@ -64,6 +65,13 @@ class FooterBlockTest extends UnitTestCase {
   protected $themeConfiguratorParserMock;
 
   /**
+   * Term storage.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $termStorageMock;
+
+  /**
    * Tested footer block.
    *
    * @var \Drupal\mars_common\Plugin\Block\FooterBlock
@@ -83,7 +91,7 @@ class FooterBlockTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    \Drupal::setContainer($this->containerMock);
+    Drupal::setContainer($this->containerMock);
     $this->configuration = [
       'top_footer_menu' => 'top footer menu',
       'legal_links' => 'legal menu links',
@@ -107,9 +115,10 @@ class FooterBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getStorage')
       ->withConsecutive(
-        [$this->equalTo('menu')]
+        [$this->equalTo('menu')],
+        [$this->equalTo('taxonomy_term')]
       )
-      ->will($this->onConsecutiveCalls($this->menuStorageMock));
+      ->will($this->onConsecutiveCalls($this->menuStorageMock, $this->termStorageMock));
 
     // We should create it in test to import different configs.
     $this->footerBlock = new FooterBlock(
@@ -133,6 +142,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->configMock = $this->createMock(Config::class);
     $this->menuStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->termStorageMock = $this->createMock(EntityStorageInterface::class);
   }
 
   /**
@@ -150,12 +160,13 @@ class FooterBlockTest extends UnitTestCase {
       ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->entityTypeManagerMock, $this->themeConfiguratorParserMock));
 
     $this->entityTypeManagerMock
-      ->expects($this->exactly(1))
+      ->expects($this->any())
       ->method('getStorage')
       ->withConsecutive(
-        [$this->equalTo('menu')]
+        [$this->equalTo('menu')],
+        [$this->equalTo('taxonomy_term')]
       )
-      ->will($this->onConsecutiveCalls($this->menuLinkTreeMock));
+      ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->termStorageMock));
 
     $definitions = [
       'provider'    => 'test',
@@ -177,7 +188,7 @@ class FooterBlockTest extends UnitTestCase {
       )
       ->will($this->onConsecutiveCalls('', ''));
 
-    $reflection = new \ReflectionClass($this->footerBlock);
+    $reflection = new ReflectionClass($this->footerBlock);
     $method = $reflection->getMethod('buildConfigurationForm');
     $method->setAccessible(TRUE);
 
@@ -218,6 +229,15 @@ class FooterBlockTest extends UnitTestCase {
     $this->menuLinkTreeMock
       ->expects($this->exactly(2))
       ->method('build');
+
+    $termMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['loadTree'])
+      ->getMock();
+
+    $this->termStorageMock
+      ->expects($this->any())
+      ->method('loadTree')
+      ->willReturn($termMock);
 
     $build = $this->footerBlock->build();
 
