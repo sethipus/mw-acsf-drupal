@@ -4,18 +4,21 @@
  * Recipe feature block.
   'brand_borders' => NULL,
   'eyebrow' => NULL,
+  'title' => NULL,
   'recipe_media' => [],
   'cooking_time' => NULL,
   'cta' => [],
  */
 #}
 {% block content %}
-  <div class="feature-eyebrow">{{ eyebrow }}</div>
-  {% if recipe_media.video_url is not empty %}
-    <div class="feature-video">{{ recipe_media.video_url }}</div>
-  {% elseif recipe_media.src is not empty %}
-    <div class="feature-image">{{ recipe_media.src }}</div>
-  {% endif %}
-  <div class="feature-cooking-time">{{ cooking_time.0.value }}</div>
-  <div class="feature-cta"><a href="{{ cta.url }}">{{ cta.title }}</a></div>
+  {{ attach_library('emulsifymars/ambient-video') }}
+  {% include "@molecules/recipe-feature-module/recipe-feature-module.twig" with {
+    theme_styles: 'drupal',
+    eyebrow: eyebrow,
+    title: title,
+    recipe_media: recipe_media,
+    cooking_time: cooking_time,
+    cta: cta,
+    brand_borders: brand_borders
+  } %}
 {% endblock %}

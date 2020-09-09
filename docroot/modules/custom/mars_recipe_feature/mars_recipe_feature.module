@@ -14,6 +14,7 @@ function mars_recipe_feature_theme($existing, $type, $theme, $path) {
       'variables' => [
         'brand_borders' => NULL,
         'eyebrow' => NULL,
+        'title' => NULL,
         'recipe_media' => [],
         'cooking_time' => NULL,
         'cta' => [],

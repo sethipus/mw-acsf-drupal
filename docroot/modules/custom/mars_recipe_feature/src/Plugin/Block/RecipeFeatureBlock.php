@@ -104,14 +104,14 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     }
 
     if (!empty($node)) {
-      // Get brand border.
+      // Get brand border path.
       if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
         $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
         $build['#brand_borders'] = !empty($border_file) ? file_get_contents($base_url . $border_file->createFileUrl()) : '';
       }
       $recipe_media_set = [];
       if (!empty($config['recipe_media'])) {
-
+        // We assume that only ligthouse_video and lighthouse_image allowed.
         $recipe_media = $this->mediaStorage->load($config['recipe_media']);
         // Manual overriding for media.
         if ($recipe_media->bundle() == 'lighthouse_video') {
@@ -122,7 +122,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
             'video_url' => $media_file_url,
           ];
         }
-        elseif ($recipe_media->bundle() == 'lighthouse_image') {
+        else {
           $media_file_id = $recipe_media->get('field_media_image')->target_id;
           $media_file = $this->fileStorage->load($media_file_id);
           $media_file_url = !empty($media_file) ? $media_file->createFileUrl() : '';
@@ -138,14 +138,11 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
           // Do it if field_recipe_video field is not empty.
           // Check bundle.
           $videoBundle = $node->get('field_recipe_video')->referencedEntities()[0]->bundle();
-          if ($videoBundle == 'video') {
-            // $field_recipe_video =
-            // $node->get('field_recipe_video')->view('default');
-            // $field_recipe_video_rendered =
-            // $this->renderer->render($field_recipe_video);
-          }
-          else {
-            $media_file_id = $node->get('field_recipe_video')->target_id;
+          if (in_array($videoBundle, ['lighthouse_video', 'video_file'])) {
+            $media_entity_id = $node->get('field_recipe_video')->target_id;
+            $media_entity = $this->mediaStorage->load($media_entity_id);
+            $field = ($media_entity->bundle() == 'lighthouse_video') ? 'field_media_video_file_1' : 'field_media_video_file';
+            $media_file_id = $media_entity->get($field)->target_id;
             $media_file = $this->fileStorage->load($media_file_id);
             $media_file_url = !empty($media_file) ? $media_file->createFileUrl() : '';
             $recipe_media_set = [
@@ -154,7 +151,10 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
           }
         }
         else {
-          $media_file_id = $node->get('field_recipe_image')->target_id;
+          $media_entity_id = $node->get('field_recipe_image')->target_id;
+          $media_entity = $this->mediaStorage->load($media_entity_id);
+          $field = ($media_entity->bundle() == 'lighthouse_image') ? 'field_media_image' : 'image';
+          $media_file_id = $this->mediaStorage->load($media_entity_id)->get($field)->target_id;
           $media_file = $this->fileStorage->load($media_file_id);
           $media_file_url = !empty($media_file) ? $media_file->createFileUrl() : '';
           $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
@@ -164,14 +164,14 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
           ];
         }
       }
-      $cooking_time = $node->get('field_recipe_cooking_time')->getValue();
 
-      $config['cta']['url'] = $node->toUrl()->toString();
+      $title = !empty($config['recipe_title']) ? $this->configuration['recipe_title'] : $node->label();
 
-      $build = [
+      $build += [
         '#eyebrow' => $config['eyebrow'],
+        '#title' => $title,
         '#recipe_media' => $recipe_media_set,
-        '#cooking_time' => $cooking_time,
+        '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
         '#cta' => $config['cta'],
         '#theme' => 'recipe_feature_block',
       ];
@@ -198,13 +198,11 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#default_value' => $config['eyebrow'] ?? '',
     ];
 
-    $form['recipe_id_arg'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Take ID from argument'),
-      '#default_value' => $config['recipe_id_arg'] ?? FALSE,
-      '#attributes' => [
-        'name' => 'settings[recipe_id_arg]',
-      ],
+    $form['recipe_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Recipe title'),
+      '#maxlength' => 60,
+      '#default_value' => $config['recipe_title'] ?? '',
     ];
 
     $form['recipe_id'] = [
@@ -214,11 +212,6 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#default_value' => isset($config['recipe_id']) ? $this->nodeStorage->load($this->configuration['recipe_id']) : NULL,
       '#selection_settings' => [
         'target_bundles' => ['recipe'],
-      ],
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[recipe_id_arg]"]' => ['checked' => FALSE],
-        ],
       ],
     ];
 
