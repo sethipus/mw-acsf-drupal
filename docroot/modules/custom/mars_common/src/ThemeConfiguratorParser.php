@@ -52,7 +52,10 @@ class ThemeConfiguratorParser {
    *   File path.
    */
   public function getLogoFromTheme(): string {
-    return $this->themeSettings['logo']['path'];
+    if (!empty($this->themeSettings['logo']) && !epmty($this->themeSettings['logo']['path'])) {
+      return $this->themeSettings['logo']['path'];
+    }
+    return '';
   }
 
   /**
