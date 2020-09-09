@@ -12,7 +12,6 @@ article_card_button_modifiers: ['small']
 article_card_button_link_attributes: 
   href: 'https://storybook.js.org/'
   target: '_blank'
-article_card_border_radius: 0
 
 # article_card_background_img_url: '/content-feature-bg.png'
 # article_is_new: true

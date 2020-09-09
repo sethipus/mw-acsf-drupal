@@ -14,12 +14,10 @@
 #}
 {% set dropdown_base_class = badge_base_class|default('dropdown') %}
 {% set dropdown_trigger__base_class = dropdown_trigger__base_class|default('dropdown__trigger') %}
-{% set dropdown_border_radius = dropdown_border_radius|default(0) %}
 
 <div {{ bem(dropdown_base_class, dropdown__modifiers, dropdown__blockname) }} data-theme="{{ theme_styles }}">
   {% embed "@atoms/buttons/twig/button-trigger.twig" with {
     button_trigger_base_class: dropdown_trigger__base_class,
-    button_border_radius: dropdown_border_radius,
   } %}
     {% block button_content %}
       {% include "@atoms/text/text/07-span.twig" with {
@@ -28,7 +26,7 @@
     {% endblock %}
   {% endembed %}
   <div {{ bem(dropdown_base_class ~ '__content--outer') }}>
-    <div {{ bem(dropdown_base_class ~ '__content--inner') }} style="{{ 'border-radius: ' ~ dropdown_border_radius ~ 'px' }}" >
+    <div {{ bem(dropdown_base_class ~ '__content--inner') }} >
       {% embed "@atoms/lists/ul.twig" with {
         ul_base_class: dropdown_base_class ~ '__list',
       } %}
