@@ -18,6 +18,7 @@ module.exports = {
     entry_gate: path.resolve(distDir + '/js/02-molecules/entry-gate', 'entry-gate.js'),
     pdp_hero: path.resolve(distDir + '/js/02-molecules/pdp/pdp-hero', 'pdp-hero.js'),
     pdp_multipack: path.resolve(distDir + '/js/02-molecules/pdp/pdp-multipack', 'pdp-multipack.js'),
+    product_used: path.resolve(distDir + '/js/02-molecules/product-used-module', 'product-used-module.js'),
   }, 
   module: {
     rules: [loaders.SVGSpriteLoader, loaders.CSSLoader,loaders.SASSLoader, loaders.ImageLoader, loaders.FontLoader],
