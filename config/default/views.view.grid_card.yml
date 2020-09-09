@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.article_card
     - core.entity_view_mode.node.product_card
+    - core.entity_view_mode.node.recipe_card
     - node.type.article
     - node.type.product
     - node.type.recipe
@@ -199,7 +200,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          order: ASC
+          order: DESC
           exposed: false
           expose:
             label: ''
