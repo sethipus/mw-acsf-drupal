@@ -61,12 +61,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $themeConfiguratorParser;
 
   /**
-   * List of vendors.
+   * Price spider id.
    */
-  const LIST_OF_VENDORS = [
-    'price_spider' => 'Price Spider',
-    'commerce_connector' => 'Commerce Connector',
-  ];
+  const VENDOR_PRICE_SPIDER = 'price_spider';
+
+  /**
+   * Commerce connector id.
+   */
+  const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
 
   /**
    * {@inheritdoc}
@@ -127,7 +129,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'select',
       '#title' => $this->t('Commerce Vendor'),
       '#default_value' => $this->configuration['commerce_vendor'],
-      '#options' => self::LIST_OF_VENDORS,
+      '#options' => [
+        self::VENDOR_PRICE_SPIDER => $this->t('Price Spider'),
+        self::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
+      ],
       '#required' => TRUE,
     ];
 
@@ -137,10 +142,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['data_widget_id'],
       '#states' => [
         'visible' => [
-          ':input[name="settings[commerce_vendor]"]' => ['value' => 'commerce_connector'],
+          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
         ],
         'required' => [
-          ':input[name="settings[commerce_vendor]"]' => ['value' => 'commerce_connector'],
+          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
         ],
       ],
     ];
@@ -588,7 +593,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Return build.
    */
   public function pageAttachments(array &$build) {
-    if ($this->configuration['commerce_vendor'] == 'price_spider') {
+    if ($this->configuration['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
       $metatags = [
         'ps-key' => [
           '#tag' => 'meta',
