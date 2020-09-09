@@ -5,6 +5,7 @@ dependencies:
   config:
     - node.type.faq
     - node.type.contact_help
+    - node.type.homepage
     - node.type.landing_page
     - node.type.newsletter_sign_up
     - node.type.page
@@ -81,6 +82,7 @@ type_settings:
   entity_types:
     node:
       - contact_help
+      - homepage
       - landing_page
       - newsletter_sign_up
       - page
