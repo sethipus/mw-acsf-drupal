@@ -4,6 +4,8 @@
  * Template for the PDP Hero component.
  *
  * Available variables:
+ *   'brand_shape' => NULL,
+ *   'background_color' => NULL,
  *   'eyebrow' => NULL,
  *   'available_sizes' => NULL,
  *   'cta_link' => NULL,
@@ -25,6 +27,8 @@
 
 {% include "@molecules/pdp/pdp-hero/pdp-hero.twig" with {
   theme_styles: 'drupal',
+  brand_shape: brand_shape,
+  background_color: background_color,
   product_label: eyebrow,
   size_label: available_sizes,
   product_name: product.label,
