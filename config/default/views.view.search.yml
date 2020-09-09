@@ -79,6 +79,7 @@ display:
               article: default
               contact_help: default
               faq: default
+              homepage: default
               landing_page: teaser
               newsletter_sign_up: default
               page: teaser
@@ -86,6 +87,7 @@ display:
               product_multipack: default
               product_variant: default
               recipe: default
+              where_to_buy: default
       fields:
         rendered:
           table: search_api_index_content

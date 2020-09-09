@@ -51,7 +51,7 @@ third_party_settings:
       -
         layout_id: contact_help_faq
         layout_settings:
-          label: FAQ
+          label: FAQs
         components:
           6ab6679e-d80e-4956-b02f-83ca36d657a6:
             uuid: 6ab6679e-d80e-4956-b02f-83ca36d657a6
@@ -111,7 +111,7 @@ third_party_settings:
       -
         layout_id: contact_help_contact_community
         layout_settings:
-          label: 'Contact & Community'
+          label: 'Contact Form'
         components: {  }
         third_party_settings:
           layout_builder_lock:

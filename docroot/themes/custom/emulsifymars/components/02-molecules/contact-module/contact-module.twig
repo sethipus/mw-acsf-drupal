@@ -3,11 +3,11 @@
 {% set contact_module_social_heading_base_class = 'contact-module__social-heading' %}
 {% set contact_module_paragraph_base_class = 'contact-module__paragraph' %}
 
-<section {{ bem(contact_module_base_class) }} data-theme="twix">
+<section {{ bem(contact_module_base_class) }} data-theme="{{ theme_styles }}">
   <div class="contact-module__brand-shape">
     {{brand_shape | raw}}
   </div>
-  
+
   <div class="contact-module__content">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: contact_module_heading,
