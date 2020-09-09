@@ -1,7 +1,12 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
-Drupal.behaviors.productUsedCorousel = {
+Drupal.behaviors.productUsedCarousel = {
   attach(context) {
+    let productUsed = document.querySelector('.product-used .swiper-wrapper');
+    if (productUsed.children.length < 2) {
+      return;
+    }
+
     // init swiper
     Swiper.use([Navigation, Pagination, Scrollbar]);
 
