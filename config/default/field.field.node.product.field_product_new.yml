@@ -1,0 +1,23 @@
+uuid: f4fed6b2-fb50-4484-a431-7aa7888b0df8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_new
+    - node.type.product
+id: node.product.field_product_new
+field_name: field_product_new
+entity_type: node
+bundle: product
+label: New
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: New
+  off_label: 'Not new'
+field_type: boolean

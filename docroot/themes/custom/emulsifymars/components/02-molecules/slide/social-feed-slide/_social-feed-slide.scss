@@ -22,7 +22,7 @@
 
     svg {
       width: 1.8rem;
-      fill: clr(text-inverse);
+      fill: clr(subcolor-3);
       margin-left: 2rem;
     }
   }
@@ -32,6 +32,7 @@
     font-family: variable(primary-font);
     font-weight: 600;
     margin-right: 2rem;
+    color: clr(subcolor-3);
   }
 
   &__image {

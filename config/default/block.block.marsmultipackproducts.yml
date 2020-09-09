@@ -1,0 +1,31 @@
+uuid: f2b4b836-61fb-440a-8318-090a2eb8bb65
+langcode: en
+status: true
+dependencies:
+  module:
+    - mars_product
+    - node
+  theme:
+    - emulsifymars
+id: marsmultipackproducts
+theme: emulsifymars
+region: content
+weight: 0
+provider: null
+plugin: pdp_product_multipack_block
+settings:
+  id: pdp_product_multipack_block
+  label: 'MARS: Multipack Products'
+  provider: mars_product
+  label_display: ''
+  multipack_label: 'What''s in the pack'
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  node_type:
+    id: node_type
+    bundles:
+      product_multipack: product_multipack
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

@@ -66,20 +66,17 @@ product_CTA_link_attributes:
 product_CTA_border_radius: 30
 mobile_sections_items:
   - title: 'NUTRITION & INGREDIENTS'
-    link_url: '#'
     border_radius: 20
     link_attributes:
-      'id' : 'section-nutrition'
+      'href' : '#section-nutrition'
   - title: 'DIET &amp; ALLERGENS'
-    link_url: '#'
     border_radius: 20
     link_attributes:
-      'id' : 'section-allergens'
+      'href' : '#section-allergen'
   - title: 'RELATED PRODUCTS'
-    link_url: '#'
     border_radius: 20
     link_attributes:
-      'id' : 'section-products'
+      'href' : '#section-products'
 size_label: 'Available Sizes'
 size_items:
   - size_attributes:
@@ -97,3 +94,7 @@ size_items:
       'data-size-id' : '6oz'
     title: '6 oz'
     link_url: '#'
+product_sku: '00012937003801'
+commerce_vendor: 'price_spider'
+data_widget_id: 'Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85'
+reference_for_analitics: ''

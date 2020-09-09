@@ -1,0 +1,23 @@
+uuid: 2ca27f05-a62f-4dc2-ac9c-60b3b3de8a2d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.where_to_buy
+  module:
+    - text
+id: node.where_to_buy.body
+field_name: body
+entity_type: node
+bundle: where_to_buy
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary
