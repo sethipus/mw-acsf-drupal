@@ -1,0 +1,16 @@
+<section class="search-results-page" data-theme="twix">
+  {% include "@molecules/search-page-header/search-page-header.twig" with {
+      search_page_header_heading: 'What are you looking for?',
+      search_page_header_heading_level: 1,
+      search_page_header_heading_base_class: 'search-page-heading'
+    }
+  %}
+
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: 'There are no matching results for<br> “carwmsl”',
+    heading_level: 1,
+    heading_base_class: 'no-results-heading'
+  } %}
+
+  {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
+</section>
