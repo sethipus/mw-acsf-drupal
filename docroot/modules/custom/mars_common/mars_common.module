@@ -41,15 +41,15 @@ function mars_common_preprocess(&$variables, $hook) {
       $file_border_content = file_get_contents($file_url->getUri());
     }
 
+    $border_radius = Drupal::config('emulsifymars.settings')
+      ->get('button_style');
+
     $variables['theme_styles'] = 'drupal';
     $variables['graphic_divider'] = $file_divider_content ?? '';
     $variables['brand_border'] = $file_border_content ?? '';
     $variables['ajax_card_grid_heading'] = 'Products';
     $variables['ajax_card_grid_link_text'] = 'See All';
-    // TODO.
-    $variables['ajax_card_grid_border_radius'] = 15;
-    // TODO.
-    $variables['ajax_card_grid_modifiers'] = [];
+    $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
 }
 
