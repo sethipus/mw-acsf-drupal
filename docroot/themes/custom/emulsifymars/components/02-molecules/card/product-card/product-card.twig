@@ -7,10 +7,10 @@
     <div {{ bem('image', [], card__base_class) }}>
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
-        image_alt: 'Logo',
+        image_alt: 'Product image',
         image_sizes: '212px',
         image_src: item.card__image__src,
-        responsive_image_blockname: 'logo',
+        responsive_image_blockname: 'product-image',
       } %}
     </div>
 

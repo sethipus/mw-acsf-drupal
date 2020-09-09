@@ -2,6 +2,8 @@ theme_styles: "twix"
 contact_module_heading: "Haven't found what you're looking for?"
 contact_module_heading_level: 1
 
+theme_styles: 'twix'
+
 contact_module_paragraph_content: "Plus I'm all in whenever Twix are involved. Except, can we just chat a quick minute? This is a PSA to the makers of the TWIX bar."
 
 # default case, this is for the link variant

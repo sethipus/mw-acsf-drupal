@@ -42,6 +42,7 @@ field_settings:
           article: default
           contact_help: default
           faq: default
+          homepage: default
           landing_page: full
           newsletter_sign_up: default
           page: default

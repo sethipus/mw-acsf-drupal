@@ -1,6 +1,7 @@
 theme_styles: 'twix'
 error_component_heading: 'Oops'
 error_component_heading_level: 1
+theme_styles: 'twix'
 
 error_component_paragraph_content: 'Unfortunately this page does not exist. Here are some helpful links instead: Unfortunately this page does not exist. Here are some helpful links instead: Unfortunately this page does not exist. Here are some helpful links instead:'
 

@@ -54,10 +54,14 @@
       </div>
       <div {{ bem('region-selector', [], footer__base_class) }}>
         {% block footer__region_selector %}
-          {% include "@atoms/forms/select/select.twig" with {
-            select: regions,
-            title: region_title,
-            labelClassname: 'footer__section-header',
+          {% include "@atoms/text/text/07-span.twig" with {
+            span_base_class: footer__base_class ~ '__section-header',
+            span_content: region_title,
+          } %}
+          {% include "@molecules/dropdown/dropdown.twig" with {
+            dropdown_border_radius: region_border_radius,
+            dropdown_title: region_title,
+            dropdown_items: regions,
           } %}
         {% endblock %}
       </div>

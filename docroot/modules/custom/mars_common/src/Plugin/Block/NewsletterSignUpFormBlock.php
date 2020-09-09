@@ -6,15 +6,15 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Provides a Newsletter Signup Form block.
+ * Provides a Newsletter SignUp Form block.
  *
  * @Block(
  *   id = "newsletter_signup_form",
- *   admin_label = @Translation("MARS: Newsletter Signup Form"),
+ *   admin_label = @Translation("MARS: Newsletter SignUp Form"),
  *   category = @Translation("Mars Common")
  * )
  */
-class NewsletterSignupFormBlock extends BlockBase {
+class NewsletterSignUpFormBlock extends BlockBase {
 
   /**
    * {@inheritdoc}
@@ -22,7 +22,7 @@ class NewsletterSignupFormBlock extends BlockBase {
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#form_type'] = $conf['form_type'] ?? 'widget';
+    $build['#form_id'] = $conf['form_id'] ?? '';
     $build['#theme'] = 'newsletter_signup_form_block';
 
     return $build;
@@ -43,15 +43,12 @@ class NewsletterSignupFormBlock extends BlockBase {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state): array {
     $form = parent::buildConfigurationForm($form, $form_state);
 
-    $form['form_type'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Form type'),
-      '#default_value' => $this->configuration['form_type'] ?? 'widget',
+    $form['form_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Form ID'),
+      '#default_value' => $this->configuration['form_id'] ?? '',
       '#required' => TRUE,
-      '#options' => [
-        'widget' => $this->t('Widget form'),
-        'page'   => $this->t('Form for page'),
-      ],
+      '#size' => 65,
     ];
 
     return $form;
@@ -62,7 +59,7 @@ class NewsletterSignupFormBlock extends BlockBase {
    */
   public function blockSubmit($form, FormStateInterface $form_state): void {
     parent::blockSubmit($form, $form_state);
-    $this->configuration['form_type'] = $form_state->getValue('form_type');
+    $this->configuration['form_id'] = $form_state->getValue('form_id');
   }
 
 }

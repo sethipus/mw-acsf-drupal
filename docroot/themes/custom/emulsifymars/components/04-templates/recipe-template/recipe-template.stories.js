@@ -6,18 +6,22 @@ import recipeHeroModuleData from '../../02-molecules/recipe-hero-module/recipe-h
 import recipeSocial from '../../02-molecules/menus/social/social-menu.yml';
 import recipeBodyData from '../../03-organisms/recipe-body/recipe-body.yml';
 
+import { useEffect } from '@storybook/client-api';
+import '../../03-organisms/recipe-body/recipe-body';
+
 /**
  * Storybook Definition.
  */
 export default { title: 'Templates/Recipe Template' };
 
-export const recipeTemplate = () => (
-  <div dangerouslySetInnerHTML={{ __html: recipeTemplateTwig({
+export const recipeTemplate = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return <div dangerouslySetInnerHTML={{
+    __html: recipeTemplateTwig({
       ...recipeTemplateData,
       ...recipeHeroModuleData,
       ...recipeSocial,
       ...recipeBodyData
-    }) }} />
-);
-
-
+    })
+  }}/>;
+};
