@@ -3,5 +3,11 @@
   items: header_inline_menu_items,
 } %}
 {% if language_switcher %}
-  {% include "@molecules/language-switcher/language-switcher.twig" %}
+  {% include "@molecules/dropdown/dropdown.twig" with {
+    dropdown__modifiers: ['header-navigation'],
+    dropdown_border_radius: dropdown_border_radius,
+    dropdown_title: dropdown_title,
+    dropdown_label: dropdown_label,
+    dropdown_items: dropdown_items,
+  } %}
 {% endif %}

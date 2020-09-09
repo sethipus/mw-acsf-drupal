@@ -73,6 +73,13 @@ class FooterBlockTest extends UnitTestCase {
   protected $configFactoryMock;
 
   /**
+   * Term storage.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $termStorageMock;
+
+  /**
    * Mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\Config
@@ -148,9 +155,10 @@ class FooterBlockTest extends UnitTestCase {
       ->method('getStorage')
       ->withConsecutive(
         [$this->equalTo('menu')],
-        [$this->equalTo('file')]
+        [$this->equalTo('file')],
+        [$this->equalTo('taxonomy_term')]
       )
-      ->will($this->onConsecutiveCalls($this->menuStorageMock, $this->fileStorageMock));
+      ->will($this->onConsecutiveCalls($this->menuStorageMock, $this->fileStorageMock, $this->termStorageMock));
 
     // We should create it in test to import different configs.
     $this->footerBlock = new FooterBlock(
@@ -175,6 +183,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->configMock = $this->createMock(Config::class);
     $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->menuStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->termStorageMock = $this->createMock(EntityStorageInterface::class);
   }
 
   /**
@@ -192,13 +201,14 @@ class FooterBlockTest extends UnitTestCase {
       ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->entityTypeManagerMock, $this->configFactoryMock));
 
     $this->entityTypeManagerMock
-      ->expects($this->exactly(2))
+      ->expects($this->any())
       ->method('getStorage')
       ->withConsecutive(
         [$this->equalTo('menu')],
-        [$this->equalTo('file')]
+        [$this->equalTo('file')],
+        [$this->equalTo('taxonomy_term')]
       )
-      ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->fileStorageMock));
+      ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->fileStorageMock, $this->termStorageMock));
 
     $definitions = [
       'provider'    => 'test',
@@ -309,6 +319,15 @@ class FooterBlockTest extends UnitTestCase {
     $this->menuLinkTreeMock
       ->expects($this->exactly(2))
       ->method('build');
+
+    $termMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['loadTree'])
+      ->getMock();
+
+    $this->termStorageMock
+      ->expects($this->any())
+      ->method('loadTree')
+      ->willReturn($termMock);
 
     $build = $this->footerBlock->build();
 

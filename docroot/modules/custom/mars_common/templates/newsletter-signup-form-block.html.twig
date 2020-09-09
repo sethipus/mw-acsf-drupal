@@ -1,24 +1,17 @@
 {#
 /**
  * @file
- * Template for the newsletter form component.
+ * Template for the salesforce form component.
  *
  * Available variables:
  * 'form_type' => NULL
+ * 'form_id' => NULL
  */
 #}
-{% set newsletter_signup__base_class = 'newsletter-signup' %}
+{% set newsletter_signup__base_class = 'form-integration' %}
 
-{% if form_type == 'widget' %}
-  <section {{ bem(newsletter_signup__base_class) }}>
-    <div {{ bem(form_type, [], newsletter_signup__base_class) }}>
-      <iframe src="http://cloud.confectionery.mars.com/WidgetPOC"></iframe>
-    </div>
-  </section>
-{% elseif form_type == 'page' %}
-  <section {{ bem(newsletter_signup__base_class) }}>
-    <div {{ bem(form_type, [], newsletter_signup__base_class) }}>
-      <iframe src="http://cloud.confectionery.mars.com/WidgetPOC"></iframe>
-    </div>
-  </section>
-{% endif %}
+<section {{ bem(newsletter_signup__base_class) }}>
+  <div {{ bem('newsletter-signup', [], newsletter_signup__base_class) }}>
+    <iframe src="http://cloud.confectionery.mars.com/{{ form_id }}"></iframe>
+  </div>
+</section>

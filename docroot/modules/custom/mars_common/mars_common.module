@@ -16,6 +16,8 @@ use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
 use Drupal\mars_common\Form\Alter\NewsletterSignUpLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\WhereToBuyLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\RecipeLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
 
 /**
  * Implements hook_theme().
@@ -50,11 +52,13 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'content_feature_module_block' => [
       'variables' => [
         'eyebrow' => NULL,
-        'label' => NULL,
+        'title' => NULL,
         'background' => NULL,
         'description' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
+        'border_radius' => NULL,
+        'graphic_divider' => NULL,
       ],
       'template' => 'content-feature-module-block',
     ],
@@ -62,6 +66,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'label' => '',
         'items' => [],
+        'graphic_divider' => '',
+        'brand_border' => '',
       ],
     ],
     'parent_page_header_block' => [
@@ -100,17 +106,17 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-feature-block',
     ],
+    'newsletter_signup_form_block' => [
+      'variables' => [
+        'form_id' => NULL,
+      ],
+      'template' => 'newsletter-signup-form-block',
+    ],
     'contact_form_block' => [
       'variables' => [
         'form_id' => NULL,
       ],
       'template' => 'contact-form-block',
-    ],
-    'newsletter_signup_form_block' => [
-      'variables' => [
-        'form_type' => NULL,
-      ],
-      'template' => 'newsletter-signup-form-block',
     ],
     'error_page_block' => [
       'variables' => [
@@ -467,8 +473,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
   if (
     $form_id === 'block_form' ||
     $form_id === 'layout_builder_add_block' ||
-    $form_id === 'layout_builder_update_block' ||
-    $form_id === 'contact_form_block'
+    $form_id === 'layout_builder_update_block'
   ) {
     $form['settings']['label']['#access'] = FALSE;
     $form['settings']['label_display']['#access'] = FALSE;
@@ -490,6 +495,17 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     }
     if ($original_id == 'node.where_to_buy.default') {
       $form['#validate'][] = [WhereToBuyLayoutFormAlter::class, 'validate'];
+    }
+    if (
+      $original_id == 'node.recipe.full' ||
+      $original_id == 'node.recipe.default'
+    ) {
+      $form['#validate'][] = [RecipeLayoutFormAlter::class, 'validate'];
+    }
+    if (
+      $original_id == 'node.homepage.default'
+    ) {
+      $form['#validate'][] = [HomepageLayoutFormAlter::class, 'validate'];
     }
   }
 }
