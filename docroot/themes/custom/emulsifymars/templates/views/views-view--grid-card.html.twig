@@ -32,7 +32,7 @@
 #}
 
 {#{% set card_grid_base_class = card_grid_base_class ~ ' ' ~ 'js-view-dom-id-' ~ dom_id|default('ajax-card-grid') %}#}
-{% set card_grid_base_class = card_grid_base_class|default('ajax-card-grid') %}
+{% set card_grid_base_class = card_grid_base_class|default('ajax-card-grid') ~ ' js-view-dom-id-' ~ dom_id %}
 {% set ajax_card_grid_heading_base_class = ajax_card_grid_heading_base_class|default('ajax-card-grid__heading') %}
 {% set ajax_card_grid_modifiers = ajax_card_grid_modifiers|default(['centered']) %}
 
@@ -54,8 +54,8 @@
       {{ graphic_divider | raw }}
     </div>
 
-    <div class="ajax-card-grid__items">
-      {% for item in items %}
+    <div class="ajax-card-grid__items" data-drupal-views-infinite-scroll-content-wrapper="">
+      {% for item in rows[0]['#rows'] %}
         {{ item }}
       {% endfor %}
     </div>

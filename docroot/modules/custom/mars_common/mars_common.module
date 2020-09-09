@@ -46,7 +46,6 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['ajax_card_grid_border_radius'] = 15;
     // TODO.
     $variables['ajax_card_grid_modifiers'] = [];
-    $variables['items'] = $variables['rows'][0]['#rows'];
   }
 }
 
