@@ -12,6 +12,7 @@ use Drupal\juicer_io\Entity\FeedConfiguration;
 use Drupal\juicer_io\Model\Feed;
 use Drupal\juicer_io\Model\FeedFactory;
 use Drupal\juicer_io\Model\FeedItem;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -57,6 +58,13 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   private $cacheBackend;
 
   /**
+   * Theme Configurator service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfigurator;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(
@@ -70,6 +78,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $feed_factory = $container->get('juicer_io.feed_factory');
     $time_service = $container->get('datetime.time');
     $cache_backend = $container->get('cache.default');
+    $theme_configurator = $container->get('mars_common.theme_configurator_parser');
 
     return new self(
       $configuration,
@@ -78,7 +87,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $entity_storage,
       $feed_factory,
       $time_service,
-      $cache_backend
+      $cache_backend,
+      $theme_configurator
     );
   }
 
@@ -92,13 +102,15 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     EntityStorageInterface $entity_storage,
     FeedFactory $feed_factory,
     TimeInterface $time_service,
-    CacheBackendInterface $cache_backend
+    CacheBackendInterface $cache_backend,
+  ThemeConfiguratorParser $themeConfigurator
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityStorage = $entity_storage;
     $this->feedFactory = $feed_factory;
     $this->timeService = $time_service;
     $this->cacheBackend = $cache_backend;
+    $this->themeConfigurator = $themeConfigurator;
   }
 
   /**
@@ -111,6 +123,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#theme' => 'social_feed_block',
       '#label' => $label,
       '#items' => $this->getFeedItems(),
+      '#graphic_divider' => $this->themeConfigurator->getFileContentFromTheme('graphic_divider'),
+      '#brand_border' => $this->themeConfigurator->getFileContentFromTheme('brand_borders'),
       '#cache' => [
         'tags' => $configEntity->getCacheTags(),
         'max-age' => self::MAX_AGE_1_DAY,

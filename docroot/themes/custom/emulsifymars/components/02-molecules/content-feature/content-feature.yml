@@ -1,14 +1,17 @@
 eyebrow_text: 'Initiative'
+background_image: './content-feature-bg.png'
+theme_styles: 'twix'
 
 heading: 'The Rainforest Alliance'
 heading_level: 1
 heading_url: 'https://storybook.js.org/'
 
-separator_style: 'wave'
+graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="101" height="12" fill="none" viewBox="0 0 101 12">
+    <path fill-rule="evenodd" d="M80.503 10.033L70.501 0l-10 10.033L50.502 0l-10 10.033L30.5 0l-10 10.033L10.5 0 .5 10.033V12h100v-1.967L90.5 0l-9.997 10.033z" clip-rule="evenodd"/>
+</svg>'
 
 paragraph_size: 'large'
 paragraph_content: 'Delicious chocolate is just the beginning. Our passion extends to everything we do and influences how we do it, every step of the way. That’s why we partner with CARE® to empower female farmers and improve their voices in financial decisions.'
-paragraph_base_class: 'paragraph'
 paragraph_modifiers: ['large']
 
 default_link_content: 'Explore'
