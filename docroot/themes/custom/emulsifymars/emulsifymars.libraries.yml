@@ -93,6 +93,19 @@ iframe:
   dependencies:
     - core/drupal
 
+product-used-module:
+  js:
+    dist/js/product_used.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
+  dependencies:
+    - core/drupal
+
+recipe-body:
+  js:
+    dist/js/03-organisms/recipe-body/recipe-body.js: {}
+  dependencies:
+    - core/drupal
+
 ajaxcardgrid:
   js:
     dist/js/03-organisms/grid/ajaxcardgrid.js: {}
