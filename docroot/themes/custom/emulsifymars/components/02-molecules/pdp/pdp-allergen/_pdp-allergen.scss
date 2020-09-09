@@ -64,7 +64,7 @@
   }
 
   &__container {
-    display: flex;
+    display: none;
     flex-flow: row wrap;
     justify-content: flex-start;
   
@@ -74,6 +74,10 @@
   
     @include large {
       padding-top: 3.2rem;
+    }
+
+    &[data-allergen-size-active="true"] {
+      display: flex;
     }
   }
 

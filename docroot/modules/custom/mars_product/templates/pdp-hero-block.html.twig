@@ -8,16 +8,23 @@
  *   'available_sizes' => NULL,
  *   'cta_link' => NULL,
  *   'cta_label' => NULL,
- *   'product_name' => NULL,
- *   'product_description' => NULL,
+ *   'product' => NULL,
  *   'wtb_border_radius' => NULL,
  *   'image_items' => [],
  *   'size_items' => [],
  *   'mobile_items' => [],
+ *   'nutritional_label' => NULL,
+ *   'nutritional_info_serving_label' => NULL,
+ *   'nutritional_info_daily_label' => NULL,
+ *   'vitamins_info_label' => NULL,
+ *   'serving_items' => [],
+ *   'allergen_label' => NULL,
+ *   'allergens_list' => [],
  */
 #}
 
 {% include "@molecules/pdp/pdp-hero/pdp-hero.twig" with {
+  theme_styles: 'drupal',
   product_label: eyebrow,
   size_label: available_sizes,
   product_name: product.label,
@@ -34,10 +41,15 @@
   commerce_vendor: commerce_vendor,
 } %}
 {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
+  theme_styles: 'drupal',
   nutritional_label: nutritional_label,
   nutritional_info_serving_label: nutritional_info_serving_label,
   nutritional_info_daily_label: nutritional_info_daily_label,
   vitamins_info_label: vitamins_info_label,
   serving_items: serving_items,
 } %}
-
+{% include "@molecules/pdp/pdp-allergen/pdp-allergen.twig" with {
+  theme_styles: 'drupal',
+  allergen_label: allergen_label,
+  allergens_list: allergens_list,
+} %}

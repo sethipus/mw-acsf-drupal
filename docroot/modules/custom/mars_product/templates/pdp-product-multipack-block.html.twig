@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Template for the PDP Product Multipack component.
+ *
+ * Available variables:
+ *   'multipack_label' => NULL,
+ *   'multipack_items' => [],
+ */
+#}
+{% include "@molecules/pdp/pdp-multipack/pdp-multipack.twig" with {
+  theme_styles: 'drupal',
+  multipack_label: multipack_label,
+  multipack_items: multipack_items,
+} %}
+
