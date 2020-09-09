@@ -210,11 +210,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#required' => TRUE,
     ];
     $form['background_color'] = [
-      '#type' => 'textfield',
+      '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Background Color Override'),
-      '#maxlength' => 7,
       '#default_value' => $this->configuration['background_color'] ?? '',
-      '#required' => FALSE,
     ];
 
     return $form;
