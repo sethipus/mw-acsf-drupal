@@ -19,7 +19,7 @@ use Drupal\layout_builder\Form\DefaultsEntityForm;
  * Implements hook_preprocess().
  */
 function mars_common_preprocess(&$variables, $hook) {
-  if ($hook === 'views_view_grid__grid_card') {
+  if ($hook === 'views_view__grid_card') {
     $divider_id = Drupal::config('emulsifymars.settings')
       ->get('graphic_divider');
     if (isset($divider_id[0])) {
@@ -27,7 +27,26 @@ function mars_common_preprocess(&$variables, $hook) {
       $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
       $file_divider_content = file_get_contents($file_url->getUri());
     }
-    $variables['graphic_divider'] = $file_divider_content;
+
+    $border_id = Drupal::config('emulsifymars.settings')
+      ->get('brand_borders');
+
+    if (isset($border_id[0])) {
+      $file_entity = File::load($border_id[0]);
+      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+      $file_border_content = file_get_contents($file_url->getUri());
+    }
+
+    $variables['theme_styles'] = 'drupal';
+    $variables['graphic_divider'] = $file_divider_content ?? '';
+    $variables['brand_border'] = $file_border_content ?? '';
+    $variables['ajax_card_grid_heading'] = 'Products';
+    $variables['ajax_card_grid_link_text'] = 'See All';
+    // TODO.
+    $variables['ajax_card_grid_border_radius'] = 15;
+    // TODO.
+    $variables['ajax_card_grid_modifiers'] = [];
+    $variables['items'] = $variables['rows'][0]['#rows'];
   }
 }
 
