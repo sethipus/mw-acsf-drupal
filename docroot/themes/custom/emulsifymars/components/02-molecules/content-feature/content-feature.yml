@@ -1,9 +1,6 @@
 theme_styles: 'twix'
 eyebrow_text: 'Initiative'
 background_image: './content-feature-bg.png'
-theme_styles: 'twix'
-
-background_image: '/content-feature-bg.png'
 
 heading: 'The Rainforest Alliance'
 heading_level: 1
