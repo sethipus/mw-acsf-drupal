@@ -104,10 +104,11 @@ class ThemeConfiguratorParser {
    *   Rendered menu.
    */
   public function socialLinks(): array {
+    $social_menu_items = [];
     foreach ($this->themeSettings['social'] as $key => $social_settings) {
       $social_menu_items[$key]['title'] = $social_settings['name'];
       $social_menu_items[$key]['url'] = $social_settings['link'];
-      if (!empty($social_settings['icon'])) {
+      if (!empty($social_settings['icon']) && is_array($social_settings['icon'])) {
         $fid = reset($social_settings['icon']);
         $file = $this->fileStorage->load($fid);
       }
