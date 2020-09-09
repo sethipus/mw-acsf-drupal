@@ -1,0 +1,256 @@
+uuid: 29b88ca5-65ef-4114-842c-db00b966d16d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.where_to_buy.body
+    - node.type.where_to_buy
+  module:
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_discovery
+    - layout_library
+    - mars_common
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: true
+    sections:
+      -
+        layout_id: where_to_buy_parent_page_header
+        layout_settings:
+          label: 'Parent Page Header'
+        components:
+          8a7d620d-1967-4282-a679-364578f8785c:
+            uuid: 8a7d620d-1967-4282-a679-364578f8785c
+            region: content
+            configuration:
+              id: parent_page_header
+              label: 'Parent page header'
+              provider: mars_common
+              label_display: ''
+              eyebrow: eyebrow
+              background: '21'
+              description: Description
+              context_mapping: {  }
+            additional: {  }
+            weight: 0
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+              8: 8
+      -
+        layout_id: where_to_buy_product_recommendations
+        layout_settings:
+          label: 'Product Recommendations'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+              8: 8
+      -
+        layout_id: where_to_buy_where_to_buy
+        layout_settings:
+          label: 'Where to Buy Integration'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+              8: 8
+      -
+        layout_id: where_to_buy_community
+        layout_settings:
+          label: Community
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              5: 5
+              6: 6
+              7: 7
+  layout_library:
+    enable: false
+  layout_builder_restrictions:
+    allowed_block_categories:
+      - Article
+      - 'Chaos Tools'
+      - 'Content fields'
+      - 'Custom block types'
+      - 'Custom blocks'
+      - 'Entity Block'
+      - 'Entity Browser'
+      - Forms
+      - 'Global elements'
+      - Help
+      - 'Inline blocks'
+      - 'Lists (Views)'
+      - 'Mars Common'
+      - 'Mars Product'
+      - Menus
+      - 'Moderation Dashboard'
+      - Product
+      - Recipe
+      - 'Social feed'
+      - 'Social media share'
+      - System
+      - User
+      - Views
+      - core
+    entity_view_mode_restriction:
+      whitelisted_blocks: {  }
+      blacklisted_blocks: {  }
+      allowed_layouts:
+        - where_to_buy_parent_page_header
+        - where_to_buy_product_recommendations
+        - where_to_buy_where_to_buy
+        - where_to_buy_community
+    entity_view_mode_restriction_by_region:
+      allowed_layouts:
+        - where_to_buy_parent_page_header
+        - where_to_buy_product_recommendations
+        - where_to_buy_where_to_buy
+        - where_to_buy_community
+      whitelisted_blocks:
+        where_to_buy_product_recommendations:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        where_to_buy_where_to_buy:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        where_to_buy_parent_page_header:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - parent_page_header
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        where_to_buy_community:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+id: node.where_to_buy.default
+targetEntityType: node
+bundle: where_to_buy
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  published_at: true
+  search_api_excerpt: true

@@ -102,6 +102,24 @@
         default_link_attributes: product_CTA_link_attributes,
         default_link_modifiers: ['pdp-desktop', 'pdp-hero'],
       } %}
+      {% if commerce_vendor == 'price_spider' %}
+        <div class="ps-widget" ps-sku="{{ product_sku }}">{{ product_CTA_title }}</div>
+      {% else %}
+        <script
+          type="text/javascript"
+          src="https://fi-v2.global.commerce-connector.com/cc.js"
+          id="cci-widget"
+          data-token="080b73af92c4aa9324ac9f9296f5045e76256857"
+          data-locale="en-US"
+          data-displaylanguage="en-us"
+          data-widgetid="{{ data_widget_id }}"
+          data-ean="{{ product_sku }}"
+          data-subid="ohne"
+          {% if reference_for_analytics is defined and reference_for_analytics|length %}
+            data-trackingid="{{ reference_for_analytics }}"
+          {% endif %}
+        ></script>
+      {% endif %}
     </div>
     {% for size_item in image_items %}
       <div {{ bem('slider-container', [], pdp_hero_base_class) }} data-slider-size-active={{size_item.active}} data-slider-size-id={{size_item.size_id}}>

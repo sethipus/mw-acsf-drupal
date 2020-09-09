@@ -10,7 +10,7 @@ dependencies:
 id: pdphero
 theme: emulsifymars
 region: content
-weight: 0
+weight: -1
 provider: null
 plugin: pdp_hero_block
 settings:
@@ -28,6 +28,10 @@ settings:
     serving_label: 'Amount per serving'
     daily_label: '% Daily value'
     vitamins_label: 'Vitamins | minerals'
+  allergen_label: 'Diet & Allergens'
+  commerce_vendor: price_spider
+  product_id: ''
+  data_widget_id: Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85
   context_mapping:
     node: '@node.node_route_context:node'
 visibility:

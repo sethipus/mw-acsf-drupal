@@ -15,51 +15,61 @@ $defaultColors: (
   warning: $yellow-light,
   error: $red-light,
   message: $green-light,
+  subcolor-1: $cerise-red,
+  pp-header-bg: $coconut-cream,
   pdp-hero: $deepskyblue,
 );
 
 $marsColors: (
-  pp-header-bg: $coconut-cream,
-
-  primary: $navy-blue,
-  secondary: $downy,
-  subcolor-1: $governor-bay,
-  subcolor-2: $blue-marguerite,
-  subcolor-3: $mine-shaft,
-  subcolor-4: $cararra,
+  top-nav: $white,
+  top-nav-gradient: $white,
+  bottom-nav: $mine-shaft,
+  card-background: $white,
+  primary: $mine-shaft,
+  secondary: $midnight-blue,
+  subcolor-1: $egg-blue,
+  subcolor-2: $golden-yellow,
+  subcolor-3: $white,
+  subcolor-4: $silver,
 );
 
 $twixColors: (
-  pp-header-bg: $coconut-cream,
-
-  primary: $alizarin-crimson,
-  secondary: $web-orange,
-  subcolor-1: $brown-pod,
-  subcolor-2: $sandwisp,
+  top-nav: $web-orange,
+  top-nav-gradient: $coconut-cream,
+  bottom-nav: $alizarin-crimson,
+  card-background: $coconut-cream,
+  primary: $brown-pod,
+  secondary: $alizarin-crimson,
+  subcolor-1: $web-orange,
+  subcolor-2: $coconut-cream,
   subcolor-3: $white,
   subcolor-4: $silver,
 );
 
 $doveColors: (
-  pp-header-bg: $merino,
-
+  top-nav: $white,
+  top-nav-gradient: $white,
+  bottom-nav: $metallic-bronze,
+  card-background: $white,
   primary: $metallic-bronze,
   secondary: $persian_red,
   subcolor-1: $tussock,
-  subcolor-2: $white,
-  subcolor-3: $merino,
-  subcolor-4: $cararra,
+  subcolor-2: $merino,
+  subcolor-3: $white,
+  subcolor-4: $silver,
 );
 
 $galaxyColors: (
-  pp-header-bg: $merino,
-
+  top-nav: $white,
+  top-nav-gradient: $white,
+  bottom-nav: $metallic-bronze,
+  card-background: $white,
   primary: $metallic-bronze,
   secondary: $cerise-red,
   subcolor-1: $tussock,
-  subcolor-2: $white,
-  subcolor-3: $merino,
-  subcolor-4: $cararra,
+  subcolor-2: $merino,
+  subcolor-3: $white,
+  subcolor-4: $silver,
 );
 
 ///////////

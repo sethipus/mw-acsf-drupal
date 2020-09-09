@@ -17,11 +17,11 @@
     line-height: 1.1;
     letter-spacing: 0.8px;
     text-transform: uppercase;
-    color: clr(primary);
+    color: clr(secondary);
     text-align: center;
     margin: 0 0 3.5rem;
     padding-top: 4.8rem;
-    border-top: 1px solid black;
+    border-top: 1px solid rgba(196, 196, 196, 0.5);
   
     @include medium {
       padding-top: 4rem;
@@ -57,7 +57,7 @@
     transform: scale(.5);
 
     & .swiper-scrollbar-drag {
-      background: clr(subcolor-1);
+      background: clr(secondary);
     }
   }
 
@@ -86,7 +86,7 @@
     }
 
     &::after {
-      color: clr(primary);
+      color: clr(secondary);
       font-size: 2.5rem;
     }
   }

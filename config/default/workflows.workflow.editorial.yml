@@ -4,11 +4,15 @@ status: true
 dependencies:
   config:
     - node.type.faq
+    - node.type.contact_help
+    - node.type.homepage
     - node.type.landing_page
+    - node.type.newsletter_sign_up
     - node.type.page
     - node.type.product
     - node.type.product_multipack
     - node.type.product_variant
+    - node.type.where_to_buy
   module:
     - content_moderation
 _core:
@@ -77,8 +81,12 @@ type_settings:
         - review
   entity_types:
     node:
+      - contact_help
+      - homepage
       - landing_page
+      - newsletter_sign_up
       - page
       - product
       - product_multipack
       - product_variant
+      - where_to_buy

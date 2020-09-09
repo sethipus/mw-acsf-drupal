@@ -4,18 +4,22 @@
   height: 520px;
   //background-color: clr(secondary);
   transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
-  background-image: radial-gradient(circle at 50% 40%, clr(text-inverse) 10%, clr(secondary));
+  background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
+
+  a {
+    text-decoration: none;
+  }
 
   img {
     transition: transform 0.8s;
   }
 
   &:hover {
-    background-image: radial-gradient(circle at 50% 50%, clr(primary), clr(primary));
+    background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
     transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
     p, a {
-      color: clr(text-inverse);
+      color: clr(subcolor-3);
     }
 
     img {
@@ -29,11 +33,13 @@
     display: flex;
     align-items: center;
     margin: auto;
-    padding: 40px;
+    padding-top: 30px;
     min-height: 235px;
     min-width: 235px;
     height: 255px;
-    width: 255px;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
   }
 
   &__title {
@@ -44,7 +50,7 @@
 
     p {
       max-width: 255px;
-      color: clr(subcolor-1);
+      color: clr(primary);
     }
 
   }
@@ -66,17 +72,18 @@
 
     &:hover {
       a {
-        color: clr(subcolor-1);
+        color: clr(primary);
       }
     }
   }
 
   & .text_link{
-      padding: 1.5rem 2rem;
-      line-height: 5rem;
-      font-size: 1.4rem;
-      text-decoration: none;
-      font-weight: bold;
+    padding: 1.5rem 2rem;
+    line-height: 5rem;
+    font-size: 1.4rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: clr(primary);
   }
 
 }
