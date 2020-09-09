@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.product_multipack.field_product_sub_brand
     - field.field.node.product_multipack.field_product_trade_description
     - field.field.node.product_multipack.field_product_variants
+    - field.field.node.product_multipack.layout_builder__layout
     - node.type.product_multipack
   module:
     - layout_builder
@@ -354,5 +355,6 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  layout_builder__layout: true
   published_at: true
   search_api_excerpt: true
