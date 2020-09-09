@@ -71,9 +71,9 @@ class ThemeConfiguratorParser {
 
     $configField = $this->themeSettings[$field][0];
     $file = $this->fileStorage->load($configField);
-    if ($file !== NULL) {
+    if (!empty($file)) {
       $filePath = file_create_url($file->uri->value);
-      return file_get_contents($filePath);
+      return !empty($filePath) && file_exists($filePath) ? file_get_contents($filePath) : '';
     }
 
     return '';
