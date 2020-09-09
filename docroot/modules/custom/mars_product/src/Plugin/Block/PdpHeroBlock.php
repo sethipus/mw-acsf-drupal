@@ -19,12 +19,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   admin_label = @Translation("PDP Hero"),
  *   category = @Translation("Product"),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label =
- *   @Translation("Product"))
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Product"))
  *   }
  * )
  */
 class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
   /**
    * File storage.
    *
@@ -59,6 +59,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * @var \Drupal\mars_common\ThemeConfiguratorParser
    */
   protected $themeConfiguratorParser;
+
+  /**
+   * Price spider id.
+   */
+  const VENDOR_PRICE_SPIDER = 'price_spider';
+
+  /**
+   * Commerce connector id.
+   */
+  const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
 
   /**
    * {@inheritdoc}
@@ -114,6 +124,38 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['available_sizes'] ?? '',
       '#required' => TRUE,
     ];
+
+    $form['commerce_vendor'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Vendor'),
+      '#default_value' => $this->configuration['commerce_vendor'],
+      '#options' => [
+        self::VENDOR_PRICE_SPIDER => $this->t('Price Spider'),
+        self::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
+      ],
+      '#required' => TRUE,
+    ];
+
+    $form['data_widget_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Commerce Connector - Data widget id'),
+      '#default_value' => $this->configuration['data_widget_id'],
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
+        ],
+        'required' => [
+          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
+        ],
+      ],
+    ];
+
+    $form['product_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product ID'),
+      '#default_value' => $this->configuration['product_id'],
+    ];
+
     $form['wtb'] = [
       '#type' => 'details',
       '#title' => $this->t('WTB button settings'),
@@ -202,6 +244,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
+      'commerce_vendor' => $config['commerce_vendor'],
+      'product_id' => $config['product_id'] ?? '',
+      'data_widget_id' => $config['data_widget_id'] ?? '',
     ];
   }
 
@@ -234,6 +279,17 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#allergens_list'] = $this->getAllergenItems($node);
 
     $build['#theme'] = 'pdp_hero_block';
+
+    $product_sku = '';
+    foreach ($node->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $product_sku = $product_variant->get('field_product_sku')->value;
+    }
+    $build['#product_sku'] = !empty($this->configuration['product_id']) ? $this->configuration['product_id'] : $product_sku;
+    $build['#commerce_vendor'] = $this->configuration['commerce_vendor'];
+    $build['#data_widget_id'] = $this->configuration['data_widget_id'] ?? '';
+    $this->pageAttachments($build);
+
     return $build;
   }
 
@@ -525,6 +581,54 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getMachineName($string = '') {
     return mb_strtolower(str_replace(' ', '', $string));
+  }
+
+  /**
+   * Add page attachments.
+   *
+   * @param array $build
+   *   Build array.
+   *
+   * @return array
+   *   Return build.
+   */
+  public function pageAttachments(array &$build) {
+    if ($this->configuration['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
+      $metatags = [
+        'ps-key' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-key',
+            'content' => '2762-5b80256eb307f7009e536b50',
+          ],
+        ],
+        'ps-country' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-country',
+            'content' => 'US',
+          ],
+        ],
+        'ps-language' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-language',
+            'content' => 'en',
+          ],
+        ],
+        'price-spider' => [
+          '#tag' => 'script',
+          '#attributes' => [
+            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+            'async' => TRUE,
+          ],
+        ],
+      ];
+      foreach ($metatags as $key => $metatag) {
+        $build['#attached']['html_head'][] = [$metatag, $key];
+      }
+    }
+    return $build;
   }
 
 }
