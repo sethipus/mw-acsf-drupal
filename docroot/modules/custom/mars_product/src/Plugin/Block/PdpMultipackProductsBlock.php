@@ -157,14 +157,14 @@ class PdpMultipackProductsBlock extends BlockBase implements ContainerFactoryPlu
   public function getMultipackImageSrc($node) {
     $field_name = 'field_product_key_image';
     $field_name_override = 'field_product_key_image_override';
-    $image = $node->{$field_name}->entity;
-    $image_override = $node->{$field_name_override}->entity;
+    $media = $node->{$field_name}->entity;
+    $media_override = $node->{$field_name_override}->entity;
 
-    if ($image && $image_override) {
-      $image = $image_override;
+    if ($media && $media_override) {
+      $media = $media_override;
     }
 
-    $file = $this->fileStorage->load($image->id());
+    $file = $this->fileStorage->load($media->image->target_id);
     $image_src = $file->createFileUrl();
 
     return $image_src;

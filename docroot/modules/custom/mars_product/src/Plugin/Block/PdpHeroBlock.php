@@ -2,13 +2,12 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
-use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -48,6 +47,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $routeMatch;
 
   /**
+   * The entity repository service.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected $entityRepository;
+
+  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -63,11 +69,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
+    EntityRepositoryInterface $entity_repository,
     ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
+    $this->entityRepository = $entity_repository;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
@@ -81,6 +89,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
+      $container->get('entity.repository'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -229,14 +238,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * {@inheritdoc}
-   */
-  protected function blockAccess(AccountInterface $account) {
-    $access = $this->getContextValue('node')->bundle() == 'product';
-    return AccessResult::allowedIf($access);
-  }
-
-  /**
    * Get Image items.
    *
    * @param object $node
@@ -248,6 +249,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function getImageItems($node) {
     $items = [];
     $field_size = 'field_product_size';
+
+    $map = [
+      'field_product_key_image' => 'field_product_key_image_override',
+      'field_product_image_1' => 'field_product_image_1_override',
+      'field_product_image_2' => 'field_product_image_2_override',
+      'field_product_image_3' => 'field_product_image_3_override',
+      'field_product_image_4' => 'field_product_image_4_override',
+    ];
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
@@ -259,25 +268,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'size_id' => $size_id,
       ];
-      for ($i = 1; $i <= 4; $i++) {
-        $field_name = 'field_product_image_' . $i;
-        $field_name_override = 'field_product_image_' . $i . '_override';
-
-        $image = $product_variant->{$field_name}->entity;
-        $image_override = $product_variant->{$field_name_override}->entity;
-
-        if (!$image && !$image_override) {
+      foreach ($map as $image_field => $image_field_override) {
+        $media = $product_variant->{$image_field}->entity;
+        $media_override = $product_variant->{$image_field_override}->entity;
+        if (!$media && !$media_override) {
           continue;
         }
-        if ($image && $image_override) {
-          $image = $image_override;
+        if ($media && $media_override) {
+          $media = $media_override;
         }
 
-        $file = $this->fileStorage->load($image->id());
+        $file = $this->fileStorage->load($media->image->target_id);
         $image_src = $file->createFileUrl();
-        $image_alt = $image->image[0]->alt;
+        $image_alt = $media->image[0]->alt;
 
-        // TODO how srcet should be defined on Back side.
         $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
         $item = [
           'image' => [
@@ -318,7 +322,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'link_url' => '#',
         'size_attributes' => [
           'data-size-selected' => $state,
-          'data-size-id' => $id ,
+          'data-size-id' => $id,
         ],
       ];
     }
@@ -420,6 +424,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @return array
    *   Size items array.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getAllergenItems($node) {
     $items = [];
@@ -434,8 +440,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $allergen_items = [];
       foreach ($product_variant->field_product_diet_allergens as $ref) {
         $allergen_term = $ref->entity;
+        $icon_src = $this->getIconSrc($allergen_term);
         $allergen_items[] = [
-          'allergen_icon' => $allergen_term->field_allergen_image->entity->createFileUrl(),
+          'allergen_icon' => $icon_src,
           'allergen_label' => $allergen_term->getName(),
         ];
       }
@@ -473,6 +480,38 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $items;
+  }
+
+  /**
+   * Get Icon src from entity.
+   *
+   * @param object $entity
+   *   Taxonomy term entity.
+   * @param string $image_field
+   *   Image field name.
+   *
+   * @return string
+   *   Image src value.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public function getIconSrc($entity, $image_field = 'field_allergen_image') {
+    $icon_src = '';
+    if (!$entity->get($image_field)->isEmpty()) {
+      $icon_src = $entity->{$image_field}->entity->createFileUrl();
+    }
+    else {
+      $field = $entity->get($image_field);
+      $default_image = $field->getSetting('default_image');
+      if (isset($default_image['uuid'])) {
+        if ($default_image_file
+          = $this->entityRepository->loadEntityByUuid('file', $default_image['uuid'])) {
+          $icon_src = $default_image_file->createFileUrl();
+        };
+      }
+    }
+
+    return $icon_src;
   }
 
   /**
