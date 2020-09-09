@@ -3,7 +3,14 @@
 {% set pdp_main_image = image_items|first.images|first %}
 {% set pdp_side_images = image_items|first.images[1:] %}
 
-<section id="pdp-hero" {{ bem(pdp_hero_base_class) }} data-theme="{{ theme_styles }}" style="background-color: {{ background_color }};">
+<section
+  id="pdp-hero"
+  {{ bem(pdp_hero_base_class) }}
+  data-theme="{{ theme_styles }}"
+  {% if background_color %}
+    style="background-color: {{ background_color }};"
+  {% endif %}
+>
   <div {{ bem('container', [], pdp_hero_base_class) }}>
     <div {{ bem('content-container', [], pdp_hero_base_class) }}>
       {% include "@atoms/text/headings/_heading.twig" with {
