@@ -24,6 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
   /**
    * File storage.
    *
@@ -58,6 +59,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * @var \Drupal\mars_common\ThemeConfiguratorParser
    */
   protected $themeConfiguratorParser;
+
+  /**
+   * List of vendors.
+   */
+  const LIST_OF_VENDORS = [
+    'price_spider' => 'Price Spider',
+    'commerce_connector' => 'Commerce Connector',
+  ];
 
   /**
    * {@inheritdoc}
@@ -118,12 +127,24 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'select',
       '#title' => $this->t('Commerce Vendor'),
       '#default_value' => $this->configuration['commerce_vendor'],
-      '#options' => [
-        'price_spider' => $this->t('Price Spider'),
-        'commerce_connector' => $this->t('Commerce Connector'),
-      ],
+      '#options' => self::LIST_OF_VENDORS,
       '#required' => TRUE,
     ];
+
+    $form['data_widget_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Commerce Connector - Data widget id'),
+      '#default_value' => $this->configuration['data_widget_id'],
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[commerce_vendor]"]' => ['value' => 'commerce_connector'],
+        ],
+        'required' => [
+          ':input[name="settings[commerce_vendor]"]' => ['value' => 'commerce_connector'],
+        ],
+      ],
+    ];
+
     $form['product_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product ID'),
@@ -218,8 +239,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
-      'commerce_vendor' => $config['commerce_vendor'] ?? 'price_spider',
+      'commerce_vendor' => $config['commerce_vendor'],
       'product_id' => $config['product_id'] ?? '',
+      'data_widget_id' => $config['data_widget_id'] ?? '',
     ];
   }
 
@@ -260,6 +282,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
     $build['#product_sku'] = !empty($this->configuration['product_id']) ? $this->configuration['product_id'] : $product_sku;
     $build['#commerce_vendor'] = $this->configuration['commerce_vendor'];
+    $build['#data_widget_id'] = $this->configuration['data_widget_id'] ?? '';
     $this->pageAttachments($build);
 
     return $build;

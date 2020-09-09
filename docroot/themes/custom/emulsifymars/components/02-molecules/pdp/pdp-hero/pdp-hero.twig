@@ -112,10 +112,12 @@
           data-token="080b73af92c4aa9324ac9f9296f5045e76256857"
           data-locale="en-US"
           data-displaylanguage="en-us"
-          data-widgetid="Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85"
+          data-widgetid="{{ data_widget_id }}"
           data-ean="{{ product_sku }}"
           data-subid="ohne"
-          data-trackingid="{reference for analitics}"
+          {% if reference_for_analytics is defined and reference_for_analytics|length %}
+            data-trackingid="{{ reference_for_analytics }}"
+          {% endif %}
         ></script>
       {% endif %}
     </div>

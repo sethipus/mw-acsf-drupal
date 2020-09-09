@@ -30,6 +30,7 @@ function mars_product_theme($existing, $type, $theme, $path) {
         'allergens_list' => [],
         'product_sku' => NULL,
         'commerce_vendor' => NULL,
+        'data_widget_id' => NULL,
       ],
       'template' => 'pdp-hero-block',
     ],
