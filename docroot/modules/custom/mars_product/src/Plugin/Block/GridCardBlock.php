@@ -67,6 +67,9 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
 
     $myView->setDisplay($conf['display']);
     $myView->preExecute();
+    $myView->setArguments([
+      $conf['title'] ?? '',
+    ]);
 
     return $myView->render($conf['display']);
   }
@@ -77,6 +80,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
   public function defaultConfiguration(): array {
     return [
       'label_display' => FALSE,
+      'title' => $this->t('All Products'),
     ];
   }
 
@@ -121,6 +125,14 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
       ],
     ];
 
+    $form['title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Title'),
+      '#maxlength' => 35,
+      '#default_value' => $this->configuration['title'] ?? '',
+      '#required' => TRUE,
+    ];
+
     return $form;
   }
 
@@ -131,6 +143,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     parent::blockSubmit($form, $form_state);
     $this->configuration['view'] = $form_state->getValue('view');
     $this->configuration['display'] = $form_state->getUserInput()['settings']['display'];
+    $this->configuration['title'] = $form_state->getValue('title');
   }
 
   /**
