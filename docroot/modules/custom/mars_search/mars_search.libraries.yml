@@ -1,0 +1,9 @@
+autocomplete:
+  version: 1.x
+  js:
+    js/autocomplete.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/drupalSettings
+    - core/drupal.autocomplete

@@ -1,0 +1,6 @@
+mars_search.autocomplete:
+  path: '/mars-autocomplete'
+  defaults:
+    _controller: \Drupal\mars_search\Controller\AutocompleteController::autocomplete
+  requirements:
+    _permission: 'access content'
