@@ -2,6 +2,10 @@
   position: relative;
   overflow: hidden;
 
+  &__placeholder {
+    width: 10rem;
+  }
+
   &__brand-shape {
     position: absolute;
     z-index: 1;
@@ -86,21 +90,114 @@
     background-color: transparent;
   }
 
+  &--center {
+    @include xs {
+      img {
+        max-width: 90%;
+        margin: 2rem auto;
+      }
+
+      .freeform-story__texts {
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .freeform-story__brand-shape {
+        width: 50rem;
+        height: 50rem;
+        left: 20%;
+      }
+    }
+
+    @include medium {
+      .freeform-story__img,
+      .freeform-story__texts {
+        flex: 1;
+      }
+
+      .freeform-story__content{
+        flex-direction: column;
+      }
+    }
+
+  }
+
+  &--right {
+    @include xs {
+      img {
+        max-width: calc(100% - 4rem);
+        margin-top: 2rem;
+        margin-left: auto;
+      }
+
+      .freeform-story__texts {
+        padding: 4rem;
+      }
+
+      .freeform-story__brand-shape {
+        left: -25rem;
+        width: 50rem;
+        height: 50rem;
+      }
+    }
+
+    @include medium {
+      .freeform-story__img,
+      .freeform-story__texts {
+        flex: 1;
+      }
+
+      .freeform-story__content{
+        flex-direction: row-reverse;
+      }
+    }
+
+    @include large {
+      .freeform-story__content{
+        width: 90%;
+        margin-left: auto;
+      }
+    }
+  }
+
   &--left {
     @include xs {
       img {
         max-width: 90%;
       }
+
+      .freeform-story__brand-shape {
+        right: -25rem;
+        width: 50rem;
+        height: 50rem;
+      }
+
+      .freeform-story__texts {
+        padding: 4rem 2rem;
+      }
     }
 
-    .freeform-story__brand-shape {
-      right: -25rem;
-      width: 50rem;
-      height: 50rem;
+    @include medium {
+      .freeform-story__img,
+      .freeform-story__texts {
+        flex: 1;
+      }
+
+      .freeform-story__brand-shape {
+        top: -8rem;
+      }
+
+      img {
+        max-width: 100%;
+        margin: 2rem 0;
+      }
     }
 
-    .freeform-story__texts {
-      padding: 2rem;
+    @include large {
+      .freeform-story__content{
+        width: 90%;
+        margin-left: right;
+      }
     }
   }
 }
