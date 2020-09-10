@@ -133,7 +133,7 @@
                 "correct drush filtering": "https://www.drupal.org/files/issues/2018-10-14/support-for-export-2857247-24.patch"
             },
             "drupal/jquery_colorpicker": {
-                "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
+                "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/set-higher-zindex-1991042-2.patch"
             }
         }
     },
