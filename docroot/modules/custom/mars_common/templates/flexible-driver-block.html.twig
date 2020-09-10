@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * Template for the social feed component.
+ *
+ * Available variables:
+ * - title: Label for the component.
+ * - description: Description for the component.
+ * - cta_label: Label of the CTA.
+ * - cta_link: Link for the CTA.
+ * - asset_1: Asset #1.
+ * - asset_2: Asset #2.
+ *
+ */
+#}
+
+{% if asset_1 is not empty %}
+  {% set alt1 = asset_1.image.0.alt %}
+  {% set asset_1 = file_url(asset_1.image.entity.fileuri) %}
+
+{% endif %}
+
+{% if asset_2 is not empty %}
+  {% set alt2 = asset_2.image.0.alt  %}
+  {% set asset_2 = file_url(asset_2.image.entity.fileuri) %}
+{% endif %}
+
+{% include "@molecules/flexible-driver/flexible-driver.twig" with {
+  theme_styles: 'drupal',
+
+  flexible_driver_heading: title,
+  flexible_driver_heading_level: 2,
+  flexible_driver_text: description,
+  flexible_driver_button_text: cta_label,
+  flexible_driver_button_link_attributes:{
+    href: cta_link,
+  },
+  asset_1: asset_1,
+  asset_1_alt: alt1,
+  asset_2: asset_2,
+  asset_2_alt: alt2,
+} %}

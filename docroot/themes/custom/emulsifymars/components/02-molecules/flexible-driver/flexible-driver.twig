@@ -4,11 +4,13 @@
 
 <section {{ bem(felxible_driver__base_class) }} data-theme="{{ theme_styles }}">
   <div class="flexible_driver__brand-shape_1">
-    {{svg_background_asset | raw}}
+    {{ asset_1 }}
+    {{ asset_1_alt }}
   </div>
 
   <div class="flexible_driver__brand-shape_2">
-    {{svg_background_asset | raw}}
+    {{ asset_2 }}
+    {{ asset_2_alt }}
   </div>
 
     {% include "@atoms/text/headings/_heading.twig" with {
@@ -27,7 +29,6 @@
     <div class="cta_wrapper">
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
         default_link_content: flexible_driver_button_text,
-        default_link_border_radius: flexible_driver_border_radius,
         default_link_attributes: flexible_driver_button_link_attributes,
         default_link_modifiers: flexible_driver_button_modifiers
       } %}

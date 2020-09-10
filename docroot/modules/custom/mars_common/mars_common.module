@@ -70,6 +70,16 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_border' => '',
       ],
     ],
+    'flexible_driver_block' => [
+      'variables' => [
+        'title' => NULL,
+        'description' => NULL,
+        'cta_label' => NULL,
+        'cta_link' => NULL,
+        'asset_1' => NULL,
+        'asset_2' => NULL,
+      ],
+    ],
     'parent_page_header_block' => [
       'variables' => [
         'eyebrow' => NULL,
