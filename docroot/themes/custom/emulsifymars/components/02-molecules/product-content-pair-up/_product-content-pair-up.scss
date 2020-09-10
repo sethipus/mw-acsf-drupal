@@ -1,0 +1,18 @@
+.product-content-pair-up {
+  &__heading {
+    width: 100%;
+    text-align: center;
+    font-family: variable(primary-font);
+    font-size: 4.8rem;
+    font-weight: bold;
+    letter-spacing: 0.24rem;
+    color: clr(primary);
+    text-transform: uppercase;
+  }
+
+  &__graphic-divider {
+    text-align: center;
+    margin-bottom: 6rem;
+  }
+
+}

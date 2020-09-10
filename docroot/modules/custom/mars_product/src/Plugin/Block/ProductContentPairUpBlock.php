@@ -126,9 +126,9 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     }
 
     if ($main_entity) {
-      $build['#master_card_entity'] = $main_entity;
-      $build['#master_card_eyebrow'] = ($conf['master_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
-      $build['#master_card_title'] = ($conf['master_card_title'] ?? NULL) ?: $main_entity->getTitle();
+      $build['#lead_card_entity'] = $main_entity;
+      $build['#lead_card_eyebrow'] = ($conf['lead_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
+      $build['#lead_card_title'] = ($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
       $build['#cta_link_url'] = $main_entity->toUrl()->toString();
       $build['#cta_link_text'] = ($conf['cta_link_text'] ?? NULL) ?: $this->t('Explore');
 
@@ -239,20 +239,20 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ],
     ];
 
-    $form['master_card_eyebrow'] = [
+    $form['lead_card_eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Master Card Eyebrow'),
       '#description' => $this->t('Defaults to master entity type label, e.g. <em>Recipe</em>, <em>Article</em>, <em>Product</em>.'),
       '#maxlength' => 15,
-      '#default_value' => $this->configuration['master_card_eyebrow'] ?? NULL,
+      '#default_value' => $this->configuration['lead_card_eyebrow'] ?? NULL,
     ];
 
-    $form['master_card_title'] = [
+    $form['lead_card_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Master Card Title'),
       '#description' => $this->t('Set this field to override default Master Card title which defaults to node title'),
       '#maxlength' => 33,
-      '#default_value' => $this->configuration['master_card_title'] ?? NULL,
+      '#default_value' => $this->configuration['lead_card_title'] ?? NULL,
     ];
 
     $form['cta_link_text'] = [
@@ -305,8 +305,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['article_recipe'] = $form_state->getValue('article_recipe');
     $this->configuration['product'] = $form_state->getValue('product');
     $this->configuration['title'] = $form_state->getValue('title');
-    $this->configuration['master_card_eyebrow'] = $form_state->getValue('master_card_eyebrow');
-    $this->configuration['master_card_title'] = $form_state->getValue('master_card_title');
+    $this->configuration['lead_card_eyebrow'] = $form_state->getValue('lead_card_eyebrow');
+    $this->configuration['lead_card_title'] = $form_state->getValue('lead_card_title');
     $this->configuration['cta_link_text'] = $form_state->getValue('cta_link_text');
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
     $this->configuration['max_width'] = $form_state->getValue('max_width');
