@@ -1,0 +1,6 @@
+mars_search.autocomplete_settings:
+  title: 'Autocomplete'
+  parent: system.admin_config_search
+  description: 'Search autocomplete settings.'
+  route_name: mars_search.settings
+  weight: 50

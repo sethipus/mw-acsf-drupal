@@ -4,3 +4,10 @@ mars_search.autocomplete:
     _controller: \Drupal\mars_search\Controller\AutocompleteController::autocomplete
   requirements:
     _permission: 'access content'
+mars_search.settings:
+  path: '/admin/config/search/autocomplete'
+  defaults:
+    _title: 'Autocomplete'
+    _form: 'Drupal\mars_search\Form\AutocompleteSettingsForm'
+  requirements:
+    _permission: 'administer search_api'

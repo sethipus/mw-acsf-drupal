@@ -70,7 +70,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
    */
   public function autocomplete(Request $request) {
     $suggestions = [];
-    $show_all = $empty_text = $empty_text_description ='';
+    $show_all = '';
     $keys = $request->query->get('q');
     $view_id = $request->query->get('view_id');
     $view_display_id = $request->query->get('display_id');
@@ -81,7 +81,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
     }
     $view->setDisplay($view_display_id);
     $view->setExposedInput([
-      'search_api_fulltext' => $keys,
+      MARS_SEARCH_EXPOSED_FIELD_NAME => $keys,
     ]);
     $view->setItemsPerPage(4);
     $view->execute();
@@ -90,7 +90,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
         $entity = $resultRow->_object->getValue();
         $suggestions[] = $entity->toLink();
       }
-      $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $keys]), Url::fromUri('base:search', ['query' => ['search_api_fulltext' => $keys]]));
+      $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $keys]), Url::fromUri('base:search', ['query' => [MARS_SEARCH_EXPOSED_FIELD_NAME => $keys]]));
     }
     $build = [
       '#theme' => 'mars_search_suggestions',
