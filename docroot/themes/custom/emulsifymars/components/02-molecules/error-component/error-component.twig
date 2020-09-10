@@ -27,7 +27,6 @@
       {% for link in error_component_links %}
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
           default_link_content: link.content,
-          default_link_border_radius: link.border_radius,
           default_link_attributes: link.attributes,
           default_link_modifiers: ['light']
         } %}

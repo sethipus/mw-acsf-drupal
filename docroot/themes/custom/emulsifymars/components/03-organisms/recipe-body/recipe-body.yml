@@ -13,7 +13,6 @@ product_used_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
@@ -32,7 +31,6 @@ product_used_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
@@ -69,7 +67,6 @@ recommended_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
@@ -87,7 +84,6 @@ recommended_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
@@ -105,7 +101,6 @@ recommended_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
@@ -123,7 +118,6 @@ recommended_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
@@ -141,7 +135,6 @@ recommended_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
@@ -159,7 +152,6 @@ recommended_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
@@ -177,7 +169,6 @@ recommended_items:
 
     default_link_content: 'See details'
     default_link_base_class: 'default-link'
-    default_link_border_radius: 30
     default_link_attributes:
       'target': '_self'
       'href': 'https://storybook.js.org/'
