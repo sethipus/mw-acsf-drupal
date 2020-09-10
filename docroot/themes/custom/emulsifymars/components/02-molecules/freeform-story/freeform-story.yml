@@ -18,3 +18,4 @@ brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="254" height="200" f
 </svg>'
 
 custom_background_color: 'f9fb93'
+use_custom_color: true

@@ -133,11 +133,17 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#title' => $this->t('Background shape'),
       '#default_value' => $this->configuration['background_shape'] ?? FALSE,
     ];
+    $form['use_custom_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use custom color'),
+      '#default_value' => $this->configuration['use_custom_color'] ?? FALSE,
+    ];
     $form['custom_background_color'] = [
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Background Color Override'),
       '#default_value' => $this->configuration['custom_background_color'] ?? '',
     ];
+
 
     return $form;
   }
@@ -150,7 +156,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     $build['#header_1'] = $this->configuration['header_1'];
     $build['#header_2'] = $this->configuration['header_2'];
     $build['#body'] = $this->configuration['body']['value'];
-    $build['#background_shape'] = $this->configuration['background_shape'];
+    $build['#background_shape'] = $this->configuration['background_shape'] == 1 ? 'true' : 'false';
     /** @var \Drupal\media\MediaInterface $media */
     if (!empty($this->configuration['image']) && $media = static::loadEntityBrowserEntity($this->configuration['image'])) {
       $fid = $media->field_media_image->target_id;
@@ -158,10 +164,11 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       $build['#image'] = file_create_url($file->getFileUri());
     }
     $build['#image_alt'] = $this->configuration['image_alt'];
-    if ($this->configuration['background_shape']) {
+    if ($this->configuration['background_shape'] == 1) {
       $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'];
+    $build['#use_custom_color'] = $this->configuration['use_custom_color'] == 1 ? 'true' : 'false';
     $build['#theme'] = 'freeform_story_block';
 
     return $build;
@@ -194,6 +201,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       'image' => $config['image'] ?? '',
       'image_alt' => $config['image_alt'] ?? '',
       'custom_background_color' => $config['custom_background_color'] ?? '',
+      'use_custom_color' => $config['use_custom_color'] ?? '',
     ];
   }
 
