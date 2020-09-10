@@ -124,8 +124,18 @@ class PdpMultipackProductsBlock extends BlockBase implements ContainerFactoryPlu
     $items = [];
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
+
+      $card_url = NULL;
+      if (!empty($node->id())) {
+        $card_url = $product_variant
+          ->toUrl('canonical', ['absolute' => FALSE])
+          ->toString()
+          ->toUrl('canonical', ['absolute' => FALSE])
+          ->toString();
+      }
+
       $items[] = [
-        'card_url' => $product_variant->toUrl('canonical', ['absolute' => FALSE])->toString(),
+        'card_url' => $card_url,
         'card__image__src' => $this->getMultipackImageSrc($product_variant),
         'paragraph_content' => $product_variant->title->value,
         'default_link_content' => $this->t('SEE DETAILS'),
