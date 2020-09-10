@@ -57,5 +57,35 @@ Drupal.behaviors.pdpHero = {
     sizeElements.forEach((item) => {
       item.addEventListener('click', e => updateSizeSlider(e, item.dataset.sizeId), false);
     });
+
+    //bubbles
+    function scrollEffects() {
+      const pdp_bubble_1_top = context.getElementById('pdp-hero__bubble_1').getBoundingClientRect().top;
+      const pdp_bubble_2_top = context.getElementById('pdp-hero__bubble_2').getBoundingClientRect().top;
+      const pdp_bubble_3_top = context.getElementById('pdp-hero__bubble_3').getBoundingClientRect().top;
+
+      const pdp_sticky_nav_top = context.getElementById('sticky-nav-top');
+      const pdp_sticky_nav_bottom = context.getElementById('sticky-nav-bottom');
+      const pdp_main_image_top = context.getElementById('pdp-hero-main-image').getBoundingClientRect().top;
+      const pdp_nutrition_top = context.getElementById('section-nutrition').getBoundingClientRect().top;
+      const pdp_products_top = context.getElementById('section-products').getBoundingClientRect().top;
+
+      window.addEventListener('scroll', () => {
+        const pdp_bubble_1 = context.getElementById('pdp-hero__bubble_1');
+        const pdp_bubble_2 = context.getElementById('pdp-hero__bubble_2');
+        const pdp_bubble_3 = context.getElementById('pdp-hero__bubble_3');
+        var offset = window.pageYOffset;
+
+        pdp_bubble_1.style.top = `${pdp_bubble_1_top - (offset * .75)}px`;
+        pdp_bubble_2.style.top = `${pdp_bubble_2_top - (offset * .75)}px`;
+        pdp_bubble_3.style.top = `${pdp_bubble_3_top - (offset * .75)}px`;
+
+        offset > pdp_main_image_top ? pdp_sticky_nav_top.classList.add('show-nav') : pdp_sticky_nav_top.classList.remove('show-nav');
+        offset > pdp_nutrition_top ? pdp_sticky_nav_bottom.classList.add('hide-sections') : pdp_sticky_nav_bottom.classList.remove('hide-sections');
+        offset > pdp_products_top ? pdp_sticky_nav_bottom.classList.add('hide-nav') : pdp_sticky_nav_bottom.classList.remove('hide-nav');
+      })
+    };
+    //ToDo: refactor for correct values after slider initialized (only for 1st time)
+    setTimeout(scrollEffects, 200);
   },
 };

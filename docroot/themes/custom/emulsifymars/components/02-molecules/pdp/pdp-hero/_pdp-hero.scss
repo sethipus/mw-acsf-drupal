@@ -1,6 +1,7 @@
 .pdp-hero {
+  position: relative;
   padding: 2rem 2rem 3.2rem;
-  background-color: clr(subcolor-2);
+  overflow: hidden;
   
   @include small {
     padding: 2rem 2rem 18rem;
@@ -15,6 +16,95 @@
     padding-bottom: 10.4rem;
   }
 
+  &__bubble_1 {
+    position: absolute;
+    top: 5.5%;
+    right: 5%;
+    height: 90px;
+    width: 90px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    @include medium {
+      top: 3%;
+      right: 6.5%;
+      height: 117px;
+      width: 117px;
+    }
+
+    @include large {
+      top: -6%;
+      right: -6%;
+      height: 420px;
+      width: 420px;
+    }
+  }
+
+  &__bubble_2 {
+    position: absolute;
+    top: 26.5%;
+    left: 47%;
+    height: 292px;
+    width: 292px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    @include medium {
+      top: 14%;
+      left: -21%;
+      height: 302px;
+      width: 302px;
+    }
+
+    @include large {
+      top: 11%;
+      left: 25%;
+      height: 115px;
+      width: 115px;
+    }
+  }
+
+  &__bubble_3 {
+    display: none;
+    position: absolute;
+    top: 83%;
+    left: 31.5%;
+    height: 214px;
+    width: 214px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    @include medium {
+      display: block;
+      top: 19%;
+      left: 41%;
+      height: 505px;
+      width: 505px;
+    }
+
+    @include large {
+      top: 83%;
+      left: 31.5%;
+      height: 214px;
+      width: 214px;
+    }
+  }
+
   &__container {
     display: flex;
     flex-flow: row nowrap;
@@ -22,7 +112,7 @@
 
   &__content-container {
     flex: 1 0 50%;
-    padding-top: 3.4rem;
+    padding-top: 1.2rem;
   
     @include large {
       padding-top: 4.2rem;
@@ -38,6 +128,62 @@
     }
   }
 
+  &__sticky-nav-top {
+    flex: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background-image: radial-gradient(circle at 0 0, rgb(245, 225, 164), clr(subcolor-1));
+    transform: translateY(-100%);
+    transition: transform 1s ease-out;
+    z-index: 10;
+
+    @include medium {
+      flex-direction: column;
+      padding: 4rem;
+    }
+
+    @include large {
+      display: none;
+    }
+
+    &.show-nav {
+      transform: translateY(0);
+    }
+  }
+
+  &__sticky-nav-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    z-index: 10;
+
+    @include medium {
+      flex-direction: column;
+      padding: 4rem;
+    }
+
+    @include large {
+      position: static;
+    }
+
+    &.hide-sections .pdp-hero__sections-container {
+      display: none;
+    }
+
+    &.hide-nav {
+      display: none;
+    }
+  }
+
   &__product-label {
     margin: .3rem 0;
     font-family: variable(primary-font);
@@ -47,12 +193,16 @@
     text-transform: uppercase;
     color: clr(primary);
   
-    @include medium {
-      font-size: 1.4rem;
-    }
-  
     @include large {
       font-size: 1.6rem;
+    }
+
+    &--sticky {
+      margin: 0;
+      padding-right: 3.2rem;
+      color: clr(primary);
+      line-height: 1;
+      letter-spacing: 1.4px;
     }
   }
 
@@ -73,6 +223,18 @@
       font-size: 4.8rem;
       margin-top: 2.7rem;
       margin-bottom: 3.6rem;
+    }
+
+    &--sticky {
+      margin: 0;
+      color: clr(primary);
+      font-size: 1.6rem;
+      text-transform: uppercase;
+  
+      @include medium {
+        font-size: 1.8rem;
+        letter-spacing: 1.4px;
+      }
     }
   }
 
@@ -211,7 +373,7 @@
       justify-content: space-between;
     }
   
-    @include medium {
+    @include large {
       display: none;
     }
   }
@@ -364,10 +526,6 @@
 
     &:hover {
       color: clr(secondary);
-    }
-
-    @include medium {
-      display: none;
     }
 
     @include large {
