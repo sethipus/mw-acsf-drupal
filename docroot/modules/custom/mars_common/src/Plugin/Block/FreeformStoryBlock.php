@@ -64,7 +64,6 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->themeConfiguratorParser = $theme_configurator_parser;
-
   }
 
   /**
