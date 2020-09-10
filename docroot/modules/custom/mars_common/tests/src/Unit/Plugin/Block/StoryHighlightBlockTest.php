@@ -1,0 +1,358 @@
+<?php
+
+namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
+
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityTypeRepository;
+use Drupal\file\Entity\File;
+use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Plugin\Block\StoryHighlightBlock;
+use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\media\Entity\Media;
+use Drupal\Tests\UnitTestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+/**
+ * Class StoryHighlightBlockTest.
+ *
+ * @covers \Drupal\mars_common\Plugin\Block\StoryHighlightBlock
+ */
+class StoryHighlightBlockTest extends UnitTestCase {
+
+  const STORY_ITEM_1_MEDIA_ID = 10;
+
+  const STORY_ITEM_1_MEDIA_URI = 'public://story_media/image1.png';
+
+  const STORY_ITEM_2_MEDIA_ID = 15;
+
+  const STORY_ITEM_2_MEDIA_URI = 'public://story_media/image2.png';
+
+  const STORY_ITEM_3_MEDIA_ID = 20;
+
+  const STORY_ITEM_3_MEDIA_URI = 'public://story_media/image3.png';
+
+  const SVG_ASSET_1_MEDIA_ID = 25;
+
+  const SVG_ASSET_1_MEDIA_URI = 'public://svg_asset/image1.png';
+
+  const SVG_ASSET_2_MEDIA_ID = 30;
+
+  const SVG_ASSET_2_MEDIA_URI = 'public://svg_asset/image2.png';
+
+  const SVG_ASSET_3_MEDIA_ID = 35;
+
+  const SVG_ASSET_3_MEDIA_URI = 'public://svg_asset/image3.png';
+
+  /**
+   * Entity Type Manager Mock.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $entityTypeManagerMock;
+
+  /**
+   * Entity Type Repository Service Mock.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $entityTypeRepositoryMock;
+
+  /**
+   * File Entity Storage Mock.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $fileStorageMock;
+
+  /**
+   * Media Entity Storage Mock.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $mediaStorageMock;
+
+  /**
+   * Media Helper service Mock.
+   *
+   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $mediaHelperMock;
+
+  /**
+   * Media entity storage.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $themeConfigurationParserMock;
+
+  /**
+   * Story Highlight default block plugin definitions.
+   *
+   * @var array
+   */
+  private $defaultDefinitions;
+
+  /**
+   * Story Highlight default block configuration.
+   *
+   * @var array
+   */
+  private $defaultBlockConfiguration;
+
+  /**
+   * Internal File Storage.
+   *
+   * @var \Drupal\file\Entity\File[]
+   */
+  private $internalFileStorage = [];
+
+  /**
+   * Internal Media Storage.
+   *
+   * @var \Drupal\media\Entity\Media[]
+   */
+  private $internalMediaStorage = [];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+
+    $this->createMocks();
+
+    $container = new ContainerBuilder();
+    $container->set('string_translation', $this->getStringTranslationStub());
+    $container->set('entity_type.manager', $this->entityTypeManagerMock);
+    $container->set('entity_type.repository', $this->entityTypeRepositoryMock);
+    $container->set('mars_common.media_helper', $this->mediaHelperMock);
+    $container->set('mars_common.theme_configurator_parser', $this->themeConfigurationParserMock);
+    \Drupal::setContainer($container);
+
+    $this->defaultDefinitions = [
+      'provider' => 'test',
+      'admin_label' => 'test',
+    ];
+
+    $this->defaultBlockConfiguration = [
+      'story_block_title' => 'Test Block Title',
+      'story_block_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      'items' => [
+        ['title' => 'Story Item 1', 'media' => self::STORY_ITEM_1_MEDIA_ID],
+        ['title' => 'Story Item 2', 'media' => self::STORY_ITEM_2_MEDIA_ID],
+        ['title' => 'Story Item 3', 'media' => self::STORY_ITEM_3_MEDIA_ID],
+      ],
+      'svg_assets' => [
+        'svg_asset_1' => self::SVG_ASSET_1_MEDIA_ID,
+        'svg_asset_2' => self::SVG_ASSET_2_MEDIA_ID,
+        'svg_asset_3' => self::SVG_ASSET_3_MEDIA_ID,
+      ],
+      'view_more' => [
+        'label' => 'View Extra',
+        'url' => 'https://mars.com/',
+      ],
+    ];
+  }
+
+  /**
+   * Test happy path for block content generation.
+   */
+  public function testValidBlockBuild() {
+    $storyHighlightBlock = StoryHighlightBlock::create(
+      \Drupal::getContainer(),
+      $this->defaultBlockConfiguration,
+      'story_highlight',
+      $this->defaultDefinitions
+    );
+
+    $build = $storyHighlightBlock->build();
+
+    $expected = [
+      '#theme' => 'story_highlight_block',
+      '#title' => 'Test Block Title',
+      '#brand_border' => 'Mocked brand_borders content',
+      '#graphic_divider' => 'Mocked graphic_divider content',
+      '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      '#story_items' => [
+        [
+          'title' => 'Story Item 1',
+          'media' => 'public://story_media/image1.png',
+        ],
+        [
+          'title' => 'Story Item 2',
+          'media' => 'public://story_media/image2.png',
+        ],
+        [
+          'title' => 'Story Item 3',
+          'media' => 'public://story_media/image3.png',
+        ],
+      ],
+      '#svg_asset_1' => 'public://svg_asset/image1.png',
+      '#svg_asset_2' => 'public://svg_asset/image2.png',
+      '#svg_asset_3' => 'public://svg_asset/image3.png',
+      '#view_more_cta_url' => 'https://mars.com/',
+      '#view_more_cta_label' => 'View Extra',
+    ];
+
+    $this->assertArrayEquals($expected, $build);
+  }
+
+  /**
+   * Test block content generation without overridden CTA label.
+   */
+  public function testValidBlockBuildWithoutCtaLabel() {
+    $configuration = $this->defaultBlockConfiguration;
+    unset($configuration['view_more']['label']);
+
+    $storyHighlightBlock = StoryHighlightBlock::create(
+      \Drupal::getContainer(),
+      $configuration,
+      'story_highlight',
+      $this->defaultDefinitions
+    );
+
+    $build = $storyHighlightBlock->build();
+
+    $expected = [
+      '#theme' => 'story_highlight_block',
+      '#title' => 'Test Block Title',
+      '#brand_border' => 'Mocked brand_borders content',
+      '#graphic_divider' => 'Mocked graphic_divider content',
+      '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      '#story_items' => [
+        [
+          'title' => 'Story Item 1',
+          'media' => 'public://story_media/image1.png',
+        ],
+        [
+          'title' => 'Story Item 2',
+          'media' => 'public://story_media/image2.png',
+        ],
+        [
+          'title' => 'Story Item 3',
+          'media' => 'public://story_media/image3.png',
+        ],
+      ],
+      '#svg_asset_1' => 'public://svg_asset/image1.png',
+      '#svg_asset_2' => 'public://svg_asset/image2.png',
+      '#svg_asset_3' => 'public://svg_asset/image3.png',
+      '#view_more_cta_url' => 'https://mars.com/',
+      '#view_more_cta_label' => 'View More',
+    ];
+
+    $this->assertArrayEquals($expected, $build);
+  }
+
+  /**
+   * Test block content generation without CTA URL set.
+   */
+  public function testValidBlockBuildWithoutCtaUrl() {
+    $configuration = $this->defaultBlockConfiguration;
+    unset($configuration['view_more']['url']);
+
+    $storyHighlightBlock = StoryHighlightBlock::create(
+      \Drupal::getContainer(),
+      $configuration,
+      'story_highlight',
+      $this->defaultDefinitions
+    );
+
+    $build = $storyHighlightBlock->build();
+
+    $expected = [
+      '#theme' => 'story_highlight_block',
+      '#title' => 'Test Block Title',
+      '#brand_border' => 'Mocked brand_borders content',
+      '#graphic_divider' => 'Mocked graphic_divider content',
+      '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      '#story_items' => [
+        [
+          'title' => 'Story Item 1',
+          'media' => 'public://story_media/image1.png',
+        ],
+        [
+          'title' => 'Story Item 2',
+          'media' => 'public://story_media/image2.png',
+        ],
+        [
+          'title' => 'Story Item 3',
+          'media' => 'public://story_media/image3.png',
+        ],
+      ],
+      '#svg_asset_1' => 'public://svg_asset/image1.png',
+      '#svg_asset_2' => 'public://svg_asset/image2.png',
+      '#svg_asset_3' => 'public://svg_asset/image3.png',
+    ];
+
+    $this->assertArrayEquals($expected, $build);
+  }
+
+  /**
+   * Create all mocks for tests.
+   */
+  private function createMocks(): void {
+    $this->entityTypeRepositoryMock = $this->createMock(EntityTypeRepository::class);
+    $this
+      ->entityTypeRepositoryMock
+      ->method('getEntityTypeFromClass')
+      ->willReturnMap([
+        [File::class, 'file'],
+        [Media::class, 'media'],
+      ]);
+
+    $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this
+      ->fileStorageMock
+      ->method('load')
+      ->willReturnCallback(function ($id) {
+        return $this->internalFileStorage[$id];
+      });
+
+    $this->mediaStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this
+      ->mediaStorageMock
+      ->method('load')
+      ->willReturnCallback(function ($id) {
+        return $this->internalMediaStorage[$id];
+      });
+
+    $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this
+      ->themeConfigurationParserMock
+      ->method('getFileContentFromTheme')
+      ->willReturnCallback(function ($field) {
+        switch ($field) {
+          case 'brand_borders':
+          case 'graphic_divider':
+            return sprintf('Mocked %s content', $field);
+
+          default:
+            return '';
+        }
+      });
+
+    $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this
+      ->entityTypeManagerMock
+      ->method('getStorage')
+      ->willReturnMap([
+        ['file', $this->fileStorageMock],
+        ['media', $this->mediaStorageMock],
+      ]);
+
+    $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this
+      ->mediaHelperMock
+      ->method('getMediaUriById')
+      ->willReturnMap([
+        [self::STORY_ITEM_1_MEDIA_ID, self::STORY_ITEM_1_MEDIA_URI],
+        [self::STORY_ITEM_2_MEDIA_ID, self::STORY_ITEM_2_MEDIA_URI],
+        [self::STORY_ITEM_3_MEDIA_ID, self::STORY_ITEM_3_MEDIA_URI],
+        [self::SVG_ASSET_1_MEDIA_ID, self::SVG_ASSET_1_MEDIA_URI],
+        [self::SVG_ASSET_2_MEDIA_ID, self::SVG_ASSET_2_MEDIA_URI],
+        [self::SVG_ASSET_3_MEDIA_ID, self::SVG_ASSET_3_MEDIA_URI],
+      ]);
+  }
+
+}

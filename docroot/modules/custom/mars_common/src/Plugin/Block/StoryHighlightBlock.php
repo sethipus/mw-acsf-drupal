@@ -3,10 +3,10 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -39,6 +39,13 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
   protected $mediaStorage;
 
   /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
    * Theme configurator parser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -53,8 +60,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('config.factory'),
       $container->get('entity_type.manager')->getStorage('media'),
+      $container->get('mars_common.media_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -66,14 +73,14 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    ConfigFactoryInterface $config_factory,
     EntityStorageInterface $entity_storage,
+    MediaHelper $media_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
-    $this->configFactory = $config_factory;
     $this->mediaStorage = $entity_storage;
+    $this->mediaHelper = $media_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
@@ -81,31 +88,23 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function build() {
-    global $base_url;
-
     $conf = $this->getConfiguration();
-    $theme_settings = $this->configFactory->get('emulsifymars.settings')->get();
 
     $build['#theme'] = 'story_highlight_block';
 
-    // Get brand border path.
-    if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
-      $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
-      $build['#brand_border'] = !empty($border_file) ? file_get_contents($base_url . $border_file->createFileUrl()) : '';
-    }
-
     $build['#title'] = $conf['story_block_title'];
+    $build['#brand_border'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_borders');
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
     $build['#story_description'] = $conf['story_block_description'];
 
     $build['#story_items'] = array_map(function ($value) {
-      $value['media'] = $this->getMediaUriById($value['media'] ?? NULL);
+      $value['media'] = $this->mediaHelper->getMediaUriById($value['media'] ?? NULL);
       return $value;
     }, $conf['items']);
 
     for ($i = 1; $i <= self::SVG_ASSETS_COUNT; $i++) {
       $asset_key = 'svg_asset_' . $i;
-      $build['#' . $asset_key] = $this->getMediaUriById($conf['svg_assets'][$asset_key] ?? NULL);
+      $build['#' . $asset_key] = $this->mediaHelper->getMediaUriById($conf['svg_assets'][$asset_key] ?? NULL);
     }
 
     if (!empty($conf['view_more']['url'])) {
@@ -212,27 +211,6 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->configuration['items'] = $form_state->getValue('items');
     $this->configuration['svg_assets'] = $form_state->getValue('svg_assets');
     $this->configuration['view_more'] = $form_state->getValue('view_more');
-  }
-
-  /**
-   * Helper method that loads Media file URL using Media id.
-   *
-   * @param int $media_id
-   *   Media ID.
-   *
-   * @return string|null
-   *   File URI or NULL if URI cannot be defined.
-   */
-  protected function getMediaUriById($media_id) {
-    if (empty($media_id) || !($entity = $this->mediaStorage->load($media_id))) {
-      return NULL;
-    }
-
-    if (!$entity->image || !$entity->image->target_id) {
-      return NULL;
-    }
-
-    return $entity->image->entity->uri->value ?? NULL;
   }
 
 }
