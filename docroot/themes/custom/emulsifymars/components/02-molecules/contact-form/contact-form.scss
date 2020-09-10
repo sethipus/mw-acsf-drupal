@@ -33,6 +33,10 @@
     min-width: 90% !important;
   }
 
+  .ff-section-col {
+    width: 90% !important;
+  }
+
   .ff-section-header {
     color: clr(secondary);
     font-family: variable(primary-font);
@@ -131,12 +135,6 @@
     text-align: center !important;
   }
 
-  #dvFastForms .btnDiv input:hover {
-    background-color: white;
-    border: 1px solid #c4c4c4;
-    color: clr(secondary);
-  }
-
   .ff-textarea {
     height: 8.75rem;
     margin-top: 1.4rem;
@@ -187,7 +185,7 @@
   }
 
   #reqdvCase\.Description {
-    margin-top: 14rem !important;
+    margin-top: 10.5rem !important;
   }
 
   .group-1 .ff-invalid-msg,
@@ -196,7 +194,7 @@
     font-size: 8px;
     font-family: variable(secondary-font);
     position: absolute;
-    margin-top: 1.2rem;
+    margin-top: 1.4rem;
   }
 
   .group-0 .ff-invalid-msg {
@@ -243,6 +241,16 @@
 
     .group-1 .ff-item-row:nth-child(3) .ff-col-2 input {
       width: 89%;
+    }
+
+    #reqdvCase\.Description {
+      margin-top: 14.5rem !important;
+    }
+
+    #dvFastForms .btnDiv input:hover {
+      background-color: white;
+      border: 1px solid #c4c4c4;
+      color: clr(secondary);
     }
   }
 }
