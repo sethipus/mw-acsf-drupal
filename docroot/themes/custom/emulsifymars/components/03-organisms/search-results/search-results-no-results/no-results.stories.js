@@ -9,6 +9,6 @@ import noResultsData from './no-results.yml';
 export default { title: 'Organisms/Search Results/No results' };
 
 export const noResultsTemplate = () => (
-  <div dangerouslySetInnerHTML={{ __html: noResultsTwig({ noResultsData }) }} />
+  <div dangerouslySetInnerHTML={{ __html: noResultsTwig({ ...noResultsData }) }} />
 );
 

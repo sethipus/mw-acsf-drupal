@@ -8,4 +8,12 @@
   }%}
 
   {% include "@molecules/search/search-input/search-input.twig" %}
+
+  {% include "@molecules/search/search-results/search-results.twig" %}
+
+  {% block search_page_header_divider %}
+    <div class="{{ brand_shape_class }}">
+      {{ shape | raw }}
+    </div>
+  {% endblock %}
 </section>
