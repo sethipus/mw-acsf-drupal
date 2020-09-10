@@ -1,9 +1,9 @@
 theme_styles: 'twix'
-freeform_story_align: 'left'
+freeform_story_align: 'center'
 freeform_story_bg_enabled: true
 
 freeform_story_img_alt: 'Alt text for the image'
-freeform_story_img_src: './freeform-story-img.png'
+# freeform_story_img_src: './freeform-story-img.png'
 
 freeform_story_subheading: 'Subheading'
 freeform_story_subheading_level: 2
