@@ -17,6 +17,8 @@ use Drupal\mars_common\Form\Alter\NewsletterSignUpLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\WhereToBuyLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\RecipeLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
 
 /**
  * Implements hook_preprocess().
@@ -191,6 +193,18 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'accessibility_title' => NULL,
       ],
       'template' => 'iframe-block',
+    ],
+    'freeform_story_block' => [
+      'variables' => [
+        'block_aligned' => NULL,
+        'header_1' => NULL,
+        'header_2' => NULL,
+        'body' => NULL,
+        'background_shape' => NULL,
+        'image' => NULL,
+        'image_alt' => NULL,
+      ],
+      'template' => 'freeform-story-block',
     ],
   ];
 }
@@ -505,7 +519,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['settings']['label_display']['#access'] = FALSE;
   }
 
-  // Alter layout form related to Contact & Help content type
+  // Alter layout form related to content type
   // in order to add custom validation.
   $form_object = $form_state->getFormObject();
   if (
@@ -528,10 +542,17 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     ) {
       $form['#validate'][] = [RecipeLayoutFormAlter::class, 'validate'];
     }
-    if (
-      $original_id == 'node.homepage.default'
-    ) {
+    if ($original_id == 'node.homepage.default') {
       $form['#validate'][] = [HomepageLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.article.default') {
+      $form['#validate'][] = [ArticleLayoutFormAlter::class, 'validate'];
+    }
+    if (
+      $original_id == 'node.product.default' ||
+      $original_id == 'node.product_multipack.default'
+    ) {
+      $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
     }
   }
 }

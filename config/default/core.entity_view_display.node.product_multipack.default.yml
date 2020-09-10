@@ -15,10 +15,271 @@ dependencies:
     - field.field.node.product_multipack.field_product_sub_brand
     - field.field.node.product_multipack.field_product_trade_description
     - field.field.node.product_multipack.field_product_variants
+    - field.field.node.product_multipack.layout_builder__layout
     - node.type.product_multipack
   module:
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_discovery
+    - layout_library
+    - mars_common
+    - mars_product
     - text
     - user
+third_party_settings:
+  layout_builder:
+    allow_custom: true
+    enabled: true
+    sections:
+      -
+        layout_id: product_product_detail_hero
+        layout_settings:
+          label: 'Product Detail Hero'
+        components:
+          b3509ee0-6dee-421d-a46d-556e29dfafaf:
+            uuid: b3509ee0-6dee-421d-a46d-556e29dfafaf
+            region: content
+            configuration:
+              id: pdp_hero_block
+              label: 'PDP Hero'
+              provider: mars_product
+              label_display: '1'
+              eyebrow: Products
+              available_sizes: 'Available sizes'
+              wtb:
+                cta_label: 'Where to buy'
+                cta_link: 'https://cta.test'
+              nutrition:
+                label: Nutrition
+                serving_label: 'Amount per serving'
+                daily_label: '% Daily value'
+                vitamins_label: 'Vitamins | Minerals'
+              allergen_label: 'Diet & Allergens'
+              commerce_vendor: price_spider
+              product_id: ''
+              data_widget_id: ''
+              context_mapping:
+                node: layout_builder.entity
+            additional: {  }
+            weight: 0
+          70cf8e0e-767c-45f3-9085-ca7e7b5d2dda:
+            uuid: 70cf8e0e-767c-45f3-9085-ca7e7b5d2dda
+            region: content
+            configuration:
+              id: pdp_product_multipack_block
+              label: 'MARS: Multipack Products'
+              provider: mars_product
+              label_display: '1'
+              multipack_label: 'What''s in the pack'
+              context_mapping:
+                node: layout_builder.entity
+            additional: {  }
+            weight: 1
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+      -
+        layout_id: product_storytelling_community
+        layout_settings:
+          label: 'Storytelling & Community'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              5: 5
+              6: 6
+              7: 7
+      -
+        layout_id: product_ratings_reviews
+        layout_settings:
+          label: 'Ratings & Reviews'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              5: 5
+              6: 6
+              7: 7
+      -
+        layout_id: product_product_recommendations
+        layout_settings:
+          label: 'Product Recommendations'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+  layout_library:
+    enable: false
+  layout_builder_restrictions:
+    allowed_block_categories:
+      - Article
+      - 'Chaos Tools'
+      - 'Content fields'
+      - 'Custom block types'
+      - 'Custom blocks'
+      - 'Entity Block'
+      - 'Entity Browser'
+      - Forms
+      - 'Global elements'
+      - Help
+      - 'Inline blocks'
+      - 'Lists (Views)'
+      - 'Mars Common'
+      - 'Mars Product'
+      - Menus
+      - 'Moderation Dashboard'
+      - Product
+      - Recipe
+      - 'Social feed'
+      - 'Social media share'
+      - System
+      - User
+      - Views
+      - core
+    entity_view_mode_restriction:
+      whitelisted_blocks: {  }
+      blacklisted_blocks: {  }
+      allowed_layouts:
+        - product_product_detail_hero
+        - product_storytelling_community
+        - product_ratings_reviews
+        - product_product_recommendations
+    entity_view_mode_restriction_by_region:
+      allowed_layouts:
+        - product_product_detail_hero
+        - product_storytelling_community
+        - product_ratings_reviews
+        - product_product_recommendations
+      whitelisted_blocks:
+        product_product_detail_hero:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product:
+              - pdp_product_multipack_block
+              - pdp_hero_block
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        product_storytelling_community:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:list'
+              - 'inline_block:media_carousel'
+              - 'inline_block:text_component'
+            'Lists (Views)': {  }
+            'Mars Common':
+              - contact_help_banner_block
+              - iframe_block
+              - newsletter_signup_form
+              - product_feature
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product:
+              - pdp_product_multipack_block
+            Recipe: {  }
+            'Social feed':
+              - social_feed
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        product_ratings_reviews:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        product_product_recommendations:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
 _core:
   default_config_hash: T8M07LCqwJDF9IL2X-xsI7es-mQcVg330Cp7DeQthLI
 id: node.product_multipack.default
@@ -128,5 +389,6 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  layout_builder__layout: true
   published_at: true
   search_api_excerpt: true

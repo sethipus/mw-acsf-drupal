@@ -4,16 +4,16 @@
   width: 100%;
   margin: 0 auto;
 
-  @media (max-width: 1440px) {
-    max-width: 1360px;
+  @include xs {
+    max-width: 335px;
   }
 
-  @media (max-width: 768px) {
+  @include medium {
     max-width: 688px;
   }
 
-  @media (max-width: 375px) {
-    max-width: 335px;
+  @include xl {
+    max-width: 1360px;
   }
 
   &__inner {
