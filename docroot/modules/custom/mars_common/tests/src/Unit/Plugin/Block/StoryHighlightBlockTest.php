@@ -21,27 +21,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class StoryHighlightBlockTest extends UnitTestCase {
 
   const STORY_ITEM_1_MEDIA_ID = 10;
-
   const STORY_ITEM_1_MEDIA_URI = 'public://story_media/image1.png';
-
   const STORY_ITEM_2_MEDIA_ID = 15;
-
   const STORY_ITEM_2_MEDIA_URI = 'public://story_media/image2.png';
-
   const STORY_ITEM_3_MEDIA_ID = 20;
-
   const STORY_ITEM_3_MEDIA_URI = 'public://story_media/image3.png';
-
   const SVG_ASSET_1_MEDIA_ID = 25;
-
   const SVG_ASSET_1_MEDIA_URI = 'public://svg_asset/image1.png';
-
   const SVG_ASSET_2_MEDIA_ID = 30;
-
   const SVG_ASSET_2_MEDIA_URI = 'public://svg_asset/image2.png';
-
   const SVG_ASSET_3_MEDIA_ID = 35;
-
   const SVG_ASSET_3_MEDIA_URI = 'public://svg_asset/image3.png';
 
   /**
@@ -98,7 +87,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
    *
    * @var array
    */
-  private $defaultBlockConfiguration;
+  private $defaultConfiguration;
 
   /**
    * Internal File Storage.
@@ -135,7 +124,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
       'admin_label' => 'test',
     ];
 
-    $this->defaultBlockConfiguration = [
+    $this->defaultConfiguration = [
       'story_block_title' => 'Test Block Title',
       'story_block_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       'items' => [
@@ -161,7 +150,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
   public function testValidBlockBuild() {
     $storyHighlightBlock = StoryHighlightBlock::create(
       \Drupal::getContainer(),
-      $this->defaultBlockConfiguration,
+      $this->defaultConfiguration,
       'story_highlight',
       $this->defaultDefinitions
     );
@@ -177,20 +166,20 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#story_items' => [
         [
           'title' => 'Story Item 1',
-          'media' => 'public://story_media/image1.png',
+          'media' => self::STORY_ITEM_1_MEDIA_URI,
         ],
         [
           'title' => 'Story Item 2',
-          'media' => 'public://story_media/image2.png',
+          'media' => self::STORY_ITEM_2_MEDIA_URI,
         ],
         [
           'title' => 'Story Item 3',
-          'media' => 'public://story_media/image3.png',
+          'media' => self::STORY_ITEM_3_MEDIA_URI,
         ],
       ],
-      '#svg_asset_1' => 'public://svg_asset/image1.png',
-      '#svg_asset_2' => 'public://svg_asset/image2.png',
-      '#svg_asset_3' => 'public://svg_asset/image3.png',
+      '#svg_asset_1' => self::SVG_ASSET_1_MEDIA_URI,
+      '#svg_asset_2' => self::SVG_ASSET_2_MEDIA_URI,
+      '#svg_asset_3' => self::SVG_ASSET_3_MEDIA_URI,
       '#view_more_cta_url' => 'https://mars.com/',
       '#view_more_cta_label' => 'View Extra',
     ];
@@ -202,7 +191,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
    * Test block content generation without overridden CTA label.
    */
   public function testValidBlockBuildWithoutCtaLabel() {
-    $configuration = $this->defaultBlockConfiguration;
+    $configuration = $this->defaultConfiguration;
     unset($configuration['view_more']['label']);
 
     $storyHighlightBlock = StoryHighlightBlock::create(
@@ -223,20 +212,20 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#story_items' => [
         [
           'title' => 'Story Item 1',
-          'media' => 'public://story_media/image1.png',
+          'media' => self::STORY_ITEM_1_MEDIA_URI,
         ],
         [
           'title' => 'Story Item 2',
-          'media' => 'public://story_media/image2.png',
+          'media' => self::STORY_ITEM_2_MEDIA_URI,
         ],
         [
           'title' => 'Story Item 3',
-          'media' => 'public://story_media/image3.png',
+          'media' => self::STORY_ITEM_3_MEDIA_URI,
         ],
       ],
-      '#svg_asset_1' => 'public://svg_asset/image1.png',
-      '#svg_asset_2' => 'public://svg_asset/image2.png',
-      '#svg_asset_3' => 'public://svg_asset/image3.png',
+      '#svg_asset_1' => self::SVG_ASSET_1_MEDIA_URI,
+      '#svg_asset_2' => self::SVG_ASSET_2_MEDIA_URI,
+      '#svg_asset_3' => self::SVG_ASSET_3_MEDIA_URI,
       '#view_more_cta_url' => 'https://mars.com/',
       '#view_more_cta_label' => 'View More',
     ];
@@ -248,7 +237,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
    * Test block content generation without CTA URL set.
    */
   public function testValidBlockBuildWithoutCtaUrl() {
-    $configuration = $this->defaultBlockConfiguration;
+    $configuration = $this->defaultConfiguration;
     unset($configuration['view_more']['url']);
 
     $storyHighlightBlock = StoryHighlightBlock::create(
@@ -269,20 +258,20 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#story_items' => [
         [
           'title' => 'Story Item 1',
-          'media' => 'public://story_media/image1.png',
+          'media' => self::STORY_ITEM_1_MEDIA_URI,
         ],
         [
           'title' => 'Story Item 2',
-          'media' => 'public://story_media/image2.png',
+          'media' => self::STORY_ITEM_2_MEDIA_URI,
         ],
         [
           'title' => 'Story Item 3',
-          'media' => 'public://story_media/image3.png',
+          'media' => self::STORY_ITEM_3_MEDIA_URI,
         ],
       ],
-      '#svg_asset_1' => 'public://svg_asset/image1.png',
-      '#svg_asset_2' => 'public://svg_asset/image2.png',
-      '#svg_asset_3' => 'public://svg_asset/image3.png',
+      '#svg_asset_1' => self::SVG_ASSET_1_MEDIA_URI,
+      '#svg_asset_2' => self::SVG_ASSET_2_MEDIA_URI,
+      '#svg_asset_3' => self::SVG_ASSET_3_MEDIA_URI,
     ];
 
     $this->assertArrayEquals($expected, $build);
