@@ -140,14 +140,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('Commerce Connector - Data widget id'),
       '#default_value' => $this->configuration['data_widget_id'],
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
-        ],
-        'required' => [
-          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
-        ],
-      ],
+      '#required' => TRUE,
     ];
 
     $form['product_id'] = [
@@ -250,7 +243,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
-      'commerce_vendor' => $config['commerce_vendor'],
+      'commerce_vendor' => $config['commerce_vendor'] ?? '',
       'product_id' => $config['product_id'] ?? '',
       'data_widget_id' => $config['data_widget_id'] ?? '',
     ];
@@ -607,21 +600,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-key',
-            'content' => '2762-5b80256eb307f7009e536b50',
+            'content' => $this->configuration['data_widget_id'],
           ],
         ],
         'ps-country' => [
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-country',
-            'content' => 'US',
+            'content' => '<US>',
           ],
         ],
         'ps-language' => [
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-language',
-            'content' => 'en',
+            'content' => '<en>',
           ],
         ],
         'price-spider' => [
