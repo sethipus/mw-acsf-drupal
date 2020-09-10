@@ -1,0 +1,180 @@
+uuid: 0f5e7408-f672-4206-be26-83b21c33c855
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_brand
+    - field.storage.node.field_article_brand_initiatives
+    - field.storage.node.field_product_diet_allergens
+    - field.storage.node.field_product_variants
+    - field.storage.node.field_product_flavor
+    - field.storage.node.field_product_format
+    - field.storage.node.field_product_occasions
+    - field.storage.node.field_product_name
+    - field.storage.node.field_product_trade_description
+    - search_api.server.acquia_search_server
+  module:
+    - taxonomy
+    - node
+    - search_api
+_core:
+  default_config_hash: 5kXLh0sYJ2Yc_THnDbYg_pPAc1UJ0gabzabQYjrYyAc
+id: acquia_search_index
+name: 'Acquia Search Solr Index'
+description: ''
+read_only: false
+field_settings:
+  brand:
+    label: 'Brand » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_brand:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_brand
+      module:
+        - taxonomy
+  brand_initiatives:
+    label: 'Brand Initiatives » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_article_brand_initiatives:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_article_brand_initiatives
+      module:
+        - taxonomy
+  diet_allergens:
+    label: 'Product Variants » Content » Diet & Allergens » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_variants:entity:field_product_diet_allergens:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_product_diet_allergens
+        - field.storage.node.field_product_variants
+      module:
+        - node
+        - taxonomy
+  flavor:
+    label: 'Flavor » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_flavor:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_flavor
+      module:
+        - taxonomy
+  format:
+    label: 'Format » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_format:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_format
+      module:
+        - taxonomy
+  occasions_product:
+    label: 'Occasions » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_occasions:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_occasions
+      module:
+        - taxonomy
+  product_name:
+    label: 'Product Name'
+    datasource_id: 'entity:node'
+    property_path: field_product_name
+    type: text
+    boost: !!float 5
+    dependencies:
+      config:
+        - field.storage.node.field_product_name
+  product_trade:
+    label: 'Trade item description » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_trade_description:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_trade_description
+      module:
+        - taxonomy
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: !!float 5
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - article
+        - product
+        - product_multipack
+        - recipe
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  entity_status: {  }
+  ignore_character:
+    all_fields: true
+    fields:
+      - brand
+      - brand_initiatives
+      - diet_allergens
+      - flavor
+      - format
+      - occasions_product
+      - product_name
+      - product_trade
+      - title
+    ignorable: '[''¿¡!?,.:;]'
+    ignorable_classes:
+      - Pc
+      - Pd
+      - Pe
+      - Pf
+      - Pi
+      - Po
+      - Ps
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
+  ignorecase:
+    all_fields: true
+    fields:
+      - brand
+      - brand_initiatives
+      - diet_allergens
+      - flavor
+      - format
+      - occasions_product
+      - product_name
+      - product_trade
+      - title
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
+  language_with_fallback: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: false
+  cron_limit: 50
+server: acquia_search_server
