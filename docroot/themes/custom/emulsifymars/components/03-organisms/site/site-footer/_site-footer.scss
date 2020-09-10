@@ -53,7 +53,7 @@ $fence-part-size: 1440px*2/101;
       top: -2rem;
 
       path {
-        fill: clr(primary);
+        fill: clr(secondary);
       }
 
       rect {
@@ -215,7 +215,7 @@ $fence-part-size: 1440px*2/101;
 
   height: 50px;
   width: 133px;
-  border-radius: 30px;
+  border-radius: variable(border-radius);
   background-color: clr(subcolor-3);
   color: clr(secondary);
   font-size: 16px;

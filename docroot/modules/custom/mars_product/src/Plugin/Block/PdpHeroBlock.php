@@ -209,6 +209,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#maxlength' => 50,
       '#required' => TRUE,
     ];
+    $form['background_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Background Color Override'),
+      '#default_value' => $this->configuration['background_color'] ?? '',
+    ];
 
     return $form;
   }
@@ -232,6 +237,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $config = $this->getConfiguration();
 
     return [
+      'label_display' => FALSE,
       'eyebrow' => $config['eyebrow'] ?? $this->t('Products'),
       'available_sizes' => $config['available_sizes'] ?? $this->t('Available sizes'),
       'wtb' => [
@@ -258,7 +264,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#available_sizes'] = $this->configuration['available_sizes'] ?? '';
     $build['#cta_link'] = $this->configuration['wtb']['cta_link'] ?? '#';
     $build['#cta_label'] = $this->configuration['wtb']['cta_label'] ?? '';
-    $build['#wtb_border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
 
     // Nutrition part labels.
     $build['#nutritional_label'] = $this->configuration['nutrition']['label'] ?? '';
@@ -277,6 +282,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     // Allergen part.
     $build['#allergen_label'] = $this->configuration['allergen_label'];
     $build['#allergens_list'] = $this->getAllergenItems($node);
+
+    // Theme settings.
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
+    $build['#background_color'] = $this->configuration['background_color'] ?? '';
 
     $build['#theme'] = 'pdp_hero_block';
 
@@ -527,7 +536,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     foreach ($map as $id => $title) {
       $items[] = [
-        'border_radius' => $this->themeConfiguratorParser->getSettingValue('button_style'),
         'title' => $title,
         'link_attributes' => [
           'href' => '#' . $id,

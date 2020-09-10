@@ -1,4 +1,5 @@
 theme_styles: 'twix'
+background_color: 'rgba(87, 189, 244, 0.7)'
 image_items:
   - size_id: '1oz'
     active: true
@@ -63,7 +64,6 @@ product_description: 'Whether you’re a Left TWIX Bar or Right TWIX Bar person,
 product_CTA_title: 'WHERE TO BUY'
 product_CTA_link_attributes:
   'href': '#'
-product_CTA_border_radius: 30
 mobile_sections_items:
   - title: 'NUTRITION & INGREDIENTS'
     border_radius: 20
