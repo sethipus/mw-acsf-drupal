@@ -2,15 +2,27 @@
 /**
  * @file
  * Template for the PDP Product Multipack component.
- *
- * Available variables:
- *   'multipack_label' => NULL,
- *   'multipack_items' => [],
  */
 #}
-{% include "@molecules/pdp/pdp-multipack/pdp-multipack.twig" with {
-  theme_styles: 'drupal',
-  multipack_label: multipack_label,
-  multipack_items: multipack_items,
-} %}
+{{ attach_library('emulsifymars/pdp-multipack') }}
+{% set pdp_multipack_base_class = pdp_multipack_base_class|default('pdp-multipack') %}
+{% set theme_styles = 'drupal' %}
 
+<section id="section-products" {{ bem(pdp_multipack_base_class) }} data-theme="{{ theme_styles }}">
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading_level: 5,
+    heading: multipack_label,
+    heading_blockname: pdp_multipack_base_class,
+    heading_base_class: 'header',
+  } %}
+  <div id="pdp-multipack">
+    <div class="swiper-container pdp-multipack-swiper-container">
+      <div class="swiper-wrapper">
+        {{ multipack_view }}
+      </div>
+      <div class="swiper-button-prev" id="swiper-button"></div>
+      <div class="swiper-button-next" id="swiper-button"></div>
+      <div class="swiper-scrollbar"></div>
+    </div>
+  </div>
+</section>

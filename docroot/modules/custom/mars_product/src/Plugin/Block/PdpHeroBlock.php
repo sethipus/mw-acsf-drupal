@@ -4,6 +4,7 @@ namespace Drupal\mars_product\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityFormBuilderInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -69,6 +70,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $themeConfiguratorParser;
 
   /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $entityFormBuilder;
+
+  /**
    * Price spider id.
    */
   const VENDOR_PRICE_SPIDER = 'price_spider';
@@ -88,6 +96,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
     EntityRepositoryInterface $entity_repository,
+    EntityFormBuilderInterface $entity_form_builder,
     ThemeConfiguratorParser $themeConfiguratorParser,
     LanguageManagerInterface $language_manager
   ) {
@@ -95,6 +104,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->entityRepository = $entity_repository;
+    $this->entityFormBuilder = $entity_form_builder;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageManager = $language_manager;
   }
@@ -110,6 +120,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
       $container->get('entity.repository'),
+      $container->get('entity.form_builder'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('language_manager')
     );
@@ -409,34 +420,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Size items array.
    */
   public function getServingItems($node) {
-    $mapping = [
-      'nutritional_info_calories' => [
-        'field_product_calories' => FALSE,
-        'field_product_calories_fat' => FALSE,
-      ],
-      'nutritional_info_fat' => [
-        'field_product_total_fat' => '',
-        'field_product_saturated_fat' => 'field_product_saturated_daily',
-        'field_product_trans_fat' => '',
-      ],
-      'nutritional_info_others' => [
-        'field_product_cholesterol' => '',
-        'field_product_sodium' => '',
-        'field_product_carb' => '',
-        'field_product_dietary_fiber' => 'field_product_dietary_daily',
-        'field_product_sugars' => '',
-        'field_product_protein' => '',
-      ],
-      'vitamins_info' => [
-        'field_product_vitamin_a' => '',
-        'field_product_vitamin_c' => '',
-        'field_product_vitamin_d' => '',
-        'field_product_calcium' => '',
-        'field_product_iron' => '',
-        'field_product_potassium' => '',
-      ],
-    ];
-
     $items = [];
     $field_size = 'field_product_size';
     $i = 0;
@@ -462,6 +445,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'value' => $product_variant->get('field_product_servings_per')->value,
         ],
       ];
+
+      $mapping = $this->getGroupingMethod($product_variant);
       foreach ($mapping as $section => $fields) {
         foreach ($fields as $field => $field_daily) {
           $item = [
@@ -483,6 +468,59 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $items;
+  }
+
+  /**
+   * Get Field Mapping for grouping.
+   *
+   * @param object $node
+   *   Product Variant node.
+   *
+   * @return array
+   *   Size items array.
+   */
+  public function getGroupingMethod($node) {
+    $field_mapping = [
+      'field_product_calories' => FALSE,
+      'field_product_calories_fat' => FALSE,
+      'field_product_total_fat' => '',
+      'field_product_saturated_fat' => 'field_product_saturated_daily',
+      'field_product_trans_fat' => '',
+      'field_product_cholesterol' => '',
+      'field_product_sodium' => '',
+      'field_product_carb' => '',
+      'field_product_dietary_fiber' => 'field_product_dietary_daily',
+      'field_product_sugars' => '',
+      'field_product_protein' => '',
+      'field_product_vitamin_a' => '',
+      'field_product_vitamin_c' => '',
+      'field_product_vitamin_d' => '',
+      'field_product_calcium' => '',
+      'field_product_iron' => '',
+      'field_product_potassium' => '',
+    ];
+    $groups_mapping = [
+      'group_nutritional_subgroup_1',
+      'group_nutritional_subgroup_2',
+      'group_nutritional_subgroup_3',
+      'group_vitamins',
+    ];
+
+    $form = $this->entityFormBuilder->getForm($node);
+    $mapping = [];
+    foreach ($groups_mapping as $group) {
+      foreach ($form['#fieldgroups'] as $fieldgroup) {
+        if ($fieldgroup->group_name == $group) {
+          foreach ($fieldgroup->children as $field) {
+            if (strpos($field, 'daily') === FALSE) {
+              $mapping[$group][$field] = $field_mapping[$field];
+            }
+          }
+        }
+      }
+    }
+
+    return $mapping;
   }
 
   /**

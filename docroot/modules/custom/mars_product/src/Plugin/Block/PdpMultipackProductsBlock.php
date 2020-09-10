@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\views\Views;
 
 /**
  * Provides a Multipack Products block.
@@ -104,71 +105,21 @@ class PdpMultipackProductsBlock extends BlockBase implements ContainerFactoryPlu
   public function build(): array {
     $node = $this->getContextValue('node');
 
-    $build['#multipack_label'] = $this->configuration['multipack_label'];
-    $build['#multipack_items'] = $this->getMultipackItems($node);
+    $view_id = 'multipack_product_card_grid';
+    $view_display = 'block_multipack_product';
+    $view = Views::getView($view_id);
+    $view->setDisplay($view_display);
+    $view->preExecute();
+    $output = $view->render($view_display);
+
+    $build = [];
+    if (count($view->result)) {
+      $build['#multipack_label'] = $this->configuration['multipack_label'];
+      $build['#multipack_view'] = $output;
+    }
 
     $build['#theme'] = 'pdp_product_multipack_block';
     return $build;
-  }
-
-  /**
-   * Get Multipack items.
-   *
-   * @param object $node
-   *   Product node.
-   *
-   * @return array
-   *   Multipack items array.
-   */
-  public function getMultipackItems($node) {
-    $items = [];
-    foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
-
-      $card_url = NULL;
-      if (!empty($node->id())) {
-        $card_url = $product_variant
-          ->toUrl('canonical', ['absolute' => FALSE])
-          ->toString()
-          ->toUrl('canonical', ['absolute' => FALSE])
-          ->toString();
-      }
-
-      $items[] = [
-        'card_url' => $card_url,
-        'card__image__src' => $this->getMultipackImageSrc($product_variant),
-        'paragraph_content' => $product_variant->title->value,
-        'default_link_content' => $this->t('SEE DETAILS'),
-        'link_content' => $this->t('BUY NOW'),
-      ];
-    }
-
-    return $items;
-  }
-
-  /**
-   * Get Image Src from Product Variant.
-   *
-   * @param object $node
-   *   Product node.
-   *
-   * @return string
-   *   Image src.
-   */
-  public function getMultipackImageSrc($node) {
-    $field_name = 'field_product_key_image';
-    $field_name_override = 'field_product_key_image_override';
-    $media = $node->{$field_name}->entity;
-    $media_override = $node->{$field_name_override}->entity;
-
-    if ($media && $media_override) {
-      $media = $media_override;
-    }
-
-    $file = $this->fileStorage->load($media->image->target_id);
-    $image_src = $file->createFileUrl();
-
-    return $image_src;
   }
 
 }
