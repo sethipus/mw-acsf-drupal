@@ -105,3 +105,9 @@ recipe-body:
     dist/js/03-organisms/recipe-body/recipe-body.js: {}
   dependencies:
     - core/drupal
+
+ajaxcardgrid:
+  js:
+    dist/js/03-organisms/grid/ajaxcardgrid.js: {}
+  dependencies:
+    - core/drupal

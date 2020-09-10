@@ -1,0 +1,14 @@
+uuid: dcf08f6f-e520-4df9-b8e2-b2e96c4f1ff0
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_core
+    - node
+third_party_settings:
+  lightning_core:
+    description: ''
+id: node.recipe_card
+label: 'Recipe Card'
+targetEntityType: node
+cache: true
