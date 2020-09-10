@@ -68,7 +68,7 @@
   font-weight: normal;
 
   @include medium {
-    color: clr(secondary);
+    color: clr(primary);
     display: block;
     padding: 1.2rem $space-double;
     font-size: 1.4rem;
@@ -78,7 +78,7 @@
     &.active,
     &:active,
     &:hover {
-      color: clr(primary);
+      color: clr(secondary);
       font-weight: 500;
 
       & .menu_chevron__icon {

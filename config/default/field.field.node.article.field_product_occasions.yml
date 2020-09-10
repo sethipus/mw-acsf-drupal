@@ -1,21 +1,19 @@
-uuid: 61a31dbb-88ec-497b-b753-27509460497b
+uuid: 9bf268a3-679b-4647-a1ed-950c133799f0
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_article_occasions
+    - field.storage.node.field_product_occasions
     - node.type.article
     - taxonomy.vocabulary.mars_occasions
-_core:
-  default_config_hash: a4UR-LzUNttuFqEnSICQpMf7pnwVFhfBzz-jbJbUpqg
-id: node.article.field_article_occasions
-field_name: field_article_occasions
+id: node.article.field_product_occasions
+field_name: field_product_occasions
 entity_type: node
 bundle: article
 label: Occasions
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
