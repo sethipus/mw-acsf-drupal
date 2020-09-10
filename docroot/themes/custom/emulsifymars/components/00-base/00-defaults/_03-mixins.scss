@@ -77,10 +77,10 @@ $outer-container-break: $small;
 }
 
 @mixin link {
-  color: clr(primary);
+  color: clr(secondary);
 
   &:hover {
-    color: clr(subcolor-1);
+    color: clr(secondary);
   }
 }
 

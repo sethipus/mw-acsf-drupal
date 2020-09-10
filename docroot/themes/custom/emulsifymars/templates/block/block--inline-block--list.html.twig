@@ -8,10 +8,15 @@
 
 <div {{ bem('block') }} style="max-width:780px;margin:0 auto;">
     {{ title_prefix }}
+    {% if label %}
+        <h2{{ title_attributes.addClass('h2') }}>{{ label }}</h2>
+    {% endif %}
     {{ title_suffix }}
     {% block content %}
-        {% include "@atoms/lists/ol.twig" with {
-            ol_items: ol_items
-        } %}
+        <div class="list-container" data-theme="drupal">
+            {% include "@atoms/lists/ol.twig" with {
+                ol_items: ol_items
+            } %}
+        </div>
     {% endblock %}
 </div>
