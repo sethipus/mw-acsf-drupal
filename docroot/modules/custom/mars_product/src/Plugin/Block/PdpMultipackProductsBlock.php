@@ -2,12 +2,10 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
-use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -15,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "pdp_product_multipack_block",
- *   admin_label = @Translation("MARS: Multipack Products"),
+ *   admin_label = @Translation("Multipack Products"),
  *   category = @Translation("Product"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label =
@@ -71,6 +69,7 @@ class PdpMultipackProductsBlock extends BlockBase implements ContainerFactoryPlu
     $config = $this->getConfiguration();
 
     return [
+      'label_display' => FALSE,
       'multipack_label' => $config['multipack_label'] ?? $this->t("What's in the pack"),
     ];
   }
@@ -90,14 +89,6 @@ class PdpMultipackProductsBlock extends BlockBase implements ContainerFactoryPlu
     ];
 
     return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function blockAccess(AccountInterface $account) {
-    $access = $this->getContextValue('node')->bundle() == 'product_multipack';
-    return AccessResult::allowedIf($access);
   }
 
   /**

@@ -12,4 +12,3 @@ faq_items:
 button_name: "SEE ALL"
 theme_styles: "twix"
 button_link: "#FAQ"
-default_link_border_radius: 30
