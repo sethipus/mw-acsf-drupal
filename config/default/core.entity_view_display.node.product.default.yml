@@ -9,11 +9,13 @@ dependencies:
     - field.field.node.product.field_product_format
     - field.field.node.product.field_product_market
     - field.field.node.product.field_product_name
+    - field.field.node.product.field_product_new
     - field.field.node.product.field_product_occasions
     - field.field.node.product.field_product_segment
     - field.field.node.product.field_product_sub_brand
     - field.field.node.product.field_product_trade_description
     - field.field.node.product.field_product_variants
+    - field.field.node.product.layout_builder__layout
     - node.type.product
   module:
     - layout_builder
@@ -217,6 +219,24 @@ third_party_settings:
                 type: entity_reference_label
             additional: {  }
             weight: 11
+          8504fe25-60d1-4674-b326-c0688ef1e13e:
+            uuid: 8504fe25-60d1-4674-b326-c0688ef1e13e
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:product:field_product_new'
+              formatter:
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+                type: boolean
+            additional: {  }
+            weight: 12
         third_party_settings: {  }
   layout_library:
     enable: false
@@ -279,6 +299,16 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_product_new:
+    weight: 115
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_product_occasions:
     weight: 113

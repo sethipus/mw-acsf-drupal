@@ -63,7 +63,6 @@ product_description: 'Whether you’re a Left TWIX Bar or Right TWIX Bar person,
 product_CTA_title: 'WHERE TO BUY'
 product_CTA_link_attributes:
   'href': '#'
-product_CTA_border_radius: 30
 mobile_sections_items:
   - title: 'NUTRITION & INGREDIENTS'
     border_radius: 20
@@ -94,3 +93,7 @@ size_items:
       'data-size-id' : '6oz'
     title: '6 oz'
     link_url: '#'
+product_sku: '00012937003801'
+commerce_vendor: 'price_spider'
+data_widget_id: 'Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85'
+reference_for_analitics: ''

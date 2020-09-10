@@ -16,7 +16,6 @@ dependencies:
     - field.field.node.recipe.field_recipe_nutrition_module
     - field.field.node.recipe.field_recipe_video
     - field.field.node.recipe.layout_builder__layout
-    - field.field.node.recipe.layout_selection
     - node.type.recipe
   module:
     - layout_builder
@@ -89,6 +88,5 @@ hidden:
   field_recipe_number_of_servings: true
   field_recipe_nutrition_module: true
   layout_builder__layout: true
-  layout_selection: true
   published_at: true
   search_api_excerpt: true

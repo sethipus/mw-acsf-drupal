@@ -2,13 +2,12 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
-use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,12 +19,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   admin_label = @Translation("PDP Hero"),
  *   category = @Translation("Product"),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label =
- *   @Translation("Product"))
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Product"))
  *   }
  * )
  */
 class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
   /**
    * File storage.
    *
@@ -48,11 +47,28 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $routeMatch;
 
   /**
+   * The entity repository service.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected $entityRepository;
+
+  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
    */
   protected $themeConfiguratorParser;
+
+  /**
+   * Price spider id.
+   */
+  const VENDOR_PRICE_SPIDER = 'price_spider';
+
+  /**
+   * Commerce connector id.
+   */
+  const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
 
   /**
    * {@inheritdoc}
@@ -63,11 +79,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
+    EntityRepositoryInterface $entity_repository,
     ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
+    $this->entityRepository = $entity_repository;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
@@ -81,6 +99,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
+      $container->get('entity.repository'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -105,6 +124,38 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['available_sizes'] ?? '',
       '#required' => TRUE,
     ];
+
+    $form['commerce_vendor'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Vendor'),
+      '#default_value' => $this->configuration['commerce_vendor'],
+      '#options' => [
+        self::VENDOR_PRICE_SPIDER => $this->t('Price Spider'),
+        self::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
+      ],
+      '#required' => TRUE,
+    ];
+
+    $form['data_widget_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Commerce Connector - Data widget id'),
+      '#default_value' => $this->configuration['data_widget_id'],
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
+        ],
+        'required' => [
+          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
+        ],
+      ],
+    ];
+
+    $form['product_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product ID'),
+      '#default_value' => $this->configuration['product_id'],
+    ];
+
     $form['wtb'] = [
       '#type' => 'details',
       '#title' => $this->t('WTB button settings'),
@@ -193,6 +244,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
+      'commerce_vendor' => $config['commerce_vendor'],
+      'product_id' => $config['product_id'] ?? '',
+      'data_widget_id' => $config['data_widget_id'] ?? '',
     ];
   }
 
@@ -204,7 +258,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#available_sizes'] = $this->configuration['available_sizes'] ?? '';
     $build['#cta_link'] = $this->configuration['wtb']['cta_link'] ?? '#';
     $build['#cta_label'] = $this->configuration['wtb']['cta_label'] ?? '';
-    $build['#wtb_border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
 
     // Nutrition part labels.
     $build['#nutritional_label'] = $this->configuration['nutrition']['label'] ?? '';
@@ -225,15 +278,18 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#allergens_list'] = $this->getAllergenItems($node);
 
     $build['#theme'] = 'pdp_hero_block';
-    return $build;
-  }
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function blockAccess(AccountInterface $account) {
-    $access = $this->getContextValue('node')->bundle() == 'product';
-    return AccessResult::allowedIf($access);
+    $product_sku = '';
+    foreach ($node->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $product_sku = $product_variant->get('field_product_sku')->value;
+    }
+    $build['#product_sku'] = !empty($this->configuration['product_id']) ? $this->configuration['product_id'] : $product_sku;
+    $build['#commerce_vendor'] = $this->configuration['commerce_vendor'];
+    $build['#data_widget_id'] = $this->configuration['data_widget_id'] ?? '';
+    $this->pageAttachments($build);
+
+    return $build;
   }
 
   /**
@@ -248,6 +304,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function getImageItems($node) {
     $items = [];
     $field_size = 'field_product_size';
+
+    $map = [
+      'field_product_key_image' => 'field_product_key_image_override',
+      'field_product_image_1' => 'field_product_image_1_override',
+      'field_product_image_2' => 'field_product_image_2_override',
+      'field_product_image_3' => 'field_product_image_3_override',
+      'field_product_image_4' => 'field_product_image_4_override',
+    ];
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
@@ -259,25 +323,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'size_id' => $size_id,
       ];
-      for ($i = 1; $i <= 4; $i++) {
-        $field_name = 'field_product_image_' . $i;
-        $field_name_override = 'field_product_image_' . $i . '_override';
-
-        $image = $product_variant->{$field_name}->entity;
-        $image_override = $product_variant->{$field_name_override}->entity;
-
-        if (!$image && !$image_override) {
+      foreach ($map as $image_field => $image_field_override) {
+        $media = $product_variant->{$image_field}->entity;
+        $media_override = $product_variant->{$image_field_override}->entity;
+        if (!$media && !$media_override) {
           continue;
         }
-        if ($image && $image_override) {
-          $image = $image_override;
+        if ($media && $media_override) {
+          $media = $media_override;
         }
 
-        $file = $this->fileStorage->load($image->id());
+        $file = $this->fileStorage->load($media->image->target_id);
         $image_src = $file->createFileUrl();
-        $image_alt = $image->image[0]->alt;
+        $image_alt = $media->image[0]->alt;
 
-        // TODO how srcet should be defined on Back side.
         $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
         $item = [
           'image' => [
@@ -318,7 +377,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'link_url' => '#',
         'size_attributes' => [
           'data-size-selected' => $state,
-          'data-size-id' => $id ,
+          'data-size-id' => $id,
         ],
       ];
     }
@@ -420,6 +479,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @return array
    *   Size items array.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getAllergenItems($node) {
     $items = [];
@@ -434,8 +495,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $allergen_items = [];
       foreach ($product_variant->field_product_diet_allergens as $ref) {
         $allergen_term = $ref->entity;
+        $icon_src = $this->getIconSrc($allergen_term);
         $allergen_items[] = [
-          'allergen_icon' => $allergen_term->field_allergen_image->entity->createFileUrl(),
+          'allergen_icon' => $icon_src,
           'allergen_label' => $allergen_term->getName(),
         ];
       }
@@ -464,7 +526,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     foreach ($map as $id => $title) {
       $items[] = [
-        'border_radius' => $this->themeConfiguratorParser->getSettingValue('button_style'),
         'title' => $title,
         'link_attributes' => [
           'href' => '#' . $id,
@@ -473,6 +534,38 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $items;
+  }
+
+  /**
+   * Get Icon src from entity.
+   *
+   * @param object $entity
+   *   Taxonomy term entity.
+   * @param string $image_field
+   *   Image field name.
+   *
+   * @return string
+   *   Image src value.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public function getIconSrc($entity, $image_field = 'field_allergen_image') {
+    $icon_src = '';
+    if (!$entity->get($image_field)->isEmpty()) {
+      $icon_src = $entity->{$image_field}->entity->createFileUrl();
+    }
+    else {
+      $field = $entity->get($image_field);
+      $default_image = $field->getSetting('default_image');
+      if (isset($default_image['uuid'])) {
+        if ($default_image_file
+          = $this->entityRepository->loadEntityByUuid('file', $default_image['uuid'])) {
+          $icon_src = $default_image_file->createFileUrl();
+        };
+      }
+    }
+
+    return $icon_src;
   }
 
   /**
@@ -486,6 +579,54 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getMachineName($string = '') {
     return mb_strtolower(str_replace(' ', '', $string));
+  }
+
+  /**
+   * Add page attachments.
+   *
+   * @param array $build
+   *   Build array.
+   *
+   * @return array
+   *   Return build.
+   */
+  public function pageAttachments(array &$build) {
+    if ($this->configuration['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
+      $metatags = [
+        'ps-key' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-key',
+            'content' => '2762-5b80256eb307f7009e536b50',
+          ],
+        ],
+        'ps-country' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-country',
+            'content' => 'US',
+          ],
+        ],
+        'ps-language' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-language',
+            'content' => 'en',
+          ],
+        ],
+        'price-spider' => [
+          '#tag' => 'script',
+          '#attributes' => [
+            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+            'async' => TRUE,
+          ],
+        ],
+      ];
+      foreach ($metatags as $key => $metatag) {
+        $build['#attached']['html_head'][] = [$metatag, $key];
+      }
+    }
+    return $build;
   }
 
 }
