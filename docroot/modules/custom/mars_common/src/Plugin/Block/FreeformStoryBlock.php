@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -50,11 +51,20 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $entityTypeManager;
 
   /**
+   * Theme configurator parser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ThemeConfiguratorParser $theme_configurator_parser) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
+
   }
 
   /**
@@ -65,7 +75,8 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -123,6 +134,11 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#title' => $this->t('Background shape'),
       '#default_value' => $this->configuration['background_shape'] ?? FALSE,
     ];
+    $form['custom_background_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Background Color Override'),
+      '#default_value' => $this->configuration['custom_background_color'] ?? '',
+    ];
 
     return $form;
   }
@@ -143,6 +159,10 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       $build['#image'] = file_create_url($file->getFileUri());
     }
     $build['#image_alt'] = $this->configuration['image_alt'];
+    if ($this->configuration['background_shape']) {
+      $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
+    }
+    $build['#custom_background_color'] = $this->configuration['custom_background_color'];
     $build['#theme'] = 'freeform_story_block';
 
     return $build;
@@ -174,6 +194,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       'background_shape' => $config['background_shape'] ?? '',
       'image' => $config['image'] ?? '',
       'image_alt' => $config['image_alt'] ?? '',
+      'custom_background_color' => $config['custom_background_color'] ?? '',
     ];
   }
 

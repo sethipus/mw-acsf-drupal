@@ -4,7 +4,7 @@
 {% set freeform_story_subheading_base_class = freeform_story_subheading_base_class|default('freeform-story__subheading') %}
 {% set freeform_story_paragraph_base_class = freeform_story_paragraph_base_class|default('freeform-story__paragraph') %}
 
-<section {{ bem(freeform_story_base_class, freeform_story_modifiers) }} data-theme="{{ theme_styles }}">
+<section {{ bem(freeform_story_base_class, freeform_story_modifiers) }} style="{{ freeform_story_bg_enabled ? '' : 'background-color:#' ~ custom_background_color ~ '' }}" data-theme="{{ theme_styles }}">
   {% if brand_shape %}
     <div class="freeform-story__brand-shape">
       {{ brand_shape | raw }}

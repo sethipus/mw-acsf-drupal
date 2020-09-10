@@ -11,6 +11,8 @@
  *   'image_alt' => NULL,
  *   'body' => NULL,
  *   'background_shape' => NULL,
+ *   'brand_shape' => NULL,
+ *   'custom_background_color' => NULL,
  */
 #}
 {% include "@molecules/freeform-story/freeform-story.twig" with {
@@ -22,4 +24,8 @@
   freeform_story_subheading: header_2,
   freeform_story_heading: header_1,
   freeform_story_paragraph_content: body,
+  freeform_story_subheading_level: 2,
+  freeform_story_heading_level: 1,
+  brand_shape: brand_shape,
+  custom_background_color: custom_background_color,
 } %}
