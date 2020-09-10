@@ -3,16 +3,23 @@
 
 
 <section {{ bem(felxible_driver__base_class) }} data-theme="{{ theme_styles }}">
-  <div class="flexible_driver__brand-shape_1">
-    {{ asset_1 }}
-    {{ asset_1_alt }}
+  <div class="flexible-driver__bg-image flexible-driver__bg-image--left">
+    {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: asset_1_alt,
+      image_src: asset_1,
+    } %}
   </div>
 
-  <div class="flexible_driver__brand-shape_2">
-    {{ asset_2 }}
-    {{ asset_2_alt }}
+  <div class="flexible-driver__bg-image flexible-driver__bg-image--right">
+    {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: asset_2_alt,
+      image_src: asset_2,
+    } %}
   </div>
 
+  <div class="flexible-driver__content">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: flexible_driver_heading,
       heading_level: flexible_driver_heading_level,
@@ -33,5 +40,6 @@
         default_link_modifiers: flexible_driver_button_modifiers
       } %}
     </div>
+  </div>
 
 </section>

@@ -1,11 +1,53 @@
 .flexible-driver {
   background-color: clr(subcolor-2);
   border-top: 5px solid clr(secondary);
-  background-repeat: no-repeat;
-  background-position: left bottom, right top;
+  position: relative;
+  overflow: hidden;
 
-  @include medium {
-    background-position: left bottom, right top;
+  &__content {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__bg-image {
+    position: absolute;
+    z-index: 1;
+    display: block;
+
+    &--left {
+      @include xs {
+        width: 19rem;
+        left: 0;
+        bottom: 0;
+      }
+
+      @include medium {
+        width: 28rem;
+        bottom: -8rem;
+      }
+
+      @include large {
+        bottom: -3rem;
+        width: 34.6rem;
+      }
+    }
+
+    &--right {
+      @include xs {
+        width: 17rem;
+        right: -5rem;
+        top: 2rem;
+      }
+
+      @include medium {
+        width: 25rem;
+      }
+
+      @include large {
+        width: 28.9rem;
+        top: 0;
+      }
+    }
   }
 
   & .middle_content {
