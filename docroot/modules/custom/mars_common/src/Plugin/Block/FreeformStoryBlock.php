@@ -3,8 +3,11 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\Traits\EntityBrowserFormTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'MARS: Freeform Story Block' Block.
@@ -15,14 +18,14 @@ use Drupal\mars_common\Traits\EntityBrowserFormTrait;
  *   category = @Translation("Mars Common"),
  * )
  */
-class FreeformStoryBlock extends BlockBase {
+class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
 
   /**
    * Lighthouse entity browser id.
    */
-  const LIGHTHOUSE_ENTITY_BROWSER_ID = 'image_browser';
+  const LIGHTHOUSE_ENTITY_BROWSER_ID = 'lighthouse_browser';
 
   /**
    * Aligned by left side.
@@ -38,6 +41,33 @@ class FreeformStoryBlock extends BlockBase {
    * Aligned by center.
    */
   const CENTER_ALIGNED = 'center_aligned';
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -103,7 +133,9 @@ class FreeformStoryBlock extends BlockBase {
     $build['#background_shape'] = $this->configuration['background_shape'];
     /** @var \Drupal\media\MediaInterface $media */
     if (!empty($this->configuration['image']) && $media = static::loadEntityBrowserEntity($this->configuration['image'])) {
-      $build['#image'] = file_create_url($media->getFileUri());
+      $fid = $media->field_media_image->target_id;
+      $file = $this->entityTypeManager->getStorage('file')->load($fid);
+      $build['#image'] = file_create_url($file->getFileUri());
     }
     $build['#theme'] = 'freeform_story_block';
 

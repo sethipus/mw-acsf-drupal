@@ -153,12 +153,9 @@ trait EntityBrowserFormTrait {
     $entity_type_manager = \Drupal::entityTypeManager();
 
     foreach ($entities as $id => $entity) {
-      $list_of_usage = \Drupal::service('file.usage')->listUsage($entity);
-      if (!empty($list_of_usage) && isset($list_of_usage['file']['media'])) {
-        $mid = key($list_of_usage['file']['media']);
-        $media = Media::load($mid);
-        $entity_type_id = $media->getEntityTypeId();
-        $preview = $entity_type_manager->getViewBuilder($entity_type_id)->view($media, $element['#view_mode']);
+      $entity_type_id = $entity->getEntityTypeId();
+      if ($entity_type_manager->hasHandler($entity_type_id, 'view_builder')) {
+        $preview = $entity_type_manager->getViewBuilder($entity_type_id)->view($entity, $element['#view_mode']);
       }
       else {
         $preview = ['#markup' => $entity->label()];
