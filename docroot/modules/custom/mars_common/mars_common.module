@@ -152,6 +152,18 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'iframe-block',
     ],
+    'freeform_story_block' => [
+      'variables' => [
+        'block_aligned' => NULL,
+        'header_1' => NULL,
+        'header_2' => NULL,
+        'body' => NULL,
+        'background_shape' => NULL,
+        'image' => NULL,
+        'image_alt' => NULL,
+      ],
+      'template' => 'freeform-story-block',
+    ],
   ];
 }
 
