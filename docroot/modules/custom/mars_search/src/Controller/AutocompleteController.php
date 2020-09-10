@@ -20,6 +20,11 @@ use Symfony\Component\HttpFoundation\Request;
 class AutocompleteController extends ControllerBase implements ContainerInjectionInterface {
 
   /**
+   * Exposed field name to apply autocomplete for.
+   */
+  const MARS_SEARCH_EXPOSED_FIELD_NAME = 'search';
+
+  /**
    * The renderer.
    *
    * @var \Drupal\Core\Render\RendererInterface
@@ -81,7 +86,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
     }
     $view->setDisplay($view_display_id);
     $view->setExposedInput([
-      MARS_SEARCH_EXPOSED_FIELD_NAME => $keys,
+      self::MARS_SEARCH_EXPOSED_FIELD_NAME => $keys,
     ]);
     $view->setItemsPerPage(4);
     $view->execute();
@@ -90,14 +95,15 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
         $entity = $resultRow->_object->getValue();
         $suggestions[] = $entity->toLink();
       }
-      $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $keys]), Url::fromUri('base:search', ['query' => [MARS_SEARCH_EXPOSED_FIELD_NAME => $keys]]));
+      $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $keys]), Url::fromUri('base:search', ['query' => [self::MARS_SEARCH_EXPOSED_FIELD_NAME => $keys]]));
     }
+    $empty_text_description = $this->config('mars_search.autocomplete')->get('empty_text_description');
     $build = [
       '#theme' => 'mars_search_suggestions',
       '#suggestions' => $suggestions,
       '#show_all' => $show_all,
       '#empty_text' => $this->t('There are no matching results for "@keys"', ['@keys' => $keys]),
-      '#empty_text_description' => $this->t('Please try entering different search'),
+      '#empty_text_description' => $empty_text_description ? $empty_text_description : $this->t('Please try entering different search'),
     ];
 
     return new JsonResponse($this->renderer->render($build));

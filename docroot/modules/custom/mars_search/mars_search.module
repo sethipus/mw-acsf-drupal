@@ -6,9 +6,8 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_search\Controller\AutocompleteController;
 use Drupal\views\ViewExecutable;
-
-const MARS_SEARCH_EXPOSED_FIELD_NAME = 'search';
 
 /**
  * Implements hook_theme().
@@ -45,12 +44,12 @@ function mars_search_form_views_exposed_form_alter(&$form, FormStateInterface $f
     return;
   }
   // We need these values for the query.
-  $form[MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-view_id'] = $view->id();
-  $form[MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-display_id'] = $view->current_display;
+  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-view_id'] = $view->id();
+  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-display_id'] = $view->current_display;
   // To indicate this textfield supports autocomplete.
-  $form[MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['class'][] = 'mars-autocomplete-field';
+  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['class'][] = 'mars-autocomplete-field';
   // Container for autocomplete suggestions.
-  $form[MARS_SEARCH_EXPOSED_FIELD_NAME]['#suffix'] = '<div class="mars-suggestions"></div>';
+  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#suffix'] = '<div class="mars-suggestions"></div>';
   // Attaching javasript for autocomplete.
   $form['#attached']['library'][] = 'mars_search/autocomplete';
 }
