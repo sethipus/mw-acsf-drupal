@@ -66,7 +66,6 @@
                 {% include "@atoms/links/defaultLink/defaultLink.twig" with {
                   default_link_content: section_item.title,
                   default_link_url: section_item.link_url,
-                  default_link_border_radius: section_item.border_radius,
                   default_link_attributes: section_item.link_attributes,
                   default_link_modifiers: ['pdp-sections'],
                 } %}
@@ -77,7 +76,6 @@
 
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
           default_link_content: product_CTA_title,
-          default_link_border_radius: product_CTA_border_radius,
           default_link_attributes: product_CTA_link_attributes,
           default_link_modifiers: ['pdp-hero'],
         } %}
@@ -105,7 +103,6 @@
       } %}
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
         default_link_content: product_CTA_title,
-        default_link_border_radius: product_CTA_border_radius,
         default_link_attributes: product_CTA_link_attributes,
         default_link_modifiers: ['pdp-desktop', 'pdp-hero'],
       } %}

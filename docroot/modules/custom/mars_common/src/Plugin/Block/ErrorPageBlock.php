@@ -126,7 +126,6 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     foreach ($linksMenu as $linkMenu) {
       $links[] = [
         'content' => $linkMenu['title'],
-        'border_radius' => 30,
         'attributes' => [
           'target' => '_self',
           'href' => $linkMenu['url'],

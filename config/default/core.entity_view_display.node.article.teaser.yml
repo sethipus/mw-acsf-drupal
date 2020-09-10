@@ -8,8 +8,8 @@ dependencies:
     - field.field.node.article.field_article_description
     - field.field.node.article.field_article_image
     - field.field.node.article.field_article_new
-    - field.field.node.article.field_article_occasions
     - field.field.node.article.field_article_related_products
+    - field.field.node.article.field_product_occasions
     - field.field.node.article.layout_builder__layout
     - field.field.node.article.layout_selection
     - node.type.article
@@ -32,8 +32,8 @@ hidden:
   field_article_description: true
   field_article_image: true
   field_article_new: true
-  field_article_occasions: true
   field_article_related_products: true
+  field_product_occasions: true
   layout_builder__layout: true
   layout_selection: true
   published_at: true
