@@ -531,7 +531,7 @@ function emulsifymars_preprocess_html(&$variables) {
   $theme_settings = Drupal::config('emulsifymars.settings')->get();
   $style_tag = sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype');}", $theme_settings['headline_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype');}", $theme_settings['primary_font_path']);
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypeface'; src: url('%s') format('opentype');}", $theme_settings['secondary_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypefaceFont'; src: url('%s') format('opentype');}", $theme_settings['secondary_font_path']);
   $style_tag .= sprintf(":root [data-theme='drupal'] {%s}", _emulsifymars_preprocess_css_properties($theme_settings));
   $variables['page']['#attached']['html_head'][] = [
     [
@@ -581,20 +581,44 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --c-top-nav: #%s;", $settings['top_nav']);
   $properties .= sprintf(" --c-top-nav-gradient: #%s;", $settings['top_nav_gradient']);
   $properties .= sprintf(" --c-bottom-nav: #%s;", $settings['bottom_nav']);
+  $properties .= sprintf(" --c-card-background: #%s;", $settings['card_background']);
 
   $properties .= sprintf(" --v-heading-font: %s;", 'DrupalHeadlineCampaignFont');
   $properties .= sprintf(" --v-primary-font: %s;", 'DrupalPrimaryTypefaceFont');
-  $properties .= sprintf(" --v-secondary-font: %s;", 'DrupalSecondaryTypeface');
+  $properties .= sprintf(" --v-secondary-font: %s;", 'DrupalSecondaryTypefaceFont');
 
   $properties .= sprintf(" --v-border-radius: %s;", $settings['button_style']);
 
-  foreach (_emulsifymars_get_icon_fields() as $icon) {
-    if (is_array($settings[$icon]) && count($settings[$icon]) > 0 && $file = File::load($settings[$icon][0])) {
-      $properties .= sprintf(" --%s: %s;", $icon, $file->createFileUrl());
-    }
-  }
+  _emulsifymars_load_images_from_theme($properties);
 
   return $properties;
+}
+
+/**
+ * Helper function to preload images as background with theme configurator.
+ */
+function _emulsifymars_load_images_from_theme(string &$properties) {
+  $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+  $fields = [
+    'graphic_divider',
+    'brand_shape',
+  ];
+  foreach ($fields as $field) {
+    $svg = $themeParser->getFileContentFromTheme($field);
+    $symbols = [
+      '<' => '%3C',
+      '>' => '%3E',
+      '#' => '%23',
+      '"' => '\'',
+      '\n' => '',
+      '\r\n' => '',
+      '\r' => '',
+    ];
+    foreach ($symbols as $symbol => $replace) {
+      $svg = str_replace($symbol, $replace, $svg);
+    }
+    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml,' . $svg . '")');
+  }
 }
 
 /**
@@ -632,8 +656,6 @@ function emulsifymars_theme() {
  * Implements hook_preprocess_views_view_unformatted().
  */
 function emulsifymars_preprocess_views_view_unformatted(&$variables) {
-  global $base_url;
-
   $view = $variables['view'];
   $id = $view->storage->id();
   $items = [];
@@ -669,21 +691,11 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
     }
   }
 
-  $brand_border = theme_get_setting('brand_borders');
-  $brand_border_fid = !empty($brand_border[0]) ? $brand_border[0] : '';
-  if ($brand_border_fid) {
-    $file = File::load($brand_border_fid);
-  }
-  $variables['brand_border'] = !empty($file) ? file_get_contents($base_url . $file->createFileUrl()) : '';
+  $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
+  $variables['divider'] = $themeParser->getFileContentFromTheme('graphic_divider');
+  $variables['brand_borders'] = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
 
-  $divider = theme_get_setting('graphic_divider');
-  $divider_fid = !empty($divider[0]) ? $divider[0] : '';
-  if ($divider_fid) {
-    $file = File::load($divider_fid);
-  }
-  $variables['divider'] = !empty($file) ? file_get_contents($base_url . $file->createFileUrl()) : '';
-
-  $variables['theme_styles'] = 'twix';
+  $variables['theme_styles'] = 'drupal';
   $variables['grid_type'] = 'card';
   $variables['item_type'] = 'card';
   $variables['items'] = $items;

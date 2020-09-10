@@ -4,12 +4,12 @@
     ul_items: ingredients_list,
     ul_base_class: 'recipe-body-ingredients-list'
   }%}
-</div>
-<div class="product-used" data-theme="{{ theme_styles }}">
-  <div class="product-used__title">{{ products_used }}</div>
+  <div class="product-used" data-theme="{{ theme_styles }}">
+    <div class="product-used__title">{{ products_used }}</div>
     {% include "@molecules/product-used-module/product-used-module.twig" with {
       items: product_used_items
     } %}
+  </div>
 </div>
 <div class="recipe-body-content recipe-body-content__bottom" data-theme="{{ theme_styles }}">
   <h1 class="recipe-body-content-header">{{ "Instructions" | t }}</h1>
