@@ -18,13 +18,25 @@ items:
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
-    content: 'One days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    content: 'Red Velvet Cake Jars. Perfect for Valentine’s Day gifting, these pretty red velvet cake jars taste as good as they look.'
     base_class: first
   - video: true
     src: "https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/"
-    content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    content: 'Dotted with chopped Twix Cookies and Creme, these bright blue mug cakes are a snap to make and fun for sharing.'
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-08/Pet%20Health%20Pal%20header.jpg?itok=VQ6eLURv"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
-    content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    content: 'With layers of crunchy granola, creamy caramel and dark chocolate, these Twix granola bars are topped with a sprinkle of sea salt for the perfect treat that everyone will savor.'
+asset_1: './twix-bg.png'
+asset_1_alt: 'twix chocolate'
+asset_2: './twix-bg.png'
+asset_2_alt: 'twix chocolate'
+asset_3: './twix-bg.png'
+asset_3_alt: 'twix chocolate'
+story_highlight_button_text: 'Learn more'
+story_highlight_border_radius: 0px;
+story_highlight_button_link_attributes:
+  href: 'https://storybook.js.org/'
+  target: '_blank'
+

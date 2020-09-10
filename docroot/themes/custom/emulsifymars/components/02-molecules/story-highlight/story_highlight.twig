@@ -22,8 +22,9 @@
     } %}
     <div class="media_items">
     {% for item in items %}
+      <div class="media_item_{{loop.index}}">
         {% if item.image %}
-          <div class="one_item">
+
           {% include "@atoms/images/image/_image.twig" with {
             image_base_class: item.base_class,
             image_modifiers: image_modifiers,
@@ -46,9 +47,41 @@
           paragraph_base_class: paragraph_base_class,
           paragraph_modifiers: paragraph_modifiers
         } %}
-        </div>
+      </div>
     {% endfor %}
     </div>
 
+    <div class="story-highlight__brand-shape_1">
+      {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: asset_1_alt,
+      image_src: asset_1,
+    } %}
+    </div>
+
+    <div class="story-highlight__brand-shape_2">
+      {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: asset_2_alt,
+      image_src: asset_2,
+    } %}
+    </div>
+
+    <div class="story-highlight__brand-shape_3">
+      {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: asset_3_alt,
+      image_src: asset_3,
+    } %}
+    </div>
+
+    <div class="cta_wrapper">
+      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+        default_link_content: story_highlight_button_text,
+        default_link_border_radius: story_highlight_border_radius,
+        default_link_attributes: story_highlight_button_link_attributes,
+        default_link_modifiers: story_highlight_button_modifiers
+      } %}
+    </div>
 
 </section>

@@ -1,7 +1,15 @@
 .story-highlight {
   font-family: variable(primary-font);
   background-color: clr(subcolor-2);
-  margin-top: 13.3rem;
+  margin-top: 8.3rem;
+
+  @include medium {
+    margin-top: 10.3rem;
+  }
+
+  @include large {
+    margin-top: 15.3rem;
+  }
 
   & .curve {
     position: absolute;
@@ -38,7 +46,7 @@
 
   & .graphic_divider {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 5rem;
     svg {
       path {
         fill: clr(subcolor-1);
@@ -47,25 +55,100 @@
   }
 
   &__paragraph {
+    margin: 5rem auto;
     font-family: variable(secondary-font);
     text-align: center;
     color: clr(primary);
     font-size: 2rem;
+    font-weight: normal;
+    letter-spacing: normal;
+    font-style: normal;
+    width: 70%;
   }
 
-  & .first {
-    margin-left: 5rem;
+  & .media_items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 5rem;
+
+    & .paragraph {
+      margin-top: 3rem;
+      text-align: left;
+      font-family: variable(secondary-font);
+      color: clr(primary);
+      font-size: 1.6rem;
+    }
+  }
+
+  & .media_item_1 {
+    margin: 0 4rem;
     width: 78.1rem;
+    flex: 0 auto;
+    position: relative;
+    z-index: 2;
+    border-bottom: 1px solid lightgrey;
+
+    & img {
+      width: 100%;
+    }
+  }
+
+  & .media_item_2 {
+    margin: 0 4rem;
+    min-width: 43.3rem;
+    min-height: 32.5rem;
+    align-self: flex-end;
+    flex: 0 auto;
+    position: relative;
+    z-index: 2;
+    border-bottom: 1px solid lightgrey;
+
+    @include small {
+      margin-top: 5rem;
+      left: calc(25% + 1rem);
+      width: min-content;
+    }
+
+    @include large {
+      left: 0;
+      width: 66rem;
+    }
   }
 
   & .fullscreen-video {
-    width: 78.1rem;
-    margin-left: 2rem;
+    height: auto;
+  }
+
+  & .media_item_3 {
+    flex: 0 auto;
+    width: 55.6rem;
+    position: relative;
+    z-index: 2;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 0;
+
+    & img {
+      width: 100%;
+    }
+
+    @include small {
+      left: 3rem;
+      width: 50.6rem;
+      margin: 12rem 0 0;
+    }
+
+    @include large {
+      left: 0;
+      width: 55.6rem;
+      margin: 12rem auto 0;
+    }
   }
 
   #fullscreen-play[data-state="play"] {
-    top: 70%;
-    left: calc(50% / 2);
+    top: calc(50% - 7rem);
+    left: calc(50% - 6.6rem / 2);
     width: 6.6rem;
     height: 7rem;
     background-color: clr(subcolor-3);
@@ -82,5 +165,111 @@
       border-left: 20px solid clr(player);
       margin: auto 35%
     }
+  }
+
+  &__brand-shape_1 {
+    position: absolute;
+    min-width: 22.7rem;
+    min-height: 21.2rem;
+    width: 24.2rem;
+    height: 24.2rem;
+    z-index: 1;
+    top: 45%;
+
+    @include small {
+      top: 55%;
+      right: 0;
+    }
+
+    @include medium {
+      top: 80%;
+      right: -5%;
+      z-index: 2;
+    }
+
+    @include large {
+      z-index: 1;
+      top: 50%;
+      right: 0;
+    }
+  }
+
+  &__brand-shape_2 {
+    position: absolute;
+    min-width: 42.8rem;
+    min-height: 41.3rem;
+    width: 44.3rem;
+    height: 44.3rem;
+
+    @include small {
+      top: 60%;
+      left: -25%;
+      z-index: 0;
+    }
+
+    @include medium {
+      top: 90%;
+      left: -25%;
+      z-index: 2;
+    }
+
+    @include large {
+      z-index: 1;
+      top: 126%;
+      left: 0;
+    }
+  }
+
+  &__brand-shape_3 {
+    position: absolute;
+    min-width: 34.1rem;
+    min-height: 34.1rem;
+    width: 35.6rem;
+    height: 35.6rem;
+
+    @include small {
+      top: 110%;
+      right: -5%;
+      z-index: 0;
+    }
+
+    @include medium {
+      top: 165%;
+      right: -15%;
+      z-index: 2;
+    }
+
+    @include large {
+      z-index: 1;
+      top: 145%;
+      right: 0;
+    }
+  }
+
+  & .cta_wrapper {
+    padding: 8.3rem 0;
+    text-align: center;
+
+    @include small {
+      padding: 3.3rem 0 12.6rem 0;
+    }
+
+    @include medium {
+      padding: 6.3rem 0 12.6rem 0;
+    }
+
+    @include large {
+      padding: 6.3rem 0 6.3rem 0;
+    }
+  }
+
+  & .default-link {
+    background-color: clr(secondary);
+    color: clr(subcolor-3);
+    margin: 0 auto;
+  }
+
+  & .default-link:hover {
+    color: clr(secondary);
   }
 }
