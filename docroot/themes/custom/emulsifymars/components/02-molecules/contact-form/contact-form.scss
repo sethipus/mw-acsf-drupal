@@ -4,7 +4,7 @@
     display: block;
     border-radius: 1.1rem;
     box-shadow: 1px 1px 12px 0 rgba(0, 0, 0, 0.08);
-    max-width: 21rem !important;
+    max-width: 33.5rem !important;
     background-color: white;
   }
 
@@ -13,18 +13,18 @@
   .group-2,
   .group-5,
   .ff-footnote-label {
-    margin-left: 1rem;
-    margin-right: -1rem;
+    margin-left: 1.6rem;
+    margin-right: -1.6rem;
   }
 
   .ff-label-col {
-    margin-bottom: 0.4rem;
+    margin-bottom: 1rem;
   }
 
   .ff-item-row,
   .group-0,
   .ff-submit-btn {
-    margin-bottom: 1rem;
+    margin-bottom: 1.6rem;
   }
 
   .ff-col-1,
@@ -40,16 +40,17 @@
   .ff-section-header {
     color: clr(secondary);
     font-family: variable(primary-font);
-    font-size: 1.43rem;
+    font-size: 2.2rem;
     line-height: 3rem;
     display: block;
     text-transform: uppercase;
     text-align: center;
+    margin-top: 3rem;
   }
 
   .ff-fileupload-select {
     color: clr(primary);
-    font-size: 1rem;
+    font-size: 1.6rem;
   }
 
   .ff-fileupload-select:hover {
@@ -59,9 +60,9 @@
   .ff-select-type {
     border: 1px solid #c4c4c4;
     width: 100%;
-    height: 3.1rem;
+    height: 5rem;
     color: clr(primary);
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-family: variable(secondary-font);
     border-radius: variable(border-radius);
   }
@@ -74,6 +75,7 @@
     color: clr(primary);
     font-family: variable(secondary-font);
     cursor: text;
+    font-size: 1.6rem;
   }
 
   .ff-item-row:focus-within .ff-label-col label:not(#lblCaseDescription) {
@@ -104,13 +106,13 @@
   #lblCaseDescription {
     position: absolute;
     color: clr(primary);
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-family: variable(secondary-font);
     cursor: text;
   }
 
   #dvFastForms .btnDiv input {
-    margin-left: 0 !important;
+    margin: 0 !important;
     border-radius: variable(border-radius);
     text-transform: uppercase;
   }
@@ -123,9 +125,9 @@
     color: white;
     background-color: clr(secondary);
     width: 100%;
-    height: 3.12rem;
+    height: 5rem;
     border: none;
-    font-size: 1rem;
+    font-size: 1.6rem;
     margin-right: 5%;
     font-family: variable(secondary-font);
     letter-spacing: 1.12px;
@@ -136,21 +138,22 @@
   }
 
   .ff-textarea {
-    height: 8.75rem;
+    height: 14rem;
     margin-top: 1.4rem;
     width: 100%;
     border-color: #c4c4c4;
     border-radius: variable(border-radius);
     color: clr(primary);
     font-family: variable(secondary-font);
+    padding: 0.3rem 1rem;
+    font-size: 1.6rem;
   }
 
   .ff-fileupload-drop-area {
     background-color: white;
-    height: 1.8rem;
     text-align: left;
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     display: inline-block;
     border: 0.5px solid #c4c4c4;
     border-radius: variable(border-radius) !important;
@@ -158,7 +161,7 @@
   }
 
   .ff-footnote-label {
-    font-size: 0.675rem;
+    font-size: 1.1rem;
     color: clr(primary);
     font-family: variable(secondary-font);
   }
@@ -185,13 +188,13 @@
   }
 
   #reqdvCase\.Description {
-    margin-top: 10.5rem !important;
+    margin-top: 15rem !important;
   }
 
   .group-1 .ff-invalid-msg,
   .group-2 .ff-invalid-msg {
     color: clr(secondary);
-    font-size: 8px;
+    font-size: 10px;
     font-family: variable(secondary-font);
     position: absolute;
     margin-top: 1.4rem;
@@ -199,15 +202,15 @@
 
   .group-0 .ff-invalid-msg {
     color: clr(secondary);
-    font-size: 8px;
+    font-size: 10px;
     font-family: variable(secondary-font);
     position: absolute;
-    margin-top: 3.2rem;
+    margin-top: 5rem;
   }
 
   @media screen and (min-width: 1440px) {
     .ff-form-main {
-      max-width: 43rem !important;
+      max-width: 68.8rem !important;
     }
 
     .group-0,
@@ -220,7 +223,7 @@
     }
 
     .ff-textarea {
-      height: 12.5rem;
+      height: 20rem;
     }
 
     .group-1 .ff-item-row:nth-child(2) {
@@ -244,7 +247,7 @@
     }
 
     #reqdvCase\.Description {
-      margin-top: 14.5rem !important;
+      margin-top: 21.5rem !important;
     }
 
     #dvFastForms .btnDiv input:hover {
