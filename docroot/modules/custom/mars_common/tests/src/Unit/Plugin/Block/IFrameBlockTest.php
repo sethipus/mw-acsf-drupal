@@ -6,7 +6,6 @@ use Drupal;
 use Drupal\mars_common\Plugin\Block\IFrameBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Class IFrameBlockTest.
@@ -65,7 +64,6 @@ class IFrameBlockTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
-    $this->formStateMock = $this->createMock(FormStateInterface::class);
   }
 
   /**
