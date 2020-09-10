@@ -1,0 +1,16 @@
+{#
+# Available variables:
+# - search__base_class - base classname of the wrapper.
+#}
+
+{% set search__base_class = search__base_class|default('search-wrapper') %}
+
+<div {{ bem(search__base_class, [], '') }}>
+  <input class="search-field" autocomplete="off">
+
+  <div class="mars-search-autocomplete-suggestions">
+    {% include "@atoms/lists/ul.twig" with {
+      ul_items: search_results,
+    } %}
+  </div>
+</div>

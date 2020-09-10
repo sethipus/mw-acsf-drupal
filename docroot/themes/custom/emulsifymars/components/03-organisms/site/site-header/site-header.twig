@@ -39,6 +39,10 @@
             {% include "@molecules/search/inline-search/inline-search.twig" %}
           {% endblock %}
         </div>
+
+       {% include "@molecules/search/search-overlay/search-overlay.twig" with {
+         search_results: search_results
+        }%}
       </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>
