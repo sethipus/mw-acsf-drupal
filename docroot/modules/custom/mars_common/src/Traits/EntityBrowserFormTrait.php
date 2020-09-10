@@ -7,7 +7,6 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\entity_browser\Element\EntityBrowserElement;
-use Drupal\media\Entity\Media;
 
 /**
  * Provides helpers for adding an entity browser element to a form.

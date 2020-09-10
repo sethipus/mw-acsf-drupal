@@ -160,6 +160,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'body' => NULL,
         'background_shape' => NULL,
         'image' => NULL,
+        'image_alt' => NULL,
       ],
       'template' => 'freeform-story-block',
     ],

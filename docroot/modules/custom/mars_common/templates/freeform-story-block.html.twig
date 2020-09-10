@@ -7,13 +7,19 @@
  *   'block_aligned' => NULL,
  *   'header_1' => NULL,
  *   'header_2' => NULL,
+ *   'image' => NULL,
+ *   'image_alt' => NULL,
  *   'body' => NULL,
  *   'background_shape' => NULL,
  */
 #}
-{{ block_aligned }} {# expected result for conditions left_aligned, right_aligned, center_aligned #}
-{{ header_1 }}
-{{ header_2 }}
-{{ body }}
-{{ image }}
-{{ background_shape }}
+{% include "@molecules/freeform-story/freeform-story.twig" with {
+  theme_styles: 'drupal',
+  freeform_story_align: block_aligned,
+  freeform_story_bg_enabled: background_shape,
+  freeform_story_img_src: image,
+  freeform_story_img_alt: image_alt,
+  freeform_story_subheading: header_2,
+  freeform_story_heading: header_1,
+  freeform_story_paragraph_content: body,
+} %}

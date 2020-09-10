@@ -30,17 +30,17 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * Aligned by left side.
    */
-  const LEFT_ALIGNED = 'left_aligned';
+  const LEFT_ALIGNED = 'left';
 
   /**
    * Aligned by right side.
    */
-  const RIGHT_ALIGNED = 'right_aligned';
+  const RIGHT_ALIGNED = 'right';
 
   /**
    * Aligned by center.
    */
-  const CENTER_ALIGNED = 'center_aligned';
+  const CENTER_ALIGNED = 'center';
 
   /**
    * The entity type manager service.
@@ -105,6 +105,11 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     $form['image']['#title'] = $this->t('Image');
     $form['image']['#open'] = TRUE;
 
+    $form['image_alt'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Image Alt'),
+      '#default_value' => $this->configuration['image_alt'],
+    ];
     $form['body'] = [
       '#type' => 'text_format',
       '#title' => $this->t('Description'),
@@ -137,6 +142,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       $file = $this->entityTypeManager->getStorage('file')->load($fid);
       $build['#image'] = file_create_url($file->getFileUri());
     }
+    $build['#image_alt'] = $this->configuration['image_alt'];
     $build['#theme'] = 'freeform_story_block';
 
     return $build;
@@ -167,6 +173,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       'body' => $config['body']['value'] ?? '',
       'background_shape' => $config['background_shape'] ?? '',
       'image' => $config['image'] ?? '',
+      'image_alt' => $config['image_alt'] ?? '',
     ];
   }
 
