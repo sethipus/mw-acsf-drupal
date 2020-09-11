@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -54,6 +55,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $entityRepository;
 
   /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -80,13 +88,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
     EntityRepositoryInterface $entity_repository,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    LanguageManagerInterface $language_manager
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->entityRepository = $entity_repository;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -100,7 +110,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
       $container->get('entity.repository'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('language_manager')
     );
   }
 
@@ -607,14 +618,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-country',
-            'content' => '<US>',
+            'content' => '<' . $this->config->get('system.date')->get('country.default') . '>',
           ],
         ],
         'ps-language' => [
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-language',
-            'content' => '<en>',
+            'content' => '<' . strtolower($this->languageManager->getCurrentLanguage()->getId()) . '>',
           ],
         ],
         'price-spider' => [
