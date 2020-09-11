@@ -23,7 +23,7 @@ Drupal.behaviors.pdpHero = {
 
       let swiperControl = document.querySelector(`[data-swiper-index="${index}"] ~ .swiper-control`);
       swiperControl.addEventListener('click', (e) => {
-        event.preventDefault();
+        e.preventDefault();
         if (swiperInstances[index].autoplay.running) {
           swiperInstances[index].autoplay.stop();
           swiperControl.classList.toggle('swiper-control-play');
