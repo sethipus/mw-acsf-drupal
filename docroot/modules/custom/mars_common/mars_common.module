@@ -112,6 +112,16 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_border' => '',
       ],
     ],
+    'flexible_driver_block' => [
+      'variables' => [
+        'title' => NULL,
+        'description' => NULL,
+        'cta_label' => NULL,
+        'cta_link' => NULL,
+        'asset_1' => NULL,
+        'asset_2' => NULL,
+      ],
+    ],
     'story_highlight_block' => [
       'variables' => [
         'brand_border' => NULL,
