@@ -42,9 +42,9 @@
               </dt>
             </dl>
           </div>
-          {% if serving_item.nutritional_info_calories %}
+          {% if serving_item.group_nutritional_subgroup_1 %}
             <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
-              {% for item in serving_item.nutritional_info_calories %}
+              {% for item in serving_item.group_nutritional_subgroup_1 %}
                 <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
                   <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class) }}>
                     {% include "@atoms/text/text/07-span.twig" with {
@@ -71,9 +71,9 @@
               {% endfor %}
             </div>
           {% endif %}
-          {% if serving_item.nutritional_info_fat %}
+          {% if serving_item.group_nutritional_subgroup_2 %}
             <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
-              {% for item in serving_item.nutritional_info_fat %}
+              {% for item in serving_item.group_nutritional_subgroup_2 %}
                 {% set additional_class = item.bold_modifier ? 'bold' : '' %}
                 <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
                   <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class]) }}>
@@ -101,9 +101,9 @@
               {% endfor %}
             </div>
           {% endif %}
-          {% if serving_item.nutritional_info_others %}
+          {% if serving_item.group_nutritional_subgroup_3 %}
             <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
-              {% for item in serving_item.nutritional_info_others %}
+              {% for item in serving_item.group_nutritional_subgroup_3 %}
                 {% set additional_class = item.bold_modifier ? 'bold' : '' %}
                 <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
                   <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class]) }}>
@@ -144,9 +144,9 @@
               </dt>
             </dl>
           </div>
-          {% if serving_item.vitamins_info %}
+          {% if serving_item.group_vitamins %}
             <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
-              {% for item in serving_item.vitamins_info %}
+              {% for item in serving_item.group_vitamins %}
                 <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
                   <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class) }}>
                     {% include "@atoms/text/text/07-span.twig" with {

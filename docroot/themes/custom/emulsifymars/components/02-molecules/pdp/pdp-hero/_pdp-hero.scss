@@ -1,6 +1,6 @@
 .pdp-hero {
   padding: 2rem 2rem 3.2rem;
-  background-color: clr(pdp-hero);
+  background-color: clr(subcolor-2);
   
   @include small {
     padding: 2rem 2rem 18rem;
@@ -45,7 +45,7 @@
     font-weight: normal;
     letter-spacing: 1.6px;
     text-transform: uppercase;
-    color: clr(subcolor-3);
+    color: clr(primary);
   
     @include medium {
       font-size: 1.4rem;
@@ -62,7 +62,7 @@
     font-size: 2.8rem;
     font-weight: normal;
     line-height: 1;
-    color: clr(subcolor-3);
+    color: clr(primary);
   
     @include medium {
       font-size: 4rem;
@@ -82,7 +82,7 @@
     font-size: 1.4rem;
     line-height: 1.4;
     text-align: center;
-    color: clr(subcolor-3);
+    color: clr(primary);
 
     @include medium {
       margin: 21.4rem 13.8rem 2rem 11.8rem;
@@ -106,7 +106,7 @@
     font-family: variable(secondary-font);
     font-size: 1.2rem;
     line-height: 1.3;
-    color: clr(subcolor-3);
+    color: clr(primary);
 
     @include medium {
       flex: 1 0 auto;
@@ -145,7 +145,7 @@
       font-size: 1.2rem;
       line-height: 1.3;
       text-decoration: none;
-      color: clr(subcolor-3);
+      color: clr(secondary);
 
       &[data-size-selected="true"] {
         text-decoration: underline;
@@ -253,7 +253,7 @@
       height: 3.5rem;
       border-radius: 3px;
       margin: .7rem 0;
-      background: clr(subcolor-3);
+      background: clr(secondary);
     }
 
     .swiper-control {
@@ -273,12 +273,8 @@
         height: 6rem;
         border-radius: 50%;
         box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-        background-color: clr(subcolor-3);
+        background-color: clr(accent-high);
         opacity: 0.2;
-      }
-
-      &-play::before {
-        opacity: 1;
       }
 
       & .playpause-icon {

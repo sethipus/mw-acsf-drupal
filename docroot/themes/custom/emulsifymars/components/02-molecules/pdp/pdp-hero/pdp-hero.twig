@@ -3,7 +3,14 @@
 {% set pdp_main_image = image_items|first.images|first %}
 {% set pdp_side_images = image_items|first.images[1:] %}
 
-<section id="pdp-hero" {{ bem(pdp_hero_base_class) }} data-theme="{{ theme_styles }}">
+<section
+  id="pdp-hero"
+  {{ bem(pdp_hero_base_class) }}
+  data-theme="{{ theme_styles }}"
+  {% if background_color %}
+    style="background-color: {{ '#' ~ background_color }};"
+  {% endif %}
+>
   <div {{ bem('container', [], pdp_hero_base_class) }}>
     <div {{ bem('content-container', [], pdp_hero_base_class) }}>
       {% include "@atoms/text/headings/_heading.twig" with {
@@ -100,8 +107,11 @@
         default_link_modifiers: ['pdp-desktop', 'pdp-hero'],
       } %}
       {% if commerce_vendor == 'price_spider' %}
-        <div class="ps-widget" ps-sku="{{ product_sku }}">{{ product_CTA_title }}</div>
+        <div class="where-to-buy">
+          <div class="ps-widget" ps-sku="{{ product_sku }}">{{ product_CTA_title }}</div>
+        </div>
       {% else %}
+        <div class="where-to-buy">
         <script
           type="text/javascript"
           src="https://fi-v2.global.commerce-connector.com/cc.js"
@@ -116,6 +126,7 @@
             data-trackingid="{{ reference_for_analytics }}"
           {% endif %}
         ></script>
+        </div>
       {% endif %}
     </div>
     {% for size_item in image_items %}
