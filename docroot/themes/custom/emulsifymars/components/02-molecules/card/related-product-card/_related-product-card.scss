@@ -2,7 +2,7 @@
   border-radius: 20px;
   width: 315px;
   transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
-  background-image: radial-gradient(circle at 50% 40%, clr(text-inverse) 10%, clr(secondary));
+  background-image: radial-gradient(circle at 50% 40%, clr(text-inverse) 10%, clr(subcolor-1));
 
   img {
     transition: transform 0.8s;
@@ -24,7 +24,7 @@
     font-size: 1.4rem;
     line-height: 5rem;
     text-align: center;
-    background-color: clr(primary);
+    background-color: clr(secondary);
     color: clr(subcolor-3);
 
     &::after {
@@ -33,7 +33,7 @@
   }
 
   &:hover {
-    background-image: radial-gradient(circle at 50% 50%, clr(primary), clr(primary));
+    background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
     transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
     p {
@@ -50,7 +50,7 @@
     }
 
     .default-link {
-      color: clr(primary);
+      color: clr(secondary);
       background-color: clr(text-inverse);
     }
 
@@ -81,7 +81,7 @@
 
     p {
       max-width: 255px;
-      color: clr(subcolor-1);
+      color: clr(primary);
     }
   }
 
