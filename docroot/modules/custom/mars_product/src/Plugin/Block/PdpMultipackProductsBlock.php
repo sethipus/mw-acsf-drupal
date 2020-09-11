@@ -103,7 +103,6 @@ class PdpMultipackProductsBlock extends BlockBase implements ContainerFactoryPlu
    * {@inheritdoc}
    */
   public function build(): array {
-    $node = $this->getContextValue('node');
 
     $view_id = 'multipack_product_card_grid';
     $view_display = 'block_multipack_product';

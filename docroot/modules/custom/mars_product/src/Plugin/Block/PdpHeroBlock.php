@@ -224,10 +224,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#maxlength' => 50,
       '#required' => TRUE,
     ];
+    $form['use_background_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use Background Color Override'),
+      '#default_value' => $this->configuration['use_background_color'] ?? FALSE,
+    ];
     $form['background_color'] = [
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Background Color Override'),
       '#default_value' => $this->configuration['background_color'] ?? '',
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[use_background_color]"]' => ['checked' => TRUE],
+        ],
+      ],
     ];
 
     return $form;
@@ -253,6 +263,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     return [
       'label_display' => FALSE,
+      'use_background_color' => $config['use_background_color'] ?? FALSE,
       'eyebrow' => $config['eyebrow'] ?? $this->t('Products'),
       'available_sizes' => $config['available_sizes'] ?? $this->t('Available sizes'),
       'wtb' => [
@@ -300,7 +311,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     // Theme settings.
     $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
-    $build['#background_color'] = $this->configuration['background_color'] ?? '';
+    $build['#background_color']
+      = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
+      $this->configuration['background_color'] : '';
 
     $build['#theme'] = 'pdp_hero_block';
 
