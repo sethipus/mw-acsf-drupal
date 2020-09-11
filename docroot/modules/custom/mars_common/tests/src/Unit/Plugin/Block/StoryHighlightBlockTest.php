@@ -165,21 +165,33 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
         [
-          'title' => 'Story Item 1',
-          'media' => self::STORY_ITEM_1_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 1',
+          'src' => self::STORY_ITEM_1_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
         [
-          'title' => 'Story Item 2',
-          'media' => self::STORY_ITEM_2_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 2',
+          'src' => self::STORY_ITEM_2_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
         [
-          'title' => 'Story Item 3',
-          'media' => self::STORY_ITEM_3_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 3',
+          'src' => self::STORY_ITEM_3_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
       ],
-      '#svg_asset_1' => self::SVG_ASSET_1_MEDIA_URI,
-      '#svg_asset_2' => self::SVG_ASSET_2_MEDIA_URI,
-      '#svg_asset_3' => self::SVG_ASSET_3_MEDIA_URI,
+      '#svg_asset_src_1' => self::SVG_ASSET_1_MEDIA_URI,
+      '#svg_asset_alt_1' => 'Alt',
+      '#svg_asset_src_2' => self::SVG_ASSET_2_MEDIA_URI,
+      '#svg_asset_alt_2' => 'Alt',
+      '#svg_asset_src_3' => self::SVG_ASSET_3_MEDIA_URI,
+      '#svg_asset_alt_3' => 'Alt',
       '#view_more_cta_url' => 'https://mars.com/',
       '#view_more_cta_label' => 'View Extra',
     ];
@@ -211,21 +223,33 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
         [
-          'title' => 'Story Item 1',
-          'media' => self::STORY_ITEM_1_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 1',
+          'src' => self::STORY_ITEM_1_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
         [
-          'title' => 'Story Item 2',
-          'media' => self::STORY_ITEM_2_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 2',
+          'src' => self::STORY_ITEM_2_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
         [
-          'title' => 'Story Item 3',
-          'media' => self::STORY_ITEM_3_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 3',
+          'src' => self::STORY_ITEM_3_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
       ],
-      '#svg_asset_1' => self::SVG_ASSET_1_MEDIA_URI,
-      '#svg_asset_2' => self::SVG_ASSET_2_MEDIA_URI,
-      '#svg_asset_3' => self::SVG_ASSET_3_MEDIA_URI,
+      '#svg_asset_src_1' => self::SVG_ASSET_1_MEDIA_URI,
+      '#svg_asset_alt_1' => 'Alt',
+      '#svg_asset_src_2' => self::SVG_ASSET_2_MEDIA_URI,
+      '#svg_asset_alt_2' => 'Alt',
+      '#svg_asset_src_3' => self::SVG_ASSET_3_MEDIA_URI,
+      '#svg_asset_alt_3' => 'Alt',
       '#view_more_cta_url' => 'https://mars.com/',
       '#view_more_cta_label' => 'View More',
     ];
@@ -257,21 +281,33 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
         [
-          'title' => 'Story Item 1',
-          'media' => self::STORY_ITEM_1_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 1',
+          'src' => self::STORY_ITEM_1_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
         [
-          'title' => 'Story Item 2',
-          'media' => self::STORY_ITEM_2_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 2',
+          'src' => self::STORY_ITEM_2_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
         [
-          'title' => 'Story Item 3',
-          'media' => self::STORY_ITEM_3_MEDIA_URI,
+          'image' => TRUE,
+          'content' => 'Story Item 3',
+          'src' => self::STORY_ITEM_3_MEDIA_URI,
+          'alt' => 'Alt',
+          'title' => 'Title',
         ],
       ],
-      '#svg_asset_1' => self::SVG_ASSET_1_MEDIA_URI,
-      '#svg_asset_2' => self::SVG_ASSET_2_MEDIA_URI,
-      '#svg_asset_3' => self::SVG_ASSET_3_MEDIA_URI,
+      '#svg_asset_src_1' => self::SVG_ASSET_1_MEDIA_URI,
+      '#svg_asset_alt_1' => 'Alt',
+      '#svg_asset_src_2' => self::SVG_ASSET_2_MEDIA_URI,
+      '#svg_asset_alt_2' => 'Alt',
+      '#svg_asset_src_3' => self::SVG_ASSET_3_MEDIA_URI,
+      '#svg_asset_alt_3' => 'Alt',
     ];
 
     $this->assertArrayEquals($expected, $build);
@@ -341,6 +377,67 @@ class StoryHighlightBlockTest extends UnitTestCase {
         [self::SVG_ASSET_1_MEDIA_ID, self::SVG_ASSET_1_MEDIA_URI],
         [self::SVG_ASSET_2_MEDIA_ID, self::SVG_ASSET_2_MEDIA_URI],
         [self::SVG_ASSET_3_MEDIA_ID, self::SVG_ASSET_3_MEDIA_URI],
+      ]);
+
+    $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this
+      ->mediaHelperMock
+      ->method('getMediaParametersById')
+      ->willReturnMap([
+        [
+          self::STORY_ITEM_1_MEDIA_ID,
+          [
+            'image' => TRUE,
+            'src' => self::STORY_ITEM_1_MEDIA_URI,
+            'alt' => 'Alt',
+            'title' => 'Title',
+          ],
+        ],
+        [
+          self::STORY_ITEM_2_MEDIA_ID,
+          [
+            'image' => TRUE,
+            'src' => self::STORY_ITEM_2_MEDIA_URI,
+            'alt' => 'Alt',
+            'title' => 'Title',
+          ],
+        ],
+        [
+          self::STORY_ITEM_3_MEDIA_ID,
+          [
+            'image' => TRUE,
+            'src' => self::STORY_ITEM_3_MEDIA_URI,
+            'alt' => 'Alt',
+            'title' => 'Title',
+          ],
+        ],
+        [
+          self::SVG_ASSET_1_MEDIA_ID,
+          [
+            'image' => TRUE,
+            'src' => self::SVG_ASSET_1_MEDIA_URI,
+            'alt' => 'Alt',
+            'title' => 'Title',
+          ],
+        ],
+        [
+          self::SVG_ASSET_2_MEDIA_ID,
+          [
+            'image' => TRUE,
+            'src' => self::SVG_ASSET_2_MEDIA_URI,
+            'alt' => 'Alt',
+            'title' => 'Title',
+          ],
+        ],
+        [
+          self::SVG_ASSET_3_MEDIA_ID,
+          [
+            'image' => TRUE,
+            'src' => self::SVG_ASSET_3_MEDIA_URI,
+            'alt' => 'Alt',
+            'title' => 'Title',
+          ],
+        ],
       ]);
   }
 

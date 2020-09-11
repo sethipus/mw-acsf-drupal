@@ -87,6 +87,15 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
   /**
    * {@inheritdoc}
    */
+  public function defaultConfiguration(): array {
+    return [
+      'label_display' => FALSE,
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
     $conf = $this->getConfiguration();
 
@@ -98,13 +107,28 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#story_description'] = $conf['story_block_description'];
 
     $build['#story_items'] = array_map(function ($value) {
-      $value['media'] = $this->mediaHelper->getMediaUriById($value['media'] ?? NULL);
-      return $value;
+      $item = $this->mediaHelper->getMediaParametersById($value['media']);
+
+      if (!empty($item['error'])) {
+        return [];
+      }
+
+      $item['content'] = $value['title'];
+
+      return $item;
     }, $conf['items']);
 
     for ($i = 1; $i <= self::SVG_ASSETS_COUNT; $i++) {
       $asset_key = 'svg_asset_' . $i;
-      $build['#' . $asset_key] = $this->mediaHelper->getMediaUriById($conf['svg_assets'][$asset_key] ?? NULL);
+      $item = $this->mediaHelper->getMediaParametersById($conf['svg_assets'][$asset_key] ?? NULL);
+
+      if (!empty($item['error'])) {
+        $build['#svg_asset_src_' . $i] = $build['#svg_asset_alt_' . $i] = NULL;
+        continue;
+      }
+
+      $build['#svg_asset_src_' . $i] = $item['src'];
+      $build['#svg_asset_alt_' . $i] = $item['alt'];
     }
 
     if (!empty($conf['view_more']['url'])) {
@@ -149,7 +173,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $form['items'][$i]['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Title'),
-        '#maxlength' => 20,
+        '#maxlength' => 200,
         '#required' => TRUE,
         '#required_error' => $this->t('<em>Title</em> from <em>Story Item @index</em> is required.', ['@index' => $i + 1]),
         '#default_value' => $this->configuration['items'][$i]['title'] ?? NULL,
