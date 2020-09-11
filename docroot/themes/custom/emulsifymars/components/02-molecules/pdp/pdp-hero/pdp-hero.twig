@@ -8,7 +8,7 @@
   {{ bem(pdp_hero_base_class) }}
   data-theme="{{ theme_styles }}"
   {% if background_color %}
-    style="background-color: {{ background_color }};"
+    style="background-color: {{ '#' ~ background_color }};"
   {% endif %}
 >
   <div {{ bem('container', [], pdp_hero_base_class) }}>
