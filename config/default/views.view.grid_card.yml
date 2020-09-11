@@ -5,12 +5,14 @@ dependencies:
   config:
     - core.entity_view_mode.node.article_card
     - core.entity_view_mode.node.product_card
+    - core.entity_view_mode.node.recipe_card
     - node.type.article
     - node.type.product
     - node.type.recipe
   module:
     - node
     - user
+    - views_infinite_scroll
 id: grid_card
 label: 'Grid Card'
 module: views
@@ -51,10 +53,26 @@ display:
           sort_asc_label: Asc
           sort_desc_label: Desc
       pager:
-        type: some
+        type: infinite_scroll
         options:
-          items_per_page: 5
+          items_per_page: 4
           offset: 0
+          id: 0
+          total_pages: null
+          tags:
+            previous: '‹ Previous'
+            next: 'Next ›'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+          views_infinite_scroll:
+            button_text: 'Load More'
+            automatically_load_content: false
       style:
         type: html_list
         options:
@@ -175,21 +193,34 @@ display:
           entity_type: node
           entity_field: status
       sorts:
-        created:
-          id: created
+        sticky:
+          id: sticky
           table: node_field_data
-          field: created
-          order: DESC
-          entity_type: node
-          entity_field: created
-          plugin_id: date
+          field: sticky
           relationship: none
           group_type: group
           admin_label: ''
+          order: DESC
           exposed: false
           expose:
             label: ''
-          granularity: second
+          entity_type: node
+          entity_field: sticky
+          plugin_id: standard
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: standard
       header: {  }
       footer: {  }
       empty: {  }
@@ -216,11 +247,19 @@ display:
           plugin_id: entity_reverse
       arguments: {  }
       display_extenders: {  }
+      use_more: false
+      use_more_always: true
+      use_more_text: 'See more'
+      link_url: /
+      link_display: '0'
+      use_ajax: true
+      css_class: view-block-grid-card
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
@@ -239,11 +278,16 @@ display:
         filters: false
         filter_groups: false
       style:
-        type: default
+        type: grid
         options:
-          row_class: ''
-          default_row_class: true
           uses_fields: false
+          columns: 4
+          automatic_width: false
+          alignment: horizontal
+          col_class_default: false
+          col_class_custom: ''
+          row_class_default: false
+          row_class_custom: ''
       row:
         type: 'entity:node'
         options:
@@ -353,6 +397,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
@@ -365,11 +410,16 @@ display:
       display_extenders: {  }
       display_description: ''
       style:
-        type: default
+        type: grid
         options:
-          row_class: ''
-          default_row_class: true
           uses_fields: false
+          columns: 4
+          automatic_width: false
+          alignment: horizontal
+          col_class_default: false
+          col_class_custom: ''
+          row_class_default: false
+          row_class_custom: ''
       defaults:
         style: false
         row: false
@@ -485,35 +535,50 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
-  block_recipe:
+  recipe_block:
     display_plugin: block
-    id: block_recipe
+    id: recipe_block
     display_title: 'Recipe Card'
-    position: 3
+    position: 1
     display_options:
       display_extenders: {  }
       display_description: ''
       style:
-        type: default
+        type: grid
         options:
-          row_class: ''
-          default_row_class: true
           uses_fields: false
+          columns: 4
+          automatic_width: false
+          alignment: horizontal
+          col_class_default: false
+          col_class_custom: ''
+          row_class_default: false
+          row_class_custom: ''
       defaults:
         style: false
         row: false
+        relationships: false
         filters: false
         filter_groups: false
-        relationships: false
-        sorts: false
       row:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: product_card
+          view_mode: recipe_card
+      relationships:
+        field_product_reference:
+          id: field_product_reference
+          table: node__field_product_reference
+          field: field_product_reference
+          relationship: none
+          group_type: group
+          admin_label: 'field_product_reference: Content'
+          required: false
+          plugin_id: standard
       filters:
         status:
           id: status
@@ -602,22 +667,12 @@ display:
         operator: AND
         groups:
           1: AND
-      relationships:
-        field_product_reference:
-          id: field_product_reference
-          table: node__field_product_reference
-          field: field_product_reference
-          relationship: none
-          group_type: group
-          admin_label: 'field_product_reference: Content'
-          required: false
-          plugin_id: standard
-      sorts: {  }
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
