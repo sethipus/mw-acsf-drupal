@@ -195,12 +195,12 @@
   }
 
   .ff-textarea.ff-input-type-invalid {
-    border: 0.5px solid #e42525 !important;
+    border: 0.5px solid clr(secondary) !important;
     border-radius: variable(border-radius) !important;
   }
 
   .ff-select-type.ff-input-type-invalid {
-    border: 0.5px solid #e42525 !important;
+    border: 0.5px solid clr(secondary) !important;
     border-radius: variable(border-radius) !important;
   }
 
