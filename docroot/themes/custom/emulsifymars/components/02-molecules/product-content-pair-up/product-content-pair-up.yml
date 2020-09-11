@@ -6,6 +6,7 @@ graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="103" height="13
 background: "./dove-dark-chocolate-bg@2x.png"
 lead_card_eyebrow: "Recipe"
 lead_card_title: "Dove Dark Chocolate and Blood Orange Scones"
+cta_link_url: "https://storybook.js"
 png_asset: "./dove-png-asset.png"
 supporting_card_content: "<section data-theme=\"dove\" class=\"recipe-card\">
    <span class=\"badge\" data-theme=\"dove\">
