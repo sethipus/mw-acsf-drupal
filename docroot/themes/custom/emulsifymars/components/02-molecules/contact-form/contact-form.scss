@@ -95,34 +95,38 @@
     font-family: variable(secondary-font);
     color: clr(primary);
     font-size: 1.6rem;
+    opacity: 1;
   }
   .ff-input-type::-moz-placeholder {
     font-family: variable(secondary-font);
     color: clr(primary);
     font-size: 1.6rem;
+    opacity: 1;
   }
   .ff-input-type:-ms-input-placeholder {
     font-family: variable(secondary-font);
     color: clr(primary);
     font-size: 1.6rem;
+    opacity: 1;
   }
   .ff-input-type:-moz-placeholder {
     font-family: variable(secondary-font);
     color: clr(primary);
     font-size: 1.6rem;
+    opacity: 1;
   }
 
   .ff-textarea::-webkit-input-placeholder {
-    visibility: hidden;
+    color: transparent
   }
   .ff-textarea::-moz-placeholder {
-    visibility: hidden;
+    color: transparent
   }
   .ff-textarea:-ms-input-placeholder {
-    visibility: hidden;
+    color: transparent
   }
   .ff-textarea:-moz-placeholder {
-    visibility: hidden;
+    color: transparent
   }
    
   .ff-input-type:focus,
