@@ -1,6 +1,5 @@
 theme_styles: 'twix'
 freeform_story_align: 'center'
-freeform_story_bg_enabled: true
 
 freeform_story_img_alt: 'Alt text for the image'
 # freeform_story_img_src: './freeform-story-img.png'
@@ -18,4 +17,4 @@ brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="254" height="200" f
 </svg>'
 
 custom_background_color: 'f9fb93'
-use_custom_color: true
+use_custom_color: false

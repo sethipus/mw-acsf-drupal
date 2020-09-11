@@ -162,12 +162,13 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       $file = $this->entityTypeManager->getStorage('file')->load($fid);
       $build['#image'] = file_create_url($file->getFileUri());
     }
+
     $build['#image_alt'] = $this->configuration['image_alt'];
     if ($this->configuration['background_shape'] == 1) {
       $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'];
-    $build['#use_custom_color'] = $this->configuration['use_custom_color'] == 1 ? 'true' : 'false';
+    $build['#use_custom_color'] = (bool) $this->configuration['use_custom_color'];
     $build['#theme'] = 'freeform_story_block';
 
     return $build;

@@ -82,12 +82,8 @@
     }
   }
 
-  &--true {
+  &--bg-enabled {
     background-color: clr(subcolor-2);
-  }
-
-  &--false {
-    background-color: transparent;
   }
 
   &--center {
