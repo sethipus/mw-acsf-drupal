@@ -6,6 +6,14 @@
     box-shadow: 1px 1px 12px 0 rgba(0, 0, 0, 0.08);
     max-width: 33.5rem !important;
     background-color: white;
+
+    @include medium {
+      max-width: 68.8rem !important;
+    }
+
+    @include large {
+      max-width: 89.5rem !important;
+    }
   }
 
   .group-0,
@@ -15,6 +23,11 @@
   .ff-footnote-label {
     margin-left: 1.6rem;
     margin-right: -1.6rem;
+
+    @include medium {
+      margin-left: 8.5%;
+      margin-right: 0;
+    }
   }
 
   .ff-label-col {
@@ -147,6 +160,10 @@
     font-family: variable(secondary-font);
     padding: 0.3rem 1rem;
     font-size: 1.6rem;
+
+    @include medium {
+      height: 20rem;
+    }
   }
 
   .ff-fileupload-drop-area {
@@ -189,6 +206,10 @@
 
   #reqdvCase\.Description {
     margin-top: 15.5rem !important;
+
+    @include medium {
+      margin-top: 21.5rem !important;
+    }
   }
 
   .group-1 .ff-invalid-msg,
@@ -208,46 +229,25 @@
     margin-top: 5rem;
   }
 
-  @include large {
-    .ff-form-main {
-      max-width: 68.8rem !important;
-    }
-
-    .group-0,
-    .group-1,
-    .group-2,
-    .group-5,
-    .ff-footnote-label {
-      margin-left: 8.5%;
-      margin-right: 0;
-    }
-
-    .ff-textarea {
-      height: 20rem;
-    }
-
+  @include medium {
     .group-1 .ff-item-row:nth-child(2) {
       display: block;
       float: left;
       width: 47%;
     }
-
+  
     .group-1 .ff-item-row:nth-child(3) {
       display: block;
       float: right;
       width: 53%;
     }
-
+  
     .btnDiv input {
       width: 23% !important;
     }
-
+  
     .group-1 .ff-item-row:nth-child(3) .ff-col-2 input {
       width: 89%;
-    }
-
-    #reqdvCase\.Description {
-      margin-top: 21.5rem !important;
     }
 
     #dvFastForms .btnDiv input:hover {
