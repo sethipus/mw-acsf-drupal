@@ -36,7 +36,6 @@ asset_2_alt: 'twix chocolate'
 asset_3: './twix-bg.png'
 asset_3_alt: 'twix chocolate'
 story_highlight_button_text: 'Learn more'
-story_highlight_border_radius: 0px;
 story_highlight_button_link_attributes:
   href: 'https://storybook.js.org/'
   target: '_blank'
