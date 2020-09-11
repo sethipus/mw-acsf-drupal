@@ -505,9 +505,7 @@
   }
 }
 
-.default-link {
-  padding: 0 3.4rem;
-
+.where-to-buy {
   &--pdp-desktop {
     display: none;
 
@@ -518,22 +516,17 @@
 
   &--pdp-hero {
     width: 100%;
-    text-align: center;
-    font-family: variable(primary-font);
-    line-height: 5rem;
-    background-color: clr(secondary);
-    color: clr(subcolor-3);
-
-    &:hover {
-      color: clr(secondary);
-    }
 
     @include large {
       display: inline-block;
       width: auto;
-      line-height: 6rem;
     }
   }
+
+}
+
+.default-link {
+  padding: 0 3.4rem;
 
   &--pdp-sections {
     display: flex;
