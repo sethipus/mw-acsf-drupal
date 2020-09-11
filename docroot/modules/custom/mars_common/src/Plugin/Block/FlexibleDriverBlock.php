@@ -3,11 +3,11 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,12 +21,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  use EntityBrowserFormTrait;
+
   /**
-   * Media storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
+   * Lighthouse entity browser id.
    */
-  protected $mediaStorage;
+  const LIGHTHOUSE_ENTITY_BROWSER_ID = 'lighthouse_browser';
+
+  /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
 
   /**
    * Theme Configurator service.
@@ -45,14 +52,12 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_definition
   ) {
     $theme_configurator = $container->get('mars_common.theme_configurator_parser');
-    $entity_type_manager = $container->get('entity_type.manager');
-    $entity_storage = $entity_type_manager->getStorage('media');
-
+    $media_helper = $container->get('mars_common.media_helper');
     return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $entity_storage,
+      $media_helper,
       $theme_configurator
     );
   }
@@ -64,11 +69,11 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityStorageInterface $entity_storage,
+    MediaHelper $media_helper,
     ThemeConfiguratorParser $themeConfigurator
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->mediaStorage = $entity_storage;
+    $this->mediaHelper = $media_helper;
     $this->themeConfigurator = $themeConfigurator;
   }
 
@@ -76,14 +81,16 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function build() {
+    $mediaId1 = $this->getMediaId('asset_1');
+    $mediaId2 = $this->getMediaId('asset_2');
     return [
       '#theme' => 'flexible_driver_block',
       '#title' => $this->configuration['label'] ?? '',
       '#description' => $this->configuration['description'] ?? '',
       '#cta_label' => $this->configuration['cta_label'] ?? '',
       '#cta_link' => $this->configuration['cta_link'] ?? '',
-      '#asset_1' => $this->getAsset('asset_1'),
-      '#asset_2' => $this->getAsset('asset_2'),
+      '#asset_1' => $this->mediaHelper->getMediaParametersById($mediaId1),
+      '#asset_2' => $this->mediaHelper->getMediaParametersById($mediaId2),
     ];
   }
 
@@ -122,21 +129,10 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
       '#required' => TRUE,
     ];
 
-    $form['asset_1'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Asset #1'),
-      '#target_type' => 'media',
-      '#default_value' => $this->getAsset('asset_1'),
-      '#required' => TRUE,
-    ];
-
-    $form['asset_2'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Asset #2'),
-      '#target_type' => 'media',
-      '#default_value' => $this->getAsset('asset_2'),
-      '#required' => TRUE,
-    ];
+    $form['asset_1'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+      $this->configuration['asset_1'], 1, 'thumbnail');
+    $form['asset_2'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+      $this->configuration['asset_2'], 1, 'thumbnail');
 
     return $form;
   }
@@ -150,8 +146,10 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->configuration['description'] = $form_state->getValue('description');
     $this->configuration['cta_label'] = $form_state->getValue('cta_label');
     $this->configuration['cta_link'] = $form_state->getValue('cta_link');
-    $this->configuration['asset_1'] = $form_state->getValue('asset_1');
-    $this->configuration['asset_2'] = $form_state->getValue('asset_2');
+    $this->configuration['asset_1'] = $this->getEntityBrowserValue($form_state,
+      'asset_1');
+    $this->configuration['asset_2'] = $this->getEntityBrowserValue($form_state,
+      'asset_2');
   }
 
   /**
@@ -167,19 +165,24 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
   /**
    * Returns the entity that's saved to the block.
    *
-   * @param string $assetId
+   * @param string $assetKey
    *   The config id where the asset is stored.
    *
-   * @return \Drupal\Core\Entity\EntityInterface|null
-   *   The asset entity or null if it's not found.
+   * @return string|null
+   *   The asset uri or null if it's not found.
    */
-  private function getAsset(string $assetId): ?EntityInterface {
-    $backgroundEntityId = $this->getConfiguration()[$assetId] ?? NULL;
-    if (!$backgroundEntityId) {
+  private function getMediaId(string $assetKey): ?string {
+    $entityBrowserSelectValue = $this->getConfiguration()[$assetKey] ?? NULL;
+    if (!$entityBrowserSelectValue || !is_string($entityBrowserSelectValue)) {
+      return NULL;
+    }
+    $colonPosition = strpos($entityBrowserSelectValue, ':');
+
+    if ($colonPosition === FALSE) {
       return NULL;
     }
 
-    return $this->mediaStorage->load($backgroundEntityId);
+    return substr($entityBrowserSelectValue, $colonPosition + 1);
   }
 
 }
