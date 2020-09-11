@@ -1,0 +1,7 @@
+name: 'Mars search'
+type: module
+description: 'Search integration.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
+dependencies:
+  - facets:facets

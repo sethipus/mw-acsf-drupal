@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * MARS Search module main file.
+ */
+
+use Drupal\search_api\IndexInterface;
+
+/**
+ * Implements hook_search_api_index_items_alter().
+ */
+function mars_search_search_api_index_items_alter(IndexInterface $index, array &$items) {
+  /** @var Drupal\search_api\Item\Item $item */
+  foreach ($items as $item) {
+    /** @var Drupal\Core\Entity\Plugin\DataType\EntityAdapter $object */
+    $object = $item->getOriginalObject();
+
+    $type = $object->get('type')->target_id;
+    if ($type == 'product_multipack') {
+      $object->set('type', 'product');
+    }
+    $item->setOriginalObject($object);
+  }
+}
