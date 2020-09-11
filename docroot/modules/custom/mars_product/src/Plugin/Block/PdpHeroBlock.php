@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -54,6 +55,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $entityRepository;
 
   /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -80,13 +88,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
     EntityRepositoryInterface $entity_repository,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    LanguageManagerInterface $language_manager
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->entityRepository = $entity_repository;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -100,7 +110,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
       $container->get('entity.repository'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('language_manager')
     );
   }
 
@@ -140,14 +151,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('Commerce Connector - Data widget id'),
       '#default_value' => $this->configuration['data_widget_id'],
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
-        ],
-        'required' => [
-          ':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR],
-        ],
-      ],
+      '#required' => TRUE,
     ];
 
     $form['product_id'] = [
@@ -250,7 +254,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
-      'commerce_vendor' => $config['commerce_vendor'],
+      'commerce_vendor' => $config['commerce_vendor'] ?? '',
       'product_id' => $config['product_id'] ?? '',
       'data_widget_id' => $config['data_widget_id'] ?? '',
     ];
@@ -607,21 +611,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-key',
-            'content' => '2762-5b80256eb307f7009e536b50',
+            'content' => $this->configuration['data_widget_id'],
           ],
         ],
         'ps-country' => [
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-country',
-            'content' => 'US',
+            'content' => $this->config->get('system.date')->get('country.default'),
           ],
         ],
         'ps-language' => [
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-language',
-            'content' => 'en',
+            'content' => strtolower($this->languageManager->getCurrentLanguage()->getId()),
           ],
         ],
         'price-spider' => [
