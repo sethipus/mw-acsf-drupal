@@ -91,12 +91,40 @@
     font-size: 1.6rem;
   }
 
-  .ff-item-row:focus-within .ff-label-col label:not(#lblCaseDescription) {
-    opacity: 0.5;
-    transform: translateY(-1rem) scale(0.7);
-    transition: all 0.15s ease-in-out;
+  .ff-input-type::-webkit-input-placeholder {
+    font-family: variable(secondary-font);
+    color: clr(primary);
+    font-size: 1.6rem;
+  }
+  .ff-input-type::-moz-placeholder {
+    font-family: variable(secondary-font);
+    color: clr(primary);
+    font-size: 1.6rem;
+  }
+  .ff-input-type:-ms-input-placeholder {
+    font-family: variable(secondary-font);
+    color: clr(primary);
+    font-size: 1.6rem;
+  }
+  .ff-input-type:-moz-placeholder {
+    font-family: variable(secondary-font);
+    color: clr(primary);
+    font-size: 1.6rem;
   }
 
+  .ff-textarea::-webkit-input-placeholder {
+    visibility: hidden;
+  }
+  .ff-textarea::-moz-placeholder {
+    visibility: hidden;
+  }
+  .ff-textarea:-ms-input-placeholder {
+    visibility: hidden;
+  }
+  .ff-textarea:-moz-placeholder {
+    visibility: hidden;
+  }
+   
   .ff-input-type:focus,
   .ff-textarea:focus,
   .ff-select-type:focus {
@@ -108,14 +136,14 @@
   .ff-required-mark,
   #sectionLabel2,
   #ffSection6,
-  #ffSection7 {
-    display: none;
-  }
-
+  #ffSection7,
   #lblCaseAccountIdFirstName,
   #lblCaseAccountIdLastName,
   #lblCaseAccountIdPersonEmail,
-  #lblCaseSubject,
+  #lblCaseSubject {
+    display: none;
+  }
+
   #lblCaseDescription {
     position: absolute;
     color: clr(primary);
@@ -123,15 +151,11 @@
     font-family: variable(secondary-font);
     cursor: text;
   }
-
+  
   #dvFastForms .btnDiv input {
     margin: 0 !important;
     border-radius: variable(border-radius);
     text-transform: uppercase;
-  }
-
-  #lblCaseDescription {
-    visibility: visible;
   }
 
   .btnDiv input {
