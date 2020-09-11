@@ -5,6 +5,7 @@ import searchOverlay from './search-overlay/search-overlay.twig';
 import searchOverlayData from './search-overlay/search-overlay.yml';
 import { useEffect } from '@storybook/client-api';
 
+import './search-overlay/search-overlay';
 
 /**
  * Storybook Definition.

@@ -3,7 +3,7 @@ Drupal.behaviors.searchOverlay = {
     $('.inline-search').click(function () {
       $('.inline-search--closebtn').toggleClass('inline-search--hidden');
       $('.inline-search--searchbtn').toggleClass('inline-search--hidden');
-      $('.search-wrapper').slideToggle(250);
+      $('.search-autocomplete-wrapper').slideToggle(250);
     });
   }
 };

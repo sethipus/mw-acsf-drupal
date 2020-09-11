@@ -3,7 +3,7 @@
 # - search__base_class - base classname of the wrapper.
 #}
 
-{% set search__base_class = search__base_class|default('search-wrapper') %}
+{% set search__base_class = search__base_class|default('search-autocomplete-wrapper') %}
 {% set search__placeholder = search__placeholder|default('Search') %}
 
 <div {{ bem(search__base_class, [], '') }}>
