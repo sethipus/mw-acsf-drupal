@@ -122,6 +122,24 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'asset_2' => NULL,
       ],
     ],
+    'story_highlight_block' => [
+      'variables' => [
+        'brand_border' => NULL,
+        'title' => NULL,
+        'graphic_divider' => NULL,
+        'story_description' => NULL,
+        'story_items' => [],
+        'svg_asset_src_1' => NULL,
+        'svg_asset_src_2' => NULL,
+        'svg_asset_src_3' => NULL,
+        'svg_asset_alt_1' => NULL,
+        'svg_asset_alt_2' => NULL,
+        'svg_asset_alt_3' => NULL,
+        'view_more_cta_url' => NULL,
+        'view_more_cta_label' => NULL,
+      ],
+      'template' => 'story-highlight-block',
+    ],
     'parent_page_header_block' => [
       'variables' => [
         'eyebrow' => NULL,
