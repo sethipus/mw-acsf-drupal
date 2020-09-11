@@ -1,0 +1,5 @@
+{% set search_results_item_base_class = search_results_item_base_class|default('search-results-item') %}
+
+<div {{ bem(search_results_item_base_class) }} data-theme="twix">
+  {{ item_title }} ({{ item_count }})
+</div>
