@@ -618,14 +618,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-country',
-            'content' => '<' . $this->config->get('system.date')->get('country.default') . '>',
+            'content' => $this->config->get('system.date')->get('country.default'),
           ],
         ],
         'ps-language' => [
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-language',
-            'content' => '<' . strtolower($this->languageManager->getCurrentLanguage()->getId()) . '>',
+            'content' => strtolower($this->languageManager->getCurrentLanguage()->getId()),
           ],
         ],
         'price-spider' => [
