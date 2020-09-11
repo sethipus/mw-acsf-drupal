@@ -12,11 +12,11 @@ serving_items:
     serving_per_container:
       label: 'Servings Per Container:'
       value: '1'
-    nutritional_info_calories:
+    group_nutritional_subgroup_1:
       - label: 'Calories'
         value: '170'
         value_daily: ''
-    nutritional_info_fat:
+    group_nutritional_subgroup_2:
       - label: 'Total Fat'
         value: '10g'
         value_daily: '15%'
@@ -28,7 +28,7 @@ serving_items:
         bold_modifier: true
         value: '0g'
         value_daily: ''
-    nutritional_info_others:
+    group_nutritional_subgroup_3:
       - label: 'Cholesterol'
         value: '10mg'
         value_daily: '3%'
@@ -46,7 +46,7 @@ serving_items:
         bold_modifier: true
         value: '2g'
         value_daily: ''
-    vitamins_info:
+    group_vitamins:
       - label: 'Iron'
         value: '40%'
       - label: 'Vitamin C'
@@ -67,11 +67,11 @@ serving_items:
     serving_per_container:
       label: 'Servings Per Container:'
       value: '2'
-    nutritional_info_calories:
+    group_nutritional_subgroup_1:
       label: 'Calories'
       value: '170'
       value_daily: ''
-    nutritional_info_fat:
+    group_nutritional_subgroup_2:
       - label: 'Total Fat'
         value: '10g'
         value_daily: '15%'
@@ -83,7 +83,7 @@ serving_items:
         bold_modifier: true
         value: '0g'
         value_daily: ''
-    nutritional_info_others:
+    group_nutritional_subgroup_3:
       - label: 'Cholesterol'
         value: '10mg'
         value_daily: '3%'
@@ -101,7 +101,7 @@ serving_items:
         bold_modifier: true
         value: '2g'
         value_daily: ''
-    vitamins_info:
+    group_vitamins:
       - label: 'Iron'
         value: '40%'
       - label: 'Vitamin C'
@@ -122,11 +122,11 @@ serving_items:
     serving_per_container:
       label: 'Servings Per Container:'
       value: '3'
-    nutritional_info_calories:
+    group_nutritional_subgroup_1:
       label: 'Calories'
       value: '170'
       value_daily: ''
-    nutritional_info_fat:
+    group_nutritional_subgroup_2:
       - label: 'Total Fat'
         value: '10g'
         value_daily: '15%'
@@ -138,7 +138,7 @@ serving_items:
         bold_modifier: true
         value: '0g'
         value_daily: ''
-    nutritional_info_others:
+    group_nutritional_subgroup_3:
       - label: 'Cholesterol'
         value: '10mg'
         value_daily: '3%'
@@ -156,7 +156,7 @@ serving_items:
         bold_modifier: true
         value: '2g'
         value_daily: ''
-    vitamins_info:
+    group_vitamins:
       - label: 'Iron'
         value: '40%'
       - label: 'Vitamin C'
