@@ -23,7 +23,7 @@ Drupal.behaviors.pdpHero = {
 
       let swiperControl = document.querySelector(`[data-swiper-index="${index}"] ~ .swiper-control`);
       swiperControl.addEventListener('click', (e) => {
-        event.preventDefault();
+        e.preventDefault();
         if (swiperInstances[index].autoplay.running) {
           swiperInstances[index].autoplay.stop();
           swiperControl.classList.toggle('swiper-control-play');
@@ -66,9 +66,13 @@ Drupal.behaviors.pdpHero = {
 
       const pdp_sticky_nav_top = context.getElementById('sticky-nav-top');
       const pdp_sticky_nav_bottom = context.getElementById('sticky-nav-bottom');
-      const pdp_main_image_top = context.getElementById('pdp-hero-main-image').getBoundingClientRect().top;
-      const pdp_nutrition_top = context.getElementById('section-nutrition').getBoundingClientRect().top;
-      const pdp_products_top = context.getElementById('section-products').getBoundingClientRect().top;
+      const pdp_main_image = context.getElementById('pdp-hero-main-image');
+      const pdp_nutrition = context.getElementById('section-nutrition');
+      const pdp_allergen = context.getElementById('section-allergen');
+      
+      const pdp_main_image_top = pdp_main_image && pdp_main_image.getBoundingClientRect().top;
+      const pdp_nutrition_top = pdp_nutrition && pdp_nutrition.getBoundingClientRect().top;
+      const pdp_allergen_bottom = pdp_allergen && pdp_allergen.getBoundingClientRect().bottom;
 
       window.addEventListener('scroll', () => {
         const pdp_bubble_1 = context.getElementById('pdp-hero__bubble_1');
@@ -82,7 +86,7 @@ Drupal.behaviors.pdpHero = {
 
         offset > pdp_main_image_top ? pdp_sticky_nav_top.classList.add('show-nav') : pdp_sticky_nav_top.classList.remove('show-nav');
         offset > pdp_nutrition_top ? pdp_sticky_nav_bottom.classList.add('hide-sections') : pdp_sticky_nav_bottom.classList.remove('hide-sections');
-        offset > pdp_products_top ? pdp_sticky_nav_bottom.classList.add('hide-nav') : pdp_sticky_nav_bottom.classList.remove('hide-nav');
+        offset > pdp_allergen_bottom ? pdp_sticky_nav_bottom.classList.add('hide-nav') : pdp_sticky_nav_bottom.classList.remove('hide-nav');
       })
     };
     //ToDo: refactor for correct values after slider initialized (only for 1st time)
