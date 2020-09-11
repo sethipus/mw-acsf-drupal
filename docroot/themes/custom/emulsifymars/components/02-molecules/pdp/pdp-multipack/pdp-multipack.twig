@@ -8,32 +8,36 @@
     heading_blockname: pdp_multipack_base_class,
     heading_base_class: 'header',
   } %}
-  <div id="pdp-multipack">
-    <div class="swiper-container pdp-multipack-swiper-container">
-      <div class="swiper-wrapper">
-        {% for item in multipack_items %}
-          <div class="swiper-slide pdp-multipack-item">
-            {% include "@molecules/card/related-product-card/related-product-card.twig" with {
-              card_url: item.card_url,
-              card__image__src: item.card__image__src,
-              paragraph_size: 'large',
-              paragraph_content: item.paragraph_content,
-              paragraph_base_class: 'paragraph',
-              paragraph_modifiers: ['large'],
-              default_link_content: item.default_link_content,
-              default_link_base_class: 'default-link',
-              default_link_attributes: {'href': '#'},
-              default_link_border_radius: 30,
-              link_content: item.link_content,
-              link_base_class: 'text_link',
-              link_attributes: {'href': '#'},
-            } %}
-          </div>
-        {% endfor %}
-      </div>
-      <div class="swiper-button-prev" id="swiper-button"></div>
-      <div class="swiper-button-next" id="swiper-button"></div>
-      <div class="swiper-scrollbar"></div>
+  <div class="swiper-container pdp-multipack-swiper-container" id="pdp-multipack-swiper-container">
+    <div class="swiper-wrapper">
+      {% for item in multipack_items %}
+        <div class="swiper-slide pdp-multipack-item">
+          {% include "@molecules/card/product-card/product-card.twig" with {
+            card_url: item.card_url,
+            card__image__src: item.card__image__src,
+            paragraph_size: 'large',
+            paragraph_content: item.paragraph_content,
+            paragraph_base_class: 'paragraph',
+            paragraph_modifiers: ['large'],
+            default_link_content: item.default_link_content,
+            default_link_base_class: 'default-link',
+            default_link_attributes: {'href': '#'},
+            link_content: item.link_content,
+            link_base_class: 'text_link',
+            link_attributes: {'href': '#'},
+          } %}
+        </div>
+      {% endfor %}
     </div>
+    <div class="swiper-button-prev" id="swiper-button"></div>
+    <div class="swiper-button-next" id="swiper-button"></div>
+    <div class="swiper-scrollbar"></div>
+  </div>
+  <div {{ bem('see-all-container', [], pdp_multipack_base_class) }}>
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content: multipack_see_all_label,
+      default_link_attributes: multipack_see_all_attributes,
+      default_link_modifiers: ['multipack-see-all-button'],
+    } %}
   </div>
 </section>

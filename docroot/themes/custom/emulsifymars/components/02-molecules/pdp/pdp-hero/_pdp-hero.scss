@@ -1,18 +1,124 @@
 .pdp-hero {
+  position: relative;
   padding: 2rem 2rem 3.2rem;
-  background-color: clr(pdp-hero);
-  
+  background-color: clr(subcolor-2);
+  overflow: hidden;
+
   @include small {
     padding: 2rem 2rem 18rem;
   }
-  
+
   @include medium {
     padding: 2rem 4rem 18.7rem;
   }
-  
+
   @include large {
     padding-top: 4.8rem;
     padding-bottom: 10.4rem;
+  }
+
+  &__bubble_1 {
+    position: absolute;
+    top: 5.5%;
+    right: 5%;
+    height: 90px;
+    width: 90px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+
+    @include medium {
+      top: 3%;
+      right: 6.5%;
+      height: 117px;
+      width: 117px;
+    }
+
+    @include large {
+      top: -6%;
+      right: -6%;
+      height: 420px;
+      width: 420px;
+    }
+  }
+
+  &__bubble_2 {
+    position: absolute;
+    top: 26.5%;
+    left: 47%;
+    height: 292px;
+    width: 292px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+
+    @include medium {
+      top: 14%;
+      left: -21%;
+      height: 302px;
+      width: 302px;
+    }
+
+    @include large {
+      top: 11%;
+      left: 25%;
+      height: 115px;
+      width: 115px;
+    }
+  }
+
+  &__bubble_3 {
+    display: none;
+    position: absolute;
+    top: 83%;
+    left: 31.5%;
+    height: 214px;
+    width: 214px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+
+    @include medium {
+      display: block;
+      top: 19%;
+      left: 41%;
+      height: 505px;
+      width: 505px;
+    }
+
+    @include large {
+      top: 83%;
+      left: 31.5%;
+      height: 214px;
+      width: 214px;
+    }
   }
 
   &__container {
@@ -22,8 +128,8 @@
 
   &__content-container {
     flex: 1 0 50%;
-    padding-top: 3.4rem;
-  
+    padding-top: 1.2rem;
+
     @include large {
       padding-top: 4.2rem;
       padding-right: 6rem;
@@ -32,8 +138,64 @@
 
   &__content-mobile {
     display: block;
-  
+
     @include large {
+      display: none;
+    }
+  }
+
+  &__sticky-nav-top {
+    flex: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background-image: radial-gradient(circle at 0 0, rgb(245, 225, 164), clr(subcolor-1));
+    transform: translateY(-100%);
+    transition: transform 1s ease-out;
+    z-index: 10;
+
+    @include medium {
+      flex-direction: column;
+      padding: 4rem;
+    }
+
+    @include large {
+      display: none;
+    }
+
+    &.show-nav {
+      transform: translateY(0);
+    }
+  }
+
+  &__sticky-nav-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    z-index: 10;
+
+    @include medium {
+      flex-direction: column;
+      padding: 4rem;
+    }
+
+    @include large {
+      position: static;
+    }
+
+    &.hide-sections .pdp-hero__sections-container {
+      display: none;
+    }
+
+    &.hide-nav {
       display: none;
     }
   }
@@ -45,14 +207,18 @@
     font-weight: normal;
     letter-spacing: 1.6px;
     text-transform: uppercase;
-    color: clr(subcolor-3);
-  
-    @include medium {
-      font-size: 1.4rem;
-    }
-  
+    color: clr(primary);
+
     @include large {
       font-size: 1.6rem;
+    }
+
+    &--sticky {
+      margin: 0;
+      padding-right: 3.2rem;
+      color: clr(primary);
+      line-height: 1;
+      letter-spacing: 1.4px;
     }
   }
 
@@ -62,17 +228,29 @@
     font-size: 2.8rem;
     font-weight: normal;
     line-height: 1;
-    color: clr(subcolor-3);
-  
+    color: clr(primary);
+
     @include medium {
       font-size: 4rem;
       margin-bottom: 2.5rem;
     }
-  
+
     @include large {
       font-size: 4.8rem;
       margin-top: 2.7rem;
       margin-bottom: 3.6rem;
+    }
+
+    &--sticky {
+      margin: 0;
+      color: clr(primary);
+      font-size: 1.6rem;
+      text-transform: uppercase;
+
+      @include medium {
+        font-size: 1.8rem;
+        letter-spacing: 1.4px;
+      }
     }
   }
 
@@ -82,7 +260,7 @@
     font-size: 1.4rem;
     line-height: 1.4;
     text-align: center;
-    color: clr(subcolor-3);
+    color: clr(primary);
 
     @include medium {
       margin: 21.4rem 13.8rem 2rem 11.8rem;
@@ -106,7 +284,7 @@
     font-family: variable(secondary-font);
     font-size: 1.2rem;
     line-height: 1.3;
-    color: clr(subcolor-3);
+    color: clr(primary);
 
     @include medium {
       flex: 1 0 auto;
@@ -125,12 +303,12 @@
     flex: 1 0 auto;
     display: flex;
     justify-content: flex-end;
-  
+
     @include medium {
       flex: 1 0 58%;
       justify-content: flex-start;
     }
-  
+
     @include large {
       flex: 1 0 63%;
     }
@@ -145,7 +323,7 @@
       font-size: 1.2rem;
       line-height: 1.3;
       text-decoration: none;
-      color: clr(subcolor-3);
+      color: clr(secondary);
 
       &[data-size-selected="true"] {
         text-decoration: underline;
@@ -155,7 +333,7 @@
         font-size: 1.4rem;
         padding: 1.6rem 1.3rem;
       }
-  
+
       @include large {
         padding: 1.5rem;
         font-size: 1.6rem;
@@ -205,13 +383,13 @@
 
     flex: 1 0 auto;
     margin: 1rem 0 2rem;
-  
+
     @include small {
       display: flex;
       justify-content: space-between;
     }
-  
-    @include medium {
+
+    @include large {
       display: none;
     }
   }
@@ -227,7 +405,7 @@
     display: none;
     flex: 1 0 50%;
     padding-right: 13.2rem;
-  
+
     @include large {
       display: none;
       align-items: center;
@@ -247,13 +425,13 @@
       display: flex;
       flex-flow: column nowrap;
     }
-  
+
     .swiper-pagination-bullet {
       width: .5rem;
       height: 3.5rem;
       border-radius: 3px;
       margin: .7rem 0;
-      background: clr(subcolor-3);
+      background: clr(secondary);
     }
 
     .swiper-control {
@@ -273,12 +451,8 @@
         height: 6rem;
         border-radius: 50%;
         box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-        background-color: clr(subcolor-3);
+        background-color: clr(accent-high);
         opacity: 0.2;
-      }
-
-      &-play::before {
-        opacity: 1;
       }
 
       & .playpause-icon {
@@ -289,7 +463,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-  
+
         &::before,
         &::after {
           content: '';
@@ -301,11 +475,11 @@
           top: 50%;
           transform: translateY(-50%);
         }
-  
+
         &::before {
           left: 22px;
         }
-  
+
         &::after {
           right: 22px;
         }
@@ -347,9 +521,7 @@
   }
 }
 
-.default-link {
-  padding: 0 3.4rem;
-
+.where-to-buy {
   &--pdp-desktop {
     display: none;
 
@@ -360,26 +532,17 @@
 
   &--pdp-hero {
     width: 100%;
-    text-align: center;
-    font-family: variable(primary-font);
-    line-height: 5rem;
-    background-color: clr(secondary);
-    color: clr(subcolor-3);
-
-    &:hover {
-      color: clr(secondary);
-    }
-
-    @include medium {
-      display: none;
-    }
 
     @include large {
       display: inline-block;
       width: auto;
-      line-height: 6rem;
     }
   }
+
+}
+
+.default-link {
+  padding: 0 3.4rem;
 
   &--pdp-sections {
     display: flex;

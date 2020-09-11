@@ -12,12 +12,13 @@ function mars_product_theme($existing, $type, $theme, $path) {
   return [
     'pdp_hero_block' => [
       'variables' => [
+        'brand_shape' => NULL,
+        'background_color' => NULL,
         'eyebrow' => NULL,
         'available_sizes' => NULL,
         'cta_link' => NULL,
         'cta_label' => NULL,
         'product' => NULL,
-        'wtb_border_radius' => NULL,
         'image_items' => [],
         'size_items' => [],
         'mobile_items' => [],
@@ -28,15 +29,36 @@ function mars_product_theme($existing, $type, $theme, $path) {
         'serving_items' => [],
         'allergen_label' => NULL,
         'allergens_list' => [],
+        'product_sku' => NULL,
+        'commerce_vendor' => NULL,
+        'data_widget_id' => NULL,
       ],
       'template' => 'pdp-hero-block',
     ],
     'pdp_product_multipack_block' => [
       'variables' => [
         'multipack_label' => NULL,
-        'multipack_items' => [],
+        'multipack_view' => NULL,
       ],
       'template' => 'pdp-product-multipack-block',
+    ],
+    'product_content_pair_up_block' => [
+      'variables' => [
+        'title' => NULL,
+        'graphic_divider' => NULL,
+        'background' => NULL,
+        'master_card_entity' => NULL,
+        'master_card_eyebrow' => NULL,
+        'master_card_title' => NULL,
+        'cta_link_url' => NULL,
+        'cta_link_text' => NULL,
+        'supporting_card_entity' => NULL,
+        'supporting_card_eyebrow' => NULL,
+        'supporting_card_entity_view' => NULL,
+        'max_width' => NULL,
+        'png_asset' => NULL,
+      ],
+      'template' => 'product-content-pair-up-block',
     ],
   ];
 }

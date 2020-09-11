@@ -15,7 +15,6 @@
 
 {% set button_trigger_base_class = button_trigger_base_class|default('button') %}
 {% set button_trigger_base_id = button_trigger_base_id|default('button') %}
-{% set button_border_radius = button_border_radius|default(0) %}
 
 {% set additional_attributes = {
   class: bem(button_trigger_base_class, button_trigger_modifiers, button_trigger_blockname),
@@ -26,7 +25,7 @@
   "aria-expanded": 'false',
 } %}
 
-<button {{ add_attributes(additional_attributes) }} style="{{ 'border-radius: ' ~ button_border_radius ~ 'px' }}">
+<button {{ add_attributes(additional_attributes) }}>
   {% block button_content %}
     {{ button_content }}
   {% endblock %}

@@ -4,12 +4,13 @@
  * Template for the PDP Hero component.
  *
  * Available variables:
+ *   'brand_shape' => NULL,
+ *   'background_color' => NULL,
  *   'eyebrow' => NULL,
  *   'available_sizes' => NULL,
  *   'cta_link' => NULL,
  *   'cta_label' => NULL,
  *   'product' => NULL,
- *   'wtb_border_radius' => NULL,
  *   'image_items' => [],
  *   'size_items' => [],
  *   'mobile_items' => [],
@@ -25,18 +26,18 @@
 
 {% include "@molecules/pdp/pdp-hero/pdp-hero.twig" with {
   theme_styles: 'drupal',
+  brand_shape: brand_shape,
+  background_color: background_color,
   product_label: eyebrow,
   size_label: available_sizes,
   product_name: product.label,
   product_description: product.field_product_description.value|striptags ,
-  product_CTA_title: cta_label,
-  product_CTA_border_radius: wtb_border_radius,
-  product_CTA_link_attributes: {
-    href: cta_link,
-  },
   image_items: image_items,
   size_items: size_items,
   mobile_sections_items: mobile_items,
+  product_sku: product_sku,
+  commerce_vendor: commerce_vendor,
+  data_widget_id: data_widget_id,
 } %}
 {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
   theme_styles: 'drupal',
