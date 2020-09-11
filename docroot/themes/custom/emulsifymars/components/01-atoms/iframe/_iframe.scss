@@ -1,0 +1,23 @@
+.iframe-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+
+  @include xs {
+    max-width: 335px;
+  }
+
+  @include medium {
+    max-width: 688px;
+  }
+
+  @include xl {
+    max-width: 1360px;
+  }
+
+  &__inner {
+    border: none;
+    width: 100%;
+  }
+}

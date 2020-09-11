@@ -10,6 +10,7 @@ use Drupal\Core\Access\AccessResult;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
  * Class RecipeDetailHero.
@@ -36,13 +37,6 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $viewBuilder;
 
   /**
-   * File storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorage;
-
-  /**
    * The configFactory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -50,13 +44,27 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $configFactory;
 
   /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityTypeManagerInterface $entity_type_manager,
+    ConfigFactoryInterface $config_factory,
+    ThemeConfiguratorParser $themeConfiguratorParser
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->configFactory = $config_factory;
-    $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
   /**
@@ -68,7 +76,8 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -77,7 +86,6 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    */
   public function build() {
     $node = $this->getContextValue('node');
-    $theme_settings = $this->configFactory->get('emulsifymars.settings')->get();
 
     $build = [
       '#label' => $node->label(),
@@ -93,13 +101,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     ];
 
     // Get brand border path.
-    if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
-      $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
-      $build['#border'] = !empty($border_file) ? $border_file->createFileUrl() : '';
-    }
+    $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-hero-border');
 
     if ($node->hasField('field_recipe_video') && $node->field_recipe_video->entity) {
-      $build['#video'] = $node->field_recipe_video->entity->get('field_media_video_file')->entity->createFileUrl();;
+      $build['#video'] = $node->field_recipe_video->entity->get('field_media_video_file')->entity->createFileUrl();
     }
 
     // Toggle to simplify unit test.

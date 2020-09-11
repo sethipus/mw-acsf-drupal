@@ -14,10 +14,12 @@
  * 'help_and_contact_cta_label' => NULL,
  * 'help_and_contact_cta_url' => NULL,
  * 'social_menu_items' => NULL,
+ * 'brand_shape' => NULL,
  */
 #}
 
 {% include "@molecules/contact-module/contact-module.twig" with {
+  theme_styles: 'drupal',
   contact_module_heading: label,
   contact_module_heading_level: 1,
   contact_module_paragraph_content: description,
@@ -25,7 +27,6 @@
   contact_module_default_link_attributes: {
     href: help_and_contact_cta_url
   },
-  contact_module_default_link_border_radius: 40,
   contact_module_contact_phone: phone_cta_label,
   contact_module_contact_phone_attributes: {
     href: phone_cta_link
@@ -39,5 +40,6 @@
   contact_module_social_heading_level: 2,
 
   social_menu_items: social_menu_items,
-  configured_icons: true
+  configured_icons: true,
+  brand_shape: brand_shape
 } %}

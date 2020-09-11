@@ -1,3 +1,4 @@
+theme_styles: 'twix'
 error_component_heading: 'Oops'
 error_component_heading_level: 1
 
@@ -8,17 +9,14 @@ error_component_bg_image_alt: 'twix chocolate'
 
 error_component_links:
   - content: 'Home'
-    border_radius: 30
     attributes:
       target: '_self'
       href: 'https://storybook.js.org/'
   - content: 'Products'
-    border_radius: 30
     attributes:
       target: '_self'
       href: 'https://storybook.js.org/'
   - content: 'About'
-    border_radius: 30
     attributes:
       target: '_self'
       href: 'https://storybook.js.org/'

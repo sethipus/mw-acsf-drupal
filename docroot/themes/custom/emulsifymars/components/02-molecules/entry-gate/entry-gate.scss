@@ -17,10 +17,8 @@
     padding: 0 11rem 6rem 11rem;
     max-width: 89.6rem;
     background-color: clr(subcolor-2);
-    background-image: variable(brand-shape);
-    background-repeat: no-repeat;
-    background-position: center 28rem;
-    background-size: 105%;
+    position: relative;
+    overflow: hidden;
   }
 
   &.age-error {
@@ -42,15 +40,25 @@
     padding-right: 1rem;
   }
 
+  &__brand-shape {
+    position: absolute;
+    width: 100%;
+    margin-left: -11rem;
+    bottom: -45rem;
+
+    & svg {
+      height: 70rem;
+      width: 70rem;
+    }
+  }
+
   &__inner {
     text-align: center;
     border-radius: 1.5rem;
     max-width: 89.6rem;
     background-color: clr(subcolor-2);
-    background-image: variable(brand-shape);
-    background-repeat: no-repeat;
-    background-position: center 28rem;
-    background-size: 105%;
+    position: relative;
+    overflow: hidden;
 
     @include small {
       padding: 0 5rem 3rem 5rem;
@@ -131,6 +139,8 @@
     color: clr(primary);
     font-family: variable(secondary-font);
     display: inline;
+    position: relative;
+    z-index: 2;
 
     @include medium {
       font-size: 1.4rem;

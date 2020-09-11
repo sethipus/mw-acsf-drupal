@@ -1,0 +1,91 @@
+{#
+/**
+ * Available variables:
+ * - dropdown_base_class - 
+ * - dropdown__modifiers - 
+ * - dropdown__blockname - 
+ * - dropdown_trigger__base_class - 
+ * - dropdown_items.abbr - 
+ *
+ * Available blocks:
+ * - button_content - used to replace the content of the button with something other than text
+ *   for example: to insert an icon
+ */
+#}
+{% set dropdown_base_class = badge_base_class|default('dropdown') %}
+{% set dropdown_trigger__base_class = dropdown_trigger__base_class|default('dropdown__trigger') %}
+
+<div {{ bem(dropdown_base_class, dropdown__modifiers, dropdown__blockname) }} data-theme="{{ theme_styles }}">
+  {% embed "@atoms/buttons/twig/button-trigger.twig" with {
+    button_trigger_base_class: dropdown_trigger__base_class,
+  } %}
+    {% block button_content %}
+      {% include "@atoms/text/text/07-span.twig" with {
+        span_content: dropdown_title,
+      } %}
+    {% endblock %}
+  {% endembed %}
+  <div {{ bem(dropdown_base_class ~ '__content--outer') }}>
+    <div {{ bem(dropdown_base_class ~ '__content--inner') }} >
+      {% embed "@atoms/lists/ul.twig" with {
+        ul_base_class: dropdown_base_class ~ '__list',
+      } %}
+        {% block list_content %}
+          {% if dropdown_label %}
+            {% embed "@atoms/lists/_list-item.twig" with {
+              list_item_label: dropdown_label,
+              li_base_class: dropdown_base_class ~ '__item',
+            } %}
+              {% block list_item_content %}
+                {% include "@atoms/text/text/07-span.twig" with {
+                  span_base_class: dropdown_base_class ~ '__span',
+                  span_content: dropdown_label,
+                } %}
+              {% endblock %}
+            {% endembed %}
+          {% endif %}
+          {% for dropdown_item in dropdown_items %}
+            {% if not dropdown_item.url %}
+              {% embed "@atoms/lists/_list-item.twig" with {
+                list_item_label: dropdown_item.title,
+                li_base_class: dropdown_base_class ~ '__item',
+              } %}
+                {% block list_item_content %}
+                  {% include "@atoms/text/text/07-span.twig" with {
+                    span_base_class: dropdown_base_class ~ '__span',
+                    span_content: dropdown_item.title,
+                  } %}
+                {% endblock %}
+              {% endembed %}
+            {% else %}
+              {% embed "@atoms/lists/_list-item.twig" with {
+                list_item_label: dropdown_item.title,
+                li_base_class: dropdown_base_class ~ '__item',
+              } %}
+                {% block list_item_content %}
+                  {% embed "@atoms/links/link/link.twig" with {
+                    link_content: dropdown_item.title,
+                    link_url: dropdown_item.url,
+                    link_base_class: dropdown_base_class ~ '__link',
+                  } %}
+                    {% block link_content %}
+                      {% if dropdown_item.abbr %}
+                        {% include "@atoms/text/text/07-span.twig" with {
+                          span_base_class: dropdown_base_class ~ '__abbr',
+                          span_content: dropdown_item.abbr,
+                        } %}
+                      {% endif %}
+                      {% include "@atoms/text/text/07-span.twig" with {
+                        span_content: dropdown_item.title,
+                      } %}
+                    {% endblock %}
+                  {% endembed %}
+                {% endblock %}
+              {% endembed %}
+            {% endif %}
+          {% endfor %}
+        {% endblock %}
+      {% endembed %}
+    </div>
+  </div>
+</div>

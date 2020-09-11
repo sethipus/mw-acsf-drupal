@@ -4,7 +4,7 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -37,18 +37,18 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $menuStorage;
 
   /**
-   * File storage.
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
+   * Term storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $fileStorage;
-
-  /**
-   * Config Factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $config;
+  protected $termStorage;
 
   /**
    * {@inheritdoc}
@@ -59,13 +59,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_definition,
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
-    $this->fileStorage = $entity_type_manager->getStorage('file');
-    $this->config = $config_factory;
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
   }
 
   /**
@@ -78,7 +78,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_definition,
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -86,17 +86,11 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function build() {
-    global $base_url;
-
     $conf = $this->getConfiguration();
-    $theme_settings = $this->config->get('emulsifymars.settings')->get();
-    $build['#logo'] = $theme_settings['logo']['path'];
+    $build['#logo'] = $this->themeConfiguratorParser->getLogoFromTheme();
 
     // Get brand border path.
-    if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
-      $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
-      $build['#twix_border'] = !empty($border_file) && !empty($border_file->createFileUrl()) ? file_get_contents($base_url . $border_file->createFileUrl()) : '';
-    }
+    $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'footer-border');
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
@@ -105,41 +99,23 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {
-      $build['#social_links'] = $this->socialLinks($theme_settings);
+      $build['#social_links'] = $this->themeConfiguratorParser->socialLinks();
     }
-
     if ($conf['region_selector_toggle']) {
-      // TODO add region selector.
-      $build['#region_selector'] = [
-        ['title' => $this->t('North America: USA')],
-        ['title' => $this->t('United Kingdom')],
-      ];
+      $vid = 'mars_regions';
+      $terms = $this->termStorage->loadTree($vid, 0, NULL, TRUE);
+      $build['#region_selector'] = [];
+      if (!empty($terms)) {
+        foreach ($terms as $term) {
+          $build['#region_selector'][] = [
+            'title' => $term->getName(),
+            'url' => $term->get('field_mars_url')->first()->getUrl(),
+          ];
+        }
+      }
     }
-
     $build['#theme'] = 'footer_block';
     return $build;
-  }
-
-  /**
-   * Prepare social links data.
-   *
-   * @param array $theme_settings
-   *   Theme settings config.
-   *
-   * @return array
-   *   Rendered menu.
-   */
-  protected function socialLinks(array $theme_settings) {
-    foreach ($theme_settings['social'] as $key => $social_settings) {
-      $social_menu_items[$key]['title'] = $social_settings['name'];
-      $social_menu_items[$key]['url'] = $social_settings['link'];
-      if (!empty($social_settings['icon'])) {
-        $fid = reset($social_settings['icon']);
-        $file = $this->fileStorage->load($fid);
-      }
-      $social_menu_items[$key]['icon'] = !empty($file) ? $file->createFileUrl() : '';
-    }
-    return $social_menu_items;
   }
 
   /**

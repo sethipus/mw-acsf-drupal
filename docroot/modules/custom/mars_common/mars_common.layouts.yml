@@ -88,3 +88,250 @@ newsletter_sign_up_recommended_products:
   regions:
     content:
       label: Content
+
+where_to_buy_parent_page_header:
+  label: 'Where to buy - Parent page header'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+where_to_buy_product_recommendations:
+  label: 'Where to buy - Product recommendations'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+where_to_buy_where_to_buy:
+  label: 'Where to buy - Where to buy'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+where_to_buy_community:
+  label: 'Where to buy - Community'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+recipe_recipe_hero:
+  label: 'Recipe - Recipe hero'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+recipe_recipe_body:
+  label: 'Recipe - Recipe Body'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+recipe_storytelling_community:
+  label: 'Recipe - Storytelling & Community'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+recipe_ratings_reviews:
+  label: 'Recipe - Ratings & Reviews'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+recipe_recipe_recommendations:
+  label: 'Recipe - Recipe Recommendations'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+homepage_homepage_hero:
+  label: 'Homepage - Homepage Hero'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+homepage_drive_to_product:
+  label: 'Homepage - Drive To Product'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+homepage_additional_touts:
+  label: 'Homepage - Additional product touts, Storytelling & Community'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+article_article_header:
+  label: 'Article - Article Header'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+article_article_body:
+  label: 'Article - Article Body'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+article_content_recommendations:
+  label: 'Article - Content Recommendations'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+product_product_detail_hero:
+  label: 'Product - Product Detail Hero'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+product_storytelling_community:
+  label: 'Product - Storytelling & Community'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+product_ratings_reviews:
+  label: 'Product - Ratings & Reviews'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+product_product_recommendations:
+  label: 'Product - Product Recommendations'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
