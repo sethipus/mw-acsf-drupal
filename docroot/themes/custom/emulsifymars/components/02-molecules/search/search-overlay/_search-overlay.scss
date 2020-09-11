@@ -1,9 +1,87 @@
 .search-wrapper {
   position: absolute;
-  width: 50%;
+  width: 80%;
   top: 100px;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
+  display: none;
+  flex-flow: column nowrap;
+
+  @include large {
+    width: 60%;
+  }
+
+  & .search-field-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+
+    & svg {
+      align-self: center;
+      z-index: 1;
+      position: absolute;
+      left: 15px;
+
+      path {
+        fill: clr(primary);
+      }
+
+      @include large {
+        left: 25px;
+      }
+    }
+
+    & input {
+      width: 100%;
+      height: 50px;
+      font-size: 16px;
+      line-height: 140%;
+      color: clr(primary);
+      font-family: variable(secondary-font);
+      border-radius: variable(border-radius);
+      border: 1px solid clr(subcolor-4);
+      outline: none;
+      padding-left: 45px;
+
+      @include large {
+        height: 60px;
+        font-size: 18px;
+        line-height: 140%;
+        padding-left: 60px;
+      }
+    }
+  }
+
+  & .mars-search-autocomplete-suggestions {
+    color: clr(primary);
+    font-size: 16px;
+    padding-left: 45px;
+    margin-top: 0;
+    background-color: clr(subcolor-3);
+
+    @include large {
+      padding-left: 60px;
+      border-bottom-left-radius: variable(border-radius);
+      border-bottom-right-radius: variable(border-radius);
+      border: 1px solid clr(subcolor-4);
+      border-top: none;
+    }
+
+    & .suggestions-label {
+      padding-left: 1px;
+    }
+
+    & ul {
+      list-style: none;
+      padding-left: 0;
+
+      & li {
+        padding-left: 0;
+        margin-bottom: 0;
+       }
+    }
+  }
+
+
 }

@@ -3,3 +3,4 @@ search_results:
   - content: 'that'
   - content: "them"
   - content: "Something"
+search_placeholder: 'Search'
