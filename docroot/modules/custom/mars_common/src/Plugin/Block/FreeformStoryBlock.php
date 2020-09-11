@@ -144,7 +144,6 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#default_value' => $this->configuration['custom_background_color'] ?? '',
     ];
 
-
     return $form;
   }
 
