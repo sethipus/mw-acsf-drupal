@@ -3,7 +3,23 @@
 {% set pdp_main_image = image_items|first.images|first %}
 {% set pdp_side_images = image_items|first.images[1:] %}
 
-<section id="pdp-hero" {{ bem(pdp_hero_base_class) }} data-theme="{{ theme_styles }}">
+<section
+  id="pdp-hero"
+  {{ bem(pdp_hero_base_class) }}
+  data-theme="{{ theme_styles }}"
+  {% if background_color %}
+    style="background-color: {{ background_color }};"
+  {% endif %}
+>
+  <div {{ bem('bubble_1', [], pdp_hero_base_class) }} id="pdp-hero__bubble_1">
+    {{ brand_shape | raw }}
+  </div>
+  <div {{ bem('bubble_2', [], pdp_hero_base_class) }} id="pdp-hero__bubble_2">
+    {{ brand_shape | raw }}
+  </div>
+  <div {{ bem('bubble_3', [], pdp_hero_base_class) }} id="pdp-hero__bubble_3">
+    {{ brand_shape | raw }}
+  </div>
   <div {{ bem('container', [], pdp_hero_base_class) }}>
     <div {{ bem('content-container', [], pdp_hero_base_class) }}>
       {% include "@atoms/text/headings/_heading.twig" with {
@@ -18,6 +34,22 @@
         heading_blockname: pdp_hero_base_class,
         heading_base_class: 'product-name',
       } %}
+      <div id='sticky-nav-top' {{ bem('sticky-nav-top', [], pdp_hero_base_class) }}>
+        {% include "@atoms/text/headings/_heading.twig" with {
+          heading_level: 5,
+          heading: product_label,
+          heading_blockname: pdp_hero_base_class,
+          heading_base_class: 'product-label',
+          heading_modifiers: ['sticky'],
+        } %}
+        {% include "@atoms/text/headings/_heading.twig" with {
+          heading_level: 2,
+          heading: product_name,
+          heading_blockname: pdp_hero_base_class,
+          heading_base_class: 'product-name',
+          heading_modifiers: ['sticky'],
+        } %}
+      </div>
       <div {{ bem('size-container', [], pdp_hero_base_class) }}>
         {% include "@atoms/text/text/07-span.twig" with {
           span_content: size_label,
@@ -39,7 +71,7 @@
         </ul>
       </div>
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
-        <div {{ bem('main-image-container', [], pdp_hero_base_class) }}>
+        <div id='pdp-hero-main-image' {{ bem('main-image-container', [], pdp_hero_base_class) }}>
           {% include "@atoms/images/image/responsive-image.twig" with {
             image_alt: pdp_main_image.image.alt,
             image_srcset: pdp_main_image.image.srcset,
@@ -52,28 +84,30 @@
             responsive_image_blockname: pdp_hero_base_class,
           } %}
         </div>
-        <div {{ bem('sections-container', [], pdp_hero_base_class) }}>
-          <ul {{ bem('sections-list', [], pdp_hero_base_class)}}>
-            {% for section_item in mobile_sections_items %}
-              <li {{ bem('sections-item', [], pdp_hero_base_class)}}>
-                {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-                  default_link_content: section_item.title,
-                  default_link_url: section_item.link_url,
-                  default_link_border_radius: section_item.border_radius,
-                  default_link_attributes: section_item.link_attributes,
-                  default_link_modifiers: ['pdp-sections'],
-                } %}
-              </li>
-            {% endfor %}
-          </ul>
+        <div id='sticky-nav-bottom' {{ bem('sticky-nav-bottom', [], pdp_hero_base_class) }}>
+          <div {{ bem('sections-container', [], pdp_hero_base_class) }}>
+            <ul {{ bem('sections-list', [], pdp_hero_base_class)}}>
+              {% for section_item in mobile_sections_items %}
+                <li {{ bem('sections-item', [], pdp_hero_base_class)}}>
+                  {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+                    default_link_content: section_item.title,
+                    default_link_url: section_item.link_url,
+                    default_link_attributes: section_item.link_attributes,
+                    default_link_modifiers: ['pdp-sections'],
+                  } %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
+            where_to_buy_modifiers: ['pdp-hero'],
+            product_sku: product_sku,
+            commerce_vendor: commerce_vendor,
+            data_widget_id: data_widget_id,
+            reference_for_analitics: reference_for_analitics,
+            cta_title: product_CTA_title,
+          } %}
         </div>
-
-        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-          default_link_content: product_CTA_title,
-          default_link_border_radius: product_CTA_border_radius,
-          default_link_attributes: product_CTA_link_attributes,
-          default_link_modifiers: ['pdp-hero'],
-        } %}
         <div {{ bem('side-image-container', [], pdp_hero_base_class) }}>
           {% for item in pdp_side_images %}
             {% include "@atoms/images/image/responsive-image.twig" with {
@@ -96,30 +130,14 @@
         paragraph_base_class: 'description',
         paragraph_blockname: pdp_hero_base_class,
       } %}
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: product_CTA_title,
-        default_link_border_radius: product_CTA_border_radius,
-        default_link_attributes: product_CTA_link_attributes,
-        default_link_modifiers: ['pdp-desktop', 'pdp-hero'],
+      {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
+        where_to_buy_modifiers: ['pdp-desktop', 'pdp-hero'],
+        product_sku: product_sku,
+        commerce_vendor: commerce_vendor,
+        data_widget_id: data_widget_id,
+        reference_for_analitics: reference_for_analitics,
+        cta_title: product_CTA_title,
       } %}
-      {% if commerce_vendor == 'price_spider' %}
-        <div class="ps-widget" ps-sku="{{ product_sku }}">{{ product_CTA_title }}</div>
-      {% else %}
-        <script
-          type="text/javascript"
-          src="https://fi-v2.global.commerce-connector.com/cc.js"
-          id="cci-widget"
-          data-token="080b73af92c4aa9324ac9f9296f5045e76256857"
-          data-locale="en-US"
-          data-displaylanguage="en-us"
-          data-widgetid="{{ data_widget_id }}"
-          data-ean="{{ product_sku }}"
-          data-subid="ohne"
-          {% if reference_for_analytics is defined and reference_for_analytics|length %}
-            data-trackingid="{{ reference_for_analytics }}"
-          {% endif %}
-        ></script>
-      {% endif %}
     </div>
     {% for size_item in image_items %}
       <div {{ bem('slider-container', [], pdp_hero_base_class) }} data-slider-size-active={{size_item.active}} data-slider-size-id={{size_item.size_id}}>

@@ -244,3 +244,94 @@ homepage_additional_touts:
   regions:
     content:
       label: Content
+
+article_article_header:
+  label: 'Article - Article Header'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+article_article_body:
+  label: 'Article - Article Body'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+article_content_recommendations:
+  label: 'Article - Content Recommendations'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+product_product_detail_hero:
+  label: 'Product - Product Detail Hero'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+product_storytelling_community:
+  label: 'Product - Storytelling & Community'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+product_ratings_reviews:
+  label: 'Product - Ratings & Reviews'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+product_product_recommendations:
+  label: 'Product - Product Recommendations'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content

@@ -13,13 +13,20 @@
 {% set image_src = file_url(image_src) %}
 
 {% include "@molecules/card/product-card/product-card.twig" with {
-  card__image__src: image_src,
   paragraph_size: 'large',
-  paragraph_content: content.field_product_name['#object'].title.value,
   paragraph_base_class: 'paragraph',
   paragraph_modifiers: ['large'],
   default_link_content: 'SEE DETAILS',
   default_link_base_class: 'default-link',
   link_content: 'BUY NOW',
-  link_base_class: 'text_link'
+  link_base_class: 'text_link',
+  item: {
+    card_url: url,
+    card__image__src: image_src,
+    paragraph_content: content.field_product_name['#object'].title.value,
+    default_link_attributes: {
+      href: url
+    },
+    link_url: ''
+  }
 } %}

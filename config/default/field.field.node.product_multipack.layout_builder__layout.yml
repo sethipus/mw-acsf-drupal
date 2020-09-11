@@ -1,0 +1,21 @@
+uuid: 6773dde7-f3a3-406d-a914-d6810b1c1730
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.layout_builder__layout
+    - node.type.product_multipack
+  module:
+    - layout_builder
+id: node.product_multipack.layout_builder__layout
+field_name: layout_builder__layout
+entity_type: node
+bundle: product_multipack
+label: Layout
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: layout_section
