@@ -1,3 +1,4 @@
+theme_styles: 'twix'
 heading: 'The art of process'
 heading_level: 2
 brand_borders: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 375 51">
@@ -39,4 +40,3 @@ story_highlight_border_radius: 0px;
 story_highlight_button_link_attributes:
   href: 'https://storybook.js.org/'
   target: '_blank'
-

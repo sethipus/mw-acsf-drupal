@@ -2,14 +2,14 @@
 {% set story_highlight_base_class = story_highlight_base_class|default('story-highlight') %}
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 
-<section id="story-highlight" {{ bem(story_highlight_base_class) }} data-theme="twix">
+<section id="story-highlight" {{ bem(story_highlight_base_class) }} data-theme="{{ theme_styles }}">
   <div class="curve">
     {{ brand_borders | raw }}
   </div>
 
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: heading,
-    heading_level: heading_level,
+    heading_level: heading_level|default(2),
   } %}
 
     <div class="graphic_divider">
@@ -18,7 +18,7 @@
 
     {% include "@atoms/text/text/01-paragraph.twig" with {
       paragraph_content: story_highlight_paragraph_content,
-      paragraph_base_class: story_highlight_paragraph_base_class
+      paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph')
     } %}
     <div class="media_items">
     {% for item in items %}
@@ -75,13 +75,15 @@
     } %}
     </div>
 
-    <div class="cta_wrapper">
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: story_highlight_button_text,
-        default_link_border_radius: story_highlight_border_radius,
-        default_link_attributes: story_highlight_button_link_attributes,
-        default_link_modifiers: story_highlight_button_modifiers
-      } %}
-    </div>
+    {% if story_highlight_button_link_attributes.href %}
+      <div class="cta_wrapper">
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: story_highlight_button_text,
+          default_link_border_radius: story_highlight_border_radius,
+          default_link_attributes: story_highlight_button_link_attributes,
+          default_link_modifiers: story_highlight_button_modifiers
+        } %}
+      </div>
+    {% endif %}
 
 </section>
