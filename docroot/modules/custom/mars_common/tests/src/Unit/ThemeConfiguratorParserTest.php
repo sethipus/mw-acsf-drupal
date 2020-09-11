@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
+namespace Drupal\Tests\mars_common\Unit;
 
 use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -26,7 +26,7 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
   private $containerMock;
 
   /**
-   * Tested IFrameBlock block.
+   * Tested ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
    */
