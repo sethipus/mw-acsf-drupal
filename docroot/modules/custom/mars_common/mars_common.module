@@ -10,6 +10,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 use Drupal\node\Entity\Node;
 use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
@@ -17,6 +18,48 @@ use Drupal\mars_common\Form\Alter\NewsletterSignUpLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\WhereToBuyLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\RecipeLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
+
+/**
+ * Implements hook_preprocess().
+ */
+function mars_common_preprocess(&$variables, $hook) {
+  if ($hook === 'views_view__grid_card') {
+    $divider_id = Drupal::config('emulsifymars.settings')
+      ->get('graphic_divider');
+    if (isset($divider_id[0])) {
+      $file_entity = File::load($divider_id[0]);
+      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+      $file_divider_content = file_get_contents($file_url->getUri());
+    }
+
+    $border_id = Drupal::config('emulsifymars.settings')
+      ->get('brand_borders');
+
+    if (isset($border_id[0])) {
+      $file_entity = File::load($border_id[0]);
+      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+      $file_border_content = file_get_contents($file_url->getUri());
+    }
+
+    $border_radius = Drupal::config('emulsifymars.settings')
+      ->get('button_style');
+
+    $variables['theme_styles'] = 'drupal';
+    $variables['graphic_divider'] = $file_divider_content ?? '';
+    $variables['brand_border'] = $file_border_content ?? '';
+    $variables['ajax_card_grid_heading'] = $variables['view']->args[0] ?? '';
+    $variables['ajax_card_grid_link_text'] = 'See All';
+    $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
+  }
+
+  if ($hook === 'views_infinite_scroll_pager__grid_card') {
+    $border_radius = Drupal::config('emulsifymars.settings')
+      ->get('button_style');
+    $variables['default_link_border_radius'] = $border_radius ?? 0;
+  }
+}
 
 /**
  * Implements hook_theme().
@@ -68,6 +111,34 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'graphic_divider' => '',
         'brand_border' => '',
       ],
+    ],
+    'flexible_driver_block' => [
+      'variables' => [
+        'title' => NULL,
+        'description' => NULL,
+        'cta_label' => NULL,
+        'cta_link' => NULL,
+        'asset_1' => NULL,
+        'asset_2' => NULL,
+      ],
+    ],
+    'story_highlight_block' => [
+      'variables' => [
+        'brand_border' => NULL,
+        'title' => NULL,
+        'graphic_divider' => NULL,
+        'story_description' => NULL,
+        'story_items' => [],
+        'svg_asset_src_1' => NULL,
+        'svg_asset_src_2' => NULL,
+        'svg_asset_src_3' => NULL,
+        'svg_asset_alt_1' => NULL,
+        'svg_asset_alt_2' => NULL,
+        'svg_asset_alt_3' => NULL,
+        'view_more_cta_url' => NULL,
+        'view_more_cta_label' => NULL,
+      ],
+      'template' => 'story-highlight-block',
     ],
     'parent_page_header_block' => [
       'variables' => [
@@ -152,6 +223,21 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'accessibility_title' => NULL,
       ],
       'template' => 'iframe-block',
+    ],
+    'freeform_story_block' => [
+      'variables' => [
+        'block_aligned' => NULL,
+        'header_1' => NULL,
+        'header_2' => NULL,
+        'body' => NULL,
+        'background_shape' => NULL,
+        'image' => NULL,
+        'image_alt' => NULL,
+        'brand_shape' => NULL,
+        'custom_background_color' => NULL,
+        'use_custom_color' => NULL,
+      ],
+      'template' => 'freeform-story-block',
     ],
   ];
 }
@@ -466,7 +552,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['settings']['label_display']['#access'] = FALSE;
   }
 
-  // Alter layout form related to Contact & Help content type
+  // Alter layout form related to content type
   // in order to add custom validation.
   $form_object = $form_state->getFormObject();
   if (
@@ -489,10 +575,17 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     ) {
       $form['#validate'][] = [RecipeLayoutFormAlter::class, 'validate'];
     }
-    if (
-      $original_id == 'node.homepage.default'
-    ) {
+    if ($original_id == 'node.homepage.default') {
       $form['#validate'][] = [HomepageLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.article.default') {
+      $form['#validate'][] = [ArticleLayoutFormAlter::class, 'validate'];
+    }
+    if (
+      $original_id == 'node.product.default' ||
+      $original_id == 'node.product_multipack.default'
+    ) {
+      $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
     }
   }
 }

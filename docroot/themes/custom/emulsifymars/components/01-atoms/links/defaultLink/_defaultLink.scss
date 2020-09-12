@@ -19,7 +19,7 @@
     position: absolute;
     display: block;
     bottom: -100px;
-    left: -170px;
+    left: -120px;
     width: 1000px;
     transform: rotate(18deg);
     height: 0;
@@ -31,7 +31,7 @@
     }
 
     @include medium {
-      width: 350px;
+      width: 750px;
     }
   }
 
