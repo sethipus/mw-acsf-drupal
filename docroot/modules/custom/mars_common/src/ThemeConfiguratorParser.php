@@ -95,7 +95,7 @@ class ThemeConfiguratorParser {
    */
   public function getFileWithId(string $field, string $id): string {
     $svgContent = $this->getFileContentFromTheme($field);
-    $svgContent = preg_replace('/\S*(fill=[\'"]url\(#\S*\)[\'"])\S*/', 'fill="url(#' . $id . ')"', $svgContent);
+    $svgContent = preg_replace('/\S*(fill=[\'"]url\(#\S*\)[\'"])/', 'fill="url(#' . $id . ')"', $svgContent);
     $svgContent = preg_replace('/\S*(id=[\'"]\S*[\'"])\S*/', 'id="' . $id . '"', $svgContent);
     return $svgContent;
   }

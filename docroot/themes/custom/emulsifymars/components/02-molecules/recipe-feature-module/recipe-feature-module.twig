@@ -23,31 +23,31 @@
         } %}
       {% endblock %}
     {% endif %}
-      <div class="media-info">
-        <div class="border">{{ brand_borders | raw }}</div>
-        <div class="eyebrow"> {{ eyebrow}} </div>
-        <h1 class="title">{{ title }}</h1>
-        <div class="cooking-time">
-          <div class="cooking-time__icon">
-            {% include "@atoms/images/image/_image.twig" with {
-              image_base_class: 'recipe-details-item__icon',
-              image_modifiers: ['clock'],
-              image_src: icon_clock,
-            } %}
-          </div>
-          <div class="cooking-time__info">
-            <div class="cooking-time__label">{{ 'Time'|t }}</div>
-            <div class="cooking-time__value">{{ cooking_time }}</div>
-          </div>
-        </div>
-        <div class="cta-btn">
-          {% set attr = {'href': cta.url} %}
-          {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-            default_link_content: cta.title,
-            default_link_border_radius: 30,
-            default_link_attributes: attr
+    <div class="media-info">
+      <div class="border">{{ brand_borders | raw }}</div>
+      <div class="eyebrow"> {{ eyebrow}} </div>
+      <h2 class="title">{{ title }}</h1>
+      <div class="cooking-time">
+        <div class="cooking-time__icon">
+          {% include "@atoms/images/image/_image.twig" with {
+            image_base_class: 'recipe-details-item__icon',
+            image_modifiers: ['clock'],
+            image_src: icon_clock,
           } %}
         </div>
+        <div class="cooking-time__info">
+          <div class="cooking-time__label">{{ 'Time'|t }}</div>
+          <div class="cooking-time__value">{{ cooking_time }}</div>
+        </div>
       </div>
+      <div class="cta-btn">
+        {% set attr = {'href': cta.url} %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: cta.title,
+          default_link_border_radius: 30,
+          default_link_attributes: attr
+        } %}
+      </div>
+    </div>
   </div>
 </section>

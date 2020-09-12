@@ -1,4 +1,4 @@
-.iframe-container {
+.iframe-container, .newsletter-iframe {
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -19,5 +19,12 @@
   &__inner {
     border: none;
     width: 100%;
+  }
+}
+
+.newsletter-iframe {
+  &__inner {
+    height: 650px;
+    overflow: hidden;
   }
 }

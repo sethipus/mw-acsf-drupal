@@ -1,5 +1,0 @@
-name: 'MARS: Recipe Feature'
-description: 'Recipe feature block.'
-type: module
-package: 'Mars'
-core_version_requirement: '^8.8 || ^9'

@@ -1,8 +1,8 @@
 theme_styles: 'twix'
 recipe_media:
-  - srcset: 'recipe-feature.png, recipe-feature@2x.png 2x, recipe-feature@3x.png 3x'
-    src: 'recipe-feature@3x.png'
-    video_url: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
+  srcset: 'recipe-feature.png, recipe-feature@2x.png 2x, recipe-feature@3x.png 3x'
+  src: 'recipe-feature@3x.png'
+  # video_url: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
 brand_borders: '<svg xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <pattern viewBox="0 0 768 291" id="divider-pattern" x="0" y="0" width="768" height="291" patternUnits="userSpaceOnUse">
@@ -15,6 +15,6 @@ eyebrow: 'Recipe'
 title: 'Twix caramel churros'
 cooking_time: '60 mins'
 cta:
-  - title: 'Get started'
-    url: '#'
+  title: 'Get started'
+  url: '#'
 icon_clock: 'icons/clock.svg'

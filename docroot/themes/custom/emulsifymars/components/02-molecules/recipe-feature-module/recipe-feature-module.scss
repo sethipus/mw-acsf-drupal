@@ -43,7 +43,7 @@
             fill: clr(subcolor-3);
           }
           & rect {
-            width: 100%;
+            width: inherit;
             height: 15px;
           }
         }
