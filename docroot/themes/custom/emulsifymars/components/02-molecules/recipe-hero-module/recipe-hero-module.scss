@@ -49,6 +49,28 @@ $xl-gap-width: 30px;
   }
 }
 
+.brand-border {
+  position: absolute;
+  z-index: 2;
+  height: 1px;
+  width: 100%;
+
+  svg {
+    width: 100%;
+    position: absolute;
+    top: -2rem;
+
+    path {
+      fill: clr(subcolor-3);
+    }
+
+    rect {
+      width: inherit;
+      height: 2rem;
+    }
+  }
+}
+
 .recipe-media {
   max-width: calc(100vw - 40px);
   margin: auto;
