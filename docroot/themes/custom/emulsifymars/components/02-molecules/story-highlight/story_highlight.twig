@@ -1,0 +1,88 @@
+{{ attach_library('emulsifymars/story_higlight') }}
+{% set story_highlight_base_class = story_highlight_base_class|default('story-highlight') %}
+{% set divider = '<div class=divider>'~divider~'</div>' %}
+
+<section id="story-highlight" {{ bem(story_highlight_base_class) }} data-theme="{{ theme_styles }}">
+  <div class="curve">
+    {{ brand_borders | raw }}
+  </div>
+
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: heading,
+    heading_level: heading_level|default(2),
+  } %}
+
+    <div class="graphic_divider">
+      {{graphic_divider | raw}}
+    </div>
+
+    {% include "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_content: story_highlight_paragraph_content,
+      paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph')
+    } %}
+    <div class="media_items">
+    {% for item in items %}
+      <div class="media_item_{{loop.index}}">
+        {% if item.image %}
+
+          {% include "@atoms/images/image/_image.twig" with {
+            image_base_class: item.base_class,
+            image_modifiers: image_modifiers,
+            image_blockname: image_blockname,
+            image_src: item.src,
+            image_alt: item.alt,
+            image_title: item.title,
+          } %}
+
+        {% elseif item.video %}
+          {% include "@atoms/video/fullscreen-video/video.twig" with {
+            video__src__url: item.src
+          } %}
+          <button {{ bem('control', [], 'video') }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
+        {% endif %}
+
+        {% include "@atoms/text/text/01-paragraph.twig" with {
+          paragraph_size: paragraph_size,
+          paragraph_content: item.content,
+          paragraph_base_class: paragraph_base_class,
+          paragraph_modifiers: paragraph_modifiers
+        } %}
+      </div>
+    {% endfor %}
+    </div>
+
+    <div class="story-highlight__brand-shape_1">
+      {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: asset_1_alt,
+      image_src: asset_1,
+    } %}
+    </div>
+
+    <div class="story-highlight__brand-shape_2">
+      {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: asset_2_alt,
+      image_src: asset_2,
+    } %}
+    </div>
+
+    <div class="story-highlight__brand-shape_3">
+      {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: asset_3_alt,
+      image_src: asset_3,
+    } %}
+    </div>
+
+    {% if story_highlight_button_link_attributes.href %}
+      <div class="cta_wrapper">
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: story_highlight_button_text,
+          default_link_attributes: story_highlight_button_link_attributes,
+          default_link_modifiers: story_highlight_button_modifiers
+        } %}
+      </div>
+    {% endif %}
+
+</section>
