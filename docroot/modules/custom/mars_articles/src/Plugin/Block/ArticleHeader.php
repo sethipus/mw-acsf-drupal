@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class ArticleHeader.
@@ -57,6 +58,13 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $themeConfiguratorParser;
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -65,13 +73,15 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     DateFormatterInterface $date_formatter,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    ConfigFactoryInterface $config_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->dateFormatter = $date_formatter;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -84,7 +94,8 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('date.formatter'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('config.factory')
     );
   }
 
@@ -118,7 +129,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
     // Get brand border path.
     $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'article-hero-border');
-    $build['#social_links'] = $this->themeConfiguratorParser->socialLinks();
+    $build['#social_links'] = $this->socialLinks();
 
     return $build;
   }
@@ -154,6 +165,38 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->setConfiguration($form_state->cleanValues()->getValues());
+  }
+
+  /**
+   * Prepare social links data.
+   *
+   * @return array
+   *   Rendered menu.
+   */
+  protected function socialLinks() {
+    global $base_url;
+    $social_menu_items = [];
+    $social_medias = $this->configFactory->get('social_media.settings')
+      ->get('social_media');
+
+    foreach ($social_medias as $name => $social_media) {
+      if ($social_media['enable'] != 1 || empty($social_media['api_url'])) {
+        continue;
+      }
+      $social_menu_items[$name]['title'] = $social_media['text'];
+      $social_menu_items[$name]['url'] = $social_media['api_url'];
+      $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
+
+      if (isset($social_media['default_img']) && $social_media['default_img']) {
+        $icon_path = $base_url . '/' . drupal_get_path('module', 'social_media') . '/icons/';
+        $social_menu_items[$name]['icon'] = $icon_path . $name . '.svg';
+      }
+      elseif (!empty($social_media['img'])) {
+        $social_menu_items[$name]['icon'] = $base_url . '/' . $social_media['img'];
+      }
+    }
+
+    return $social_menu_items;
   }
 
 }
