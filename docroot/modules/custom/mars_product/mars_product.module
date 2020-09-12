@@ -38,7 +38,7 @@ function mars_product_theme($existing, $type, $theme, $path) {
     'pdp_product_multipack_block' => [
       'variables' => [
         'multipack_label' => NULL,
-        'multipack_items' => [],
+        'multipack_view' => NULL,
       ],
       'template' => 'pdp-product-multipack-block',
     ],
