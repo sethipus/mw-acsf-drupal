@@ -135,7 +135,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $title = !empty($config['recipe_title']) ? $this->configuration['recipe_title'] : $node->label();
     // Get brand border path.
     $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-feature-border');
-    $config['cta']['url'] = $node->toUrl('canonical', ['absolute' => FALSE])->toUriString();
+    $config['cta']['url'] = $node->toUrl('canonical', ['absolute' => FALSE])->toString();
 
     $build += [
       '#eyebrow' => $config['eyebrow'],
@@ -257,13 +257,6 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#type' => 'details',
       '#title' => $this->t('CTA'),
       '#open' => TRUE,
-    ];
-    $form['cta']['url'] = [
-      '#type' => 'url',
-      '#title' => $this->t('CTA Link URL'),
-      '#maxlength' => 2048,
-      '#required' => TRUE,
-      '#default_value' => $config['cta']['url'] ?? '',
     ];
     $form['cta']['title'] = [
       '#type' => 'textfield',
