@@ -32,5 +32,16 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'block--mars-recipes--recipe-detail-body',
     ],
+    'recipe_feature_block' => [
+      'variables' => [
+        'brand_borders' => NULL,
+        'eyebrow' => NULL,
+        'title' => NULL,
+        'recipe_media' => [],
+        'cooking_time' => NULL,
+        'cta' => [],
+      ],
+      'template' => 'block--mars-recipes--recipe-feature-block',
+    ],
   ];
 }

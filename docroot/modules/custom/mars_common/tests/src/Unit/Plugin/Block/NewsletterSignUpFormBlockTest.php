@@ -52,8 +52,7 @@ class NewsletterSignUpFormBlockTest extends UnitTestCase {
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
     $this->configuration = [
-      'form_type' => 'formstack',
-      'form_id' => 'form_id',
+      'form_url' => 'http',
     ];
     $definitions = [
       'provider'    => 'test',
@@ -92,7 +91,7 @@ class NewsletterSignUpFormBlockTest extends UnitTestCase {
     $build = $this->newsletterSignUpFormBlock->build();
 
     $this->assertCount(2, $build);
-    $this->assertArrayHasKey('#form_id', $build);
+    $this->assertArrayHasKey('#form_url', $build);
     $this->assertEquals('newsletter_signup_form_block', $build['#theme']);
   }
 
