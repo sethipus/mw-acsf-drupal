@@ -1,0 +1,18 @@
+<div class="search-results-container">
+  {% if search_results %}
+    {% include "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_content: 'Results:',
+      paragraph_base_class: 'results-text'
+    } %}
+    <div class="results">
+      {% for item in search_results %}
+        <div class="results__item">
+          {% include "@atoms/search-results-item/search-results-item.twig" with {
+            item_title: item.title,
+            item_count: item.count,
+          } %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
