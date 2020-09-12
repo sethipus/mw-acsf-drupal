@@ -7,7 +7,6 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Drupal\Core\Render\RendererInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -58,13 +57,6 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
   protected $themeConfiguratorParser;
 
   /**
-   * The renderer service.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
-
-  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -72,15 +64,13 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    ThemeConfiguratorParser $themeConfiguratorParser,
-    RendererInterface $renderer
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->fileStorage = $entity_type_manager->getStorage('file');
-    $this->renderer = $renderer;
   }
 
   /**
@@ -88,12 +78,11 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
-    $configuration,
-    $plugin_id,
-    $plugin_definition,
-    $container->get('entity_type.manager'),
-    $container->get('mars_common.theme_configurator_parser'),
-    $container->get('renderer')
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -246,9 +235,6 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
         'target_bundles' => [
           'lighthouse_video',
           'lighthouse_image',
-          'image',
-          'video',
-          'video_file',
         ],
       ],
     ];
