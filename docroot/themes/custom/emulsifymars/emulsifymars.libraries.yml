@@ -24,7 +24,7 @@ content-feature:
 social-feed:
   js:
     dist/js/social_feed.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
@@ -45,14 +45,14 @@ social-feed-slide:
 pdp-hero:
   js:
     dist/js/pdp_hero.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
 pdp-multipack:
   js:
     dist/js/pdp_multipack.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
@@ -77,7 +77,7 @@ parent-page-header:
 media-carousel:
   js:
     dist/js/media_carousel.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
