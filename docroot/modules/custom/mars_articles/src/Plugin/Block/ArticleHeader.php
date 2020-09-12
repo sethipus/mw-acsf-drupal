@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class ArticleHeader.
@@ -57,6 +58,13 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $themeConfiguratorParser;
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -65,13 +73,15 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     DateFormatterInterface $date_formatter,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    ConfigFactoryInterface $config_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->dateFormatter = $date_formatter;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -84,7 +94,8 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('date.formatter'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('config.factory')
     );
   }
 
