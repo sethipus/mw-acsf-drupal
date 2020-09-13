@@ -1,7 +1,7 @@
 .search-autocomplete-wrapper {
   position: absolute;
   width: 80%;
-  top: 100px;
+  top: 50px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -28,7 +28,7 @@
   }
 
   @include large {
-    width: 60%;
+    width: 65%;
   }
 
   & .search-field-wrapper {
