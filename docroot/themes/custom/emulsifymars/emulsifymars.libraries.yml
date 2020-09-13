@@ -57,6 +57,8 @@ pdp-multipack:
     - core/drupal
 
 product-content-pair-up:
+  js:
+    dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
   dependencies:
     - core/drupal
 

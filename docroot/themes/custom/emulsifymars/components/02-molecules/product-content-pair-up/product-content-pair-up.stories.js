@@ -4,6 +4,8 @@ import productContentPairUp from './product-content-pair-up.twig';
 import productContentPairUpData from './product-content-pair-up.yml';
 import { useEffect } from '@storybook/client-api';
 
+import './product-content-pair-up';
+
 /**
  * Storybook Definition.
  */

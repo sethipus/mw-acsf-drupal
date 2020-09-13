@@ -27,7 +27,7 @@
     .lead-card {
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center center;
+      background-position: center 0;
       padding-top: 50px;
 
       .wrapper {
@@ -75,6 +75,7 @@
           }
 
           &::after {
+            bottom: -110px;
             background-color: clr(secondary);
           }
         }
@@ -86,7 +87,7 @@
       left: 0;
       right: 0;
       overflow-x: hidden;
-      top: 630px;
+      top: 840px;
       width: 100%;
       height: auto;
       margin: auto;
@@ -102,7 +103,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: 306px;
+      top: 420px;
       max-width: 31.5rem;
       margin: auto;
 
@@ -110,6 +111,18 @@
         max-width: 31.5rem;
       }
     }
+  }
+
+  &.size--375 {
+    max-width: 375px;
+  }
+
+  &.size--768 {
+    max-width: 768px;
+  }
+
+  &.size--1440 {
+    max-width: 1440px;
   }
 
   @include medium {
@@ -148,7 +161,7 @@
           justify-content: center;
           left: 0;
           right: 0;
-          top: 365px;
+          top: 640px;
           margin: auto;
           height: 768px;
           width: 768px;
@@ -214,7 +227,7 @@
         .svg-asset {
           left: auto;
           right: 0;
-          top: 80px;
+          top: 360px;
           width: 860px;
           height: 860px;
         }
