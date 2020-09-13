@@ -4,11 +4,30 @@
     width: 100%;
     text-align: center;
     font-family: variable(primary-font);
-    font-size: 4.8rem;
+    font-size: 2.8rem;
     font-weight: bold;
-    letter-spacing: 0.24rem;
+    line-height: 1;
+    letter-spacing: 0.14rem;
+    margin-bottom: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 33.5rem;
     color: clr(primary);
     text-transform: uppercase;
+
+    @include medium {
+      letter-spacing: 0.2rem;
+      font-size: 4rem;
+      max-width: 532px;
+    }
+
+    @include xl {
+      max-width: none;
+      font-size: 4.8rem;
+      margin-bottom: 6rem;
+      line-height: 1.6;
+      letter-spacing: 0.24rem;
+    }
   }
 
   &__graphic-divider {
@@ -23,27 +42,58 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
+      padding-top: 50px;
+
 
       .wrapper {
+        height: 538px;
+        max-width: 335px;
+        margin: 0 auto;
         text-align: center;
 
         .eyebrow {
-          font-size: 1.6rem;
-          letter-spacing: 0.16rem;
           color: clr(subcolor-3);
+          font-size: 1.4rem;
+          letter-spacing: 0.14rem;
+          margin-bottom: 2rem;
+
+          @include medium {
+            font-size: 1.6rem;
+            letter-spacing: 0.16rem;
+            margin-bottom: 4rem;
+          }
         }
 
-        .heading, .heading a {
+        .heading {
+          color: clr(subcolor-3);
           font-family: variable(primary-font);
-          font-size: 4.8rem;
+          font-size: 2.8rem;
           font-weight: 500;
           line-height: 1;
-          letter-spacing: 0.24rem;
-          color: clr(subcolor-3);
+          letter-spacing: 0.14rem;
+          margin-top: 0;
+          margin-bottom: 3rem;
           text-decoration: none;
 
           // Remove later.
           text-transform: uppercase;
+
+          a {
+            color: clr(subcolor-3);
+            text-decoration: none;
+          }
+
+          @include medium {
+            font-size: 4rem;
+            letter-spacing: 0.2rem;
+          }
+
+          @include xl {
+            font-size: 4.8rem;
+            letter-spacing: 0.24rem;
+            margin-top: auto;
+            margin-bottom: 6rem;
+          }
         }
 
         .default-link {
@@ -51,6 +101,11 @@
           font-family: variable(primary-font);
           font-weight: 500;
           color: clr(secondary);
+          line-height: 5rem;
+
+          @include xl {
+            line-height: 6rem;
+          }
 
           &:hover {
             color: clr(subcolor-3);
@@ -60,41 +115,112 @@
             background-color: clr(secondary);
           }
         }
+
+        @include medium {
+          margin: 0 auto;
+          max-width: 572px;
+        }
+
+        @include xl {
+          margin: 0;
+          max-width: 640px;
+        }
+      }
+
+      @include medium {
+        height: 538px;
+        padding-top: 60px;
       }
 
       @include xl {
         width: 1127px;
         height: 665px;
         padding: 179px 0 0 85px;
-
-        .wrapper {
-          width: 640px;
-        }
       }
     }
 
     .svg-asset {
-      @include xl {
-        position: absolute;
+      position: absolute;
+      left: 0;
+      right: 0;
+      overflow-x: hidden;
+      top: 630px;
+      width: 100%;
+      height: auto;
+      margin: auto;
+
+      figure {
+        float: right;
+        margin-right: -20%;
+        width: 110%;
+
+        @include medium {
+          float: none;
+          margin-right: auto;
+          width: auto;
+        }
+      }
+
+      @include medium {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        left: 0;
         right: 0;
-        bottom: -50px;
+        top: 365px;
+        margin: auto;
+        height: 768px;
+        width: 768px;
+      }
+
+      @include xl {
+        left: auto;
+        right: 0;
+        top: 80px;
+        width: 860px;
+        height: 860px;
       }
     }
 
     .supportive-card {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 306px;
+      max-width: 31.5rem;
+      margin: auto;
+
+      .wrapper > section {
+        max-width: 31.5rem;
+
+        @include medium {
+          max-width: 33.4rem;
+        }
+        @include xl {
+          max-width: 43.2rem;
+        }
+      }
+
+      @include medium {
+        top: 361px;
+        max-width: 33.4rem;
+      }
+
       @include xl {
-        position: absolute;
         top: 185px;
+        left: auto;
+        max-width: none;
         right: 158px;
 
         .wrapper > section {
           max-width: 43.2rem;
         }
+
       }
     }
 
     @include xl {
-      padding-bottom: 155px;
+      padding-bottom: 275px;
     }
   }
 
