@@ -1,6 +1,6 @@
 .product-content-pair-up {
 
-  &__heading {
+  .product-content-pair-up__heading {
     width: 100%;
     text-align: center;
     font-family: variable(primary-font);
@@ -14,28 +14,14 @@
     max-width: 33.5rem;
     color: clr(primary);
     text-transform: uppercase;
-
-    @include medium {
-      letter-spacing: 0.2rem;
-      font-size: 4rem;
-      max-width: 532px;
-    }
-
-    @include xl {
-      max-width: none;
-      font-size: 4.8rem;
-      margin-bottom: 6rem;
-      line-height: 1.6;
-      letter-spacing: 0.24rem;
-    }
   }
 
-  &__graphic-divider {
+  .product-content-pair-up__graphic-divider {
     text-align: center;
-    margin-bottom: 6rem;
+    margin-bottom: 4rem;
   }
 
-  &__container {
+  .product-content-pair-up__container {
     position: relative;
 
     .lead-card {
@@ -43,7 +29,6 @@
       background-repeat: no-repeat;
       background-position: center center;
       padding-top: 50px;
-
 
       .wrapper {
         height: 538px;
@@ -56,12 +41,6 @@
           font-size: 1.4rem;
           letter-spacing: 0.14rem;
           margin-bottom: 2rem;
-
-          @include medium {
-            font-size: 1.6rem;
-            letter-spacing: 0.16rem;
-            margin-bottom: 4rem;
-          }
         }
 
         .heading {
@@ -82,18 +61,6 @@
             color: clr(subcolor-3);
             text-decoration: none;
           }
-
-          @include medium {
-            font-size: 4rem;
-            letter-spacing: 0.2rem;
-          }
-
-          @include xl {
-            font-size: 4.8rem;
-            letter-spacing: 0.24rem;
-            margin-top: auto;
-            margin-bottom: 6rem;
-          }
         }
 
         .default-link {
@@ -103,10 +70,6 @@
           color: clr(secondary);
           line-height: 5rem;
 
-          @include xl {
-            line-height: 6rem;
-          }
-
           &:hover {
             color: clr(subcolor-3);
           }
@@ -115,27 +78,6 @@
             background-color: clr(secondary);
           }
         }
-
-        @include medium {
-          margin: 0 auto;
-          max-width: 572px;
-        }
-
-        @include xl {
-          margin: 0;
-          max-width: 640px;
-        }
-      }
-
-      @include medium {
-        height: 538px;
-        padding-top: 60px;
-      }
-
-      @include xl {
-        width: 1127px;
-        height: 665px;
-        padding: 179px 0 0 85px;
       }
     }
 
@@ -153,32 +95,6 @@
         float: right;
         margin-right: -20%;
         width: 110%;
-
-        @include medium {
-          float: none;
-          margin-right: auto;
-          width: auto;
-        }
-      }
-
-      @include medium {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        left: 0;
-        right: 0;
-        top: 365px;
-        margin: auto;
-        height: 768px;
-        width: 768px;
-      }
-
-      @include xl {
-        left: auto;
-        right: 0;
-        top: 80px;
-        width: 860px;
-        height: 860px;
       }
     }
 
@@ -192,35 +108,128 @@
 
       .wrapper > section {
         max-width: 31.5rem;
-
-        @include medium {
-          max-width: 33.4rem;
-        }
-        @include xl {
-          max-width: 43.2rem;
-        }
-      }
-
-      @include medium {
-        top: 361px;
-        max-width: 33.4rem;
-      }
-
-      @include xl {
-        top: 185px;
-        left: auto;
-        max-width: none;
-        right: 158px;
-
-        .wrapper > section {
-          max-width: 43.2rem;
-        }
-
       }
     }
+  }
 
-    @include xl {
-      padding-bottom: 275px;
+  @include medium {
+    &:not(.size--375) {
+      .product-content-pair-up__heading {
+        letter-spacing: 0.2rem;
+        font-size: 4rem;
+        max-width: 532px;
+      }
+
+      .product-content-pair-up__container {
+        .lead-card {
+          height: 538px;
+          padding-top: 60px;
+
+          .wrapper {
+            margin: 0 auto;
+            max-width: 572px;
+
+            .eyebrow {
+              font-size: 1.6rem;
+              letter-spacing: 0.16rem;
+              margin-bottom: 4rem;
+            }
+
+            .heading {
+              font-size: 4rem;
+              letter-spacing: 0.2rem;
+            }
+          }
+        }
+
+        .svg-asset {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          left: 0;
+          right: 0;
+          top: 365px;
+          margin: auto;
+          height: 768px;
+          width: 768px;
+
+          figure {
+            float: none;
+            margin-right: auto;
+            width: auto;
+          }
+        }
+
+        .supportive-card {
+          top: 361px;
+          max-width: 33.4rem;
+
+          .wrapper > section {
+            max-width: 33.4rem;
+          }
+        }
+      }
+    }
+  }
+
+  @include xl {
+    &:not(.size--375):not(.size--768) {
+      .product-content-pair-up__heading {
+        max-width: none;
+        font-size: 4.8rem;
+        margin-bottom: 6rem;
+        line-height: 1.6;
+        letter-spacing: 0.24rem;
+      }
+
+      .product-content-pair-up__graphic-divider {
+        margin-bottom: 6rem;
+      }
+
+      .product-content-pair-up__container {
+        padding-bottom: 275px;
+
+        .lead-card {
+          width: 1127px;
+          height: 665px;
+          padding: 179px 0 0 85px;
+
+          .wrapper {
+            margin: 0;
+            max-width: 640px;
+
+            .heading {
+              font-size: 4.8rem;
+              letter-spacing: 0.24rem;
+              margin-top: auto;
+              margin-bottom: 6rem;
+            }
+
+            .default-link {
+              line-height: 6rem;
+            }
+          }
+        }
+
+        .svg-asset {
+          left: auto;
+          right: 0;
+          top: 80px;
+          width: 860px;
+          height: 860px;
+        }
+
+        .supportive-card {
+          top: 185px;
+          left: auto;
+          max-width: none;
+          right: 158px;
+
+          .wrapper > section {
+            max-width: 43.2rem;
+          }
+        }
+      }
     }
   }
 

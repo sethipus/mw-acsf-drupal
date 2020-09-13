@@ -42,4 +42,4 @@ supporting_card_content: "<section data-theme=\"dove\" class=\"recipe-card\">
       </a>
    </div>
 </section>"
-max_width: '1440'
+max_width: 1440
