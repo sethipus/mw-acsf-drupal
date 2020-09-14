@@ -556,7 +556,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
   // in order to add custom validation.
   $form_object = $form_state->getFormObject();
   if (
-    $form_id = 'entity_view_display_layout_builder_form' &&
+    $form_id == 'entity_view_display_layout_builder_form' &&
     $form_object instanceof DefaultsEntityForm
   ) {
     $original_id = $form_state->getFormObject()->getEntity()->getOriginalId();
@@ -587,6 +587,18 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     ) {
       $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
     }
+  }
+
+  $view = $form_state->get('view');
+  // Add validation for faq view title field.
+  if (
+    isset($view) &&
+    $form_id == 'views_ui_edit_display_form' &&
+    $view->get('id') == 'faq_view' &&
+    $form_state->get('type') == 'title'
+  ) {
+    $form['options']['title']['#maxlength'] = 10;
+    $form['options']['title']['#required'] = TRUE;
   }
 }
 
