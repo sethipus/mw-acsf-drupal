@@ -83,7 +83,7 @@ display:
               article: article_card
               product: product_card
               product_multipack: product_card
-              recipe: product_card
+              recipe: recipe_card
       fields:
         search_api_language:
           table: search_api_index_acquia_search_index

@@ -9,7 +9,9 @@
 
   {% include "@molecules/search/search-input/search-input.twig" %}
 
-  {% include "@molecules/search/search-results/search-results.twig" %}
+  {% include "@molecules/search/search-results/search-results.twig" with {
+    search_results: search_results
+  }%}
 
   {% block search_page_header_divider %}
     <div class="{{ brand_shape_class }}">
