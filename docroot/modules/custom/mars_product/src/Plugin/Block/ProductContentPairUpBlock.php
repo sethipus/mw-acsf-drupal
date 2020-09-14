@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @Block(
  *   id = "product_content_pair_up_block",
  *   admin_label = @Translation("MARS: Product Content Pair Up"),
- *   category = @Translation("Product"),
+ *   category = @Translation("Mars Product"),
  * )
  */
 class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPluginInterface {
@@ -37,6 +37,13 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $nodeStorage;
+
+  /**
+   * File storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
 
   /**
    * Media storage.
@@ -88,6 +95,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
     $this->configFactory = $config_factory;
     $this->nodeStorage = $entity_type_manager->getStorage('node');
+    $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->themeConfiguratorParser = $theme_configurator_parser;

@@ -23,42 +23,19 @@ Drupal.behaviors.productContentPairUp = {
 
       switch (true) {
         case rect.width >= 1440:
-          parallaxTops = {
-            svgAsset: {
-              minTop: 80,
-              initTop: 360
-            },
-            supportiveCard: {
-              minTop: 75,
-              initTop: 185
-            }
-          };
+          parallaxTops.svgAsset = {minTop: 80, initTop: 360};
+          parallaxTops.supportiveCard = {minTop: 75, initTop: 185};
           break;
 
         case rect.width >= 768:
-          parallaxTops = {
-            svgAsset: {
-              minTop: 365,
-              initTop: 640
-            },
-            supportiveCard: {
-              minTop: 361,
-              initTop: 480
-            }
-          };
+          parallaxTops.svgAsset = {minTop: 365, initTop: 640};
+          parallaxTops.supportiveCard = {minTop: 361, initTop: 480};
           break;
 
         default:
-          parallaxTops = {
-            svgAsset: {
-              minTop: 630,
-              initTop: 840
-            },
-            supportiveCard: {
-              minTop: 306,
-              initTop: 420
-            }
-          };
+          parallaxTops.svgAsset = {minTop: 630, initTop: 840};
+          parallaxTops.supportiveCard = {minTop: 306, initTop: 420};
+
       }
 
       element.querySelector('.lead-card').style.backgroundPosition = `center ${- (offset * 0.03)}px`;
@@ -75,6 +52,7 @@ Drupal.behaviors.productContentPairUp = {
       }
     };
 
+    window.addEventListener('load', listener);
     window.addEventListener('scroll', listener);
     window.addEventListener('resize', listener);
   }

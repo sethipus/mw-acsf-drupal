@@ -1,4 +1,5 @@
 .product-content-pair-up {
+  padding-bottom: 500px;
 
   .product-content-pair-up__heading {
     width: 100%;
@@ -126,6 +127,8 @@
   }
 
   @include medium {
+    padding-bottom: 600px;
+
     &:not(.size--375) {
       .product-content-pair-up__heading {
         letter-spacing: 0.2rem;
@@ -186,6 +189,8 @@
   }
 
   @include xl {
+    padding-bottom: 275px;
+
     &:not(.size--375):not(.size--768) {
       .product-content-pair-up__heading {
         max-width: none;
