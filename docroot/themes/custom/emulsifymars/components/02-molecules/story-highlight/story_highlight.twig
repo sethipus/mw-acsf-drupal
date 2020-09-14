@@ -7,14 +7,15 @@
     {{ brand_borders | raw }}
   </div>
 
+  <div class="story-highlight__content">
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: heading,
     heading_level: heading_level|default(2),
   } %}
 
-    <div class="graphic_divider">
-      {{graphic_divider | raw}}
-    </div>
+  <div class="graphic_divider">
+    {{graphic_divider | raw}}
+  </div>
 
     {% include "@atoms/text/text/01-paragraph.twig" with {
       paragraph_content: story_highlight_paragraph_content,
@@ -84,5 +85,5 @@
         } %}
       </div>
     {% endif %}
-
+  </div>
 </section>
