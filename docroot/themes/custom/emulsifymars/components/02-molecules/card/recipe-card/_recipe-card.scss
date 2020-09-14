@@ -1,13 +1,20 @@
 .recipe-card {
   background-color: clr(card-background);
+  border-radius: variable(border-radius);
   display: inline-block;
-  max-width: 31.5rem;
+  max-width: 31.8rem;
   position: relative;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
 
   &__media {
-    max-height: 25rem;
+    max-height: 24rem;
     overflow-y: hidden;
+    border-top-left-radius: variable(border-radius);
+    border-top-right-radius: variable(border-radius);
+
+    img {
+      height: 24rem;
+    }
   }
 
   &-heading__link {
@@ -15,20 +22,21 @@
     font-family: variable(primary-font);
     text-decoration: none;
     font-size: 2.4rem;
-    line-height: 3rem;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
+    line-height: 2.42rem;
+    height: 5rem;
+    margin-bottom: 3rem;
+    margin-top: 3rem;
     display: block;
     padding: 0 3rem 0 3rem;
     font-weight: bold;
-    text-transform: uppercase;
+    letter-spacing: 0.11rem;
   }
 
   &__labels_section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 3rem 2rem 3rem;
+    padding: 0 3rem 4rem 3rem;
 
     .ingredients-block {
       margin-right: 4rem;
