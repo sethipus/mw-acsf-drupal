@@ -8,8 +8,9 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * Class ArticleHeader.
@@ -43,20 +44,6 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $nodeStorage;
 
   /**
-   * File storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorage;
-
-  /**
-   * Config Factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * The date formatter service.
    *
    * @var \Drupal\Core\Datetime\DateFormatterInterface
@@ -64,15 +51,37 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $dateFormatter;
 
   /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory, DateFormatterInterface $date_formatter) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityTypeManagerInterface $entity_type_manager,
+    DateFormatterInterface $date_formatter,
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    ConfigFactoryInterface $config_factory
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->nodeStorage = $entity_type_manager->getStorage('node');
-    $this->configFactory = $config_factory;
     $this->dateFormatter = $date_formatter;
-    $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -84,8 +93,9 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('config.factory'),
-      $container->get('date.formatter')
+      $container->get('date.formatter'),
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('config.factory')
     );
   }
 
@@ -93,10 +103,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
    * {@inheritdoc}
    */
   public function build() {
-    global $base_url;
-
     $node = $this->getContextValue('node');
-    $theme_settings = $this->configFactory->get('emulsifymars.settings')->get();
 
     if (!$node || !$node->bundle() == 'article') {
       $node = $this->nodeStorage->load($this->configuration['article']);
@@ -121,11 +128,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     }
 
     // Get brand border path.
-    if (!empty($theme_settings['brand_borders']) && count($theme_settings['brand_borders']) > 0) {
-      $border_file = $this->fileStorage->load($theme_settings['brand_borders'][0]);
-      $build['#brand_borders'] = !empty($border_file) ? file_get_contents($base_url . $border_file->createFileUrl()) : '';
-    }
-
+    $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'article-hero-border');
     $build['#social_links'] = $this->socialLinks();
 
     return $build;

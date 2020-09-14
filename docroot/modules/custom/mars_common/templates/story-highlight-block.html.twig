@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Template for the Story Highlight component.
+ *
+ * Available variables:
+ * - brand_border: Contents for Brand Border SVG.
+ * - title: Block title.
+ * - graphic_divider: Contents for theme's graphic divider.
+ * - story_description: Block description.
+ * - story_items: Array of three Story Items with keys 'title' and 'media'.
+ * - svg_asset_src_1: SVG asset 1 URL for Story Highlight block background.
+ * - svg_asset_src_2: SVG asset 2 URL for Story Highlight block background.
+ * - svg_asset_src_3: SVG asset 3 URL for Story Highlight block background.
+ * - svg_asset_alt_1: SVG asset 1 Alt text for Story Highlight block background.
+ * - svg_asset_alt_2: SVG asset 2 Alt text for Story Highlight block background.
+ * - svg_asset_alt_3: SVG asset 3 Alt text for Story Highlight block background.
+ * - view_more_cta_url: View More CTA link URL.
+ * - view_more_cta_label: View More CTA link label.
+ */
+#}
+{% include "@molecules/story-highlight/story_highlight.twig" with {
+  theme_styles: 'drupal',
+  heading: title,
+  story_highlight_paragraph_content: story_description,
+  brand_borders: brand_border,
+  graphic_divider: graphic_divider,
+  items: story_items,
+  asset_1: svg_asset_src_1,
+  asset_1_alt: svg_asset_alt_1,
+  asset_2: svg_asset_src_2,
+  asset_2_alt: svg_asset_alt_2,
+  asset_3: svg_asset_src_3,
+  asset_3_alt: svg_asset_alt_3,
+  story_highlight_button_link_attributes: {
+    href: view_more_cta_url,
+    target: "_blank"
+  },
+  story_highlight_button_text: view_more_cta_label
+} %}

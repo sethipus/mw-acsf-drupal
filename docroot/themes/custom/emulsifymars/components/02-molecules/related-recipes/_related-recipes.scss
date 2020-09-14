@@ -52,7 +52,7 @@
     margin-top: 20px;
     svg {
       path {
-        fill: clr(primary);
+        fill: clr(subcolor-3);
       }
     }
   }
@@ -88,6 +88,14 @@
       text-align: center;
       &__heading {
         text-align: center;
+
+        &-link {
+          color: clr(primary);
+
+          &:hover {
+            color: clr(secondary);
+          }
+        }
 
         a {
           text-decoration: none;

@@ -32,6 +32,8 @@
     {% endif %}
     {{ title_suffix }}
     {% block content %}
-        {{ content }}
+        <div class="list-container" data-theme="drupal">
+            {{ content }}
+        </div>
     {% endblock %}
 </div>
