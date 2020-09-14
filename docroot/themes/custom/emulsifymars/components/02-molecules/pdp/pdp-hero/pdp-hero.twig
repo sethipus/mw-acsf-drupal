@@ -99,14 +99,6 @@
               {% endfor %}
             </ul>
           </div>
-          {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
-            where_to_buy_modifiers: ['pdp-hero'],
-            product_sku: product_sku,
-            commerce_vendor: commerce_vendor,
-            data_widget_id: data_widget_id,
-            reference_for_analitics: reference_for_analitics,
-            cta_title: product_CTA_title,
-          } %}
         </div>
         <div {{ bem('side-image-container', [], pdp_hero_base_class) }}>
           {% for item in pdp_side_images %}
@@ -130,14 +122,16 @@
         paragraph_base_class: 'description',
         paragraph_blockname: pdp_hero_base_class,
       } %}
-      {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
-        where_to_buy_modifiers: ['pdp-desktop', 'pdp-hero'],
-        product_sku: product_sku,
-        commerce_vendor: commerce_vendor,
-        data_widget_id: data_widget_id,
-        reference_for_analitics: reference_for_analitics,
-        cta_title: product_CTA_title,
-      } %}
+      <div class="where-to-buy--container">
+        {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
+          where_to_buy_modifiers: ['pdp-hero'],
+          product_sku: product_sku,
+          commerce_vendor: commerce_vendor,
+          data_widget_id: data_widget_id,
+          reference_for_analitics: reference_for_analitics,
+          cta_title: product_CTA_title,
+        } %}
+      </div>
     </div>
     {% for size_item in image_items %}
       <div {{ bem('slider-container', [], pdp_hero_base_class) }} data-slider-size-active={{size_item.active}} data-slider-size-id={{size_item.size_id}}>
