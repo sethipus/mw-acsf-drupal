@@ -179,12 +179,12 @@
     right: 0;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 2rem 2rem 7.5rem;
     z-index: 10;
 
     @include medium {
       flex-direction: column;
-      padding: 4rem;
+      padding: 4rem 4rem 9.5rem;
     }
 
     @include large {
@@ -522,11 +522,22 @@
 }
 
 .where-to-buy {
-  &--pdp-desktop {
-    display: none;
-
+  &--container {
+    position: fixed;
+    left: 2rem;
+    right: 2rem;
+    bottom: 2rem;
+    text-align: center;
+  
+    @include medium {
+      left: 4rem;
+      right: 4rem;
+      bottom: 4rem;
+    }
+  
     @include large {
-      display: inline-block;
+      position: static;
+      text-align: left;
     }
   }
 

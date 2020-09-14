@@ -1,15 +1,34 @@
 .story-highlight {
   font-family: variable(primary-font);
-  background-color: clr(subcolor-2);
-  margin-top: 8.3rem;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
 
-  @include medium {
-    margin-top: 10.3rem;
+  &__content {
+    background-color: clr(subcolor-2);
+    padding-top: 7rem;
+
+    @include xs {
+      margin-top: 4rem;
+    }
+
+    @include medium {
+      margin-top: 7rem;
+    }
+
+    @include large {
+      margin-top: 10rem;
+    }
   }
 
-  @include large {
-    margin-top: 15.3rem;
-  }
+
+  // @include medium {
+  //   margin-top: 10.3rem;
+  // }
+
+  // @include large {
+  //   margin-top: 15.3rem;
+  // }
 
   & .curve {
     position: absolute;
@@ -18,13 +37,15 @@
     z-index: -1;
     top: 3px;
 
-    > svg {
+    >svg {
       width: 100%;
-      > path {
+
+      >path {
         fill: clr(subcolor-2);
         width: 100%;
       }
-      > rect {
+
+      >rect {
         width: 100%;
         height: 100%;
       }
@@ -47,6 +68,7 @@
   & .graphic_divider {
     text-align: center;
     margin-top: 5rem;
+
     svg {
       path {
         fill: clr(subcolor-1);
@@ -83,8 +105,6 @@
   }
 
   & .media_item_1 {
-    margin: 0 4rem;
-    width: 78.1rem;
     flex: 0 auto;
     position: relative;
     z-index: 2;
@@ -93,11 +113,13 @@
     & img {
       width: 100%;
     }
+
+    @include xs {
+      margin: 0 2rem;
+    }
   }
 
   & .media_item_2 {
-    margin: 0 4rem;
-    min-width: 43.3rem;
     min-height: 32.5rem;
     align-self: flex-end;
     flex: 0 auto;
@@ -105,15 +127,18 @@
     z-index: 2;
     border-bottom: 1px solid lightgrey;
 
+    img {
+      width: 100%;
+    }
+
     @include small {
-      margin-top: 5rem;
-      left: calc(25% + 1rem);
-      width: min-content;
+      width: 50%;
+      margin: 5rem 2rem 0 auto;
     }
 
     @include large {
       left: 0;
-      width: 66rem;
+      width: 33%;
     }
   }
 
@@ -134,9 +159,7 @@
     }
 
     @include small {
-      left: 3rem;
-      width: 50.6rem;
-      margin: 12rem 0 0;
+      margin: 12rem 12rem 12rem 2rem;
     }
 
     @include large {
@@ -177,20 +200,20 @@
     top: 45%;
 
     @include small {
-      top: 55%;
-      right: 0;
+      top: 81rem;
+      right: -9rem;
     }
 
     @include medium {
-      top: 80%;
-      right: -5%;
-      z-index: 2;
+      top: 89rem;
+      right: -8rem;
+      z-index: 1;
     }
 
     @include large {
       z-index: 1;
-      top: 50%;
-      right: 0;
+      top: 51rem;
+      right: -8rem;
     }
   }
 
@@ -202,21 +225,21 @@
     height: 44.3rem;
 
     @include small {
-      top: 60%;
-      left: -25%;
-      z-index: 0;
+      top: 80rem;
+      left: -17rem;
+      z-index: 1;
     }
 
     @include medium {
-      top: 90%;
-      left: -25%;
-      z-index: 2;
+      top: 105rem;
+      left: -18rem;
+      z-index: 1;
     }
 
     @include large {
       z-index: 1;
-      top: 126%;
-      left: 0;
+      top: 111rem;
+      left: -8rem;
     }
   }
 
@@ -228,21 +251,16 @@
     height: 35.6rem;
 
     @include small {
-      top: 110%;
-      right: -5%;
       z-index: 0;
-    }
-
-    @include medium {
-      top: 165%;
-      right: -15%;
-      z-index: 2;
+      bottom: -8rem;
+      right: -8rem;
     }
 
     @include large {
-      z-index: 1;
-      top: 145%;
-      right: 0;
+      z-index: 0;
+      bottom: -5rem;
+      right: -5rem;
+      width: 48rem;
     }
   }
 
@@ -255,7 +273,7 @@
     }
 
     @include medium {
-      padding: 6.3rem 0 12.6rem 0;
+      padding: 0 0 12.6rem 0;
     }
 
     @include large {
