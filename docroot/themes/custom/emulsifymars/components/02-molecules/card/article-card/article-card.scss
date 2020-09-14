@@ -32,12 +32,19 @@
     right: -1.5rem;
   }
 
+  .eyebrow {
+    color: clr(primary);
+    font-family: variable(primary-font);
+    text-align: center;
+  }
+
   &--with-bg-img {
     background-color: clr(subcolor-2);
     background-blend-mode: multiply;
     background-size: cover;
     background-position: top  center;
-    
+
+    .eyebrow,
     .article-card-heading__link,
     .article-card-paragraph--xs {
       color: clr(subcolor-3);

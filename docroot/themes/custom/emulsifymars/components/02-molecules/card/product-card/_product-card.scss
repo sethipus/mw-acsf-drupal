@@ -10,6 +10,13 @@
     text-decoration: none;
   }
 
+  .eyebrow {
+    color: clr(primary);
+    padding-top: 4rem;
+    font-family: variable(primary-font);
+    text-align: center;
+  }
+
   img {
     transition: transform 0.8s;
   }

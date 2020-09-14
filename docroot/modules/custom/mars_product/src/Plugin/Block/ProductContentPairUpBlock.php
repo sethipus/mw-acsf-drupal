@@ -184,10 +184,11 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
       $default_eyebrow_text = $supporting_entity->getEntityType() == 'product' ? $this->t('Made With') : $this->t('Seen In');
       $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
-      $build['#supporting_card_eyebrow'] = $conf_eyebrow_text ?: $default_eyebrow_text;
-
       $view_mode = sprintf('%s_card', $supporting_entity->getType());
+
       $build['#supporting_card_entity_view'] = $this->viewBuilder->view($supporting_entity, $view_mode);
+      $build['#supporting_card_entity_view']['#eyebrow'] = $conf_eyebrow_text ?: $default_eyebrow_text;
+      $build['#supporting_card_eyebrow'] = $build['#supporting_card_entity_view']['#eyebrow'];
     }
 
     // Get PNG asset path.

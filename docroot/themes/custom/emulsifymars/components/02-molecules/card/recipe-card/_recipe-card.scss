@@ -5,6 +5,13 @@
   position: relative;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
 
+  .eyebrow {
+    color: clr(primary);
+    font-family: variable(primary-font);
+    margin-bottom: 0;
+    padding: 3rem 3rem 0 3rem;
+  }
+
   &__media {
     max-height: 25rem;
     overflow-y: hidden;
