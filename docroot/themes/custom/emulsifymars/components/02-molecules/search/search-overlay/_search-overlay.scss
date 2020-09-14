@@ -3,12 +3,8 @@
   width: 100%;
   height: 100%;
   background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
-  position: relative;
+  position: absolute;
   top: 0;
-
-  @include large {
-    position: absolute;
-  }
 
   &.opened {
     display: flex !important;
@@ -94,10 +90,14 @@
         align-self: center;
         z-index: 1;
         position: absolute;
-        left: 15px;
 
         path {
           fill: clr(primary);
+        }
+
+        @include medium {
+          left: 15px;
+          top: 15px;
         }
 
         @include large {
@@ -133,4 +133,69 @@
     margin-right: 40px;
   }
 
+}
+
+.search-autocomplete-wrapper-mobile {
+  position: relative;
+  display: none;
+  width: 100%;
+  font-size: 14px;
+  line-height: 100%;
+  color: clr(subcolor-3);
+
+  & .search-field-wrapper {
+    .search-field {
+        & svg {
+          align-self: center;
+          width: 16px;
+          height: 16px;
+
+          path {
+            fill: clr(subcolor-3);
+          }
+        }
+
+        & input {
+          border: none;
+          color: clr(subcolor-3);
+          width: 90%;
+          background: transparent;
+          padding-left: 5px;
+
+          &:focus {
+          outline: none;
+          }
+
+          &::placeholder {
+            color: clr(subcolor-3);
+          }
+        }
+      }
+
+    .mars-search-autocomplete-suggestions-wrapper {
+      margin-top: 20px;
+      display: none;
+
+      &.suggested {
+        display: block;
+      }
+
+      & .autocomplete-border {
+        border-top: 1px solid clr(subcolor-3);
+      }
+
+      & ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        & li {
+          margin: 0;
+          padding: 0;
+          height: 16px;
+          margin-top: 12px;
+        }
+      }
+    }
+    }
 }
