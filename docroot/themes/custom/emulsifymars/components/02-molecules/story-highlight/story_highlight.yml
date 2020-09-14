@@ -15,15 +15,16 @@ graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="125" height="15
 story_highlight_paragraph_content: 'We aspire to make the very best chocolate. But we believe how we make is just as important. From empowering women farmers and teaching practices.'
 story_highlight_paragraph_base_class: story-highlight__paragraph
 items:
+  
+  - video: true
+    src: "https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/"
+    content: 'Dotted with chopped Twix Cookies and Creme, these bright blue mug cakes are a snap to make and fun for sharing.'
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     content: 'Red Velvet Cake Jars. Perfect for Valentine’s Day gifting, these pretty red velvet cake jars taste as good as they look.'
     base_class: first
-  - video: true
-    src: "https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/"
-    content: 'Dotted with chopped Twix Cookies and Creme, these bright blue mug cakes are a snap to make and fun for sharing.'
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-08/Pet%20Health%20Pal%20header.jpg?itok=VQ6eLURv"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
