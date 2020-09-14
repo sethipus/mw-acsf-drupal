@@ -10,7 +10,7 @@ field_name: field_product_new
 entity_type: node
 bundle: product
 label: New
-description: ''
+description: 'Is it a new product?'
 required: false
 translatable: false
 default_value:

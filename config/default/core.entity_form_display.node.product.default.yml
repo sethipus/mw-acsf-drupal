@@ -39,6 +39,7 @@ third_party_settings:
         - field_product_format
         - field_product_occasions
         - field_product_trade_description
+        - field_product_new
       parent_name: group_product
       weight: 1
       format_type: accordion_item
@@ -155,7 +156,7 @@ content:
     type: string_textfield
     region: content
   field_product_new:
-    weight: 26
+    weight: 12
     settings:
       display_label: true
     third_party_settings: {  }

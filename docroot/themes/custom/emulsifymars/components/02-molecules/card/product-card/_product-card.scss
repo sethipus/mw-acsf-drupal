@@ -6,6 +6,10 @@
   transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
   background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
 
+  a {
+    text-decoration: none;
+  }
+
   img {
     transition: transform 0.8s;
   }
@@ -29,11 +33,13 @@
     display: flex;
     align-items: center;
     margin: auto;
-    padding: 40px;
+    padding-top: 30px;
     min-height: 235px;
     min-width: 235px;
     height: 255px;
-    width: 255px;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
   }
 
   &__title {
@@ -78,6 +84,7 @@
     text-decoration: none;
     font-weight: bold;
     color: clr(primary);
+    font-family: variable(secondary-font);
   }
 
 }

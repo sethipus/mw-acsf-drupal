@@ -1,0 +1,31 @@
+{% set article_card_base_class = 'article-card' %}
+
+<div
+  class="{{ article_card_background_img_url=='' ? 'article-card' :'article-card article-card--with-bg-img' }}"
+  style="{{ article_card_background_img_url=='' ? '' : 'background-image: url(' ~ article_card_background_img_url ~ ')' }}"
+  data-theme="dove"
+>
+  {% if article_is_new %}
+    {% include "@atoms/badge/badge.twig" %}
+  {% endif %}
+
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: article_card_heading,
+    heading_level: article_card_heading_level,
+    heading_url: article_card_button_link_attributes.href,
+    heading_base_class: article_card_heading_base_class
+  } %}
+
+  {% include "@atoms/text/text/01-paragraph.twig" with {
+    paragraph_size: article_card_paragraph_size,
+    paragraph_content: article_card_text,
+    paragraph_base_class: article_card_paragraph_base_class,
+    paragraph_modifiers: article_card_paragraph_modifiers
+  } %}
+
+  {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+    default_link_content: article_card_button_text,
+    default_link_attributes: article_card_button_link_attributes,
+    default_link_modifiers: article_card_button_modifiers
+  } %}
+</div>

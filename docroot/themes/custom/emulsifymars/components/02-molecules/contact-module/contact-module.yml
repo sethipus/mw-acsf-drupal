@@ -1,7 +1,6 @@
+theme_styles: "twix"
 contact_module_heading: "Haven't found what you're looking for?"
 contact_module_heading_level: 1
-
-theme_styles: 'twix'
 
 contact_module_paragraph_content: "Plus I'm all in whenever Twix are involved. Except, can we just chat a quick minute? This is a PSA to the makers of the TWIX bar."
 
@@ -11,7 +10,6 @@ contact_module_paragraph_content: "Plus I'm all in whenever Twix are involved. E
 #   target: '_self'
 #   href: 'https://storybook.js.org/'
 
-contact_module_default_link_border_radius: 40
 
 # contact information variant, phone and email
 contact_module_contact_phone: '222-555-1616'

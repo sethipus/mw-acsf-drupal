@@ -4,9 +4,11 @@ namespace Drupal\mars_product\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityFormBuilderInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,12 +21,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   admin_label = @Translation("PDP Hero"),
  *   category = @Translation("Product"),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label =
- *   @Translation("Product"))
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Product"))
  *   }
  * )
  */
 class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
   /**
    * File storage.
    *
@@ -54,11 +56,35 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $entityRepository;
 
   /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
    */
   protected $themeConfiguratorParser;
+
+  /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $entityFormBuilder;
+
+  /**
+   * Price spider id.
+   */
+  const VENDOR_PRICE_SPIDER = 'price_spider';
+
+  /**
+   * Commerce connector id.
+   */
+  const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
 
   /**
    * {@inheritdoc}
@@ -70,13 +96,17 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
     EntityRepositoryInterface $entity_repository,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    EntityFormBuilderInterface $entity_form_builder,
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    LanguageManagerInterface $language_manager
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->entityRepository = $entity_repository;
+    $this->entityFormBuilder = $entity_form_builder;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -90,7 +120,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
       $container->get('entity.repository'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('entity.form_builder'),
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('language_manager')
     );
   }
 
@@ -114,22 +146,37 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['available_sizes'] ?? '',
       '#required' => TRUE,
     ];
+
     $form['wtb'] = [
       '#type' => 'details',
-      '#title' => $this->t('WTB button settings'),
-      '#description' => $this->t('WTB button settings'),
+      '#title' => $this->t('Where to buy button settings'),
       '#open' => TRUE,
     ];
-    $form['wtb']['cta_label'] = [
+
+    $form['wtb']['commerce_vendor'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Vendor'),
+      '#default_value' => $this->configuration['wtb']['commerce_vendor'],
+      '#options' => [
+        self::VENDOR_PRICE_SPIDER => $this->t('Price Spider'),
+        self::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
+      ],
+      '#required' => TRUE,
+    ];
+
+    $form['wtb']['data_widget_id'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('CTA label'),
-      '#default_value' => $this->configuration['wtb']['cta_label'],
+      '#title' => $this->t('Widget id'),
+      '#default_value' => $this->configuration['wtb']['data_widget_id'],
+      '#required' => TRUE,
     ];
-    $form['wtb']['cta_link'] = [
-      '#type' => 'url',
-      '#title' => $this->t('CTA link'),
-      '#default_value' => $this->configuration['wtb']['cta_link'] ?? '#',
+
+    $form['wtb']['product_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product ID'),
+      '#default_value' => $this->configuration['wtb']['product_id'],
     ];
+
     $form['nutrition'] = [
       '#type' => 'details',
       '#title' => $this->t('Nutrition part settings'),
@@ -167,6 +214,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#maxlength' => 50,
       '#required' => TRUE,
     ];
+    $form['use_background_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use Background Color Override'),
+      '#default_value' => $this->configuration['use_background_color'] ?? FALSE,
+    ];
+    $form['background_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Background Color Override'),
+      '#default_value' => $this->configuration['background_color'] ?? '',
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[use_background_color]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
 
     return $form;
   }
@@ -190,11 +252,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $config = $this->getConfiguration();
 
     return [
+      'label_display' => FALSE,
+      'use_background_color' => $config['use_background_color'] ?? FALSE,
       'eyebrow' => $config['eyebrow'] ?? $this->t('Products'),
       'available_sizes' => $config['available_sizes'] ?? $this->t('Available sizes'),
-      'wtb' => [
-        'cta_label' => $config['wtb']['cta_label'] ?? $this->t('Where to buy'),
-      ],
       'nutrition' => [
         'label' => $config['nutrition']['label'] ?? $this->t('Nutrition'),
         'serving_label' => $config['nutrition']['serving_label'] ?? $this->t('Amount per serving'),
@@ -202,6 +263,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
+      'wtb' => [
+        'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
+        'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
+        'product_id' => $config['wtb']['product_id'] ?? '',
+      ],
+
     ];
   }
 
@@ -211,9 +278,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function build() {
     $build['#eyebrow'] = $this->configuration['eyebrow'] ?? '';
     $build['#available_sizes'] = $this->configuration['available_sizes'] ?? '';
-    $build['#cta_link'] = $this->configuration['wtb']['cta_link'] ?? '#';
-    $build['#cta_label'] = $this->configuration['wtb']['cta_label'] ?? '';
-    $build['#wtb_border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
 
     // Nutrition part labels.
     $build['#nutritional_label'] = $this->configuration['nutrition']['label'] ?? '';
@@ -233,7 +297,24 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#allergen_label'] = $this->configuration['allergen_label'];
     $build['#allergens_list'] = $this->getAllergenItems($node);
 
+    // Theme settings.
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
+    $build['#background_color']
+      = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
+      $this->configuration['background_color'] : '';
+
     $build['#theme'] = 'pdp_hero_block';
+
+    $product_sku = '';
+    foreach ($node->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $product_sku = $product_variant->get('field_product_sku')->value;
+    }
+    $build['#product_sku'] = !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku;
+    $build['#commerce_vendor'] = $this->configuration['wtb']['commerce_vendor'];
+    $build['#data_widget_id'] = $this->configuration['wtb']['data_widget_id'] ?? '';
+    $this->pageAttachments($build);
+
     return $build;
   }
 
@@ -340,34 +421,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Size items array.
    */
   public function getServingItems($node) {
-    $mapping = [
-      'nutritional_info_calories' => [
-        'field_product_calories' => FALSE,
-        'field_product_calories_fat' => FALSE,
-      ],
-      'nutritional_info_fat' => [
-        'field_product_total_fat' => '',
-        'field_product_saturated_fat' => 'field_product_saturated_daily',
-        'field_product_trans_fat' => '',
-      ],
-      'nutritional_info_others' => [
-        'field_product_cholesterol' => '',
-        'field_product_sodium' => '',
-        'field_product_carb' => '',
-        'field_product_dietary_fiber' => 'field_product_dietary_daily',
-        'field_product_sugars' => '',
-        'field_product_protein' => '',
-      ],
-      'vitamins_info' => [
-        'field_product_vitamin_a' => '',
-        'field_product_vitamin_c' => '',
-        'field_product_vitamin_d' => '',
-        'field_product_calcium' => '',
-        'field_product_iron' => '',
-        'field_product_potassium' => '',
-      ],
-    ];
-
     $items = [];
     $field_size = 'field_product_size';
     $i = 0;
@@ -393,6 +446,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'value' => $product_variant->get('field_product_servings_per')->value,
         ],
       ];
+
+      $mapping = $this->getGroupingMethod($product_variant);
       foreach ($mapping as $section => $fields) {
         foreach ($fields as $field => $field_daily) {
           $item = [
@@ -414,6 +469,59 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $items;
+  }
+
+  /**
+   * Get Field Mapping for grouping.
+   *
+   * @param object $node
+   *   Product Variant node.
+   *
+   * @return array
+   *   Size items array.
+   */
+  public function getGroupingMethod($node) {
+    $field_mapping = [
+      'field_product_calories' => FALSE,
+      'field_product_calories_fat' => FALSE,
+      'field_product_total_fat' => '',
+      'field_product_saturated_fat' => 'field_product_saturated_daily',
+      'field_product_trans_fat' => '',
+      'field_product_cholesterol' => '',
+      'field_product_sodium' => '',
+      'field_product_carb' => '',
+      'field_product_dietary_fiber' => 'field_product_dietary_daily',
+      'field_product_sugars' => '',
+      'field_product_protein' => '',
+      'field_product_vitamin_a' => '',
+      'field_product_vitamin_c' => '',
+      'field_product_vitamin_d' => '',
+      'field_product_calcium' => '',
+      'field_product_iron' => '',
+      'field_product_potassium' => '',
+    ];
+    $groups_mapping = [
+      'group_nutritional_subgroup_1',
+      'group_nutritional_subgroup_2',
+      'group_nutritional_subgroup_3',
+      'group_vitamins',
+    ];
+
+    $form = $this->entityFormBuilder->getForm($node);
+    $mapping = [];
+    foreach ($groups_mapping as $group) {
+      foreach ($form['#fieldgroups'] as $fieldgroup) {
+        if ($fieldgroup->group_name == $group) {
+          foreach ($fieldgroup->children as $field) {
+            if (strpos($field, 'daily') === FALSE) {
+              $mapping[$group][$field] = $field_mapping[$field];
+            }
+          }
+        }
+      }
+    }
+
+    return $mapping;
   }
 
   /**
@@ -471,7 +579,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     foreach ($map as $id => $title) {
       $items[] = [
-        'border_radius' => $this->themeConfiguratorParser->getSettingValue('button_style'),
         'title' => $title,
         'link_attributes' => [
           'href' => '#' . $id,
@@ -525,6 +632,54 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getMachineName($string = '') {
     return mb_strtolower(str_replace(' ', '', $string));
+  }
+
+  /**
+   * Add page attachments.
+   *
+   * @param array $build
+   *   Build array.
+   *
+   * @return array
+   *   Return build.
+   */
+  public function pageAttachments(array &$build) {
+    if ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
+      $metatags = [
+        'ps-key' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-key',
+            'content' => $this->configuration['wtb']['data_widget_id'],
+          ],
+        ],
+        'ps-country' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-country',
+            'content' => $this->config->get('system.date')->get('country.default'),
+          ],
+        ],
+        'ps-language' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-language',
+            'content' => strtolower($this->languageManager->getCurrentLanguage()->getId()),
+          ],
+        ],
+        'price-spider' => [
+          '#tag' => 'script',
+          '#attributes' => [
+            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+            'async' => TRUE,
+          ],
+        ],
+      ];
+      foreach ($metatags as $key => $metatag) {
+        $build['#attached']['html_head'][] = [$metatag, $key];
+      }
+    }
+    return $build;
   }
 
 }
