@@ -40,17 +40,8 @@
               inline_search__modifiers: ['searchbtn'],
               inline_search_title: 'Search'
             } %}
-            {% include "@molecules/search/inline-search/inline-search.twig" with {
-              inline_search__modifiers: ['closebtn', 'hidden'],
-              inline_search_title: 'Close',
-              inline_search_icon: 'close'
-            } %}
           {% endblock %}
         </div>
-
-       {% include "@molecules/search/search-overlay/search-overlay.twig" with {
-         search_results: search_results
-        }%}
       </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>
@@ -60,5 +51,8 @@
         }%}
       {% endblock %}
     </div>
+    {% include "@molecules/search/search-overlay/search-overlay.twig" with {
+      search_results: search_results
+    }%}
   </div>
 </header>

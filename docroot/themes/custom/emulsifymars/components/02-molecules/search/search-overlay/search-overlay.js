@@ -1,10 +1,13 @@
 Drupal.behaviors.searchOverlay = {
   attach(context) {
-    $('.inline-search').click(function () {
-      $('.inline-search--closebtn').toggleClass('inline-search--hidden');
-      $('.inline-search--searchbtn').toggleClass('inline-search--hidden');
-      $('.search-autocomplete-wrapper').toggleClass('opened suggested').slideToggle(250);
-     // $('.search-autocomplete-wrapper').toggleClass('opened').slideToggle(250);
+      //$('.search-autocomplete-wrapper').hide();
+      $('.inline-search').click(function () {
+      $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
+        $('.search-autocomplete-wrapper').removeClass('opened');
+      });
+      $('.search-autocomplete-wrapper:hidden').slideDown(250, function (){
+        $('.search-autocomplete-wrapper').addClass('opened');
+      });
       return false;
     });
   }

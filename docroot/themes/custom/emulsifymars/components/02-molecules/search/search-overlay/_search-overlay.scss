@@ -1,106 +1,136 @@
 .search-autocomplete-wrapper {
-  position: absolute;
-  width: 80%;
-  top: 50px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
   display: none;
-  flex-flow: column nowrap;
-
-
-  &.opened {
-    & input.mars-autocomplete-field {
-      border-radius: variable(border-radius);
-    }
-  }
-
-  &.suggested {
-    & .mars-search-autocomplete-suggestions {
-      display: block;
-    }
-
-    & input.mars-autocomplete-field {
-      border-bottom-right-radius: unset;
-      border-bottom-left-radius: unset;
-    }
-  }
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
+  position: relative;
+  top: 0;
 
   @include large {
-    width: 65%;
+    position: absolute;
+  }
+
+  &.opened {
+    display: flex !important;
+  }
+
+  & .wrapper-overlay {
+    display: flex;
+    width: 100%;
   }
 
   & .search-field-wrapper {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
+    width: 69%;
+    position: relative;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
 
-    & svg {
-      align-self: center;
-      z-index: 1;
-      position: absolute;
-      left: 15px;
-
-      path {
-        fill: clr(primary);
+    &.suggested {
+      & .mars-search-autocomplete-suggestions-wrapper {
+        display: block;
+        position: absolute;
+        top: 60px;
+        width: 100%;
       }
 
-      @include large {
-        left: 25px;
+      & input.mars-autocomplete-field {
+        border-bottom-right-radius: unset;
+        border-bottom-left-radius: unset;
+      }
+
+      & .mars-suggestions {
+        margin-left: 60px;
+        margin-top: 10px;
+      }
+
+      .autocomplete-border {
+        border-top: 1px solid clr(subcolor-4);
+        margin: 0 25px;
       }
     }
 
-    & input.mars-autocomplete-field {
-      width: 100%;
-      height: 50px;
-      font-size: 16px;
-      line-height: 140%;
+   & input.mars-autocomplete-field {
+      border-radius: variable(border-radius);
+    }
+
+    & .mars-search-autocomplete-suggestions-wrapper {
       color: clr(primary);
-      font-family: variable(secondary-font);
-      border: 1px solid clr(subcolor-4);
-      border-bottom: none;
-      outline: none;
-      padding-left: 45px;
+      font-size: 16px;
+      margin-top: 0;
+      background-color: clr(subcolor-3);
+      display: none;
 
       @include large {
-        height: 60px;
-        font-size: 18px;
+        border-bottom-left-radius: variable(border-radius);
+        border-bottom-right-radius: variable(border-radius);
+        border: 1px solid clr(subcolor-4);
+        border-top: none;
+      }
+
+      & .suggestions-label {
+        padding-left: 1px;
+      }
+
+      & ul {
+        list-style: none;
+        padding-left: 0;
+
+        & li {
+          padding-left: 0;
+          margin-bottom: 0;
+        }
+      }
+    }
+
+   & .search-field {
+     margin-right: auto;
+     margin-left: auto;
+     width: 100%;
+
+      & svg {
+        align-self: center;
+        z-index: 1;
+        position: absolute;
+        left: 15px;
+
+        path {
+          fill: clr(primary);
+        }
+
+        @include large {
+          left: 25px;
+          top: 20px;
+        }
+      }
+
+      & input.mars-autocomplete-field {
+        width: 100%;
+        height: 50px;
+        font-size: 16px;
         line-height: 140%;
-        padding-left: 60px;
+        color: clr(primary);
+        font-family: variable(secondary-font);
+        border: 1px solid clr(subcolor-4);
+        border-bottom: none;
+        outline: none;
+        padding-left: 45px;
+
+        @include large {
+          height: 60px;
+          font-size: 18px;
+          line-height: 140%;
+          padding-left: 60px;
+        }
       }
     }
   }
 
-  & .mars-search-autocomplete-suggestions {
-    color: clr(primary);
-    font-size: 16px;
-    padding-left: 45px;
-    margin-top: 0;
-    background-color: clr(subcolor-3);
-    display: none;
-
-    @include large {
-      padding-left: 60px;
-      border-bottom-left-radius: variable(border-radius);
-      border-bottom-right-radius: variable(border-radius);
-      border: 1px solid clr(subcolor-4);
-      border-top: none;
-    }
-
-    & .suggestions-label {
-      padding-left: 1px;
-    }
-
-    & ul {
-      list-style: none;
-      padding-left: 0;
-
-      & li {
-        padding-left: 0;
-        margin-bottom: 0;
-       }
-    }
+  & .inline-search--closebtn {
+    margin-left: auto;
+    margin-right: 40px;
   }
-
 
 }
