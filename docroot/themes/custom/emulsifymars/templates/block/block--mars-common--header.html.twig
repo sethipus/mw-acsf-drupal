@@ -14,7 +14,6 @@
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
 {% set logo_title = 'Logo' | t %}
-
 {% embed "@organisms/site/site-header/site-header.twig" with {
   theme_styles: 'drupal',
   menu_items: primary_menu,
@@ -23,6 +22,7 @@
   search_block: search_block,
   language_selector: language_selector,
   alert_banner: alert_banner,
+  search_form: search_form,
 } %}
 
   {% block header__menu %}
