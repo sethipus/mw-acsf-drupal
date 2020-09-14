@@ -191,11 +191,11 @@
       position: static;
     }
 
-    &.hide-sections .pdp-hero__sections-container {
+    &.sections--hide .pdp-hero__sections-container {
       display: none;
     }
 
-    &.hide-nav {
+    &.nav--hide {
       display: none;
     }
   }
@@ -407,14 +407,8 @@
     padding-right: 13.2rem;
 
     @include large {
-      display: none;
+      display: flex;
       align-items: center;
-    }
-
-    &[data-slider-size-active="true"] {
-      @include large {
-        display: flex;
-      }
     }
 
     .swiper-pagination {
@@ -528,6 +522,7 @@
     right: 2rem;
     bottom: 2rem;
     text-align: center;
+    z-index: 10;
   
     @include medium {
       left: 4rem;
@@ -539,6 +534,10 @@
       position: static;
       text-align: left;
     }
+  }
+
+  &--hide {
+    display: none;
   }
 
   &--pdp-hero {
