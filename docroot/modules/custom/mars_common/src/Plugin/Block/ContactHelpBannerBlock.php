@@ -75,7 +75,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       $email_cta_address = 'mailto:' . $conf['email_cta_address'];
     }
 
-    $build['#label'] = $conf['label'] ?? '';
+    $build['#title'] = $conf['title'] ?? '';
     $build['#description'] = $conf['description'] ?? '';
     $build['#social_links_label'] = $conf['social_links_label'] ?? '';
     $build['#phone_cta_label'] = $phone_cta_label;
@@ -111,11 +111,11 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
-    $form['label'] = [
+    $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 45,
-      '#default_value' => $this->configuration['label'] ?? '',
+      '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['description'] = [
@@ -199,7 +199,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
 
-    $this->configuration['label'] = $form_state->getValue('label');
+    $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['description'] = $form_state->getValue('description');
     $this->configuration['social_links_label'] = $form_state->getValue('social_links_label');
 
