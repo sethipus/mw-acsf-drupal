@@ -83,20 +83,24 @@
       }
     }
 
-    .svg-asset {
+    .png-asset {
       position: absolute;
       left: 0;
       right: 0;
       overflow-x: hidden;
       top: 840px;
       width: 100%;
-      height: auto;
+      min-height: 375px;
       margin: auto;
 
-      figure {
-        float: right;
-        margin-right: -20%;
-        width: 110%;
+      .wrapper {
+        position: absolute;
+        right: -20%;
+        height: 100%;
+        width: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center top;
       }
     }
 
@@ -158,7 +162,7 @@
           }
         }
 
-        .svg-asset {
+        .png-asset {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -169,10 +173,9 @@
           height: 768px;
           width: 768px;
 
-          figure {
-            float: none;
-            margin-right: auto;
-            width: auto;
+          .wrapper {
+            right: auto;
+            background-position: center center;
           }
         }
 
@@ -229,7 +232,7 @@
           }
         }
 
-        .svg-asset {
+        .png-asset {
           left: auto;
           right: 0;
           top: 360px;

@@ -39,7 +39,7 @@ Drupal.behaviors.productContentPairUp = {
       }
 
       element.querySelector('.lead-card').style.backgroundPosition = `center ${- (offset * 0.03)}px`;
-      element.querySelector('.svg-asset').style.top = Math.max(parallaxTops.svgAsset.minTop, parallaxTops.svgAsset.initTop - offset * 0.3) + 'px';
+      element.querySelector('.png-asset').style.top = Math.max(parallaxTops.svgAsset.minTop, parallaxTops.svgAsset.initTop - offset * 0.3) + 'px';
       element.querySelector('.supportive-card').style.top = Math.max(parallaxTops.supportiveCard.minTop, parallaxTops.supportiveCard.initTop - offset * 0.15) + 'px';
 
     };
