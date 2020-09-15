@@ -1,11 +1,13 @@
 (function ($) {
   Drupal.behaviors.searchOverlay = {
     attach(context) {
-       $('.inline-search').click(function () {
+       $('.header__menu--secondary .inline-search').click(function () {
         $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
           $(this).removeClass('opened');
         });
-        $('.search-autocomplete-wrapper:hidden').addClass('opened').slideDown(250);
+        $('.search-autocomplete-wrapper:hidden').slideDown(250, function(){
+          $(this).addClass('opened');
+        });
         return false;
       });
 
@@ -14,6 +16,7 @@
         $('.search-autocomplete-wrapper-mobile').slideDown(250, function (){
           $(this).addClass('opened');
         });
+        return false;
       });
 
       $(document).click(function(event){
@@ -23,6 +26,7 @@
             $(this).removeClass('opened');
           });
         }
+        return false;
       });
 
     }
