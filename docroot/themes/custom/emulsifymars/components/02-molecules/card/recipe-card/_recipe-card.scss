@@ -1,5 +1,6 @@
 .recipe-card {
-  background-color: clr(card-background);
+  min-height: 520px;
+  background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
   border-radius: variable(border-radius);
   display: inline-block;
   max-width: 31.8rem;
@@ -15,13 +16,17 @@
   }
 
   &__media {
-    max-height: 24rem;
-    overflow-y: hidden;
-    border-top-left-radius: variable(border-radius);
-    border-top-right-radius: variable(border-radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    height: 239px;
+    width: 318px;
+    box-sizing: border-box;
+    justify-content: center;
 
     img {
-      height: 24rem;
+      min-width: 100%;
+      min-height: 100%;
     }
   }
 
