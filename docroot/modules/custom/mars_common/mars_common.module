@@ -32,8 +32,12 @@ function mars_common_preprocess(&$variables, $hook) {
       ->get('graphic_divider');
     if (isset($divider_id[0])) {
       $file_entity = File::load($divider_id[0]);
-      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-      $file_divider_content = file_get_contents($file_url->getUri());
+      
+      $file_divider_content = '';
+      if (!empty($file_entity)) {
+        $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+        $file_divider_content = file_get_contents($file_url->getUri());
+      }
     }
 
     $border_id = Drupal::config('emulsifymars.settings')
@@ -41,8 +45,12 @@ function mars_common_preprocess(&$variables, $hook) {
 
     if (isset($border_id[0])) {
       $file_entity = File::load($border_id[0]);
-      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-      $file_border_content = file_get_contents($file_url->getUri());
+      
+      $file_border_content = '';
+      if (!empty($file_entity)) {
+        $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+        $file_border_content = file_get_contents($file_url->getUri());
+      }
     }
 
     $border_radius = Drupal::config('emulsifymars.settings')
