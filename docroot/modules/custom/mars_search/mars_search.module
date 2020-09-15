@@ -28,7 +28,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'search_header_heading' => NULL,
         'brand_shape' => NULL,
         'input_form' => NULL,
-        'content_type_facet' => NULL,
+        'search_results' => NULL,
       ],
       'template' => 'mars-search-header',
     ],

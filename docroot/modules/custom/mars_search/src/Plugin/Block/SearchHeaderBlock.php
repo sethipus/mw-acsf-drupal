@@ -3,6 +3,8 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Link;
+use Drupal\facets\Result\Result;
 use Drupal\views\ViewExecutableFactory;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\facets\FacetManager\DefaultFacetManager;
@@ -93,7 +95,9 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function build() {
     $conf = $this->getConfiguration();
-    $facet = $this->facetStorage->load($conf['search_facet']);
+    if (!($facet = $this->facetStorage->load($conf['search_facet']))) {
+      return [];
+    }
 
     // No need to build the facet if it does not need to be visible.
     if ($facet->getOnlyVisibleWhenFacetSourceIsVisible() &&
@@ -107,7 +111,21 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#input_form']['search']['#title_display'] = 'none';
     $build['#input_form']['search']['#placeholder'] = $this->t('Search products, recipes, articles...');
     unset($build['#input_form']['actions']['submit']);
-    $build['#content_type_facet'] = $this->facetManager->build($facet);
+
+    $search_results = [];
+
+    /** @var \Drupal\facets\Entity\Facet $result_facet */
+    $result_facet = $this->facetManager->build($facet)[0]['#facet'] ?? NULL;
+    if ($result_facet && $result_facet->getWidget()['type'] == 'links') {
+      $search_results = array_map(function (Result $result) {
+        return [
+          'title' => Link::fromTextAndUrl($result->getDisplayValue(), $result->getUrl()),
+          'count' => $result->getCount(),
+        ];
+      }, $result_facet->getResults());
+    }
+
+    $build['#search_results'] = $search_results;
     $build['#search_header_heading'] = $conf['search_header_heading'] ?? $this->t('What are you looking for?');
     $build['#brand_shape'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'search-header-border');
     $build['#theme'] = 'mars_search_header';
