@@ -9,7 +9,7 @@ article_card_paragraph_modifiers: ['xs']
 
 article_card_button_text: 'explore'
 article_card_button_modifiers: ['small']
-article_card_button_link_attributes: 
+article_card_button_link_attributes:
   href: 'https://storybook.js.org/'
   target: '_blank'
 

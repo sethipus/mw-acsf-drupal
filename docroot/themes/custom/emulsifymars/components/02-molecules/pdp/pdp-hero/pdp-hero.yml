@@ -1,4 +1,6 @@
 theme_styles: 'twix'
+background_color: 'rgba(87, 189, 244, 0.7)'
+brand_shape: "<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='50' fill='rgba(234, 170, 0, 0.2)'></svg>"
 image_items:
   - size_id: '1oz'
     active: true

@@ -6,7 +6,6 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\mars_common\SocialLinks;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
@@ -19,13 +18,6 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * )
  */
 class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
-  /**
-   * Media storage.
-   *
-   * @var \Drupal\mars_common\SocialLinks
-   */
-  protected $socialLinks;
 
   /**
    * ThemeConfiguratorParser.
@@ -42,7 +34,6 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_common.social_links'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -54,11 +45,9 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    SocialLinks $social_links,
     ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->socialLinks = $social_links;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
@@ -96,7 +85,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $build['#help_and_contact_cta_label'] = $conf['help_and_contact_cta_label'] ?? '';
     $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
 
-    $build['#social_menu_items'] = $this->socialLinks->getRenderedItems();
+    $build['#social_menu_items'] = $this->themeConfiguratorParser->socialLinks();
     $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
     $build['#theme'] = 'contact_help_banner_block';
 

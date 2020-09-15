@@ -4,6 +4,14 @@
   max-width: 31.5rem;
   position: relative;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 6rem;
+
+  .eyebrow {
+    color: clr(primary);
+    font-family: variable(primary-font);
+    margin-bottom: 0;
+    padding: 3rem 3rem 0 3rem;
+  }
 
   &__media {
     max-height: 25rem;
@@ -14,7 +22,7 @@
     color: clr(primary);
     font-family: variable(primary-font);
     text-decoration: none;
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     line-height: 3rem;
     margin-bottom: 2rem;
     margin-top: 2rem;
@@ -38,7 +46,7 @@
     .ingredients {
       color: clr(primary);
       font-family: variable(secondary-font);
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       line-height: 2.2rem;
     }
   }
@@ -47,7 +55,7 @@
   &-time {
     color: clr(primary);
     font-family: variable(secondary-font);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;
   }

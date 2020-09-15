@@ -11,6 +11,12 @@ allergens_list:
       allergen_label: 'CONTAINS DAIRY'
     - allergen_icon: 'twix-logo-102-x2.png'
       allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
   - size_id: '4oz'
     active: false
     allergen_items:
