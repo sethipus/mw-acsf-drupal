@@ -203,7 +203,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'contact_help_banner_block' => [
       'variables' => [
-        'label' => NULL,
+        'title' => NULL,
         'description' => NULL,
         'social_links_label' => NULL,
         'phone_cta_label' => NULL,
@@ -528,7 +528,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
     }
   }
 
-  $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
+  $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
   $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
 
