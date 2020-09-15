@@ -83,8 +83,10 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $view = $storage->load('acquia_search');
-    $this->view = $executable_factory->get($view);
-    $this->view->setDisplay('page');
+    if (!empty($executable_factory)) {
+      $this->view = $executable_factory->get($view);
+      $this->view->setDisplay('page');
+    }
     $this->facetManager = $facet_manager;
     $this->facetStorage = $facet_storage;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
