@@ -73,11 +73,17 @@
   {% endblock %}
 
   {% block search_results %}
-  {% include "@molecules/search/search-overlay/search-overlay.twig" with {
-    search_results: search_form,
-    logo_src: logo_src,
-    logo_srcset: logo_srcset
-  }%}
+    {% embed "@molecules/search/search-overlay/search-overlay.twig" with {
+      search_results: search_form,
+      logo_src: logo_src,
+      logo_srcset: logo_srcset
+    } %}
+
+      {% block search_header__input %}
+        {{ search_form }}
+      {% endblock %}
+    
+    {% endembed %}
   {% endblock %}
 
 {% endembed %}
