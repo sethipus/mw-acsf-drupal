@@ -112,6 +112,7 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
+      - 'Flexible driver'
       - Forms
       - 'Global elements'
       - Help
@@ -130,7 +131,8 @@ third_party_settings:
       - Views
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        'Flexible driver': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - recipe_recipe_hero
@@ -155,6 +157,8 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -171,6 +175,7 @@ third_party_settings:
               - contact_help_banner_block
               - iframe_block
               - newsletter_signup_form
+              - story_highlight
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
