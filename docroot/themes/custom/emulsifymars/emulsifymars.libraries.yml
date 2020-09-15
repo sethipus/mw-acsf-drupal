@@ -111,3 +111,10 @@ ajaxcardgrid:
     dist/js/03-organisms/grid/ajaxcardgrid.js: {}
   dependencies:
     - core/drupal
+
+search-overlay:
+  js:
+    dist/js/02-molecules/search/search-overlay/search-overlay.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

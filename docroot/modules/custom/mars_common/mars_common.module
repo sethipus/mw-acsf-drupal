@@ -74,6 +74,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_menu'       => NULL,
         'language_selector' => NULL,
         'search_block'      => NULL,
+        'search_form'       => NULL,
         'alert_banner'      => NULL,
       ],
       'template' => 'block--mars-common--header',
