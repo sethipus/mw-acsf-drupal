@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - block.block.mars_search_no_results
     - search_api.index.acquia_search_index
     - system.menu.main
   module:
@@ -199,19 +200,19 @@ display:
       header: {  }
       footer: {  }
       empty:
-        area:
-          id: area
+        entity_block:
+          id: entity_block
           table: views
-          field: area
+          field: entity_block
           relationship: none
           group_type: group
           admin_label: ''
           empty: true
-          tokenize: false
-          content:
-            value: 'No results found.'
-            format: basic_html
-          plugin_id: text
+          tokenize: true
+          target: mars_search_no_results
+          view_mode: default
+          bypass_access: true
+          plugin_id: entity
       relationships: {  }
       arguments: {  }
       display_extenders: {  }
