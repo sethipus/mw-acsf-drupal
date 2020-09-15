@@ -20,6 +20,7 @@
   .group-1,
   .group-2,
   .group-5,
+  .group-6,
   .group-7,
   .ff-footnote-label {
     margin-left: 1.6rem;
@@ -78,6 +79,7 @@
     font-size: 1.6rem;
     font-family: variable(secondary-font);
     border-radius: variable(border-radius);
+    padding-left: 2rem;
   }
 
   .ff-input-type {
@@ -89,6 +91,7 @@
     font-family: variable(secondary-font);
     cursor: text;
     font-size: 1.6rem;
+    padding-bottom: 1rem;
   }
 
   .ff-input-type::-webkit-input-placeholder {
@@ -139,7 +142,6 @@
   .ff-fileupload-label,
   .ff-required-mark,
   #sectionLabel2,
-  #ffSection6,
   #lblCaseAccountIdFirstName,
   #lblCaseAccountIdLastName,
   #lblCaseAccountIdPersonEmail,
@@ -147,6 +149,12 @@
   #sectionLabel5,
   #sectionLabel7 {
     display: none;
+  }
+
+  #GENERALTEXT195 {
+    font-family: variable(secondary-font);
+    color: clr(primary);
+    font-size: 1.6rem;
   }
 
   #lblCaseDescription {
@@ -187,7 +195,7 @@
     border-radius: variable(border-radius);
     color: clr(primary);
     font-family: variable(secondary-font);
-    padding: 0.3rem 1rem;
+    padding: 1rem 1.5rem;
     font-size: 1.6rem;
 
     @include medium {
@@ -212,7 +220,7 @@
   }
 
   .ff-general-text-label {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: clr(primary);
     font-family: variable(secondary-font);
   }
