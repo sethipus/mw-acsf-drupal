@@ -2,7 +2,7 @@
 # Available variables:
 # - search__base_class - base classname of the wrapper.
 #}
-
+{{ attach_library('emulsifymars/search-overlay') }}
 {% set search__base_class = search__base_class|default('search-autocomplete-wrapper-mobile') %}
 {% set search__placeholder = search__placeholder|default('Search') %}
 

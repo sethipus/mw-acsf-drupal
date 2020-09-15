@@ -36,6 +36,12 @@
     {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" with {
       menu_class: 'header-secondary-menu',
     } %}
+    {% include "@molecules/search/inline-search/inline-search.twig" with {
+      inline_search__modifiers: ['searchbtn'],
+      inline_search_title: 'Search',
+      inline_search_url: '#',
+      inline_search_icon: 'search',
+    } %}
   {% endblock %}
 
   {% block alert_banner %}
@@ -64,6 +70,14 @@
         {% endblock %}
       {% endembed %}
     </div>
+  {% endblock %}
+
+  {% block search_results %}
+  {% include "@molecules/search/search-overlay/search-overlay.twig" with {
+    search_results: search_form,
+    logo_src: logo_src,
+    logo_srcset: logo_srcset
+  }%}
   {% endblock %}
 
 {% endembed %}

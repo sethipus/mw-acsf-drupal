@@ -2,7 +2,7 @@
 # Available variables:
 # - search__base_class - base classname of the wrapper.
 #}
-
+{{ attach_library('emulsifymars/search-overlay') }}
 {% set search__base_class = search__base_class|default('search-autocomplete-wrapper') %}
 {% set search__placeholder = search__placeholder|default('Search') %}
 
@@ -19,9 +19,9 @@
               {% include "@atoms/images/image/responsive-image.twig" with {
                 output_image_tag: true,
                 image_alt: 'Logo',
-                image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
+                image_srcset: logo_srcset,
                 image_sizes: '212px',
-                image_src: 'twix-logo.png',
+                image_src: logo_src,
                 responsive_image_blockname: 'logo',
               } %}
             {% endblock %}
