@@ -4,6 +4,14 @@
 
 <div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} data-theme="twix">
   <a href={{ item.card_url }}>
+
+    {# Eyebrow #}
+    {% if card__eyebrow %}
+      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+        eyebrow_text: card__eyebrow
+      } %}
+    {% endif %}
+
     <div {{ bem('image', [], card__base_class) }}>
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
