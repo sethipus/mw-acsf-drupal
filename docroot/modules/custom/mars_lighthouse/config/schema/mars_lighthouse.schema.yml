@@ -64,6 +64,9 @@ mars_lighthouse.mapping:
         name:
           type: string
           label: 'assetName'
+        field_version_id:
+          type: string
+          label: 'versionIdOTMM'
     file:
       type: mapping
       mapping:
