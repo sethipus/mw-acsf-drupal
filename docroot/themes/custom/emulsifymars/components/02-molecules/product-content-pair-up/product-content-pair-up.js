@@ -1,6 +1,6 @@
 Drupal.behaviors.productContentPairUp = {
   attach(context) {
-    if (context.getElementById('product-content-pair-up') == null) {
+    if (context.querySelector('.layout-builder') !== null || context.getElementById('product-content-pair-up') == null) {
       return;
     }
 

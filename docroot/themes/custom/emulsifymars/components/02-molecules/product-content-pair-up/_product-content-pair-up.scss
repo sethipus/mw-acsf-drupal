@@ -118,6 +118,16 @@
     }
   }
 
+  .layout-builder & {
+    .png-asset {
+      top: 640px;
+    }
+
+    .supportive-card {
+      top: 306px;
+    }
+  }
+
   &.size--375 {
     max-width: 375px;
   }
@@ -189,6 +199,16 @@
         }
       }
     }
+
+    .layout-builder &:not(.size--375) {
+      .png-asset {
+        top: 365px;
+      }
+
+      .supportive-card {
+        top: 361px;
+      }
+    }
   }
 
   @include xl {
@@ -250,6 +270,16 @@
             max-width: 43.2rem;
           }
         }
+      }
+    }
+
+    .layout-builder &:not(.size--375):not(.size--768) {
+      .png-asset {
+        top: 80px;
+      }
+
+      .supportive-card {
+        top: 75px;
       }
     }
   }
