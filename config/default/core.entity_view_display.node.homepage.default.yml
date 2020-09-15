@@ -1,0 +1,234 @@
+uuid: 1dda51a0-c570-4d45-8c09-5d6e34dd0806
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.homepage.body
+    - node.type.homepage
+  module:
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_discovery
+    - layout_library
+    - mars_banners
+    - mars_common
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: true
+    sections:
+      -
+        layout_id: homepage_homepage_hero
+        layout_settings:
+          label: 'Homepage Hero'
+        components:
+          5807ce94-7bcc-4692-9667-37bc55524bba:
+            uuid: 5807ce94-7bcc-4692-9667-37bc55524bba
+            region: content
+            configuration:
+              id: homepage_hero_block
+              label: 'Homepage Hero block'
+              provider: mars_banners
+              label_display: '1'
+              eyebrow: eyebrow
+              title:
+                url: 'https://test.test/'
+                label: label
+              cta:
+                url: 'https://test.test/'
+                title: Explore
+              block_type: default
+              background_image: {  }
+              background_video: ''
+              card: {  }
+              context_mapping: {  }
+            additional: {  }
+            weight: 0
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+      -
+        layout_id: homepage_drive_to_product
+        layout_settings:
+          label: 'Drive To Product'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              5: 5
+              6: 6
+              7: 7
+      -
+        layout_id: homepage_additional_touts
+        layout_settings:
+          label: 'Add''l Product Touts, Storytelling & Community'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              5: 5
+              6: 6
+              7: 7
+  layout_library:
+    enable: false
+  layout_builder_restrictions:
+    allowed_block_categories:
+      - Article
+      - 'Chaos Tools'
+      - 'Content fields'
+      - 'Custom block types'
+      - 'Custom blocks'
+      - 'Entity Block'
+      - 'Entity Browser'
+      - Forms
+      - 'Global elements'
+      - Help
+      - 'Inline blocks'
+      - 'Lists (Views)'
+      - 'Mars Common'
+      - 'Mars Product'
+      - Menus
+      - 'Moderation Dashboard'
+      - Product
+      - Recipe
+      - 'Social feed'
+      - 'Social media share'
+      - System
+      - User
+      - Views
+      - core
+    entity_view_mode_restriction:
+      whitelisted_blocks: {  }
+      blacklisted_blocks: {  }
+      allowed_layouts:
+        - homepage_homepage_hero
+        - homepage_drive_to_product
+        - homepage_additional_touts
+    entity_view_mode_restriction_by_region:
+      allowed_layouts:
+        - homepage_homepage_hero
+        - homepage_drive_to_product
+        - homepage_additional_touts
+      whitelisted_blocks:
+        homepage_drive_to_product:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+            'Lists (Views)': {  }
+            'Mars Common':
+              - product_feature
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product:
+              - product_content_pair_up_block
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        homepage_additional_touts:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - mars_common_content_feature_module
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:media_carousel'
+              - 'inline_block:text_component'
+            'Lists (Views)': {  }
+            'Mars Common':
+              - freeform_story_block
+              - newsletter_signup_form
+              - product_feature
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product:
+              - product_content_pair_up_block
+            Recipe: {  }
+            'Social feed':
+              - social_feed
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        homepage_homepage_hero:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements':
+              - homepage_hero_block
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+id: node.homepage.default
+targetEntityType: node
+bundle: homepage
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  published_at: true
+  search_api_excerpt: true

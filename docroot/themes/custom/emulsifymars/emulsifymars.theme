@@ -17,7 +17,7 @@ use Drupal\Core\Url;
  */
 function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterface $form_state, $form_id = NULL) {
   // Init general vars.
-  $translation = \Drupal::translation();
+  $translation = Drupal::translation();
   $social_storage = $form_state->getStorage('social');
   $social_settings = theme_get_setting('social');
   // Init social form elements.
@@ -85,6 +85,24 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#type'          => 'jquery_colorpicker',
     '#title'         => $translation->translate('Color F'),
     '#default_value' => theme_get_setting('color_f'),
+    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['top_nav'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => $translation->translate('Top part of the header/footer'),
+    '#default_value' => theme_get_setting('top_nav'),
+    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['top_nav_gradient'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => $translation->translate('Top part of the header/footer gradient color'),
+    '#default_value' => theme_get_setting('top_nav_gradient'),
+    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+  ];
+  $form['color_settings']['bottom_nav'] = [
+    '#type'          => 'jquery_colorpicker',
+    '#title'         => $translation->translate('Bottom part of the footer'),
+    '#default_value' => theme_get_setting('bottom_nav'),
     '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['card_background'] = [
@@ -198,6 +216,24 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#theme'               => 'image_widget',
     '#preview_image_style' => 'medium',
     '#default_value'       => theme_get_setting('brand_borders'),
+  ];
+
+  $form['icons_settings']['brand_borders_2'] = [
+    '#title'           => $translation->translate('Brand Borders for Cards'),
+    '#type'            => 'managed_file',
+    '#description'     => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#upload_location' => 'public://theme_config/',
+    '#required'        => FALSE,
+    '#process'         => [
+      ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
+      'emulsifymars_process_image_widget',
+    ],
+    '#upload_validators' => [
+      'file_validate_extensions' => ['svg'],
+    ],
+    '#theme'               => 'image_widget',
+    '#preview_image_style' => 'medium',
+    '#default_value'       => theme_get_setting('brand_borders_2'),
   ];
 
   $form['icons_settings']['png_asset'] = [
@@ -333,6 +369,7 @@ function _emulsifymars_get_icon_fields(): array {
     'graphic_divider',
     'brand_shape',
     'brand_borders',
+    'brand_borders_2',
     'png_asset',
   ];
 }
@@ -360,7 +397,7 @@ function _emulsifymars_get_font_fields(): array {
  *   Theme settings form state.
  */
 function _emulsifymars_form_system_theme_settings_validate(array &$form, FormStateInterface $form_state) {
-  if (\Drupal::moduleHandler()->moduleExists('file')) {
+  if (Drupal::moduleHandler()->moduleExists('file')) {
     foreach (_emulsifymars_get_font_fields() as $font) {
       _emulsifymars_file_save_process($form['font_settings'][$font], $form_state, $font);
     }
@@ -394,7 +431,7 @@ function _emulsifymars_file_save_process(array $form_element, FormStateInterface
  *   Theme settings form state.
  */
 function _emulsifymars_form_system_theme_settings_submit(array &$form, FormStateInterface $form_state) {
-  $default_scheme = \Drupal::config('system.file')->get('default_scheme');
+  $default_scheme = Drupal::config('system.file')->get('default_scheme');
   foreach (_emulsifymars_get_font_fields() as $font) {
     _emulsifymars_file_store_process($form_state, $font, $default_scheme);
   }
@@ -414,7 +451,7 @@ function _emulsifymars_file_store_process(FormStateInterface &$form_state, strin
   $values = $form_state->getValues();
   try {
     if (!empty($values[$value_name])) {
-      $filename = \Drupal::service('file_system')->copy($values[$value_name]->getFileUri(), $default_scheme . '://');
+      $filename = Drupal::service('file_system')->copy($values[$value_name]->getFileUri(), $default_scheme . '://');
       $form_state->setValue($value_name, '');
       $form_state->setValue($value_name . '_path', file_create_url($filename));
     }
@@ -454,7 +491,7 @@ function emulsifymars_process_image_widget(array &$element, FormStateInterface $
     $file_variables['height'] = $element['#value']['height'];
   }
   else {
-    $image = \Drupal::service('image.factory')->get($file->getFileUri());
+    $image = Drupal::service('image.factory')->get($file->getFileUri());
     if ($image->isValid()) {
       $file_variables['width'] = $image->getWidth();
       $file_variables['height'] = $image->getHeight();
@@ -491,10 +528,10 @@ function emulsifymars_process_image_widget(array &$element, FormStateInterface $
  * Implements hook_preprocess_html().
  */
 function emulsifymars_preprocess_html(&$variables) {
-  $theme_settings = \Drupal::config('emulsifymars.settings')->get();
+  $theme_settings = Drupal::config('emulsifymars.settings')->get();
   $style_tag = sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype');}", $theme_settings['headline_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype');}", $theme_settings['primary_font_path']);
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypeface'; src: url('%s') format('opentype');}", $theme_settings['secondary_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypefaceFont'; src: url('%s') format('opentype');}", $theme_settings['secondary_font_path']);
   $style_tag .= sprintf(":root [data-theme='drupal'] {%s}", _emulsifymars_preprocess_css_properties($theme_settings));
   $variables['page']['#attached']['html_head'][] = [
     [
@@ -541,20 +578,84 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --c-subcolor-2: #%s;", $settings['color_d']);
   $properties .= sprintf(" --c-subcolor-3: #%s;", $settings['color_e']);
   $properties .= sprintf(" --c-subcolor-4: #%s;", $settings['color_f']);
+  $properties .= sprintf(" --c-primary-rgb: %s;", hex2_rgb($settings['color_a'], TRUE));
+  $properties .= sprintf(" --c-secondary-rgb: %s;", hex2_rgb($settings['color_b'], TRUE));
+  $properties .= sprintf(" --c-subcolor-1-rgb: %s;", hex2_rgb($settings['color_c'], TRUE));
+  $properties .= sprintf(" --c-subcolor-2-rgb: %s;", hex2_rgb($settings['color_d'], TRUE));
+  $properties .= sprintf(" --c-subcolor-3-rgb: %s;", hex2_rgb($settings['color_e'], TRUE));
+  $properties .= sprintf(" --c-subcolor-4-rgb: %s;", hex2_rgb($settings['color_f'], TRUE));
+  $properties .= sprintf(" --c-top-nav: #%s;", $settings['top_nav']);
+  $properties .= sprintf(" --c-top-nav-gradient: #%s;", $settings['top_nav_gradient']);
+  $properties .= sprintf(" --c-bottom-nav: #%s;", $settings['bottom_nav']);
+  $properties .= sprintf(" --c-card-background: #%s;", $settings['card_background']);
 
   $properties .= sprintf(" --v-heading-font: %s;", 'DrupalHeadlineCampaignFont');
   $properties .= sprintf(" --v-primary-font: %s;", 'DrupalPrimaryTypefaceFont');
-  $properties .= sprintf(" --v-secondary-font: %s;", 'DrupalSecondaryTypeface');
+  $properties .= sprintf(" --v-secondary-font: %s;", 'DrupalSecondaryTypefaceFont');
 
   $properties .= sprintf(" --v-border-radius: %s;", $settings['button_style']);
 
-  foreach (_emulsifymars_get_icon_fields() as $icon) {
-    if (is_array($settings[$icon]) && count($settings[$icon]) > 0 && $file = File::load($settings[$icon][0])) {
-      $properties .= sprintf(" --%s: %s;", $icon, $file->createFileUrl());
-    }
-  }
+  _emulsifymars_load_images_from_theme($properties);
 
   return $properties;
+}
+
+/**
+ * Convert a hexa decimal color code to its RGB equivalent.
+ *
+ * @param string $hexStr
+ *   Hexadecimal color value.
+ * @param bool $returnAsString
+ *   If set true, returns the value separated by the separator character.
+ *   Otherwise returns associative array.
+ * @param string $seperator
+ *   To separate RGB values. Applicable only if second parameter is true.
+ */
+function hex2_rgb($hexStr, $returnAsString = FALSE, $seperator = ',') {
+  $hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr);
+  $rgbArray = [];
+  if (strlen($hexStr) == 6) {
+    $colorVal = hexdec($hexStr);
+    $rgbArray['red'] = 0xFF & ($colorVal >> 0x10);
+    $rgbArray['green'] = 0xFF & ($colorVal >> 0x8);
+    $rgbArray['blue'] = 0xFF & $colorVal;
+  }
+  elseif (strlen($hexStr) == 3) {
+    $rgbArray['red'] = hexdec(str_repeat(substr($hexStr, 0, 1), 2));
+    $rgbArray['green'] = hexdec(str_repeat(substr($hexStr, 1, 1), 2));
+    $rgbArray['blue'] = hexdec(str_repeat(substr($hexStr, 2, 1), 2));
+  }
+  else {
+    return FALSE;
+  }
+  return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray;
+}
+
+/**
+ * Helper function to preload images as background with theme configurator.
+ */
+function _emulsifymars_load_images_from_theme(string &$properties) {
+  $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+  $fields = [
+    'graphic_divider',
+    'brand_shape',
+  ];
+  foreach ($fields as $field) {
+    $svg = $themeParser->getFileContentFromTheme($field);
+    $symbols = [
+      '<' => '%3C',
+      '>' => '%3E',
+      '#' => '%23',
+      '"' => '\'',
+      '\n' => '',
+      '\r\n' => '',
+      '\r' => '',
+    ];
+    foreach ($symbols as $symbol => $replace) {
+      $svg = str_replace($symbol, $replace, $svg);
+    }
+    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml,' . $svg . '")');
+  }
 }
 
 /**
@@ -562,7 +663,7 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
  */
 function emulsifymars_preprocess_social_icons(&$variables) {
   $social_menu_items = &$variables['social_menu_items'];
-  $theme_settings = \Drupal::config('emulsifymars.settings')->get();
+  $theme_settings = Drupal::config('emulsifymars.settings')->get();
   foreach ($theme_settings['social'] as $key => $social_settings) {
     $social_menu_items[$key]['title'] = $social_settings['name'];
     $social_menu_items[$key]['url'] = $social_settings['link'];
@@ -592,8 +693,6 @@ function emulsifymars_theme() {
  * Implements hook_preprocess_views_view_unformatted().
  */
 function emulsifymars_preprocess_views_view_unformatted(&$variables) {
-  global $base_url;
-
   $view = $variables['view'];
   $id = $view->storage->id();
   $items = [];
@@ -629,21 +728,11 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
     }
   }
 
-  $brand_border = theme_get_setting('brand_borders');
-  $brand_border_fid = !empty($brand_border[0]) ? $brand_border[0] : '';
-  if ($brand_border_fid) {
-    $file = File::load($brand_border_fid);
-  }
-  $variables['brand_border'] = !empty($file) ? file_get_contents($base_url . $file->createFileUrl()) : '';
+  $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
+  $variables['divider'] = $themeParser->getFileContentFromTheme('graphic_divider');
+  $variables['brand_borders'] = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
 
-  $divider = theme_get_setting('graphic_divider');
-  $divider_fid = !empty($divider[0]) ? $divider[0] : '';
-  if ($divider_fid) {
-    $file = File::load($divider_fid);
-  }
-  $variables['divider'] = !empty($file) ? file_get_contents($base_url . $file->createFileUrl()) : '';
-
-  $variables['theme_styles'] = 'twix';
+  $variables['theme_styles'] = 'drupal';
   $variables['grid_type'] = 'card';
   $variables['item_type'] = 'card';
   $variables['items'] = $items;

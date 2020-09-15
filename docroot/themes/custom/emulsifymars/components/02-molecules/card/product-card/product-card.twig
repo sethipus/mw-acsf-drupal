@@ -1,23 +1,33 @@
 {% set card__base_class = 'product-card' %}
+{% set default_link_content = 'See details'|t %}
+{% set link_content = 'Buy now'|t %}
 
 <div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} data-theme="twix">
-  <a href={{card_url}}>
+  <a href={{ item.card_url }}>
+
+    {# Eyebrow #}
+    {% if card__eyebrow %}
+      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+        eyebrow_text: card__eyebrow
+      } %}
+    {% endif %}
+
     <div {{ bem('image', [], card__base_class) }}>
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
-        image_alt: 'Logo',
+        image_alt: 'Product image',
         image_sizes: '212px',
-        image_src: card__image__src,
-        responsive_image_blockname: 'logo',
+        image_src: item.card__image__src,
+        responsive_image_blockname: 'product-image',
       } %}
     </div>
 
     <div {{ bem('title', [], card__base_class) }}>
       {% include "@atoms/text/text/01-paragraph.twig" with {
-        paragraph_size: paragraph_size,
-        paragraph_content: paragraph_content,
-        paragraph_base_class: paragraph_base_class,
-        paragraph_modifiers: paragraph_modifiers
+        paragraph_size: 'large',
+        paragraph_content: item.paragraph_content,
+        paragraph_base_class: 'paragraph',
+        paragraph_modifiers: ['large']
       } %}
     </div>
 
@@ -25,17 +35,16 @@
       <div {{ bem('button', [], card__base_class) }}>
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
           default_link_content: default_link_content,
-          default_link_base_class: default_link_base_class,
-          default_link_border_radius: default_link_border_radius,
-          default_link_attributes: default_link_attributes
+          default_link_base_class: 'default-link',
+          default_link_attributes: item.default_link_attributes
         } %}
       </div>
 
       <div {{ bem('link', [], card__base_class) }}>
         {% include "@atoms/links/link/link.twig" with {
           link_content: link_content,
-          link_url: link_url,
-          link_base_class: link_base_class,
+          link_url: item.link_url,
+          link_base_class: 'text_link',
         } %}
       </div>
     </div>

@@ -30,11 +30,9 @@
     {% endblock %}
   {% endif %}
   <div class="recipe-media__info">
-    {% include "@atoms/images/image/background-image.twig" with {
-      image_src: icon_border,
-      background_repeat: 'repeat',
-      height: '50px',
-    } %}
+    <div class="brand-border">
+      {{ brand_borders | raw }}
+    </div>
     <div class="recipe-details">
       <div class="recipe-details-item">
         <div class="recipe-details-item__icon-container">

@@ -1,10 +1,37 @@
 theme_styles: 'twix'
 allergen_label: 'DIET & ALLERGENS'
 multipack: false
-allergen_items:
-  - allergen_icon: 'twix-logo-102-x2.png'
-    allergen_label: 'CONTAINS NUT'
-  - allergen_icon: 'twix-logo-102-x2.png'
-    allergen_label: 'CONTAINS DAIRY'
-  - allergen_icon: 'twix-logo-102-x2.png'
-    allergen_label: 'CONTAINS SOY'
+allergens_list:
+  - size_id: '1oz'
+    active: true
+    allergen_items:
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS NUT1'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS DAIRY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+  - size_id: '4oz'
+    active: false
+    allergen_items:
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS NUT4'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS DAIRY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+  - size_id: '6oz'
+    active: false
+    allergen_items:
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS NUT6'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS DAIRY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'

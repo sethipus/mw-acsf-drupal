@@ -1,6 +1,6 @@
 .related-recipes {
   font-family: variable(primary-font);
-  background-color: clr(pp-header-bg);
+  background-color: clr(subcolor-2);
   color: clr(subcolor-1);
   margin-top: 23px;
   padding-top: 50px;
@@ -23,7 +23,7 @@
     > svg {
       width: 100%;
       > path {
-        fill: clr(pp-header-bg);
+        fill: clr(subcolor-2);
         width: 100%;
       }
       > rect {
@@ -52,7 +52,7 @@
     margin-top: 20px;
     svg {
       path {
-        fill: clr(primary);
+        fill: clr(subcolor-3);
       }
     }
   }
@@ -88,6 +88,14 @@
       text-align: center;
       &__heading {
         text-align: center;
+
+        &-link {
+          color: clr(primary);
+
+          &:hover {
+            color: clr(secondary);
+          }
+        }
 
         a {
           text-decoration: none;

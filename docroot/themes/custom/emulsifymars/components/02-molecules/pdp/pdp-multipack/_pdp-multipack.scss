@@ -17,11 +17,11 @@
     line-height: 1.1;
     letter-spacing: 0.8px;
     text-transform: uppercase;
-    color: clr(primary);
+    color: clr(secondary);
     text-align: center;
     margin: 0 0 3.5rem;
     padding-top: 4.8rem;
-    border-top: 1px solid black;
+    border-top: 1px solid rgba(196, 196, 196, 0.5);
   
     @include medium {
       padding-top: 4rem;
@@ -40,15 +40,16 @@
     padding: 0 0 4rem 0;
     overflow-x: hidden;
   }
+
+  &__see-all-container {
+    padding: 2rem 0;
+    text-align: center;
+  }
   
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   &-swiper-container {
     width: 100%;
     height: 570px;
-
-    @include xl {
-      height: auto;
-    }
   }
   
   // increasing specificity to avoid using !important
@@ -57,14 +58,28 @@
     transform: scale(.5);
 
     & .swiper-scrollbar-drag {
-      background: clr(subcolor-1);
+      background: clr(secondary);
     }
   }
 
   .swiper-slide {
     width: 315px;
+
+    &:nth-child(n+5) {
+      display: none;
+    }
+
+    @include medium {
+      &:nth-child(n+5) {
+        display: block;
+      }
+
+      &:nth-child(n+9) {
+        display: none;
+      }
+    }
   }
-  
+
   #swiper-button {
     background-color: clr(text-inverse);
     border-radius: 50%;
@@ -86,8 +101,18 @@
     }
 
     &::after {
-      color: clr(primary);
+      color: clr(secondary);
       font-size: 2.5rem;
     }
   }
+}
+
+.default-link {
+  &--multipack-see-all-button {
+    background-color: clr(secondary);
+  }
+}
+
+#pdp-multipack-swiper-container.expanded .swiper-slide {
+  display: block;
 }

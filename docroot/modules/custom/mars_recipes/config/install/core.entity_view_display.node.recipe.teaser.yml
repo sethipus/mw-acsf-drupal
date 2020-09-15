@@ -9,11 +9,11 @@ dependencies:
     - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
+    - field.field.node.recipe.field_recipe_ingredients
     - field.field.node.recipe.field_recipe_ingredients_number
     - field.field.node.recipe.field_recipe_number_of_servings
+    - field.field.node.recipe.field_recipe_nutrition_module
     - field.field.node.recipe.field_recipe_video
-    - field.field.node.recipe.layout_builder__layout
-    - field.field.node.recipe.layout_selection
     - image.style.medium
     - node.type.recipe
   module:
@@ -54,8 +54,10 @@ content:
 hidden:
   field_product_reference: true
   field_recipe_cooking_time: true
+  field_recipe_ingredients: true
   field_recipe_ingredients_number: true
   field_recipe_number_of_servings: true
+  field_recipe_nutrition_module: true
   field_recipe_video: true
   layout_builder__layout: true
   layout_selection: true

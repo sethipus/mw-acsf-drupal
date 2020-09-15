@@ -1,21 +1,32 @@
 .product-card {
   border-radius: 20px;
   width: 315px;
-  height: 520px;
   //background-color: clr(secondary);
   transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
-  background-image: radial-gradient(circle at 50% 40%, clr(text-inverse) 10%, clr(secondary));
+  background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
+
+  a {
+    text-decoration: none;
+  }
+
+  .eyebrow {
+    color: clr(primary);
+    padding-top: 3rem;
+    font-family: variable(primary-font);
+    text-align: center;
+    margin-bottom: 0;
+  }
 
   img {
     transition: transform 0.8s;
   }
 
   &:hover {
-    background-image: radial-gradient(circle at 50% 50%, clr(primary), clr(primary));
+    background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
     transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
-    p, a {
-      color: clr(text-inverse);
+    p, a, .eyebrow{
+      color: clr(subcolor-3);
     }
 
     img {
@@ -29,22 +40,24 @@
     display: flex;
     align-items: center;
     margin: auto;
-    padding: 40px;
-    min-height: 235px;
-    min-width: 235px;
+    padding-top: 3rem;
     height: 255px;
     width: 255px;
+    box-sizing: border-box;
+    justify-content: center;
   }
 
   &__title {
     font-size: 2.2rem;
     font-family: variable(primary-font);
     max-width: 75%;
+    min-height: 105px;
     margin: 2rem auto 0;
 
     p {
       max-width: 255px;
-      color: clr(subcolor-1);
+      color: clr(primary);
+      margin-bottom: 0;
     }
 
   }
@@ -53,6 +66,7 @@
     display: flex;
     flex-direction: row;
     padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   &__button{
@@ -66,17 +80,19 @@
 
     &:hover {
       a {
-        color: clr(subcolor-1);
+        color: clr(primary);
       }
     }
   }
 
   & .text_link{
-      padding: 1.5rem 2rem;
-      line-height: 5rem;
-      font-size: 1.4rem;
-      text-decoration: none;
-      font-weight: bold;
+    padding: 1.5rem 2rem;
+    line-height: 5rem;
+    font-size: 1.4rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: clr(primary);
+    font-family: variable(secondary-font);
   }
 
 }

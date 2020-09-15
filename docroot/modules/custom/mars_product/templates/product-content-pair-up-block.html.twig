@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * Template for the Product Content Pair Up component.
+ *
+ * Available variables:
+ * - title: Block title.
+ * - graphic_divider: Graphic Divider loaded from theme.
+ * - background: Image URI for background.
+ * - lead_card_entity: Helper variable representing master node entity.
+ * - lead_card_eyebrow: Eyebrow text for lead card, defaults to node type label.
+ * - lead_card_title: Title text for lead card.
+ * - cta_link_url: CTA URL, defaults to main node's canonical URL.
+ * - cta_link_text: CTA button label, defaults to Explore.
+ * - supporting_card_entity: Helper variable representing supporting card entity.
+ * - supporting_card_eyebrow: Eyebrow text for supporting card, defaults to Seen In or Made With.
+ * - supporting_card_entity_view: Render array for node in article_card, recipe_card, product_card entity view modes.
+ * - max_width: Max width in px.
+ * - png_asset: PNG asset imported from Theme settings.
+ */
+#}
+
+{% set background_src = background ? file_url(background) : NULL %}
+{% set png_asset_src = png_asset ? file_url(png_asset) : NULL %}
+
+{% include "@molecules/product-content-pair-up/product-content-pair-up.twig" with {
+  theme_styles: 'drupal',
+  title: title,
+  graphic_divider: graphic_divider,
+  background: background_src,
+  lead_card_eyebrow: lead_card_eyebrow,
+  lead_card_title: lead_card_title,
+  cta_link_url: cta_link_url,
+  cta_link_text: cta_link_text,
+  supporting_card_eyebrow: supporting_card_eyebrow,
+  supporting_card_content: supporting_card_entity_view,
+  max_width: max_width,
+  png_asset: png_asset_src
+} %}

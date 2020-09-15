@@ -6,5 +6,4 @@ cta_title: 'Explore'
 cta_link_attributes:
   'href': '#'
 cta_base_class: 'cta-link'
-cta_border_radius: 30
 video__src__url: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'

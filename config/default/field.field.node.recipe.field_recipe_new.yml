@@ -1,0 +1,23 @@
+uuid: 19a4eb8e-9806-4c2d-aebc-e92eafeb006c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_recipe_new
+    - node.type.recipe
+id: node.recipe.field_recipe_new
+field_name: field_recipe_new
+entity_type: node
+bundle: recipe
+label: New
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: New
+  off_label: 'Not new'
+field_type: boolean

@@ -24,7 +24,7 @@ content-feature:
 social-feed:
   js:
     dist/js/social_feed.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
@@ -45,14 +45,20 @@ social-feed-slide:
 pdp-hero:
   js:
     dist/js/pdp_hero.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
 pdp-multipack:
   js:
     dist/js/pdp_multipack.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
+  dependencies:
+    - core/drupal
+
+product-content-pair-up:
+  js:
+    dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
   dependencies:
     - core/drupal
 
@@ -68,12 +74,6 @@ tabs:
   dependencies:
     - core/drupal
 
-language-switcher:
-  js:
-    dist/js/02-molecules/language-switcher/language-switcher.js: {}
-  dependencies:
-    - core/drupal
-
 parent-page-header:
   js:
     dist/js/02-molecules/parent-page-header/parent-page-header.js: {}
@@ -83,12 +83,37 @@ parent-page-header:
 media-carousel:
   js:
     dist/js/media_carousel.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
 fullscreen-video:
   js:
     dist/js/fullscreen_video.js: {}
+  dependencies:
+    - core/drupal
+
+iframe:
+  js:
+    dist/js/01-atoms/iframe/iframe.js: {}
+  dependencies:
+    - core/drupal
+
+product-used-module:
+  js:
+    dist/js/product_used.js: {}
+    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
+  dependencies:
+    - core/drupal
+
+recipe-body:
+  js:
+    dist/js/03-organisms/recipe-body/recipe-body.js: {}
+  dependencies:
+    - core/drupal
+
+ajaxcardgrid:
+  js:
+    dist/js/03-organisms/grid/ajaxcardgrid.js: {}
   dependencies:
     - core/drupal

@@ -12,17 +12,18 @@
   overflow: hidden;
   display: inline-block;
   transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+  border-radius: variable(border-radius);
 
   &::after {
     content: '';
     position: absolute;
     display: block;
     bottom: -100px;
-    left: -170px;
+    left: -120px;
     width: 1000px;
     transform: rotate(18deg);
     height: 0;
-    background-color: clr(text-inverse);
+    background-color: clr(subcolor-3);
     transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
 
     @include xs {
@@ -30,12 +31,12 @@
     }
 
     @include medium {
-      width: 350px;
+      width: 750px;
     }
   }
 
   &:hover {
-    color: clr(subcolor-1);
+    color: clr(primary);
 
     &::after {
       height: 300px;
@@ -43,16 +44,16 @@
   }
 
   &--light {
-    background-color: clr(text-inverse);
-    color: clr(primary);
+    background-color: clr(secondary);
+    color: clr(subcolor-3);
     box-shadow: 0 0 5px #ccc;
     margin-bottom: 2rem;
     text-align: center;
     &::after {
-      background-color: clr(primary);
+      background-color: clr(subcolor-3);
     }
     &:hover {
-      color: clr(text-inverse);
+      color: clr(secondary);
     }
   }
 

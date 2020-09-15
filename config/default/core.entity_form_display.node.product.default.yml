@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.product.field_product_format
     - field.field.node.product.field_product_market
     - field.field.node.product.field_product_name
+    - field.field.node.product.field_product_new
     - field.field.node.product.field_product_occasions
     - field.field.node.product.field_product_segment
     - field.field.node.product.field_product_sub_brand
@@ -38,6 +39,7 @@ third_party_settings:
         - field_product_format
         - field_product_occasions
         - field_product_trade_description
+        - field_product_new
       parent_name: group_product
       weight: 1
       format_type: accordion_item
@@ -152,6 +154,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_product_new:
+    weight: 12
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   field_product_occasions:
     weight: 10

@@ -1,0 +1,20 @@
+uuid: 430249f2-5d94-4a0c-ad05-cffcb1edbd2b
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_workflow
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  lightning_workflow:
+    workflow: editorial
+name: 'Where to buy'
+type: where_to_buy
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

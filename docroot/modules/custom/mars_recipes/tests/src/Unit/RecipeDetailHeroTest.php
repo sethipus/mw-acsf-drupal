@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_recipes\Unit;
 
+use Drupal;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailHero;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -14,6 +15,7 @@ use Drupal\media\Entity\Media;
 use Drupal\file\Entity\File;
 use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
  * Class RecipeDetailHeroTest.
@@ -66,6 +68,13 @@ class RecipeDetailHeroTest extends UnitTestCase {
   private $themeSettings;
 
   /**
+   * ThemeConfiguratorParserMock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParserMock;
+
+  /**
    * File storage.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
@@ -78,7 +87,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
-    \Drupal::setContainer($this->containerMock);
+    Drupal::setContainer($this->containerMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())
@@ -104,7 +113,8 @@ class RecipeDetailHeroTest extends UnitTestCase {
       'recipe_detail_hero',
       $definitions,
       $this->entityTypeManagerMock,
-      $this->configFactoryMock
+      $this->configFactoryMock,
+      $this->themeConfiguratorParserMock
     );
 
     $this->themeSettings = [
@@ -133,13 +143,14 @@ class RecipeDetailHeroTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(3))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('entity_type.manager')],
         [$this->equalTo('config.factory')],
-        )
-      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configFactoryMock));
+        [$this->equalTo('mars_common.theme_configurator_parser')]
+      )
+      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configFactoryMock, $this->themeConfiguratorParserMock));
 
     $this->entityTypeManagerMock
       ->expects($this->exactly(1))
@@ -164,10 +175,13 @@ class RecipeDetailHeroTest extends UnitTestCase {
   public function buildBlockRenderArrayProperly() {
     $this->assertEquals('build', 'build', 'actual value is not equals to expected');
 
-    // Set theme configuration.
-    $this->setConfigFactoryMock();
     // Set file mock.
     $this->setFileMock();
+    // Set Config Parser Mock.
+    $this->themeConfiguratorParserMock
+      ->expects($this->exactly(1))
+      ->method('getFileWithId')
+      ->willReturn('');
 
     // Mock node context.
     $nodeMock = $this->createNodeMock();
@@ -201,6 +215,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 
   /**
@@ -316,26 +331,6 @@ class RecipeDetailHeroTest extends UnitTestCase {
       ->willReturn($fieldEntityMock);
 
     return $mediaMock;
-  }
-
-  /**
-   * Mock configuration factory.
-   */
-  protected function setConfigFactoryMock(): void {
-    $configGetMock = $this->getMockBuilder(stdClass::class)
-      ->setMethods(['get'])
-      ->getMock();
-
-    $this->configFactoryMock
-      ->expects($this->exactly(1))
-      ->method('get')
-      ->with($this->equalTo('emulsifymars.settings'))
-      ->willReturn($configGetMock);
-
-    $configGetMock
-      ->expects($this->exactly(1))
-      ->method('get')
-      ->willReturn($this->themeSettings);
   }
 
   /**

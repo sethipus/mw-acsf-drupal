@@ -18,7 +18,7 @@
       line-height: 1.1;
       letter-spacing: 0.8px;
       text-transform: uppercase;
-      color: clr(primary);
+      color: clr(secondary);
       text-align: center;
       margin: 0;
       
@@ -46,7 +46,7 @@
       border-bottom: 0;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
-      color: clr(primary);
+      color: clr(secondary);
     
       @include medium {
         left: 10rem;
@@ -64,7 +64,7 @@
   }
 
   &__container {
-    display: flex;
+    display: none;
     flex-flow: row wrap;
     justify-content: flex-start;
   
@@ -74,6 +74,10 @@
   
     @include large {
       padding-top: 3.2rem;
+    }
+
+    &[data-allergen-size-active="true"] {
+      display: flex;
     }
   }
 
@@ -86,7 +90,7 @@
     margin-top: 2.7rem;
   
     @include medium {
-      flex: 0 0 auto;
+      flex: 0 0 20%;
       align-items: center;
     }
   

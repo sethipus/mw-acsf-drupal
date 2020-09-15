@@ -1,5 +1,5 @@
 .carousel {
-  background-color: clr(subcolor-3);
+  background-color: clr(subcolor-2);
   padding: 2rem 0 4rem 0;
   overflow-x: hidden;
   max-width: 1128px;
@@ -8,7 +8,7 @@
   &__heading {
     &--main-heading {
       text-align: center;
-      color: clr(subcolor-1);
+      color: clr(primary);
       text-transform: uppercase;
       font-size: 2.8rem;
       line-height: 1.1rem;
@@ -27,7 +27,7 @@
       width: 1128px;
 
       path {
-        fill: clr(subcolor-3);
+        fill: clr(subcolor-2);
       }
       rect {
         width: 100%;
@@ -39,7 +39,7 @@
   .carousel__content .swiper-slide {
     height: auto;
     padding-top: 1px;
-    background-color: clr(subcolor-3);
+    background-color: clr(subcolor-2);
 
     @include medium {
       height: auto;
@@ -51,8 +51,8 @@
   }
 
   &__content {
-    background-color: clr(subcolor-3);
-    color: clr(subcolor-1);
+    background-color: clr(subcolor-2);
+    color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.6rem;
     line-height: 1.6rem;
@@ -68,7 +68,7 @@
   }
 
   .swiper-slide {
-    background: clr(subcolor-3);
+    background: clr(subcolor-2);
     height: 25rem;
 
     @include medium {
@@ -102,7 +102,7 @@
       left: calc(50% - 6.6rem / 2);;
       width: 6.6rem;
       height: 7rem;
-      background-color: clr(text-inverse);  
+      background-color: clr(subcolor-3);  
 
       @include clearfix;
 
@@ -135,12 +135,12 @@
     transform: scale(.6);
 
     & .swiper-scrollbar-drag {
-      background: clr(primary);
+      background: clr(secondary);
     }
   }
 
   #swiper-button {
-    background-color: clr(text-inverse);
+    background-color: clr(subcolor-3);
     border-radius: 50%;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     width: 5.5rem;
@@ -163,7 +163,7 @@
     }
 
     &::after {
-      color: clr(primary);
+      color: clr(secondary);
       font-size: 2.5rem;
     }
   }

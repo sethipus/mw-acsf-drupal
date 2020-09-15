@@ -1,0 +1,19 @@
+uuid: 12b3a6c4-9130-423e-bba6-f6b110a22024
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - taxonomy
+id: taxonomy_term.field_mars_url
+field_name: field_mars_url
+entity_type: taxonomy_term
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

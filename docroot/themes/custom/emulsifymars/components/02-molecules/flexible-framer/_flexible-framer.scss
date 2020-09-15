@@ -1,7 +1,7 @@
 .flexible-framer {
   font-family: variable(primary-font);
-  background-color: clr(pp-header-bg);
-  color: clr(subcolor-1);
+  background-color: clr(subcolor-2);
+  color: clr(primary);
   margin-top: 23px;
   padding-top: 50px;
 
@@ -23,7 +23,7 @@
     > svg {
       width: 100%;
       > path {
-        fill: clr(pp-header-bg);
+        fill: clr(subcolor-2);
         width: 100%;
       }
       > rect {
@@ -41,7 +41,7 @@
     font-style: normal;
     line-height: 40px;
     letter-spacing: 1.4px;
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-transform: uppercase;
     text-align: center;
   }
@@ -51,7 +51,7 @@
     margin-top: 20px;
     svg {
       path {
-        fill: clr(primary);
+        fill: clr(subcolor-1);
       }
     }
   }
@@ -86,6 +86,14 @@
       &__heading {
         text-align: center;
 
+        &-link {
+          color: clr(primary);
+
+          &:hover {
+            color: clr(secondary);
+          }
+        }
+
         a {
           text-decoration: none;
           font-size: 20px;
@@ -103,12 +111,12 @@
        height: 50px;
        line-height: 50px;
        padding: 0 20px;
-       background-color: clr(primary);
+       background-color: clr(secondary);
        font-size: 14px;
        border:none;
 
         &:hover {
-          color: clr(primary);
+          color: clr(secondary);
         }
       }
     }
@@ -137,7 +145,7 @@
 
         & svg {
           circle {
-            fill: clr(subclor-2);
+            fill: clr(subcolor-2);
           }
         }
       }

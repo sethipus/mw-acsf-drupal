@@ -10,8 +10,58 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
-use Drupal\node\Entity\Node;
 use Drupal\file\Entity\File;
+use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
+use Drupal\node\Entity\Node;
+use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
+use Drupal\layout_builder\Form\DefaultsEntityForm;
+use Drupal\mars_common\Form\Alter\NewsletterSignUpLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\WhereToBuyLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\RecipeLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
+use Drupal\layout_builder\Form\OverridesEntityForm;
+
+/**
+ * Implements hook_preprocess().
+ */
+function mars_common_preprocess(&$variables, $hook) {
+  if ($hook === 'views_view__grid_card') {
+    $divider_id = Drupal::config('emulsifymars.settings')
+      ->get('graphic_divider');
+    if (isset($divider_id[0])) {
+      $file_entity = File::load($divider_id[0]);
+      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+      $file_divider_content = file_get_contents($file_url->getUri());
+    }
+
+    $border_id = Drupal::config('emulsifymars.settings')
+      ->get('brand_borders');
+
+    if (isset($border_id[0])) {
+      $file_entity = File::load($border_id[0]);
+      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
+      $file_border_content = file_get_contents($file_url->getUri());
+    }
+
+    $border_radius = Drupal::config('emulsifymars.settings')
+      ->get('button_style');
+
+    $variables['theme_styles'] = 'drupal';
+    $variables['graphic_divider'] = $file_divider_content ?? '';
+    $variables['brand_border'] = $file_border_content ?? '';
+    $variables['ajax_card_grid_heading'] = $variables['view']->args[0] ?? '';
+    $variables['ajax_card_grid_link_text'] = 'See All';
+    $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
+  }
+
+  if ($hook === 'views_infinite_scroll_pager__grid_card') {
+    $border_radius = Drupal::config('emulsifymars.settings')
+      ->get('button_style');
+    $variables['default_link_border_radius'] = $border_radius ?? 0;
+  }
+}
 
 /**
  * Implements hook_theme().
@@ -33,7 +83,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'footer_block' => [
       'variables' => [
         'logo'            => NULL,
-        'twix_border'     => NULL,
+        'border'          => NULL,
         'social_links'    => NULL,
         'top_footer_menu' => NULL,
         'legal_links'     => NULL,
@@ -46,11 +96,13 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'content_feature_module_block' => [
       'variables' => [
         'eyebrow' => NULL,
-        'label' => NULL,
+        'title' => NULL,
         'background' => NULL,
         'description' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
+        'border_radius' => NULL,
+        'graphic_divider' => NULL,
       ],
       'template' => 'content-feature-module-block',
     ],
@@ -58,7 +110,37 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'label' => '',
         'items' => [],
+        'graphic_divider' => '',
+        'brand_border' => '',
       ],
+    ],
+    'flexible_driver_block' => [
+      'variables' => [
+        'title' => NULL,
+        'description' => NULL,
+        'cta_label' => NULL,
+        'cta_link' => NULL,
+        'asset_1' => NULL,
+        'asset_2' => NULL,
+      ],
+    ],
+    'story_highlight_block' => [
+      'variables' => [
+        'brand_border' => NULL,
+        'title' => NULL,
+        'graphic_divider' => NULL,
+        'story_description' => NULL,
+        'story_items' => [],
+        'svg_asset_src_1' => NULL,
+        'svg_asset_src_2' => NULL,
+        'svg_asset_src_3' => NULL,
+        'svg_asset_alt_1' => NULL,
+        'svg_asset_alt_2' => NULL,
+        'svg_asset_alt_3' => NULL,
+        'view_more_cta_url' => NULL,
+        'view_more_cta_label' => NULL,
+      ],
+      'template' => 'story-highlight-block',
     ],
     'parent_page_header_block' => [
       'variables' => [
@@ -96,6 +178,19 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-feature-block',
     ],
+    'newsletter_signup_form_block' => [
+      'variables' => [
+        'form_url' => NULL,
+        'accessibility_title' => NULL,
+      ],
+      'template' => 'newsletter-signup-form-block',
+    ],
+    'contact_form_block' => [
+      'variables' => [
+        'form_id' => NULL,
+      ],
+      'template' => 'contact-form-block',
+    ],
     'error_page_block' => [
       'variables' => [
         'title' => NULL,
@@ -103,6 +198,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'links' => NULL,
         'image' => NULL,
         'image_alt' => NULL,
+        'graphic_divider' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'error-page-block',
     ],
@@ -118,8 +215,31 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'help_and_contact_cta_label' => NULL,
         'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'contact-help-banner-block',
+    ],
+    'iframe_block' => [
+      'variables' => [
+        'url' => NULL,
+        'accessibility_title' => NULL,
+      ],
+      'template' => 'iframe-block',
+    ],
+    'freeform_story_block' => [
+      'variables' => [
+        'block_aligned' => NULL,
+        'header_1' => NULL,
+        'header_2' => NULL,
+        'body' => NULL,
+        'background_shape' => NULL,
+        'image' => NULL,
+        'image_alt' => NULL,
+        'brand_shape' => NULL,
+        'custom_background_color' => NULL,
+        'use_custom_color' => NULL,
+      ],
+      'template' => 'freeform-story-block',
     ],
   ];
 }
@@ -159,15 +279,8 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
-  $border_id = Drupal::config('emulsifymars.settings')
-    ->get('brand_borders');
-
-  if (isset($border_id[0])) {
-    $file_entity = File::load($border_id[0]);
-    $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-    $file_content = file_get_contents($file_url->getUri());
-
-  }
+  $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+  $file_content = $themeParser->getFileWithId('brand_borders', 'carousel');
 
   $media_items = [];
   foreach ($field_carousel_items as $item_key => $item_value) {
@@ -303,14 +416,20 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__full_width_video(array &$variables) {
-  $field_video_url = $variables['content']['field_full_video_path']['#items']->value;
-  $field_shape_motif = $variables['content']['field_full_video_svg_asset']['#items']->value;
-  $field_video_desc = $variables['content']['field_full_video_description']['#items']->value;
-  $field_heading = $variables['content']['field_full_video_title']['#items']->value;
+  if (!empty($variables['content']['field_full_video_svg_asset']['#items'])) {
+    $field_shape_motif = $variables['content']['field_full_video_svg_asset']['#items']->value;
+    $variables['shape_motif'] = (bool) $field_shape_motif;
+  }
+  if (!empty($variables['content']['field_full_video_description']['#items'])) {
+    $field_video_desc = $variables['content']['field_full_video_description']['#items']->value;
+    $variables['content'] = $field_video_desc;
+  }
+  if (!empty($variables['content']['field_full_video_title']['#items'])) {
+    $field_heading = $variables['content']['field_full_video_title']['#items']->value;
+    $variables['heading'] = $field_heading;
+  }
 
-  $variables['heading'] = $field_heading;
-  $variables['content'] = $field_video_desc;
-  $variables['shape_motif'] = (bool) $field_shape_motif;
+  $field_video_url = $variables['content']['field_full_video_path']['#items']->value;
   $variables['media'] = [
     'video' => TRUE,
     'src' => $field_video_url,
@@ -323,7 +442,8 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $field_title = $variables['view']->getTitle();
   $rows = $variables['rows'];
-  $total_rows = $variables['rows'][0]['#view']->total_rows;
+  $variables['view']->total_rows;
+  $total_rows = $variables['view']->total_rows;
   $items_per_page = $variables['view']->pager->options['items_per_page'];
 
   $faq_items = [];
@@ -344,7 +464,7 @@ function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $variables['qa_items'] = $faq_items;
   $variables['faq_title'] = $field_title;
 
-  $request = \Drupal::requestStack()->getCurrentRequest();
+  $request = Drupal::requestStack()->getCurrentRequest();
   if (
     $request->query->get('items_per_page') != 'All' &&
     !empty($variables['exposed']) &&
@@ -410,21 +530,9 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
     }
   }
 
-  $divider_id = Drupal::config('emulsifymars.settings')
-    ->get('graphic_divider');
-  if (isset($divider_id[0])) {
-    $file_entity = File::load($divider_id[0]);
-    $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-    $file_divider_content = file_get_contents($file_url->getUri());
-  }
-
-  $border_id = Drupal::config('emulsifymars.settings')
-    ->get('brand_borders');
-  if (isset($border_id[0])) {
-    $file_entity = File::load($border_id[0]);
-    $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-    $file_border_content = file_get_contents($file_url->getUri());
-  }
+  $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
+  $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
+  $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
 
   $variables['items'] = $ff_items;
   $variables['grid_label'] = $field_ff_title;
@@ -443,7 +551,67 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form_id === 'layout_builder_add_block' ||
     $form_id === 'layout_builder_update_block'
   ) {
+    $form['settings']['label']['#access'] = FALSE;
     $form['settings']['label_display']['#access'] = FALSE;
+  }
+
+  // Alter layout form related to content type
+  // in order to add custom validation.
+  $form_object = $form_state->getFormObject();
+  if (
+    strpos($form_id, 'layout_builder_form') !== FALSE &&
+    ($form_object instanceof DefaultsEntityForm || $form_object instanceof OverridesEntityForm)
+  ) {
+
+    $entity = $form_state->getFormObject()->getEntity();
+
+    $original_id = NULL;
+    if ($entity instanceof Node) {
+      $original_id = 'node.' . $entity->bundle() . '.default';
+    }
+    elseif ($entity instanceof LayoutEntityDisplayInterface) {
+      $original_id = $entity->getOriginalId();
+    }
+
+    if ($original_id == 'node.contact_help.default') {
+      $form['#validate'][] = [ContactHelpLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.newsletter_sign_up.default') {
+      $form['#validate'][] = [NewsletterSignUpLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.where_to_buy.default') {
+      $form['#validate'][] = [WhereToBuyLayoutFormAlter::class, 'validate'];
+    }
+    if (
+      $original_id == 'node.recipe.full' ||
+      $original_id == 'node.recipe.default'
+    ) {
+      $form['#validate'][] = [RecipeLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.homepage.default') {
+      $form['#validate'][] = [HomepageLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.article.default') {
+      $form['#validate'][] = [ArticleLayoutFormAlter::class, 'validate'];
+    }
+    if (
+      $original_id == 'node.product.default' ||
+      $original_id == 'node.product_multipack.default'
+    ) {
+      $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
+    }
+  }
+
+  $view = $form_state->get('view');
+  // Add validation for faq view title field.
+  if (
+    isset($view) &&
+    $form_id == 'views_ui_edit_display_form' &&
+    $view->get('id') == 'faq_view' &&
+    $form_state->get('type') == 'title'
+  ) {
+    $form['options']['title']['#maxlength'] = 10;
+    $form['options']['title']['#required'] = TRUE;
   }
 }
 

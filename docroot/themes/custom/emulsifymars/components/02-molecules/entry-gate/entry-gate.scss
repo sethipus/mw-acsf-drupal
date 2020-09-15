@@ -16,11 +16,9 @@
     border-radius: 1.5rem;
     padding: 0 11rem 6rem 11rem;
     max-width: 89.6rem;
-    background-color: clr(pp-header-bg);
-    background-image: variable(brand-shape);
-    background-repeat: no-repeat;
-    background-position: center 28rem;
-    background-size: 105%;
+    background-color: clr(subcolor-2);
+    position: relative;
+    overflow: hidden;
   }
 
   &.age-error {
@@ -42,15 +40,25 @@
     padding-right: 1rem;
   }
 
+  &__brand-shape {
+    position: absolute;
+    width: 100%;
+    margin-left: -11rem;
+    bottom: -45rem;
+
+    & svg {
+      height: 70rem;
+      width: 70rem;
+    }
+  }
+
   &__inner {
     text-align: center;
     border-radius: 1.5rem;
     max-width: 89.6rem;
-    background-color: clr(pp-header-bg);
-    background-image: variable(brand-shape);
-    background-repeat: no-repeat;
-    background-position: center 28rem;
-    background-size: 105%;
+    background-color: clr(subcolor-2);
+    position: relative;
+    overflow: hidden;
 
     @include small {
       padding: 0 5rem 3rem 5rem;
@@ -67,7 +75,7 @@
 
   &__heading {
     font-family: variable(heading-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
 
     @include small {
       font-size: 4rem;
@@ -87,7 +95,7 @@
 
   &__paragraph {
     font-family: variable(secondary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     margin-bottom: 3.5rem;
 
     @include medium {
@@ -102,13 +110,13 @@
   }
 
   &__separator-line {
-    border: 1px solid clr(subcolor-4);
+    border: 1px solid clr(primary);
     margin-bottom: 3.5rem;
   }
 
   &__eyebrow {
     display: block;
-    color: clr(subcolor-1);
+    color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
@@ -128,9 +136,11 @@
 
   &__bottom-paragraph,
   &__bottom-paragraph a {
-    color: clr(subcolor-1);
+    color: clr(primary);
     font-family: variable(secondary-font);
     display: inline;
+    position: relative;
+    z-index: 2;
 
     @include medium {
       font-size: 1.4rem;

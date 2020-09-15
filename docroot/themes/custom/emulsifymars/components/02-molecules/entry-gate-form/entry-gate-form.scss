@@ -49,7 +49,7 @@
   }
 
   &__input {
-    color: clr(subcolor-1);
+    color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
@@ -96,7 +96,7 @@
     pointer-events: none;
     font-family: variable(secondary-font);
     transition: all .3s ease;
-    color: clr(subcolor-1);
+    color: clr(primary);
 
     @include xs {
       font-size: 1.6rem;
@@ -117,8 +117,9 @@
   &__submit-btn {
     position: relative;
     line-height: 5.8rem;
-    background: clr(primary);
-    color: clr(text-inverse);
+    background: clr(secondary);
+    color: clr(subcolor-3);
+    border-radius: variable(border-radius);
     font-family: variable(secondary-font);
     font-size: 1.6rem;
     font-weight: 600;
@@ -146,7 +147,7 @@
       left: 0;
       width: 500%;
       height: 1000%;
-      background: clr(text-inverse);
+      background: clr(subcolor-3);
       z-index: -1;
       transform-origin: 0% 0%;
       transform: translateX(0) translateY(10%) rotate(45deg);
@@ -180,7 +181,7 @@
 
   // styling for input placeholders
   ::placeholder {
-    color: clr(subcolor-1);
+    color: clr(primary);
     font-family: variable(secondary-font);
     opacity: 1;
     font-size: 1.8rem;
@@ -188,14 +189,14 @@
   }
 
   :-ms-input-placeholder {
-    color: clr(subcolor-1);
+    color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
   }
 
   ::-ms-input-placeholder {
-    color: clr(subcolor-1);
+    color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
