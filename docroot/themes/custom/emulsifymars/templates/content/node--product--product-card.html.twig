@@ -13,6 +13,8 @@
 {% set image_src = file_url(image_src) %}
 
 {% include "@molecules/card/product-card/product-card.twig" with {
+  card__eyebrow: elements['#eyebrow'],
+  card__image__src: image_src,
   paragraph_size: 'large',
   paragraph_base_class: 'paragraph',
   paragraph_modifiers: ['large'],
