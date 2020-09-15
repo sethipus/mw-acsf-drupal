@@ -9,6 +9,13 @@
     {% include "@atoms/badge/badge.twig" %}
   {% endif %}
 
+  {# Eyebrow #}
+  {% if article_card_eyebrow %}
+    {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+      eyebrow_text: article_card_eyebrow
+    } %}
+  {% endif %}
+
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: article_card_heading,
     heading_level: article_card_heading_level,

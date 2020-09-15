@@ -56,6 +56,12 @@ pdp-multipack:
   dependencies:
     - core/drupal
 
+product-content-pair-up:
+  js:
+    dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
+  dependencies:
+    - core/drupal
+
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
 sprite:
