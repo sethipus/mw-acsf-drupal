@@ -16,6 +16,13 @@
     </a>
   </div>
 
+  {# Eyebrow #}
+  {% if recipe_card_eyebrow %}
+    {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+      eyebrow_text: recipe_card_eyebrow
+    } %}
+  {% endif %}
+
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: recipe_card_heading,
     heading_level: recipe_card_heading_level,
