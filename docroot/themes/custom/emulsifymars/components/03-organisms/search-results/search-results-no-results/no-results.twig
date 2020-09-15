@@ -1,10 +1,12 @@
 <section class="search-results-page" data-theme="twix">
-  {% include "@molecules/search-page-header/search-page-header.twig" with {
-      search_page_header_heading: 'What are you looking for?',
-      search_page_header_heading_level: 1,
-      search_page_header_heading_base_class: 'search-page-heading'
-    }
-  %}
+  {% block search_header %}
+    {% include "@molecules/search-page-header/search-page-header.twig" with {
+        search_page_header_heading: 'What are you looking for?',
+        search_page_header_heading_level: 1,
+        search_page_header_heading_base_class: 'search-page-heading'
+      }
+    %}
+  {% endblock %}
 
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: no_results_heading,
