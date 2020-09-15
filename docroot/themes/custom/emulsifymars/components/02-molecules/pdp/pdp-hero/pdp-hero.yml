@@ -12,6 +12,16 @@ pdp_common_hero_data:
   data_widget_id: 'Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85'
   reference_for_analitics: ''
   product_CTA_title: 'WHERE TO BUY'
+pdp_size_items_data:
+  - size_id : '1oz'
+    title: '1.36 oz'
+    link_url: '#'
+  - size_id : '4oz'
+    title: '4 oz'
+    link_url: '#'
+  - size_id : '6oz'
+    title: '6 oz'
+    link_url: '#'
 pdp_hero_data:
   image_items:
     - image:
@@ -43,19 +53,3 @@ pdp_hero_data:
       border_radius: 20
       link_attributes:
         'href' : '#section-products-1oz'
-  size_items:
-    - size_attributes:
-        'data-size-selected' : 'true'
-        'data-size-id' : '1oz'
-      title: '1.36 oz'
-      link_url: '#'
-    - size_attributes:
-        'data-size-selected' : 'false'
-        'data-size-id' : '4oz'
-      title: '4 oz'
-      link_url: '#'
-    - size_attributes:
-        'data-size-selected' : 'false'
-        'data-size-id' : '6oz'
-      title: '6 oz'
-      link_url: '#'

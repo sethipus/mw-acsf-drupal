@@ -5,8 +5,9 @@
     <!-- PDP Hero Module -->
     {% include "@molecules/pdp/pdp-hero/pdp-hero.twig" with {
       size_id: pdp_item.size_id,
-      pdp_hero_data: pdp_item.hero_data,
       pdp_common_hero_data: pdp_common_data.hero_data,
+      pdp_size_items_data: pdp_size_data,
+      pdp_hero_data: pdp_item.hero_data,
     } %}
     <!-- PDP Nutrition -->
     {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {

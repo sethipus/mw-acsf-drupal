@@ -56,14 +56,16 @@
           span_blockname: pdp_hero_base_class,
         } %}
         <ul {{ bem('size-list', [], pdp_hero_base_class)}}>
-          {% for size_item in pdp_hero_data.size_items %}
+          {% for size_item in pdp_size_items_data %}
+            {% set active_size = size_item.size_id == size_id ? 'true' : 'false' %}
+            {% set size_attributes = {'data-size-id' : size_item.size_id, 'data-size-selected' : active_size } %}
             <li {{ bem('list-item', [], pdp_hero_base_class)}}>
               {% include "@atoms/links/link/link.twig" with {
                 link_base_class: 'list-item--link',
                 link_blockname: pdp_hero_base_class,
                 link_content: size_item.title,
                 link_url: size_item.link_url,
-                link_attributes: size_item.size_attributes,
+                link_attributes: size_attributes,
               } %}
             </li>
           {% endfor %}
