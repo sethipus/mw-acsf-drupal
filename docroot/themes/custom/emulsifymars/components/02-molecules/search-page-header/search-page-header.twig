@@ -1,14 +1,16 @@
 {% set search_page_header_base_class = search_page_header_base_class|default('search-page-header') %}
 
-<section {{ bem(search_page_header_base_class, [], []) }} data-theme="twix">
+<section {{ bem(search_page_header_base_class, [], []) }} data-theme="{{ theme_styles }}">
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: search_page_header_heading,
     heading_level: search_page_header_heading_level,
     heading_base_class: search_page_header_heading_base_class
   }%}
 
-  {% include "@molecules/search/search-input/search-input.twig" %}
-
+  {% block search_header__input %}
+    {% include "@molecules/search/search-input/search-input.twig" %}
+  {% endblock %}
+  
   {% include "@molecules/search/search-results/search-results.twig" with {
     search_results: search_results
   }%}

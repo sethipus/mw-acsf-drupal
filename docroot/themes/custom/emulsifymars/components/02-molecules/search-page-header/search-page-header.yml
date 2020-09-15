@@ -1,3 +1,4 @@
+theme_styles: 'twix'
 search_page_header_heading: 'What are you looking for?'
 search_page_header_heading_level: 1
 search_page_header_heading_base_class: 'search-page-heading'

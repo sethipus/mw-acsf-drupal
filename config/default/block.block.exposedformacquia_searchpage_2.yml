@@ -1,0 +1,29 @@
+uuid: e83d6e1c-e4cc-4d8f-9db8-df3c7a644f09
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.acquia_search
+  module:
+    - system
+    - views
+  theme:
+    - emulsifymars
+id: exposedformacquia_searchpage_2
+theme: emulsifymars
+region: content
+weight: -1
+provider: null
+plugin: 'views_exposed_filter_block:acquia_search-page'
+settings:
+  id: 'views_exposed_filter_block:acquia_search-page'
+  label: ''
+  provider: views
+  label_display: ''
+  views_label: ''
+visibility:
+  request_path:
+    id: request_path
+    pages: /search
+    negate: false
+    context_mapping: {  }
