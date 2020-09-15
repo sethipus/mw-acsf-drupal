@@ -103,6 +103,10 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
 
     $build = [];
     $build['#input_form'] = $this->view->display_handler->viewExposedFormBlocks();
+    $build['#input_form']['search']['#attributes']['class'][] = 'search-input__field';
+    $build['#input_form']['search']['#title_display'] = 'none';
+    $build['#input_form']['search']['#placeholder'] = $this->t('Search products, recipes, articles...');
+    unset($build['#input_form']['actions']['submit']);
     $build['#content_type_facet'] = $this->facetManager->build($facet);
     $build['#search_header_heading'] = $conf['search_header_heading'] ?? $this->t('What are you looking for?');
     $build['#brand_shape'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'search-header-border');

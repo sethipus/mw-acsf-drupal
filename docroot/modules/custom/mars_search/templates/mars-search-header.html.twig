@@ -21,7 +21,9 @@
 } %}
 
   {% block search_header__input %}
-    {{ input_form | render }}
+    <div class="search-input" data-theme="drupal">
+      {{ input_form | render }}
+    </div>
   {% endblock %}
 
 {% endembed %}
