@@ -187,7 +187,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#theme'] = 'header_block';
 
-
     $build['#search_form'] = $this->buildSearchForm();
 
     return $build;
