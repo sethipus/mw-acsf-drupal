@@ -11,12 +11,16 @@ import recipeCardData from './../../../02-molecules/card/recipe-card/recipe-card
 import articleCard from './../../../02-molecules/card/article-card/article-card.twig';
 import articleCardData from './../../../02-molecules/card/article-card/article-card.yml';
 
+import { useEffect } from '@storybook/client-api';
+import '../../../01-atoms/search-results-item/search-results-item';
+
 /**
  * Storybook Definition.
  */
 export default { title: 'Organisms/Search Results/View all results' };
 
 export const allResultsTemplate = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
   ajaxGridData.items = [
     productCard(productCardData),
     productCard(productCardData),
@@ -27,7 +31,6 @@ export const allResultsTemplate = () => {
     articleCard(articleCardData),
     productCard(productCardData)
   ];
-
   return <div dangerouslySetInnerHTML={{ __html: allResultsTwig({
       ...allResultsData,
       ...ajaxCardGridData,
