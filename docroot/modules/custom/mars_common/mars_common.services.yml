@@ -1,8 +1,4 @@
 services:
-  mars_common.social_links:
-    class: Drupal\mars_common\SocialLinks
-    arguments: ['@entity_type.manager', '@config.factory']
-
   mars_common.media_helper:
     class: Drupal\mars_common\MediaHelper
     arguments: ['@entity_type.manager']

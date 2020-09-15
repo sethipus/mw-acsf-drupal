@@ -11,6 +11,8 @@
   article_is_new: content.field_article_new['#object'].field_article_new.value,
   article_card_background_img_url: background_img,
 
+  article_card_eyebrow: elements['#eyebrow'],
+
   article_card_heading: content.field_article_image['#object'].title.value,
   article_card_heading_level: 3,
   article_card_heading_base_class: 'article-card-heading',
@@ -26,5 +28,5 @@
 
   article_card_button_link_attributes: {
     'href': path('entity.node.canonical', {'node': content.field_article_image['#object'].nid.value})
-  }
+  },
 } %}

@@ -20,6 +20,7 @@
   .group-1,
   .group-2,
   .group-5,
+  .group-7,
   .ff-footnote-label {
     margin-left: 1.6rem;
     margin-right: -1.6rem;
@@ -35,8 +36,7 @@
   }
 
   .ff-item-row,
-  .group-0,
-  .ff-submit-btn {
+  .group-0 {
     margin-bottom: 1.6rem;
   }
 
@@ -140,11 +140,12 @@
   .ff-required-mark,
   #sectionLabel2,
   #ffSection6,
-  #ffSection7,
   #lblCaseAccountIdFirstName,
   #lblCaseAccountIdLastName,
   #lblCaseAccountIdPersonEmail,
-  #lblCaseSubject {
+  #lblCaseSubject,
+  #sectionLabel5,
+  #sectionLabel7 {
     display: none;
   }
 
@@ -202,6 +203,17 @@
     display: inline-block;
     border: 0.5px solid #c4c4c4;
     border-radius: variable(border-radius) !important;
+    font-family: variable(secondary-font);
+  }
+
+  .group-7 {
+    max-width: 90%;
+    margin-right: 10%;
+  }
+
+  .ff-general-text-label {
+    font-size: 1rem;
+    color: clr(primary);
     font-family: variable(secondary-font);
   }
 
