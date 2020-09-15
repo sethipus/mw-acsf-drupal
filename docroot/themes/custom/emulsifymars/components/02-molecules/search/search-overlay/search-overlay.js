@@ -19,6 +19,15 @@
         return false;
       });
 
+      $('.search-autocomplete-wrapper .inline-search--closebtn').click(function (){
+        $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
+          $(this).removeClass('opened');
+        });
+        $('.search-autocomplete-wrapper-mobile:visible').slideUp(250, function (){
+          $(this).removeClass('opened');
+        });
+      });
+
       $(document).click(function(event){
         if ($(event.target).parents('.search-autocomplete-wrapper-mobile').length == 0) {
           $('.header__menu--secondary-mobile .inline-search').show();
@@ -26,7 +35,6 @@
             $(this).removeClass('opened');
           });
         }
-        return false;
       });
 
     }

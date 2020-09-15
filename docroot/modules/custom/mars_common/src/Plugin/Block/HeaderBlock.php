@@ -264,6 +264,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $form_state->set('rerender', NULL);
       $form = $this->formBuilder->buildForm('\Drupal\views\Form\ViewsExposedForm', $form_state);
       $form['search']['#attributes']['class'][] = 'mars-autocomplete-field';
+      $form['search']['#attributes']['data-view_id'] = $view_id;
+      $form['search']['#attributes']['data-display_id'] = $display_id;
       $form['search']['#title_display'] = 'none';
       $form['search']['#placeholder'] = $this->t('Search');
       unset($form['actions']['submit']);
