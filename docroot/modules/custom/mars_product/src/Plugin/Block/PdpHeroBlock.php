@@ -276,68 +276,69 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * {@inheritdoc}
    */
   public function build() {
-    $build['#eyebrow'] = $this->configuration['eyebrow'] ?? '';
-    $build['#available_sizes'] = $this->configuration['available_sizes'] ?? '';
-
-    // Nutrition part labels.
-    $build['#nutritional_label'] = $this->configuration['nutrition']['label'] ?? '';
-    $build['#nutritional_info_serving_label'] = $this->configuration['nutrition']['serving_label'] ?? '';
-    $build['#nutritional_info_daily_label'] = $this->configuration['nutrition']['daily_label'] ?? '';
-    $build['#vitamins_info_label'] = $this->configuration['nutrition']['vitamins_label'] . ':' ?? '';
-
-    // Get Product dependent values.
+    // Product node.
     $node = $this->getContextValue('node');
-    $build['#product'] = $node;
-    $build['#image_items'] = $this->getImageItems($node);
-    $build['#size_items'] = $this->getSizeItems($node);
-    $build['#mobile_items'] = $this->getMobileItems();
-    // Nutrition part.
-    $build['#serving_items'] = $this->getServingItems($node);
-    // Allergen part.
-    $build['#allergen_label'] = $this->configuration['allergen_label'];
-    $build['#allergens_list'] = $this->getAllergenItems($node);
 
-    // Theme settings.
-    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
-    $build['#background_color']
-      = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
-      $this->configuration['background_color'] : '';
-
-    $build['#theme'] = 'pdp_hero_block';
-
+    // Get values from first Product Variant.
     $product_sku = '';
+    $ingredients_label = '';
+    $warnings_label = '';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
       $product_sku = $product_variant->get('field_product_sku')->value;
+      $ingredients_label = $product_variant->get('field_product_ingredients')->getFieldDefinition()->getLabel() . ':';
+      $warnings_label = $product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel() . ':';
     }
-    $build['#product_sku'] = !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku;
-    $build['#commerce_vendor'] = $this->configuration['wtb']['commerce_vendor'];
-    $build['#data_widget_id'] = $this->configuration['wtb']['data_widget_id'] ?? '';
+    $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
+      $this->configuration['background_color'] : '';
+    $pdp_common_data = [
+      'hero_data' => [
+        'product_label' => $this->configuration['eyebrow'] ?? '',
+        'size_label' => $this->configuration['available_sizes'] ?? '',
+        'brand_shape' => $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape'),
+        'background_color' => $background_color,
+        'product_name' => $node->title->value,
+        'product_description' => $node->field_product_description->value,
+        'product_sku' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku,
+        'commerce_vendor' => $this->configuration['wtb']['commerce_vendor'],
+        'data_widget_id' => $this->configuration['wtb']['data_widget_id'] ?? '',
+      ],
+      'nutrition_data' => [
+        'nutritional_label' => $this->configuration['nutrition']['label'] ?? '',
+        'nutritional_info_serving_label' => $this->configuration['nutrition']['serving_label'] ?? '',
+        'nutritional_info_daily_label' => $this->configuration['nutrition']['daily_label'] ?? '',
+        'vitamins_info_label' => $this->configuration['nutrition']['vitamins_label'] . ':' ?? '',
+        'ingredients_label' => $ingredients_label,
+        'warnings_label' => $warnings_label,
+      ],
+      'allergen_data' => [
+        'allergen_label' => $this->configuration['allergen_label'],
+      ],
+    ];
+    $build['#pdp_common_data'] = $pdp_common_data;
+    $build['#pdp_size_data'] = $this->getSizeData($node);
+    $build['#pdp_data'] = $this->getPdpData($node);
+
+    $build['#theme'] = 'pdp_hero_block';
     $this->pageAttachments($build);
 
     return $build;
   }
 
   /**
-   * Get Image items.
+   * Get PDP data.
    *
    * @param object $node
    *   Product node.
    *
    * @return array
-   *   Size items array.
+   *   PDP data array.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function getImageItems($node) {
+  public function getPdpData($node) {
     $items = [];
     $field_size = 'field_product_size';
-
-    $map = [
-      'field_product_key_image' => 'field_product_key_image_override',
-      'field_product_image_1' => 'field_product_image_1_override',
-      'field_product_image_2' => 'field_product_image_2_override',
-      'field_product_image_3' => 'field_product_image_3_override',
-      'field_product_image_4' => 'field_product_image_4_override',
-    ];
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
@@ -345,35 +346,67 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $size_id = $this->getMachineName($size);
       $i++;
       $state = $i == 1 ? 'true' : 'false';
-      $items[$size_id] = [
-        'active' => $state,
+      $items[] = [
         'size_id' => $size_id,
+        'active' => $state,
+        'hero_data' => [
+          'image_items' => $this->getImageItems($product_variant),
+          'mobile_sections_items' => $this->getMobileItems($product_variant),
+        ],
+        'nutrition_data' => [
+          'serving_item' => $this->getServingItems($product_variant),
+        ],
+        'allergen_data' => [
+          'allergens_list' => $this->getAllergenItems($product_variant),
+        ],
       ];
-      foreach ($map as $image_field => $image_field_override) {
-        $media = $product_variant->{$image_field}->entity;
-        $media_override = $product_variant->{$image_field_override}->entity;
-        if (!$media && !$media_override) {
-          continue;
-        }
-        if ($media && $media_override) {
-          $media = $media_override;
-        }
+    }
 
-        $file = $this->fileStorage->load($media->image->target_id);
-        $image_src = $file->createFileUrl();
-        $image_alt = $media->image[0]->alt;
+    return $items;
+  }
 
-        $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
-        $item = [
-          'image' => [
-            'srcset' => sprintf($format, $image_src, $image_src, $image_src, $image_src),
-            'src' => $image_src,
-            'alt' => $image_alt,
-          ],
-        ];
+  /**
+   * Get Image items.
+   *
+   * @param object $node
+   *   Product Variant node.
+   *
+   * @return array
+   *   Image items array.
+   */
+  public function getImageItems($node) {
+    $items = [];
+    $map = [
+      'field_product_key_image' => 'field_product_key_image_override',
+      'field_product_image_1' => 'field_product_image_1_override',
+      'field_product_image_2' => 'field_product_image_2_override',
+      'field_product_image_3' => 'field_product_image_3_override',
+      'field_product_image_4' => 'field_product_image_4_override',
+    ];
 
-        $items[$size_id]['images'][] = $item;
+    foreach ($map as $image_field => $image_field_override) {
+      $media = $node->{$image_field}->entity;
+      $media_override = $node->{$image_field_override}->entity;
+      if (!$media && !$media_override) {
+        continue;
       }
+      if ($media && $media_override) {
+        $media = $media_override;
+      }
+
+      $file = $this->fileStorage->load($media->image->target_id);
+      $image_src = $file->createFileUrl();
+      $image_alt = $media->image[0]->alt;
+
+      $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
+      $items[] = [
+        'image' => [
+          'srcset' => sprintf($format, $image_src, $image_src, $image_src, $image_src),
+          'src' => $image_src,
+          'alt' => $image_alt,
+        ],
+      ];
+
     }
 
     return $items;
@@ -383,28 +416,22 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * Get Size items.
    *
    * @param object $node
-   *   Product node.
+   *   Product Variant node.
    *
    * @return array
    *   Size items array.
    */
-  public function getSizeItems($node) {
+  public function getSizeData($node) {
     $items = [];
     $field_size = 'field_product_size';
-    $i = 0;
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
       $title = $product_variant->get($field_size)->value;
-      $id = $this->getMachineName($title);
-      $i++;
-      $state = $i == 1 ? 'true' : 'false';
+      $size_id = $this->getMachineName($title);
       $items[] = [
+        'size_id' => $size_id,
         'title' => $title,
         'link_url' => '#',
-        'size_attributes' => [
-          'data-size-selected' => $state,
-          'data-size-id' => $id,
-        ],
       ];
     }
 
@@ -415,60 +442,46 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * Get Serving items.
    *
    * @param object $node
-   *   Product node.
+   *   Product Variant node.
    *
    * @return array
-   *   Size items array.
+   *   Serving items array.
    */
   public function getServingItems($node) {
-    $items = [];
-    $field_size = 'field_product_size';
-    $i = 0;
-    foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
-      $size = $product_variant->get($field_size)->value;
-      $size_id = $this->getMachineName($size);
-      $i++;
-      $state = $i == 1 ? 'true' : 'false';
-      $items[$size_id] = [
-        'active' => $state,
-        'size_id' => $size_id,
-        'ingredients_label' => $product_variant->get('field_product_ingredients')->getFieldDefinition()->getLabel() . ':',
-        'ingredients_value' => strip_tags(html_entity_decode($product_variant->get('field_product_ingredients')->value)),
-        'warnings_label' => $product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel() . ':',
-        'warnings_value' => strip_tags(html_entity_decode($product_variant->get('field_product_allergen_warnings')->value)),
-        'serving_size' => [
-          'label' => $product_variant->get('field_product_serving_size')->getFieldDefinition()->getLabel() . ':',
-          'value' => $product_variant->get('field_product_serving_size')->value,
-        ],
-        'serving_per_container' => [
-          'label' => $product_variant->get('field_product_servings_per')->getFieldDefinition()->getLabel() . ':',
-          'value' => $product_variant->get('field_product_servings_per')->value,
-        ],
-      ];
+    $result_item = [
+      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_product_ingredients')->value)),
+      'warnings_value' => strip_tags(html_entity_decode($node->get('field_product_allergen_warnings')->value)),
+      'serving_size' => [
+        'label' => $node->get('field_product_serving_size')->getFieldDefinition()->getLabel() . ':',
+        'value' => $node->get('field_product_serving_size')->value,
+      ],
+      'serving_per_container' => [
+        'label' => $node->get('field_product_servings_per')->getFieldDefinition()->getLabel() . ':',
+        'value' => $node->get('field_product_servings_per')->value,
+      ],
+    ];
 
-      $mapping = $this->getGroupingMethod($product_variant);
-      foreach ($mapping as $section => $fields) {
-        foreach ($fields as $field => $field_daily) {
-          $item = [
-            'label' => $product_variant->get($field)
-              ->getFieldDefinition()
-              ->getLabel(),
-            'value' => $product_variant->get($field)->value,
-          ];
-          if ($field_daily !== FALSE) {
-            $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
-            $item['value_daily']
-              = $product_variant->get($field_daily)->value;
-          }
-          if (isset($item['value']) || isset($item['value_daily'])) {
-            $items[$size_id][$section][] = $item;
-          }
+    $mapping = $this->getGroupingMethod($node);
+    foreach ($mapping as $section => $fields) {
+      foreach ($fields as $field => $field_daily) {
+        $item = [
+          'label' => $node->get($field)
+            ->getFieldDefinition()
+            ->getLabel(),
+          'value' => $node->get($field)->value,
+        ];
+        if ($field_daily !== FALSE) {
+          $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
+          $item['value_daily']
+            = $node->get($field_daily)->value;
+        }
+        if (isset($item['value']) || isset($item['value_daily'])) {
+          $result_item[$section][] = $item;
         }
       }
     }
 
-    return $items;
+    return $result_item;
   }
 
   /**
@@ -528,36 +541,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * Get Allergen items.
    *
    * @param object $node
-   *   Product node.
+   *   Product Variant node.
    *
    * @return array
-   *   Size items array.
+   *   Allergen items array.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getAllergenItems($node) {
     $items = [];
-    $i = 0;
-    foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
-      $size = $product_variant->get('field_product_size')->value;
-      $size_id = $this->getMachineName($size);
-      $i++;
-      $state = $i == 1 ? 'true' : 'false';
-
-      $allergen_items = [];
-      foreach ($product_variant->field_product_diet_allergens as $ref) {
-        $allergen_term = $ref->entity;
-        $icon_src = $this->getIconSrc($allergen_term);
-        $allergen_items[] = [
-          'allergen_icon' => $icon_src,
-          'allergen_label' => $allergen_term->getName(),
-        ];
-      }
+    foreach ($node->field_product_diet_allergens as $reference) {
+      $allergen_term = $reference->entity;
+      $icon_src = $this->getIconSrc($allergen_term);
       $items[] = [
-        'active' => $state,
-        'size_id' => $size_id,
-        'allergen_items' => $allergen_items,
+        'allergen_icon' => $icon_src,
+        'allergen_label' => $allergen_term->getName(),
       ];
     }
 
@@ -565,23 +563,32 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * TODO. It's a STUB. Make it configurable.
+   * Get Mobile section for Product Variant.
+   *
+   * @param object $node
+   *   Product Variant node.
    *
    * @return array
-   *   Mobile items array.
+   *   Mobile section array.
    */
-  public function getMobileItems() {
+  public function getMobileItems($node) {
+    $field_size = 'field_product_size';
+    $size = $node->get($field_size)->value;
+    $size_id = $this->getMachineName($size);
+
     $map = [
-      'section-nutrition' => 'NUTRITION & INGREDIENTS',
-      'section-allergens' => 'DIET & ALLERGENS',
-      'section-products' => 'RELATED PRODUCTS',
+      'section-nutrition' => $this->t('Nutrition & Ingredients'),
+      'section-products' => $this->t('Related products'),
     ];
+    if (!$node->field_product_diet_allergens->isEmpty()) {
+      $map['section-allergens'] = $this->t('Diet & Allergens');
+    }
     $items = [];
     foreach ($map as $id => $title) {
       $items[] = [
         'title' => $title,
         'link_attributes' => [
-          'href' => '#' . $id,
+          'href' => '#' . $id . '-' . $size_id,
         ],
       ];
     }
