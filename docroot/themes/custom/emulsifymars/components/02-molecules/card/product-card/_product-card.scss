@@ -1,7 +1,6 @@
 .product-card {
   border-radius: 20px;
   width: 315px;
-  min-height: 520px;
   //background-color: clr(secondary);
   transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
   background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
@@ -12,9 +11,10 @@
 
   .eyebrow {
     color: clr(primary);
-    padding-top: 4rem;
+    padding-top: 3rem;
     font-family: variable(primary-font);
     text-align: center;
+    margin-bottom: 0;
   }
 
   img {
@@ -25,7 +25,7 @@
     background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
     transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
-    p, a {
+    p, a, .eyebrow{
       color: clr(subcolor-3);
     }
 
@@ -40,11 +40,9 @@
     display: flex;
     align-items: center;
     margin: auto;
-    padding-top: 30px;
-    min-height: 235px;
-    min-width: 235px;
+    padding-top: 3rem;
     height: 255px;
-    width: 100%;
+    width: 255px;
     box-sizing: border-box;
     justify-content: center;
   }
@@ -53,11 +51,13 @@
     font-size: 2.2rem;
     font-family: variable(primary-font);
     max-width: 75%;
+    min-height: 105px;
     margin: 2rem auto 0;
 
     p {
       max-width: 255px;
       color: clr(primary);
+      margin-bottom: 0;
     }
 
   }
@@ -66,6 +66,7 @@
     display: flex;
     flex-direction: row;
     padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   &__button{
