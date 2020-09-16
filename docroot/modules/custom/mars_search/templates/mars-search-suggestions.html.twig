@@ -13,20 +13,18 @@
  */
 #}
 
-<div class="mars-search-autocomplete-suggestions">
-  {% if suggestions %}
-    <ul class="suggestions-links">
-      {% for suggestion in suggestions %}
-        <li>{{ suggestion }}</li>
-      {% endfor %}
-    </ul>
-    <div class="show-all">
-      {{ show_all }}
-    </div>
-  {% else %}
-    <div class="no-results">
-      <div class="empty-text">{{ empty_text }}</div>
-      <div class="empty-text-desdription">{{ empty_text_description }}</div>
-    </div>
-  {% endif %}
-</div>
+{% if suggestions %}
+  <ul class="suggestions-links">
+    {% for suggestion in suggestions %}
+      <li>{{ suggestion }}</li>
+    {% endfor %}
+  </ul>
+  <div class="show-all">
+    {{ show_all }}
+  </div>
+{% else %}
+  <div class="no-results">
+    <div class="empty-text">{{ empty_text }}</div>
+    <div class="empty-text-desdription">{{ empty_text_description }}</div>
+  </div>
+{% endif %}
