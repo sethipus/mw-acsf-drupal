@@ -266,7 +266,7 @@
     font-size: 1rem;
     font-family: variable(secondary-font);
     position: absolute;
-    margin-top: 2rem;
+    margin-top: 3rem;
   }
 
   .group-0 .ff-invalid-msg {
@@ -275,6 +275,13 @@
     font-family: variable(secondary-font);
     position: absolute;
     margin-top: 5rem;
+  }
+
+  #error {
+    font-size: 1rem;
+    margin-top: -2rem;
+    font-family: variable(secondary-font);
+    color: clr(secondary);
   }
 
   @include medium {
