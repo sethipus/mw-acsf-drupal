@@ -66,6 +66,7 @@ function mars_search_form_views_exposed_form_alter(&$form, FormStateInterface $f
   $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-display_id'] = $view->current_display;
   // To indicate this textfield supports autocomplete.
   $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['class'][] = 'mars-autocomplete-field';
+  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['autocomplete'] = 'off';
   // Attaching javasript for autocomplete.
   $form['#attached']['library'][] = 'mars_search/autocomplete';
 }

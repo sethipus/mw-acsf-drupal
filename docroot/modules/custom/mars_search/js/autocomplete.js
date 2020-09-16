@@ -21,6 +21,7 @@
             dataType: 'json',
             success: function success(results) {
               $('.mars-suggestions').html(results);
+              $('.search-field-wrapper').addClass('suggested');
             }
           });
         }
