@@ -3,14 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_product_brand
     - field.storage.node.field_article_brand_initiatives
-    - field.storage.node.field_product_diet_allergens
-    - field.storage.node.field_product_variants
+    - field.storage.node.field_product_brand
     - field.storage.node.field_product_flavor
     - field.storage.node.field_product_format
     - field.storage.node.field_product_occasions
     - field.storage.node.field_product_name
+    - field.storage.node.field_product_diet_allergens
+    - field.storage.node.field_product_variants
     - field.storage.node.field_product_trade_description
     - search_api.server.acquia_search_server
   module:
@@ -114,6 +114,14 @@ field_settings:
     dependencies:
       module:
         - node
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
 datasource_settings:
   'entity:node':
     bundles:
@@ -142,6 +150,7 @@ processor_settings:
       - product_name
       - product_trade
       - title
+      - type
     ignorable: '[''¿¡!?,.:;]'
     ignorable_classes:
       - Pc
@@ -166,6 +175,7 @@ processor_settings:
       - product_name
       - product_trade
       - title
+      - type
     weights:
       preprocess_index: -20
       preprocess_query: -20
@@ -175,6 +185,6 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: false
+  index_directly: true
   cron_limit: 50
 server: acquia_search_server
