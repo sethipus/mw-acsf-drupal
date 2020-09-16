@@ -38,6 +38,7 @@ entity_embed: 1.0.0
 entity_reference: 8.8.1
 entityqueue: 1.1.0
 environment_indicator: 3.7.0
+facets: 1.5.0
 field: 8.8.1
 field_ui: 8.8.1
 file: 8.8.1
@@ -90,6 +91,7 @@ mars_entry_gate: 0.0.0
 mars_lighthouse: 0.0.0
 mars_product: 0.0.0
 mars_recipes: 0.0.0
+mars_search: 0.0.0
 media: 8.8.1
 media_entity_instagram: 2.0.0
 media_entity_twitter: 2.3.0

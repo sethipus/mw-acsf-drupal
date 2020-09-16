@@ -10,7 +10,6 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
-use Drupal\file\Entity\File;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
 use Drupal\node\Entity\Node;
 use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
@@ -28,23 +27,9 @@ use Drupal\layout_builder\Form\OverridesEntityForm;
  */
 function mars_common_preprocess(&$variables, $hook) {
   if ($hook === 'views_view__grid_card') {
-    $divider_id = Drupal::config('emulsifymars.settings')
-      ->get('graphic_divider');
-    if (isset($divider_id[0])) {
-      $file_entity = File::load($divider_id[0]);
-      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-      $file_divider_content = file_get_contents($file_url->getUri());
-    }
-
-    $border_id = Drupal::config('emulsifymars.settings')
-      ->get('brand_borders');
-
-    if (isset($border_id[0])) {
-      $file_entity = File::load($border_id[0]);
-      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-      $file_border_content = file_get_contents($file_url->getUri());
-    }
-
+    $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
+    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
+    $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'card-grid-border');
     $border_radius = Drupal::config('emulsifymars.settings')
       ->get('button_style');
 
@@ -52,6 +37,18 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['graphic_divider'] = $file_divider_content ?? '';
     $variables['brand_border'] = $file_border_content ?? '';
     $variables['ajax_card_grid_heading'] = $variables['view']->args[0] ?? '';
+    $variables['ajax_card_grid_link_text'] = 'See All';
+    $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
+  }
+
+  if ($hook === 'views_view__acquia_search') {
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
+    $border_radius = Drupal::config('emulsifymars.settings')
+      ->get('button_style');
+    $variables['theme_styles'] = 'drupal';
+    $variables['graphic_divider'] = $file_divider_content ?? '';
+    $variables['ajax_card_grid_heading'] = Drupal::translation()->translate('All results');
     $variables['ajax_card_grid_link_text'] = 'See All';
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
@@ -76,6 +73,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_menu'       => NULL,
         'language_selector' => NULL,
         'search_block'      => NULL,
+        'search_form'       => NULL,
         'alert_banner'      => NULL,
       ],
       'template' => 'block--mars-common--header',
@@ -205,7 +203,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'contact_help_banner_block' => [
       'variables' => [
-        'label' => NULL,
+        'title' => NULL,
         'description' => NULL,
         'social_links_label' => NULL,
         'phone_cta_label' => NULL,
@@ -530,7 +528,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
     }
   }
 
-  $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
+  $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
   $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
 

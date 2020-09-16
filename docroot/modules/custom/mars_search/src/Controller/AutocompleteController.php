@@ -60,7 +60,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('renderer'),
-      $container->get('views.executable'),
+      $container->get('views.executable')
     );
   }
 

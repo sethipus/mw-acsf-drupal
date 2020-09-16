@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Template for the search header form component.
+ *
+ * Available variables:
+ * 'search_header_heading' => NULL
+ * 'brand_shape' => NULL
+ * 'input_form' => NULL,
+ * 'content_type_facet' => NULL,
+ */
+#}
+
+{% embed "@molecules/search-page-header/search-page-header.twig" with {
+  theme_styles: 'drupal',
+  search_page_header_heading: search_header_heading,
+  search_page_header_heading_level: 1,
+  search_page_header_heading_base_class: 'search-page-heading',
+  brand_shape_class: 'triangle',
+  shape: brand_shape,
+  search_results: search_results
+} %}
+
+  {% block search_header__input %}
+    <div class="search-input" data-theme="drupal">
+      {{ input_form | render }}
+    </div>
+  {% endblock %}
+
+{% endembed %}

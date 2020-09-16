@@ -1,0 +1,21 @@
+uuid: 5ef71b4c-d7e2-4ba2-a73c-cae1e71cb37d
+langcode: en
+status: false
+dependencies:
+  module:
+    - mars_search
+    - system
+  theme:
+    - emulsifymars
+id: mars_search_no_results
+theme: emulsifymars
+region: content
+weight: 0
+provider: null
+plugin: search_no_results_block
+settings:
+  id: search_no_results_block
+  label: 'MARS: Search no results'
+  provider: mars_search
+  label_display: ''
+visibility: {  }
