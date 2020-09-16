@@ -97,7 +97,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
-      $media_helper = $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper')
     );
   }
 
