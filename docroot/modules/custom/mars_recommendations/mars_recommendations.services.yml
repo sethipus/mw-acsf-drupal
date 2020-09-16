@@ -1,0 +1,8 @@
+services:
+  mars_recommendations.recommendations_service:
+    class: Drupal\mars_recommendations\RecommendationsService
+    arguments: ['@plugin.manager.mars_recommendations_logic']
+
+  plugin.manager.mars_recommendations_logic:
+    class: Drupal\mars_recommendations\RecommendationsLogicPluginManager
+    parent: default_plugin_manager
