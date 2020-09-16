@@ -10,7 +10,7 @@
   'use strict';
   Drupal.behaviors.marsAutocomplete = {
     attach: function (context, settings) {
-      var selector = 'input.mars-autocomplete-field';
+      var selector = '.header__inner input.mars-autocomplete-field';
       $(selector, context).on('keyup', function () {
         var searchString = $(this).val();
         if (searchString.length > 2) {
