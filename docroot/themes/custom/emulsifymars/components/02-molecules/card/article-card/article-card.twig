@@ -3,7 +3,7 @@
 <div
   class="{{ article_card_background_img_url=='' ? 'article-card' :'article-card article-card--with-bg-img' }}"
   style="{{ article_card_background_img_url=='' ? '' : 'background-image: url(' ~ article_card_background_img_url ~ ')' }}"
-  data-theme="dove"
+  data-theme="{{ theme_styles }}"
 >
   {% if article_is_new %}
     {% include "@atoms/badge/badge.twig" %}

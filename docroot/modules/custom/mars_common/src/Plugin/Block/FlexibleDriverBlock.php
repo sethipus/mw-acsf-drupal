@@ -85,7 +85,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $mediaId2 = $this->getMediaId('asset_2');
     return [
       '#theme' => 'flexible_driver_block',
-      '#title' => $this->configuration['label'] ?? '',
+      '#title' => $this->configuration['title'] ?? '',
       '#description' => $this->configuration['description'] ?? '',
       '#cta_label' => $this->configuration['cta_label'] ?? '',
       '#cta_link' => $this->configuration['cta_link'] ?? '',

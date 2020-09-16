@@ -4,11 +4,15 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -53,6 +57,20 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $request;
 
   /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -62,7 +80,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
-    Request $request
+    Request $request,
+    FormBuilderInterface $form_builder,
+    RendererInterface $renderer
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
@@ -70,6 +90,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->request = $request;
+    $this->formBuilder = $form_builder;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -83,7 +105,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
-      $container->get('request_stack')->getCurrentRequest()
+      $container->get('request_stack')->getCurrentRequest(),
+      $container->get('form_builder'),
+      $container->get('renderer')
     );
   }
 
@@ -163,6 +187,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#theme'] = 'header_block';
 
+    $build['#search_form'] = $this->buildSearchForm();
+
     return $build;
   }
 
@@ -210,6 +236,42 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       }
     }
     return $menu_links;
+  }
+
+  /**
+   * Render search form.
+   *
+   * @return string
+   *   Search form HTML.
+   */
+  protected function buildSearchForm() {
+    $form = [];
+    $view_id = 'acquia_search';
+    $display_id = 'page';
+    $view = Views::getView($view_id);
+    if ($view) {
+      $view->setDisplay($display_id);
+      $view->initHandlers();
+      $form_state = (new FormState())
+        ->setStorage([
+          'view' => $view,
+          'display' => &$view->display_handler->display,
+          'rerender' => TRUE,
+        ])
+        ->setMethod('get')
+        ->setAlwaysProcess()
+        ->disableRedirect();
+      $form_state->set('rerender', NULL);
+      $form = $this->formBuilder->buildForm('\Drupal\views\Form\ViewsExposedForm', $form_state);
+      $form['search']['#attributes']['class'][] = 'mars-autocomplete-field';
+      $form['search']['#attributes']['data-view_id'] = $view_id;
+      $form['search']['#attributes']['data-display_id'] = $display_id;
+      $form['search']['#title_display'] = 'none';
+      $form['search']['#placeholder'] = $this->t('Search');
+      unset($form['actions']['submit']);
+    }
+
+    return $this->renderer->render($form);
   }
 
 }
