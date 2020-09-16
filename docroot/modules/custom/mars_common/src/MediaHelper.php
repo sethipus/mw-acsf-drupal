@@ -96,9 +96,36 @@ class MediaHelper {
         ];
 
       default:
-        return ['error' => TRUE, 'message' => $this->t('Incorrect media type.')];
+        return [
+          'error' => TRUE,
+          'message' => $this->t('Incorrect media type.'),
+        ];
 
     }
+  }
+
+  /**
+   * Helper function to get id from entity browser select value.
+   *
+   * @param string|null $entityBrowserSelectValue
+   *   The select value.
+   *
+   * @return string|null
+   *   The resulting id.
+   */
+  public function getIdFromEntityBrowserSelectValue(
+    ?string $entityBrowserSelectValue
+  ) {
+    if (!$entityBrowserSelectValue || !is_string($entityBrowserSelectValue)) {
+      return NULL;
+    }
+    $colonPosition = strpos($entityBrowserSelectValue, ':');
+
+    if ($colonPosition === FALSE) {
+      return NULL;
+    }
+
+    return substr($entityBrowserSelectValue, $colonPosition + 1);
   }
 
 }
