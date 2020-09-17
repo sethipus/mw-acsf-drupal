@@ -1,0 +1,29 @@
+{% set faq_filters_base_class = faq_base_class|default('faq-filters') %}
+
+<div {{bem(faq_filters_base_class)}} data-theme={{theme_styles}}>
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading_level: 1,
+    heading_base_class: 'faq-heading',
+    heading: title
+  } %}
+
+
+  {% block faq_filters__search %}
+    <div {{ bem('search', [], faq_filters_base_class) }}>
+      {% include "@molecules/search/search-input/search-input.twig" %}
+    </div>
+  {% endblock %}
+
+
+
+  {% block faq_filters__filters %}
+    <div {{ bem('filters', [], faq_filters_base_class) }}>
+      {% for item in items %}
+        {% include "@atoms/buttons/toggle/toggle.twig" with {
+          button_content: item.button_content,
+          button_id: item.button_id
+        } %}
+      {% endfor %}
+    </div>
+  {% endblock %}
+</div>

@@ -1,0 +1,11 @@
+{% set toggle_button_base_class = toggle_button_base_class|default('toggle-button') %}
+
+{% set additional_attributes = {
+  class: bem(toggle_button_base_class, toggle_button_modifiers, toggle_button_blockname),
+  "aria-label": 'button',
+} %}
+
+<div {{ add_attributes(additional_attributes) }}>
+  <input type="checkbox" id="{{ button_id }}" {{ bem('input', [], toggle_button_base_class) }} />
+  <label for="{{ button_id }}" {{ bem('label', [], toggle_button_base_class) }}>{{ button_content }}</label>
+</div>
