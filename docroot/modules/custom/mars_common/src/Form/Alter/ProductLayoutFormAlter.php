@@ -11,7 +11,7 @@ class ProductLayoutFormAlter extends LayoutFormAlterBase {
 
   const FIXED_SECTIONS = [
     'product_product_detail_hero',
-    'product_product_recommendations',
+    // 'product_product_recommendations',
   ];
 
 }

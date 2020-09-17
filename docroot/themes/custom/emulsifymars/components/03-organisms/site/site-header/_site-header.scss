@@ -4,6 +4,7 @@
   &__inner {
     display: flex;
     flex-flow: column nowrap;
+    position: relative;
   }
 
   &__primary {
@@ -14,7 +15,7 @@
       flex-flow: row nowrap;
       align-items: center;
       justify-content: space-between;
-  
+
       @include medium {
         justify-content: flex-start;
       }

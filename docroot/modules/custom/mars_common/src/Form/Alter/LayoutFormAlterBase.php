@@ -26,9 +26,11 @@ abstract class LayoutFormAlterBase {
   public static function validate(array &$form, FormStateInterface $form_state) {
     $form_object = $form_state->getFormObject();
     $sections = [];
+
     if ($form_object instanceof OverridesEntityForm) {
-      $node = $form_object->getEntity();
-      $layout_value = $node->get('layout_builder__layout')
+      $layout_value = $form_object->getSectionStorage()
+        ->getContextValue('entity')
+        ->get('layout_builder__layout')
         ->getValue();
       $sections = array_column($layout_value, 'section');
     }
