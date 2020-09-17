@@ -27,7 +27,7 @@ class RecommendationsLogicPluginManager extends DefaultPluginManager {
       'Plugin/MarsRecommendationsLogic',
       $namespaces,
       $module_handler,
-      'Drupal\mars_recommendations\RecommendationsLogicInterface',
+      'Drupal\mars_recommendations\RecommendationsLogicPluginInterface',
       'Drupal\mars_recommendations\Annotation\MarsRecommendationsLogic'
     );
     $this->alterInfo('mars_recommendations_logic_info');

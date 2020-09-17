@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_recommendations\Plugin\MarsRecommendationsLogic;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_recommendations\RecommendationsLogicPluginBase;
 
 /**
@@ -29,6 +30,48 @@ class Manual extends RecommendationsLogicPluginBase {
    */
   public function getRecommendations() {
     return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(&$form, FormStateInterface $form_state) {
+    $form['nodes'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Recommended items'),
+      '#tree' => TRUE,
+      '#prefix' => '',
+    ];
+
+    $form['nodes'][] = [
+      '#type' => 'entity_autocomplete',
+      '#title' => $this->t('Card'),
+      '#target_type' => 'node',
+      '#selection_settings' => [
+        'target_bundles' => ['article', 'recipe', 'product'],
+      ],
+    ];
+
+    $form['nodes']['add_more'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Add more'),
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateConfigurationForm(&$form, FormStateInterface $form_state) {
+    // Do nothing.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitConfigurationForm(&$form, FormStateInterface $form_state) {
+    // Do nothing.
   }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_recommendations\Plugin\MarsRecommendationsLogic;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_recommendations\RecommendationsLogicPluginBase;
 
 /**
@@ -32,6 +33,31 @@ class Dynamic extends RecommendationsLogicPluginBase {
    */
   public function getRecommendations() {
     return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array &$form, FormStateInterface $form_state) {
+    return [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#value' => $this->t('This plugin does not require a specific configuration.'),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+    $form_state->setValue('population_plugin_configuration', []);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+    // Do nothing.
   }
 
 }
