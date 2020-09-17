@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\SubformState;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_recommendations\RecommendationsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -69,7 +70,26 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
    * {@inheritdoc}
    */
   public function build() {
-    return [];
+    if (!isset($this->configuration['population_plugin_id'])) {
+      return [];
+    }
+
+    $plugin = $this
+      ->recommendationsService
+      ->getPopulationLogicPlugin($this->configuration['population_plugin_id'], $this->configuration['population_plugin_configuration'] ?? []);
+
+    // Inject runtime contexts.
+    if ($plugin instanceof ContextAwarePluginInterface) {
+      $plugin->setContext('node', $this->getContext('node'));
+    }
+
+    $node = $this->getContextValue('node');
+
+    return [
+      '#theme' => 'recommendations_module_block',
+      '#title' => !empty($this->configuration['title']) ? $this->configuration['title'] : $this->t('More @types Like This', ['@type' => $node->type->entity->label()]),
+      '#recommended_items' => $plugin->getRenderedRecommendations(),
+    ];
   }
 
   /**
@@ -126,7 +146,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     }
 
     if ($population_plugin_id) {
-      $plugin = $this->recommendationsService->getPopulationLogicPlugin($population_plugin_id, $population_plugin_configuration);
+      $plugin = $this->recommendationsService->getPopulationLogicPlugin($population_plugin_id, $population_plugin_configuration ?? []);
 
       $subform_state = SubformState::createForSubform($form['population']['configuration']['subform'], $form, $form_state);
       $form['population']['configuration']['subform'] = $plugin->buildConfigurationForm($form['population']['configuration']['subform'], $subform_state);

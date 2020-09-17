@@ -65,4 +65,12 @@ interface RecommendationsLogicPluginInterface {
    */
   public function getRecommendations();
 
+  /**
+   * Loads list of recommended nodes render arrays from the context.
+   *
+   * @return \Drupal\node\Entity\Node[]
+   *   List of recommended nodes.
+   */
+  public function getRenderedRecommendations();
+
 }
