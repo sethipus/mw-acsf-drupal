@@ -5,7 +5,9 @@
  */
 #}
 
-{% set background_img = file_url(node.field_article_image.entity.image.entity.fileuri) %}
+{% if node.field_article_image.entity.image.entity %}
+  {% set background_img = file_url(node.field_article_image.entity.image.entity.fileuri) %}
+{% endif %}
 
 {% include "@molecules/card/article-card/article-card.twig" with {
   theme_styles: 'drupal',
@@ -13,6 +15,7 @@
   article_card_background_img_url: background_img,
 
   article_card_eyebrow: elements['#eyebrow'],
+  brand_shape: brand_shape,
 
   article_card_heading: node.title.value,
   article_card_heading_level: 3,
