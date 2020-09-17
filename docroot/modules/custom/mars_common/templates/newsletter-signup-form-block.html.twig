@@ -4,14 +4,15 @@
  * Template for the salesforce form component.
  *
  * Available variables:
- * 'form_type' => NULL
- * 'form_id' => NULL
+ * 'form_url' => NULL
+ * 'accessibility_title' => NULL
  */
 #}
-{% set newsletter_signup__base_class = 'form-integration' %}
+{{ attach_library('emulsifymars/iframe') }}
 
-<section {{ bem(newsletter_signup__base_class) }}>
-  <div {{ bem('newsletter-signup', [], newsletter_signup__base_class) }}>
-    <iframe src="http://cloud.confectionery.mars.com/{{ form_id }}"></iframe>
-  </div>
-</section>
+{% include "@atoms/iframe/iframe.twig" with {
+  theme_styles: 'drupal',
+  iframe_src: form_url,
+  iframe_description: accessibility_title,
+  iframe_base_class: 'newsletter-iframe',
+} %}

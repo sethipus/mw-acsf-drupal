@@ -129,6 +129,7 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
+      - 'Flexible driver'
       - Forms
       - 'Global elements'
       - Help
@@ -147,7 +148,8 @@ third_party_settings:
       - Views
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        'Flexible driver': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - product_product_detail_hero
@@ -161,6 +163,49 @@ third_party_settings:
         - product_ratings_reviews
         - product_product_recommendations
       whitelisted_blocks:
+        product_storytelling_community:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver':
+              - flexible_driver
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:list'
+              - 'inline_block:media_carousel'
+              - 'inline_block:text_component'
+            'Lists (Views)': {  }
+            'Mars Common':
+              - contact_help_banner_block
+              - iframe_block
+              - newsletter_signup_form
+              - product_feature
+              - story_highlight
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product:
+              - pdp_product_multipack_block
+              - pdp_hero_block
+            Recipe: {  }
+            'Social feed':
+              - social_feed
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
         product_product_detail_hero:
           all_regions:
             Article: {  }
@@ -184,45 +229,6 @@ third_party_settings:
               - pdp_hero_block
             Recipe: {  }
             'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        product_storytelling_community:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks':
-              - 'inline_block:flexible_framer'
-              - 'inline_block:full_width_image'
-              - 'inline_block:full_width_video'
-              - 'inline_block:inline_image'
-              - 'inline_block:list'
-              - 'inline_block:media_carousel'
-              - 'inline_block:text_component'
-            'Lists (Views)': {  }
-            'Mars Common':
-              - contact_help_banner_block
-              - iframe_block
-              - newsletter_signup_form
-              - product_feature
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product:
-              - pdp_product_multipack_block
-            Recipe: {  }
-            'Social feed':
-              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }

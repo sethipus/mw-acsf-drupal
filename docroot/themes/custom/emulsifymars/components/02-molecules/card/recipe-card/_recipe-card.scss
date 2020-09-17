@@ -1,34 +1,56 @@
 .recipe-card {
-  background-color: clr(card-background);
+  min-height: 520px;
+  background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
+  border-radius: variable(border-radius);
   display: inline-block;
-  max-width: 31.5rem;
+  max-width: 31.8rem;
   position: relative;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 6rem;
+
+  .eyebrow {
+    color: clr(primary);
+    font-family: variable(primary-font);
+    margin-bottom: 0;
+    padding: 3rem 3rem 0 3rem;
+  }
 
   &__media {
-    max-height: 25rem;
-    overflow-y: hidden;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    height: 239px;
+    width: 318px;
+    box-sizing: border-box;
+    justify-content: center;
+
+    img {
+      min-width: 100%;
+      min-height: 100%;
+    }
   }
 
   &-heading__link {
     color: clr(primary);
     font-family: variable(primary-font);
     text-decoration: none;
-    font-size: 2.4rem;
-    line-height: 3rem;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
+    font-size: 2.2rem;
+    line-height: 2.42rem;
+    min-height: 5rem;
+    min-width: 31.8rem;
+    margin-bottom: 3rem;
+    margin-top: 3rem;
     display: block;
     padding: 0 3rem 0 3rem;
     font-weight: bold;
-    text-transform: uppercase;
+    letter-spacing: 0.11rem;
   }
 
   &__labels_section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 3rem 2rem 3rem;
+    padding: 0 3rem 4rem 3rem;
 
     .ingredients-block {
       margin-right: 4rem;
@@ -38,7 +60,7 @@
     .ingredients {
       color: clr(primary);
       font-family: variable(secondary-font);
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       line-height: 2.2rem;
     }
   }
@@ -47,7 +69,7 @@
   &-time {
     color: clr(primary);
     font-family: variable(secondary-font);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;
   }

@@ -17,7 +17,6 @@ multipack_items:
 
     link_base_class: text_link
     link_content: BUY NOW
-
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
 
@@ -34,3 +33,183 @@ multipack_items:
 
     link_base_class: text_link
     link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+multipack_see_all_label: 'See All'
+multipack_see_all_attributes:
+  'id': 'multipack-see-all'
+  'href': '#'

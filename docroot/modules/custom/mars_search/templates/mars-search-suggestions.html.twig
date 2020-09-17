@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display mars search suggestions.
+ *
+ * Available variables:
+ * - suggestions: Array with suggestions.
+ * - show_all: Link to main search page.
+ * - empty_text: Empty text.
+ * - empty_text_description: Empty text descripiton.
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% if suggestions %}
+  <ul class="suggestions-links">
+    {% for suggestion in suggestions %}
+      <li>{{ suggestion }}</li>
+    {% endfor %}
+  </ul>
+  <div class="show-all">
+    {{ show_all }}
+  </div>
+{% else %}
+  <div class="no-results">
+    <div class="empty-text">{{ empty_text }}</div>
+    <div class="empty-text-desdription">{{ empty_text_description }}</div>
+  </div>
+{% endif %}
