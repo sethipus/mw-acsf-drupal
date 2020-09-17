@@ -156,9 +156,9 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
 
       $subform_state = SubformState::createForSubform($form['population']['configuration']['subform'], $form, $form_state);
       $plugin->validateConfigurationForm($form['population']['configuration']['subform'], $subform_state);
-    }
 
-    $form_state->setError($form, 'Not working');
+      $form_state->setValue('population_plugin_configuration', $subform_state->getValue('population_plugin_configuration'));
+    }
   }
 
   /**
@@ -174,10 +174,10 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       /** @var \Drupal\mars_recommendations\RecommendationsLogicPluginInterface $plugin */
       $plugin = $form_state->get('population_logic_plugin');
 
-      $subform_state = SubformState::createForSubform($form['population']['configuration']['subform'], $form, $form_state);
-      $plugin->submitConfigurationForm($form['population']['configuration']['subform'], $subform_state);
+      $subform_state = SubformState::createForSubform($form['settings']['population']['configuration']['subform'], $form, $form_state);
+      $plugin->submitConfigurationForm($form['settings']['population']['configuration']['subform'], $subform_state);
 
-      $this->configuration['population_plugin_configuration'] = $subform_state->getValue('population_plugin_configuration');
+      $this->configuration['population_plugin_configuration'] = $form_state->getValue('population_plugin_configuration');
     }
   }
 
