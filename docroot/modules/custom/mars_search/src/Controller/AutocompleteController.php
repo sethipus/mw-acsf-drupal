@@ -83,19 +83,19 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
 
     if ($view instanceof ViewEntityInterface) {
       $view = $this->viewsExecutableFactory->get($view);
-    }
-    $view->setDisplay($view_display_id);
-    $view->setExposedInput([
-      self::MARS_SEARCH_EXPOSED_FIELD_NAME => $keys,
-    ]);
-    $view->setItemsPerPage(4);
-    $view->execute();
-    if (!empty($view->result)) {
-      foreach ($view->result as $resultRow) {
-        $entity = $resultRow->_object->getValue();
-        $suggestions[] = $entity->toLink();
+      $view->setDisplay($view_display_id);
+      $view->setExposedInput([
+        self::MARS_SEARCH_EXPOSED_FIELD_NAME => $keys,
+      ]);
+      $view->setItemsPerPage(4);
+      $view->execute();
+      if (!empty($view->result)) {
+        foreach ($view->result as $resultRow) {
+          $entity = $resultRow->_object->getValue();
+          $suggestions[] = $entity->toLink();
+        }
+        $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $keys]), Url::fromUri('base:search', ['query' => [self::MARS_SEARCH_EXPOSED_FIELD_NAME => $keys]]));
       }
-      $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $keys]), Url::fromUri('base:search', ['query' => [self::MARS_SEARCH_EXPOSED_FIELD_NAME => $keys]]));
     }
     $empty_text_description = $this->config('mars_search.autocomplete')->get('empty_text_description');
     $build = [
