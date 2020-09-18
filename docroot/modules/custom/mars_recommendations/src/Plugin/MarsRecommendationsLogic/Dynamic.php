@@ -32,7 +32,20 @@ class Dynamic extends RecommendationsLogicPluginBase {
    * {@inheritdoc}
    */
   public function getRecommendations() {
-    return [];
+    /** @var \Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginManager $plugin_manager */
+    $plugin_manager = \Drupal::service('plugin.manager.dynamic_recommendations_strategy');
+
+    /** @var \Drupal\node\Entity\Node $node */
+    $node = $this->getContextValue('node');
+
+    // TODO: Replace "default" with config value.
+    $plugin_id = $plugin_manager->hasDefinition($node->getType()) ? $node->getType() : 'default';
+
+    /** @var \Drupal\mars_recommendations\DynamicRecommendationsStrategyInterface $plugin */
+    $plugin = $plugin_manager->createInstance($plugin_id, ['limit' => $this->getResultsLimit()]);
+    $plugin->setContext('node', $this->getContext('node'));
+
+    return $plugin->generate();
   }
 
   /**

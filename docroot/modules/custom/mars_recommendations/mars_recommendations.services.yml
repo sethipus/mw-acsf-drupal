@@ -6,3 +6,7 @@ services:
   plugin.manager.mars_recommendations_logic:
     class: Drupal\mars_recommendations\RecommendationsLogicPluginManager
     parent: default_plugin_manager
+
+  plugin.manager.dynamic_recommendations_strategy:
+    class: Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginManager
+    parent: default_plugin_manager
