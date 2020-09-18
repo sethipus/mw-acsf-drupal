@@ -3,7 +3,6 @@
 namespace Drupal\mars_grid\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Class GridBlock.
@@ -24,14 +23,6 @@ class GridBlock extends BlockBase {
   public function build() {
     // TODO: Implement build() method.
     return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    // TODO: Add building of \Drupal\mars_grid\Form\GridSettingsForm.
-    return parent::buildConfigurationForm($form, $form_state);
   }
 
 }
