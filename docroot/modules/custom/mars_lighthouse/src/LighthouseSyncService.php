@@ -103,33 +103,31 @@ class LighthouseSyncService {
       'bundle' => self::LIGHTHOUSE_IMAGE_BUNDLE,
     ]);
     if (!empty($media_objects)) {
-//      $operations = [];
-//      $numOperations = 0;
-//      $batchId = 1;
+      $operations = [];
+      $numOperations = 0;
+      $batchId = 1;
       foreach ($media_objects as $media_object) {
-//        $mid = $media_object->id();
-        $this->processMediaSync($media_object);
-//        $operations[] = [
-////          '\Drupal\mars_lighthouse\LighthouseSyncService::processMediaSync',
-////          [
-////            $mid,
-////            t('Media @media', ['@mid' => $mid]),
-////          ],
-////        ];
-////        $batchId++;
-////        $numOperations++;
+        $mid = $media_object->id();
+        $operations[] = [
+          [$this, 'processMediaSync'],
+          [
+            $mid,
+            t('Media @media', ['@mid' => $mid]),
+          ],
+        ];
+        $batchId++;
+        $numOperations++;
       }
-//      $batch = [
-//        'title' => t('Updating @num node(s)', ['@num' => $numOperations]),
-//        'operations' => $operations,
-//        'finished' => [$this, 'processMediaSyncFinished'],
-//      ];
-//
-//      batch_set($batch);
-//      $batch =& batch_get();
-//      $batch['progressive'] = FALSE;
-//      batch_process();
+      $batch = [
+        'title' => t('Updating @num node(s)', ['@num' => $numOperations]),
+        'operations' => $operations,
+        'finished' => [$this, 'processMediaSyncFinished'],
+      ];
 
+      batch_set($batch);
+      $batch =& batch_get();
+      $batch['progressive'] = FALSE;
+      batch_process();
     }
 
   }
@@ -144,7 +142,8 @@ class LighthouseSyncService {
    * @param object $context
    *   Context for operations.
    */
-  public function processMediaSync($media) {
+  public function processMediaSync($mid, $operation_details, &$context) {
+    $media = $this->mediaStorage->load($mid);
     if ($media instanceof MediaInterface) {
       $external_id = $media->field_external_id->value;
       $params = $this->lighthouseAdapter->getToken();
@@ -164,12 +163,11 @@ class LighthouseSyncService {
       }
     }
 
-
-//    $context['results'][] = $id;
-//    // Optional message displayed under the progressbar.
-//    $context['message'] = t('Running Batch "@id" @details',
-//      ['@id' => $id, '@details' => $operation_details]
-//    );
+    $context['results'][] = $mid;
+    // Optional message displayed under the progressbar.
+    $context['message'] = t('Running Batch "@id" @details',
+      ['@id' => $mid, '@details' => $operation_details]
+    );
   }
 
   /**
