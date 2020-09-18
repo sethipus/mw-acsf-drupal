@@ -1,0 +1,13 @@
+theme_styles: 'twix'
+polling_heading: 'Which side are you on?'
+polling_paragraph_content: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt aliqua.'
+polling_submit_label: 'Submit'
+polling_png_asset: '/theme_assets/twix_us_uk/png_asset/image 203.png'
+polling_png_asset_alt: 'alt text for png asset'
+choices: 
+  - label: 'left side'
+    value: 'left'
+    name: 'should be the same for every item'
+  - label: 'right side'
+    value: 'right'
+    name: 'should be the same for every item'
