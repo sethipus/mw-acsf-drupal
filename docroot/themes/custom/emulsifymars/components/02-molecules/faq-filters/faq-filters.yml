@@ -1,15 +1,28 @@
 theme_styles: "twix"
 title: "FAQs"
-items:
-  - button_content: "Nutrition"
-    button_id: "nutrition"
-  - button_content: "Availability"
-    button_id: "availability"
-  - button_content: "Allergens"
-    button_id: "allergens"
-  - button_content: "Next item"
-    button_id: "next-item"
-  - button_content: "Toggle button"
-    button_id: "toggle-button"
-  - button_content: "Any"
-    button_id: "any"
+facetLinks:
+  - text: 'Nutrition'
+    class: 'default_link'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+  - text: 'Availability'
+    class: 'default_link active'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+  - text: 'Allergens'
+    class: 'default_link'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+  - text: 'Next item'
+    class: 'default_link'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+  - text: 'Toggle button'
+    class: 'default_link'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'

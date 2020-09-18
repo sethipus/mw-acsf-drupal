@@ -2,7 +2,7 @@ $xl-column-width: ((1360px - 330px) / 12);
 $xl-gap-width: 30px;
 
 .recipe-header {
-  background-color: var(--c-recipe-header-color, #f9f1db);
+  background-color: var(--c-subcolor-2);
   padding: 40px 0 137px;
   margin-bottom: -117px;
 
@@ -270,7 +270,7 @@ $xl-gap-width: 30px;
   @include xl {
     padding: 60px 0 0;
     width: calc(#{$xl-column-width*6 + $xl-gap-width*5});
-    margin-left: 157.5px;
+    margin-left: calc(#{$xl-column-width + $xl-gap-width} + (100vw - 1360px) / 2);
   }
 
   &__text {

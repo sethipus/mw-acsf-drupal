@@ -17,7 +17,9 @@
     heading: title
   } %}
 
-  {% include "@molecules/faq-filters/faq-filters.twig" %}
+  {% include "@molecules/faq-filters/faq-filters.twig" with {
+    faq_base_class: 'faq-filters'
+  }%}
 
   {% include "@atoms/lists/faq.twig" %}
 
