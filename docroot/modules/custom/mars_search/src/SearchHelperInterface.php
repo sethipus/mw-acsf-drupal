@@ -2,6 +2,9 @@
 
 namespace Drupal\mars_search;
 
+/**
+ * SearchHelperInterface.
+ */
 interface SearchHelperInterface {
 
   /**
@@ -15,14 +18,16 @@ interface SearchHelperInterface {
   const MARS_SEARCH_SEARCH_PAGE_PATH = 'search';
 
   /**
+   * Performs search API query and returns results and facets info.
+   *
    * @param array $options
    *   Search options.
-   *
    * @param string $searcher_key
    *   Searcher identifier.
    *
    * @return array
    *   Array with facets and results.
    */
-  public function getSearchResults($options, $searcher_key);
+  public function getSearchResults(array $options, $searcher_key);
+
 }

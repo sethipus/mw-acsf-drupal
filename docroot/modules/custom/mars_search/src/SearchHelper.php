@@ -20,12 +20,18 @@ class SearchHelper implements SearchHelperInterface {
   protected $entityTypeManager;
 
   /**
-   * Request stack that controls the lifecycle of requests
-   * @var RequestStack
+   * Request stack that controls the lifecycle of requests.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
    */
   private $request;
 
-  protected static $_searches = array();
+  /**
+   * Arrays with searches metadata.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected static $searches = [];
 
   /**
    * {@inheritdoc}
@@ -35,12 +41,11 @@ class SearchHelper implements SearchHelperInterface {
     $this->request = $request->getMasterRequest();
   }
 
-
   /**
-   * @inheritDoc
+   * {@inheritdoc}
    */
   public function getSearchResults($options = [], $searcher_key = 'searcher_1') {
-    if (!isset(self::$_searches[$searcher_key])) {
+    if (!isset(self::$searches[$searcher_key])) {
       $keys = $this->request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);;
       $type = $this->request->query->get('type');;
 
@@ -68,7 +73,6 @@ class SearchHelper implements SearchHelperInterface {
         }
       }
 
-
       // Applying ndoe type filter.
       if ($type) {
         $query = $query->addCondition('type', $type);
@@ -80,13 +84,13 @@ class SearchHelper implements SearchHelperInterface {
 
       $results = $query->execute();
 
-      self::$_searches[$searcher_key] = [
+      self::$searches[$searcher_key] = [
         'results' => $results,
         'facets' => $results->getExtraData('search_api_facets', []),
       ];
 
     }
-    return self::$_searches[$searcher_key];
+    return self::$searches[$searcher_key];
   }
 
 }
