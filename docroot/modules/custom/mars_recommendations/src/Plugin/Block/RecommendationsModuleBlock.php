@@ -99,6 +99,18 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $conf = $this->getConfiguration();
     $form = parent::buildConfigurationForm($form, $form_state);
 
+    $is_fixed_section = FALSE;
+    if ($form_state->has('layout_builder__component')) {
+      /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
+      list($section_storage, $delta) = $form_state->getBuildInfo()['args'];
+
+      $layout_id = $section_storage->getSection($delta)->getLayoutId();
+      $layout_display = $section_storage->getContextValue('display');
+      $form_alter_class = mars_common_get_layout_alter_class($layout_display);
+
+      $is_fixed_section = in_array($layout_id, constant("$form_alter_class::FIXED_SECTIONS"));
+    }
+
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
@@ -114,12 +126,24 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#tree' => TRUE,
     ];
 
+    // TODO: Filter options on plugin definitions load stage.
+    $options = $this->recommendationsService->getPopulationLogicOptions();
+    if ($is_fixed_section) {
+      unset($options['manual']);
+    }
+
+    $default_value = $conf['population_plugin_id'] ?? NULL;
+    if (!$default_value && count($options) == 1) {
+      $default_value = array_key_first($options);
+      $form_state->set('population_plugin_id', $default_value);
+    }
+
     $form['population']['plugin_id'] = [
       '#type' => 'radios',
       '#title' => $this->t('Population Logic'),
-      '#options' => $this->recommendationsService->getPopulationLogicOptions(),
+      '#options' => $options,
       '#required' => TRUE,
-      '#default_value' => $conf['population_plugin_id'] ?? NULL,
+      '#default_value' => $default_value,
       '#ajax' => [
         'wrapper' => 'recommendations-population-configuration',
         'callback' => [$this, 'getPopulationLogicSettingsForm'],

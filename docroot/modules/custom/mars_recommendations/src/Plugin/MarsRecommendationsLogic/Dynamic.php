@@ -39,7 +39,7 @@ class Dynamic extends RecommendationsLogicPluginBase {
     $node = $this->getContextValue('node');
 
     // TODO: Replace "default" with config value.
-    $plugin_id = $plugin_manager->hasDefinition($node->getType()) ? $node->getType() : 'default';
+    $plugin_id = $node->getType() && $plugin_manager->hasDefinition($node->getType()) ? $node->getType() : 'default';
 
     /** @var \Drupal\mars_recommendations\DynamicRecommendationsStrategyInterface $plugin */
     $plugin = $plugin_manager->createInstance($plugin_id, ['limit' => $this->getResultsLimit()]);

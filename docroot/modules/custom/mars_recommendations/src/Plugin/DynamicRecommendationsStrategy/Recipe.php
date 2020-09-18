@@ -34,7 +34,12 @@ class Recipe extends DynamicRecommendationsStrategyPluginBase {
     $limit = $this->configuration['limit'] ?? 4;
     $nodes = [];
 
-    foreach (['field_product_reference'] as $fieldname) {
+    $fields = [
+      'field_recipe_brand_initiatives',
+      'field_product_occasions',
+      'field_product_reference',
+    ];
+    foreach ($fields as $fieldname) {
       $entity_ids = array_map(function ($value) {
         return $value->id();
       }, $node->{$fieldname}->referencedEntities());
