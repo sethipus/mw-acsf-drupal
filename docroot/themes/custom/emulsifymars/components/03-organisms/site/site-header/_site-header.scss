@@ -16,7 +16,7 @@
       align-items: center;
       justify-content: space-between;
 
-      @include medium {
+      @include large {
         justify-content: flex-start;
       }
     }
@@ -37,7 +37,7 @@
     flex: 0 0 150px;
     margin: 2.5rem;
 
-    @include medium {
+    @include large {
       flex-basis: 212px;
       margin: 3.2rem $space-triple;
     }
@@ -46,7 +46,7 @@
   &__menu {
     flex: 0 0 auto;
 
-    @include medium {
+    @include large {
       flex: 1 0 auto;
     }
 
@@ -57,7 +57,7 @@
       right: 0;
       padding: 0 4rem;
 
-      @include medium {
+      @include large {
         display: flex;
         justify-content: flex-end;
         width: 100%;
@@ -71,7 +71,7 @@
       display: flex;
       flex-flow: row wrap;
 
-      @include medium {
+      @include large {
         display: none;
       }
     }
