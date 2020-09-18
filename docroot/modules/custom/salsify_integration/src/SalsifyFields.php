@@ -169,17 +169,43 @@ class SalsifyFields extends Salsify {
         throw new MissingDataException($message);
       }
 
-      $this->createFieldMapping([
-        'field_id' => 'Brand Owner Name',
-        'salsify_id' => 'Brand Owner Name',
-        'salsify_data_type' => 'string',
-        'entity_type' => $entity_type,
-        'bundle' => $entity_bundle,
-        'field_name' => 'field_product_brand',
-        'method' => 'manual',
-        'created' => 1600334185,
-        'changed' => 1600334186,
-      ]);
+      foreach (SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT as $drupal_field => $salsify_field_map) {
+        if (isset($salsify_field_map['salsify:id']) &&
+          !in_array($salsify_field_map['salsify:id'], array_keys($manual_field_mapping))) {
+
+          $this->createFieldMapping([
+            'field_id' => $salsify_field_map['salsify:id'],
+            'salsify_id' => $salsify_field_map['salsify:id'],
+            'salsify_data_type' => $salsify_field_map['salsify:data_type'],
+            'entity_type' => $entity_type,
+            'bundle' => $entity_bundle,
+            'field_name' => $drupal_field,
+            'method' => 'manual',
+            'created' => Salsify::FIELD_MAP_CREATED,
+            'changed' => Salsify::FIELD_MAP_CHANGED,
+          ]);
+        }
+      }
+
+      foreach (SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT as $drupal_field => $salsify_field_map) {
+        if (isset($salsify_field_map['salsify:id']) &&
+          !in_array($salsify_field_map['salsify:id'], array_keys($manual_field_mapping))) {
+
+          $this->createFieldMapping([
+            'field_id' => $salsify_field_map['salsify:id'],
+            'salsify_id' => $salsify_field_map['salsify:id'],
+            'salsify_data_type' => $salsify_field_map['salsify:data_type'],
+            'entity_type' => $entity_type,
+            // TODO Hardocoded product variant value, update to dynamic mapping
+            // from configs.
+            'bundle' => 'product_variant',
+            'field_name' => $drupal_field,
+            'method' => 'manual',
+            'created' => Salsify::FIELD_MAP_CREATED,
+            'changed' => Salsify::FIELD_MAP_CHANGED,
+          ]);
+        }
+      }
 
       return $product_data;
     }

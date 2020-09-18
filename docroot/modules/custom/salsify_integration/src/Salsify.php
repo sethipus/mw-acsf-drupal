@@ -27,6 +27,21 @@ class Salsify {
   use StringTranslationTrait;
 
   /**
+   * Static value for 'updatad_at' attribute (01.01.2019).
+   */
+  public const ATTRIBUTE_UPDATED_AT = 1546300800;
+
+  /**
+   * Static value for 'created' attribute (01.01.2019).
+   */
+  public const FIELD_MAP_CREATED = 1546300800;
+
+  /**
+   * Static value for 'changed' attribute (01.01.2019).
+   */
+  public const FIELD_MAP_CHANGED = self::FIELD_MAP_CREATED + 1;
+
+  /**
    * The cache object associated with the specified bin.
    *
    * @var \Drupal\Core\Cache\CacheBackendInterface
@@ -172,7 +187,7 @@ class Salsify {
       // }
       $data = [
         'attributes' => $this->getAttributesByProducts($response),
-        'attributes_values' => $this->getAttributesValuesByProducts($response),
+        'attribute_values' => $this->getAttributeValuesByProducts($response),
         'digital_assets' => $this->getDigitalAssetsByProducts($response),
       ];
 
@@ -199,11 +214,23 @@ class Salsify {
   private function getAttributesByProducts($products) {
     $attributes = [];
     $products_generator = $this->getProductsData($products);
+
+    $product_fields_map = array_column(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT, 'salsify:id');
+    $product_variant_fields_map = array_column(
+      SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT, 'salsify:id'
+    );
+
     foreach ($products_generator as $product) {
       foreach ($product as $product_attr_key => $product_attr_value) {
-        if (strpos($product_attr_key, 'salsify:') !== 0) {
+        if (
+          strpos($product_attr_key, 'salsify:') !== 0 &&
+          (in_array($product_attr_key, $product_fields_map) ||
+            in_array($product_attr_key, $product_variant_fields_map))
+        ) {
           $attributes[$product_attr_key] = [
             'salsify:id' => $product_attr_key,
+            'salsify:updated_at' => self::ATTRIBUTE_UPDATED_AT,
+            'salsify:entity_types' => ['products'],
           ];
         }
       }
@@ -241,25 +268,43 @@ class Salsify {
    * @return array
    *   Attributes.
    */
-  private function getAttributesValuesByProducts($products) {
+  private function getAttributeValuesByProducts($products) {
     $attributes_values = [];
     $products_generator = $this->getProductsData($products);
+
+    $product_fields_map = array_column(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT, 'salsify:id');
+    $product_variant_fields_map = array_column(
+      SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT, 'salsify:id'
+    );
+    $enum_fields = array_column(array_filter(
+      SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT + SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT,
+      function ($salsify_attribute, $k) {
+        return (
+          isset($salsify_attribute['salsify:data_type']) &&
+          $salsify_attribute['salsify:data_type'] == 'enumerated'
+        );
+      },
+      ARRAY_FILTER_USE_BOTH
+    ), 'salsify:id');
+
     foreach ($products_generator as $product) {
       foreach ($product as $product_attr_key => $product_attr_value) {
         if (
           strpos($product_attr_key, 'salsify:') !== 0 &&
-          (in_array($product_attr_key, SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT) ||
-            in_array($product_attr_key, SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT))
+          (in_array($product_attr_key, $product_fields_map) ||
+            in_array($product_attr_key, $product_variant_fields_map)) &&
+          in_array($product_attr_key, $enum_fields)
         ) {
-          $attributes_values[] = [
+          $attributes_values[$product_attr_key . $product_attr_value] = [
             "salsify:attribute_id" => $product_attr_key,
             'salsify:id' => $product_attr_value,
             'salsify:name' => $product_attr_value,
+            'salsify:updated_at' => self::ATTRIBUTE_UPDATED_AT,
           ];
         }
       }
     }
-    return $attributes_values;
+    return array_values($attributes_values);
   }
 
   /**
@@ -299,17 +344,16 @@ class Salsify {
       // Organize the fields and options (for enumerated fields) by salsify:id.
       foreach ($raw_data['attributes'] as $attribute) {
         $product_data['fields'][$attribute['salsify:id']] = $attribute;
-        // $product_data['fields'][$attribute['salsify:id']]['date_updated'] =
-        // strtotime($attribute['salsify:updated_at']);
-        // foreach ($product_data['fields'][$attribute['salsify:id']]
-        // ['salsify:entity_types'] as $entity_types) {
-        // $product_data['entity_field_mapping'][$entity_types][] =
-        // $attribute['salsify:system_id'];
-        // }
+        $product_data['fields'][$attribute['salsify:id']]['date_updated'] = $attribute['salsify:updated_at'];
+        foreach ($product_data['fields'][$attribute['salsify:id']]['salsify:entity_types'] as $entity_types) {
+          // $product_data['entity_field_mapping'][$entity_types][] =
+          // $attribute['salsify:system_id'];
+          $product_data['entity_field_mapping'][$entity_types][] = NULL;
+        }
       }
       foreach ($raw_data['attribute_values'] as $value) {
         $product_data['fields'][$value['salsify:attribute_id']]['values'][$value['salsify:id']] = $value;
-        $date_updated = strtotime($value['salsify:updated_at']);
+        $date_updated = $value['salsify:updated_at'];
         if ($date_updated > $product_data['fields'][$value['salsify:attribute_id']]['date_updated']) {
           $product_data['fields'][$value['salsify:attribute_id']]['date_updated'] = $date_updated;
         }
