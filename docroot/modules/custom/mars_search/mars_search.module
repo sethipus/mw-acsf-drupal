@@ -44,33 +44,6 @@ function mars_search_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Changes an exposed "type" filter from a multi-select to checkboxes.
- */
-function mars_search_form_views_exposed_form_alter(&$form, FormStateInterface $form_state) {
-  // Retrieve the view object and the query plugin.
-  $storage = $form_state->getStorage();
-  if (!isset($storage['view'])) {
-    return;
-  }
-  $view = $storage['view'];
-  if (!($view instanceof ViewExecutable)) {
-    return;
-  }
-
-  $allowed_views_ids = \Drupal::config('mars_search.autocomplete')->get('views');
-  if (!$allowed_views_ids || !in_array($view->id(), $allowed_views_ids)) {
-    return;
-  }
-  // We need these values for the query.
-  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-view_id'] = $view->id();
-  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-display_id'] = $view->current_display;
-  // To indicate this textfield supports autocomplete.
-  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['class'][] = 'mars-autocomplete-field';
-  // Attaching javasript for autocomplete.
-  $form['#attached']['library'][] = 'mars_search/autocomplete';
-}
-
-/**
  * Implements hook_search_api_index_items_alter().
  */
 function mars_search_search_api_index_items_alter(IndexInterface $index, array &$items) {
