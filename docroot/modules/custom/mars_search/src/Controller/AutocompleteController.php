@@ -7,9 +7,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
-use Drupal\views\Entity\View;
-use Drupal\views\ViewEntityInterface;
-use Drupal\views\ViewExecutableFactory;
+use Drupal\mars_search\SearchHelperInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,11 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class AutocompleteController extends ControllerBase implements ContainerInjectionInterface {
 
   /**
-   * Exposed field name to apply autocomplete for.
-   */
-  const MARS_SEARCH_EXPOSED_FIELD_NAME = 'search';
-
-  /**
    * The renderer.
    *
    * @var \Drupal\Core\Render\RendererInterface
@@ -32,26 +25,26 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
   protected $renderer;
 
   /**
-   * Views executable factory service.
+   * Search helper.
    *
-   * @var \Drupal\views\ViewExecutableFactory
+   * @var \Drupal\mars_search\SearchHelperInterface
    */
-  protected $viewsExecutableFactory;
+  protected $searchHelper;
 
   /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer.
-   * @param \Drupal\views\ViewExecutableFactory $views_executable_factory
-   *   Views factory.
+   * @param \Drupal\mars_search\SearchHelperInterface $search_helper
+   *   Search helper.
    */
   public function __construct(
     RendererInterface $renderer,
-    ViewExecutableFactory $views_executable_factory
+    SearchHelperInterface $search_helper
   ) {
     $this->renderer = $renderer;
-    $this->viewsExecutableFactory = $views_executable_factory;
+    $this->searchHelper = $search_helper;
   }
 
   /**
@@ -60,7 +53,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('renderer'),
-      $container->get('views.executable')
+      $container->get('mars_search.search_helper')
     );
   }
 
@@ -74,28 +67,18 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
    *   The autocompletion response.
    */
   public function autocomplete(Request $request) {
+    $keys = $request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
     $suggestions = [];
     $show_all = '';
-    $keys = $request->query->get('q');
-    $view_id = $request->query->get('view_id');
-    $view_display_id = $request->query->get('display_id');
-    $view = View::load($view_id);
+    $results = $this->searchHelper->getSearchResults(['limit' => 4]);
 
-    if ($view instanceof ViewEntityInterface) {
-      $view = $this->viewsExecutableFactory->get($view);
-      $view->setDisplay($view_display_id);
-      $view->setExposedInput([
-        self::MARS_SEARCH_EXPOSED_FIELD_NAME => $keys,
-      ]);
-      $view->setItemsPerPage(4);
-      $view->execute();
-      if (!empty($view->result)) {
-        foreach ($view->result as $resultRow) {
-          $entity = $resultRow->_object->getValue();
-          $suggestions[] = $entity->toLink();
-        }
-        $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $keys]), Url::fromUri('base:search', ['query' => [self::MARS_SEARCH_EXPOSED_FIELD_NAME => $keys]]));
+    if (!empty($results['results'])) {
+      foreach ($results['results']->getResultItems() as $resultItem) {
+        $entity = $resultItem->getOriginalObject()->getValue();
+        $suggestions[] = $entity->toLink();
       }
+
+      $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $keys]), Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, ['query' => [SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => $keys]]));
     }
     $empty_text_description = $this->config('mars_search.autocomplete')->get('empty_text_description');
     $build = [

@@ -21,7 +21,7 @@
             $.ajax({
               url: Drupal.url('mars-autocomplete'),
               type: 'GET',
-              data: { 'q': searchString, 'view_id': viewId, 'display_id': viewDisplayId },
+              data: { 'search': searchString },
               dataType: 'json',
               success: function success(results) {
                 $('.mars-suggestions').html(results);
