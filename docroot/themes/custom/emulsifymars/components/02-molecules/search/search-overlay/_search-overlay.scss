@@ -5,8 +5,7 @@
   line-height: 100%;
   color: clr(subcolor-3);
 
-
-  @include  medium {
+  @include medium {
     display: none;
     position: absolute;
     width: 100%;
@@ -51,9 +50,10 @@
         width: 100%;
         background-color: transparent;
 
-        @include  medium {
+        @include medium {
           position: absolute;
           top: 60px;
+          z-index: 4;
           background-color: clr(subcolor-3);
         }
 
@@ -155,7 +155,7 @@
           top: 5px;
           background-color: clr(subcolor-3);
 
-          @include  medium {
+          @include medium {
             left: 20px;
             top: 20px;
             background-color: clr(primary);

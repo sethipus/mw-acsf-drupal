@@ -26,9 +26,10 @@
               success: function success(results) {
                 $('.mars-suggestions').html(results);
                 $('.search-field-wrapper').addClass('suggested');
+                $('.mars-search-autocomplete-suggestions-wrapper').show();
               }
             });
-          }, 250);
+          }, 25);
         }
       });
     }
