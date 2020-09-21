@@ -290,7 +290,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $warnings_label = $product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel() . ':';
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
-      $this->configuration['background_color'] : '';
+      '#' . $this->configuration['background_color'] : '';
     $pdp_common_data = [
       'hero_data' => [
         'product_label' => $this->configuration['eyebrow'] ?? '',

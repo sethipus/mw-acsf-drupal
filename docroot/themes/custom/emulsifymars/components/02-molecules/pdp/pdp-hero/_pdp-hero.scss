@@ -122,6 +122,7 @@
   }
 
   &__container {
+    position: relative;
     display: flex;
     flex-flow: row nowrap;
   }
@@ -523,13 +524,13 @@
     bottom: 2rem;
     text-align: center;
     z-index: 10;
-  
+
     @include medium {
       left: 4rem;
       right: 4rem;
       bottom: 4rem;
     }
-  
+
     @include large {
       position: static;
       text-align: left;

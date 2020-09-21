@@ -54,6 +54,7 @@ pdp-multipack:
     dist/js/pdp_multipack.js: {}
     dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
+    - emulsifymars/pdp-body
     - core/drupal
 
 product-content-pair-up:

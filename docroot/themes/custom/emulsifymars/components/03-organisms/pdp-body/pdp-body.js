@@ -75,7 +75,7 @@ Drupal.behaviors.pdpBody = {
       const pdp_main_image_top = pdp_main_image.getBoundingClientRect().top;
       const pdp_hero_bottom = pdp_hero.getBoundingClientRect().bottom;
       const pdp_section_bottom = pdp_section.getBoundingClientRect().bottom;
-      
+
       var scrollEventListener = function() {
         var offset = window.pageYOffset;
         pdp_bubble_1.style.top = `${pdp_bubble_1_top - (offset * .75)}px`;
