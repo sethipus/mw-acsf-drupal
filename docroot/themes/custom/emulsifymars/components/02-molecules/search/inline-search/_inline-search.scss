@@ -1,6 +1,12 @@
 .inline-search {
   display: block;
   width: 100%;
+  min-width: 90px;
+  text-align: left;
+
+  &--hidden {
+    display: none !important;
+  }
 
   &__link {
     position: relative;
