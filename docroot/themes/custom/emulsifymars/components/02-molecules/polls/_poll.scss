@@ -113,6 +113,12 @@
         max-width: 43.3rem;
       }
     }
+
+    &--submitted {
+      & .polling__label {
+        cursor: default;
+      }
+    }
   }
 
   &__fieldset {
@@ -236,6 +242,23 @@
       &::after {
         background-color: clr(subcolor-1);
       }
+    }
+  }
+
+  & .default-link {
+    @include xs {
+      width: 100%;
+      max-width: 43.3rem;
+      text-align: center;
+
+      &::after {
+        bottom: -125px;
+      }
+    }
+
+    @include medium {
+      width: auto;
+
     }
   }
 
