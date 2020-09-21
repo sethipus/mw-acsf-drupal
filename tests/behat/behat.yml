@@ -7,8 +7,9 @@ default:
     Behat\MinkExtension:
       default_session: goutte
       browser_name: chrome
-      javascript_session: default
+      javascript_session: selenium2
       goutte: ~
+      selenium2: ~
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
       blackbox: ~
