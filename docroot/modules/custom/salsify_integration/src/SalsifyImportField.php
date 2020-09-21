@@ -146,7 +146,7 @@ class SalsifyImportField extends SalsifyImport {
 
         // Run all digital assets through additional processing as media
         // entities if the Media entity module is enabled.
-        if ($this->moduleHandler->moduleExists('media_entity')) {
+        if ($this->moduleHandler->moduleExists('media')) {
           if ($field['salsify_data_type'] == 'digital_asset') {
             $media_import = SalsifyImportMedia::create(\Drupal::getContainer());
             /* @var \Drupal\media_entity\Entity\Media $media */

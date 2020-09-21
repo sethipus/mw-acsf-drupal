@@ -178,7 +178,7 @@ class SalsifyFields extends Salsify {
             'salsify_id' => $salsify_field_map['salsify:id'],
             'salsify_data_type' => $salsify_field_map['salsify:data_type'],
             'entity_type' => $entity_type,
-            'bundle' => $entity_bundle,
+            'bundle' => 'product',
             'field_name' => $drupal_field,
             'method' => 'manual',
             'created' => Salsify::FIELD_MAP_CREATED,
@@ -205,6 +205,29 @@ class SalsifyFields extends Salsify {
             'changed' => Salsify::FIELD_MAP_CHANGED,
           ]);
         }
+      }
+
+      $media_mapping = $this->getFieldMappings(
+        [
+          'entity_type' => 'media',
+          'bundle' => 'image',
+          'method' => 'manual',
+        ],
+        'salsify_id'
+      );
+
+      if (!isset($media_mapping['salsify:url'])) {
+        $this->createFieldMapping([
+          'field_id' => 'salsify:url',
+          'salsify_id' => 'salsify:url',
+          'salsify_data_type' => 'string',
+          'entity_type' => 'media',
+          'bundle' => 'image',
+          'field_name' => 'image',
+          'method' => 'manual',
+          'created' => Salsify::FIELD_MAP_CREATED,
+          'changed' => Salsify::FIELD_MAP_CHANGED,
+        ]);
       }
 
       return $product_data;

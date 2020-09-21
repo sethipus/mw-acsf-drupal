@@ -471,7 +471,15 @@ class Salsify {
     $results = [];
     foreach ($configs as $config_name) {
       $config = \Drupal::config($config_name);
-      $results[$config->get($key_by)] = $config->getRawData();
+
+      $raw_data = $config->getRawData();
+      if (
+        isset($keys['bundle']) &&
+        isset($raw_data['bundle']) &&
+        $keys['bundle'] == $raw_data['bundle']
+      ) {
+        $results[$config->get($key_by)] = $config->getRawData();
+      }
     }
     return $results;
   }

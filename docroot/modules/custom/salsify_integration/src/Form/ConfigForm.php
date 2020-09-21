@@ -311,7 +311,7 @@ class ConfigForm extends ConfigFormBase {
       }
       $results = $product_feed->importProductData(TRUE, $force_update);
       if ($results) {
-        $this->messenger->addMessage($results['message'], $results['status']);
+        $this->messenger()->addMessage($results['message'], $results['status']);
       }
     }
     parent::validateForm($form, $form_state);
