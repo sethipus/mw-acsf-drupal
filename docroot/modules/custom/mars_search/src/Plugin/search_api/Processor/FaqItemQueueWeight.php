@@ -93,7 +93,8 @@ class FaqItemQueueWeight extends ProcessorPluginBase {
       $node instanceof NodeInterface &&
       $queue instanceof EntitySubqueueInterface &&
       $queue->hasField('items') &&
-      !$queue->get('items')->isEmpty()) {
+      !$queue->get('items')->isEmpty()
+    ) {
       $items = $queue->get('items')->getValue();
       foreach ($items as $item_weight => $item_id) {
         if ($item_id['target_id'] == $node->id()) {
