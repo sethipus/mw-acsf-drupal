@@ -31,7 +31,7 @@ class SearchHelper implements SearchHelperInterface {
    *
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
-  protected static $searches = [];
+  protected $searches = [];
 
   /**
    * {@inheritdoc}
@@ -45,7 +45,7 @@ class SearchHelper implements SearchHelperInterface {
    * {@inheritdoc}
    */
   public function getSearchResults($options = [], $searcher_key = 'searcher_1') {
-    if (!isset(self::$searches[$searcher_key])) {
+    if (!isset($this->searches[$searcher_key])) {
       $keys = $this->request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);;
       $type = $this->request->query->get('type');;
 
@@ -56,6 +56,7 @@ class SearchHelper implements SearchHelperInterface {
           'offset' => 0,
         ]
       );
+      // @todo get rid from facets plugins.
       if ($facets = $this->entityTypeManager->getStorage('facets_facet')->loadMultiple()) {
         $facet_options = [];
         foreach ($facets as $facet) {
@@ -73,7 +74,7 @@ class SearchHelper implements SearchHelperInterface {
         }
       }
 
-      // Applying ndoe type filter.
+      // Applying node type filter.
       if ($type) {
         $query = $query->addCondition('type', $type);
       }
@@ -84,13 +85,13 @@ class SearchHelper implements SearchHelperInterface {
 
       $results = $query->execute();
 
-      self::$searches[$searcher_key] = [
+      $this->searches[$searcher_key] = [
         'results' => $results,
         'facets' => $results->getExtraData('search_api_facets', []),
       ];
 
     }
-    return self::$searches[$searcher_key];
+    return $this->searches[$searcher_key];
   }
 
 }
