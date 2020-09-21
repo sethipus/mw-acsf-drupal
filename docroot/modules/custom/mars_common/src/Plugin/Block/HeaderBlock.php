@@ -5,14 +5,12 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
-use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -245,31 +243,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    *   Search form HTML.
    */
   protected function buildSearchForm() {
-    $form = [];
-    $view_id = 'acquia_search';
-    $display_id = 'page';
-    $view = Views::getView($view_id);
-    if ($view) {
-      $view->setDisplay($display_id);
-      $view->initHandlers();
-      $form_state = (new FormState())
-        ->setStorage([
-          'view' => $view,
-          'display' => &$view->display_handler->display,
-          'rerender' => TRUE,
-        ])
-        ->setMethod('get')
-        ->setAlwaysProcess()
-        ->disableRedirect();
-      $form_state->set('rerender', NULL);
-      $form = $this->formBuilder->buildForm('\Drupal\views\Form\ViewsExposedForm', $form_state);
-      $form['search']['#attributes']['class'][] = 'mars-autocomplete-field';
-      $form['search']['#attributes']['data-view_id'] = $view_id;
-      $form['search']['#attributes']['data-display_id'] = $display_id;
-      $form['search']['#title_display'] = 'none';
-      $form['search']['#placeholder'] = $this->t('Search');
-      unset($form['actions']['submit']);
-    }
+    $form = $this->formBuilder->getForm('\Drupal\mars_search\Form\SearchOverlayForm');
+    unset($form['actions']['submit']);
 
     return $this->renderer->render($form);
   }

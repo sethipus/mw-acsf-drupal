@@ -3,9 +3,11 @@ import React from 'react';
 import Button from './react/Button.component';
 
 import button from './twig/button.twig';
+import toggle from './toggle/toggle.twig';
 
 import buttonData from './twig/button.yml';
 import buttonAltData from './twig/button-alt.yml';
+import toggleData from './toggle/toggle.yml';
 
 /**
  * Storybook Definition.
@@ -22,4 +24,7 @@ export const twig = () => (
 );
 export const twigAlt = () => (
   <div dangerouslySetInnerHTML={{ __html: button(buttonAltData) }} />
+);
+export const toggleExample = () => (
+  <div dangerouslySetInnerHTML={{ __html: toggle(toggleData) }} />
 );
