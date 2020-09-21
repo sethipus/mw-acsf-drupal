@@ -1,15 +1,15 @@
 {#
 /**
  * @file
- * Template for the   component.
+ * Template for the Poll vote component.
  *
- * Available variables:
+ * For variables, see PollViewForm.php in polls module.
  */
 #}
 
 {{ form.messages }}
 {% include "@molecules/polls/poll-vote.twig" with {
-  theme_styles: 'twix',
+  theme_styles: 'drupal',
   polling_heading: question,
   polling_paragraph_content: form.poll['#value'].field_description.value,
   polling_submit_label: 'Send',
