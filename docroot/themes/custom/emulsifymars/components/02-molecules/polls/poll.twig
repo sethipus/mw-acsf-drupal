@@ -26,17 +26,21 @@
 
     <form class="polling__form">
       <div class="polling__fieldset">
-        {% for choice in choices %}
-          <label class="polling__label" for="{{choice.value}}">
-            <input class="polling__radio" type="radio" name="{{choice.name}}" id="{{choice.value}}" value="{{choice.value}}" />
-            <span class="polling__label-text">{{choice.label}}</span>
+        {% for key, value in choices %}
+          <label class="polling__label" for="edit-choice-{{key}}">
+            <input class="polling__radio" type="radio" name="choice" id="edit-choice-{{key}}" value="{{key}}" data-drupal-selector="edit-choice-{{key}}" />
+            <span class="polling__label-text">{{value}}</span>
           </label>
         {% endfor %}
       </div>
-      
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: polling_submit_label
-      } %}
+
+{#      {% include "@atoms/links/defaultLink/defaultLink.twig" with {#}
+{#        default_link_content: polling_submit_label#}
+{#      } %}#}
+
+      {{ vote_button }}
+      {{ hidden_form_inputs }}
+
     </form>
   </div>
 </section>
