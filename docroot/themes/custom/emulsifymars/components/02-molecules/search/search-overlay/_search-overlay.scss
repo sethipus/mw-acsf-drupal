@@ -60,25 +60,60 @@
         .empty-text, .empty-text-description {
          margin: 10px 0;
         }
+
+        @include  medium {
+          .autocomplete-border {
+            border-bottom: 1px solid clr(subcolor-4);
+            margin: 0 20px;
+          }
+        }
       }
 
       & input.mars-autocomplete-field {
-        border-bottom-right-radius: unset;
-        border-bottom-left-radius: unset;
+        @include medium {
+          border-bottom-right-radius: unset;
+          border-bottom-left-radius: unset;
+        }
       }
 
       & .mars-suggestions {
         color: clr(subcolor-3);
+        font-size: 14px;
+        line-height: 100%;
 
         @include medium {
           margin-left: 60px;
           margin-top: 10px;
           color: clr(primary);
+          font-size: 18px;
+          line-height: 100%;
         }
-      }
 
-      .autocomplete-border {
-        border-top: 1px solid clr(subcolor-4);
+        .suggestions-links li {
+          margin-bottom: 10px;
+
+          & a {
+            color: clr(subcolor-3);
+            text-decoration: none;
+
+            @include medium {
+              color: clr(primary);
+            }
+          }
+        }
+
+        .show-all {
+          margin-bottom: 20px;
+
+          & a {
+            color: clr(subcolor-3);
+            text-transform: uppercase;
+
+            @include medium {
+              color: clr(primary);
+            }
+          }
+        }
       }
     }
 
@@ -120,6 +155,11 @@
       margin-right: auto;
       margin-left: auto;
       width: 100%;
+      border-bottom: 1px solid clr(subcolor-3) !important;
+
+      @include medium {
+        border-bottom: none!important;
+      }
 
       .form-item {
         margin-bottom: 0;
@@ -138,7 +178,7 @@
             color: clr(primary);
             border: 1px solid clr(subcolor-4);
             background-color: clr(subcolor-3);
-            border-bottom: none;
+            border-bottom: none !important;
             outline: none;
             font-size: 18px;
             line-height: 140%;
