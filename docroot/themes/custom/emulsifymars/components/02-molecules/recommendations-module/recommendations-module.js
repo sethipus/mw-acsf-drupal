@@ -53,6 +53,7 @@ Drupal.behaviors.recommendationsCorousel = {
       if (window.innerWidth > 1440) {
         if (swiper.slides.length <= 4) {
           swiper.navigation.nextEl.className += " hide-arrow";
+          context.querySelector(".swiper-wrapper").className += " no-carousel"
         }
       } else if (window.innerWidth > 768 && window.innerWidth < 1440) {
         if (swiper.slides.length <= 2) {

@@ -43,11 +43,15 @@
     }
   }
 
-  .swiper-wrapper {
+  .no-carousel {
     @include xl {
-      margin-left: 7%;
+      display: flex;
+      justify-content: center;
+      margin-left: -2%;
     }
+  }
 
+  .swiper-wrapper{
     @media (max-width: 600px) {
       margin-left: -8%;
     }
