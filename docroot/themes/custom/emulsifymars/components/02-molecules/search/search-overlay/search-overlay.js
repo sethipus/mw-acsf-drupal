@@ -57,14 +57,12 @@
       if (smallScreen) {
         // Mobile view
         // Move container to .header__menu--secondary-mobile
-        console.log('Resize to small');
         if ($('.header__menu--secondary-mobile').find('.search-autocomplete-wrapper').length == 0) {
           $('.search-autocomplete-wrapper').removeClass('opened').removeClass('suggested').prependTo('.header__menu--secondary-mobile');
         }
       } else {
         // Desktop view.
         /// Check if element positioned correctly.
-        console.log('Resize to large');
         if ($('.header__inner').children('.search-autocomplete-wrapper').length == 0) {
           $('.search-autocomplete-wrapper').removeClass('opened').removeClass('suggested').hide().appendTo('.header__inner');
         }
