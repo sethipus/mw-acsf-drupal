@@ -56,7 +56,12 @@ class SearchOverlayForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['search'] = [
       '#type' => 'textfield',
-      '#attributes' => ['class' => ['mars-autocomplete-field']],
+      '#attributes' => [
+        'class' => [
+          'mars-autocomplete-field',
+        ],
+        'autocomplete' => 'off',
+      ],
     ];
     $form['actions'] = [
       '#type' => 'actions',
