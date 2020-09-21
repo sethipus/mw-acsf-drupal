@@ -3,8 +3,29 @@
  # - video__src__url - the url the link should link to.
  #}
 {% set video__base_class = video__base_class|default('ambient-video') %}
+{% set video__extra_classes = ['ambient-video'] %}
+{% set video__blockname__1 = 'video_block_1' %}
+{% set video__blockname__2 = 'video_block_2' %}
+{% set video__blockname__3 = 'video_block_3' %}
 
-<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} id="video-container" data-fullscreen="false">
+<figure {{ bem(video__base_class, video__modifiers, video__blockname__1, video__extra_classes) }} id="video-container" data-fullscreen="false">
+  <video id='ambient-video' {{ bem('main', [], video__base_class) }}>
+    <source loop src="{{ video__src__url }}" type="video/mp4" />
+  </video>
+  {% if video__control == true %}
+    <button {{ bem('control', [], video__base_class) }} id="playpause" type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+  {% endif %}
+</figure>
+
+<figure {{ bem(video__base_class, video__modifiers, video__blockname__2, video__extra_classes) }} id="video-container" data-fullscreen="false">
+  <video id='ambient-video' {{ bem('main', [], video__base_class) }}>
+    <source loop src="{{ video__src__url }}" type="video/mp4" />
+  </video>
+  {% if video__control == true %}
+    <button {{ bem('control', [], video__base_class) }} id="playpause" type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+  {% endif %}
+</figure>
+<figure {{ bem(video__base_class, video__modifiers, video__blockname__3, video__extra_classes) }} id="video-container" data-fullscreen="false">
   <video id='ambient-video' {{ bem('main', [], video__base_class) }}>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>

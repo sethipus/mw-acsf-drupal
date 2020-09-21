@@ -7,7 +7,7 @@
     width: 100%;
   }
 
-  #playpause[data-state="play"] {
+  .ambient-video__control[data-state="play"] {
     width: 60px;
     height: 60px;
     left: 10px;
@@ -36,7 +36,7 @@
     }
   }
   
-  #playpause[data-state="pause"] {
+  .ambient-video__control[data-state="pause"] {
     width: 60px;
     height: 60px;
     left: 10px;
