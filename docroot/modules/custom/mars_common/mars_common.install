@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Mars Common module.
+ */
+
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+
+/**
+ * Implements hook_install().
+ */
+function mars_common_install() {
+  // Populate navigation items on site install.
+  foreach (['error-page-menu', 'main'] as $menu_name) {
+    foreach (['Home', 'Products', 'About'] as $weight => $title) {
+      $menu_link = MenuLinkContent::create([
+        'title' => $title,
+        'link' => ['uri' => 'internal:/'],
+        'menu_name' => $menu_name,
+        'expanded' => TRUE,
+        'weight' => $weight,
+      ]);
+      $menu_link->save();
+    }
+  }
+}
