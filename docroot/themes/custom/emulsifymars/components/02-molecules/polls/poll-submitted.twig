@@ -26,24 +26,24 @@
 
     <form class="polling__form">
       <div class="polling__fieldset">
-        {% for choice in choices %}
-          <label class="polling__label" for="{{choice.value}}">
-            <input 
-                disabled="true"
-                class="polling__radio polling__radio--submitted" 
-                type="radio" 
-                name="{{choice.name}}" 
-                id="{{choice.value}}" 
-                value="{{choice.value}}" 
-                checked={{choice.value is same as(user_vote)}}
+        {% for key, result in results %}
+          <label class="polling__label" for="edit-choice-{{key}}">
+            <input
+                disabled="disabled"
+                class="polling__radio polling__radio--submitted"
+                type="radio"
+                name="{{result['#value']}}"
+                id="edit-choice-{{key}}"
+                value="edit-choice-{{key}}"
+                {% if result.key == my_vote %}checked="checked"{% endif %}
             />
-            <span class="polling__label-text">{{choice.label}}</span>
-            <span class="polling__percentage">{{choice.votes ~ '%'}}</span>
-            <span class="polling__bar" style="right: {{100 - choice.votes ~ '%'}}"></span>
+            <span class="polling__label-text">{{result['#choice']}}</span>
+            <span class="polling__percentage">{{result['#percentage'] ~ '%'}}</span>
+            <span class="polling__bar" style="right: {{(100 - result['#percentage']) ~ '%'}}"></span>
           </label>
         {% endfor %}
       </div>
-      
+
       <div class="polling__submitted">
         <div class="polling__submitted-img">
             <div class="polling__brand-shape">{{brand_shape | raw}}</div>
