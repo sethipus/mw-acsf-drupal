@@ -1,7 +1,7 @@
 
 import React from 'react';
-import poll from './poll.twig';
-import pollSubmitted from './poll-submitted.twig'
+import poll from './poll-vote.twig';
+import pollSubmitted from './poll-results.twig';
 import pollData from './poll.yml';
 
 export default { title: 'Molecules/Polling' };

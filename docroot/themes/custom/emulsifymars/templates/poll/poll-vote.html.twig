@@ -7,24 +7,9 @@
  */
 #}
 
-{#{% set image_src = file_url(image.image.entity.fileuri) %}#}
-
 {{ form.messages }}
-{#show_question#}
-{#[#}
-{#{#}
-{#label: 'first thing',#}
-{#value: 'asd3',#}
-{#name: 'should be the same for every item'#}
-{#},#}
-{#{#}
-{#label: 'first thing',#}
-{#value: 'asd4',#}
-{#name: 'should be the same for every item'#}
-{#}#}
-{#]#}
-{% include "@molecules/polls/poll.twig" with {
-  theme_styles: 'drupal',
+{% include "@molecules/polls/poll-vote.twig" with {
+  theme_styles: 'twix',
   polling_heading: question,
   polling_paragraph_content: form.poll['#value'].field_description.value,
   polling_submit_label: 'Send',
@@ -33,18 +18,4 @@
   hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
 } %}
 
-{#{{ form.actions.vote }}#}
-
-{#{{ form.messages }}#}
-{#<div class="poll">#}
-{#  <div class="vote-form">#}
-{#    {% if show_question %}#}
-{#      <h3 class="poll-question">{{ question }}</h3>#}
-{#    {% endif %}#}
-
 {#    {{ form.choice }}#}
-
-{#    {{ form.actions }}#}
-{#  </div>#}
-{#  {{ form|without('actions', 'choice', 'messages', 'question') }}#}
-{#</div>#}

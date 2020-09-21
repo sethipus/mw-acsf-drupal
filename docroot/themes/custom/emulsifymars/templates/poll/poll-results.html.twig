@@ -19,13 +19,6 @@
  */
 #}
 
-
-{#{% set results_final = [] %}#}
-{#{% set poll_options = poll.getOptions() %}#}
-{#{% for key, value in poll_options %}#}
-{#  {% set results_final = results_final|merge({ (' ' ~ key): results[loop.index0]}) %}#}
-{#{% endfor %}#}
-
 {% set results_final = [] %}
 {% set poll_options = poll.getOptions() %}
 {% for key, value in poll_options %}
@@ -36,7 +29,7 @@
   ]) %}
 {% endfor %}
 
-{% include "@molecules/polls/poll-submitted.twig" with {
+{% include "@molecules/polls/poll-results.twig" with {
   theme_styles: 'twix',
   polling_heading: question,
   polling_paragraph_content: poll.field_description.value,
@@ -45,17 +38,4 @@
   polling_submitted_text: poll.field_thank_you_message.value
 } %}
 
-
-{#<div class="poll">#}
-{#  {% if show_question %}#}
-{#    <h3 class="poll-question">{{ question }}</h3>#}
-{#  {% else %}#}
-{#    <h3 class="poll-results-title">{{ results_title }}</h3>#}
-{#  {% endif %}#}
-{#  <dl>#}
 {#    {{ results }}#}
-{#  </dl>#}
-{#  <div class="total">#}
-{#    {% trans %}Total votes: {{ votes }}{% endtrans %}#}
-{#  </div>#}
-{#</div>#}
