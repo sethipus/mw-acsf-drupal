@@ -1,0 +1,14 @@
+uuid: 058a25c0-ad9c-4269-9b8e-a0242acf492f
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.global_brand_rep
+  module:
+    - user
+id: user_remove_role_action.global_brand_rep
+label: 'Remove the Global Brand Rep role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: global_brand_rep
