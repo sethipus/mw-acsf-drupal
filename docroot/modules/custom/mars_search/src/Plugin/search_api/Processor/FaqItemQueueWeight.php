@@ -1,5 +1,7 @@
 <?php
+
 namespace Drupal\mars_search\Plugin\search_api\processor;
+
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\entityqueue\EntitySubqueueInterface;
 use Drupal\node\NodeInterface;
@@ -8,6 +10,7 @@ use Drupal\search_api\Item\ItemInterface;
 use Drupal\search_api\Processor\ProcessorPluginBase;
 use Drupal\search_api\Processor\ProcessorProperty;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * Adds entityqueue weigh for FAQ items.
  *
@@ -27,6 +30,7 @@ class FaqItemQueueWeight extends ProcessorPluginBase {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface|null
    */
   protected $entityTypeManager;
+
   /**
    * {@inheritdoc}
    */
@@ -36,6 +40,7 @@ class FaqItemQueueWeight extends ProcessorPluginBase {
     $processor->setEntityTypeManager($container->get('entity_type.manager'));
     return $processor;
   }
+
   /**
    * Retrieves the entity type manager.
    *
@@ -45,6 +50,7 @@ class FaqItemQueueWeight extends ProcessorPluginBase {
   public function getEntityTypeManager() {
     return $this->entityTypeManager ?: \Drupal::entityTypeManager();
   }
+
   /**
    * Sets the entity type manager.
    *
@@ -57,6 +63,7 @@ class FaqItemQueueWeight extends ProcessorPluginBase {
     $this->entityTypeManager = $entity_type_manager;
     return $this;
   }
+
   /**
    * {@inheritdoc}
    */
@@ -73,6 +80,7 @@ class FaqItemQueueWeight extends ProcessorPluginBase {
     }
     return $properties;
   }
+
   /**
    * {@inheritdoc}
    */
@@ -100,4 +108,5 @@ class FaqItemQueueWeight extends ProcessorPluginBase {
       $field->addValue($weight);
     }
   }
+
 }
