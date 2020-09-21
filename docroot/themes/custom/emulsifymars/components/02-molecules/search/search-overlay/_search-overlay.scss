@@ -61,7 +61,7 @@
          margin: 10px 0;
         }
 
-        @include  medium {
+        @include medium {
           .autocomplete-border {
             border-bottom: 1px solid clr(subcolor-4);
             margin: 0 20px;
@@ -118,7 +118,9 @@
     }
 
     & input.mars-autocomplete-field {
-      border-radius: variable(border-radius);
+      @include medium {
+        border-radius: variable(border-radius);
+      }
     }
 
     & .mars-search-autocomplete-suggestions-wrapper {
@@ -155,10 +157,10 @@
       margin-right: auto;
       margin-left: auto;
       width: 100%;
-      border-bottom: 1px solid clr(subcolor-3) !important;
+      border-bottom: 1px solid clr(subcolor-3);
 
       @include medium {
-        border-bottom: none!important;
+        border-bottom: none;
       }
 
       .form-item {
@@ -169,7 +171,7 @@
           color: clr(subcolor-3);
           width: 90%;
           background-color: transparent;
-          padding-left: 25px;
+          margin-left: 25px;
           outline: none;
 
           @include medium {
@@ -178,11 +180,12 @@
             color: clr(primary);
             border: 1px solid clr(subcolor-4);
             background-color: clr(subcolor-3);
-            border-bottom: none !important;
+            border-bottom: none;
             outline: none;
             font-size: 18px;
             line-height: 140%;
             padding-left: 60px;
+            margin-left: 0;
           }
         }
 
@@ -214,5 +217,20 @@
       margin-right: 40px;
       height: 60px;
     }
+  }
+}
+
+input.mars-autocomplete-field:-webkit-autofill,
+input.mars-autocomplete-field:-webkit-autofill:hover,
+input.mars-autocomplete-field:-webkit-autofill:focus,
+input.mars-autocomplete-field:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: clr(subcolor-3);
+
+  @include medium {
+    -webkit-text-fill-color: clr(primary);
+    font-size: 18px;
+    margin-left: 60px;
+    padding-left: 60px;
   }
 }
