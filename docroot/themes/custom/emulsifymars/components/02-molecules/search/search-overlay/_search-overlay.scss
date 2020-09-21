@@ -61,7 +61,7 @@
          margin: 10px 0;
         }
 
-        @include  medium {
+        @include medium {
           .autocomplete-border {
             border-bottom: 1px solid clr(subcolor-4);
             margin: 0 20px;
@@ -158,7 +158,7 @@
       border-bottom: 1px solid clr(subcolor-3) !important;
 
       @include medium {
-        border-bottom: none!important;
+        border-bottom: none !important;
       }
 
       .form-item {
