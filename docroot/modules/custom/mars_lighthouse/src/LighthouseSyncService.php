@@ -5,6 +5,11 @@ namespace Drupal\mars_lighthouse;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\State\StateInterface;
+use Drupal\file\FileInterface;
+use Drupal\mars_lighthouse\Client\LighthouseClient;
 use Drupal\mars_lighthouse\Controller\LighthouseAdapter;
 use Drupal\media\MediaInterface;
 
@@ -14,6 +19,11 @@ use Drupal\media\MediaInterface;
 class LighthouseSyncService {
 
   use DependencySerializationTrait;
+
+  /**
+   * Date format required by API.
+   */
+  const DATE_FORMAT = 'Y-m-d-H-i-s T';
 
   /**
    * Lighthouse bundle name.
@@ -56,6 +66,34 @@ class LighthouseSyncService {
   private $fileStorage;
 
   /**
+   * The file system service.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  protected $fileSystem;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The state service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
+  /**
+   * Logger for this channel.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
    * Media Type.
    *
    * @var string
@@ -85,7 +123,10 @@ class LighthouseSyncService {
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
     LighthouseClientInterface $lighthouse_client,
-    LighthouseInterface $lighthouse
+    LighthouseInterface $lighthouse,
+    FileSystemInterface $file_system,
+    LoggerChannelFactoryInterface $logger_factory,
+    StateInterface $state
   ) {
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->fileStorage = $entity_type_manager->getStorage('file');
@@ -93,12 +134,79 @@ class LighthouseSyncService {
     $this->lighthouseClient = $lighthouse_client;
     $this->mapping = $this->configFactory->get(LighthouseAdapter::CONFIG_NAME);
     $this->lighthouseAdapter = $lighthouse;
+    $this->fileSystem = $file_system;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->logger = $logger_factory->get('mars_lighthouse');
+    $this->state = $state;
+  }
+
+  /**
+   * Sync media bulk.
+   */
+  public function syncLighthouseSiteBulk() {
+    $media_objects = $this->mediaStorage->loadByProperties([
+      'bundle' => self::LIGHTHOUSE_IMAGE_BUNDLE,
+    ]);
+    if (!empty($media_objects)) {
+      $assets_ids = [];
+      foreach ($media_objects as $media) {
+        $assets_ids[] = $media->field_external_id->value;
+      }
+
+      $params = $this->lighthouseAdapter->getToken();
+      try {
+        $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate(), $params);
+      }
+      catch (TokenIsExpiredException $e) {
+        // Try to refresh token.
+        $params = $this->lighthouseAdapter->refreshToken();
+        $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate(), $params);
+      }
+      catch (LighthouseAccessException $e) {
+        // Try to force request new token.
+        $params = $this->lighthouseAdapter->getToken(TRUE);
+        $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate(), $params);
+      }
+
+      foreach ($data as $item) {
+        $media_objects = $this->mediaStorage->loadByProperties([
+          'bundle' => self::LIGHTHOUSE_IMAGE_BUNDLE,
+          'field_external_id' => $item['assetId']
+        ]);
+        foreach ($media_objects as $media) {
+          $this->updateMediaData($media, $item);
+        }
+      }
+
+    }
+  }
+
+  /**
+   * Get latest modified date.
+   */
+  public function getLatestModifiedDate() {
+    if ($this->state->get('system.sync_lighthouse_last')) {
+      $date = $this->state->get('system.sync_lighthouse_last');
+    }
+    else {
+      $array_last_modified = [];
+      $media_objects = $this->mediaStorage->loadByProperties([
+        'bundle' => self::LIGHTHOUSE_IMAGE_BUNDLE,
+      ]);
+      foreach ($media_objects as $media) {
+        $array_last_modified[] = $media->field_last_mod_date->value;
+      }
+      $latest_modified_date = min($array_last_modified);
+      $date = \DateTime::createFromFormat(self::DATE_FORMAT, $latest_modified_date);
+      $date = $date->format('m/d/Y');
+    }
+    return $date;
   }
 
   /**
    * Sync media.
    */
-  public function syncLighthouseSite() {
+  public function syncLighthouseSite(bool $drush = FALSE) {
     $media_objects = $this->mediaStorage->loadByProperties([
       'bundle' => self::LIGHTHOUSE_IMAGE_BUNDLE,
     ]);
@@ -125,9 +233,14 @@ class LighthouseSyncService {
       ];
 
       batch_set($batch);
-      $batch =& batch_get();
-      $batch['progressive'] = FALSE;
-      batch_process();
+      if ($drush) {
+        drush_backend_batch_process();
+      }
+      else {
+        $batch =& batch_get();
+        $batch['progressive'] = FALSE;
+        batch_process();
+      }
     }
 
   }
@@ -152,7 +265,12 @@ class LighthouseSyncService {
       }
       catch (TokenIsExpiredException $e) {
         // Try to refresh token.
-        $params = $this->lighthouseAdapter->refreshToken($params);
+        $params = $this->lighthouseAdapter->refreshToken();
+        $data = $this->lighthouseClient->getAssetById($external_id, $params);
+      }
+      catch (LighthouseAccessException $e) {
+        // Try to force request new token.
+        $params = $this->lighthouseAdapter->getToken(TRUE);
         $data = $this->lighthouseClient->getAssetById($external_id, $params);
       }
 
@@ -165,8 +283,8 @@ class LighthouseSyncService {
 
     $context['results'][] = $mid;
     // Optional message displayed under the progressbar.
-    $context['message'] = t('Running Batch "@id" @details',
-      ['@id' => $mid, '@details' => $operation_details]
+    $context['message'] = t('Running Batch "@mid" @details',
+      ['@mid' => $mid, '@details' => $operation_details]
     );
   }
 
@@ -181,24 +299,21 @@ class LighthouseSyncService {
    *   Array of operations.
    */
   public function processMediaSyncFinished($success, array $results, array $operations) {
-    $messenger = \Drupal::messenger();
     if ($success) {
       // Here we could do something meaningful with the results.
       // We just display the number of nodes we processed...
-      $messenger->addMessage(t('@count results processed.', ['@count' => count($results)]));
+      $this->logger->notice(t('@count results processed.', ['@count' => count($results)]));
     }
     else {
       // An error occurred.
       // $operations contains the operations that remained unprocessed.
       $error_operation = reset($operations);
-      $messenger->addMessage(
-        t('An error occurred while processing @operation with arguments : @args',
-          [
-            '@operation' => $error_operation[0],
-            '@args' => print_r($error_operation[0], TRUE),
-          ]
-        )
-      );
+      $this->logger->error(t('An error occurred while processing @operation with arguments : @args',
+        [
+          '@operation' => $error_operation[0],
+          '@args' => print_r($error_operation[0], TRUE),
+        ]
+      ));
     }
   }
 
@@ -247,6 +362,7 @@ class LighthouseSyncService {
    */
   protected function updateFileEntity($fid, array $data): string {
     $file = $this->fileStorage->load($fid);
+    $this->clearFileCache($file);
     $file_mapping = $this->mapping->get('file');
 
     foreach ($file_mapping as $field_name => $path_to_value) {
@@ -260,6 +376,23 @@ class LighthouseSyncService {
 
     $file->save();
     return $file->id();
+  }
+
+  /**
+   * Clear file cache.
+   */
+  protected function clearFileCache(FileInterface $file) {
+    // Get origin image URI.
+    $image_uri = $file->getFileUri();
+    $styles = $this->entityTypeManager->getStorage('image_style')->loadMultiple();
+    /** @var \Drupal\image\ImageStyleInterface $style */
+    foreach ($styles as $style) {
+      // Get URI.
+      $uri = $style->buildUri($image_uri);
+      if (is_file($uri) && file_exists($uri)) {
+        $this->fileSystem->unlink($uri);
+      }
+    }
   }
 
 }

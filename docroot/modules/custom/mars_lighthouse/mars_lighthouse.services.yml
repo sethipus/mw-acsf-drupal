@@ -17,5 +17,9 @@ services:
     factory: mars_lighthouse.config_factory:createConfiguration
   mars_lighthouse.sync:
     class: '\Drupal\mars_lighthouse\LighthouseSyncService'
-    arguments: ['@entity_type.manager', '@config.factory', '@lighthouse.client', '@lighthouse.adapter']
-
+    arguments: ['@entity_type.manager', '@config.factory', '@lighthouse.client', '@lighthouse.adapter', '@file_system', '@logger.factory', '@state']
+  mars_lighthouse.commands:
+    class: \Drupal\mars_lighthouse\Commands\LighthouseSyncCommands
+    arguments: ['@mars_lighthouse.sync']
+    tags:
+      - { name: drush.command }

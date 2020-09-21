@@ -223,6 +223,52 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
+  public function getAssetsByIds(array $ids, string $date, array $params = []): array {
+    if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
+      return [];
+    }
+
+    $body = [
+      'token' => $params['mars_lighthouse.access_token'],
+      'checkDate' => $date,
+      'assets' => $ids,
+    ];
+
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_ASSETS_BY_IDS);
+
+    try {
+      /**@var \Psr\Http\Message\ResponseInterface $response */
+      $response = $this->httpClient->post(
+        $endpoint_full_path,
+        [
+          'json' => $body,
+          'headers' => $params['mars_lighthouse.headers'],
+        ]
+      );
+    }
+    catch (RequestException $exception) {
+      if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
+        throw new TokenIsExpiredException('Access token is expired.');
+      }
+      elseif ($exception->getCode() == self::ACCESS_ERROR_CODE) {
+        throw new LighthouseAccessException('Access token is invalid. A new one should be forced requested.');
+      }
+      else {
+        $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
+        throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
+      }
+    }
+
+    $content = $response->getBody()->getContents();
+    $content = Json::decode($content);
+
+    $total_found = $content['paging']['totalFound'] ?? 0;
+    return $content['assetList'] ?? [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getBrands(array $params = []): array {
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
