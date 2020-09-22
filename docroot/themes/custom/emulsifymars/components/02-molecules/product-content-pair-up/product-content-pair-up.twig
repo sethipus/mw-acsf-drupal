@@ -36,10 +36,8 @@
       </div>
     </div>
 
-    <div class="svg-asset">
-      {% include "@atoms/images/image/figure.twig" with {
-        image_src: png_asset
-      } %}
+    <div class="png-asset">
+      <div class="wrapper" style="background-image: url('{{ png_asset }}')"></div>
     </div>
 
     <div class="supportive-card">

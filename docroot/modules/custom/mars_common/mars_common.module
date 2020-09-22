@@ -10,7 +10,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
-use Drupal\file\Entity\File;
+use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
 use Drupal\node\Entity\Node;
 use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
@@ -20,29 +20,16 @@ use Drupal\mars_common\Form\Alter\RecipeLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
+use Drupal\layout_builder\Form\OverridesEntityForm;
 
 /**
  * Implements hook_preprocess().
  */
 function mars_common_preprocess(&$variables, $hook) {
   if ($hook === 'views_view__grid_card') {
-    $divider_id = Drupal::config('emulsifymars.settings')
-      ->get('graphic_divider');
-    if (isset($divider_id[0])) {
-      $file_entity = File::load($divider_id[0]);
-      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-      $file_divider_content = file_get_contents($file_url->getUri());
-    }
-
-    $border_id = Drupal::config('emulsifymars.settings')
-      ->get('brand_borders');
-
-    if (isset($border_id[0])) {
-      $file_entity = File::load($border_id[0]);
-      $file_url = Url::fromUri(file_create_url($file_entity->getFileUri()));
-      $file_border_content = file_get_contents($file_url->getUri());
-    }
-
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
+    $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'card-grid-border');
     $border_radius = Drupal::config('emulsifymars.settings')
       ->get('button_style');
 
@@ -50,6 +37,24 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['graphic_divider'] = $file_divider_content ?? '';
     $variables['brand_border'] = $file_border_content ?? '';
     $variables['ajax_card_grid_heading'] = $variables['view']->args[0] ?? '';
+    $variables['ajax_card_grid_link_text'] = 'See All';
+    $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
+  }
+
+  if (isset($variables['view_mode']) && $variables['view_mode'] === 'article_card') {
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $brand_shape_content = $themeParser->getFileContentFromTheme('brand_shape');
+    $variables['brand_shape'] = $brand_shape_content ?? '';
+  }
+
+  if ($hook === 'views_view__acquia_search') {
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
+    $border_radius = Drupal::config('emulsifymars.settings')
+      ->get('button_style');
+    $variables['theme_styles'] = 'drupal';
+    $variables['graphic_divider'] = $file_divider_content ?? '';
+    $variables['ajax_card_grid_heading'] = Drupal::translation()->translate('All results');
     $variables['ajax_card_grid_link_text'] = 'See All';
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
@@ -76,6 +81,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_block'      => NULL,
         'alert_banner_text' => NULL,
         'alert_banner_url'  => NULL,
+        'search_form'       => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],
@@ -204,7 +210,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'contact_help_banner_block' => [
       'variables' => [
-        'label' => NULL,
+        'title' => NULL,
         'description' => NULL,
         'social_links_label' => NULL,
         'phone_cta_label' => NULL,
@@ -441,7 +447,8 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
   $field_title = $variables['view']->getTitle();
   $rows = $variables['rows'];
-  $total_rows = $variables['rows'][0]['#view']->total_rows;
+  $variables['view']->total_rows;
+  $total_rows = $variables['view']->total_rows;
   $items_per_page = $variables['view']->pager->options['items_per_page'];
 
   $faq_items = [];
@@ -528,7 +535,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
     }
   }
 
-  $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
+  $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
   $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
 
@@ -557,10 +564,20 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
   // in order to add custom validation.
   $form_object = $form_state->getFormObject();
   if (
-    $form_id = 'entity_view_display_layout_builder_form' &&
-    $form_object instanceof DefaultsEntityForm
+    strpos($form_id, 'layout_builder_form') !== FALSE &&
+    ($form_object instanceof DefaultsEntityForm || $form_object instanceof OverridesEntityForm)
   ) {
-    $original_id = $form_state->getFormObject()->getEntity()->getOriginalId();
+
+    $entity = $form_state->getFormObject()->getEntity();
+
+    $original_id = NULL;
+    if ($entity instanceof Node) {
+      $original_id = 'node.' . $entity->bundle() . '.default';
+    }
+    elseif ($entity instanceof LayoutEntityDisplayInterface) {
+      $original_id = $entity->getOriginalId();
+    }
+
     if ($original_id == 'node.contact_help.default') {
       $form['#validate'][] = [ContactHelpLayoutFormAlter::class, 'validate'];
     }
@@ -588,6 +605,18 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     ) {
       $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
     }
+  }
+
+  $view = $form_state->get('view');
+  // Add validation for faq view title field.
+  if (
+    isset($view) &&
+    $form_id == 'views_ui_edit_display_form' &&
+    $view->get('id') == 'faq_view' &&
+    $form_state->get('type') == 'title'
+  ) {
+    $form['options']['title']['#maxlength'] = 10;
+    $form['options']['title']['#required'] = TRUE;
   }
 }
 

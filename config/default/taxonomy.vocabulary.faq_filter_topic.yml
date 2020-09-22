@@ -1,0 +1,8 @@
+uuid: 79c1cdb5-89a1-4888-9aa5-f28edaa8a9fe
+langcode: en
+status: true
+dependencies: {  }
+name: 'FAQ Filter topic'
+vid: faq_filter_topic
+description: ''
+weight: 0
