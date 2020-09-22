@@ -24,6 +24,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  const ZONE_FIXED = 'fixed';
+  const ZONE_FLEXIBLE = 'flexible';
+
   /**
    * Mars Recommendations Service.
    *
@@ -102,13 +105,17 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $is_fixed_section = FALSE;
     if ($form_state->has('layout_builder__component')) {
       /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
-      list($section_storage, $delta) = $form_state->getBuildInfo()['args'];
+      [$section_storage, $delta] = $form_state->getBuildInfo()['args'];
 
       $layout_id = $section_storage->getSection($delta)->getLayoutId();
-      $layout_display = $section_storage->getContextValue('display');
-      $form_alter_class = mars_common_get_layout_alter_class($layout_display);
 
-      $is_fixed_section = in_array($layout_id, constant("$form_alter_class::FIXED_SECTIONS"));
+      $contexts = $section_storage->getContextValues();
+      $entity = $contexts['entity'] ?? $contexts['display'] ?? NULL;
+
+      if (isset($entity)) {
+        $form_alter_class = mars_common_get_layout_alter_class($entity);
+        $is_fixed_section = in_array($layout_id, constant("$form_alter_class::FIXED_SECTIONS"));
+      }
     }
 
     $form['title'] = [
@@ -126,11 +133,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#tree' => TRUE,
     ];
 
-    // TODO: Filter options on plugin definitions load stage.
-    $options = $this->recommendationsService->getPopulationLogicOptions();
-    if ($is_fixed_section) {
-      unset($options['manual']);
-    }
+    $options = $this->recommendationsService->getPopulationLogicOptions($is_fixed_section ? self::ZONE_FIXED : self::ZONE_FLEXIBLE);
 
     $default_value = $conf['population_plugin_id'] ?? NULL;
     if (!$default_value && count($options) == 1) {

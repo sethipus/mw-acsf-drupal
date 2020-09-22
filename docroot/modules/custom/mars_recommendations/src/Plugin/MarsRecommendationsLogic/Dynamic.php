@@ -14,6 +14,10 @@ use Drupal\mars_recommendations\RecommendationsLogicPluginBase;
  *   description = @Translation("Loads recommendations dynamically from context."),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"))
+ *   },
+ *   zone_types = {
+ *     "fixed",
+ *     "flexible"
  *   }
  * )
  */

@@ -3,11 +3,11 @@
 namespace Drupal\Tests\mars_recommendations\Unit\Plugin\Block;
 
 use Drupal\Core\Form\FormState;
-use Drupal\Core\Plugin\Context\Context;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\mars_recommendations\Plugin\Block\RecommendationsModuleBlock;
+use Drupal\mars_recommendations\RecommendationsLogicPluginInterface;
 use Drupal\mars_recommendations\RecommendationsService;
-use Drupal\node\Entity\Node;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -19,6 +19,18 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class RecommendationsModuleBlockTest extends UnitTestCase {
 
   use StringTranslationTrait;
+
+  const TEST_PLUGIN_CONFIGURATION_FORM = [
+    'element1' => [
+      '#type' => 'item',
+      '#markup' => 'Test markup',
+    ],
+    'element2' => [
+      '#type' => 'textfield',
+      '#title' => 'Items criteria',
+      '#required' => TRUE,
+    ],
+  ];
 
   /**
    * Recommendations Module block's default plugin definitions.
@@ -91,62 +103,59 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $this->assertEquals($form['title']['#placeholder'], $this->t('More &lt;Content Type&gt;s Like This'));
     $this->assertEquals($form['title']['#maxwidth'], 35);
 
-    $this->assertArrayHasKey('population_logic', $form);
-    $this->assertIsArray($form['population_logic']);
-    $this->assertEquals($form['population_logic']['#type'], 'radios');
-    $this->assertEquals($form['population_logic']['#title'], $this->t('Population Logic'));
-    $this->assertArrayEquals($form['population_logic']['#options'], \Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
-    $this->assertTrue($form['population_logic']['#required']);
+    $this->assertArrayHasKey('population', $form);
+    $this->assertIsArray($form['population']);
+
+    $this->assertArrayHasKey('plugin_id', $form['population']);
+    $this->assertIsArray($form['population']['plugin_id']);
+    $this->assertEquals($form['population']['plugin_id']['#type'], 'radios');
+    $this->assertEquals($form['population']['plugin_id']['#title'], $this->t('Population Logic'));
+    $this->assertArrayEquals($form['population']['plugin_id']['#options'], \Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
+    $this->assertTrue($form['population']['plugin_id']['#required']);
+
+    $this->assertArrayHasKey('configuration', $form['population']);
+    $this->assertIsArray($form['population']['configuration']);
+    $this->assertArrayEquals([
+      '#type' => 'container',
+      '#attributes' => [
+        'id' => 'recommendations-population-configuration',
+      ],
+      'subform' => [],
+    ], $form['population']['configuration']);
   }
 
   /**
-   * Tests valid path for block structure build.
+   * Tests configured block configuration form.
    */
-  public function testBuildHappyPath() {
-    $node = $this->createNodeMock();
-    $this->createNodeContextMock($node);
-  }
+  public function testConfiguredRecommendationsBlockBuildConfigurationForm() {
+    $block = RecommendationsModuleBlock::create(
+      \Drupal::getContainer(),
+      [
+        'population_plugin_id' => 'test_plugin_1',
+        'population_plugin_configuration' => [],
+      ],
+      'recommendations_module',
+      $this->defaultDefinitions
+    );
 
-  /**
-   * Creates node mock.
-   *
-   * @param string $type
-   *   Node type.
-   *
-   * @return \Drupal\node\Entity\Node|\PHPUnit\Framework\MockObject\MockObject
-   *   Node mock.
-   */
-  private function createNodeMock($type = 'product') {
-    $node = $this->getMockBuilder('Drupal\node\Entity\Node')
-      ->disableOriginalConstructor()
-      ->getMock();
+    $form_state = new FormState();
+    $form = $block->buildConfigurationForm([], $form_state);
 
-    $node->expects($this->any())
-      ->method('getType')
-      ->willReturn($type);
+    $this->assertIsArray($form);
 
-    return $node;
-  }
+    $this->assertArrayHasKey('plugin_id', $form['population']);
+    $this->assertIsArray($form['population']['plugin_id']);
+    $this->assertEquals($form['population']['plugin_id']['#type'], 'radios');
+    $this->assertEquals($form['population']['plugin_id']['#title'], $this->t('Population Logic'));
+    $this->assertArrayEquals($form['population']['plugin_id']['#options'], \Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
+    $this->assertTrue($form['population']['plugin_id']['#required']);
+    $this->assertEquals($form['population']['plugin_id']['#default_value'], 'test_plugin_1');
 
-  /**
-   * Creates node context mock.
-   *
-   * @param \Drupal\node\Entity\Node $node
-   *   Node for context value.
-   *
-   * @return \Drupal\Core\Plugin\Context\ContextInterface|\PHPUnit\Framework\MockObject\MockObject
-   *   Context mock.
-   */
-  private function createNodeContextMock(Node $node) {
-    $nodeContext = $this->getMockBuilder(Context::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    $nodeContext->expects($this->exactly(1))
-      ->method('getContextValue')
-      ->willReturn($node);
-
-    return $nodeContext;
+    $this->assertArrayHasKey('configuration', $form['population']);
+    $this->assertIsArray($form['population']['configuration']);
+    $this->assertEquals($form['population']['configuration']['#type'], 'container');
+    $this->assertIsArray($form['population']['configuration']['subform']);
+    $this->assertArrayEquals(self::TEST_PLUGIN_CONFIGURATION_FORM, $form['population']['configuration']['subform']);
   }
 
   /**
@@ -162,10 +171,53 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
 
     $mock->method('getPopulationLogicOptions')
       ->willReturn([
-        'dynamic' => 'Dynamic',
-        'manual' => 'Manual',
+        'test_plugin_1' => 'Test Plugin 1',
+        'test_plugin_2' => 'Test Plugin 2',
       ]);
 
+    $plugin = new class implements RecommendationsLogicPluginInterface {
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getResultsLimit(): int {
+        return self::UNLIMITED;
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function buildConfigurationForm(array &$form, FormStateInterface $form_state) {
+        return RecommendationsModuleBlockTest::TEST_PLUGIN_CONFIGURATION_FORM;
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getRecommendations() {
+        return [];
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getRenderedRecommendations() {
+        return [];
+      }
+
+    };
+
+    $mock->method('getPopulationLogicPlugin')->willReturn($plugin);
     return $mock;
   }
 

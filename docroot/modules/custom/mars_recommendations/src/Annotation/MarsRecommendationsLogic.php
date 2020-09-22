@@ -43,4 +43,11 @@ class MarsRecommendationsLogic extends Plugin {
    */
   public $weight = NULL;
 
+  /**
+   * An array of zone types of a block that the plugin support.
+   *
+   * @var array
+   */
+  public $zone_types = [];
+
 }

@@ -12,7 +12,7 @@ class ArticleLayoutFormAlter extends LayoutFormAlterBase {
   const FIXED_SECTIONS = [
     'article_article_header',
     'article_article_body',
-    // 'article_content_recommendations',
+    'article_content_recommendations',
   ];
 
 }

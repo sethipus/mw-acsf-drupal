@@ -30,14 +30,19 @@ class RecommendationsService {
   /**
    * Returns a list of Recommendations Population logic flows.
    *
+   * @param string|null $zone_type
+   *   Filters options by zone type if value is set.
+   *
    * @return array
    *   Recommendations Population logic options.
    */
-  public function getPopulationLogicOptions() {
+  public function getPopulationLogicOptions($zone_type = NULL) {
     $result = [];
 
     foreach ($this->pluginManager->getDefinitions() as $definition) {
-      $result[$definition['id']] = $definition['label'];
+      if (!isset($zone_type) || in_array($zone_type, $definition['zone_types'])) {
+        $result[$definition['id']] = $definition['label'];
+      }
     }
 
     return $result;

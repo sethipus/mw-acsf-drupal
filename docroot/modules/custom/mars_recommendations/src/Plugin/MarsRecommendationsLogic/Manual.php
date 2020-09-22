@@ -11,7 +11,10 @@ use Drupal\mars_recommendations\RecommendationsLogicPluginBase;
  * @MarsRecommendationsLogic(
  *   id = "manual",
  *   label = @Translation("Manual"),
- *   description = @Translation("Allows to set a list of recommended nodes manually.")
+ *   description = @Translation("Allows to set a list of recommended nodes manually."),
+ *   zone_types = {
+ *     "flexible"
+ *   }
  * )
  */
 class Manual extends RecommendationsLogicPluginBase {
