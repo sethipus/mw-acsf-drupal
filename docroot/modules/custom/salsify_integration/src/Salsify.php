@@ -166,8 +166,8 @@ class Salsify {
       $generate_product_feed = $client->get($endpoint, [
         'headers' => [
           // 'Authorization' => 'Bearer ' . $access_token,
-          'client_id' => '023aecb3ba78422799afff96ca2eaa5f',
-          'client_secret' => '7Ae700c606a5450e9F23E4100D2bf956',
+          'client_id' => NULL,
+          'client_secret' => NULL,
         ],
       ]);
       $response = $generate_product_feed->getBody()->__toString();
