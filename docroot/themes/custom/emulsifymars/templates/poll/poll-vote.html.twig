@@ -12,10 +12,9 @@
   theme_styles: 'drupal',
   polling_heading: question,
   polling_paragraph_content: form.poll['#value'].field_description.value,
-  polling_submit_label: 'Send',
   choices: form.choice['#options'],
-  vote_button: form.actions.vote,
+  vote_button: form.actions.vote|merge({
+      '#value': (form.poll['#value'].field_submit_cta.value)
+  }),
   hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
 } %}
-
-{#    {{ form.choice }}#}
