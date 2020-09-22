@@ -9,7 +9,6 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\file\FileInterface;
-use Drupal\mars_lighthouse\Client\LighthouseClient;
 use Drupal\mars_lighthouse\Controller\LighthouseAdapter;
 use Drupal\media\MediaInterface;
 
