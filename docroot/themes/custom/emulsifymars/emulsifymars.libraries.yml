@@ -24,7 +24,7 @@ content-feature:
 social-feed:
   js:
     dist/js/social_feed.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
@@ -42,18 +42,19 @@ social-feed-slide:
   dependencies:
     - core/drupal
 
-pdp-hero:
+pdp-body:
   js:
-    dist/js/pdp_hero.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
+    dist/js/pdp_body.js: {}
+    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
 pdp-multipack:
   js:
     dist/js/pdp_multipack.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
+    - emulsifymars/pdp-body
     - core/drupal
 
 product-content-pair-up:
@@ -83,7 +84,7 @@ parent-page-header:
 media-carousel:
   js:
     dist/js/media_carousel.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 
@@ -102,7 +103,7 @@ iframe:
 product-used-module:
   js:
     dist/js/product_used.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
 

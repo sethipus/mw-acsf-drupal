@@ -12,3 +12,29 @@ faq_items:
 button_name: "SEE ALL"
 theme_styles: "twix"
 button_link: "#FAQ"
+facetLinks:
+  - text: 'Nutrition'
+    class: 'default_link'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+  - text: 'Availability'
+    class: 'default_link active'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+  - text: 'Allergens'
+    class: 'default_link'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+  - text: 'Next item'
+    class: 'default_link'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+  - text: 'Toggle button'
+    class: 'default_link'
+    attr:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
