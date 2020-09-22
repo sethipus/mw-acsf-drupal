@@ -7,6 +7,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\mars_common\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -51,6 +52,13 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $themeConfiguratorParser;
 
   /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -59,12 +67,14 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->configFactory = $config_factory;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -77,7 +87,8 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -87,16 +98,20 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   public function build() {
     $node = $this->getContextValue('node');
 
+    if ($node->hasField('field_recipe_image') && $node->field_recipe_image->target_id) {
+      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_recipe_image->target_id);
+      $build['#image'] = [
+        'label' => $image_arr['title'] ?? '',
+        'url' => $image_arr['src'] ?? '',
+      ];
+    }
+
     $build = [
       '#label' => $node->label(),
       '#description' => $node->field_recipe_description->value,
       '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
       '#ingredients_number' => $node->field_recipe_ingredients_number->value . $node->get('field_recipe_ingredients_number')->getSettings()['suffix'],
       '#number_of_servings' => $node->field_recipe_number_of_servings->value . $node->get('field_recipe_number_of_servings')->getSettings()['suffix'],
-      '#image' => [
-        'label' => $node->field_recipe_image->entity->label(),
-        'url' => $node->field_recipe_image->entity->image->entity->createFileUrl(),
-      ],
       '#theme' => 'recipe_detail_hero_block',
     ];
 
