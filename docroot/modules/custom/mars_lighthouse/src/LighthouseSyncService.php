@@ -171,7 +171,7 @@ class LighthouseSyncService {
       foreach ($data as $item) {
         $media_objects = $this->mediaStorage->loadByProperties([
           'bundle' => self::LIGHTHOUSE_IMAGE_BUNDLE,
-          'field_external_id' => $item['assetId']
+          'field_external_id' => $item['assetId'],
         ]);
         foreach ($media_objects as $media) {
           if (isset($item['versionIdOTMM']) &&
@@ -183,7 +183,7 @@ class LighthouseSyncService {
       }
       if ($external_ids) {
         $this->state->set('system.sync_lighthouse_last', date('m/d/Y'));
-        $this->logger->info(t('@count results processed. List of entities with external ids were updated @external_ids', [
+        $this->logger->info($this->t('@count results processed. List of entities with external ids were updated @external_ids', [
           '@count' => count($data),
           '@external_ids' => implode(', ', array_unique($external_ids)),
         ]));
@@ -230,14 +230,14 @@ class LighthouseSyncService {
           [$this, 'processMediaSync'],
           [
             $mid,
-            t('Media @media', ['@mid' => $mid]),
+            $this->t('Media @media', ['@mid' => $mid]),
           ],
         ];
         $batchId++;
         $numOperations++;
       }
       $batch = [
-        'title' => t('Updating @num node(s)', ['@num' => $numOperations]),
+        'title' => $this->t('Updating @num node(s)', ['@num' => $numOperations]),
         'operations' => $operations,
         'finished' => [$this, 'processMediaSyncFinished'],
       ];
@@ -258,8 +258,8 @@ class LighthouseSyncService {
   /**
    * Batch process callback.
    *
-   * @param int $id
-   *   Id of the batch.
+   * @param int $mid
+   *   Id of the media entity.
    * @param string $operation_details
    *   Details of the operation.
    * @param object $context
@@ -290,7 +290,7 @@ class LighthouseSyncService {
         $this->updateMediaData($media, $data);
         $context['results'][$mid] = $external_id;
         // Optional message displayed under the progressbar.
-        $context['message'] = t('Running Batch "@mid" @details',
+        $context['message'] = $this->t('Running Batch "@mid" @details',
           ['@mid' => $mid, '@details' => $operation_details]
         );
       }
@@ -311,7 +311,7 @@ class LighthouseSyncService {
     if ($success) {
       // Here we could do something meaningful with the results.
       // We just display the number of nodes we processed...
-      $this->logger->info(t('@count results processed. List of entities with external ids were updated @external_ids', [
+      $this->logger->info($this->t('@count results processed. List of entities with external ids were updated @external_ids', [
         '@count' => count($results),
         '@external_ids' => implode(', ', array_unique($results)),
       ]));
@@ -320,7 +320,7 @@ class LighthouseSyncService {
       // An error occurred.
       // $operations contains the operations that remained unprocessed.
       $error_operation = reset($operations);
-      $this->logger->error(t('An error occurred while processing @operation with arguments : @args',
+      $this->logger->error($this->t('An error occurred while processing @operation with arguments : @args',
         [
           '@operation' => $error_operation[0],
           '@args' => print_r($error_operation[0], TRUE),
@@ -332,8 +332,8 @@ class LighthouseSyncService {
   /**
    * Update media entity from API response.
    *
-   * @param array $data
-   *   Response data with one entity.
+   * @param \Drupal\media\MediaInterface $media
+   *   The media item.
    * @param array $data
    *   Response data with one entity.
    *
@@ -364,6 +364,8 @@ class LighthouseSyncService {
   /**
    * Update file entity from API response.
    *
+   * @param int $fid
+   *   Id of the file entity.
    * @param array $data
    *   Response data with one entity.
    *

@@ -163,9 +163,9 @@ class LighthouseClient implements LighthouseClientInterface {
       'orderBy' => '',
       'brand' => $filters['brand'] ?? '',
       'market' => $filters['market'] ?? '',
-      // 'subBrand' => [],
-      // 'subtype' => [],
-      // 'category' => [],
+      /* 'subBrand' => [],
+         'subtype' => [],
+         'category' => [], */
       'contentType' => $media_type,
       'pagingConfig' => [
         'startRow' => $offset,
@@ -262,7 +262,6 @@ class LighthouseClient implements LighthouseClientInterface {
     $content = $response->getBody()->getContents();
     $content = Json::decode($content);
 
-    $total_found = $content['paging']['totalFound'] ?? 0;
     return $content['assetList'] ?? [];
   }
 
