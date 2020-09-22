@@ -1,0 +1,29 @@
+{% set feedback_base_class = 'feedback-module' %}
+{% set feedback_heading_base_class = 'feedback-module__heading' %}
+{% set feedback_heading_level = 1 %}
+{% set feedback_paragraph_base_class = 'feedback-module__paragraph' %}
+{% set feedback_link_base_class = 'feedback-module__bottom-link' %}
+
+<section {{ bem(feedback_base_class) }} data-theme="{{ theme_styles }}">
+  <div class="feedback-module__brand-shape">
+    {{ brand_shape | raw }}
+  </div>
+
+  <div class="feedback-module__main-content">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: feedback_positive_heading,
+      heading_level: feedback_heading_level,
+      heading_base_class: feedback_heading_base_class
+    } %}
+
+    <div class="feedback-module__btn-group">
+      
+    </div>
+
+    {% include "@atoms/links/link/link.twig" with {
+      link_base_class: feedback_link_base_class,
+      link_content: feedback_bottom_link_content,
+      link_url: feedback_bottom_link_url
+    } %}
+  </div>
+</section>
