@@ -1,0 +1,9 @@
+name: 'Mars Search'
+type: module
+description: 'Search-related functionality.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
+dependencies:
+  - facets:facets
+  - search_api:search_api
+  - drupal:views

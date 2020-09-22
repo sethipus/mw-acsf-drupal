@@ -3,20 +3,25 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_product_brand
+    - field.storage.node.field_qa_item_answer
     - field.storage.node.field_article_brand_initiatives
-    - field.storage.node.field_product_diet_allergens
-    - field.storage.node.field_product_variants
+    - field.storage.node.field_product_brand
+    - field.storage.node.field_faq_filter_topic
     - field.storage.node.field_product_flavor
     - field.storage.node.field_product_format
     - field.storage.node.field_product_occasions
     - field.storage.node.field_product_name
+    - field.storage.node.field_product_diet_allergens
+    - field.storage.node.field_product_variants
+    - field.storage.node.field_qa_item_question
     - field.storage.node.field_product_trade_description
     - search_api.server.acquia_search_server
   module:
+    - search_api_solr
     - taxonomy
     - node
     - search_api
+    - mars_search
 _core:
   default_config_hash: 5kXLh0sYJ2Yc_THnDbYg_pPAc1UJ0gabzabQYjrYyAc
 id: acquia_search_index
@@ -38,7 +43,7 @@ field_settings:
     label: 'Brand Initiatives » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_article_brand_initiatives:entity:name'
-    type: text
+    type: string
     dependencies:
       config:
         - field.storage.node.field_article_brand_initiatives
@@ -48,7 +53,7 @@ field_settings:
     label: 'Product Variants » Content » Diet & Allergens » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_variants:entity:field_product_diet_allergens:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_product_diet_allergens
@@ -56,6 +61,36 @@ field_settings:
       module:
         - node
         - taxonomy
+  faq_filter_topic:
+    label: 'FAQ Filter topic » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_faq_filter_topic:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_faq_filter_topic
+      module:
+        - taxonomy
+  faq_item_queue_weight:
+    label: 'FAQ item queue weight'
+    property_path: faq_item_queue_weight
+    type: string
+  field_qa_item_answer:
+    label: Answer
+    datasource_id: 'entity:node'
+    property_path: field_qa_item_answer
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_qa_item_answer
+  field_qa_item_question:
+    label: Question
+    datasource_id: 'entity:node'
+    property_path: field_qa_item_question
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_qa_item_question
   flavor:
     label: 'Flavor » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -90,7 +125,7 @@ field_settings:
     label: 'Product Name'
     datasource_id: 'entity:node'
     property_path: field_product_name
-    type: text
+    type: solr_text_ngram
     boost: !!float 5
     dependencies:
       config:
@@ -109,8 +144,16 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: text
+    type: solr_text_ngram
     boost: !!float 5
+    dependencies:
+      module:
+        - node
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
     dependencies:
       module:
         - node
@@ -120,6 +163,7 @@ datasource_settings:
       default: false
       selected:
         - article
+        - faq
         - product
         - product_multipack
         - recipe
@@ -130,18 +174,24 @@ processor_settings:
   add_url: {  }
   aggregated_field: {  }
   entity_status: {  }
+  faq_item_queue_weight: {  }
   ignore_character:
     all_fields: true
     fields:
       - brand
       - brand_initiatives
       - diet_allergens
+      - faq_filter_topic
+      - faq_item_queue_weight
+      - field_qa_item_answer
+      - field_qa_item_question
       - flavor
       - format
       - occasions_product
       - product_name
       - product_trade
       - title
+      - type
     ignorable: '[''¿¡!?,.:;]'
     ignorable_classes:
       - Pc
@@ -160,12 +210,17 @@ processor_settings:
       - brand
       - brand_initiatives
       - diet_allergens
+      - faq_filter_topic
+      - faq_item_queue_weight
+      - field_qa_item_answer
+      - field_qa_item_question
       - flavor
       - format
       - occasions_product
       - product_name
       - product_trade
       - title
+      - type
     weights:
       preprocess_index: -20
       preprocess_query: -20
@@ -175,6 +230,6 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: false
+  index_directly: true
   cron_limit: 50
 server: acquia_search_server

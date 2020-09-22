@@ -30,11 +30,9 @@
     {% endblock %}
   {% endif %}
   <div class="recipe-media__info">
-    {% include "@atoms/images/image/background-image.twig" with {
-      image_src: icon_border,
-      background_repeat: 'repeat',
-      height: '50px',
-    } %}
+    <div class="brand-border">
+      {{ brand_borders | raw }}
+    </div>
     <div class="recipe-details">
       <div class="recipe-details-item">
         <div class="recipe-details-item__icon-container">
@@ -46,7 +44,7 @@
         </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">{{ 'Time'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_cooking_time }} {{ "mins" | t }}</div>
+          <div class="recipe-details-item__value">{{ recipe_cooking_time }}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -59,7 +57,7 @@
         </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">{{ 'Ingredients'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_ingredients_number }} {{ "items" | t }}</div>
+          <div class="recipe-details-item__value">{{ recipe_ingredients_number }}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -72,7 +70,7 @@
         </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">{{ 'Makes'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_number_of_servings }} {{ "servings" | t }}</div>
+          <div class="recipe-details-item__value">{{ recipe_number_of_servings }}</div>
         </div>
       </div>
     </div>

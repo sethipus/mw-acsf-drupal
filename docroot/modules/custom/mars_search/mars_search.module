@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * MARS Search module main file.
+ */
+
+use Drupal\search_api\IndexInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function mars_search_theme($existing, $type, $theme, $path) {
+  return [
+    'mars_search_suggestions' => [
+      'variables' => [
+        'suggestions' => [],
+        'show_all' => NULL,
+        'empty_text' => NULL,
+        'empty_text_description' => NULL,
+      ],
+    ],
+    'mars_search_header' => [
+      'variables' => [
+        'search_header_heading' => NULL,
+        'brand_shape' => NULL,
+        'input_form' => NULL,
+        'search_results' => NULL,
+      ],
+      'template' => 'mars-search-header',
+    ],
+    'mars_search_no_results' => [
+      'variables' => [
+        'no_results_links' => NULL,
+        'no_results_text' => NULL,
+        'no_results_heading' => NULL,
+      ],
+      'template' => 'mars-search-no-results',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_search_api_index_items_alter().
+ */
+function mars_search_search_api_index_items_alter(IndexInterface $index, array &$items) {
+  /** @var Drupal\search_api\Item\Item $item */
+  foreach ($items as $item) {
+    /** @var Drupal\Core\Entity\Plugin\DataType\EntityAdapter $object */
+    $object = $item->getOriginalObject();
+
+    $type = $object->get('type')->target_id;
+    if ($type == 'product_multipack') {
+      $object->set('type', 'product');
+    }
+    $item->setOriginalObject($object);
+  }
+}
