@@ -196,8 +196,6 @@ class SalsifyFields extends Salsify {
             'salsify_id' => $salsify_field_map['salsify:id'],
             'salsify_data_type' => $salsify_field_map['salsify:data_type'],
             'entity_type' => $entity_type,
-            // TODO Hardocoded product variant value, update to dynamic mapping
-            // from configs.
             'bundle' => 'product_variant',
             'field_name' => $drupal_field,
             'method' => 'manual',
@@ -270,21 +268,28 @@ class SalsifyFields extends Salsify {
           foreach ($product_data['products'] as $product) {
             $salsify_import->processSalsifyItem($product, $force_update);
           }
-          return [
-            'status' => 'status',
-            'message' => $this->t('The Salsify data import is complete.'),
-          ];
+          $message = $this->t('The Salsify data import is complete.');
         }
         // Add each product value into a queue for background processing.
         else {
           /** @var \Drupal\Core\Queue\QueueInterface $queue */
-          $queue = \Drupal::service('queue')
+          $queue = $this->queueFactory
             ->get('salsify_integration_content_import');
           foreach ($product_data['products'] as $product) {
             $product['force_update'] = $force_update;
             $queue->createItem($product);
           }
+          $message = $this->t('The Salsify data import queue was created.');
         }
+
+        // Unpublish products in case of deletion at Salsify side.
+        $this->unpublishProducts($product_data['products']);
+
+        return [
+          'status' => 'status',
+          'message' => $message,
+        ];
+
       }
       else {
         $message = $this->t('Could not complete Salsify data import. No product data is available')->render();
@@ -304,6 +309,42 @@ class SalsifyFields extends Salsify {
       ];
     }
 
+  }
+
+  /**
+   * Unpublish deleted at salsify side products.
+   *
+   * @param array $products
+   *   Products array.
+   *
+   * @return array|int
+   *   Ids deleted entities.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  private function unpublishProducts(array $products) {
+    $products_for_delete = $this->entityTypeManager
+      ->getStorage('node')
+      ->getQuery()
+      ->condition(
+        'type',
+        ['product', 'product_variant', 'product_multipack'],
+        'IN'
+      )
+      ->condition('salsify_id', array_column($products, 'salsify:id'), 'NOT IN')
+      ->execute();
+
+    $product_entities_delete = $this->entityTypeManager
+      ->getStorage('node')
+      ->loadMultiple($products_for_delete);
+
+    $this->entityTypeManager
+      ->getStorage('node')
+      ->delete($product_entities_delete);
+
+    return array_values($products_for_delete);
   }
 
   /**

@@ -12,12 +12,13 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\salsify_integration\SalsifyFields;
 
 /**
- * The cron job definition to kick off the midnight Salsify import process.
+ * Implements hook_cron().
  */
-function salsify_integration_midnight_import($job) {
+function salsify_integration_cron() {
   $product_feed = SalsifyFields::create(\Drupal::getContainer());
   $product_feed->importProductData();
-  \Drupal::logger('salsify_integration')->notice('The Salsify data is queued to be imported and will be processed on the next cron run.');
+  \Drupal::logger('salsify_integration')
+    ->notice('The Salsify data is queued to be imported and will be processed on the next cron run.');
 }
 
 /**

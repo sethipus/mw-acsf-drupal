@@ -7,6 +7,7 @@ use Drupal\Core\Database\DatabaseExceptionWrapper;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
@@ -91,6 +92,13 @@ class Salsify {
   protected $logger;
 
   /**
+   * The logger interface.
+   *
+   * @var \Drupal\Core\Queue\QueueFactory
+   */
+  protected $queueFactory;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
    * @param \Psr\Log\LoggerInterface $logger
@@ -105,16 +113,26 @@ class Salsify {
    *   The entity field manager.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_salsify
    *   The cache object associated with the Salsify bin.
+   * @param \Drupal\Core\Queue\QueueFactory $queue_factory
+   *   Queue factory service.
    */
-  public function __construct(LoggerInterface $logger, ConfigFactoryInterface $config_factory, QueryFactory $entity_query, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager, CacheBackendInterface $cache_salsify) {
+  public function __construct(
+    LoggerInterface $logger,
+    ConfigFactoryInterface $config_factory,
+    QueryFactory $entity_query,
+    EntityTypeManagerInterface $entity_type_manager,
+    EntityFieldManagerInterface $entity_field_manager,
+    CacheBackendInterface $cache_salsify,
+    QueueFactory $queue_factory
+  ) {
     $this->logger = $logger;
     $this->cache = $cache_salsify;
     $this->configFactory = $config_factory;
     $this->config = $this->configFactory->get('salsify_integration.settings');
     $this->entityQuery = $entity_query;
     $this->entityTypeManager = $entity_type_manager;
-    /* TODO: This can likely be removed now that fields are loaded statically.*/
     $this->entityFieldManager = $entity_field_manager;
+    $this->queueFactory = $queue_factory;
   }
 
   /**
@@ -127,7 +145,8 @@ class Salsify {
       $container->get('entity.query'),
       $container->get('entity_type.manager'),
       $container->get('entity_field.manager'),
-      $container->get('cache.default')
+      $container->get('cache.default'),
+      $container->get('queue')
     );
   }
 
