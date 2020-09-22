@@ -1,6 +1,6 @@
 {% set recipe_card_base_class = recipe_card_base_class|default('recipe-card') %}
 
-<section data-theme="{{theme_styles}}" {{ bem(recipe_card_base_class) }}>
+<section data-theme="{{ theme_styles }}" {{ bem(recipe_card_base_class) }}>
   {% if recipe_is_new %}
     {% include "@atoms/badge/badge.twig" %}
   {% endif %}
@@ -15,6 +15,13 @@
       } %}
     </a>
   </div>
+
+  {# Eyebrow #}
+  {% if recipe_card_eyebrow %}
+    {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+      eyebrow_text: recipe_card_eyebrow
+    } %}
+  {% endif %}
 
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: recipe_card_heading,
