@@ -1,0 +1,23 @@
+uuid: fad53778-be38-4441-a8b8-35a6a18bd122
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.salsify_updated
+    - node.type.product_multipack
+id: node.product_multipack.salsify_updated
+field_name: salsify_updated
+entity_type: node
+bundle: product_multipack
+label: 'Salsify Updated Date'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
