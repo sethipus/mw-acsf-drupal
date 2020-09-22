@@ -11,6 +11,10 @@
     position: absolute;
     left: 20px;
     bottom: 13px;
+
+    @include xl {
+      bottom: 16px;
+    }
   }
 
   &__field {

@@ -3,8 +3,10 @@ langcode: en
 status: true
 dependencies:
   config:
-    - node.type.faq
+    - node.type.article
     - node.type.contact_help
+    - node.type.error_page
+    - node.type.faq
     - node.type.homepage
     - node.type.landing_page
     - node.type.newsletter_sign_up
@@ -12,6 +14,7 @@ dependencies:
     - node.type.product
     - node.type.product_multipack
     - node.type.product_variant
+    - node.type.recipe
     - node.type.where_to_buy
   module:
     - content_moderation
@@ -22,11 +25,11 @@ label: Editorial
 type: content_moderation
 type_settings:
   states:
-    archived:
-      label: Archived
-      weight: 5
+    approved:
       published: false
-      default_revision: true
+      default_revision: false
+      label: Approved
+      weight: 6
     draft:
       label: Draft
       published: false
@@ -37,51 +40,56 @@ type_settings:
       published: true
       default_revision: true
       weight: 0
+    restored_to_draft:
+      published: false
+      default_revision: false
+      label: 'Restored to Draft'
+      weight: 7
     review:
       label: 'In review'
       weight: -1
       published: false
       default_revision: false
   transitions:
-    archive:
-      label: Archive
+    approve:
+      label: Approve
       from:
-        - published
-      to: archived
-      weight: 2
-    archived_published:
-      label: 'Restore from archive'
-      from:
-        - archived
-      to: published
-      weight: 4
+        - review
+      to: approved
+      weight: 5
     create_new_draft:
       label: 'Create New Draft'
       to: draft
       weight: 0
       from:
-        - archived
         - draft
         - published
-        - review
     publish:
       label: Publish
       to: published
       weight: 1
       from:
-        - draft
-        - published
+        - approved
+    reject:
+      label: Reject
+      from:
         - review
+      to: restored_to_draft
+      weight: 6
     review:
       label: 'Send to review'
       to: review
       weight: 0
       from:
         - draft
+        - restored_to_draft
         - review
   entity_types:
     node:
+      - article
       - contact_help
+      - error_page
+      - faq
       - homepage
       - landing_page
       - newsletter_sign_up
@@ -89,4 +97,5 @@ type_settings:
       - product
       - product_multipack
       - product_variant
+      - recipe
       - where_to_buy
