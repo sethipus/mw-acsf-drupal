@@ -6,7 +6,6 @@ dependencies:
     - field.field.node.landing_page.body
     - field.field.node.landing_page.field_meta_tags
     - field.field.node.landing_page.layout_builder__layout
-    - field.field.node.landing_page.layout_selection
     - node.type.landing_page
   module:
     - layout_builder
@@ -127,6 +126,41 @@ third_party_settings:
         - landing_page_pathing
         - landing_page_community
       whitelisted_blocks:
+        landing_page_pathing:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - mars_common_content_feature_module
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Facets: {  }
+            'Flexible driver':
+              - flexible_driver
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+            'Lists (Views)':
+              - 'views_block:multipack_product_card_grid-block_multipack_product'
+            'Mars Common':
+              - product_feature
+            'Mars Product': {  }
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe:
+              - recipe_feature_block
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
         landing_page_introduction:
           all_regions:
             Article: {  }
@@ -162,12 +196,7 @@ third_party_settings:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types':
-              - full_width_image
-              - full_width_video
-              - inline_image
-              - inline_video
-              - media_carousel
+            'Custom block types': {  }
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
@@ -176,7 +205,12 @@ third_party_settings:
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks': {  }
+            'Inline blocks':
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
+              - 'inline_block:media_carousel'
             'Lists (Views)': {  }
             'Mars Common':
               - freeform_story_block
@@ -189,41 +223,6 @@ third_party_settings:
             'Moderation Dashboard': {  }
             Product: {  }
             Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        landing_page_pathing:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types':
-              - flexible_framer
-            'Custom blocks':
-              - mars_common_content_feature_module
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Facets: {  }
-            'Flexible driver':
-              - flexible_driver
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)':
-              - 'views_block:multipack_product_card_grid-block_multipack_product'
-            'Mars Common':
-              - product_feature
-            'Mars Product': {  }
-            'Mars Search': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe:
-              - recipe_feature_block
             'Social feed': {  }
             'Social media share': {  }
             System: {  }
@@ -279,7 +278,6 @@ hidden:
   body: true
   content_moderation_control: true
   layout_builder__layout: true
-  layout_selection: true
   links: true
   published_at: true
   search_api_excerpt: true

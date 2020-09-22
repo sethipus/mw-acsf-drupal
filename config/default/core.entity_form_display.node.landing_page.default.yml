@@ -6,11 +6,13 @@ dependencies:
     - field.field.node.landing_page.body
     - field.field.node.landing_page.field_meta_tags
     - field.field.node.landing_page.layout_builder__layout
-    - field.field.node.landing_page.layout_selection
     - node.type.landing_page
+    - workflows.workflow.editorial
   module:
+    - content_moderation
     - metatag
     - path
+    - publication_date
     - text
 _core:
   default_config_hash: 93TnkIzh65W5fSqt_74vYO-VnxfJ92GSYGlKHFraxlA
@@ -38,12 +40,6 @@ content:
     type: metatag_firehose
     region: content
     weight: 8
-    settings: {  }
-    third_party_settings: {  }
-  layout_selection:
-    type: options_select
-    region: content
-    weight: 26
     settings: {  }
     third_party_settings: {  }
   moderation_state:
@@ -96,5 +92,6 @@ content:
     region: content
 hidden:
   layout_builder__layout: true
+  layout_selection: true
   promote: true
   sticky: true
