@@ -1,3 +1,7 @@
-<button type="submit" class="button button--primary js-form-submit form-submit default-link default-link--" data-drupal-selector="edit-vote" id="edit-vote">{{ safe_value_label | raw }}
-  <span class="default-link__label">{{ attributes.value }}</span>
-</button>
+{% if attributes.value == 'Delete' %}
+  <input{{ attributes }} />{{ children }}
+{% else %}
+  <button type="submit" class="button button--primary js-form-submit form-submit default-link default-link--" data-drupal-selector="edit-vote" id="edit-vote">{{ safe_value_label | raw }}
+    <span class="default-link__label">{{ attributes.value }}</span>
+  </button>
+{% endif %}
