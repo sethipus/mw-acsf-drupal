@@ -167,17 +167,27 @@ class LighthouseSyncService {
         $params = $this->lighthouseAdapter->getToken(TRUE);
         $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate(), $params);
       }
-
+      $external_ids = [];
       foreach ($data as $item) {
         $media_objects = $this->mediaStorage->loadByProperties([
           'bundle' => self::LIGHTHOUSE_IMAGE_BUNDLE,
           'field_external_id' => $item['assetId']
         ]);
         foreach ($media_objects as $media) {
-          $this->updateMediaData($media, $item);
+          if (isset($item['versionIdOTMM']) &&
+            $item['versionIdOTMM'] != $media->field_version_id->value) {
+            $external_ids[] = $media->field_external_id->value;
+            $this->updateMediaData($media, $item);
+          }
         }
       }
-
+      if ($external_ids) {
+        $this->state->set('system.sync_lighthouse_last', date('m/d/Y'));
+        $this->logger->info(t('@count results processed. List of entities with external ids were updated @external_ids', [
+          '@count' => count($data),
+          '@external_ids' => implode(', ', array_unique($external_ids)),
+        ]));
+      }
     }
   }
 
@@ -277,15 +287,14 @@ class LighthouseSyncService {
       if (!empty($data) &&
         isset($data['versionIdOTMM']) &&
         $data['versionIdOTMM'] != $media->field_version_id->value) {
-          $this->updateMediaData($media, $data);
+        $this->updateMediaData($media, $data);
+        $context['results'][$mid] = $external_id;
+        // Optional message displayed under the progressbar.
+        $context['message'] = t('Running Batch "@mid" @details',
+          ['@mid' => $mid, '@details' => $operation_details]
+        );
       }
     }
-
-    $context['results'][] = $mid;
-    // Optional message displayed under the progressbar.
-    $context['message'] = t('Running Batch "@mid" @details',
-      ['@mid' => $mid, '@details' => $operation_details]
-    );
   }
 
   /**
@@ -302,7 +311,10 @@ class LighthouseSyncService {
     if ($success) {
       // Here we could do something meaningful with the results.
       // We just display the number of nodes we processed...
-      $this->logger->notice(t('@count results processed.', ['@count' => count($results)]));
+      $this->logger->info(t('@count results processed. List of entities with external ids were updated @external_ids', [
+        '@count' => count($results),
+        '@external_ids' => implode(', ', array_unique($results)),
+      ]));
     }
     else {
       // An error occurred.

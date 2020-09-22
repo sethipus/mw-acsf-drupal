@@ -47,7 +47,9 @@ class LighthouseSyncCommands extends DrushCommands {
       $this->lighthouseSyncService->syncLighthouseSiteBulk();
       $this->output()->writeln('Finish sync.');
     }
-    $this->output()->writeln('Choose sync option "bulk" or "one by one"');
+    if (!$options['bulk'] && !$options['onebyone']) {
+      $this->output()->writeln('Choose sync option "bulk" or "one by one"');
+    }
   }
 
 }
