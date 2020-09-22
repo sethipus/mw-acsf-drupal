@@ -1,0 +1,15 @@
+.filter-block {
+  padding-bottom: 10px;
+  border-bottom: 1px solid clr(subcolor-4);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.filter-title {
+  margin: 30px 0 10px;
+  font: 16px/1.4em variable(primary-font);
+  color: clr(primary);
+  letter-spacing: 0.65px;
+}

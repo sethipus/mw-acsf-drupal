@@ -1,0 +1,27 @@
+{% set search_filter_container_base_class = 'search-filter-container' %}
+{% set search_filter_block_base_class = 'search-filter-block' %}
+{% set search_filter_header_base_class = 'search-filter-header' %}
+{% set search_filter_content_base_class = 'search-filter-content' %}
+{% set search_filter_footer_base_class = 'search-filter-footer' %}
+
+<div {{ bem(search_filter_container_base_class) }} data-theme="twix">
+  <div {{ bem(search_filter_block_base_class, ['opened']) }}>
+    <div {{ bem(search_filter_header_base_class) }}>
+      <div {{ bem('title', [], search_filter_header_base_class) }}>{{ title }}</div>
+      <div {{ bem('close', [], search_filter_header_base_class) }}></div>
+    </div>
+    <div {{ bem(search_filter_content_base_class) }}>
+      {% for item in items %}
+        {% include "@molecules/filter/filter.twig" with {
+          filter_title: item.filter_title,
+          checkboxes: item.checkboxes,
+        } %}
+      {% endfor %}
+    </div>
+    <div {{ bem(search_filter_footer_base_class) }}>
+      <a href="#" {{ bem('button', [], search_filter_footer_base_class)}}>Clear All</a>
+      <a href="#" {{ bem('button', ['active'], search_filter_footer_base_class)}}>Apply</a>
+    </div>
+  </div>
+  <div class="search-filter-open-button">Filter</div>
+</div>

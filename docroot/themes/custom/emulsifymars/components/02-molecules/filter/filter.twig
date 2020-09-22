@@ -1,0 +1,9 @@
+<div class="filter-block">
+  {% include "@atoms/text/text/01-paragraph.twig" with {
+    paragraph_content: filter_title,
+    paragraph_base_class: "filter-title"
+  } %}
+  {% include "@atoms/forms/checkbox/checkbox.twig" with {
+    checkboxes: checkboxes,
+  } %}
+</div>
