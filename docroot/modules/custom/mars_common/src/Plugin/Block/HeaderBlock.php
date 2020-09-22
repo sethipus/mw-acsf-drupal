@@ -2,13 +2,16 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\RendererInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -53,6 +56,20 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $request;
 
   /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -62,7 +79,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
-    Request $request
+    Request $request,
+    FormBuilderInterface $form_builder,
+    RendererInterface $renderer
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
@@ -70,6 +89,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->request = $request;
+    $this->formBuilder = $form_builder;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -83,7 +104,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
-      $container->get('request_stack')->getCurrentRequest()
+      $container->get('request_stack')->getCurrentRequest(),
+      $container->get('form_builder'),
+      $container->get('renderer')
     );
   }
 
@@ -122,14 +145,40 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['language_selector'] ?? TRUE,
     ];
     $form['alert_banner'] = [
-      '#type' => 'text_format',
+      '#type' => 'details',
       '#title' => $this->t('Alert banner'),
+      '#open' => TRUE,
+    ];
+    $form['alert_banner']['alert_banner_text'] = [
+      '#type' => 'text_format',
+      '#title' => $this->t('Alert Banner text'),
       '#description' => $this->t('This text will appear in Alert Banner.'),
-      '#default_value' => $config['alert_banner']['value'] ?? '',
-      '#format' => $config['alert_banner']['format'] ?? 'plain_text',
+      '#default_value' => $config['alert_banner']['alert_banner_text']['value'] ?? '',
+      '#format' => $config['alert_banner']['alert_banner_text']['format'] ?? 'plain_text',
+      '#maxlength' => 100,
+    ];
+    $form['alert_banner']['alert_banner_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Alert Banner link'),
+      '#description' => $this->t('Ex. http://mars.com, /products'),
+      '#default_value' => $config['alert_banner']['alert_banner_url'] ?? '',
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    if ($alert_banner_url = $form_state->getValue('alert_banner')['alert_banner_url']) {
+      // Check if textfield contains relative or absolute url.
+      if (!(UrlHelper::isValid($alert_banner_url, TRUE) ||
+        UrlHelper::isValid($alert_banner_url))) {
+        $message = $this->t('Please check url (internal or external)');
+        $form_state->setErrorByName('alert_banner_url', $message);
+      }
+    }
   }
 
   /**
@@ -153,7 +202,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#logo'] = $theme_settings['logo']['path'] ?? '';
 
-    $build['#alert_banner'] = $config['alert_banner']['value'];
+    $build['#alert_banner_text'] = $config['alert_banner']['alert_banner_text']['value'];
+    $build['#alert_banner_url'] = $config['alert_banner']['alert_banner_url'];
     if ($config['search_block']) {
       $host = $this->request->getSchemeAndHttpHost();
       $build['#search_menu'] = [['title' => 'Search', 'url' => $host]];
@@ -162,6 +212,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
 
     $build['#theme'] = 'header_block';
+
+    $build['#search_form'] = $this->buildSearchForm();
 
     return $build;
   }
@@ -210,6 +262,19 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       }
     }
     return $menu_links;
+  }
+
+  /**
+   * Render search form.
+   *
+   * @return string
+   *   Search form HTML.
+   */
+  protected function buildSearchForm() {
+    $form = $this->formBuilder->getForm('\Drupal\mars_search\Form\SearchOverlayForm');
+    unset($form['actions']['submit']);
+
+    return $this->renderer->render($form);
   }
 
 }

@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -58,24 +59,45 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $themeConfiguratorParser;
 
   /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ThemeConfiguratorParser $theme_configurator_parser) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityTypeManagerInterface $entity_type_manager,
+    ThemeConfiguratorParser $theme_configurator_parser,
+    MediaHelper $media_helper
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(
+    ContainerInterface $container,
+    array $configuration,
+    $plugin_id,
+    $plugin_definition
+  ) {
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -156,11 +178,12 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     $build['#header_2'] = $this->configuration['header_2'];
     $build['#body'] = $this->configuration['body']['value'];
     $build['#background_shape'] = $this->configuration['background_shape'] == 1 ? 'true' : 'false';
-    /** @var \Drupal\media\MediaInterface $media */
-    if (!empty($this->configuration['image']) && $media = static::loadEntityBrowserEntity($this->configuration['image'])) {
-      $fid = $media->field_media_image->target_id;
-      $file = $this->entityTypeManager->getStorage('file')->load($fid);
-      $build['#image'] = file_create_url($file->getFileUri());
+    if (!empty($this->configuration['image'])) {
+      $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['image']);
+      $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
+      if (!isset($mediaParams['error']) && !$mediaParams['error']) {
+        $build['#image'] = file_create_url($mediaParams['src']);
+      }
     }
 
     $build['#image_alt'] = $this->configuration['image_alt'];

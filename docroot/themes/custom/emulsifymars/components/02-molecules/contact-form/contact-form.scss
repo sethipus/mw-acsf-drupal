@@ -20,6 +20,8 @@
   .group-1,
   .group-2,
   .group-5,
+  .group-6,
+  .group-7,
   .ff-footnote-label {
     margin-left: 1.6rem;
     margin-right: -1.6rem;
@@ -35,8 +37,7 @@
   }
 
   .ff-item-row,
-  .group-0,
-  .ff-submit-btn {
+  .group-0 {
     margin-bottom: 1.6rem;
   }
 
@@ -78,6 +79,7 @@
     font-size: 1.6rem;
     font-family: variable(secondary-font);
     border-radius: variable(border-radius);
+    padding-left: 2rem;
   }
 
   .ff-input-type {
@@ -89,6 +91,7 @@
     font-family: variable(secondary-font);
     cursor: text;
     font-size: 1.6rem;
+    padding-bottom: 1rem;
   }
 
   .ff-input-type::-webkit-input-placeholder {
@@ -139,13 +142,19 @@
   .ff-fileupload-label,
   .ff-required-mark,
   #sectionLabel2,
-  #ffSection6,
-  #ffSection7,
   #lblCaseAccountIdFirstName,
   #lblCaseAccountIdLastName,
   #lblCaseAccountIdPersonEmail,
-  #lblCaseSubject {
+  #lblCaseSubject,
+  #sectionLabel5,
+  #sectionLabel7 {
     display: none;
+  }
+
+  #GENERALTEXT195 {
+    font-family: variable(secondary-font);
+    color: clr(primary);
+    font-size: 1.6rem;
   }
 
   #lblCaseDescription {
@@ -186,7 +195,7 @@
     border-radius: variable(border-radius);
     color: clr(primary);
     font-family: variable(secondary-font);
-    padding: 0.3rem 1rem;
+    padding: 1rem 1.5rem;
     font-size: 1.6rem;
 
     @include medium {
@@ -202,6 +211,17 @@
     display: inline-block;
     border: 0.5px solid #c4c4c4;
     border-radius: variable(border-radius) !important;
+    font-family: variable(secondary-font);
+  }
+
+  .group-7 {
+    max-width: 90%;
+    margin-right: 10%;
+  }
+
+  .ff-general-text-label {
+    font-size: 1.2rem;
+    color: clr(primary);
     font-family: variable(secondary-font);
   }
 
@@ -246,7 +266,7 @@
     font-size: 1rem;
     font-family: variable(secondary-font);
     position: absolute;
-    margin-top: 2rem;
+    margin-top: 3rem;
   }
 
   .group-0 .ff-invalid-msg {
@@ -255,6 +275,13 @@
     font-family: variable(secondary-font);
     position: absolute;
     margin-top: 5rem;
+  }
+
+  #error {
+    font-size: 1rem;
+    margin-top: -2rem;
+    font-family: variable(secondary-font);
+    color: clr(secondary);
   }
 
   @include medium {
