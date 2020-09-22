@@ -572,6 +572,10 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['settings']['label_display']['#access'] = FALSE;
   }
 
+  if (strpos($form_id, 'poll_view_form_') === 0) {
+    $form['actions']['cancel'] = NULL;
+  }
+
   // Alter layout form related to content type
   // in order to add custom validation.
   $form_object = $form_state->getFormObject();
