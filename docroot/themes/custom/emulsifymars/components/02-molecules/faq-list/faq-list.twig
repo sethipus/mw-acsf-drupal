@@ -17,13 +17,11 @@
     heading: title
   } %}
 
-  {% include "@atoms/lists/faq.twig" %}
+  {% include "@molecules/faq-filters/faq-filters.twig" with {
+    faq_base_class: 'faq-filters'
+  }%}
 
-{#
-  {% include "@atoms/buttons/twig/button.twig" with {
-      button_content: button_name
-  } %}
-  #}
+  {% include "@atoms/lists/faq.twig" %}
 
   <div {{bem('faq__see_all')}}>
     {% include "@atoms/links/defaultLink/defaultLink.twig" with {
