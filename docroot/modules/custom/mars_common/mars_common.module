@@ -12,6 +12,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
+use Drupal\mars_common\Form\Alter\AboutPageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\LandingPageLayoutFormAlter;
 use Drupal\node\Entity\Node;
 use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
@@ -548,18 +550,6 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form_state->set('form_alter_class', $form_alter_class);
       $form['#validate'][] = [$form_alter_class, 'validate'];
     }
-    if (
-      $original_id == 'node.landing_page.default' ||
-      $original_id == 'node.landing_page.full'
-    ) {
-      $form['#validate'][] = [LandingPageLayoutFormAlter::class, 'validate'];
-    }
-    if (
-      $original_id == 'node.about_page.default' ||
-      $original_id == 'node.about_page.full'
-    ) {
-      $form['#validate'][] = [AboutPageLayoutFormAlter::class, 'validate'];
-    }
   }
 }
 
@@ -606,6 +596,14 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
     case 'node.product.default':
     case 'node.product_multipack.default':
       return ProductLayoutFormAlter::class;
+
+    case 'node.landing_page.default':
+    case 'node.landing_page.full':
+      return LandingPageLayoutFormAlter::class;
+
+    case 'node.about_page.default':
+    case 'node.about_page.full':
+      return AboutPageLayoutFormAlter::class;
 
     default:
       return NULL;
