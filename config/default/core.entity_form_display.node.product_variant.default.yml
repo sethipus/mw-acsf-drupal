@@ -54,6 +54,8 @@ dependencies:
     - field.field.node.product_variant.field_product_vitamin_c_daily
     - field.field.node.product_variant.field_product_vitamin_d
     - field.field.node.product_variant.field_product_vitamin_d_daily
+    - field.field.node.product_variant.salsify_id
+    - field.field.node.product_variant.salsify_updated
     - node.type.product_variant
     - workflows.workflow.editorial
   module:
@@ -806,4 +808,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  salsify_id: true
+  salsify_updated: true

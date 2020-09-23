@@ -1,0 +1,19 @@
+uuid: fe03d76f-7119-4f67-960c-b6003c1543be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.salsify_id
+    - taxonomy.vocabulary.mars_format
+id: taxonomy_term.mars_format.salsify_id
+field_name: salsify_id
+entity_type: taxonomy_term
+bundle: mars_format
+label: salsify_id
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
