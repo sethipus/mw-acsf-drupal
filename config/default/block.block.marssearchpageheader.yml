@@ -1,0 +1,28 @@
+uuid: a86ef80b-8377-47a5-8449-894fa111cc9d
+langcode: en
+status: true
+dependencies:
+  module:
+    - mars_search
+    - system
+  theme:
+    - emulsifymars
+id: marssearchpageheader
+theme: emulsifymars
+region: header
+weight: 0
+provider: null
+plugin: search_header_block
+settings:
+  id: search_header_block
+  label: 'MARS: Search page header'
+  provider: mars_search
+  label_display: ''
+  search_header_heading: 'What are you looking for?'
+  search_facet: content_type
+visibility:
+  request_path:
+    id: request_path
+    pages: /search
+    negate: false
+    context_mapping: {  }

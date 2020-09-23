@@ -187,7 +187,9 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $view_mode = sprintf('%s_card', $supporting_entity->getType());
 
       $build['#supporting_card_entity_view'] = $this->viewBuilder->view($supporting_entity, $view_mode);
-      $build['#supporting_card_entity_view']['#eyebrow'] = $conf_eyebrow_text ?: $default_eyebrow_text;
+      $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
+      $build['#supporting_card_entity_view']['#eyebrow'] = $eyebrow_text;
+      $build['#supporting_card_entity_view']['#cache']['keys'][] = md5($eyebrow_text);
       $build['#supporting_card_eyebrow'] = $build['#supporting_card_entity_view']['#eyebrow'];
     }
 

@@ -83,20 +83,24 @@
       }
     }
 
-    .svg-asset {
+    .png-asset {
       position: absolute;
       left: 0;
       right: 0;
       overflow-x: hidden;
       top: 840px;
       width: 100%;
-      height: auto;
+      min-height: 375px;
       margin: auto;
 
-      figure {
-        float: right;
-        margin-right: -20%;
-        width: 110%;
+      .wrapper {
+        position: absolute;
+        right: -20%;
+        height: 100%;
+        width: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center top;
       }
     }
 
@@ -111,6 +115,16 @@
       .wrapper > section {
         max-width: 31.5rem;
       }
+    }
+  }
+
+  .layout-builder & {
+    .png-asset {
+      top: 640px;
+    }
+
+    .supportive-card {
+      top: 306px;
     }
   }
 
@@ -158,7 +172,7 @@
           }
         }
 
-        .svg-asset {
+        .png-asset {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -169,10 +183,9 @@
           height: 768px;
           width: 768px;
 
-          figure {
-            float: none;
-            margin-right: auto;
-            width: auto;
+          .wrapper {
+            right: auto;
+            background-position: center center;
           }
         }
 
@@ -184,6 +197,16 @@
             max-width: 33.4rem;
           }
         }
+      }
+    }
+
+    .layout-builder &:not(.size--375) {
+      .png-asset {
+        top: 365px;
+      }
+
+      .supportive-card {
+        top: 361px;
       }
     }
   }
@@ -229,7 +252,7 @@
           }
         }
 
-        .svg-asset {
+        .png-asset {
           left: auto;
           right: 0;
           top: 360px;
@@ -247,6 +270,16 @@
             max-width: 43.2rem;
           }
         }
+      }
+    }
+
+    .layout-builder &:not(.size--375):not(.size--768) {
+      .png-asset {
+        top: 80px;
+      }
+
+      .supportive-card {
+        top: 75px;
       }
     }
   }

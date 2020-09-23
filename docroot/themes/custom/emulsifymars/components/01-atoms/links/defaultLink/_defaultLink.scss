@@ -1,6 +1,6 @@
 .default-link {
   color: clr(text-inverse);
-  background-color: clr(subcolor-1);
+  background-color: clr(secondary);
   font-family: variable(primary-font);
   text-transform: uppercase;
   font-size: 1.6rem;
@@ -12,7 +12,7 @@
   overflow: hidden;
   display: inline-block;
   transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
-  border-radius: variable(border-radius);
+  border-radius: variable(button-border-radius);
 
   &::after {
     content: '';
@@ -36,7 +36,7 @@
   }
 
   &:hover {
-    color: clr(primary);
+    color: clr(secondary);
 
     &::after {
       height: 300px;
