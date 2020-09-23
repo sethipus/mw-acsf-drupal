@@ -129,7 +129,7 @@
 
       &::before {
         content: "";
-        background-color: clrs(secondary);
+        background-color: clr(secondary);
         height: 7px;
         width: 7px;
         border-radius: 3.5px;
@@ -250,5 +250,18 @@
   .ambient-video #playpause[data-state="play"] {
     left: calc(50% - 30px);
     top: calc(50% - 30px);
+  }
+}
+
+.list-container-block {
+  margin: 0 20px 30px;
+
+  @include medium {
+    margin: 0 40px 40px;
+  }
+
+  @include xl {
+    max-width: 780px;
+    margin: 0 auto 0 157.5px;
   }
 }
