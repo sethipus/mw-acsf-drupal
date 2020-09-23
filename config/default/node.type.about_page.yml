@@ -1,0 +1,20 @@
+uuid: 9c0fca1a-98ee-4d8f-a084-ce7245ee9fe4
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_workflow
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  lightning_workflow:
+    workflow: editorial
+name: 'About page'
+type: about_page
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

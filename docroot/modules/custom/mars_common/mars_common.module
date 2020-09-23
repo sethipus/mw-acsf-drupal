@@ -79,8 +79,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_menu'       => NULL,
         'language_selector' => NULL,
         'search_block'      => NULL,
+        'alert_banner_text' => NULL,
+        'alert_banner_url'  => NULL,
         'search_form'       => NULL,
-        'alert_banner'      => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],
@@ -603,6 +604,10 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       $original_id == 'node.product_multipack.default'
     ) {
       $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
+    }
+    if (
+      $original_id == 'node.about_page.default') {
+      $form['#validate'][] = [AboutPageLayoutFormAlter::class, 'validate'];
     }
   }
 
