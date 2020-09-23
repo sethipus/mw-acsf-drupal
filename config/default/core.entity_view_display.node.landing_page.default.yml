@@ -332,6 +332,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  body: true
   content_moderation_control: true
   layout_builder__layout: true
   links: true

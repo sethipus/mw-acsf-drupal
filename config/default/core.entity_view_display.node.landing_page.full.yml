@@ -295,6 +295,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  body: true
   content_moderation_control: true
   field_landing_page_image: true
   field_landing_page_new: true
