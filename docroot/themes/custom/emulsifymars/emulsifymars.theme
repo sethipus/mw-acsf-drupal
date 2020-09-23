@@ -255,10 +255,14 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   ];
 
   $form['icons_settings']['button_style'] = [
-    '#type'          => 'textfield',
+    '#type'          => 'radios',
     '#title'         => $translation->translate('Button/Card Style'),
     '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner. For example: 5px.'),
     '#default_value' => theme_get_setting('button_style'),
+    '#options' => [
+      0 => $translation->translate('Round'),
+      1 => $translation->translate('Sharp'),
+    ],
   ];
 
   $form['social'] = [
@@ -593,7 +597,14 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --v-primary-font: %s;", 'DrupalPrimaryTypefaceFont');
   $properties .= sprintf(" --v-secondary-font: %s;", 'DrupalSecondaryTypefaceFont');
 
-  $properties .= sprintf(" --v-border-radius: %s;", $settings['button_style']);
+  if (theme_get_setting('button_style') == 0) {
+    $properties .= sprintf(" --v-button-border-radius: %s;", '30px');
+    $properties .= sprintf(" --v-card-border-radius: %s;", '20px');
+  }
+  else {
+    $properties .= sprintf(" --v-button-border-radius: %s;", '0');
+    $properties .= sprintf(" --v-card-border-radius: %s;", '0');
+  }
 
   _emulsifymars_load_images_from_theme($properties);
 
