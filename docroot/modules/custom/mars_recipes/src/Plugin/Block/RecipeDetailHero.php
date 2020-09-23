@@ -98,14 +98,6 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   public function build() {
     $node = $this->getContextValue('node');
 
-    if ($node->hasField('field_recipe_image') && $node->field_recipe_image->target_id) {
-      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_recipe_image->target_id);
-      $build['#image'] = [
-        'label' => $image_arr['title'] ?? '',
-        'url' => $image_arr['src'] ?? '',
-      ];
-    }
-
     $build = [
       '#label' => $node->label(),
       '#description' => $node->field_recipe_description->value,
@@ -114,6 +106,14 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#number_of_servings' => $node->field_recipe_number_of_servings->value . $node->get('field_recipe_number_of_servings')->getSettings()['suffix'],
       '#theme' => 'recipe_detail_hero_block',
     ];
+
+    if ($node->hasField('field_recipe_image') && $node->field_recipe_image->target_id) {
+      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_recipe_image->target_id);
+      $build['#image'] = [
+        'label' => $image_arr['title'] ?? '',
+        'url' => $image_arr['src'] ?? '',
+      ];
+    }
 
     // Get brand border path.
     $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-hero-border');
