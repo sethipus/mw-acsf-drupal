@@ -46,15 +46,11 @@
   }
 
   &__container {
-    display: none;
+    display: block;
     padding: 2.7rem 1.7rem;
     border: solid 1px clr(nutrition-border);
     background: clr(nutrition-background);
     border-radius: 2rem;
-
-    &[data-nutrition-size-active="true"] {
-      display: block;
-    }
   
     @include medium {
       padding: 3.6rem 4rem;
