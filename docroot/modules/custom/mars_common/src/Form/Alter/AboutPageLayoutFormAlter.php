@@ -3,7 +3,7 @@
 namespace Drupal\mars_common\Form\Alter;
 
 /**
- * Class HomepageLayoutFormAlter.
+ * Class AboutPageLayoutFormAlter.
  *
  * @package Drupal\mars_common\Form\Alter
  */
