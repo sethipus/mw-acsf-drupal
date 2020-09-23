@@ -464,53 +464,6 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 /**
  * Implements hook_preprocess_HOOK().
  */
-function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
-  $field_title = $variables['view']->getTitle();
-  $rows = $variables['rows'];
-  $variables['view']->total_rows;
-  $total_rows = $variables['view']->total_rows;
-  $items_per_page = $variables['view']->pager->options['items_per_page'];
-
-  $faq_items = [];
-  if (isset($rows[0])) {
-    foreach ($rows[0]['#rows'] as $row_key => $row_value) {
-      $qa_node = Node::load($row_value['#row']->nid);
-      $question_value = $qa_node->get('field_qa_item_question')->value;
-      $answer_value = $qa_node->get('field_qa_item_answer')->value;
-
-      $faq_items[$row_key]['content'] = [
-        'question' => $question_value,
-        'answer' => $answer_value,
-        'order' => $row_key,
-      ];
-    }
-  }
-
-  $variables['qa_items'] = $faq_items;
-  $variables['faq_title'] = $field_title;
-
-  $request = Drupal::requestStack()->getCurrentRequest();
-  if (
-    $request->query->get('items_per_page') != 'All' &&
-    !empty($variables['exposed']) &&
-    $total_rows > $items_per_page
-  ) {
-    $query_params = $request->query->all();
-    $query_params['items_per_page'] = 'All';
-    $path_query = http_build_query($query_params);
-    $current_path = $request->getPathInfo();
-
-    $cta_button_label = $variables['exposed']['items_per_page']['#options']['All'];
-    $cta_button_link = $current_path . '?' . $path_query;
-  }
-
-  $variables['cta_button_label'] = $cta_button_label ?? NULL;
-  $variables['cta_button_link'] = $cta_button_link ?? NULL;
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
 function mars_common_preprocess_block__inline_block__flexible_framer(array &$variables) {
   $field_ff_items = $variables['content']['field_ff_items_reference'];
   $field_ff_title = $variables['content']['field_ff_title']['#items']->value;
@@ -629,18 +582,6 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       $original_id == 'node.about_page.default') {
       $form['#validate'][] = [AboutPageLayoutFormAlter::class, 'validate'];
     }
-  }
-
-  $view = $form_state->get('view');
-  // Add validation for faq view title field.
-  if (
-    isset($view) &&
-    $form_id == 'views_ui_edit_display_form' &&
-    $view->get('id') == 'faq_view' &&
-    $form_state->get('type') == 'title'
-  ) {
-    $form['options']['title']['#maxlength'] = 10;
-    $form['options']['title']['#required'] = TRUE;
   }
 }
 
