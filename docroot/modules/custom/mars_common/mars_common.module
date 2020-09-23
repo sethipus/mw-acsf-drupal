@@ -258,6 +258,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'freeform-story-block',
     ],
+    'poll_block' => [
+      'variables' => [
+        'poll' => NULL,
+      ],
+      'template' => 'poll-block',
+    ],
   ];
 }
 
