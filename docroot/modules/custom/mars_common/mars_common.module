@@ -6,11 +6,14 @@
  */
 
 use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
+use Drupal\mars_common\Form\Alter\AboutPageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\LandingPageLayoutFormAlter;
 use Drupal\node\Entity\Node;
 use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
@@ -543,54 +546,69 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 
     $entity = $form_state->getFormObject()->getEntity();
 
-    $original_id = NULL;
-    if ($entity instanceof Node) {
-      $original_id = 'node.' . $entity->bundle() . '.default';
-    }
-    elseif ($entity instanceof LayoutEntityDisplayInterface) {
-      $original_id = $entity->getOriginalId();
-    }
-
-    if ($original_id == 'node.contact_help.default') {
-      $form['#validate'][] = [ContactHelpLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.newsletter_sign_up.default') {
-      $form['#validate'][] = [NewsletterSignUpLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.where_to_buy.default') {
-      $form['#validate'][] = [WhereToBuyLayoutFormAlter::class, 'validate'];
-    }
-    if (
-      $original_id == 'node.recipe.full' ||
-      $original_id == 'node.recipe.default'
-    ) {
-      $form['#validate'][] = [RecipeLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.homepage.default') {
-      $form['#validate'][] = [HomepageLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.article.default') {
-      $form['#validate'][] = [ArticleLayoutFormAlter::class, 'validate'];
-    }
-    if (
-      $original_id == 'node.product.default' ||
-      $original_id == 'node.product_multipack.default'
-    ) {
-      $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
-    }
-    if (
-      $original_id == 'node.landing_page.default' ||
-      $original_id == 'node.landing_page.full'
-    ) {
-      $form['#validate'][] = [LandingPageLayoutFormAlter::class, 'validate'];
-    }
-    if (
-      $original_id == 'node.about_page.default' ||
-      $original_id == 'node.about_page.full'
-    ) {
-      $form['#validate'][] = [AboutPageLayoutFormAlter::class, 'validate'];
+    if ($form_alter_class = mars_common_get_layout_alter_class($entity)) {
+      $form_state->set('form_alter_class', $form_alter_class);
+      $form['#validate'][] = [$form_alter_class, 'validate'];
     }
   }
+}
+
+/**
+ * Returns Layout Form Alter class based on Drupal entity.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Drupal entity.
+ *
+ * @todo Move this function to a Mars Common service method.
+ *
+ * @return string
+ *   Class name.
+ */
+function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
+  $original_id = NULL;
+  if ($entity instanceof Node) {
+    $original_id = 'node.' . $entity->bundle() . '.default';
+  }
+  elseif ($entity instanceof LayoutEntityDisplayInterface) {
+    $original_id = $entity->getOriginalId();
+  }
+
+  switch ($original_id) {
+    case 'node.contact_help.default':
+      return ContactHelpLayoutFormAlter::class;
+
+    case 'node.newsletter_sign_up.default':
+      return NewsletterSignUpLayoutFormAlter::class;
+
+    case 'node.where_to_buy.default':
+      return WhereToBuyLayoutFormAlter::class;
+
+    case 'node.recipe.full':
+    case 'node.recipe.default':
+      return RecipeLayoutFormAlter::class;
+
+    case 'node.homepage.default':
+      return HomepageLayoutFormAlter::class;
+
+    case 'node.article.default':
+      return ArticleLayoutFormAlter::class;
+
+    case 'node.product.default':
+    case 'node.product_multipack.default':
+      return ProductLayoutFormAlter::class;
+
+    case 'node.landing_page.default':
+    case 'node.landing_page.full':
+      return LandingPageLayoutFormAlter::class;
+
+    case 'node.about_page.default':
+    case 'node.about_page.full':
+      return AboutPageLayoutFormAlter::class;
+
+    default:
+      return NULL;
+  }
+
 }
 
 /**
