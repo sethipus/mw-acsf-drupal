@@ -5,21 +5,21 @@
 {% set video__base_class = video__base_class|default('fullscreen-video') %}
 
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} id="video-container" data-fullscreen="false">
-  <video id='fullscreen-video' {{ bem('main', [], video__base_class) }}>
+  <video {{ bem('video', [], video__base_class) }} id="fullscreen-video">
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
-  <div id="video-controls" class="controls" data-state="hidden">
-    <button id="playpause" type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
-    <button id="stop" type="button" data-state="stop"></button>
-    <button id="mute" type="button" data-state="mute"></button>
-    <div class="progress">
-      <progress id="progress" value="0" min="0">
-        <span id="progress-bar"></span>
+  <div id="video-controls" {{ bem('control', [], video__base_class, ['controls']) }} data-state="hidden">
+    <button id="playpause" {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+    <button id="stop" {{ bem('stop', ['inner'], video__base_class) }} type="button" data-state="stop"></button>
+    <button id="mute" {{ bem('mute', ['inner'], video__base_class) }} type="button" data-state="mute"></button>
+    <div {{ bem('progress-time', [], video__base_class) }}>
+      <progress id="progress" {{ bem('progress-time', ['inner'], video__base_class) }} value="0" min="0">
+        <span id="progress-bar" {{ bem('progress-time', ['progress-bar'], video__base_class) }}></span>
       </progress>
     </div>
-    <div id="progress-time"></div>
-    <button id="subtitles" type="button" data-state="subtitles"></button>
-    <button id="fs" type="button" data-state="go-fullscreen"></button>
+    <div id="progress-time" {{ bem('progress-time', ['inner'], video__base_class) }}></div>
+    <button id="subtitles" {{ bem('subtitles', ['inner'], video__base_class) }} type="button" data-state="subtitles"></button>
+    <button id="fs" {{ bem('fs', ['inner'], video__base_class) }} type="button" data-state="go-fullscreen"></button>
   </div>
   {% if video__control == true %}
     <button {{ bem('control', [], video__base_class) }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>

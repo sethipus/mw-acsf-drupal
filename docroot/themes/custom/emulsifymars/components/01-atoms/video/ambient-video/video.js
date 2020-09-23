@@ -10,8 +10,11 @@ Drupal.behaviors.inlineVideoPlayer = {
       if (video === null || videoContainer.getAttribute('data-video-init')) {
         return;
       }
+      video.muted = true;
+      video.loop = true;
+      video.autoplay = true;
       video.controls = false;
-      video.muted = false;
+      
       if (document.addEventListener) {
         // Obtain handles to buttons and other elements
         var playpause = videoContainer.querySelector('.ambient-video__control');
@@ -26,8 +29,12 @@ Drupal.behaviors.inlineVideoPlayer = {
   
         // Add events for all buttons			
         playpause.addEventListener('click', function(e) {
-          if (video.paused || video.ended) video.play();
-          else video.pause();
+          if (video.paused || video.ended) {
+            video.play();
+            video.muted = false;
+          } else {
+            video.pause();
+          }
         });
       }
       video.setAttribute('data-video-init', true);
