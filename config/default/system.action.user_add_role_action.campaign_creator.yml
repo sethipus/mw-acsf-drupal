@@ -1,0 +1,14 @@
+uuid: 4afe95ae-245e-4964-a986-df8493384950
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.campaign_creator
+  module:
+    - user
+id: user_add_role_action.campaign_creator
+label: 'Add the Campaign creator role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: campaign_creator

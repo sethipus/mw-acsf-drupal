@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - node.type.article
+    - node.type.campaign
     - node.type.contact_help
     - node.type.error_page
     - node.type.faq
@@ -87,6 +88,7 @@ type_settings:
   entity_types:
     node:
       - article
+      - campaign
       - contact_help
       - error_page
       - faq

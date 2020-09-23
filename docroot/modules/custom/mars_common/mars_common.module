@@ -16,6 +16,7 @@ use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
 use Drupal\mars_common\Form\Alter\NewsletterSignUpLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\WhereToBuyLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\CampaignLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\RecipeLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
@@ -586,6 +587,9 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     }
     if ($original_id == 'node.where_to_buy.default') {
       $form['#validate'][] = [WhereToBuyLayoutFormAlter::class, 'validate'];
+    }
+    if ($original_id == 'node.campaign.default') {
+      $form['#validate'][] = [CampaignLayoutFormAlter::class, 'validate'];
     }
     if (
       $original_id == 'node.recipe.full' ||

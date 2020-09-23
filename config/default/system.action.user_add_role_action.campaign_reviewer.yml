@@ -1,0 +1,14 @@
+uuid: 11b67338-8bba-478a-b570-a06b5c2ce747
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.campaign_reviewer
+  module:
+    - user
+id: user_add_role_action.campaign_reviewer
+label: 'Add the Campaign reviewer role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: campaign_reviewer
