@@ -66,11 +66,21 @@ class SalsifyImportField extends SalsifyImport {
    *   The Salsify individual product data to process.
    * @param bool $force_update
    *   If set to TRUE, the updated date highwater mark will be ignored.
+   * @param string $content_type
+   *   Content type.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function processSalsifyItem(array $product_data, $force_update = FALSE) {
+  public function processSalsifyItem(
+    array $product_data,
+    $force_update = FALSE,
+    $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
+  ) {
     $entity_type = $this->config->get('entity_type');
-    $entity_bundle = $this->config->get('bundle');
-
+    $entity_bundle = $content_type;
+    // E$entity_bundle = $this->config->get('bundle');.
     // Store this to send through to hook_salsify_node_presave_alter().
     $original_product_data = $product_data;
 
@@ -96,6 +106,7 @@ class SalsifyImportField extends SalsifyImport {
       // imported, then skip it. If it was, or if an update is being forced,
       // then update salsify_updated and pass it along for further processing.
       $salsify_updated = strtotime($product_data['salsify:updated_at']);
+      $force_update = TRUE;
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
         $entity->set('salsify_updated', $salsify_updated);
       }
@@ -197,6 +208,25 @@ class SalsifyImportField extends SalsifyImport {
               /* @var \Drupal\taxonomy\Entity\Term $term_entity */
               foreach ($term_entities as $term_entity) {
                 $options[] = ['target_id' => $term_entity->id()];
+              }
+            }
+          }
+          elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'entity_ref') {
+
+            $entity_query = $this->entityTypeManager->getStorage('node')
+              ->getQuery();
+            $child_entities = $entity_query->condition(
+              'salsify_id',
+                $product_data[$field['salsify_id']],
+              'IN'
+              )
+              ->execute();
+
+            if ($child_entities) {
+              $options = [];
+              /* @var \Drupal\node\Entity\Node $child_entity */
+              foreach ($child_entities as $child_entity) {
+                $options[] = ['target_id' => $child_entity->id()];
               }
             }
           }

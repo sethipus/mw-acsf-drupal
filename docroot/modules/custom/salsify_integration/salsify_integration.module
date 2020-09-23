@@ -15,8 +15,8 @@ use Drupal\salsify_integration\SalsifyFields;
  * Implements hook_cron().
  */
 function salsify_integration_cron() {
-  $product_feed = SalsifyFields::create(\Drupal::getContainer());
-  $product_feed->importProductData();
+  // $product_feed = SalsifyFields::create(\Drupal::getContainer());
+  // $product_feed->importProductData();
   \Drupal::logger('salsify_integration')
     ->notice('The Salsify data is queued to be imported and will be processed on the next cron run.');
 }

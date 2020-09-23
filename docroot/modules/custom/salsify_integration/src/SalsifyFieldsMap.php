@@ -70,7 +70,11 @@ class SalsifyFieldsMap {
     'field_product_trade_description' => ['salsify:id' => 'Trade Item Description', 'salsify:data_type' => 'enumerated'],
     // Enumirated.
     'field_product_flavor' => ['salsify:id' => 'CMS: Flavor', 'salsify:data_type' => 'enumerated'],
+    'field_product_variants' => ['salsify:id' => 'CMS: Child variants', 'salsify:data_type' => 'entity_ref'],
+  ];
 
+  public const SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK = self::SALSIFY_FIELD_MAPPING_PRODUCT + [
+    'field_product_pack_items' => ['salsify:id' => 'CMS: Child products', 'salsify:data_type' => 'entity_ref'],
   ];
 
 }

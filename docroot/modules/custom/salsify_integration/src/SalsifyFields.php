@@ -169,9 +169,36 @@ class SalsifyFields extends Salsify {
         throw new MissingDataException($message);
       }
 
+      $product_variant_mapping = $this->getFieldMappings(
+        [
+          'entity_type' => $entity_type,
+          'bundle' => 'product_variant',
+          'method' => 'manual',
+        ],
+        'salsify_id'
+      );
+
+      $product_mapping = $this->getFieldMappings(
+        [
+          'entity_type' => $entity_type,
+          'bundle' => 'product',
+          'method' => 'manual',
+        ],
+        'salsify_id'
+      );
+
+      $product_multipack_mapping = $this->getFieldMappings(
+        [
+          'entity_type' => $entity_type,
+          'bundle' => 'product_multipack',
+          'method' => 'manual',
+        ],
+        'salsify_id'
+      );
+
       foreach (SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT as $drupal_field => $salsify_field_map) {
         if (isset($salsify_field_map['salsify:id']) &&
-          !in_array($salsify_field_map['salsify:id'], array_keys($manual_field_mapping))) {
+          !in_array($salsify_field_map['salsify:id'], array_keys($product_mapping))) {
 
           $this->createFieldMapping([
             'field_id' => $salsify_field_map['salsify:id'],
@@ -187,9 +214,27 @@ class SalsifyFields extends Salsify {
         }
       }
 
+      foreach (SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK as $drupal_field => $salsify_field_map) {
+        if (isset($salsify_field_map['salsify:id']) &&
+          !in_array($salsify_field_map['salsify:id'], array_keys($product_multipack_mapping))) {
+
+          $this->createFieldMapping([
+            'field_id' => $salsify_field_map['salsify:id'],
+            'salsify_id' => $salsify_field_map['salsify:id'],
+            'salsify_data_type' => $salsify_field_map['salsify:data_type'],
+            'entity_type' => $entity_type,
+            'bundle' => 'product_multipack',
+            'field_name' => $drupal_field,
+            'method' => 'manual',
+            'created' => Salsify::FIELD_MAP_CREATED,
+            'changed' => Salsify::FIELD_MAP_CHANGED,
+          ]);
+        }
+      }
+
       foreach (SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT as $drupal_field => $salsify_field_map) {
         if (isset($salsify_field_map['salsify:id']) &&
-          !in_array($salsify_field_map['salsify:id'], array_keys($manual_field_mapping))) {
+          !in_array($salsify_field_map['salsify:id'], array_keys($product_variant_mapping))) {
 
           $this->createFieldMapping([
             'field_id' => $salsify_field_map['salsify:id'],
@@ -265,8 +310,61 @@ class SalsifyFields extends Salsify {
         // processing immediately instead of waiting for the queue to finish.
         if ($process_immediately) {
           $salsify_import = SalsifyImportField::create(\Drupal::getContainer());
+
+          // Product variant import.
           foreach ($product_data['products'] as $product) {
-            $salsify_import->processSalsifyItem($product, $force_update);
+
+            if (ProductHelper::isProductVariant($product)) {
+              $salsify_import->processSalsifyItem(
+                $product,
+                $force_update,
+                ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE
+              );
+            }
+          }
+
+          // Product import.
+          foreach ($product_data['products'] as $product) {
+
+            if (ProductHelper::isProduct($product)) {
+              // Add child entity references.
+              if (isset($product_data['mapping'][$product['GTIN']])) {
+                foreach ($product_data['mapping'][$product['GTIN']] as $child_gtin => $child_type) {
+                  if ($child_type == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
+                    $product['CMS: Child variants'][] = $child_gtin;
+                  }
+                }
+              }
+
+              $salsify_import->processSalsifyItem(
+                $product,
+                $force_update,
+                ProductHelper::PRODUCT_CONTENT_TYPE
+              );
+            }
+          }
+
+          // Product multipack import.
+          foreach ($product_data['products'] as $product) {
+            if (ProductHelper::isProductMultipack($product)) {
+              // Add child entity references.
+              if (isset($product_data['mapping'][$product['GTIN']])) {
+                foreach ($product_data['mapping'][$product['GTIN']] as $child_gtin => $child_type) {
+                  if ($child_type == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
+                    $product['CMS: Child variants'][] = $child_gtin;
+                  }
+                  elseif ($child_type == ProductHelper::PRODUCT_CONTENT_TYPE) {
+                    $product['CMS: Child products'][] = $child_gtin;
+                  }
+                }
+              }
+
+              $salsify_import->processSalsifyItem(
+                $product,
+                $force_update,
+                ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE
+              );
+            }
           }
           $message = $this->t('The Salsify data import is complete.');
         }

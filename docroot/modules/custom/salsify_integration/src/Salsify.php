@@ -179,14 +179,14 @@ class Salsify {
   protected function getRawData() {
     $client = new Client();
     $endpoint = $this->getUrl();
-    // $access_token = $this->getAccessToken();
+    $access_token = explode(' ', $this->getAccessToken());
     try {
       // Access the channel URL to fetch the newest product feed URL.
       $generate_product_feed = $client->get($endpoint, [
         'headers' => [
           // 'Authorization' => 'Bearer ' . $access_token,
-          'client_id' => NULL,
-          'client_secret' => NULL,
+          'client_id' => $access_token[0],
+          'client_secret' => $access_token[1],
         ],
       ]);
       $response = $generate_product_feed->getBody()->__toString();
@@ -204,10 +204,14 @@ class Salsify {
       // foreach ($product_results as $product_result) {
       // $product_data = $product_data + $product_result;
       // }
+      $mapping = $this->getEntitiesMapping($response);
+      $response = $this->filterProductsInResponse($response);
+      // $response = $this->addChildEntitiesField($response);
       $data = [
         'attributes' => $this->getAttributesByProducts($response),
         'attribute_values' => $this->getAttributeValuesByProducts($response),
         'digital_assets' => $this->getDigitalAssetsByProducts($response),
+        'mapping' => $mapping,
       ];
 
       $response_array = Json::decode($response);
@@ -276,6 +280,64 @@ class Salsify {
       }
     }
     return array_values($assets);
+  }
+
+  /**
+   * Filter products in response by 'Send to Brand site' field.
+   *
+   * @param string $response
+   *   Products data.
+   *
+   * @return string
+   *   Response data.
+   */
+  private function filterProductsInResponse($response) {
+
+    $products = [];
+
+    foreach ($this->getProductsData($response) as $product) {
+      if (isset($product['Send to Brand Site?']) &&
+        $product['Send to Brand Site?']) {
+
+        $products[] = $product;
+      }
+    }
+
+    $response = Json::decode($response);
+    $response['data'] = $products;
+
+    return Json::encode($response);
+  }
+
+  /**
+   * Get mapping for entities (product variants to products to multipack).
+   *
+   * @param string $response
+   *   Products data.
+   *
+   * @return array
+   *   Response data.
+   */
+  private function getEntitiesMapping($response) {
+    $mapping = [];
+
+    $product_gtins = [];
+    foreach ($this->getProductsData($response) as $product) {
+      $product_gtins[$product['GTIN']] = $product['GTIN'];
+    }
+
+    foreach ($this->getProductsData($response) as $product) {
+      if (isset($product['Parent GTIN'])) {
+        $parent_gtin = is_array($product['Parent GTIN']) ? $product['Parent GTIN'] : [$product['Parent GTIN']];
+        foreach ($parent_gtin as $gtin) {
+          if (isset($product_gtins[$gtin])) {
+            $mapping[$gtin][(string) $product['GTIN']] = ProductHelper::getProductType($product);
+          }
+        }
+      }
+    }
+
+    return $mapping;
   }
 
   /**
