@@ -56,7 +56,7 @@ class SearchHelper implements SearchHelperInterface {
     $index = $this->entityTypeManager->getStorage('search_api_index')->load('acquia_search_index');
 
     $query_options = [
-      'limit' => isset($options['limit']) ? $options['limit'] : 8
+      'limit' => isset($options['limit']) ? $options['limit'] : 8,
     ];
     // Remove limit in "See all" case.
     if ($this->request->query->get('see-all')) {
@@ -172,7 +172,7 @@ class SearchHelper implements SearchHelperInterface {
         $facets_links[] = [
           'class' => $facet_link_class,
           'text' => $filter_value,
-          'attr' => ['href' => $url->toString()]
+          'attr' => ['href' => $url->toString()],
         ];
       }
     }

@@ -112,7 +112,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       unset($options['sort']['faq_item_queue_weight']);
     }
     $search_results = $this->searchHelper->getSearchResults($options);
-    $faq_items = $facets = [];
+    $faq_items = [];
     $cta_button_label = $cta_button_link = '';
 
     if ($search_results['results']) {

@@ -57,6 +57,6 @@ interface SearchHelperInterface {
    * @return array
    *   Array with links according to mars frontend logic.
    */
-  public function prepareFacetsLinks($facets, $facet_key);
+  public function prepareFacetsLinks(array $facets, $facet_key);
 
 }
