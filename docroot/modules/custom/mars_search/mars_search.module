@@ -37,6 +37,16 @@ function mars_search_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'mars-search-no-results',
     ],
+    'mars_search_faq_block' => [
+      'variables' => [
+        'faq_title' => NULL,
+        'qa_items' => [],
+        'cta_button_label' => NULL,
+        'cta_button_link' => NULL,
+        'search_form' => NULL,
+        'facets' => NULL,
+      ],
+    ],
   ];
 }
 

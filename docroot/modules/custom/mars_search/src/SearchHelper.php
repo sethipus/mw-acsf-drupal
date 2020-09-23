@@ -4,6 +4,7 @@ namespace Drupal\mars_search;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -24,7 +25,7 @@ class SearchHelper implements SearchHelperInterface {
    *
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
-  private $request;
+  public $request;
 
   /**
    * Arrays with searches metadata.
@@ -45,53 +46,137 @@ class SearchHelper implements SearchHelperInterface {
    * {@inheritdoc}
    */
   public function getSearchResults($options = [], $searcher_key = 'searcher_1') {
-    if (!isset($this->searches[$searcher_key])) {
-      $keys = $this->request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);;
-      $type = $this->request->query->get('type');;
-
-      $index = $this->entityTypeManager->getStorage('search_api_index')->load('acquia_search_index');
-      $query = $index->query(
-        [
-          'limit'  => isset($options['limit']) ? $options['limit'] : 8,
-          'offset' => 0,
-        ]
-      );
-      // @todo get rid from facets plugins.
-      if ($facets = $this->entityTypeManager->getStorage('facets_facet')->loadMultiple()) {
-        $facet_options = [];
-        foreach ($facets as $facet) {
-          $facet_field = $facet->getFieldIdentifier();
-          $facet_options[$facet_field] = [
-            'field' => $facet_field,
-            'limit' => 20,
-            'operator' => 'AND',
-            'min_count' => 1,
-            'missing' => TRUE,
-          ];
-        }
-        if ($facet_options) {
-          $query->setOption('search_api_facets', $facet_options);
-        }
-      }
-
-      // Applying node type filter.
-      if ($type) {
-        $query = $query->addCondition('type', $type);
-      }
-      // Applying search keys.
-      if ($keys) {
-        $query->keys($keys);
-      }
-
-      $results = $query->execute();
-
-      $this->searches[$searcher_key] = [
-        'results' => $results,
-        'facets' => $results->getExtraData('search_api_facets', []),
-      ];
-
+    if (isset($this->searches[$searcher_key])) {
+      return $this->searches[$searcher_key];
     }
+
+    // Getting search keywords.
+    $keys = $this->request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
+
+    $index = $this->entityTypeManager->getStorage('search_api_index')->load('acquia_search_index');
+
+    $query_options = [
+      'limit' => isset($options['limit']) ? $options['limit'] : 8
+    ];
+    // Remove limit in "See all" case.
+    if ($this->request->query->get('see-all')) {
+      $query_options = [];
+    }
+
+    $query = $index->query($query_options);
+
+    $facet_options = [];
+    // Setting facets query options.
+    $facet_fields = $this->getFacetKeys();
+    foreach ($facet_fields as $facet_field) {
+      $facet_options[$facet_field] = [
+        'field' => $facet_field,
+        'limit' => 20,
+        'operator' => 'AND',
+        'min_count' => 1,
+        'missing' => TRUE,
+      ];
+      // Applying filters.
+      if (empty($options['disable_filters']) && $facet_field_value = $this->request->query->get($facet_field)) {
+        $query = $query->addCondition($facet_field, $facet_field_value);
+      }
+    }
+    $query->setOption('search_api_facets', $facet_options);
+
+    // Applying predefined conditions.
+    if (!empty($options['conditions'])) {
+      foreach ($options['conditions'] as $condition) {
+        $query->addCondition($condition[0], $condition[1], $condition[2]);
+      }
+    }
+
+    // Applying search keys.
+    if ($keys && empty($options['disable_filters'])) {
+      $query->keys($keys);
+    }
+
+    // Adding sorting.
+    if (!empty($options['sort'])) {
+      foreach ($options['sort'] as $sort_key => $sort_direction) {
+        $query->sort($sort_key, $sort_direction);
+      }
+    }
+
+    $query_results = $query->execute();
+
+    $results = [];
+    foreach ($query_results->getResultItems() as $resultItem) {
+      $results[] = $resultItem->getOriginalObject()->getValue();
+    }
+
+    $this->searches[$searcher_key] = [
+      'results' => $results,
+      'facets' => $query_results->getExtraData('search_api_facets', []),
+      'resultsCount' => $query_results->getResultCount(),
+    ];
+
     return $this->searches[$searcher_key];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFacetKeys() {
+    return [
+      'type',
+      'faq_filter_topic',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCurrentUrl() {
+    // Getting Url object from current request.
+    $url = Url::createFromRequest($this->request);
+    // Adding GET parameters.
+    $url->setOption('query', $this->request->query->all());
+    return $url;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareFacetsLinks($facets, $facet_key) {
+    $facets_links = [];
+    if (!$facets) {
+      return $facets_links;
+    }
+    $url = $this->getCurrentUrl();
+    $options = $url->getOptions();
+    foreach ($facets as $facet) {
+      // "!" means all items without facets so ignore this "facet".
+      if ($facet['filter'] != '!') {
+        // Trimmed value of the facet from SOLR.
+        $filter_value = trim($facet['filter'], '"');
+        // HTML class for facet link.
+        $facet_link_class = '';
+
+        // That means facet is active.
+        if ($this->request->query->get($facet_key) == $filter_value) {
+          $facet_link_class = 'active';
+          // Removing facet query from active filter to allow deselect it.
+          unset($options['query'][$facet_key]);
+        }
+        else {
+          // Adding facet filter to the query.
+          $options['query'][$facet_key] = $filter_value;
+        }
+
+        $url->setOptions($options);
+        $facets_links[] = [
+          'class' => $facet_link_class,
+          'text' => $filter_value,
+          'attr' => ['href' => $url->toString()]
+        ];
+      }
+    }
+    return $facets_links;
   }
 
 }
