@@ -8,7 +8,8 @@ import pdpAllergenData from './pdp-allergen/pdp-allergen.yml';
 import pdpMultipack from './pdp-multipack/pdp-multipack.twig';
 import pdpMultipackData from './pdp-multipack/pdp-multipack.yml';
 import { useEffect } from '@storybook/client-api';
-import './pdp-hero/pdp-hero';
+
+import '../../03-organisms/pdp-body/pdp-body';
 import './pdp-multipack/pdp-multipack';
 
 /**
