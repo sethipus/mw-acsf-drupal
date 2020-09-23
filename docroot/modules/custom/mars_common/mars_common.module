@@ -644,6 +644,14 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_poll_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['question']['widget'][0]['value']['#title'] = 'Title';
+  $form['choice']['widget']['#title'] = 'Responses';
+}
+
+/**
  * Implements preprocess_HOOK().
  */
 function mars_common_preprocess_page(&$variables) {
