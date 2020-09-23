@@ -6,19 +6,12 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_search\SearchHelperInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * SearchForm.
  */
 class SearchForm extends FormBase {
 
-  /**
-   * Request stack that controls the lifecycle of requests.
-   *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
-   */
-  private $request;
 
   /**
    * Search helper.
@@ -40,13 +33,10 @@ class SearchForm extends FormBase {
   /**
    * Constructs a new SearchOverlayForm.
    *
-   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
-   *   The request stack object.
    * @param \Drupal\mars_search\SearchHelperInterface $search_helper
    *   Search helper.
    */
-  public function __construct(RequestStack $request_stack, SearchHelperInterface $search_helper) {
-    $this->request = $request_stack->getMasterRequest();
+  public function __construct(SearchHelperInterface $search_helper) {
     $this->searchHelper = $search_helper;
   }
 
@@ -55,7 +45,6 @@ class SearchForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('request_stack'),
       $container->get('mars_search.search_helper')
     );
   }
@@ -63,15 +52,24 @@ class SearchForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $results_count = '') {
+    $keys = $this->searchHelper->request->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
     $form['search'] = [
       '#type' => 'textfield',
       '#attributes' => [
         'placeholder' => $this->t('Search'),
         'class' => ['search-input__field'],
       ],
-      '#default_value' => $this->request->get('search'),
+      '#default_value' => $keys,
     ];
+    if ($results_count) {
+      $form['results_counter'] = [
+        '#type' => 'html_tag',
+        '#tag' => 'div',
+        '#attributes' => ['class' => ['search-results-counter']],
+        '#value' => $this->formatPlural($results_count, '1 Results for "@keys"', '@count Results for "@keys"', ['@keys' => $keys]),
+      ];
+    }
     $form['actions'] = [
       '#type' => 'actions',
       // We don't need submit button be visible.
@@ -97,11 +95,16 @@ class SearchForm extends FormBase {
     $keys = $form_state->getValue('search');
 
     $url = $this->searchHelper->getCurrentUrl();
+    $options = $url->getOptions();
+
+    // Either change or delete "search" URL parameter.
     if ($keys) {
-      $options = $url->getOptions();
       $options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY] = $keys;
-      $url->setOptions($options);
     }
+    else {
+      unset($options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY]);
+    }
+    $url->setOptions($options);
 
     $form_state->setRedirectUrl($url);
   }

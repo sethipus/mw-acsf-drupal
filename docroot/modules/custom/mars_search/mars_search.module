@@ -5,6 +5,7 @@
  * MARS Search module main file.
  */
 
+use Drupal\entityqueue\EntitySubqueueInterface;
 use Drupal\search_api\IndexInterface;
 
 /**
@@ -64,5 +65,18 @@ function mars_search_search_api_index_items_alter(IndexInterface $index, array &
       $object->set('type', 'product');
     }
     $item->setOriginalObject($object);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for entity_subqueue entities.
+ */
+function mars_search_entity_subqueue_presave(EntitySubqueueInterface $queue) {
+  // Looping through all queue items.
+  foreach ($queue->get('items')->referencedEntities() as $node) {
+    // This is needed for search_api_entity_update().
+    $node->original = clone $node;
+    // Re-indexing items.
+    search_api_entity_update($node);
   }
 }

@@ -137,7 +137,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       }
     }
     // Getting search form.
-    $search_from = $this->formBuilder->getForm(SearchForm::class);
+    $search_from = $this->formBuilder->getForm(SearchForm::class, $search_results['resultsCount']);
 
     // Facets query.
     $options['disable_filters'] = TRUE;
