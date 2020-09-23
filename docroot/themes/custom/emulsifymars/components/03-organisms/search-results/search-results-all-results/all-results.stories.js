@@ -21,7 +21,7 @@ export default { title: 'Organisms/Search Results/View all results' };
 
 export const allResultsTemplate = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
-  ajaxGridData.items = [
+  ajaxCardGridData.items = [
     productCard(productCardData),
     productCard(productCardData),
     recipeCard(recipeCardData),
