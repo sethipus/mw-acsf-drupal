@@ -1,0 +1,14 @@
+uuid: f7054532-7175-4780-b5e5-6bf453dd54dc
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.local_brand_editor
+  module:
+    - user
+id: user_remove_role_action.local_brand_editor
+label: 'Remove the Local Brand Editor role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: local_brand_editor
