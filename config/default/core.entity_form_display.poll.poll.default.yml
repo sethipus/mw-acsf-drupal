@@ -1,0 +1,75 @@
+uuid: b0a84823-e471-4add-b198-c4c524c4f765
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.poll.poll.field_description
+    - field.field.poll.poll.field_submit_cta
+    - field.field.poll.poll.field_thank_you_message
+  module:
+    - poll
+id: poll.poll.default
+targetEntityType: poll
+bundle: poll
+mode: default
+content:
+  choice:
+    type: poll_choice_default
+    settings: {  }
+    weight: 2
+    region: content
+    third_party_settings: {  }
+  field_description:
+    weight: 1
+    settings:
+      size: 90
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_submit_cta:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_thank_you_message:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  question:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 50
+      placeholder: ''
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 6
+    region: content
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+hidden:
+  anonymous_vote_allow: true
+  cancel_vote_allow: true
+  result_vote_allow: true
+  runtime: true

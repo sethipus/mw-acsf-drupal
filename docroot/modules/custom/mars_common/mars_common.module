@@ -6,6 +6,7 @@
  */
 
 use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
@@ -26,6 +27,8 @@ use Drupal\layout_builder\Form\OverridesEntityForm;
  * Implements hook_preprocess().
  */
 function mars_common_preprocess(&$variables, $hook) {
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
+
   if ($hook === 'views_view__grid_card') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
     $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
@@ -41,10 +44,20 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
 
-  if (isset($variables['view_mode']) && $variables['view_mode'] === 'article_card') {
+  if ((isset($variables['view_mode']) && $variables['view_mode'] === 'article_card')
+    || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
     $brand_shape_content = $themeParser->getFileContentFromTheme('brand_shape');
     $variables['brand_shape'] = $brand_shape_content ?? '';
+  }
+
+  if ($hook === 'poll_vote' || $hook === 'poll_results') {
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $pngAssetFile = $themeParser->getFileFromTheme('png_asset');
+    if ($pngAssetFile instanceof EntityInterface) {
+      $pngAssetUri = $pngAssetFile->getFileUri();
+      $variables['polling_png_asset'] = Url::fromUri(file_create_url($pngAssetUri));
+    }
   }
 
   if ($hook === 'views_view__acquia_search') {
@@ -245,6 +258,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'use_custom_color' => NULL,
       ],
       'template' => 'freeform-story-block',
+    ],
+    'poll_block' => [
+      'variables' => [
+        'poll' => NULL,
+      ],
+      'template' => 'poll-block',
     ],
   ];
 }
@@ -558,6 +577,10 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
   ) {
     $form['settings']['label']['#access'] = FALSE;
     $form['settings']['label_display']['#access'] = FALSE;
+  }
+
+  if (strpos($form_id, 'poll_view_form_') === 0) {
+    $form['actions']['cancel'] = NULL;
   }
 
   // Alter layout form related to content type

@@ -1,0 +1,40 @@
+# common settings
+theme_styles: 'twix'
+polling_heading: 'Which side are you on?'
+polling_paragraph_content: ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt aliqua.'
+polling_png_asset: '/theme_assets/twix_us_uk/png_asset/image 203.png'
+polling_png_asset_alt: 'alt text for png asset'
+
+# settings for polling initial state
+polling_submit_label: 'Submit'
+choices: 
+  - label: 'left side'
+    value: 'left'
+    name: 'should be the same for every item'
+    votes: 15
+  - label: 'right side'
+    value: 'right'
+    name: 'should be the same for every item'
+    votes: 35
+  - label: 'top side'
+    value: 'top'
+    name: 'should be the same for every item'
+    votes: 25
+  - label: 'bottom side'
+    value: 'bottom'
+    name: 'should be the same for every item'
+    votes: 15
+  - label: 'center side'
+    value: 'center'
+    name: 'should be the same for every item'
+    votes: 10
+
+# settings for submitted state
+polling_submitted_text: 'Thanks for voting!'
+brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="243" height="243" fill="none" viewBox="0 0 243 243">
+    <path fill="#EAAA00" fill-rule="evenodd" d="M121.5 243c67.103 0 121.5-54.397 121.5-121.5C243 54.397 188.603 0 121.5 0 54.397 0 0 54.397 0 121.5 0 188.603 54.397 243 121.5 243z" clip-rule="evenodd" opacity=".2"/>
+</svg>'
+tick: '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="19" fill="none" viewBox="0 0 26 19">
+    <path fill="#E62B1E" fill-rule="evenodd" d="M24.828.944c.546.545.546 1.43 0 1.976L9.453 18.296c-.546.546-1.431.546-1.977 0l-6.989-6.99c-.546-.545-.546-1.43 0-1.976s1.43-.546 1.977 0l6 6L22.851.945c.546-.546 1.431-.546 1.977 0z" clip-rule="evenodd"/>
+</svg>'
+user_vote: 'right'
