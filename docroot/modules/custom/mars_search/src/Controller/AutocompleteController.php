@@ -73,8 +73,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
     $results = $this->searchHelper->getSearchResults(['limit' => 4]);
 
     if (!empty($results['results'])) {
-      foreach ($results['results']->getResultItems() as $resultItem) {
-        $entity = $resultItem->getOriginalObject()->getValue();
+      foreach ($results['results'] as $entity) {
         $suggestions[] = $entity->toLink();
       }
 
