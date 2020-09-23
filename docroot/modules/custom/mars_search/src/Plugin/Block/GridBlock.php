@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_grid\Plugin\Block;
+namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 
@@ -13,7 +13,7 @@ use Drupal\Core\Block\BlockBase;
  *   category = @Translation("Grid")
  * )
  *
- * @package Drupal\mars_recipes\Plugin\Block
+ * @package Drupal\mars_search\Plugin\Block
  */
 class GridBlock extends BlockBase {
 

@@ -1,7 +1,0 @@
-mars_grid.grid_settings_form:
-  path: '/admin/grid/test'
-  defaults:
-    _form: '\Drupal\mars_grid\Form\GridSettingsForm'
-    _title: 'Test Grid Settings Form'
-  requirements:
-    _is_administrator: 'true'

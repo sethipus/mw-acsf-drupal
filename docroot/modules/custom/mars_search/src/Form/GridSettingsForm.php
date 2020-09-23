@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_grid\Form;
+namespace Drupal\mars_search\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -65,7 +65,7 @@ class GridSettingsForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'mars_grid';
+    return 'mars_search_grid';
   }
 
   /**
