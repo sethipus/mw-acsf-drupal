@@ -14,6 +14,7 @@
  *
  * Available variables:
  * - message_list: List of messages to be displayed, grouped by type.
+ * - message_url: ULR for Status messages
  * - status_headings: List of all status types.
  * - display: (optional) May have a value of 'status' or 'error' when only
  *   displaying messages of that specific type.
@@ -21,9 +22,14 @@
  *   - class: HTML classes.
  */
 #}
-{% set status__base_class = 'status' %}
+{% set status__base_class = status__base_class|default('status') %}
+{% set status_link__base_class = status_link__base_class|default('status-link') %}
+
 {% for type, messages in message_list %}
   <div role="contentinfo" aria-label="{{ type }}"{{ attributes|without('role', 'aria-label') }}>
+    {% if message_url %}
+      <a {{ bem(status_link__base_class, status_link__modifiers, status_link__blockname) }} href="{{ message_url }}">
+    {% endif %}
     {% if type == 'error' %}
       <div role="alert">
     {% endif %}
@@ -37,6 +43,9 @@
       </ul>
     {% if type == 'error' %}
       </div>
+    {% endif %}
+    {% if message_url %}
+      </a>
     {% endif %}
   </div>
 {% endfor %}
