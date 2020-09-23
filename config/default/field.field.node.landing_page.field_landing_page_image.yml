@@ -1,18 +1,15 @@
-uuid: 472e3580-1d30-4b21-9260-78b455aafac1
+uuid: 68911f43-c9ca-462e-bf29-eabae9323edc
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_article_image
+    - field.storage.node.field_landing_page_image
     - media.type.image
-    - media.type.lighthouse_image
-    - node.type.article
-_core:
-  default_config_hash: L5jllUHX38TDQ2EGVc4--LKVFve71NZH9_ROiWjN_RY
-id: node.article.field_article_image
-field_name: field_article_image
+    - node.type.landing_page
+id: node.landing_page.field_landing_page_image
+field_name: field_landing_page_image
 entity_type: node
-bundle: article
+bundle: landing_page
 label: Image
 description: ''
 required: false
@@ -24,9 +21,8 @@ settings:
   handler_settings:
     target_bundles:
       image: image
-      lighthouse_image: lighthouse_image
     sort:
       field: _none
     auto_create: false
-    auto_create_bundle: image
+    auto_create_bundle: ''
 field_type: entity_reference
