@@ -3,7 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.landing_page.body
+    - field.field.node.landing_page.field_landing_page_image
+    - field.field.node.landing_page.field_landing_page_new
     - field.field.node.landing_page.field_meta_tags
     - field.field.node.landing_page.layout_builder__layout
     - node.type.landing_page
@@ -39,6 +40,41 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
+          90999e29-6aee-453a-9186-f9801ce0e181:
+            uuid: 90999e29-6aee-453a-9186-f9801ce0e181
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:landing_page:field_landing_page_image'
+              formatter:
+                type: entity_reference_entity_view
+                label: above
+                settings:
+                  view_mode: default
+                  link: false
+                third_party_settings: {  }
+            additional: {  }
+            weight: 1
+          c8b81134-7f53-48f0-8b1d-a0fad82f3a14:
+            uuid: c8b81134-7f53-48f0-8b1d-a0fad82f3a14
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:landing_page:field_landing_page_new'
+              formatter:
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+                type: boolean
+            additional: {  }
+            weight: 2
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -269,6 +305,25 @@ targetEntityType: node
 bundle: landing_page
 mode: default
 content:
+  field_landing_page_image:
+    type: entity_reference_entity_view
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_landing_page_new:
+    weight: 2
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   field_meta_tags:
     type: metatag_empty_formatter
     region: content
@@ -277,7 +332,6 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  body: true
   content_moderation_control: true
   layout_builder__layout: true
   links: true

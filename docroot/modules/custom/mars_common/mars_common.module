@@ -604,6 +604,12 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     ) {
       $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
     }
+    if (
+      $original_id == 'node.landing_page.default' ||
+      $original_id == 'node.landing_page.full'
+    ) {
+      $form['#validate'][] = [LandingPageLayoutFormAlter::class, 'validate'];
+    }
   }
 
   $view = $form_state->get('view');
