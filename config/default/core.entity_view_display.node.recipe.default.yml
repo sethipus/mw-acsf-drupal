@@ -175,6 +175,7 @@ third_party_settings:
               - contact_help_banner_block
               - iframe_block
               - newsletter_signup_form
+              - poll_block
               - story_highlight
             'Mars Product': {  }
             Menus: {  }
