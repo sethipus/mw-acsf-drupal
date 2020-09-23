@@ -3,8 +3,10 @@
 {% set search_filter_header_base_class = 'search-filter-header' %}
 {% set search_filter_content_base_class = 'search-filter-content' %}
 {% set search_filter_footer_base_class = 'search-filter-footer' %}
+{% set search_filter_information_base_class = 'search-filter-info' %}
 
 <div {{ bem(search_filter_container_base_class) }} data-theme="twix">
+  <div class="search-filter-open-button">Filter</div>
   <div {{ bem(search_filter_block_base_class, ['opened']) }}>
     <div {{ bem(search_filter_header_base_class) }}>
       <div {{ bem('title', [], search_filter_header_base_class) }}>{{ title }}</div>
@@ -19,9 +21,19 @@
       {% endfor %}
     </div>
     <div {{ bem(search_filter_footer_base_class) }}>
-      <a href="#" {{ bem('button', [], search_filter_footer_base_class)}}>Clear All</a>
-      <a href="#" {{ bem('button', ['active'], search_filter_footer_base_class)}}>Apply</a>
+      <a href="#" {{ bem('button', ['clear-all'], search_filter_block_base_class) }}>{{ "Clear All" | t }}</a>
+      <a href="#" {{ bem('button', ['highlighted', 'apply'], search_filter_block_base_class) }}>{{ "Apply" | t }}</a>
     </div>
   </div>
-  <div class="search-filter-open-button">Filter</div>
+  <div {{ bem(search_filter_information_base_class) }}>
+    <div {{ bem('applied', [], search_filter_information_base_class) }}>
+      <div {{ bem('applied-label', [], search_filter_information_base_class) }}>
+        {{ "Applied filters (" | t }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}></span>{{ "):" | t }}
+      </div>
+      <div {{ bem('applied-text', [], search_filter_information_base_class) }}></div>
+    </div>
+    <div {{ bem('clear', [], search_filter_information_base_class) }}>
+      <a href="#" {{ bem(['button'], ['simple', 'clear-all'], search_filter_block_base_class) }}>{{ "Clear All" | t }}</a>
+    </div>
+  </div>
 </div>
