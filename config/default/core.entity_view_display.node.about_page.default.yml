@@ -1,40 +1,40 @@
-uuid: 27970fa6-c288-46a1-90d4-2d4833d896ba
+uuid: 75d37e37-c969-4298-9a37-e9fcc85b705b
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.contact_help.body
-    - node.type.contact_help
+    - field.field.node.about_page.body
+    - field.field.node.about_page.layout_builder__layout
+    - node.type.about_page
   module:
     - layout_builder
     - layout_builder_restrictions
     - layout_discovery
     - layout_library
     - mars_common
-    - mars_search
     - text
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
+    allow_custom: true
     enabled: true
     sections:
       -
-        layout_id: contact_help_parent_page_header
+        layout_id: about_page_introduction
         layout_settings:
-          label: 'Parent Page Header'
+          label: 'About Page Introduction'
         components:
-          ce3d0449-2569-4006-a3d5-e9a926edc698:
-            uuid: ce3d0449-2569-4006-a3d5-e9a926edc698
+          cebd80f4-c254-4ff5-8aa8-5acfda17dddc:
+            uuid: cebd80f4-c254-4ff5-8aa8-5acfda17dddc
             region: content
             configuration:
               id: parent_page_header
-              label: Title
+              label: ''
               provider: mars_common
               label_display: ''
-              eyebrow: eyebrow
-              background: '16'
-              description: desc
+              eyebrow: 'About page'
+              background: '3'
+              description: Description
               context_mapping: {  }
             additional: {  }
             weight: 0
@@ -43,24 +43,69 @@ third_party_settings:
             lock:
               2: 2
               3: 3
+              4: 4
               5: 5
               6: 6
               7: 7
               8: 8
       -
-        layout_id: contact_help_faq
+        layout_id: about_page_storytelling
         layout_settings:
-          label: FAQs
+          label: Storytelling
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
+      -
+        layout_id: about_page_newsletter
+        layout_settings:
+          label: Newsletter
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              5: 5
+              6: 6
+              7: 7
+      -
+        layout_id: about_page_contact
+        layout_settings:
+          label: Contact
         components:
-          41f90015-ef5a-40bf-8a87-3d2bf1770e82:
-            uuid: 41f90015-ef5a-40bf-8a87-3d2bf1770e82
+          0c3e4630-9ddb-436f-b281-ca53f18ce404:
+            uuid: 0c3e4630-9ddb-436f-b281-ca53f18ce404
             region: content
             configuration:
-              id: search_faq_block
-              label: 'MARS: Search FAQs'
-              provider: mars_search
+              id: contact_form
+              label: 'MARS: Contact Form'
+              provider: mars_common
               label_display: ''
-              faq_title: FAQs
+              form_id: sitewide
+              context_mapping: {  }
+            additional: {  }
+            weight: 0
+          8af5e7c3-d142-4f69-a548-6bb07ea5075e:
+            uuid: 8af5e7c3-d142-4f69-a548-6bb07ea5075e
+            region: content
+            configuration:
+              id: contact_help_banner_block
+              label: 'MARS: Contact Help Banner'
+              provider: mars_common
+              label_display: ''
+              email_cta_label: 'Email Us'
+              social_links_label: 'See More On'
+              title: 'Contact&Help'
+              description: 'Description text'
+              phone_cta_label: 'Call Us'
+              phone_cta_number: ''
+              email_cta_address: ''
+              help_and_contact_cta_label: 'Get it now'
+              help_and_contact_cta_url: '#'
               context_mapping: {  }
             additional: {  }
             weight: 1
@@ -69,105 +114,31 @@ third_party_settings:
             lock:
               2: 2
               3: 3
+              4: 4
               5: 5
               6: 6
               7: 7
               8: 8
-      -
-        layout_id: contact_help_contact_banner
-        layout_settings:
-          label: 'Contact Banner'
-        components:
-          1066677c-e2ad-4ef9-9e2d-b06831a93096:
-            uuid: 1066677c-e2ad-4ef9-9e2d-b06831a93096
-            region: content
-            configuration:
-              id: contact_help_banner_block
-              label: Title
-              provider: mars_common
-              label_display: ''
-              email_cta_label: 'Email Us'
-              social_links_label: 'See More On'
-              description: ''
-              phone_cta_label: ''
-              phone_cta_number: ''
-              email_cta_address: ''
-              help_and_contact_cta_label: ''
-              help_and_contact_cta_url: ''
-              context_mapping: {  }
-            additional: {  }
-            weight: 0
-        third_party_settings:
-          layout_builder_lock:
-            lock:
-              2: 2
-              3: 3
-              5: 5
-              6: 6
-              7: 7
-              8: 8
-      -
-        layout_id: contact_help_contact_community
-        layout_settings:
-          label: 'Contact Form'
-        components: {  }
-        third_party_settings:
-          layout_builder_lock:
-            lock:
-              5: 5
-              6: 6
-              7: 7
   layout_library:
     enable: false
   layout_builder_restrictions:
-    allowed_block_categories:
-      - Article
-      - 'Chaos Tools'
-      - 'Content fields'
-      - 'Custom block types'
-      - 'Custom blocks'
-      - 'Entity Block'
-      - 'Entity Browser'
-      - Facets
-      - 'Flexible driver'
-      - Forms
-      - 'Global elements'
-      - Help
-      - 'Inline blocks'
-      - 'Lists (Views)'
-      - 'Mars Common'
-      - 'Mars Product'
-      - 'Mars Search'
-      - Menus
-      - 'Moderation Dashboard'
-      - Product
-      - Recipe
-      - 'Social feed'
-      - 'Social media share'
-      - System
-      - User
-      - Views
-      - core
+    allowed_block_categories: {  }
     entity_view_mode_restriction:
-      whitelisted_blocks:
-        Facets: {  }
-        'Flexible driver': {  }
-        'Mars Search':
-          - search_faq_block
+      whitelisted_blocks: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
-        - contact_help_parent_page_header
-        - contact_help_faq
-        - contact_help_contact_banner
-        - contact_help_contact_community
+        - about_page_introduction
+        - about_page_storytelling
+        - about_page_newsletter
+        - about_page_contact
     entity_view_mode_restriction_by_region:
       allowed_layouts:
-        - contact_help_parent_page_header
-        - contact_help_faq
-        - contact_help_contact_banner
-        - contact_help_contact_community
+        - about_page_introduction
+        - about_page_storytelling
+        - about_page_newsletter
+        - about_page_contact
       whitelisted_blocks:
-        contact_help_faq:
+        about_page_contact:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
@@ -182,12 +153,12 @@ third_party_settings:
             'Global elements': {  }
             Help: {  }
             'Inline blocks': {  }
-            'Lists (Views)':
-              - 'views_block:faq_view-block_1'
-            'Mars Common': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - contact_form
+              - contact_help_banner_block
             'Mars Product': {  }
-            'Mars Search':
-              - search_faq_block
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -198,7 +169,7 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        contact_help_parent_page_header:
+        about_page_introduction:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
@@ -208,6 +179,8 @@ third_party_settings:
               - parent_page_header
             'Entity Block': {  }
             'Entity Browser': {  }
+            Facets: {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -215,6 +188,7 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common': {  }
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -225,23 +199,38 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        contact_help_contact_banner:
+        about_page_storytelling:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types': {  }
-            'Custom blocks': {  }
+            'Custom blocks':
+              - mars_common_content_feature_module
             'Entity Block': {  }
             'Entity Browser': {  }
+            Facets: {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks': {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
+              - 'inline_block:list'
+              - 'inline_block:media_carousel'
             'Lists (Views)': {  }
             'Mars Common':
-              - contact_help_banner_block
-            'Mars Product': {  }
+              - freeform_story_block
+              - iframe_block
+              - story_highlight
+            'Mars Product':
+              - product_content_pair_up_block
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -252,37 +241,41 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        contact_help_contact_community:
+        about_page_newsletter:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types': {  }
-            'Custom blocks': {  }
+            'Custom blocks':
+              - parent_page_header
             'Entity Block': {  }
             'Entity Browser': {  }
+            Facets: {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
-              - contact_form
               - newsletter_signup_form
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
             Recipe: {  }
-            'Social feed': {  }
+            'Social feed':
+              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
             Views: {  }
             core: {  }
-id: node.contact_help.default
+id: node.about_page.default
 targetEntityType: node
-bundle: contact_help
+bundle: about_page
 mode: default
 content:
   body:

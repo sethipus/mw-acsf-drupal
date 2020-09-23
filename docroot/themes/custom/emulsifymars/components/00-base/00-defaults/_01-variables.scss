@@ -19,7 +19,10 @@ $font-heading: 'HelveticaNeue', 'Helvetica', 'Arial', sans-serif;
 
 // Button border-radius
 $square-border: '0px';
-$round-border: '30px';
+$round-border-button: '30px';
+
+// Card border-radius
+$round-border-card: '20px';
 
 // Spacing
 $space: 1rem;
@@ -82,7 +85,8 @@ $defaultVariables: (
   primary-font: 'Arial',
   secondary-font: 'Times',
   brand-shape: $circle,
-  border-radius: $square-border,
+  card-border-radius: $square-border,
+  button-border-radius: $square-border,
   graphic-divider: $triangle
 );
 
@@ -91,7 +95,8 @@ $marsVariables: (
   primary-font: 'Arial',
   secondary-font: 'Times',
   brand-shape: $circle,
-  border-radius: $square-border,
+  card-border-radius: $square-border,
+  button-border-radius: $square-border,
   graphic-divider: $wave
 );
 
@@ -100,7 +105,8 @@ $twixVariables: (
   primary-font: 'TwixPrimaryTypefaceFont',
   secondary-font: 'TwixSecondaryTypeface',
   brand-shape: $circle,
-  border-radius: $round-border,
+  card-border-radius: $round-border-card,
+  button-border-radius: $round-border-button,
   graphic-divider: $triangle
 );
 
@@ -109,7 +115,8 @@ $doveVariables: (
   primary-font: 'Geomanist',
   secondary-font: 'Geomanist',
   brand-shape: $circle,
-  border-radius: $square-border,
+  card-border-radius: $square-border,
+  button-border-radius: $square-border,
   graphic-divider: $wave
 );
 
@@ -118,7 +125,8 @@ $galaxyVariables: (
   primary-font: 'Arial',
   secondary-font: 'Times',
   brand-shape: $circle,
-  border-radius: $square-border,
+  card-border-radius: $square-border,
+  button-border-radius: $square-border,
   graphic-divider: $wave
 );
 
