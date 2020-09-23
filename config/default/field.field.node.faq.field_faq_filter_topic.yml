@@ -1,0 +1,29 @@
+uuid: d7a1aec8-4500-4ee3-ade7-650658a97c32
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_faq_filter_topic
+    - node.type.faq
+    - taxonomy.vocabulary.faq_filter_topic
+id: node.faq.field_faq_filter_topic
+field_name: field_faq_filter_topic
+entity_type: node
+bundle: faq
+label: 'FAQ Filter topic'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      faq_filter_topic: faq_filter_topic
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

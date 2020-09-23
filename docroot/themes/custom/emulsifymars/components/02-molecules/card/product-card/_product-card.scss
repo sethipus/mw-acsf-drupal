@@ -1,13 +1,21 @@
 .product-card {
-  border-radius: 20px;
-  width: 315px;
-  height: 520px;
-  //background-color: clr(secondary);
-  transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
+  min-height: 520px;
+  border-radius: variable(card-border-radius);
+  width: 318px;
+  transition: cubic-bezier(0.75, 0, 0.25, 0), 0.8s;
   background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
+  position: relative;
 
   a {
     text-decoration: none;
+  }
+
+  .eyebrow {
+    color: clr(primary);
+    padding-top: 3rem;
+    font-family: variable(primary-font);
+    text-align: center;
+    margin-bottom: 0;
   }
 
   img {
@@ -18,7 +26,7 @@
     background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
     transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
-    p, a {
+    p, a, .eyebrow{
       color: clr(subcolor-3);
     }
 
@@ -33,24 +41,29 @@
     display: flex;
     align-items: center;
     margin: auto;
-    padding-top: 30px;
-    min-height: 235px;
-    min-width: 235px;
+    padding-top: 3rem;
     height: 255px;
-    width: 100%;
+    width: 255px;
     box-sizing: border-box;
     justify-content: center;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
   }
 
   &__title {
     font-size: 2.2rem;
     font-family: variable(primary-font);
     max-width: 75%;
+    min-height: 105px;
     margin: 2rem auto 0;
 
     p {
       max-width: 255px;
       color: clr(primary);
+      margin-bottom: 0;
     }
 
   }
@@ -58,21 +71,22 @@
   &__link_section {
     display: flex;
     flex-direction: row;
-    padding-top: 3rem;
+    position: absolute;
+    bottom: 1rem;
   }
 
   &__button{
     position: relative;
     left: -1rem;
     a {
-      padding: 1rem 2rem;
-      line-height: 3rem;
+      padding: 0 1.85rem;;
+      line-height: 5rem;
       font-size: 1.4rem;
     }
 
     &:hover {
       a {
-        color: clr(primary);
+        color: clr(secondary);
       }
     }
   }
@@ -85,6 +99,12 @@
     font-weight: bold;
     color: clr(primary);
     font-family: variable(secondary-font);
+    text-transform: uppercase;
   }
 
+  .badge {
+    position: absolute;
+    top: -3.5rem;
+    right: -1.5rem;
+  }
 }

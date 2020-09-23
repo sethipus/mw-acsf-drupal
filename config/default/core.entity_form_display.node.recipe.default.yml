@@ -4,7 +4,9 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.media_browser
+    - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
+    - field.field.node.recipe.field_recipe_brand_initiatives
     - field.field.node.recipe.field_recipe_cooking_time
     - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
@@ -36,7 +38,27 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_product_occasions:
+    weight: 17
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   field_product_reference:
+    weight: 18
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_recipe_brand_initiatives:
     weight: 16
     settings:
       match_operator: CONTAINS
@@ -54,7 +76,7 @@ content:
     type: number
     region: content
   field_recipe_cta:
-    weight: 17
+    weight: 19
     settings:
       size: 60
       placeholder: ''
@@ -73,14 +95,14 @@ content:
     type: entity_browser_entity_reference
     weight: 8
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -100,7 +122,7 @@ content:
     type: number
     region: content
   field_recipe_new:
-    weight: 26
+    weight: 20
     settings:
       display_label: true
     third_party_settings: {  }

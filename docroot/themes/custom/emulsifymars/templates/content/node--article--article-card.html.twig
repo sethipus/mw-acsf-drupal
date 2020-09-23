@@ -5,17 +5,23 @@
  */
 #}
 
-{% set background_img = file_url(content.field_article_image[0]['#media'].image.entity.fileuri) %}
+{% if node.field_article_image.entity.image.entity %}
+  {% set background_img = file_url(node.field_article_image.entity.image.entity.fileuri) %}
+{% endif %}
 
 {% include "@molecules/card/article-card/article-card.twig" with {
-  article_is_new: content.field_article_new['#object'].field_article_new.value,
+  theme_styles: 'drupal',
+  article_is_new: node.field_article_new.value,
   article_card_background_img_url: background_img,
 
-  article_card_heading: content.field_article_image['#object'].title.value,
+  article_card_eyebrow: elements['#eyebrow'],
+  brand_shape: brand_shape,
+
+  article_card_heading: node.title.value,
   article_card_heading_level: 3,
   article_card_heading_base_class: 'article-card-heading',
 
-  article_card_text: elements['#node'].field_article_description.value | render | striptags,
+  article_card_text: node.field_article_description.value | render | striptags,
   article_card_button_text: '',
   article_card_paragraph_base_class: 'article-card-paragraph',
   article_card_paragraph_size: 'large',
@@ -25,6 +31,6 @@
   article_card_button_text: 'EXPLORE',
 
   article_card_button_link_attributes: {
-    'href': path('entity.node.canonical', {'node': content.field_article_image['#object'].nid.value})
-  }
+    'href': path('entity.node.canonical', {'node': node.nid.value})
+  },
 } %}

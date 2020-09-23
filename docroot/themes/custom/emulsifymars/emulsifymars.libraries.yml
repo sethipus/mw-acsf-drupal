@@ -24,37 +24,51 @@ content-feature:
 social-feed:
   js:
     dist/js/social_feed.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-2
 
 entry-gate:
   js:
     dist/js/entry_gate.js: {}
-    dist/js/vendors~entry_gate~social_feed_slide.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-1
 
 social-feed-slide:
   js:
     dist/js/social_feed_slide.js: {}
-    dist/js/vendors~entry_gate~social_feed_slide.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-1
 
-pdp-hero:
+pdp-body:
   js:
-    dist/js/pdp_hero.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+    dist/js/pdp_body.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-2
 
 pdp-multipack:
   js:
     dist/js/pdp_multipack.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
+  dependencies:
+    - emulsifymars/pdp-body
+    - emulsifymars/vendor-chunk-2
+    - core/drupal
+
+product-content-pair-up:
+  js:
+    dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
   dependencies:
     - core/drupal
+
+recommendations-module:
+  js:
+    dist/js/recommendations_module.js: { }
+  dependencies:
+    - core/drupal
+    - emulsifymars/vendor-chunk-2
 
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
@@ -77,9 +91,9 @@ parent-page-header:
 media-carousel:
   js:
     dist/js/media_carousel.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~social_feed.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-2
 
 fullscreen-video:
   js:
@@ -96,9 +110,9 @@ iframe:
 product-used-module:
   js:
     dist/js/product_used.js: {}
-    dist/js/vendors~media_carousel~pdp_hero~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-2
 
 recipe-body:
   js:
@@ -111,3 +125,18 @@ ajaxcardgrid:
     dist/js/03-organisms/grid/ajaxcardgrid.js: {}
   dependencies:
     - core/drupal
+
+search-overlay:
+  js:
+    dist/js/02-molecules/search/search-overlay/search-overlay.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+
+vendor-chunk-1:
+  js:
+    dist/js/vendors~entry_gate~social_feed_slide.js: {}
+
+vendor-chunk-2:
+  js:
+    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~recommendations_module~social_feed.js: {}
