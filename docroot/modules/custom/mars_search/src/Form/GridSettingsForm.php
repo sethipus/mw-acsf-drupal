@@ -80,25 +80,6 @@ class GridSettingsForm extends FormBase {
       '#default_value' => $this->t('All products'),
     ];
 
-    $form['content_type'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Content type'),
-      '#multiple' => TRUE,
-      '#options' => GridSettingsForm::CONTENT_TYPES,
-    ];
-
-    $form = array_merge($form, $this->buildGeneralFilters());
-
-    $form['toggle_search'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Enable text search bar'),
-      '#description' => $this->t('If enabled a text search bar appears on the grid.'),
-    ];
-    $form['toggle_filters'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Enable exposed search filters'),
-      '#description' => $this->t('If enabled search filters appear on the grid.'),
-    ];
     $form['no_results_heading'] = [
       '#title' => $this->t('Heading for no results case'),
       '#default_value' => $this->t('There are no matching results for'),
@@ -112,6 +93,22 @@ class GridSettingsForm extends FormBase {
       '#type' => 'textfield',
       '#size' => 50,
       '#required' => TRUE,
+    ];
+
+    $form['content_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Content type'),
+      '#multiple' => TRUE,
+      '#options' => GridSettingsForm::CONTENT_TYPES,
+    ];
+
+    $form = array_merge($form, $this->buildTopResults());
+    $form = array_merge($form, $this->buildGeneralFilters());
+    $form = array_merge($form, $this->buildExposedFilters());
+
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Submit'),
     ];
     return $form;
   }
@@ -136,10 +133,9 @@ class GridSettingsForm extends FormBase {
     $form = [];
 
     $form['general_filters'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('General / Predefined filters'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#type' => 'details',
+      '#title' => $this->t('Predefined filters'),
+      '#open' => FALSE,
     ];
 
     foreach (GridSettingsForm::TAXONOMY_VOCABULARIES as $vocabulary => $label) {
@@ -163,6 +159,60 @@ class GridSettingsForm extends FormBase {
       ];
     }
 
+    return $form;
+  }
+
+  /**
+   * Builds top results form element selection.
+   *
+   * @return array
+   *   Top results form elements.
+   */
+  protected function buildTopResults() {
+    $form = [];
+    $form['top_results_wrapper'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Top results'),
+      '#open' => FALSE,
+    ];
+    $form['top_results_wrapper']['top_results'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'node',
+      '#title' => $this->t('Top results'),
+      '#selection_settings' => [
+        'target_bundles' => array_keys(GridSettingsForm::CONTENT_TYPES),
+      ],
+      '#tags' => TRUE,
+      '#cardinality' => 8,
+    ];
+
+    return $form;
+  }
+
+  /**
+   * Builds exposed filters form element.
+   *
+   * @return array
+   *   Exposed form elements.
+   */
+  protected function buildExposedFilters() {
+    $form = [];
+    $form['exposed_filters_wrapper'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Exposed filters'),
+      '#open' => FALSE,
+    ];
+
+    $form['exposed_filters_wrapper']['toggle_search'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable text search bar'),
+      '#description' => $this->t('If enabled a text search bar appears on the grid.'),
+    ];
+    $form['exposed_filters_wrapper']['toggle_filters'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable exposed search filters'),
+      '#description' => $this->t('If enabled search filters appear on the grid.'),
+    ];
     return $form;
   }
 
