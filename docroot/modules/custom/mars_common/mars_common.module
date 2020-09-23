@@ -21,6 +21,26 @@ use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
 use Drupal\layout_builder\Form\OverridesEntityForm;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\system\Entity\Menu;
+
+/**
+ * Implements hook_menu_insert().
+ */
+function mars_common_menu_insert(Menu $menu) {
+  if (in_array($menu->id(), ['main', 'error-page-menu'])) {
+    foreach (['Home', 'Products', 'About'] as $weight => $title) {
+      $menu_link = MenuLinkContent::create([
+        'title' => $title,
+        'link' => ['uri' => 'internal:/'],
+        'menu_name' => $menu->id(),
+        'expanded' => TRUE,
+        'weight' => $weight - 3,
+      ]);
+      $menu_link->save();
+    }
+  }
+}
 
 /**
  * Implements hook_preprocess().
