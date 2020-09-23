@@ -59,6 +59,7 @@ class SearchForm extends FormBase {
       '#attributes' => [
         'placeholder' => $this->t('Search'),
         'class' => ['search-input__field'],
+        'autocomplete' => 'off',
       ],
       '#default_value' => $keys,
     ];

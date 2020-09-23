@@ -20,7 +20,8 @@
       flex-grow: 1;
 
       &__field {
-        width: 100%;
+        width: calc(100% - 20px);
+        margin: 0 20px;
       }
     }
   }
