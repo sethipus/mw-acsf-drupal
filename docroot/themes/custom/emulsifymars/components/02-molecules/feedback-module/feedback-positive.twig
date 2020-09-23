@@ -16,8 +16,17 @@
       heading_base_class: feedback_heading_base_class
     } %}
 
-    <div class="feedback-module__btn-group">
-      
+    <div class="feedback-module__feedback-img">
+      <div class="feedback-module__tick feedback-module__tick--positive">
+        {{tick | raw}}
+        <div class="feedback-module__png-asset">
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            output_image_tag: true,
+            image_alt: polling_png_asset_alt,
+            image_src: polling_png_asset,
+          } %}
+        </div>
+      </div>
     </div>
 
     {% include "@atoms/links/link/link.twig" with {

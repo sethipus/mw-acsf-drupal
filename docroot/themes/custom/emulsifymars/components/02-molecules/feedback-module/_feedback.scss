@@ -65,19 +65,18 @@
     @include xs {
       font-size: 2.8rem;
       line-height: 2.8rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.9rem;
     }
 
     @include medium {
       font-size: 4rem;
       line-height: 4rem;
-      margin-bottom: 3rem;
+      margin-bottom: 4rem;
     }
 
     @include large {
       font-size: 4.8rem;
       line-height: 4.8rem;
-      margin-bottom: 4rem;
     }
   }
 
@@ -141,6 +140,96 @@
       font-size: 1.8rem;
       line-height: 1.98rem;
       letter-spacing: 0.144rem;
+    }
+  }
+
+  &__feedback-img {
+    position: relative;
+  }
+
+  &__tick {
+    position: relative;
+    z-index: 1;
+
+    @include xs {
+      margin: 0 auto 4.9rem auto;
+      width: 9.8rem;
+      height: 9.8rem;
+      padding: 2.3rem 2.6rem;
+    }
+
+    @include medium {
+      margin: 0 auto 7.12rem auto;
+      width: 11.58rem;
+      height: 11.58rem;
+      padding: 2.9rem 3rem;
+    }
+
+    @include large {
+      margin: 0 auto 9.4rem auto;
+    }
+
+    svg {
+      @include xs {
+        width: 5rem;
+        height: 5rem;
+      }
+
+      @include medium {
+        width: 5.79rem;
+        height: 5.79rem;
+      }
+
+      path {
+        fill: clr(secondary);
+      }
+    }
+
+    &--positive {
+      background: clr(subcolor-3);
+      border-radius: 50%;
+    }
+
+    &--negative {
+      svg {
+        width: 100%;
+        height: 100%;
+
+        path {
+          fill: clr(secondary);
+        }
+      }
+
+      @include xs {
+        padding: 0;
+        margin: 3.9rem auto;
+      }
+
+      @include medium {
+        margin-bottom: 7.2rem;
+      }
+
+      @include large {
+        margin: 6.7rem auto;
+      }
+    }
+  }
+
+  &__png-asset {
+    position: absolute;
+    z-index: 2;
+    display: block;
+
+    @include xs {
+      width: 14rem;
+      bottom: -3rem;
+      right: -6.3rem;
+    }
+
+    @include medium {
+      width: 19rem;
+      bottom: -5rem;
+      right: -8.3rem;
     }
   }
 }
