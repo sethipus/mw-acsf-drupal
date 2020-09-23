@@ -33,6 +33,12 @@
     }
   }
 
+  &__secondary {
+    max-height: 0;
+    overflow: hidden;
+    animation: alert-banner-slide-in 0.8s ease forwards;
+  }
+
   &__branding {
     flex: 0 0 150px;
     margin: 2.5rem;
@@ -75,6 +81,15 @@
         display: none;
       }
     }
+  }
+}
+
+@keyframes alert-banner-slide-in {
+  0% {
+    max-height: 0;
+  }
+  100% {
+    max-height: 120px;
   }
 }
 

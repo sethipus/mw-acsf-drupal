@@ -1,13 +1,13 @@
 {{ attach_library('emulsifymars/recommendations-module') }}
 {% set recommendations_base_class = recommendations_base_class|default('recommendations') %}
 
-<section id="recommendations" {{ bem(recommendations_base_class) }} data-theme="twix">
+<section id="recommendations" {{ bem(recommendations_base_class) }} data-theme="{{ theme_styles }}">
   <div class="recommendations__heading">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading_level: 1,
       heading_base_class: 'recommendations__heading',
       heading_modifiers: ['main-heading'],
-      heading: 'More Recipes Like This'
+      heading: recommendation_title,
     } %}
   </div>
   {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
@@ -15,7 +15,7 @@
     <div class="swiper-wrapper">
         {% for item in recommended_items %}
           <div class="swiper-slide recommended-item">
-            {% include "@molecules/card/product-card/product-card.twig" with { item: item } %}
+            {{ item }}
           </div>
         {% endfor %}
     </div>
