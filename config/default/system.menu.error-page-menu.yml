@@ -1,0 +1,10 @@
+uuid: 78b8dcc7-53d9-471e-b8c4-6ee1ca94857e
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+id: error-page-menu
+label: 'Error Page Menu'
+description: ''
+locked: false
