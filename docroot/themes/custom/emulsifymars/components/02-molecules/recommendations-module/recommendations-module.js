@@ -1,6 +1,6 @@
-import Swiper, { Navigation, Pagination, Scrollbar } from "swiper";
+import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
-Drupal.behaviors.recommendationsCorousel = {
+Drupal.behaviors.recommendationsCarousel = {
   attach(context) {
     // init swiper
     Swiper.use([Navigation, Pagination, Scrollbar]);
