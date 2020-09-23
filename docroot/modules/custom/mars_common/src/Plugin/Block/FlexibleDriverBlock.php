@@ -173,16 +173,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   private function getMediaId(string $assetKey): ?string {
     $entityBrowserSelectValue = $this->getConfiguration()[$assetKey] ?? NULL;
-    if (!$entityBrowserSelectValue || !is_string($entityBrowserSelectValue)) {
-      return NULL;
-    }
-    $colonPosition = strpos($entityBrowserSelectValue, ':');
-
-    if ($colonPosition === FALSE) {
-      return NULL;
-    }
-
-    return substr($entityBrowserSelectValue, $colonPosition + 1);
+    return $this->mediaHelper->getIdFromEntityBrowserSelectValue($entityBrowserSelectValue);
   }
 
 }

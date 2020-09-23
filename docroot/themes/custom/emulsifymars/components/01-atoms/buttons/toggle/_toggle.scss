@@ -1,0 +1,27 @@
+.toggle-button {
+  display: inline-block;
+  margin: 0 12px 12px 0;
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid clr(secondary);
+    padding: 20px 40px;
+    border-radius: variable(border-radius);;
+    font-family: variable(primary-font);
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: .75px;
+    text-transform: uppercase;
+    color: clr(secondary);
+  }
+
+  &__input:checked ~ &__label {
+    background-color: clr(secondary);
+    color: clr(subcolor-3);
+  }
+}
