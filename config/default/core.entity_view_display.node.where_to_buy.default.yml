@@ -11,6 +11,7 @@ dependencies:
     - layout_discovery
     - layout_library
     - mars_common
+    - mars_recommendations
     - text
     - user
 third_party_settings:
@@ -50,7 +51,22 @@ third_party_settings:
         layout_id: where_to_buy_product_recommendations
         layout_settings:
           label: 'Product Recommendations'
-        components: {  }
+        components:
+          5312bafe-6c1e-428b-a388-27560474d7d4:
+            uuid: 5312bafe-6c1e-428b-a388-27560474d7d4
+            region: content
+            configuration:
+              id: recommendations_module
+              label: 'MARS: Recommendations Module'
+              provider: mars_recommendations
+              label_display: ''
+              title: 'Featured Products'
+              population_plugin_id: dynamic
+              population_plugin_configuration: null
+              context_mapping:
+                node: layout_builder.entity
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -142,7 +158,8 @@ third_party_settings:
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - recommendations_module
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }

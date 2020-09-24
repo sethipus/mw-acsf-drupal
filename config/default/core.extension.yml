@@ -91,6 +91,7 @@ module:
   mars_lighthouse: 0
   mars_product: 0
   mars_recipes: 0
+  mars_recommendations: 0
   mars_search: 0
   media: 0
   media_entity_instagram: 0
@@ -119,6 +120,7 @@ module:
   redirect: 0
   remote_stream_wrapper: 0
   remote_stream_wrapper_widget: 0
+  salsify_integration: 0
   samlauth: 0
   schemata: 0
   schemata_json_schema: 0
