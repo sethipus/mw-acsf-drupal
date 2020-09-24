@@ -717,3 +717,17 @@ function mars_common_entity_bundle_field_info_alter(
     }
   }
 }
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function mars_common_theme_suggestions_poll_vote_alter(array &$suggestions, array $variables) {
+  $suggestions[] = 'poll_vote__feedback';
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function mars_common_theme_suggestions_poll_results_alter(array &$suggestions, array $variables) {
+  $suggestions[] = 'poll_results__feedback';
+}
