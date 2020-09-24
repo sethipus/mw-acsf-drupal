@@ -18,6 +18,7 @@ Drupal.behaviors.pdpBody = {
         pagination: {
           el: `[data-swiper-index="${index}"] + .swiper-pagination`,
           type: 'bullets',
+          clickable: true,
         },
       });
 

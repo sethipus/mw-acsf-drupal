@@ -1,0 +1,4 @@
+block.admin:
+  css:
+    theme:
+      css/block.admin.css: {}

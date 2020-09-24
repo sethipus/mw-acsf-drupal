@@ -5,7 +5,9 @@
 
   {% block faq_filters__search %}
     <div {{ bem('search', [], faq_filters_base_class) }}>
-      {% include "@molecules/search/search-input/search-input.twig" %}
+      <div class="search-input" data-theme="twix">
+        {{ search_form }}
+      </div>
     </div>
   {% endblock %}
 
