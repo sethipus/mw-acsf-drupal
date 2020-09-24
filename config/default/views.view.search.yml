@@ -77,7 +77,6 @@ display:
           view_modes:
             'entity:node':
               article: default
-              campaign: default
               contact_help: default
               faq: default
               homepage: default
