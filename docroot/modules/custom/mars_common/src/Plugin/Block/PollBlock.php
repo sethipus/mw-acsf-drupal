@@ -110,6 +110,11 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Poll Entity'),
       '#target_type' => 'poll',
+      '#selection_handler' => 'default:poll_by_field',
+      '#selection_settings' => [
+        // 0|poll
+        'filter' => ['field_type' => '0'],
+      ],
       '#default_value' => $this->getPollEntity(),
       '#required' => TRUE,
     ];
