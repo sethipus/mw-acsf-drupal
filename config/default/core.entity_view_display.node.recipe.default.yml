@@ -3,7 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
+    - field.field.node.recipe.field_recipe_brand_initiatives
     - field.field.node.recipe.field_recipe_cooking_time
     - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
@@ -23,6 +25,7 @@ dependencies:
     - layout_library
     - mars_common
     - mars_recipes
+    - mars_recommendations
     - text
     - user
 third_party_settings:
@@ -47,6 +50,38 @@ third_party_settings:
                 node: layout_builder.entity
             additional: {  }
             weight: 0
+          b9d69b54-426d-45ca-b68d-16a03180878e:
+            uuid: b9d69b54-426d-45ca-b68d-16a03180878e
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:recipe:field_recipe_brand_initiatives'
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+            additional: {  }
+            weight: 1
+          d7f7deca-980d-496f-b980-6aa1da8abe1b:
+            uuid: d7f7deca-980d-496f-b980-6aa1da8abe1b
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:recipe:field_product_occasions'
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+            additional: {  }
+            weight: 2
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -92,7 +127,22 @@ third_party_settings:
         layout_id: recipe_recipe_recommendations
         layout_settings:
           label: 'Recipe Recommendations'
-        components: {  }
+        components:
+          60fb4024-d179-4342-a69c-800f4ac9704f:
+            uuid: 60fb4024-d179-4342-a69c-800f4ac9704f
+            region: content
+            configuration:
+              id: recommendations_module
+              label: 'MARS: Recommendations Module'
+              provider: mars_recommendations
+              label_display: ''
+              title: ''
+              population_plugin_id: dynamic
+              population_plugin_configuration: null
+              context_mapping:
+                node: layout_builder.entity
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -112,6 +162,7 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
+      - Facets
       - 'Flexible driver'
       - Forms
       - 'Global elements'
@@ -120,6 +171,7 @@ third_party_settings:
       - 'Lists (Views)'
       - 'Mars Common'
       - 'Mars Product'
+      - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
       - Product
@@ -132,7 +184,9 @@ third_party_settings:
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
+        Facets: {  }
         'Flexible driver': {  }
+        'Mars Search': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - recipe_recipe_hero
@@ -148,7 +202,7 @@ third_party_settings:
         - recipe_ratings_reviews
         - recipe_recipe_recommendations
       whitelisted_blocks:
-        recipe_storytelling_community:
+        recipe_recipe_recommendations:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
@@ -157,33 +211,21 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
-            'Flexible driver':
-              - flexible_driver
+            Facets: {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks':
-              - 'inline_block:flexible_framer'
-              - 'inline_block:full_width_image'
-              - 'inline_block:full_width_video'
-              - 'inline_block:inline_image'
-              - 'inline_block:list'
-              - 'inline_block:media_carousel'
-              - 'inline_block:text_component'
+            'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
-              - contact_help_banner_block
-              - iframe_block
-              - newsletter_signup_form
-              - story_highlight
+              - recommendations_module
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
-            Recipe:
-              - recipe_detail_hero
-            'Social feed':
-              - social_feed
+            Recipe: {  }
+            'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
@@ -245,7 +287,7 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        recipe_ratings_reviews:
+        recipe_storytelling_community:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
@@ -254,24 +296,40 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks': {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:list'
+              - 'inline_block:media_carousel'
+              - 'inline_block:text_component'
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - contact_help_banner_block
+              - iframe_block
+              - newsletter_signup_form
+              - story_highlight
+              - poll_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
+            Recipe:
+              - recipe_detail_hero
+            'Social feed':
+              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
             Views: {  }
             core: {  }
-        recipe_recipe_recommendations:
+        recipe_ratings_reviews:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
@@ -304,6 +362,22 @@ targetEntityType: node
 bundle: recipe
 mode: default
 content:
+  field_product_occasions:
+    weight: 11
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_recipe_brand_initiatives:
+    weight: 10
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_recipe_cooking_time:
     weight: 2
     label: above
