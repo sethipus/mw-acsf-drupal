@@ -48,6 +48,7 @@ pdp-body:
     dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
 
 pdp-multipack:
   js:
