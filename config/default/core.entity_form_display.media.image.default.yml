@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.media.image.field_media_in_library
     - field.field.media.image.image
+    - field.field.media.image.salsify_id
     - image.style.thumbnail
     - media.type.image
   module:
@@ -62,4 +63,5 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  salsify_id: true
   uid: true
