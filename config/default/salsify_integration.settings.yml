@@ -1,0 +1,8 @@
+import_method: manual
+product_feed_url: 'https://tst.api.effem.com/common-salsify-product-reader-systst/v1/products/us/mw?brand=TWIX'
+access_token: test_token
+entity_type: node
+bundle: product
+keep_fields_on_uninstall: 0
+entity_reference_allow: 0
+process_media_assets: null
