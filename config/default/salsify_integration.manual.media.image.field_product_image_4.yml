@@ -1,0 +1,9 @@
+field_id: 'ATF Image 5'
+salsify_id: 'ATF Image 5'
+salsify_data_type: digital_asset
+entity_type: media
+bundle: image
+field_name: field_product_image_4
+method: manual
+created: 1546300800
+changed: 1546300801

@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   position: relative;
 
-  @include medium {
+  @include large {
     display: inline-block;
   }
 
@@ -33,7 +33,7 @@
   color: $white;
   position: relative;
 
-  @include medium {
+  @include large {
     display: none;
   }
 

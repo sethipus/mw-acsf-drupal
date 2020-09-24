@@ -1,0 +1,11 @@
+name: Mars Recommendations
+type: module
+description: Provides Recommendations Module component functionality.
+package: Mars
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - mars_common:mars_common
+  - mars_product:mars_product
+  - mars_recipes:mars_recipes
+  - mars_articles:mars_articles

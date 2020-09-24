@@ -78,7 +78,7 @@
     color: clr(primary);
     font-size: 1.6rem;
     font-family: variable(secondary-font);
-    border-radius: variable(border-radius);
+    border-radius: variable(button-border-radius);
     padding-left: 2rem;
   }
 
@@ -167,7 +167,7 @@
   
   #dvFastForms .btnDiv input {
     margin: 0 !important;
-    border-radius: variable(border-radius);
+    border-radius: variable(button-border-radius);
     text-transform: uppercase;
   }
 
@@ -192,7 +192,7 @@
     margin-top: 1.4rem;
     width: 100%;
     border-color: #c4c4c4;
-    border-radius: variable(border-radius);
+    border-radius: variable(button-border-radius);
     color: clr(primary);
     font-family: variable(secondary-font);
     padding: 1rem 1.5rem;
@@ -210,7 +210,7 @@
     padding: 1.15rem;
     display: inline-block;
     border: 0.5px solid #c4c4c4;
-    border-radius: variable(border-radius) !important;
+    border-radius: variable(button-border-radius) !important;
     font-family: variable(secondary-font);
   }
 
@@ -244,12 +244,12 @@
 
   .ff-textarea.ff-input-type-invalid {
     border: 0.5px solid clr(secondary) !important;
-    border-radius: variable(border-radius) !important;
+    border-radius: variable(button-border-radius) !important;
   }
 
   .ff-select-type.ff-input-type-invalid {
     border: 0.5px solid clr(secondary) !important;
-    border-radius: variable(border-radius) !important;
+    border-radius: variable(button-border-radius) !important;
   }
 
   #reqdvCase\.Description {
