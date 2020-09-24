@@ -10,7 +10,7 @@
   padding: $space $space-quadruple;
   text-decoration: none;
 
-  @include medium {
+  @include large {
     border-bottom: none;
     display: inline-block;
     font-size: 1.8rem;
@@ -35,7 +35,7 @@
   &--with-sub {
     width: 80%;
 
-    @include medium {
+    @include large {
       width: auto;
       padding-right: $space-quintuple;
     }
@@ -51,7 +51,7 @@
   width: 12px;
   height: 7px;
 
-  @include medium {
+  @include large {
     display: inline-block;
   }
 }
@@ -67,7 +67,7 @@
   font-family: variable(secondary-font);
   font-weight: normal;
 
-  @include medium {
+  @include large {
     color: clr(primary);
     display: block;
     padding: 1.2rem $space-double;
