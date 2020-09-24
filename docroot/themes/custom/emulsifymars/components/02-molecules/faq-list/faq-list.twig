@@ -16,9 +16,10 @@
     heading_base_class: 'faq-heading',
     heading: title
   } %}
-
   {% include "@molecules/faq-filters/faq-filters.twig" with {
-    faq_base_class: 'faq-filters'
+    faq_base_class: 'faq-filters',
+    search_form: search_form,
+    facetLinks: facets,
   }%}
 
   {% include "@atoms/lists/faq.twig" %}

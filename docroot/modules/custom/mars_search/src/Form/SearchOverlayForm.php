@@ -46,7 +46,7 @@ class SearchOverlayForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('request_stack'),
+      $container->get('request_stack')
     );
   }
 
@@ -56,7 +56,12 @@ class SearchOverlayForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['search'] = [
       '#type' => 'textfield',
-      '#attributes' => ['class' => ['mars-autocomplete-field']],
+      '#attributes' => [
+        'class' => [
+          'mars-autocomplete-field',
+        ],
+        'autocomplete' => 'off',
+      ],
     ];
     $form['actions'] = [
       '#type' => 'actions',

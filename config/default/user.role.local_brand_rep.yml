@@ -1,0 +1,51 @@
+uuid: dcbea527-f3b1-406c-992e-3e61cb7df19c
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_core
+third_party_settings:
+  lightning_core:
+    description: ''
+id: local_brand_rep
+label: 'Local Brand Rep'
+weight: 22
+is_admin: null
+permissions:
+  - 'access content'
+  - 'access content overview'
+  - 'access toolbar'
+  - 'delete own article content'
+  - 'delete own contact_help content'
+  - 'delete own error_page content'
+  - 'delete own faq content'
+  - 'delete own homepage content'
+  - 'delete own landing_page content'
+  - 'delete own newsletter_sign_up content'
+  - 'delete own page content'
+  - 'delete own product content'
+  - 'delete own product_multipack content'
+  - 'delete own product_variant content'
+  - 'delete own recipe content'
+  - 'delete own where_to_buy content'
+  - 'edit any article content'
+  - 'edit any contact_help content'
+  - 'edit any error_page content'
+  - 'edit any faq content'
+  - 'edit any homepage content'
+  - 'edit any landing_page content'
+  - 'edit any newsletter_sign_up content'
+  - 'edit any page content'
+  - 'edit any product content'
+  - 'edit any product_multipack content'
+  - 'edit any product_variant content'
+  - 'edit any recipe content'
+  - 'edit any where_to_buy content'
+  - 'schedule editorial transition approve'
+  - 'schedule editorial transition publish'
+  - 'use editorial transition approve'
+  - 'use editorial transition publish'
+  - 'view all revisions'
+  - 'view any unpublished content'
+  - 'view own unpublished content'
+  - 'view the administration theme'

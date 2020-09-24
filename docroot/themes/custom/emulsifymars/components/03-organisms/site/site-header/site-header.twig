@@ -47,7 +47,8 @@
     <div {{ bem('secondary', [], header__base_class) }}>
       {% block header__secondary %}
         {% include "@molecules/status/status.twig" with {
-          message_list: { alert: { message: alert_banner} }
+          message_list: { alert: { message: alert_banner} },
+          message_url: alert_banner_url,
         }%}
       {% endblock %}
     </div>

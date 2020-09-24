@@ -1,0 +1,9 @@
+field_id: null
+salsify_id: 'Brand Name'
+salsify_data_type: null
+entity_type: taxonomy_term
+bundle: mars_brand_initiatives
+field_name: salsify_id
+method: dynamic
+created: false
+changed: 1546300800
