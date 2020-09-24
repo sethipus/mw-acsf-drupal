@@ -24,6 +24,7 @@ use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ContentHubPageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\CampaignLayoutFormAlter;
 use Drupal\layout_builder\Form\OverridesEntityForm;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\system\Entity\Menu;
@@ -608,6 +609,9 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
 
     case 'node.content_hub_page.default':
       return ContentHubPageLayoutFormAlter::class;
+
+    case 'node.campaign.default':
+      return CampaignLayoutFormAlter::class;
 
     default:
       return NULL;
