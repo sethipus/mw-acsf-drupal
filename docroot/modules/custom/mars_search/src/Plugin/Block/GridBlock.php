@@ -133,9 +133,9 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['content_type'] ?? NULL,
     ];
 
+    $form = array_merge($form, $this->buildExposedFilters());
     $form = array_merge($form, $this->buildTopResults());
     $form = array_merge($form, $this->buildGeneralFilters());
-    $form = array_merge($form, $this->buildExposedFilters());
 
     return $form;
   }
@@ -177,6 +177,11 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#type' => 'details',
       '#title' => $this->t('Predefined filters'),
       '#open' => FALSE,
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[exposed_filters_wrapper][toggle_filters]"]' => ['checked' => FALSE],
+        ],
+      ],
     ];
 
     foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
@@ -283,7 +288,7 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $form['exposed_filters_wrapper'] = [
       '#type' => 'details',
       '#title' => $this->t('Exposed filters'),
-      '#open' => FALSE,
+      '#open' => TRUE,
     ];
 
     $form['exposed_filters_wrapper']['toggle_search'] = [
@@ -295,7 +300,7 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $form['exposed_filters_wrapper']['toggle_filters'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable exposed search filters'),
-      '#description' => $this->t('If enabled search filters appear on the grid.'),
+      '#description' => $this->t('If enabled search filters by taxonomy fields appear on the grid.'),
       '#default_value' => $config['exposed_filters_wrapper']['toggle_filters'] ?? FALSE,
     ];
     return $form;
