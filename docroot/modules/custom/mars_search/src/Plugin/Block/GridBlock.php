@@ -27,10 +27,22 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @var array
    */
   const TAXONOMY_VOCABULARIES = [
-    'mars_brand_initiatives' => 'Brand initiatives',
-    'mars_flavor' => 'Flavor',
-    'mars_format' => 'Format',
-    'mars_occasions' => 'Occasions',
+    'mars_brand_initiatives' => [
+      'label' => 'Brand initiatives',
+      'content_types' => ['article'],
+    ],
+    'mars_flavor' => [
+      'label' => 'Flavor',
+      'content_types' => ['product', 'product_multipack'],
+    ],
+    'mars_format' => [
+      'label' => 'Format',
+      'content_types' => ['product', 'product_multipack'],
+    ],
+    'mars_occasions' => [
+      'label' => 'Occasions',
+      'content_types' => ['article', 'product', 'product_multipack'],
+    ],
   ];
 
   /**
@@ -114,7 +126,7 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ];
 
     $form['content_type'] = [
-      '#type' => 'select',
+      '#type' => 'checkboxes',
       '#title' => $this->t('Content type'),
       '#multiple' => TRUE,
       '#options' => self::CONTENT_TYPES,
@@ -158,7 +170,6 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   protected function buildGeneralFilters() {
-    // TODO add default values.
     $form = [];
     $config = $this->getConfiguration();
 
@@ -168,7 +179,8 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#open' => FALSE,
     ];
 
-    foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $label) {
+    foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+      $label = $vocabulary_data['label'];
       /** @var \Drupal\taxonomy\TermInterface[] $terms */
       $terms = $this->entityTypeManager->getStorage('taxonomy_term')
         ->loadTree($vocabulary, 0, NULL, TRUE);
@@ -181,12 +193,47 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
         $terms_options[$term->id()] = $term->label();
       }
 
+      $conditions = [];
+      foreach ($vocabulary_data['content_types'] as $content_type) {
+        $conditions[] = [":input[name=\"settings[content_type][{$content_type}]\"]" => ['checked' => TRUE]];
+      }
+
       $form['general_filters'][$vocabulary] = [
+        '#type' => 'details',
+        '#title' => $label,
+        '#open' => FALSE,
+        '#states' => [
+          'enabled' => $conditions,
+        ],
+      ];
+      $form['general_filters'][$vocabulary]['select'] = [
         '#type' => 'select',
         '#title' => $label,
         '#multiple' => TRUE,
         '#options' => $terms_options,
-        '#default_value' => $config['general_filters'][$vocabulary] ?? NULL,
+        '#default_value' => $config['general_filters'][$vocabulary]['select'] ?? NULL,
+      ];
+      $form['general_filters'][$vocabulary]['options_logic'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Operator for %vocabulary options', ['%vocabulary' => $label]),
+        '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
+        '#options' => [
+          'and' => $this->t('AND'),
+          'or' => $this->t('OR'),
+        ],
+        '#default_value' => $config['general_filters'][$vocabulary]['options_logic'] ?? NULL,
+        '#required' => TRUE,
+      ];
+      $form['general_filters'][$vocabulary]['facet_logic'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Behavior for %vocabulary facet', ['%vocabulary' => $label]),
+        '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
+        '#options' => [
+          'and' => $this->t('AND'),
+          'or' => $this->t('OR'),
+        ],
+        '#default_value' => $config['general_filters'][$vocabulary]['facet_logic'] ?? NULL,
+        '#required' => TRUE,
       ];
     }
 
