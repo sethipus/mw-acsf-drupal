@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Database\DatabaseExceptionWrapper;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -466,7 +467,7 @@ class Salsify {
 
       // Allow users to alter the product data from Salsify by invoking
       // hook_salsify_product_data_alter().
-      \Drupal::moduleHandler()->alter('salsify_product_data', $new_product_data);
+      Drupal::moduleHandler()->alter('salsify_product_data', $new_product_data);
 
       // Add the newly updated product data into the site cache.
       $this->cache->set('salsify_import_product_data', $new_product_data);
@@ -511,7 +512,7 @@ class Salsify {
    *   An array of field objects.
    */
   public static function getContentTypeFields($entity_type, $entity_bundle) {
-    $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type, $entity_bundle);
+    $fields = Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type, $entity_bundle);
     $filtered_fields = array_filter(
       $fields, function ($field_definition) {
         return $field_definition instanceof FieldConfig;
@@ -547,11 +548,11 @@ class Salsify {
     foreach ($methods as $method) {
       $keys['method'] = $method;
       $config_prefix = self::getConfigName($keys);
-      $configs += \Drupal::configFactory()->listAll($config_prefix);
+      $configs += Drupal::configFactory()->listAll($config_prefix);
     }
     $results = [];
     foreach ($configs as $config_name) {
-      $config = \Drupal::config($config_name);
+      $config = Drupal::config($config_name);
 
       $raw_data = $config->getRawData();
       if (
@@ -574,7 +575,7 @@ class Salsify {
   public static function createFieldMapping(array $values) {
     // Allow users to alter the field mapping data by invoking
     // hook_salsify_field_mapping_alter().
-    \Drupal::moduleHandler()->alter('salsify_field_mapping_create', $values);
+    Drupal::moduleHandler()->alter('salsify_field_mapping_create', $values);
 
     if ($values) {
       self::setConfig($values);
@@ -590,7 +591,7 @@ class Salsify {
   public static function updateFieldMapping(array $values) {
     // Allow users to alter the field mapping data by invoking
     // hook_salsify_field_mapping_alter().
-    \Drupal::moduleHandler()->alter('salsify_field_mapping_update', $values);
+    Drupal::moduleHandler()->alter('salsify_field_mapping_update', $values);
 
     if ($values) {
       self::setConfig($values);
@@ -633,7 +634,7 @@ class Salsify {
   public static function setConfig(array $values) {
     $config_name = self::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
-    $config = \Drupal::service('config.factory')->getEditable($config_name);
+    $config = Drupal::service('config.factory')->getEditable($config_name);
     foreach ($values as $label => $value) {
       $config->set($label, $value);
     }
@@ -649,7 +650,7 @@ class Salsify {
   public static function deleteConfig(array $values) {
     $config_name = self::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
-    $config = \Drupal::service('config.factory')->getEditable($config_name);
+    $config = Drupal::service('config.factory')->getEditable($config_name);
     $config->delete();
   }
 

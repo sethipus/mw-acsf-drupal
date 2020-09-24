@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration\Plugin\QueueWorker;
 
+use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
@@ -94,7 +95,7 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
    */
   public function processItem($data) {
     // Create a new SalsifyImport object and pass the Salsify data through.
-    $salsify_import = SalsifyImportField::create(\Drupal::getContainer());
+    $salsify_import = SalsifyImportField::create(Drupal::getContainer());
     $force_update = $data['force_update'];
     $salsify_import->processSalsifyItem($data, $force_update);
   }

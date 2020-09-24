@@ -195,6 +195,7 @@ third_party_settings:
               - iframe_block
               - newsletter_signup_form
               - story_highlight
+              - poll_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }

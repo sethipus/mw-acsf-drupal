@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\field\Entity\FieldConfig;
@@ -60,7 +61,7 @@ class SalsifyImportMedia extends SalsifyImport {
       $salsify_data = $cache_entry->data;
     }
     else {
-      $salsify = Salsify::create(\Drupal::getContainer());
+      $salsify = Salsify::create(Drupal::getContainer());
       // NOTE: During this call the cached item is refreshed.
       $salsify_data = $salsify->getProductData();
     }
@@ -137,7 +138,7 @@ class SalsifyImportMedia extends SalsifyImport {
               'asset_data' => $asset_data,
               'field_map' => $field,
             ];
-            \Drupal::moduleHandler()->alter($hooks, $bundle, $context);
+            Drupal::moduleHandler()->alter($hooks, $bundle, $context);
 
             $this->setMediaFields($bundle);
             $file = $this->moveFile($file);
@@ -154,7 +155,7 @@ class SalsifyImportMedia extends SalsifyImport {
                 'salsify:created_at' => date('Y-m-d', time()),
                 'date_updated' => time(),
               ];
-              $salsify = SalsifyFields::create(\Drupal::getContainer());
+              $salsify = SalsifyFields::create(Drupal::getContainer());
               $salsify->createDynamicField($salsify_id_field, $field_name, 'media', $bundle);
             }
 
@@ -246,9 +247,9 @@ class SalsifyImportMedia extends SalsifyImport {
   private function moveFile(File $file) {
     $scheme = $this->fieldStorageConfig->getSetting('uri_scheme');
     $location = $this->fieldConfig->getSetting('file_directory');
-    $token_service = \Drupal::service('token');
+    $token_service = Drupal::service('token');
     $uri = $scheme . '://' . $token_service->replace($location);
-    \Drupal::service('file_system')->prepareDirectory(
+    Drupal::service('file_system')->prepareDirectory(
       $uri,
       FileSystemInterface::CREATE_DIRECTORY
     );
