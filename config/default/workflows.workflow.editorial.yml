@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - node.type.about_page
     - node.type.article
     - node.type.campaign
     - node.type.contact_help
@@ -87,6 +88,7 @@ type_settings:
         - review
   entity_types:
     node:
+      - about_page
       - article
       - campaign
       - contact_help

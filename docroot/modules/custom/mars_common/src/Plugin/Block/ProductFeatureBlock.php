@@ -62,7 +62,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $conf = $this->getConfiguration();
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#label'] = $conf['label'] ?? '';
+    $build['#title'] = $conf['title'] ?? '';
     $build['#background_color'] = $conf['background_color'] ?? '';
     $build['#image'] = $this->getImageEntity();
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
@@ -98,11 +98,11 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
-    $form['label'] = [
+    $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 50,
-      '#default_value' => $this->configuration['label'] ?? '',
+      '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['background_color'] = [
@@ -146,7 +146,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
-    $this->configuration['label'] = $form_state->getValue('label');
+    $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['background_color'] = $form_state->getValue('background_color');
     $this->configuration['image'] = $form_state->getValue('image');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];

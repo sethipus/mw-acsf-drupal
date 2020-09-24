@@ -6,22 +6,45 @@
  */
 
 use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
+use Drupal\mars_common\Form\Alter\AboutPageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\LandingPageLayoutFormAlter;
 use Drupal\node\Entity\Node;
 use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
 use Drupal\mars_common\Form\Alter\NewsletterSignUpLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\WhereToBuyLayoutFormAlter;
-use Drupal\mars_common\Form\Alter\CampaignLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\RecipeLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\ContentHubPageLayoutFormAlter;
 use Drupal\layout_builder\Form\OverridesEntityForm;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\system\Entity\Menu;
+
+/**
+ * Implements hook_menu_insert().
+ */
+function mars_common_menu_insert(Menu $menu) {
+  if (in_array($menu->id(), ['main', 'error-page-menu'])) {
+    foreach (['Home', 'Products', 'About'] as $weight => $title) {
+      $menu_link = MenuLinkContent::create([
+        'title' => $title,
+        'link' => ['uri' => 'internal:/'],
+        'menu_name' => $menu->id(),
+        'expanded' => TRUE,
+        'weight' => $weight - 3,
+      ]);
+      $menu_link->save();
+    }
+  }
+}
 
 /**
  * Implements hook_preprocess().
@@ -176,7 +199,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'product_feature_block' => [
       'variables' => [
         'eyebrow' => NULL,
-        'label' => NULL,
+        'title' => NULL,
         'background_color' => NULL,
         'image' => NULL,
         'explore_cta' => NULL,
@@ -445,53 +468,6 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
 /**
  * Implements hook_preprocess_HOOK().
  */
-function mars_common_preprocess_views_view__faq_view__block(array &$variables) {
-  $field_title = $variables['view']->getTitle();
-  $rows = $variables['rows'];
-  $variables['view']->total_rows;
-  $total_rows = $variables['view']->total_rows;
-  $items_per_page = $variables['view']->pager->options['items_per_page'];
-
-  $faq_items = [];
-  if (isset($rows[0])) {
-    foreach ($rows[0]['#rows'] as $row_key => $row_value) {
-      $qa_node = Node::load($row_value['#row']->nid);
-      $question_value = $qa_node->get('field_qa_item_question')->value;
-      $answer_value = $qa_node->get('field_qa_item_answer')->value;
-
-      $faq_items[$row_key]['content'] = [
-        'question' => $question_value,
-        'answer' => $answer_value,
-        'order' => $row_key,
-      ];
-    }
-  }
-
-  $variables['qa_items'] = $faq_items;
-  $variables['faq_title'] = $field_title;
-
-  $request = Drupal::requestStack()->getCurrentRequest();
-  if (
-    $request->query->get('items_per_page') != 'All' &&
-    !empty($variables['exposed']) &&
-    $total_rows > $items_per_page
-  ) {
-    $query_params = $request->query->all();
-    $query_params['items_per_page'] = 'All';
-    $path_query = http_build_query($query_params);
-    $current_path = $request->getPathInfo();
-
-    $cta_button_label = $variables['exposed']['items_per_page']['#options']['All'];
-    $cta_button_link = $current_path . '?' . $path_query;
-  }
-
-  $variables['cta_button_label'] = $cta_button_label ?? NULL;
-  $variables['cta_button_link'] = $cta_button_link ?? NULL;
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
 function mars_common_preprocess_block__inline_block__flexible_framer(array &$variables) {
   $field_ff_items = $variables['content']['field_ff_items_reference'];
   $field_ff_title = $variables['content']['field_ff_title']['#items']->value;
@@ -571,57 +547,72 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 
     $entity = $form_state->getFormObject()->getEntity();
 
-    $original_id = NULL;
-    if ($entity instanceof Node) {
-      $original_id = 'node.' . $entity->bundle() . '.default';
-    }
-    elseif ($entity instanceof LayoutEntityDisplayInterface) {
-      $original_id = $entity->getOriginalId();
-    }
-
-    if ($original_id == 'node.contact_help.default') {
-      $form['#validate'][] = [ContactHelpLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.newsletter_sign_up.default') {
-      $form['#validate'][] = [NewsletterSignUpLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.where_to_buy.default') {
-      $form['#validate'][] = [WhereToBuyLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.campaign.default') {
-      $form['#validate'][] = [CampaignLayoutFormAlter::class, 'validate'];
-    }
-    if (
-      $original_id == 'node.recipe.full' ||
-      $original_id == 'node.recipe.default'
-    ) {
-      $form['#validate'][] = [RecipeLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.homepage.default') {
-      $form['#validate'][] = [HomepageLayoutFormAlter::class, 'validate'];
-    }
-    if ($original_id == 'node.article.default') {
-      $form['#validate'][] = [ArticleLayoutFormAlter::class, 'validate'];
-    }
-    if (
-      $original_id == 'node.product.default' ||
-      $original_id == 'node.product_multipack.default'
-    ) {
-      $form['#validate'][] = [ProductLayoutFormAlter::class, 'validate'];
+    if ($form_alter_class = mars_common_get_layout_alter_class($entity)) {
+      $form_state->set('form_alter_class', $form_alter_class);
+      $form['#validate'][] = [$form_alter_class, 'validate'];
     }
   }
+}
 
-  $view = $form_state->get('view');
-  // Add validation for faq view title field.
-  if (
-    isset($view) &&
-    $form_id == 'views_ui_edit_display_form' &&
-    $view->get('id') == 'faq_view' &&
-    $form_state->get('type') == 'title'
-  ) {
-    $form['options']['title']['#maxlength'] = 10;
-    $form['options']['title']['#required'] = TRUE;
+/**
+ * Returns Layout Form Alter class based on Drupal entity.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Drupal entity.
+ *
+ * @todo Move this function to a Mars Common service method.
+ *
+ * @return string
+ *   Class name.
+ */
+function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
+  $original_id = NULL;
+  if ($entity instanceof Node) {
+    $original_id = 'node.' . $entity->bundle() . '.default';
   }
+  elseif ($entity instanceof LayoutEntityDisplayInterface) {
+    $original_id = $entity->getOriginalId();
+  }
+
+  switch ($original_id) {
+    case 'node.contact_help.default':
+      return ContactHelpLayoutFormAlter::class;
+
+    case 'node.newsletter_sign_up.default':
+      return NewsletterSignUpLayoutFormAlter::class;
+
+    case 'node.where_to_buy.default':
+      return WhereToBuyLayoutFormAlter::class;
+
+    case 'node.recipe.full':
+    case 'node.recipe.default':
+      return RecipeLayoutFormAlter::class;
+
+    case 'node.homepage.default':
+      return HomepageLayoutFormAlter::class;
+
+    case 'node.article.default':
+      return ArticleLayoutFormAlter::class;
+
+    case 'node.product.default':
+    case 'node.product_multipack.default':
+      return ProductLayoutFormAlter::class;
+
+    case 'node.landing_page.default':
+    case 'node.landing_page.full':
+      return LandingPageLayoutFormAlter::class;
+
+    case 'node.about_page.default':
+    case 'node.about_page.full':
+      return AboutPageLayoutFormAlter::class;
+
+    case 'node.content_hub_page.default':
+      return ContentHubPageLayoutFormAlter::class;
+
+    default:
+      return NULL;
+  }
+
 }
 
 /**
@@ -632,7 +623,7 @@ function mars_common_preprocess_page(&$variables) {
   $route_name = $current_route->getRouteName();
 
   if ($route_name === 'system.403' ||
-      $route_name === 'system.404') {
+    $route_name === 'system.404') {
     $node = Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'error_page']);
     if ($node) {
       $variables['node'] = $node[key($node)];

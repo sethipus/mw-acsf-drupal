@@ -16,6 +16,7 @@ use Drupal\file\Entity\File;
 use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\MediaHelper;
 
 /**
  * Class RecipeDetailHeroTest.
@@ -82,6 +83,13 @@ class RecipeDetailHeroTest extends UnitTestCase {
   protected $fileStorageMock;
 
   /**
+   * Media Helper.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -103,6 +111,16 @@ class RecipeDetailHeroTest extends UnitTestCase {
       )
       ->will($this->onConsecutiveCalls($this->fileStorageMock));
 
+    $this->mediaHelperMock
+      ->expects($this->any())
+      ->method('getMediaParametersById')
+      ->willReturn([
+        'image' => TRUE,
+        'src' => 'path_to_file',
+        'alt' => 'alt',
+        'title' => 'title',
+      ]);
+
     $definitions = [
       'provider' => 'test',
       'admin_label' => 'test',
@@ -114,7 +132,8 @@ class RecipeDetailHeroTest extends UnitTestCase {
       $definitions,
       $this->entityTypeManagerMock,
       $this->configFactoryMock,
-      $this->themeConfiguratorParserMock
+      $this->themeConfiguratorParserMock,
+      $this->mediaHelperMock
     );
 
     $this->themeSettings = [
@@ -143,14 +162,15 @@ class RecipeDetailHeroTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(4))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('entity_type.manager')],
         [$this->equalTo('config.factory')],
-        [$this->equalTo('mars_common.theme_configurator_parser')]
+        [$this->equalTo('mars_common.theme_configurator_parser')],
+        [$this->equalTo('mars_common.media_helper')]
       )
-      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configFactoryMock, $this->themeConfiguratorParserMock));
+      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configFactoryMock, $this->themeConfiguratorParserMock, $this->mediaHelperMock));
 
     $this->entityTypeManagerMock
       ->expects($this->exactly(1))
@@ -216,6 +236,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->mediaHelperMock = $this->createMock(MediaHelper::class);
   }
 
   /**
@@ -253,8 +274,10 @@ class RecipeDetailHeroTest extends UnitTestCase {
       ->getMock();
     $fieldEntityMock->expects($this->any())
       ->method('__get')
-      ->with('entity')
-      ->willReturn($this->createMediaMock());
+      ->willReturnMap([
+        ['entity', $this->createMediaMock()],
+        ['target_id', '1'],
+      ]);
 
     // Attach field values to calls.
     $node->expects($this->any())
@@ -270,8 +293,10 @@ class RecipeDetailHeroTest extends UnitTestCase {
     // Disable render of the video field.
     $node->expects($this->any())
       ->method('hasField')
-      ->with('field_recipe_video')
-      ->willReturn(FALSE);
+      ->willReturnMap([
+        ['field_recipe_video', FALSE],
+        ['field_recipe_image', TRUE],
+      ]);
 
     // Mock getting suffix.
     $fieldArrayMock = $this->getMockBuilder(FieldItemListInterface::class)
