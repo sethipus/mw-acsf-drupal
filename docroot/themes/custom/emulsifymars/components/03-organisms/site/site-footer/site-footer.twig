@@ -53,16 +53,19 @@
         {% endblock %}
       </div>
       <div {{ bem('region-selector', [], footer__base_class) }}>
-        {% block footer__region_selector %}
-          {% include "@atoms/text/text/07-span.twig" with {
-            span_base_class: footer__base_class ~ '__section-header',
-            span_content: region_title,
-          } %}
-          {% include "@molecules/dropdown/dropdown.twig" with {
-            dropdown_title: region_title,
-            dropdown_items: regions,
-          } %}
-        {% endblock %}
+        {% if regions %}
+          {% block footer__region_selector %}
+            {% include "@atoms/text/text/07-span.twig" with {
+              span_base_class: footer__base_class ~ '__section-header',
+              span_content: region_title,
+            } %}
+            {% include "@molecules/dropdown/dropdown.twig" with {
+              dropdown_selected_title: current_region_title,
+              dropdown_title: region_title,
+              dropdown_items: regions,
+            } %}
+          {% endblock %}
+        {% endif %}
       </div>
       <div {{ bem('info', [], footer__base_class) }}>
         {% block footer__info %}
