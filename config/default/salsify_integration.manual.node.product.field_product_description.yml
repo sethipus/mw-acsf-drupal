@@ -1,0 +1,9 @@
+field_id: 'Generic Product Description'
+salsify_id: 'Generic Product Description'
+salsify_data_type: string
+entity_type: node
+bundle: product
+field_name: field_product_description
+method: manual
+created: 1546300800
+changed: 1546300801
