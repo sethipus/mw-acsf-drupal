@@ -31,3 +31,11 @@ function mars_lighthouse_preprocess_lighthouse_gallery_item(&$variables) {
   // I don't think that we need a classes for the input in a such custom widget.
   unset($variables['attributes']['class']);
 }
+
+/**
+ * Implements hook_cron().
+ */
+function mars_lighthouse_cron() {
+  // Run queue to sync drupal media with lighthouse.
+  \Drupal::service('mars_lighthouse.sync')->runLighthouseSyncQueue();
+}

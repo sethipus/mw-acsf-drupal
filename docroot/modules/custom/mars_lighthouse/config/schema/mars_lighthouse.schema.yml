@@ -20,6 +20,9 @@ mars_lighthouse.settings:
     port:
       type: integer
       label: 'Port'
+    sync_mode:
+      type: boolean
+      label: 'Use bulk sync mode'
 
 mars_lighthouse.mapping:
   type: config_object
