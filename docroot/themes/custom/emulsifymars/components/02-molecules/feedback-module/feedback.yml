@@ -1,0 +1,29 @@
+# common settings
+theme_styles: 'twix'
+brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="243" height="243" fill="none" viewBox="0 0 243 243">
+    <path fill="#EAAA00" fill-rule="evenodd" d="M121.5 243c67.103 0 121.5-54.397 121.5-121.5C243 54.397 188.603 0 121.5 0 54.397 0 0 54.397 0 121.5 0 188.603 54.397 243 121.5 243z" clip-rule="evenodd" opacity=".2"/>
+</svg>'
+feedback_bottom_link_content: 'Contact us'
+feedback_bottom_link_url: 'https://storybook.js.org/'
+
+# variables for initial state
+feedback_heading: 'Thank you for <br/> visiting Twix!'
+feedback_paragraph_content: 'Did we have the selection you were looking for?'
+default_link_positive_content: 'Yes'
+default_link_negative_content: 'No'
+
+# positive feedback
+feedback_positive_heading: 'Great! Thanks for <br/> submitting!'
+tick: '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="19" fill="none" viewBox="0 0 26 19">
+    <path fill="#E62B1E" fill-rule="evenodd" d="M24.828.944c.546.545.546 1.43 0 1.976L9.453 18.296c-.546.546-1.431.546-1.977 0l-6.989-6.99c-.546-.545-.546-1.43 0-1.976s1.43-.546 1.977 0l6 6L22.851.945c.546-.546 1.431-.546 1.977 0z" clip-rule="evenodd"/>
+</svg>'
+polling_png_asset: '/theme_assets/twix_us_uk/png_asset/image 203.png'
+polling_png_asset_alt: 'alt text for png asset'
+
+# negative feedback
+feedback_negative_heading: 'Sorry to hear that, <br/> how can we help?'
+negative_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="136" height="136" fill="none" viewBox="0 0 136 136">
+  <path fill="#E42525" d="M68 8.5c32.725 0 59.5 26.775 59.5 59.5s-26.775 59.5-59.5 59.5S8.5 100.725 8.5 68 35.275 8.5 68 8.5zM68 0C30.388 0 0 30.387 0 68s30.387 68 68 68 68-30.387 68-68c0-37.612-30.387-68-68-68z"/>
+  <path fill="#E42525" d="M42.5 60.563c5.868 0 10.625-4.758 10.625-10.626 0-5.867-4.757-10.624-10.625-10.624s-10.625 4.756-10.625 10.624c0 5.869 4.757 10.626 10.625 10.626zM93.5 60.563c5.868 0 10.625-4.758 10.625-10.626 0-5.867-4.757-10.624-10.625-10.624s-10.625 4.756-10.625 10.624c0 5.869 4.757 10.626 10.625 10.626z"/>
+  <path stroke="#E42525" stroke-linecap="round" stroke-miterlimit="10" stroke-width="4.533" d="M98.813 96.688C93.287 85.213 81.6 77.35 68 77.35c-13.6 0-25.288 7.863-30.813 19.338"/>
+</svg>'
