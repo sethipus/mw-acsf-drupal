@@ -95,8 +95,14 @@ class SalsifyImport {
    *   The Salsify individual product data to process.
    * @param bool $force_update
    *   If set to TRUE, the updated date highwater mark will be ignored.
+   * @param string $content_type
+   *   Content type.
    */
-  public function processSalsifyItem(array $product_data, $force_update = FALSE) {}
+  public function processSalsifyItem(
+    array $product_data,
+    $force_update = FALSE,
+    $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
+  ) {}
 
   /**
    * Helper function to return a properly formatting set of field options.

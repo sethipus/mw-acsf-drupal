@@ -106,7 +106,6 @@ class SalsifyImportField extends SalsifyImport {
       // imported, then skip it. If it was, or if an update is being forced,
       // then update salsify_updated and pass it along for further processing.
       $salsify_updated = strtotime($product_data['salsify:updated_at']);
-      $force_update = TRUE;
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
         $entity->set('salsify_updated', $salsify_updated);
       }
@@ -213,6 +212,9 @@ class SalsifyImportField extends SalsifyImport {
           }
           elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'entity_ref') {
 
+            $handler_settings = $field_config->getSetting('handler_settings');
+            $target_bundles = $handler_settings['target_bundles'] ?? [];
+
             $entity_query = $this->entityTypeManager->getStorage('node')
               ->getQuery();
             $child_entities = $entity_query->condition(
@@ -220,13 +222,13 @@ class SalsifyImportField extends SalsifyImport {
                 $product_data[$field['salsify_id']],
               'IN'
               )
+              ->condition('type', $target_bundles, 'IN')
               ->execute();
 
             if ($child_entities) {
               $options = [];
-              /* @var \Drupal\node\Entity\Node $child_entity */
               foreach ($child_entities as $child_entity) {
-                $options[] = ['target_id' => $child_entity->id()];
+                $options[] = ['target_id' => $child_entity];
               }
             }
           }

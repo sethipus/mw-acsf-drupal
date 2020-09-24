@@ -294,6 +294,13 @@ class SalsifyFields extends Salsify {
    *   If set to TRUE, the product import will bypass the queue system.
    * @param bool $force_update
    *   If set to TRUE, the updated date highwater mark will be ignored.
+   *
+   * @return array
+   *   Result message.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function importProductData($process_immediately = FALSE, $force_update = FALSE) {
     try {
@@ -312,71 +319,34 @@ class SalsifyFields extends Salsify {
           $salsify_import = SalsifyImportField::create(\Drupal::getContainer());
 
           // Product variant import.
-          foreach ($product_data['products'] as $product) {
-
-            if (ProductHelper::isProductVariant($product)) {
-              $salsify_import->processSalsifyItem(
-                $product,
-                $force_update,
-                ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE
-              );
-            }
-          }
+          $this->processItems(
+            $product_data,
+            $salsify_import,
+            $force_update,
+            ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE
+          );
 
           // Product import.
-          foreach ($product_data['products'] as $product) {
-
-            if (ProductHelper::isProduct($product)) {
-              // Add child entity references.
-              if (isset($product_data['mapping'][$product['GTIN']])) {
-                foreach ($product_data['mapping'][$product['GTIN']] as $child_gtin => $child_type) {
-                  if ($child_type == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
-                    $product['CMS: Child variants'][] = $child_gtin;
-                  }
-                }
-              }
-
-              $salsify_import->processSalsifyItem(
-                $product,
-                $force_update,
-                ProductHelper::PRODUCT_CONTENT_TYPE
-              );
-            }
-          }
+          $this->processItems(
+            $product_data,
+            $salsify_import,
+            $force_update,
+            ProductHelper::PRODUCT_CONTENT_TYPE
+          );
 
           // Product multipack import.
-          foreach ($product_data['products'] as $product) {
-            if (ProductHelper::isProductMultipack($product)) {
-              // Add child entity references.
-              if (isset($product_data['mapping'][$product['GTIN']])) {
-                foreach ($product_data['mapping'][$product['GTIN']] as $child_gtin => $child_type) {
-                  if ($child_type == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
-                    $product['CMS: Child variants'][] = $child_gtin;
-                  }
-                  elseif ($child_type == ProductHelper::PRODUCT_CONTENT_TYPE) {
-                    $product['CMS: Child products'][] = $child_gtin;
-                  }
-                }
-              }
+          $this->processItems(
+            $product_data,
+            $salsify_import,
+            $force_update,
+            ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE
+          );
 
-              $salsify_import->processSalsifyItem(
-                $product,
-                $force_update,
-                ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE
-              );
-            }
-          }
           $message = $this->t('The Salsify data import is complete.');
         }
         // Add each product value into a queue for background processing.
         else {
-          /** @var \Drupal\Core\Queue\QueueInterface $queue */
-          $queue = $this->queueFactory
-            ->get('salsify_integration_content_import');
-          foreach ($product_data['products'] as $product) {
-            $product['force_update'] = $force_update;
-            $queue->createItem($product);
-          }
+          $this->addItemsToQueue($product_data, $force_update);
           $message = $this->t('The Salsify data import queue was created.');
         }
 
@@ -407,6 +377,81 @@ class SalsifyFields extends Salsify {
       ];
     }
 
+  }
+
+  /**
+   * Process salsify items.
+   *
+   * @param mixed $product_data
+   *   Array of salsify products.
+   * @param \Drupal\salsify_integration\SalsifyImport $salsify_import
+   *   Salsify import service.
+   * @param bool $force_update
+   *   Force update.
+   * @param string $content_type
+   *   Content type for import.
+   */
+  private function processItems(
+    &$product_data,
+    SalsifyImport $salsify_import,
+    bool $force_update,
+    $content_type
+  ) {
+    foreach ($product_data['products'] as $product) {
+      // Add child entity references.
+      $this->addChildLinks($product_data['mapping'], $product);
+      $product['CMS: Market'] = $product_data['market'] ?? NULL;
+
+      if (ProductHelper::getProductType($product) == $content_type) {
+        $salsify_import->processSalsifyItem(
+          $product,
+          $force_update,
+          $content_type
+        );
+      }
+    }
+  }
+
+  /**
+   * Add queue items.
+   *
+   * @param array $product_data
+   *   Salsify data.
+   * @param bool $force_update
+   *   Force update flag.
+   */
+  private function addItemsToQueue(array &$product_data, bool $force_update) {
+    $queue = $this->queueFactory
+      ->get('salsify_integration_content_import');
+    foreach ($product_data['products'] as $product) {
+      // Add child entity references.
+      $this->addChildLinks($product_data['mapping'], $product);
+      $product['CMS: Market'] = $product_data['market'] ?? NULL;
+
+      $product['force_update'] = $force_update;
+      $queue->createItem($product);
+    }
+  }
+
+  /**
+   * Add child items as a custom field.
+   *
+   * @param array $mapping
+   *   Relationship of parent and child records.
+   * @param array $product
+   *   Product record.
+   */
+  private function addChildLinks(array $mapping, array &$product) {
+    if (isset($mapping[$product['GTIN']])) {
+      foreach ($mapping[$product['GTIN']] as $child_gtin => $child_type) {
+        if ($child_type == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
+          $product['CMS: Child variants'][] = $child_gtin;
+        }
+        elseif ($child_type == ProductHelper::PRODUCT_CONTENT_TYPE) {
+          $product['CMS: Child products'][] = $child_gtin;
+        }
+      }
+    }
   }
 
   /**
