@@ -636,10 +636,11 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function mars_common_form_poll_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['question']['widget'][0]['value']['#title'] = 'Title';
   $form['question']['widget'][0]['value']['#maxlength'] = 50;
   $form['choice']['widget']['#title'] = 'Responses';
+  $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
 }
 
 /**
