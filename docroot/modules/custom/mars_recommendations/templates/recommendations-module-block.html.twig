@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Template for the Recommendations Module component.
+ *
+ * Available variables:
+ * - title: Block title.
+ * - recommended_items: Array of rendered article/recipe/product cards.
+ */
+#}
+{% include "@molecules/recommendations-module/recommendations-module.twig" with {
+  theme_styles: 'drupal',
+  recommendation_title: title,
+  recommended_items: recommended_items
+} %}
