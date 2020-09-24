@@ -1,7 +1,7 @@
 .polling {
   display: block;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin: 0 auto;
   max-width: 99%;
   box-shadow: 1px 1px 3px #ccc;
@@ -28,19 +28,19 @@
     @include xs {
       width: 18rem;
       height: 18rem;
-      bottom: -10rem;
+      bottom: -13rem;
     }
 
     @include medium {
       width: 25rem;
       height: 25rem;
-      bottom: -12rem;
+      bottom: -15rem;
     }
 
     @include large {
       width: 35rem;
       height: 35rem;
-      bottom: -18rem;
+      bottom: -22rem;
     }
   }
 
@@ -111,6 +111,7 @@
         text-align: center;
         width: 100%;
         max-width: 43.3rem;
+        cursor: pointer;
       }
     }
 
@@ -162,7 +163,7 @@
 
   &__label-text {
     position: relative;
-    padding-left: 2rem;
+    padding-left: 3rem;
     z-index: 2;
   }
 
@@ -226,7 +227,9 @@
 
 
     &--submitted {
-      &[checked="true"], &[checked="checked"] {
+
+      &[checked="true"],
+      &[checked="checked"] {
         &::before {
           content: '';
           position: absolute;
