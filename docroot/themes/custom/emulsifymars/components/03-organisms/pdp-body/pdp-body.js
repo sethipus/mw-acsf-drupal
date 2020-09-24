@@ -19,6 +19,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           pagination: {
             el: `[data-swiper-index="${index}"] + .swiper-pagination`,
             type: 'bullets',
+            clickable: true,
           },
         });
 

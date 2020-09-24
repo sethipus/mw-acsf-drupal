@@ -336,8 +336,34 @@ product_product_recommendations:
     content:
       label: Content
 
+landing_page_introduction:
+  label: 'Landing Page - Introduction'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
 about_page_introduction:
   label: 'About Page - Introduction'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+landing_page_storytelling:
+  label: 'Landing Page - Storytelling'
   path: layouts/base_onecol
   template: layout--base--onecol
   library: layout_discovery/onecol
@@ -362,8 +388,34 @@ about_page_storytelling:
     content:
       label: Content
 
+landing_page_pathing:
+  label: 'Landing Page - Pathing'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
 about_page_newsletter:
   label: 'About Page - Newsletter'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
+landing_page_community:
+  label: 'Landing Page - Community'
   path: layouts/base_onecol
   template: layout--base--onecol
   library: layout_discovery/onecol
