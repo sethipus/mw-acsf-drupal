@@ -5,7 +5,7 @@ namespace Drupal\mars_recommendations\Plugin\DynamicRecommendationsStrategy;
 use Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginBase;
 
 /**
- * Default Dynamic recommendations strategy plugin implementation.
+ * Product recommendations strategy plugin implementation.
  *
  * @DynamicRecommendationsStrategy(
  *   id = "product",

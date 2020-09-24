@@ -12,7 +12,7 @@ class RecipeLayoutFormAlter extends LayoutFormAlterBase {
   const FIXED_SECTIONS = [
     'recipe_recipe_hero',
     'recipe_recipe_body',
-    // 'recipe_recipe_recommendations',
+    'recipe_recipe_recommendations',
   ];
 
 }
