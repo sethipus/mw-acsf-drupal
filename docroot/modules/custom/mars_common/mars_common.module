@@ -23,6 +23,7 @@ use Drupal\mars_common\Form\Alter\RecipeLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\ContentHubPageLayoutFormAlter;
 use Drupal\layout_builder\Form\OverridesEntityForm;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\system\Entity\Menu;
@@ -604,6 +605,9 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
     case 'node.about_page.default':
     case 'node.about_page.full':
       return AboutPageLayoutFormAlter::class;
+
+    case 'node.content_hub_page.default':
+      return ContentHubPageLayoutFormAlter::class;
 
     default:
       return NULL;
