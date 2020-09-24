@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.content_hub_page.field_content_hub_image
     - field.field.node.content_hub_page.layout_builder__layout
     - node.type.content_hub_page
+    - views.view.multipack_product_card_grid
   module:
     - layout_builder
     - layout_builder_restrictions
@@ -15,6 +16,7 @@ dependencies:
     - mars_common
     - text
     - user
+    - views
 third_party_settings:
   layout_builder:
     allow_custom: true
@@ -66,7 +68,20 @@ third_party_settings:
         layout_id: content_hub_card_grid_w_filters
         layout_settings:
           label: 'Card Grid w/Optional Filters'
-        components: {  }
+        components:
+          9517a72d-5000-427f-b92e-a7c935817ada:
+            uuid: 9517a72d-5000-427f-b92e-a7c935817ada
+            region: content
+            configuration:
+              id: 'views_block:multipack_product_card_grid-block_multipack_product'
+              label: ''
+              provider: views
+              label_display: ''
+              views_label: ''
+              items_per_page: '4'
+              context_mapping: {  }
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
