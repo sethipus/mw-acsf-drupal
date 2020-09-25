@@ -11,6 +11,10 @@
     position: absolute;
     left: 20px;
     bottom: 13px;
+
+    @include xl {
+      bottom: 16px;
+    }
   }
 
   &__field {
@@ -21,7 +25,7 @@
     font-size: 16px;
     line-height: 50px;
     color: clr(primary);
-    border-radius: variable(border-radius);
+    border-radius: variable(card-border-radius);
     padding-left: 50px;
 
     @include medium {

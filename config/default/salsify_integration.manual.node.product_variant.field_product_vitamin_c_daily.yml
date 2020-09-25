@@ -1,0 +1,9 @@
+field_id: 'Vitamin C Pct Daily Value'
+salsify_id: 'Vitamin C Pct Daily Value'
+salsify_data_type: string
+entity_type: node
+bundle: product_variant
+field_name: field_product_vitamin_c_daily
+method: manual
+created: 1546300800
+changed: 1546300801

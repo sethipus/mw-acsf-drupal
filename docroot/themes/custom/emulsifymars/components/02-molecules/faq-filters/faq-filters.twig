@@ -1,0 +1,25 @@
+{% set faq_filters_base_class = faq_base_class|default('faq-filters') %}
+
+<div {{bem(faq_filters_base_class)}} data-theme={{theme_styles}}>
+
+
+  {% block faq_filters__search %}
+    <div {{ bem('search', [], faq_filters_base_class) }}>
+      <div class="search-input" data-theme="twix">
+        {{ search_form }}
+      </div>
+    </div>
+  {% endblock %}
+
+  {% block faq_filters__filters %}
+    <div {{ bem('filters', [], faq_filters_base_class) }}>
+      {% for link in facetLinks %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_base_class: link.class,
+          default_link_content: link.text,
+          default_link_attributes: link.attr
+        } %}
+      {% endfor %}
+    </div>
+  {% endblock %}
+</div>

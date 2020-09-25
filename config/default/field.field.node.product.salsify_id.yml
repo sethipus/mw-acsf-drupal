@@ -1,0 +1,19 @@
+uuid: 89b12704-dd20-49e5-8b75-e6cba160cc03
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.salsify_id
+    - node.type.product
+id: node.product.salsify_id
+field_name: salsify_id
+entity_type: node
+bundle: product
+label: 'Salsify Sync ID'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

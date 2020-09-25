@@ -1,0 +1,9 @@
+field_id: 'Serving Size'
+salsify_id: 'Serving Size'
+salsify_data_type: string
+entity_type: node
+bundle: product_variant
+field_name: field_product_serving_size
+method: manual
+created: 1546300800
+changed: 1546300801
