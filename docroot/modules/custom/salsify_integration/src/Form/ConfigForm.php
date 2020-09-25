@@ -277,6 +277,41 @@ class ConfigForm extends ConfigFormBase {
       '#default_value' => $config->get('keep_fields_on_uninstall'),
     ];
 
+    $mail_config = $this->config('user.mail');
+
+    $email_token_help = $this->t('Available tokens are: [site:name],
+    [site:url], [user:display-name], [user:account-name], [user:mail],
+    [site:login-url], [site:url-brief], [salsify:import_errors],
+    [salsify:deleted_items] .');
+
+    $form['email_salsify_import'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Email notification settings'),
+      '#collapsible' => TRUE,
+      '#group' => 'email_settings',
+    ];
+
+    $form['email_salsify_import']['email'] = [
+      '#type' => 'email',
+      '#title' => $this->t('Email'),
+      '#default_value' => $config->get('salsify_import.email'),
+      '#maxlength' => 180,
+    ];
+
+    $form['email_salsify_import']['email_salsify_import_subject'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Subject'),
+      '#default_value' => $mail_config->get('salsify_import.subject'),
+      '#maxlength' => 180,
+    ];
+    $form['email_salsify_import']['email_salsify_import_body'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Body'),
+      '#default_value' => $mail_config->get('salsify_import.body'),
+      '#description' => $this->t('Edit the import report email messages.') . ' ' . $email_token_help,
+      '#rows' => 15,
+    ];
+
     return $form;
   }
 
@@ -340,9 +375,14 @@ class ConfigForm extends ConfigFormBase {
     $config->set('entity_reference_allow', $form_state->getValue('entity_reference_allow'));
     $config->set('process_media_assets', $form_state->getValue('process_media_assets'));
     $config->set('import_method', $form_state->getValue('import_method'));
-
+    $config->set('salsify_import.email', $form_state->getValue('email'));
     // Save the configuration.
     $config->save();
+
+    $this->configFactory->getEditable('user.mail')
+      ->set('salsify_import.subject', $form_state->getValue('email_salsify_import_subject'))
+      ->set('salsify_import.body', $form_state->getValue('email_salsify_import_body')['value'])
+      ->save();
 
     // Flush the cache entries tagged with 'salsify_config' to force the API
     // to lookup the field configurations again for the field mapping form.

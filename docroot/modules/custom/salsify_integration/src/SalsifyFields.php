@@ -7,6 +7,8 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
@@ -29,6 +31,20 @@ class SalsifyFields extends Salsify {
   private $salsifyProductRepository;
 
   /**
+   * The Mail manager service.
+   *
+   * @var \Drupal\Core\Mail\MailManagerInterface
+   */
+  private $mailManager;
+
+  /**
+   * The Language manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  private $languageManager;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
    * @param \Psr\Log\LoggerInterface $logger
@@ -47,6 +63,10 @@ class SalsifyFields extends Salsify {
    *   Queue factory service.
    * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
    *   Salsify product repository service.
+   * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
+   *   Mail manager service.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   Language manager service.
    */
   public function __construct(
     LoggerInterface $logger,
@@ -56,7 +76,9 @@ class SalsifyFields extends Salsify {
     EntityFieldManagerInterface $entity_field_manager,
     CacheBackendInterface $cache_salsify,
     QueueFactory $queue_factory,
-    SalsifyProductRepository $salsify_product_repository
+    SalsifyProductRepository $salsify_product_repository,
+    MailManagerInterface $mail_manager,
+    LanguageManagerInterface $language_manager
   ) {
     parent::__construct(
       $logger,
@@ -68,6 +90,8 @@ class SalsifyFields extends Salsify {
       $queue_factory
     );
     $this->salsifyProductRepository = $salsify_product_repository;
+    $this->mailManager = $mail_manager;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -82,7 +106,9 @@ class SalsifyFields extends Salsify {
       $container->get('entity_field.manager'),
       $container->get('cache.default'),
       $container->get('queue'),
-      $container->get('salsify_integration.salsify_product_repository')
+      $container->get('salsify_integration.salsify_product_repository'),
+      $container->get('plugin.manager.mail'),
+      $container->get('language_manager')
     );
   }
 
@@ -436,8 +462,12 @@ class SalsifyFields extends Salsify {
         }
 
         // Unpublish products in case of deletion at Salsify side.
-        $this->salsifyProductRepository
+        $deleted_items = $this->salsifyProductRepository
           ->unpublishProducts($product_data['products']);
+
+        // Send import report.
+        // TODO: pass items.
+        $this->sendReport([], $deleted_items);
 
         return [
           'status' => 'status',
@@ -488,6 +518,7 @@ class SalsifyFields extends Salsify {
   ) {
     $updated_products = [];
     $created_products = [];
+    $validation_errors = [];
 
     foreach ($product_data['products'] as $product) {
       // Add child entity references.
@@ -501,18 +532,20 @@ class SalsifyFields extends Salsify {
           $content_type
         );
 
-        if ($result == SalsifyImport::PROCESS_RESULT_UPDATED) {
+        if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
           $updated_products[] = $product['GTIN'];
         }
-        elseif ($result == SalsifyImport::PROCESS_RESULT_CREATED) {
+        elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
           $created_products[] = $product['GTIN'];
         }
+        $validation_errors[] = $result['validation_errors'];
       }
     }
 
     return [
       'updated_products' => $updated_products,
       'created_products' => $created_products,
+      'validation_error' => $validation_errors,
     ];
   }
 
@@ -924,6 +957,29 @@ class SalsifyFields extends Salsify {
 
     $form_storage->setComponent($field_name, $field_options)->save();
 
+  }
+
+  /**
+   * Send report email.
+   *
+   * @param array $validation_errors
+   *   Validation errors.
+   * @param array $deleted_items
+   *   Deleted items.
+   */
+  private function sendReport(array $validation_errors, array $deleted_items) {
+    $current_langcode = $this->languageManager->getCurrentLanguage()->getId();
+    $email = $this->config->get('salsify_import.email');
+
+    if (isset($email)) {
+      $this->mailManager->mail(
+        'user',
+        'salsify_import',
+        $email,
+        $current_langcode,
+        []
+      );
+    }
   }
 
 }

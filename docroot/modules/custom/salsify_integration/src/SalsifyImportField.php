@@ -35,6 +35,13 @@ class SalsifyImportField extends SalsifyImport {
   private $salsifyProductRepository;
 
   /**
+   * Product data helper.
+   *
+   * @var \Drupal\salsify_integration\ProductHelper
+   */
+  private $productDataHelper;
+
+  /**
    * SalsifyImportField constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -49,6 +56,8 @@ class SalsifyImportField extends SalsifyImport {
    *   The module handler interface.
    * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
    *   The salsify product repository.
+   * @param \Drupal\salsify_integration\ProductHelper $product_data_helper
+   *   The product data helper.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
@@ -56,11 +65,13 @@ class SalsifyImportField extends SalsifyImport {
     EntityTypeManagerInterface $entity_type_manager,
     CacheBackendInterface $cache_salsify,
     ModuleHandlerInterface $module_handler,
-    SalsifyProductRepository $salsify_product_repository
+    SalsifyProductRepository $salsify_product_repository,
+    ProductHelper $product_data_helper
   ) {
     parent::__construct($config_factory, $entity_query, $entity_type_manager, $cache_salsify);
     $this->moduleHandler = $module_handler;
     $this->salsifyProductRepository = $salsify_product_repository;
+    $this->productDataHelper = $product_data_helper;
   }
 
   /**
@@ -73,7 +84,8 @@ class SalsifyImportField extends SalsifyImport {
       $container->get('entity_type.manager'),
       $container->get('cache.default'),
       $container->get('module_handler'),
-      $container->get('salsify_integration.salsify_product_repository')
+      $container->get('salsify_integration.salsify_product_repository'),
+      $container->get('salsify_integration.product_data_helper')
     );
   }
 
@@ -87,7 +99,7 @@ class SalsifyImportField extends SalsifyImport {
    * @param string $content_type
    *   Content type.
    *
-   * @return string
+   * @return array
    *   Result status of processing (not updated, updated, or created)
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
@@ -99,7 +111,10 @@ class SalsifyImportField extends SalsifyImport {
     $force_update = FALSE,
     $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
   ) {
-    $process_result = self::PROCESS_RESULT_NOT_UPDATED;
+    $process_result = [
+      'import_result' => self::PROCESS_RESULT_NOT_UPDATED,
+      'validation_errors' => [],
+    ];
     $entity_type = $this->config->get('entity_type');
     $entity_bundle = $content_type;
     // E$entity_bundle = $this->config->get('bundle');.
@@ -130,7 +145,7 @@ class SalsifyImportField extends SalsifyImport {
       $salsify_updated = strtotime($product_data['salsify:updated_at']);
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
         $entity->set('salsify_updated', $salsify_updated);
-        $process_result = self::PROCESS_RESULT_UPDATED;
+        $process_result['import_result'] = self::PROCESS_RESULT_UPDATED;
       }
       else {
         return $process_result;
@@ -161,7 +176,7 @@ class SalsifyImportField extends SalsifyImport {
       $entity = $this->entityTypeManager->getStorage($entity_type)->create($entity_values);
       $entity->getTypedData();
       $entity->save();
-      $process_result = self::PROCESS_RESULT_CREATED;
+      $process_result['import_result'] = self::PROCESS_RESULT_CREATED;
     }
 
     // Load the configurable fields for this content type.
@@ -173,7 +188,9 @@ class SalsifyImportField extends SalsifyImport {
     // Set the field data against the Salsify node. Remove the data from the
     // serialized list to prevent redundancy.
     foreach ($salsify_field_mapping as $field) {
-      if (isset($product_data[$field['salsify_id']])) {
+      if (isset($product_data[$field['salsify_id']]) &&
+        $this->productDataHelper->validateDataRecord($product_data, $field)) {
+
         $options = $this->getFieldOptions((array) $field, $product_data[$field['salsify_id']]);
         /* @var \Drupal\field\Entity\FieldConfig $field_config */
         $field_config = $filtered_fields[$field['field_name']];
@@ -259,6 +276,10 @@ class SalsifyImportField extends SalsifyImport {
 
           $entity->set($field['field_name'], $options);
         }
+      }
+      elseif (!$this->productDataHelper->validateDataRecord($product_data, $field)) {
+        $process_result['validation_errors'][] = $product_data['GTIN'] . ' ' .
+          $field['salsify_id'] . ' ' . $field['salsify_data_type'];
       }
     }
 

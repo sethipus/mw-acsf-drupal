@@ -113,7 +113,7 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
     $this->logger->info($this->t(
       'The Salsify record was @result: @gtin.', [
         '@gtin' => $data['GTIN'],
-        '@result' => $process_result,
+        '@result' => $process_result['import_result'] ?? NULL,
       ]
     ));
   }
