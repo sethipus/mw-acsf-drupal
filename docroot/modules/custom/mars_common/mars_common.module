@@ -649,6 +649,22 @@ function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state
   $form['question']['widget'][0]['value']['#maxlength'] = 50;
   $form['choice']['widget']['#title'] = 'Responses';
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
+
+  $form['field_standard_variation']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
+  $form['field_positive_feedback']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
+  $form['field_negative_feedback']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
 }
 
 /**
