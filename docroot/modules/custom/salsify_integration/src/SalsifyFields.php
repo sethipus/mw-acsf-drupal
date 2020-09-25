@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -389,7 +390,7 @@ class SalsifyFields extends Salsify {
         // Handle cases where the user wants to perform all of the data
         // processing immediately instead of waiting for the queue to finish.
         if ($process_immediately) {
-          $salsify_import = SalsifyImportField::create(\Drupal::getContainer());
+          $salsify_import = SalsifyImportField::create(Drupal::getContainer());
 
           // Product variant import.
           $variant_process_result = $this->processItems(
@@ -599,7 +600,7 @@ class SalsifyFields extends Salsify {
             if ($field_handler == 'default:taxonomy_term' && !empty($field_handler_settings['target_bundles'])) {
               // Only use the first taxonomy in the list.
               $vid = current($field_handler_settings['target_bundles']);
-              $term_import = SalsifyImportTaxonomyTerm::create(\Drupal::getContainer());
+              $term_import = SalsifyImportTaxonomyTerm::create(Drupal::getContainer());
               $salsify_ids = array_keys($salsify_values);
               $salsify_ids_array = array_chunk($salsify_ids, 50);
               foreach ($salsify_ids_array as $salsify_ids_chunk) {
@@ -860,7 +861,7 @@ class SalsifyFields extends Salsify {
    */
   public static function createFieldViewDisplay($entity_type, $entity_bundle, $field_name, $view_mode) {
     /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_storage */
-    $view_storage = \Drupal::entityTypeManager()
+    $view_storage = Drupal::entityTypeManager()
       ->getStorage('entity_view_display')
       ->load($entity_type . '.' . $entity_bundle . '.' . $view_mode);
 
@@ -872,7 +873,7 @@ class SalsifyFields extends Salsify {
         'mode' => $view_mode,
         'status' => TRUE,
       ];
-      $view_storage = \Drupal::entityTypeManager()
+      $view_storage = Drupal::entityTypeManager()
         ->getStorage('entity_view_display')
         ->create($values);
     }
@@ -898,11 +899,11 @@ class SalsifyFields extends Salsify {
   public static function createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_type) {
     /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $form_storage */
     $form_storage_id = $entity_type . '.' . $entity_bundle . '.default';
-    $form_storage = \Drupal::entityTypeManager()
+    $form_storage = Drupal::entityTypeManager()
       ->getStorage('entity_form_display')
       ->load($form_storage_id);
     if (!is_object($form_storage)) {
-      $form_storage = \Drupal::entityTypeManager()->getStorage('entity_form_display')
+      $form_storage = Drupal::entityTypeManager()->getStorage('entity_form_display')
         ->create([
           'id' => $form_storage_id,
           'bundle' => $entity_bundle,

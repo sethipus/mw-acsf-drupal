@@ -231,6 +231,7 @@ third_party_settings:
               - newsletter_signup_form
               - recommendations_module
               - story_highlight
+              - poll_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
