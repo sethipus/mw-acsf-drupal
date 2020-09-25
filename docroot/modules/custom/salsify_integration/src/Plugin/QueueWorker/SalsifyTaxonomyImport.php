@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration\Plugin\QueueWorker;
 
+use Drupal;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\salsify_integration\SalsifyImportTaxonomyTerm;
 
@@ -22,7 +23,7 @@ class SalsifyTaxonomyImport extends QueueWorkerBase {
   public function processItem($data) {
     // Create a new SalsifyImportTaxnomyTerm object and pass the Salsify data
     // through.
-    $salsify_import = SalsifyImportTaxonomyTerm::create(\Drupal::getContainer());
+    $salsify_import = SalsifyImportTaxonomyTerm::create(Drupal::getContainer());
     $salsify_import->processSalsifyTaxonomyTermItems($data['field_mapping'], $data['salisfy_ids'], $data['salsify_field_data']);
   }
 

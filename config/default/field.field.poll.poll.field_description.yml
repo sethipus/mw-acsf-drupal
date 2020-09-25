@@ -1,0 +1,20 @@
+uuid: 449bc5c7-91d3-464e-87e0-0a0d0cf25dc5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.poll.field_description
+  module:
+    - poll
+id: poll.poll.field_description
+field_name: field_description
+entity_type: poll
+bundle: poll
+label: Description
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

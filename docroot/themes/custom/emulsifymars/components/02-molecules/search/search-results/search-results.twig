@@ -1,4 +1,7 @@
-<div class="search-results-container">
+{% if search_results %}
+  {% set results_exist_class = ' search-results-container--active' %}
+{% endif %}
+<div class="search-results-container{{ results_exist_class }}">
   {% if search_results %}
     {% include "@atoms/text/text/01-paragraph.twig" with {
       paragraph_content: 'Results'|t ~ ':',

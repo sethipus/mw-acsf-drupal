@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal;
 use Drupal\field\Entity\FieldConfig;
 
 /**
@@ -35,7 +36,7 @@ class SalsifyImportTaxonomyTerm extends SalsifyImport {
     // $field['entity_type'], $field['bundle'], $field['field_name']
     // );
     if (empty($salsify_field_data)) {
-      $salsify = Salsify::create(\Drupal::getContainer());
+      $salsify = Salsify::create(Drupal::getContainer());
       $salsify_data = $salsify->getProductData();
       $salsify_field_data = $salsify_data['fields'][$field['salsify_id']];
     }
@@ -44,7 +45,7 @@ class SalsifyImportTaxonomyTerm extends SalsifyImport {
     // on the given taxonomy vocabulary.
     $salsify_id_field = FieldConfig::loadByName('taxonomy_term', $vid, $field_name);
     if (is_null($salsify_id_field)) {
-      $salsify_fields = SalsifyFields::create(\Drupal::getContainer());
+      $salsify_fields = SalsifyFields::create(Drupal::getContainer());
       $salsify_fields->createDynamicField($salsify_field_data, $field_name, 'taxonomy_term', $vid);
     }
 
