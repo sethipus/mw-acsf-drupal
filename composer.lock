@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32fea5b825bcb5313cbde685c8f35283",
+    "content-hash": "53e738bd4590dcf57b46e62955547a31",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -3341,17 +3341,17 @@
         },
         {
             "name": "drupal/acquia_lift",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/acquia_lift.git",
-                "reference": "8.x-4.2"
+                "reference": "8.x-4.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/acquia_lift-8.x-4.2.zip",
-                "reference": "8.x-4.2",
-                "shasum": "124a5f6560f2756585619d854c1299534b57ef43"
+                "url": "https://ftp.drupal.org/files/projects/acquia_lift-8.x-4.3.zip",
+                "reference": "8.x-4.3",
+                "shasum": "9414aef6b802b6a6c7fa1c82ca804ebe5cf87276"
             },
             "require": {
                 "drupal/core": "^8.8 || ^9"
@@ -3362,8 +3362,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-4.2",
-                    "datestamp": "1591131635",
+                    "version": "8.x-4.3",
+                    "datestamp": "1600460602",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -9468,9 +9468,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
@@ -9541,14 +9538,11 @@
             "name": "drupal/panels_ipe",
             "version": "4.4.0",
             "require": {
-                "drupal/core": "*",
+                "drupal/core": "^8",
                 "drupal/panels": "self.version"
             },
             "type": "metapackage",
             "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
