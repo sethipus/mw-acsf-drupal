@@ -4,6 +4,9 @@ status: true
 dependencies:
   config:
     - field.field.poll.poll.field_description
+    - field.field.poll.poll.field_negative_feedback
+    - field.field.poll.poll.field_positive_feedback
+    - field.field.poll.poll.field_standard_variation
     - field.field.poll.poll.field_submit_cta
     - field.field.poll.poll.field_thank_you_message
     - field.field.poll.poll.field_type
@@ -30,7 +33,31 @@ id: poll.poll.default
 targetEntityType: poll
 bundle: poll
 mode: default
-content: {  }
+content:
+  field_negative_feedback:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_positive_feedback:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_standard_variation:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
 hidden:
   field_description: true
   field_submit_cta: true

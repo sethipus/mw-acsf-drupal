@@ -702,6 +702,42 @@ function mars_common_field_widget_form_alter(
     $element['choice']['#size'] = 40;
     $element['choice']['#maxlength'] = 25;
   }
+
+  // Validate poll form.
+  if (isset($context['form']['#attributes']['class'][0])
+    && $context['form']['#attributes']['class'][0] === 'poll-form'
+    && $field_name === 'field_type') {
+    $userInputs = $form_state->getUserInput();
+    if (isset($userInputs['field_type'])
+      && $userInputs['field_type'] === 'feedback') {
+      $element['#element_validate'][] = '_mars_common_feedback_field_validate';
+    }
+  }
+}
+
+/**
+ * Validate poll form when feedback type is selected.
+ */
+function _mars_common_feedback_field_validate($element, &$form_state, $form) {
+  $userInputs = $form_state->getUserInput();
+
+  $choiceNumber = 0;
+  if (is_array($userInputs['choice'])) {
+    foreach ($userInputs['choice'] as $choice) {
+      if ($choice['choice'] !== '') {
+        $choiceNumber++;
+      }
+    }
+  }
+
+  if (isset($userInputs['_drupal_ajax'])) {
+    if ($choiceNumber >= 2) {
+      $form_state->setErrorByName('choice', t('Exactly two responses allowed.'));
+    }
+  }
+  elseif ($choiceNumber !== 2) {
+    $form_state->setErrorByName('choice', t('Exactly two responses required.'));
+  }
 }
 
 /**
