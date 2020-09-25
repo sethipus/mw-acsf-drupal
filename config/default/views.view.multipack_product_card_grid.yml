@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_view_mode.node.product_card
+    - core.entity_view_mode.node.card
     - node.type.product
   module:
     - node
@@ -58,7 +58,7 @@ display:
         type: 'entity:node'
         options:
           relationship: none
-          view_mode: product_card
+          view_mode: card
       fields:
         title:
           id: title
