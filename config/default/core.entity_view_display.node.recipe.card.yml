@@ -310,6 +310,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  content_moderation_control: true
   field_product_occasions: true
   field_product_reference: true
   field_recipe_brand_initiatives: true
