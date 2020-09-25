@@ -5,6 +5,7 @@ dependencies:
   config:
     - node.type.about_page
     - node.type.article
+    - node.type.campaign
     - node.type.contact_help
     - node.type.error_page
     - node.type.faq
@@ -89,6 +90,7 @@ type_settings:
     node:
       - about_page
       - article
+      - campaign
       - contact_help
       - error_page
       - faq
