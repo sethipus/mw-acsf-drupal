@@ -88,6 +88,25 @@ interface LighthouseClientInterface {
   public function getAssetById(string $id, array $params = []): array;
 
   /**
+   * Get an assets data by its Ids.
+   *
+   * @param array $ids
+   *   Asset Id.
+   * @param string $date
+   *   The latest modified date.
+   * @param array $params
+   *   Headers and access token.
+   *
+   * @return array
+   *   An asset data.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   */
+  public function getAssetsByIds(array $ids, string $date, array $params = []): array;
+
+  /**
    * Brands list.
    *
    * @param array $params
