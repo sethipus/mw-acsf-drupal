@@ -26,7 +26,7 @@ class Product extends DynamicRecommendationsStrategyPluginBase {
     /** @var \Drupal\node\Entity\Node $node */
     $node = $this->getContextValue('node');
 
-    if ($node->getType() !== 'product') {
+    if (!in_array($node->getType(), ['product', 'product_multipack'])) {
       return $this->getFallbackPlugin()->generate();
     }
 
