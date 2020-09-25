@@ -1,6 +1,7 @@
 .filter-block {
   padding-bottom: 10px;
   border-bottom: 1px solid clr(subcolor-4);
+  position: relative;
 
   &:last-child {
     border-bottom: none;
@@ -8,6 +9,7 @@
 
   @include xl {
     flex-basis: 230px;
+    max-width: 230px;
     flex-grow: 0;
     border: none;
 
@@ -17,7 +19,8 @@
       }
     }
 
-    &:last-child {
+    &:last-child,
+    &:nth-child(4n) {
       .filter-title {
         border-right: none;
       }
@@ -30,6 +33,8 @@
       color: clr(secondary);
       position: relative;
       white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
 
       &::before {
         content: '';
@@ -46,6 +51,7 @@
 
     .filter-checkboxes {
       position: absolute;
+      z-index: 1;
       padding: 0 12px;
       box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
       border-radius: 10px;
