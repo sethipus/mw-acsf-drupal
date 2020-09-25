@@ -25,7 +25,7 @@
         "drupal/cog": "^1.0.0",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
-        "drupal/core-recommended": "8.9.1",
+        "drupal/core-recommended": "^8.9",
         "drupal/devel": "^2.0.0",
         "drupal/entityqueue": "^1.1",
         "drupal/environment_indicator": "^3.7",
@@ -136,11 +136,11 @@
             "drupal/config_ignore": {
                 "correct drush filtering": "https://www.drupal.org/files/issues/2018-10-14/support-for-export-2857247-24.patch"
             },
-            "drupal/core": {
-                "views": "https://www.drupal.org/files/issues/2020-05-30/cannot-use-relationship-2457999-236.patch"
-            },
             "drupal/jquery_colorpicker": {
                 "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
+            },
+            "drupal/acquia_connector": {
+                "Enable multisite search support": "https://www.drupal.org/files/issues/2020-05-04/acquia_connector-2871721-29.patch"
             }
         }
     },

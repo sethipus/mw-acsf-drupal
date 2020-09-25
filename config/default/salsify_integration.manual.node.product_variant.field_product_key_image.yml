@@ -1,0 +1,9 @@
+field_id: 'Hero Image'
+salsify_id: 'Hero Image'
+salsify_data_type: digital_asset
+entity_type: node
+bundle: product_variant
+field_name: field_product_key_image
+method: manual
+created: 1546300800
+changed: 1546300801

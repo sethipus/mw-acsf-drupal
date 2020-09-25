@@ -2,17 +2,16 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
-use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -146,14 +145,40 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['language_selector'] ?? TRUE,
     ];
     $form['alert_banner'] = [
-      '#type' => 'text_format',
+      '#type' => 'details',
       '#title' => $this->t('Alert banner'),
+      '#open' => TRUE,
+    ];
+    $form['alert_banner']['alert_banner_text'] = [
+      '#type' => 'text_format',
+      '#title' => $this->t('Alert Banner text'),
       '#description' => $this->t('This text will appear in Alert Banner.'),
-      '#default_value' => $config['alert_banner']['value'] ?? '',
-      '#format' => $config['alert_banner']['format'] ?? 'plain_text',
+      '#default_value' => $config['alert_banner']['alert_banner_text']['value'] ?? '',
+      '#format' => $config['alert_banner']['alert_banner_text']['format'] ?? 'plain_text',
+      '#maxlength' => 100,
+    ];
+    $form['alert_banner']['alert_banner_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Alert Banner link'),
+      '#description' => $this->t('Ex. http://mars.com, /products'),
+      '#default_value' => $config['alert_banner']['alert_banner_url'] ?? '',
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    if ($alert_banner_url = $form_state->getValue('alert_banner')['alert_banner_url']) {
+      // Check if textfield contains relative or absolute url.
+      if (!(UrlHelper::isValid($alert_banner_url, TRUE) ||
+        UrlHelper::isValid($alert_banner_url))) {
+        $message = $this->t('Please check url (internal or external)');
+        $form_state->setErrorByName('alert_banner_url', $message);
+      }
+    }
   }
 
   /**
@@ -177,7 +202,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#logo'] = $theme_settings['logo']['path'] ?? '';
 
-    $build['#alert_banner'] = $config['alert_banner']['value'];
+    $build['#alert_banner_text'] = $config['alert_banner']['alert_banner_text']['value'];
+    $build['#alert_banner_url'] = $config['alert_banner']['alert_banner_url'];
     if ($config['search_block']) {
       $host = $this->request->getSchemeAndHttpHost();
       $build['#search_menu'] = [['title' => 'Search', 'url' => $host]];
@@ -245,31 +271,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    *   Search form HTML.
    */
   protected function buildSearchForm() {
-    $form = [];
-    $view_id = 'acquia_search';
-    $display_id = 'page';
-    $view = Views::getView($view_id);
-    if ($view) {
-      $view->setDisplay($display_id);
-      $view->initHandlers();
-      $form_state = (new FormState())
-        ->setStorage([
-          'view' => $view,
-          'display' => &$view->display_handler->display,
-          'rerender' => TRUE,
-        ])
-        ->setMethod('get')
-        ->setAlwaysProcess()
-        ->disableRedirect();
-      $form_state->set('rerender', NULL);
-      $form = $this->formBuilder->buildForm('\Drupal\views\Form\ViewsExposedForm', $form_state);
-      $form['search']['#attributes']['class'][] = 'mars-autocomplete-field';
-      $form['search']['#attributes']['data-view_id'] = $view_id;
-      $form['search']['#attributes']['data-display_id'] = $display_id;
-      $form['search']['#title_display'] = 'none';
-      $form['search']['#placeholder'] = $this->t('Search');
-      unset($form['actions']['submit']);
-    }
+    $form = $this->formBuilder->getForm('\Drupal\mars_search\Form\SearchOverlayForm');
+    unset($form['actions']['submit']);
 
     return $this->renderer->render($form);
   }

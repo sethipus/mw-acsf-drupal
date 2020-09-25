@@ -1,0 +1,7 @@
+.pdp-body {
+  display: none;
+
+  &[data-pdp-size-active="true"] {
+     display: block;
+  }
+}
