@@ -67,5 +67,4 @@ interface SearchHelperInterface {
    */
   public function getSearchQueryDefaultOptions();
 
-
 }
