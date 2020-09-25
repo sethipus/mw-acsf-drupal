@@ -74,7 +74,8 @@ class SalsifyImportMedia extends SalsifyImport {
     $media_entities = [];
 
     foreach ($salsify_media_ids as $salsify_media_id) {
-      $asset_data = $salsify_data['digital_assets'][$salsify_media_id];
+      $product_data['salsify:digital_assets'] = Salsify::rekeyArray($product_data['salsify:digital_assets'], 'salsify:id');
+      $asset_data = $product_data['salsify:digital_assets'][$salsify_media_id];
 
       // Only update or create media in the website that has been uploaded
       // successfully into Salsify.
