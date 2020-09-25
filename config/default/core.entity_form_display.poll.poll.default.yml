@@ -14,6 +14,13 @@ targetEntityType: poll
 bundle: poll
 mode: default
 content:
+  anonymous_vote_allow:
+    type: boolean_checkbox
+    weight: 6
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   choice:
     type: poll_choice_default
     settings: {  }
@@ -76,7 +83,6 @@ content:
     region: content
     third_party_settings: {  }
 hidden:
-  anonymous_vote_allow: true
   cancel_vote_allow: true
   result_vote_allow: true
   runtime: true

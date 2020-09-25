@@ -146,7 +146,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Question
+          label: Title
           exclude: false
           alter:
             alter_text: false
@@ -593,7 +593,7 @@ display:
         - url
         - url.query_args
         - user.permissions
-      max-age: 0
+      max-age: -1
       tags: {  }
   page_1:
     display_plugin: page
@@ -610,5 +610,5 @@ display:
         - url
         - url.query_args
         - user.permissions
-      max-age: 0
+      max-age: -1
       tags: {  }
