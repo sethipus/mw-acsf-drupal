@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * The Salsify integration install file.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Clean up the dynamically added fields to prevent leaving behind large
+ * quantities of data that shoudn't remain in the system.
+ */
+function salsify_integration_uninstall() {
+  $config = \Drupal::config('salsify_integration.settings');
+  if (!$config->get('keep_fields_on_uninstall')) {
+    // Load all of the affected entity fields and group them by type in order
+    // to remove the dynamic fields from the system.
+    $configs = \Drupal::configFactory()->listAll('salsify_mapping.dynamic');
+    $grouped_types = [];
+    foreach ($configs as $config_name) {
+      $config = \Drupal::config($config_name);
+      $values = $config->getRawData();
+      $grouped_types[$values['entity_type']][$values['bundle']][$values['field_name']] = $values['field_name'];
+    }
+
+    foreach ($grouped_types as $entity_type => $bundles) {
+      foreach ($bundles as $bundle => $bundled_fields) {
+        // Load the fields, filter them by the fields in the Salsify mapping
+        // table and remove them before uninstalling the module.
+        $fields = \Drupal::service('entity_field.manager')
+          ->getFieldDefinitions($entity_type, $bundle);
+        $filtered_fields = array_filter(
+          $fields, function ($field_definition) {
+            return $field_definition instanceof FieldConfig;
+          }
+        );
+        $salsify_fields = array_intersect_key($filtered_fields, $bundled_fields);
+        foreach ($salsify_fields as $field) {
+          $field->delete();
+        }
+      }
+    }
+  }
+}

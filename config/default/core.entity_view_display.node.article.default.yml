@@ -18,6 +18,7 @@ dependencies:
     - layout_library
     - mars_articles
     - mars_common
+    - mars_recommendations
     - user
 third_party_settings:
   layout_builder:
@@ -66,7 +67,22 @@ third_party_settings:
         layout_id: article_content_recommendations
         layout_settings:
           label: 'Content Recommendations'
-        components: {  }
+        components:
+          b15bc0e7-6fb7-4d5f-b8ca-219fb935602d:
+            uuid: b15bc0e7-6fb7-4d5f-b8ca-219fb935602d
+            region: content
+            configuration:
+              id: recommendations_module
+              label: 'MARS: Recommendations Module'
+              provider: mars_recommendations
+              label_display: ''
+              title: ''
+              population_plugin_id: dynamic
+              population_plugin_configuration: null
+              context_mapping:
+                node: layout_builder.entity
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -86,6 +102,7 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
+      - Facets
       - 'Flexible driver'
       - Forms
       - 'Global elements'
@@ -94,6 +111,7 @@ third_party_settings:
       - 'Lists (Views)'
       - 'Mars Common'
       - 'Mars Product'
+      - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
       - Product
@@ -106,7 +124,9 @@ third_party_settings:
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
+        Facets: {  }
         'Flexible driver': {  }
+        'Mars Search': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - article_article_header
@@ -118,6 +138,33 @@ third_party_settings:
         - article_article_body
         - article_content_recommendations
       whitelisted_blocks:
+        article_article_header:
+          all_regions:
+            Article:
+              - article_header
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
         article_article_body:
           all_regions:
             Article:
@@ -160,33 +207,6 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        article_article_header:
-          all_regions:
-            Article:
-              - article_header
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
         article_content_recommendations:
           all_regions:
             Article: {  }
@@ -196,13 +216,16 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            Facets: {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - recommendations_module
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -234,6 +257,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  content_moderation_control: true
   field_article_brand_initiatives: true
   field_article_description: true
   field_article_image: true

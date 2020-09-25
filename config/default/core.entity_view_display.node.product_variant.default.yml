@@ -52,6 +52,8 @@ dependencies:
     - field.field.node.product_variant.field_product_vitamin_c_daily
     - field.field.node.product_variant.field_product_vitamin_d
     - field.field.node.product_variant.field_product_vitamin_d_daily
+    - field.field.node.product_variant.salsify_id
+    - field.field.node.product_variant.salsify_updated
     - node.type.product_variant
   module:
     - options
@@ -473,4 +475,6 @@ hidden:
   content_moderation_control: true
   field_product_ingredients: true
   published_at: true
+  salsify_id: true
+  salsify_updated: true
   search_api_excerpt: true

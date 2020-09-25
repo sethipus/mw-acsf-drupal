@@ -86,7 +86,7 @@ class NoResultsBlock extends BlockBase implements ContainerFactoryPluginInterfac
   public function build() {
     $search_text = $this->request->query->get('search');
 
-    $linksMenu = $this->buildMenu('main');
+    $linksMenu = $this->buildMenu('error-page-menu');
     $links = [];
     foreach ($linksMenu as $linkMenu) {
       $links[] = [
