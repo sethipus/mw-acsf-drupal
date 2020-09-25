@@ -59,6 +59,17 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'ajax_card_grid_border_radius' => NULL,
       ],
     ],
+    'mars_search_grid_block' => [
+      'variables' => [
+        'items' => [],
+        'theme_styles' => '',
+        'graphic_divider' => NULL,
+        'ajax_card_grid_heading' => NULL,
+        'ajax_card_grid_link_text' => NULL,
+        'ajax_card_grid_link_attributes' => [],
+        'ajax_card_grid_border_radius' => NULL,
+      ],
+    ],
   ];
 }
 

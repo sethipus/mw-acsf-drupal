@@ -3,7 +3,10 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_search\SearchHelperInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -65,6 +68,27 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $entityTypeManager;
 
   /**
+   * Search helper.
+   *
+   * @var \Drupal\mars_search\SearchHelperInterface
+   */
+  protected $searchHelper;
+
+  /**
+   * ThemeConfiguratorParser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
+   * The node view builder.
+   *
+   * @var \Drupal\node\NodeViewBuilder
+   */
+  protected $nodeViewBuilder;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -72,7 +96,10 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('mars_search.search_helper'),
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('entity_type.manager')->getViewBuilder('node')
     );
   }
 
@@ -83,17 +110,43 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityTypeManagerInterface $entity_type_manager) {
+    EntityTypeManagerInterface $entity_type_manager,
+    SearchHelperInterface $search_helper,
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    EntityViewBuilderInterface $node_view_builder
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
+    $this->searchHelper = $search_helper;
+    $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->nodeViewBuilder = $node_view_builder;
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    // TODO: Implement build() method.
-    return [];
+    $config = $this->getConfiguration();
+    $build['#items'] = [];
+
+    // Getting default search options.
+    $options = $this->searchHelper->getSearchQueryDefaultOptions();
+
+    // Adjusting them with grid specific configuration.
+    if (!empty($config['content_type'])) {
+      if ($allowed_types = array_filter($config['content_type'])) {
+        $options['conditions'][] = ['type', $allowed_types, 'IN'];
+      }
+    }
+    $query_search_results = $this->searchHelper->getSearchResults($options);
+    foreach ($query_search_results['results'] as $node) {
+      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+    }
+
+    $build['#theme_styles'] = 'drupal';
+
+    $build['#theme'] = 'mars_search_grid_block';
+    return $build;
   }
 
   /**
