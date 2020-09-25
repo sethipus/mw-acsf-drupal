@@ -1,0 +1,20 @@
+uuid: 03084c1c-b88c-45ca-a925-91e3b3cb3bb3
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_workflow
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  lightning_workflow:
+    workflow: editorial
+name: Campaign
+type: campaign
+description: 'Campaign template'
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false
