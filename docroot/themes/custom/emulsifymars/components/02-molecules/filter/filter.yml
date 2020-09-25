@@ -1,4 +1,5 @@
 filter_title: 'Brand Initiatives'
+active_filters_count: 3
 checkboxes:
   - title: 'Bold Campaign'
     key: 'bold_campaign'
