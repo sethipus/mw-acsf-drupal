@@ -12,6 +12,10 @@ feedback_paragraph_content: 'Did we have the selection you were looking for?'
 default_link_positive_content: 'Yes'
 default_link_negative_content: 'No'
 
+choices:
+  'yes': 'yes'
+  'no': 'no'
+
 # positive feedback
 feedback_positive_heading: 'Great! Thanks for <br/> submitting!'
 tick: '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="19" fill="none" viewBox="0 0 26 19">

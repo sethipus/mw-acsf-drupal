@@ -19,6 +19,24 @@
     border-top: 12px solid clr(secondary);
   }
 
+  &__radio {
+    display: none;
+  }
+
+  .default-link {
+    span {
+      position: relative;
+      z-index: 3;
+      transition: color .4s ease;
+    }
+
+    &:hover {
+      &::after {
+        height: 170px;
+      }
+    }
+  }
+
   &__brand-shape {
     position: absolute;
     display: block;
