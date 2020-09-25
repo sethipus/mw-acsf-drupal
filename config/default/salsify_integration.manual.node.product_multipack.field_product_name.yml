@@ -1,0 +1,9 @@
+field_id: 'Generic Product Name'
+salsify_id: 'Generic Product Name'
+salsify_data_type: string
+entity_type: node
+bundle: product_multipack
+field_name: field_product_name
+method: manual
+created: 1546300800
+changed: 1546300801

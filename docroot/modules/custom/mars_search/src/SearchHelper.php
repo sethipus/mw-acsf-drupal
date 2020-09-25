@@ -50,6 +50,11 @@ class SearchHelper implements SearchHelperInterface {
       return $this->searches[$searcher_key];
     }
 
+    // Populating default query options if they are not explicitly specified.
+    if (!$options) {
+      $options = $this->getSearchQueryDefaultOptions();
+    }
+
     // Getting search keywords.
     $keys = $this->request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
 
@@ -109,9 +114,17 @@ class SearchHelper implements SearchHelperInterface {
       $results[] = $resultItem->getOriginalObject()->getValue();
     }
 
+    // It's better to trim facet values in a single place.
+    $facets_data = $query_results->getExtraData('search_api_facets', []);
+    foreach ($facets_data as $facet_key => $facet) {
+      foreach ($facet as $facet_delta => $facet_value) {
+        $facets_data[$facet_key][$facet_delta]['filter'] = trim($facets_data[$facet_key][$facet_delta]['filter'], '"');
+      }
+    }
+
     $this->searches[$searcher_key] = [
       'results' => $results,
-      'facets' => $query_results->getExtraData('search_api_facets', []),
+      'facets' => $facets_data,
       'resultsCount' => $query_results->getResultCount(),
     ];
 
@@ -152,31 +165,45 @@ class SearchHelper implements SearchHelperInterface {
     foreach ($facets as $facet) {
       // "!" means all items without facets so ignore this "facet".
       if ($facet['filter'] != '!') {
-        // Trimmed value of the facet from SOLR.
-        $filter_value = trim($facet['filter'], '"');
         // HTML class for facet link.
         $facet_link_class = '';
 
         // That means facet is active.
-        if ($this->request->query->get($facet_key) == $filter_value) {
+        if ($this->request->query->get($facet_key) == $facet['filter']) {
           $facet_link_class = 'active';
           // Removing facet query from active filter to allow deselect it.
           unset($options['query'][$facet_key]);
         }
         else {
           // Adding facet filter to the query.
-          $options['query'][$facet_key] = $filter_value;
+          $options['query'][$facet_key] = $facet['filter'];
         }
 
         $url->setOptions($options);
         $facets_links[] = [
           'class' => $facet_link_class,
-          'text' => $filter_value,
+          'text' => $facet['filter'],
           'attr' => ['href' => $url->toString()],
         ];
       }
     }
     return $facets_links;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSearchQueryDefaultOptions() {
+    return [
+      'conditions' => [
+        // We don't need FAQ nodes in most cases.
+        ['type', 'faq', '<>'],
+      ],
+      'limit' => 12,
+      'sort' => [
+        'created' => 'DESC',
+      ],
+    ];
   }
 
 }

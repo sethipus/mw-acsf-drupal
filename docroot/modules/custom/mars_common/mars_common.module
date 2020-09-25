@@ -24,6 +24,7 @@ use Drupal\mars_common\Form\Alter\HomepageLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ArticleLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ProductLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\ContentHubPageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\CampaignLayoutFormAlter;
 use Drupal\layout_builder\Form\OverridesEntityForm;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\system\Entity\Menu;
@@ -211,7 +212,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'product_feature_block' => [
       'variables' => [
         'eyebrow' => NULL,
-        'label' => NULL,
+        'title' => NULL,
         'background_color' => NULL,
         'image' => NULL,
         'explore_cta' => NULL,
@@ -631,6 +632,9 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
     case 'node.content_hub_page.default':
       return ContentHubPageLayoutFormAlter::class;
 
+    case 'node.campaign.default':
+      return CampaignLayoutFormAlter::class;
+
     default:
       return NULL;
   }
@@ -655,7 +659,7 @@ function mars_common_preprocess_page(&$variables) {
   $route_name = $current_route->getRouteName();
 
   if ($route_name === 'system.403' ||
-      $route_name === 'system.404') {
+    $route_name === 'system.404') {
     $node = Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'error_page']);
     if ($node) {
       $variables['node'] = $node[key($node)];
