@@ -141,6 +141,19 @@ where_to_buy_community:
     content:
       label: Content
 
+campaign_section:
+  label: 'Campaign - Section'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
 recipe_recipe_hero:
   label: 'Recipe - Recipe hero'
   path: layouts/base_onecol

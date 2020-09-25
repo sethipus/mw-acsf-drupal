@@ -1,6 +1,12 @@
 title: 'Filter By:'
+applied_filters_count: 3
+applied_filters_list:
+  - Nut Free
+  - Cocoa For Generations
+  - Bars/Countlines
 items:
   - filter_title: 'Diet & Allergens'
+    active_filters_count: 1
     checkboxes:
       - title: 'Gluten Free'
         key: 'gluten_free'
@@ -27,6 +33,7 @@ items:
         key: 'halva'
 
   - filter_title: 'Brand Initiatives'
+    active_filters_count: 1
     checkboxes:
       - title: 'Bold Campaign'
         key: 'bold_campaign'
@@ -43,6 +50,7 @@ items:
         key: 'rainforest_alliance'
 
   - filter_title: 'Format'
+    active_filters_count: 1
     checkboxes:
       - title: 'Bars/Countlines'
         key: 'bars_countlines'

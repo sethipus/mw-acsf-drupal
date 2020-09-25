@@ -59,4 +59,12 @@ interface SearchHelperInterface {
    */
   public function prepareFacetsLinks(array $facets, $facet_key);
 
+  /**
+   * Returns default options for search query.
+   *
+   * @return array
+   *   Array with options.
+   */
+  public function getSearchQueryDefaultOptions();
+
 }
