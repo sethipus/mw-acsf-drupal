@@ -61,10 +61,13 @@ class LighthouseSyncService {
       'bundle' => self::LIGHTHOUSE_VIDEO_BUNDLE,
     ]);
     $all_media = array_merge($media_images, $media_videos);
-
+    $media_chunks = array_chunk($all_media, self::SIZE_CHUNK);
     /** @var \Drupal\entityqueue\EntityQueueInterface $queue */
     $queue = $this->queueFactory->get('lighthouse_sync_queue');
-    $queue->createItem($all_media);
+    foreach ($media_chunks as $media_chunk) {
+      $queue->createItem($media_chunk);
+    }
+
   }
 
 }
