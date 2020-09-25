@@ -120,6 +120,7 @@ panels: 4.4.0
 path: 8.8.1
 path_alias: 8.8.1
 pathauto: 1.6.0
+poll: 1.4.0
 publication_date: 2.0.0-beta1
 quickedit: 8.8.1
 rdf: 8.8.1

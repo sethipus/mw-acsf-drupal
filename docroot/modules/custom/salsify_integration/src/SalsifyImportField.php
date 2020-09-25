@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -182,7 +183,7 @@ class SalsifyImportField extends SalsifyImport {
         // entities if the Media entity module is enabled.
         if ($this->moduleHandler->moduleExists('media')) {
           if ($field['salsify_data_type'] == 'digital_asset') {
-            $media_import = SalsifyImportMedia::create(\Drupal::getContainer());
+            $media_import = SalsifyImportMedia::create(Drupal::getContainer());
             /* @var \Drupal\media_entity\Entity\Media $media */
             $media_entities = $media_import->processSalsifyMediaItem($field, $product_data);
             if ($media_entities) {
@@ -223,7 +224,7 @@ class SalsifyImportField extends SalsifyImport {
           // For taxonomy term mapping, add processing for the terms coming in
           // from Salsify.
           elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'enumerated') {
-            $term_import = SalsifyImportTaxonomyTerm::create(\Drupal::getContainer());
+            $term_import = SalsifyImportTaxonomyTerm::create(Drupal::getContainer());
             $salsify_values = is_array($product_data[$field['salsify_id']]) ? $product_data[$field['salsify_id']] : [$product_data[$field['salsify_id']]];
             $term_entities = $term_import->getTaxonomyTerms('salsify_id', $salsify_values);
             if ($term_entities) {
