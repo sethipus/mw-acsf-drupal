@@ -31,6 +31,12 @@
  */
 #}
 
+{% block search_header__input %}
+  <div class="search-input" data-theme="drupal">
+    {{ input_form | render }}
+  </div>
+{% endblock %}
+
 {% include "@organisms/grid/ajax-card-grid.twig" with {
   theme_styles: theme_styles,
 } %}

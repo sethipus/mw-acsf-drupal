@@ -62,6 +62,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
     'mars_search_grid_block' => [
       'variables' => [
         'items' => [],
+        'input_form' => [],
         'theme_styles' => '',
         'graphic_divider' => NULL,
         'ajax_card_grid_heading' => NULL,

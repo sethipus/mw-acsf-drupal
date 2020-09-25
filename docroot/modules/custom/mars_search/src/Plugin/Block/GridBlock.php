@@ -4,8 +4,10 @@ namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -98,6 +100,13 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $nodeViewBuilder;
 
   /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -108,7 +117,8 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('entity_type.manager'),
       $container->get('mars_search.search_helper'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('entity_type.manager')->getViewBuilder('node')
+      $container->get('entity_type.manager')->getViewBuilder('node'),
+      $container->get('form_builder')
     );
   }
 
@@ -122,13 +132,15 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     EntityTypeManagerInterface $entity_type_manager,
     SearchHelperInterface $search_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    EntityViewBuilderInterface $node_view_builder
+    EntityViewBuilderInterface $node_view_builder,
+    FormBuilderInterface $form_builder
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->searchHelper = $search_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeViewBuilder = $node_view_builder;
+    $this->formBuilder = $form_builder;
   }
 
   /**
@@ -150,6 +162,12 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $query_search_results = $this->searchHelper->getSearchResults($options);
     foreach ($query_search_results['results'] as $node) {
       $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+    }
+
+    // Populating search form.
+    if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
+      // Preparing search form.
+      $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class);
     }
 
     $build['#theme_styles'] = 'drupal';
