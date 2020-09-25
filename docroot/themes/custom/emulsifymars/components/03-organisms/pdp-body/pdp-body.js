@@ -35,6 +35,14 @@ Drupal.behaviors.pdpBody = {
       });
     });
 
+    const $allergenContainer = $('.pdp-allergen__container');
+    
+    $allergenContainer.each(function(){
+      if ($(this).children().length === 0) {
+        $(this).parent().hide();
+      }
+    });
+
     //size control
     function updateSizeSlider(event, sizeId) {
       event.preventDefault();
