@@ -7,13 +7,13 @@
  */
 #}
 
+{{ attach_library('emulsifymars/feedback') }}
+
 {% include "@molecules/feedback-module/feedback.twig" with {
-  theme_styles: 'drupal',
+  theme_styles: 'twix',
   feedback_heading: question,
   feedback_paragraph_content: form.poll['#value'].field_description.value,
-  default_link_positive_content: 'true',
-  default_link_negative_content: 'false',
+  choices: form.choice['#options'],
+  feedback_button: form.actions.vote,
   hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
 } %}
-
-{#choices: form.choice['#options'],#}

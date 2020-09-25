@@ -34,6 +34,8 @@
       &::after {
         height: 170px;
       }
+
+      cursor: pointer;
     }
   }
 
@@ -249,5 +251,9 @@
       bottom: -5rem;
       right: -8.3rem;
     }
+  }
+
+  #edit-vote {
+    display: none;
   }
 }
