@@ -256,8 +256,4 @@ class SalsifyImportMedia extends SalsifyImport {
     return file_move($file, $uri, FileSystemInterface::EXISTS_RENAME);
   }
 
-  private function getDigitalAssetById(array $digital_assets, $id) {
-
-  }
-
 }

@@ -2,9 +2,17 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class Salsify.
@@ -12,6 +20,71 @@ use Drupal\field\Entity\FieldStorageConfig;
  * @package Drupal\salsify_integration
  */
 class SalsifyFields extends Salsify {
+
+  /**
+   * The salsify product repository.
+   *
+   * @var \Drupal\salsify_integration\SalsifyProductRepository
+   */
+  private $salsifyProductRepository;
+
+  /**
+   * Constructs a \Drupal\salsify_integration\Salsify object.
+   *
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The logger interface.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory interface.
+   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
+   *   The query factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   The entity field manager.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache_salsify
+   *   The cache object associated with the Salsify bin.
+   * @param \Drupal\Core\Queue\QueueFactory $queue_factory
+   *   Queue factory service.
+   * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
+   *   Salsify product repository service.
+   */
+  public function __construct(
+    LoggerInterface $logger,
+    ConfigFactoryInterface $config_factory,
+    QueryFactory $entity_query,
+    EntityTypeManagerInterface $entity_type_manager,
+    EntityFieldManagerInterface $entity_field_manager,
+    CacheBackendInterface $cache_salsify,
+    QueueFactory $queue_factory,
+    SalsifyProductRepository $salsify_product_repository
+  ) {
+    parent::__construct(
+      $logger,
+      $config_factory,
+      $entity_query,
+      $entity_type_manager,
+      $entity_field_manager,
+      $cache_salsify,
+      $queue_factory
+    );
+    $this->salsifyProductRepository = $salsify_product_repository;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('logger.factory')->get('salsify_integration'),
+      $container->get('config.factory'),
+      $container->get('entity.query'),
+      $container->get('entity_type.manager'),
+      $container->get('entity_field.manager'),
+      $container->get('cache.default'),
+      $container->get('queue'),
+      $container->get('salsify_integration.salsify_product_repository')
+    );
+  }
 
   /**
    * The main Salsify product field import function.
@@ -319,7 +392,7 @@ class SalsifyFields extends Salsify {
           $salsify_import = SalsifyImportField::create(\Drupal::getContainer());
 
           // Product variant import.
-          $this->processItems(
+          $variant_process_result = $this->processItems(
             $product_data,
             $salsify_import,
             $force_update,
@@ -327,7 +400,7 @@ class SalsifyFields extends Salsify {
           );
 
           // Product import.
-          $this->processItems(
+          $product_process_result = $this->processItems(
             $product_data,
             $salsify_import,
             $force_update,
@@ -335,12 +408,24 @@ class SalsifyFields extends Salsify {
           );
 
           // Product multipack import.
-          $this->processItems(
+          $multipack_process_result = $this->processItems(
             $product_data,
             $salsify_import,
             $force_update,
             ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE
           );
+
+          $process_result = array_merge_recursive(
+            $variant_process_result,
+            $product_process_result,
+            $multipack_process_result
+          );
+          $this->logger->info($this->t(
+            'The Salsify data import is complete. @created @updated', [
+              '@created' => 'Created products: ' . implode(', ', $process_result['created_products']) . '.',
+              '@updated' => 'Updated products: ' . implode(', ', $process_result['updated_products']) . '.',
+            ]
+          ));
 
           $message = $this->t('The Salsify data import is complete.');
         }
@@ -351,7 +436,8 @@ class SalsifyFields extends Salsify {
         }
 
         // Unpublish products in case of deletion at Salsify side.
-        $this->unpublishProducts($product_data['products']);
+        $this->salsifyProductRepository
+          ->unpublishProducts($product_data['products']);
 
         return [
           'status' => 'status',
@@ -390,6 +476,9 @@ class SalsifyFields extends Salsify {
    *   Force update.
    * @param string $content_type
    *   Content type for import.
+   *
+   * @return array
+   *   Array of updated and created GTINs.
    */
   private function processItems(
     &$product_data,
@@ -397,19 +486,34 @@ class SalsifyFields extends Salsify {
     bool $force_update,
     $content_type
   ) {
+    $updated_products = [];
+    $created_products = [];
+
     foreach ($product_data['products'] as $product) {
       // Add child entity references.
       $this->addChildLinks($product_data['mapping'], $product);
       $product['CMS: Market'] = $product_data['market'] ?? NULL;
 
       if (ProductHelper::getProductType($product) == $content_type) {
-        $salsify_import->processSalsifyItem(
+        $result = $salsify_import->processSalsifyItem(
           $product,
           $force_update,
           $content_type
         );
+
+        if ($result == SalsifyImport::PROCESS_RESULT_UPDATED) {
+          $updated_products[] = $product['GTIN'];
+        }
+        elseif ($result == SalsifyImport::PROCESS_RESULT_CREATED) {
+          $created_products[] = $product['GTIN'];
+        }
       }
     }
+
+    return [
+      'updated_products' => $updated_products,
+      'created_products' => $created_products,
+    ];
   }
 
   /**
@@ -452,42 +556,6 @@ class SalsifyFields extends Salsify {
         }
       }
     }
-  }
-
-  /**
-   * Unpublish deleted at salsify side products.
-   *
-   * @param array $products
-   *   Products array.
-   *
-   * @return array|int
-   *   Ids deleted entities.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   */
-  private function unpublishProducts(array $products) {
-    $products_for_delete = $this->entityTypeManager
-      ->getStorage('node')
-      ->getQuery()
-      ->condition(
-        'type',
-        ['product', 'product_variant', 'product_multipack'],
-        'IN'
-      )
-      ->condition('salsify_id', array_column($products, 'salsify:id'), 'NOT IN')
-      ->execute();
-
-    $product_entities_delete = $this->entityTypeManager
-      ->getStorage('node')
-      ->loadMultiple($products_for_delete);
-
-    $this->entityTypeManager
-      ->getStorage('node')
-      ->delete($product_entities_delete);
-
-    return array_values($products_for_delete);
   }
 
   /**

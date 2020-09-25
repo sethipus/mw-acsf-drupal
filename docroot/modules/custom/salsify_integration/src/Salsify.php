@@ -191,10 +191,7 @@ class Salsify {
       ]);
       $response = $generate_product_feed->getBody()->__toString();
       $mapping = $this->getEntitiesMapping($response);
-      $mapping['00040000004059'] = ['00040000004356' => 'product_variant', '00040000527060' => 'product_variant'];
-      $mapping['00040000535447'] = ['00040000004356' => 'product_variant', '00040000527060' => 'product_variant', '00040000004059' => 'product'];
       $response = $this->filterProductsInResponse($response);
-      // $response = $this->addChildEntitiesField($response);
       $data = [
         'attributes' => $this->getAttributesByProducts($response),
         'attribute_values' => $this->getAttributeValuesByProducts($response),
