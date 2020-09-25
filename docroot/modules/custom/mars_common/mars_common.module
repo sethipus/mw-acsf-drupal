@@ -665,6 +665,16 @@ function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state
       ':input[name="field_type"]' => ['value' => 'feedback'],
     ],
   ];
+  $form['field_contact_us_label']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
+  $form['field_contact_us_link']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
 }
 
 /**
@@ -783,7 +793,8 @@ function mars_common_entity_bundle_field_info_alter(
  * Implements hook_theme_suggestions_HOOK_alter().
  */
 function mars_common_theme_suggestions_poll_vote_alter(array &$suggestions, array $variables) {
-  if (isset($variables['form']['#entity']) && $variables['form']['#entity']->field_type->value == 'feedback') {
+  if ((isset($variables['form']['#entity']->field_type) && $variables['form']['#entity']->field_type->value == 'feedback')
+  || (isset($variables['poll']) && $variables['poll']->field_type->value == 'feedback')) {
     $suggestions[] = 'poll_vote__feedback';
   }
 }
@@ -792,7 +803,8 @@ function mars_common_theme_suggestions_poll_vote_alter(array &$suggestions, arra
  * Implements hook_theme_suggestions_HOOK_alter().
  */
 function mars_common_theme_suggestions_poll_results_alter(array &$suggestions, array $variables) {
-  if (isset($variables['form']['#entity']) && $variables['form']['#entity']->field_type->value == 'feedback') {
+  if ((isset($variables['form']['#entity']->field_type) && $variables['form']['#entity']->field_type->value == 'feedback')
+    || (isset($variables['poll']) && $variables['poll']->field_type->value == 'feedback')) {
     $suggestions[] = 'poll_results__feedback';
   }
 }

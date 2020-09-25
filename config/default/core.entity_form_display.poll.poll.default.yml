@@ -3,6 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.poll.poll.field_contact_us_label
+    - field.field.poll.poll.field_contact_us_link
     - field.field.poll.poll.field_description
     - field.field.poll.poll.field_negative_feedback
     - field.field.poll.poll.field_positive_feedback
@@ -30,6 +32,22 @@ content:
     weight: 3
     region: content
     third_party_settings: {  }
+  field_contact_us_label:
+    weight: 11
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_contact_us_link:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_description:
     weight: 2
     settings:

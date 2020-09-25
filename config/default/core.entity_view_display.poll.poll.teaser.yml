@@ -4,6 +4,8 @@ status: false
 dependencies:
   config:
     - core.entity_view_mode.poll.teaser
+    - field.field.poll.poll.field_contact_us_label
+    - field.field.poll.poll.field_contact_us_link
     - field.field.poll.poll.field_description
     - field.field.poll.poll.field_negative_feedback
     - field.field.poll.poll.field_positive_feedback
@@ -41,6 +43,8 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_contact_us_label: true
+  field_contact_us_link: true
   field_description: true
   field_negative_feedback: true
   field_positive_feedback: true

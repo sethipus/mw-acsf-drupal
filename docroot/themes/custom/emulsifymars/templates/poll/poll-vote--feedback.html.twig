@@ -15,5 +15,7 @@
   feedback_paragraph_content: form.poll['#value'].field_description.value,
   choices: form.choice['#options'],
   feedback_button: form.actions.vote,
+  feedback_bottom_link_content: poll.field_contact_us_label.value,
+  feedback_bottom_link_url: poll.field_contact_us_link.value,
   hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
 } %}

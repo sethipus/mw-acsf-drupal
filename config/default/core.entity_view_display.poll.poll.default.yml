@@ -3,6 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.poll.poll.field_contact_us_label
+    - field.field.poll.poll.field_contact_us_link
     - field.field.poll.poll.field_description
     - field.field.poll.poll.field_negative_feedback
     - field.field.poll.poll.field_positive_feedback
@@ -33,33 +35,14 @@ id: poll.poll.default
 targetEntityType: poll
 bundle: poll
 mode: default
-content:
-  field_negative_feedback:
-    weight: 2
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
-  field_positive_feedback:
-    weight: 1
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
-  field_standard_variation:
-    weight: 0
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
+content: {  }
 hidden:
+  field_contact_us_label: true
+  field_contact_us_link: true
   field_description: true
+  field_negative_feedback: true
+  field_positive_feedback: true
+  field_standard_variation: true
   field_submit_cta: true
   field_thank_you_message: true
   field_type: true
