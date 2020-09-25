@@ -107,10 +107,24 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $build['#region_selector'] = [];
       if (!empty($terms)) {
         foreach ($terms as $term) {
+          $region_url = '#';
+          $url = $term->get('field_mars_url')->first();
+          if (!is_null($url)) {
+            $region_url = $url->getUrl();
+          }
           $build['#region_selector'][] = [
             'title' => $term->getName(),
-            'url' => $term->get('field_mars_url')->first()->getUrl(),
+            'url' => $region_url,
           ];
+        }
+        $terms_objects = $this->termStorage->loadByProperties([
+          'vid' => $vid,
+          'field_default_region' => TRUE,
+        ]);
+        if ($terms_objects) {
+          /** @var \Drupal\taxonomy\TermInterface $default_region */
+          $default_region = reset($terms_objects);
+          $build['#current_region_title'] = $default_region->getName();
         }
       }
     }

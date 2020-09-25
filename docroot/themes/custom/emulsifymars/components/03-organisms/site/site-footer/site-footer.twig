@@ -53,7 +53,7 @@
         {% endblock %}
       </div>
       <div {{ bem('region-selector', [], footer__base_class) }}>
-        {% if regions %}
+        {% if regions|length > 0 %}
           {% block footer__region_selector %}
             {% include "@atoms/text/text/07-span.twig" with {
               span_base_class: footer__base_class ~ '__section-header',

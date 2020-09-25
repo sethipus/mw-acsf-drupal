@@ -120,6 +120,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'marketing'       => NULL,
         'corporate_tout'  => NULL,
         'region_selector' => NULL,
+        'current_region_title' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -685,6 +686,24 @@ function mars_common_entity_bundle_field_info_alter(
         'regex' => '/^\d{0,2}\.{0,1}\d{0,2}$/i',
         'errorMessage' => 'Please enter correct order number. Example: 1.1 or 1.',
       ]);
+    }
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_presave().
+ */
+function mars_common_taxonomy_term_presave(\Drupal\taxonomy\TermInterface $term) {
+  $vid = 'mars_regions';
+  $terms = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => $vid,
+    'field_default_region' => TRUE,
+  ]);
+  foreach ($terms as $term_item) {
+    /** @var \Drupal\taxonomy\TermInterface $term_item */
+    if ($term_item->id() != $term->id()) {
+      $term_item->set('field_default_region', FALSE);
+      $term_item->save();
     }
   }
 }
