@@ -6,6 +6,7 @@ dependencies:
     - field.field.poll.poll.field_description
     - field.field.poll.poll.field_submit_cta
     - field.field.poll.poll.field_thank_you_message
+    - field.field.poll.poll.field_type
   module:
     - layout_builder
     - layout_builder_restrictions
@@ -34,5 +35,6 @@ hidden:
   field_description: true
   field_submit_cta: true
   field_thank_you_message: true
+  field_type: true
   poll_votes: true
   search_api_excerpt: true

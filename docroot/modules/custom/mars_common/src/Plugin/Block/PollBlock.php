@@ -112,8 +112,7 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#target_type' => 'poll',
       '#selection_handler' => 'default:poll_by_field',
       '#selection_settings' => [
-        // 0|poll
-        'filter' => ['field_type' => '0'],
+        'filter' => ['field_type' => 'poll'],
       ],
       '#default_value' => $this->getPollEntity(),
       '#required' => TRUE,

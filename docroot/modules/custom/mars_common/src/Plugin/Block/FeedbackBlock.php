@@ -112,8 +112,7 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#target_type' => 'poll',
       '#selection_handler' => 'default:poll_by_field',
       '#selection_settings' => [
-        // 1|feedback
-        'filter' => ['field_type' => '1'],
+        'filter' => ['field_type' => 'feedback'],
       ],
       '#default_value' => $this->getPollEntity(),
       '#required' => TRUE,

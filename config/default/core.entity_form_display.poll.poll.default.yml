@@ -6,6 +6,7 @@ dependencies:
     - field.field.poll.poll.field_description
     - field.field.poll.poll.field_submit_cta
     - field.field.poll.poll.field_thank_you_message
+    - field.field.poll.poll.field_type
   module:
     - poll
 id: poll.poll.default
@@ -16,11 +17,11 @@ content:
   choice:
     type: poll_choice_default
     settings: {  }
-    weight: 2
+    weight: 3
     region: content
     third_party_settings: {  }
   field_description:
-    weight: 1
+    weight: 2
     settings:
       size: 90
       placeholder: ''
@@ -28,14 +29,6 @@ content:
     type: string_textfield
     region: content
   field_submit_cta:
-    weight: 3
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_thank_you_message:
     weight: 4
     settings:
       size: 60
@@ -43,9 +36,23 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_thank_you_message:
+    weight: 5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_type:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
   question:
     type: string_textfield
-    weight: 0
+    weight: 1
     region: content
     settings:
       size: 50
@@ -55,12 +62,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 6
+    weight: 7
     region: content
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: 60

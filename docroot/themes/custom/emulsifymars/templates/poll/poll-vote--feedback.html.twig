@@ -7,13 +7,16 @@
  */
 #}
 
-{% include "@molecules/polls/poll-vote.twig" with {
+{% include "@molecules/feedback-module/feedback.twig" with {
   theme_styles: 'drupal',
-  polling_heading: question,
-  polling_paragraph_content: form.poll['#value'].field_description.value,
-  choices: form.choice['#options'],
+  feedback_heading: question,
+  feedback_paragraph_content: form.poll['#value'].field_description.value,
+  default_link_positive_content: 'true',
+  default_link_negative_content: 'false',
   vote_button: form.actions.vote|merge({
     '#value': (form.poll['#value'].field_submit_cta.value)
   }),
   hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
 } %}
+
+{#choices: form.choice['#options'],#}

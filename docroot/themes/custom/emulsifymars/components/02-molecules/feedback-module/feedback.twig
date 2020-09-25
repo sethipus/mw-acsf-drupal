@@ -31,10 +31,13 @@
       } %}
     </div>
 
-    {% include "@atoms/links/link/link.twig" with {
-      link_base_class: feedback_link_base_class,
-      link_content: feedback_bottom_link_content,
-      link_url: feedback_bottom_link_url
-    } %}
+{#    {% include "@atoms/links/link/link.twig" with {#}
+{#      link_base_class: feedback_link_base_class,#}
+{#      link_content: feedback_bottom_link_content,#}
+{#      link_url: feedback_bottom_link_url#}
+{#    } %}#}
+
+    {{ feedback_button }}
+    {{ hidden_form_inputs }}
   </div>
 </section>
