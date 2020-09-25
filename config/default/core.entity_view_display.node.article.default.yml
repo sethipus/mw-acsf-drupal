@@ -195,6 +195,7 @@ third_party_settings:
               - iframe_block
               - newsletter_signup_form
               - story_highlight
+              - poll_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
@@ -257,6 +258,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  content_moderation_control: true
   field_article_brand_initiatives: true
   field_article_description: true
   field_article_image: true

@@ -338,12 +338,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getPdpData($node) {
     $items = [];
-    $field_size = 'field_product_size';
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $size = $product_variant->get($field_size)->value;
-      $size_id = $this->getMachineName($size);
+      $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
       $items[] = [
@@ -426,11 +424,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $field_size = 'field_product_size';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $title = $product_variant->get($field_size)->value;
-      $size_id = $this->getMachineName($title);
+      $size = $product_variant->get($field_size)->value;
+      $size_id = $product_variant->id();
       $items[] = [
         'size_id' => $size_id,
-        'title' => $title,
+        'title' => $size,
         'link_url' => '#',
       ];
     }
@@ -572,9 +570,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Mobile section array.
    */
   public function getMobileItems($node) {
-    $field_size = 'field_product_size';
-    $size = $node->get($field_size)->value;
-    $size_id = $this->getMachineName($size);
+    $size_id = $node->id();
 
     $map = [
       'section-nutrition' => $this->t('Nutrition & Ingredients'),
