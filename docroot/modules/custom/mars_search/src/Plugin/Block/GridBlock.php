@@ -27,21 +27,31 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @var array
    */
   const TAXONOMY_VOCABULARIES = [
+    // TODO Add taxonomy?
+    // field_product_variants:entity:field_product_diet_allergens:entity:name.
     'mars_brand_initiatives' => [
       'label' => 'Brand initiatives',
-      'content_types' => ['article'],
-    ],
-    'mars_flavor' => [
-      'label' => 'Flavor',
-      'content_types' => ['product', 'product_multipack'],
-    ],
-    'mars_format' => [
-      'label' => 'Format',
-      'content_types' => ['product', 'product_multipack'],
+      'content_types' => ['article', 'recipe'],
     ],
     'mars_occasions' => [
       'label' => 'Occasions',
-      'content_types' => ['article', 'product', 'product_multipack'],
+      'content_types' => ['article', 'recipe', 'product'],
+    ],
+    'mars_flavor' => [
+      'label' => 'Flavor',
+      'content_types' => ['product'],
+    ],
+    'mars_format' => [
+      'label' => 'Format',
+      'content_types' => ['product'],
+    ],
+    'mars_diet_allergens' => [
+      'label' => 'Diet & Allergens',
+      'content_types' => ['product'],
+    ],
+    'mars_trade_item_description' => [
+      'label' => 'Trade item description',
+      'content_types' => ['product'],
     ],
   ];
 
@@ -52,7 +62,6 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   const CONTENT_TYPES = [
     'product' => 'Product',
-    'product_multipack' => 'Product multipack',
     'article' => 'Article',
     'recipe' => 'Recipe',
   ];
@@ -126,7 +135,7 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ];
 
     $form['content_type'] = [
-      '#type' => 'checkboxes',
+      '#type' => 'radios',
       '#title' => $this->t('Content type'),
       '#multiple' => TRUE,
       '#options' => self::CONTENT_TYPES,
@@ -134,8 +143,8 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ];
 
     $form = array_merge($form, $this->buildExposedFilters());
-    $form = array_merge($form, $this->buildTopResults());
     $form = array_merge($form, $this->buildGeneralFilters());
+    $form = array_merge($form, $this->buildTopResults());
 
     return $form;
   }
@@ -200,7 +209,7 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
       $conditions = [];
       foreach ($vocabulary_data['content_types'] as $content_type) {
-        $conditions[] = [":input[name=\"settings[content_type][{$content_type}]\"]" => ['checked' => TRUE]];
+        $conditions[] = [":input[name=\"settings[content_type]\"]" => ['value' => $content_type]];
       }
 
       $form['general_filters'][$vocabulary] = [
@@ -226,8 +235,7 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
           'and' => $this->t('AND'),
           'or' => $this->t('OR'),
         ],
-        '#default_value' => $config['general_filters'][$vocabulary]['options_logic'] ?? NULL,
-        '#required' => TRUE,
+        '#default_value' => $config['general_filters'][$vocabulary]['options_logic'] ?? 'and',
       ];
       $form['general_filters'][$vocabulary]['facet_logic'] = [
         '#type' => 'select',
@@ -237,8 +245,7 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
           'and' => $this->t('AND'),
           'or' => $this->t('OR'),
         ],
-        '#default_value' => $config['general_filters'][$vocabulary]['facet_logic'] ?? NULL,
-        '#required' => TRUE,
+        '#default_value' => $config['general_filters'][$vocabulary]['facet_logic'] ?? 'and',
       ];
     }
 
