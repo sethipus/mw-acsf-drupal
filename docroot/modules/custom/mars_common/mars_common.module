@@ -14,6 +14,7 @@ use Drupal\Core\Url;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
 use Drupal\mars_common\Form\Alter\AboutPageLayoutFormAlter;
 use Drupal\mars_common\Form\Alter\LandingPageLayoutFormAlter;
+use Drupal\mars_common\Form\Alter\SearchLayoutFormAlter;
 use Drupal\node\Entity\Node;
 use Drupal\mars_common\Form\Alter\ContactHelpLayoutFormAlter;
 use Drupal\layout_builder\Form\DefaultsEntityForm;
@@ -609,6 +610,9 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
 
     case 'node.content_hub_page.default':
       return ContentHubPageLayoutFormAlter::class;
+
+    case 'node.search.default':
+      return SearchLayoutFormAlter::class;
 
     case 'node.campaign.default':
       return CampaignLayoutFormAlter::class;
