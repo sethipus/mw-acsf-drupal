@@ -31,14 +31,14 @@
       flex-direction: row;
       flex-wrap: wrap;
     }
+  }
 
-    &.results--active {
-      .search-results-item {
-        opacity: .5;
+  &--active {
+    .search-results-item {
+      opacity: .5;
 
-        &--active {
-          opacity: 1;
-        }
+      &--active {
+        opacity: 1;
       }
     }
   }

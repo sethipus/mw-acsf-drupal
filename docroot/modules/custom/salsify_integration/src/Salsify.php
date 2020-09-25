@@ -190,23 +190,8 @@ class Salsify {
         ],
       ]);
       $response = $generate_product_feed->getBody()->__toString();
-      // $response_array = Json::decode($response);
-      // TODO: Should implement a check to verify that the channel has completed
-      // exporting prior to attempting an import.
-      // $feed_url = $response_array['product_export_url'];
-      // Load the feed URL and data in order to get product and field data.
-      // $product_feed = $client->get($feed_url);
-      // $product_results = Json::decode($product_feed->getBody()
-      // ->getContents());
-      // Remove the single-level nesting returned by Salsify to make it easier
-      // to access the product data.
-      // $product_data = [];
-      // foreach ($product_results as $product_result) {
-      // $product_data = $product_data + $product_result;
-      // }
       $mapping = $this->getEntitiesMapping($response);
       $response = $this->filterProductsInResponse($response);
-      // $response = $this->addChildEntitiesField($response);
       $data = [
         'attributes' => $this->getAttributesByProducts($response),
         'attribute_values' => $this->getAttributeValuesByProducts($response),
@@ -216,6 +201,7 @@ class Salsify {
 
       $response_array = Json::decode($response);
       $data['products'] = $response_array['data'] ?? [];
+      $data['market'] = $response_array['country'] ?? NULL;
 
       return $data;
     }
