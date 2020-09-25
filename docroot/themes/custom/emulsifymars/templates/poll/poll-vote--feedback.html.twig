@@ -13,9 +13,6 @@
   feedback_paragraph_content: form.poll['#value'].field_description.value,
   default_link_positive_content: 'true',
   default_link_negative_content: 'false',
-  vote_button: form.actions.vote|merge({
-    '#value': (form.poll['#value'].field_submit_cta.value)
-  }),
   hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
 } %}
 
