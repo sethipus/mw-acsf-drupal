@@ -46,14 +46,15 @@ Drupal.behaviors.searchFilterBehaviour = {
           appliedFilters.push(label.innerText);
         });
       });
-      // TODO: create URL based on appliedFilters
     });
 
     const updateCounters = () => {
       let appliedFilters = [];
       const filterBlocks = context.querySelectorAll('.filter-block');
+      const appliedFiltersBlock = context.querySelector('.search-filter-info__applied');
       const appliedFiltersCount = context.querySelector('.search-filter-info__applied-count');
       const appliedFiltersList = context.querySelector('.search-filter-info__applied-text');
+      const clearAllButton = context.querySelector('.search-filter-info .search-filter-block__button--clear-all');
 
       filterBlocks.forEach(function(element) {
         const counterElement = element.querySelector('.filter-title__counter');
@@ -65,7 +66,14 @@ Drupal.behaviors.searchFilterBehaviour = {
         });
       });
 
-      // TODO: create URL based on appliedFilters
+      if (appliedFilters.length) {
+        appliedFiltersBlock.classList.remove('search-filter-info__applied--hidden');
+        clearAllButton.classList.remove('search-filter-block__button--hidden');
+      } else {
+        appliedFiltersBlock.classList.add('search-filter-info__applied--hidden');
+        clearAllButton.classList.add('search-filter-block__button--hidden');
+      }
+
       appliedFiltersCount.innerHTML = appliedFilters.length;
       appliedFiltersList.innerHTML = appliedFilters.join(', ');
     }
