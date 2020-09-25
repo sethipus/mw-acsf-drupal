@@ -1,4 +1,4 @@
-uuid: b679e9e9-c105-4422-92c3-6c6a9020e18a
+uuid: 6a99279e-e400-4f7d-b98e-08d3e0335612
 langcode: en
 status: true
 dependencies:
@@ -8,9 +8,7 @@ dependencies:
 third_party_settings:
   lightning_core:
     description: ''
-_core:
-  default_config_hash: sd7wccpf9byGQgLbrk6382_AaFYMp7th1aQwOb1Ffds
-id: node.article_card
-label: 'Article Card'
+id: node.card
+label: Card
 targetEntityType: node
 cache: true
