@@ -37,30 +37,6 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
-          170fa40f-abf1-46cc-80d2-1dfc5316be4d:
-            uuid: 170fa40f-abf1-46cc-80d2-1dfc5316be4d
-            region: content
-            configuration:
-              id: search_header_block
-              label: 'MARS: Search page header'
-              provider: mars_search
-              label_display: '1'
-              search_header_heading: 'Search overlay'
-              context_mapping: {  }
-            additional: {  }
-            weight: 1
-          259dfc90-a105-461d-8524-3453c991e10b:
-            uuid: 259dfc90-a105-461d-8524-3453c991e10b
-            region: content
-            configuration:
-              id: search_header_block
-              label: 'MARS: Search page header'
-              provider: mars_search
-              label_display: '1'
-              search_header_heading: 'Search overlay'
-              context_mapping: {  }
-            additional: {  }
-            weight: 2
         third_party_settings: {  }
       -
         layout_id: search_page_results

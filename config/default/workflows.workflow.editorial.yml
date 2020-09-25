@@ -17,6 +17,7 @@ dependencies:
     - node.type.product_multipack
     - node.type.product_variant
     - node.type.recipe
+    - node.type.search
     - node.type.where_to_buy
   module:
     - content_moderation
@@ -102,4 +103,5 @@ type_settings:
       - product_multipack
       - product_variant
       - recipe
+      - search
       - where_to_buy
