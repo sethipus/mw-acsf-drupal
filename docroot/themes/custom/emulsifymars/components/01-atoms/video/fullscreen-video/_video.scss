@@ -7,11 +7,11 @@
     width: 100%;
   }
 
-  #fullscreen-play[data-state="hidden"] {
+  &__control[data-state="hidden"] {
     display: none;
   }
   
-  #fullscreen-play[data-state="play"] {
+  &__control[data-state="play"] {
     @include playbutton;
   
     width: 60px;
@@ -29,7 +29,7 @@
     }
   }
   
-  #fullscreen-play[data-state="pause"] {
+  &__control[data-state="pause"] {
     @include pausebutton;
     
     width: 60px;
@@ -45,24 +45,72 @@
       margin: auto;
     }
   }
-}
 
-.controls {
-  overflow: hidden;
-  background: transparent;
-  width: 100%;
-  height: 30px;
-  position: relative;
-
-  &[data-state="hidden"] {
-    display: none;
-  }
+  &__controls {
+    overflow: hidden;
+    background: transparent;
+    width: 100%;
+    height: 30px;
+    position: relative;
   
-  &[data-state="visible"] {
-    display: block;
+    &[data-state="hidden"] {
+      display: none;
+    }
+    
+    &[data-state="visible"] {
+      display: block;
+    }
+    
+    button {
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: transparent;
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-top: 5px;
+      height: 24px;
+    }
+  
+    button:hover,
+    button:focus {
+      opacity: 0.5;
+    }
+      
+    progress {
+      display: block;
+      width: 100%;
+      height: 10px;
+      margin-top: 17px;
+      border: none;
+      overflow: hidden;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      border-radius: 2px;
+      color: clr(player);
+    
+      span {
+        width: 0%;
+        height: 10px;
+        display: inline-block;
+        background-color: clr(player);
+      }
+      
+      &::-moz-progress-bar {
+        background-color: clr(player);
+      }
+      
+      &::-webkit-progress-value {
+        background-color: clr(player);
+      }
+    }
   }
 
-  #playpause[data-state="play"] {
+  &__playpause[data-state="play"] {
     @include playbutton;
     
     width: 30px;
@@ -80,7 +128,7 @@
     }
   }
   
-  #playpause[data-state="pause"] {
+  &__playpause[data-state="pause"] {
     @include pausebutton;
     
     width: 30px;
@@ -97,84 +145,40 @@
     }
   }
 
-  #mute {
+  button.fullscreen-video__mute {
     background-image: url('/icons/mute.svg');
   }
   
-  #subtitles {
+  button.fullscreen-video__subtitles {
     background-image: url('/icons/subtitles.svg');
   }
   
-  #fs {
+  button.fullscreen-video__fs {
     background-image: url('/icons/fullscreen.svg');
   }
 
-  .progress {
+  &__progress-time {
+    float: left;
     cursor: pointer;
     width: 75%;
-  }
-
-  button {
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    background: transparent;
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-top: 5px;
-    height: 24px;
-  }
-
-  button:hover,
-  button:focus {
-    opacity: 0.5;
-  }
-    
-  progress {
+    height: 100%;
+    margin-left: 0.2%;
     display: block;
-    width: 100%;
-    height: 10px;
-    margin-top: 17px;
-    border: none;
-    overflow: hidden;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    color: clr(player);
-  
-    span {
-      width: 0%;
-      height: 10px;
-      display: inline-block;
-      background-color: clr(player);
-    }
-    
-    &::-moz-progress-bar {
-      background-color: clr(player);
-    }
-    
-    &::-webkit-progress-value {
-      background-color: clr(player);
-    }
   }
-  
-  #progress-time {
+
+  &__progress-time--duration {
+    width: 4%;
     margin: 10px 15px 0 15px;
     font-size: 14px;
     color: clr(text-inverse);
   }
-}
 
-.controls>* {
-  float: left;
-  width: 4%;
-  height: 100%;
-  margin-left: 0.2%;
-  display: block;
+  &__controls > button {
+    float: left;
+    width: 4%;
+    margin-left: 0.2%;
+    display: block;
+  }
 }
 
 
@@ -189,13 +193,13 @@ html:-ms-fullscreen {
   background-color: transparent;
 }
 
-video:-webkit-full-screen+.controls {
+video:-webkit-full-screen+.fullscreen-video__controls {
   background: #ccc;
 
   /* required for Chrome which doesn't heed the transparent value set above */
 }
 
-video:-webkit-full-screen+.controls progress {
+video:-webkit-full-screen+.fullscreen-video__controls progress {
   margin-top: 0.5rem;
 }
 
@@ -218,18 +222,18 @@ figure[data-fullscreen="true"] figcaption {
   display: none;
 }
 
-figure[data-fullscreen="true"] .controls {
+figure[data-fullscreen="true"] .fullscreen-video__controls {
   position: absolute;
   bottom: 2%;
   width: 100%;
   z-index: 10;
 }
 
-figure[data-fullscreen="true"] .controls li {
+figure[data-fullscreen="true"] .fullscreen-video__controls li {
   width: 5%;
 }
 
-figure[data-fullscreen="true"] .controls .progress {
+figure[data-fullscreen="true"] .fullscreen-video__controls .progress {
   width: 68%;
 }
 
@@ -241,17 +245,17 @@ figure[data-fullscreen="true"] .controls .progress {
     padding-right: 0;
     height: auto;
   }
-  .controls {
+  .fullscreen-video__controls {
     height: 30px;
     height: 1.876rem;
   }
 }
 
 @media screen and (max-width: 42.5em) {
-  .controls {
+  .fullscreen-video__controls {
     height: auto;
   }
-  .controls>* {
+  .fullscreen-video__controls>* {
     display: block;
     width: 16.6667%;
     margin-left: 0;
@@ -259,7 +263,7 @@ figure[data-fullscreen="true"] .controls .progress {
     height: 2.5rem;
     margin-top: 2.5rem;
   }
-  .controls .progress {
+  .fullscreen-video__controls .progress {
     /* display:table-caption; */
 
     /* this trick doesn't work as elements are floated and the layout doesn't work */
@@ -269,11 +273,11 @@ figure[data-fullscreen="true"] .controls .progress {
     float: none;
     margin-top: 0;
   }
-  .controls .progress progress {
+  .fullscreen-video__controls .progress progress {
     width: 98%;
     margin: 0 auto;
   }
-  .controls button {
+  .fullscreen-video__controls button {
     background-position: center center;
   }
   figcaption {

@@ -8,16 +8,16 @@
   <video {{ bem('video', [], video__base_class) }} id="fullscreen-video">
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
-  <div id="video-controls" {{ bem('control', [], video__base_class, ['controls']) }} data-state="hidden">
-    <button id="playpause" {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+  <div id="video-controls" {{ bem('controls', [], video__base_class) }} data-state="hidden">
+    <button id="playpause" {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play"><div {{ bem('playpause', ['inner'], video__base_class) }}/></button>
     <button id="stop" {{ bem('stop', ['inner'], video__base_class) }} type="button" data-state="stop"></button>
     <button id="mute" {{ bem('mute', ['inner'], video__base_class) }} type="button" data-state="mute"></button>
     <div {{ bem('progress-time', [], video__base_class) }}>
-      <progress id="progress" {{ bem('progress-time', ['inner'], video__base_class) }} value="0" min="0">
-        <span id="progress-bar" {{ bem('progress-time', ['progress-bar'], video__base_class) }}></span>
+      <progress id="progress" {{ bem('progress-time--inner', [], video__base_class) }} value="0" min="0">
+        <span id="progress-bar" {{ bem('progress-time--progress-bar', [], video__base_class) }}></span>
       </progress>
     </div>
-    <div id="progress-time" {{ bem('progress-time', ['inner'], video__base_class) }}></div>
+    <div id="progress-time" {{ bem('progress-time', ['duration'], video__base_class) }}></div>
     <button id="subtitles" {{ bem('subtitles', ['inner'], video__base_class) }} type="button" data-state="subtitles"></button>
     <button id="fs" {{ bem('fs', ['inner'], video__base_class) }} type="button" data-state="go-fullscreen"></button>
   </div>
