@@ -1,0 +1,14 @@
+uuid: 6a99279e-e400-4f7d-b98e-08d3e0335612
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_core
+    - node
+third_party_settings:
+  lightning_core:
+    description: ''
+id: node.card
+label: Card
+targetEntityType: node
+cache: true

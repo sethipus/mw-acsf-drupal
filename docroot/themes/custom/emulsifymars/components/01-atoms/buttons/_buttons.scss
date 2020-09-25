@@ -57,7 +57,7 @@ $button-colors: (
   text-decoration: none;
   text-align: center;
   text-transform: uppercase;
-  border-radius: variable(border-radius);
+  border-radius: variable(button-border-radius);
 }
 
 // Button color variations

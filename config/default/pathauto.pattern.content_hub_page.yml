@@ -1,0 +1,22 @@
+uuid: fac6e79d-59e4-4623-aac6-863d63cb4ab6
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: content_hub_page
+label: 'Content hub page'
+type: 'canonical_entities:node'
+pattern: '[node:title]'
+selection_criteria:
+  45f83aee-a103-42bc-a2ec-691ea259588a:
+    id: node_type
+    bundles:
+      content_hub_page: content_hub_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 45f83aee-a103-42bc-a2ec-691ea259588a
+selection_logic: and
+weight: -5
+relationships: {  }
