@@ -108,6 +108,13 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
   protected $logger;
 
   /**
+   * A config object for the system performance configuration.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config;
+
+  /**
    * Media Type config array.
    *
    * @var array
@@ -142,12 +149,13 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->configFactory = $config_factory;
     $this->lighthouseClient = $lighthouse_client;
-    $this->mapping = $this->configFactory->get(LighthouseAdapter::CONFIG_NAME);
+    $this->mapping = $config_factory->get(LighthouseAdapter::CONFIG_NAME);
     $this->lighthouseAdapter = $lighthouse;
     $this->fileSystem = $file_system;
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get('mars_lighthouse');
     $this->state = $state;
+    $this->config = $config_factory->get('mars_lighthouse.settings');
   }
 
   /**
@@ -172,11 +180,23 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    * {@inheritdoc}
    */
   public function processItem($data) {
-    if ($data instanceof MediaInterface) {
-      $this->processMediaSync($data);
-    }
-    if (is_array($data)) {
+    $sync_mode = $this->config->get('sync_mode');
+
+    if ($sync_mode) {
       $this->syncLighthouseSiteBulk($data);
+    }
+    else {
+      /** @var \Drupal\media\MediaInterface $media */
+      foreach ($data as $media) {
+        try {
+          $this->processMediaSync($media);
+        }
+        catch (\Exception $exception) {
+          $this->logger->error("Can't sync media with external id @external_id", [
+            '@external_id' => $media->field_external_id->value,
+          ]);
+        }
+      }
     }
   }
 

@@ -17,4 +17,4 @@ services:
     factory: mars_lighthouse.config_factory:createConfiguration
   mars_lighthouse.sync:
     class: '\Drupal\mars_lighthouse\LighthouseSyncService'
-    arguments: ['@config.factory', '@queue','@mars_lighthouse.config_defaults_provider', '@entity_type.manager']
+    arguments: ['@queue', '@entity_type.manager']
