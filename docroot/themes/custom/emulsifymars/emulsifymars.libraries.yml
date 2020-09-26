@@ -48,6 +48,7 @@ pdp-body:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
 
 pdp-multipack:
   js:

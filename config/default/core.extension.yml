@@ -1,5 +1,9 @@
 module:
   acquia_connector: 0
+  acquia_contenthub: 0
+  acquia_contenthub_publisher: 0
+  acquia_lift: 0
+  acquia_lift_publisher: 0
   acquia_search: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
@@ -26,6 +30,7 @@ module:
   crop: 0
   ctools: 0
   datetime: 0
+  depcalc: 0
   diff: 0
   dropzonejs: 0
   editor: 0
@@ -43,6 +48,7 @@ module:
   field_group: 0
   field_ui: 0
   file: 0
+  filelog: 0
   filter: 0
   help: 0
   history: 0

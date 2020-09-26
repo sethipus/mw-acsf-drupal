@@ -1,0 +1,9 @@
+field_id: 'CMS: Market'
+salsify_id: 'CMS: Market'
+salsify_data_type: string
+entity_type: node
+bundle: product
+field_name: field_product_market
+method: manual
+created: 1546300800
+changed: 1546300801

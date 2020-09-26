@@ -65,7 +65,7 @@ class SalsifyFieldsMap {
     'field_product_description' => ['salsify:id' => 'Generic Product Description', 'salsify:data_type' => 'string'],
     // Enumirated.
     'field_product_format' => ['salsify:id' => 'Pack Size', 'salsify:data_type' => 'enumerated'],
-    // 'field_product_market' => NULL,
+    'field_product_market' => ['salsify:id' => 'CMS: Market', 'salsify:data_type' => 'string'],
     // Enumirated.
     'field_product_trade_description' => ['salsify:id' => 'Trade Item Description', 'salsify:data_type' => 'enumerated'],
     // Enumirated.
