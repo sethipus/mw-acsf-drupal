@@ -52,6 +52,8 @@ function mars_common_menu_insert(Menu $menu) {
  * Implements hook_preprocess().
  */
 function mars_common_preprocess(&$variables, $hook) {
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
+
   if ($hook === 'views_view__grid_card') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
     $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
@@ -67,10 +69,20 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
 
-  if (isset($variables['view_mode']) && $variables['view_mode'] === 'article_card') {
+  if ((isset($variables['view_mode']) && $variables['view_mode'] === 'article_card')
+    || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
     $brand_shape_content = $themeParser->getFileContentFromTheme('brand_shape');
     $variables['brand_shape'] = $brand_shape_content ?? '';
+  }
+
+  if ($hook === 'poll_vote' || $hook === 'poll_results') {
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $pngAssetFile = $themeParser->getFileFromTheme('png_asset');
+    if ($pngAssetFile instanceof EntityInterface) {
+      $pngAssetUri = $pngAssetFile->getFileUri();
+      $variables['polling_png_asset'] = Url::fromUri(file_create_url($pngAssetUri));
+    }
   }
 
   if ($hook === 'views_view__acquia_search') {
@@ -271,6 +283,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'use_custom_color' => NULL,
       ],
       'template' => 'freeform-story-block',
+    ],
+    'poll_block' => [
+      'variables' => [
+        'poll' => NULL,
+      ],
+      'template' => 'poll-block',
     ],
   ];
 }
@@ -539,6 +557,10 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['settings']['label_display']['#access'] = FALSE;
   }
 
+  if (strpos($form_id, 'poll_view_form_') === 0) {
+    $form['actions']['cancel'] = NULL;
+  }
+
   // Alter layout form related to content type
   // in order to add custom validation.
   $form_object = $form_state->getFormObject();
@@ -624,6 +646,16 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['question']['widget'][0]['value']['#title'] = 'Title';
+  $form['question']['widget'][0]['value']['#maxlength'] = 50;
+  $form['choice']['widget']['#title'] = 'Responses';
+  $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
+}
+
+/**
  * Implements preprocess_HOOK().
  */
 function mars_common_preprocess_page(&$variables) {
@@ -647,10 +679,16 @@ function mars_common_field_widget_form_alter(
   FormStateInterface $form_state,
   $context
 ) {
+  $plugin_id = $context['widget']->getPluginId();
   $field_name = $context['items']->getName();
 
   if ($field_name === 'field_ff_item_description') {
     $element['value']['#maxlength'] = 120;
+  }
+
+  if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
+    $element['choice']['#size'] = 40;
+    $element['choice']['#maxlength'] = 25;
   }
 }
 

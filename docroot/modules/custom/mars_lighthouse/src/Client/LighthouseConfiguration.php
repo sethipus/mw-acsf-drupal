@@ -17,6 +17,8 @@ class LighthouseConfiguration {
 
   public const ENDPOINT_ASSET_BY_ID = 'asset_by_id';
 
+  public const ENDPOINT_ASSETS_BY_IDS = 'assets_by_ids';
+
   public const ENDPOINT_GET_BRANDS = 'get_brands';
 
   public const ENDPOINT_GET_MARKETS = 'get_markets';
@@ -26,6 +28,7 @@ class LighthouseConfiguration {
     'refresh_token' => '/session/refresh',
     'search' => '/search/001',
     'asset_by_id' => '/asset',
+    'assets_by_ids' => '/search/002',
     'get_brands' => '/lookup/brand',
     'get_markets' => '/lookup/market',
   ];
