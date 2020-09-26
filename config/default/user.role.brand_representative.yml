@@ -1,4 +1,4 @@
-uuid: 9da3c2e4-db6e-46de-8a2e-a31a112d3c47
+uuid: 590a82c0-2775-448c-bece-590ced57a88c
 langcode: en
 status: true
 dependencies:
@@ -7,19 +7,38 @@ dependencies:
 third_party_settings:
   lightning_core:
     description: ''
-id: global_brand_rep
-label: 'Global Brand Rep'
-weight: 23
+id: brand_representative
+label: 'Brand Representative'
+weight: -4
 is_admin: null
 permissions:
-  - 'access content'
   - 'access content overview'
+  - 'access media overview'
+  - 'access media_browser entity browser pages'
   - 'access toolbar'
-  - 'administer nodes'
-  - 'bypass node access'
-  - 'delete all revisions'
+  - 'create article content'
+  - 'create campaign content'
+  - 'create contact_help content'
+  - 'create content_hub_page content'
+  - 'create error_page content'
+  - 'create faq content'
+  - 'create homepage content'
+  - 'create landing_page content'
+  - 'create media'
+  - 'create newsletter_sign_up content'
+  - 'create page content'
+  - 'create product content'
+  - 'create product_multipack content'
+  - 'create product_variant content'
+  - 'create recipe content'
+  - 'create url aliases'
+  - 'create where_to_buy content'
+  - 'delete media'
+  - 'delete own about_page content'
   - 'delete own article content'
+  - 'delete own campaign content'
   - 'delete own contact_help content'
+  - 'delete own content_hub_page content'
   - 'delete own error_page content'
   - 'delete own faq content'
   - 'delete own homepage content'
@@ -47,12 +66,17 @@ permissions:
   - 'edit any product_variant content'
   - 'edit any recipe content'
   - 'edit any where_to_buy content'
-  - 'revert all revisions'
+  - 'schedule editorial transition approve'
+  - 'schedule editorial transition publish'
+  - 'schedule editorial transition reject'
+  - 'update media'
   - 'use editorial transition approve'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition publish'
   - 'use editorial transition reject'
+  - 'view all media revisions'
   - 'view all revisions'
   - 'view any unpublished content'
   - 'view own unpublished content'
+  - 'view own unpublished media'
   - 'view the administration theme'

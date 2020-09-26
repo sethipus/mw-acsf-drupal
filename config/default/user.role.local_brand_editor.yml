@@ -9,7 +9,7 @@ third_party_settings:
     description: ''
 id: local_brand_editor
 label: 'Local Brand Editor'
-weight: 21
+weight: -3
 is_admin: null
 permissions:
   - 'access content'

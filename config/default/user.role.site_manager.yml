@@ -1,4 +1,4 @@
-uuid: dcbea527-f3b1-406c-992e-3e61cb7df19c
+uuid: 2f0fa514-bd6e-4868-b0ad-af87defbd714
 langcode: en
 status: true
 dependencies:
@@ -7,16 +7,35 @@ dependencies:
 third_party_settings:
   lightning_core:
     description: ''
-id: local_brand_rep
-label: 'Local Brand Rep'
-weight: 22
+id: site_manager
+label: 'Site Manager'
+weight: -7
 is_admin: null
 permissions:
-  - 'access content'
   - 'access content overview'
+  - 'access media overview'
+  - 'access media_browser entity browser pages'
   - 'access toolbar'
-  - 'administer nodes'
-  - 'bypass node access'
+  - 'administer permissions'
+  - 'administer users'
+  - 'create article content'
+  - 'create campaign content'
+  - 'create contact_help content'
+  - 'create content_hub_page content'
+  - 'create error_page content'
+  - 'create faq content'
+  - 'create homepage content'
+  - 'create landing_page content'
+  - 'create media'
+  - 'create newsletter_sign_up content'
+  - 'create page content'
+  - 'create product content'
+  - 'create product_multipack content'
+  - 'create product_variant content'
+  - 'create recipe content'
+  - 'create url aliases'
+  - 'create where_to_buy content'
+  - 'delete media'
   - 'delete own about_page content'
   - 'delete own article content'
   - 'delete own campaign content'
@@ -33,6 +52,7 @@ permissions:
   - 'delete own product_variant content'
   - 'delete own recipe content'
   - 'delete own where_to_buy content'
+  - 'edit any about_page content'
   - 'edit any article content'
   - 'edit any campaign content'
   - 'edit any contact_help content'
@@ -48,13 +68,18 @@ permissions:
   - 'edit any product_variant content'
   - 'edit any recipe content'
   - 'edit any where_to_buy content'
+  - 'manage lock settings on sections'
   - 'schedule editorial transition approve'
   - 'schedule editorial transition publish'
+  - 'schedule editorial transition reject'
+  - 'update media'
   - 'use editorial transition approve'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition publish'
   - 'use editorial transition reject'
+  - 'view all media revisions'
   - 'view all revisions'
   - 'view any unpublished content'
   - 'view own unpublished content'
+  - 'view own unpublished media'
   - 'view the administration theme'
