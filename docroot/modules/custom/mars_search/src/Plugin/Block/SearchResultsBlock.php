@@ -8,6 +8,8 @@ use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Menu\MenuLinkTreeInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
 
 /**
  * Provides a search page results block.
@@ -42,6 +44,13 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $nodeViewBuilder;
 
   /**
+   * Menu link tree.
+   *
+   * @var \Drupal\Core\Menu\MenuLinkTreeInterface
+   */
+  protected $menuLinkTree;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -51,8 +60,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $plugin_definition,
       $container->get('mars_search.search_helper'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('entity_type.manager')->getViewBuilder('node')
-
+      $container->get('entity_type.manager')->getViewBuilder('node'),
+      $container->get('menu.link_tree')
     );
   }
 
@@ -65,13 +74,14 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $plugin_definition,
     SearchHelperInterface $search_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    EntityViewBuilderInterface $node_view_builder
+    EntityViewBuilderInterface $node_view_builder,
+    MenuLinkTreeInterface $menu_link_tree
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->searchHelper = $search_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeViewBuilder = $node_view_builder;
-
+    $this->menuLinkTree = $menu_link_tree;
   }
 
   /**
@@ -88,9 +98,11 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     foreach ($query_search_results['results'] as $node) {
       $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
+    if (count($build['#items']) == 0) {
+      return $this->getSearchNoResult();
+    }
 
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
-    $border_radius = $this->themeConfiguratorParser->getSettingValue('button_style');
 
     $build['#theme_styles'] = 'drupal';
     $build['#graphic_divider'] = $file_divider_content ?? '';
@@ -106,9 +118,71 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     $build['#ajax_card_grid_heading'] = $this->t('All results');
-    $build['#ajax_card_grid_border_radius'] = $border_radius ?? 0;
     $build['#theme'] = 'mars_search_search_results_block';
     return $build;
+  }
+
+  /**
+   * Render search no reqult block.
+   */
+  private function getSearchNoResult() {
+    $url = $this->searchHelper->getCurrentUrl();
+    $url_options = $url->getOptions();
+    $search_text = $url_options['query']['search'];
+
+    $linksMenu = $this->buildMenu('error-page-menu');
+    $links = [];
+    foreach ($linksMenu as $linkMenu) {
+      $links[] = [
+        'content' => $linkMenu['title'],
+        'attributes' => [
+          'target' => '_self',
+          'href' => $linkMenu['url'],
+        ],
+      ];
+    }
+
+    return [
+      '#no_results_heading' => $this->t('There are no matching results for "%search"', ['%search' => $search_text]),
+      '#no_results_text' => $this->t('Please try entering a different search'),
+      '#no_results_links' => $links,
+      '#theme' => 'mars_search_no_results',
+    ];
+  }
+
+  /**
+   * Render menu by its name.
+   *
+   * @param string $menu_name
+   *   Menu name.
+   *
+   * @return array
+   *   Rendered menu.
+   */
+  protected function buildMenu($menu_name) {
+    $menu_parameters = new MenuTreeParameters();
+    $menu_parameters->setMaxDepth(1);
+
+    // Get the tree.
+    $tree = $this->menuLinkTree->load($menu_name, $menu_parameters);
+
+    // Apply some manipulators (checking the access, sorting).
+    $manipulators = [
+      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
+      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+    ];
+    $tree = $this->menuLinkTree->transform($tree, $manipulators);
+
+    // And the last step is to actually build the tree.
+    $menu = $this->menuLinkTree->build($tree);
+    $menu_links = [];
+    if (!empty($menu['#items'])) {
+      foreach ($menu['#items'] as $item) {
+        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
+      }
+    }
+    return $menu_links;
   }
 
   /**

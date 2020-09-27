@@ -14,6 +14,7 @@
             {% include "@atoms/search-results-item/search-results-item.twig" with {
               item_title: item.title,
               item_count: item.count,
+              search_results_item_modifier: item.search_results_item_modifier,
             } %}
           </div>
         {% endfor %}
