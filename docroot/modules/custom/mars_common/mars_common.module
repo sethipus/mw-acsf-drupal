@@ -739,16 +739,20 @@ function mars_common_entity_bundle_field_info_alter(
  * Implements hook_taxonomy_term_presave().
  */
 function mars_common_taxonomy_term_presave(TermInterface $term) {
-  $vid = 'mars_regions';
-  $terms = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term')->loadByProperties([
-    'vid' => $vid,
-    'field_default_region' => TRUE,
-  ]);
-  foreach ($terms as $term_item) {
-    /** @var \Drupal\taxonomy\TermInterface $term_item */
-    if ($term_item->id() != $term->id()) {
-      $term_item->set('field_default_region', FALSE);
-      $term_item->save();
+  if ($term->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $terms = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term')->loadByProperties([
+      'vid' => FooterBlock::VID_TAXONOMY_REGION,
+      'field_default_region' => TRUE,
+    ]);
+
+    if ($term->field_default_region->value) {
+      foreach ($terms as $term_item) {
+        /** @var \Drupal\taxonomy\TermInterface $term_item */
+        if ($term_item->id() != $term->id()) {
+          $term_item->set('field_default_region', FALSE);
+          $term_item->save();
+        }
+      }
     }
   }
 }
