@@ -745,14 +745,9 @@ function mars_common_field_widget_form_alter(
   // Validate feedback form.
   $formBuildInfo = $form_state->getBuildInfo();
   if ($formBuildInfo
-    && isset($formBuildInfo['base_form_id'])
-    && $formBuildInfo['base_form_id'] === 'poll_form'
+    && ($formBuildInfo['base_form_id'] === 'poll_form' || $formBuildInfo['form_id'] === 'poll_form')
     && $field_name === 'field_type') {
-    $userInputs = $form_state->getUserInput();
-    if (isset($userInputs['field_type'])
-      && $userInputs['field_type'] === 'feedback') {
-      $element['#element_validate'][] = '_mars_common_feedback_field_validate';
-    }
+    $element['#element_validate'][] = '_mars_common_feedback_field_validate';
   }
 }
 
@@ -761,6 +756,10 @@ function mars_common_field_widget_form_alter(
  */
 function _mars_common_feedback_field_validate($element, &$form_state, $form) {
   $userInputs = $form_state->getUserInput();
+
+  if (isset($userInputs['field_type']) && $userInputs['field_type'] !== 'feedback') {
+    return;
+  }
 
   $choiceNumber = 0;
   if (is_array($userInputs['choice'])) {
