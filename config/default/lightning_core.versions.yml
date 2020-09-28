@@ -127,6 +127,7 @@ rdf: 8.8.1
 redirect: 1.5.0
 remote_stream_wrapper: 1.4.0
 remote_stream_wrapper_widget: 1.2.0
+robotstxt: 1.4.0
 schemata: 1.0.0-beta1
 schemata_json_schema: 1.0.0-beta1
 search_api: 1.15.0
