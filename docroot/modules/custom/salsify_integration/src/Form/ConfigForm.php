@@ -12,6 +12,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\salsify_integration\Event\SalsifyGetEntityTypesEvent;
+use Drupal\salsify_integration\Salsify;
 use Drupal\salsify_integration\SalsifyFields;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -119,13 +120,64 @@ class ConfigForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $form['salsify_api_settings']['auth_method'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Select a bundle'),
+      '#options' => [
+        Salsify::AUTH_METHOD_TOKEN => $this->t('Access token'),
+        Salsify::AUTH_METHOD_SECRET => $this->t('Client id and secret'),
+      ],
+      '#default_value' => $config->get('auth_method'),
+      '#description' => $this->t('Please choose auth api method.'),
+      '#required' => TRUE,
+    ];
+
     $form['salsify_api_settings']['access_token'] = [
       '#type' => 'textfield',
       '#size' => 75,
       '#title' => $this->t('Salsify Access Token'),
       '#default_value' => $config->get('access_token'),
       '#description' => $this->t('The access token from the Salsify user account to use for this integration. For details on where to find the access token, see <a href="@url" target="_blank">Salsify\'s API documentation</a>', ['@url' => 'https://help.salsify.com/help/getting-started-api-authorization']),
-      '#required' => TRUE,
+      '#states' => [
+        'visible' => [
+          ':input[name="auth_method"]' => ['value' => Salsify::AUTH_METHOD_TOKEN],
+        ],
+        'required' => [
+          ':input[name="auth_method"]' => ['value' => Salsify::AUTH_METHOD_TOKEN],
+        ],
+      ],
+    ];
+
+    $form['salsify_api_settings']['client_id'] = [
+      '#type' => 'textfield',
+      '#size' => 75,
+      '#title' => $this->t('Client id'),
+      '#default_value' => $config->get('client_id'),
+      '#description' => $this->t('The client id from the Salsify user account to use for this integration.'),
+      '#states' => [
+        'visible' => [
+          ':input[name="auth_method"]' => ['value' => Salsify::AUTH_METHOD_SECRET],
+        ],
+        'required' => [
+          ':input[name="auth_method"]' => ['value' => Salsify::AUTH_METHOD_SECRET],
+        ],
+      ],
+    ];
+
+    $form['salsify_api_settings']['client_secret'] = [
+      '#type' => 'textfield',
+      '#size' => 75,
+      '#title' => $this->t('Client secret'),
+      '#default_value' => $config->get('client_secret'),
+      '#description' => $this->t('The client secret from the Salsify user account to use for this integration.'),
+      '#states' => [
+        'visible' => [
+          ':input[name="auth_method"]' => ['value' => 'client_secret'],
+        ],
+        'required' => [
+          ':input[name="auth_method"]' => ['value' => 'client_secret'],
+        ],
+      ],
     ];
 
     // By default, this module will support the core node and taxonomy term
@@ -191,7 +243,9 @@ class ConfigForm extends ConfigFormBase {
       ];
     }
 
-    if ($config->get('product_feed_url') && $config->get('access_token') && $config->get('bundle')) {
+    if ($config->get('product_feed_url') &&
+      (($config->get('access_token')) || ($config->get('client_id') && $config->get('client_secret')))&&
+      $config->get('bundle')) {
       $form['salsify_operations'] = [
         '#type' => 'fieldset',
         '#title' => $this->t('Operations'),
@@ -281,7 +335,7 @@ class ConfigForm extends ConfigFormBase {
 
     $email_token_help = $this->t('Available tokens are: [site:name],
     [site:url], [user:display-name], [user:account-name], [user:mail],
-    [site:login-url], [site:url-brief], [salsify:import_errors],
+    [site:login-url], [site:url-brief], [salsify:validation_errors],
     [salsify:deleted_items] .');
 
     $form['email_salsify_import'] = [
@@ -289,6 +343,13 @@ class ConfigForm extends ConfigFormBase {
       '#title' => $this->t('Email notification settings'),
       '#collapsible' => TRUE,
       '#group' => 'email_settings',
+    ];
+
+    $form['email_salsify_import']['send_email'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Send email.'),
+      '#description' => $this->t('If checked, Report will be send after import.'),
+      '#default_value' => $config->get('send_email'),
     ];
 
     $form['email_salsify_import']['email'] = [
@@ -376,12 +437,16 @@ class ConfigForm extends ConfigFormBase {
     $config->set('process_media_assets', $form_state->getValue('process_media_assets'));
     $config->set('import_method', $form_state->getValue('import_method'));
     $config->set('salsify_import.email', $form_state->getValue('email'));
+    $config->set('send_email', $form_state->getValue('send_email'));
+    $config->set('auth_method', $form_state->getValue('auth_method'));
+    $config->set('client_id', $form_state->getValue('client_id'));
+    $config->set('client_secret', $form_state->getValue('client_secret'));
     // Save the configuration.
     $config->save();
 
     $this->configFactory->getEditable('user.mail')
       ->set('salsify_import.subject', $form_state->getValue('email_salsify_import_subject'))
-      ->set('salsify_import.body', $form_state->getValue('email_salsify_import_body')['value'])
+      ->set('salsify_import.body', $form_state->getValue('email_salsify_import_body'))
       ->save();
 
     // Flush the cache entries tagged with 'salsify_config' to force the API

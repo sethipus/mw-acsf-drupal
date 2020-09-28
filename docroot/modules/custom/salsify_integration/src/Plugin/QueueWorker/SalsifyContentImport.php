@@ -10,6 +10,7 @@ use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\salsify_integration\ProductHelper;
+use Drupal\salsify_integration\SalsifyEmailReport;
 use Drupal\salsify_integration\SalsifyImportField;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -62,6 +63,13 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
   protected $logger;
 
   /**
+   * The Salsify email report interface.
+   *
+   * @var \Drupal\salsify_integration\SalsifyEmailReport
+   */
+  protected $emailReport;
+
+  /**
    * Creates a new SalsifyContentImport object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -72,18 +80,22 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
    *   The QueueFactory object.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   The LoggerFactory object.
+   * @param \Drupal\salsify_integration\SalsifyEmailReport $email_report
+   *   The Salsify email report object.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     QueueFactory $queue_factory,
-    LoggerChannelFactoryInterface $logger_factory
+    LoggerChannelFactoryInterface $logger_factory,
+    SalsifyEmailReport $email_report
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->configFactory = $config_factory;
     $this->config = $this->configFactory->get('salsify_integration.settings');
     $this->queueFactory = $queue_factory;
     $this->logger = $logger_factory->get('salsify_integration');
+    $this->emailReport = $email_report;
   }
 
   /**
@@ -94,7 +106,8 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('queue'),
-      $container->get('logger.factory')
+      $container->get('logger.factory'),
+      $container->get('salsify_integration.email_report')
     );
   }
 
@@ -110,6 +123,12 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
       $force_update,
       ProductHelper::getProductType($data)
     );
+
+    // Save validation errors to shared temp storage in order
+    // to send email with detail by cron.
+    $this->emailReport
+      ->saveValidationErrors($process_result['validation_errors']);
+
     $this->logger->info($this->t(
       'The Salsify record was @result: @gtin.', [
         '@gtin' => $data['GTIN'],

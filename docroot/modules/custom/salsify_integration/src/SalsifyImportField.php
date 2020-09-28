@@ -278,8 +278,8 @@ class SalsifyImportField extends SalsifyImport {
         }
       }
       elseif (!$this->productDataHelper->validateDataRecord($product_data, $field)) {
-        $process_result['validation_errors'][] = $product_data['GTIN'] . ' ' .
-          $field['salsify_id'] . ' ' . $field['salsify_data_type'];
+        $process_result['validation_errors'][] = $product_data['GTIN'] .
+          ', ' . $field['salsify_id'] . ', ' . $field['salsify_data_type'];
       }
     }
 

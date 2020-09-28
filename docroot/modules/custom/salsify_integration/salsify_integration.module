@@ -10,6 +10,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\salsify_integration\SalsifyFields;
+use Drupal\Core\Render\BubbleableMetadata;
 
 /**
  * Implements hook_cron().
@@ -19,6 +20,103 @@ function salsify_integration_cron() {
   $product_feed->importProductData();
   \Drupal::logger('salsify_integration')
     ->notice('The Salsify data is queued to be imported and will be processed on the next cron run.');
+
+  \Drupal::service('salsify_integration.email_report')
+    ->sendReportByCron();
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function salsify_integration_token_info() {
+  $info['tokens']['salsify']['validation_errors'] = [
+    'name' => t('All validation errors during Salsify data import'),
+    'description' => t(
+      'All validation errors during Salsify dataimport.'
+    ),
+  ];
+  $info['tokens']['salsify']['deleted_items'] = [
+    'name' => t('All deleted entities during Salisify data import'),
+    'description' => t(
+      'All deleted entities during Salisify data import.'
+    ),
+  ];
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function salsify_integration_tokens(
+  $type,
+  $tokens,
+  array $data,
+  $options,
+  BubbleableMetadata $bubbleable_metadata
+) {
+  $replacements = [];
+  foreach ($tokens as $name => $value) {
+    if ($name === 'validation_errors') {
+      $replacements['[salsify:validation_errors]'] = '@validation_errors';
+    }
+    if ($name === 'deleted_items') {
+      $replacements['[salsify:deleted_items]'] = '@deleted_items';
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Implements hook_mail_alter().
+ */
+function salsify_integration_mail_alter(&$message) {
+  $validation_errors_msg = t('Salsify import validation errors (GTIN, Salsify field, type):');
+  pass_report_data_to_email(
+    $message,
+    'validation_errors',
+    $validation_errors_msg
+    );
+
+  $deleted_items_msg = t('Salsify sync deleted items (GTIN):');
+  pass_report_data_to_email(
+    $message,
+    'deleted_items',
+    $deleted_items_msg
+    );
+}
+
+/**
+ * Pass salsify report data to email body.
+ *
+ * @param array $message
+ *   Message array.
+ * @param string $param_name
+ *   Param name.
+ * @param string $head_text
+ *   Heading text.
+ */
+function pass_report_data_to_email(
+  array &$message,
+  string $param_name,
+  string $head_text
+) {
+  if (isset($message['params'][$param_name])) {
+    $items = $message['params'][$param_name];
+
+    $items_msg = $head_text . '\r\n';
+    foreach ($items as $item) {
+      $items_msg .= $item . '\r\n';
+    }
+
+    $items_msg = (!empty($items)) ? $items_msg : '';
+    if (isset($message['body'][0])) {
+      $message['body'][0] = strtr($message['body'][0], [
+        '@' . $param_name => $items_msg,
+      ]);
+    }
+  }
 }
 
 /**

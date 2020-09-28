@@ -17,3 +17,16 @@ services:
 
   salsify_integration.product_data_helper:
     class: Drupal\salsify_integration\ProductHelper
+
+  salsify_integration.email_report:
+    class: Drupal\salsify_integration\SalsifyEmailReport
+    arguments:
+      - '@config.factory'
+      - '@entity_type.manager'
+      - '@plugin.manager.mail'
+      - '@language_manager'
+      - '@tempstore.shared'
+      - '@logger.factory'
+
+  salsify_integration.product_fields_mapper:
+    class: Drupal\salsify_integration\ProductFieldsMapper
