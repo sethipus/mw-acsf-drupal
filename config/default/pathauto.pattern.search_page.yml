@@ -1,0 +1,22 @@
+uuid: aada7a7b-2ed4-4e52-a387-789188ee4516
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: search_page
+label: 'Search page'
+type: 'canonical_entities:node'
+pattern: '[node:title]'
+selection_criteria:
+  2ff625fa-abf3-46c7-ac57-645bb68439b9:
+    id: node_type
+    bundles:
+      search: search
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 2ff625fa-abf3-46c7-ac57-645bb68439b9
+selection_logic: and
+weight: -5
+relationships: {  }

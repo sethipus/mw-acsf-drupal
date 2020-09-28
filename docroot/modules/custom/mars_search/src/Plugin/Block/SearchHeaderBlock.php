@@ -89,7 +89,11 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#input_form']['search']['#attributes']['placeholder'] = $this->t('Search products, recipes, articles...');
 
     // Getting search results from SOLR.
-    $query_search_results = $this->searchHelper->getSearchResults([], 'main_search');
+    $options['disable_filters'] = TRUE;
+    $options['conditions'] = [
+      ['type', 'faq', '<>'],
+    ];
+    $query_search_results = $this->searchHelper->getSearchResults($options, 'main_search_facets');
 
     // Preparing content type facet filter.
     $type_facet_key = 'type';
@@ -99,9 +103,11 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
         $url = $this->searchHelper->getCurrentUrl();
         $url_options = $url->getOptions();
         // That means facet is active.
+        $state = '';
         if ($this->searchHelper->request->query->get($type_facet_key) == $type_facet['filter']) {
           // Removing facet query from active filter to allow deselect it.
           unset($url_options['query'][$type_facet_key]);
+          $state = 'active';
         }
         else {
           // Adding facet filter to the query.
@@ -112,6 +118,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
         $search_filters[] = [
           'title' => Link::fromTextAndUrl($type_facet['filter'], $url),
           'count' => $type_facet['count'],
+          'search_results_item_modifier' => $state,
         ];
       }
     }
