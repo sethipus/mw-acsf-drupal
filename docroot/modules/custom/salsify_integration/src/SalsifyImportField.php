@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -28,6 +29,13 @@ class SalsifyImportField extends SalsifyImport {
   private $moduleHandler;
 
   /**
+   * The salsify product repository.
+   *
+   * @var \Drupal\salsify_integration\SalsifyProductRepository
+   */
+  private $salsifyProductRepository;
+
+  /**
    * SalsifyImportField constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -40,10 +48,20 @@ class SalsifyImportField extends SalsifyImport {
    *   The Salsify cache interface.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler interface.
+   * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
+   *   The salsify product repository.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, QueryFactory $entity_query, EntityTypeManagerInterface $entity_type_manager, CacheBackendInterface $cache_salsify, ModuleHandlerInterface $module_handler) {
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    QueryFactory $entity_query,
+    EntityTypeManagerInterface $entity_type_manager,
+    CacheBackendInterface $cache_salsify,
+    ModuleHandlerInterface $module_handler,
+    SalsifyProductRepository $salsify_product_repository
+  ) {
     parent::__construct($config_factory, $entity_query, $entity_type_manager, $cache_salsify);
     $this->moduleHandler = $module_handler;
+    $this->salsifyProductRepository = $salsify_product_repository;
   }
 
   /**
@@ -55,7 +73,8 @@ class SalsifyImportField extends SalsifyImport {
       $container->get('entity.query'),
       $container->get('entity_type.manager'),
       $container->get('cache.default'),
-      $container->get('module_handler')
+      $container->get('module_handler'),
+      $container->get('salsify_integration.salsify_product_repository')
     );
   }
 
@@ -69,6 +88,9 @@ class SalsifyImportField extends SalsifyImport {
    * @param string $content_type
    *   Content type.
    *
+   * @return string
+   *   Result status of processing (not updated, updated, or created)
+   *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\Core\Entity\EntityStorageException
@@ -78,6 +100,7 @@ class SalsifyImportField extends SalsifyImport {
     $force_update = FALSE,
     $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
   ) {
+    $process_result = self::PROCESS_RESULT_NOT_UPDATED;
     $entity_type = $this->config->get('entity_type');
     $entity_bundle = $content_type;
     // E$entity_bundle = $this->config->get('bundle');.
@@ -106,12 +129,12 @@ class SalsifyImportField extends SalsifyImport {
       // imported, then skip it. If it was, or if an update is being forced,
       // then update salsify_updated and pass it along for further processing.
       $salsify_updated = strtotime($product_data['salsify:updated_at']);
-      $force_update = TRUE;
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
         $entity->set('salsify_updated', $salsify_updated);
+        $process_result = self::PROCESS_RESULT_UPDATED;
       }
       else {
-        return;
+        return $process_result;
       }
     }
     else {
@@ -139,6 +162,7 @@ class SalsifyImportField extends SalsifyImport {
       $entity = $this->entityTypeManager->getStorage($entity_type)->create($entity_values);
       $entity->getTypedData();
       $entity->save();
+      $process_result = self::PROCESS_RESULT_CREATED;
     }
 
     // Load the configurable fields for this content type.
@@ -159,7 +183,7 @@ class SalsifyImportField extends SalsifyImport {
         // entities if the Media entity module is enabled.
         if ($this->moduleHandler->moduleExists('media')) {
           if ($field['salsify_data_type'] == 'digital_asset') {
-            $media_import = SalsifyImportMedia::create(\Drupal::getContainer());
+            $media_import = SalsifyImportMedia::create(Drupal::getContainer());
             /* @var \Drupal\media_entity\Entity\Media $media */
             $media_entities = $media_import->processSalsifyMediaItem($field, $product_data);
             if ($media_entities) {
@@ -200,7 +224,7 @@ class SalsifyImportField extends SalsifyImport {
           // For taxonomy term mapping, add processing for the terms coming in
           // from Salsify.
           elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'enumerated') {
-            $term_import = SalsifyImportTaxonomyTerm::create(\Drupal::getContainer());
+            $term_import = SalsifyImportTaxonomyTerm::create(Drupal::getContainer());
             $salsify_values = is_array($product_data[$field['salsify_id']]) ? $product_data[$field['salsify_id']] : [$product_data[$field['salsify_id']]];
             $term_entities = $term_import->getTaxonomyTerms('salsify_id', $salsify_values);
             if ($term_entities) {
@@ -213,6 +237,9 @@ class SalsifyImportField extends SalsifyImport {
           }
           elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'entity_ref') {
 
+            $handler_settings = $field_config->getSetting('handler_settings');
+            $target_bundles = $handler_settings['target_bundles'] ?? [];
+
             $entity_query = $this->entityTypeManager->getStorage('node')
               ->getQuery();
             $child_entities = $entity_query->condition(
@@ -220,13 +247,13 @@ class SalsifyImportField extends SalsifyImport {
                 $product_data[$field['salsify_id']],
               'IN'
               )
+              ->condition('type', $target_bundles, 'IN')
               ->execute();
 
             if ($child_entities) {
               $options = [];
-              /* @var \Drupal\node\Entity\Node $child_entity */
               foreach ($child_entities as $child_entity) {
-                $options[] = ['target_id' => $child_entity->id()];
+                $options[] = ['target_id' => $child_entity];
               }
             }
           }
@@ -236,10 +263,16 @@ class SalsifyImportField extends SalsifyImport {
       }
     }
 
+    // Update parent entities if product or multipack was created earlier.
+    $this->salsifyProductRepository
+      ->updateParentEntities($product_data, $entity);
+
     // Allow users to alter the node just before it's saved.
     $this->moduleHandler->alter(['salsify_entity_presave'], $entity, $original_product_data);
 
     $entity->save();
+
+    return $process_result;
   }
 
 }

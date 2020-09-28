@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_recommendations\Plugin\MarsRecommendationsLogic;
 
+use Drupal;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_recommendations\RecommendationsLogicPluginBase;
 
@@ -37,7 +38,7 @@ class Dynamic extends RecommendationsLogicPluginBase {
    */
   public function getRecommendations() {
     /** @var \Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginManager $plugin_manager */
-    $plugin_manager = \Drupal::service('plugin.manager.dynamic_recommendations_strategy');
+    $plugin_manager = Drupal::service('plugin.manager.dynamic_recommendations_strategy');
 
     /** @var \Drupal\node\Entity\Node $node */
     $node = $this->getContextValue('node');

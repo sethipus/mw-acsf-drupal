@@ -1,0 +1,22 @@
+uuid: b9774a95-c4dc-48e8-86ca-7bf23daf82a9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.poll.field_submit_cta
+  module:
+    - poll
+id: poll.poll.field_submit_cta
+field_name: field_submit_cta
+entity_type: poll
+bundle: poll
+label: 'Submit CTA'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: Submit
+default_value_callback: ''
+settings: {  }
+field_type: string
