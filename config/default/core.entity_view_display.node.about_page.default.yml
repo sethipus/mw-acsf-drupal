@@ -12,6 +12,7 @@ dependencies:
     - layout_discovery
     - layout_library
     - mars_common
+    - mars_product
     - text
     - user
 third_party_settings:
@@ -52,7 +53,28 @@ third_party_settings:
         layout_id: about_page_storytelling
         layout_settings:
           label: Storytelling
-        components: {  }
+        components:
+          5d23a7ec-9f00-4768-a049-a6275ee68298:
+            uuid: 5d23a7ec-9f00-4768-a049-a6275ee68298
+            region: content
+            configuration:
+              id: product_content_pair_up_block
+              label: 'MARS: Product Content Pair Up'
+              provider: mars_product
+              label_display: '1'
+              entity_priority: article_first
+              article_recipe: '2'
+              product: null
+              title: 'Pair Up'
+              lead_card_eyebrow: Eyebrow
+              lead_card_title: MasterCardTitle
+              cta_link_text: ''
+              supporting_card_eyebrow: ''
+              max_width: '1440'
+              background: null
+              context_mapping: {  }
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -77,8 +99,8 @@ third_party_settings:
         layout_settings:
           label: Contact
         components:
-          0c3e4630-9ddb-436f-b281-ca53f18ce404:
-            uuid: 0c3e4630-9ddb-436f-b281-ca53f18ce404
+          c0f760ff-9053-4678-b0cf-b4e3c26c2e1e:
+            uuid: c0f760ff-9053-4678-b0cf-b4e3c26c2e1e
             region: content
             configuration:
               id: contact_form
@@ -89,36 +111,14 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
-          8af5e7c3-d142-4f69-a548-6bb07ea5075e:
-            uuid: 8af5e7c3-d142-4f69-a548-6bb07ea5075e
-            region: content
-            configuration:
-              id: contact_help_banner_block
-              label: 'MARS: Contact Help Banner'
-              provider: mars_common
-              label_display: ''
-              email_cta_label: 'Email Us'
-              social_links_label: 'See More On'
-              title: 'Contact&Help'
-              description: 'Description text'
-              phone_cta_label: 'Call Us'
-              phone_cta_number: ''
-              email_cta_address: ''
-              help_and_contact_cta_label: 'Get it now'
-              help_and_contact_cta_url: '#'
-              context_mapping: {  }
-            additional: {  }
-            weight: 1
         third_party_settings:
           layout_builder_lock:
             lock:
               2: 2
-              3: 3
               4: 4
               5: 5
               6: 6
               7: 7
-              8: 8
   layout_library:
     enable: false
   layout_builder_restrictions:
@@ -138,37 +138,6 @@ third_party_settings:
         - about_page_newsletter
         - about_page_contact
       whitelisted_blocks:
-        about_page_contact:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Facets: {  }
-            'Flexible driver': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common':
-              - contact_form
-              - contact_help_banner_block
-            'Mars Product': {  }
-            'Mars Search': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
         about_page_introduction:
           all_regions:
             Article: {  }
@@ -269,6 +238,37 @@ third_party_settings:
             Recipe: {  }
             'Social feed':
               - social_feed
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        about_page_contact:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Facets: {  }
+            'Flexible driver': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - contact_form
+              - contact_help_banner_block
+            'Mars Product': {  }
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
