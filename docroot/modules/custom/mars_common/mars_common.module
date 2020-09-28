@@ -659,8 +659,18 @@ function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state
       ':input[name="field_type"]' => ['value' => 'feedback'],
     ],
   ];
+  $form['field_standard_variation']['widget'][0]['value']['#states'] = [
+    'required' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
   $form['field_positive_feedback']['#states'] = [
     'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
+  $form['field_positive_feedback']['widget'][0]['value']['#states'] = [
+    'required' => [
       ':input[name="field_type"]' => ['value' => 'feedback'],
     ],
   ];
@@ -669,13 +679,28 @@ function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state
       ':input[name="field_type"]' => ['value' => 'feedback'],
     ],
   ];
+  $form['field_negative_feedback']['widget'][0]['value']['#states'] = [
+    'required' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
   $form['field_contact_us_label']['#states'] = [
     'visible' => [
       ':input[name="field_type"]' => ['value' => 'feedback'],
     ],
   ];
+  $form['field_contact_us_label']['widget'][0]['value']['#states'] = [
+    'required' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
   $form['field_contact_us_link']['#states'] = [
     'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
+  $form['field_contact_us_link']['widget'][0]['value']['#states'] = [
+    'required' => [
       ':input[name="field_type"]' => ['value' => 'feedback'],
     ],
   ];
@@ -717,9 +742,11 @@ function mars_common_field_widget_form_alter(
     $element['choice']['#maxlength'] = 25;
   }
 
-  // Validate poll form.
-  if (isset($context['form']['#attributes']['class'][0])
-    && $context['form']['#attributes']['class'][0] === 'poll-form'
+  // Validate feedback form.
+  $formBuildInfo = $form_state->getBuildInfo();
+  if ($formBuildInfo
+    && isset($formBuildInfo['base_form_id'])
+    && $formBuildInfo['base_form_id'] === 'poll_form'
     && $field_name === 'field_type') {
     $userInputs = $form_state->getUserInput();
     if (isset($userInputs['field_type'])
