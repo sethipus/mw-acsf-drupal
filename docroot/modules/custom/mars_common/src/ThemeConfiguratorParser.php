@@ -4,6 +4,7 @@ namespace Drupal\mars_common;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\file\Entity\File;
 
 /**
  * Class ThemeConfiguratorParser.
@@ -68,12 +69,7 @@ class ThemeConfiguratorParser {
    *   File contents.
    */
   public function getFileContentFromTheme(string $field): string {
-    if (!isset($this->themeSettings[$field][0])) {
-      return '';
-    }
-
-    $configField = $this->themeSettings[$field][0];
-    $file = $this->fileStorage->load($configField);
+    $file = $this->getFileFromTheme($field);
     if (!empty($file)) {
       $filePath = file_create_url($file->uri->value);
       return !empty($filePath) && file_exists($filePath) ? file_get_contents($filePath) : '';
@@ -94,10 +90,10 @@ class ThemeConfiguratorParser {
    *   File contents.
    */
   public function getFileWithId(string $field, string $id): string {
-    $svgContent = $this->getFileContentFromTheme($field);
-    $svgContent = preg_replace('/\S*(fill=[\'"]url\(#\S*\)[\'"])/', 'fill="url(#' . $id . ')"', $svgContent);
-    $svgContent = preg_replace('/\S*(id=[\'"]\S*[\'"])\S*/', 'id="' . $id . '"', $svgContent);
-    return $svgContent;
+    $fileContent = $this->getFileContentFromTheme($field);
+    $fileContent = preg_replace('/\S*(fill=[\'"]url\(#\S*\)[\'"])/', 'fill="url(#' . $id . ')"', $fileContent);
+    $fileContent = preg_replace('/\S*(id=[\'"]\S*[\'"])\S*/', 'id="' . $id . '"', $fileContent);
+    return $fileContent;
   }
 
   /**
@@ -134,6 +130,24 @@ class ThemeConfiguratorParser {
    */
   public function getSettingValue(string $setting) {
     return $this->themeSettings[$setting] ?? '';
+  }
+
+  /**
+   * Returns file entity.
+   *
+   * @param string $field
+   *   Config field name.
+   *
+   * @return \Drupal\file\Entity\File|null
+   *   File entity.
+   */
+  public function getFileFromTheme(string $field): ?File {
+    if (!isset($this->themeSettings[$field][0])) {
+      return NULL;
+    }
+
+    $configField = $this->themeSettings[$field][0];
+    return $this->fileStorage->load($configField);
   }
 
 }
