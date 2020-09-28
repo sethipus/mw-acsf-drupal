@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.media_browser
-    - field.field.node.article.field_article_brand_initiatives
+    - field.field.node.article.field_brand_initiatives
     - field.field.node.article.field_article_description
     - field.field.node.article.field_article_image
     - field.field.node.article.field_article_new
@@ -27,7 +27,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_article_brand_initiatives:
+  field_brand_initiatives:
     weight: 8
     settings:
       match_operator: CONTAINS

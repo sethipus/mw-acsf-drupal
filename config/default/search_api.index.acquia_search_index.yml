@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_qa_item_answer
-    - field.storage.node.field_article_brand_initiatives
+    - field.storage.node.field_brand_initiatives
     - field.storage.node.field_product_brand
     - field.storage.node.field_faq_filter_topic
     - field.storage.node.field_product_flavor
@@ -39,16 +39,6 @@ field_settings:
         - field.storage.node.field_product_brand
       module:
         - taxonomy
-  brand_initiatives:
-    label: 'Brand Initiatives » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_article_brand_initiatives:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_article_brand_initiatives
-      module:
-        - taxonomy
   created:
     label: 'Authored on'
     datasource_id: 'entity:node'
@@ -57,18 +47,6 @@ field_settings:
     dependencies:
       module:
         - node
-  diet_allergens:
-    label: 'Product Variants » Content » Diet & Allergens » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_product_variants:entity:field_product_diet_allergens:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_product_diet_allergens
-        - field.storage.node.field_product_variants
-      module:
-        - node
-        - taxonomy
   faq_filter_topic:
     label: 'FAQ Filter topic » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -83,6 +61,14 @@ field_settings:
     label: 'FAQ item queue weight'
     property_path: faq_item_queue_weight
     type: string
+  field_product_flavor:
+    label: Flavor
+    datasource_id: 'entity:node'
+    property_path: field_product_flavor
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_flavor
   field_qa_item_answer:
     label: Answer
     datasource_id: 'entity:node'
@@ -99,7 +85,48 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_qa_item_question
-  flavor:
+  mars_brand_initiatives:
+    label: 'Brand Initiatives'
+    datasource_id: 'entity:node'
+    property_path: field_brand_initiatives
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_brand_initiatives
+  mars_brand_initiatives_name:
+    label: 'Brand Initiatives » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_brand_initiatives:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_brand_initiatives
+      module:
+        - taxonomy
+  mars_diet_allergens:
+    label: 'Product Variants » Content » Diet & Allergens'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_variants:entity:field_product_diet_allergens'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_diet_allergens
+        - field.storage.node.field_product_variants
+      module:
+        - node
+  mars_diet_allergens_name:
+    label: 'Product Variants » Content » Diet & Allergens » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_variants:entity:field_product_diet_allergens:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_diet_allergens
+        - field.storage.node.field_product_variants
+      module:
+        - node
+        - taxonomy
+  mars_flavor_name:
     label: 'Flavor » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_flavor:entity:name'
@@ -109,7 +136,15 @@ field_settings:
         - field.storage.node.field_product_flavor
       module:
         - taxonomy
-  format:
+  mars_format:
+    label: Format
+    datasource_id: 'entity:node'
+    property_path: field_product_format
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_format
+  mars_format_name:
     label: 'Format » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_format:entity:name'
@@ -119,7 +154,15 @@ field_settings:
         - field.storage.node.field_product_format
       module:
         - taxonomy
-  occasions_product:
+  mars_occasions:
+    label: Occasions
+    datasource_id: 'entity:node'
+    property_path: field_product_occasions
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_occasions
+  mars_occasions_name:
     label: 'Occasions » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_occasions:entity:name'
@@ -127,6 +170,24 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_product_occasions
+      module:
+        - taxonomy
+  mars_trade_item_description:
+    label: 'Trade item description'
+    datasource_id: 'entity:node'
+    property_path: field_product_trade_description
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_trade_description
+  mars_trade_item_description_name:
+    label: 'Trade item description » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_trade_description:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_trade_description
       module:
         - taxonomy
   product_name:
@@ -138,16 +199,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_product_name
-  product_trade:
-    label: 'Trade item description » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_product_trade_description:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_product_trade_description
-      module:
-        - taxonomy
   title:
     label: Title
     datasource_id: 'entity:node'
@@ -187,17 +238,17 @@ processor_settings:
     all_fields: true
     fields:
       - brand
-      - brand_initiatives
-      - diet_allergens
       - faq_filter_topic
       - faq_item_queue_weight
       - field_qa_item_answer
       - field_qa_item_question
-      - flavor
-      - format
-      - occasions_product
+      - mars_brand_initiatives_name
+      - mars_diet_allergens_name
+      - mars_flavor_name
+      - mars_format_name
+      - mars_occasions_name
+      - mars_trade_item_description_name
       - product_name
-      - product_trade
       - title
       - type
     ignorable: '[''¿¡!?,.:;]'
@@ -216,17 +267,17 @@ processor_settings:
     all_fields: true
     fields:
       - brand
-      - brand_initiatives
-      - diet_allergens
       - faq_filter_topic
       - faq_item_queue_weight
       - field_qa_item_answer
       - field_qa_item_question
-      - flavor
-      - format
-      - occasions_product
+      - mars_brand_initiatives_name
+      - mars_diet_allergens_name
+      - mars_flavor_name
+      - mars_format_name
+      - mars_occasions_name
+      - mars_trade_item_description_name
       - product_name
-      - product_trade
       - title
       - type
     weights:
