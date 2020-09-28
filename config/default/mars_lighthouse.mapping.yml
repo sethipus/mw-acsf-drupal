@@ -11,6 +11,7 @@ media:
   field_agency: agencyPartnerVendor
   field_last_mod_date: lastModDate
   name: assetName
+  field_version_id: versionIdOTMM
 file:
   filename: assetName
   uri: urls.001orig

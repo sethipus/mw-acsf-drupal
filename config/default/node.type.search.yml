@@ -1,0 +1,21 @@
+uuid: cf514115-a11f-446e-86fc-52ae5814b463
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_workflow
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  lightning_workflow:
+    workflow: editorial
+name: Search
+type: search
+description: ''
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false
