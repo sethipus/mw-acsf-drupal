@@ -4,7 +4,7 @@ Drupal.behaviors.feedback = {
     const choiceButtons = document.querySelectorAll('.feedback-module__radio');
     choiceButtons.forEach((e) => {
       e.addEventListener('change', () => {
-        document.getElementsByClassName('poll-view-form')[0].submit();
+        document.querySelector('#edit-vote').dispatchEvent(new Event('mousedown'));
       });
     });
 
