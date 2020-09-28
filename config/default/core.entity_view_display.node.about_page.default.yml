@@ -228,6 +228,7 @@ third_party_settings:
               - freeform_story_block
               - iframe_block
               - story_highlight
+              - poll_block
             'Mars Product':
               - product_content_pair_up_block
             'Mars Search': {  }
