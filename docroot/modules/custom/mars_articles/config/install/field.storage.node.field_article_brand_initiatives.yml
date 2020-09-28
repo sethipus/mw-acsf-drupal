@@ -5,8 +5,8 @@ dependencies:
   module:
     - node
     - taxonomy
-id: node.field_article_brand_initiatives
-field_name: field_article_brand_initiatives
+id: node.field_brand_initiatives
+field_name: field_brand_initiatives
 entity_type: node
 type: entity_reference
 settings:

@@ -3,9 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.recipe.field_brand_initiatives
     - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
-    - field.field.node.recipe.field_recipe_brand_initiatives
     - field.field.node.recipe.field_recipe_cooking_time
     - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
@@ -50,22 +50,6 @@ third_party_settings:
                 node: layout_builder.entity
             additional: {  }
             weight: 0
-          b9d69b54-426d-45ca-b68d-16a03180878e:
-            uuid: b9d69b54-426d-45ca-b68d-16a03180878e
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:recipe:field_recipe_brand_initiatives'
-              formatter:
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-                type: entity_reference_label
-            additional: {  }
-            weight: 1
           d7f7deca-980d-496f-b980-6aa1da8abe1b:
             uuid: d7f7deca-980d-496f-b980-6aa1da8abe1b
             region: content
@@ -82,6 +66,22 @@ third_party_settings:
                 type: entity_reference_label
             additional: {  }
             weight: 2
+          5dd6fdef-c525-4506-b80f-43e41e73a1c0:
+            uuid: 5dd6fdef-c525-4506-b80f-43e41e73a1c0
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:recipe:field_brand_initiatives'
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+            additional: {  }
+            weight: 3
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -363,16 +363,16 @@ targetEntityType: node
 bundle: recipe
 mode: default
 content:
-  field_product_occasions:
-    weight: 11
+  field_brand_initiatives:
+    weight: 12
     label: above
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  field_recipe_brand_initiatives:
-    weight: 10
+  field_product_occasions:
+    weight: 11
     label: above
     settings:
       link: true

@@ -35,7 +35,7 @@ class Recipe extends DynamicRecommendationsStrategyPluginBase {
     $nodes = [];
 
     $fields = [
-      'field_recipe_brand_initiatives',
+      'field_brand_initiatives',
       'field_product_occasions',
       'field_product_reference',
     ];
