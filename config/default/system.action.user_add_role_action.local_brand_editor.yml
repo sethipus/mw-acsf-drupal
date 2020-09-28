@@ -1,0 +1,14 @@
+uuid: eb837952-abf9-45a1-b18d-51b90a28fb79
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.local_brand_editor
+  module:
+    - user
+id: user_add_role_action.local_brand_editor
+label: 'Add the Local Brand Editor role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: local_brand_editor

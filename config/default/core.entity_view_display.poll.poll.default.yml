@@ -1,0 +1,38 @@
+uuid: 0185f88f-ab81-49c6-b043-cdaa401d3e0d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.poll.poll.field_description
+    - field.field.poll.poll.field_submit_cta
+    - field.field.poll.poll.field_thank_you_message
+  module:
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_library
+    - poll
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+  layout_library:
+    enable: false
+  layout_builder_restrictions:
+    allowed_block_categories: {  }
+    entity_view_mode_restriction:
+      whitelisted_blocks: {  }
+      blacklisted_blocks: {  }
+      allowed_layouts: {  }
+    entity_view_mode_restriction_by_region:
+      allowed_layouts: {  }
+id: poll.poll.default
+targetEntityType: poll
+bundle: poll
+mode: default
+content: {  }
+hidden:
+  field_description: true
+  field_submit_cta: true
+  field_thank_you_message: true
+  poll_votes: true
+  search_api_excerpt: true

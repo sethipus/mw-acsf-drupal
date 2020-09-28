@@ -1,0 +1,22 @@
+uuid: 81ebea80-9d9f-4b42-9c22-285f67f96065
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.search
+id: node.search.status
+field_name: status
+entity_type: node
+bundle: search
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

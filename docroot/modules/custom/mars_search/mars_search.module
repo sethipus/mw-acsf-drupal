@@ -5,9 +5,7 @@
  * MARS Search module main file.
  */
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\mars_search\Controller\AutocompleteController;
-use Drupal\views\ViewExecutable;
+use Drupal\entityqueue\EntitySubqueueInterface;
 use Drupal\search_api\IndexInterface;
 
 /**
@@ -28,7 +26,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'search_header_heading' => NULL,
         'brand_shape' => NULL,
         'input_form' => NULL,
-        'search_results' => NULL,
+        'search_filters' => NULL,
       ],
       'template' => 'mars-search-header',
     ],
@@ -40,34 +38,28 @@ function mars_search_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'mars-search-no-results',
     ],
+    'mars_search_faq_block' => [
+      'variables' => [
+        'faq_title' => NULL,
+        'qa_items' => [],
+        'cta_button_label' => NULL,
+        'cta_button_link' => NULL,
+        'search_form' => NULL,
+        'facets' => NULL,
+      ],
+    ],
+    'mars_search_search_results_block' => [
+      'variables' => [
+        'items' => [],
+        'theme_styles' => '',
+        'graphic_divider' => NULL,
+        'ajax_card_grid_heading' => NULL,
+        'ajax_card_grid_link_text' => NULL,
+        'ajax_card_grid_link_attributes' => [],
+        'ajax_card_grid_border_radius' => NULL,
+      ],
+    ],
   ];
-}
-
-/**
- * Changes an exposed "type" filter from a multi-select to checkboxes.
- */
-function mars_search_form_views_exposed_form_alter(&$form, FormStateInterface $form_state) {
-  // Retrieve the view object and the query plugin.
-  $storage = $form_state->getStorage();
-  if (!isset($storage['view'])) {
-    return;
-  }
-  $view = $storage['view'];
-  if (!($view instanceof ViewExecutable)) {
-    return;
-  }
-
-  $allowed_views_ids = \Drupal::config('mars_search.autocomplete')->get('views');
-  if (!$allowed_views_ids || !in_array($view->id(), $allowed_views_ids)) {
-    return;
-  }
-  // We need these values for the query.
-  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-view_id'] = $view->id();
-  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['data-display_id'] = $view->current_display;
-  // To indicate this textfield supports autocomplete.
-  $form[AutocompleteController::MARS_SEARCH_EXPOSED_FIELD_NAME]['#attributes']['class'][] = 'mars-autocomplete-field';
-  // Attaching javasript for autocomplete.
-  $form['#attached']['library'][] = 'mars_search/autocomplete';
 }
 
 /**
@@ -84,5 +76,18 @@ function mars_search_search_api_index_items_alter(IndexInterface $index, array &
       $object->set('type', 'product');
     }
     $item->setOriginalObject($object);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for entity_subqueue entities.
+ */
+function mars_search_entity_subqueue_presave(EntitySubqueueInterface $queue) {
+  // Looping through all queue items.
+  foreach ($queue->get('items')->referencedEntities() as $node) {
+    // This is needed for search_api_entity_update().
+    $node->original = clone $node;
+    // Re-indexing items.
+    search_api_entity_update($node);
   }
 }
