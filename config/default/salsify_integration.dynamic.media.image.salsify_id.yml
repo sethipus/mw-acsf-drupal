@@ -1,0 +1,9 @@
+field_id: 'salsify:id'
+salsify_id: 'salsify:id'
+salsify_data_type: string
+entity_type: media
+bundle: image
+field_name: salsify_id
+method: dynamic
+created: 1600646400
+changed: 1600697686

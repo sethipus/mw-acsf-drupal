@@ -1,6 +1,7 @@
 theme_styles: 'twix'
 default_link_content: 'See details'
 link_content: BUY NOW2
+recipe_is_new: true;
 
 item:
   card_url: https://storybook.js.org/

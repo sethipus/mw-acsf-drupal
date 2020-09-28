@@ -4,7 +4,9 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.full
+    - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
+    - field.field.node.recipe.field_recipe_brand_initiatives
     - field.field.node.recipe.field_recipe_cooking_time
     - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
@@ -112,6 +114,8 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
+      - Facets
+      - 'Flexible driver'
       - Forms
       - 'Global elements'
       - Help
@@ -119,6 +123,7 @@ third_party_settings:
       - 'Lists (Views)'
       - 'Mars Common'
       - 'Mars Product'
+      - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
       - Product
@@ -130,7 +135,10 @@ third_party_settings:
       - Views
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        Facets: {  }
+        'Flexible driver': {  }
+        'Mars Search': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - recipe_recipe_hero
@@ -155,6 +163,8 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            Facets: {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -171,7 +181,9 @@ third_party_settings:
               - contact_help_banner_block
               - iframe_block
               - newsletter_signup_form
+              - recommendations_module
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -279,7 +291,8 @@ third_party_settings:
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - recommendations_module
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
@@ -304,7 +317,10 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  content_moderation_control: true
+  field_product_occasions: true
   field_product_reference: true
+  field_recipe_brand_initiatives: true
   field_recipe_cooking_time: true
   field_recipe_cta: true
   field_recipe_description: true

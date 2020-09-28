@@ -20,11 +20,10 @@ Drupal.behaviors.pdpMultipackCorousel = {
     //see all functionality for multipack swiper
     const seeAllButton = document.querySelector('#multipack-see-all');
     const multipackSwiper = document.querySelector('#pdp-multipack-swiper-container');
-    seeAllButton.addEventListener('click', (e) => {
+    seeAllButton.addEventListener('click', (event) => {
       event.preventDefault();
       multipackSwiper.classList.add('expanded');
       swiper.update();
-      console.log('clicked');
     });
   },
 };

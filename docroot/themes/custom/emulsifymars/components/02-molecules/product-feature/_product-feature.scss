@@ -88,8 +88,9 @@
 
   &__product_image {
     flex: 0 0 auto;
-    margin-right: 10rem;
+    margin-right: 5rem;
     animation: action 1.2s cubic-bezier(0, 0, 1, 1) infinite alternate;
+    max-width: 45%;
 
     @keyframes action {
       0% { transform: translateY(0); }
@@ -97,6 +98,7 @@
     }
 
     @media (max-width: 768px) {
+      max-width: 100%;
       padding: 2rem;
       margin-right: 0;
     }
