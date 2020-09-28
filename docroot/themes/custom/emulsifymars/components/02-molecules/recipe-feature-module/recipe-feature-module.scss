@@ -39,7 +39,7 @@
 
         svg {
           width: 100%;
-          
+
           path {
             fill: clr(subcolor-3);
           }
@@ -63,9 +63,13 @@
         font-family: variable(primary-font);
         font-size: 28px;
         line-height: 28px;
-        color: clr(primary);
         text-transform: capitalize;
         font-weight: normal;
+
+        a.link {
+          color: clr(primary);
+          text-decoration: none;
+        }
       }
 
       .cooking-time {
