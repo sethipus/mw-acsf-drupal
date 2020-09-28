@@ -21,7 +21,7 @@ mode: default
 content:
   anonymous_vote_allow:
     type: boolean_checkbox
-    weight: 6
+    weight: 9
     region: content
     settings:
       display_label: true
@@ -33,7 +33,7 @@ content:
     region: content
     third_party_settings: {  }
   field_contact_us_label:
-    weight: 11
+    weight: 14
     settings:
       size: 60
       placeholder: ''
@@ -41,7 +41,7 @@ content:
     type: string_textfield
     region: content
   field_contact_us_link:
-    weight: 12
+    weight: 15
     settings:
       size: 60
       placeholder: ''
@@ -57,7 +57,7 @@ content:
     type: string_textfield
     region: content
   field_negative_feedback:
-    weight: 10
+    weight: 13
     settings:
       size: 60
       placeholder: ''
@@ -65,7 +65,7 @@ content:
     type: string_textfield
     region: content
   field_positive_feedback:
-    weight: 9
+    weight: 12
     settings:
       size: 60
       placeholder: ''
@@ -73,7 +73,7 @@ content:
     type: string_textfield
     region: content
   field_standard_variation:
-    weight: 8
+    weight: 11
     settings:
       size: 60
       placeholder: ''
@@ -81,7 +81,7 @@ content:
     type: string_textfield
     region: content
   field_submit_cta:
-    weight: 4
+    weight: 6
     settings:
       size: 60
       placeholder: ''
@@ -89,7 +89,7 @@ content:
     type: string_textfield
     region: content
   field_thank_you_message:
-    weight: 5
+    weight: 7
     settings:
       size: 60
       placeholder: ''
@@ -114,12 +114,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 10
     region: content
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 6
+    weight: 8
     settings:
       match_operator: CONTAINS
       size: 60

@@ -8,6 +8,7 @@
 use Drupal\block_content\BlockContentInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
@@ -646,12 +647,54 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
 }
 
 /**
+ * Change feedback form according to type.
+ */
+function _mars_common_feedback_ajax_callback(&$form, FormStateInterface $form_state) {
+  $form_state->setRebuild();
+  return $form;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $fieldTypeValue = isset($form_state->getUserInput()['field_type']) ? $form_state->getUserInput()['field_type'] : $form['field_type']['widget']['#default_value'];
+  if ($fieldTypeValue === 'poll') {
+    $form['choice']['widget']['#cardinality'] = FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED;
+    // $form['choice']['widget']['add_more']['#attributes']['disabled'] = FALSE;
+  }
+  elseif ($fieldTypeValue === 'feedback') {
+    $form['choice']['widget']['#cardinality'] = 2;
+    // $form['choice']['widget']['add_more']['#attributes']['disabled'] = TRUE;
+    $form['choice']['widget'][1] = $form['choice']['widget'][0];
+    $form['choice']['widget'][0]['choice']['#value'] = 'YES';
+    $form['choice']['widget'][1]['choice']['#value'] = 'NO';
+
+    foreach ($form['choice']['widget'] as $choiceIndex => $choice) {
+      if ($choiceIndex <= 1) {
+        continue;
+      }
+      if (is_int($choiceIndex)) {
+        unset($form['choice']['widget'][$choiceIndex]);
+      }
+    }
+  }
+
+  $form['field_type']['widget']['#ajax'] =
+    [
+      'callback' => '_mars_common_feedback_ajax_callback',
+      'disable-refocus' => FALSE,
+      'event' => 'change',
+      'wrapper' => 'poll-form',
+      'progress' => [
+        'type' => 'throbber',
+      ],
+    ];
+
   $form['question']['widget'][0]['value']['#title'] = 'Title';
   $form['question']['widget'][0]['value']['#maxlength'] = 50;
   $form['choice']['widget']['#title'] = 'Responses';
+  $form['choice_feedback']['widget'][0]['#cardinality'] = 2;
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
 
   $form['field_standard_variation']['#states'] = [
@@ -740,43 +783,6 @@ function mars_common_field_widget_form_alter(
   if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
     $element['choice']['#size'] = 40;
     $element['choice']['#maxlength'] = 25;
-  }
-
-  // Validate feedback form.
-  $formBuildInfo = $form_state->getBuildInfo();
-  if ($formBuildInfo
-    && ($formBuildInfo['base_form_id'] === 'poll_form' || $formBuildInfo['form_id'] === 'poll_form')
-    && $field_name === 'field_type') {
-    $element['#element_validate'][] = '_mars_common_feedback_field_validate';
-  }
-}
-
-/**
- * Validate poll form when feedback type is selected.
- */
-function _mars_common_feedback_field_validate($element, &$form_state, $form) {
-  $userInputs = $form_state->getUserInput();
-
-  if (isset($userInputs['field_type']) && $userInputs['field_type'] !== 'feedback') {
-    return;
-  }
-
-  $choiceNumber = 0;
-  if (is_array($userInputs['choice'])) {
-    foreach ($userInputs['choice'] as $choice) {
-      if ($choice['choice'] !== '') {
-        $choiceNumber++;
-      }
-    }
-  }
-
-  if (isset($userInputs['_drupal_ajax'])) {
-    if ($choiceNumber >= 2) {
-      $form_state->setErrorByName('choice', t('Exactly two responses allowed.'));
-    }
-  }
-  elseif ($choiceNumber !== 2) {
-    $form_state->setErrorByName('choice', t('Exactly two responses required.'));
   }
 }
 
