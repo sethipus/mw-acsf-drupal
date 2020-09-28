@@ -139,6 +139,7 @@ third_party_settings:
             'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
+              - poll_block
               - feedback_block
             'Mars Product': {  }
             'Mars Search': {  }
