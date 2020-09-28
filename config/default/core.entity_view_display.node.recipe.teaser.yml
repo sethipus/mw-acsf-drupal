@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.recipe.field_brand_initiatives
+    - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
     - field.field.node.recipe.field_recipe_cta
@@ -54,6 +56,9 @@ content:
       image_link: ''
     third_party_settings: {  }
 hidden:
+  content_moderation_control: true
+  field_brand_initiatives: true
+  field_product_occasions: true
   field_product_reference: true
   field_recipe_cooking_time: true
   field_recipe_ingredients: true

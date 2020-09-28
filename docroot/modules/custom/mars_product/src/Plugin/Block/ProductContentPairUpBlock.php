@@ -184,7 +184,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
       $default_eyebrow_text = $supporting_entity->getEntityType() == 'product' ? $this->t('Made With') : $this->t('Seen In');
       $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
-      $view_mode = sprintf('%s_card', $supporting_entity->getType());
+      $view_mode = 'card';
 
       $build['#supporting_card_entity_view'] = $this->viewBuilder->view($supporting_entity, $view_mode);
       $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
@@ -221,12 +221,12 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
     $form['entity_priority'] = [
       '#type' => 'select',
-      '#title' => $this->t('Elements order'),
+      '#title' => $this->t('Variants'),
       '#required' => TRUE,
       '#default_value' => $this->configuration['entity_priority'] ?? NULL,
       '#options' => [
-        self::ARTICLE_OR_RECIPE_FIRST => $this->t('Article/Recipe first'),
-        self::PRODUCT_FIRST => $this->t('Product first'),
+        self::ARTICLE_OR_RECIPE_FIRST => $this->t('Supporting product variant'),
+        self::PRODUCT_FIRST => $this->t('Lead product variant'),
       ],
     ];
 

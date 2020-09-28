@@ -19,6 +19,6 @@ brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="243" height="243" f
 </svg>'
 
 article_card_background_img_url: '/content-feature-bg.png'
-# article_is_new: true
+article_is_new: true
 
 # article_card_eyebrow: 'eyebrow example'

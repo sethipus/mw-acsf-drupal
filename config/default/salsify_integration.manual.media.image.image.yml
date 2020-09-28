@@ -1,0 +1,9 @@
+field_id: 'salsify:url'
+salsify_id: 'salsify:url'
+salsify_data_type: string
+entity_type: media
+bundle: image
+field_name: image
+method: manual
+created: 1546300800
+changed: 1546300801

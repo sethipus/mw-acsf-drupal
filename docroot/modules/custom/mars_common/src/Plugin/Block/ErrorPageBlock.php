@@ -121,7 +121,7 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $build['#body'] = $node->body->value;
     }
 
-    $linksMenu = $this->buildMenu('main');
+    $linksMenu = $this->buildMenu('error-page-menu');
     $links = [];
     foreach ($linksMenu as $linkMenu) {
       $links[] = [

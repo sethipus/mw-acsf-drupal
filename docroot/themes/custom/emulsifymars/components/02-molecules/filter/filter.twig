@@ -1,0 +1,10 @@
+<div class="filter-block">
+  <div class="filter-title">
+    {{ filter_title }} <span class="filter-title__counter">{{ active_filters_count }}</span>
+  </div>
+  <div class="filter-checkboxes">
+    {% include "@atoms/forms/checkbox/checkbox.twig" with {
+      checkboxes: checkboxes,
+    } %}
+  </div>
+</div>
