@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.campaign.field_campaign_brand_initiatives
+    - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_related_products
     - field.field.node.campaign.field_product_occasions
     - node.type.campaign
@@ -22,7 +22,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
-  field_campaign_brand_initiatives: true
+  field_brand_initiatives: true
   field_campaign_related_products: true
   field_product_occasions: true
   published_at: true

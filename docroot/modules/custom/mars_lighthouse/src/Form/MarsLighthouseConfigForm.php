@@ -120,6 +120,12 @@ class MarsLighthouseConfigForm extends ConfigFormBase {
       ],
     ];
 
+    $form['sync_mode'] = [
+      '#title' => $this->t('Use bulk sync mode'),
+      '#type' => 'checkbox',
+      '#default_value' => $config->get('sync_mode'),
+    ];
+
     return $form;
   }
 
@@ -134,6 +140,7 @@ class MarsLighthouseConfigForm extends ConfigFormBase {
     $this->setConfigValue($config, $form_state, 'base_path');
     $this->setConfigValue($config, $form_state, 'subpath');
     $this->setConfigValue($config, $form_state, 'port');
+    $this->setConfigValue($config, $form_state, 'sync_mode');
     $config->save();
 
     parent::submitForm($form, $form_state);

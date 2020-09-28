@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.campaign.field_campaign_brand_initiatives
+    - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_related_products
     - field.field.node.campaign.field_product_occasions
     - node.type.campaign
@@ -65,14 +65,14 @@ third_party_settings:
                 type: entity_reference_label
             additional: {  }
             weight: 4
-          997f5740-40ee-44eb-9cc0-abb80ae6bcb4:
-            uuid: 997f5740-40ee-44eb-9cc0-abb80ae6bcb4
+          fcf25b18-bc11-4fce-8e3d-be72a84dca81:
+            uuid: fcf25b18-bc11-4fce-8e3d-be72a84dca81
             region: content
             configuration:
               label_display: '0'
               context_mapping:
                 entity: layout_builder.entity
-              id: 'field_block:node:campaign:field_campaign_brand_initiatives'
+              id: 'field_block:node:campaign:field_brand_initiatives'
               formatter:
                 label: above
                 settings:
@@ -138,7 +138,8 @@ third_party_settings:
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - poll_block
             'Mars Product': {  }
             'Mars Search': {  }
             Menus: {  }
@@ -156,7 +157,7 @@ targetEntityType: node
 bundle: campaign
 mode: default
 content:
-  field_campaign_brand_initiatives:
+  field_brand_initiatives:
     weight: 105
     label: above
     settings:

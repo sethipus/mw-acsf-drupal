@@ -32,7 +32,7 @@
     background-color: clr(subcolor-3);
     border: 2px solid clr(secondary);
     padding: 16px 40px;
-    border-radius: variable(border-radius);;
+    border-radius: variable(border-radius);
     font-family: variable(primary-font);
     font-size: 14px;
     line-height: 14px;
@@ -52,6 +52,10 @@
       margin: 0;
       padding: 0;
       line-height: 20px;
+    }
+
+    &--hidden {
+      display: none;
     }
   }
 }
@@ -179,6 +183,10 @@
 
   &__applied {
     flex-grow: 1;
+
+    &--hidden {
+      display: none;
+    }
   }
 
   &__clear {

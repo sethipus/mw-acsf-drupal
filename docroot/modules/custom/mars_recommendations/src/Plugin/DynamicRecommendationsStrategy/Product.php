@@ -5,7 +5,7 @@ namespace Drupal\mars_recommendations\Plugin\DynamicRecommendationsStrategy;
 use Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginBase;
 
 /**
- * Default Dynamic recommendations strategy plugin implementation.
+ * Product recommendations strategy plugin implementation.
  *
  * @DynamicRecommendationsStrategy(
  *   id = "product",
@@ -26,7 +26,7 @@ class Product extends DynamicRecommendationsStrategyPluginBase {
     /** @var \Drupal\node\Entity\Node $node */
     $node = $this->getContextValue('node');
 
-    if ($node->getType() !== 'product') {
+    if (!in_array($node->getType(), ['product', 'product_multipack'])) {
       return $this->getFallbackPlugin()->generate();
     }
 
