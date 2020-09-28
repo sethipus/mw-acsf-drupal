@@ -3,6 +3,7 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Menu\MenuTreeParameters;
@@ -49,6 +50,20 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $termStorage;
+
+  /**
+   * Custom cache tag.
+   *
+   * @var string
+   */
+  const CUSTOM_CACHE_TAG = 'custom_region_cache';
+
+  /**
+   * Vocabulary id of taxonomy terms region.
+   *
+   * @var string
+   */
+  const VID_TAXONOMY_REGION = 'mars_regions';
 
   /**
    * {@inheritdoc}
@@ -102,8 +117,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $build['#social_links'] = $this->themeConfiguratorParser->socialLinks();
     }
     if ($conf['region_selector_toggle']) {
-      $vid = 'mars_regions';
-      $terms = $this->termStorage->loadTree($vid, 0, NULL, TRUE);
+      $terms = $this->termStorage->loadTree(self::VID_TAXONOMY_REGION, 0, NULL, TRUE);
       $build['#region_selector'] = [];
       if (!empty($terms)) {
         foreach ($terms as $term) {
@@ -118,7 +132,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
           ];
         }
         $terms_objects = $this->termStorage->loadByProperties([
-          'vid' => $vid,
+          'vid' => self::VID_TAXONOMY_REGION,
           'field_default_region' => TRUE,
         ]);
         if ($terms_objects) {
@@ -232,6 +246,17 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->setConfiguration($form_state->getValues());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheTags() {
+    $cache_tags = parent::getCacheTags();
+    // Include taxonomies
+    // update process dependencies cache.
+    $cache_tags = Cache::mergeTags($cache_tags, [self::CUSTOM_CACHE_TAG]);
+    return $cache_tags;
   }
 
 }

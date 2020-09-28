@@ -30,6 +30,8 @@ use Drupal\layout_builder\Form\OverridesEntityForm;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\system\Entity\Menu;
 use Drupal\taxonomy\TermInterface;
+use Drupal\Core\Cache\Cache;
+use Drupal\mars_common\Plugin\Block\FooterBlock;
 
 /**
  * Implements hook_menu_insert().
@@ -748,5 +750,35 @@ function mars_common_taxonomy_term_presave(TermInterface $term) {
       $term_item->set('field_default_region', FALSE);
       $term_item->save();
     }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function mars_common_entity_delete(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function mars_common_entity_update(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
+  }
+}
+
+/**
+ * Implements hook_entity_create().
+ */
+function mars_common_entity_create(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
   }
 }
