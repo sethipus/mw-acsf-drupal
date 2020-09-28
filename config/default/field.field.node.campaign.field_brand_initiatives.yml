@@ -1,19 +1,19 @@
-uuid: c0df6392-ceb4-4c90-8583-a9b726deb450
+uuid: fa330362-7bcd-45a8-a212-bdb8b3dc975e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_campaign_brand_initiatives
+    - field.storage.node.field_brand_initiatives
     - node.type.campaign
     - taxonomy.vocabulary.mars_brand_initiatives
-id: node.campaign.field_campaign_brand_initiatives
-field_name: field_campaign_brand_initiatives
+id: node.campaign.field_brand_initiatives
+field_name: field_brand_initiatives
 entity_type: node
 bundle: campaign
 label: 'Brand Initiatives'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
