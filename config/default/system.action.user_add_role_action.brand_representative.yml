@@ -1,0 +1,14 @@
+uuid: 887a56df-d3ed-4ea0-b362-4e58a20af1d6
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.brand_representative
+  module:
+    - user
+id: user_add_role_action.brand_representative
+label: 'Add the Brand Representative role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: brand_representative
