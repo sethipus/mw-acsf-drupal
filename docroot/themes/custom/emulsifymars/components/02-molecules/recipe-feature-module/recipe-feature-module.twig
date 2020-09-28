@@ -26,7 +26,13 @@
     <div class="media-info">
       <div class="border">{{ brand_borders | raw }}</div>
       <div class="eyebrow"> {{ eyebrow}} </div>
-      <h2 class="title">{{ title }}</h1>
+      <h2 class="title">
+        {% include "@atoms/links/link/link.twig" with {
+          link_url: cta.url,
+          link_content: title,
+          link_modifiers: {class: 'title'}
+        } %}
+      </h2>
       <div class="cooking-time">
         <div class="cooking-time__icon">
           {% include "@atoms/images/image/_image.twig" with {
