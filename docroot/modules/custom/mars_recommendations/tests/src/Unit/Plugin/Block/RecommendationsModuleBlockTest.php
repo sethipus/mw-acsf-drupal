@@ -3,6 +3,7 @@
 namespace Drupal\Tests\mars_recommendations\Unit\Plugin\Block;
 
 use Drupal;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -51,6 +52,13 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
   private $defaultConfiguration = [];
 
   /**
+   * Form object stub.
+   *
+   * @var \Drupal\Core\Form\FormInterface
+   */
+  private $formObjectStub;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -60,6 +68,29 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $container->set('string_translation', $this->getStringTranslationStub());
     $container->set('mars_recommendations.recommendations_service', $this->createRecommendationsServiceMock());
     Drupal::setContainer($container);
+
+    $this->formObjectStub = new class extends FormBase {
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getFormId() {
+        return 'test_form_id';
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function buildForm(array $form, FormStateInterface $form_state) {
+        return [];
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function submitForm(array &$form, FormStateInterface $form_state) {}
+
+    };
   }
 
   /**
@@ -92,6 +123,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     );
 
     $form_state = new FormState();
+    $form_state->setFormObject($this->formObjectStub);
     $form = $block->buildConfigurationForm([], $form_state);
 
     $this->assertIsArray($form);
@@ -140,6 +172,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     );
 
     $form_state = new FormState();
+    $form_state->setFormObject($this->formObjectStub);
     $form = $block->buildConfigurationForm([], $form_state);
 
     $this->assertIsArray($form);
