@@ -48,6 +48,7 @@ pdp-body:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
 
 pdp-multipack:
   js:
@@ -140,3 +141,9 @@ vendor-chunk-1:
 vendor-chunk-2:
   js:
     dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~recommendations_module~social_feed.js: {}
+
+search-facet-type:
+  js:
+    dist/js/01-atoms/search-results-item/search-results-item.js: {}
+  dependencies:
+    - core/drupal

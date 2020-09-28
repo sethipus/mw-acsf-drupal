@@ -71,8 +71,7 @@ abstract class RecommendationsLogicPluginBase extends ContextAwarePluginBase imp
     $result = [];
 
     foreach ($this->getRecommendations() as $node) {
-      $view_mode = sprintf('%s_card', $node->getType());
-      $result[] = $this->viewBuilder->view($node, $view_mode);
+      $result[] = $this->viewBuilder->view($node, 'card');
     }
 
     return $result;
