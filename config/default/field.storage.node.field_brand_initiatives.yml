@@ -1,14 +1,12 @@
-uuid: 2dd70f0c-1eea-4a26-ade3-0888fdabe58e
+uuid: 37fbadd8-ebfa-41ea-85e9-ad888f040e31
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - taxonomy
-_core:
-  default_config_hash: MABzNqSLsfcPjbOhGYMoHHWfbvVvDALEm_2bDYqllus
-id: node.field_article_brand_initiatives
-field_name: field_article_brand_initiatives
+id: node.field_brand_initiatives
+field_name: field_brand_initiatives
 entity_type: node
 type: entity_reference
 settings:

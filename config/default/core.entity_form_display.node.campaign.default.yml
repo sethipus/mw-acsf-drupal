@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.campaign.field_campaign_brand_initiatives
+    - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_related_products
     - field.field.node.campaign.field_product_occasions
     - node.type.campaign
@@ -23,7 +23,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_campaign_brand_initiatives:
+  field_brand_initiatives:
     weight: 125
     settings:
       match_operator: CONTAINS
