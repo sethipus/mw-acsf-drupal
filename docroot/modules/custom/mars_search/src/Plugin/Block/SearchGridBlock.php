@@ -14,17 +14,17 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
- * Class GridBlock.
+ * Class SearchGridBlock.
  *
  * @Block(
- *   id = "grid_block",
- *   admin_label = @Translation("Grid block"),
- *   category = @Translation("Grid")
+ *   id = "search_grid_block",
+ *   admin_label = @Translation("MARS: Search Grid block"),
+ *   category = @Translation("Mars Search")
  * )
  *
  * @package Drupal\mars_search\Plugin\Block
  */
-class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * List of vocabularies which are included in indexing.
@@ -151,15 +151,17 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#items'] = [];
 
     // Getting default search options.
-    $options = $this->searchHelper->getSearchQueryDefaultOptions();
+    $searchOptions = $this->searchHelper->getSearchQueryDefaultOptions();
+    $facetOptions = $this->searchHelper->getSearchQueryDefaultOptions();
 
     // Adjusting them with grid specific configuration.
     if (!empty($config['content_type'])) {
       if ($allowed_types = array_filter($config['content_type'])) {
-        $options['conditions'][] = ['type', $allowed_types, 'IN'];
+        $searchOptions['conditions'][] = ['type', $allowed_types, 'IN'];
+        $facetOptions['conditions'][] = ['type', $allowed_types, 'IN'];
       }
     }
-    $query_search_results = $this->searchHelper->getSearchResults($options);
+    $query_search_results = $this->searchHelper->getSearchResults($searchOptions);
     foreach ($query_search_results['results'] as $node) {
       $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
@@ -169,11 +171,50 @@ class GridBlock extends BlockBase implements ContainerFactoryPluginInterface {
       // Preparing search form.
       $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class);
     }
+    // Populating filters.
+    if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
+      $query_search_results = $this->searchHelper->getSearchResults($facetOptions);
+      $build['#filters'] = $this->processFilter($query_search_results['facets']);
+    }
 
     $build['#theme_styles'] = 'drupal';
 
     $build['#theme'] = 'mars_search_grid_block';
     return $build;
+  }
+
+  /**
+   * Prepare filter variables.
+   *
+   * @param array $facets
+   *   The facet result from search query.
+   */
+  private function processFilter(array $facets) {
+    $filterCategories = [
+      'flavor' => 'Flavor',
+      'format' => 'Format',
+      'diet_allergens' => 'Diet and Allergens',
+      'occasions_product' => 'Occasions',
+      'brand_initiatives' => 'Brand Initiatives',
+    ];
+    $filters = [];
+    foreach ($filterCategories as $key => $title) {
+      if (array_key_exists($key, $facets) && count($facets[$key]) > 0) {
+        $facetValues = [];
+        foreach ($facets[$key] as $facet) {
+          $facetValues[] = [
+            'title' => $facet['filter'] == '!' ? 'Other' : $facet['filter'],
+            'key' => $facet['filter'] == '!' ? 'other' : $facet['filter'],
+          ];
+        }
+        $filters[] = [
+          'filter_title' => $title,
+          'checkboxes' => $facetValues,
+        ];
+      }
+    }
+
+    return $filters;
   }
 
   /**

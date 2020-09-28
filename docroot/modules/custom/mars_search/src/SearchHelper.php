@@ -138,6 +138,11 @@ class SearchHelper implements SearchHelperInterface {
     return [
       'type',
       'faq_filter_topic',
+      'flavor',
+      'format',
+      'diet_allergens',
+      'occasions_product',
+      'brand_initiatives',
     ];
   }
 
