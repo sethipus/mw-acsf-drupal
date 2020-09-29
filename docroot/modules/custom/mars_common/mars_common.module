@@ -674,7 +674,8 @@ function mars_common_form_poll_form_alter(
 
   if ($fieldTypeValue === 'poll') {
     $form['choice']['widget']['#cardinality'] = FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED;
-  } elseif ($fieldTypeValue === 'feedback') {
+  }
+  elseif ($fieldTypeValue === 'feedback') {
     $form['choice']['widget']['#cardinality'] = 2;
     if (!isset($form['choice']['widget'][1])) {
       $form['choice']['widget'][1] = $form['choice']['widget'][0];
@@ -702,7 +703,7 @@ function mars_common_form_poll_form_alter(
         continue;
       }
 
-      //Remove input value if it's empty so the default value will be used for it.
+      // Remove the empty values so the default value will be used.
       if (
         isset($userInput['choice'][$choiceIndex]['choice']) &&
         $userInput['choice'][$choiceIndex]['choice'] === ''
@@ -711,7 +712,7 @@ function mars_common_form_poll_form_alter(
       }
     }
 
-    //Update field state with new item count.
+    // Update field state with new item count.
     $fieldName = $form['choice']['widget']['#field_name'];
     $parents = [];
     $field_state = WidgetBase::getWidgetState(
