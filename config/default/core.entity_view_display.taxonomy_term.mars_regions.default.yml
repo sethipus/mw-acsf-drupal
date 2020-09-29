@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.mars_regions.field_default_region
     - field.field.taxonomy_term.mars_regions.field_mars_url
     - taxonomy.vocabulary.mars_regions
   module:
@@ -20,6 +21,16 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_default_region:
+    weight: 2
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   field_mars_url:
     weight: 1
     label: above
