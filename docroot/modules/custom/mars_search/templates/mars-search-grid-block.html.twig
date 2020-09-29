@@ -1,9 +1,9 @@
 {#
 /**
  * @file
- * FAQ views page componnent.
+ * Template for search results.
  *
- * Views related available variables:
+ * Available variables:
  * - attributes: Remaining HTML attributes for the element.
  * - css_name: A CSS-safe version of the view name.
  * - css_class: The user-specified classes names, if any.
@@ -27,29 +27,20 @@
  * - dom_id: Unique id for every view being printed to give unique class for
  *   Javascript.
  *
- * FAQ component variables:
- * 'faq_title' => NULL,
- * 'qa_items' => NULL,
- * 'cta_button_label' => NULL,
- * 'cta_button_link' => NULL,
- *
- * @see mars_common_preprocess_views_view__faq_view__page()
+ * @see template_preprocess_views_view()
  */
 #}
-{%
-    set classes = [
-    dom_id ? 'js-view-dom-id-' ~ dom_id,
-]
-%}
-<div{{ attributes.addClass(classes) }}>
-  {% include "@molecules/faq-list/faq-list.twig" with {
-    theme_styles: 'drupal',
-    title: faq_title,
-    faq_items: qa_items,
-    button_name: cta_button_label,
-    button_link: cta_button_link,
-    search_form: search_form,
-    search_result_counter: search_result_counter,
-    facetLinks: facets,
-  } %}
-</div>
+
+{% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
+  theme_styles: theme_styles,
+  search_form: input_form,
+  applied_filters_list: applied_filters_list,
+  items: filters,
+} %}
+
+{% include "@organisms/grid/ajax-card-grid.twig" with {
+  theme_styles: theme_styles,
+  items: items,
+  ajax_card_grid_heading: ajax_card_grid_heading,
+  graphic_divider: graphic_divider,
+} %}
