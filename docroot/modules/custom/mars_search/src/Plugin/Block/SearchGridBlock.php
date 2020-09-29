@@ -151,16 +151,28 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#items'] = [];
 
     // Getting default search options.
-    $searchOptions = $this->searchHelper->getSearchQueryDefaultOptions();
-    $facetOptions = $this->searchHelper->getSearchQueryDefaultOptions();
-
+    $searchOptions = $facetOptions = $this->searchHelper->getSearchQueryDefaultOptions();
+    // We don't need any filte
+    $facetOptions['disable_filters'] = 1;
     // Adjusting them with grid specific configuration.
+
+    // Content type filter
     if (!empty($config['content_type'])) {
-      if ($allowed_types = array_filter($config['content_type'])) {
-        $searchOptions['conditions'][] = ['type', $allowed_types, 'IN'];
-        $facetOptions['conditions'][] = ['type', $allowed_types, 'IN'];
+      $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
+      $facetOptions['conditions'][] = ['type', $config['content_type'], '='];
+    }
+    // Taxonomy filter(s).
+    // Adding them only of facets are disabled.
+    if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
+      foreach ($config['general_filters'] as $filter_key => $filter_value) {
+        if (!empty($filter_value['select'])) {
+          $searchOptions['conditions'][] = [$filter_key, $filter_value['select'], '=', $filter_value['options_logic']];
+          $facetOptions['conditions'][] = [$filter_key, $filter_value['select'], '=', $filter_value['options_logic']];
+        }
       }
     }
+
+    // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions);
     foreach ($query_search_results['results'] as $node) {
       $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
@@ -173,7 +185,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     }
     // Populating filters.
     if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-      $query_search_results = $this->searchHelper->getSearchResults($facetOptions);
+      $query_search_results = $this->searchHelper->getSearchResults($facetOptions, 'grid_facets');
       $build['#filters'] = $this->processFilter($query_search_results['facets']);
     }
 
@@ -190,25 +202,33 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    *   The facet result from search query.
    */
   private function processFilter(array $facets) {
-    $filterCategories = [
-      'flavor' => 'Flavor',
-      'format' => 'Format',
-      'diet_allergens' => 'Diet and Allergens',
-      'occasions_product' => 'Occasions',
-      'brand_initiatives' => 'Brand Initiatives',
-    ];
-    $filters = [];
-    foreach ($filterCategories as $key => $title) {
-      if (array_key_exists($key, $facets) && count($facets[$key]) > 0) {
+    $filters = $term_ids = [];
+
+    // Getting term names.
+    foreach ($facets as $facet_key => $facet) {
+      // That means it's a taxonomy facet.
+      if (in_array($facet_key, array_keys(self::TAXONOMY_VOCABULARIES))) {
+        foreach ($facet as $facet_data) {
+          if (is_numeric($facet_data['filter'])) {
+            $term_ids[] = $facet_data['filter'];
+          }
+        }
+      }
+    }
+    // Loading needed taxonomy terms.
+    $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($term_ids);
+
+    foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+      if (array_key_exists($vocabulary, $facets) && count($facets[$vocabulary]) > 0) {
         $facetValues = [];
-        foreach ($facets[$key] as $facet) {
+        foreach ($facets[$vocabulary] as $facet) {
           $facetValues[] = [
-            'title' => $facet['filter'] == '!' ? 'Other' : $facet['filter'],
+            'title' => $facet['filter'] == '!' ? 'Other' : $terms[$facet['filter']]->label(),
             'key' => $facet['filter'] == '!' ? 'other' : $facet['filter'],
           ];
         }
         $filters[] = [
-          'filter_title' => $title,
+          'filter_title' => $vocabulary_data['label'],
           'checkboxes' => $facetValues,
         ];
       }

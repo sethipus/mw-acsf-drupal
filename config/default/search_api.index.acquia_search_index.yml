@@ -61,14 +61,6 @@ field_settings:
     label: 'FAQ item queue weight'
     property_path: faq_item_queue_weight
     type: string
-  field_product_flavor:
-    label: Flavor
-    datasource_id: 'entity:node'
-    property_path: field_product_flavor
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_product_flavor
   field_qa_item_answer:
     label: Answer
     datasource_id: 'entity:node'
@@ -126,6 +118,14 @@ field_settings:
       module:
         - node
         - taxonomy
+  mars_flavor:
+    label: Flavor
+    datasource_id: 'entity:node'
+    property_path: field_product_flavor
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_flavor
   mars_flavor_name:
     label: 'Flavor » Taxonomy term » Name'
     datasource_id: 'entity:node'

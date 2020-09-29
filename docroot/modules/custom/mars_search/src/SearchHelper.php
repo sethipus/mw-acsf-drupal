@@ -89,9 +89,23 @@ class SearchHelper implements SearchHelperInterface {
     $query->setOption('search_api_facets', $facet_options);
 
     // Applying predefined conditions.
+    // Applying predefined conditions.
+    // $condition[0] is a filter key.
+    // $condition[1] is a filter value.
+    // $condition[2] is a filter comparison operator: equals, not equals etc.
+    // $condition[3] is a multiple field operator(OR/AND). Could be not set.
     if (!empty($options['conditions'])) {
       foreach ($options['conditions'] as $condition) {
-        $query->addCondition($condition[0], $condition[1], $condition[2]);
+        if (!isset($condition[3])) {
+          $query->addCondition($condition[0], $condition[1], $condition[2]);
+        }
+        else {
+          $conditionsGroup = $query->createConditionGroup($condition[3]);
+          foreach ($condition[1] as $filter_value) {
+            $conditionsGroup->addCondition($condition[0], $filter_value, $condition[2]);
+          }
+          $query->addConditionGroup($conditionsGroup);
+        }
       }
     }
 
@@ -138,11 +152,11 @@ class SearchHelper implements SearchHelperInterface {
     return [
       'type',
       'faq_filter_topic',
-      'flavor',
-      'format',
-      'diet_allergens',
-      'occasions_product',
-      'brand_initiatives',
+      'mars_flavor',
+      'mars_format',
+      'mars_diet_allergens',
+      'mars_occasions',
+      'mars_brand_initiatives',
     ];
   }
 
