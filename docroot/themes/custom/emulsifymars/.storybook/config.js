@@ -74,6 +74,7 @@ twigAddAttributes(Twig);
 
 // config.js
 import jquery from "jquery";
+import once from "jquery-once";
 
 global.$ = jquery;
 global.jQuery =  jquery;
