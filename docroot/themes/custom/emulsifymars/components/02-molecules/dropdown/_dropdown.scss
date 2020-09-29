@@ -145,13 +145,11 @@
     }
   }
   
-  &:hover &__content--outer,
-  &__trigger:focus + &__content--outer {
+  &.is-expanded &__content--outer {
     display: block;
   }
 
-  &:hover &__trigger::after,
-  &__trigger:focus::after {
+  &__trigger[aria-expanded="true"]::after {
     top: 24px;
     border-left-color: currentColor;
     border-top-color: currentColor;
