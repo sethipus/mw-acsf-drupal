@@ -42,7 +42,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function loginDrupal()
     {
-        $loginUrl = preg_replace('/\n$/', '', shell_exec('drush uli'));
+        $loginUrl = preg_replace('/\n$/', '', shell_exec('cd ../vendor/bin; drush uli'));
+        $loginUrl = str_replace( 'https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl );
         $this->visitPath($loginUrl);
         $this->loginUrl = $loginUrl;
     }
@@ -606,4 +607,108 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         $roles = array_keys($roles);
         return $roles;
     }
+
+    /**
+         * This works for Selenium and other real browsers that support screenshots.
+         *
+         * @Then /^save a screenshot$/
+         */
+        public function save_a_screenshot()
+        {
+            $image_data = $this->getSession()
+                ->getDriver()
+                ->getScreenshot();
+            $file_and_path = '/tmp/behat_screenshot.jpg';
+            file_put_contents($file_and_path, $image_data);
+
+            if (PHP_OS === "Darwin" && PHP_SAPI === "cli")
+            {
+                exec('open -a "Preview.app" ' . $file_and_path);
+            }
+        }
+
+        /**
+         *
+         * @Then /^scroll page to the bottom$/
+         */
+        public function scrollPageBottom()
+        {
+            $this->getSession()
+                ->getDriver()
+                ->executeScript('window.scrollTo(0,document.body.scrollHeight);');;
+        }
+
+        /**
+         *
+         * @Then /^scroll page to the top$/
+         */
+        public function scrollPageTop()
+        {
+            $this->getSession()
+                ->getDriver()
+                ->executeScript('window.scrollTo(0,0);');;
+        }
+
+        /**
+         *
+         * @Then /^zoom page out$/
+         */
+        public function zoomPageOut()
+        {
+            $this->getSession()
+                ->getDriver()
+                ->executeScript("document.body.style.zoom='50%';");
+        }
+
+        /**
+         * Switches to the dialog
+         * Example: Then I switch to the dialog
+         * Example: Then I switch to the dialog
+         *
+         * @Then /^(?:|I )switch to the dialog$/
+         */
+        public function iSwitchToDialog()
+        {
+            $this->getSession()
+                ->switchToIFrame();
+        }
+
+        /**
+         * Fills in textarea field with specified name
+         * Example: When I fill in "Question" textarea with "Question1"
+         *
+         * @When I fill in :arg1 textarea with :arg2
+         *
+         * @throws \Exception;
+         */
+        public function iFillTextArea($name, $text)
+        {
+            //$xpath = "//IFRAME[@id='{$name}' or @name='{$name}' or @title='{$name}']";
+            //$this->getSession()->getDriver()->switchToIFrame();
+            //print_r($this->getSession()->getDriver()->getWindowNames());
+            //$fieldXpath = "//html//body";
+            //$fieldXpath = "//iframe[contains(@title, 'Rich Text Editor, Answer field')]";
+            //$fieldXpath = "//label[(text() = '" . $name . "')]/ancestor::div[contains(@class, 'js-form-type-textarea')]//div[contains(@class, 'form-textarea-wrapper')]//textarea";
+            $fieldXpath = "//textarea[contains(@id, 'edit-field-qa-item-question')]";
+            $this->getSession()
+                ->getDriver()
+                ->click($fieldXpath);
+            $this->getSession()
+                ->getDriver()
+                ->keyPress($fieldXpath, "77");
+            $this->getSession()
+                ->getDriver()
+                ->keyPress($fieldXpath, "77");
+            $this->getSession()
+                ->getDriver()
+                ->keyPress($fieldXpath, "77");
+
+            $fieldXpath = "field_qa_item_question[0][value]";
+            $this->getSession()
+                ->getPage()
+                ->fillField($fieldXpath, $text);
+            $this->getSession()
+                ->getDriver()
+                ->setValue($fieldXpath, $text);
+        }
 }
