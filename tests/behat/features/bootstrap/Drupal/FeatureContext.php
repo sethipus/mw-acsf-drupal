@@ -43,9 +43,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     public function loginDrupal()
     {
         echo "pwd: " . shell_exec('pwd') . "\n";
-        echo "Searching for drush.bat..." . "\n";
-        echo shell_exec("cd ../../.. ; find . -name drush.bat -printf '%h\n'");
-        $loginUrl = preg_replace('/\n$/', '', shell_exec('cd /home/vsts/work/1/s/vendor/bin; drush uli'));
+        $loginUrl = preg_replace('/\n$/', '', shell_exec('cd ../vendor/drush/drush; drush uli'));
         echo "loginUrl: " . $loginUrl . "\n";
         $loginUrl = str_replace( 'https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl );
         echo "http loginUrl: " . $loginUrl;
