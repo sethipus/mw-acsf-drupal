@@ -6,6 +6,7 @@ marketing_text: 'This site includes information, games, advertisements and promo
 copyright_text: '®/ TM Trademarks © Mars, Incorporated 2020. Other trademarks are property of their respective owners.'
 corporate_tout_text: 'LOVE TWIX? Check out more brands from Mars.'
 region_title: 'Select Region'
+current_region_title: 'East America: USA'
 regions:
   - title: 'East America: USA'
     url: '#'
