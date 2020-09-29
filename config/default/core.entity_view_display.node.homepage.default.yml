@@ -203,6 +203,7 @@ third_party_settings:
               - freeform_story_block
               - iframe_block
               - newsletter_signup_form
+              - poll_block
               - product_feature
               - story_highlight
             'Mars Product': {  }

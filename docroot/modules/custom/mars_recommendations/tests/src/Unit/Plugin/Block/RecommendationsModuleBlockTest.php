@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\mars_recommendations\Unit\Plugin\Block;
 
+use Drupal;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -50,6 +52,13 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
   private $defaultConfiguration = [];
 
   /**
+   * Form object stub.
+   *
+   * @var \Drupal\Core\Form\FormInterface
+   */
+  private $formObjectStub;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -58,7 +67,30 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $container = new ContainerBuilder();
     $container->set('string_translation', $this->getStringTranslationStub());
     $container->set('mars_recommendations.recommendations_service', $this->createRecommendationsServiceMock());
-    \Drupal::setContainer($container);
+    Drupal::setContainer($container);
+
+    $this->formObjectStub = new class extends FormBase {
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getFormId() {
+        return 'test_form_id';
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function buildForm(array $form, FormStateInterface $form_state) {
+        return [];
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function submitForm(array &$form, FormStateInterface $form_state) {}
+
+    };
   }
 
   /**
@@ -66,7 +98,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
    */
   public function testDefaultConfiguration() {
     $block = RecommendationsModuleBlock::create(
-      \Drupal::getContainer(),
+      Drupal::getContainer(),
       [],
       'recommendations_module',
       $this->defaultDefinitions
@@ -84,13 +116,14 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
    */
   public function testDefaultBlockBuildConfigurationForm() {
     $block = RecommendationsModuleBlock::create(
-      \Drupal::getContainer(),
+      Drupal::getContainer(),
       [],
       'recommendations_module',
       $this->defaultDefinitions
     );
 
     $form_state = new FormState();
+    $form_state->setFormObject($this->formObjectStub);
     $form = $block->buildConfigurationForm([], $form_state);
 
     $this->assertIsArray($form);
@@ -110,7 +143,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $this->assertIsArray($form['population']['plugin_id']);
     $this->assertEquals($form['population']['plugin_id']['#type'], 'radios');
     $this->assertEquals($form['population']['plugin_id']['#title'], $this->t('Population Logic'));
-    $this->assertArrayEquals($form['population']['plugin_id']['#options'], \Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
+    $this->assertArrayEquals($form['population']['plugin_id']['#options'], Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
     $this->assertTrue($form['population']['plugin_id']['#required']);
 
     $this->assertArrayHasKey('configuration', $form['population']);
@@ -129,7 +162,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
    */
   public function testConfiguredRecommendationsBlockBuildConfigurationForm() {
     $block = RecommendationsModuleBlock::create(
-      \Drupal::getContainer(),
+      Drupal::getContainer(),
       [
         'population_plugin_id' => 'test_plugin_1',
         'population_plugin_configuration' => [],
@@ -139,6 +172,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     );
 
     $form_state = new FormState();
+    $form_state->setFormObject($this->formObjectStub);
     $form = $block->buildConfigurationForm([], $form_state);
 
     $this->assertIsArray($form);
@@ -147,7 +181,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $this->assertIsArray($form['population']['plugin_id']);
     $this->assertEquals($form['population']['plugin_id']['#type'], 'radios');
     $this->assertEquals($form['population']['plugin_id']['#title'], $this->t('Population Logic'));
-    $this->assertArrayEquals($form['population']['plugin_id']['#options'], \Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
+    $this->assertArrayEquals($form['population']['plugin_id']['#options'], Drupal::service('mars_recommendations.recommendations_service')->getPopulationLogicOptions());
     $this->assertTrue($form['population']['plugin_id']['#required']);
     $this->assertEquals($form['population']['plugin_id']['#default_value'], 'test_plugin_1');
 
