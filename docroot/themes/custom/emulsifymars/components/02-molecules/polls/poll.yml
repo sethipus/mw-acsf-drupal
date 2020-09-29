@@ -10,6 +10,7 @@ polling_submit_label: 'Submit'
 choices:
   'left': 'left side'
   'right': 'right side'
+  'center': 'center side'
 
 # settings for submitted state
 polling_submitted_text: 'Thanks for voting!'
