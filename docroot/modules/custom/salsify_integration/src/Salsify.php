@@ -43,6 +43,10 @@ class Salsify {
    */
   public const FIELD_MAP_CHANGED = self::FIELD_MAP_CREATED + 1;
 
+  public const AUTH_METHOD_TOKEN = 'token';
+
+  public const AUTH_METHOD_SECRET = 'client_secret';
+
   /**
    * The cache object associated with the specified bin.
    *
@@ -172,6 +176,50 @@ class Salsify {
   }
 
   /**
+   * Get the Salsify user account client id to use with this integration.
+   *
+   * @return string
+   *   The client id string.
+   */
+  protected function getClientId() {
+    return $this->config->get('client_id');
+  }
+
+  /**
+   * Get the Salsify user account client secret to use with this integration.
+   *
+   * @return string
+   *   The client secret string.
+   */
+  protected function getClientSecret() {
+    return $this->config->get('client_secret');
+  }
+
+  /**
+   * Get auth headers depending on current auth method.
+   *
+   * @return array
+   *   Headers.
+   */
+  protected function getAuthHeaders() {
+    $auth_method = $this->config->get('auth_method');
+    $headers = [];
+
+    if ($auth_method == self::AUTH_METHOD_TOKEN) {
+      $headers = [
+        'Authorization' => 'Bearer ' . $this->getAccessToken(),
+      ];
+    }
+    if ($auth_method == self::AUTH_METHOD_SECRET) {
+      $headers = [
+        'client_id' => $this->getClientId(),
+        'client_secret' => $this->getClientSecret(),
+      ];
+    }
+    return $headers;
+  }
+
+  /**
    * Utility function to load product data from Salsify for further processing.
    *
    * @return array
@@ -180,15 +228,10 @@ class Salsify {
   protected function getRawData() {
     $client = new Client();
     $endpoint = $this->getUrl();
-    $access_token = explode(' ', $this->getAccessToken());
     try {
       // Access the channel URL to fetch the newest product feed URL.
       $generate_product_feed = $client->get($endpoint, [
-        'headers' => [
-          // 'Authorization' => 'Bearer ' . $access_token,
-          'client_id' => $access_token[0],
-          'client_secret' => $access_token[1],
-        ],
+        'headers' => $this->getAuthHeaders(),
       ]);
       $response = $generate_product_feed->getBody()->__toString();
       $mapping = $this->getEntitiesMapping($response);

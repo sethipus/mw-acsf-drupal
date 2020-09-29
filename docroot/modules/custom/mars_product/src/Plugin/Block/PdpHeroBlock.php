@@ -87,6 +87,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
 
   /**
+   * Fields with bold labels.
+   */
+  const FIELDS_WITH_BOLD_LABELS = [
+    'field_product_saturated_fat' => 'Saturated Fat',
+    'field_product_trans_fat' => 'Trans Fat',
+    'field_product_sugars' => 'Sugars',
+    'field_product_protein' => 'Protein',
+  ];
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -462,11 +472,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $mapping = $this->getGroupingMethod($node);
     foreach ($mapping as $section => $fields) {
       foreach ($fields as $field => $field_daily) {
+        $bold_modifier = array_key_exists($field, self::FIELDS_WITH_BOLD_LABELS) ? TRUE : FALSE;
         $item = [
           'label' => $node->get($field)
             ->getFieldDefinition()
             ->getLabel(),
           'value' => $node->get($field)->value,
+          'bold_modifier' => $bold_modifier,
         ];
         if ($field_daily !== FALSE) {
           $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
