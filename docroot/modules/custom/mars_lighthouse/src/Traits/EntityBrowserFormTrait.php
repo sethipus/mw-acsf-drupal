@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_common\Traits;
+namespace Drupal\mars_lighthouse\Traits;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;

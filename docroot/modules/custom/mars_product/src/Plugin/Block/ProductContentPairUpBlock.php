@@ -7,7 +7,9 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,8 +23,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  use EntityBrowserFormTrait;
+
+  /**
+   * Article or recipe first.
+   */
   const ARTICLE_OR_RECIPE_FIRST = 'article_first';
+
+  /**
+   * Product first.
+   */
   const PRODUCT_FIRST = 'product_first';
+
+  /**
+   * Lighthouse entity browser id.
+   */
+  const LIGHTHOUSE_ENTITY_BROWSER_ID = 'lighthouse_browser';
 
   /**
    * Config Factory.
@@ -67,6 +83,13 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
   protected $themeConfiguratorParser;
 
   /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -76,7 +99,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $plugin_definition,
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -89,7 +113,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $plugin_definition,
     ConfigFactoryInterface $config_factory,
     EntityTypeManager $entity_type_manager,
-    ThemeConfiguratorParser $theme_configurator_parser
+    ThemeConfiguratorParser $theme_configurator_parser,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -99,6 +124,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -130,7 +156,11 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ->getFileContentFromTheme('graphic_divider');
 
     if (!empty($conf['background'])) {
-      $build['#background'] = $this->getMediaUriById($conf['background']);
+      $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
+      $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
+      if (!isset($mediaParams['error']) && !$mediaParams['error']) {
+        $build['#background'] = file_create_url($mediaParams['src']);
+      }
     }
 
     if ($main_entity) {
@@ -295,13 +325,12 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#default_value' => (string) ($this->configuration['max_width'] ?? 1440),
     ];
 
-    $form['background'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Background'),
-      '#description' => $this->t('Set this field to override default background.'),
-      '#target_type' => 'media',
-      '#default_value' => ($media_id = $this->configuration['background'] ?? NULL) ? $this->mediaStorage->load($media_id) : NULL,
-    ];
+    // Entity Browser element for background image.
+    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $this->configuration['background'], 1, 'thumbnail');
+    // Convert the wrapping container to a details element.
+    $form['background']['#type'] = 'details';
+    $form['background']['#title'] = $this->t('Background');
+    $form['background']['#open'] = TRUE;
 
     return $form;
   }
@@ -321,7 +350,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['cta_link_text'] = $form_state->getValue('cta_link_text');
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
     $this->configuration['max_width'] = $form_state->getValue('max_width');
-    $this->configuration['background'] = $form_state->getValue('background');
+    $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
   }
 
   /**
