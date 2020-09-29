@@ -152,11 +152,12 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Getting default search options.
     $searchOptions = $facetOptions = $this->searchHelper->getSearchQueryDefaultOptions();
-    // We don't need any filte
-    $facetOptions['disable_filters'] = 1;
-    // Adjusting them with grid specific configuration.
 
-    // Content type filter
+    // We don't need any filter.
+    $facetOptions['disable_filters'] = 1;
+
+    // Adjusting them with grid specific configuration.
+    // Content type filter.
     if (!empty($config['content_type'])) {
       $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
       $facetOptions['conditions'][] = ['type', $config['content_type'], '='];
@@ -166,8 +167,18 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
       foreach ($config['general_filters'] as $filter_key => $filter_value) {
         if (!empty($filter_value['select'])) {
-          $searchOptions['conditions'][] = [$filter_key, $filter_value['select'], '=', $filter_value['options_logic']];
-          $facetOptions['conditions'][] = [$filter_key, $filter_value['select'], '=', $filter_value['options_logic']];
+          $searchOptions['conditions'][] = [
+            $filter_key,
+            $filter_value['select'],
+            '=',
+            $filter_value['options_logic'],
+          ];
+          $facetOptions['conditions'][] = [
+            $filter_key,
+            $filter_value['select'],
+            '=',
+            $filter_value['options_logic'],
+          ];
         }
       }
     }
@@ -186,12 +197,14 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     // Populating filters.
     if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
       $query_search_results = $this->searchHelper->getSearchResults($facetOptions, 'grid_facets');
-      $build['#filters'] = $this->processFilter($query_search_results['facets']);
+      list($build['#applied_filters_list'], $build['#filters']) = $this->processFilter($query_search_results['facets']);
     }
 
+    $build['#ajax_card_grid_heading'] = $config['title'];
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
     $build['#theme_styles'] = 'drupal';
-
     $build['#theme'] = 'mars_search_grid_block';
+
     return $build;
   }
 
@@ -217,24 +230,39 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     }
     // Loading needed taxonomy terms.
     $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($term_ids);
+    $appliedFilters = [];
 
     foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
       if (array_key_exists($vocabulary, $facets) && count($facets[$vocabulary]) > 0) {
         $facetValues = [];
+        $countSelected = 0;
         foreach ($facets[$vocabulary] as $facet) {
+          if ($facet['filter'] == '!') {
+            continue;
+          }
           $facetValues[] = [
-            'title' => $facet['filter'] == '!' ? 'Other' : $terms[$facet['filter']]->label(),
-            'key' => $facet['filter'] == '!' ? 'other' : $facet['filter'],
+            'title' => $terms[$facet['filter']]->label(),
+            'key' => $facet['filter'],
           ];
+          if (
+            $this->searchHelper->hasQueryKey($vocabulary) &&
+            $this->searchHelper->getQueryValue($vocabulary) == $facet['filter']
+          ) {
+            $facetValues[count($facetValues) - 1]['checked'] = 'checked';
+            $countSelected++;
+            $appliedFilters[] = $terms[$facet['filter']]->label();
+          }
         }
         $filters[] = [
           'filter_title' => $vocabulary_data['label'],
+          'filter_id' => $vocabulary,
+          'active_filters_count' => $countSelected,
           'checkboxes' => $facetValues,
         ];
       }
     }
 
-    return $filters;
+    return [$appliedFilters, $filters];
   }
 
   /**
@@ -449,32 +477,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function getCacheMaxAge() {
-    // A facet block cannot be cached, because it must always match the current
-    // search results, and Search API gets those search results from a data
-    // source that can be external to Drupal. Therefore it is impossible to
-    // guarantee that the search results are in sync with the data managed by
-    // Drupal. Consequently, it is not possible to cache the search results at
-    // all. If the search results cannot be cached, then neither can the facets,
-    // because they must always match.
-    // Fortunately, facet blocks are rendered using a lazy builder (like all
-    // blocks in Drupal), which means their rendering can be deferred (unlike
-    // the search results, which are the main content of the page, and deferring
-    // their rendering would mean sending an empty page to the user). This means
-    // that facet blocks can be rendered and sent *after* the initial page was
-    // loaded, by installing the BigPipe (big_pipe) module.
-    //
-    // When BigPipe is enabled, the search results will appear first, and then
-    // each facet block will appear one-by-one, in DOM order.
-    // See https://www.drupal.org/project/big_pipe.
-    //
-    // In a future version of Facet API, this could be refined, but due to the
-    // reliance on external data sources, it will be very difficult if not
-    // impossible to improve this significantly.
-    //
-    // Note: when using Drupal core's Search module instead of the contributed
-    // Search API module, the above limitations do not apply, but for now it is
-    // not considered worth the effort to optimize this just for Drupal core's
-    // Search.
     return 0;
   }
 

@@ -172,6 +172,26 @@ class SearchHelper implements SearchHelperInterface {
   }
 
   /**
+   * Review if query has key.
+   *
+   * @param string $key
+   *   Query key.
+   */
+  public function hasQueryKey($key) {
+    return $this->request->query->has($key);
+  }
+
+  /**
+   * Retrieve query key value.
+   *
+   * @param string $key
+   *   Query key.
+   */
+  public function getQueryValue($key) {
+    return $this->request->query->get($key);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function prepareFacetsLinks($facets, $facet_key) {
