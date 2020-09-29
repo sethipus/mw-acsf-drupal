@@ -47,11 +47,11 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        sudo update-alternatives --set php /usr/bin/php$(phpVersion)
-        sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
-        sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
-        sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
-        sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+        sudo update-alternatives --set php /usr/bin/php$(phpVersion) &&
+        sudo update-alternatives --set phar /usr/bin/phar$(phpVersion) &&
+        sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion) &&
+        sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion) &&
+        sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion) &&
         sudo service mysql start
   - task: NodeTool@0
     displayName: 'Install Node JS'
@@ -82,8 +82,8 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        composer validate --no-check-all --ansi
-        composer install
+        composer validate --no-check-all --ansi &&
+        composer install &&
         npm install npm@latest -g
   - task: Npm@1
     inputs:
@@ -122,7 +122,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        ./scripts/deploy_branch.sh
+        ./scripts/deploy_branch.sh &&
         ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
   - task: Bash@3
     displayName: 'Deploy Tag'

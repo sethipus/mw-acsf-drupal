@@ -1,100 +1,55 @@
 theme_styles: 'twix'
-background_color: 'rgba(87, 189, 244, 0.7)'
-image_items:
-  - size_id: '1oz'
-    active: true
-    images:
-      - image:
-          srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-          src: 'Front3x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-          src: 'image-23x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-          src: 'image-23x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-          src: 'image-23x.png'
-          alt: 'Twix'
-  - size_id: '4oz'
-    active: false
-    images:
-      - image:
-          srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-          src: 'Front3x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-          src: 'Front3x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-          src: 'Front3x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-          src: 'Front3x.png'
-          alt: 'Twix'
-  - size_id: '6oz'
-    active: false
-    images:
-      - image:
-          srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-          src: 'image-23x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-          src: 'Front3x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-          src: 'image-23x.png'
-          alt: 'Twix'
-      - image:
-          srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-          src: 'image-23x.png'
-          alt: 'Twix'
-product_label: 'PRODUCTS'
-product_name: 'TWIX® Cookies &amp; Creme Chocolate Bar'
-product_description: 'Whether you’re a Left TWIX Bar or Right TWIX Bar person, everyone can agree the delicious taste of cookies and creme needs to be in everyones favorite chocolate cookie candy bar.'
-product_CTA_title: 'WHERE TO BUY'
-product_CTA_link_attributes:
-  'href': '#'
-mobile_sections_items:
-  - title: 'NUTRITION & INGREDIENTS'
-    border_radius: 20
-    link_attributes:
-      'href' : '#section-nutrition'
-  - title: 'DIET &amp; ALLERGENS'
-    border_radius: 20
-    link_attributes:
-      'href' : '#section-allergen'
-  - title: 'RELATED PRODUCTS'
-    border_radius: 20
-    link_attributes:
-      'href' : '#section-products'
-size_label: 'Available Sizes'
-size_items:
-  - size_attributes:
-      'data-size-selected' : 'true'
-      'data-size-id' : '1oz'
+size_id: '1oz'
+pdp_common_hero_data:
+  background_color: 'rgba(87, 189, 244, 0.7)'
+  brand_shape: "<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='50' fill='rgba(234, 170, 0, 0.2)'></svg>"
+  product_label: 'PRODUCTS'
+  product_name: 'TWIX® Cookies &amp; Creme Chocolate Bar'
+  product_description: 'Whether you’re a Left TWIX Bar or Right TWIX Bar person, everyone can agree the delicious taste of cookies and creme needs to be in everyones favorite chocolate cookie candy bar.'
+  size_label: 'Available Sizes'
+  product_sku: '00012937003801'
+  commerce_vendor: 'price_spider'
+  data_widget_id: 'Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85'
+  reference_for_analitics: ''
+  product_CTA_title: 'WHERE TO BUY'
+pdp_size_items_data:
+  - size_id : '1oz'
     title: '1.36 oz'
     link_url: '#'
-  - size_attributes:
-      'data-size-selected' : 'false'
-      'data-size-id' : '4oz'
+  - size_id : '4oz'
     title: '4 oz'
     link_url: '#'
-  - size_attributes:
-      'data-size-selected' : 'false'
-      'data-size-id' : '6oz'
+  - size_id : '6oz'
     title: '6 oz'
     link_url: '#'
-product_sku: '00012937003801'
-commerce_vendor: 'price_spider'
-data_widget_id: 'Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85'
-reference_for_analitics: ''
+pdp_hero_data:
+  image_items:
+    - image:
+        srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
+        src: 'Front3x.png'
+        alt: 'Twix'
+    - image:
+        srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
+        src: 'image-23x.png'
+        alt: 'Twix'
+    - image:
+        srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
+        src: 'image-23x.png'
+        alt: 'Twix'
+    - image:
+        srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
+        src: 'image-23x.png'
+        alt: 'Twix'
+  mobile_sections_items:
+    - title: 'NUTRITION & INGREDIENTS'
+      border_radius: 20
+      link_attributes:
+        'href' : '#section-nutrition-1oz'
+    - title: 'DIET &amp; ALLERGENS'
+      border_radius: 20
+      link_attributes:
+        'href' : '#section-allergen-1oz'
+    - title: 'RELATED PRODUCTS'
+      border_radius: 20
+      link_attributes:
+        'href' : '#section-products-1oz'

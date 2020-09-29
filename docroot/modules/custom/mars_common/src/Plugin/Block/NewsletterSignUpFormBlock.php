@@ -22,7 +22,10 @@ class NewsletterSignUpFormBlock extends BlockBase {
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#form_id'] = $conf['form_id'] ?? '';
+    $form_url_prefix = 'http://cloud.confectionery.mars.com/';
+    $form_id = $conf['form_id'] ?? '';
+
+    $build['#form_url'] = $form_url_prefix . $form_id;
     $build['#theme'] = 'newsletter_signup_form_block';
 
     return $build;

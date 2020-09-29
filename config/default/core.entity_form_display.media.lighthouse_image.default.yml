@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.image_browser
     - field.field.media.lighthouse_image.field_agency
     - field.field.media.lighthouse_image.field_brand
     - field.field.media.lighthouse_image.field_category
@@ -16,10 +17,11 @@ dependencies:
     - field.field.media.lighthouse_image.field_segment
     - field.field.media.lighthouse_image.field_sub_brand
     - field.field.media.lighthouse_image.field_sub_type
+    - field.field.media.lighthouse_image.field_version_id
     - media.type.lighthouse_image
   module:
+    - entity_browser
     - path
-    - remote_stream_wrapper_widget
 _core:
   default_config_hash: KY9UnvSIy-CKrmAVba8kOUfs5l3n048q0dWnyGmlZVA
 id: media.lighthouse_image.default
@@ -136,6 +138,14 @@ content:
     region: content
   field_sub_type:
     weight: 30
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_version_id:
+    weight: 36
     settings:
       size: 60
       placeholder: ''

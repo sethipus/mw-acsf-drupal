@@ -64,7 +64,7 @@
   }
 
   &__container {
-    display: none;
+    display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
   
@@ -74,10 +74,6 @@
   
     @include large {
       padding-top: 3.2rem;
-    }
-
-    &[data-allergen-size-active="true"] {
-      display: flex;
     }
   }
 
@@ -90,7 +86,7 @@
     margin-top: 2.7rem;
   
     @include medium {
-      flex: 0 0 auto;
+      flex: 0 0 20%;
       align-items: center;
     }
   

@@ -16,6 +16,8 @@ dependencies:
     - field.field.node.product.field_product_trade_description
     - field.field.node.product.field_product_variants
     - field.field.node.product.layout_builder__layout
+    - field.field.node.product.salsify_id
+    - field.field.node.product.salsify_updated
     - node.type.product
     - workflows.workflow.editorial
   module:
@@ -264,3 +266,5 @@ content:
     third_party_settings: {  }
 hidden:
   layout_builder__layout: true
+  salsify_id: true
+  salsify_updated: true

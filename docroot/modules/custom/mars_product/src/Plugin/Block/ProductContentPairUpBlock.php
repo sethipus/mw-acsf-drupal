@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @Block(
  *   id = "product_content_pair_up_block",
  *   admin_label = @Translation("MARS: Product Content Pair Up"),
- *   category = @Translation("Product"),
+ *   category = @Translation("Mars Product"),
  * )
  */
 class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPluginInterface {
@@ -37,6 +37,13 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $nodeStorage;
+
+  /**
+   * File storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
 
   /**
    * Media storage.
@@ -88,6 +95,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
     $this->configFactory = $config_factory;
     $this->nodeStorage = $entity_type_manager->getStorage('node');
+    $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->themeConfiguratorParser = $theme_configurator_parser;
@@ -126,9 +134,9 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     }
 
     if ($main_entity) {
-      $build['#master_card_entity'] = $main_entity;
-      $build['#master_card_eyebrow'] = ($conf['master_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
-      $build['#master_card_title'] = ($conf['master_card_title'] ?? NULL) ?: $main_entity->getTitle();
+      $build['#lead_card_entity'] = $main_entity;
+      $build['#lead_card_eyebrow'] = ($conf['lead_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
+      $build['#lead_card_title'] = ($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
       $build['#cta_link_url'] = $main_entity->toUrl()->toString();
       $build['#cta_link_text'] = ($conf['cta_link_text'] ?? NULL) ?: $this->t('Explore');
 
@@ -174,12 +182,15 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     if ($supporting_entity) {
       $build['#supporting_card_entity'] = $supporting_entity;
 
-      $default_eyebrow_text = $supporting_entity->getEntityType() == 'product' ? $this->t('Made With') : $this->t('Seen In');
+      $default_eyebrow_text = $supporting_entity->bundle() == 'product' ? $this->t('Made With') : $this->t('Seen In');
       $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
-      $build['#supporting_card_eyebrow'] = $conf_eyebrow_text ?: $default_eyebrow_text;
+      $view_mode = 'card';
 
-      $view_mode = sprintf('%s_card', $supporting_entity->getType());
       $build['#supporting_card_entity_view'] = $this->viewBuilder->view($supporting_entity, $view_mode);
+      $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
+      $build['#supporting_card_entity_view']['#eyebrow'] = $eyebrow_text;
+      $build['#supporting_card_entity_view']['#cache']['keys'][] = md5($eyebrow_text);
+      $build['#supporting_card_eyebrow'] = $build['#supporting_card_entity_view']['#eyebrow'];
     }
 
     // Get PNG asset path.
@@ -210,12 +221,12 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
     $form['entity_priority'] = [
       '#type' => 'select',
-      '#title' => $this->t('Elements order'),
+      '#title' => $this->t('Variants'),
       '#required' => TRUE,
       '#default_value' => $this->configuration['entity_priority'] ?? NULL,
       '#options' => [
-        self::ARTICLE_OR_RECIPE_FIRST => $this->t('Article/Recipe first'),
-        self::PRODUCT_FIRST => $this->t('Product first'),
+        self::ARTICLE_OR_RECIPE_FIRST => $this->t('Supporting product variant'),
+        self::PRODUCT_FIRST => $this->t('Lead product variant'),
       ],
     ];
 
@@ -239,20 +250,20 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ],
     ];
 
-    $form['master_card_eyebrow'] = [
+    $form['lead_card_eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Master Card Eyebrow'),
       '#description' => $this->t('Defaults to master entity type label, e.g. <em>Recipe</em>, <em>Article</em>, <em>Product</em>.'),
       '#maxlength' => 15,
-      '#default_value' => $this->configuration['master_card_eyebrow'] ?? NULL,
+      '#default_value' => $this->configuration['lead_card_eyebrow'] ?? NULL,
     ];
 
-    $form['master_card_title'] = [
+    $form['lead_card_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Master Card Title'),
       '#description' => $this->t('Set this field to override default Master Card title which defaults to node title'),
       '#maxlength' => 33,
-      '#default_value' => $this->configuration['master_card_title'] ?? NULL,
+      '#default_value' => $this->configuration['lead_card_title'] ?? NULL,
     ];
 
     $form['cta_link_text'] = [
@@ -305,8 +316,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['article_recipe'] = $form_state->getValue('article_recipe');
     $this->configuration['product'] = $form_state->getValue('product');
     $this->configuration['title'] = $form_state->getValue('title');
-    $this->configuration['master_card_eyebrow'] = $form_state->getValue('master_card_eyebrow');
-    $this->configuration['master_card_title'] = $form_state->getValue('master_card_title');
+    $this->configuration['lead_card_eyebrow'] = $form_state->getValue('lead_card_eyebrow');
+    $this->configuration['lead_card_title'] = $form_state->getValue('lead_card_title');
     $this->configuration['cta_link_text'] = $form_state->getValue('cta_link_text');
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
     $this->configuration['max_width'] = $form_state->getValue('max_width');

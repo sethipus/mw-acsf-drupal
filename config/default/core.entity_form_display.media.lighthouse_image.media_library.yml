@@ -17,6 +17,7 @@ dependencies:
     - field.field.media.lighthouse_image.field_segment
     - field.field.media.lighthouse_image.field_sub_brand
     - field.field.media.lighthouse_image.field_sub_type
+    - field.field.media.lighthouse_image.field_version_id
     - image.style.thumbnail
     - media.type.lighthouse_image
   module:
@@ -58,6 +59,7 @@ hidden:
   field_segment: true
   field_sub_brand: true
   field_sub_type: true
+  field_version_id: true
   path: true
   status: true
   uid: true

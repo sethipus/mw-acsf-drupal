@@ -1,3 +1,4 @@
+theme_styles: 'twix'
 product_used_items:
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/

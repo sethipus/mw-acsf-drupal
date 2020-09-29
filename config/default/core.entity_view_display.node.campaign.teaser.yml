@@ -1,0 +1,29 @@
+uuid: 3b4365e4-f5b5-4299-ad64-3f41398a636b
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.campaign.field_brand_initiatives
+    - field.field.node.campaign.field_campaign_related_products
+    - field.field.node.campaign.field_product_occasions
+    - node.type.campaign
+  module:
+    - user
+id: node.campaign.teaser
+targetEntityType: node
+bundle: campaign
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  content_moderation_control: true
+  field_brand_initiatives: true
+  field_campaign_related_products: true
+  field_product_occasions: true
+  published_at: true
+  search_api_excerpt: true
