@@ -659,14 +659,16 @@ function _mars_common_feedback_ajax_callback(&$form, FormStateInterface $form_st
  */
 function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $fieldTypeValue = isset($form_state->getUserInput()['field_type']) ? $form_state->getUserInput()['field_type'] : $form['field_type']['widget']['#default_value'];
+  $form['#prefix'] = '<div id="poll-form-content-wrapper">';
+  $form['#suffix'] = '</div>';
   if ($fieldTypeValue === 'poll') {
     $form['choice']['widget']['#cardinality'] = FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED;
-    // $form['choice']['widget']['add_more']['#attributes']['disabled'] = FALSE;
   }
   elseif ($fieldTypeValue === 'feedback') {
     $form['choice']['widget']['#cardinality'] = 2;
-    // $form['choice']['widget']['add_more']['#attributes']['disabled'] = TRUE;
-    $form['choice']['widget'][1] = $form['choice']['widget'][0];
+    if (!isset($form['choice']['widget'][1])) {
+      $form['choice']['widget'][1] = $form['choice']['widget'][0];
+    }
     $form['choice']['widget'][0]['choice']['#value'] = 'YES';
     $form['choice']['widget'][1]['choice']['#value'] = 'NO';
 
@@ -685,7 +687,7 @@ function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state
       'callback' => '_mars_common_feedback_ajax_callback',
       'disable-refocus' => FALSE,
       'event' => 'change',
-      'wrapper' => 'poll-form',
+      'wrapper' => 'poll-form-content-wrapper',
       'progress' => [
         'type' => 'throbber',
       ],
@@ -847,7 +849,7 @@ function mars_common_entity_bundle_field_info_alter(
  */
 function mars_common_theme_suggestions_poll_vote_alter(array &$suggestions, array $variables) {
   if ((isset($variables['form']['#entity']->field_type) && $variables['form']['#entity']->field_type->value == 'feedback')
-  || (isset($variables['poll']) && $variables['poll']->field_type->value == 'feedback')) {
+    || (isset($variables['poll']) && $variables['poll']->field_type->value == 'feedback')) {
     $suggestions[] = 'poll_vote__feedback';
   }
 }
