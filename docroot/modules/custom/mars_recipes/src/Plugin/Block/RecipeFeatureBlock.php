@@ -3,10 +3,12 @@
 namespace Drupal\mars_recipes\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -19,14 +21,15 @@ use Drupal\Core\Entity\EntityInterface;
  *   admin_label = @Translation("Recipe feature block"),
  *   category = @Translation("Recipe"),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label =
- *   @Translation("Recipe"))
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Recipe"))
  *   }
  * )
  *
  * @package Drupal\mars_recipes\Plugin\Block
  */
 class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use EntityBrowserFormTrait;
 
   /**
    * NodeStorage.
@@ -57,6 +60,49 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
   protected $themeConfiguratorParser;
 
   /**
+   * Lighthouse entity browser image id.
+   */
+  const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
+
+  /**
+   * Lighthouse entity browser video id.
+   */
+  const LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID = 'lighthouse_video_browser';
+
+  /**
+   * Key option video.
+   */
+  const KEY_OPTION_VIDEO = 'video';
+
+  /**
+   * Key option image.
+   */
+  const KEY_OPTION_IMAGE = 'image';
+
+  /**
+   * From recipe page.
+   */
+  const KEY_OPTION_FROM_RECIPE_PAGE = 'from_recipe_page';
+
+  /**
+   * Recipe options.
+   *
+   * @var array
+   */
+  protected $options = [
+    self::KEY_OPTION_FROM_RECIPE_PAGE => 'Media from recipe page',
+    self::KEY_OPTION_VIDEO => 'Video',
+    self::KEY_OPTION_IMAGE => 'Image',
+  ];
+
+  /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -64,13 +110,15 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -82,7 +130,8 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -96,9 +145,16 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       return [];
     }
 
-    if (!empty($config['recipe_media'])) {
+    if ((!empty($config['recipe_media_image']) && $config['recipe_options'] == self::KEY_OPTION_IMAGE) ||
+      !empty($config['recipe_media_video']) && $config['recipe_options'] == self::KEY_OPTION_VIDEO) {
+      if ($config['recipe_options'] == self::KEY_OPTION_IMAGE) {
+        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['recipe_media_image']);
+      }
+      elseif ($config['recipe_options'] == self::KEY_OPTION_VIDEO) {
+        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['recipe_media_video']);
+      }
       // Assumption that only ligthouse_video and lighthouse_image allowed.
-      $media_entity = $this->mediaStorage->load($config['recipe_media']);
+      $media_entity = $this->mediaStorage->load($media_id);
       $field = ($media_entity->bundle() == 'lighthouse_video') ? 'field_media_video_file_1' : 'field_media_image';
       $isVideo = ($media_entity->bundle() == 'lighthouse_video') ? TRUE : FALSE;
     }
@@ -226,16 +282,36 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       ],
     ];
 
-    $form['recipe_media'] = [
-      '#type' => 'entity_autocomplete',
-      '#target_type' => 'media',
-      '#title' => $this->t('Recipe Media'),
-      '#default_value' => isset($config['recipe_media']) ? $this->mediaStorage->load($this->configuration['recipe_media']) : NULL,
-      '#selection_settings' => [
-        'target_bundles' => [
-          'lighthouse_video',
-          'lighthouse_image',
-        ],
+    $form['recipe_options'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Recipe media type:'),
+      '#options' => $this->options,
+      '#default_value' => isset($config['recipe_options']) ? $config['recipe_options'] : NULL,
+    ];
+
+    $image_default = isset($config['recipe_media_image']) ? $config['recipe_media_image'] : NULL;
+    // Entity Browser element for background image.
+    $form['recipe_media_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    // Convert the wrapping container to a details element.
+    $form['recipe_media_image']['#type'] = 'details';
+    $form['recipe_media_image']['#title'] = $this->t('Image');
+    $form['recipe_media_image']['#open'] = TRUE;
+    $form['recipe_media_image']['#states'] = [
+      'visible' => [
+        ':input[name="settings[recipe_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+      ],
+    ];
+
+    $video_default = isset($config['recipe_media_video']) ? $config['recipe_media_video'] : NULL;
+    // Entity Browser element for video.
+    $form['recipe_media_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID, $video_default, 1);
+    // Convert the wrapping container to a details element.
+    $form['recipe_media_video']['#type'] = 'details';
+    $form['recipe_media_video']['#title'] = $this->t('Video');
+    $form['recipe_media_video']['#open'] = TRUE;
+    $form['recipe_media_video']['#states'] = [
+      'visible' => [
+        ':input[name="settings[recipe_options]"]' => ['value' => self::KEY_OPTION_VIDEO],
       ],
     ];
 
@@ -260,6 +336,8 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
   public function blockSubmit($form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
     $this->setConfiguration($values);
+    $this->configuration['recipe_media_image'] = $this->getEntityBrowserValue($form_state, 'recipe_media_image');
+    $this->configuration['recipe_media_video'] = $this->getEntityBrowserValue($form_state, 'recipe_media_video');
   }
 
 }
