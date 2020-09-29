@@ -10,7 +10,7 @@
 {{ attach_library('emulsifymars/feedback') }}
 
 {% include "@molecules/feedback-module/feedback.twig" with {
-  theme_styles: 'twix',
+  theme_styles: 'drupal',
   feedback_heading: question,
   feedback_paragraph_content: form.poll['#value'].field_description.value,
   choices: form.choice['#options'],

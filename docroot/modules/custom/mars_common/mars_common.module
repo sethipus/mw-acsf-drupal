@@ -697,6 +697,23 @@ function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state
   $form['choice_feedback']['widget'][0]['#cardinality'] = 2;
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
 
+  $form['choice']['widget']['add_more']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'poll'],
+    ],
+  ];
+
+  $form['group_feedback_variations']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
+  $form['group_feedback_contact_us']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
+
   $form['field_standard_variation']['#states'] = [
     'visible' => [
       ':input[name="field_type"]' => ['value' => 'feedback'],

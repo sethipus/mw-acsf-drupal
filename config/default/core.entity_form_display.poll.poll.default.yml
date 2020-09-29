@@ -13,7 +13,39 @@ dependencies:
     - field.field.poll.poll.field_thank_you_message
     - field.field.poll.poll.field_type
   module:
+    - field_group
     - poll
+third_party_settings:
+  field_group:
+    group_feedback_variations:
+      children:
+        - field_standard_variation
+        - field_positive_feedback
+        - field_negative_feedback
+      parent_name: ''
+      weight: 7
+      format_type: fieldset
+      region: content
+      format_settings:
+        description: ''
+        id: ''
+        classes: ''
+        required_fields: false
+      label: 'Feedback Variations'
+    group_feedback_contact_us:
+      children:
+        - field_contact_us_label
+        - field_contact_us_link
+      parent_name: ''
+      weight: 8
+      format_type: fieldset
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        required_fields: false
+      label: 'Feedback Contact Us'
 id: poll.poll.default
 targetEntityType: poll
 bundle: poll
@@ -21,7 +53,7 @@ mode: default
 content:
   anonymous_vote_allow:
     type: boolean_checkbox
-    weight: 9
+    weight: 10
     region: content
     settings:
       display_label: true
@@ -33,7 +65,7 @@ content:
     region: content
     third_party_settings: {  }
   field_contact_us_label:
-    weight: 14
+    weight: 11
     settings:
       size: 60
       placeholder: ''
@@ -41,7 +73,7 @@ content:
     type: string_textfield
     region: content
   field_contact_us_link:
-    weight: 15
+    weight: 12
     settings:
       size: 60
       placeholder: ''
@@ -57,14 +89,6 @@ content:
     type: string_textfield
     region: content
   field_negative_feedback:
-    weight: 13
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_positive_feedback:
     weight: 12
     settings:
       size: 60
@@ -72,7 +96,7 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_standard_variation:
+  field_positive_feedback:
     weight: 11
     settings:
       size: 60
@@ -80,8 +104,16 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_standard_variation:
+    weight: 10
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_submit_cta:
-    weight: 6
+    weight: 4
     settings:
       size: 60
       placeholder: ''
@@ -89,7 +121,7 @@ content:
     type: string_textfield
     region: content
   field_thank_you_message:
-    weight: 7
+    weight: 5
     settings:
       size: 60
       placeholder: ''
@@ -114,12 +146,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 10
+    weight: 9
     region: content
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 8
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: 60

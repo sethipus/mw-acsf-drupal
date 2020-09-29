@@ -10,7 +10,7 @@ id: poll.poll.field_standard_variation
 field_name: field_standard_variation
 entity_type: poll
 bundle: poll
-label: 'Standard variation'
+label: 'Standard Variation'
 description: ''
 required: false
 translatable: false
