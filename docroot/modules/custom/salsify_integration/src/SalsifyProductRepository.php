@@ -108,11 +108,17 @@ class SalsifyProductRepository {
       ->getStorage('node')
       ->loadMultiple($products_for_delete);
 
+    $deleted_gtins = [];
+    foreach ($product_entities_delete as $product) {
+      /* @var \Drupal\node\NodeInterface $product */
+      $deleted_gtins[] = $product->get('salsify_id')->value;
+    }
+
     $this->entityTypeManager
       ->getStorage('node')
       ->delete($product_entities_delete);
 
-    return array_values($products_for_delete);
+    return $deleted_gtins;
   }
 
   /**

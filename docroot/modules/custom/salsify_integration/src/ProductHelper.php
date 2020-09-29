@@ -15,6 +15,8 @@ class ProductHelper {
 
   public const PRODUCT_VARIANT_CONTENT_TYPE = 'product_variant';
 
+  public const SALSIFY_DATA_FORMAT_STRING = 'string';
+
   /**
    * Whether product variant or not.
    *
@@ -93,6 +95,34 @@ class ProductHelper {
     }
 
     return $product_type;
+  }
+
+  /**
+   * Validate data by type in mapping.
+   *
+   * @param array $record
+   *   Product record.
+   * @param array $field_mapping
+   *   Field map.
+   *
+   * @return bool
+   *   Valid data or not.
+   */
+  public function validateDataRecord(array $record, array $field_mapping) {
+    $result = FALSE;
+
+    // Validate only string fields. If record doesn't have field value it
+    // returns true.
+    if (
+      ($field_mapping['salsify_data_type'] == self::SALSIFY_DATA_FORMAT_STRING &&
+      isset($record[$field_mapping['salsify_id']]) &&
+      is_string($record[$field_mapping['salsify_id']])) ||
+      $field_mapping['salsify_data_type'] != self::SALSIFY_DATA_FORMAT_STRING ||
+      !isset($record[$field_mapping['salsify_id']])
+    ) {
+      $result = TRUE;
+    }
+    return $result;
   }
 
 }
