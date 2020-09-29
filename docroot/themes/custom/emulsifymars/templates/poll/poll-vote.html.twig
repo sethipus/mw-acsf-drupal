@@ -7,6 +7,7 @@
  */
 #}
 
+{{ form.messages }}
 {% include "@molecules/polls/poll-vote.twig" with {
   theme_styles: 'drupal',
   polling_heading: question,
@@ -15,5 +16,6 @@
   vote_button: form.actions.vote|merge({
     '#value': (form.poll['#value'].field_submit_cta.value)
   }),
+  attributes: create_attribute(),
   hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
 } %}
