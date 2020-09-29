@@ -32,8 +32,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * @var array
    */
   const TAXONOMY_VOCABULARIES = [
-    // TODO Add taxonomy?
-    // field_product_variants:entity:field_product_diet_allergens:entity:name.
     'mars_brand_initiatives' => [
       'label' => 'Brand initiatives',
       'content_types' => ['article', 'recipe'],
@@ -152,11 +150,10 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Getting default search options.
     $searchOptions = $facetOptions = $this->searchHelper->getSearchQueryDefaultOptions();
-    // We don't need any filte
+    // We don't need any filter.
     $facetOptions['disable_filters'] = 1;
     // Adjusting them with grid specific configuration.
-
-    // Content type filter
+    // Content type filter.
     if (!empty($config['content_type'])) {
       $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
       $facetOptions['conditions'][] = ['type', $config['content_type'], '='];
@@ -166,8 +163,18 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
       foreach ($config['general_filters'] as $filter_key => $filter_value) {
         if (!empty($filter_value['select'])) {
-          $searchOptions['conditions'][] = [$filter_key, $filter_value['select'], '=', $filter_value['options_logic']];
-          $facetOptions['conditions'][] = [$filter_key, $filter_value['select'], '=', $filter_value['options_logic']];
+          $searchOptions['conditions'][] = [
+            $filter_key,
+            $filter_value['select'],
+            '=',
+            $filter_value['options_logic'],
+          ];
+          $facetOptions['conditions'][] = [
+            $filter_key,
+            $filter_value['select'],
+            '=',
+            $filter_value['options_logic'],
+          ];
         }
       }
     }
@@ -284,14 +291,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   /**
    * {@inheritdoc}
    */
-  public function blockValidate($form, FormStateInterface $form_state) {
-    // TODO Validate that top list fits content type and other filters?
-    // TODO Test that top list cardinality is respected.
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $values = $form_state->cleanValues()->getValues();
 
@@ -391,8 +390,17 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    *   Top results form elements.
    */
   protected function buildTopResults() {
-    // TODO add default values.
-    // TODO find better widget.
+    $config = $this->getConfiguration();
+
+    // Get default values.
+    $default_top = $config['top_results_wrapper']['top_results'] ?? [];
+    $default_top_ids = [];
+    foreach ($default_top as $id) {
+      $default_top_ids[] = array_shift($id);
+    }
+    $default_top = $default_top_ids ? $this->entityTypeManager->getStorage('node')
+      ->loadMultiple($default_top_ids) : NULL;
+
     $form = [];
     $form['top_results_wrapper'] = [
       '#type' => 'details',
@@ -408,6 +416,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       ],
       '#tags' => TRUE,
       '#cardinality' => 8,
+      '#default_value' => $default_top,
     ];
 
     return $form;
