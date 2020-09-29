@@ -1,12 +1,15 @@
-Drupal.behaviors.feedback = {
-  attach(context) {
-
-    const choiceButtons = document.querySelectorAll('.feedback-module__radio');
-    choiceButtons.forEach((e) => {
-      e.addEventListener('change', () => {
-        document.querySelector('#edit-vote').dispatchEvent(new Event('mousedown'));
+(function($){
+  Drupal.behaviors.feedback = {
+    attach(context) {
+      $('.feedback-module').each(function() {
+        let radioBtn = $(this).find('.feedback-module__radio');
+        let submitBtn = $(this).find('.button-vote');
+        radioBtn.each(function() {
+          $(this).change(() => {
+            submitBtn.mousedown();
+          });
+        });
       });
-    });
-
-  },
-};
+    },
+  };
+})(jQuery);

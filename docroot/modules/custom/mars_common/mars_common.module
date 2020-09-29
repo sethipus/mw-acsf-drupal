@@ -658,7 +658,7 @@ function _mars_common_feedback_ajax_callback(&$form, FormStateInterface $form_st
  * Implements hook_form_FORM_ID_alter().
  */
 function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $fieldTypeValue = isset($form_state->getUserInput()['field_type']) ? $form_state->getUserInput()['field_type'] : $form['field_type']['widget']['#default_value'];
+  $fieldTypeValue = $form_state->getUserInput()['field_type'] ?? $form['field_type']['widget']['#default_value'];
   $form['#prefix'] = '<div id="poll-form-content-wrapper">';
   $form['#suffix'] = '</div>';
   if ($fieldTypeValue === 'poll') {
