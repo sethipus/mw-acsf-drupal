@@ -37,6 +37,11 @@
   </div>
 {% endblock %}
 
+{% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
+  theme_styles: theme_styles,
+  items: filters,
+} %}
+
 {% include "@organisms/grid/ajax-card-grid.twig" with {
   theme_styles: theme_styles,
 } %}
