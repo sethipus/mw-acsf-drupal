@@ -29,6 +29,9 @@ use Drupal\mars_common\Form\Alter\CampaignLayoutFormAlter;
 use Drupal\layout_builder\Form\OverridesEntityForm;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\system\Entity\Menu;
+use Drupal\taxonomy\TermInterface;
+use Drupal\Core\Cache\Cache;
+use Drupal\mars_common\Plugin\Block\FooterBlock;
 
 /**
  * Implements hook_menu_insert().
@@ -133,6 +136,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'marketing'       => NULL,
         'corporate_tout'  => NULL,
         'region_selector' => NULL,
+        'current_region_title' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -728,5 +732,57 @@ function mars_common_entity_bundle_field_info_alter(
         'errorMessage' => 'Please enter correct order number. Example: 1.1 or 1.',
       ]);
     }
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_presave().
+ */
+function mars_common_taxonomy_term_presave(TermInterface $term) {
+  if ($term->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $terms = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term')->loadByProperties([
+      'vid' => FooterBlock::VID_TAXONOMY_REGION,
+      'field_default_region' => TRUE,
+    ]);
+
+    if ($term->field_default_region->value) {
+      foreach ($terms as $term_item) {
+        /** @var \Drupal\taxonomy\TermInterface $term_item */
+        if ($term_item->id() != $term->id()) {
+          $term_item->set('field_default_region', FALSE);
+          $term_item->save();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function mars_common_entity_delete(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function mars_common_entity_update(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
+  }
+}
+
+/**
+ * Implements hook_entity_create().
+ */
+function mars_common_entity_create(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
   }
 }
