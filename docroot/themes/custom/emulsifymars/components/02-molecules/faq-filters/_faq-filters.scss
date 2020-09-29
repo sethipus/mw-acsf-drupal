@@ -26,6 +26,12 @@
     }
   }
 
+  &__search-results {
+    margin: 20px 40px 0 40px;
+    font-size: 1.6rem;
+    color: clr(primary);
+  }
+
   &__filters {
     position: relative;
     font-size: 0;
