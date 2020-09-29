@@ -5,9 +5,12 @@
 
   {% block faq_filters__search %}
     <div {{ bem('search', [], faq_filters_base_class) }}>
-      <div class="search-input" data-theme="twix">
+      <div class="search-input">
         {{ search_form }}
       </div>
+    </div>
+    <div {{ bem('search-results', [], faq_filters_base_class) }}>
+      {{ search_result_counter }}
     </div>
   {% endblock %}
 

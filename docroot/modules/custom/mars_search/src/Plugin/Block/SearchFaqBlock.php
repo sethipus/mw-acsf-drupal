@@ -9,6 +9,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Provides a no results block for the search page.
@@ -20,6 +21,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use StringTranslationTrait;
 
   /**
    * Search helper.
@@ -94,6 +97,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function build() {
     $config = $this->getConfiguration();
+    $query_key = $this->searchHelper->request->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
     $faq_facet_key = 'faq_filter_topic';
 
     $options = [
@@ -137,7 +141,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       }
     }
     // Getting search form.
-    $search_from = $this->formBuilder->getForm(SearchForm::class, $search_results['resultsCount']);
+    $search_from = $this->formBuilder->getForm(SearchForm::class);
 
     // Facets query.
     $options['disable_filters'] = TRUE;
@@ -150,6 +154,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
       '#search_form' => render($search_from),
+      '#search_result_counter' => !empty($query_key) ? $this->formatPlural($search_results['resultsCount'], '1 Results for "@keys"', '@count Results for "@keys"', ['@keys' => $query_key]) : '',
       '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
     ];
   }

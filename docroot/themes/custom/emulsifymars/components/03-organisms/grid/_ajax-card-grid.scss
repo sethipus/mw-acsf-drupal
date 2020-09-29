@@ -1,6 +1,5 @@
 .ajax-card-grid {
   position: relative;
-  padding-top: 5rem;
 
   &__brand-border {
     position: absolute;
@@ -14,7 +13,6 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    z-index: 2;
     background-color: clr(subcolor-2);
     padding: 6rem 0;
   }
