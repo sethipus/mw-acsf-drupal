@@ -12,7 +12,7 @@ entity_type: poll
 bundle: poll
 label: 'Contact Us Link'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

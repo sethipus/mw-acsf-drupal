@@ -8,7 +8,6 @@ dependencies:
     - field.field.poll.poll.field_description
     - field.field.poll.poll.field_negative_feedback
     - field.field.poll.poll.field_positive_feedback
-    - field.field.poll.poll.field_standard_variation
     - field.field.poll.poll.field_submit_cta
     - field.field.poll.poll.field_thank_you_message
     - field.field.poll.poll.field_type
@@ -42,7 +41,6 @@ hidden:
   field_description: true
   field_negative_feedback: true
   field_positive_feedback: true
-  field_standard_variation: true
   field_submit_cta: true
   field_thank_you_message: true
   field_type: true

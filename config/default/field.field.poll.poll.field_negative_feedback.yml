@@ -12,7 +12,7 @@ entity_type: poll
 bundle: poll
 label: 'Negative Feedback'
 description: ''
-required: false
+required: true
 translatable: false
 default_value:
   -

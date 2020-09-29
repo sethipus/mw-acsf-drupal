@@ -742,64 +742,14 @@ function mars_common_form_poll_form_alter(
   ];
 
   $form['group_feedback_variations']['#states'] = [
-    'visible' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['group_feedback_contact_us']['#states'] = [
-    'visible' => [
+    'expanded' => [
       ':input[name="field_type"]' => ['value' => 'feedback'],
     ],
   ];
 
-  $form['field_standard_variation']['#states'] = [
-    'visible' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_standard_variation']['widget'][0]['value']['#states'] = [
-    'required' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_positive_feedback']['#states'] = [
-    'visible' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_positive_feedback']['widget'][0]['value']['#states'] = [
-    'required' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_negative_feedback']['#states'] = [
-    'visible' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_negative_feedback']['widget'][0]['value']['#states'] = [
-    'required' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_contact_us_label']['#states'] = [
-    'visible' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_contact_us_label']['widget'][0]['value']['#states'] = [
-    'required' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_contact_us_link']['#states'] = [
-    'visible' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
-    ],
-  ];
-  $form['field_contact_us_link']['widget'][0]['value']['#states'] = [
-    'required' => [
-      ':input[name="field_type"]' => ['value' => 'feedback'],
+  $form['group_poll_options']['#states'] = [
+    'expanded' => [
+      ':input[name="field_type"]' => ['value' => 'poll'],
     ],
   ];
 }
