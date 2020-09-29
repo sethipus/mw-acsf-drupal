@@ -153,3 +153,9 @@ feedback:
     dist/js/02-molecules/feedback-module/feedback.js: { }
   dependencies:
     - core/drupal
+
+poll:
+  js:
+    dist/js/02-molecules/polls/poll.js: { }
+  dependencies:
+    - core/drupal
