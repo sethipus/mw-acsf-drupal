@@ -9,6 +9,7 @@ use Drupal\block_content\BlockContentInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
@@ -657,29 +658,65 @@ function _mars_common_feedback_ajax_callback(&$form, FormStateInterface $form_st
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $fieldTypeValue = $form_state->getUserInput()['field_type'] ?? $form['field_type']['widget']['#default_value'];
+function mars_common_form_poll_form_alter(
+  &$form,
+  FormStateInterface $form_state,
+  $form_id
+) {
+  $userInput = &$form_state->getUserInput();
+  $fieldTypeValue = $userInput['field_type'] ?? $form['field_type']['widget']['#default_value'];
   $form['#prefix'] = '<div id="poll-form-content-wrapper">';
   $form['#suffix'] = '</div>';
+
   if ($fieldTypeValue === 'poll') {
     $form['choice']['widget']['#cardinality'] = FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED;
-  }
-  elseif ($fieldTypeValue === 'feedback') {
+  } elseif ($fieldTypeValue === 'feedback') {
     $form['choice']['widget']['#cardinality'] = 2;
     if (!isset($form['choice']['widget'][1])) {
       $form['choice']['widget'][1] = $form['choice']['widget'][0];
+      $form['choice']['widget']['#max_delta'] = 1;
     }
-    $form['choice']['widget'][0]['choice']['#value'] = 'YES';
-    $form['choice']['widget'][1]['choice']['#value'] = 'NO';
+
+    if (empty($form['choice']['widget'][0]['choice']['#default_value'])) {
+      $form['choice']['widget'][0]['choice']['#default_value'] = 'YES';
+    }
+
+    if (empty($form['choice']['widget'][1]['choice']['#default_value'])) {
+      $form['choice']['widget'][1]['choice']['#default_value'] = 'NO';
+    }
 
     foreach ($form['choice']['widget'] as $choiceIndex => $choice) {
-      if ($choiceIndex <= 1) {
+
+      // Leave alone not numbered keys, those are not choices.
+      if (!is_int($choiceIndex)) {
         continue;
       }
-      if (is_int($choiceIndex)) {
+
+      // Remove extra choices.
+      if ($choiceIndex > 1) {
         unset($form['choice']['widget'][$choiceIndex]);
+        continue;
+      }
+
+      //Remove input value if it's empty so the default value will be used for it.
+      if (
+        isset($userInput['choice'][$choiceIndex]['choice']) &&
+        $userInput['choice'][$choiceIndex]['choice'] === ''
+      ) {
+        unset($userInput['choice'][$choiceIndex]);
       }
     }
+
+    //Update field state with new item count.
+    $fieldName = $form['choice']['widget']['#field_name'];
+    $parents = [];
+    $field_state = WidgetBase::getWidgetState(
+      $parents,
+      $fieldName,
+      $form_state
+    );
+    $field_state['items_count'] = 2;
+    WidgetBase::setWidgetState($parents, $fieldName, $form_state, $field_state);
   }
 
   $form['field_type']['widget']['#ajax'] =
@@ -696,7 +733,6 @@ function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state
   $form['question']['widget'][0]['value']['#title'] = 'Title';
   $form['question']['widget'][0]['value']['#maxlength'] = 50;
   $form['choice']['widget']['#title'] = 'Responses';
-  $form['choice_feedback']['widget'][0]['#cardinality'] = 2;
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
 
   $form['choice']['widget']['add_more']['#states'] = [
