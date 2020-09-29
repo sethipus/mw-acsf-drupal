@@ -1,4 +1,4 @@
-.fullscreen-video {
+.inline-video {
   width: 100%;
   height: 100%;
   position: relative;
@@ -145,19 +145,15 @@
     }
   }
 
-  button.fullscreen-video__mute {
+  button.inline-video__mute {
     background-image: url('/icons/mute.svg');
   }
   
-  button.fullscreen-video__subtitles {
+  button.inline-video__subtitles {
     background-image: url('/icons/subtitles.svg');
   }
   
-  button.fullscreen-video__fs {
-    background-image: url('/icons/fullscreen.svg');
-  }
-
-  button.fullscreen-video__close {
+  button.inline-video__close {
     position: absolute;
     top: 2%;
     right: 2%;
@@ -202,31 +198,9 @@
 }
 
 
+/* hide full control */
 
-/* fullscreen */
-
-html:-ms-fullscreen {
-  width: 100%;
-}
-
-:-webkit-full-screen {
-  background-color: transparent;
-}
-
-video:-webkit-full-screen+.fullscreen-video__controls {
-  background: #ccc;
-
-  /* required for Chrome which doesn't heed the transparent value set above */
-}
-
-video:-webkit-full-screen+.fullscreen-video__controls progress {
-  margin-top: 0.5rem;
-}
-
-
-/* hide controls on fullscreen with WebKit */
-
-figure[data-fullscreen="true"] {
+figure[data-fullcontrol="true"] {
   max-width: 100%;
   width: 100%;
   margin: 0;
@@ -234,31 +208,31 @@ figure[data-fullscreen="true"] {
   max-height: 100%;
 }
 
-figure[data-fullscreen="true"] video {
+figure[data-fullcontrol="true"] video {
   height: auto;
 }
 
-figure[data-fullscreen="true"] figcaption {
+figure[data-fullcontrol="true"] figcaption {
   display: none;
 }
 
-figure[data-fullscreen="true"] .fullscreen-video__controls {
+figure[data-fullcontrol="true"] .inline-video__controls {
   position: absolute;
   bottom: 2%;
   width: 100%;
   z-index: 10;
 }
 
-figure[data-fullscreen="true"] .fullscreen-video__controls li {
+figure[data-fullcontrol="false"] .inline-video__close {
+  display: none;
+}
+
+figure[data-fullcontrol="true"] .inline-video__controls li {
   width: 5%;
 }
 
-figure[data-fullscreen="true"] .fullscreen-video__controls .progress {
+figure[data-fullcontrol="true"] .inline-video__controls .progress {
   width: 68%;
-}
-
-figure[data-fullscreen="false"] .fullscreen-video__close {
-  display: none;
 }
 
 /* Media Queries */
@@ -269,17 +243,17 @@ figure[data-fullscreen="false"] .fullscreen-video__close {
     padding-right: 0;
     height: auto;
   }
-  .fullscreen-video__controls {
+  .inline-video__controls {
     height: 30px;
     height: 1.876rem;
   }
 }
 
 @media screen and (max-width: 42.5em) {
-  .fullscreen-video__controls {
+  .inline-video__controls {
     height: auto;
   }
-  .fullscreen-video__controls>* {
+  .inline-video__controls>* {
     display: block;
     width: 16.6667%;
     margin-left: 0;
@@ -287,9 +261,7 @@ figure[data-fullscreen="false"] .fullscreen-video__close {
     height: 2.5rem;
     margin-top: 2.5rem;
   }
-  .fullscreen-video__controls .progress {
-    /* display:table-caption; */
-
+  .inline-video__controls .progress {
     /* this trick doesn't work as elements are floated and the layout doesn't work */
     position: absolute;
     top: 0;
@@ -297,11 +269,11 @@ figure[data-fullscreen="false"] .fullscreen-video__close {
     float: none;
     margin-top: 0;
   }
-  .fullscreen-video__controls .progress progress {
+  .inline-video__controls .progress progress {
     width: 98%;
     margin: 0 auto;
   }
-  .fullscreen-video__controls button {
+  .inline-video__controls button {
     background-position: center center;
   }
   figcaption {
