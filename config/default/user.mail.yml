@@ -28,3 +28,6 @@ status_canceled:
 langcode: en
 _core:
   default_config_hash: IWzNdUVX2YSiflxrGSTLIiqTrhgIzbV2C-hRL5DniJM
+salsify_import:
+  subject: 'Sync [current-date:medium] error report'
+  body: "[salsify:validation_errors]\r\n[salsify:deleted_items]"
