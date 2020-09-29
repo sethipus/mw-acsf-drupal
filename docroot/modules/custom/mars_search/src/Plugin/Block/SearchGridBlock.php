@@ -276,6 +276,9 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
             $appliedFilters[] = $terms[$facet['filter']]->label();
           }
         }
+        if (count($facetValues) == 0) {
+          continue;
+        }
         $filters[] = [
           'filter_title' => $vocabulary_data['label'],
           'filter_id' => $vocabulary,
