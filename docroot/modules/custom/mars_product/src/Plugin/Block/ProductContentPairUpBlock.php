@@ -182,7 +182,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     if ($supporting_entity) {
       $build['#supporting_card_entity'] = $supporting_entity;
 
-      $default_eyebrow_text = $supporting_entity->getEntityType() == 'product' ? $this->t('Made With') : $this->t('Seen In');
+      $default_eyebrow_text = $supporting_entity->bundle() == 'product' ? $this->t('Made With') : $this->t('Seen In');
       $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
       $view_mode = 'card';
 

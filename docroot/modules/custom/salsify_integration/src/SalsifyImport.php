@@ -104,7 +104,7 @@ class SalsifyImport {
    * @param string $content_type
    *   Content type.
    *
-   * @return string
+   * @return array
    *   Result status of processing (not updated, updated, or created)
    */
   public function processSalsifyItem(
@@ -112,7 +112,10 @@ class SalsifyImport {
     $force_update = FALSE,
     $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
   ) {
-    return self::PROCESS_RESULT_NOT_UPDATED;
+    return [
+      'import_result' => self::PROCESS_RESULT_NOT_UPDATED,
+      'validation_errors' => [],
+    ];
   }
 
   /**
