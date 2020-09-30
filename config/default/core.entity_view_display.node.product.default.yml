@@ -134,7 +134,6 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
-      - Facets
       - 'Flexible driver'
       - Forms
       - 'Global elements'
@@ -152,11 +151,9 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        Facets: {  }
         'Flexible driver': {  }
         'Mars Search': {  }
       blacklisted_blocks: {  }
@@ -177,7 +174,13 @@ third_party_settings:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
+            'Custom block types':
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - list
+              - media_carousel
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
@@ -199,22 +202,22 @@ third_party_settings:
               - contact_help_banner_block
               - iframe_block
               - newsletter_signup_form
+              - poll_block
               - product_feature
               - recommendations_module
               - story_highlight
-              - poll_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product:
               - pdp_hero_block
-            Recipe: {  }
+            Recipe:
+              - recipe_feature_block
             'Social feed':
               - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         product_product_detail_hero:
           all_regions:
