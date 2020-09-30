@@ -118,7 +118,6 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
-      - Facets
       - 'Flexible driver'
       - Forms
       - 'Global elements'
@@ -136,11 +135,9 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        Facets: {  }
         'Flexible driver': {  }
         'Mars Search': {  }
       blacklisted_blocks: {  }
@@ -187,7 +184,14 @@ third_party_settings:
               - article_header
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
+            'Custom block types':
+              - flexible_framer
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - list
+              - media_carousel
             'Custom blocks':
               - mars_common_content_feature_module
             'Entity Block': {  }
@@ -208,11 +212,12 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common':
               - contact_help_banner_block
+              - feedback_block
               - iframe_block
               - newsletter_signup_form
-              - story_highlight
               - poll_block
-              - feedback_block
+              - recommendations_module
+              - story_highlight
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
@@ -223,7 +228,6 @@ third_party_settings:
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         article_content_recommendations:
           all_regions:
