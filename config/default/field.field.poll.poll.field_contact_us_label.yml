@@ -1,0 +1,22 @@
+uuid: bfc550d2-fe08-47f2-a0f4-c65e9a3a4682
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.poll.field_contact_us_label
+  module:
+    - poll
+id: poll.poll.field_contact_us_label
+field_name: field_contact_us_label
+entity_type: poll
+bundle: poll
+label: 'Contact Us Label'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 'Contact Us'
+default_value_callback: ''
+settings: {  }
+field_type: string

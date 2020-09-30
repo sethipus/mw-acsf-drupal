@@ -286,6 +286,7 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common':
               - recommendations_module
+              - feedback_block
             'Mars Product': {  }
             'Mars Search': {  }
             Menus: {  }

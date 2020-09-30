@@ -220,6 +220,7 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common':
               - newsletter_signup_form
+              - feedback_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
