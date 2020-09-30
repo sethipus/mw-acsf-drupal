@@ -95,6 +95,8 @@ class SalsifyFields extends Salsify {
    *   The Queue factory service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The Module handler service.
+   * @param \Drupal\salsify_integration\MulesoftConnector $mulesoft_connector
+   *   The Mulesoft connector.
    * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
    *   Salsify product repository service.
    * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
@@ -120,6 +122,7 @@ class SalsifyFields extends Salsify {
     CacheBackendInterface $cache_salsify,
     QueueFactory $queue_factory,
     ModuleHandlerInterface $module_handler,
+    MulesoftConnector $mulesoft_connector,
     SalsifyProductRepository $salsify_product_repository,
     MailManagerInterface $mail_manager,
     LanguageManagerInterface $language_manager,
@@ -136,7 +139,8 @@ class SalsifyFields extends Salsify {
       $entity_field_manager,
       $cache_salsify,
       $queue_factory,
-      $module_handler
+      $module_handler,
+      $mulesoft_connector
     );
     $this->salsifyProductRepository = $salsify_product_repository;
     $this->mailManager = $mail_manager;

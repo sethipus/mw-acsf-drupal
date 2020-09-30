@@ -41,6 +41,7 @@ services:
       - '@cache.default'
       - '@queue'
       - '@module_handler'
+      - '@salsify_integration.mulesof_connector'
 
   salsify_integration.salsify_fields:
     class: Drupal\salsify_integration\SalsifyFields
@@ -52,6 +53,7 @@ services:
       - '@cache.default'
       - '@queue'
       - '@module_handler'
+      - '@salsify_integration.mulesof_connector'
       - '@salsify_integration.salsify_product_repository'
       - '@plugin.manager.mail'
       - '@language_manager'
@@ -93,3 +95,8 @@ services:
       - '@module_handler'
       - '@token'
       - '@file_system'
+
+  salsify_integration.mulesof_connector:
+    class: Drupal\salsify_integration\MulesoftConnector
+    arguments:
+      - '@salsify_integration.product_data_helper'
