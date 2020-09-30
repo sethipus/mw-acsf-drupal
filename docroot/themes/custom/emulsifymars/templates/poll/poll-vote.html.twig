@@ -15,5 +15,6 @@
   vote_button: form.actions.vote|merge({
     '#value': (form.poll['#value'].field_submit_cta.value)
   }),
+  attributes: create_attribute(),
   hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
 } %}
