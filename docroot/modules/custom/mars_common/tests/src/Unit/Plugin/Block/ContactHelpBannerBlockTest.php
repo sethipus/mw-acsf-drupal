@@ -43,8 +43,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
    * @var array
    */
   private $configuration = [
-    'label' => 'Contact Help',
-    'label_display' => FALSE,
+    'title' => 'Contact Help',
     'description' => 'Description',
     'social_links_label' => 'See More On',
     'phone_cta_label' => 'Phone',
@@ -125,7 +124,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
     $build = $this->contactHelpBannerBlock->build();
 
     $this->assertCount(12, $build);
-    $this->assertEquals($this->configuration['label'], $build['#label']);
+    $this->assertEquals($this->configuration['title'], $build['#title']);
     $this->assertEquals($this->configuration['description'], $build['#description']);
     $this->assertEquals($this->configuration['social_links_label'], $build['#social_links_label']);
     $this->assertEquals($this->configuration['phone_cta_label'], $build['#phone_cta_label']);
