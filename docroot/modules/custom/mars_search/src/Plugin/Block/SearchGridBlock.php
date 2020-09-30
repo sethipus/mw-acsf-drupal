@@ -204,7 +204,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
           ];
         }
       }
-      $searchOptions['general_filters'] = TRUE;
+      $searchOptions['disable_filters'] = TRUE;
     }
 
     // Getting and building search results.
