@@ -7,6 +7,8 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\entity_browser\Element\EntityBrowserElement;
+use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
 
 /**
  * Provides helpers for adding an entity browser element to a form.
@@ -14,6 +16,11 @@ use Drupal\entity_browser\Element\EntityBrowserElement;
 trait EntityBrowserFormTrait {
 
   use StringTranslationTrait;
+
+  /**
+   * File type key.
+   */
+  protected static $file = 'file';
 
   /**
    * Adds the Entity Browser element to a form.
@@ -121,7 +128,20 @@ trait EntityBrowserFormTrait {
    */
   public function getEntityBrowserValue(FormStateInterface $form_state, $parents) {
     $parents = is_array($parents) ? $parents : [$parents];
-    return $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']));
+    $value = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']));
+    if (strpos($value, self::$file) !== FALSE) {
+      $file_id = str_replace('file:', '', $value);
+      $file = File::load($file_id);
+      $list_of_usage = \Drupal::service('file.usage')->listUsage($file);
+      $mid = key($list_of_usage['file']['media']);
+      $media = Media::load($mid);
+      $entity_type = $media->getEntityTypeId();
+      $result = $entity_type . ':' . $media->id();
+    }
+    else {
+      $result = $value;
+    }
+    return $result;
   }
 
   /**
@@ -154,7 +174,16 @@ trait EntityBrowserFormTrait {
     foreach ($entities as $id => $entity) {
       $entity_type_id = $entity->getEntityTypeId();
       if ($entity_type_manager->hasHandler($entity_type_id, 'view_builder')) {
-        $preview = $entity_type_manager->getViewBuilder($entity_type_id)->view($entity, $element['#view_mode']);
+        if ($entity_type_id == self::$file){
+          $list_of_usage = \Drupal::service('file.usage')->listUsage($entity);
+          $mid = key($list_of_usage['file']['media']);
+          $media = Media::load($mid);
+          $entity_type_media = $media->getEntityTypeId();
+          $preview = $entity_type_manager->getViewBuilder($entity_type_media)->view($media, $element['#view_mode']);
+        }
+        else {
+          $preview = $entity_type_manager->getViewBuilder($entity_type_id)->view($entity, $element['#view_mode']);
+        }
       }
       else {
         $preview = ['#markup' => $entity->label()];
