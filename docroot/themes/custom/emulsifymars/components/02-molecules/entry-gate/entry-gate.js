@@ -10,6 +10,21 @@ Drupal.behaviors.entryGate = {
     const yearInput = document.getElementById('year');
     const submitBtn = entryGate.getElementsByClassName('entry-gate-form__submit-btn')[0];
     const errorMessage = entryGate.getElementsByClassName('entry-gate-form__error-message')[0];
+    const link = entryGate.getElementsByClassName('entry-gate__bottom-paragraph')[0].getElementsByTagName('a')[0];
+
+    dayInput.onkeydown = function(e) {
+      if (e.code === 'Tab' && e.shiftKey) {
+          e.preventDefault();
+          link.focus();
+      }
+    }
+
+    link.onkeydown = function(e) {
+      if (e.code === 'Tab'  && !e.shiftKey) {
+        e.preventDefault();
+        dayInput.focus();
+      }
+    }
 
     // helper for getting cooke with specified name
     const getCookieDate = name => {
@@ -49,6 +64,8 @@ Drupal.behaviors.entryGate = {
     // enough
     entryGate.style.display = isOldEnough(getCookieDate('dateOfBirth')) ? 'none' : 'flex';
 
+    dayInput.focus();
+
     dayInput.addEventListener('keypress', e => checkValueLength(e, dayInput, 2));
     monthInput.addEventListener('keypress', e => checkValueLength(e, dayInput, 2));
     yearInput.addEventListener('keypress', e => checkValueLength(e, dayInput, 4));
@@ -67,6 +84,22 @@ Drupal.behaviors.entryGate = {
       if (!isOldEnough(givenDate)) {
         // under the age limit, show error overlay instead of entry gate
         entryGate.classList.add('age-error');
+        entryGate.getElementsByClassName('entry-gate__error-link')[0].focus();
+
+        entryGate.getElementsByClassName('entry-gate__error-link')[0].onkeydown = function(e) {
+          if (e.code === 'Tab' && e.shiftKey) {
+              e.preventDefault();
+              entryGate.getElementsByClassName('entry-gate__error-link')[1].focus();
+          }
+        }
+
+        entryGate.getElementsByClassName('entry-gate__error-link')[1].onkeydown = function(e) {
+          if (e.code === 'Tab'  && !e.shiftKey) {
+            e.preventDefault();
+            entryGate.getElementsByClassName('entry-gate__error-link')[0].focus();
+          }
+        }
+
         return;
       }
 

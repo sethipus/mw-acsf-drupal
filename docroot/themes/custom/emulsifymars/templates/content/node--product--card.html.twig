@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Template for the product card component.
+ */
+#}
+
+{% set image_src = node.field_product_variants.entity.field_product_key_image_override.entity.image.entity.fileuri %}
+{% if image_src == NULL %}
+  {% set image_src = node.field_product_variants.entity.field_product_key_image.entity.image.entity.fileuri %}
+{% endif %}
+
+{% set image_src = file_url(image_src) %}
+
+{% include "@molecules/card/product-card/product-card.twig" with {
+  theme_styles: 'drupal',
+  card__eyebrow: elements['#eyebrow'],
+  card__image__src: image_src,
+  paragraph_size: 'large',
+  paragraph_base_class: 'paragraph',
+  paragraph_modifiers: ['large'],
+  default_link_content: 'SEE DETAILS',
+  default_link_base_class: 'default-link',
+  link_content: 'BUY NOW',
+  link_base_class: 'text_link',
+  item: {
+    card_url: url,
+    card__image__src: image_src,
+    paragraph_content: node.title.value,
+    default_link_attributes: {
+      href: url
+    },
+    link_url: ''
+  }
+} %}

@@ -72,13 +72,20 @@ twigDrupal(Twig);
 twigBEM(Twig);
 twigAddAttributes(Twig);
 
+// config.js
+import jquery from "jquery";
+import once from "jquery-once";
+
+global.$ = jquery;
+global.jQuery =  jquery;
+
 // If in a Drupal project, it's recommended to import a symlinked version of drupal.js.
 import './_drupal.js';
 
 // automatically import all files ending in *.stories.js
 configure(require.context('../components', true, /\.stories\.js$/), module);
 
-// Below is for if Emulsify Gatsby style guide is being used 
+// Below is for if Emulsify Gatsby style guide is being used
 // // Gatsby's Link overrides:
 // // Gatsby defines a global called ___loader to prevent its method calls from creating console errors you override it here
 // global.___loader = {

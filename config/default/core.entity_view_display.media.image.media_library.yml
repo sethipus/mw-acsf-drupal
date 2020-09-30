@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.media.media_library
     - field.field.media.image.field_media_in_library
     - field.field.media.image.image
+    - field.field.media.image.salsify_id
     - image.style.thumbnail
     - media.type.image
   module:
@@ -31,5 +32,6 @@ hidden:
   field_media_in_library: true
   image: true
   name: true
+  salsify_id: true
   search_api_excerpt: true
   uid: true

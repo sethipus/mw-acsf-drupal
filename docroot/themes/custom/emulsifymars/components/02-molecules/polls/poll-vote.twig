@@ -1,0 +1,43 @@
+{% set polling_base_class = polling_base_class | default('polling') %}
+{% set polling_heading_level = polling_heading_level | default(2) %}
+{% set polling_heading_base_class = polling_heading_base_class | default('polling__heading') %}
+{% set polling_paragraph_base_class = polling_paragraph_base_class | default('polling__paragraph') %}
+{% set polling_fieldset_modifier = (choices|length == 3) ? 'column-layout' : '' %}
+
+<section {{ bem(polling_base_class) }} data-theme="{{ theme_styles }}">
+  <div class="polling__png-asset">
+    {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: polling_png_asset_alt,
+      image_src: polling_png_asset,
+    } %}
+  </div>
+
+  <div class="polling__content">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: polling_heading,
+      heading_level: polling_heading_level,
+      heading_base_class: polling_heading_base_class
+    } %}
+
+    {% include "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_content: polling_paragraph_content,
+      paragraph_base_class: polling_paragraph_base_class
+    } %}
+
+    <form class="polling__form">
+      <div {{ bem('polling__fieldset', [polling_fieldset_modifier]) }} >
+        {% for key, value in choices %}
+          <label class="polling__label" for="edit-choice-{{key}}">
+            <input class="polling__radio" type="radio" name="choice" id="edit-choice-{{key}}" value="{{key}}" data-drupal-selector="edit-choice-{{key}}" />
+            <span class="polling__label-text">{{value}}</span>
+          </label>
+        {% endfor %}
+      </div>
+
+      {{ vote_button }}
+      {{ hidden_form_inputs }}
+
+    </form>
+  </div>
+</section>

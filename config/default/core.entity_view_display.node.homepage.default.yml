@@ -87,6 +87,7 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
+      - 'Flexible driver'
       - Forms
       - 'Global elements'
       - Help
@@ -105,7 +106,8 @@ third_party_settings:
       - Views
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        'Flexible driver': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - homepage_homepage_hero
@@ -126,6 +128,8 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -134,51 +138,13 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common':
               - product_feature
-            'Mars Product': {  }
+            'Mars Product':
+              - product_content_pair_up_block
             Menus: {  }
             'Moderation Dashboard': {  }
-            Product:
-              - product_content_pair_up_block
+            Product: {  }
             Recipe: {  }
             'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        homepage_additional_touts:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks':
-              - mars_common_content_feature_module
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks':
-              - 'inline_block:flexible_framer'
-              - 'inline_block:full_width_image'
-              - 'inline_block:full_width_video'
-              - 'inline_block:inline_image'
-              - 'inline_block:media_carousel'
-              - 'inline_block:text_component'
-            'Lists (Views)': {  }
-            'Mars Common':
-              - freeform_story_block
-              - newsletter_signup_form
-              - product_feature
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product:
-              - product_content_pair_up_block
-            Recipe: {  }
-            'Social feed':
-              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
@@ -206,6 +172,49 @@ third_party_settings:
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        homepage_additional_touts:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - mars_common_content_feature_module
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:media_carousel'
+              - 'inline_block:text_component'
+            'Lists (Views)': {  }
+            'Mars Common':
+              - freeform_story_block
+              - iframe_block
+              - newsletter_signup_form
+              - poll_block
+              - product_feature
+              - story_highlight
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product:
+              - product_content_pair_up_block
+            Recipe:
+              - recipe_feature_block
+            'Social feed':
+              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }

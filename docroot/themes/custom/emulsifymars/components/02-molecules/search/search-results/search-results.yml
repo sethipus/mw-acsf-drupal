@@ -1,0 +1,13 @@
+search_results:
+  - title: "Topics & Campaigns"
+    count: 13
+    search_results_item_modifier: ""
+  - title: "Products"
+    count: 13
+    search_results_item_modifier: "active" 
+  - title: "Recipes"
+    count: 7
+    search_results_item_modifier: ""
+  - title: "Articles"
+    count: 3
+    search_results_item_modifier: ""

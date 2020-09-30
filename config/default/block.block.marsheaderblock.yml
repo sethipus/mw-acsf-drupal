@@ -9,19 +9,21 @@ dependencies:
 id: marsheaderblock
 theme: emulsifymars
 region: header
-weight: 0
+weight: -2
 provider: null
 plugin: header_block
 settings:
   id: header_block
   label: 'MARS: Header block'
   provider: mars_common
-  label_display: '0'
+  label_display: ''
   primary_menu: main
   secondary_menu: top-footer
   search_block: 1
   language_selector: 1
   alert_banner:
-    value: 'Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection'
-    format: plain_text
+    alert_banner_text:
+      value: ''
+      format: plain_text
+    alert_banner_url: ''
 visibility: {  }
