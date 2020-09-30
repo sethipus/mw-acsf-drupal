@@ -1,0 +1,7 @@
+name: Salsify Integration
+type: module
+description: 'Salsify integration module for handling product content.'
+# core: 8.x
+package: Web services
+
+core_version_requirement: '^8.8 || ^9'

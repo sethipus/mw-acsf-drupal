@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.faq.field_faq_filter_topic
     - field.field.node.faq.field_qa_item_answer
     - field.field.node.faq.field_qa_item_question
     - node.type.faq
@@ -21,6 +22,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  field_faq_filter_topic: true
   field_qa_item_answer: true
   field_qa_item_question: true
   published_at: true

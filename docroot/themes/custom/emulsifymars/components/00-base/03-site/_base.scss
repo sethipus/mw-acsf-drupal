@@ -7,6 +7,10 @@ body {
   background-color: clr(background);
   color: clr(text);
 
+  #layout-builder-modal {
+    font-size: 120%;
+  }
+
   @include body-copy;
 }
 

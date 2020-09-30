@@ -1,0 +1,20 @@
+uuid: f54a9d5d-b103-4c4c-9ef4-fea3a48d5d54
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.salsify_updated
+field_name: salsify_updated
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

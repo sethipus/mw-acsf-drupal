@@ -1,0 +1,29 @@
+uuid: 3b4ff421-970e-441a-9d60-7a3351ec8b13
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_occasions
+    - node.type.campaign
+    - taxonomy.vocabulary.mars_occasions
+id: node.campaign.field_product_occasions
+field_name: field_product_occasions
+entity_type: node
+bundle: campaign
+label: Occasions
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_occasions: mars_occasions
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

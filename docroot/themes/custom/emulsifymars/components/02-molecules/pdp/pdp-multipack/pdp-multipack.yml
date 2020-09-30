@@ -3,6 +3,7 @@ multipack_label: 'WHAT’S IN THE PACK'
 multipack_items:
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -19,6 +20,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -35,6 +37,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -51,6 +54,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -67,6 +71,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -83,6 +88,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -99,6 +105,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -115,6 +122,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -131,6 +139,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -147,6 +156,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -163,6 +173,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -179,6 +190,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'
@@ -195,6 +207,7 @@ multipack_items:
     link_content: BUY NOW
   - card__image__output_image_tag: true
     card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
 
     paragraph_size: 'large'
     paragraph_content: 'TWIX® PEANUT BUTTER Minis'

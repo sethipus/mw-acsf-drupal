@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Template for the Poll vote component.
+ *
+ * For variables, see PollViewForm.php in polls module.
+ */
+#}
+
+{% include "@molecules/polls/poll-vote.twig" with {
+  theme_styles: 'drupal',
+  polling_heading: question,
+  polling_paragraph_content: form.poll['#value'].field_description.value,
+  choices: form.choice['#options'],
+  vote_button: form.actions.vote|merge({
+    '#value': (form.poll['#value'].field_submit_cta.value)
+  }),
+  attributes: create_attribute(),
+  hidden_form_inputs: form|without('actions', 'choice', 'messages', 'question')
+} %}

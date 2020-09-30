@@ -1,0 +1,9 @@
+field_id: 'Amazon Segment'
+salsify_id: 'Amazon Segment'
+salsify_data_type: string
+entity_type: node
+bundle: product
+field_name: field_product_segment
+method: manual
+created: 1546300800
+changed: 1546300801

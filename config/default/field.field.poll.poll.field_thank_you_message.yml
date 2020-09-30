@@ -1,0 +1,22 @@
+uuid: e5ab0fe5-6d19-4561-94bd-5586860a93b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.poll.field_thank_you_message
+  module:
+    - poll
+id: poll.poll.field_thank_you_message
+field_name: field_thank_you_message
+entity_type: poll
+bundle: poll
+label: 'Thank you message'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 'Thanks for voting!'
+default_value_callback: ''
+settings: {  }
+field_type: string
