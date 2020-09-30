@@ -272,6 +272,7 @@ third_party_settings:
               - product_feature
               - story_highlight
               - poll_block
+              - feedback_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }

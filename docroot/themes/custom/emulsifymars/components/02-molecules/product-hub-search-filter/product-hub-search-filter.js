@@ -3,7 +3,7 @@ Drupal.behaviors.searchFilterBehaviour = {
     const searchFilterContainer = context.querySelector('.search-filter-container');
     const searchFilterOpenButton = context.querySelector('.search-filter-open-button');
     const clearAllButtons = context.querySelectorAll('.search-filter-block__button--clear-all');
-    const applyFiltersButton = context.querySelector('.search-filter-block__button--apply');
+    const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
 
     searchFilterOpenButton.addEventListener('click', function(event) {
       const searchFilterBlock = context.querySelector('.search-filter-block');
@@ -32,19 +32,46 @@ Drupal.behaviors.searchFilterBehaviour = {
 
         event.preventDefault();
         updateCounters();
+
+        const searchQuery = context.querySelector('.search-input__field').value;
+        if (searchQuery !== '') {
+          document.location.search = 'search=' + searchQuery;
+        }
+        else {
+          document.location.search = '';
+        }
+        
       });
     });
 
-    applyFiltersButton.addEventListener('click', function(event) {
-      let appliedFilters = [];
-      const filterBlocks = context.querySelectorAll('.filter-block');
-
-      filterBlocks.forEach(function(element) {
-        const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
-
-        inputLabels.forEach(function(label) {
-          appliedFilters.push(label.innerText);
+    applyFiltersButtons.forEach(function (button) {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        let queryElements = [];
+        let appliedFilters = [];
+        let appliedIds = [];
+        const filterBlocks = context.querySelectorAll('.filter-block');
+        const searchQuery = context.querySelector('.search-input__field').value;
+        if (searchQuery !== '') {
+          queryElements.push('search=' + searchQuery);
+        }
+  
+        filterBlocks.forEach(function(element) {
+          const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
+          const inputElements = element.querySelectorAll('.checkbox-item__input:checked');
+  
+          inputLabels.forEach(function(label) {
+            appliedFilters.push(label.innerText);
+          });
+          inputElements.forEach(function(input) {
+            appliedIds.push(input.getAttribute('id'));
+          });
+          if (appliedIds.length > 0) {
+            queryElements.push(element.getAttribute('data-filter') + '=' +  appliedIds.join(','));
+            appliedIds = [];
+          }
         });
+        document.location.search = queryElements.join('&');
       });
     });
 
