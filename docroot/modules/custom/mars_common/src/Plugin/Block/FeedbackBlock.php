@@ -11,15 +11,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
- * Provides a poll block.
+ * Provides a feedback block.
  *
  * @Block(
- *   id = "poll_block",
- *   admin_label = @Translation("MARS: Poll Block"),
+ *   id = "feedback_block",
+ *   admin_label = @Translation("MARS: Feedback Block"),
  *   category = @Translation("Mars Common")
  * )
  */
-class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * Entity storage.
@@ -112,7 +112,7 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#target_type' => 'poll',
       '#selection_handler' => 'default:poll_by_field',
       '#selection_settings' => [
-        'filter' => ['field_type' => 'poll'],
+        'filter' => ['field_type' => 'feedback'],
       ],
       '#default_value' => $this->getPollEntity(),
       '#required' => TRUE,

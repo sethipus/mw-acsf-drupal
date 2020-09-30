@@ -1,0 +1,27 @@
+uuid: 6fa9b30b-7540-4931-9ef1-392a296d4949
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - poll
+id: poll.field_type
+field_name: field_type
+entity_type: poll
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: poll
+      label: Poll
+    -
+      value: feedback
+      label: Feedback
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
