@@ -144,6 +144,7 @@ third_party_settings:
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types':
+              - flexible_framer
               - full_width_image
               - full_width_video
               - inline_image

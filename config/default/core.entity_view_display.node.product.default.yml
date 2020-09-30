@@ -175,6 +175,7 @@ third_party_settings:
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types':
+              - flexible_framer
               - full_width_image
               - full_width_video
               - inline_image
@@ -194,6 +195,7 @@ third_party_settings:
               - 'inline_block:full_width_image'
               - 'inline_block:full_width_video'
               - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
               - 'inline_block:list'
               - 'inline_block:media_carousel'
               - 'inline_block:text_component'
