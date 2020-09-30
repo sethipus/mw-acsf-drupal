@@ -19,6 +19,8 @@ trait EntityBrowserFormTrait {
 
   /**
    * File type key.
+   *
+   * @var string
    */
   protected static $file = 'file';
 
@@ -174,7 +176,7 @@ trait EntityBrowserFormTrait {
     foreach ($entities as $id => $entity) {
       $entity_type_id = $entity->getEntityTypeId();
       if ($entity_type_manager->hasHandler($entity_type_id, 'view_builder')) {
-        if ($entity_type_id == self::$file){
+        if ($entity_type_id == self::$file) {
           $list_of_usage = \Drupal::service('file.usage')->listUsage($entity);
           $mid = key($list_of_usage['file']['media']);
           $media = Media::load($mid);
