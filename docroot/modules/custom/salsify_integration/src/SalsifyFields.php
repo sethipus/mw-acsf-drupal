@@ -2,20 +2,18 @@
 
 namespace Drupal\salsify_integration;
 
-use Drupal;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class Salsify.
@@ -67,14 +65,26 @@ class SalsifyFields extends Salsify {
   private $productFieldsMappger;
 
   /**
+   * The Salsify import field service.
+   *
+   * @var \Drupal\salsify_integration\SalsifyImportField
+   */
+  private $salsifyImportField;
+
+  /**
+   * The Salsify import taxonomy service.
+   *
+   * @var \Drupal\salsify_integration\SalsifyImportTaxonomyTerm
+   */
+  private $salsifyImportTaxonomy;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
-   * @param \Psr\Log\LoggerInterface $logger
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
    *   The logger interface.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory interface.
-   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
-   *   The query factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
@@ -82,7 +92,9 @@ class SalsifyFields extends Salsify {
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_salsify
    *   The cache object associated with the Salsify bin.
    * @param \Drupal\Core\Queue\QueueFactory $queue_factory
-   *   Queue factory service.
+   *   The Queue factory service.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The Module handler service.
    * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
    *   Salsify product repository service.
    * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
@@ -95,30 +107,36 @@ class SalsifyFields extends Salsify {
    *   Salsify email report service service.
    * @param \Drupal\salsify_integration\ProductFieldsMapper $product_fields_mapper
    *   Salsify products field mapper.
+   * @param \Drupal\salsify_integration\SalsifyImportField $import_field
+   *   Salsify import field service.
+   * @param \Drupal\salsify_integration\SalsifyImportTaxonomyTerm $import_taxonomy
+   *   Salsify import taxonomy service.
    */
   public function __construct(
-    LoggerInterface $logger,
+    LoggerChannelFactoryInterface $logger,
     ConfigFactoryInterface $config_factory,
-    QueryFactory $entity_query,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $entity_field_manager,
     CacheBackendInterface $cache_salsify,
     QueueFactory $queue_factory,
+    ModuleHandlerInterface $module_handler,
     SalsifyProductRepository $salsify_product_repository,
     MailManagerInterface $mail_manager,
     LanguageManagerInterface $language_manager,
     ProductHelper $product_helper,
     SalsifyEmailReport $email_report,
-    ProductFieldsMapper $product_fields_mapper
+    ProductFieldsMapper $product_fields_mapper,
+    SalsifyImportField $import_field,
+    SalsifyImportTaxonomyTerm $import_taxonomy
   ) {
     parent::__construct(
       $logger,
       $config_factory,
-      $entity_query,
       $entity_type_manager,
       $entity_field_manager,
       $cache_salsify,
-      $queue_factory
+      $queue_factory,
+      $module_handler
     );
     $this->salsifyProductRepository = $salsify_product_repository;
     $this->mailManager = $mail_manager;
@@ -126,27 +144,8 @@ class SalsifyFields extends Salsify {
     $this->productHelper = $product_helper;
     $this->salsifyEmailReport = $email_report;
     $this->productFieldsMappger = $product_fields_mapper;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('logger.factory')->get('salsify_integration'),
-      $container->get('config.factory'),
-      $container->get('entity.query'),
-      $container->get('entity_type.manager'),
-      $container->get('entity_field.manager'),
-      $container->get('cache.default'),
-      $container->get('queue'),
-      $container->get('salsify_integration.salsify_product_repository'),
-      $container->get('plugin.manager.mail'),
-      $container->get('language_manager'),
-      $container->get('salsify_integration.product_data_helper'),
-      $container->get('salsify_integration.email_report'),
-      $container->get('salsify_integration.product_fields_mapper')
-    );
+    $this->salsifyImportField = $import_field;
+    $this->salsifyImportTaxonomy = $import_taxonomy;
   }
 
   /**
@@ -159,6 +158,7 @@ class SalsifyFields extends Salsify {
    * @return mixed
    *   Returns an array of product and field data or a failure message.
    *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function importProductFields() {
@@ -225,9 +225,6 @@ class SalsifyFields extends Salsify {
           }
         }
 
-        // $field_mapping['field_product_brand'] = [
-        // 'salsify:id' => 'field_product_brand'
-        // ];
         // Create any fields that don't yet exist in the system.
         $salsify_diff = array_diff_key($salsify_fields, $field_mapping);
         foreach ($salsify_diff as $salsify_field) {
@@ -354,12 +351,10 @@ class SalsifyFields extends Salsify {
         // Handle cases where the user wants to perform all of the data
         // processing immediately instead of waiting for the queue to finish.
         if ($process_immediately) {
-          $salsify_import = SalsifyImportField::create(Drupal::getContainer());
 
           // Product variant import.
           $variant_process_result = $this->processItems(
             $product_data,
-            $salsify_import,
             $force_update,
             ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE
           );
@@ -367,7 +362,6 @@ class SalsifyFields extends Salsify {
           // Product import.
           $product_process_result = $this->processItems(
             $product_data,
-            $salsify_import,
             $force_update,
             ProductHelper::PRODUCT_CONTENT_TYPE
           );
@@ -375,7 +369,6 @@ class SalsifyFields extends Salsify {
           // Product multipack import.
           $multipack_process_result = $this->processItems(
             $product_data,
-            $salsify_import,
             $force_update,
             ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE
           );
@@ -443,8 +436,6 @@ class SalsifyFields extends Salsify {
    *
    * @param mixed $product_data
    *   Array of salsify products.
-   * @param \Drupal\salsify_integration\SalsifyImport $salsify_import
-   *   Salsify import service.
    * @param bool $force_update
    *   Force update.
    * @param string $content_type
@@ -452,10 +443,13 @@ class SalsifyFields extends Salsify {
    *
    * @return array
    *   Array of updated and created GTINs.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   private function processItems(
     &$product_data,
-    SalsifyImport $salsify_import,
     bool $force_update,
     $content_type
   ) {
@@ -469,7 +463,7 @@ class SalsifyFields extends Salsify {
       $product['CMS: Market'] = $product_data['market'] ?? NULL;
 
       if (ProductHelper::getProductType($product) == $content_type) {
-        $result = $salsify_import->processSalsifyItem(
+        $result = $this->salsifyImportField->processSalsifyItem(
           $product,
           $force_update,
           $content_type
@@ -578,11 +572,16 @@ class SalsifyFields extends Salsify {
             if ($field_handler == 'default:taxonomy_term' && !empty($field_handler_settings['target_bundles'])) {
               // Only use the first taxonomy in the list.
               $vid = current($field_handler_settings['target_bundles']);
-              $term_import = SalsifyImportTaxonomyTerm::create(Drupal::getContainer());
               $salsify_ids = array_keys($salsify_values);
               $salsify_ids_array = array_chunk($salsify_ids, 50);
               foreach ($salsify_ids_array as $salsify_ids_chunk) {
-                $term_import->processSalsifyTaxonomyTermItems($vid, $field_mapping, $salsify_ids_chunk, $salsify_fields[$field_mapping['salsify_id']]);
+                $this->salsifyImportTaxonomy
+                  ->processSalsifyTaxonomyTermItems(
+                    $vid,
+                    $field_mapping,
+                    $salsify_ids_chunk,
+                    $salsify_fields[$field_mapping['salsify_id']]
+                  );
               }
             }
           }
@@ -651,16 +650,26 @@ class SalsifyFields extends Salsify {
    *   The entity type to create the field against. Defaults to node.
    * @param string $entity_bundle
    *   The entity bundle to set the field against.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function createDynamicField(array $salsify_data, $field_name, $entity_type = '', $entity_bundle = '') {
+  public static function createDynamicField(
+    array $salsify_data,
+    $field_name,
+    $entity_type = '',
+    $entity_bundle = ''
+  ) {
+    $config = \Drupal::service('config.factory')
+      ->get('salsify_integration.settings');
+    /* @var \Drupal\Core\Config\ImmutableConfig $config */
     if (!$entity_type) {
-      $entity_type = $this->getEntityType();
+      $entity_type = $config->get('entity_type');
     }
     if (!$entity_bundle) {
-      $entity_bundle = $this->getEntityBundle();
+      $entity_bundle = $config->get('bundle');
     }
     $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
-    $field_settings = $this->getFieldSettingsByType($salsify_data, $entity_type, $entity_bundle, $field_name);
+    $field_settings = self::getFieldSettingsByType($salsify_data, $entity_type, $entity_bundle, $field_name);
     $field = FieldConfig::loadByName($entity_type, $entity_bundle, $field_name);
     $created = strtotime($salsify_data['salsify:created_at']);
     $changed = $salsify_data['date_updated'];
@@ -680,13 +689,13 @@ class SalsifyFields extends Salsify {
       if (strpos($field_name, 'salsifysync_') !== FALSE) {
         // Add the field to the default displays.
         /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_storage */
-        $this->createFieldViewDisplay($entity_type, $entity_bundle, $field_name, 'default');
-        $this->createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_data['salsify:data_type']);
+        self::createFieldViewDisplay($entity_type, $entity_bundle, $field_name, 'default');
+        self::createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_data['salsify:data_type']);
       }
     }
 
     // Add a record to track the Salsify field and the new Drupal field map.
-    $this->createFieldMapping([
+    self::createFieldMapping([
       'field_id' => $salsify_data['salsify:system_id'],
       'salsify_id' => $salsify_data['salsify:id'],
       'salsify_data_type' => $salsify_data['salsify:data_type'],
@@ -733,7 +742,7 @@ class SalsifyFields extends Salsify {
    * @return array
    *   An array of field options for the generated field.
    */
-  protected function getFieldSettingsByType(array $salsify_data, $entity_type, $entity_bundle, $field_name) {
+  protected static function getFieldSettingsByType(array $salsify_data, $entity_type, $entity_bundle, $field_name) {
     $field_settings = [
       'field' => [
         'field_name' => $field_name,
@@ -771,7 +780,7 @@ class SalsifyFields extends Salsify {
         $field_settings['field_storage']['type'] = 'list_string';
         $field_settings['field_storage']['cardinality'] = -1;
         $field_settings['field_storage']['settings']['allowed_values_function'] = 'salsify_integration_allowed_values_callback';
-        $this->setFieldOptions($salsify_data);
+        self::setFieldOptions($salsify_data);
         break;
 
       case 'date':
@@ -839,7 +848,7 @@ class SalsifyFields extends Salsify {
    */
   public static function createFieldViewDisplay($entity_type, $entity_bundle, $field_name, $view_mode) {
     /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_storage */
-    $view_storage = Drupal::entityTypeManager()
+    $view_storage = \Drupal::entityTypeManager()
       ->getStorage('entity_view_display')
       ->load($entity_type . '.' . $entity_bundle . '.' . $view_mode);
 
@@ -851,7 +860,7 @@ class SalsifyFields extends Salsify {
         'mode' => $view_mode,
         'status' => TRUE,
       ];
-      $view_storage = Drupal::entityTypeManager()
+      $view_storage = \Drupal::entityTypeManager()
         ->getStorage('entity_view_display')
         ->create($values);
     }
@@ -877,11 +886,11 @@ class SalsifyFields extends Salsify {
   public static function createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_type) {
     /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $form_storage */
     $form_storage_id = $entity_type . '.' . $entity_bundle . '.default';
-    $form_storage = Drupal::entityTypeManager()
+    $form_storage = \Drupal::entityTypeManager()
       ->getStorage('entity_form_display')
       ->load($form_storage_id);
     if (!is_object($form_storage)) {
-      $form_storage = Drupal::entityTypeManager()->getStorage('entity_form_display')
+      $form_storage = \Drupal::entityTypeManager()->getStorage('entity_form_display')
         ->create([
           'id' => $form_storage_id,
           'bundle' => $entity_bundle,

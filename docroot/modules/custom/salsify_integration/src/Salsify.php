@@ -2,12 +2,12 @@
 
 namespace Drupal\salsify_integration;
 
-use Drupal;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Database\DatabaseExceptionWrapper;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TypedData\Exception\MissingDataException;
@@ -16,8 +16,6 @@ use GuzzleHttp\Client;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use GuzzleHttp\Exception\RequestException;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class Salsify.
@@ -69,13 +67,6 @@ class Salsify {
   protected $config;
 
   /**
-   * Entity query factory.
-   *
-   * @var \Drupal\Core\Entity\Query\QueryFactory
-   */
-  protected $entityQuery;
-
-  /**
    * The Entity Type Manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -104,14 +95,19 @@ class Salsify {
   protected $queueFactory;
 
   /**
+   * The Module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
-   * @param \Psr\Log\LoggerInterface $logger
-   *   The logger interface.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
+   *   The logger factory interface.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory interface.
-   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
-   *   The query factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
@@ -120,39 +116,26 @@ class Salsify {
    *   The cache object associated with the Salsify bin.
    * @param \Drupal\Core\Queue\QueueFactory $queue_factory
    *   Queue factory service.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   Queue factory service.
    */
   public function __construct(
-    LoggerInterface $logger,
+    LoggerChannelFactoryInterface $logger,
     ConfigFactoryInterface $config_factory,
-    QueryFactory $entity_query,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFieldManagerInterface $entity_field_manager,
     CacheBackendInterface $cache_salsify,
-    QueueFactory $queue_factory
+    QueueFactory $queue_factory,
+    ModuleHandlerInterface $module_handler
   ) {
-    $this->logger = $logger;
-    $this->cache = $cache_salsify;
+    $this->logger = $logger->get('salsify_integration');
     $this->configFactory = $config_factory;
     $this->config = $this->configFactory->get('salsify_integration.settings');
-    $this->entityQuery = $entity_query;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
+    $this->cache = $cache_salsify;
     $this->queueFactory = $queue_factory;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('logger.factory')->get('salsify_integration'),
-      $container->get('config.factory'),
-      $container->get('entity.query'),
-      $container->get('entity_type.manager'),
-      $container->get('entity_field.manager'),
-      $container->get('cache.default'),
-      $container->get('queue')
-    );
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -496,7 +479,8 @@ class Salsify {
 
       // Allow users to alter the product data from Salsify by invoking
       // hook_salsify_product_data_alter().
-      Drupal::moduleHandler()->alter('salsify_product_data', $new_product_data);
+      $this->moduleHandler
+        ->alter('salsify_product_data', $new_product_data);
 
       // Add the newly updated product data into the site cache.
       $this->cache->set('salsify_import_product_data', $new_product_data);
@@ -541,7 +525,7 @@ class Salsify {
    *   An array of field objects.
    */
   public static function getContentTypeFields($entity_type, $entity_bundle) {
-    $fields = Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type, $entity_bundle);
+    $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type, $entity_bundle);
     $filtered_fields = array_filter(
       $fields, function ($field_definition) {
         return $field_definition instanceof FieldConfig;
@@ -577,11 +561,11 @@ class Salsify {
     foreach ($methods as $method) {
       $keys['method'] = $method;
       $config_prefix = self::getConfigName($keys);
-      $configs += Drupal::configFactory()->listAll($config_prefix);
+      $configs += \Drupal::configFactory()->listAll($config_prefix);
     }
     $results = [];
     foreach ($configs as $config_name) {
-      $config = Drupal::config($config_name);
+      $config = \Drupal::config($config_name);
 
       $raw_data = $config->getRawData();
       if (
@@ -604,7 +588,7 @@ class Salsify {
   public static function createFieldMapping(array $values) {
     // Allow users to alter the field mapping data by invoking
     // hook_salsify_field_mapping_alter().
-    Drupal::moduleHandler()->alter('salsify_field_mapping_create', $values);
+    \Drupal::moduleHandler()->alter('salsify_field_mapping_create', $values);
 
     if ($values) {
       self::setConfig($values);
@@ -620,7 +604,7 @@ class Salsify {
   public static function updateFieldMapping(array $values) {
     // Allow users to alter the field mapping data by invoking
     // hook_salsify_field_mapping_alter().
-    Drupal::moduleHandler()->alter('salsify_field_mapping_update', $values);
+    \Drupal::moduleHandler()->alter('salsify_field_mapping_update', $values);
 
     if ($values) {
       self::setConfig($values);
@@ -663,7 +647,7 @@ class Salsify {
   public static function setConfig(array $values) {
     $config_name = self::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
-    $config = Drupal::service('config.factory')->getEditable($config_name);
+    $config = \Drupal::service('config.factory')->getEditable($config_name);
     foreach ($values as $label => $value) {
       $config->set($label, $value);
     }
@@ -679,7 +663,7 @@ class Salsify {
   public static function deleteConfig(array $values) {
     $config_name = self::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
-    $config = Drupal::service('config.factory')->getEditable($config_name);
+    $config = \Drupal::service('config.factory')->getEditable($config_name);
     $config->delete();
   }
 
@@ -743,8 +727,9 @@ class Salsify {
    * @param array $salsify_data
    *   The field level data from Salsify augmented with allowed values.
    */
-  protected function setFieldOptions(array $salsify_data) {
-    $config = $this->configFactory->getEditable('salsify_integration.field_options');
+  protected static function setFieldOptions(array $salsify_data) {
+    $config = \Drupal::service('config.factory')
+      ->getEditable('salsify_integration.field_options');
     $options = [];
     if (isset($salsify_data['values'])) {
       foreach ($salsify_data['values'] as $value) {
