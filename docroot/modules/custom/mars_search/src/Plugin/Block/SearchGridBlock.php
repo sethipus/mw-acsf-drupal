@@ -189,7 +189,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     // After this line $facetOptions and $searchOptions become different.
     $facetOptions = $searchOptions;
     // We don't need taxonomy filters for facets.
-    $facetOptions['disable_filters'] = 1;
+    $facetOptions['disable_filters'] = TRUE;
 
     // Taxonomy filter(s).
     // Adding them only if facets are disabled.
@@ -204,10 +204,14 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
           ];
         }
       }
+      $searchOptions['general_filters'] = TRUE;
     }
 
     // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, "grid_{$grid_id}");
+    if ($query_search_results['resultsCount'] == 0) {
+      $build['#no_results'] = $this->getSearchNoResult();
+    }
     foreach ($query_search_results['results'] as $node) {
       $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
@@ -292,6 +296,18 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   }
 
   /**
+   * Render search no result block.
+   */
+  private function getSearchNoResult() {
+    $config = $this->getConfiguration();
+    return [
+      '#no_results_heading' => $config['no_results_heading'],
+      '#no_results_text' => $config['no_results_text'],
+      '#theme' => 'mars_search_no_results',
+    ];
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
@@ -307,7 +323,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     $form['no_results_heading'] = [
       '#title' => $this->t('Heading for no results case'),
-      '#default_value' => $config['no_results_heading'] ?? $this->t('There are no matching results for'),
+      '#default_value' => $config['no_results_heading'] ?? $this->t('There are no matching results for current filter set'),
       '#type' => 'textfield',
       '#size' => 35,
       '#required' => TRUE,
@@ -414,16 +430,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
           'or' => $this->t('OR'),
         ],
         '#default_value' => $config['general_filters'][$vocabulary]['options_logic'] ?? 'and',
-      ];
-      $form['general_filters'][$vocabulary]['facet_logic'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Behavior for %vocabulary facet', ['%vocabulary' => $label]),
-        '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
-        '#options' => [
-          'and' => $this->t('AND'),
-          'or' => $this->t('OR'),
-        ],
-        '#default_value' => $config['general_filters'][$vocabulary]['facet_logic'] ?? 'and',
       ];
     }
 

@@ -70,23 +70,25 @@ class SearchHelper implements SearchHelperInterface {
 
     $query = $index->query($query_options);
 
-    $facet_options = [];
-    // Setting facets query options.
-    $facet_fields = $this->getFacetKeys();
-    foreach ($facet_fields as $facet_field) {
-      $facet_options[$facet_field] = [
-        'field' => $facet_field,
-        'limit' => 20,
-        'operator' => 'AND',
-        'min_count' => 1,
-        'missing' => TRUE,
-      ];
-      // Applying filters.
-      if (empty($options['disable_filters']) && $facet_field_value = $this->request->query->get($facet_field)) {
-        $query = $query->addCondition($facet_field, $facet_field_value);
+    if (empty($options['general_filters'])) {
+      $facet_options = [];
+      // Setting facets query options.
+      $facet_fields = $this->getFacetKeys();
+      foreach ($facet_fields as $facet_field) {
+        $facet_options[$facet_field] = [
+          'field' => $facet_field,
+          'limit' => 20,
+          'operator' => 'AND',
+          'min_count' => 1,
+          'missing' => TRUE,
+        ];
+        // Applying filters.
+        if (empty($options['disable_filters']) && $facet_field_value = $this->request->query->get($facet_field)) {
+          $query = $query->addCondition($facet_field, $facet_field_value);
+        }
       }
+      $query->setOption('search_api_facets', $facet_options);
     }
-    $query->setOption('search_api_facets', $facet_options);
 
     // Applying predefined conditions.
     // Applying predefined conditions.
