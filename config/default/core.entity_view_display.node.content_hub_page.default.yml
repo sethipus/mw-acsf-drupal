@@ -174,8 +174,35 @@ third_party_settings:
             'Global elements': {  }
             Help: {  }
             'Inline blocks': {  }
-            'Lists (Views)':
-              - 'views_block:multipack_product_card_grid-block_multipack_product'
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            'Mars Search':
+              - search_grid_block
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
+        content_hub_collection_cards:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
             'Mars Common': {  }
             'Mars Product': {  }
             'Mars Search':
@@ -246,35 +273,6 @@ third_party_settings:
             Product: {  }
             Recipe:
               - recipe_feature_block
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        content_hub_collection_cards:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Facets: {  }
-            'Flexible driver': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            'Mars Search': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
             'Social feed': {  }
             'Social media share': {  }
             System: {  }
