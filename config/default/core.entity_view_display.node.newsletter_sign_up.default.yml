@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.newsletter_sign_up.body
+    - field.field.node.newsletter_sign_up.field_meta_tags
     - node.type.newsletter_sign_up
   module:
     - layout_builder
@@ -12,6 +13,7 @@ dependencies:
     - layout_library
     - mars_common
     - mars_recommendations
+    - metatag
     - text
     - user
 third_party_settings:
@@ -38,6 +40,21 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
+          3bc34d02-56d8-4e83-ac0c-8da0651cc014:
+            uuid: 3bc34d02-56d8-4e83-ac0c-8da0651cc014
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:newsletter_sign_up:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 1
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -240,6 +257,13 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_meta_tags:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   links:
     weight: 100

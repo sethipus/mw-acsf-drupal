@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for mars_seo module.
+ */
+
+use Drupal\node\NodeInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+
+/**
+ * Implements hook_node_view_alter().
+ */
+function mars_seo_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display) {
+  $route_match = \Drupal::routeMatch();
+  if ($route_match->getRouteName() !== 'entity.node.canonical' || $route_match->getParameter('node')->id() !== $node->id()) {
+    return;
+  }
+
+  /** @var \Drupal\mars_seo\JsonLdService $service */
+  $service = \Drupal::service('mars_seo.json_ld');
+  $data = $service->getStructuredData($node, $build);
+
+  if (isset($data)) {
+    $tag = [
+      '#type' => 'html_tag',
+      '#tag' => 'script',
+      '#attributes' => [
+        'type' => 'application/ld+json',
+      ],
+      '#value' => json_encode($data, JSON_PRETTY_PRINT),
+      '#cache' => [
+        'tags' => $node->getCacheTags(),
+        'contexts' => $node->getCacheContexts(),
+      ],
+    ];
+
+    $build['#attached']['html_head'][] = [$tag, 'mars_seo_json_ld'];
+  }
+}
