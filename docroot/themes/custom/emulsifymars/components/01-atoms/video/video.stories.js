@@ -7,6 +7,8 @@ import fullscreenVideo from './fullscreen-video/video.twig';
 import fullscreenVideoData from './fullscreen-video/video.yml';
 import inlineVideo from './inline-video/video.twig';
 import inlineVideoData from './inline-video/video.yml';
+import overlayVideo from './overlay-video/video.twig';
+import overlayVideoData from './overlay-video/video.yml';
 import video from './video-frame/video.twig';
 import videoData from './video-frame/video.yml';
 import videoFullData from './video-frame/video-full.yml';
@@ -16,6 +18,7 @@ import backgroundVideoData from './background-video/background-video.yml';
 import './ambient-video/video';
 import './fullscreen-video/video';
 import './inline-video/video';
+import './overlay-video/video';
 
 /**
  * Storybook Definition.
@@ -34,6 +37,11 @@ export const backgroundVideoExample = () => {
 export const inlineVideoComponent = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: inlineVideo({ ...inlineVideoData }) }} />;
+};
+
+export const overlayVideoComponent = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return <div dangerouslySetInnerHTML={{ __html: overlayVideo({ ...overlayVideoData }) }} />;
 };
 
 export const fullscreenVideoComponent = () => {
