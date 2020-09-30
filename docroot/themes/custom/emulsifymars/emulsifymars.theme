@@ -255,10 +255,14 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   ];
 
   $form['icons_settings']['button_style'] = [
-    '#type'          => 'textfield',
+    '#type'          => 'radios',
     '#title'         => $translation->translate('Button/Card Style'),
     '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner. For example: 5px.'),
     '#default_value' => theme_get_setting('button_style'),
+    '#options' => [
+      0 => $translation->translate('Round'),
+      1 => $translation->translate('Sharp'),
+    ],
   ];
 
   $form['social'] = [
@@ -578,6 +582,12 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --c-subcolor-2: #%s;", $settings['color_d']);
   $properties .= sprintf(" --c-subcolor-3: #%s;", $settings['color_e']);
   $properties .= sprintf(" --c-subcolor-4: #%s;", $settings['color_f']);
+  $properties .= sprintf(" --c-primary-rgb: %s;", hex2_rgb($settings['color_a'], TRUE));
+  $properties .= sprintf(" --c-secondary-rgb: %s;", hex2_rgb($settings['color_b'], TRUE));
+  $properties .= sprintf(" --c-subcolor-1-rgb: %s;", hex2_rgb($settings['color_c'], TRUE));
+  $properties .= sprintf(" --c-subcolor-2-rgb: %s;", hex2_rgb($settings['color_d'], TRUE));
+  $properties .= sprintf(" --c-subcolor-3-rgb: %s;", hex2_rgb($settings['color_e'], TRUE));
+  $properties .= sprintf(" --c-subcolor-4-rgb: %s;", hex2_rgb($settings['color_f'], TRUE));
   $properties .= sprintf(" --c-top-nav: #%s;", $settings['top_nav']);
   $properties .= sprintf(" --c-top-nav-gradient: #%s;", $settings['top_nav_gradient']);
   $properties .= sprintf(" --c-bottom-nav: #%s;", $settings['bottom_nav']);
@@ -587,11 +597,49 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --v-primary-font: %s;", 'DrupalPrimaryTypefaceFont');
   $properties .= sprintf(" --v-secondary-font: %s;", 'DrupalSecondaryTypefaceFont');
 
-  $properties .= sprintf(" --v-border-radius: %s;", $settings['button_style']);
+  if (theme_get_setting('button_style') == 0) {
+    $properties .= sprintf(" --v-button-border-radius: %s;", '30px');
+    $properties .= sprintf(" --v-card-border-radius: %s;", '20px');
+  }
+  else {
+    $properties .= sprintf(" --v-button-border-radius: %s;", '0');
+    $properties .= sprintf(" --v-card-border-radius: %s;", '0');
+  }
 
   _emulsifymars_load_images_from_theme($properties);
 
   return $properties;
+}
+
+/**
+ * Convert a hexa decimal color code to its RGB equivalent.
+ *
+ * @param string $hexStr
+ *   Hexadecimal color value.
+ * @param bool $returnAsString
+ *   If set true, returns the value separated by the separator character.
+ *   Otherwise returns associative array.
+ * @param string $seperator
+ *   To separate RGB values. Applicable only if second parameter is true.
+ */
+function hex2_rgb($hexStr, $returnAsString = FALSE, $seperator = ',') {
+  $hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr);
+  $rgbArray = [];
+  if (strlen($hexStr) == 6) {
+    $colorVal = hexdec($hexStr);
+    $rgbArray['red'] = 0xFF & ($colorVal >> 0x10);
+    $rgbArray['green'] = 0xFF & ($colorVal >> 0x8);
+    $rgbArray['blue'] = 0xFF & $colorVal;
+  }
+  elseif (strlen($hexStr) == 3) {
+    $rgbArray['red'] = hexdec(str_repeat(substr($hexStr, 0, 1), 2));
+    $rgbArray['green'] = hexdec(str_repeat(substr($hexStr, 1, 1), 2));
+    $rgbArray['blue'] = hexdec(str_repeat(substr($hexStr, 2, 1), 2));
+  }
+  else {
+    return FALSE;
+  }
+  return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray;
 }
 
 /**

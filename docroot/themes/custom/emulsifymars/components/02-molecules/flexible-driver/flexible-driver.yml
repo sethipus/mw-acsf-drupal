@@ -1,0 +1,13 @@
+theme_styles: 'twix'
+flexible_driver_heading: 'Looking for minis?'
+flexible_driver_heading_level: 2
+flexible_driver_text: 'Lorem ipsum dolor sit amet'
+flexible_driver_button_text: 'Learn more'
+flexible_driver_button_link_attributes:
+  href: 'https://storybook.js.org/'
+  target: '_blank'
+
+asset_1: './fd-bg-twix-01.png'
+asset_1_alt: 'alt1'
+asset_2: './fd-bg-twix-02.png'
+asset_2_alt: 'alt2'

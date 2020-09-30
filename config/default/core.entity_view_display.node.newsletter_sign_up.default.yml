@@ -11,6 +11,7 @@ dependencies:
     - layout_discovery
     - layout_library
     - mars_common
+    - mars_recommendations
     - text
     - user
 third_party_settings:
@@ -50,7 +51,19 @@ third_party_settings:
         layout_id: newsletter_sign_up_main_section
         layout_settings:
           label: 'Newsletter Sign Up'
-        components: {  }
+        components:
+          f0f21e28-0843-4222-b643-5404b76ac573:
+            uuid: f0f21e28-0843-4222-b643-5404b76ac573
+            region: content
+            configuration:
+              id: newsletter_signup_form
+              label: 'MARS: Newsletter SignUp Form'
+              provider: mars_common
+              label_display: ''
+              form_id: form-id
+              context_mapping: {  }
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -62,7 +75,22 @@ third_party_settings:
         layout_id: newsletter_sign_up_recommended_products
         layout_settings:
           label: Recommendations
-        components: {  }
+        components:
+          a069ad3f-173e-480e-8ddd-9b6b572fa5bf:
+            uuid: a069ad3f-173e-480e-8ddd-9b6b572fa5bf
+            region: content
+            configuration:
+              id: recommendations_module
+              label: 'MARS: Recommendations Module'
+              provider: mars_recommendations
+              label_display: ''
+              title: 'Back To The Good Stuff'
+              population_plugin_id: dynamic
+              population_plugin_configuration: null
+              context_mapping:
+                node: layout_builder.entity
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -83,6 +111,8 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
+      - Facets
+      - 'Flexible driver'
       - Forms
       - 'Global elements'
       - Help
@@ -90,6 +120,7 @@ third_party_settings:
       - 'Lists (Views)'
       - 'Mars Common'
       - 'Mars Product'
+      - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
       - Product
@@ -101,7 +132,10 @@ third_party_settings:
       - Views
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        Facets: {  }
+        'Flexible driver': {  }
+        'Mars Search': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - newsletter_sign_up_parent_page_header
@@ -113,32 +147,6 @@ third_party_settings:
         - newsletter_sign_up_main_section
         - newsletter_sign_up_recommended_products
       whitelisted_blocks:
-        newsletter_sign_up_main_section:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
         newsletter_sign_up_recommended_products:
           all_regions:
             Article: {  }
@@ -148,13 +156,17 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            Facets: {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - recommendations_module
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -181,6 +193,34 @@ third_party_settings:
             'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
+        newsletter_sign_up_main_section:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - newsletter_signup_form
+              - feedback_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }

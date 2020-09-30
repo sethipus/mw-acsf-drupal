@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.page.body
     - field.field.node.page.field_meta_tags
+    - field.field.node.page.layout_builder__layout
     - field.field.node.page.layout_selection
     - node.type.page
   module:
@@ -12,6 +13,7 @@ dependencies:
     - layout_builder_restrictions
     - layout_discovery
     - layout_library
+    - mars_common
     - metatag
     - text
     - user
@@ -24,46 +26,30 @@ third_party_settings:
         layout_settings:
           label: ''
         components:
-          5ed66aae-9673-4528-ade1-dbf8b4118f04:
-            uuid: 5ed66aae-9673-4528-ade1-dbf8b4118f04
+          c0cae00e-527d-4744-b064-f0aa5b8ccdc9:
+            uuid: c0cae00e-527d-4744-b064-f0aa5b8ccdc9
             region: content
             configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:page:body'
-              formatter:
-                label: hidden
-                type: text_default
-                settings: {  }
-                third_party_settings: {  }
+              id: poll_block
+              label: 'MARS: Poll Block'
+              provider: mars_common
+              label_display: ''
+              poll: '22'
+              context_mapping: {  }
             additional: {  }
             weight: 0
-          b9e87c3f-f9e0-41fc-8e97-dc3c4da5c17a:
-            uuid: b9e87c3f-f9e0-41fc-8e97-dc3c4da5c17a
+          0b82841e-7dd3-4e82-8529-5b8cde1514fc:
+            uuid: 0b82841e-7dd3-4e82-8529-5b8cde1514fc
             region: content
             configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'extra_field_block:node:page:links'
+              id: feedback_block
+              label: 'MARS: Feedback Block'
+              provider: mars_common
+              label_display: ''
+              poll: '23'
+              context_mapping: {  }
             additional: {  }
             weight: 1
-          093ccaa2-4193-45d1-a0ea-60b7b2963e55:
-            uuid: 093ccaa2-4193-45d1-a0ea-60b7b2963e55
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:page:field_meta_tags'
-              formatter:
-                type: metatag_empty_formatter
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            additional: {  }
-            weight: 2
         third_party_settings: {  }
     allow_custom: true
   layout_library:

@@ -54,6 +54,8 @@ dependencies:
     - field.field.node.product_variant.field_product_vitamin_c_daily
     - field.field.node.product_variant.field_product_vitamin_d
     - field.field.node.product_variant.field_product_vitamin_d_daily
+    - field.field.node.product_variant.salsify_id
+    - field.field.node.product_variant.salsify_updated
     - node.type.product_variant
     - workflows.workflow.editorial
   module:
@@ -61,6 +63,7 @@ dependencies:
     - entity_browser
     - field_group
     - path
+    - publication_date
     - text
 third_party_settings:
   field_group:
@@ -118,26 +121,9 @@ third_party_settings:
       children:
         - field_product_serving_size
         - field_product_servings_per
-        - field_product_protein
-        - field_product_protein_daily
-        - field_product_calories
-        - field_product_calories_fat
-        - field_product_total_fat
-        - field_product_total_fat_daily
-        - field_product_saturated_fat
-        - field_product_saturated_daily
-        - field_product_trans_fat
-        - field_product_trans_fat_daily
-        - field_product_cholesterol
-        - field_product_cholesterol_daily
-        - field_product_sodium
-        - field_product_sodium_daily
-        - field_product_carb
-        - field_product_carb_daily
-        - field_product_dietary_fiber
-        - field_product_dietary_daily
-        - field_product_sugars
-        - field_product_sugars_daily
+        - group_nutritional_subgroup_1
+        - group_nutritional_subgroup_2
+        - group_nutritional_subgroup_3
       parent_name: group_product_variant
       weight: 34
       format_type: accordion_item
@@ -164,7 +150,7 @@ third_party_settings:
         - field_product_iron
         - field_product_iron_daily
       parent_name: group_product_variant
-      weight: 35
+      weight: 36
       format_type: accordion_item
       region: content
       format_settings:
@@ -218,6 +204,65 @@ third_party_settings:
         required_fields: true
         description: ''
       label: System
+    group_nutritional_subgroup_1:
+      children:
+        - field_product_calories
+        - field_product_calories_fat
+      parent_name: group_nutritional_information
+      weight: 20
+      format_type: details
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        open: false
+        required_fields: true
+      label: 'Nutritional Subgroup 1'
+    group_nutritional_subgroup_2:
+      children:
+        - field_product_total_fat
+        - field_product_total_fat_daily
+        - field_product_saturated_fat
+        - field_product_saturated_daily
+        - field_product_trans_fat
+        - field_product_trans_fat_daily
+      parent_name: group_nutritional_information
+      weight: 21
+      format_type: details
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        open: false
+        required_fields: true
+      label: 'Nutritional Subgroup 2'
+    group_nutritional_subgroup_3:
+      children:
+        - field_product_cholesterol
+        - field_product_cholesterol_daily
+        - field_product_sodium
+        - field_product_sodium_daily
+        - field_product_carb
+        - field_product_carb_daily
+        - field_product_sugars
+        - field_product_sugars_daily
+        - field_product_protein
+        - field_product_protein_daily
+        - field_product_dietary_fiber
+        - field_product_dietary_daily
+      parent_name: group_nutritional_information
+      weight: 22
+      format_type: details
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        description: ''
+        open: false
+        required_fields: true
+      label: 'Nutritional Subgroup 3'
 _core:
   default_config_hash: Goy_ckv6s-XOsTJg_C5mJSOBwhwihp5_duzX1Td9DOA
 id: node.product_variant.default
@@ -262,7 +307,7 @@ content:
     type: string_textfield
     region: content
   field_product_calories:
-    weight: 17
+    weight: 21
     settings:
       size: 60
       placeholder: ''
@@ -270,7 +315,7 @@ content:
     type: string_textfield
     region: content
   field_product_calories_fat:
-    weight: 18
+    weight: 22
     settings:
       size: 60
       placeholder: ''
@@ -278,7 +323,7 @@ content:
     type: string_textfield
     region: content
   field_product_carb:
-    weight: 29
+    weight: 27
     settings:
       size: 60
       placeholder: ''
@@ -286,7 +331,7 @@ content:
     type: string_textfield
     region: content
   field_product_carb_daily:
-    weight: 30
+    weight: 28
     settings:
       size: 60
       placeholder: ''
@@ -294,7 +339,7 @@ content:
     type: string_textfield
     region: content
   field_product_cholesterol:
-    weight: 25
+    weight: 23
     settings:
       size: 60
       placeholder: ''
@@ -302,7 +347,7 @@ content:
     type: string_textfield
     region: content
   field_product_cholesterol_daily:
-    weight: 26
+    weight: 24
     settings:
       size: 60
       placeholder: ''
@@ -320,7 +365,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_product_dietary_daily:
-    weight: 32
+    weight: 34
     settings:
       size: 60
       placeholder: ''
@@ -328,7 +373,7 @@ content:
     type: string_textfield
     region: content
   field_product_dietary_fiber:
-    weight: 31
+    weight: 33
     settings:
       size: 60
       placeholder: ''
@@ -412,7 +457,7 @@ content:
     third_party_settings: {  }
   field_product_image_3_override:
     type: entity_browser_entity_reference
-    weight: 27
+    weight: 28
     settings:
       entity_browser: media_browser
       field_widget_display: rendered_entity
@@ -427,7 +472,7 @@ content:
     third_party_settings: {  }
   field_product_image_4:
     type: entity_browser_entity_reference
-    weight: 28
+    weight: 29
     settings:
       entity_browser: media_browser
       field_widget_display: rendered_entity
@@ -442,7 +487,7 @@ content:
     third_party_settings: {  }
   field_product_image_4_override:
     type: entity_browser_entity_reference
-    weight: 29
+    weight: 30
     settings:
       entity_browser: media_browser
       field_widget_display: rendered_entity
@@ -526,7 +571,7 @@ content:
     type: string_textfield
     region: content
   field_product_protein:
-    weight: 15
+    weight: 31
     settings:
       size: 60
       placeholder: ''
@@ -534,7 +579,7 @@ content:
     type: string_textfield
     region: content
   field_product_protein_daily:
-    weight: 16
+    weight: 32
     settings:
       size: 60
       placeholder: ''
@@ -542,7 +587,7 @@ content:
     type: string_textfield
     region: content
   field_product_saturated_daily:
-    weight: 22
+    weight: 24
     settings:
       size: 60
       placeholder: ''
@@ -550,7 +595,7 @@ content:
     type: string_textfield
     region: content
   field_product_saturated_fat:
-    weight: 21
+    weight: 23
     settings:
       size: 60
       placeholder: ''
@@ -558,7 +603,7 @@ content:
     type: string_textfield
     region: content
   field_product_serving_size:
-    weight: 13
+    weight: 18
     settings:
       size: 60
       placeholder: ''
@@ -566,7 +611,7 @@ content:
     type: string_textfield
     region: content
   field_product_servings_per:
-    weight: 14
+    weight: 19
     settings:
       size: 60
       placeholder: ''
@@ -590,7 +635,7 @@ content:
     type: string_textfield
     region: content
   field_product_sodium:
-    weight: 27
+    weight: 25
     settings:
       size: 60
       placeholder: ''
@@ -598,7 +643,7 @@ content:
     type: string_textfield
     region: content
   field_product_sodium_daily:
-    weight: 28
+    weight: 26
     settings:
       size: 60
       placeholder: ''
@@ -606,7 +651,7 @@ content:
     type: string_textfield
     region: content
   field_product_sugars:
-    weight: 33
+    weight: 29
     settings:
       size: 60
       placeholder: ''
@@ -614,7 +659,7 @@ content:
     type: string_textfield
     region: content
   field_product_sugars_daily:
-    weight: 34
+    weight: 30
     settings:
       size: 60
       placeholder: ''
@@ -622,14 +667,6 @@ content:
     type: string_textfield
     region: content
   field_product_total_fat:
-    weight: 19
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_total_fat_daily:
     weight: 20
     settings:
       size: 60
@@ -637,8 +674,16 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_total_fat_daily:
+    weight: 22
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_trans_fat:
-    weight: 23
+    weight: 25
     settings:
       size: 60
       placeholder: ''
@@ -646,7 +691,7 @@ content:
     type: string_textfield
     region: content
   field_product_trans_fat_daily:
-    weight: 24
+    weight: 26
     settings:
       size: 60
       placeholder: ''
@@ -722,7 +767,7 @@ content:
     third_party_settings: {  }
   published_at:
     type: publication_date_timestamp
-    weight: 10
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -763,4 +808,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  salsify_id: true
+  salsify_updated: true

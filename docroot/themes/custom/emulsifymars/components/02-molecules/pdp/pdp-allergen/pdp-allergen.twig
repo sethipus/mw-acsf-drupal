@@ -1,33 +1,33 @@
 {% set pdp_allergen_base_class = pdp_allergen_base_class|default('pdp-allergen') %}
 
-<section id="section-allergen" {{ bem(pdp_allergen_base_class) }} data-theme="{{ theme_styles }}">
-  {% set header_modifiers = multipack ? 'multipack' : 'singlepack' %}
-  {% include "@atoms/text/headings/_heading.twig" with {
-    heading_level: 5,
-    heading: allergen_label,
-    heading_blockname: pdp_allergen_base_class,
-    heading_modifiers: [header_modifiers],
-    heading_base_class: 'header',
-  } %}
-  {% for allergens_list_item in allergens_list %}
-    <div {{ bem('container', [], pdp_allergen_base_class) }} data-allergen-size-active={{allergens_list_item.active}} data-allergen-size-id={{allergens_list_item.size_id}}>
-      {% for allergens_per_product in allergens_list_item.allergen_items %}
+{% if pdp_allergen_data.allergens_list|length > 0 %}
+  <section id="section-allergen-{{size_id}}" {{ bem(pdp_allergen_base_class) }} data-theme="{{ theme_styles }}">
+    {% set header_modifiers = pdp_allergen_data.multipack ? 'multipack' : 'singlepack' %}
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 5,
+      heading: pdp_common_allergen_data.allergen_label,
+      heading_blockname: pdp_allergen_base_class,
+      heading_modifiers: [header_modifiers],
+      heading_base_class: 'header',
+    } %}
+    <div {{ bem('container', [], pdp_allergen_base_class) }}>
+      {% for allergens_item in pdp_allergen_data.allergens_list %}
         <div {{ bem('allergen-column', [], pdp_allergen_base_class) }}>
           <div {{ bem('allergen-icon-container', [], pdp_allergen_base_class) }}>
             {% include "@atoms/images/image/_image.twig" with {
               image_base_class: pdp_allergen_base_class,
               image_blockname: 'allergen-icon',
-              image_src: allergens_per_product.allergen_icon,
-              image_alt: allergens_per_product.allergen_label,
+              image_src: allergens_item.allergen_icon,
+              image_alt: allergens_item.allergen_label,
             } %}
           </div>
           {% include "@atoms/text/text/07-span.twig" with {
-            span_content: allergens_per_product.allergen_label,
+            span_content: allergens_item.allergen_label,
             span_base_class: 'allergen-label',
             span_blockname: pdp_allergen_base_class,
           } %}
         </div>
       {% endfor %}
     </div>
-  {% endfor %}
-</section>
+  </section>
+{% endif %}

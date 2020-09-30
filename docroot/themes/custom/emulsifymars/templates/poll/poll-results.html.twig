@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Theme implementation to display the poll results in a block.
+ * For variables, see PollViewForm.php in polls module.
+ *
+ * @see template_preprocess_poll_results()
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% set results_final = [] %}
+{% set poll_options = poll.getOptions() %}
+{% for key, value in poll_options %}
+  {% set results_final = results_final|merge([
+    results[loop.index0]|merge({
+      key: (key)
+    })
+  ]) %}
+{% endfor %}
+
+{% include "@molecules/polls/poll-results.twig" with {
+  theme_styles: 'drupal',
+  polling_heading: question,
+  polling_paragraph_content: poll.field_description.value,
+  results: results_final,
+  my_vote: vote,
+  polling_submitted_text: poll.field_thank_you_message.value
+} %}

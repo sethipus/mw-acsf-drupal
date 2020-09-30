@@ -2,12 +2,10 @@ import React from 'react';
 
 import pdpTemplateTwig from './pdp-template.twig';
 import pdpTemplateData from './pdp-template.yml';
-import pdpHeroModuleData from '../../02-molecules/pdp/pdp-hero/pdp-hero.yml';
-import pdpNutritionModuleData from '../../02-molecules/pdp/pdp-nutrition/pdp-nutrition.yml';
-import pdpAllergenModuleData from '../../02-molecules/pdp/pdp-allergen/pdp-allergen.yml';
+import pdpBodyModuleData from '../../03-organisms/pdp-body/pdp-body.yml';
 import pdpMultipackModuleData from '../../02-molecules/pdp/pdp-multipack/pdp-multipack.yml';
+import '../../03-organisms/pdp-body/pdp-body';
 import { useEffect } from '@storybook/client-api';
-// import '../../02-molecules/pdp/pdp-hero/';
 
 /**
  * Storybook Definition.
@@ -18,9 +16,7 @@ export const pdpTemplate = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: pdpTemplateTwig({
       ...pdpTemplateData,
-      ...pdpHeroModuleData,
-      ...pdpNutritionModuleData,
-      ...pdpAllergenModuleData,
+      ...pdpBodyModuleData,
       ...pdpMultipackModuleData
     }) }} />
   };
