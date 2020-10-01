@@ -16,9 +16,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "recipe",
  *   label = @Translation("Recipe"),
  *   description = @Translation("Plugin for bundles that support Recipe schema."),
- *   bundles = {
- *     "recipe"
- *   },
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"), required = TRUE),
  *     "build" = @ContextDefinition("any", label = @Translation("Build array"))
@@ -26,6 +23,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $supportedBundles = ['recipe'];
 
   /**
    * Metatag manager.
@@ -73,7 +75,7 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
     $metatags = $this->metatagManager->generateRawElements($this->metatagManager->tagsFromEntityWithDefaults($node), $node);
 
     // TODO: Import from rating engine or similar.
-    $builder = Schema::recipe()
+    return Schema::recipe()
       ->name($node->getTitle())
       ->if($node->field_recipe_image->target_id, function (SchemaRecipe $recipe) use ($node) {
         if ($url = $this->getMediaUrl($node->field_recipe_image->entity)) {
@@ -103,8 +105,6 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
       ->if(!empty($metatags['keywords']['#attributes']['content']), function (SchemaRecipe $recipe) use ($metatags) {
         $recipe->keywords($metatags['keywords']['#attributes']['content']);
       });
-
-    return $builder->toArray();
   }
 
 }

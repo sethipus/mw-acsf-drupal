@@ -12,19 +12,23 @@ use Spatie\SchemaOrg\Schema;
  * @JsonLdStrategy(
  *   id = "product",
  *   label = @Translation("Product"),
- *   description = @Translation("Plugin for bundles that support Product
- *   schema."), bundles = {
+ *   description = @Translation("Plugin for bundles that support Product schema."),
+ *   bundles = {
  *     "product",
  *     "product_multipack"
  *   },
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"),
- *   required = TRUE),
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"), required = TRUE),
  *     "build" = @ContextDefinition("any", label = @Translation("Build array"))
  *   }
  * )
  */
 class Product extends JsonLdStrategyPluginBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $supportedBundles = ['product', 'product_multipack'];
 
   /**
    * {@inheritdoc}
@@ -43,7 +47,7 @@ class Product extends JsonLdStrategyPluginBase {
     }
 
     // TODO: Import from rating engine or similar.
-    $builder = Schema::product()
+    return Schema::product()
       ->name($node->getTitle())
       ->aggregateRating(Schema::aggregateRating()
         ->ratingValue(5)
@@ -57,8 +61,6 @@ class Product extends JsonLdStrategyPluginBase {
       })
       ->sku($node->field_product_variants->first()->entity->field_product_sku->value)
       ->image($images);
-
-    return $builder->toArray();
   }
 
 }

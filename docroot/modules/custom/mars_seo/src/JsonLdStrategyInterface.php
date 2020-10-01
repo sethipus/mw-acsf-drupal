@@ -18,6 +18,14 @@ interface JsonLdStrategyInterface extends ContextAwarePluginInterface {
   public function label();
 
   /**
+   * Checks if plugin is compatible with current contexts.
+   *
+   * @return bool
+   *   Plugin can be used to generate JSON code if TRUE.
+   */
+  public function isApplicable();
+
+  /**
    * Returns node bundles supported by the plugin.
    *
    * @return array

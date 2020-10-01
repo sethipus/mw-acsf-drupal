@@ -41,33 +41,4 @@ class JsonLdStrategyPluginManager extends DefaultPluginManager {
     $this->setCacheBackend($cache_backend, 'mars_json_ld_strategy_plugins');
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getInstance(array $options) {
-    if (empty($options['bundle'])) {
-      return FALSE;
-    }
-
-    $bundle = $options['bundle'];
-
-    if (!empty($this->bundlePlugins[$bundle])) {
-      $plugin_id = end($this->bundlePlugins[$bundle]);
-
-      return $this->createInstance($plugin_id);
-    }
-
-    foreach ($this->getDefinitions() as $definition) {
-      foreach ($definition['bundles'] as $plugin_bundle) {
-        $this->bundlePlugins[$plugin_bundle][] = $definition['id'];
-      }
-
-      if (in_array($bundle, $definition['bundles'])) {
-        return $this->createInstance($definition['id']);
-      }
-    }
-
-    return FALSE;
-  }
-
 }

@@ -37,13 +37,6 @@ class JsonLdStrategy extends Plugin {
   public $description;
 
   /**
-   * Bundles that are compatible with plugin.
-   *
-   * @var string[]
-   */
-  public $bundles = [];
-
-  /**
    * Weight of the plugin.
    *
    * Heaviest plugin will be used first.

@@ -13,14 +13,9 @@ use Spatie\SchemaOrg\Schema;
  * @JsonLdStrategy(
  *   id = "faq",
  *   label = @Translation("FAQ Page"),
- *   description = @Translation("Plugin for bundles that support FAQPage
- *   schema."), bundles = {
- *     "page",
- *     "landing_page"
- *   },
+ *   description = @Translation("Plugin for bundles that support FAQPage schema."),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"),
- *   required = TRUE),
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"), required = TRUE),
  *     "build" = @ContextDefinition("any", label = @Translation("Build array"))
  *   }
  * )
@@ -28,23 +23,44 @@ use Spatie\SchemaOrg\Schema;
 class Faq extends JsonLdStrategyPluginBase {
 
   /**
+   * FAQ view render element.
+   *
+   * @var array
+   */
+  protected $component;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $supportedBundles = ['page', 'landing_page'];
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isApplicable() {
+    if (!parent::isApplicable()) {
+      return FALSE;
+    }
+
+    $build = $this->getContextValue('build');
+
+    return isset($build['_layout_builder']) && !empty($this->component = $this->getFaqComponent($build['_layout_builder']));
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getStructuredData() {
     $build = $this->getContextValue('build');
 
-    if (!isset($build['_layout_builder'])) {
-      return [];
-    }
-
-    if (!($component = $this->getLayoutBuilderComponent($build['_layout_builder']))) {
-      return [];
+    if (!$this->component && !($this->component = $this->getFaqComponent($build['_layout_builder']))) {
+      return NULL;
     }
 
     /** @var \Drupal\views\ViewExecutable $view */
-    $view = $component['content']['#view'];
+    $view = $this->component['content']['#view'];
 
-    $builder = Schema::fAQPage()
+    return Schema::fAQPage()
       ->mainEntity(array_map(function (ResultRow $row) {
         return Schema::question()
           ->name($row->_entity->field_qa_item_question->value)
@@ -52,8 +68,6 @@ class Faq extends JsonLdStrategyPluginBase {
             Schema::answer()->text($row->_entity->field_qa_item_answer->value)
           );
       }, $view->result));
-
-    return $builder->toArray();
   }
 
   /**
@@ -65,7 +79,7 @@ class Faq extends JsonLdStrategyPluginBase {
    * @return array
    *   FAQ view component render array.
    */
-  protected function getLayoutBuilderComponent(array $element) {
+  protected function getFaqComponent(array $element) {
     foreach (Element::children($element) as $delta) {
       $section = $element[$delta];
 

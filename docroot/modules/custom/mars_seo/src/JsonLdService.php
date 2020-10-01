@@ -52,15 +52,24 @@ class JsonLdService {
    *   Structured data array.
    */
   public function getStructuredData(NodeInterface $node, array $build = []) {
-    /** @var \Drupal\mars_seo\JsonLdStrategyInterface $plugin */
-    if (!($plugin = $this->pluginManager->getInstance(['bundle' => $node->bundle()]))) {
-      return;
-    }
+    $plugins = array_filter(
+      array_map(function ($definition) use ($node, $build) {
+        /** @var \Drupal\mars_seo\JsonLdStrategyInterface $plugin */
+        $plugin = $this->pluginManager->createInstance($definition['id']);
 
-    $plugin->setContextValue('node', $node);
-    $plugin->setContextValue('build', $build);
+        $plugin->setContextValue('node', $node);
+        $plugin->setContextValue('build', $build);
 
-    return $plugin->getStructuredData();
+        return $plugin;
+      }, $this->pluginManager->getDefinitions()),
+      function (JsonLdStrategyInterface $plugin) {
+        return $plugin->isApplicable();
+      }
+    );
+
+    return array_filter(array_map(function (JsonLdStrategyInterface $plugin) {
+      return $plugin->getStructuredData();
+    }, $plugins));
   }
 
 }

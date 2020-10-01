@@ -12,18 +12,19 @@ use Spatie\SchemaOrg\Schema;
  * @JsonLdStrategy(
  *   id = "news_article",
  *   label = @Translation("News Article"),
- *   description = @Translation("Plugin for bundles that support NewsArticle
- *   schema."), bundles = {
- *     "article"
- *   },
+ *   description = @Translation("Plugin for bundles that support NewsArticle schema."),
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"),
- *   required = TRUE),
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"), required = TRUE),
  *     "build" = @ContextDefinition("any", label = @Translation("Build array"))
  *   }
  * )
  */
 class Article extends JsonLdStrategyPluginBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $supportedBundles = ['article'];
 
   /**
    * {@inheritdoc}
@@ -35,7 +36,7 @@ class Article extends JsonLdStrategyPluginBase {
     $changed_time = new \DateTime();
     $changed_time->setTimestamp($node->getChangedTime());
 
-    $builder = Schema::newsArticle()
+    return Schema::newsArticle()
       ->headline($node->getTitle())
       ->dateModified($changed_time)
       ->if($node->field_article_image->target_id, function (NewsArticle $article) use ($node) {
@@ -43,8 +44,6 @@ class Article extends JsonLdStrategyPluginBase {
           $article->image([$url]);
         }
       });
-
-    return $builder->toArray();
   }
 
 }

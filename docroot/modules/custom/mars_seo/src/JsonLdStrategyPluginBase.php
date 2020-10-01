@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_seo;
 
+use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
 use Drupal\media\Entity\Media;
 
@@ -9,6 +10,13 @@ use Drupal\media\Entity\Media;
  * Base class for Mars JSON LD Strategy plugins.
  */
 abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implements JsonLdStrategyInterface {
+
+  /**
+   * Supported node types.
+   *
+   * @var string[]
+   */
+  protected $supportedBundles;
 
   /**
    * {@inheritdoc}
@@ -21,8 +29,23 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
   /**
    * {@inheritdoc}
    */
+  public function isApplicable() {
+    try {
+      /** @var \Drupal\node\NodeInterface $node */
+      $node = $this->getContextValue('node');
+
+      return in_array($node->bundle(), $this->supportedBundles());
+    }
+    catch (PluginException $e) {
+      return FALSE;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function supportedBundles() {
-    return $this->pluginDefinition['bundles'] ?? [];
+    return $this->supportedBundles ?? [];
   }
 
   /**

@@ -7,6 +7,7 @@
 
 use Drupal\node\NodeInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Spatie\SchemaOrg\Type;
 
 /**
  * Implements hook_node_view_alter().
@@ -21,20 +22,26 @@ function mars_seo_node_view_alter(array &$build, NodeInterface $node, EntityView
   $service = \Drupal::service('mars_seo.json_ld');
   $data = $service->getStructuredData($node, $build);
 
-  if (isset($data)) {
-    $tag = [
-      '#type' => 'html_tag',
-      '#tag' => 'script',
-      '#attributes' => [
-        'type' => 'application/ld+json',
-      ],
-      '#value' => json_encode($data, JSON_PRETTY_PRINT),
-      '#cache' => [
-        'tags' => $node->getCacheTags(),
-        'contexts' => $node->getCacheContexts(),
-      ],
-    ];
+  $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data), RecursiveIteratorIterator::CHILD_FIRST);
 
-    $build['#attached']['html_head'][] = [$tag, 'mars_seo_json_ld'];
+  /** @var \Spatie\SchemaOrg\Type|null $item */
+  foreach ($iterator as $key => $item) {
+    if (isset($item) && $item instanceof Type) {
+      $tag = [
+        '#type' => 'html_tag',
+        '#tag' => 'script',
+        '#attributes' => [
+          'type' => 'application/ld+json',
+        ],
+        '#value' => json_encode($item->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+        '#cache' => [
+          'tags' => $node->getCacheTags(),
+          'contexts' => $node->getCacheContexts(),
+        ],
+      ];
+
+      $build['#attached']['html_head'][] = [$tag, 'mars_seo_json_ld__' . $key];
+    }
   }
+
 }
