@@ -158,7 +158,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     if (!empty($conf['background'])) {
       $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
       $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-      if (!isset($mediaParams['error']) && !$mediaParams['error']) {
+      if (!isset($mediaParams['error'])) {
         $build['#background'] = file_create_url($mediaParams['src']);
       }
     }

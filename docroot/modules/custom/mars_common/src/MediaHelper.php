@@ -86,13 +86,13 @@ class MediaHelper {
         ];
 
       case 'lighthouse_video':
-        if (!$entity->field_media_image || !$entity->field_media_image->target_id) {
-          return ['error' => TRUE, 'message' => $this->t('Image not set.')];
+        if (!$entity->field_media_video_file_1 || !$entity->field_media_video_file_1->target_id) {
+          return ['error' => TRUE, 'message' => $this->t('Video not set.')];
         }
 
         return [
           'video' => TRUE,
-          'src' => $entity->field_media_image->entity->createFileUrl(),
+          'src' => $entity->field_media_video_file_1->entity->createFileUrl(),
         ];
 
       default:

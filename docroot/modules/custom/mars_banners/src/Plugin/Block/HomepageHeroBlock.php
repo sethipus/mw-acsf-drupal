@@ -7,6 +7,8 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
+use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,6 +21,28 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use EntityBrowserFormTrait;
+
+  /**
+   * Lighthouse entity browser image id.
+   */
+  const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
+
+  /**
+   * Lighthouse entity browser video id.
+   */
+  const LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID = 'lighthouse_video_browser';
+
+  /**
+   * Key option video.
+   */
+  const KEY_OPTION_VIDEO = 'video';
+
+  /**
+   * Key option image.
+   */
+  const KEY_OPTION_IMAGE = 'image';
 
   /**
    * Config Factory.
@@ -35,6 +59,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $fileStorage;
 
   /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -42,11 +73,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -58,7 +91,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -79,20 +113,25 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#cta_title'] = $config['cta']['title'];
     $build['#block_type'] = $config['block_type'];
 
-    if ($config['block_type'] == 'default') {
+    if ($config['block_type'] == self::KEY_OPTION_IMAGE && !empty($config['background_image'])) {
+      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_image']);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!isset($media_params['error'])) {
+        $build['#background_image'] = file_create_url($media_params['src']);
+      }
+    }
+    elseif ($config['block_type'] == self::KEY_OPTION_VIDEO && !empty($config['background_video'])) {
+      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_video']);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!isset($media_params['error'])) {
+        $build['#background_video'] = file_create_url($media_params['src']);
+      }
+    }
+    else {
       $fid = $default_fid;
+      $file = !empty($fid) ? $this->fileStorage->load($fid) : '';
+      $build['#background_image'] = !empty($file) ? $file->createFileUrl() : '';
     }
-    elseif ($config['block_type'] == 'image' && empty($config['background_image'])) {
-      $fid = $default_fid;
-    }
-    elseif ($config['block_type'] == 'image' && !empty($config['background_image'])) {
-      $fid = reset($config['background_image']);
-    }
-    if (!empty($fid)) {
-      $file = $this->fileStorage->load($fid);
-    }
-    $build['#background_image'] = !empty($file) ? $file->createFileUrl() : '';
-    $build['#background_video'] = $config['background_video'];
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
@@ -187,41 +226,36 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
       '#default_value' => $config['block_type'] ?? 'default',
     ];
-    $form['background_image'] = [
-      '#title'           => $this->t('Background Image'),
-      '#type'            => 'managed_file',
-      '#process'         => [
-        ['\Drupal\mars_banners\Element\MarsManagedFile', 'processManagedFile'],
-        'mars_banners_process_image_widget',
+
+    $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
+    // Entity Browser element for background image.
+    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    // Convert the wrapping container to a details element.
+    $form['background_image']['#type'] = 'details';
+    $form['background_image']['#title'] = $this->t('Background Image');
+    $form['background_image']['#open'] = TRUE;
+    $form['background_image']['#states'] = [
+      'visible' => [
+        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
       ],
-      '#upload_validators' => [
-        'file_validate_extensions' => ['gif png jpg jpeg svg'],
-      ],
-      '#theme' => 'image_widget',
-      '#upload_location' => 'public://',
-      '#preview_image_style' => 'medium',
-      '#default_value'       => $config['background_image'] ?? '',
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[block_type]"]' => ['value' => 'image'],
-        ],
-        'required' => [
-          ':input[name="settings[block_type]"]' => ['value' => 'image'],
-        ],
+      'required' => [
+        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
       ],
     ];
-    $form['background_video'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Background video link'),
-      '#maxlength' => 2048,
-      '#default_value' => $config['background_video'] ?? '',
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[block_type]"]' => ['value' => 'video'],
-        ],
-        'required' => [
-          ':input[name="settings[block_type]"]' => ['value' => 'video'],
-        ],
+
+    $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
+    // Entity Browser element for video.
+    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID, $video_default, 1);
+    // Convert the wrapping container to a details element.
+    $form['background_video']['#type'] = 'details';
+    $form['background_video']['#title'] = $this->t('Background Video');
+    $form['background_video']['#open'] = TRUE;
+    $form['background_video']['#states'] = [
+      'visible' => [
+        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO],
+      ],
+      'required' => [
+        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO],
       ],
     ];
 
@@ -382,6 +416,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $values = $form_state->getValues();
     unset($values['card']['add_card']);
     $this->setConfiguration($values);
+    $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
+    $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
   }
 
 }
