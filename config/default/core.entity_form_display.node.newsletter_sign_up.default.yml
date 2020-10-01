@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.newsletter_sign_up.body
+    - field.field.node.newsletter_sign_up.layout_builder__layout
     - node.type.newsletter_sign_up
     - workflows.workflow.editorial
   module:
@@ -94,4 +95,5 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  layout_builder__layout: true
