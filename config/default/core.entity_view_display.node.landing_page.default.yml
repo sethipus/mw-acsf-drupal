@@ -212,7 +212,6 @@ third_party_settings:
             'Global elements': {  }
             Help: {  }
             'Inline blocks':
-              - 'inline_block:flexible_framer'
               - 'inline_block:full_width_image'
               - 'inline_block:full_width_video'
               - 'inline_block:inline_image'
@@ -255,13 +254,12 @@ third_party_settings:
             Help: {  }
             'Inline blocks':
               - 'inline_block:flexible_framer'
-            'Lists (Views)':
-              - 'views_block:multipack_product_card_grid-block_multipack_product'
+            'Lists (Views)': {  }
             'Mars Common':
               - product_feature
-            'Mars Product':
-              - grid_card
-            'Mars Search': {  }
+            'Mars Product': {  }
+            'Mars Search':
+              - search_grid_block
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
