@@ -38,7 +38,7 @@
 
   &:hover {
     color: clr(secondary);
-    background-color: clr(subcolor-3);
+    background-color: transparent !important;
     transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
 
     &::after {
