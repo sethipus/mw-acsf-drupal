@@ -728,6 +728,22 @@ function _mars_common_form_menu_link_content_menu_link_content_form_validate(arr
  */
 function mars_common_form_menu_link_content_menu_link_content_form_alter(array &$form, FormStateInterface $form_state) {
   $form['#validate'][] = '_mars_common_form_menu_link_content_menu_link_content_form_validate';
+  $form['#prefix'] = '<div id="menu-link-form-content-wrapper">';
+  $form['#suffix'] = '</div>';
+
+  $form_input = $form_state->getUserInput();
+  $menu_parent = $form_input['menu_parent'] ?? $form['menu_parent']['#default_value'];
+  if (substr($menu_parent, 0, -1) === MenuConstants::MAIN_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::MAIN_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
+  $form['menu_parent']['#ajax'] = [
+    'disable-refocus' => FALSE,
+    'event' => 'change',
+    'wrapper' => 'menu-link-form-content-wrapper',
+    'progress' => [
+      'type' => 'throbber',
+    ],
+  ];
 }
 
 /**
