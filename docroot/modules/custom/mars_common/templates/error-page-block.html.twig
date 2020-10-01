@@ -8,7 +8,12 @@
  */
 #}
 
-{% set image_src = file_url(image.image.entity.fileuri) %}
+{% set image_bundle = image.bundle() %}
+{% if image_bundle == 'lighthouse_image' %}
+  {% set image_src = file_url(image.field_media_image.entity.fileuri) %}
+{% elseif image_bundle == 'image' %}
+  {% set image_src = file_url(image.image.entity.fileuri) %}
+{% endif %}
 
 {% include "@molecules/error-component/error-component.twig" with {
   theme_styles: 'drupal',
