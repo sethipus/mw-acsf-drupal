@@ -15,10 +15,8 @@
 
 {% set background_bundle = background.bundle() %}
 {% if background_bundle == 'lighthouse_image' %}
-  {% set media_type = 'image' %}
   {% set background = file_url(background.field_media_image.entity.fileuri) %}
 {% elseif background_bundle == 'image' %}
-  {% set media_type = 'image' %}
   {% set background = file_url(background.image.entity.fileuri) %}
 {% endif %}
 
