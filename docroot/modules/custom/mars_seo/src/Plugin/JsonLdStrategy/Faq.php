@@ -4,6 +4,8 @@ namespace Drupal\mars_seo\Plugin\JsonLdStrategy;
 
 use Drupal\Core\Render\Element;
 use Drupal\mars_seo\JsonLdStrategyPluginBase;
+use Drupal\views\ResultRow;
+use Spatie\SchemaOrg\Schema;
 
 /**
  * Plugin implementation of the Mars JSON LD Strategy for Recipes.
@@ -11,8 +13,8 @@ use Drupal\mars_seo\JsonLdStrategyPluginBase;
  * @JsonLdStrategy(
  *   id = "faq",
  *   label = @Translation("FAQ Page"),
- *   description = @Translation("Plugin for bundles that support FAQPage schema."),
- *   bundles = {
+ *   description = @Translation("Plugin for bundles that support FAQPage
+ *   schema."), bundles = {
  *     "page",
  *     "landing_page"
  *   },
@@ -39,29 +41,19 @@ class Faq extends JsonLdStrategyPluginBase {
       return [];
     }
 
-    $data = [
-      '@context' => 'https://schema.org',
-      '@type' => 'FAQPage',
-    ];
-
     /** @var \Drupal\views\ViewExecutable $view */
     $view = $component['content']['#view'];
 
-    foreach ($view->result as $row) {
-      /** @var \Drupal\node\NodeInterface $node */
-      $node = $row->_entity;
+    $builder = Schema::fAQPage()
+      ->mainEntity(array_map(function (ResultRow $row) {
+        return Schema::question()
+          ->name($row->_entity->field_qa_item_question->value)
+          ->acceptedAnswer(
+            Schema::answer()->text($row->_entity->field_qa_item_answer->value)
+          );
+      }, $view->result));
 
-      $data['mainEntity'][] = [
-        '@type' => 'Question',
-        'name' => $node->field_qa_item_question->value,
-        'acceptedAnswer' => [
-          '@type' => 'Answer',
-          'text' => $node->field_qa_item_answer->value,
-        ],
-      ];
-    }
-
-    return $data;
+    return $builder->toArray();
   }
 
   /**

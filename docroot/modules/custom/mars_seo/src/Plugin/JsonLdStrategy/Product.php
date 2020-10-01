@@ -3,6 +3,8 @@
 namespace Drupal\mars_seo\Plugin\JsonLdStrategy;
 
 use Drupal\mars_seo\JsonLdStrategyPluginBase;
+use Spatie\SchemaOrg\Product as SchemaProduct;
+use Spatie\SchemaOrg\Schema;
 
 /**
  * Plugin implementation of the Mars JSON LD Strategy for Products.
@@ -10,13 +12,14 @@ use Drupal\mars_seo\JsonLdStrategyPluginBase;
  * @JsonLdStrategy(
  *   id = "product",
  *   label = @Translation("Product"),
- *   description = @Translation("Plugin for bundles that support Product schema."),
- *   bundles = {
+ *   description = @Translation("Plugin for bundles that support Product
+ *   schema."), bundles = {
  *     "product",
  *     "product_multipack"
  *   },
  *   context_definitions = {
- *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"), required = TRUE),
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Node"),
+ *   required = TRUE),
  *     "build" = @ContextDefinition("any", label = @Translation("Build array"))
  *   }
  * )
@@ -30,54 +33,32 @@ class Product extends JsonLdStrategyPluginBase {
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->getContextValue('node');
 
-    $data = [
-      '@context' => 'https://schema.org',
-      '@type' => 'Product',
-    ];
-
-    $data['name'] = $node->getTitle();
-
-    // TODO: Import from rating engine or similar.
-    $data['aggregateRating'] = [
-      '@type' => 'AggregateRating',
-      'ratingValue' => 5,
-      'ratingCount' => 15,
-    ];
-
-    if ($node->field_product_brand->target_id) {
-      /** @var \Drupal\taxonomy\Entity\Term $term */
-      $term = $node->field_product_brand->entity;
-
-      $data['brand'] = [
-        '@type' => 'Brand',
-        'name' => $term->getName(),
-      ];
-    }
-
-    if ($node->field_product_description->value) {
-      $data['description'] = $node->field_product_description->value;
-    }
-
-    $data['sku'] = $node
-      ->field_product_variants
-      ->first()
-      ->entity
-      ->field_product_sku
-      ->value;
-
+    $images = [];
     foreach ($node->field_product_variants as $item) {
-      if (!$item->field_product_key_image->target_id || !$item->field_product_key_image->entity->image->target_id) {
+      if (!$item->entity->field_product_key_image->target_id || !($url = $this->getMediaUrl($item->entity->field_product_key_image->entity))) {
         continue;
       }
 
-      $data['image'][] = $item->field_product_key_image
-        ->entity
-        ->image
-        ->entity
-        ->createFileUrl(FALSE);
+      $images[] = $url;
     }
 
-    return $data;
+    // TODO: Import from rating engine or similar.
+    $builder = Schema::product()
+      ->name($node->getTitle())
+      ->aggregateRating(Schema::aggregateRating()
+        ->ratingValue(5)
+        ->ratingCount(18)
+      )
+      ->if($node->field_product_brand->target_id, function (SchemaProduct $product) use ($node) {
+        $product->brand($node->field_product_brand->entity->getName());
+      })
+      ->if($node->field_product_description->value, function (SchemaProduct $product) use ($node) {
+        $product->description($node->field_product_description->value);
+      })
+      ->sku($node->field_product_variants->first()->entity->field_product_sku->value)
+      ->image($images);
+
+    return $builder->toArray();
   }
 
 }

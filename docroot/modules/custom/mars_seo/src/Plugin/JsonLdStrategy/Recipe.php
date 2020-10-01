@@ -5,6 +5,8 @@ namespace Drupal\mars_seo\Plugin\JsonLdStrategy;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_seo\JsonLdStrategyPluginBase;
 use Drupal\metatag\MetatagManager;
+use Spatie\SchemaOrg\Schema;
+use Spatie\SchemaOrg\Recipe as SchemaRecipe;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -67,60 +69,42 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->getContextValue('node');
 
-    $data = [
-      '@context' => 'https://schema.org',
-      '@type' => 'Recipe',
-    ];
-
-    $data['name'] = $node->getTitle();
-
-    if ($node->field_recipe_image->target_id && ($url = $this->getMediaUrl($node->field_recipe_image->entity))) {
-      $data['image'][] = $url;
-    }
-
-    // TODO: Import from rating engine or similar.
-    $data['aggregateRating'] = [
-      '@type' => 'AggregateRating',
-      'ratingValue' => 5,
-      'ratingCount' => 15,
-    ];
-
-    if (!empty($cooking_time = (int) $node->field_recipe_cooking_time->value)) {
-      $data['totalTime'] = sprintf('PT%dM', $cooking_time);
-    }
-
-    if ($node->field_recipe_description->value) {
-      $data['description'] = $node->field_recipe_description->value;
-    }
-
-    foreach ($node->field_recipe_ingredients as $item) {
-      $data['recipeIngredient'] = $item->value;
-    }
-
-    if ($node->field_recipe_number_of_servings->value) {
-      $data['recipeYield'] = $node->field_recipe_number_of_servings->value;
-    }
-
-    if ($node->field_recipe_video->target_id) {
-      /** @var \Drupal\media\Entity\Media $media */
-      $media = $node->field_recipe_video->entity;
-
-      if ($url = $this->getMediaUrl($media)) {
-        $data['video'] = [
-          '@type' => 'Clip',
-          'name' => $media->getName(),
-          'url' => $url,
-        ];
-      }
-    }
-
     // Need to generate elements to get processed tokens.
     $metatags = $this->metatagManager->generateRawElements($this->metatagManager->tagsFromEntityWithDefaults($node), $node);
-    if (!empty($metatags['keywords']['#attributes']['content'])) {
-      $data['keywords'] = $metatags['keywords']['#attributes']['content'];
-    }
 
-    return $data;
+    // TODO: Import from rating engine or similar.
+    $builder = Schema::recipe()
+      ->name($node->getTitle())
+      ->if($node->field_recipe_image->target_id, function (SchemaRecipe $recipe) use ($node) {
+        if ($url = $this->getMediaUrl($node->field_recipe_image->entity)) {
+          $recipe->image([$url]);
+        }
+      })
+      ->aggregateRating(Schema::aggregateRating()
+        ->ratingValue(5)
+        ->ratingCount(18)
+      )
+      ->totalTime(sprintf('PT%dM', (int) $node->field_recipe_cooking_time->value))
+      ->description($node->field_recipe_description->value)
+      ->recipeIngredient(array_map(function ($item) {
+        return $item->value;
+      }, iterator_to_array($node->field_recipe_ingredients)))
+      ->if($node->field_recipe_number_of_servings->value, function (SchemaRecipe $recipe) use ($node) {
+        $recipe->recipeYield($node->field_recipe_number_of_servings->value);
+      })
+      ->if($node->field_recipe_video->target_id, function (SchemaRecipe $recipe) use ($node) {
+        /** @var \Drupal\media\Entity\Media $media */
+        $media = $node->field_recipe_video->entity;
+
+        if ($url = $this->getMediaUrl($node->field_recipe_video->entity)) {
+          $recipe->video(Schema::clip()->name($media->getName())->url($url));
+        }
+      })
+      ->if(!empty($metatags['keywords']['#attributes']['content']), function (SchemaRecipe $recipe) use ($metatags) {
+        $recipe->keywords($metatags['keywords']['#attributes']['content']);
+      });
+
+    return $builder->toArray();
   }
 
 }
