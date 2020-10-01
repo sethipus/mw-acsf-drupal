@@ -105,6 +105,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 92rem;
+    margin: 0 auto;
 
     @include medium {
       .default-link {
@@ -138,7 +140,19 @@
     @include medium {
       border: none;
       flex-direction: row;
-      justify-content: space-evenly;
+      justify-content: center;
+    }
+
+    @include large {
+      justify-content: flex-start;
+    }
+
+    @media (max-width: 1193px) {
+      justify-content: center;
+    }
+
+    &--column-layout {
+      flex-direction: column;
     }
   }
 
@@ -158,7 +172,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    margin-bottom: 2rem;
+    margin: 0 1rem 2rem 1rem;
   }
 
   &__label-text {

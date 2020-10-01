@@ -1,0 +1,21 @@
+uuid: 7d9541b6-859a-4f85-9d6a-d3b5807ba70b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.layout_builder__layout
+    - node.type.contact_help
+  module:
+    - layout_builder
+id: node.contact_help.layout_builder__layout
+field_name: layout_builder__layout
+entity_type: node
+bundle: contact_help
+label: Layout
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: layout_section

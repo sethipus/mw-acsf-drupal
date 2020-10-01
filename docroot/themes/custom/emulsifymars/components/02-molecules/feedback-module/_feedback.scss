@@ -1,0 +1,259 @@
+.feedback-module {
+  background-color: clr(subcolor-2);
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+
+  @include xs {
+    padding: 5rem 2rem;
+    border-top: 5px solid clr(secondary);
+  }
+
+  @include medium {
+    padding: 6rem 10rem;
+    border-top: 8px solid clr(secondary);
+  }
+
+  @include large {
+    padding: 8rem 15.5rem 6rem 15.5rem;
+    border-top: 12px solid clr(secondary);
+  }
+
+  &__radio {
+    display: none;
+  }
+
+  .default-link {
+    span {
+      position: relative;
+      z-index: 3;
+      transition: color .4s ease;
+    }
+
+    &:hover {
+      &::after {
+        height: 170px;
+      }
+
+      cursor: pointer;
+    }
+  }
+
+  &__brand-shape {
+    position: absolute;
+    display: block;
+    z-index: 1;
+
+    @include xs {
+      top: -2rem;
+      right: -24rem;
+      width: 45rem;
+      height: 45rem;
+    }
+
+    @include medium {
+      top: -3rem;
+      right: -21rem;
+      width: 60rem;
+      height: 60rem;
+    }
+
+    @include large {
+      top: -10rem;
+      right: -25rem;
+      width: 80rem;
+      height: 80rem;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__main-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__heading {
+    color: clr(primary);
+    font-family: variable(primary-font);
+    margin-top: 0;
+    text-transform: capitalize;
+
+    @include xs {
+      font-size: 2.8rem;
+      line-height: 2.8rem;
+      margin-bottom: 2.9rem;
+    }
+
+    @include medium {
+      font-size: 4rem;
+      line-height: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    @include large {
+      font-size: 4.8rem;
+      line-height: 4.8rem;
+    }
+  }
+
+  &__paragraph {
+    color: clr(primary);
+    font-family: variable(secondary-font);
+
+    @include xs {
+      font-size: 1.6rem;
+      line-height: 2.24rem;
+      margin-bottom: 3rem;
+    }
+
+    @include medium {
+      margin-bottom: 6rem;
+    }
+
+    @include large {
+      font-size: 1.8rem;
+      line-height: 2.52rem;
+    }
+  }
+
+  &__btn-group {
+    .default-link {
+      width: 15.7rem;
+      margin: 0 1rem;
+      cursor: pointer;
+
+      &::after {
+        bottom: -130px;
+      }
+    }
+
+    @include xs {
+      margin-bottom: 3rem;
+    }
+
+    @include medium {
+      margin-bottom: 4rem;
+    }
+
+    @include large {
+      margin-bottom: 6rem;
+    }
+  }
+
+  &__bottom-link {
+    color: clr(secondary);
+    font-family: variable(primary-font);
+    text-decoration: none;
+    text-transform: uppercase;
+
+    @include xs {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+      letter-spacing: 0.112rem;
+    }
+
+    @include medium {
+      font-size: 1.8rem;
+      line-height: 1.98rem;
+      letter-spacing: 0.144rem;
+    }
+  }
+
+  &__feedback-img {
+    position: relative;
+  }
+
+  &__tick {
+    position: relative;
+    z-index: 1;
+
+    @include xs {
+      margin: 0 auto 4.9rem auto;
+      width: 9.8rem;
+      height: 9.8rem;
+      padding: 2.3rem 2.6rem;
+    }
+
+    @include medium {
+      margin: 0 auto 7.12rem auto;
+      width: 11.58rem;
+      height: 11.58rem;
+      padding: 2.9rem 3rem;
+    }
+
+    @include large {
+      margin: 0 auto 9.4rem auto;
+    }
+
+    svg {
+      @include xs {
+        width: 5rem;
+        height: 5rem;
+      }
+
+      @include medium {
+        width: 5.79rem;
+        height: 5.79rem;
+      }
+
+      path {
+        fill: clr(secondary);
+      }
+    }
+
+    &--positive {
+      background: clr(subcolor-3);
+      border-radius: 50%;
+    }
+
+    &--negative {
+      svg {
+        width: 100%;
+        height: 100%;
+
+        path {
+          fill: clr(secondary);
+        }
+      }
+
+      @include xs {
+        padding: 0;
+        margin: 3.9rem auto;
+      }
+
+      @include medium {
+        margin-bottom: 7.2rem;
+      }
+
+      @include large {
+        margin: 6.7rem auto;
+      }
+    }
+  }
+
+  &__png-asset {
+    position: absolute;
+    z-index: 2;
+    display: block;
+
+    @include xs {
+      width: 14rem;
+      bottom: -3rem;
+      right: -6.3rem;
+    }
+
+    @include medium {
+      width: 19rem;
+      bottom: -5rem;
+      right: -8.3rem;
+    }
+  }
+
+  .button-vote {
+    display: none;
+  }
+}

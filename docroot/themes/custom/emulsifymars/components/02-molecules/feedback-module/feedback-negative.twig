@@ -1,0 +1,35 @@
+{% set feedback_base_class = 'feedback-module' %}
+{% set feedback_heading_base_class = 'feedback-module__heading' %}
+{% set feedback_heading_level = 1 %}
+{% set feedback_paragraph_base_class = 'feedback-module__paragraph' %}
+{% set feedback_link_base_class = 'feedback-module__bottom-link' %}
+
+<section {{ bem(feedback_base_class) }} data-theme="{{ theme_styles }}">
+  <div class="feedback-module__brand-shape">
+    {{ brand_shape | raw }}
+  </div>
+
+  <div class="feedback-module__main-content">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: feedback_negative_heading,
+      heading_level: feedback_heading_level,
+      heading_base_class: feedback_heading_base_class
+    } %}
+
+    <div class="feedback-module__feedback-img">
+      <div class="feedback-module__tick feedback-module__tick--negative">
+        <svg xmlns="http://www.w3.org/2000/svg" width="136" height="136" fill="none" viewBox="0 0 136 136">
+          <path fill="#E42525" d="M68 8.5c32.725 0 59.5 26.775 59.5 59.5s-26.775 59.5-59.5 59.5S8.5 100.725 8.5 68 35.275 8.5 68 8.5zM68 0C30.388 0 0 30.387 0 68s30.387 68 68 68 68-30.387 68-68c0-37.612-30.387-68-68-68z"/>
+          <path fill="#E42525" d="M42.5 60.563c5.868 0 10.625-4.758 10.625-10.626 0-5.867-4.757-10.624-10.625-10.624s-10.625 4.756-10.625 10.624c0 5.869 4.757 10.626 10.625 10.626zM93.5 60.563c5.868 0 10.625-4.758 10.625-10.626 0-5.867-4.757-10.624-10.625-10.624s-10.625 4.756-10.625 10.624c0 5.869 4.757 10.626 10.625 10.626z"/>
+          <path stroke="#E42525" stroke-linecap="round" stroke-miterlimit="10" stroke-width="4.533" d="M98.813 96.688C93.287 85.213 81.6 77.35 68 77.35c-13.6 0-25.288 7.863-30.813 19.338"/>
+        </svg>
+      </div>
+    </div>
+
+    {% include "@atoms/links/link/link.twig" with {
+      link_base_class: feedback_link_base_class,
+      link_content: feedback_bottom_link_content,
+      link_url: feedback_bottom_link_url
+    } %}
+  </div>
+</section>

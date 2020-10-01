@@ -35,7 +35,7 @@ class Article extends DynamicRecommendationsStrategyPluginBase {
     $nodes = [];
 
     $fields = [
-      'field_article_brand_initiatives',
+      'field_brand_initiatives',
       'field_product_occasions',
       'field_article_related_products',
     ];
