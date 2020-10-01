@@ -4,10 +4,17 @@
 {% set search_filter_content_base_class = 'search-filter-content' %}
 {% set search_filter_footer_base_class = 'search-filter-footer' %}
 {% set search_filter_information_base_class = 'search-filter-info' %}
+{% set modifier = applied_filters_list|length ? '' : 'hidden' %}
+{{ attach_library('emulsifymars/card-grid-filter') }}
 
-<div {{ bem(search_filter_container_base_class) }} data-theme="twix">
-  <div class="search-filter-open-button">Filter</div>
-  <div {{ bem(search_filter_block_base_class, ['opened']) }}>
+<div {{ bem(search_filter_container_base_class) }} data-theme="{{ theme_styles }}">
+  <div {{ bem('search', [], search_filter_container_base_class) }}>
+    <div class="search-input">
+      {{ search_form }}
+    </div>
+  </div>
+  <div class="search-filter-open-button">{{ 'Filter' | t }}</div>
+  <div {{ bem(search_filter_block_base_class) }}>
     <div {{ bem(search_filter_header_base_class) }}>
       <div {{ bem('title', [], search_filter_header_base_class) }}>{{ title }}</div>
       <div {{ bem('close', [], search_filter_header_base_class) }}></div>
@@ -16,6 +23,8 @@
       {% for item in items %}
         {% include "@molecules/filter/filter.twig" with {
           filter_title: item.filter_title,
+          filter_id: item.filter_id,
+          active_filters_count: item.active_filters_count,
           checkboxes: item.checkboxes,
         } %}
       {% endfor %}
@@ -26,14 +35,16 @@
     </div>
   </div>
   <div {{ bem(search_filter_information_base_class) }}>
-    <div {{ bem('applied', [], search_filter_information_base_class) }}>
+    <div {{ bem('applied', [modifier], search_filter_information_base_class) }}>
       <div {{ bem('applied-label', [], search_filter_information_base_class) }}>
-        {{ "Applied filters (" | t }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}></span>{{ "):" | t }}
+        {{ "Applied filters (" | t }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | t }}
       </div>
-      <div {{ bem('applied-text', [], search_filter_information_base_class) }}></div>
+      <div {{ bem('applied-text', [], search_filter_information_base_class) }}>
+        {{ applied_filters_list|join(', ') }}
+      </div>
     </div>
     <div {{ bem('clear', [], search_filter_information_base_class) }}>
-      <a href="#" {{ bem(['button'], ['simple', 'clear-all'], search_filter_block_base_class) }}>{{ "Clear All" | t }}</a>
+      <a href="#" {{ bem('button', ['simple', 'clear-all', modifier], search_filter_block_base_class) }}>{{ "Clear All" | t }}</a>
     </div>
   </div>
 </div>

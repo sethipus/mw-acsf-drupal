@@ -1,0 +1,22 @@
+uuid: 09fdf687-720f-4c48-b0f8-6d56100ab8d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.poll.field_positive_feedback
+  module:
+    - poll
+id: poll.poll.field_positive_feedback
+field_name: field_positive_feedback
+entity_type: poll
+bundle: poll
+label: 'Positive Feedback'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 'Great! Thanks for submitting!'
+default_value_callback: ''
+settings: {  }
+field_type: string

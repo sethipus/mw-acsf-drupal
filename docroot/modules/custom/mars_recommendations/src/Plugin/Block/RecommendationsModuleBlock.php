@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\SubformState;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\layout_builder\Form\ConfigureBlockFormBase;
 use Drupal\mars_recommendations\RecommendationsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -101,9 +102,10 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $conf = $this->getConfiguration();
     $form = parent::buildConfigurationForm($form, $form_state);
+    $form_object = $form_state->getFormObject();
 
     $is_fixed_section = FALSE;
-    if ($form_state->has('layout_builder__component')) {
+    if ($form_object instanceof ConfigureBlockFormBase) {
       /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
       [$section_storage, $delta] = $form_state->getBuildInfo()['args'];
 

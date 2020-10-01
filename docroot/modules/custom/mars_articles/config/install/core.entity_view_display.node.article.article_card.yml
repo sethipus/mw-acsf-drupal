@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.article_card
-    - field.field.node.article.field_article_brand_initiatives
+    - field.field.node.article.field_brand_initiatives
     - field.field.node.article.field_article_description
     - field.field.node.article.field_article_image
     - field.field.node.article.field_article_new
@@ -59,7 +59,8 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  field_article_brand_initiatives: true
+  content_moderation_control: true
+  field_brand_initiatives: true
   field_article_occasions: true
   field_article_related_products: true
   search_api_excerpt: true

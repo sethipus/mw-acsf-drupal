@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Database\DatabaseExceptionWrapper;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -41,6 +42,10 @@ class Salsify {
    * Static value for 'changed' attribute (01.01.2019).
    */
   public const FIELD_MAP_CHANGED = self::FIELD_MAP_CREATED + 1;
+
+  public const AUTH_METHOD_TOKEN = 'token';
+
+  public const AUTH_METHOD_SECRET = 'client_secret';
 
   /**
    * The cache object associated with the specified bin.
@@ -171,6 +176,50 @@ class Salsify {
   }
 
   /**
+   * Get the Salsify user account client id to use with this integration.
+   *
+   * @return string
+   *   The client id string.
+   */
+  protected function getClientId() {
+    return $this->config->get('client_id');
+  }
+
+  /**
+   * Get the Salsify user account client secret to use with this integration.
+   *
+   * @return string
+   *   The client secret string.
+   */
+  protected function getClientSecret() {
+    return $this->config->get('client_secret');
+  }
+
+  /**
+   * Get auth headers depending on current auth method.
+   *
+   * @return array
+   *   Headers.
+   */
+  protected function getAuthHeaders() {
+    $auth_method = $this->config->get('auth_method');
+    $headers = [];
+
+    if ($auth_method == self::AUTH_METHOD_TOKEN) {
+      $headers = [
+        'Authorization' => 'Bearer ' . $this->getAccessToken(),
+      ];
+    }
+    if ($auth_method == self::AUTH_METHOD_SECRET) {
+      $headers = [
+        'client_id' => $this->getClientId(),
+        'client_secret' => $this->getClientSecret(),
+      ];
+    }
+    return $headers;
+  }
+
+  /**
    * Utility function to load product data from Salsify for further processing.
    *
    * @return array
@@ -179,34 +228,14 @@ class Salsify {
   protected function getRawData() {
     $client = new Client();
     $endpoint = $this->getUrl();
-    $access_token = explode(' ', $this->getAccessToken());
     try {
       // Access the channel URL to fetch the newest product feed URL.
       $generate_product_feed = $client->get($endpoint, [
-        'headers' => [
-          // 'Authorization' => 'Bearer ' . $access_token,
-          'client_id' => $access_token[0],
-          'client_secret' => $access_token[1],
-        ],
+        'headers' => $this->getAuthHeaders(),
       ]);
       $response = $generate_product_feed->getBody()->__toString();
-      // $response_array = Json::decode($response);
-      // TODO: Should implement a check to verify that the channel has completed
-      // exporting prior to attempting an import.
-      // $feed_url = $response_array['product_export_url'];
-      // Load the feed URL and data in order to get product and field data.
-      // $product_feed = $client->get($feed_url);
-      // $product_results = Json::decode($product_feed->getBody()
-      // ->getContents());
-      // Remove the single-level nesting returned by Salsify to make it easier
-      // to access the product data.
-      // $product_data = [];
-      // foreach ($product_results as $product_result) {
-      // $product_data = $product_data + $product_result;
-      // }
       $mapping = $this->getEntitiesMapping($response);
       $response = $this->filterProductsInResponse($response);
-      // $response = $this->addChildEntitiesField($response);
       $data = [
         'attributes' => $this->getAttributesByProducts($response),
         'attribute_values' => $this->getAttributeValuesByProducts($response),
@@ -216,6 +245,7 @@ class Salsify {
 
       $response_array = Json::decode($response);
       $data['products'] = $response_array['data'] ?? [];
+      $data['market'] = $response_array['country'] ?? NULL;
 
       return $data;
     }
@@ -466,7 +496,7 @@ class Salsify {
 
       // Allow users to alter the product data from Salsify by invoking
       // hook_salsify_product_data_alter().
-      \Drupal::moduleHandler()->alter('salsify_product_data', $new_product_data);
+      Drupal::moduleHandler()->alter('salsify_product_data', $new_product_data);
 
       // Add the newly updated product data into the site cache.
       $this->cache->set('salsify_import_product_data', $new_product_data);
@@ -511,7 +541,7 @@ class Salsify {
    *   An array of field objects.
    */
   public static function getContentTypeFields($entity_type, $entity_bundle) {
-    $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type, $entity_bundle);
+    $fields = Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type, $entity_bundle);
     $filtered_fields = array_filter(
       $fields, function ($field_definition) {
         return $field_definition instanceof FieldConfig;
@@ -547,11 +577,11 @@ class Salsify {
     foreach ($methods as $method) {
       $keys['method'] = $method;
       $config_prefix = self::getConfigName($keys);
-      $configs += \Drupal::configFactory()->listAll($config_prefix);
+      $configs += Drupal::configFactory()->listAll($config_prefix);
     }
     $results = [];
     foreach ($configs as $config_name) {
-      $config = \Drupal::config($config_name);
+      $config = Drupal::config($config_name);
 
       $raw_data = $config->getRawData();
       if (
@@ -574,7 +604,7 @@ class Salsify {
   public static function createFieldMapping(array $values) {
     // Allow users to alter the field mapping data by invoking
     // hook_salsify_field_mapping_alter().
-    \Drupal::moduleHandler()->alter('salsify_field_mapping_create', $values);
+    Drupal::moduleHandler()->alter('salsify_field_mapping_create', $values);
 
     if ($values) {
       self::setConfig($values);
@@ -590,7 +620,7 @@ class Salsify {
   public static function updateFieldMapping(array $values) {
     // Allow users to alter the field mapping data by invoking
     // hook_salsify_field_mapping_alter().
-    \Drupal::moduleHandler()->alter('salsify_field_mapping_update', $values);
+    Drupal::moduleHandler()->alter('salsify_field_mapping_update', $values);
 
     if ($values) {
       self::setConfig($values);
@@ -633,7 +663,7 @@ class Salsify {
   public static function setConfig(array $values) {
     $config_name = self::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
-    $config = \Drupal::service('config.factory')->getEditable($config_name);
+    $config = Drupal::service('config.factory')->getEditable($config_name);
     foreach ($values as $label => $value) {
       $config->set($label, $value);
     }
@@ -649,7 +679,7 @@ class Salsify {
   public static function deleteConfig(array $values) {
     $config_name = self::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
-    $config = \Drupal::service('config.factory')->getEditable($config_name);
+    $config = Drupal::service('config.factory')->getEditable($config_name);
     $config->delete();
   }
 

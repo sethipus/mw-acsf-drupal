@@ -18,6 +18,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class SalsifyImport {
 
+  public const PROCESS_RESULT_NOT_UPDATED = 'not_updated';
+
+  public const PROCESS_RESULT_UPDATED = 'updated';
+
+  public const PROCESS_RESULT_CREATED = 'created';
+
   /**
    * The cache object associated with the specified bin.
    *
@@ -95,8 +101,22 @@ class SalsifyImport {
    *   The Salsify individual product data to process.
    * @param bool $force_update
    *   If set to TRUE, the updated date highwater mark will be ignored.
+   * @param string $content_type
+   *   Content type.
+   *
+   * @return array
+   *   Result status of processing (not updated, updated, or created)
    */
-  public function processSalsifyItem(array $product_data, $force_update = FALSE) {}
+  public function processSalsifyItem(
+    array $product_data,
+    $force_update = FALSE,
+    $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
+  ) {
+    return [
+      'import_result' => self::PROCESS_RESULT_NOT_UPDATED,
+      'validation_errors' => [],
+    ];
+  }
 
   /**
    * Helper function to return a properly formatting set of field options.

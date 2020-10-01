@@ -1,4 +1,6 @@
 filter_title: 'Brand Initiatives'
+filter_id: 'mars_brand_initiatives'
+active_filters_count: 3
 checkboxes:
   - title: 'Bold Campaign'
     key: 'bold_campaign'

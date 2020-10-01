@@ -87,6 +87,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
 
   /**
+   * Fields with bold labels.
+   */
+  const FIELDS_WITH_BOLD_LABELS = [
+    'field_product_saturated_fat' => 'Saturated Fat',
+    'field_product_trans_fat' => 'Trans Fat',
+    'field_product_sugars' => 'Sugars',
+    'field_product_protein' => 'Protein',
+  ];
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -338,12 +348,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getPdpData($node) {
     $items = [];
-    $field_size = 'field_product_size';
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $size = $product_variant->get($field_size)->value;
-      $size_id = $this->getMachineName($size);
+      $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
       $items[] = [
@@ -426,11 +434,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $field_size = 'field_product_size';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $title = $product_variant->get($field_size)->value;
-      $size_id = $this->getMachineName($title);
+      $size = $product_variant->get($field_size)->value;
+      $size_id = $product_variant->id();
       $items[] = [
         'size_id' => $size_id,
-        'title' => $title,
+        'title' => $size,
         'link_url' => '#',
       ];
     }
@@ -464,11 +472,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $mapping = $this->getGroupingMethod($node);
     foreach ($mapping as $section => $fields) {
       foreach ($fields as $field => $field_daily) {
+        $bold_modifier = array_key_exists($field, self::FIELDS_WITH_BOLD_LABELS) ? TRUE : FALSE;
         $item = [
           'label' => $node->get($field)
             ->getFieldDefinition()
             ->getLabel(),
           'value' => $node->get($field)->value,
+          'bold_modifier' => $bold_modifier,
         ];
         if ($field_daily !== FALSE) {
           $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
@@ -572,9 +582,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Mobile section array.
    */
   public function getMobileItems($node) {
-    $field_size = 'field_product_size';
-    $size = $node->get($field_size)->value;
-    $size_id = $this->getMachineName($size);
+    $size_id = $node->id();
 
     $map = [
       'section-nutrition' => $this->t('Nutrition & Ingredients'),
