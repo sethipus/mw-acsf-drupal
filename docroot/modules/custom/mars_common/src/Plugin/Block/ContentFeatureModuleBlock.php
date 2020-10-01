@@ -7,7 +7,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,6 +22,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+
+  use EntityBrowserFormTrait;
+
+  /**
+   * Lighthouse entity browser image id.
+   */
+  const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
 
   /**
    * Media storage.
@@ -47,7 +57,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       $plugin_id,
       $plugin_definition,
       $entity_storage,
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -59,11 +70,13 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $plugin_id,
     $plugin_definition,
     EntityStorageInterface $entity_storage,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaStorage = $entity_storage;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -74,7 +87,10 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
     $build['#title'] = $conf['title'] ?? '';
-    $build['#background'] = $this->getBackgroundEntity();
+    if (!empty($conf['background'])) {
+      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
+      $build['#background'] = $this->mediaStorage->load($media_id);
+    }
     $build['#description'] = $conf['description'] ?? '';
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
@@ -104,6 +120,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
+    $config = $this->getConfiguration();
+
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
@@ -118,13 +136,15 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
-    $form['background'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => 'Background',
-      '#target_type' => 'media',
-      '#default_value' => $this->getBackgroundEntity(),
-      '#required' => TRUE,
-    ];
+
+    $image_default = isset($config['background']) ? $config['background'] : NULL;
+    // Entity Browser element for background image.
+    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    // Convert the wrapping container to a details element.
+    $form['background']['#type'] = 'details';
+    $form['background']['#title'] = $this->t('Background');
+    $form['background']['#open'] = TRUE;
+
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
@@ -160,22 +180,10 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
     $this->configuration['title'] = $form_state->getValue('title');
-    $this->configuration['background'] = $form_state->getValue('background');
+    $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
     $this->configuration['description'] = $form_state->getValue('description');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
-  }
-
-  /**
-   * Returns the entity that's saved to the block.
-   */
-  private function getBackgroundEntity(): ?EntityInterface {
-    $backgroundEntityId = $this->getConfiguration()['background'] ?? NULL;
-    if (!$backgroundEntityId) {
-      return NULL;
-    }
-
-    return $this->mediaStorage->load($backgroundEntityId);
   }
 
 }
