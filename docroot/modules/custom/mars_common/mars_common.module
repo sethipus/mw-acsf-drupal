@@ -91,18 +91,6 @@ function mars_common_preprocess(&$variables, $hook) {
     }
   }
 
-  if ($hook === 'views_view__acquia_search') {
-    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
-    $border_radius = Drupal::config('emulsifymars.settings')
-      ->get('button_style');
-    $variables['theme_styles'] = 'drupal';
-    $variables['graphic_divider'] = $file_divider_content ?? '';
-    $variables['ajax_card_grid_heading'] = Drupal::translation()->translate('All results');
-    $variables['ajax_card_grid_link_text'] = 'See All';
-    $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
-  }
-
   if ($hook === 'views_infinite_scroll_pager__grid_card') {
     $border_radius = Drupal::config('emulsifymars.settings')
       ->get('button_style');
