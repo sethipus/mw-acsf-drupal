@@ -38,7 +38,9 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     ],
     'mars_occasions' => [
       'label' => 'Occasions',
-      'content_types' => ['article', 'recipe', 'product', 'landing_page', 'campaign'],
+      'content_types' => [
+        'article', 'recipe', 'product', 'landing_page', 'campaign',
+      ],
     ],
     'mars_flavor' => [
       'label' => 'Flavor',
