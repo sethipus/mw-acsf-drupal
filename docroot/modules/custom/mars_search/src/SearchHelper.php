@@ -56,7 +56,11 @@ class SearchHelper implements SearchHelperInterface {
     }
 
     // Getting search keywords.
-    $keys = $this->request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
+    // @todo remove this if statement after converting all search code to use
+    // queryParser service.
+    if (!isset($options['keys'])) {
+      $options['keys'] = $this->request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
+    }
 
     $index = $this->entityTypeManager->getStorage('search_api_index')->load('acquia_search_index');
 
@@ -110,8 +114,8 @@ class SearchHelper implements SearchHelperInterface {
     }
 
     // Applying search keys.
-    if ($keys && empty($options['disable_filters'])) {
-      $query->keys($keys);
+    if ($options['keys'] && empty($options['disable_filters'])) {
+      $query->keys($options['keys']);
     }
 
     // Adding sorting.

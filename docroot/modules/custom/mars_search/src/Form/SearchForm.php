@@ -52,13 +52,18 @@ class SearchForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $autocomplete = TRUE) {
     $keys = $this->searchHelper->request->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
+    $search_input_classes = ['search-input__field'];
+    if ($autocomplete) {
+      $search_input_classes[] = 'mars-autocomplete-field';
+      $form['#attached']['library'][] = 'mars_search/autocomplete';
+    }
     $form['search'] = [
       '#type' => 'textfield',
       '#attributes' => [
         'placeholder' => $this->t('Search'),
-        'class' => ['search-input__field'],
+        'class' => $search_input_classes,
         'autocomplete' => 'off',
       ],
       '#default_value' => $keys,

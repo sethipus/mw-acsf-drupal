@@ -141,7 +141,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       }
     }
     // Getting search form.
-    $search_from = $this->formBuilder->getForm(SearchForm::class);
+    // We don't need autocomplete so passing FALSE as second parameter.
+    $search_from = $this->formBuilder->getForm(SearchForm::class, FALSE);
 
     // Facets query.
     $options['disable_filters'] = TRUE;
@@ -154,7 +155,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
       '#search_form' => render($search_from),
-      '#search_result_counter' => !empty($query_key) ? $this->formatPlural($search_results['resultsCount'], '1 Results for "@keys"', '@count Results for "@keys"', ['@keys' => $query_key]) : '',
+      '#search_result_counter' => !empty($query_key) ? $this->formatPlural($search_results['resultsCount'], '1 Result for "@keys"', '@count Results for "@keys"', ['@keys' => $query_key]) : '',
       '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
     ];
   }

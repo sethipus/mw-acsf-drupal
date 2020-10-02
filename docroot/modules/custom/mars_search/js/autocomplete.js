@@ -10,18 +10,15 @@
   'use strict';
   Drupal.behaviors.marsAutocomplete = {
     attach: function (context, settings) {
-      var selector = '.header__inner input.mars-autocomplete-field';
+      var selector = '.header__inner input.mars-autocomplete-field, .mars-search-form .mars-autocomplete-field';
       $(selector, context).on('keyup', function () {
         var searchString = $(this).val();
-        var viewId = $(this).attr('data-view_id');
-        var viewDisplayId = $(this).attr('data-display_id');
         if (searchString.length > 2) {
           setTimeout(function() {
-            var $this = $(this);
             $.ajax({
               url: Drupal.url('mars-autocomplete'),
               type: 'GET',
-              data: { 'search': searchString },
+              data: { 'search[1]': searchString },
               dataType: 'json',
               success: function success(results) {
                 $('.mars-suggestions').html(results);
