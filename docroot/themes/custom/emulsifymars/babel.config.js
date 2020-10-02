@@ -5,11 +5,12 @@ module.exports = api => {
     [
       '@babel/preset-env',
       {
-        corejs: '2',
-        useBuiltIns: 'usage',
+        corejs: '3',
+        useBuiltIns: 'entry'
       },
     ],
     '@babel/preset-react',
+    '@babel/preset-flow',
     'minify',
   ];
 
