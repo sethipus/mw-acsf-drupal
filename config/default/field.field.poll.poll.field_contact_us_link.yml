@@ -1,0 +1,20 @@
+uuid: 943ad9f1-621d-43e5-ba04-e054669e5dc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.poll.field_contact_us_link
+  module:
+    - poll
+id: poll.poll.field_contact_us_link
+field_name: field_contact_us_link
+entity_type: poll
+bundle: poll
+label: 'Contact Us Link'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

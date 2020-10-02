@@ -12,6 +12,12 @@ faq_items:
 button_name: "SEE ALL"
 theme_styles: "twix"
 button_link: "#FAQ"
+search_result_counter: '6 Results for “hazlenuts”'
+search_form: '<form class="mars-search-form" data-drupal-selector="mars-search-form" action="/node/437" method="post" id="mars-search-form" accept-charset="UTF-8" data-drupal-form-fields="edit-search,edit-submit">
+                <div class="js-form-item form-item">
+                  <input placeholder="Search" class="search-input__field form-text form-item__textfield" autocomplete="off" data-drupal-selector="edit-search" type="text" id="edit-search" name="search" value="" size="60" maxlength="128">
+                </div>
+              </form>'
 facetLinks:
   - text: 'Nutrition'
     class: 'default_link'

@@ -8,6 +8,8 @@
 use Drupal\block_content\BlockContentInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
@@ -29,6 +31,9 @@ use Drupal\mars_common\Form\Alter\CampaignLayoutFormAlter;
 use Drupal\layout_builder\Form\OverridesEntityForm;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\system\Entity\Menu;
+use Drupal\taxonomy\TermInterface;
+use Drupal\Core\Cache\Cache;
+use Drupal\mars_common\Plugin\Block\FooterBlock;
 
 /**
  * Implements hook_menu_insert().
@@ -85,18 +90,6 @@ function mars_common_preprocess(&$variables, $hook) {
     }
   }
 
-  if ($hook === 'views_view__acquia_search') {
-    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
-    $border_radius = Drupal::config('emulsifymars.settings')
-      ->get('button_style');
-    $variables['theme_styles'] = 'drupal';
-    $variables['graphic_divider'] = $file_divider_content ?? '';
-    $variables['ajax_card_grid_heading'] = Drupal::translation()->translate('All results');
-    $variables['ajax_card_grid_link_text'] = 'See All';
-    $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
-  }
-
   if ($hook === 'views_infinite_scroll_pager__grid_card') {
     $border_radius = Drupal::config('emulsifymars.settings')
       ->get('button_style');
@@ -133,6 +126,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'marketing'       => NULL,
         'corporate_tout'  => NULL,
         'region_selector' => NULL,
+        'current_region_title' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -646,13 +640,111 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
 }
 
 /**
+ * Change feedback form according to type.
+ */
+function _mars_common_feedback_ajax_callback(&$form, FormStateInterface $form_state) {
+  $form_state->setRebuild();
+  return $form;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
-function mars_common_form_poll_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function mars_common_form_poll_form_alter(
+  &$form,
+  FormStateInterface $form_state,
+  $form_id
+) {
+  $userInput = &$form_state->getUserInput();
+  $fieldTypeValue = $userInput['field_type'] ?? $form['field_type']['widget']['#default_value'];
+  $form['#prefix'] = '<div id="poll-form-content-wrapper">';
+  $form['#suffix'] = '</div>';
+
+  if ($fieldTypeValue === 'poll') {
+    $form['choice']['widget']['#cardinality'] = FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED;
+  }
+  elseif ($fieldTypeValue === 'feedback') {
+    $form['choice']['widget']['#cardinality'] = 2;
+    if (!isset($form['choice']['widget'][1])) {
+      $form['choice']['widget'][1] = $form['choice']['widget'][0];
+      $form['choice']['widget']['#max_delta'] = 1;
+    }
+
+    if (empty($form['choice']['widget'][0]['choice']['#default_value'])) {
+      $form['choice']['widget'][0]['choice']['#default_value'] = 'YES';
+    }
+
+    if (empty($form['choice']['widget'][1]['choice']['#default_value'])) {
+      $form['choice']['widget'][1]['choice']['#default_value'] = 'NO';
+    }
+
+    foreach ($form['choice']['widget'] as $choiceIndex => $choice) {
+
+      // Leave alone not numbered keys, those are not choices.
+      if (!is_int($choiceIndex)) {
+        continue;
+      }
+
+      // Remove extra choices.
+      if ($choiceIndex > 1) {
+        unset($form['choice']['widget'][$choiceIndex]);
+        continue;
+      }
+
+      // Remove the empty values so the default value will be used.
+      if (
+        isset($userInput['choice'][$choiceIndex]['choice']) &&
+        $userInput['choice'][$choiceIndex]['choice'] === ''
+      ) {
+        unset($userInput['choice'][$choiceIndex]);
+      }
+    }
+
+    // Update field state with new item count.
+    $fieldName = $form['choice']['widget']['#field_name'];
+    $parents = [];
+    $field_state = WidgetBase::getWidgetState(
+      $parents,
+      $fieldName,
+      $form_state
+    );
+    $field_state['items_count'] = 2;
+    WidgetBase::setWidgetState($parents, $fieldName, $form_state, $field_state);
+  }
+
+  $form['field_type']['widget']['#ajax'] =
+    [
+      'callback' => '_mars_common_feedback_ajax_callback',
+      'disable-refocus' => FALSE,
+      'event' => 'change',
+      'wrapper' => 'poll-form-content-wrapper',
+      'progress' => [
+        'type' => 'throbber',
+      ],
+    ];
+
   $form['question']['widget'][0]['value']['#title'] = 'Title';
   $form['question']['widget'][0]['value']['#maxlength'] = 50;
   $form['choice']['widget']['#title'] = 'Responses';
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
+
+  $form['choice']['widget']['add_more']['#states'] = [
+    'visible' => [
+      ':input[name="field_type"]' => ['value' => 'poll'],
+    ],
+  ];
+
+  $form['group_feedback_variations']['#states'] = [
+    'expanded' => [
+      ':input[name="field_type"]' => ['value' => 'feedback'],
+    ],
+  ];
+
+  $form['group_poll_options']['#states'] = [
+    'expanded' => [
+      ':input[name="field_type"]' => ['value' => 'poll'],
+    ],
+  ];
 }
 
 /**
@@ -728,5 +820,77 @@ function mars_common_entity_bundle_field_info_alter(
         'errorMessage' => 'Please enter correct order number. Example: 1.1 or 1.',
       ]);
     }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function mars_common_theme_suggestions_poll_vote_alter(array &$suggestions, array $variables) {
+  if ((isset($variables['form']['#entity']->field_type) && $variables['form']['#entity']->field_type->value == 'feedback')
+    || (isset($variables['poll']) && $variables['poll']->field_type->value == 'feedback')) {
+    $suggestions[] = 'poll_vote__feedback';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function mars_common_theme_suggestions_poll_results_alter(array &$suggestions, array $variables) {
+  if ((isset($variables['form']['#entity']->field_type) && $variables['form']['#entity']->field_type->value == 'feedback')
+    || (isset($variables['poll']) && $variables['poll']->field_type->value == 'feedback')) {
+    $suggestions[] = 'poll_results__feedback';
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_presave().
+ */
+function mars_common_taxonomy_term_presave(TermInterface $term) {
+  if ($term->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $terms = \Drupal::service('entity_type.manager')->getStorage('taxonomy_term')->loadByProperties([
+      'vid' => FooterBlock::VID_TAXONOMY_REGION,
+      'field_default_region' => TRUE,
+    ]);
+
+    if ($term->field_default_region->value) {
+      foreach ($terms as $term_item) {
+        /** @var \Drupal\taxonomy\TermInterface $term_item */
+        if ($term_item->id() != $term->id()) {
+          $term_item->set('field_default_region', FALSE);
+          $term_item->save();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function mars_common_entity_delete(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function mars_common_entity_update(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
+  }
+}
+
+/**
+ * Implements hook_entity_create().
+ */
+function mars_common_entity_create(EntityInterface $entity) {
+  if ($entity instanceof TermInterface && $entity->bundle() == FooterBlock::VID_TAXONOMY_REGION) {
+    $tags = [FooterBlock::CUSTOM_CACHE_TAG];
+    Cache::invalidateTags($tags);
   }
 }

@@ -108,7 +108,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $conf = $this->getConfiguration();
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#label'] = $conf['label'] ?? '';
+    $build['#label'] = $conf['title'] ?? '';
 
     if ($conf['background_options'] == self::KEY_OPTION_IMAGE && !empty($conf['background_image'])) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_image']);
@@ -151,11 +151,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
-    $form['label'] = [
+    $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 45,
-      '#default_value' => $this->configuration['label'] ?? '',
+      '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['background_options'] = [
@@ -207,7 +207,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
-    $this->configuration['label'] = $form_state->getValue('label');
+    $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['description'] = $form_state->getValue('description');
     $this->configuration['background_options'] = $form_state->getValue('background_options');
     $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
