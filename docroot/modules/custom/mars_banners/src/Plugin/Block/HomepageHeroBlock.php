@@ -138,11 +138,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         $build['#blocks'][$key]['eyebrow'] = $card['eyebrow'];
         $build['#blocks'][$key]['title_label'] = $card['title']['label'];
         $build['#blocks'][$key]['title_href'] = $card['title']['url'];
-        $fid = reset($card['foreground_image']);
-        if (!empty($fid)) {
-          $file = $this->fileStorage->load($fid);
+        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($card['foreground_image']);
+        $media_data = $this->mediaHelper->getMediaParametersById($media_id);
+        $file_url = NULL;
+        if (!isset($media_data['error'])) {
+          $file_url = $media_data['src'];
         }
-        $file_url = !empty($file) ? $file->createFileUrl() : '';
         $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
         $build['#blocks'][$key]['image'][] = [
           'srcset' => sprintf($format, $file_url, $file_url, $file_url, $file_url),
@@ -323,21 +324,14 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#maxlength' => 2048,
         '#default_value' => $config['card'][$key]['cta']['url'] ?? '',
       ];
-      $form['card'][$key]['foreground_image'] = [
-        '#title'           => $this->t('Foreground Image'),
-        '#type'            => 'managed_file',
-        '#process'         => [
-          ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
-          'mars_banners_process_image_widget',
-        ],
-        '#upload_validators' => [
-          'file_validate_extensions' => ['gif png jpg jpeg svg'],
-        ],
-        '#theme' => 'image_widget',
-        '#upload_location' => 'public://',
-        '#preview_image_style' => 'medium',
-        '#default_value'       => $config['card'][$key]['foreground_image'] ?? '',
-      ];
+
+      $foreground_default = isset($config['card'][$key]['foreground_image']) ? $config['card'][$key]['foreground_image'] : NULL;
+      $form['card'][$key]['foreground_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $foreground_default, 1, 'thumbnail');
+      // Convert the wrapping container to a details element.
+      $form['card'][$key]['foreground_image']['#type'] = 'details';
+      $form['card'][$key]['foreground_image']['#title'] = $this->t('Foreground Image');
+      $form['card'][$key]['foreground_image']['#open'] = TRUE;
+
       $form['card'][$key]['remove_card'] = [
         '#type'  => 'button',
         '#name' => 'card_' . $key,
@@ -418,6 +412,15 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $this->setConfiguration($values);
     $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
+    if (isset($values['card']) && !empty($values['card'])) {
+      foreach ($values['card'] as $key => $card) {
+        $this->configuration['card'][$key]['foreground_image'] = $this->getEntityBrowserValue($form_state, [
+          'card',
+          $key,
+          'foreground_image',
+        ]);
+      }
+    }
   }
 
 }

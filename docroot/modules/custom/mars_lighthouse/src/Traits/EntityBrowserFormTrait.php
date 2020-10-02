@@ -168,7 +168,9 @@ trait EntityBrowserFormTrait {
    * Render API callback: Processes the table element.
    */
   public static function processEntityBrowserSelected(&$element, FormStateInterface $form_state, &$complete_form) {
-    $parents = array_slice($element['#array_parents'], -3, 2);
+    // For deep form elements.
+    $parents = $element['#array_parents'];
+    array_pop($parents);
     $entity_ids = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']), '');
     $entities = empty($entity_ids) ? [] : self::loadEntityBrowserEntitiesByIds($entity_ids);
     $entity_type_manager = \Drupal::entityTypeManager();
