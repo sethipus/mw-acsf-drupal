@@ -569,6 +569,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @return array
    *   Allergen items array.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getVisibleAllergenItems($node) {
     if ($this->isAllergenVisible()) {
