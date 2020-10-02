@@ -1,0 +1,21 @@
+uuid: 7a4ff778-9446-4abf-9af1-23dee09880d1
+langcode: en
+status: true
+dependencies:
+  module:
+    - poll
+id: poll.field_contact_us_label
+field_name: field_contact_us_label
+entity_type: poll
+type: string
+settings:
+  max_length: 30
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

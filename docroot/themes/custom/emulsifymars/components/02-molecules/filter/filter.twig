@@ -1,10 +1,11 @@
-<div class="filter-block">
+<div class="filter-block" data-filter="{{ filter_id }}">
   <div class="filter-title">
-    {{ filter_title }} <span class="filter-title__counter">{{ active_filters_count }}</span>
+    {{ filter_title }} <span class="filter-title__counter">{% if active_filters_count != 0 %}{{ active_filters_count }}{% endif %}</span>
   </div>
   <div class="filter-checkboxes">
     {% include "@atoms/forms/checkbox/checkbox.twig" with {
       checkboxes: checkboxes,
     } %}
+    <a href="#" {{ bem('button', ['highlighted', 'apply'], search_filter_block_base_class) }}>{{ "Apply" | t }}</a>
   </div>
 </div>
