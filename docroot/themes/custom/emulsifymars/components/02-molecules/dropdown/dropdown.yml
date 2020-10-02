@@ -1,5 +1,6 @@
 theme_styles: 'twix'
 dropdown_border_radius: 30
+dropdown_selected_title: 'selected option'
 dropdown_title: 'dropdown'
 dropdown_label: 'select option'
 dropdown_items:

@@ -1,0 +1,22 @@
+uuid: 5b057b68-252f-4bf8-ac7d-10fc9db8fc21
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.poll.field_negative_feedback
+  module:
+    - poll
+id: poll.poll.field_negative_feedback
+field_name: field_negative_feedback
+entity_type: poll
+bundle: poll
+label: 'Negative Feedback'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 'Sorry to hear that, how can we help?'
+default_value_callback: ''
+settings: {  }
+field_type: string

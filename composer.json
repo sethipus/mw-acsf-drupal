@@ -144,6 +144,9 @@
             },
             "drupal/acquia_connector": {
                 "Enable multisite search support": "https://www.drupal.org/files/issues/2020-05-04/acquia_connector-2871721-29.patch"
+            },
+            "drupal/poll": {
+                "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
             }
         }
     },

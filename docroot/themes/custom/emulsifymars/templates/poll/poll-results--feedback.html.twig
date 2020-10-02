@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Theme implementation to display the poll results in a block.
+ * For variables, see PollViewForm.php in polls module.
+ *
+ * @see template_preprocess_poll_results()
+ *
+ * @ingroup themeable
+ */
+#}
+
+{% set response_type = 'negative' %}
+{% set poll_options = poll.getOptions() %}
+{% for key, value in poll_options %}
+  {% if loop.index0 == 0 and key == vote %}
+    {% set response_type = 'positive' %}
+  {% endif %}
+{% endfor %}
+
+{% if response_type == 'positive' %}
+  {% include "@molecules/feedback-module/feedback-positive.twig" with {
+    theme_styles: 'drupal',
+    feedback_positive_heading: poll.field_positive_feedback.value,
+    feedback_bottom_link_content: poll.field_contact_us_label.value,
+    feedback_bottom_link_url: poll.field_contact_us_link.value
+  } %}
+{% else %}
+  {% include "@molecules/feedback-module/feedback-negative.twig" with {
+    theme_styles: 'drupal',
+    feedback_negative_heading: poll.field_negative_feedback.value,
+    feedback_bottom_link_content: poll.field_contact_us_label.value,
+    feedback_bottom_link_url: poll.field_contact_us_link.value
+  } %}
+{% endif %}

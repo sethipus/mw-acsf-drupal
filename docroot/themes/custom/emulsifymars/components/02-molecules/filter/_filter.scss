@@ -56,9 +56,16 @@
       box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
       border-radius: 10px;
       display: none;
+      width: 230px;
 
       .checkbox-item {
         padding-right: 40px;
+      }
+
+      .search-filter-block__button--apply {
+        margin: 10px auto;
+        width: 208px;
+        text-align: center;
       }
     }
 

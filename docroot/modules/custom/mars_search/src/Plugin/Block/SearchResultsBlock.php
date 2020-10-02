@@ -123,7 +123,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   }
 
   /**
-   * Render search no reqult block.
+   * Render search no result block.
    */
   private function getSearchNoResult() {
     $url = $this->searchHelper->getCurrentUrl();
