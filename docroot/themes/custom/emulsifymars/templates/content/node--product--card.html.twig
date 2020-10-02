@@ -11,6 +11,10 @@
 {% endif %}
 
 {% set image_src = file_url(image_src) %}
+{% set image_hover_src = node.field_product_variants.entity.field_product_card_image_hover.entity.image.entity.fileuri %}
+{% if image_hover_src %}
+  {% set image_hover_src= file_url(image_hover_src) %}
+{% endif %}
 
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
@@ -26,6 +30,7 @@
   item: {
     card_url: url,
     card__image__src: image_src,
+    card__image__override__src: image_hover_src,
     paragraph_content: node.title.value,
     default_link_attributes: {
       href: url
