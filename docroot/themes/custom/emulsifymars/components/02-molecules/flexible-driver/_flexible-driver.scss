@@ -4,6 +4,14 @@
   position: relative;
   overflow: hidden;
 
+  @include xs {
+    margin: 10rem 5rem;
+  }
+
+  @include large {
+    margin: 5rem 8rem;
+  }
+
   &__content {
     position: relative;
     z-index: 2;
