@@ -547,16 +547,28 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     return $mapping;
   }
 
-  protected function isAllergenVisible() {
+  /**
+   * Get theme setting for Allergen info visibility.
+   *
+   * @return bool
+   *   Allergen visibility
+   */
+  public function isAllergenVisible() {
     $show_allergen_info = $this->themeConfiguratorParser->getSettingValue('show_allergen_info');
     if ($show_allergen_info) {
-      return true;
+      return TRUE;
     }
-    return false;
+    return FALSE;
   }
 
-  /*
+  /**
    * Get all visible allergen items.
+   *
+   * @param object $node
+   *   Product Variant node.
+   *
+   * @return array
+   *   Allergen items array.
    */
   public function getVisibleAllergenItems($node) {
     if ($this->isAllergenVisible()) {
