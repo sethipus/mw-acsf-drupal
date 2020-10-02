@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.contact_help.body
+    - field.field.node.contact_help.layout_builder__layout
     - node.type.contact_help
     - workflows.workflow.editorial
   module:
@@ -94,4 +95,5 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-hidden: {  }
+hidden:
+  layout_builder__layout: true

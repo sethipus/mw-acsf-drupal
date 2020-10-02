@@ -9,6 +9,8 @@ ignored_config_entities:
   - 'juicer_io.feed.*'
   - emulsifymars.settings
   - mars_lighthouse.settings
+  - block.block.footerblock
+  - block.block.marsheaderblock
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'
