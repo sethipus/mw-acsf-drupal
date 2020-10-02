@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.product_variant.field_product_calories_fat
     - field.field.node.product_variant.field_product_carb
     - field.field.node.product_variant.field_product_carb_daily
+    - field.field.node.product_variant.field_product_card_image_hover
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
     - field.field.node.product_variant.field_product_diet_allergens
@@ -24,6 +25,7 @@ dependencies:
     - field.field.node.product_variant.field_product_image_3_override
     - field.field.node.product_variant.field_product_image_4
     - field.field.node.product_variant.field_product_image_4_override
+    - field.field.node.product_variant.field_product_ingredients
     - field.field.node.product_variant.field_product_iron
     - field.field.node.product_variant.field_product_iron_daily
     - field.field.node.product_variant.field_product_key_image
@@ -67,21 +69,21 @@ bundle: product_variant
 mode: default
 content:
   field_product_allergen_statement:
-    weight: 103
+    weight: 3
     label: above
     settings: {  }
     third_party_settings: {  }
     type: list_default
     region: content
   field_product_allergen_warnings:
-    weight: 104
+    weight: 4
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
     region: content
   field_product_calcium:
-    weight: 137
+    weight: 37
     label: above
     settings:
       link_to_entity: false
@@ -89,7 +91,7 @@ content:
     type: string
     region: content
   field_product_calcium_daily:
-    weight: 138
+    weight: 38
     label: above
     settings:
       link_to_entity: false
@@ -97,7 +99,7 @@ content:
     type: string
     region: content
   field_product_calories:
-    weight: 109
+    weight: 9
     label: above
     settings:
       link_to_entity: false
@@ -105,7 +107,7 @@ content:
     type: string
     region: content
   field_product_calories_fat:
-    weight: 110
+    weight: 10
     label: above
     settings:
       link_to_entity: false
@@ -113,7 +115,7 @@ content:
     type: string
     region: content
   field_product_carb:
-    weight: 131
+    weight: 31
     label: above
     settings:
       link_to_entity: false
@@ -121,15 +123,24 @@ content:
     type: string
     region: content
   field_product_carb_daily:
-    weight: 132
+    weight: 32
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
     type: string
     region: content
+  field_product_card_image_hover:
+    type: entity_reference_entity_view
+    weight: 14
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
   field_product_cholesterol:
-    weight: 127
+    weight: 28
     label: above
     settings:
       link_to_entity: false
@@ -137,7 +148,7 @@ content:
     type: string
     region: content
   field_product_cholesterol_daily:
-    weight: 128
+    weight: 29
     label: above
     settings:
       link_to_entity: false
@@ -145,7 +156,7 @@ content:
     type: string
     region: content
   field_product_diet_allergens:
-    weight: 150
+    weight: 50
     label: above
     settings:
       link: true
@@ -153,7 +164,7 @@ content:
     type: entity_reference_label
     region: content
   field_product_dietary_daily:
-    weight: 134
+    weight: 34
     label: above
     settings:
       link_to_entity: false
@@ -161,7 +172,7 @@ content:
     type: string
     region: content
   field_product_dietary_fiber:
-    weight: 133
+    weight: 33
     label: above
     settings:
       link_to_entity: false
@@ -170,7 +181,7 @@ content:
     region: content
   field_product_image_1:
     type: entity_reference_entity_view
-    weight: 114
+    weight: 15
     label: above
     settings:
       view_mode: default
@@ -179,7 +190,7 @@ content:
     region: content
   field_product_image_1_override:
     type: entity_reference_entity_view
-    weight: 115
+    weight: 16
     label: above
     settings:
       view_mode: default
@@ -188,7 +199,7 @@ content:
     region: content
   field_product_image_2:
     type: entity_reference_entity_view
-    weight: 116
+    weight: 17
     label: above
     settings:
       view_mode: default
@@ -197,7 +208,7 @@ content:
     region: content
   field_product_image_2_override:
     type: entity_reference_entity_view
-    weight: 117
+    weight: 18
     label: above
     settings:
       view_mode: default
@@ -206,7 +217,7 @@ content:
     region: content
   field_product_image_3:
     type: entity_reference_entity_view
-    weight: 118
+    weight: 19
     label: above
     settings:
       view_mode: default
@@ -215,7 +226,7 @@ content:
     region: content
   field_product_image_3_override:
     type: entity_reference_entity_view
-    weight: 119
+    weight: 20
     label: above
     settings:
       view_mode: default
@@ -224,7 +235,7 @@ content:
     region: content
   field_product_image_4:
     type: entity_reference_entity_view
-    weight: 120
+    weight: 21
     label: above
     settings:
       view_mode: default
@@ -233,7 +244,7 @@ content:
     region: content
   field_product_image_4_override:
     type: entity_reference_entity_view
-    weight: 121
+    weight: 22
     label: above
     settings:
       view_mode: default
@@ -241,7 +252,7 @@ content:
     third_party_settings: {  }
     region: content
   field_product_iron:
-    weight: 147
+    weight: 47
     label: above
     settings:
       link_to_entity: false
@@ -249,7 +260,7 @@ content:
     type: string
     region: content
   field_product_iron_daily:
-    weight: 148
+    weight: 48
     label: above
     settings:
       link_to_entity: false
@@ -258,7 +269,7 @@ content:
     region: content
   field_product_key_image:
     type: entity_reference_entity_view
-    weight: 112
+    weight: 12
     label: above
     settings:
       view_mode: default
@@ -267,7 +278,7 @@ content:
     region: content
   field_product_key_image_override:
     type: entity_reference_entity_view
-    weight: 113
+    weight: 13
     label: above
     settings:
       view_mode: default
@@ -275,7 +286,7 @@ content:
     third_party_settings: {  }
     region: content
   field_product_potassium:
-    weight: 145
+    weight: 45
     label: above
     settings:
       link_to_entity: false
@@ -283,7 +294,7 @@ content:
     type: string
     region: content
   field_product_potassium_daily:
-    weight: 146
+    weight: 46
     label: above
     settings:
       link_to_entity: false
@@ -291,7 +302,7 @@ content:
     type: string
     region: content
   field_product_protein:
-    weight: 107
+    weight: 7
     label: above
     settings:
       link_to_entity: false
@@ -299,7 +310,7 @@ content:
     type: string
     region: content
   field_product_protein_daily:
-    weight: 108
+    weight: 8
     label: above
     settings:
       link_to_entity: false
@@ -307,7 +318,7 @@ content:
     type: string
     region: content
   field_product_saturated_daily:
-    weight: 124
+    weight: 25
     label: above
     settings:
       link_to_entity: false
@@ -315,7 +326,7 @@ content:
     type: string
     region: content
   field_product_saturated_fat:
-    weight: 123
+    weight: 24
     label: above
     settings:
       link_to_entity: false
@@ -323,7 +334,7 @@ content:
     type: string
     region: content
   field_product_serving_size:
-    weight: 105
+    weight: 5
     label: above
     settings:
       link_to_entity: false
@@ -331,7 +342,7 @@ content:
     type: string
     region: content
   field_product_servings_per:
-    weight: 106
+    weight: 6
     label: above
     settings:
       link_to_entity: false
@@ -339,7 +350,7 @@ content:
     type: string
     region: content
   field_product_size:
-    weight: 101
+    weight: 1
     label: above
     settings:
       link_to_entity: false
@@ -347,7 +358,7 @@ content:
     type: string
     region: content
   field_product_sku:
-    weight: 102
+    weight: 2
     label: above
     settings:
       link_to_entity: false
@@ -355,7 +366,7 @@ content:
     type: string
     region: content
   field_product_sodium:
-    weight: 149
+    weight: 49
     label: above
     settings:
       link_to_entity: false
@@ -363,7 +374,7 @@ content:
     type: string
     region: content
   field_product_sodium_daily:
-    weight: 130
+    weight: 30
     label: above
     settings:
       link_to_entity: false
@@ -371,7 +382,7 @@ content:
     type: string
     region: content
   field_product_sugars:
-    weight: 135
+    weight: 35
     label: above
     settings:
       link_to_entity: false
@@ -379,7 +390,7 @@ content:
     type: string
     region: content
   field_product_sugars_daily:
-    weight: 136
+    weight: 36
     label: above
     settings:
       link_to_entity: false
@@ -387,7 +398,7 @@ content:
     type: string
     region: content
   field_product_total_fat:
-    weight: 111
+    weight: 11
     label: above
     settings:
       link_to_entity: false
@@ -395,7 +406,7 @@ content:
     type: string
     region: content
   field_product_total_fat_daily:
-    weight: 122
+    weight: 23
     label: above
     settings:
       link_to_entity: false
@@ -403,7 +414,7 @@ content:
     type: string
     region: content
   field_product_trans_fat:
-    weight: 125
+    weight: 26
     label: above
     settings:
       link_to_entity: false
@@ -411,7 +422,7 @@ content:
     type: string
     region: content
   field_product_trans_fat_daily:
-    weight: 126
+    weight: 27
     label: above
     settings:
       link_to_entity: false
@@ -419,7 +430,7 @@ content:
     type: string
     region: content
   field_product_vitamin_a:
-    weight: 139
+    weight: 39
     label: above
     settings:
       link_to_entity: false
@@ -427,7 +438,7 @@ content:
     type: string
     region: content
   field_product_vitamin_a_daily:
-    weight: 140
+    weight: 40
     label: above
     settings:
       link_to_entity: false
@@ -435,7 +446,7 @@ content:
     type: string
     region: content
   field_product_vitamin_c:
-    weight: 141
+    weight: 41
     label: above
     settings:
       link_to_entity: false
@@ -443,7 +454,7 @@ content:
     type: string
     region: content
   field_product_vitamin_c_daily:
-    weight: 142
+    weight: 42
     label: above
     settings:
       link_to_entity: false
@@ -451,7 +462,7 @@ content:
     type: string
     region: content
   field_product_vitamin_d:
-    weight: 143
+    weight: 43
     label: above
     settings:
       link_to_entity: false
@@ -459,7 +470,7 @@ content:
     type: string
     region: content
   field_product_vitamin_d_daily:
-    weight: 144
+    weight: 44
     label: above
     settings:
       link_to_entity: false
@@ -467,10 +478,10 @@ content:
     type: string
     region: content
   links:
-    weight: 100
+    weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   content_moderation_control: true
   field_product_ingredients: true
