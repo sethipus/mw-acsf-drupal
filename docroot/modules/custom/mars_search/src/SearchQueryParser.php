@@ -4,7 +4,6 @@ namespace Drupal\mars_search;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -45,7 +44,7 @@ class SearchQueryParser implements SearchQueryParserInterface {
   /**
    * {@inheritdoc}
    */
-  public function parseQuery($search_id = 1) {
+  public function parseQuery($search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     // Getting all GET parameters in array.
     $query_parameters = $this->request->query->all();
 

@@ -93,7 +93,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
         $suggestions[] = $entity->toLink();
       }
 
-      $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]), Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, ['query' => [SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [1 => $options['keys']]]]));
+      $show_all = Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]), Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, ['query' => [SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys']]]]));
     }
     $empty_text_description = $this->config('mars_search.autocomplete')->get('empty_text_description');
     $build = [

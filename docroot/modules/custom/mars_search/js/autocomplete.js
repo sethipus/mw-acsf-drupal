@@ -13,12 +13,17 @@
       var selector = '.header__inner input.mars-autocomplete-field, .mars-search-form .mars-autocomplete-field';
       $(selector, context).on('keyup', function () {
         var searchString = $(this).val();
+        var gridId = $(this).attr('data-grid-id');
+        var gridQuery = $(this).attr('data-grid-query');
         if (searchString.length > 2) {
+          var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString;
+          if (gridQuery) {
+            url = url + '&' + gridQuery;
+          }
           setTimeout(function() {
             $.ajax({
-              url: Drupal.url('mars-autocomplete'),
+              url: url,
               type: 'GET',
-              data: { 'search[1]': searchString },
               dataType: 'json',
               success: function success(results) {
                 $('.mars-suggestions').html(results);
