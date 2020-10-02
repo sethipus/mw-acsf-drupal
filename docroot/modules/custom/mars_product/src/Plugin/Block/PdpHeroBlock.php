@@ -365,7 +365,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'serving_item' => $this->getServingItems($product_variant),
         ],
         'allergen_data' => [
-          'allergens_list' => $this->getAllergenItems($product_variant),
+          'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
       ];
     }
@@ -547,6 +547,24 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     return $mapping;
   }
 
+  protected function isAllergenVisible() {
+    $show_allergen_info = $this->themeConfiguratorParser->getSettingValue('show_allergen_info');
+    if ($show_allergen_info) {
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * Get all visible allergen items.
+   */
+  public function getVisibleAllergenItems($node) {
+    if ($this->isAllergenVisible()) {
+      return $this->getAllergenItems($node);
+    }
+    return [];
+  }
+
   /**
    * Get Allergen items.
    *
@@ -588,7 +606,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'section-nutrition' => $this->t('Nutrition & Ingredients'),
       'section-products' => $this->t('Related products'),
     ];
-    if (!$node->field_product_diet_allergens->isEmpty()) {
+    if (
+      $this->isAllergenVisible() &&
+      !$node->field_product_diet_allergens->isEmpty()
+    ) {
       $map['section-allergens'] = $this->t('Diet & Allergens');
     }
     $items = [];
