@@ -10,7 +10,6 @@
 
 {% include "@molecules/card/content-hub-card/content-hub-card.twig" with {
   theme_styles: 'drupal',
-  recipe_is_new: recipe_is_new,
 
   card_image_src: image_src,
   card_image_alt: image_alt ,
@@ -18,9 +17,9 @@
 
   heading: node.label,
   heading_level: 3,
-  heading_base_class: 'recipe-card-heading',
+  heading_base_class: 'content-hub-card-heading',
 
-  button_text: 'see details'|t,
+  button_text: 'See Details'|t,
   button_modifiers: ['small'],
   button_link_attributes: {
     href: url,

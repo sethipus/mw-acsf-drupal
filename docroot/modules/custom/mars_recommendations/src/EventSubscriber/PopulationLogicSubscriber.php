@@ -3,7 +3,8 @@
 namespace Drupal\mars_recommendations\EventSubscriber;
 
 use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
-use Drupal\mars_recommendations\Event\PostLoadPopulationLogicPluginsEvent;
+use Drupal\mars_recommendations\Event\AlterManualLogicBundlesEvent;
+use Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent;
 use Drupal\mars_recommendations\RecommendationsEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -15,10 +16,10 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
   /**
    * Unsets plugin definitions that do not match current zone.
    *
-   * @param \Drupal\mars_recommendations\Event\PostLoadPopulationLogicPluginsEvent $event
-   *   Post load event.
+   * @param \Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent $event
+   *   Alter options event.
    */
-  public function validateZoneMatch(PostLoadPopulationLogicPluginsEvent $event) {
+  public function validateZoneMatch(AlterPopulationLogicOptionsEvent $event) {
     if (!$event->getEntity() || !$event->getLayoutId()) {
       return;
     }
@@ -41,10 +42,10 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
   /**
    * Unsets dynamic option for Content Hub pages.
    *
-   * @param \Drupal\mars_recommendations\Event\PostLoadPopulationLogicPluginsEvent $event
-   *   Post load event.
+   * @param \Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent $event
+   *   Alter options event.
    */
-  public function disableDynamicForContentHub(PostLoadPopulationLogicPluginsEvent $event) {
+  public function disableDynamicForContentHub(AlterPopulationLogicOptionsEvent $event) {
     if (!($entity = $event->getEntity())) {
       return;
     }
@@ -65,14 +66,34 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
   }
 
   /**
+   * Limits autocomplete on Manual logic config form to Content Hub Page bundle.
+   *
+   * @param \Drupal\mars_recommendations\Event\AlterManualLogicBundlesEvent $event
+   *   Alter bundles event.
+   */
+  public function setContentHubAutocompleteBundle(AlterManualLogicBundlesEvent $event) {
+    if (!($entity = $event->getEntity())) {
+      return;
+    }
+
+    $bundle = $entity instanceof LayoutBuilderEntityViewDisplay ? $entity->getTargetBundle() : $entity->bundle();
+    if ($bundle != 'content_hub_page') {
+      return;
+    }
+
+    $event->setBundles(['content_hub_page']);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
     return [
-      RecommendationsEvents::POST_LOAD_POPULATION_LOGIC_PLUGINS => [
+      RecommendationsEvents::ALTER_POPULATION_LOGIC_OPTIONS => [
         ['validateZoneMatch', 10],
         ['disableDynamicForContentHub', -10],
       ],
+      RecommendationsEvents::ALTER_MANUAL_LOGIC_BUNDLES => ['setContentHubAutocompleteBundle'],
     ];
   }
 

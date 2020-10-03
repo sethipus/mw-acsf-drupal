@@ -8,7 +8,7 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * Post Load Recommendations Population Logic Plugins event.
  */
-class PostLoadPopulationLogicPluginsEvent extends Event {
+class AlterPopulationLogicOptionsEvent extends Event {
 
   /**
    * Plugin definitions.
@@ -39,7 +39,7 @@ class PostLoadPopulationLogicPluginsEvent extends Event {
   protected $entity;
 
   /**
-   * PostLoadPopulationLogicPluginsEvent constructor.
+   * AlterPopulationLogicOptionsEvent constructor.
    *
    * @param array $definitions
    *   Plugin definitions.

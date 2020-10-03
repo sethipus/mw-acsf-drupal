@@ -2,8 +2,13 @@
 
 namespace Drupal\mars_recommendations\Plugin\MarsRecommendationsLogic;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_recommendations\Event\AlterManualLogicBundlesEvent;
+use Drupal\mars_recommendations\RecommendationsEvents;
 use Drupal\mars_recommendations\RecommendationsLogicPluginBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Dynamic Recommendations Population Logic plugin.
@@ -20,6 +25,42 @@ use Drupal\mars_recommendations\RecommendationsLogicPluginBase;
 class Manual extends RecommendationsLogicPluginBase {
 
   const DEFAULT_RESULTS_LIMIT = 16;
+
+  const DEFAULT_BUNDLES = [
+    'article',
+    'recipe',
+    'product',
+    'content_hub_page',
+  ];
+
+  /**
+   * Symfony event dispatcher interface.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $eventDispatcher;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('event_dispatcher')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, EventDispatcherInterface $event_dispatcher) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager);
+
+    $this->eventDispatcher = $event_dispatcher;
+  }
 
   /**
    * {@inheritdoc}
@@ -61,18 +102,16 @@ class Manual extends RecommendationsLogicPluginBase {
         ],
       ];
 
+      $event = new AlterManualLogicBundlesEvent(self::DEFAULT_BUNDLES, $form_state->get('layout_id'), $form_state->get('entity'));
+      $this->eventDispatcher->dispatch(RecommendationsEvents::ALTER_MANUAL_LOGIC_BUNDLES, $event);
+
       $form['nodes'][$i]['node'] = [
         '#type' => 'entity_autocomplete',
         '#title' => $this->t('Card'),
         '#title_display' => 'invisible',
         '#target_type' => 'node',
         '#selection_settings' => [
-          'target_bundles' => [
-            'article',
-            'recipe',
-            'product',
-            'content_hub_page',
-          ],
+          'target_bundles' => $event->getBundles(),
         ],
         '#default_value' => !empty($this->configuration['nodes'][$i]) ? $this->nodeStorage->load($this->configuration['nodes'][$i]) : NULL,
       ];

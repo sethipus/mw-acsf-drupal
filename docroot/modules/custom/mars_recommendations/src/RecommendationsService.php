@@ -4,7 +4,7 @@ namespace Drupal\mars_recommendations;
 
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\mars_recommendations\Event\PostLoadPopulationLogicPluginsEvent;
+use Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent;
 use Drupal\mars_recommendations\Exception\RecommendationsLogicPluginNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -56,8 +56,8 @@ class RecommendationsService {
 
     $definitions = $this->pluginManager->getDefinitions();
 
-    $event = new PostLoadPopulationLogicPluginsEvent($definitions, $layout_id, $entity);
-    $this->eventDispatcher->dispatch(RecommendationsEvents::POST_LOAD_POPULATION_LOGIC_PLUGINS, $event);
+    $event = new AlterPopulationLogicOptionsEvent($definitions, $layout_id, $entity);
+    $this->eventDispatcher->dispatch(RecommendationsEvents::ALTER_POPULATION_LOGIC_OPTIONS, $event);
 
     foreach ($event->getDefinitions() as $definition) {
       $result[$definition['id']] = $definition['label'];

@@ -101,17 +101,16 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $form = parent::buildConfigurationForm($form, $form_state);
     $form_object = $form_state->getFormObject();
 
-    $layout_id = $entity = NULL;
     if ($form_object instanceof ConfigureBlockFormBase) {
       /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
       [$section_storage, $delta] = $form_state->getBuildInfo()['args'];
 
-      $layout_id = $section_storage->getSection($delta)->getLayoutId();
+      $form_state->set('layout_id', $section_storage->getSection($delta)->getLayoutId());
 
       $contexts = $section_storage->getContextValues();
 
       /** @var \Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay|\Drupal\Core\Entity\EntityInterface $entity */
-      $entity = $contexts['entity'] ?? $contexts['display'] ?? NULL;
+      $form_state->set('entity', $contexts['entity'] ?? $contexts['display'] ?? NULL);
     }
 
     $form['title'] = [
@@ -129,7 +128,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#tree' => TRUE,
     ];
 
-    $options = $this->recommendationsService->getPopulationLogicOptions($layout_id, $entity);
+    $options = $this->recommendationsService->getPopulationLogicOptions($form_state->get('layout_id'), $form_state->get('entity'));
 
     $default_value = $conf['population_plugin_id'] ?? NULL;
     if (!$default_value && count($options) == 1) {
