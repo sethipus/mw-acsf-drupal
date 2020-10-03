@@ -3,12 +3,22 @@
 namespace Drupal\mars_recommendations;
 
 use Drupal\Component\Plugin\PluginManagerInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\mars_recommendations\Event\PostLoadPopulationLogicPluginsEvent;
 use Drupal\mars_recommendations\Exception\RecommendationsLogicPluginNotFoundException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Mars Node Recommendations Service.
  */
 class RecommendationsService {
+
+  /**
+   * Symfony event dispatcher interface.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $eventDispatcher;
 
   /**
    * Recommendations Population Logic plugin manager.
@@ -20,29 +30,37 @@ class RecommendationsService {
   /**
    * RecommendationsService constructor.
    *
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+   *   Symfony event dispatcher.
    * @param \Drupal\Component\Plugin\PluginManagerInterface $plugin_manager
    *   Recommendations Population Logic plugin manager.
    */
-  public function __construct(PluginManagerInterface $plugin_manager) {
+  public function __construct(EventDispatcherInterface $event_dispatcher, PluginManagerInterface $plugin_manager) {
+    $this->eventDispatcher = $event_dispatcher;
     $this->pluginManager = $plugin_manager;
   }
 
   /**
    * Returns a list of Recommendations Population logic flows.
    *
-   * @param string|null $zone_type
-   *   Filters options by zone type if value is set.
+   * @param string|null $layout_id
+   *   Entity bundle.
+   * @param \Drupal\Core\Entity\EntityInterface|null $entity
+   *   Node or Layout Builder Display entity.
    *
    * @return array
    *   Recommendations Population logic options.
    */
-  public function getPopulationLogicOptions($zone_type = NULL) {
+  public function getPopulationLogicOptions($layout_id = NULL, EntityInterface $entity = NULL) {
     $result = [];
 
-    foreach ($this->pluginManager->getDefinitions() as $definition) {
-      if (!isset($zone_type) || in_array($zone_type, $definition['zone_types'])) {
-        $result[$definition['id']] = $definition['label'];
-      }
+    $definitions = $this->pluginManager->getDefinitions();
+
+    $event = new PostLoadPopulationLogicPluginsEvent($definitions, $layout_id, $entity);
+    $this->eventDispatcher->dispatch(RecommendationsEvents::POST_LOAD_POPULATION_LOGIC_PLUGINS, $event);
+
+    foreach ($event->getDefinitions() as $definition) {
+      $result[$definition['id']] = $definition['label'];
     }
 
     return $result;

@@ -67,7 +67,12 @@ class Manual extends RecommendationsLogicPluginBase {
         '#title_display' => 'invisible',
         '#target_type' => 'node',
         '#selection_settings' => [
-          'target_bundles' => ['article', 'recipe', 'product'],
+          'target_bundles' => [
+            'article',
+            'recipe',
+            'product',
+            'content_hub_page',
+          ],
         ],
         '#default_value' => !empty($this->configuration['nodes'][$i]) ? $this->nodeStorage->load($this->configuration['nodes'][$i]) : NULL,
       ];
