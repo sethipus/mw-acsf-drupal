@@ -10,6 +10,7 @@
     style="background-color: {{ pdp_common_hero_data.background_color }};"
   {% endif %}
 >
+  
   <div {{ bem('bubble_1', [], pdp_hero_base_class) }} id="pdp-hero__bubble_1-{{size_id}}">
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
@@ -118,7 +119,7 @@
         </div>
       </div>
 
-      {% include "@atoms/text/text/01-paragraph.twig" with {
+      {% include "@atoms/text/text/07-element.twig" with {
         paragraph_content: pdp_common_hero_data.product_description,
         paragraph_base_class: 'description',
         paragraph_blockname: pdp_hero_base_class,
