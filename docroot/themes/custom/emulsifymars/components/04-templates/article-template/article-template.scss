@@ -1,0 +1,123 @@
+.article-body {
+    
+    &__subsection {
+        width: 90%;
+        margin: 0 auto;
+        position: relative;
+        padding: 40px 0;
+
+        @include large {
+            width: 70%;
+        }
+
+        &--withDivider::before {
+            content: "";
+            height: 1px;
+            width: calc(100% - 40px);
+            background-color: rgba(196, 196, 196, 0.6);
+            position: absolute;
+            top: 0;
+            left: 20px;
+
+            @include medium {
+                width: calc(100% - 160px);
+                left: 80px;
+            }
+        }
+    }
+
+    &__subheader {
+        font-size: 20px;
+        font-family: variable(primary-font);
+        font-weight: 700;
+        color: clr(primary);
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        margin: 0 15px;
+
+        @include medium {
+            margin: 20px 0 30px;
+            font-size: 26px;
+            line-height: 29px;
+            padding: 0;
+        }
+
+        @include xl {
+            font-size: 28px;
+            line-height: 31px;
+            letter-spacing: 1.4px;
+            max-width: 1125px;
+        }
+    }
+
+    &__takeaways-list {
+        font-size: 18px; 
+        font-family: (secondary-font);
+        line-height: 29px;
+        list-style-position: inside;
+        list-style-type: none;
+        color: clr(primary);
+        padding: 0 15px;
+
+        @include medium {
+            padding: 0;
+        }
+
+        @include xl {
+            font-size: 20px;
+            line-height: 36px;
+            max-width: 1125px;
+        }
+
+        .list-item {
+            position: relative;
+            text-indent: 18px;
+            padding: 0;
+
+            @include xl {
+                text-indent: 20px;
+            }
+
+            &::before {
+                content: "";
+                background-color: clr(secondary);
+                height: 7px;
+                width: 7px;
+                border-radius: 3.5px;
+                position: absolute;
+                left: 1px;
+                top: 10px;
+
+                @include xl {
+                    height: 6px;
+                    width: 6px;
+                    border-radius: 3px;
+                    top: 14px;
+                }
+            }
+        }
+    }
+
+    &__content-paragraph {
+        margin: 0 auto;
+        font-size: 18px;
+        font-family: variable(secondary-font);
+        line-height: 29px;
+        color: clr(primary);
+        padding: 0 15px;
+
+        @include medium {
+            padding: 0;
+        }
+
+        @include xl {
+            font-size: 20px;
+            line-height: 36px;
+            max-width: 1125px;
+        }
+    }
+}
+
+.article-inline {
+    max-width: 100%;
+}
