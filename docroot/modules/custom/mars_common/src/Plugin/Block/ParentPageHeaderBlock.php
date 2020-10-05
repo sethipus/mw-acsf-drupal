@@ -62,7 +62,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $conf = $this->getConfiguration();
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#label'] = $conf['label'] ?? '';
+    $build['#label'] = $conf['title'] ?? '';
     $build['#background'] = $this->getBackgroundEntity();
     $build['#description'] = $conf['description'] ?? '';
 
@@ -93,11 +93,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
-    $form['label'] = [
+    $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 45,
-      '#default_value' => $this->configuration['label'] ?? '',
+      '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['background'] = [
@@ -105,7 +105,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#title' => $this->t('Background media'),
       '#target_type' => 'media',
       '#default_value' => $this->getBackgroundEntity(),
-      '#required' => TRUE,
     ];
     $form['description'] = [
       '#type' => 'textarea',
@@ -124,7 +123,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
-    $this->configuration['label'] = $form_state->getValue('label');
+    $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['background'] = $form_state->getValue('background');
     $this->configuration['description'] = $form_state->getValue('description');
   }
