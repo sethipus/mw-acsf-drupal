@@ -35,11 +35,13 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   const TAXONOMY_VOCABULARIES = [
     'mars_brand_initiatives' => [
       'label' => 'Brand initiatives',
-      'content_types' => ['article', 'recipe'],
+      'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],
     ],
     'mars_occasions' => [
       'label' => 'Occasions',
-      'content_types' => ['article', 'recipe', 'product'],
+      'content_types' => [
+        'article', 'recipe', 'product', 'landing_page', 'campaign',
+      ],
     ],
     'mars_flavor' => [
       'label' => 'Flavor',
@@ -68,6 +70,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     'product' => 'Product',
     'article' => 'Article',
     'recipe' => 'Recipe',
+    'campaign' => 'Campaign',
+    'landing_page' => 'Landing page',
   ];
 
   /**
