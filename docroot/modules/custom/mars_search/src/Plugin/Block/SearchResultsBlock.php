@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
@@ -51,6 +52,13 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $menuLinkTree;
 
   /**
+   * Search query parser.
+   *
+   * @var \Drupal\mars_search\SearchQueryParserInterface
+   */
+  protected $searchQueryParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -61,7 +69,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $container->get('mars_search.search_helper'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('entity_type.manager')->getViewBuilder('node'),
-      $container->get('menu.link_tree')
+      $container->get('menu.link_tree'),
+      $container->get('mars_search.search_query_parser')
     );
   }
 
@@ -75,13 +84,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     SearchHelperInterface $search_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
     EntityViewBuilderInterface $node_view_builder,
-    MenuLinkTreeInterface $menu_link_tree
+    MenuLinkTreeInterface $menu_link_tree,
+    SearchQueryParserInterface $search_query_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->searchHelper = $search_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeViewBuilder = $node_view_builder;
     $this->menuLinkTree = $menu_link_tree;
+    $this->searchQueryParser = $search_query_parser;
   }
 
   /**
@@ -90,8 +101,10 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   public function build() {
     $build = [];
 
+    $options = $this->searchQueryParser->parseQuery();
+
     // Results should be obtained from static cache.
-    $query_search_results = $this->searchHelper->getSearchResults([], 'main_search');
+    $query_search_results = $this->searchHelper->getSearchResults($options, 'main_search');
 
     // Preparing search results.
     $build['#items'] = [];

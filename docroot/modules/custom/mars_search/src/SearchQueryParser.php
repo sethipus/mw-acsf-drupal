@@ -56,6 +56,11 @@ class SearchQueryParser implements SearchQueryParserInterface {
 
     // Initializing options array.
     $options[$search_id] = $this->getDefaultOptions();
+
+    if (!empty($query_parameters['see-all'])) {
+      unset($options[$search_id]['limit']);
+    }
+
     // Looping through parameters to support several searches on a single page.
     foreach ($query_parameters as $parameter_key => $parameter) {
       if (is_array($parameter)) {
@@ -69,7 +74,14 @@ class SearchQueryParser implements SearchQueryParserInterface {
             $options[$search_key]['keys'] = $parameter_value;
           }
           // Getting search filters values.
-          if (in_array($parameter_key, array_keys(SearchGridBlock::TAXONOMY_VOCABULARIES))) {
+          elseif (in_array($parameter_key, array_keys(SearchGridBlock::TAXONOMY_VOCABULARIES))) {
+            $options[$search_key]['conditions'][] = [
+              $parameter_key,
+              explode(',', $parameter_value),
+              'IN',
+            ];
+          }
+          else {
             $options[$search_key]['conditions'][] = [
               $parameter_key,
               $parameter_value,
@@ -95,7 +107,7 @@ class SearchQueryParser implements SearchQueryParserInterface {
     $default_options = [
       'conditions' => [
         // We don't need FAQ nodes in most cases.
-        ['type', 'faq', '<>'],
+        ['type', 'faq', '<>', TRUE],
       ],
       'limit' => 12,
       'keys' => '',
