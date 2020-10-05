@@ -181,7 +181,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     if (!empty($this->configuration['image'])) {
       $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['image']);
       $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-      if (!isset($mediaParams['error']) && $mediaParams['src']) {
+      if (!isset($mediaParams['error']) && ($mediaParams['src'] ?? NULL)) {
         $build['#image'] = file_create_url($mediaParams['src']);
       }
     }
