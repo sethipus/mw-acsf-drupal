@@ -4,6 +4,7 @@ namespace Drupal\mars_search;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mars_search\Plugin\Block\SearchGridBlock;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -57,14 +58,31 @@ class SearchQueryParser implements SearchQueryParserInterface {
     $options[$search_id] = $this->getDefaultOptions();
     // Looping through parameters to support several searches on a single page.
     foreach ($query_parameters as $parameter_key => $parameter) {
-      foreach ($parameter as $search_key => $parameter_value) {
-        if ($search_key != $search_id) {
-          continue;
-        }
-        if ($parameter_key == SearchQueryParserInterface::MARS_SEARCH_SEARCH_KEY) {
-          $options[$search_key]['keys'] = $parameter_value;
+      if (is_array($parameter)) {
+        foreach ($parameter as $search_key => $parameter_value) {
+          // We need query options only for specified search instance.
+          if ($search_key != $search_id) {
+            continue;
+          }
+          // Getting search keyword.
+          if ($parameter_key == SearchQueryParserInterface::MARS_SEARCH_SEARCH_KEY) {
+            $options[$search_key]['keys'] = $parameter_value;
+          }
+          // Getting search filters values.
+          if (in_array($parameter_key, array_keys(SearchGridBlock::TAXONOMY_VOCABULARIES))) {
+            $options[$search_key]['conditions'][] = [
+              $parameter_key,
+              $parameter_value,
+              '=',
+            ];
+          }
         }
       }
+    }
+
+    // Getting search filters query logic.
+    if (!empty($query_parameters['options_logic'])) {
+      $options[$search_key]['options_logic'] = $query_parameters['options_logic'];
     }
 
     return $options[$search_id];

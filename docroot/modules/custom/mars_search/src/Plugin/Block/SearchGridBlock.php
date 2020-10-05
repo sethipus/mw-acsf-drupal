@@ -191,6 +191,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     if (!empty($config['content_type'])) {
       $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
       $grid_options['filters']['type'][$grid_id] = $config['content_type'];
+      $grid_options['filters']['options_logic'] = $config['general_filters']['options_logic'];
     }
 
     // Populate top results items before other results.
