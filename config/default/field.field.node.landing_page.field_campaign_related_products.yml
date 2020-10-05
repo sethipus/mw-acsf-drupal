@@ -1,0 +1,32 @@
+uuid: a62b9fbe-ff67-4833-872c-8d4c1528e67f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_campaign_related_products
+    - node.type.landing_page
+    - node.type.product
+    - node.type.product_multipack
+    - node.type.product_variant
+id: node.landing_page.field_campaign_related_products
+field_name: field_campaign_related_products
+entity_type: node
+bundle: landing_page
+label: 'Related Products'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      product: product
+      product_multipack: product_multipack
+      product_variant: product_variant
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: product
+field_type: entity_reference
