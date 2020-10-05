@@ -16,24 +16,28 @@ import siteFooterData from './site-footer/site-footer.yml';
 import siteHeaderData from './site-header/site-header.yml';
 
 import '../../02-molecules/menus/main-menu/main-menu';
+import '../../02-molecules/dropdown/dropdown';
 
 /**
  * Storybook Definition.
  */
 export default { title: 'Organisms/Site' };
 
-export const footer = () => (
-  <div
-    dangerouslySetInnerHTML={{
-      __html: footerTwig({
-        ...footerSocial,
-        ...footerMenu,
-        ...siteFooterData,
-        ...legalLinksData,
-      }),
-    }}
-  />
-);
+export const footer = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: footerTwig({
+          ...footerSocial,
+          ...footerMenu,
+          ...siteFooterData,
+          ...legalLinksData,
+        }),
+      }}
+    />
+  )
+  };
 export const header = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return (

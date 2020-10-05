@@ -2,7 +2,10 @@ uuid: 75938649-fdfc-45e1-a14f-49a04a421115
 langcode: en
 status: true
 dependencies:
+  config:
+    - field.storage.poll.field_type
   module:
+    - options
     - poll
     - user
 _core:
@@ -204,6 +207,68 @@ display:
           entity_type: null
           entity_field: question
           plugin_id: field
+        field_type:
+          id: field_type
+          table: poll__field_type
+          field: field_type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Type
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         status_with_runtime:
           id: status_with_runtime
           table: poll_field_data
@@ -254,73 +319,6 @@ display:
           hide_alter_empty: true
           entity_type: poll
           plugin_id: poll_status
-        anonymous_vote_allow:
-          id: anonymous_vote_allow
-          table: poll_field_data
-          field: anonymous_vote_allow
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: 'Allow anonymous votes'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: boolean
-          settings:
-            format: on-off
-            format_custom_true: ''
-            format_custom_false: ''
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: poll
-          entity_field: anonymous_vote_allow
-          plugin_id: field
         created:
           id: created
           table: poll_field_data
@@ -567,7 +565,22 @@ display:
           entity_type: poll
           entity_field: status
           plugin_id: boolean
-      sorts: {  }
+      sorts:
+        created:
+          id: created
+          table: poll_field_data
+          field: created
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: true
+          expose:
+            label: Created
+          granularity: second
+          entity_type: poll
+          entity_field: created
+          plugin_id: date
       title: Poll
       header: {  }
       footer: {  }
@@ -592,9 +605,12 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - 'url.query_args:sort_by'
+        - 'url.query_args:sort_order'
         - user.permissions
       max-age: -1
-      tags: {  }
+      tags:
+        - 'config:field.storage.poll.field_type'
   page_1:
     display_plugin: page
     id: page_1
@@ -609,6 +625,9 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - 'url.query_args:sort_by'
+        - 'url.query_args:sort_order'
         - user.permissions
       max-age: -1
-      tags: {  }
+      tags:
+        - 'config:field.storage.poll.field_type'
