@@ -499,7 +499,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     return $form;
   }
 
-  /**SearchHelper.php
+  /**
    * Builds exposed filters form element.
    *
    * @return array
