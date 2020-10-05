@@ -16,13 +16,13 @@ story_highlight_paragraph_content: 'We aspire to make the very best chocolate. B
 story_highlight_paragraph_base_class: story-highlight__paragraph
 items:
   - image: true
-    src: "http://astro.i-net.hu/sites/default/files/storage/M45_1.jpg"
+    src: "recipe-feature.png"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     content: 'Red Velvet Cake Jars. Perfect for Valentine’s Day gifting, these pretty red velvet cake jars taste as good as they look.'
     base_class: first
   - image: true
-    src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-08/Pet%20Health%20Pal%20header.jpg?itok=VQ6eLURv"
+    src: "Rectangle-14.png"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     content: 'With layers of crunchy granola, creamy caramel and dark chocolate, these Twix granola bars are topped with a sprinkle of sea salt for the perfect treat that everyone will savor.'
