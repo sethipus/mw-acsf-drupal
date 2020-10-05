@@ -26,6 +26,10 @@ brand_borders_2: { }
 png_asset: { }
 button_style: 0
 
+# Product layout settings.
+# ----------------------------
+show_allergen_info: false
+
 # Social links.
 # ----------------------------
 social_links:
