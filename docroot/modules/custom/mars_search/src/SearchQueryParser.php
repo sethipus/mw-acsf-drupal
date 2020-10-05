@@ -48,6 +48,11 @@ class SearchQueryParser implements SearchQueryParserInterface {
     // Getting all GET parameters in array.
     $query_parameters = $this->request->query->all();
 
+    // In autocomplete case we have to get search id from the GET query.
+    if (isset($query_parameters['search_id'])) {
+      $search_id = $query_parameters['search_id'];
+    }
+
     // Initializing options array.
     $options[$search_id] = $this->getDefaultOptions();
     // Looping through parameters to support several searches on a single page.

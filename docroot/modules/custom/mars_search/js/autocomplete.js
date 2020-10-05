@@ -16,7 +16,7 @@
         var gridId = $(this).attr('data-grid-id');
         var gridQuery = $(this).attr('data-grid-query');
         if (searchString.length > 2) {
-          var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString;
+          var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString + '&search_id=' + gridId;
           if (gridQuery) {
             url = url + '&' + gridQuery;
           }
