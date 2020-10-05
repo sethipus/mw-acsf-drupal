@@ -122,13 +122,13 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#title' => $this->t('Header 1'),
       '#default_value' => $this->configuration['header_1'],
       '#maxlength' => 60,
-      '#required' => TRUE,
     ];
     $form['header_2'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header 2'),
       '#default_value' => $this->configuration['header_2'],
       '#maxlength' => 60,
+      '#required' => TRUE,
     ];
     // Entity Browser element for background image.
     $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $this->configuration['image'], 1, 'thumbnail');
@@ -181,7 +181,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     if (!empty($this->configuration['image'])) {
       $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['image']);
       $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-      if (!isset($mediaParams['error']) && !$mediaParams['error']) {
+      if (!isset($mediaParams['error']) && $mediaParams['src']) {
         $build['#image'] = file_create_url($mediaParams['src']);
       }
     }
