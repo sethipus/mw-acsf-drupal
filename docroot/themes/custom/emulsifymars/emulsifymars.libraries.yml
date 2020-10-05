@@ -11,7 +11,7 @@ main-menu:
 
 ambient-video:
   js:
-    dist/js/ambient_video.js: {}
+    dist/js/01-atoms/video/ambient-video/video.js: {}
   dependencies:
     - core/drupal
 
@@ -98,7 +98,7 @@ media-carousel:
 
 fullscreen-video:
   js:
-    dist/js/fullscreen_video.js: {}
+    dist/js/01-atoms/video/fullscreen-video/video.js: {}
   dependencies:
     - core/drupal
 

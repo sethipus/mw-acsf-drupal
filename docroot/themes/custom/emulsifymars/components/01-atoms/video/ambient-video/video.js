@@ -1,4 +1,4 @@
-Drupal.behaviors.inlineVideoPlayer = {
+Drupal.behaviors.ambientVideoPlayer = {
   attach(context) {
     // Does the browser actually support the video element?
     var supportsVideo = !!document.createElement('video').canPlayType;

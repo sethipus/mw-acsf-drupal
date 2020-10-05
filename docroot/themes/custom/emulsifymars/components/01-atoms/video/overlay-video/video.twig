@@ -13,7 +13,6 @@
         </video>
         <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
           <button {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play"><div {{ bem('playpause', ['inner'], video__base_class) }}/></button>
-          <button {{ bem('stop', ['inner'], video__base_class) }} type="button" data-state="stop"></button>
           <button {{ bem('mute', ['inner'], video__base_class) }} type="button" data-state="mute"></button>
           <div {{ bem('progress-time', [], video__base_class) }}>
             <progress {{ bem('progress-time--inner', [], video__base_class) }} value="0" min="0">

@@ -63,14 +63,6 @@ Drupal.behaviors.inlineVideoPlayer = {
           else videoElements('video').pause();
         });
   
-        // The Media API has no 'stop()' function, so pause the video and reset its time and the progress bar
-        videoElements('stop').addEventListener('click', function(e) {
-          videoElements('video').pause();
-          videoElements('video').currentTime = 0;
-          videoElements('progress-time--inner').value = 0;
-          // Update the play/pause button's 'data-state' which allows the correct button image to be set via CSS
-          changeButtonState(videoElements, 'playpause');
-        });
         videoElements('mute').addEventListener('click', function(e) {
           videoElements('video').muted = !videoElements('video').muted;
           changeButtonState(videoElements, 'mute');
