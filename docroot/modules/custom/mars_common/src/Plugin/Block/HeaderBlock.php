@@ -237,7 +237,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    *
    * @param string $menu_name
    *   Menu name.
-   *
    * @param int $max_depth
    *   The max menu depth to render.
    *
@@ -266,14 +265,14 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
           foreach ($item['below'] as $child) {
             $children[] = [
               'title' => $child['title'],
-              'url' => $child['url']->setAbsolute()->toString()
+              'url' => $child['url']->setAbsolute()->toString(),
             ];
           }
         }
         $menu_links[] = [
           'title' => $item['title'],
           'url' => $item['url']->setAbsolute()->toString(),
-          'below' => $children
+          'below' => $children,
         ];
       }
     }
