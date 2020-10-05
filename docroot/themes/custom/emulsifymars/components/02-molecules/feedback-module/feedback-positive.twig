@@ -1,0 +1,40 @@
+{% set feedback_base_class = 'feedback-module' %}
+{% set feedback_heading_base_class = 'feedback-module__heading' %}
+{% set feedback_heading_level = 1 %}
+{% set feedback_paragraph_base_class = 'feedback-module__paragraph' %}
+{% set feedback_link_base_class = 'feedback-module__bottom-link' %}
+
+<section {{ bem(feedback_base_class) }} data-theme="{{ theme_styles }}">
+  <div class="feedback-module__brand-shape">
+    {{ brand_shape | raw }}
+  </div>
+
+  <div class="feedback-module__main-content">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: feedback_positive_heading,
+      heading_level: feedback_heading_level,
+      heading_base_class: feedback_heading_base_class
+    } %}
+
+    <div class="feedback-module__feedback-img">
+      <div class="feedback-module__tick feedback-module__tick--positive">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="19" fill="none" viewBox="0 0 26 19">
+          <path fill="#E62B1E" fill-rule="evenodd" d="M24.828.944c.546.545.546 1.43 0 1.976L9.453 18.296c-.546.546-1.431.546-1.977 0l-6.989-6.99c-.546-.545-.546-1.43 0-1.976s1.43-.546 1.977 0l6 6L22.851.945c.546-.546 1.431-.546 1.977 0z" clip-rule="evenodd"/>
+        </svg>
+        <div class="feedback-module__png-asset">
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            output_image_tag: true,
+            image_alt: polling_png_asset_alt,
+            image_src: polling_png_asset,
+          } %}
+        </div>
+      </div>
+    </div>
+
+    {% include "@atoms/links/link/link.twig" with {
+      link_base_class: feedback_link_base_class,
+      link_content: feedback_bottom_link_content,
+      link_url: feedback_bottom_link_url
+    } %}
+  </div>
+</section>

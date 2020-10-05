@@ -118,7 +118,6 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
-      - Facets
       - 'Flexible driver'
       - Forms
       - 'Global elements'
@@ -136,11 +135,9 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        Facets: {  }
         'Flexible driver': {  }
         'Mars Search': {  }
       blacklisted_blocks: {  }
@@ -154,6 +151,58 @@ third_party_settings:
         - article_article_body
         - article_content_recommendations
       whitelisted_blocks:
+        article_article_body:
+          all_regions:
+            Article:
+              - article_header
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types':
+              - flexible_framer
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - list
+              - media_carousel
+            'Custom blocks':
+              - mars_common_content_feature_module
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver':
+              - flexible_driver
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
+              - 'inline_block:list'
+              - 'inline_block:media_carousel'
+              - 'inline_block:text'
+            'Lists (Views)': {  }
+            'Mars Common':
+              - contact_help_banner_block
+              - feedback_block
+              - iframe_block
+              - newsletter_signup_form
+              - poll_block
+              - recommendations_module
+              - story_highlight
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed':
+              - social_feed
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
         article_article_header:
           all_regions:
             Article:
@@ -176,49 +225,6 @@ third_party_settings:
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        article_article_body:
-          all_regions:
-            Article:
-              - article_header
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks':
-              - mars_common_content_feature_module
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            'Flexible driver':
-              - flexible_driver
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks':
-              - 'inline_block:flexible_framer'
-              - 'inline_block:full_width_image'
-              - 'inline_block:full_width_video'
-              - 'inline_block:inline_image'
-              - 'inline_block:list'
-              - 'inline_block:media_carousel'
-              - 'inline_block:text'
-            'Lists (Views)': {  }
-            'Mars Common':
-              - contact_help_banner_block
-              - iframe_block
-              - newsletter_signup_form
-              - story_highlight
-              - poll_block
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed':
-              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }

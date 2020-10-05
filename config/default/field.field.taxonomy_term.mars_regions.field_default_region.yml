@@ -1,0 +1,23 @@
+uuid: 5f7d8810-eb7b-45e1-bb5d-03e08c57b565
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_default_region
+    - taxonomy.vocabulary.mars_regions
+id: taxonomy_term.mars_regions.field_default_region
+field_name: field_default_region
+entity_type: taxonomy_term
+bundle: mars_regions
+label: 'Default region'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

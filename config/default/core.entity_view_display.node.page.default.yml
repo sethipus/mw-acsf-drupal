@@ -13,8 +13,8 @@ dependencies:
     - layout_builder_restrictions
     - layout_discovery
     - layout_library
+    - mars_common
     - metatag
-    - poll
     - text
     - user
 third_party_settings:
@@ -26,17 +26,30 @@ third_party_settings:
         layout_settings:
           label: ''
         components:
-          134dcae7-631e-472b-87b7-9b1c1270b6bb:
-            uuid: 134dcae7-631e-472b-87b7-9b1c1270b6bb
+          c0cae00e-527d-4744-b064-f0aa5b8ccdc9:
+            uuid: c0cae00e-527d-4744-b064-f0aa5b8ccdc9
             region: content
             configuration:
-              id: poll_recent_block
-              label: 'Most recent poll'
-              provider: poll
-              label_display: '1'
+              id: poll_block
+              label: 'MARS: Poll Block'
+              provider: mars_common
+              label_display: ''
+              poll: '22'
               context_mapping: {  }
             additional: {  }
             weight: 0
+          0b82841e-7dd3-4e82-8529-5b8cde1514fc:
+            uuid: 0b82841e-7dd3-4e82-8529-5b8cde1514fc
+            region: content
+            configuration:
+              id: feedback_block
+              label: 'MARS: Feedback Block'
+              provider: mars_common
+              label_display: ''
+              poll: '23'
+              context_mapping: {  }
+            additional: {  }
+            weight: 1
         third_party_settings: {  }
     allow_custom: true
   layout_library:

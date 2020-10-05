@@ -52,7 +52,7 @@ class SearchForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $results_count = '') {
+  public function buildForm(array $form, FormStateInterface $form_state) {
     $keys = $this->searchHelper->request->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
     $form['search'] = [
       '#type' => 'textfield',
@@ -63,14 +63,6 @@ class SearchForm extends FormBase {
       ],
       '#default_value' => $keys,
     ];
-    if ($results_count) {
-      $form['results_counter'] = [
-        '#type' => 'html_tag',
-        '#tag' => 'div',
-        '#attributes' => ['class' => ['search-results-counter']],
-        '#value' => $this->formatPlural($results_count, '1 Results for "@keys"', '@count Results for "@keys"', ['@keys' => $keys]),
-      ];
-    }
     $form['actions'] = [
       '#type' => 'actions',
       // We don't need submit button be visible.
