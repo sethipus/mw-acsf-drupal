@@ -25,9 +25,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
-  const ZONE_FIXED = 'fixed';
-  const ZONE_FLEXIBLE = 'flexible';
-
   /**
    * Mars Recommendations Service.
    *
@@ -104,20 +101,16 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $form = parent::buildConfigurationForm($form, $form_state);
     $form_object = $form_state->getFormObject();
 
-    $is_fixed_section = FALSE;
     if ($form_object instanceof ConfigureBlockFormBase) {
       /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
       [$section_storage, $delta] = $form_state->getBuildInfo()['args'];
 
-      $layout_id = $section_storage->getSection($delta)->getLayoutId();
+      $form_state->set('layout_id', $section_storage->getSection($delta)->getLayoutId());
 
       $contexts = $section_storage->getContextValues();
-      $entity = $contexts['entity'] ?? $contexts['display'] ?? NULL;
 
-      if (isset($entity)) {
-        $form_alter_class = mars_common_get_layout_alter_class($entity);
-        $is_fixed_section = in_array($layout_id, constant("$form_alter_class::FIXED_SECTIONS"));
-      }
+      /** @var \Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay|\Drupal\Core\Entity\EntityInterface $entity */
+      $form_state->set('entity', $contexts['entity'] ?? $contexts['display'] ?? NULL);
     }
 
     $form['title'] = [
@@ -135,7 +128,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#tree' => TRUE,
     ];
 
-    $options = $this->recommendationsService->getPopulationLogicOptions($is_fixed_section ? self::ZONE_FIXED : self::ZONE_FLEXIBLE);
+    $options = $this->recommendationsService->getPopulationLogicOptions($form_state->get('layout_id'), $form_state->get('entity'));
 
     $default_value = $conf['population_plugin_id'] ?? NULL;
     if (!$default_value && count($options) == 1) {
