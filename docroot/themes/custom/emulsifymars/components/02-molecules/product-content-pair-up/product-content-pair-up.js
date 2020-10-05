@@ -19,26 +19,36 @@ Drupal.behaviors.productContentPairUp = {
     const updateElementsPositions = (element) => {
       const rect = element.getBoundingClientRect();
       const offset = (window.innerHeight || document.documentElement.clientHeight) - rect.top;
-      let parallaxTops = {};
+      const sizeClasses = ['size--default', 'size--medium', 'size--xl'];
+      let parallaxTops = {}, parallaxCoef, sizeClass;
 
       switch (true) {
         case rect.width >= 1440:
           parallaxTops.svgAsset = {minTop: 80, initTop: 360};
           parallaxTops.supportiveCard = {minTop: 75, initTop: 185};
+          parallaxCoef = 0.03;
+          sizeClass = 'size--xl';
           break;
 
         case rect.width >= 768:
           parallaxTops.svgAsset = {minTop: 365, initTop: 640};
           parallaxTops.supportiveCard = {minTop: 361, initTop: 480};
+          parallaxCoef = 0.01;
+          sizeClass = 'size--medium';
           break;
 
         default:
           parallaxTops.svgAsset = {minTop: 630, initTop: 840};
           parallaxTops.supportiveCard = {minTop: 306, initTop: 420};
+          parallaxCoef = 0.005;
+          sizeClass = 'size--default';
 
       }
 
-      element.querySelector('.lead-card').style.backgroundPosition = `center ${- (offset * 0.03)}px`;
+      element.classList.add(sizeClass);
+      element.classList.remove.apply(element.classList, sizeClasses.filter(c => c !== sizeClass));
+
+      element.querySelector('.lead-card').style.backgroundPosition = `center calc(50% - ${offset * parallaxCoef}px`;
       element.querySelector('.png-asset').style.top = Math.max(parallaxTops.svgAsset.minTop, parallaxTops.svgAsset.initTop - offset * 0.3) + 'px';
       element.querySelector('.supportive-card').style.top = Math.max(parallaxTops.supportiveCard.minTop, parallaxTops.supportiveCard.initTop - offset * 0.15) + 'px';
 
@@ -52,7 +62,7 @@ Drupal.behaviors.productContentPairUp = {
       }
     };
 
-    window.addEventListener('load', listener);
+    window.addEventListener('DOMContentLoaded', listener);
     window.addEventListener('scroll', listener);
     window.addEventListener('resize', listener);
   }
