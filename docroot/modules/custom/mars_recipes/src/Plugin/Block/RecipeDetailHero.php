@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Utility\Token;
 
 /**
  * Class RecipeDetailHero.
@@ -59,6 +60,13 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $mediaHelper;
 
   /**
+   * The token service.
+   *
+   * @var \Drupal\Core\Utility\Token
+   */
+  protected $token;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -67,12 +75,14 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
+    Token $token,
     ThemeConfiguratorParser $themeConfiguratorParser,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->configFactory = $config_factory;
+    $this->token = $token;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->mediaHelper = $media_helper;
   }
@@ -87,6 +97,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
+      $container->get('token'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_common.media_helper')
     );
@@ -155,7 +166,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
         continue;
       }
       $social_menu_items[$name]['title'] = $social_media['text'];
-      $social_menu_items[$name]['url'] = $social_media['api_url'];
+      $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url']);
       $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {

@@ -17,6 +17,7 @@ use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\MediaHelper;
+use Drupal\Core\Utility\Token;
 
 /**
  * Class RecipeDetailHeroTest.
@@ -90,6 +91,13 @@ class RecipeDetailHeroTest extends UnitTestCase {
   protected $mediaHelperMock;
 
   /**
+   * The token service.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Utility\Token
+   */
+  protected $tokenMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -121,6 +129,11 @@ class RecipeDetailHeroTest extends UnitTestCase {
         'title' => 'title',
       ]);
 
+    $this->tokenMock
+      ->expects($this->any())
+      ->method('replace')
+      ->willReturn('string_with_replaced_tokens');
+
     $definitions = [
       'provider' => 'test',
       'admin_label' => 'test',
@@ -132,6 +145,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
       $definitions,
       $this->entityTypeManagerMock,
       $this->configFactoryMock,
+      $this->tokenMock,
       $this->themeConfiguratorParserMock,
       $this->mediaHelperMock
     );
@@ -162,15 +176,16 @@ class RecipeDetailHeroTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('entity_type.manager')],
         [$this->equalTo('config.factory')],
+        [$this->equalTo('token')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
         [$this->equalTo('mars_common.media_helper')]
       )
-      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configFactoryMock, $this->themeConfiguratorParserMock, $this->mediaHelperMock));
+      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configFactoryMock, $this->tokenMock, $this->themeConfiguratorParserMock, $this->mediaHelperMock));
 
     $this->entityTypeManagerMock
       ->expects($this->exactly(1))
@@ -237,6 +252,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->tokenMock = $this->createMock(Token::class);
   }
 
   /**

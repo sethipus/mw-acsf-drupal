@@ -3,8 +3,8 @@
 {% if not use_custom_color %}
   {% set freeform_story_modifiers = freeform_story_modifiers | merge(['bg-enabled']) %}
 {% endif %}
-{% set freeform_story_heading_base_class = freeform_story_heading_base_class|default('freeform-story__heading') %}
-{% set freeform_story_subheading_base_class = freeform_story_subheading_base_class|default('freeform-story__subheading') %}
+{% set freeform_story_header_2_base_class = freeform_story_header_2_base_class|default('freeform-story__heading') %}
+{% set freeform_story_header_1_base_class = freeform_story_header_1_base_class|default('freeform-story__subheading') %}
 {% set freeform_story_paragraph_base_class = freeform_story_paragraph_base_class|default('freeform-story__paragraph') %}
 
 <section {{ bem(freeform_story_base_class, freeform_story_modifiers) }}
@@ -34,18 +34,18 @@
 
     <div class="freeform-story__texts">
       {% include "@atoms/text/headings/_heading.twig" with {
-        heading: freeform_story_subheading,
-        heading_level: freeform_story_subheading_level,
-        heading_base_class: freeform_story_subheading_base_class
+        heading: freeform_story_header_1,
+        heading_level: freeform_story_header_1_level,
+        heading_base_class: freeform_story_header_1_base_class
       } %}
 
       {% include "@atoms/text/headings/_heading.twig" with {
-        heading: freeform_story_heading,
-        heading_level: freeform_story_heading_level,
-        heading_base_class: freeform_story_heading_base_class
+        heading: freeform_story_header_2,
+        heading_level: freeform_story_header_2_level,
+        heading_base_class: freeform_story_header_2_base_class
       } %}
 
-      {% include "@atoms/text/text/01-paragraph.twig" with {
+      {% include "@atoms/text/text/07-element.twig" with {
         paragraph_content: freeform_story_paragraph_content,
         paragraph_base_class: freeform_story_paragraph_base_class
       } %}
