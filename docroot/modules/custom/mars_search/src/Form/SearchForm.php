@@ -52,14 +52,18 @@ class SearchForm extends FormBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Builds search form.
    *
-   * @param boolean $autocomplete
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   * @param bool $autocomplete
    *   Enables/disables autocomplete for the form.
    * @param array $grid_options
    *   Search grid specific options like preset filters, grid id etc.
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $autocomplete = TRUE, $grid_options = []) {
+  public function buildForm(array $form, FormStateInterface $form_state, $autocomplete = TRUE, array $grid_options = []) {
     $keys = $this->searchHelper->request->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
     $search_input_classes = ['search-input__field'];
     if ($autocomplete) {

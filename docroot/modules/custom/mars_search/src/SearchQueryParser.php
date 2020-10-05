@@ -82,7 +82,6 @@ class SearchQueryParser implements SearchQueryParserInterface {
     ];
 
     // @todo handle faq type query case.
-
     return $default_options;
   }
 

@@ -21,7 +21,7 @@ interface SearchQueryParserInterface {
   /**
    * Converts current GET parameters into SOLR friendly array.
    *
-   * @param $search_id int
+   * @param int $search_id
    *   Search identifier.
    *
    * @return array
@@ -32,7 +32,7 @@ interface SearchQueryParserInterface {
   /**
    * Returns default options for search query.
    *
-   * @param $query_parameters array
+   * @param array $query_parameters
    *   GET query parameters.
    *
    * @return array
