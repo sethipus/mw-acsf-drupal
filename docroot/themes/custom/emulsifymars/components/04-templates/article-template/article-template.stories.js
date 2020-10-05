@@ -3,7 +3,8 @@ import React from 'react';
 import articleTemplateTwig from './article-template.twig';
 import articleTemplateData from './article-template.yml';
 import articleHeaderImageData from '../../02-molecules/article-header/article-header-image.yml';
-import articleMediaData from '../../02-molecules/article-media/full-width/full-width-media.yml'
+import articleMediaData from '../../02-molecules/article-media/full-width/full-width-media.yml';
+import articleInlineMediaData from '../../02-molecules/article-media/inline/inline-media.yml';
 
 import { useEffect } from '@storybook/client-api';
 
@@ -15,6 +16,7 @@ export const articleTemplate = () => {
         __html: articleTemplateTwig({
           ...articleHeaderImageData,
           ...articleMediaData,
+          ...articleInlineMediaData,
           ...articleTemplateData
         })
       }}/>
