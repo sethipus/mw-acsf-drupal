@@ -1,0 +1,21 @@
+uuid: 8655411a-5295-4724-8ab0-75904fe6aaeb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.layout_builder__layout
+    - node.type.where_to_buy
+  module:
+    - layout_builder
+id: node.where_to_buy.layout_builder__layout
+field_name: layout_builder__layout
+entity_type: node
+bundle: where_to_buy
+label: Layout
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: layout_section
