@@ -12,6 +12,7 @@
  *   for example: to insert an icon
  */
 #}
+{{ attach_library('emulsifymars/dropdown') }}
 {% set dropdown_base_class = badge_base_class|default('dropdown') %}
 {% set dropdown_trigger__base_class = dropdown_trigger__base_class|default('dropdown__trigger') %}
 
@@ -20,7 +21,14 @@
     button_trigger_base_class: dropdown_trigger__base_class,
   } %}
     {% block button_content %}
+      {% if dropdown_selected_title %}
+        {% include "@atoms/text/text/07-span.twig" with {
+          span_base_class: dropdown_base_class ~ '__title-selected',
+          span_content: dropdown_selected_title,
+        } %}
+      {% endif %}
       {% include "@atoms/text/text/07-span.twig" with {
+        span_base_class: dropdown_base_class ~ '__title-default',
         span_content: dropdown_title,
       } %}
     {% endblock %}

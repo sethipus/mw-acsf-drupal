@@ -1,0 +1,153 @@
+uuid: b0a84823-e471-4add-b198-c4c524c4f765
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.poll.poll.field_contact_us_label
+    - field.field.poll.poll.field_contact_us_link
+    - field.field.poll.poll.field_description
+    - field.field.poll.poll.field_negative_feedback
+    - field.field.poll.poll.field_positive_feedback
+    - field.field.poll.poll.field_submit_cta
+    - field.field.poll.poll.field_thank_you_message
+    - field.field.poll.poll.field_type
+  module:
+    - field_group
+    - poll
+third_party_settings:
+  field_group:
+    group_feedback_variations:
+      children:
+        - field_positive_feedback
+        - field_negative_feedback
+        - field_contact_us_label
+        - field_contact_us_link
+      parent_name: ''
+      weight: 7
+      format_type: details
+      region: content
+      format_settings:
+        description: ''
+        id: ''
+        classes: ''
+        required_fields: false
+        open: false
+      label: 'Feedback Options'
+    group_poll_options:
+      children:
+        - field_submit_cta
+        - field_thank_you_message
+      parent_name: ''
+      weight: 5
+      format_type: details
+      region: content
+      format_settings:
+        description: ''
+        id: ''
+        classes: ''
+        required_fields: false
+        open: false
+      label: 'Poll options'
+id: poll.poll.default
+targetEntityType: poll
+bundle: poll
+mode: default
+content:
+  anonymous_vote_allow:
+    type: boolean_checkbox
+    weight: 8
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  choice:
+    type: poll_choice_default
+    settings: {  }
+    weight: 3
+    region: content
+    third_party_settings: {  }
+  field_contact_us_label:
+    weight: 13
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_contact_us_link:
+    weight: 14
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_description:
+    weight: 2
+    settings:
+      size: 90
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_negative_feedback:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_positive_feedback:
+    weight: 11
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_submit_cta:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_thank_you_message:
+    weight: 5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_type:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
+  question:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 50
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 9
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+hidden:
+  cancel_vote_allow: true
+  result_vote_allow: true
+  runtime: true
+  status: true

@@ -7,10 +7,12 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\mars_common\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Utility\Token;
 
 /**
  * Class RecipeDetailHero.
@@ -51,6 +53,20 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $themeConfiguratorParser;
 
   /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
+   * The token service.
+   *
+   * @var \Drupal\Core\Utility\Token
+   */
+  protected $token;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -59,12 +75,16 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    Token $token,
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->configFactory = $config_factory;
+    $this->token = $token;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -77,7 +97,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('token'),
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -93,12 +115,16 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
       '#ingredients_number' => $node->field_recipe_ingredients_number->value . $node->get('field_recipe_ingredients_number')->getSettings()['suffix'],
       '#number_of_servings' => $node->field_recipe_number_of_servings->value . $node->get('field_recipe_number_of_servings')->getSettings()['suffix'],
-      '#image' => [
-        'label' => $node->field_recipe_image->entity->label(),
-        'url' => $node->field_recipe_image->entity->image->entity->createFileUrl(),
-      ],
       '#theme' => 'recipe_detail_hero_block',
     ];
+
+    if ($node->hasField('field_recipe_image') && $node->field_recipe_image->target_id) {
+      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_recipe_image->target_id);
+      $build['#image'] = [
+        'label' => $image_arr['title'] ?? '',
+        'url' => $image_arr['src'] ?? '',
+      ];
+    }
 
     // Get brand border path.
     $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-hero-border');
@@ -140,7 +166,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
         continue;
       }
       $social_menu_items[$name]['title'] = $social_media['text'];
-      $social_menu_items[$name]['url'] = $social_media['api_url'];
+      $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url']);
       $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {

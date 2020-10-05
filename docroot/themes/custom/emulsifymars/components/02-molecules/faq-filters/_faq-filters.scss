@@ -20,9 +20,16 @@
       flex-grow: 1;
 
       &__field {
-        width: 100%;
+        width: calc(100% - 20px);
+        margin: 0 20px;
       }
     }
+  }
+
+  &__search-results {
+    margin: 20px 40px 0 40px;
+    font-size: 1.6rem;
+    color: clr(primary);
   }
 
   &__filters {
@@ -51,8 +58,8 @@
       cursor: pointer;
       background-color: clr(subcolor-3);
       border: 1px solid clr(secondary);
-      padding: 20px 40px;
-      border-radius: variable(border-radius);;
+      padding: 12px;
+      border-radius: variable(button-border-radius);
       font-family: variable(primary-font);
       font-size: 14px;
       line-height: 14px;
@@ -61,6 +68,14 @@
       color: clr(secondary);
       margin: 0 12px 12px 0;
       text-decoration: none;
+
+      @include medium {
+        padding: 17px 45px;
+      }
+
+      @include xl {
+        padding: 20px 40px;
+      }
 
       &.active {
         background-color: clr(secondary);

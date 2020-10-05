@@ -1,0 +1,32 @@
+services:
+  salsify_integration.content_type_field_check:
+    class: Drupal\salsify_integration\EventSubscriber\SalsifySubscriber
+    arguments: ['@queue']
+    tags:
+      - { name: 'event_subscriber' }
+
+  salsify_integration.config_entity_type_update:
+    class: Drupal\salsify_integration\EventSubscriber\SalsifyConfigEntityTypeSubscriber
+    arguments: ['@module_handler', '@entity_type.manager']
+    tags:
+      - { name: 'event_subscriber' }
+
+  salsify_integration.salsify_product_repository:
+    class: Drupal\salsify_integration\SalsifyProductRepository
+    arguments: ['@entity_type.manager']
+
+  salsify_integration.product_data_helper:
+    class: Drupal\salsify_integration\ProductHelper
+
+  salsify_integration.email_report:
+    class: Drupal\salsify_integration\SalsifyEmailReport
+    arguments:
+      - '@config.factory'
+      - '@entity_type.manager'
+      - '@plugin.manager.mail'
+      - '@language_manager'
+      - '@tempstore.shared'
+      - '@logger.factory'
+
+  salsify_integration.product_fields_mapper:
+    class: Drupal\salsify_integration\ProductFieldsMapper

@@ -6,11 +6,13 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Utility\Token;
 
 /**
  * Class ArticleHeader.
@@ -65,6 +67,20 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $configFactory;
 
   /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
+   * The token service.
+   *
+   * @var \Drupal\Core\Utility\Token
+   */
+  protected $token;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -73,15 +89,19 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     DateFormatterInterface $date_formatter,
+    Token $token,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->dateFormatter = $date_formatter;
+    $this->token = $token;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->configFactory = $config_factory;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -94,8 +114,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('date.formatter'),
+      $container->get('token'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -116,10 +138,11 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     ];
 
     // Check which template to use.
-    if ($node->hasField('field_article_image') && $node->field_article_image->entity) {
+    if ($node->hasField('field_article_image') && $node->field_article_image->target_id) {
+      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_article_image->target_id);
       $build['#image'] = [
-        'label' => $node->field_article_image->entity->label(),
-        'url' => $node->field_article_image->entity->image->entity->createFileUrl(),
+        'label' => $image_arr['title'] ?? '',
+        'url' => $image_arr['src'] ?? '',
       ];
       $build['#theme'] = 'article_header_block_image';
     }
@@ -184,7 +207,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
         continue;
       }
       $social_menu_items[$name]['title'] = $social_media['text'];
-      $social_menu_items[$name]['url'] = $social_media['api_url'];
+      $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url']);
       $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {

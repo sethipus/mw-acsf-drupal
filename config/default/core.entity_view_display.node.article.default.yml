@@ -3,11 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.article.field_article_brand_initiatives
     - field.field.node.article.field_article_description
     - field.field.node.article.field_article_image
     - field.field.node.article.field_article_new
     - field.field.node.article.field_article_related_products
+    - field.field.node.article.field_brand_initiatives
     - field.field.node.article.field_product_occasions
     - field.field.node.article.layout_builder__layout
     - node.type.article
@@ -18,6 +18,7 @@ dependencies:
     - layout_library
     - mars_articles
     - mars_common
+    - mars_recommendations
     - user
 third_party_settings:
   layout_builder:
@@ -43,6 +44,22 @@ third_party_settings:
               article: null
             additional: {  }
             weight: 0
+          a8eeed0a-027c-49a5-877a-6ddfb739d8cc:
+            uuid: a8eeed0a-027c-49a5-877a-6ddfb739d8cc
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:article:field_brand_initiatives'
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+            additional: {  }
+            weight: 1
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -66,7 +83,22 @@ third_party_settings:
         layout_id: article_content_recommendations
         layout_settings:
           label: 'Content Recommendations'
-        components: {  }
+        components:
+          b15bc0e7-6fb7-4d5f-b8ca-219fb935602d:
+            uuid: b15bc0e7-6fb7-4d5f-b8ca-219fb935602d
+            region: content
+            configuration:
+              id: recommendations_module
+              label: 'MARS: Recommendations Module'
+              provider: mars_recommendations
+              label_display: ''
+              title: ''
+              population_plugin_id: dynamic
+              population_plugin_configuration: null
+              context_mapping:
+                node: layout_builder.entity
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -94,6 +126,7 @@ third_party_settings:
       - 'Lists (Views)'
       - 'Mars Common'
       - 'Mars Product'
+      - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
       - Product
@@ -102,11 +135,11 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
         'Flexible driver': {  }
+        'Mars Search': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - article_article_header
@@ -124,7 +157,14 @@ third_party_settings:
               - article_header
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
+            'Custom block types':
+              - flexible_framer
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - list
+              - media_carousel
             'Custom blocks':
               - mars_common_content_feature_module
             'Entity Block': {  }
@@ -139,14 +179,18 @@ third_party_settings:
               - 'inline_block:full_width_image'
               - 'inline_block:full_width_video'
               - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
               - 'inline_block:list'
               - 'inline_block:media_carousel'
               - 'inline_block:text'
             'Lists (Views)': {  }
             'Mars Common':
               - contact_help_banner_block
+              - feedback_block
               - iframe_block
               - newsletter_signup_form
+              - poll_block
+              - recommendations_module
               - story_highlight
             'Mars Product': {  }
             Menus: {  }
@@ -158,7 +202,6 @@ third_party_settings:
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         article_article_header:
           all_regions:
@@ -196,13 +239,16 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            Facets: {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - recommendations_module
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -220,6 +266,14 @@ targetEntityType: node
 bundle: article
 mode: default
 content:
+  field_brand_initiatives:
+    weight: 2
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_product_occasions:
     weight: 1
     label: above
@@ -234,7 +288,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  field_article_brand_initiatives: true
+  content_moderation_control: true
   field_article_description: true
   field_article_image: true
   field_article_new: true

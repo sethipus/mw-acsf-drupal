@@ -168,7 +168,7 @@
       display: none;
     }
 
-    &.show-nav {
+    &.nav--show {
       transform: translateY(0);
     }
   }
@@ -185,7 +185,7 @@
 
     @include medium {
       flex-direction: column;
-      padding: 4rem 4rem 9.5rem;
+      padding: 4rem 10rem 9.5rem;
     }
 
     @include large {
@@ -258,19 +258,20 @@
   &__description {
     margin: 3rem 0 5rem;
     font-family: variable(secondary-font);
-    font-size: 1.4rem;
-    line-height: 1.4;
+    font-size: 1.8rem;
+    line-height: 2.88rem;
     text-align: center;
     color: clr(primary);
 
     @include medium {
       margin: 21.4rem 13.8rem 2rem 11.8rem;
-      font-size: 1.6rem;
     }
 
     @include large {
       margin: 3.7rem 17rem 3.6rem 0;
       text-align: left;
+      line-height: 2.24rem;
+      font-size: 1.6rem;
     }
   }
 
@@ -352,10 +353,19 @@
     animation: cubic-bezier(0, 0, 1, 1) pulse 4.8s infinite;
 
     &-container {
-      padding: 1.8rem 3.2rem .2rem 2.6rem;
+      padding: 1.8rem 0 .2rem 0;
 
       @include medium {
-        padding: 1rem 7rem 18rem;
+        padding: 1rem 0 18rem;
+      }
+    }
+
+    img {
+      @media (max-width: 768px) {
+        width: 54.9rem;
+      }
+      @media (max-width: 375px) {
+        width: 27.7rem;
       }
     }
   }
@@ -370,11 +380,20 @@
     }
 
     &-container {
-      margin: 4.5rem 2.9rem 2rem;
+      margin: 4.5rem 0 2rem;
 
       @include medium {
         margin-left: 9.8rem;
         margin-right: 11.8rem;
+      }
+    }
+
+    img {
+      @media (max-width: 768px) {
+        width: 47.2rem;
+      }
+      @media (max-width: 375px) {
+        width: 27.7rem;
       }
     }
   }
@@ -553,8 +572,12 @@
 }
 
 .default-link {
-  padding: 0 3.4rem;
+    padding: 0 1.2rem;
 
+  @include medium {
+    padding: 0 3.4rem;
+  }
+  
   &--pdp-sections {
     display: flex;
     align-items: center;
@@ -563,9 +586,15 @@
     line-height: 1.1;
     letter-spacing: normal;
     text-align: center;
-    padding: 1.8rem .6rem;
     background-color: clr(subcolor-3);
     color: clr(secondary);
+    height: 6rem;
+    width: 10.6rem;
+
+    @include medium {
+      height: 6rem;
+      width: 17rem;
+    }
 
     &:hover {
       color: clr(subcolor-3);

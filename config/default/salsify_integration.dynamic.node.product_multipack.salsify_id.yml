@@ -1,0 +1,9 @@
+field_id: 'salsify:system_id'
+salsify_id: 'salsify:id'
+salsify_data_type: string
+entity_type: node
+bundle: product_multipack
+field_name: salsify_id
+method: dynamic
+created: 1600732800
+changed: 1600754584

@@ -1,0 +1,370 @@
+.polling {
+  display: block;
+  position: relative;
+  overflow: visible;
+  margin: 0 auto;
+  max-width: 99%;
+  box-shadow: 1px 1px 3px #ccc;
+  border-radius: variable(border-radius);
+
+  @include xs {
+    padding: 3rem 1.7rem 5rem 1.7rem;
+  }
+
+  @include medium {
+    padding: 6rem;
+  }
+
+  @include large {
+    padding: 6rem 11.8rem 8rem 11.8rem;
+  }
+
+  &__png-asset {
+    position: absolute;
+    display: block;
+    z-index: 1;
+    right: 0;
+
+    @include xs {
+      width: 18rem;
+      height: 18rem;
+      bottom: -13rem;
+    }
+
+    @include medium {
+      width: 25rem;
+      height: 25rem;
+      bottom: -15rem;
+    }
+
+    @include large {
+      width: 35rem;
+      height: 35rem;
+      bottom: -22rem;
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__heading {
+    color: clr(secondary);
+    font-family: variable(primary-font);
+    text-transform: uppercase;
+    text-align: center;
+
+    @include xs {
+      font-size: 2rem;
+      line-height: 3.2rem;
+      letter-spacing: 0.08rem;
+      margin-bottom: 2rem;
+    }
+
+    @include medium {
+      font-size: 2.6rem;
+      letter-spacing: 0.104rem;
+      margin-bottom: 3rem;
+    }
+
+    @include large {
+      font-size: 2.8rem;
+      line-height: 3.08rem;
+      letter-spacing: 0.14rem;
+    }
+  }
+
+  &__paragraph {
+    font-family: variable(secondary-font);
+    color: clr(primary);
+    text-align: center;
+    font-weight: 600;
+
+    @include xs {
+      font-size: 1.6rem;
+      line-height: 2.24rem;
+      margin-bottom: 4rem;
+    }
+
+    @include medium {
+      line-height: 2.08rem;
+      margin-bottom: 6rem;
+    }
+
+    @include large {
+      font-size: 1.8rem;
+      line-height: 2.52rem;
+      margin-bottom: 8rem;
+    }
+  }
+
+  // styling polls form
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 92rem;
+    margin: 0 auto;
+
+    @include medium {
+      .default-link {
+        text-align: center;
+        width: 100%;
+        max-width: 43.3rem;
+        cursor: pointer;
+      }
+    }
+
+    &--submitted {
+      & .polling__label {
+        cursor: default;
+      }
+    }
+  }
+
+  &__fieldset {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    @include xs {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 3rem;
+      margin-bottom: 3rem;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @include medium {
+      border: none;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    @include large {
+      justify-content: flex-start;
+    }
+
+    @media (max-width: 1193px) {
+      justify-content: center;
+    }
+
+    &--column-layout {
+      flex-direction: column;
+    }
+  }
+
+  &__label {
+    display: block;
+    width: 100%;
+    max-width: 43.3rem;
+    font-family: variable(primary-font);
+    color: clr(secondary);
+    font-size: 1.6rem;
+    letter-spacing: 0.128rem;
+    text-transform: uppercase;
+    border: 1px solid clr(secondary);
+    border-radius: variable(border-radius);
+    line-height: 6rem;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    margin: 0 1rem 2rem 1rem;
+  }
+
+  &__label-text {
+    position: relative;
+    padding-left: 3rem;
+    z-index: 2;
+  }
+
+  &__percentage {
+    position: absolute;
+    right: 3rem;
+    z-index: 2;
+  }
+
+  &__bar {
+    position: absolute;
+    display: block;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: clr(subcolor-1);
+    border-radius: variable(border-radius);
+    z-index: 1;
+  }
+
+  &__radio {
+    position: relative;
+    width: 0;
+    height: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      top: -15px;
+      left: -1px;
+      width: 2rem;
+      height: 2rem;
+      background-color: transparent;
+      border: 1px solid clr(secondary);
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    &:not(.polling__radio--submitted) {
+      &:checked {
+        &::before {
+          content: '';
+          position: absolute;
+          display: block;
+          top: -11px;
+          left: 3px;
+          width: 1.2rem;
+          height: 1.2rem;
+          background-color: clr(secondary);
+          border-radius: 50%;
+          z-index: 3;
+        }
+
+        &::after {
+          background-color: transparent;
+        }
+      }
+    }
+
+
+
+    &--submitted {
+
+      &[checked="true"],
+      &[checked="checked"] {
+        &::before {
+          content: '';
+          position: absolute;
+          display: block;
+          top: -11px;
+          left: 3px;
+          width: 1.2rem;
+          height: 1.2rem;
+          background-color: clr(secondary);
+          border-radius: 50%;
+          z-index: 3;
+        }
+      }
+
+      &::after {
+        background-color: transparent;
+      }
+    }
+  }
+
+  & .default-link {
+    @include xs {
+      width: 100%;
+      max-width: 43.3rem;
+      text-align: center;
+
+      &::after {
+        bottom: -125px;
+      }
+    }
+
+    @include medium {
+      width: auto;
+
+    }
+  }
+
+  // styles for submitted state
+  &__submitted {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80%;
+    justify-content: center;
+  }
+
+  &__submitted-text {
+    color: clr(secondary);
+    font-family: variable(primary-font);
+    padding-left: 1.5rem;
+
+    @include xs {
+      font-size: 2rem;
+      line-height: 3.2rem;
+      letter-spacing: 0.08rem;
+    }
+
+    @include medium {
+      font-size: 2.6rem;
+      letter-spacing: 0.104rem;
+    }
+
+    @include large {
+      font-size: 2.8rem;
+      line-height: 3.08rem;
+      letter-spacing: 0.112rem;
+    }
+  }
+
+  &__submitted-img {
+    position: relative;
+    display: block;
+    border-radius: 50%;
+
+    @include xs {
+      width: 5rem;
+      height: 5rem;
+    }
+
+    @include medium {
+      width: 6.8rem;
+      height: 6.8rem;
+    }
+
+    @include large {
+      width: 8.6rem;
+      height: 8.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__brand-shape {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  &__tick {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+
+    @include xs {
+      top: 1.2rem;
+      left: 1.3rem;
+    }
+
+    @include medium {
+      top: 1.7rem;
+      left: 1.9rem;
+    }
+
+    @include large {
+      top: 2.4rem;
+      left: 2.3rem;
+    }
+  }
+}
