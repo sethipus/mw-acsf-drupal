@@ -214,7 +214,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     // We don't need taxonomy filters and keys filter applied for facets query.
     $facetOptions['disable_filters'] = TRUE;
 
-    // Taxonomy filter(s).
+    // Taxonomy preset filter(s).
     // Adding them only if facets are disabled.
     if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
       foreach ($config['general_filters'] as $filter_key => $filter_value) {
@@ -224,11 +224,11 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
           $searchOptions['conditions'][] = [
             $filter_key,
             $filter_value['select'],
-            '=',
-            $filter_value['options_logic'],
+            'IN',
           ];
         }
       }
+      $searchOptions['options_logic'] = $config['general_filters']['options_logic'];
     }
 
     // Getting and building search results.
@@ -445,17 +445,17 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
         '#options' => $terms_options,
         '#default_value' => $config['general_filters'][$vocabulary]['select'] ?? NULL,
       ];
-      $form['general_filters'][$vocabulary]['options_logic'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Operator for %vocabulary options', ['%vocabulary' => $label]),
-        '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
-        '#options' => [
-          'and' => $this->t('AND'),
-          'or' => $this->t('OR'),
-        ],
-        '#default_value' => $config['general_filters'][$vocabulary]['options_logic'] ?? 'and',
-      ];
     }
+    $form['general_filters']['options_logic'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Logic operator'),
+      '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
+      '#options' => [
+        'and' => $this->t('AND'),
+        'or' => $this->t('OR'),
+      ],
+      '#default_value' => $config['general_filters']['options_logic'] ?? 'and',
+    ];
 
     return $form;
   }
@@ -499,7 +499,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     return $form;
   }
 
-  /**
+  /**SearchHelper.php
    * Builds exposed filters form element.
    *
    * @return array

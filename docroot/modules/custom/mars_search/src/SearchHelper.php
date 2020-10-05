@@ -5,6 +5,7 @@ namespace Drupal\mars_search;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\mars_search\Plugin\Block\SearchGridBlock;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -93,24 +94,21 @@ class SearchHelper implements SearchHelperInterface {
     $query->setOption('search_api_facets', $facet_options);
 
     // Applying predefined conditions.
-    // Applying predefined conditions.
     // $condition[0] is a filter key.
     // $condition[1] is a filter value.
     // $condition[2] is a filter comparison operator: equals, not equals etc.
-    // $condition[3] is a multiple field operator(OR/AND). Could be not set.
     if (!empty($options['conditions'])) {
+      $conditionsGroup = $query->createConditionGroup($options['options_logic']);
       foreach ($options['conditions'] as $condition) {
-        if (!isset($condition[3])) {
-          $query->addCondition($condition[0], $condition[1], $condition[2]);
+        // Taxonomy filters go as a separate condition group with OR/AND logic.
+        if (in_array($condition[0], array_keys(SearchGridBlock::TAXONOMY_VOCABULARIES))) {
+          $conditionsGroup->addCondition($condition[0], $condition[1], $condition[2]);
         }
         else {
-          $conditionsGroup = $query->createConditionGroup($condition[3]);
-          foreach ($condition[1] as $filter_value) {
-            $conditionsGroup->addCondition($condition[0], $filter_value, $condition[2]);
-          }
-          $query->addConditionGroup($conditionsGroup);
+          $query->addCondition($condition[0], $condition[1], $condition[2]);
         }
       }
+      $query->addConditionGroup($conditionsGroup);
     }
 
     // Applying search keys.
