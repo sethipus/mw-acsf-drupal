@@ -1,0 +1,31 @@
+{% set card_base_class = card_base_class|default('content-hub-card') %}
+
+<section data-theme="{{ theme_styles }}" {{ bem(card_base_class) }}>
+
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: heading,
+    heading_level: heading_level,
+    heading_url: button_link_attributes.href,
+    heading_base_class: heading_base_class
+  } %}
+
+  <div {{ bem('details-button', [], recipe_card_base_class) }}>
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content: button_text,
+      default_link_attributes: button_link_attributes,
+      default_link_modifiers: button_modifiers
+    } %}
+  </div>
+
+  <div {{ bem('media', [], card_base_class) }}>
+    <a href={{ media_url }}>
+      {% include "@atoms/images/image/_image.twig" with {
+        output_image_tag: true,
+        image_alt: card_image_alt,
+        image_src: card_image_src,
+        responsive_image_blockname: 'content_hub_image',
+      } %}
+    </a>
+  </div>
+
+</section>

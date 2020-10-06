@@ -90,12 +90,11 @@
     {% endif %}
     {# Body #}
     {% if card__body %}
-      {% include "@atoms/text/text/01-paragraph.twig" with {
-        paragraph_base_class: card__body__base_class|default('body'),
-        paragraph_modifiers: card__body__modifiers,
-        paragraph_blockname: card__base_class,
-        paragraph_content: card__body,
-      } %}
+        {% include "@atoms/text/text/07-element.twig" with {
+          paragraph_base_class: 'body',
+          paragraph_blockname: card__base_class,
+          paragraph_content: card__body,
+        } %}
     {% endif %}
     {# Link #}
     {% if card__link__url and card__link__text %}

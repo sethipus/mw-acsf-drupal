@@ -15,7 +15,7 @@
 
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 <section {{ bem(flexible_framer__base_class) }} data-theme="drupal" style="position: relative;">
-  <div class="curve" style="top: -60px;">
+  <div class="{{ brand_shape_class }}" style="top: -60px;">
     {{ brand_borders | raw }}
   </div>
 

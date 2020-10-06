@@ -71,6 +71,12 @@ button_style:
   type: integer
   label: 'Designates rounded buttons or sharp corner buttons and card corner. For example: 5px.'
 
+# Product layout settings.
+# ----------------------------
+show_allergen_info:
+  type: boolean
+  label: 'Show allergen info at product details.'
+
 # Social links.
 # ----------------------------
 social_links:
