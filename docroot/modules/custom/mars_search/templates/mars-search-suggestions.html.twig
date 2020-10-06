@@ -16,7 +16,7 @@
 {% if suggestions %}
   <ul class="suggestions-links">
     {% for suggestion in suggestions %}
-      <li>{{ suggestion }}</li>
+      <li>{{ suggestion|raw }}</li>
     {% endfor %}
   </ul>
   <div class="show-all">

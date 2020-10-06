@@ -9,6 +9,7 @@ use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
+use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,7 +92,12 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
     if (!empty($results['results'])) {
       foreach ($results['results'] as $entity) {
         if ($entity->bundle() == 'faq') {
-          $suggestions[] = $entity->label();
+          $alter = [
+            'max_length' => 50,
+            'word_boundary' => TRUE,
+            'ellipsis' => TRUE,
+          ];
+          $suggestions[] = FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value));
           // Indicates that it's faq query so we can skip show all link.
           $faq = TRUE;
         }
