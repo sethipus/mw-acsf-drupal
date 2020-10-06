@@ -12,7 +12,7 @@ dependencies:
     - field.field.node.product_variant.field_product_calories_fat
     - field.field.node.product_variant.field_product_carb
     - field.field.node.product_variant.field_product_carb_daily
-    - field.field.node.product_variant.field_product_card_image_hover
+    - field.field.node.product_variant.field_product_card_imageoverride
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
     - field.field.node.product_variant.field_product_diet_allergens
@@ -165,7 +165,7 @@ third_party_settings:
       children:
         - field_product_key_image
         - field_product_key_image_override
-        - field_product_card_image_hover
+        - field_product_card_imageoverride
         - field_product_image_1
         - field_product_image_1_override
         - field_product_image_2
@@ -340,7 +340,7 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_product_card_image_hover:
+  field_product_card_imageoverride:
     type: entity_browser_entity_reference
     weight: 22
     settings:

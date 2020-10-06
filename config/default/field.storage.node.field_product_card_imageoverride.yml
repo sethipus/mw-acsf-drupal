@@ -5,8 +5,8 @@ dependencies:
   module:
     - media
     - node
-id: node.field_product_card_image_hover
-field_name: field_product_card_image_hover
+id: node.field_product_card_imageoverride
+field_name: field_product_card_imageoverride
 entity_type: node
 type: entity_reference
 settings:

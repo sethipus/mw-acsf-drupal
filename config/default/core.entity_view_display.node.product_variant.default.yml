@@ -11,7 +11,7 @@ dependencies:
     - field.field.node.product_variant.field_product_calories_fat
     - field.field.node.product_variant.field_product_carb
     - field.field.node.product_variant.field_product_carb_daily
-    - field.field.node.product_variant.field_product_card_image_hover
+    - field.field.node.product_variant.field_product_card_imageoverride
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
     - field.field.node.product_variant.field_product_diet_allergens
@@ -62,7 +62,7 @@ dependencies:
     - text
     - user
 _core:
-  default_config_hash: M7m69Y4vnMhF11JqxGyqv2WheGHh72l9kWX2BQ9-qQ8
+  default_config_hash: M7m69YxvnMhF11JqxGyqv2WheGHh72l9kWX2BQ9-qQ8
 id: node.product_variant.default
 targetEntityType: node
 bundle: product_variant
@@ -130,7 +130,7 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  field_product_card_image_hover:
+  field_product_card_imageoverride:
     type: entity_reference_entity_view
     weight: 14
     label: above

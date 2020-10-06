@@ -12,7 +12,7 @@ dependencies:
     - field.field.node.product_variant.field_product_calories_fat
     - field.field.node.product_variant.field_product_carb
     - field.field.node.product_variant.field_product_carb_daily
-    - field.field.node.product_variant.field_product_card_image_hover
+    - field.field.node.product_variant.field_product_card_imageoverride
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
     - field.field.node.product_variant.field_product_diet_allergens
@@ -100,7 +100,7 @@ hidden:
   field_product_calories_fat: true
   field_product_carb: true
   field_product_carb_daily: true
-  field_product_card_image_hover: true
+  field_product_card_imageoverride: true
   field_product_cholesterol: true
   field_product_cholesterol_daily: true
   field_product_diet_allergens: true
