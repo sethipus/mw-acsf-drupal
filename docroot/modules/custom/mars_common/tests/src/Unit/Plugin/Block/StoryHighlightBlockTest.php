@@ -386,6 +386,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
       ->willReturnMap([
         [
           self::STORY_ITEM_1_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_1_MEDIA_URI,
@@ -395,6 +396,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::STORY_ITEM_2_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_2_MEDIA_URI,
@@ -404,6 +406,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::STORY_ITEM_3_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_3_MEDIA_URI,
@@ -413,6 +416,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_1_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_1_MEDIA_URI,
@@ -422,6 +426,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_2_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_2_MEDIA_URI,
@@ -431,6 +436,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_3_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_3_MEDIA_URI,
