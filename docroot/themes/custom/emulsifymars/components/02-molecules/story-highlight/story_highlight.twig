@@ -3,7 +3,7 @@
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 
 <section id="story-highlight" {{ bem(story_highlight_base_class) }} data-theme="{{ theme_styles }}">
-  <div class="curve">
+  <div class="{{ brand_shape_class }}">
     {{ brand_borders | raw }}
   </div>
 

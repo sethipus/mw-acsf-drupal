@@ -15,5 +15,5 @@ shape: '<svg viewBox="0 0 768 48" fill="none" xmlns="http://www.w3.org/2000/svg"
 #                  </defs>
 #                  <rect x="0" y="0" stroke="#630" stroke-width="0" fill="url(#divider-pattern)"></rect>
 #                </svg>'
-brand_shape_class: 'curve'
-#brand_shape_class: 'triangle'
+brand_shape_class: 'stretch'
+#brand_shape_class: 'repeat'

@@ -87,7 +87,7 @@
       position: relative;
       margin-bottom: 10px;
 
-      & .curve {
+      & .stretch {
         position: absolute;
         width: 100%;
         height: auto;
@@ -106,7 +106,7 @@
         }
       }
 
-      & .triangle {
+      & .repeat {
         position: absolute;
         width: 100%;
         height: auto;
@@ -147,7 +147,7 @@
       background-size: 38% auto;
     }
 
-    .curve {
+    .stretch {
       position: absolute;
       width: 100%;
       height: auto;
@@ -167,7 +167,7 @@
       }
     }
 
-    .triangle {
+    .repeat {
       position: absolute;
       width: 100%;
       height: auto;
