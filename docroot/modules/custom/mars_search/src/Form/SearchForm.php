@@ -76,6 +76,10 @@ class SearchForm extends FormBase {
     if (!empty($grid_options['filters'])) {
       $grid_query = UrlHelper::buildQuery($grid_options['filters']);
     }
+    // Adding FAQ-specific class just to have it.
+    if (!empty($grid_options['filters']['faq'])) {
+      $search_input_classes[] = 'mars-autocomplete-field-faq';
+    }
     $form['search'] = [
       '#type' => 'textfield',
       '#attributes' => [
