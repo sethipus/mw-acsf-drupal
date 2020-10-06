@@ -11,41 +11,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Mars Recommendations event subscriber.
  */
-class PopulationLogicSubscriber implements EventSubscriberInterface {
+class ManualPagesSubscriber implements EventSubscriberInterface {
+
+  const MANUAL_PAGES = [
+    'landing_page',
+    'campaign',
+  ];
+
 
   /**
-   * Unsets plugin definitions that do not match current zone.
-   *
-   * @param \Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent $event
-   *   Alter options event.
-   */
-  public function validateZoneMatch(AlterPopulationLogicOptionsEvent $event) {
-    if (!($entity = $event->getEntity()) || !$event->getLayoutId()) {
-      return;
-    }
-
-    $bundle = $entity instanceof LayoutBuilderEntityViewDisplay ? $entity->getTargetBundle() : $entity->bundle();
-    if ($bundle != 'content_hub_page') {
-      return;
-    }
-
-    $form_alter_class = mars_common_get_layout_alter_class($event->getEntity());
-    $is_fixed_section = in_array($event->getLayoutId(), constant("$form_alter_class::FIXED_SECTIONS"));
-
-    $zone_type = $is_fixed_section ? 'fixed' : 'flexible';
-
-    $event->setDefinitions(
-      array_filter(
-        $event->getDefinitions(),
-        function ($definition) use ($zone_type) {
-          return empty($definition['zone_types']) || in_array($zone_type, $definition['zone_types']);
-        }
-      )
-    );
-  }
-
-  /**
-   * Unsets dynamic option for Content Hub pages.
+   * Unsets dynamic option for MANUAL_PAGES array.
    *
    * @param \Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent $event
    *   Alter options event.
@@ -54,9 +29,8 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
     if (!($entity = $event->getEntity())) {
       return;
     }
-
     $bundle = $entity instanceof LayoutBuilderEntityViewDisplay ? $entity->getTargetBundle() : $entity->bundle();
-    if ($bundle != 'content_hub_page') {
+    if (!in_array($bundle, self::MANUAL_PAGES)) {
       return;
     }
 
@@ -76,17 +50,17 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
    * @param \Drupal\mars_recommendations\Event\AlterManualLogicBundlesEvent $event
    *   Alter bundles event.
    */
-  public function setContentHubAutocompleteBundle(AlterManualLogicBundlesEvent $event) {
+  public function setAutocompleteBundle(AlterManualLogicBundlesEvent $event) {
     if (!($entity = $event->getEntity())) {
       return;
     }
 
     $bundle = $entity instanceof LayoutBuilderEntityViewDisplay ? $entity->getTargetBundle() : $entity->bundle();
-    if ($bundle != 'content_hub_page') {
+    if (!in_array($bundle, self::MANUAL_PAGES)) {
       return;
     }
 
-    $event->setBundles(['content_hub_page']);
+    $event->setBundles([$bundle]);
   }
 
   /**
@@ -95,11 +69,9 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
   public static function getSubscribedEvents() {
     return [
       RecommendationsEvents::ALTER_POPULATION_LOGIC_OPTIONS => [
-        ['validateZoneMatch', 10],
-        ['disableDynamicForPages', -10],
+        ['disableDynamicForPages', 0],
       ],
-      RecommendationsEvents::ALTER_MANUAL_LOGIC_BUNDLES => ['setContentHubAutocompleteBundle'],
+      RecommendationsEvents::ALTER_MANUAL_LOGIC_BUNDLES => ['setAutocompleteBundle'],
     ];
   }
-
 }
