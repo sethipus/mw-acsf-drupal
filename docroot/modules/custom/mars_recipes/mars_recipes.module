@@ -5,6 +5,9 @@
  * MARS Recipes module main file.
  */
 
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\Entity\BaseFieldOverride;
+
 /**
  * Implements hook_theme().
  */
@@ -46,4 +49,21 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
       'template' => 'block--mars-recipes--recipe-feature-block',
     ],
   ];
+}
+
+/**
+ * Implements hook_entity_bundle_field_info().
+ */
+function mars_recipes_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+  $fields = [];
+
+  if ($entity_type->id() != 'node' || $bundle != 'recipe' || empty($base_field_definitions['title'])) {
+    return $fields;
+  }
+
+  $field = BaseFieldOverride::createFromBaseFieldDefinition($base_field_definitions['title'], $bundle);
+  $field->setSetting('max_length', 60);
+  $fields['title'] = $field;
+
+  return $fields;
 }

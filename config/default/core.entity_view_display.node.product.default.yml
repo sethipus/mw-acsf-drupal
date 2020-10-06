@@ -134,7 +134,6 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
-      - Facets
       - 'Flexible driver'
       - Forms
       - 'Global elements'
@@ -152,11 +151,9 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        Facets: {  }
         'Flexible driver': {  }
         'Mars Search': {  }
       blacklisted_blocks: {  }
@@ -177,7 +174,14 @@ third_party_settings:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
+            'Custom block types':
+              - flexible_framer
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - list
+              - media_carousel
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
@@ -191,6 +195,7 @@ third_party_settings:
               - 'inline_block:full_width_image'
               - 'inline_block:full_width_video'
               - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
               - 'inline_block:list'
               - 'inline_block:media_carousel'
               - 'inline_block:text_component'
@@ -199,22 +204,48 @@ third_party_settings:
               - contact_help_banner_block
               - iframe_block
               - newsletter_signup_form
-              - product_feature
+              - poll_block
               - recommendations_module
               - story_highlight
-              - poll_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product:
               - pdp_hero_block
-            Recipe: {  }
+            Recipe:
+              - recipe_feature_block
             'Social feed':
               - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
+            core: {  }
+        product_product_recommendations:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - recommendations_module
+            'Mars Product': {  }
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
             core: {  }
         product_product_detail_hero:
           all_regions:
@@ -259,35 +290,6 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common': {  }
             'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        product_product_recommendations:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Facets: {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common':
-              - recommendations_module
-            'Mars Product': {  }
-            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
