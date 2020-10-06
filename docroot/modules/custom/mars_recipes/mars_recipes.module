@@ -21,6 +21,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'video' => NULL,
         'social_links' => NULL,
         'border' => NULL,
+        'brand_shape_class' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
     ],
@@ -35,6 +36,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
     'recipe_feature_block' => [
       'variables' => [
         'brand_borders' => NULL,
+        'brand_shape_class' => NULL,
         'eyebrow' => NULL,
         'title' => NULL,
         'recipe_media' => [],

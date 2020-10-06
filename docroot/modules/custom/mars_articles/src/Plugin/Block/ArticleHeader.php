@@ -141,6 +141,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
     // Get brand border path.
     $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'article-hero-border');
+    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
     $build['#social_links'] = $this->socialLinks();
 
     return $build;
