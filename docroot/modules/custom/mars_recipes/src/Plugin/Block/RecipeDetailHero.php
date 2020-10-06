@@ -128,6 +128,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
 
     // Get brand border path.
     $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-hero-border');
+    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
 
     if ($node->hasField('field_recipe_video') && $node->field_recipe_video->entity) {
       $build['#video'] = $node->field_recipe_video->entity->get('field_media_video_file')->entity->createFileUrl();
