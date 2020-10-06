@@ -6,12 +6,14 @@ dependencies:
     - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_related_products
     - field.field.node.campaign.field_product_occasions
+    - field.field.node.campaign.layout_builder__layout
     - node.type.campaign
   module:
     - layout_builder
     - layout_builder_restrictions
     - layout_discovery
     - layout_library
+    - mars_common
     - user
 third_party_settings:
   layout_builder:
@@ -19,68 +21,29 @@ third_party_settings:
     enabled: true
     sections:
       -
-        layout_id: layout_onecol
+        layout_id: campaign_section
         layout_settings:
-          label: ''
+          label: 'Free Editorial Capabilities'
         components:
-          2e29c03e-11d3-43f3-953c-daa7ff168064:
-            uuid: 2e29c03e-11d3-43f3-953c-daa7ff168064
+          ea2fc118-19f2-4c67-98d8-48d22dc6d099:
+            uuid: ea2fc118-19f2-4c67-98d8-48d22dc6d099
             region: content
             configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'extra_field_block:node:campaign:links'
-            additional: {  }
-            weight: 0
-          1747cb56-b4f7-449a-a185-a47b8979b47e:
-            uuid: 1747cb56-b4f7-449a-a185-a47b8979b47e
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:campaign:field_product_occasions'
+              id: 'field_block:node:campaign:title'
+              label: Title
+              provider: layout_builder
+              label_display: ''
               formatter:
-                label: above
+                label: hidden
+                type: string
                 settings:
-                  link: true
+                  link_to_entity: false
                 third_party_settings: {  }
-                type: entity_reference_label
-            additional: {  }
-            weight: 3
-          7ef2cbc0-5c55-4d3b-89f3-de701cccac38:
-            uuid: 7ef2cbc0-5c55-4d3b-89f3-de701cccac38
-            region: content
-            configuration:
-              label_display: '0'
               context_mapping:
                 entity: layout_builder.entity
-              id: 'field_block:node:campaign:field_campaign_related_products'
-              formatter:
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-                type: entity_reference_label
+                view_mode: view_mode
             additional: {  }
-            weight: 4
-          fcf25b18-bc11-4fce-8e3d-be72a84dca81:
-            uuid: fcf25b18-bc11-4fce-8e3d-be72a84dca81
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:campaign:field_brand_initiatives'
-              formatter:
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-                type: entity_reference_label
-            additional: {  }
-            weight: 5
+            weight: 1
         third_party_settings: {  }
   layout_library:
     enable: false
@@ -122,9 +85,14 @@ third_party_settings:
       whitelisted_blocks:
         campaign_section:
           all_regions:
-            Article: {  }
+            Article:
+              - article_header
             'Chaos Tools': {  }
-            'Content fields': {  }
+            'Content fields':
+              - 'field_block:node:campaign:field_brand_initiatives'
+              - 'field_block:node:campaign:field_product_occasions'
+              - 'field_block:node:campaign:field_campaign_related_products'
+              - 'field_block:node:campaign:title'
             'Custom block types': {  }
             'Custom blocks': {  }
             'Entity Block': {  }
@@ -148,7 +116,10 @@ third_party_settings:
             'Social media share': {  }
             System: {  }
             User: {  }
-            core: {  }
+            core:
+              - page_title_block
+              - local_actions_block
+              - local_tasks_block
 id: node.campaign.default
 targetEntityType: node
 bundle: campaign
