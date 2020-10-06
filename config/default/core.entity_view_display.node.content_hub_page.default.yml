@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.content_hub_page.body
     - field.field.node.content_hub_page.field_content_hub_image
+    - field.field.node.content_hub_page.field_meta_tags
     - field.field.node.content_hub_page.layout_builder__layout
     - node.type.content_hub_page
     - views.view.multipack_product_card_grid
@@ -14,6 +15,7 @@ dependencies:
     - layout_discovery
     - layout_library
     - mars_common
+    - metatag
     - text
     - user
     - views
@@ -41,6 +43,21 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
+          fb92e9fd-6720-4f5e-b1a1-8464bdd496aa:
+            uuid: fb92e9fd-6720-4f5e-b1a1-8464bdd496aa
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:content_hub_page:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 1
         third_party_settings: {  }
       -
         layout_id: content_hub_feature
@@ -401,6 +418,13 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
+    region: content
+  field_meta_tags:
+    weight: 103
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   links:
     weight: 100
