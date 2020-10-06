@@ -353,10 +353,19 @@
     animation: cubic-bezier(0, 0, 1, 1) pulse 4.8s infinite;
 
     &-container {
-      padding: 1.8rem 3.2rem .2rem 2.6rem;
+      padding: 1.8rem 0 .2rem 0;
 
       @include medium {
-        padding: 1rem 7rem 18rem;
+        padding: 1rem 0 18rem;
+      }
+    }
+
+    img {
+      @media (max-width: 768px) {
+        width: 54.9rem;
+      }
+      @media (max-width: 375px) {
+        width: 27.7rem;
       }
     }
   }
@@ -371,11 +380,20 @@
     }
 
     &-container {
-      margin: 4.5rem 2.9rem 2rem;
+      margin: 4.5rem 0 2rem;
 
       @include medium {
         margin-left: 9.8rem;
         margin-right: 11.8rem;
+      }
+    }
+
+    img {
+      @media (max-width: 768px) {
+        width: 47.2rem;
+      }
+      @media (max-width: 375px) {
+        width: 27.7rem;
       }
     }
   }
