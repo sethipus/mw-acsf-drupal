@@ -53,7 +53,9 @@
     flex: 0 0 auto;
 
     @include large {
-      flex: 1 0 auto;
+      flex: 1 0 calc(100% - 272px);
+      align-self: flex-start;
+      padding: 5.7rem 0 2rem;
     }
 
     &--secondary {
