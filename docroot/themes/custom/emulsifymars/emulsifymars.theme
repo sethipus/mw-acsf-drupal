@@ -328,6 +328,19 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     ],
   ];
 
+  $form['product_layout'] = [
+    '#type' => 'details',
+    '#open' => TRUE,
+    '#title' => $translation->translate('Product layout settings'),
+    '#description' => $translation->translate("MARS theme settings for Product layout."),
+  ];
+
+  $form['product_layout']['show_allergen_info'] = [
+    '#type' => 'checkbox',
+    '#title' => $translation->translate('Show allergen info'),
+    '#default_value' => theme_get_setting('show_allergen_info'),
+  ];
+
   $form['#validate'] = ['_emulsifymars_form_system_theme_settings_validate'];
   $form['#submit'] = ['_emulsifymars_form_system_theme_settings_submit'];
 }
