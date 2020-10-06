@@ -3,13 +3,15 @@
 namespace Drupal\mars_seo;
 
 use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
-use Drupal\media\Entity\Media;
+use Drupal\mars_common\MediaHelper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Base class for Mars JSON LD Strategy plugins.
  */
-abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implements JsonLdStrategyInterface {
+abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implements JsonLdStrategyInterface, ContainerFactoryPluginInterface {
 
   /**
    * Supported node types.
@@ -17,6 +19,39 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
    * @var string[]
    */
   protected $supportedBundles;
+
+  /**
+   * Mars Common Media Helper.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('mars_common.media_helper')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    MediaHelper $media_helper
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+
+    $this->mediaHelper = $media_helper;
+  }
 
   /**
    * {@inheritdoc}
@@ -52,47 +87,5 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
    * {@inheritdoc}
    */
   abstract public function getStructuredData();
-
-  /**
-   * Helper method that extracts image URL from Media entity.
-   *
-   * @param \Drupal\media\Entity\Media $media
-   *   Media entity.
-   *
-   * @return string|false
-   *   Media URL or NULL if bundle is not supported.
-   */
-  protected function getMediaUrl(Media $media) {
-    /** @var \Drupal\file\Entity\File|null $file */
-    $file = NULL;
-
-    switch ($media->bundle()) {
-      case 'image':
-        $file = $media->image->entity;
-        break;
-
-      case 'lighthouse_image':
-        $file = $media->field_media_image->entity;
-        break;
-
-      case 'video_file':
-        $file = $media->field_media_video_file->entity;
-        break;
-
-      case 'lighthouse_video':
-        $file = $media->field_media_video_file_1->entity;
-        break;
-
-      case 'video':
-        return $media->field_media_video_embed_field->value;
-
-    }
-
-    if (isset($file)) {
-      return $file->createFileUrl(FALSE);
-    }
-
-    return FALSE;
-  }
 
 }

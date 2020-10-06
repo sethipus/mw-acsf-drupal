@@ -39,7 +39,7 @@ class Product extends JsonLdStrategyPluginBase {
 
     $images = [];
     foreach ($node->field_product_variants as $item) {
-      if (!$item->entity->field_product_key_image->target_id || !($url = $this->getMediaUrl($item->entity->field_product_key_image->entity))) {
+      if (!$item->entity->field_product_key_image->target_id || !($url = $this->mediaHelper->getMediaUrl($item->entity->field_product_key_image->target_id))) {
         continue;
       }
 
@@ -59,7 +59,9 @@ class Product extends JsonLdStrategyPluginBase {
       ->if($node->field_product_description->value, function (SchemaProduct $product) use ($node) {
         $product->description($node->field_product_description->value);
       })
-      ->sku($node->field_product_variants->first()->entity->field_product_sku->value)
+      ->if($node->field_product_variants->first(), function (SchemaProduct $product) use ($node) {
+        $product->sku($node->field_product_variants->first()->entity->field_product_sku->value);
+      })
       ->image($images);
   }
 

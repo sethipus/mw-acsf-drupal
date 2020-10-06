@@ -3,6 +3,7 @@
 namespace Drupal\mars_seo\Plugin\JsonLdStrategy;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_seo\JsonLdStrategyPluginBase;
 use Drupal\metatag\MetatagManager;
 use Spatie\SchemaOrg\Schema;
@@ -44,6 +45,7 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.media_helper'),
       $container->get('metatag.manager')
     );
   }
@@ -55,9 +57,10 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    MediaHelper $media_helper,
     MetatagManager $metatag_manager
   ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $media_helper);
 
     $this->metatagManager = $metatag_manager;
   }
@@ -78,7 +81,7 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
     return Schema::recipe()
       ->name($node->getTitle())
       ->if($node->field_recipe_image->target_id, function (SchemaRecipe $recipe) use ($node) {
-        if ($url = $this->getMediaUrl($node->field_recipe_image->entity)) {
+        if ($url = $this->mediaHelper->getMediaUrl($node->field_recipe_image->target_id)) {
           $recipe->image([$url]);
         }
       })
@@ -93,14 +96,6 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
       }, iterator_to_array($node->field_recipe_ingredients)))
       ->if($node->field_recipe_number_of_servings->value, function (SchemaRecipe $recipe) use ($node) {
         $recipe->recipeYield($node->field_recipe_number_of_servings->value);
-      })
-      ->if($node->field_recipe_video->target_id, function (SchemaRecipe $recipe) use ($node) {
-        /** @var \Drupal\media\Entity\Media $media */
-        $media = $node->field_recipe_video->entity;
-
-        if ($url = $this->getMediaUrl($node->field_recipe_video->entity)) {
-          $recipe->video(Schema::clip()->name($media->getName())->url($url));
-        }
       })
       ->if(!empty($metatags['keywords']['#attributes']['content']), function (SchemaRecipe $recipe) use ($metatags) {
         $recipe->keywords($metatags['keywords']['#attributes']['content']);

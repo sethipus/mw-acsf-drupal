@@ -40,7 +40,7 @@ class Article extends JsonLdStrategyPluginBase {
       ->headline($node->getTitle())
       ->dateModified($changed_time)
       ->if($node->field_article_image->target_id, function (NewsArticle $article) use ($node) {
-        if ($url = $this->getMediaUrl($node->field_article_image->entity)) {
+        if ($url = $this->mediaHelper->getMediaUrl($node->field_article_image->target_id)) {
           $article->image([$url]);
         }
       });

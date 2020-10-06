@@ -162,7 +162,7 @@ class Carousel extends JsonLdStrategyPluginBase {
                     $product->description($node->field_product_description->value);
                   })
                   ->if($item->entity->field_product_key_image->target_id, function (Product $product) use ($item) {
-                    $url = $this->getMediaUrl($item->entity->field_product_key_image->entity);
+                    $url = $this->mediaHelper->getMediaUrl($item->entity->field_product_key_image->target_id);
 
                     if ($url) {
                       $product->image([$url]);
