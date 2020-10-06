@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
+use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
@@ -39,6 +40,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $formBuilder;
 
   /**
+   * Search query parser.
+   *
+   * @var \Drupal\mars_search\SearchQueryParserInterface
+   */
+  protected $searchQueryParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -47,7 +55,9 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_id,
       $plugin_definition,
       $container->get('mars_search.search_helper'),
-      $container->get('form_builder')
+      $container->get('form_builder'),
+      $container->get('mars_search.search_query_parser')
+
     );
   }
 
@@ -59,11 +69,14 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $plugin_id,
     $plugin_definition,
     SearchHelperInterface $search_helper,
-    FormBuilderInterface $form_builder
+    FormBuilderInterface $form_builder,
+    SearchQueryParserInterface $search_query_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->searchHelper = $search_helper;
     $this->formBuilder = $form_builder;
+    $this->searchQueryParser = $search_query_parser;
+
   }
 
   /**
@@ -97,19 +110,19 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function build() {
     $config = $this->getConfiguration();
-    $query_key = $this->searchHelper->request->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
     $faq_facet_key = 'faq_filter_topic';
 
-    $options = [
-      'conditions' => [
-        ['type', 'faq', '='],
-      ],
-      'limit' => 4,
-      'sort' => [
-        'faq_item_queue_weight' => 'ASC',
-        'created' => 'DESC',
-      ],
+    $options = $this->searchQueryParser->parseQuery();
+    // Overriding some default options with FAQ specific values.
+    // Overriding first condition from SearchQueryParser::getDefaultOptions().
+    $options['conditions'][0] = ['type', 'faq', '=', TRUE];
+
+    $options['limit'] = 4;
+    $options['sort'] = [
+      'faq_item_queue_weight' => 'ASC',
+      'created' => 'DESC',
     ];
+
     // That means filter topic filter is active.
     if ($this->searchHelper->request->get($faq_facet_key)) {
       // Disabling entityqueue sorting when topic filter is active.
@@ -141,8 +154,12 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       }
     }
     // Getting search form.
-    // We don't need autocomplete so passing FALSE as second parameter.
-    $search_from = $this->formBuilder->getForm(SearchForm::class, FALSE);
+    // Preparing options for autocomplete.
+    $autocomplete_options['filters'] = [
+      // FAQ specific flag to distinguish FAQ query.
+      'faq' => TRUE,
+    ];
+    $search_from = $this->formBuilder->getForm(SearchForm::class, TRUE, $autocomplete_options);
 
     // Facets query.
     $options['disable_filters'] = TRUE;
@@ -155,7 +172,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
       '#search_form' => render($search_from),
-      '#search_result_counter' => !empty($query_key) ? $this->formatPlural($search_results['resultsCount'], '1 Result for "@keys"', '@count Results for "@keys"', ['@keys' => $query_key]) : '',
+      '#search_result_counter' => !empty($options['keys']) ? $this->formatPlural($search_results['resultsCount'], '1 Result for "@keys"', '@count Results for "@keys"', ['@keys' => $options['keys']]) : '',
       '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
     ];
   }

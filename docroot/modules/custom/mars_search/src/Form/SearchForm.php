@@ -126,6 +126,10 @@ class SearchForm extends FormBase {
     else {
       unset($options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY][$search_id]);
     }
+    // Adding FAQ specific flag.
+    if (!empty($grid_options['filters']['faq'])) {
+      $options['query']['faq'] = TRUE;
+    }
     $url->setOptions($options);
 
     $form_state->setRedirectUrl($url);

@@ -186,7 +186,7 @@ class SearchHelper implements SearchHelperInterface {
   /**
    * {@inheritdoc}
    */
-  public function prepareFacetsLinks($facets, $facet_key) {
+  public function prepareFacetsLinks($facets, $facet_key, $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     $facets_links = [];
     if (!$facets) {
       return $facets_links;
@@ -200,14 +200,15 @@ class SearchHelper implements SearchHelperInterface {
         $facet_link_class = '';
 
         // That means facet is active.
-        if ($this->request->query->get($facet_key) == $facet['filter']) {
+        $facet_query_value = $this->request->query->get($facet_key);
+        if (isset($facet_query_value[$search_id]) && $facet_query_value[$search_id] == $facet['filter']) {
           $facet_link_class = 'active';
           // Removing facet query from active filter to allow deselect it.
           unset($options['query'][$facet_key]);
         }
         else {
           // Adding facet filter to the query.
-          $options['query'][$facet_key] = $facet['filter'];
+          $options['query'][$facet_key][$search_id] = $facet['filter'];
         }
 
         $url->setOptions($options);

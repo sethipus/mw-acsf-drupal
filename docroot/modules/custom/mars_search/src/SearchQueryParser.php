@@ -55,11 +55,7 @@ class SearchQueryParser implements SearchQueryParserInterface {
     }
 
     // Initializing options array.
-    $options[$search_id] = $this->getDefaultOptions();
-
-    if (!empty($query_parameters['see-all'])) {
-      unset($options[$search_id]['limit']);
-    }
+    $options[$search_id] = $this->getDefaultOptions($query_parameters);
 
     // Looping through parameters to support several searches on a single page.
     foreach ($query_parameters as $parameter_key => $parameter) {
@@ -104,20 +100,19 @@ class SearchQueryParser implements SearchQueryParserInterface {
    * {@inheritdoc}
    */
   public function getDefaultOptions($query_parameters = []) {
-    $default_options = [
+    $faq_operator = empty($query_parameters['faq']) ? '<>' : '=';
+    return [
       'conditions' => [
-        // We don't need FAQ nodes in most cases.
-        ['type', 'faq', '<>', TRUE],
+        ['type', 'faq', $faq_operator, TRUE],
       ],
       'limit' => 12,
+      // Just to not have this empty.
+      'options_logic' => 'OR',
       'keys' => '',
       'sort' => [
         'created' => 'DESC',
       ],
     ];
-
-    // @todo handle faq type query case.
-    return $default_options;
   }
 
 }
