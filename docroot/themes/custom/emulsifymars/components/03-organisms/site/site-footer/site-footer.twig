@@ -30,16 +30,11 @@
       </div>
     </div>
   </div>
-  <div {{ bem('brand-border', [], footer__base_class) }}>
-    {% block footer__brand_border %}
-      {% include "@atoms/images/image/background-image.twig" with {
-        image_src: 'twix-border.svg',
-        background_repeat: 'repeat',
-        height: '15px',
-      } %}
-    {% endblock %}
-  </div>
   <div {{ bem('section', ['secondary'], footer__base_class) }}>
+    <div class="{{ brand_shape_class }}">
+        {{ shape }}
+    </div>
+
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('social', [], footer__base_class) }}>
         {% block footer__social %}
