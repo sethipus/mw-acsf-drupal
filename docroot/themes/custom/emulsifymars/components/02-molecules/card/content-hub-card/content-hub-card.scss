@@ -17,8 +17,9 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    height: 318px;
-    width: 318px;
+    max-height: 31.8rem;
+    height: auto;
+    width: 100%;
     box-sizing: border-box;
     justify-content: center;
     border-bottom-left-radius: variable(card-border-radius);
