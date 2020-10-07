@@ -17,7 +17,7 @@ allowed_content_entity_types:
       article: article
       recipe: recipe
       faq: faq
-      contact_help: contact_help
+      faq_contact: faq_contact
       newsletter_sign_up: newsletter_sign_up
       where_to_buy: where_to_buy
       homepage: homepage
