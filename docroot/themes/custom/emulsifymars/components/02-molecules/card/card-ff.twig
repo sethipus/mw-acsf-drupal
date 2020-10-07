@@ -53,20 +53,15 @@
         <div class="image-background">
         {% if card__link__url %}
           <a href="{{card__link__url}}">
+        {% endif %}
           {% include "@atoms/images/image/responsive-image.twig" with {
             image_blockname: card__base_class,
             output_image_tag: card__image__output_image_tag,
             image_src: card__image__src,
             image_alt: card__image__alt,
           } %}
+        {% if card__link__url %}
           </a>
-        {% else %}
-          {% include "@atoms/images/image/responsive-image.twig" with {
-            image_blockname: card__base_class,
-            output_image_tag: card__image__output_image_tag,
-            image_src: card__image__src,
-            image_alt: card__image__alt,
-          } %}
         {% endif %}
         </div>
       </div>
