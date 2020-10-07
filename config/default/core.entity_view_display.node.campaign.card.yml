@@ -126,6 +126,7 @@ hidden:
   content_moderation_control: true
   field_brand_initiatives: true
   field_campaign_related_products: true
+  field_meta_tags: true
   field_product_occasions: true
   layout_builder__layout: true
   published_at: true
