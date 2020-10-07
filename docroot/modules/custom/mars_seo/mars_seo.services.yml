@@ -1,0 +1,8 @@
+services:
+  mars_seo.json_ld:
+    class: Drupal\mars_seo\JsonLdService
+    arguments: ['@entity_type.manager', '@plugin.manager.mars_json_ld_strategy']
+
+  plugin.manager.mars_json_ld_strategy:
+    class: Drupal\mars_seo\JsonLdStrategyPluginManager
+    parent: default_plugin_manager

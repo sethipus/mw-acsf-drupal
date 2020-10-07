@@ -4,12 +4,14 @@ status: true
 dependencies:
   config:
     - field.field.node.error_page.body
+    - field.field.node.error_page.field_meta_tags
     - node.type.error_page
   module:
     - layout_builder
     - layout_discovery
     - layout_library
     - mars_common
+    - metatag
     - text
     - user
 third_party_settings:
@@ -35,6 +37,21 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 3
+          82aec05b-ce96-4be9-bf77-b9a97571d77c:
+            uuid: 82aec05b-ce96-4be9-bf77-b9a97571d77c
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:error_page:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 4
         third_party_settings: {  }
   layout_library:
     enable: false
@@ -49,6 +66,13 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_meta_tags:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   links:
     weight: 100

@@ -124,12 +124,14 @@ class ThemeConfiguratorParser {
    *
    * @param string $setting
    *   Config setting name.
+   * @param string $default
+   *   Default setting value.
    *
    * @return string
    *   File contents.
    */
-  public function getSettingValue(string $setting) {
-    return $this->themeSettings[$setting] ?? '';
+  public function getSettingValue(string $setting, string $default = '') {
+    return $this->themeSettings[$setting] ?? $default;
   }
 
   /**
