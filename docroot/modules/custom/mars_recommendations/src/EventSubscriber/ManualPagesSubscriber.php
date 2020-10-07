@@ -18,7 +18,6 @@ class ManualPagesSubscriber implements EventSubscriberInterface {
     'campaign',
   ];
 
-
   /**
    * Unsets dynamic option for MANUAL_PAGES array.
    *
@@ -74,4 +73,5 @@ class ManualPagesSubscriber implements EventSubscriberInterface {
       RecommendationsEvents::ALTER_MANUAL_LOGIC_BUNDLES => ['setAutocompleteBundle'],
     ];
   }
+
 }
