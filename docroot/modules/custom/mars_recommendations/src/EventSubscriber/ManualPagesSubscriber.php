@@ -4,7 +4,6 @@ namespace Drupal\mars_recommendations\EventSubscriber;
 
 use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
 use Drupal\mars_recommendations\Event\AlterManualLogicBundlesEvent;
-use Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent;
 use Drupal\mars_recommendations\RecommendationsEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -19,32 +18,7 @@ class ManualPagesSubscriber implements EventSubscriberInterface {
   ];
 
   /**
-   * Unsets dynamic option for MANUAL_PAGES array.
-   *
-   * @param \Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent $event
-   *   Alter options event.
-   */
-  public function disableDynamicForPages(AlterPopulationLogicOptionsEvent $event) {
-    if (!($entity = $event->getEntity())) {
-      return;
-    }
-    $bundle = $entity instanceof LayoutBuilderEntityViewDisplay ? $entity->getTargetBundle() : $entity->bundle();
-    if (!in_array($bundle, self::MANUAL_PAGES)) {
-      return;
-    }
-
-    $event->setDefinitions(
-      array_filter(
-        $event->getDefinitions(),
-        function ($definition) {
-          return $definition['id'] !== 'dynamic';
-        }
-      )
-    );
-  }
-
-  /**
-   * Limits autocomplete on Manual logic config form to Content Hub Page bundle.
+   * Limits autocomplete on Manual logic config form to MANUAL_PAGES bundles.
    *
    * @param \Drupal\mars_recommendations\Event\AlterManualLogicBundlesEvent $event
    *   Alter bundles event.
@@ -67,9 +41,6 @@ class ManualPagesSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      RecommendationsEvents::ALTER_POPULATION_LOGIC_OPTIONS => [
-        ['disableDynamicForPages', 0],
-      ],
       RecommendationsEvents::ALTER_MANUAL_LOGIC_BUNDLES => ['setAutocompleteBundle'],
     ];
   }
