@@ -1,4 +1,4 @@
-uuid: e55ea2ac-26a0-43c4-bf52-01a139b8a7ac
+uuid: 10fee2df-d6b9-451e-82fa-a9da28674551
 langcode: en
 status: true
 dependencies:
@@ -11,8 +11,8 @@ third_party_settings:
     parent: ''
   lightning_workflow:
     workflow: editorial
-name: 'Contact & Help'
-type: contact_help
+name: 'FAQ & Contact'
+type: faq_contact
 description: ''
 help: ''
 new_revision: true

@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_image
     - field.field.node.campaign.field_campaign_related_products
+    - field.field.node.campaign.field_meta_tags
     - field.field.node.campaign.field_product_occasions
     - field.field.node.campaign.layout_builder__layout
     - node.type.campaign
@@ -29,6 +30,7 @@ hidden:
   field_brand_initiatives: true
   field_campaign_image: true
   field_campaign_related_products: true
+  field_meta_tags: true
   field_product_occasions: true
   layout_builder__layout: true
   published_at: true
