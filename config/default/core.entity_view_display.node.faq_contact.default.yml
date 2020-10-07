@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.faq_contact.body
     - field.field.node.faq_contact.layout_builder__layout
+    - field.field.node.faq_contact.field_meta_tags
     - node.type.faq_contact
   module:
     - layout_builder
@@ -13,6 +14,7 @@ dependencies:
     - layout_library
     - mars_common
     - mars_search
+    - metatag
     - text
     - user
 third_party_settings:
@@ -39,6 +41,21 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
+          d2f138ba-0ca9-4916-b543-3b29fcf9614a:
+            uuid: d2f138ba-0ca9-4916-b543-3b29fcf9614a
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:faq_contact:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 1
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -285,6 +302,13 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_meta_tags:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   links:
     weight: 100

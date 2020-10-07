@@ -23,60 +23,70 @@
 }
 
 // Dynamically set swatch text color based on the lightness of the background color
-// @function set-color(
-//   $color,
-//   $text-primary: accent-high,
-//   $text-secondary: muted
-// ) {
-//   @if (lightness($color) > 50) {
-//     @return clr($text-primary);
-//   } @else {
-//     @return clr($text-secondary);
-//   }
-// }
+@function set-color(
+  $color,
+  $text-primary: accent-high,
+  $text-secondary: muted
+) {
+  @if (lightness($color) < 50) {
+    @return clr($text-primary);
+  } @else {
+    @return clr($text-secondary);
+  }
+}
 
-// // Style default color swatches
-// @each $name, $color in $defaultColors {
-//   .cl-colors__item--default {
-//     &-#{$name} {
-//       background-color: clr($name);
-//       color: set-color($color);
-//     }
-//   }
-// }
+// Style default color swatches
+@each $name, $color in $defaultColors {
+  @if (type-of($color) == 'color') {
+    .cl-colors__item--default {
+      &-#{$name} {
+        background-color: clr($name);
+        color: set-color($color, muted, accent-high);
+      }
+    }
+  }
+}
 
-// @each $name, $color in $marsColors {
-//   .cl-colors__item--dark {
-//     &-#{$name} {
-//       background-color: clr($name);
-//       color: set-color($color, muted, accent-high);
-//     }
-//   }
-// }
+@each $name, $color in $marsColors {
+  @if (type-of($color) == 'color') {
+    .cl-colors__item--mars {
+      &-#{$name} {
+        background-color: clr($name);
+        color: set-color($color, muted, accent-high);
+      }
+    }
+  }
+}
 
-// @each $name, $color in $twixColors {
-//   .cl-colors__item--dark {
-//     &-#{$name} {
-//       background-color: clr($name);
-//       color: set-color($color, muted, accent-high);
-//     }
-//   }
-// }
+@each $name, $color in $twixColors {
+  @if (type-of($color) == 'color') {
+    .cl-colors__item--twix {
+      &-#{$name} {
+        background-color: clr($name);
+        color: set-color($color, muted, accent-high);
+      }
+    }
+  }
+}
 
-// @each $name, $color in $doveColors {
-//   .cl-colors__item--dark {
-//     &-#{$name} {
-//       background-color: clr($name);
-//       color: set-color($color, muted, accent-high);
-//     }
-//   }
-// }
+@each $name, $color in $doveColors {
+  @if (type-of($color) == 'color') {
+    .cl-colors__item--dove {
+      &-#{$name} {
+        background-color: clr($name);
+        color: set-color($color, muted, accent-high);
+      }
+    }
+  }
+}
 
-// @each $name, $color in $galaxyColors {
-//   .cl-colors__item--dark {
-//     &-#{$name} {
-//       background-color: clr($name);
-//       color: set-color($color, muted, accent-high);
-//     }
-//   }
-// }
+@each $name, $color in $galaxyColors {
+  @if (type-of($color) == 'color') {
+    .cl-colors__item--galaxy {
+      &-#{$name} {
+        background-color: clr($name);
+        color: set-color($color, muted, accent-high);
+      }
+    }
+  }
+}

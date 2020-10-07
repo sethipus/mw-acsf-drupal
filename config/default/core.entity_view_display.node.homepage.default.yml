@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.homepage.body
     - field.field.node.homepage.layout_builder__layout
+    - field.field.node.homepage.field_meta_tags
     - node.type.homepage
   module:
     - layout_builder
@@ -13,6 +14,7 @@ dependencies:
     - layout_library
     - mars_banners
     - mars_common
+    - metatag
     - text
     - user
 third_party_settings:
@@ -47,6 +49,21 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
+          7ad6c12a-f5a5-4e68-86b2-01e9572cbbb7:
+            uuid: 7ad6c12a-f5a5-4e68-86b2-01e9572cbbb7
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:homepage:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 1
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -241,6 +258,13 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_meta_tags:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   links:
     weight: 100
