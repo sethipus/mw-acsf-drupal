@@ -1,16 +1,16 @@
-uuid: 749c5ee8-8c1b-497c-b4e3-a787a1684711
+uuid: aa95c528-ebd2-40e5-a6dc-e4e212c8cf2e
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.body
-    - node.type.contact_help
+    - node.type.faq_contact
   module:
     - text
-id: node.contact_help.body
+id: node.faq_contact.body
 field_name: body
 entity_type: node
-bundle: contact_help
+bundle: faq_contact
 label: Body
 description: ''
 required: false
