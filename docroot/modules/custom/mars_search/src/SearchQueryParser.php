@@ -93,6 +93,10 @@ class SearchQueryParser implements SearchQueryParserInterface {
       $options[$search_key]['options_logic'] = $query_parameters['options_logic'];
     }
 
+    // Autocomplete specific option for header search overlay.
+    // If it is set we display nodes cards, otherwise – just links.
+    $options[$search_key]['cards_view'] = !empty($query_parameters['cards_view']);
+
     return $options[$search_id];
   }
 

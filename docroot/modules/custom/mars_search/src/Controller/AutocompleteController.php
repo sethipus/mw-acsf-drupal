@@ -102,7 +102,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
           $faq = TRUE;
         }
         else {
-          $suggestions[] = $entity->toLink();
+          $suggestions[] = $options['cards_view'] ? $this->entityTypeManager()->getViewBuilder('node')->view($entity, 'card') : $entity->toLink();
         }
       }
 
@@ -112,6 +112,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
     $build = [
       '#theme' => 'mars_search_suggestions',
       '#suggestions' => $suggestions,
+      '#cards_view' => $options['cards_view'],
       '#show_all' => $show_all,
       '#empty_text' => $this->t('There are no matching results for "@keys"', ['@keys' => $options['keys']]),
       '#empty_text_description' => $empty_text_description ? $empty_text_description : $this->t('Please try entering different search'),

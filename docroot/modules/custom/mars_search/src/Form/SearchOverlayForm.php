@@ -60,6 +60,7 @@ class SearchOverlayForm extends FormBase {
       '#attributes' => [
         'class' => [
           'mars-autocomplete-field',
+          'mars-cards-view',
         ],
         'autocomplete' => 'off',
         // This is needed for correct work of SearchQueryParser.

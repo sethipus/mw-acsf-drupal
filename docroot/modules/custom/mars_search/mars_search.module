@@ -19,6 +19,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'show_all' => NULL,
         'empty_text' => NULL,
         'empty_text_description' => NULL,
+        'cards_view' => NULL,
       ],
     ],
     'mars_search_header' => [

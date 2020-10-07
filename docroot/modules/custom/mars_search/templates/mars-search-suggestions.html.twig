@@ -14,14 +14,27 @@
 #}
 
 {% if suggestions %}
-  <ul class="suggestions-links">
-    {% for suggestion in suggestions %}
-      <li>{{ suggestion|raw }}</li>
-    {% endfor %}
-  </ul>
-  <div class="show-all">
-    {{ show_all }}
-  </div>
+  {% if cards_view %}
+    <div class="search-cards-container" data-theme="twix">
+      <div class="search-cards">
+        {% for suggestion in suggestions %}
+          {{ suggestion }}
+        {% endfor %}
+        <div class="search-cards-all-results">
+          {{ show_all }}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <ul class="suggestions-links">
+      {% for suggestion in suggestions %}
+        <li>{{ suggestion|raw }}</li>
+      {% endfor %}
+    </ul>
+    <div class="show-all">
+      {{ show_all }}
+    </div>
+  {% endif %}
 {% else %}
   <div class="no-results">
     <div class="empty-text">{{ empty_text }}</div>
