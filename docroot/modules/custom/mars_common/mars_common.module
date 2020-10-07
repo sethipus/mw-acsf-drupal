@@ -593,7 +593,7 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
   }
 
   switch ($original_id) {
-    case 'node.contact_help.default':
+    case 'node.faq_contact.default':
       return ContactHelpLayoutFormAlter::class;
 
     case 'node.newsletter_sign_up.default':

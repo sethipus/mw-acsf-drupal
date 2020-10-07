@@ -1,10 +1,11 @@
-uuid: 27970fa6-c288-46a1-90d4-2d4833d896ba
+uuid: 05f66a90-fc1e-4a31-9603-e44604d028fe
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.contact_help.body
-    - node.type.contact_help
+    - field.field.node.faq_contact.body
+    - field.field.node.faq_contact.layout_builder__layout
+    - node.type.faq_contact
   module:
     - layout_builder
     - layout_builder_restrictions
@@ -149,8 +150,6 @@ third_party_settings:
     entity_view_mode_restriction:
       whitelisted_blocks:
         'Flexible driver': {  }
-        'Mars Search':
-          - search_faq_block
       blacklisted_blocks: {  }
       allowed_layouts:
         - contact_help_parent_page_header
@@ -164,64 +163,6 @@ third_party_settings:
         - contact_help_contact_banner
         - contact_help_contact_community
       whitelisted_blocks:
-        contact_help_parent_page_header:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks':
-              - parent_page_header
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        contact_help_faq:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Facets: {  }
-            'Flexible driver': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)':
-              - 'views_block:faq_view-block_1'
-            'Mars Common': {  }
-            'Mars Product': {  }
-            'Mars Search':
-              - search_faq_block
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
         contact_help_contact_banner:
           all_regions:
             Article: {  }
@@ -239,6 +180,7 @@ third_party_settings:
             'Mars Common':
               - contact_help_banner_block
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -247,7 +189,6 @@ third_party_settings:
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         contact_help_contact_community:
           all_regions:
@@ -268,6 +209,7 @@ third_party_settings:
               - feedback_block
               - newsletter_signup_form
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -276,11 +218,65 @@ third_party_settings:
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
-id: node.contact_help.default
+        contact_help_parent_page_header:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - parent_page_header
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
+        contact_help_faq:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            'Mars Search':
+              - search_faq_block
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
+id: node.faq_contact.default
 targetEntityType: node
-bundle: contact_help
+bundle: faq_contact
 mode: default
 content:
   body:
