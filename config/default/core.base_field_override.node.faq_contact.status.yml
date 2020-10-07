@@ -1,13 +1,13 @@
-uuid: 77772073-fb6f-4888-821b-569e9d384874
+uuid: 7b633dbe-385d-42dd-ad6b-aa439f81b719
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.contact_help
-id: node.contact_help.status
+    - node.type.faq_contact
+id: node.faq_contact.status
 field_name: status
 entity_type: node
-bundle: contact_help
+bundle: faq_contact
 label: Published
 description: ''
 required: false
