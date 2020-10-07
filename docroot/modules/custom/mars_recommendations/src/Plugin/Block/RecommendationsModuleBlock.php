@@ -8,6 +8,7 @@ use Drupal\Core\Form\SubformState;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\layout_builder\Form\ConfigureBlockFormBase;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_recommendations\RecommendationsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -33,6 +34,13 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
   protected $recommendationsService;
 
   /**
+   * Theme configurator parser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -40,7 +48,8 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_recommendations.recommendations_service')
+      $container->get('mars_recommendations.recommendations_service'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -51,11 +60,13 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    RecommendationsService $recommendations_service
+    RecommendationsService $recommendations_service,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->recommendationsService = $recommendations_service;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -89,6 +100,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     return [
       '#theme' => 'recommendations_module_block',
       '#title' => !empty($this->configuration['title']) ? $this->configuration['title'] : $this->t('More @types Like This', ['@type' => $node->type->entity->label()]),
+      '#graphic_divider' => $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider'),
       '#recommended_items' => $plugin->getRenderedRecommendations(),
     ];
   }

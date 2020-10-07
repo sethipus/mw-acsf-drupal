@@ -3,6 +3,15 @@
   padding: 2rem 0 4rem 0;
   overflow-x: hidden;
 
+  .graphic-divider {
+    text-align: center;
+    margin-bottom: 4rem;
+
+    @include xl {
+      margin-bottom: 6rem;
+    }
+  }
+
   &__heading {
     &--main-heading {
       text-align: center;
