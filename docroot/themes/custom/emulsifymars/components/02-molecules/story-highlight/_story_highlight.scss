@@ -58,7 +58,7 @@
   //   margin-top: 15.3rem;
   // }
 
-  & .curve {
+  & .stretch {
     position: absolute;
     width: 100%;
     height: auto;
@@ -76,6 +76,27 @@
       >rect {
         width: 100%;
         height: 100%;
+      }
+    }
+  }
+
+  & .repeat {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    top: 80px;
+
+    svg {
+      width: 100%;
+      max-height: 30px;
+
+      path {
+        fill: clr(secondary);
+      }
+      rect {
+        width: 100%;
+        height: 3rem;
       }
     }
   }

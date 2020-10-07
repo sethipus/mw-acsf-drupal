@@ -1,0 +1,9 @@
+uuid: d546b651-b323-489e-a8c0-31035dc3d8ec
+langcode: en
+status: true
+dependencies: {  }
+id: node__product_multipack
+label: 'Content: Product Multipack'
+tags:
+  description: '[node:field_product_description]'
+  title: '[node:title]'
