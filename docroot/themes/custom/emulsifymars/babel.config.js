@@ -10,7 +10,6 @@ module.exports = api => {
       },
     ],
     '@babel/preset-react',
-    '@babel/preset-flow',
     'minify',
   ];
 
