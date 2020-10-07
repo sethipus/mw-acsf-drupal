@@ -8,7 +8,7 @@
 {% set image_src = file_url(node.field_content_hub_image.entity.image.entity.fileuri) %}
 {% set image_alt = node.field_content_hub_image.entity.image.entity.alt %}
 
-{% include "@molecules/card/content-hub-card/content-hub-card.twig" with {
+{% include "@molecules/card/recommendations-card/landing-card.twig" with {
   theme_styles: 'drupal',
 
   card_image_src: image_src,
@@ -17,7 +17,7 @@
 
   heading: node.label,
   heading_level: 3,
-  heading_base_class: 'content-hub-card-heading',
+  heading_base_class: 'recommendations-card-heading',
 
   button_text: 'See Details'|t,
   button_modifiers: ['small'],

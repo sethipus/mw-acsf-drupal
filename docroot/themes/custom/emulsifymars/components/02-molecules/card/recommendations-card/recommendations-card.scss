@@ -1,4 +1,4 @@
-.content-hub-card {
+.recommendations-card {
   min-height: 520px;
   background-image: radial-gradient(
       circle at 50% 40%,
@@ -36,7 +36,7 @@
     }
   }
 
-  .content-hub-card-heading {
+  .recommendations-card-heading {
     margin-top: 4rem;
     margin-bottom: 2.8rem;
     flex-grow: unset;
