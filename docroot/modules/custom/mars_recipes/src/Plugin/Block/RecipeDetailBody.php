@@ -78,19 +78,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       // Limit amount of cards.
       $products = array_slice($products, 0, 2);
       foreach ($products as $product) {
-        $product_used_items[] = [
-          'card__image__output_image_tag' => 'true',
-          'card_url' => $product->toUrl('canonical', ['absolute' => FALSE])->toString(),
-          'card__image__src' => $product->field_product_variants->entity->field_product_key_image->entity->image->entity->createFileUrl() ?? '',
-          'paragraph_content' => $product->title->value,
-          'default_link_attributes' => [
-            'target' => '_self',
-            'href' => $product->toUrl('canonical', ['absolute' => FALSE])
-              ->toString(),
-          ],
-          // TODO Add where to buy link when the page will be implemented.
-          'link_url' => '',
-        ];
+        $product_used_items[] = $this->viewBuilder->view($product, 'card');
       }
     }
 
