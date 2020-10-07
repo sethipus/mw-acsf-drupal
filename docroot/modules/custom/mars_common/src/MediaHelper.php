@@ -51,11 +51,13 @@ class MediaHelper {
    *
    * @param int $media_id
    *   Media ID.
+   * @param bool $absolute_urls
+   *   If TRUE, src will be formatted as an absolute URL.
    *
    * @return array
    *   Media parameters.
    */
-  public function getMediaParametersById($media_id) {
+  public function getMediaParametersById($media_id, $absolute_urls = FALSE) {
     if (empty($media_id) || !($entity = $this->mediaStorage->load($media_id))) {
       return ['error' => TRUE, 'message' => $this->t('Media not found.')];
     }
@@ -68,7 +70,7 @@ class MediaHelper {
 
         return [
           'image' => TRUE,
-          'src' => $entity->image->entity->createFileUrl(),
+          'src' => $entity->image->entity->createFileUrl(!$absolute_urls),
           'alt' => $entity->image->alt,
           'title' => $entity->image->title,
         ];
@@ -80,19 +82,31 @@ class MediaHelper {
 
         return [
           'image' => TRUE,
-          'src' => $entity->field_media_image->entity->createFileUrl(),
+          'src' => $entity->field_media_image->entity->createFileUrl(!$absolute_urls),
           'alt' => $entity->field_media_image->alt,
           'title' => $entity->field_media_image->title,
         ];
 
       case 'lighthouse_video':
-        if (!$entity->field_media_image || !$entity->field_media_image->target_id) {
-          return ['error' => TRUE, 'message' => $this->t('Image not set.')];
+        if (!$entity->field_media_video_file_1 || !$entity->field_media_video_file_1->target_id) {
+          return ['error' => TRUE, 'message' => $this->t('Video not set.')];
         }
 
         return [
           'video' => TRUE,
-          'src' => $entity->field_media_image->entity->createFileUrl(),
+          'src' => $entity->field_media_video_file_1->entity->createFileUrl(!$absolute_urls),
+        ];
+
+      case 'video_file':
+        return [
+          'video' => TRUE,
+          'src' => $entity->field_media_image->entity->createFileUrl(!$absolute_urls),
+        ];
+
+      case 'video':
+        return [
+          'video' => TRUE,
+          'src' => $entity->field_media_video_embed_field->value,
         ];
 
       default:
@@ -102,6 +116,25 @@ class MediaHelper {
         ];
 
     }
+  }
+
+  /**
+   * Helper method that extracts image URL from Media entity.
+   *
+   * @param int $media_id
+   *   Media ID.
+   *
+   * @return string|false
+   *   Media URL or NULL if bundle is not supported.
+   */
+  public function getMediaUrl($media_id) {
+    $data = $this->getMediaParametersById($media_id, TRUE);
+
+    if (!empty($data['error'])) {
+      return FALSE;
+    }
+
+    return $data['src'];
   }
 
   /**

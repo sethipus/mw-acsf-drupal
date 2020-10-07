@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.recipe.field_brand_initiatives
+    - field.field.node.recipe.field_meta_tags
     - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
@@ -26,6 +27,7 @@ dependencies:
     - mars_common
     - mars_recipes
     - mars_recommendations
+    - metatag
     - text
     - user
 third_party_settings:
@@ -82,6 +84,21 @@ third_party_settings:
                 type: entity_reference_label
             additional: {  }
             weight: 3
+          10a8ae51-92d8-4252-baf0-ce86683004a8:
+            uuid: 10a8ae51-92d8-4252-baf0-ce86683004a8
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:recipe:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 4
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -380,6 +397,13 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
+  field_meta_tags:
+    weight: 13
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_product_occasions:
     weight: 11
