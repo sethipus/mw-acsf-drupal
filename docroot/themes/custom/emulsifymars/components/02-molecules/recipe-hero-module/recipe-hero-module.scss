@@ -72,7 +72,7 @@ $xl-gap-width: 30px;
     }
   }
 
-  #playpause[data-state="play"] {
+  .ambient-video__control[data-state="play"] {
     top: 15px;
     right: 15px;
     left: auto;
@@ -98,7 +98,7 @@ $xl-gap-width: 30px;
     }
   }
 
-  #playpause[data-state="pause"] {
+  .ambient-video__control[data-state="pause"] {
 
     @include medium {
       bottom: 160px;

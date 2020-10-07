@@ -29,7 +29,9 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         return;
       }
       videoElements('video').controls = false;
-      videoElements('video').muted = false;
+      videoElements('video').muted = true;
+      videoElements('video').loop = true;
+      videoElements('video').autoplay = true;
 
       // Display the user defined video controls
       videoElements('controls').setAttribute('data-state', 'hidden');

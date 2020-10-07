@@ -22,7 +22,7 @@
   }
 
   &__container {
-    #playpause[data-state="play"] {
+    .fullscreen-video__control[data-state="play"] {
       @include playbutton;
       
       @include playbutton;
@@ -42,7 +42,7 @@
       }
     }
     
-    #playpause[data-state="pause"] {
+    .fullscreen-video__control[data-state="pause"] {
       @include pausebutton;
     
       width: 60px;
@@ -105,7 +105,7 @@
     color: clr(secondary);
   }
   
-  #playpause[data-state="play"] {
+  .fullscreen-video__control[data-state="play"] {
     background-color: clr(subcolor-3);
     bottom: 30px;
   }
