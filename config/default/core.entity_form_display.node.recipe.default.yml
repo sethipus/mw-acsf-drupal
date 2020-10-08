@@ -5,6 +5,7 @@ dependencies:
   config:
     - entity_browser.browser.media_browser
     - field.field.node.recipe.field_brand_initiatives
+    - field.field.node.recipe.field_meta_tags
     - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
@@ -23,6 +24,7 @@ dependencies:
   module:
     - content_moderation
     - entity_browser
+    - metatag
     - path
     - publication_date
     - text
@@ -48,6 +50,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
+  field_meta_tags:
+    weight: 27
+    settings:
+      sidebar: true
+    third_party_settings: {  }
+    type: metatag_firehose
     region: content
   field_product_occasions:
     weight: 17

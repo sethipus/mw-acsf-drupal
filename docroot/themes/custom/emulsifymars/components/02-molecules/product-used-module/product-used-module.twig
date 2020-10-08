@@ -5,11 +5,11 @@
 <section id="product-used-items" {{ bem(product_used_base_class) }} data-theme="{{ theme_styles }}">
   <div class="swiper-container product-used-swiper-container">
     <div class="swiper-wrapper">
-        {% for item in product_used_items %}
-          <div class="swiper-slide product-used-item">
-            {% include "@molecules/card/product-card/product-card.twig" with { item: item } %}
-          </div>
-        {% endfor %}
+      {% for item in product_used_items %}
+        <div class="swiper-slide product-used-item">
+          {{ item }}
+        </div>
+      {% endfor %}
     </div>
     {% if product_used_items|length > 1 %}
       <div class="swiper-button-prev product-used-nav" id="swiper-button"></div>

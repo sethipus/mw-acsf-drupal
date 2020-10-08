@@ -24,7 +24,7 @@
       {% endblock %}
     {% endif %}
     <div class="media-info">
-      <div class="border">{{ brand_borders | raw }}</div>
+      <div class="{{ brand_shape_class }}">{{ brand_borders | raw }}</div>
       <div class="eyebrow"> {{ eyebrow}} </div>
       <h2 class="title">
         {% include "@atoms/links/link/link.twig" with {

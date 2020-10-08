@@ -479,6 +479,19 @@ content_hub_feature:
     content:
       label: Content
 
+content_hub_add_sub_groups:
+  label: 'Content Hub - Add Sub Groups'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content
+
 content_hub_collection_cards:
   label: 'Content Hub - Collection Cards'
   path: layouts/base_onecol

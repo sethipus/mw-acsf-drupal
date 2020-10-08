@@ -4,11 +4,11 @@ freeform_story_align: 'left'
 freeform_story_img_alt: 'Alt text for the image'
 freeform_story_img_src: './freeform-story-img.png'
 
-freeform_story_subheading: 'Subheading'
-freeform_story_subheading_level: 2
+freeform_story_header_1: 'Subheading'
+freeform_story_header_1_level: 2
 
-freeform_story_heading: 'Not only does it taste good, it does good too.'
-freeform_story_heading_level: 1
+freeform_story_header_2: 'Not only does it taste good, it does good too.'
+freeform_story_header_2_level: 2
 
 freeform_story_paragraph_content: 'We ensure that all of the cocoa purchased for GALAXY Smooth Milk Chocolate Bars, and have delivered to our factories, is traceable to Rainforest Alliance Certified™ farm groups. This traceability ensures that the farmers making the improvements to earn certification benefit from their efforts. However, given the volumes of chocolate produced at our factory, we are unable to guarantee traceability through the final production phase to the individual chocolate product you buy in stores.'
 
