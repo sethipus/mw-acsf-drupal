@@ -10,15 +10,15 @@
   &__control[data-state="hidden"] {
     display: none;
   }
-  
+
   &__control[data-state="play"] {
     @include playbutton;
-  
+
     width: 60px;
     height: 60px;
     left: 10px;
     bottom: 25px;
-  
+
     >div {
       width: 0;
       height: 0;
@@ -28,15 +28,15 @@
       margin: auto 35%
     }
   }
-  
+
   &__control[data-state="pause"] {
     @include pausebutton;
-    
+
     width: 60px;
     height: 60px;
     left: 10px;
     bottom: 30px;
-  
+
     >div {
       width: 14px;
       height: 18px;
@@ -52,15 +52,21 @@
     width: 100%;
     height: 30px;
     position: relative;
-  
+    padding: 0 20px;
+
+    @include medium {
+      padding: 0 30px;
+    }
+
     &[data-state="hidden"] {
       display: none;
     }
-    
+
     &[data-state="visible"] {
-      display: block;
+      display: flex;
+      align-items: center;
     }
-    
+
     button {
       text-align: center;
       overflow: hidden;
@@ -72,38 +78,35 @@
       background: transparent;
       background-size: contain;
       background-repeat: no-repeat;
-      margin-top: 5px;
-      height: 24px;
     }
-  
+
     button:hover,
     button:focus {
       opacity: 0.5;
     }
-      
+
     progress {
       display: block;
       width: 100%;
       height: 10px;
-      margin-top: 17px;
       border: none;
       overflow: hidden;
       -moz-border-radius: 2px;
       -webkit-border-radius: 2px;
       border-radius: 2px;
       color: clr(player);
-    
+
       span {
         width: 0%;
         height: 10px;
         display: inline-block;
         background-color: clr(player);
       }
-      
+
       &::-moz-progress-bar {
         background-color: clr(player);
       }
-      
+
       &::-webkit-progress-value {
         background-color: clr(player);
       }
@@ -112,12 +115,20 @@
 
   &__playpause[data-state="play"] {
     @include playbutton;
-    
+
     width: 30px;
     height: 30px;
-    left: 10px;
-    bottom: 0;
-  
+    position: static;
+    margin-right: 10px;
+
+    @include medium {
+      margin-right: 20px;
+    }
+
+    @include xl {
+      margin-right: 30px;
+    }
+
     >div {
       width: 0;
       height: 0;
@@ -127,15 +138,15 @@
       margin: auto 35%
     }
   }
-  
+
   &__playpause[data-state="pause"] {
     @include pausebutton;
-    
+
     width: 30px;
     height: 30px;
     left: 10px;
     bottom: 0;
-  
+
     >div {
       width: 7px;
       height: 9px;
@@ -146,17 +157,22 @@
   }
 
   button.inline-video__mute {
-    background-image: url('/icons/mute.svg');
+    margin-right: 10px;
+
+    @include medium {
+      margin-right: 20px;
+    }
+
+    @include xl {
+      margin-right: 30px;
+    }
   }
-  
-  button.inline-video__subtitles {
-    background-image: url('/icons/subtitles.svg');
-  }
-  
+
   button.inline-video__close {
     position: absolute;
-    top: 2%;
-    right: 2%;
+    background: transparent;
+    top: 20px;
+    right: 20px;
     z-index: 10;
     text-align: center;
     overflow: hidden;
@@ -165,35 +181,46 @@
     border: none;
     outline: none;
     cursor: pointer;
-    background: transparent;
-    background-size: contain;
-    background-repeat: no-repeat;
+    padding: 0;
     width: 24px;
     height: 24px;
-    background-image: url('/icons/close_white.svg');
+
+    @include medium {
+      top: 40px;
+      right: 40px;
+    }
+
+    @include xl {
+      right: 60px;
+    }
   }
 
   &__progress-time {
-    float: left;
     cursor: pointer;
-    width: 75%;
-    height: 100%;
-    margin-left: 0.2%;
-    display: block;
+    flex-grow: 1;
+    margin-right: 10px;
   }
 
   &__progress-time--duration {
     width: auto;
-    margin: 10px 15px 0 15px;
+    flex-grow: 0;
     font-size: 14px;
     color: clr(text-inverse);
+    margin-right: 10px;
+
+    @include medium {
+      margin-right: 20px;
+    }
+
+    @include xl {
+      margin-right: 30px;
+    }
   }
 
   &__controls > button {
-    float: left;
-    width: 4%;
-    margin-left: 0.2%;
     display: block;
+    background: transparent;
+    padding: 0;
   }
 }
 
@@ -218,7 +245,7 @@ figure[data-fullcontrol="true"] figcaption {
 
 figure[data-fullcontrol="true"] .inline-video__controls {
   position: absolute;
-  bottom: 2%;
+  bottom: 20px;
   width: 100%;
   z-index: 10;
 }
@@ -233,51 +260,4 @@ figure[data-fullcontrol="true"] .inline-video__controls li {
 
 figure[data-fullcontrol="true"] .inline-video__controls .progress {
   width: 68%;
-}
-
-/* Media Queries */
-
-@media screen and (max-width: 1024px) {
-  figure {
-    padding-left: 0;
-    padding-right: 0;
-    height: auto;
-  }
-  .inline-video__controls {
-    height: 30px;
-    height: 1.876rem;
-  }
-}
-
-@media screen and (max-width: 42.5em) {
-  .inline-video__controls {
-    height: auto;
-  }
-  .inline-video__controls>* {
-    display: block;
-    width: 16.6667%;
-    margin-left: 0;
-    height: 40px;
-    height: 2.5rem;
-    margin-top: 2.5rem;
-  }
-  .inline-video__controls .progress {
-    /* this trick doesn't work as elements are floated and the layout doesn't work */
-    position: absolute;
-    top: 0;
-    width: 100%;
-    float: none;
-    margin-top: 0;
-  }
-  .inline-video__controls .progress progress {
-    width: 98%;
-    margin: 0 auto;
-  }
-  .inline-video__controls button {
-    background-position: center center;
-  }
-  figcaption {
-    text-align: center;
-    margin-top: 0.5rem;
-  }
 }

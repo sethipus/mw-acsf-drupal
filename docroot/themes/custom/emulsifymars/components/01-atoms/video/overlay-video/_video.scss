@@ -74,9 +74,6 @@
       border: none;
       outline: none;
       cursor: pointer;
-      background: transparent;
-      background-size: contain;
-      background-repeat: no-repeat;
     }
 
     button:hover,
@@ -164,9 +161,6 @@
   }
 
   button.overlay-video__mute {
-    background-image: url('/icons/mute.svg');
-    width: 22.5px;
-    height: 24px;
     margin-right: 10px;
 
     @include medium {
@@ -179,13 +173,13 @@
   }
 
   button.overlay-video__subtitles {
-    background-image: url('/icons/subtitles.svg');
     width: 32px;
     height: 20px;
   }
 
   button.overlay-video__close {
     position: absolute;
+    background: transparent;
     top: 20px;
     right: 20px;
     z-index: 10;
@@ -196,12 +190,9 @@
     border: none;
     outline: none;
     cursor: pointer;
-    background: transparent;
-    background-size: contain;
-    background-repeat: no-repeat;
+    padding: 0;
     width: 24px;
     height: 24px;
-    background-image: url('/icons/close_white.svg');
 
     @include medium {
       top: 40px;
@@ -235,14 +226,11 @@
     }
   }
 
-  /*
   &__controls > button {
-    float: left;
-    width: 4%;
-    margin-left: 0.2%;
     display: block;
+    background: transparent;
+    padding: 0;
   }
-   */
 }
 
 
@@ -282,54 +270,6 @@ figure[data-fullcontrol="true"] .overlay-video__controls li {
 figure[data-fullcontrol="true"] .overlay-video__controls .progress {
   width: 68%;
 }
-
-/* Media Queries */
-
-/*
-@media screen and (max-width: 1024px) {
-  figure {
-    padding-left: 0;
-    padding-right: 0;
-    height: auto;
-  }
-  .overlay-video__controls {
-    height: 30px;
-    height: 1.876rem;
-  }
-}
-
-@media screen and (max-width: 42.5em) {
-  .overlay-video__controls {
-    height: auto;
-  }
-  .overlay-video__controls>* {
-    display: block;
-    width: 16.6667%;
-    margin-left: 0;
-    height: 40px;
-    height: 2.5rem;
-    margin-top: 2.5rem;
-  }
-  .overlay-video__controls .progress {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    float: none;
-    margin-top: 0;
-  }
-  .overlay-video__controls .progress progress {
-    width: 98%;
-    margin: 0 auto;
-  }
-  .overlay-video__controls button {
-    background-position: center center;
-  }
-  figcaption {
-    text-align: center;
-    margin-top: 0.5rem;
-  }
-}
-*/
 
 /* overlay */
 
