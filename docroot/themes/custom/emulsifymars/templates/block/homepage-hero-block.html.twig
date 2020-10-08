@@ -29,6 +29,14 @@
     video__src__url: background_video,
   } %}
 
+{% elseif (block_type == 'video_loop') %}
+
+  {% include "@molecules/homepage-hero/video/homepage-hero-video.twig" with {
+    theme_styles: 'drupal',
+    video__src__url: background_video,
+    homepage_hero__base_class: 'looping-video',
+  } %}
+
 {% elseif (block_type == 'default') %}
 
   {% set background_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' |

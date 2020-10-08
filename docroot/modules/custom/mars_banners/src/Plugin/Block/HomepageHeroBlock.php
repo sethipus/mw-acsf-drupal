@@ -131,52 +131,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-
-    $form['eyebrow'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
-      '#required' => TRUE,
-      '#default_value' => $config['eyebrow'] ?? '',
-    ];
-    $form['title'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Title'),
-      '#open' => TRUE,
-    ];
-    $form['title']['url'] = [
-      '#type' => 'url',
-      '#title' => $this->t('Title Link URL'),
-      '#maxlength' => 2048,
-      '#required' => TRUE,
-      '#default_value' => $config['title']['url'] ?? '',
-    ];
-    $form['title']['label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Title label'),
-      '#maxlength' => 50,
-      '#required' => TRUE,
-      '#default_value' => $config['title']['label'] ?? '',
-    ];
-    $form['cta'] = [
-      '#type' => 'details',
-      '#title' => $this->t('CTA'),
-      '#open' => TRUE,
-    ];
-    $form['cta']['url'] = [
-      '#type' => 'url',
-      '#title' => $this->t('CTA Link URL'),
-      '#maxlength' => 2048,
-      '#required' => TRUE,
-      '#default_value' => $config['cta']['url'] ?? '',
-    ];
-    $form['cta']['title'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('CTA Link Title'),
-      '#maxlength' => 15,
-      '#required' => TRUE,
-      '#default_value' => $config['cta']['title'] ?? 'Explore',
-    ];
     $form['block_type'] = [
       '#title' => $this->t('Choose block type'),
       '#type' => 'select',
@@ -184,6 +138,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         'default' => $this->t('Default'),
         'image' => $this->t('Image'),
         'video' => $this->t('Video'),
+        'video_loop' => $this->t('Video No Text, CTA'),
       ],
       '#default_value' => $config['block_type'] ?? 'default',
     ];
@@ -217,14 +172,115 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#default_value' => $config['background_video'] ?? '',
       '#states' => [
         'visible' => [
-          ':input[name="settings[block_type]"]' => ['value' => 'video'],
+          [':input[name="settings[block_type]"]' => ['value' => 'video']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'video_loop']],
         ],
         'required' => [
-          ':input[name="settings[block_type]"]' => ['value' => 'video'],
+          [':input[name="settings[block_type]"]' => ['value' => 'video']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'video_loop']],
         ],
       ],
     ];
-
+    $form['eyebrow'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Eyebrow'),
+      '#maxlength' => 15,
+      '#default_value' => $config['eyebrow'] ?? '',
+      '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => 'video_loop'],
+        ],
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => 'default']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'image']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'video']],
+        ],
+      ],
+    ];
+    $form['title'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Title'),
+      '#open' => TRUE,
+      '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => 'video_loop'],
+        ],
+      ],
+    ];
+    $form['title']['url'] = [
+      '#type' => 'url',
+      '#title' => $this->t('Title Link URL'),
+      '#maxlength' => 2048,
+      '#default_value' => $config['title']['url'] ?? '',
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => 'default']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'image']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'video']],
+        ],
+      ],
+    ];
+    $form['title']['label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Title label'),
+      '#maxlength' => 50,
+      '#default_value' => $config['title']['label'] ?? '',
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => 'default']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'image']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'video']],
+        ],
+      ],
+    ];
+    $form['cta'] = [
+      '#type' => 'details',
+      '#title' => $this->t('CTA'),
+      '#open' => TRUE,
+      '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => 'video_loop'],
+        ],
+      ],
+    ];
+    $form['cta']['url'] = [
+      '#type' => 'url',
+      '#title' => $this->t('CTA Link URL'),
+      '#maxlength' => 2048,
+      '#default_value' => $config['cta']['url'] ?? '',
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => 'default']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'image']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'video']],
+        ],
+      ],
+    ];
+    $form['cta']['title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('CTA Link Title'),
+      '#maxlength' => 15,
+      '#default_value' => $config['cta']['title'] ?? 'Explore',
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => 'default']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'image']],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => 'video']],
+        ],
+      ],
+    ];
     $form['card'] = [
       '#type' => 'fieldset',
       '#tree' => TRUE,
