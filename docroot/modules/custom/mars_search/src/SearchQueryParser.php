@@ -57,6 +57,11 @@ class SearchQueryParser implements SearchQueryParserInterface {
     // Initializing options array.
     $options[$search_id] = $this->getDefaultOptions($query_parameters);
 
+    // Removing limit in "see all" case.
+    if (!empty($query_parameters['see-all'])) {
+      unset($options[$search_id]['limit']);
+    }
+
     // Looping through parameters to support several searches on a single page.
     foreach ($query_parameters as $parameter_key => $parameter) {
       if (is_array($parameter)) {

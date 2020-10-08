@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Provides a controller for autocompletion.
+ * Provides a controllers for search functionality.
  */
-class AutocompleteController extends ControllerBase implements ContainerInjectionInterface {
+class MarsSearchController extends ControllerBase implements ContainerInjectionInterface {
 
   /**
    * The renderer.
@@ -41,6 +41,13 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
   protected $searchQueryParser;
 
   /**
+   * A view builder instance.
+   *
+   * @var \Drupal\Core\Entity\EntityViewBuilderInterface
+   */
+  protected $viewBuilder;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -58,6 +65,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
     $this->renderer = $renderer;
     $this->searchHelper = $search_helper;
     $this->searchQueryParser = $search_query_parser;
+    $this->viewBuilder = $this->entityTypeManager()->getViewBuilder('node');
   }
 
   /**
@@ -102,7 +110,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
           $faq = TRUE;
         }
         else {
-          $suggestions[] = $options['cards_view'] ? $this->entityTypeManager()->getViewBuilder('node')->view($entity, 'card') : $entity->toLink();
+          $suggestions[] = $options['cards_view'] ? $this->viewBuilder->view($entity, 'card') : $entity->toLink();
         }
       }
 
@@ -119,6 +127,31 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
     ];
 
     return new JsonResponse($this->renderer->render($build));
+  }
+
+  /**
+   * Search AJAX callback.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   The autocompletion response.
+   */
+  public function searchCallback(Request $request) {
+    $json_output = [];
+
+    $options = $this->searchQueryParser->parseQuery();
+
+    $results = $this->searchHelper->getSearchResults($options);
+
+    if (!empty($results['results'])) {
+      foreach ($results['results'] as $entity) {
+        $entity_build = $this->viewBuilder->view($entity, 'card');
+        $json_output['search_results'][] = $this->renderer->render($entity_build);
+      }
+    }
+    return new JsonResponse($json_output);
   }
 
 }
