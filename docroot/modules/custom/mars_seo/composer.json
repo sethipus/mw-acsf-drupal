@@ -1,0 +1,8 @@
+{
+    "name": "mars/mars_seo",
+    "description": "Contains SEO-related functionality.",
+    "type": "drupal-custom-module",
+    "require": {
+        "spatie/schema-org": "^3.0"
+    }
+}

@@ -1,20 +1,22 @@
-uuid: 0d160453-53e4-42a4-aacf-d4dc299e8cf8
+uuid: c4ede590-a1ac-47ea-9308-c0439d1875e5
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.contact_help.body
-    - field.field.node.contact_help.layout_builder__layout
-    - node.type.contact_help
+    - field.field.node.faq_contact.body
+    - field.field.node.faq_contact.layout_builder__layout
+    - field.field.node.faq_contact.field_meta_tags
+    - node.type.faq_contact
     - workflows.workflow.editorial
   module:
     - content_moderation
+    - metatag
     - path
     - publication_date
     - text
-id: node.contact_help.default
+id: node.faq_contact.default
 targetEntityType: node
-bundle: contact_help
+bundle: faq_contact
 mode: default
 content:
   body:
@@ -33,6 +35,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_meta_tags:
+    weight: 122
+    settings:
+      sidebar: true
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
   moderation_state:
     type: moderation_state_default
     weight: 100

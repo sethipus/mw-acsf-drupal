@@ -16,15 +16,34 @@
       } %}
     {% endif %}
 
-    <div {{ bem('image', [], card__base_class) }}>
-      {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: 'Product image',
-        image_sizes: '212px',
-        image_src: item.card__image__src,
-        responsive_image_blockname: 'product-image',
-      } %}
-    </div>
+    {% if item.card__image__override__src %}
+      <div {{ bem('img-override', [], card__base_class) }}>
+        {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: 'Product image',
+          image_sizes: '212px',
+          image_src: item.card__image__src,
+          responsive_image_blockname: 'product-image'
+        } %}
+        {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: 'Product image',
+          image_sizes: '212px',
+          image_src: item.card__image__override__src,
+          responsive_image_blockname: 'override-image'
+        } %}
+      </div>
+    {% else %}
+      <div {{ bem('image', [], card__base_class) }}>
+        {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: 'Product image',
+          image_sizes: '212px',
+          image_src: item.card__image__src,
+          responsive_image_blockname: 'product-image',
+        } %}
+      </div>
+    {% endif %}
 
     <div {{ bem('title', [], card__base_class) }}>
       {% include "@atoms/text/text/01-paragraph.twig" with {
