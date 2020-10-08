@@ -3,9 +3,11 @@
 namespace Drupal\mars_search;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\mars_search\Plugin\Block\SearchGridBlock;
+use Drupal\search_api\SearchApiException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -20,6 +22,13 @@ class SearchHelper implements SearchHelperInterface {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
+  /**
+   * Mars Search logger channel.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
 
   /**
    * Request stack that controls the lifecycle of requests.
@@ -38,8 +47,9 @@ class SearchHelper implements SearchHelperInterface {
   /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactoryInterface $logger_factory, RequestStack $request) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->logger = $logger_factory->get('mars_search');
     $this->request = $request->getMasterRequest();
   }
 
@@ -117,7 +127,13 @@ class SearchHelper implements SearchHelperInterface {
 
     $results = [];
     foreach ($query_results->getResultItems() as $resultItem) {
-      $results[] = $resultItem->getOriginalObject()->getValue();
+      // Do not fail page load if search index is not in sync with database.
+      try {
+        $results[] = $resultItem->getOriginalObject()->getValue();
+      }
+      catch (SearchApiException $e) {
+        $this->logger->warning($e->getMessage());
+      }
     }
 
     // It's better to trim facet values in a single place.
