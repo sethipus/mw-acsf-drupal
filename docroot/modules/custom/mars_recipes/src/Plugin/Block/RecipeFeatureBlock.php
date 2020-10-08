@@ -180,6 +180,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $title = !empty($config['recipe_title']) ? $this->configuration['recipe_title'] : $node->label();
     // Get brand border path.
     $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-feature-border');
+    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
     $config['cta']['url'] = $node->toUrl('canonical', ['absolute' => FALSE])->toString();
 
     $build += [
