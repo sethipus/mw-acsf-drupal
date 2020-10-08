@@ -14,6 +14,7 @@ Drupal.behaviors.ambientVideoPlayer = {
       video.loop = true;
       video.autoplay = true;
       video.controls = false;
+      video.play();
       
       if (document.addEventListener) {
         // Obtain handles to buttons and other elements

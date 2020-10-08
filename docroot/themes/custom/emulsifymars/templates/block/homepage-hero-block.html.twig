@@ -14,9 +14,19 @@
  * 'blocks' => [],
  */
 #}
-{{ attach_library('emulsifymars/fullscreen-video') }}
 
-{% if block_type == 'video' %}
+{% if (block_type == 'video_loop') %}
+  {{ attach_library('emulsifymars/ambient-video') }}
+
+  <div {{ bem('container', ['video'], 'homepage-hero-video') }}>
+    {% include "@atoms/video/ambient-video/video.twig" with {
+      video__src__url: background_video,
+      video__control: true
+    } %}
+  </div>
+
+{% elseif (block_type == 'video') %}
+  {{ attach_library('emulsifymars/fullscreen-video') }}
 
   {% include "@molecules/homepage-hero/video/homepage-hero-video.twig" with {
     theme_styles: 'drupal',
@@ -27,14 +37,6 @@
     cta_link_attributes: cta_url,
     cta_base_class: 'cta-link',
     video__src__url: background_video,
-  } %}
-
-{% elseif (block_type == 'video_loop') %}
-
-  {% include "@molecules/homepage-hero/video/homepage-hero-video.twig" with {
-    theme_styles: 'drupal',
-    video__src__url: background_video,
-    homepage_hero__base_class: 'looping-video',
   } %}
 
 {% elseif (block_type == 'default') %}
