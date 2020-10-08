@@ -466,7 +466,7 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
   }
   if (!empty($variables['content']['field_full_video_description']['#items'])) {
     $field_video_desc = $variables['content']['field_full_video_description']['#items']->value;
-    $variables['content'] = $field_video_desc;
+    $variables['description'] = $field_video_desc;
   }
   if (!empty($variables['content']['field_full_video_title']['#items'])) {
     $field_heading = $variables['content']['field_full_video_title']['#items']->value;

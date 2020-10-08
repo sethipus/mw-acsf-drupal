@@ -90,9 +90,19 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         videoElements('close').addEventListener('click', function(e) {
           handleFullscreen(videoContainer, videoElements);
         });
-        videoElements('control').addEventListener('click', function(e) {
-          handleFullscreen(videoContainer, videoElements);
-        });
+        if (videoElements('control')) {
+          videoElements('control').addEventListener('click', function(e) {
+            handleFullscreen(videoContainer, videoElements);
+            videoElements('video').muted = !videoElements('video').muted;
+          });
+        }
+        else if (videoContainer.parentElement.parentElement.querySelector('.homepage-hero-video__container--title .fullscreen-video__control')) {
+          var outerControl = videoContainer.parentElement.parentElement.querySelector('.homepage-hero-video__container--title .fullscreen-video__control');
+          outerControl.addEventListener('click', function(e) {
+            handleFullscreen(videoContainer, videoElements);
+            videoElements('video').muted = !videoElements('video').muted;
+          });
+        }
   
         // As the video is playing, update the progress bar
         videoElements('video').addEventListener('timeupdate', function() {

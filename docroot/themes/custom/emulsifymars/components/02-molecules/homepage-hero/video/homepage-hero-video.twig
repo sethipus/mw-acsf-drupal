@@ -1,6 +1,6 @@
 {% set homepage_hero__base_class = homepage_hero__base_class|default('homepage-hero-video') %}
 
-<section {{ bem(homepage_hero__base_class) }} id="homepage-hero" data-theme="{{ theme_styles }}">
+<section {{ bem(homepage_hero__base_class) }} data-theme="{{ theme_styles }}">
 
   <div {{ bem('wrapper', [], homepage_hero__base_class) }}>
     <div {{ bem('container', ['video'], homepage_hero__base_class) }}>
@@ -21,7 +21,7 @@
         heading_url: title_href
       } %}
 
-      <button {{ bem('control', [], homepage_hero__base_class) }} id="playpause" type="button" data-state="play"><div {{ bem('control', ['inner'], homepage_hero__base_class) }}/></button>
+      <button {{ bem('control', [], 'fullscreen-video') }} type="button" data-state="play"><div {{ bem('control', ['inner'], 'fullscreen-video') }}/></button>
 
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
         default_link_content: cta_title,

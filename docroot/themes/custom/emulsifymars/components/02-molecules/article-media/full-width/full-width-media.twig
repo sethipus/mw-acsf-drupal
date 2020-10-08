@@ -21,8 +21,10 @@
         image_title: media.title,
       } %}
     {% elseif media.video %}
+      {{ attach_library('emulsifymars/inline-video') }}
       {% include "@atoms/video/inline-video/video.twig" with {
-        video__src__url: media.src
+        video__src__url: media.src,
+        video__control: true
       } %}
     {% endif %}
   </div>
