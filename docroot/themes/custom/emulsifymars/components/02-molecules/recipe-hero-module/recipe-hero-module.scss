@@ -49,28 +49,6 @@ $xl-gap-width: 30px;
   }
 }
 
-.brand-border {
-  position: absolute;
-  z-index: 2;
-  height: 1px;
-  width: 100%;
-
-  svg {
-    width: 100%;
-    position: absolute;
-    top: -2rem;
-
-    path {
-      fill: clr(subcolor-3);
-    }
-
-    rect {
-      width: inherit;
-      height: 2rem;
-    }
-  }
-}
-
 .recipe-media {
   max-width: calc(100vw - 40px);
   margin: auto;
@@ -94,7 +72,7 @@ $xl-gap-width: 30px;
     }
   }
 
-  #playpause[data-state="play"] {
+  .ambient-video__control[data-state="play"] {
     top: 15px;
     right: 15px;
     left: auto;
@@ -120,10 +98,51 @@ $xl-gap-width: 30px;
     }
   }
 
-  #playpause[data-state="pause"] {
+  .ambient-video__control[data-state="pause"] {
 
     @include medium {
       bottom: 160px;
+    }
+  }
+
+  .stretch {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    top: -40px;
+
+    svg {
+      path {
+        fill: clr(subcolor-3);
+        width: 100%;
+      }
+      rect {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .repeat {
+    position: absolute;
+    z-index: 2;
+    height: 1px;
+    width: 100%;
+
+    svg {
+      width: 100%;
+      position: absolute;
+      top: -2rem;
+
+      path {
+        fill: clr(subcolor-3);
+      }
+
+      rect {
+        width: inherit;
+        height: 2rem;
+      }
     }
   }
 }
