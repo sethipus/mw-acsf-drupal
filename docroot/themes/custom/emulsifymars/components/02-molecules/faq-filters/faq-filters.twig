@@ -4,6 +4,7 @@
 
 
   {% block faq_filters__search %}
+  <div class="search-input-wrapper">
     <div {{ bem('search', [], faq_filters_base_class) }}>
       <div class="search-input">
         {{ search_form }}
@@ -11,12 +12,13 @@
     </div>
     <div class="mars-search-autocomplete-suggestions-wrapper">
       <div class="autocomplete-border"></div>
-      <div class="mars-suggestions">
+      <div class="mars-suggestions yahoo3">
         {% include "@atoms/lists/ul.twig" with {
           ul_items: search_results,
         } %}
       </div>
     </div>
+  </div>
     <div {{ bem('search-results', [], faq_filters_base_class) }}>
       {{ search_result_counter }}
     </div>

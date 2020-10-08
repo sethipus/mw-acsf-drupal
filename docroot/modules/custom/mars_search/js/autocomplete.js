@@ -16,7 +16,7 @@
         var gridId = $(this).attr('data-grid-id');
         var gridQuery = $(this).attr('data-grid-query');
         var cardsView = $(this).hasClass('mars-cards-view');
-        console.log(cardsView);
+        //console.log(cardsView);
         if (searchString.length > 2) {
           var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString + '&search_id=' + gridId;
           if (gridQuery) {
@@ -25,15 +25,21 @@
           if (cardsView && window.innerWidth > 768) {
             url = url + '&cards_view=1';
           }
+          var target_container = $(this).parents('form').parents().eq(1);
+
           setTimeout(function() {
             $.ajax({
               url: url,
               type: 'GET',
               dataType: 'json',
               success: function success(results) {
-                $('.mars-suggestions').html(results);
-                $('.search-field-wrapper').addClass('suggested');
+                $(target_container).find('.mars-suggestions').html(results);
+                $(target_container).addClass('suggested');
                 $('.mars-search-autocomplete-suggestions-wrapper').show();
+                $('.faq .suggestions-links li').not(':last').click(function (){
+                  var  clicked_text = $(this).text();
+                  $('.mars-autocomplete-field-faq').val(clicked_text);
+                });
               }
             });
           }, 25);
