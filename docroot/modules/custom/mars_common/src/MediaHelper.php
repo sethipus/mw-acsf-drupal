@@ -100,7 +100,7 @@ class MediaHelper {
       case 'video_file':
         return [
           'video' => TRUE,
-          'src' => $entity->field_media_image->entity->createFileUrl(!$absolute_urls),
+          'src' => $entity->field_media_video_file->entity->createFileUrl(!$absolute_urls),
         ];
 
       case 'video':

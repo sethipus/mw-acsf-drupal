@@ -11,7 +11,6 @@ use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Class RecipeFeatureBlock.
@@ -139,43 +138,39 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
    * {@inheritdoc}
    */
   public function build() {
+    $media_id = NULL;
     $config = $this->getConfiguration();
     $node = $this->getRecipe();
     if (empty($node)) {
       return [];
     }
 
-    if ((!empty($config['recipe_media_image']) && $config['recipe_options'] == self::KEY_OPTION_IMAGE) ||
-      !empty($config['recipe_media_video']) && $config['recipe_options'] == self::KEY_OPTION_VIDEO) {
+    if (
+      !empty($config['recipe_media_image']) && $config['recipe_options'] == self::KEY_OPTION_IMAGE ||
+      !empty($config['recipe_media_video']) && $config['recipe_options'] == self::KEY_OPTION_VIDEO
+    ) {
       if ($config['recipe_options'] == self::KEY_OPTION_IMAGE) {
         $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['recipe_media_image']);
       }
       elseif ($config['recipe_options'] == self::KEY_OPTION_VIDEO) {
         $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['recipe_media_video']);
       }
-      // Assumption that only ligthouse_video and lighthouse_image allowed.
-      $media_entity = $this->mediaStorage->load($media_id);
-      $field = ($media_entity->bundle() == 'lighthouse_video') ? 'field_media_video_file_1' : 'field_media_image';
-      $isVideo = ($media_entity->bundle() == 'lighthouse_video') ? TRUE : FALSE;
     }
     else {
       if (!$node->get('field_recipe_video')->isEmpty()) {
-        $videos = $node->get('field_recipe_video')->referencedEntities();
-        $video = (is_array($videos) && count($videos) > 0) ? $videos[0] : NULL;
-
-        if (!empty($video) && in_array($video->bundle(), ['lighthouse_video', 'video_file'])) {
-          $media_entity = $this->getMediaEntity($node, 'field_recipe_video');
-          $field = ($media_entity->bundle() == 'lighthouse_video') ? 'field_media_video_file_1' : 'field_media_video_file';
-          $isVideo = TRUE;
-        }
+        $media_id = $node->get('field_recipe_video')->first()->target_id;
       }
       else {
-        $media_entity = $this->getMediaEntity($node, 'field_recipe_image');
-        $field = ($media_entity->bundle() == 'lighthouse_image') ? 'field_media_image' : 'image';
-        $isVideo = FALSE;
+        $media_id = $node->get('field_recipe_image')->first()->target_id;
       }
     }
-    $recipe_media_set = (!empty($media_entity)) ? $this->prepareRecipeMediaSet($media_entity, $field, $isVideo) : [];
+
+    if ($media_id) {
+      $recipe_media_set = $this->prepareRecipeMediaSet($media_id);
+    }
+    else {
+      $recipe_media_set = [];
+    }
 
     $title = !empty($config['recipe_title']) ? $this->configuration['recipe_title'] : $node->label();
     // Get brand border path.
@@ -196,6 +191,9 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
 
   /**
    * Getting recipe node.
+   *
+   * @return \Drupal\node\Entity\Node
+   *   The recipe node.
    */
   protected function getRecipe() {
     $node = $this->getContextValue('node');
@@ -207,36 +205,25 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
   }
 
   /**
-   * Load media entity.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $node
-   *   The Recipe node.
-   * @param string $field
-   *   Field from which we uploading media.
-   */
-  protected function getMediaEntity(EntityInterface $node, string $field) {
-    $media_entity_id = $node->get($field)->target_id;
-    return $this->mediaStorage->load($media_entity_id);
-  }
-
-  /**
    * Get media parameters from node.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $media_entity
-   *   Entity from which we should load date.
-   * @param string $field
-   *   The nade on the fiekd to be fetched.
-   * @param bool $isVideo
-   *   Set media as video or image.
+   * @param string $media_id
+   *   Media id that should be used to generate media set.
+   *
+   * @return array
+   *   Media set array for the given media id.
    */
-  protected function prepareRecipeMediaSet(EntityInterface $media_entity, string $field, bool $isVideo): array {
-    $recipe_media_set = [];
+  protected function prepareRecipeMediaSet(string $media_id): array {
+    $media_params = $this->mediaHelper->getMediaParametersById($media_id);
 
-    $media_file_id = $media_entity->get($field)->target_id;
-    $media_file = $this->fileStorage->load($media_file_id);
-    $media_file_url = !empty($media_file) ? $media_file->createFileUrl() : '';
+    if (isset($media_params['error'])) {
+      return [];
+    }
 
-    if ($isVideo) {
+    $is_video = isset($media_params['video']) && $media_params['video'];
+    $media_file_url = $media_params['src'];
+
+    if ($is_video) {
       $recipe_media_set = [
         'video_url' => $media_file_url,
       ];
