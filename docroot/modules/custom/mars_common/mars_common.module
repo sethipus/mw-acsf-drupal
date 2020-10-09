@@ -289,6 +289,23 @@ function mars_common_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_entity_operation().
+ */
+function mars_common_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if (!(\Drupal::currentUser()->hasPermission('administer polls'))) {
+    return;
+  }
+  $entityTypeId = $entity->getEntityTypeId();
+  if ($entityTypeId === 'poll') {
+    $operations['results'] = [
+      'title' => t('Results'),
+      'url' => Url::fromRoute('mars_common.poll.votes', ['poll' => $entity->id()]),
+      'weight' => 10,
+    ];
+  }
+}
+
+/**
  * Prepares variables for carousel item widget templates.
  *
  * Default template: carousel-item-widget.html.twig.
