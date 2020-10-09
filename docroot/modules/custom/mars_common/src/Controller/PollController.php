@@ -202,7 +202,7 @@ class PollController extends ControllerBase {
    *   The page title.
    */
   public function getResultsViewTitle(EntityInterface $poll) {
-    return $this->t('Results of @poll_title', ['@poll_title' => $poll->get('question')->value]);
+    return $this->t('Results of %poll_title', ['%poll_title' => $poll->get('question')->value]);
   }
 
 }
