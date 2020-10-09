@@ -10,7 +10,7 @@ Drupal.behaviors.inlineVideoPlayer = {
       // Setup memoize function for video elements selectors
       var videoElements = (function() {
         var memo = {};
-      
+
         function f(n) {
           var value;
           if (n in memo) {
@@ -21,7 +21,7 @@ Drupal.behaviors.inlineVideoPlayer = {
           }
           return value;
         }
-      
+
         return f;
       })();
 
@@ -37,7 +37,7 @@ Drupal.behaviors.inlineVideoPlayer = {
       // If the browser doesn't support the progress element, set its state for some different styling
       var supportsProgress = (document.createElement('progress').max !== undefined);
       if (!supportsProgress) videoElements('progress-time--inner').setAttribute('data-state', 'fake');
-  
+
       // Only add the events if addEventListener is supported (IE8 and less don't support it, but that will use Flash anyway)
       if (document.addEventListener) {
         // Wait for the video's meta data to be loaded, then set the progress bar's max value to the duration of the video
@@ -45,7 +45,7 @@ Drupal.behaviors.inlineVideoPlayer = {
           videoElements('progress-time--inner').setAttribute('max', videoElements('video').duration);
           videoElements('progress-time--duration').innerHTML = '0:00/' + videoElements('video').duration;
         });
-  
+
         // Add event listeners for video specific events
         videoElements('video').addEventListener('play', function() {
           changeButtonState(videoElements, 'playpause');
@@ -62,7 +62,7 @@ Drupal.behaviors.inlineVideoPlayer = {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
         });
-  
+
         videoElements('mute').addEventListener('click', function(e) {
           videoElements('video').muted = !videoElements('video').muted;
           changeButtonState(videoElements, 'mute');
@@ -73,7 +73,7 @@ Drupal.behaviors.inlineVideoPlayer = {
         videoElements('close').addEventListener('click', function(e) {
           handleFullcontrol(videoContainer, videoElements);
         });
-  
+
         // As the video is playing, update the progress bar
         videoElements('video').addEventListener('timeupdate', function() {
           // For mobile browsers, ensure that the progress element's max attribute is set
@@ -82,15 +82,14 @@ Drupal.behaviors.inlineVideoPlayer = {
           videoElements('progress-time--progress-bar').style.width = Math.floor((videoElements('video').currentTime / videoElements('video').duration) * 100) + '%';
           videoElements('progress-time--duration').innerHTML = parseFloat(videoElements('video').currentTime.toFixed(2)) + '/' + videoElements('video').duration;
         });
-  
+
         // React to the user clicking within the progress bar
         videoElements('progress-time--inner').addEventListener('click', function(e) {
-          //var pos = (e.pageX  - this.offsetLeft) / this.offsetWidth; // Also need to take the parent into account here as .controls now has position:relative
-          var pos = (e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)) / this.offsetWidth;
+          var pos = e.offsetX / this.offsetWidth;
           videoElements('video').currentTime = pos * videoElements('video').duration;
         });
       }
-  
+
       videoElements('video').setAttribute('data-video-init', true);
     }
 
@@ -143,7 +142,7 @@ Drupal.behaviors.inlineVideoPlayer = {
 
     // Fullcontrol
     var handleFullcontrol = function(videoContainer, videoElements) {
-      // If fullcontrol mode is active...	
+      // If fullcontrol mode is active...
       if (isFullcontrol(videoContainer) == 'false') {
         videoElements('controls').setAttribute('data-state', 'visible');
         setFullcontrolData(videoContainer, videoElements, true);

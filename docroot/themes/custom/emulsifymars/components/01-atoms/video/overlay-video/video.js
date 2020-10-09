@@ -78,10 +78,8 @@ Drupal.behaviors.overlayVideoPlayer = {
         });
 
         // React to the user clicking within the progress bar
-        // TODO: Need to update with https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element/42111623#42111623
         videoElements('progress-time--inner').addEventListener('click', function(e) {
-          //var pos = (e.pageX  - this.offsetLeft) / this.offsetWidth; // Also need to take the parent into account here as .controls now has position:relative
-          var pos = (e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)) / this.offsetWidth;
+          var pos = e.offsetX / this.offsetWidth;
           videoElements('video').currentTime = pos * videoElements('video').duration;
         });
       }

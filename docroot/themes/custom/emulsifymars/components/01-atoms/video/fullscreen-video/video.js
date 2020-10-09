@@ -10,7 +10,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
       // Setup memoize function for video elements selectors
       var videoElements = (function() {
         var memo = {};
-      
+
         function f(n) {
           var value;
           if (n in memo) {
@@ -21,7 +21,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           }
           return value;
         }
-      
+
         return f;
       })();
 
@@ -40,7 +40,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
       // If the browser doesn't support the progress element, set its state for some different styling
       var supportsProgress = (document.createElement('progress').max !== undefined);
       if (!supportsProgress) videoElements('progress-time--inner').setAttribute('data-state', 'fake');
-  
+
       // Check if the browser supports the Fullscreen API
       var fullScreenEnabled = !!(document.fullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || document.webkitSupportsFullscreen || document.webkitFullscreenEnabled || document.createElement('video').webkitRequestFullScreen);
       // If the browser doesn't support the Fulscreen API then hide the fullscreen button
@@ -55,7 +55,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           videoElements('progress-time--inner').setAttribute('max', videoElements('video').duration);
           videoElements('progress-time--duration').innerHTML = '0:00/' + videoElements('video').duration;
         });
-  
+
         // Add event listeners for video specific events
         videoElements('video').addEventListener('play', function() {
           changeButtonState(videoElements, 'playpause');
@@ -72,7 +72,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
         });
-  
+
         // The Media API has no 'stop()' function, so pause the video and reset its time and the progress bar
         videoElements('stop').addEventListener('click', function(e) {
           videoElements('video').pause();
@@ -104,7 +104,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
             videoElements('video').muted = !videoElements('video').muted;
           });
         }
-  
+
         // As the video is playing, update the progress bar
         videoElements('video').addEventListener('timeupdate', function() {
           // For mobile browsers, ensure that the progress element's max attribute is set
@@ -113,14 +113,13 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           videoElements('progress-time--progress-bar').style.width = Math.floor((videoElements('video').currentTime / videoElements('video').duration) * 100) + '%';
           videoElements('progress-time--duration').innerHTML = parseFloat(videoElements('video').currentTime.toFixed(2)) + '/' + videoElements('video').duration;
         });
-  
+
         // React to the user clicking within the progress bar
         videoElements('progress-time--inner').addEventListener('click', function(e) {
-          //var pos = (e.pageX  - this.offsetLeft) / this.offsetWidth; // Also need to take the parent into account here as .controls now has position:relative
-          var pos = (e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)) / this.offsetWidth;
+          var pos = e.offsetX / this.offsetWidth;
           videoElements('video').currentTime = pos * videoElements('video').duration;
         });
-  
+
         // Listen for fullscreen change events (from other controls, e.g. right clicking on the video itself)
         document.addEventListener('fullscreenchange', function(e) {
           setFullscreenData(videoContainer, videoElements, !!(document.fullScreen || document.fullscreenElement));
@@ -135,7 +134,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           setFullscreenData(videoContainer, videoElements, !!document.msFullscreenElement);
         });
       }
-  
+
       videoElements('video').setAttribute('data-video-init', true);
     }
 
@@ -193,7 +192,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
 
     // Fullscreen
     var handleFullscreen = function(videoContainer, videoElements) {
-      // If fullscreen mode is active...	
+      // If fullscreen mode is active...
       if (isFullScreen()) {
         // ...exit fullscreen mode
         // (Note: this can only be called on document)
@@ -208,7 +207,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         if (videoContainer.requestFullscreen) videoContainer.requestFullscreen();
         else if (videoContainer.mozRequestFullScreen) videoContainer.mozRequestFullScreen();
         else if (videoContainer.webkitRequestFullScreen) {
-          // Safari 5.1 only allows proper fullscreen on the video element. This also works fine on other WebKit browsers as the following CSS (set in styles.css) hides the default controls that appear again, and 
+          // Safari 5.1 only allows proper fullscreen on the video element. This also works fine on other WebKit browsers as the following CSS (set in styles.css) hides the default controls that appear again, and
           // ensures that our custom controls are visible:
           // figure[data-fullscreen=true] video::-webkit-media-controls { display:none !important; }
           // figure[data-fullscreen=true] .controls { z-index:2147483647; }
