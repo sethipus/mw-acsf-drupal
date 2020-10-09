@@ -183,6 +183,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
       // Set the fullscreen button's 'data-state' which allows the correct button image to be set via CSS
       videoElements('fs').setAttribute('data-state', !!state ? 'cancel-fullscreen' : 'go-fullscreen');
       videoElements('controls').setAttribute('data-state', !!state ? 'visible' : 'hidden');
+      videoElements('control').setAttribute('data-state', !!state ? 'hidden' : 'play');
     }
 
     // Checks if the document is currently in fullscreen mode
