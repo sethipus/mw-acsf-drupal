@@ -131,9 +131,11 @@ Drupal.behaviors.overlayVideoPlayer = {
       modalInnerWindow.appendChild(videoClone);
       modalWindow.appendChild(modalInnerWindow);
       videoClone.setAttribute('data-fullcontrol', true);
+      videoClone.setAttribute('data-overlay', true);
       videoClone.querySelector('.overlay-video__controls').setAttribute('data-state', 'visible');
       videoClone.querySelector('.overlay-video__control').setAttribute('data-state', 'hidden');
       videoInitState(videoClone);
+      // overlay-video__controls
     }
 
     // Obtain handles to main elements

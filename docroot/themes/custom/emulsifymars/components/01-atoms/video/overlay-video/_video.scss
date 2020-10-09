@@ -58,7 +58,12 @@
     padding: 0 20px;
 
     @include medium {
+      width: calc(100vw - 140px);
       padding: 0 30px;
+    }
+
+    @include xl {
+      width: 836px;
     }
 
     &[data-state="hidden"] {
@@ -257,9 +262,7 @@ figure[data-fullcontrol="true"] figcaption {
 }
 
 figure[data-fullcontrol="true"] .overlay-video__controls {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
+  margin-top: -45px;
   z-index: 10;
 }
 
@@ -277,7 +280,6 @@ figure[data-fullcontrol="true"] .overlay-video__controls .progress {
 
 /* overlay */
 .overlay-video-modal {
-  //display: none;
   position: fixed;
   z-index: 1;
   padding-top: 100px;
@@ -287,7 +289,10 @@ figure[data-fullcontrol="true"] .overlay-video__controls .progress {
   height: 100%;
   overflow: auto;
   background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+
+  @include medium {
+    background-color: rgba(0,0,0,0.4);
+  }
 
   .inner-wrapper {
     position: absolute;
@@ -297,52 +302,51 @@ figure[data-fullcontrol="true"] .overlay-video__controls .progress {
     width: 100vw;
     margin-right: -50%;
     transform: translate(-50%, -50%);
-
-    @include medium {
-      width: calc(100vw - 80px);
-    }
-
-    @include xl {
-      width: 896px;
-    }
   }
 }
 
-.overlay-video[data-overlay="true"] .overlay-video {
-  &__video {
-    width: 100vw;
+.overlay-video[data-overlay="true"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    @include medium {
-      width: calc(100vw - 80px);
+  .overlay-video {
+    &__video {
+      width: 100vw;
+
+      @include medium {
+        width: calc(100vw - 80px);
+      }
+
+      @include xl {
+        width: 896px;
+      }
     }
 
-    @include xl {
-      width: 896px;
+    &__overlay {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: rgba(0, 0, 0, 1);
+
+      @include medium {
+        background-color: rgba(0, 0, 0, 0.6);
+      }
     }
-  }
 
-  &__overlay {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 1);
-
-    @include medium {
-      background-color: rgba(0, 0, 0, 0.6);
+    &__container {
+      background-color: #000;
     }
-  }
 
-  &__container {
-    background-color: #000;
-  }
-
-  &__box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+    &__box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }
