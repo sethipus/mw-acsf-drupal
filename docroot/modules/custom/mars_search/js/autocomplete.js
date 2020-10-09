@@ -25,7 +25,7 @@
           if (cardsView && window.innerWidth > 768) {
             url = url + '&cards_view=1';
           }
-          var target_container = $(this).parents('form').parents().eq(1);
+          var target_container = $(this).parents('.search-input-wrapper');
 
           setTimeout(function() {
             $.ajax({
