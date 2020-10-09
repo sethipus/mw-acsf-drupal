@@ -164,7 +164,7 @@ class PollController extends ControllerBase {
     $build['summary']['header'] = [
       '#type' => 'html_tag',
       '#tag' => 'div',
-      '#value' => $this->t('<b>Submissions count:</b> @count', ['@count' => $results_total]),
+      '#value' => $this->t('<b>Submission count:</b> @count', ['@count' => $results_total]),
     ];
     $build['summary']['table'] = [
       '#type' => 'table',
