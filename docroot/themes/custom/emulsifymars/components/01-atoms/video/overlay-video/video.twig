@@ -5,28 +5,22 @@
 {% set video__base_class = video__base_class|default('overlay-video') %}
 
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} data-fullcontrol="false" data-overlay="false">
-  <div {{ bem('container', [], video__base_class) }}>
-    <div {{ bem('overlay', [], video__base_class) }}>
-      <div {{ bem('box', [], video__base_class) }}>
-        <video {{ bem('video', [], video__base_class) }}>
-          <source loop src="{{ video__src__url }}" type="video/mp4" />
-        </video>
-        <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
-          <button {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play"><div {{ bem('playpause', ['inner'], video__base_class) }}/></button>
-          <button {{ bem('mute', ['inner'], video__base_class) }} type="button" data-state="mute"></button>
-          <div {{ bem('progress-time', [], video__base_class) }}>
-            <progress {{ bem('progress-time--inner', [], video__base_class) }} value="0" min="0">
-              <span {{ bem('progress-time--progress-bar', [], video__base_class) }}></span>
-            </progress>
-          </div>
-          <div {{ bem('progress-time', ['duration'], video__base_class) }}></div>
-          <button {{ bem('subtitles', ['inner'], video__base_class) }} type="button" data-state="subtitles"></button>
-        </div>
-        {% if video__control == true %}
-          <button {{ bem('control', [], video__base_class) }} type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
-        {% endif %}
-      </div>
-      <button {{ bem('close', ['inner'], video__base_class) }} type="button"></button>
+  <video {{ bem('video', [], video__base_class) }}>
+    <source loop src="{{ video__src__url }}" type="video/mp4" />
+  </video>
+  <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
+    <button {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play"><div {{ bem('playpause', ['inner'], video__base_class) }}/></button>
+    <button {{ bem('mute', ['inner'], video__base_class) }} type="button" data-state="mute"></button>
+    <div {{ bem('progress-time', [], video__base_class) }}>
+      <progress {{ bem('progress-time--inner', [], video__base_class) }} value="0" min="0">
+        <span {{ bem('progress-time--progress-bar', [], video__base_class) }}></span>
+      </progress>
     </div>
+    <div {{ bem('progress-time', ['duration'], video__base_class) }}></div>
+    <button {{ bem('subtitles', ['inner'], video__base_class) }} type="button" data-state="subtitles"></button>
   </div>
+  {% if video__control == true %}
+    <button {{ bem('control', [], video__base_class) }} type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+  {% endif %}
+  <button {{ bem('close', ['inner'], video__base_class) }} type="button"></button>
 </figure>

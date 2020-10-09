@@ -31,9 +31,6 @@ Drupal.behaviors.overlayVideoPlayer = {
       videoElements('video').controls = false;
       videoElements('video').muted = false;
 
-      // Display the user defined video controls
-      videoElements('controls').setAttribute('data-state', 'hidden');
-
       // If the browser doesn't support the progress element, set its state for some different styling
       var supportsProgress = (document.createElement('progress').max !== undefined);
       if (!supportsProgress) videoElements('progress-time--inner').setAttribute('data-state', 'fake');
@@ -67,13 +64,8 @@ Drupal.behaviors.overlayVideoPlayer = {
           videoElements('video').muted = !videoElements('video').muted;
           changeButtonState(videoElements, 'mute');
         });
-        videoElements('control').addEventListener('click', function(e) {
-          console.log('--- open ---');
-          handleFullcontrol(videoContainer, videoElements);
-        });
         videoElements('close').addEventListener('click', function(e) {
-          console.log('--- close ---');
-          handleFullcontrol(videoContainer, videoElements);
+          document.querySelector('.overlay-video-modal').remove();
         });
 
         // As the video is playing, update the progress bar
@@ -130,44 +122,28 @@ Drupal.behaviors.overlayVideoPlayer = {
       changeButtonState(videoElements, 'mute');
     }
 
-    // Set the video container's fullcontrol state
-    var setFullcontrolData = function(videoContainer, videoElements, state) {
-      if (!state) videoElements('video').pause();
-      videoContainer.setAttribute('data-fullcontrol', !!state);
-      // Set the fullscreen button's 'data-state' which allows the correct button image to be set via CSS
-      videoElements('control').setAttribute('data-state', !!state ? 'hidden' : 'play');
-      videoElements('controls').setAttribute('data-state', !!state ? 'visible' : 'hidden');
-    }
-
     // Set overlay state to the video
-    var setOverlay = function(videoContainer, videoElements, state) {
-      videoElements('container').style.minHeight = videoElements('video').offsetHeight + 'px';
-      videoContainer.setAttribute('data-overlay', !!state);
-    }
-
-    // Checks if the document is currently in fullcontol mode
-    var isFullcontrol = function(videoContainer) {
-      return videoContainer.getAttribute('data-fullcontrol');
-    }
-
-    // Fullcontrol
-    var handleFullcontrol = function(videoContainer, videoElements) {
-      // If fullcontrol mode is active...
-      if (isFullcontrol(videoContainer) == 'false') {
-        videoElements('controls').setAttribute('data-state', 'visible');
-        setFullcontrolData(videoContainer, videoElements, true);
-        setOverlay(videoContainer, videoElements, true);
-      } else {
-        videoElements('controls').setAttribute('data-state', 'hidden');
-        setFullcontrolData(videoContainer, videoElements, false);
-        setOverlay(videoContainer, videoElements, false);
-      }
+    var setOverlay = function(videoContainer) {
+      var modalWindow = document.createElement('div');
+      document.body.appendChild(modalWindow);
+      modalWindow.setAttribute('class', 'overlay-video-modal');
+      var modalInnerWindow = document.createElement('div');
+      modalInnerWindow.setAttribute('class', 'inner-wrapper');
+      var videoClone = videoContainer.cloneNode(true);
+      modalInnerWindow.appendChild(videoClone);
+      modalWindow.appendChild(modalInnerWindow);
+      videoClone.setAttribute('data-fullcontrol', true);
+      videoClone.querySelector('.overlay-video__controls').setAttribute('data-state', 'visible');
+      videoClone.querySelector('.overlay-video__control').setAttribute('data-state', 'hidden');
+      videoInitState(videoClone);
     }
 
     // Obtain handles to main elements
     var videos = document.querySelectorAll('.overlay-video');
     videos.forEach(function(video) {
-      videoInitState(video);
+      video.querySelector('.overlay-video__control').addEventListener('click', function(e) {
+        setOverlay(video);
+      });
     });
   }
 }

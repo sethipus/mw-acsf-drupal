@@ -283,55 +283,37 @@ figure[data-fullcontrol="true"] .overlay-video__controls .progress {
   width: 68%;
 }
 
-/* Media Queries */
+.overlay-video-modal {
+  //display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 
-/*
-@media screen and (max-width: 1024px) {
-  figure {
-    padding-left: 0;
-    padding-right: 0;
-    height: auto;
-  }
-  .overlay-video__controls {
-    height: 30px;
-    height: 1.876rem;
-  }
-}
-
-@media screen and (max-width: 42.5em) {
-  .overlay-video__controls {
-    height: auto;
-  }
-  .overlay-video__controls>* {
-    display: block;
-    width: 16.6667%;
-    margin-left: 0;
-    height: 40px;
-    height: 2.5rem;
-    margin-top: 2.5rem;
-  }
-  .overlay-video__controls .progress {
+  .inner-wrapper {
     position: absolute;
-    top: 0;
-    width: 100%;
-    float: none;
-    margin-top: 0;
-  }
-  .overlay-video__controls .progress progress {
-    width: 98%;
-    margin: 0 auto;
-  }
-  .overlay-video__controls button {
-    background-position: center center;
-  }
-  figcaption {
-    text-align: center;
-    margin-top: 0.5rem;
+    top: 50%;
+    left: 50%;
+    height: 100vh;
+    width: 100vw;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+
+    @include medium {
+      width: calc(100vw - 80px);
+    }
+
+    @include xl {
+      width: 896px;
+    }
   }
 }
-*/
-
-/* overlay */
 
 .overlay-video[data-overlay="true"] .overlay-video {
   &__video {

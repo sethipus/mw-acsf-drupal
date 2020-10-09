@@ -183,7 +183,6 @@ Drupal.behaviors.fullscreenVideoPlayer = {
       videoContainer.setAttribute('data-fullscreen', !!state);
       // Set the fullscreen button's 'data-state' which allows the correct button image to be set via CSS
       videoElements('fs').setAttribute('data-state', !!state ? 'cancel-fullscreen' : 'go-fullscreen');
-      videoElements('control').setAttribute('data-state', !!state ? 'hidden' : 'play');
       videoElements('controls').setAttribute('data-state', !!state ? 'visible' : 'hidden');
     }
 
@@ -202,7 +201,6 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
         else if (document.webkitCancelFullScreen) document.webkitCancelFullScreen();
         else if (document.msExitFullscreen) document.msExitFullscreen();
-        videoElements('controls').setAttribute('data-state', 'hidden');
         setFullscreenData(videoContainer, videoElements, false);
       } else {
         // ...otherwise enter fullscreen mode
@@ -216,7 +214,6 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           // figure[data-fullscreen=true] .controls { z-index:2147483647; }
           videoElements('video').webkitRequestFullScreen();
         } else if (videoContainer.msRequestFullscreen) videoContainer.msRequestFullscreen();
-        videoElements('controls').setAttribute('data-state', 'visible');
         setFullscreenData(videoContainer, videoElements, true);
       }
     }
