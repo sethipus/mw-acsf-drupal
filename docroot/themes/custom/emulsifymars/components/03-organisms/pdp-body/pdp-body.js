@@ -1,8 +1,19 @@
 import Swiper, {Autoplay, Pagination} from 'swiper';
+import SnapScroll from 'snapscroll';
 
 (function($) {
   Drupal.behaviors.pdpBody = {
     attach(context) {
+
+      // scroll snapping
+      var optionsMandatory = {
+        proximity: 300,
+      };
+      if(context.querySelector('.pdp-body') !== null && window.innerWidth < 1024 ) {
+        SnapScroll('.scroll-mandatory', optionsMandatory);
+      }
+      
+
       // init swiper
       Swiper.use([Autoplay, Pagination]);
       var swiperInstances = [];
@@ -93,7 +104,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         const pdp_wtb = context.getElementById(`where-to-buy-${pdp_size_id}`);
 
         const pdp_main_image_top = pdp_main_image.offset().top;
-        const pdp_hero_bottom = pdp_hero.offset().top + pdp_hero.outerHeight();
+        const pdp_hero_bottom = pdp_hero.offset().top + pdp_hero.outerHeight() - 100;
         const pdp_section_bottom = pdp_section.offset().top + pdp_section.outerHeight();
 
         var scrollEventListener = function() {

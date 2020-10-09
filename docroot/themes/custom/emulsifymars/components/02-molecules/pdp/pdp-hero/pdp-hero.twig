@@ -1,6 +1,7 @@
 {% set pdp_hero_base_class = pdp_hero_base_class|default('pdp-hero') %}
 {% set pdp_main_image = pdp_hero_data.image_items|first %}
 {% set pdp_side_images = pdp_hero_data.image_items[1:] %}
+{% set scroll_mandatory_base_class = 'scroll-mandatory' %}
 
 <section
   id="pdp-hero-{{size_id}}"
@@ -104,26 +105,27 @@
         </div>
         <div {{ bem('side-image-container', [], pdp_hero_base_class) }}>
           {% for item in pdp_side_images %}
-            {% include "@atoms/images/image/responsive-image.twig" with {
-              image_alt: item.image.alt,
-              image_srcset: item.image.srcset,
-              image_sizes: '(max-width: 375px) 375px,
-                  (max-width: 768px) 768px,
-                  (max-width: 1024px) 1024px,
-                  1440px',
-              image_src: item.image.src,
-              responsive_image_base_class: 'side-image',
-              responsive_image_blockname: pdp_hero_base_class,
-            } %}
+            <div {{ bem('side-image-item', [], pdp_hero_base_class, [scroll_mandatory_base_class]) }}>
+              {% include "@atoms/images/image/responsive-image.twig" with {
+                image_alt: item.image.alt,
+                image_srcset: item.image.srcset,
+                image_sizes: '(max-width: 375px) 375px,
+                    (max-width: 768px) 768px,
+                    (max-width: 1024px) 1024px,
+                    1440px',
+                image_src: item.image.src,
+                responsive_image_base_class: 'side-image',
+                responsive_image_blockname: pdp_hero_base_class,
+              } %}
+            </div>
           {% endfor %}
         </div>
       </div>
-
-      {% include "@atoms/text/text/07-element.twig" with {
-        paragraph_content: pdp_common_hero_data.product_description,
-        paragraph_base_class: 'description',
-        paragraph_blockname: pdp_hero_base_class,
-      } %}
+      <div {{ bem('description', [], pdp_hero_base_class, [scroll_mandatory_base_class]) }}>
+        {% include "@atoms/text/text/07-element.twig" with {
+          paragraph_content: pdp_common_hero_data.product_description,
+        } %}
+      </div>
       <div id='where-to-buy-{{size_id}}' class="where-to-buy--container">
         {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
           where_to_buy_modifiers: ['pdp-hero'],
