@@ -35,7 +35,7 @@
               dataType: 'json',
               success: function success(results) {
                 $(target_container).find('.mars-suggestions').html(results);
-                $(target_container).find('.mars-search-autocomplete-suggestions-wrapper').addClass('suggested');
+                $(target_container).find('.search-input-wrapper').addClass('suggested');
                 $('.mars-search-autocomplete-suggestions-wrapper').show();
                 $('.faq .suggestions-links li').not(':last').click(function (){
                   var  clicked_text = $(this).text();

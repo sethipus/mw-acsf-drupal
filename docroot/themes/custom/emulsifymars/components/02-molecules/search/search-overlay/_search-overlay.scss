@@ -225,7 +225,7 @@
   }
 
    &.opened {
-     .mars-search-autocomplete-suggestions-wrapper.suggested {
+     .mars-search-autocomplete-suggestions-wrapper {
        @include large {
          position: absolute;
          top: 100%;
