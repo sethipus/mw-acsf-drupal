@@ -117,18 +117,24 @@
     }
 
     & .mars-search-autocomplete-suggestions-wrapper {
-      color: clr(primary);
       font-size: 16px;
       margin-top: 0;
-      background-color: clr(subcolor-3);
       display: none;
       line-height: 100%;
 
       @include medium {
+        background-color: clr(subcolor-3);
+        color: clr(primary);
         border-bottom-left-radius: variable(card-border-radius);
         border-bottom-right-radius: variable(card-border-radius);
         border: 1px solid clr(subcolor-4);
         border-top: none;
+      }
+
+      & .suggestions-links a {
+        text-decoration: none;
+        color: clr(subcolor-3);
+        line-height: 150%;
       }
 
       & .suggestions-label {
@@ -143,6 +149,12 @@
           padding-left: 0;
           margin-bottom: 0;
         }
+      }
+
+      .no-results {
+        margin-top: 10px;
+        color: clr(subcolor-3);
+        line-height: 150%;
       }
     }
 
