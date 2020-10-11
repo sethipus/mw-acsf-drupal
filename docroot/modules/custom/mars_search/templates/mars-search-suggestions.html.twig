@@ -20,9 +20,12 @@
         {% for suggestion in suggestions %}
           {{ suggestion }}
         {% endfor %}
-        <div class="search-cards-all-results">
-          {{ show_all }}
-        </div>
+      </div>
+      <div class="search-cards-all-results">
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: show_all.title,
+          default_link_attributes: show_all.attributes,
+        } %}
       </div>
     </div>
   {% else %}

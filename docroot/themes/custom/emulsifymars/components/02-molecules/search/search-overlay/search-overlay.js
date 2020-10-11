@@ -26,6 +26,7 @@
         });
         $('.search-autocomplete-wrapper:hidden').slideDown(250, function(){
           $(this).addClass('opened');
+          $(this).find('.mars-search-autocomplete-suggestions-wrapper').appendTo(this);
         });
         event.preventDefault();
         event.stopPropagation();

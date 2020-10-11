@@ -22,10 +22,11 @@
           if (gridQuery) {
             url = url + '&' + gridQuery;
           }
+          var target_container = $(this).parents('.search-input-wrapper').parent();
           if (cardsView && window.innerWidth > 768) {
             url = url + '&cards_view=1';
+          target_container = $(this).parents('.search-autocomplete-wrapper').parent();
           }
-          var target_container = $(this).parents('.search-input-wrapper');
 
           setTimeout(function() {
             $.ajax({
@@ -34,7 +35,7 @@
               dataType: 'json',
               success: function success(results) {
                 $(target_container).find('.mars-suggestions').html(results);
-                $(target_container).addClass('suggested');
+                $(target_container).find('.mars-search-autocomplete-suggestions-wrapper').addClass('suggested');
                 $('.mars-search-autocomplete-suggestions-wrapper').show();
                 $('.faq .suggestions-links li').not(':last').click(function (){
                   var  clicked_text = $(this).text();

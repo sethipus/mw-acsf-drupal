@@ -4,7 +4,6 @@ namespace Drupal\mars_search\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\Core\Link;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
@@ -114,7 +113,18 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         }
       }
 
-      $show_all = empty($faq) ? Link::fromTextAndUrl($this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]), Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, ['query' => [SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys']]]])) : '';
+      $show_all = empty($faq) ? [
+        'title' => $this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]),
+        'attributes' => [
+          'href' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
+            'query' => [
+              SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
+                SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
+              ],
+            ],
+          ]),
+        ],
+      ] : [];
     }
     $empty_text_description = $this->config('mars_search.autocomplete')->get('empty_text_description');
     $build = [

@@ -16,7 +16,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
     'mars_search_suggestions' => [
       'variables' => [
         'suggestions' => [],
-        'show_all' => NULL,
+        'show_all' => [],
         'empty_text' => NULL,
         'empty_text_description' => NULL,
         'cards_view' => NULL,

@@ -31,7 +31,7 @@
     }
   }
 
-  & .search-field-wrapper {
+  & .search-input-wrapper {
 
     @include medium {
       display: flex;
@@ -66,13 +66,6 @@
             border-bottom: 1px solid clr(subcolor-4);
             margin: 0 20px;
           }
-        }
-      }
-
-      & input.mars-autocomplete-field {
-        @include medium {
-          border-bottom-right-radius: unset;
-          border-bottom-left-radius: unset;
         }
       }
 
@@ -218,6 +211,17 @@
       height: 60px;
     }
   }
+
+   &.opened {
+     .mars-search-autocomplete-suggestions-wrapper.suggested {
+       @include large {
+         position: absolute;
+         top: 100%;
+         width: 100%;
+         z-index: 5;
+       }
+     }
+   }
 }
 
 input.mars-autocomplete-field:-webkit-autofill,
