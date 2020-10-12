@@ -373,7 +373,7 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
 
       $item = [
         'content' => $field_desc_val,
-        'order' => $field_item_order,
+        'item_number' => $field_item_order,
       ];
 
       if (isset($field_image_val[0])) {
