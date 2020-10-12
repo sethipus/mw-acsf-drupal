@@ -33,8 +33,6 @@
   }
 
   &--with-sub {
-    width: 80%;
-
     @include large {
       width: auto;
       padding-right: $space-quintuple;
@@ -43,16 +41,28 @@
 }
 
 .menu_chevron__icon {
-  display: none;
+  display: inline-block;
   position: absolute;
   right: 2.6rem;
-  top: 50%;
   transform: translateY(-50%);
   width: 12px;
   height: 7px;
 
+  @include xs {
+    pointer-events: none;
+    top: 3rem;
+
+    &.main-menu--sub-open {
+      transform: translateY(-50%) rotate(180deg);
+    }
+  }
+
   @include large {
-    display: inline-block;
+    top: 50%;
+
+    &.main-menu--sub-open {
+      transform: translateY(-50%);
+    }
   }
 }
 
