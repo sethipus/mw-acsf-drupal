@@ -1,0 +1,28 @@
+uuid: fbadadc4-0606-47c1-9913-7d7ccf07f902
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_card_imageoverride
+    - media.type.image
+    - node.type.product_variant
+id: node.product_variant.field_product_card_imageoverride
+field_name: field_product_card_imageoverride
+entity_type: node
+bundle: product_variant
+label: 'Product Card Image Override'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

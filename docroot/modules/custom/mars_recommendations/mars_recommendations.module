@@ -13,6 +13,7 @@ function mars_recommendations_theme($existing, $type, $theme, $path) {
     'recommendations_module_block' => [
       'variables' => [
         'title' => NULL,
+        'graphic_divider' => NULL,
         'recommended_items' => [],
       ],
       'template' => 'recommendations-module-block',

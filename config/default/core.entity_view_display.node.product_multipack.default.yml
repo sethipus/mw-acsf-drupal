@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.product_multipack.field_meta_tags
     - field.field.node.product_multipack.field_product_brand
     - field.field.node.product_multipack.field_product_description
     - field.field.node.product_multipack.field_product_flavor
@@ -27,6 +28,7 @@ dependencies:
     - mars_common
     - mars_product
     - mars_recommendations
+    - metatag
     - text
     - user
 third_party_settings:
@@ -78,6 +80,21 @@ third_party_settings:
                 node: layout_builder.entity
             additional: {  }
             weight: 1
+          929f0b72-723a-40ec-a098-f3aa161dc4a2:
+            uuid: 929f0b72-723a-40ec-a098-f3aa161dc4a2
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:product_multipack:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 2
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -147,7 +164,6 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
-      - Facets
       - 'Flexible driver'
       - Forms
       - 'Global elements'
@@ -165,11 +181,9 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        Facets: {  }
         'Flexible driver': {  }
         'Mars Search': {  }
       blacklisted_blocks: {  }
@@ -185,34 +199,59 @@ third_party_settings:
         - product_ratings_reviews
         - product_product_recommendations
       whitelisted_blocks:
-        product_product_recommendations:
+        product_storytelling_community:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
+            'Custom block types':
+              - flexible_framer
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - list
+              - media_carousel
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
-            Facets: {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks': {  }
+            'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
+              - 'inline_block:list'
+              - 'inline_block:media_carousel'
+              - 'inline_block:text_component'
             'Lists (Views)': {  }
             'Mars Common':
+              - contact_help_banner_block
+              - feedback_block
+              - iframe_block
+              - newsletter_signup_form
+              - poll_block
+              - product_feature
               - recommendations_module
+              - story_highlight
             'Mars Product': {  }
-            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
+            Product:
+              - pdp_product_multipack_block
+              - pdp_hero_block
+            Recipe:
+              - recipe_feature_block
+            'Social feed':
+              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         product_product_detail_hero:
           all_regions:
@@ -237,51 +276,6 @@ third_party_settings:
               - pdp_hero_block
             Recipe: {  }
             'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        product_storytelling_community:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            'Flexible driver':
-              - flexible_driver
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks':
-              - 'inline_block:flexible_framer'
-              - 'inline_block:full_width_image'
-              - 'inline_block:full_width_video'
-              - 'inline_block:inline_image'
-              - 'inline_block:list'
-              - 'inline_block:media_carousel'
-              - 'inline_block:text_component'
-            'Lists (Views)': {  }
-            'Mars Common':
-              - contact_help_banner_block
-              - iframe_block
-              - newsletter_signup_form
-              - product_feature
-              - story_highlight
-              - poll_block
-              - feedback_block
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product:
-              - pdp_product_multipack_block
-              - pdp_hero_block
-            Recipe: {  }
-            'Social feed':
-              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
@@ -313,6 +307,35 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
+        product_product_recommendations:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Facets: {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - recommendations_module
+            'Mars Product': {  }
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
 _core:
   default_config_hash: T8M07LCqwJDF9IL2X-xsI7es-mQcVg330Cp7DeQthLI
 id: node.product_multipack.default
@@ -320,6 +343,13 @@ targetEntityType: node
 bundle: product_multipack
 mode: default
 content:
+  field_meta_tags:
+    weight: 115
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
   field_product_brand:
     weight: 110
     label: above

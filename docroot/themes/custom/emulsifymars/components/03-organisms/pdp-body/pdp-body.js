@@ -59,24 +59,24 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       //scroll effects: bubbles, section-select and WTB
       function onScrollEffects() {
         const pdp_size_id = context.querySelector('[data-pdp-size-active="true"]').dataset.pdpSizeId;
-
+        
         const pdp_bubble_1 = context.getElementById(`pdp-hero__bubble_1-${pdp_size_id}`);
         const pdp_bubble_2 = context.getElementById(`pdp-hero__bubble_2-${pdp_size_id}`);
         const pdp_bubble_3 = context.getElementById(`pdp-hero__bubble_3-${pdp_size_id}`);
-        const pdp_bubble_1_top = context.getElementById(`pdp-hero__bubble_1-${pdp_size_id}`).getBoundingClientRect().top;
-        const pdp_bubble_2_top = context.getElementById(`pdp-hero__bubble_2-${pdp_size_id}`).getBoundingClientRect().top;
-        const pdp_bubble_3_top = context.getElementById(`pdp-hero__bubble_3-${pdp_size_id}`).getBoundingClientRect().top;
+        const pdp_bubble_1_top = $(`#pdp-hero__bubble_1-${pdp_size_id}`, context).offset().top;
+        const pdp_bubble_2_top = $(`#pdp-hero__bubble_2-${pdp_size_id}`, context).offset().top;
+        const pdp_bubble_3_top = $(`#pdp-hero__bubble_3-${pdp_size_id}`, context).offset().top;
 
-        const pdp_section = context.querySelector(`[data-pdp-size-id="${pdp_size_id}"]`);
-        const pdp_hero = context.getElementById(`pdp-hero-${pdp_size_id}`);
-        const pdp_main_image = context.getElementById(`pdp-hero-main-image-${pdp_size_id}`);
+        const pdp_section = $(`[data-pdp-size-id="${pdp_size_id}"]`, context);
+        const pdp_hero = $(`#pdp-hero-${pdp_size_id}`, context);
+        const pdp_main_image = $(`#pdp-hero-main-image-${pdp_size_id}`, context);
         const pdp_sticky_nav_top = context.getElementById(`sticky-nav-top-${pdp_size_id}`);
         const pdp_sticky_nav_bottom = context.getElementById(`sticky-nav-bottom-${pdp_size_id}`);
         const pdp_wtb = context.getElementById(`where-to-buy-${pdp_size_id}`);
 
-        const pdp_main_image_top = pdp_main_image.getBoundingClientRect().top;
-        const pdp_hero_bottom = pdp_hero.getBoundingClientRect().bottom;
-        const pdp_section_bottom = pdp_section.getBoundingClientRect().bottom;
+        const pdp_main_image_top = pdp_main_image.offset().top;
+        const pdp_hero_bottom = pdp_hero.offset().top + pdp_hero.outerHeight();
+        const pdp_section_bottom = pdp_section.offset().top + pdp_section.outerHeight();
 
         var scrollEventListener = function() {
           var offset = window.pageYOffset;

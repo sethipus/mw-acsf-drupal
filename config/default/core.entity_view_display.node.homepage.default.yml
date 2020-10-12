@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.node.homepage.body
+    - field.field.node.homepage.layout_builder__layout
+    - field.field.node.homepage.field_meta_tags
     - node.type.homepage
   module:
     - layout_builder
@@ -12,11 +14,12 @@ dependencies:
     - layout_library
     - mars_banners
     - mars_common
+    - metatag
     - text
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
+    allow_custom: true
     enabled: true
     sections:
       -
@@ -46,6 +49,21 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
+          7ad6c12a-f5a5-4e68-86b2-01e9572cbbb7:
+            uuid: 7ad6c12a-f5a5-4e68-86b2-01e9572cbbb7
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:homepage:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 1
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -95,6 +113,7 @@ third_party_settings:
       - 'Lists (Views)'
       - 'Mars Common'
       - 'Mars Product'
+      - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
       - Product
@@ -103,11 +122,11 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
         'Flexible driver': {  }
+        'Mars Search': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - homepage_homepage_hero
@@ -119,36 +138,55 @@ third_party_settings:
         - homepage_drive_to_product
         - homepage_additional_touts
       whitelisted_blocks:
-        homepage_drive_to_product:
+        homepage_additional_touts:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
+            'Custom block types':
+              - flexible_framer
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - media_carousel
+            'Custom blocks':
+              - mars_common_content_feature_module
             'Entity Block': {  }
             'Entity Browser': {  }
-            'Flexible driver':
-              - flexible_driver
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks':
               - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
+              - 'inline_block:media_carousel'
+              - 'inline_block:text_component'
             'Lists (Views)': {  }
             'Mars Common':
+              - freeform_story_block
+              - iframe_block
+              - newsletter_signup_form
+              - poll_block
               - product_feature
+              - story_highlight
             'Mars Product':
               - product_content_pair_up_block
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
+            Recipe:
+              - recipe_feature_block
+            'Social feed':
+              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         homepage_homepage_hero:
           all_regions:
@@ -177,48 +215,37 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        homepage_additional_touts:
+        homepage_drive_to_product:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks':
-              - mars_common_content_feature_module
+            'Custom block types':
+              - flexible_framer
+            'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
-            'Flexible driver': {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks':
               - 'inline_block:flexible_framer'
-              - 'inline_block:full_width_image'
-              - 'inline_block:full_width_video'
-              - 'inline_block:inline_image'
-              - 'inline_block:media_carousel'
-              - 'inline_block:text_component'
             'Lists (Views)': {  }
             'Mars Common':
-              - freeform_story_block
-              - iframe_block
-              - newsletter_signup_form
-              - poll_block
               - product_feature
-              - story_highlight
-            'Mars Product': {  }
+            'Mars Product':
+              - product_content_pair_up_block
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
-            Product:
-              - product_content_pair_up_block
-            Recipe:
-              - recipe_feature_block
-            'Social feed':
-              - social_feed
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
 id: node.homepage.default
 targetEntityType: node
@@ -232,6 +259,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
+  field_meta_tags:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
   links:
     weight: 100
     settings: {  }
@@ -239,5 +273,6 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  layout_builder__layout: true
   published_at: true
   search_api_excerpt: true

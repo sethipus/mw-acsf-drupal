@@ -32,9 +32,9 @@
 
   {% if parent_page_media_url and parent_page_media_type == 'video' %}
     <div class="bg-video">
-      {% include "@atoms/video/background-video/background-video.twig" with {
-        bg_video_src: parent_page_media_url,
-        bg_video_type: pp_header_video_type
+      {% include "@atoms/video/ambient-video/video.twig" with {
+        video__src__url: parent_page_media_url,
+        video__control: true
       } %}
     </div>
   {% endif %}
