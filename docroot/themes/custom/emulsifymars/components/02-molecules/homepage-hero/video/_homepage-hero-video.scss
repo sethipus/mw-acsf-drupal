@@ -22,16 +22,11 @@
   }
 
   &__container {
-    #playpause[data-state="play"] {
+    .fullscreen-video__control[data-state="play"] {
       @include playbutton;
       
       @include playbutton;
-  
-      width: 60px;
-      height: 60px;
-      left: 10px;
-      bottom: 25px;
-    
+      
       >div {
         width: 0;
         height: 0;
@@ -42,14 +37,9 @@
       }
     }
     
-    #playpause[data-state="pause"] {
+    .fullscreen-video__control[data-state="pause"] {
       @include pausebutton;
-    
-      width: 60px;
-      height: 60px;
-      left: 10px;
-      bottom: 30px;
-    
+        
       >div {
         width: 14px;
         height: 18px;
@@ -98,14 +88,14 @@
     }
   }
   .default-link {
-    margin: 35px 0 30px 90px;
+    margin: 35px 0 30px 0;
     height: 50px;
     line-height: 50px;
     background-color: clr(subcolor-2);
     color: clr(secondary);
   }
   
-  #playpause[data-state="play"] {
+  .fullscreen-video__control[data-state="play"] {
     background-color: clr(subcolor-3);
     bottom: 30px;
   }

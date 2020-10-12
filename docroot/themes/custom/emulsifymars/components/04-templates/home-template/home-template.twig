@@ -1,0 +1,16 @@
+{% set article_template__base_class = 'home' %}
+<div {{ bem(article_template__base_class) }} data-theme="{{ theme_styles }}">
+
+    <!-- Home Page Hero Module -->
+    {% include "@molecules/homepage-hero/3up/homepage-hero-3up.twig" %}
+
+    <!-- Product Content Module -->
+    {% include "@molecules/product-content-pair-up/product-content-pair-up.twig" %}
+
+    <!-- Poll Module -->
+    {% include "@molecules/polls/poll-vote.twig" %}
+
+    <!-- Content Feature Module -->
+    {% include "@molecules/content-feature/content-feature.twig" %}
+
+</div>
