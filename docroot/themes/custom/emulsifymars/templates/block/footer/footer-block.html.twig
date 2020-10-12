@@ -43,7 +43,9 @@
   {% endblock %}
 
   {% block footer__brand_border %}
-    {{ border | raw }}
+    <div class="{{ brand_shape_class }}">
+      {{ border | raw }}
+    </div>
   {% endblock %}
 
   {% block footer__social %}

@@ -218,6 +218,17 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#default_value'       => theme_get_setting('brand_borders'),
   ];
 
+  $form['icons_settings']['brand_border_style'] = [
+    '#type'          => 'radios',
+    '#title'         => $translation->translate('Brand border style'),
+    '#description'   => $translation->translate('Designates stretched border or repeated border shape.'),
+    '#default_value' => theme_get_setting('brand_border_style'),
+    '#options' => [
+      'repeat' => $translation->translate('Repeat'),
+      'stretch' => $translation->translate('Stretch'),
+    ],
+  ];
+
   $form['icons_settings']['brand_borders_2'] = [
     '#title'           => $translation->translate('Brand Borders for Cards'),
     '#type'            => 'managed_file',
@@ -257,7 +268,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   $form['icons_settings']['button_style'] = [
     '#type'          => 'radios',
     '#title'         => $translation->translate('Button/Card Style'),
-    '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner. For example: 5px.'),
+    '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner.'),
     '#default_value' => theme_get_setting('button_style'),
     '#options' => [
       0 => $translation->translate('Round'),

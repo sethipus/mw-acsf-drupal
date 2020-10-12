@@ -160,7 +160,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $expected = [
       '#theme' => 'story_highlight_block',
       '#title' => 'Test Block Title',
-      '#brand_border' => 'Mocked brand_borders content',
+      '#brand_border' => 'Mocked brand_borders_2 content',
       '#graphic_divider' => 'Mocked graphic_divider content',
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
@@ -218,7 +218,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $expected = [
       '#theme' => 'story_highlight_block',
       '#title' => 'Test Block Title',
-      '#brand_border' => 'Mocked brand_borders content',
+      '#brand_border' => 'Mocked brand_borders_2 content',
       '#graphic_divider' => 'Mocked graphic_divider content',
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
@@ -276,7 +276,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $expected = [
       '#theme' => 'story_highlight_block',
       '#title' => 'Test Block Title',
-      '#brand_border' => 'Mocked brand_borders content',
+      '#brand_border' => 'Mocked brand_borders_2 content',
       '#graphic_divider' => 'Mocked graphic_divider content',
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
@@ -348,7 +348,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
       ->method('getFileContentFromTheme')
       ->willReturnCallback(function ($field) {
         switch ($field) {
-          case 'brand_borders':
+          case 'brand_borders_2':
           case 'graphic_divider':
             return sprintf('Mocked %s content', $field);
 
@@ -386,6 +386,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
       ->willReturnMap([
         [
           self::STORY_ITEM_1_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_1_MEDIA_URI,
@@ -395,6 +396,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::STORY_ITEM_2_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_2_MEDIA_URI,
@@ -404,6 +406,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::STORY_ITEM_3_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_3_MEDIA_URI,
@@ -413,6 +416,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_1_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_1_MEDIA_URI,
@@ -422,6 +426,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_2_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_2_MEDIA_URI,
@@ -431,6 +436,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_3_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_3_MEDIA_URI,
