@@ -5,7 +5,7 @@
   margin: 0 auto;
   max-width: 99%;
   box-shadow: 1px 1px 3px #ccc;
-  border-radius: variable(border-radius);
+  border-radius: variable(button-border-radius);
 
   @include xs {
     padding: 3rem 1.7rem 5rem 1.7rem;
@@ -166,7 +166,7 @@
     letter-spacing: 0.128rem;
     text-transform: uppercase;
     border: 1px solid clr(secondary);
-    border-radius: variable(border-radius);
+    border-radius: variable(button-border-radius);
     line-height: 6rem;
     padding: 0 1.5rem;
     cursor: pointer;
@@ -194,7 +194,7 @@
     height: 100%;
     width: 100%;
     background-color: clr(subcolor-1);
-    border-radius: variable(border-radius);
+    border-radius: variable(button-border-radius);
     z-index: 1;
   }
 
