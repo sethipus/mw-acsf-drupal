@@ -346,7 +346,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#multiple' => TRUE,
       '#options' => self::CONTENT_TYPES,
       '#default_value' => $config['content_type'] ?? NULL,
-      '#required' => TRUE
+      '#required' => TRUE,
     ];
 
     $form = array_merge($form, $this->buildExposedFilters());
