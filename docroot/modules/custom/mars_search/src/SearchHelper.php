@@ -230,6 +230,7 @@ class SearchHelper implements SearchHelperInterface {
       'conditions' => [
         // We don't need FAQ nodes in most cases.
         ['type', 'faq', '<>'],
+        ['type', 'product_multipack', '<>'],
       ],
       'limit' => 12,
       'sort' => [

@@ -15,7 +15,7 @@
 
 {% if suggestions %}
   {% if cards_view %}
-    <div class="search-cards-container" data-theme="twix">
+    <div class="search-cards-container" data-theme="drupal">
       <div class="search-cards">
         {% for suggestion in suggestions %}
           {{ suggestion }}
@@ -39,8 +39,7 @@
     </div>
   {% endif %}
 {% else %}
-  <div class="no-results">
-    <div class="empty-text">{{ empty_text }}</div>
-    <div class="empty-text-description">{{ empty_text_description }}</div>
+  <div class="search-cards-container" data-theme="drupal">
+    {{ no_results }}
   </div>
 {% endif %}
