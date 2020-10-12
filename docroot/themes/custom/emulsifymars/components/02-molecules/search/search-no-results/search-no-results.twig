@@ -1,0 +1,24 @@
+<div class="search-no-results" data-theme={{ theme_styles }}>
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: no_results_heading,
+    heading_level: 2,
+    heading_base_class: 'search-no-results-heading'
+  } %}
+
+  {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
+
+  {% include "@atoms/text/text/01-paragraph.twig" with {
+    paragraph_content: no_results_text,
+    paragraph_base_class: 'search-no-results-text'
+  } %}
+
+  <div class="search-no-results-links-container">
+    {% for link in no_results_links %}
+      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+        default_link_content: link.content,
+        default_link_attributes: link.attributes,
+        default_link_modifiers: ['light']
+      } %}
+    {% endfor %}
+  </div>
+</div>

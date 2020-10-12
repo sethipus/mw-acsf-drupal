@@ -11,6 +11,7 @@ ignored_config_entities:
   - mars_lighthouse.settings
   - block.block.footerblock
   - block.block.marsheaderblock
+  - acquia_contenthub.admin_settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'

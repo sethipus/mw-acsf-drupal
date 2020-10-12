@@ -1,0 +1,58 @@
+{% set search_cards_base_class = search_cards_base_class|default('search-cards') %}
+
+<div class="search-cards-container" data-theme={{ theme_styles }}>
+  <div {{ bem(search_cards_base_class) }}>
+    {% for card in cards %}
+      {% if card.type == 'product' %}
+        {% include "@molecules/card/product-card/product-card.twig" with { item: card } %}
+      {% elseif (card.type == 'recipe') %}
+        {% include "@molecules/card/recipe-card/recipe-card.twig" with {
+          theme_styles: card.theme_styles,
+          recipe_card_image_alt: card.recipe_card_image_alt,
+          recipe_card_image_src: card.recipe_card_image_src,
+          recipe_card_media_url: card.recipe_card_media_url,
+          recipe_card_heading: card.recipe_card_heading,
+          recipe_card_heading_level: card.recipe_card_heading_level,
+          recipe_card_heading_base_class: card.recipe_card_heading_base_class,
+          recipe_card_minutes_number: card.recipe_card_minutes_number,
+          recipe_card_minutes_base_class: card.recipe_card_minutes_base_class,
+          recipe_card_minutes_size: card.recipe_card_minutes_size,
+          recipe_card_minutes_modifiers: card.recipe_card_minutes_modifiers,
+          recipe_card_items_number: card.recipe_card_items_number,
+          recipe_card_items_base_class: card.recipe_card_items_base_class,
+          recipe_card_items_size: card.recipe_card_items_size,
+          recipe_card_items_modifiers: card.recipe_card_items_modifiers,
+          recipe_card_button_text: card.recipe_card_button_text,
+          recipe_card_button_modifiers: card.recipe_card_button_modifiers,
+          recipe_card_button_link_attributes: card.recipe_card_button_link_attributes,
+          label_for_cooking_time: card.label_for_cooking_time,
+          label_for_ingredients: card.label_for_ingredients,
+          recipe_is_new: card.recipe_is_new
+        } %}
+      {% elseif (card.type == 'article') %}
+        {% include "@molecules/card/article-card/article-card.twig" with {
+          article_card_heading: card.article_card_heading,
+          article_card_heading_level: card.article_card_heading_level,
+          article_card_heading_base_class: card.article_card_heading_base_class,
+          article_card_text: card.article_card_text,
+          article_card_paragraph_base_class: card.article_card_paragraph_base_class,
+          article_card_paragraph_size: card.article_card_paragraph_size,
+          article_card_paragraph_modifiers: card.article_card_paragraph_modifiers,
+          article_card_button_text: card.article_card_button_text,
+          article_card_button_modifiers: card.article_card_button_modifiers,
+          article_card_button_link_attributes: card.article_card_button_link_attributes,
+          brand_shape: card.brand_shape,
+          article_card_background_img_url: card.article_card_background_img_url,
+          article_is_new: card.article_is_new
+        } %}
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="search-cards-all-results">
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content: all_results_button_text,
+      default_link_attributes: all_results_button_link_attributes,
+      default_link_modifiers: all_results__button_modifiers
+    } %}
+  </div>
+</div>

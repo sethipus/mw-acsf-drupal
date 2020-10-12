@@ -8,6 +8,7 @@ use Drupal\Core\Form\SubformState;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\layout_builder\Form\ConfigureBlockFormBase;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_recommendations\RecommendationsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -25,15 +26,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
-  const ZONE_FIXED = 'fixed';
-  const ZONE_FLEXIBLE = 'flexible';
-
   /**
    * Mars Recommendations Service.
    *
    * @var \Drupal\mars_recommendations\RecommendationsService
    */
   protected $recommendationsService;
+
+  /**
+   * Theme configurator parser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
 
   /**
    * {@inheritdoc}
@@ -43,7 +48,8 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_recommendations.recommendations_service')
+      $container->get('mars_recommendations.recommendations_service'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -54,11 +60,13 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    RecommendationsService $recommendations_service
+    RecommendationsService $recommendations_service,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->recommendationsService = $recommendations_service;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -92,6 +100,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     return [
       '#theme' => 'recommendations_module_block',
       '#title' => !empty($this->configuration['title']) ? $this->configuration['title'] : $this->t('More @types Like This', ['@type' => $node->type->entity->label()]),
+      '#graphic_divider' => $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider'),
       '#recommended_items' => $plugin->getRenderedRecommendations(),
     ];
   }
@@ -104,20 +113,16 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $form = parent::buildConfigurationForm($form, $form_state);
     $form_object = $form_state->getFormObject();
 
-    $is_fixed_section = FALSE;
     if ($form_object instanceof ConfigureBlockFormBase) {
       /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
       [$section_storage, $delta] = $form_state->getBuildInfo()['args'];
 
-      $layout_id = $section_storage->getSection($delta)->getLayoutId();
+      $form_state->set('layout_id', $section_storage->getSection($delta)->getLayoutId());
 
       $contexts = $section_storage->getContextValues();
-      $entity = $contexts['entity'] ?? $contexts['display'] ?? NULL;
 
-      if (isset($entity)) {
-        $form_alter_class = mars_common_get_layout_alter_class($entity);
-        $is_fixed_section = in_array($layout_id, constant("$form_alter_class::FIXED_SECTIONS"));
-      }
+      /** @var \Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay|\Drupal\Core\Entity\EntityInterface $entity */
+      $form_state->set('entity', $contexts['entity'] ?? $contexts['display'] ?? NULL);
     }
 
     $form['title'] = [
@@ -135,7 +140,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#tree' => TRUE,
     ];
 
-    $options = $this->recommendationsService->getPopulationLogicOptions($is_fixed_section ? self::ZONE_FIXED : self::ZONE_FLEXIBLE);
+    $options = $this->recommendationsService->getPopulationLogicOptions($form_state->get('layout_id'), $form_state->get('entity'));
 
     $default_value = $conf['population_plugin_id'] ?? NULL;
     if (!$default_value && count($options) == 1) {

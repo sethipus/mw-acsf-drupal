@@ -64,6 +64,7 @@
         "emulsify-ds/emulsify-drupal": "^1.0@beta",
         "eyecon/jquery_colorpicker": "master",
         "lcatlett/blt-ddev": "dev-master",
+        "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
         "nedsbeds/profile_split_enable": "^1.0",
@@ -188,6 +189,10 @@
                    "classmap": ["."]
                 }
             }
+        },
+        "mars_seo": {
+            "type": "path",
+            "url": "docroot/modules/custom/mars_seo"
         }
     },
     "minimum-stability": "dev",

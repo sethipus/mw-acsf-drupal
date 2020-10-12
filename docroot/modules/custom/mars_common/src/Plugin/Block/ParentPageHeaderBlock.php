@@ -28,17 +28,26 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   protected $mediaStorage;
 
   /**
+   * File storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $entity_type_manager = $container->get('entity_type.manager');
     $entity_storage = $entity_type_manager->getStorage('media');
+    $fileStorage = $entity_type_manager->getStorage('file');
 
     return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $entity_storage
+      $entity_storage,
+      $fileStorage
     );
   }
 
@@ -49,10 +58,12 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityStorageInterface $entity_storage
+    EntityStorageInterface $entity_storage,
+    EntityStorageInterface $fileStorage
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaStorage = $entity_storage;
+    $this->fileStorage = $fileStorage;
   }
 
   /**

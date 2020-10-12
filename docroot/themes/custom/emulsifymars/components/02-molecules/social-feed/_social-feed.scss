@@ -66,6 +66,12 @@
     }
   }
 
+  .social-feed-slide.swiper-slide {
+    border-radius: 1rem;
+    max-height: 31.7rem;
+    overflow: hidden;
+  }
+
   .social-feed-swiper-container #swiper-button {
     background-color: clr(subcolor-3);
     border-radius: 50%;
