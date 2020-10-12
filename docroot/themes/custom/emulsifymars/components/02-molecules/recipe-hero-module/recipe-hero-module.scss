@@ -289,7 +289,6 @@ $xl-gap-width: 30px;
   @include xl {
     padding: 60px 0 0;
     width: calc(#{$xl-column-width*6 + $xl-gap-width*5});
-    margin-left: calc(#{$xl-column-width + $xl-gap-width} + (100vw - 1360px) / 2);
   }
 
   &__text {
