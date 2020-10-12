@@ -1,0 +1,22 @@
+{% set article_template__base_class = 'landing' %}
+<div {{ bem(article_template__base_class) }} data-theme="{{ theme_styles }}">
+
+    <!-- Landing Page Header -->
+    {% include "@molecules/parent-page-header/parent-page-header.twig" %}
+
+    <!-- Media Module -->
+    {% include "@molecules/article-media/full-width/full-width-media.twig" %}
+
+    <!-- Poll Module -->
+    {% include "@molecules/polls/poll-vote.twig" %}
+
+    <!-- Content Feature Module -->
+    {% include "@molecules/content-feature/content-feature.twig" %}
+
+    <!-- Carousel Gallery Module 1 -->
+    {% include "@molecules/media-carousel/media-carousel.twig" %}
+
+    <!-- Carousel Gallery Module 2 -->
+    {% include "@molecules/media-carousel/media-carousel.twig" %}
+
+</div>
