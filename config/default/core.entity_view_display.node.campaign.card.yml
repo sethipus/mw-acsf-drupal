@@ -1,86 +1,26 @@
-uuid: 6d338fa0-bbee-437a-a537-03b56e91c223
+uuid: fb1c8100-c150-45c5-baa7-bf04d07c72b9
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.node.card
     - field.field.node.campaign.field_body
     - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_image
     - field.field.node.campaign.field_campaign_related_products
-    - field.field.node.campaign.field_meta_tags
     - field.field.node.campaign.field_product_occasions
     - field.field.node.campaign.layout_builder__layout
     - node.type.campaign
   module:
     - layout_builder
     - layout_builder_restrictions
-    - layout_discovery
     - layout_library
-    - mars_common
     - text
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: true
-    enabled: true
-    sections:
-      -
-        layout_id: campaign_section
-        layout_settings:
-          label: 'Free Editorial Capabilities'
-        components:
-          ea2fc118-19f2-4c67-98d8-48d22dc6d099:
-            uuid: ea2fc118-19f2-4c67-98d8-48d22dc6d099
-            region: content
-            configuration:
-              id: 'field_block:node:campaign:title'
-              label: Title
-              provider: layout_builder
-              label_display: ''
-              formatter:
-                label: hidden
-                type: string
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-            additional: {  }
-            weight: 1
-          231c1a20-750b-4181-8655-19b11fd9dac6:
-            uuid: 231c1a20-750b-4181-8655-19b11fd9dac6
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:campaign:field_body'
-              formatter:
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-                type: text_default
-            additional: {  }
-            weight: 2
-          bb321d0a-7b1e-4e1d-a20c-33394b5286bf:
-            uuid: bb321d0a-7b1e-4e1d-a20c-33394b5286bf
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:campaign:field_campaign_image'
-              formatter:
-                type: entity_reference_entity_view
-                label: above
-                settings:
-                  view_mode: default
-                  link: false
-                third_party_settings: {  }
-            additional: {  }
-            weight: 3
-        third_party_settings: {  }
+    allow_custom: false
+    enabled: false
   layout_library:
     enable: false
   layout_builder_restrictions:
@@ -142,7 +82,6 @@ third_party_settings:
             'Mars Common':
               - feedback_block
               - poll_block
-              - recommendations_module
             'Mars Product': {  }
             'Mars Search': {  }
             Menus: {  }
@@ -157,59 +96,38 @@ third_party_settings:
               - page_title_block
               - local_actions_block
               - local_tasks_block
-id: node.campaign.default
+id: node.campaign.card
 targetEntityType: node
 bundle: campaign
-mode: default
+mode: card
 content:
   field_body:
-    weight: 106
+    weight: 1
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
     region: content
-  field_brand_initiatives:
-    weight: 105
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   field_campaign_image:
     type: entity_reference_entity_view
-    weight: 107
+    weight: 2
     label: above
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
     region: content
-  field_campaign_related_products:
-    weight: 104
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
-  field_product_occasions:
-    weight: 103
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   links:
-    weight: 100
+    weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   content_moderation_control: true
+  field_brand_initiatives: true
+  field_campaign_related_products: true
   field_meta_tags: true
+  field_product_occasions: true
   layout_builder__layout: true
   published_at: true
   search_api_excerpt: true
