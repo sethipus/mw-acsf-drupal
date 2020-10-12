@@ -93,8 +93,15 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         });
         if (videoElements('control')) {
           videoElements('control').addEventListener('click', function(e) {
-            handleFullscreen(videoContainer, videoElements);
-            videoElements('video').muted = !videoElements('video').muted;
+            if (videoElements('control').getAttribute('data-state') == 'play') {
+              handleFullscreen(videoContainer, videoElements);
+              videoElements('video').muted = false;
+              videoElements('video').play();
+            }
+            else if (videoElements('control').getAttribute('data-state') == 'pause') {
+              videoElements('video').pause();
+              changeButtonState(videoElements, 'control');
+            }
           });
         }
         else if (videoContainer.parentElement.parentElement.querySelector('.homepage-hero-video__container--title .fullscreen-video__control')) {
@@ -140,17 +147,10 @@ Drupal.behaviors.fullscreenVideoPlayer = {
 
     // Changes the button state of certain button's so the correct visuals can be displayed with CSS
     var changeButtonState = function(videoElements, type) {
-      // Play/Pause button
-      if (type == 'playpause') {
-        if (videoElements('video').paused || videoElements('video').ended) {
-          videoElements('playpause').setAttribute('data-state', 'play');
-        } else {
-          videoElements('playpause').setAttribute('data-state', 'pause');
-        }
-      }
-      // Mute button
-      else if (type == 'mute') {
-        videoElements('mute').setAttribute('data-state', videoElements('video').muted ? 'unmute' : 'mute');
+      if (videoElements('video').paused || videoElements('video').ended) {
+        videoElements(type).setAttribute('data-state', 'play');
+      } else {
+        videoElements(type).setAttribute('data-state', 'pause');
       }
     }
 
@@ -168,7 +168,6 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         if (currentVolume <= 0) videoElements('video').muted = true;
         else videoElements('video').muted = false;
       }
-      changeButtonState(videoElements, 'mute');
     }
 
     // Change the volume

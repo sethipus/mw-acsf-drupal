@@ -6,6 +6,7 @@
     <div {{ bem('container', ['video'], homepage_hero__base_class) }}>
       {% include "@atoms/video/fullscreen-video/video.twig" with {
         video__src__url: video__src__url,
+        video__control: true
       } %}
     </div>
 
@@ -20,8 +21,6 @@
         heading_base_class:'heading',
         heading_url: title_href
       } %}
-
-      <button {{ bem('control', [], 'fullscreen-video') }} type="button" data-state="play"><div {{ bem('control', ['inner'], 'fullscreen-video') }}/></button>
 
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
         default_link_content: cta_title,
