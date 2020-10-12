@@ -11,15 +11,15 @@ brand_shape_class: 'repeat'
 #brand_shape_class: 'stretch'
 
 search_results:
-  - title: "Topics & Campaigns"
+  - content: "Topics & Campaigns"
     count: 13
     search_results_item_modifier: ""
-  - title: "Products"
+  - content: "Products"
     count: 13
     search_results_item_modifier: "active"
-  - title: "Recipes"
+  - content: "Recipes"
     count: 7
     search_results_item_modifier: ""
-  - title: "Articles"
+  - content: "Articles"
     count: 3
     search_results_item_modifier: ""

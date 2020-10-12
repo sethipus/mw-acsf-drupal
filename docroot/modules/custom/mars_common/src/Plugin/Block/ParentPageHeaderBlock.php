@@ -102,14 +102,12 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 15,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
-      '#required' => TRUE,
     ];
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 45,
       '#default_value' => $this->configuration['title'] ?? '',
-      '#required' => TRUE,
     ];
     $form['background'] = [
       '#type' => 'entity_autocomplete',
@@ -122,7 +120,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#title' => $this->t('Description'),
       '#maxlength' => 65,
       '#default_value' => $this->configuration['description'] ?? '',
-      '#required' => TRUE,
     ];
 
     return $form;
