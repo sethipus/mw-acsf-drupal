@@ -37,7 +37,6 @@
         if ($(event.target).parents('.search-field-wrapper.suggested').length == 0) {
           $('.search-input-wrapper.suggested').removeClass('suggested');
           $('.mars-suggestions').empty();
-          $('.mars-autocomplete-field').val('');
         }
 
        var parent =  $('.search-autocomplete-wrapper:visible').parent().attr('class');
