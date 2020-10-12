@@ -12,11 +12,9 @@ ul {
 }
 
 ol {
-  counter-reset: mars-counter;
   list-style: none;
 
   .list-item {
-    counter-increment: mars-counter;
     position: relative;
     margin: 10px;
     border-radius: 20px;
@@ -40,8 +38,7 @@ ol {
       margin: 20px 0;
     }
 
-    &::before {
-      content: counter(mars-counter);
+    &__number {
       color: clr(secondary);
       font-size: 22px;
       font-weight: bold;
