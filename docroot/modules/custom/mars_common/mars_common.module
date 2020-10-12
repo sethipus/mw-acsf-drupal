@@ -362,7 +362,7 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
 
       $item = [
         'content' => $field_desc_val,
-        'order' => $field_item_order,
+        'item_number' => $field_item_order,
       ];
 
       if (isset($field_image_val[0])) {
@@ -432,8 +432,6 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
   $field_image = $variables['content']['field_full_image_file']['#items']->target_id;
   $image_alt = $variables['content']['field_full_image_file']['#items']->alt;
   $field_shape_motif = $variables['content']['field_full_image_svg_asset']['#items']->value;
-  $field_image_desc = $variables['content']['field_full_image_description']['#items']->value;
-  $field_heading = $variables['content']['field_full_image_title']['#items']->value;
 
   $file_url = NULL;
   if (isset($field_image)) {
@@ -445,8 +443,8 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
     $file_url = Url::fromUri(file_create_url($file_uri));
   }
 
-  $variables['heading'] = $field_heading;
-  $variables['content'] = $field_image_desc;
+  $variables['heading'] = !$variables['content']['field_full_image_title'] ? $variables['content']['field_full_image_title']['#items']->value : NULL;
+  $variables['content'] = !$variables['content']['field_full_image_description'] ? $variables['content']['field_full_image_description']['#items']->value : NULL;
   $variables['shape_motif'] = (bool) $field_shape_motif;
   $variables['media'] = [
     'image' => TRUE,
