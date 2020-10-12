@@ -3,10 +3,10 @@
     attach(context) {
       const _this = this;
 
-      searchblock = _this.searchAdapt();
+      _this.searchAdapt();
 
       $(window).on('resize', function (event) {
-        searchblock = _this.searchAdapt();
+        _this.searchAdapt();
       });
 
       // Click on close button for desktop.
