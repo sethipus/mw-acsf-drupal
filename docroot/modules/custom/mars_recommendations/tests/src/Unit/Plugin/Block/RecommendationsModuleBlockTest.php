@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_recommendations\Plugin\Block\RecommendationsModuleBlock;
 use Drupal\mars_recommendations\RecommendationsLogicPluginInterface;
 use Drupal\mars_recommendations\RecommendationsService;
@@ -67,6 +68,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $container = new ContainerBuilder();
     $container->set('string_translation', $this->getStringTranslationStub());
     $container->set('mars_recommendations.recommendations_service', $this->createRecommendationsServiceMock());
+    $container->set('mars_common.theme_configurator_parser', $this->createThemeConfigurationParserMock());
     Drupal::setContainer($container);
 
     $this->formObjectStub = new class extends FormBase {
@@ -252,6 +254,21 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     };
 
     $mock->method('getPopulationLogicPlugin')->willReturn($plugin);
+    return $mock;
+  }
+
+  /**
+   * Returns Theme Configuration Parser mock for block configuration.
+   *
+   * @return \Drupal\mars_common\ThemeConfiguratorParser|\PHPUnit\Framework\MockObject\MockObject
+   *   Theme Configuration Parser service mock.
+   */
+  private function createThemeConfigurationParserMock() {
+    $mock = $this->createMock(ThemeConfiguratorParser::class);
+    $mock->method('getFileContentFromTheme')
+      ->with('graphic_divider')
+      ->willReturn('<svg xmlns="http://www.w3.org/2000/svg"/>');
+
     return $mock;
   }
 

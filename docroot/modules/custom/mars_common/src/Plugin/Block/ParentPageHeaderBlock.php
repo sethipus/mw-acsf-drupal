@@ -28,17 +28,26 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   protected $mediaStorage;
 
   /**
+   * File storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $fileStorage;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $entity_type_manager = $container->get('entity_type.manager');
     $entity_storage = $entity_type_manager->getStorage('media');
+    $fileStorage = $entity_type_manager->getStorage('file');
 
     return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $entity_storage
+      $entity_storage,
+      $fileStorage
     );
   }
 
@@ -49,10 +58,12 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityStorageInterface $entity_storage
+    EntityStorageInterface $entity_storage,
+    EntityStorageInterface $fileStorage
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaStorage = $entity_storage;
+    $this->fileStorage = $fileStorage;
   }
 
   /**
@@ -62,7 +73,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $conf = $this->getConfiguration();
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#label'] = $conf['label'] ?? '';
+    $build['#label'] = $conf['title'] ?? '';
     $build['#background'] = $this->getBackgroundEntity();
     $build['#description'] = $conf['description'] ?? '';
 
@@ -93,11 +104,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => TRUE,
     ];
-    $form['label'] = [
+    $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 45,
-      '#default_value' => $this->configuration['label'] ?? '',
+      '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['background'] = [
@@ -105,7 +116,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#title' => $this->t('Background media'),
       '#target_type' => 'media',
       '#default_value' => $this->getBackgroundEntity(),
-      '#required' => TRUE,
     ];
     $form['description'] = [
       '#type' => 'textarea',
@@ -124,7 +134,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
-    $this->configuration['label'] = $form_state->getValue('label');
+    $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['background'] = $form_state->getValue('background');
     $this->configuration['description'] = $form_state->getValue('description');
   }

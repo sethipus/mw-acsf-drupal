@@ -150,3 +150,55 @@ ol {
 .list-item__question {
   border-bottom: 1px solid clr(highlight);
 }
+
+.article-detail {
+  .ul {
+    font-size: 18px; 
+    font-family: (secondary-font);
+    line-height: 29px;
+    list-style-position: inside;
+    list-style-type: none;
+    color: clr(primary);
+    padding: 2rem 0 4rem;
+    width: 90%;
+    margin: 0 auto;
+
+    @include medium {
+      width: 70%;
+    }
+
+    @include xl {
+      font-size: 20px;
+      line-height: 36px;
+      max-width: 1125px;
+    }
+  }
+  
+  .list-item {
+    position: relative;
+    text-indent: 18px;
+    padding: 0;
+
+    @include xl {
+      text-indent: 20px;
+    }
+
+    &::before {
+      content: "";
+      background-color: clr(secondary);
+      height: 7px;
+      width: 7px;
+      border-radius: 3.5px;
+      position: absolute;
+      left: 1px;
+      top: 10px;
+
+      @include xl {
+        height: 6px;
+        width: 6px;
+        border-radius: 3px;
+        top: 14px;
+      }
+    }
+  }
+}

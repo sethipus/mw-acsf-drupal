@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Update scripts for the Mars Common module.
+ */
+
+/**
+ * Implements hook_update_N().
+ *
+ * Delete all nodes of a "Contact & Help" content type.
+ */
+function mars_common_update_8001() {
+  $storage_handler = \Drupal::entityTypeManager()->getStorage('node');
+  $entities = $storage_handler->loadByProperties(['type' => 'contact_help']);
+  $storage_handler->delete($entities);
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Delete content type "Contact & Help".
+ */
+function mars_common_update_8002() {
+  $content_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('contact_help');
+  $content_type->delete();
+}

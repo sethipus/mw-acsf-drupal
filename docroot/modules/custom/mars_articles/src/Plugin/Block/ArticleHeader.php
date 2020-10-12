@@ -12,6 +12,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Utility\Token;
 
 /**
  * Class ArticleHeader.
@@ -73,6 +74,13 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $mediaHelper;
 
   /**
+   * The token service.
+   *
+   * @var \Drupal\Core\Utility\Token
+   */
+  protected $token;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -81,6 +89,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     DateFormatterInterface $date_formatter,
+    Token $token,
     ThemeConfiguratorParser $themeConfiguratorParser,
     ConfigFactoryInterface $config_factory,
     MediaHelper $media_helper
@@ -89,6 +98,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->dateFormatter = $date_formatter;
+    $this->token = $token;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->configFactory = $config_factory;
     $this->mediaHelper = $media_helper;
@@ -104,6 +114,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('date.formatter'),
+      $container->get('token'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('config.factory'),
       $container->get('mars_common.media_helper')
@@ -141,6 +152,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
     // Get brand border path.
     $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'article-hero-border');
+    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
     $build['#social_links'] = $this->socialLinks();
 
     return $build;
@@ -196,7 +208,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
         continue;
       }
       $social_menu_items[$name]['title'] = $social_media['text'];
-      $social_menu_items[$name]['url'] = $social_media['api_url'];
+      $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url']);
       $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {

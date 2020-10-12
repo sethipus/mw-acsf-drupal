@@ -5,11 +5,13 @@
  *
  * Available variables:
  * - title: Block title.
+ * - graphic_divider: Graphic Divider asset URL.
  * - recommended_items: Array of rendered article/recipe/product cards.
  */
 #}
 {% include "@molecules/recommendations-module/recommendations-module.twig" with {
   theme_styles: 'drupal',
   recommendation_title: title,
+  graphic_divider: graphic_divider,
   recommended_items: recommended_items
 } %}

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.where_to_buy.body
+    - field.field.node.where_to_buy.field_meta_tags
     - node.type.where_to_buy
   module:
     - layout_builder
@@ -12,11 +13,12 @@ dependencies:
     - layout_library
     - mars_common
     - mars_recommendations
+    - metatag
     - text
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
+    allow_custom: true
     enabled: true
     sections:
       -
@@ -38,6 +40,21 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
+          84868974-8b6e-4cb3-8b3a-a278bea50d25:
+            uuid: 84868974-8b6e-4cb3-8b3a-a278bea50d25
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:where_to_buy:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 1
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -112,6 +129,7 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
+      - 'Flexible driver'
       - Forms
       - 'Global elements'
       - Help
@@ -119,6 +137,7 @@ third_party_settings:
       - 'Lists (Views)'
       - 'Mars Common'
       - 'Mars Product'
+      - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
       - Product
@@ -127,10 +146,11 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        'Flexible driver': {  }
+        'Mars Search': {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - where_to_buy_parent_page_header
@@ -144,6 +164,33 @@ third_party_settings:
         - where_to_buy_where_to_buy
         - where_to_buy_community
       whitelisted_blocks:
+        where_to_buy_parent_page_header:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - parent_page_header
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
         where_to_buy_product_recommendations:
           all_regions:
             Article: {  }
@@ -198,33 +245,6 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        where_to_buy_parent_page_header:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks':
-              - parent_page_header
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
         where_to_buy_community:
           all_regions:
             Article: {  }
@@ -263,6 +283,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
+  field_meta_tags:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
   links:
     weight: 100
     settings: {  }
@@ -270,5 +297,6 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  layout_builder__layout: true
   published_at: true
   search_api_excerpt: true
