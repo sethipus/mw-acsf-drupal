@@ -32,7 +32,6 @@ Drupal.behaviors.ambientVideoPlayer = {
         playpause.addEventListener('click', function(e) {
           if (video.paused || video.ended) {
             video.play();
-            video.muted = false;
           } else {
             video.pause();
           }
