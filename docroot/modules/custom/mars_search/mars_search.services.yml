@@ -1,4 +1,7 @@
 services:
   mars_search.search_helper:
     class: Drupal\mars_search\SearchHelper
+    arguments: ['@entity_type.manager', '@logger.factory', '@request_stack']
+  mars_search.search_query_parser:
+    class: Drupal\mars_search\SearchQueryParser
     arguments: ['@entity_type.manager', '@request_stack']

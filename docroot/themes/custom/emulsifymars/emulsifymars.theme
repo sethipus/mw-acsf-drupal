@@ -295,7 +295,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
         '#title'           => $translation->translate('Social network icon'),
         '#type'            => 'managed_file',
         '#upload_location' => 'public://theme_config/',
-        '#required'        => FALSE,
+        '#required'        => TRUE,
         '#process'         => [
           ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
           'emulsifymars_process_image_widget',
@@ -310,17 +310,20 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
       $form['social'][$key]['link'] = [
         '#title'         => $translation->translate('Social network link'),
         '#type'          => 'textfield',
+        '#required'      => TRUE,
         '#default_value' => $value['link'],
       ];
       $form['social'][$key]['name'] = [
         '#title'         => $translation->translate('Social network title'),
         '#type'          => 'textfield',
+        '#required'      => TRUE,
         '#default_value' => $value['name'],
       ];
       $form['social'][$key]['remove_social'] = [
         '#type'  => 'button',
         '#name' => 'social_' . $key,
         '#value' => $translation->translate('Remove social link'),
+        '#limit_validation_errors' => [],
         '#ajax'  => [
           'callback' => 'emulsifymars_theme_settings_ajax_remove_social',
           'wrapper' => 'social',
@@ -333,6 +336,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#type' => 'button',
     '#value' => $translation->translate('Add new social link'),
     '#href' => '',
+    '#limit_validation_errors' => [],
     '#ajax' => [
       'callback' => 'emulsifymars_theme_settings_ajax_add_social',
       'wrapper' => 'social',

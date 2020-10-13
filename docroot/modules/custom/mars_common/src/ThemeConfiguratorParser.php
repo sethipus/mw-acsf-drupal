@@ -105,16 +105,19 @@ class ThemeConfiguratorParser {
   public function socialLinks(): array {
     $social_menu_items = [];
     foreach ($this->themeSettings['social'] as $key => $social_settings) {
-      if (!$social_settings['name']) {
+      if (!$social_settings['name'] ||
+        !$social_settings['icon'] ||
+        !is_array($social_settings['icon']) ||
+        !$social_settings['link']) {
         continue;
       }
-      $social_menu_items[$key]['title'] = $social_settings['name'];
-      $social_menu_items[$key]['url'] = $social_settings['link'];
-      if (!empty($social_settings['icon']) && is_array($social_settings['icon'])) {
-        $fid = reset($social_settings['icon']);
-        $file = $this->fileStorage->load($fid);
+      $fid = reset($social_settings['icon']);
+      $file = $this->fileStorage->load($fid);
+      if (!empty($file)) {
+        $social_menu_items[$key]['title'] = $social_settings['name'];
+        $social_menu_items[$key]['url'] = $social_settings['link'];
+        $social_menu_items[$key]['icon'] = $file->createFileUrl();
       }
-      $social_menu_items[$key]['icon'] = !empty($file) ? $file->createFileUrl() : '';
     }
     return $social_menu_items;
   }

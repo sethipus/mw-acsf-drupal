@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Template for the Content Hub Page Card component.
+ */
+#}
+
+{% set image_src = file_url(node.field_landing_page_image.entity.image.entity.fileuri) %}
+{% set image_alt = node.field_landing_page_image.entity.image.entity.alt %}
+
+{% include "@molecules/card/recommendations-card/landing-card.twig" with {
+  theme_styles: 'drupal',
+
+  card_image_src: image_src,
+  card_image_alt: image_alt ,
+  media_url: url,
+
+  heading: node.label,
+  heading_level: 3,
+  heading_base_class: 'recommendations-card-heading',
+
+  button_text: 'See Details'|t,
+  button_modifiers: ['small'],
+  button_link_attributes: {
+    href: url,
+    target: '_blank'
+  },
+} %}

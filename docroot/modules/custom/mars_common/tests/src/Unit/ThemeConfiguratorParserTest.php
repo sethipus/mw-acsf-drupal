@@ -69,7 +69,7 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
       [
         'name' => 'facebook',
         'link' => 'link',
-        'icon' => 'icon',
+        'icon' => [34],
       ],
     ],
   ];
@@ -81,6 +81,20 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     parent::setUp();
     $this->createMocks();
     Drupal::setContainer($this->containerMock);
+
+    $fileMock = $this->getMockBuilder(stdClass::class)
+      ->setMethods(['createFileUrl'])
+      ->getMock();
+
+    $fileMock
+      ->expects($this->any())
+      ->method('createFileUrl')
+      ->willReturn('http://mars.com');
+
+    $this->fileStorageMock
+      ->expects($this->any())
+      ->method('load')
+      ->willReturn($fileMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())
