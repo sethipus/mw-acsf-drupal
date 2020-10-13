@@ -14,10 +14,6 @@
     top: 0;
   }
 
-  &.opened {
-    display: flex !important;
-  }
-
   & .wrapper-overlay {
     display: flex;
     width: 100%;
@@ -225,6 +221,7 @@
   }
 
    &.opened {
+    display: flex !important;
      .mars-search-autocomplete-suggestions-wrapper {
        @include large {
          position: absolute;

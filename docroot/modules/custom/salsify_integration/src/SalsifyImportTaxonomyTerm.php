@@ -2,7 +2,6 @@
 
 namespace Drupal\salsify_integration;
 
-use Drupal;
 use Drupal\field\Entity\FieldConfig;
 
 /**
@@ -27,17 +26,18 @@ class SalsifyImportTaxonomyTerm extends SalsifyImport {
    *   The salsify_ids of the values to process.
    * @param array $salsify_field_data
    *   The salsify_field_data of the values to process.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function processSalsifyTaxonomyTermItems($vid, array $field, array $salsify_ids, array $salsify_field_data = []) {
     // Set the default fields to use to lookup any existing terms that were
     // previously imported.
     $field_name = 'salsify_id';
-    // $field_config = FieldConfig::loadByName(
-    // $field['entity_type'], $field['bundle'], $field['field_name']
-    // );
     if (empty($salsify_field_data)) {
-      $salsify = Salsify::create(Drupal::getContainer());
-      $salsify_data = $salsify->getProductData();
+      $salsify_data = $this->salsify->getProductData();
       $salsify_field_data = $salsify_data['fields'][$field['salsify_id']];
     }
 
@@ -45,8 +45,12 @@ class SalsifyImportTaxonomyTerm extends SalsifyImport {
     // on the given taxonomy vocabulary.
     $salsify_id_field = FieldConfig::loadByName('taxonomy_term', $vid, $field_name);
     if (is_null($salsify_id_field)) {
-      $salsify_fields = SalsifyFields::create(Drupal::getContainer());
-      $salsify_fields->createDynamicField($salsify_field_data, $field_name, 'taxonomy_term', $vid);
+      SalsifyFields::createDynamicField(
+          $salsify_field_data,
+          $field_name,
+          'taxonomy_term',
+          $vid
+        );
     }
 
     // Find any and all existing terms and update them as needed.
@@ -87,9 +91,12 @@ class SalsifyImportTaxonomyTerm extends SalsifyImport {
    *   An array of media entity ids that match the given options.
    */
   public function getTaxonomyTerms($field_name, array $field_values) {
-    $term_ids = $this->entityQuery->get('taxonomy_term')
+    $term_ids = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->getQuery()
       ->condition($field_name, $field_values, 'IN')
       ->execute();
+
     return $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($term_ids);
   }
 
