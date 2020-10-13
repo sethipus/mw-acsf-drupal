@@ -84,11 +84,7 @@ function mars_common_preprocess(&$variables, $hook) {
 
   if ($hook === 'poll_vote' || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $pngAssetFile = $themeParser->getFileFromTheme('png_asset');
-    if ($pngAssetFile instanceof EntityInterface) {
-      $pngAssetUri = $pngAssetFile->getFileUri();
-      $variables['polling_png_asset'] = Url::fromUri(file_create_url($pngAssetUri));
-    }
+    $variables['polling_png_asset'] = $themeParser->getUrlForFile('png_asset');
   }
 
   if ($hook === 'views_infinite_scroll_pager__grid_card') {

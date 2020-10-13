@@ -4,9 +4,11 @@ namespace Drupal\mars_product\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -62,13 +64,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
   protected $fileStorage;
 
   /**
-   * Media storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $mediaStorage;
-
-  /**
    * Node View Builder.
    *
    * @var \Drupal\Core\Entity\EntityViewBuilderInterface
@@ -121,7 +116,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configFactory = $config_factory;
     $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->fileStorage = $entity_type_manager->getStorage('file');
-    $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->themeConfiguratorParser = $theme_configurator_parser;
     $this->mediaHelper = $media_helper;
@@ -132,7 +126,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function build() {
     $conf = $this->getConfiguration();
-    $theme_settings = $this->configFactory->get('emulsifymars.settings')->get();
 
     /** @var \Drupal\node\Entity\Node $main_entity */
     /** @var \Drupal\node\Entity\Node $supporting_entity */
@@ -155,68 +148,23 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ->themeConfiguratorParser
       ->getFileContentFromTheme('graphic_divider');
 
-    if (!empty($conf['background'])) {
-      $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
-      $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-      if (!isset($mediaParams['error'])) {
-        $build['#background'] = file_create_url($mediaParams['src']);
-      }
-    }
-
     if ($main_entity) {
       $build['#lead_card_entity'] = $main_entity;
       $build['#lead_card_eyebrow'] = ($conf['lead_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
       $build['#lead_card_title'] = ($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
       $build['#cta_link_url'] = $main_entity->toUrl()->toString();
       $build['#cta_link_text'] = ($conf['cta_link_text'] ?? NULL) ?: $this->t('Explore');
-
-      // TODO: Consider Strategy pattern if logic gets more complex.
-      if (empty($build['#background'])) {
-        switch ($main_entity->getType()) {
-          case 'article':
-            $build['#background'] = $main_entity
-              ->field_article_image
-              ->entity
-              ->image
-              ->entity
-              ->createFileUrl();
-            break;
-
-          case 'recipe':
-            $build['#background'] = $main_entity
-              ->field_recipe_image
-              ->entity
-              ->image
-              ->entity
-              ->createFileUrl();
-            break;
-
-          case 'product':
-            $build['#background'] = $main_entity
-              ->field_product_variants
-              ->first()
-              ->entity
-              ->field_product_key_image
-              ->entity
-              ->image
-              ->entity
-              ->createFileUrl();
-            break;
-
-          default:
-            $build['#background'] = NULL;
-        }
-      }
     }
+
+    $build['#background'] = $this->getBgImage($main_entity);
 
     if ($supporting_entity) {
       $build['#supporting_card_entity'] = $supporting_entity;
 
       $default_eyebrow_text = $supporting_entity->bundle() == 'product' ? $this->t('Made With') : $this->t('Seen In');
       $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
-      $view_mode = 'card';
 
-      $build['#supporting_card_entity_view'] = $this->viewBuilder->view($supporting_entity, $view_mode);
+      $build['#supporting_card_entity_view'] = $this->viewBuilder->view($supporting_entity, 'card');
       $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
       $build['#supporting_card_entity_view']['#eyebrow'] = $eyebrow_text;
       $build['#supporting_card_entity_view']['#cache']['keys'][] = md5($eyebrow_text);
@@ -224,12 +172,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     }
 
     // Get PNG asset path.
-    if (!empty($theme_settings['png_asset']) && count($theme_settings['png_asset']) > 0) {
-      /** @var \Drupal\file\Entity\File $png_asset_file */
-      $png_asset_file = $this->fileStorage->load($theme_settings['png_asset'][0]);
-      $build['#png_asset'] = !empty($png_asset_file) ? $png_asset_file->createFileUrl() : NULL;
-    }
-
+    $build['#png_asset'] = $this->themeConfiguratorParser->getUrlForFile('png_asset');
     $build['#max_width'] = $conf['max_width'];
 
     return $build;
@@ -354,22 +297,31 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
   }
 
   /**
-   * Helper method that loads Media file URL using Media id.
+   * Determine the bg image that should be used for the component.
    *
-   * @param int $media_id
-   *   Media ID.
+   * @param \Drupal\Core\Entity\ContentEntityInterface|null $main_entity
+   *   The main entity of the component.
    *
-   * @return string|null
-   *   File URI or NULL if URI cannot be defined.
+   * @return \Drupal\Core\Url|null
+   *   The bg image.
    */
-  protected function getMediaUriById($media_id) {
-    if (empty($media_id) || !($entity = $this->mediaStorage->load($media_id))) {
-      return NULL;
+  private function getBgImage(?ContentEntityInterface $main_entity): ?Url {
+    $bg_src = NULL;
+    $background_id = NULL;
+    $conf = $this->getConfiguration();
+    if (!empty($conf['background'])) {
+      $background_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
     }
-    if (!$entity->image || !$entity->image->target_id) {
-      return NULL;
+    elseif ($main_entity) {
+      $background_id = $this->mediaHelper->getEntityMainMediaId($main_entity);
     }
-    return $entity->image->entity->uri->value ?? NULL;
+    if ($background_id) {
+      $background_params = $this->mediaHelper->getMediaParametersById($background_id);
+      if (!isset($background_params['error'])) {
+        $bg_src = Url::fromUri(file_create_url($background_params['src']));
+      }
+    }
+    return $bg_src;
   }
 
 }
