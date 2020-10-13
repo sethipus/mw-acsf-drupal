@@ -2,13 +2,10 @@
 
 namespace Drupal\salsify_integration;
 
-use Drupal;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class SalsifyImportField.
@@ -22,14 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SalsifyImportField extends SalsifyImport {
 
   /**
-   * The module handler interface.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  private $moduleHandler;
-
-  /**
-   * The salsify product repository.
+   * The Salsify product repository.
    *
    * @var \Drupal\salsify_integration\SalsifyProductRepository
    */
@@ -43,15 +33,29 @@ class SalsifyImportField extends SalsifyImport {
   private $productDataHelper;
 
   /**
+   * Salsify import media.
+   *
+   * @var \Drupal\salsify_integration\SalsifyImportMedia
+   */
+  private $salsifyImportMedia;
+
+  /**
+   * Salsify import taxonomy.
+   *
+   * @var \Drupal\salsify_integration\SalsifyImportTaxonomyTerm
+   */
+  private $salsifyImportTaxonomy;
+
+  /**
    * SalsifyImportField constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
-   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
-   *   The entity query interface.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager interface.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_salsify
+   *   The Salsify cache interface.
+   * @param \Drupal\salsify_integration\Salsify $salsify
    *   The Salsify cache interface.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler interface.
@@ -59,35 +63,33 @@ class SalsifyImportField extends SalsifyImport {
    *   The salsify product repository.
    * @param \Drupal\salsify_integration\ProductHelper $product_data_helper
    *   The product data helper.
+   * @param \Drupal\salsify_integration\SalsifyImportMedia $salsify_import_media
+   *   The Salsify import media service.
+   * @param \Drupal\salsify_integration\SalsifyImportTaxonomyTerm $salsify_import_taxonomy
+   *   The Salsify import taxonomy service.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
-    QueryFactory $entity_query,
     EntityTypeManagerInterface $entity_type_manager,
     CacheBackendInterface $cache_salsify,
+    Salsify $salsify,
     ModuleHandlerInterface $module_handler,
     SalsifyProductRepository $salsify_product_repository,
-    ProductHelper $product_data_helper
+    ProductHelper $product_data_helper,
+    SalsifyImportMedia $salsify_import_media,
+    SalsifyImportTaxonomyTerm $salsify_import_taxonomy
   ) {
-    parent::__construct($config_factory, $entity_query, $entity_type_manager, $cache_salsify);
-    $this->moduleHandler = $module_handler;
+    parent::__construct(
+      $config_factory,
+      $entity_type_manager,
+      $cache_salsify,
+      $salsify,
+      $module_handler
+    );
     $this->salsifyProductRepository = $salsify_product_repository;
     $this->productDataHelper = $product_data_helper;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory'),
-      $container->get('entity.query'),
-      $container->get('entity_type.manager'),
-      $container->get('cache.default'),
-      $container->get('module_handler'),
-      $container->get('salsify_integration.salsify_product_repository'),
-      $container->get('salsify_integration.product_data_helper')
-    );
+    $this->salsifyImportMedia = $salsify_import_media;
+    $this->salsifyImportTaxonomy = $salsify_import_taxonomy;
   }
 
   /**
@@ -132,7 +134,8 @@ class SalsifyImportField extends SalsifyImport {
     );
 
     // Lookup any existing entities in order to overwrite their contents.
-    $results = $this->entityQuery->get($entity_type)
+    $results = $this->entityTypeManager->getStorage($entity_type)
+      ->getQuery()
       ->condition('salsify_id', $product_data['salsify:id'])
       ->execute();
 
@@ -200,9 +203,9 @@ class SalsifyImportField extends SalsifyImport {
         // entities if the Media entity module is enabled.
         if ($this->moduleHandler->moduleExists('media')) {
           if ($field['salsify_data_type'] == 'digital_asset') {
-            $media_import = SalsifyImportMedia::create(Drupal::getContainer());
             /* @var \Drupal\media_entity\Entity\Media $media */
-            $media_entities = $media_import->processSalsifyMediaItem($field, $product_data);
+            $media_entities = $this->salsifyImportMedia
+              ->processSalsifyMediaItem($field, $product_data);
             if ($media_entities) {
               $options = [];
               foreach ($media_entities as $media) {
@@ -241,9 +244,9 @@ class SalsifyImportField extends SalsifyImport {
           // For taxonomy term mapping, add processing for the terms coming in
           // from Salsify.
           elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'enumerated') {
-            $term_import = SalsifyImportTaxonomyTerm::create(Drupal::getContainer());
             $salsify_values = is_array($product_data[$field['salsify_id']]) ? $product_data[$field['salsify_id']] : [$product_data[$field['salsify_id']]];
-            $term_entities = $term_import->getTaxonomyTerms('salsify_id', $salsify_values);
+            $term_entities = $this->salsifyImportTaxonomy
+              ->getTaxonomyTerms('salsify_id', $salsify_values);
             if ($term_entities) {
               $options = [];
               /* @var \Drupal\taxonomy\Entity\Term $term_entity */
