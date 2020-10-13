@@ -97,12 +97,16 @@ class MediaHelper {
         return [
           'video' => TRUE,
           'src' => $entity->field_media_video_file_1->entity->createFileUrl(!$absolute_urls),
+          // Todo: Get proper format data.
+          'format' => 'video/mp4',
         ];
 
       case 'video_file':
         return [
           'video' => TRUE,
           'src' => $entity->field_media_video_file->entity->createFileUrl(!$absolute_urls),
+          // Todo: Get proper format data.
+          'format' => 'video/mp4',
         ];
 
       case 'video':
