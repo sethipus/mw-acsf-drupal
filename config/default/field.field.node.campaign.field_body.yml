@@ -1,0 +1,23 @@
+uuid: 1fbe4b15-de5b-4c2f-a033-3d9d92ad9ef2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - node.type.campaign
+  module:
+    - text
+id: node.campaign.field_body
+field_name: field_body
+entity_type: node
+bundle: campaign
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+field_type: text_with_summary

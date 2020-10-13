@@ -204,3 +204,14 @@ $color-heading: clr(accent);
     @extend .h6;
   }
 }
+
+.article-detail {
+  .h2 {
+    width: 90%;
+    margin: 0 auto 15px;
+
+    @include medium {
+      width: 70%;
+    }
+  }
+}

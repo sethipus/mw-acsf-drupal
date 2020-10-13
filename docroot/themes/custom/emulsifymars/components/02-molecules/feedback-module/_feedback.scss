@@ -20,10 +20,13 @@
   }
 
   &__radio {
-    display: none;
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
 
   .default-link {
+    outline: none;
     span {
       position: relative;
       z-index: 3;
@@ -36,6 +39,10 @@
       }
 
       cursor: pointer;
+    }
+
+    &:focus-within {
+      outline: 1px solid Highlight;
     }
   }
 
@@ -121,9 +128,15 @@
   }
 
   &__btn-group {
+    height: 6.2rem;
+
+    &:focus-within {
+      outline: 1px solid Highlight;
+    }
+
     .default-link {
       width: 15.7rem;
-      margin: 0 1rem;
+      margin: .1rem 1rem;
       cursor: pointer;
 
       &::after {
@@ -149,6 +162,10 @@
     font-family: variable(primary-font);
     text-decoration: none;
     text-transform: uppercase;
+
+    &:focus {
+      outline: 1px solid Highlight;
+    }
 
     @include xs {
       font-size: 1.4rem;
