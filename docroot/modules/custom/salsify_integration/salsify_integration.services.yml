@@ -30,3 +30,73 @@ services:
 
   salsify_integration.product_fields_mapper:
     class: Drupal\salsify_integration\ProductFieldsMapper
+
+  salsify_integration.salsify_core:
+    class: Drupal\salsify_integration\Salsify
+    arguments:
+      - '@logger.factory'
+      - '@config.factory'
+      - '@entity_type.manager'
+      - '@entity_field.manager'
+      - '@cache.default'
+      - '@queue'
+      - '@module_handler'
+      - '@salsify_integration.mulesof_connector'
+
+  salsify_integration.salsify_fields:
+    class: Drupal\salsify_integration\SalsifyFields
+    arguments:
+      - '@logger.factory'
+      - '@config.factory'
+      - '@entity_type.manager'
+      - '@entity_field.manager'
+      - '@cache.default'
+      - '@queue'
+      - '@module_handler'
+      - '@salsify_integration.mulesof_connector'
+      - '@salsify_integration.salsify_product_repository'
+      - '@plugin.manager.mail'
+      - '@language_manager'
+      - '@salsify_integration.product_data_helper'
+      - '@salsify_integration.email_report'
+      - '@salsify_integration.product_fields_mapper'
+      - '@salsify_integration.salsify_import_field'
+      - '@salsify_integration.salsify_import_taxonomy'
+
+  salsify_integration.salsify_import_field:
+    class: Drupal\salsify_integration\SalsifyImportField
+    arguments:
+      - '@config.factory'
+      - '@entity_type.manager'
+      - '@cache.default'
+      - '@salsify_integration.salsify_core'
+      - '@module_handler'
+      - '@salsify_integration.salsify_product_repository'
+      - '@salsify_integration.product_data_helper'
+      - '@salsify_integration.salsify_import_media'
+      - '@salsify_integration.salsify_import_taxonomy'
+
+  salsify_integration.salsify_import_taxonomy:
+    class: Drupal\salsify_integration\SalsifyImportTaxonomyTerm
+    arguments:
+      - '@config.factory'
+      - '@entity_type.manager'
+      - '@cache.default'
+      - '@salsify_integration.salsify_core'
+      - '@module_handler'
+
+  salsify_integration.salsify_import_media:
+    class: Drupal\salsify_integration\SalsifyImportMedia
+    arguments:
+      - '@config.factory'
+      - '@entity_type.manager'
+      - '@cache.default'
+      - '@salsify_integration.salsify_core'
+      - '@module_handler'
+      - '@token'
+      - '@file_system'
+
+  salsify_integration.mulesof_connector:
+    class: Drupal\salsify_integration\MulesoftConnector
+    arguments:
+      - '@salsify_integration.product_data_helper'

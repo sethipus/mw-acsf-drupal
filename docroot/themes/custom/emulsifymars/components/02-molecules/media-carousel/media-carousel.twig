@@ -25,10 +25,10 @@
               image_title: item.title,
             } %}
           {% elseif item.video %}
-            {% include "@atoms/video/fullscreen-video/video.twig" with {
-              video__src__url: item.src
+            {% include "@atoms/video/overlay-video/video.twig" with {
+              video__src__url: item.src,
+              video__control: true
             } %}
-            <button {{ bem('control', [], 'video') }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
           {% endif %}
         </div>
       {% endfor %}

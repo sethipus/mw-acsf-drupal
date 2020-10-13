@@ -13,7 +13,8 @@ Drupal.behaviors.socialFeed = {
         prevEl: '.swiper-button-prev',
       },
       scrollbar: {
-        el: '.swiper-scrollbar'
+        el: '.swiper-scrollbar',
+        draggable: true
       },
       breakpoints: {
         768: {
