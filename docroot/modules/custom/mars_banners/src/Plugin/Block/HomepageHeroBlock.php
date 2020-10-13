@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -66,6 +67,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $mediaHelper;
 
   /**
+   * Service for dealing with theme configs.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfigParser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -74,12 +82,14 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
-    MediaHelper $media_helper
+    MediaHelper $media_helper,
+    ThemeConfiguratorParser $theme_config_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->mediaHelper = $media_helper;
+    $this->themeConfigParser = $theme_config_parser;
   }
 
   /**
@@ -92,7 +102,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -101,9 +112,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function build() {
     $config = $this->getConfiguration();
-    $theme_settings = $this->config->get('emulsifymars.settings')->get();
-    $brand_shape = $theme_settings['brand_shape'];
-    $default_fid = reset($brand_shape);
 
     $build['#label'] = $config['label'];
     $build['#eyebrow'] = $config['eyebrow'];
@@ -112,26 +120,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#cta_url'] = ['href' => $config['cta']['url']];
     $build['#cta_title'] = $config['cta']['title'];
     $build['#block_type'] = $config['block_type'];
-
-    if ($config['block_type'] == self::KEY_OPTION_IMAGE && !empty($config['background_image'])) {
-      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_image']);
-      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
-      if (!isset($media_params['error'])) {
-        $build['#background_image'] = file_create_url($media_params['src']);
-      }
-    }
-    elseif ($config['block_type'] == self::KEY_OPTION_VIDEO && !empty($config['background_video'])) {
-      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_video']);
-      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
-      if (!isset($media_params['error'])) {
-        $build['#background_video'] = file_create_url($media_params['src']);
-      }
-    }
-    else {
-      $fid = $default_fid;
-      $file = !empty($fid) ? $this->fileStorage->load($fid) : '';
-      $build['#background_image'] = !empty($file) ? $file->createFileUrl() : '';
-    }
+    $build['#background_asset'] = $this->getBgAsset();
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
@@ -421,6 +410,40 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ]);
       }
     }
+  }
+
+  /**
+   * Returns the bg image URL or NULL.
+   *
+   * @return string|null
+   *   The bg image url or null of there is none.
+   */
+  private function getBgAsset(): ?string {
+    $config = $this->getConfiguration();
+    $bg_image_media_id = NULL;
+    $bg_image_url = NULL;
+
+    if ($config['block_type'] == self::KEY_OPTION_IMAGE && !empty($config['background_image'])) {
+      $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_image']);
+    }
+    elseif ($config['block_type'] == self::KEY_OPTION_VIDEO && !empty($config['background_video'])) {
+      $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_video']);
+    }
+
+    if ($bg_image_media_id) {
+      $media_params = $this->mediaHelper->getMediaParametersById($bg_image_media_id);
+      if (!isset($media_params['error'])) {
+        $bg_image_url = file_create_url($media_params['src']);
+      }
+    }
+
+    if (!$bg_image_url) {
+      $bg_url_object = $this->themeConfigParser->getUrlForFile('brand_shape');
+      if ($bg_url_object) {
+        $bg_image_url = $bg_url_object->toUriString();
+      }
+    }
+    return $bg_image_url;
   }
 
 }
