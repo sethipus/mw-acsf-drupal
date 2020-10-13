@@ -9,12 +9,6 @@ main-menu:
   dependencies:
     - core/drupal
 
-ambient-video:
-  js:
-    dist/js/ambient_video.js: {}
-  dependencies:
-    - core/drupal
-
 content-feature:
   js:
     dist/js/02-molecules/content-feature/content-feature.js: {}
@@ -102,9 +96,27 @@ media-carousel:
     - core/drupal
     - emulsifymars/vendor-chunk-2
 
+ambient-video:
+  js:
+    dist/js/01-atoms/video/ambient-video/video.js: {}
+  dependencies:
+    - core/drupal
+
 fullscreen-video:
   js:
-    dist/js/fullscreen_video.js: {}
+    dist/js/01-atoms/video/fullscreen-video/video.js: {}
+  dependencies:
+    - core/drupal
+
+inline-video:
+  js:
+    dist/js/01-atoms/video/inline-video/video.js: {}
+  dependencies:
+    - core/drupal
+
+overlay-video:
+  js:
+    dist/js/01-atoms/video/overlay-video/video.js: {}
   dependencies:
     - core/drupal
 

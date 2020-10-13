@@ -46,7 +46,7 @@ widgets:
       submit_text: Select
       target_bundles: {  }
       form_mode: media_browser
-      return_file: true
+      return_file: false
       upload_validators: {  }
     uuid: 3b1eaca1-3d00-46c9-9fff-4a051d12aed3
     weight: 3
