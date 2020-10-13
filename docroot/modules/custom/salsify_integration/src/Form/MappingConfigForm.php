@@ -46,6 +46,13 @@ class MappingConfigForm extends ConfigFormBase {
   protected $salsifyData;
 
   /**
+   * The Salsify core service.
+   *
+   * @var array
+   */
+  protected $salsify;
+
+  /**
    * Constructs a \Drupal\system\ConfigFormBase object.
    *
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
@@ -56,12 +63,21 @@ class MappingConfigForm extends ConfigFormBase {
    *   The entity field manager.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_salsify
    *   The cache object associated with the salsify bin.
+   * @param \Drupal\salsify_integration\Salsify $salsify
+   *   The Salsify core service.
    */
-  public function __construct(ContainerInterface $container, ConfigFactoryInterface $config_factory, EntityFieldManagerInterface $entity_field_manager, CacheBackendInterface $cache_salsify) {
+  public function __construct(
+    ContainerInterface $container,
+    ConfigFactoryInterface $config_factory,
+    EntityFieldManagerInterface $entity_field_manager,
+    CacheBackendInterface $cache_salsify,
+    Salsify $salsify
+  ) {
     parent::__construct($config_factory);
     $this->container = $container;
     $this->entityFieldManager = $entity_field_manager;
     $this->cache = $cache_salsify;
+    $this->salsify = $salsify;
   }
 
   /**
@@ -72,7 +88,8 @@ class MappingConfigForm extends ConfigFormBase {
       $container,
       $container->get('config.factory'),
       $container->get('entity_field.manager'),
-      $container->get('cache.default')
+      $container->get('cache.default'),
+      $container->get('salsify_integration.salsify_core')
     );
   }
 
@@ -370,8 +387,7 @@ class MappingConfigForm extends ConfigFormBase {
       $this->salsifyData = $cache_entry->data;
     }
     else {
-      $salsify = Salsify::create($this->container);
-      $this->salsifyData = $salsify->getProductData();
+      $this->salsifyData = $this->salsify->getProductData();
       $cache_expiry = time() + 15 * 60 * 60;
       $this->cacheItem('salsify_field_data', $this->salsifyData, $cache_expiry, $cache_keys);
     }

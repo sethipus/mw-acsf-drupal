@@ -92,6 +92,22 @@
       bottom: 0;
     }
   }
+
+  .search-input-wrapper {
+    &.suggested {
+      .search-input {
+        border-bottom-right-radius: unset;
+        border-bottom-left-radius: unset;
+        border-bottom: none;
+      }
+      .mars-search-autocomplete-suggestions-wrapper {
+        margin-top: -25px;
+        padding-top: 25px;
+        border: 1px solid clr(subcolor-4);
+        border-top: none;
+      }
+    }
+  }
 }
 
 .faq-heading {
