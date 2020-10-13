@@ -222,7 +222,7 @@
     }
   }
 
-  #fullscreen-play[data-state="play"] {
+  .overlay-video__control[data-state="play"] {
     top: calc(50% - 7rem);
     left: calc(50% - 6.6rem / 2);
     width: 6.6rem;

@@ -1,0 +1,133 @@
+uuid: fb1c8100-c150-45c5-baa7-bf04d07c72b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.campaign.field_body
+    - field.field.node.campaign.field_brand_initiatives
+    - field.field.node.campaign.field_campaign_image
+    - field.field.node.campaign.field_campaign_related_products
+    - field.field.node.campaign.field_product_occasions
+    - field.field.node.campaign.layout_builder__layout
+    - node.type.campaign
+  module:
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_library
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+  layout_library:
+    enable: false
+  layout_builder_restrictions:
+    allowed_block_categories:
+      - Article
+      - 'Chaos Tools'
+      - 'Content fields'
+      - 'Custom block types'
+      - 'Custom blocks'
+      - 'Entity Block'
+      - 'Entity Browser'
+      - 'Flexible driver'
+      - Forms
+      - 'Global elements'
+      - Help
+      - 'Inline blocks'
+      - 'Lists (Views)'
+      - 'Mars Common'
+      - 'Mars Product'
+      - 'Mars Search'
+      - Menus
+      - 'Moderation Dashboard'
+      - Product
+      - Recipe
+      - 'Social feed'
+      - 'Social media share'
+      - System
+      - User
+      - core
+    entity_view_mode_restriction:
+      whitelisted_blocks: {  }
+      blacklisted_blocks: {  }
+      allowed_layouts:
+        - campaign_section
+    entity_view_mode_restriction_by_region:
+      allowed_layouts:
+        - campaign_section
+      whitelisted_blocks:
+        campaign_section:
+          all_regions:
+            Article:
+              - article_header
+            'Chaos Tools': {  }
+            'Content fields':
+              - 'field_block:node:campaign:field_brand_initiatives'
+              - 'field_block:node:campaign:field_product_occasions'
+              - 'field_block:node:campaign:field_campaign_related_products'
+              - 'field_block:node:campaign:title'
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - feedback_block
+              - poll_block
+            'Mars Product': {  }
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core:
+              - page_title_block
+              - local_actions_block
+              - local_tasks_block
+id: node.campaign.card
+targetEntityType: node
+bundle: campaign
+mode: card
+content:
+  field_body:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_campaign_image:
+    type: entity_reference_entity_view
+    weight: 2
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  content_moderation_control: true
+  field_brand_initiatives: true
+  field_campaign_related_products: true
+  field_meta_tags: true
+  field_product_occasions: true
+  layout_builder__layout: true
+  published_at: true
+  search_api_excerpt: true
