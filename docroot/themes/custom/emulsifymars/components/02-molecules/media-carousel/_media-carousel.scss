@@ -36,6 +36,23 @@
     }
   }
 
+  .overlay-video {
+  
+    &__control[data-state="play"] {
+      width: 60px;
+      height: 65px;
+      left: 50%;
+      bottom: 50%;
+    }
+  
+    &__control[data-state="pause"] {
+      width: 60px;
+      height: 65px;
+      left: 50%;
+      bottom: 50%;
+    }
+  }
+  
   .carousel__content .swiper-slide {
     height: auto;
     padding-top: 1px;

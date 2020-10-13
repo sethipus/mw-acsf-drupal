@@ -1,3 +1,5 @@
+theme_styles: 'twix'
+
 pp_header_eyebrow_text: 'faq'
 pp_header_eyebrow_modifiers: ['parent-page']
 
