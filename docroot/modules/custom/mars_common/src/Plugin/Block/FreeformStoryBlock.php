@@ -136,12 +136,6 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Image');
     $form['image']['#open'] = TRUE;
-
-    $form['image_alt'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Image Alt'),
-      '#default_value' => $this->configuration['image_alt'],
-    ];
     $form['body'] = [
       '#type' => 'text_format',
       '#title' => $this->t('Description'),
@@ -181,12 +175,12 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     if (!empty($this->configuration['image'])) {
       $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['image']);
       $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-      if (!isset($mediaParams['error']) && ($mediaParams['src'] ?? NULL)) {
-        $build['#image'] = file_create_url($mediaParams['src']);
+      if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
+        $build['#image'] = $mediaParams['src'];
+        $build['#image_alt'] = $mediaParams['alt'];
       }
     }
 
-    $build['#image_alt'] = $this->configuration['image_alt'];
     if ($this->configuration['background_shape'] == 1) {
       $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
     }
@@ -222,7 +216,6 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       'body' => $config['body']['value'] ?? '',
       'background_shape' => $config['background_shape'] ?? '',
       'image' => $config['image'] ?? '',
-      'image_alt' => $config['image_alt'] ?? '',
       'custom_background_color' => $config['custom_background_color'] ?? '',
       'use_custom_color' => $config['use_custom_color'] ?? '',
     ];
