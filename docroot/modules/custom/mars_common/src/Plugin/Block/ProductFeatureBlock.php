@@ -29,13 +29,6 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
 
   /**
-   * Media storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $mediaStorage;
-
-  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -46,14 +39,10 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $entity_type_manager = $container->get('entity_type.manager');
-    $entity_storage = $entity_type_manager->getStorage('media');
-
     return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $entity_storage,
       $container->get('mars_common.media_helper')
     );
   }
@@ -65,11 +54,9 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityStorageInterface $entity_storage,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->mediaStorage = $entity_storage;
     $this->mediaHelper = $media_helper;
   }
 
@@ -84,7 +71,11 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#background_color'] = $conf['background_color'] ?? '';
     if (!empty($conf['image'])) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['image']);
-      $build['#image'] = $this->mediaStorage->load($media_id);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $build['#image_src'] = $media_params['src'];
+        $build['#image_alt'] = $media_params['alt'];
+      }
     }
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';

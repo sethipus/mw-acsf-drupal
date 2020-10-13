@@ -7,25 +7,19 @@
  * 'eyebrow' => NULL,
  * 'title' => NULL,
  * 'image_src' => NULL,
+ * 'image_alt' => NULL,
  * 'background_color' => NULL,
  * 'explore_cta' => NULL,
  * 'explore_cta_link' => NULL,
  */
 #}
 
-{% set image_bundle = image.bundle() %}
-{% if image_bundle == 'lighthouse_image' %}
-  {% set image_src = file_url(image.field_media_image.entity.fileuri) %}
-{% elseif image_bundle == 'image' %}
-  {% set image_src = file_url(image.image.entity.fileuri) %}
-{% endif %}
-
 {% include "@molecules/product-feature/product-feature.twig" with {
   theme_styles: 'drupal',
   eyebrow_text: eyebrow,
   heading: title,
   image_src: image_src,
-  background_image: 'ellipse_4.svg',
+  image_alt: image_alt,
   background_color: background_color,
   default_link_base_class: 'default-link',
   default_link_content: explore_cta,
