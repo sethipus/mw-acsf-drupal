@@ -6,7 +6,7 @@
 
 <section
   {{ bem(pp_header_base_class, pp_header_modifiers, pp_header_extra_classes) }}
-  data-theme="twix"
+  data-theme="{{ theme_styles }}"
   {% if parent_page_media_url and parent_page_media_type == 'image' %}
     style="background-image: url('{{ parent_page_media_url }}');"
   {% endif %}

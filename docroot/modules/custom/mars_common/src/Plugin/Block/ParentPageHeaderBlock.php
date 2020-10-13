@@ -3,7 +3,6 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\MediaHelper;
@@ -81,7 +80,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -93,11 +91,9 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityTypeManagerInterface $entity_type_manager,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->mediaHelper = $media_helper;
   }
 
@@ -109,20 +105,30 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
     $build['#label'] = $conf['title'] ?? '';
+    $media_id = NULL;
 
     if ($conf['background_options'] == self::KEY_OPTION_IMAGE && !empty($conf['background_image'])) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_image']);
-      $build['#background'] = $this->mediaStorage->load($media_id);
     }
     elseif ($conf['background_options'] == self::KEY_OPTION_VIDEO && !empty($conf['background_video'])) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_video']);
-      $build['#background'] = $this->mediaStorage->load($media_id);
     }
-    else {
-      $build['#background'] = NULL;
-    }
-    $build['#description'] = $conf['description'] ?? '';
 
+    if ($media_id) {
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!isset($media_params['error'])) {
+        $build['#background'] = $media_params['src'];
+        $build['#media_type'] = 'image';
+
+        if ($media_params['video'] ?? FALSE) {
+          $build['#media_type'] = 'video';
+          $build['#media_format'] = $media_params['format'];
+        }
+
+      }
+    }
+
+    $build['#description'] = $conf['description'] ?? '';
     $build['#theme'] = 'parent_page_header_block';
 
     return $build;

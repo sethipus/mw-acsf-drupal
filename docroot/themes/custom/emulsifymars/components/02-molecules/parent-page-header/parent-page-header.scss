@@ -1,6 +1,6 @@
 .parent-page-header {
   background-color: clr(subcolor-2);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='50' fill='rgba(234, 170, 0, 0.2)'/%3E%3C/svg%3E");
+  background-image: variable(brand-shape);
   background-repeat: no-repeat;
   background-position: center -50rem;
   background-size: 84rem;
@@ -56,7 +56,7 @@
 
     @include medium {
       font-size: 2rem;
-    }    
+    }
 
     @include large {
       font-size: 2.2rem;

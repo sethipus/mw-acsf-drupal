@@ -182,6 +182,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'label' => NULL,
         'background' => NULL,
         'description' => NULL,
+        'media_type' => NULL,
+        'media_format' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
