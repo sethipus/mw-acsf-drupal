@@ -189,6 +189,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       $recipe_media_set = [
         'srcset' => sprintf($format, $media_file_url, $media_file_url, $media_file_url, $media_file_url),
         'src' => $media_file_url,
+        'alt' => $media_entity->get($field)->alt,
       ];
     }
     return $recipe_media_set;

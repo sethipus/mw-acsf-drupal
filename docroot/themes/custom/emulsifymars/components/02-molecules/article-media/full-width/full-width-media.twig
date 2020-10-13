@@ -21,10 +21,11 @@
         image_title: media.title,
       } %}
     {% elseif media.video %}
-      {% include "@atoms/video/fullscreen-video/video.twig" with {
-        video__src__url: media.src
+      {{ attach_library('emulsifymars/inline-video') }}
+      {% include "@atoms/video/inline-video/video.twig" with {
+        video__src__url: media.src,
+        video__control: true
       } %}
-      <button {{ bem('control', [], 'video') }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
     {% endif %}
   </div>
 
