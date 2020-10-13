@@ -15,9 +15,13 @@ Drupal.behaviors.mainMenu = {
       // Expose mobile sub menu on click.
       for (let i = 0; i < expandHeader.length; i += 1) {
         expandHeader[i].addEventListener('click', e => {
+          if (window.innerWidth < 1024) {
+            e.preventDefault();
+          }
           const menuItem = e.currentTarget;
           const subMenu = menuItem.nextElementSibling;
           subMenu.classList.toggle('main-menu--sub-open');
+          subMenu.nextElementSibling.classList.toggle('main-menu--sub-open');
         });
       }
     }
