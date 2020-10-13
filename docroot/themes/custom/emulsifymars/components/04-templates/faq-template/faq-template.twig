@@ -1,0 +1,12 @@
+{% set article_template__base_class = 'faq-detail' %}
+<div {{ bem(article_template__base_class) }} data-theme="{{ theme_styles }}">
+
+    <!-- FAQ Page Header -->
+    {% include "@molecules/parent-page-header/parent-page-header.twig" %}
+
+    <!-- FAQ Module -->
+    {% include "@molecules/faq-list/faq-list.twig" %}
+
+    <!-- Contact Module -->
+    {% include "@molecules/contact-module/contact-module.twig" %}
+</div>
