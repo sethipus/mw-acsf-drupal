@@ -344,7 +344,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'allergen_label' => $this->configuration['allergen_label'],
       ],
       'more_information_data' => [
-        'more_information_label' => $this->configuration['more_information']['more_information_label'],
+        'more_information_label' => $this->configuration['more_information']['more_information_label'] ?? '',
       ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
@@ -390,7 +390,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
         'more_information_data' => [
-          'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'],
+          'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? FALSE,
         ],
       ];
     }
