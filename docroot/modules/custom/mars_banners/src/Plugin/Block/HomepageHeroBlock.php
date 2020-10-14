@@ -3,8 +3,6 @@
 namespace Drupal\mars_banners\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\MediaHelper;
@@ -56,20 +54,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   const KEY_OPTION_IMAGE = 'image';
 
   /**
-   * Config Factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $config;
-
-  /**
-   * File storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorage;
-
-  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -90,14 +74,10 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory,
     MediaHelper $media_helper,
     ThemeConfiguratorParser $theme_config_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->fileStorage = $entity_type_manager->getStorage('file');
-    $this->config = $config_factory;
     $this->mediaHelper = $media_helper;
     $this->themeConfigParser = $theme_config_parser;
   }
@@ -110,8 +90,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('config.factory'),
       $container->get('mars_common.media_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
