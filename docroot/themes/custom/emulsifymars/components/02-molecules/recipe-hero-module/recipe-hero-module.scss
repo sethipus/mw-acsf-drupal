@@ -244,6 +244,7 @@ $xl-gap-width: 30px;
 .more-recipes {
   width: 100vw;
   margin-left: calc((100% - 100vw) / 2);
+  max-width: 100%;
 }
 
 .recipe-info {
