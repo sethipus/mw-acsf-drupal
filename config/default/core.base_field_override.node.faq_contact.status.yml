@@ -1,0 +1,22 @@
+uuid: 7b633dbe-385d-42dd-ad6b-aa439f81b719
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq_contact
+id: node.faq_contact.status
+field_name: status
+entity_type: node
+bundle: faq_contact
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.product_multipack.field_meta_tags
     - field.field.node.product_multipack.field_product_brand
     - field.field.node.product_multipack.field_product_description
     - field.field.node.product_multipack.field_product_flavor
@@ -27,6 +28,7 @@ dependencies:
     - mars_common
     - mars_product
     - mars_recommendations
+    - metatag
     - text
     - user
 third_party_settings:
@@ -78,6 +80,21 @@ third_party_settings:
                 node: layout_builder.entity
             additional: {  }
             weight: 1
+          929f0b72-723a-40ec-a098-f3aa161dc4a2:
+            uuid: 929f0b72-723a-40ec-a098-f3aa161dc4a2
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:product_multipack:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 2
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -326,6 +343,13 @@ targetEntityType: node
 bundle: product_multipack
 mode: default
 content:
+  field_meta_tags:
+    weight: 115
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
   field_product_brand:
     weight: 110
     label: above

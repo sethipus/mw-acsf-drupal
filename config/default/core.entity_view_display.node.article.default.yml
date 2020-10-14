@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.article.field_article_new
     - field.field.node.article.field_article_related_products
     - field.field.node.article.field_brand_initiatives
+    - field.field.node.article.field_meta_tags
     - field.field.node.article.field_product_occasions
     - field.field.node.article.layout_builder__layout
     - node.type.article
@@ -19,6 +20,7 @@ dependencies:
     - mars_articles
     - mars_common
     - mars_recommendations
+    - metatag
     - user
 third_party_settings:
   layout_builder:
@@ -60,6 +62,21 @@ third_party_settings:
                 type: entity_reference_label
             additional: {  }
             weight: 1
+          ffc49436-a608-4617-af7a-bdb03571c86c:
+            uuid: ffc49436-a608-4617-af7a-bdb03571c86c
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:article:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 2
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -165,6 +182,7 @@ third_party_settings:
               - inline_video
               - list
               - media_carousel
+              - text_component
             'Custom blocks':
               - mars_common_content_feature_module
             'Entity Block': {  }
@@ -182,7 +200,7 @@ third_party_settings:
               - 'inline_block:inline_video'
               - 'inline_block:list'
               - 'inline_block:media_carousel'
-              - 'inline_block:text'
+              - 'inline_block:text_component'
             'Lists (Views)': {  }
             'Mars Common':
               - contact_help_banner_block
@@ -273,6 +291,13 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
+  field_meta_tags:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_product_occasions:
     weight: 1

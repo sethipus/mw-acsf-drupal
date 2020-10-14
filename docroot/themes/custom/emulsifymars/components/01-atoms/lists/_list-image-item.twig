@@ -17,6 +17,7 @@
 
 <li {{ bem(li_base_class, li_modifiers, li_blockname) }}>
   {% block list_item_content %}
+    {% if list_item_number %}<span {{ bem('number', [], li_base_class) }}>{{ list_item_number }}</span> {% endif %}
     {% if list_item_label %}<strong>{{ list_item_label }}</strong> {% endif %}
     <div {{ bem('content', [], li_base_class) }}>
       {{ list_item_content }}

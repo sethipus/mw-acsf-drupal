@@ -6,7 +6,7 @@ dependencies:
     - node.type.about_page
     - node.type.article
     - node.type.campaign
-    - node.type.contact_help
+    - node.type.faq_contact
     - node.type.error_page
     - node.type.faq
     - node.type.homepage
@@ -92,7 +92,7 @@ type_settings:
       - about_page
       - article
       - campaign
-      - contact_help
+      - faq_contact
       - error_page
       - faq
       - homepage
