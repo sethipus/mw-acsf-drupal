@@ -1,6 +1,8 @@
 acquia_connector: 1.19.0
 acquia_contenthub: 2.16.0
+acquia_contenthub_curation: 2.16.0
 acquia_contenthub_publisher: 2.16.0
+acquia_contenthub_subscriber: 2.16.0
 acquia_lift: 4.3.0
 acquia_lift_publisher: 4.3.0
 acsf: 2.63.0
