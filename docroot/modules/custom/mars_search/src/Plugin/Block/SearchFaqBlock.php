@@ -9,6 +9,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
@@ -47,6 +48,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $searchQueryParser;
 
   /**
+   * Mars Search logger channel.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -56,8 +64,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_definition,
       $container->get('mars_search.search_helper'),
       $container->get('form_builder'),
-      $container->get('mars_search.search_query_parser')
-
+      $container->get('mars_search.search_query_parser'),
+      $container->get('logger.factory')->get('mars_search')
     );
   }
 
@@ -70,13 +78,15 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $plugin_definition,
     SearchHelperInterface $search_helper,
     FormBuilderInterface $form_builder,
-    SearchQueryParserInterface $search_query_parser
+    SearchQueryParserInterface $search_query_parser,
+    LoggerInterface $logger
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+
     $this->searchHelper = $search_helper;
     $this->formBuilder = $form_builder;
     $this->searchQueryParser = $search_query_parser;
-
+    $this->logger = $logger;
   }
 
   /**
@@ -133,7 +143,20 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $cta_button_label = $cta_button_link = '';
 
     if ($search_results['results']) {
+      /** @var \Drupal\node\NodeInterface $search_result */
       foreach ($search_results['results'] as $row_key => $search_result) {
+        // Do not fail page load if search index is not in sync with database.
+        if ($search_result->bundle() != 'faq') {
+          $search_results['resultsCount']--;
+
+          $this->logger->warning('Node ID %title (ID: %id) is not a FAQ node.', [
+            '%id' => $search_result->id(),
+            '%title' => $search_result->getTitle(),
+          ]);
+
+          continue;
+        }
+
         $question_value = $search_result->get('field_qa_item_question')->value;
         $answer_value = $search_result->get('field_qa_item_answer')->value;
 
