@@ -998,8 +998,12 @@ function mars_common_taxonomy_term_presave(TermInterface $term) {
 function mars_common_page_attachments(&$page) {
   $current_route = Drupal::routeMatch();
   $route_name = $current_route->getRouteName();
+  $supported_routes = [
+    'layout_builder.overrides.node.view',
+    'layout_builder.defaults.node.view',
+  ];
 
-  if ($route_name === 'layout_builder.overrides.node.view') {
+  if (in_array($route_name, $supported_routes)) {
     $page['#attached']['library'][] = 'mars_common/mars_common.dialog_fix';
   }
 }
