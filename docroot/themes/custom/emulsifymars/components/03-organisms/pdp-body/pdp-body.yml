@@ -23,6 +23,7 @@ pdp_common_data:
     allergen_label: 'DIET & ALLERGENS'
   more_information_data:
     more_information_label: 'MORE INFORMATION'
+    show_more_information_label: true
 pdp_size_data:
   - size_id : '1oz'
     title: '1.36 oz'
@@ -135,8 +136,6 @@ pdp_data:
             allergen_label: 'CONTAINS SOY'
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
-    more_information_data:
-      show_more_information_label: true
   - size_id: '4oz'
     active: false
     hero_data:

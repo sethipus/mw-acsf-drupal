@@ -10,7 +10,7 @@
     style="background-color: {{ pdp_common_hero_data.background_color }};"
   {% endif %}
 >
-  
+
   <div {{ bem('bubble_1', [], pdp_hero_base_class) }} id="pdp-hero__bubble_1-{{size_id}}">
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
@@ -139,22 +139,26 @@
         <div class="pdp-hero-menu-container">
           {% include "@atoms/text/headings/_heading.twig" with {
             heading_level: 5,
-            heading: pdp_common_data['nutrition_data']['nutritional_label'],
+            heading: pdp_label_nutrition,
             heading_blockname: pdp_hero_base_class,
             heading_base_class: 'nutrition-menu',
           } %}
-          {% include "@atoms/text/headings/_heading.twig" with {
-            heading_level: 5,
-            heading: pdp_common_data['allergen_data']['allergen_label'],
-            heading_blockname: pdp_hero_base_class,
-            heading_base_class: 'allergen-menu',
-          } %}
-          {% include "@atoms/text/headings/_heading.twig" with {
-            heading_level: 5,
-            heading: pdp_common_data['more_information_data']['more_information_label'],
-            heading_blockname: pdp_hero_base_class,
-            heading_base_class: 'more-info-menu',
-          } %}
+          {% if pdp_label_allergen %}
+            {% include "@atoms/text/headings/_heading.twig" with {
+              heading_level: 5,
+              heading: pdp_label_allergen,
+              heading_blockname: pdp_hero_base_class,
+              heading_base_class: 'allergen-menu',
+            } %}
+          {% endif %}
+          {% if pdp_label_more_information %}
+            {% include "@atoms/text/headings/_heading.twig" with {
+              heading_level: 5,
+              heading: pdp_label_more_information,
+              heading_blockname: pdp_hero_base_class,
+              heading_base_class: 'more-info-menu',
+            } %}
+          {% endif %}
         </div>
       </div>
     </div>

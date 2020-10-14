@@ -12,6 +12,9 @@ pdp_common_hero_data:
   data_widget_id: 'Jqj7gyEopK_3fb7bfa0-ede2-11ea-8576-a5b7bf52a57e85'
   reference_for_analitics: ''
   product_CTA_title: 'WHERE TO BUY'
+pdp_label_nutrition: 'NUTRITION'
+pdp_label_allergen: 'DIET & ALLERGENS'
+pdp_label_more_information: 'MORE INFORMATION'
 pdp_size_items_data:
   - size_id : '1oz'
     title: '1.36 oz'
