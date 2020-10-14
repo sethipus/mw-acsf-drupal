@@ -20,7 +20,12 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
    *   Alter options event.
    */
   public function validateZoneMatch(AlterPopulationLogicOptionsEvent $event) {
-    if (!$event->getEntity() || !$event->getLayoutId()) {
+    if (!($entity = $event->getEntity()) || !$event->getLayoutId()) {
+      return;
+    }
+
+    $bundle = $entity instanceof LayoutBuilderEntityViewDisplay ? $entity->getTargetBundle() : $entity->bundle();
+    if ($bundle != 'content_hub_page') {
       return;
     }
 
@@ -45,7 +50,7 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
    * @param \Drupal\mars_recommendations\Event\AlterPopulationLogicOptionsEvent $event
    *   Alter options event.
    */
-  public function disableDynamicForContentHub(AlterPopulationLogicOptionsEvent $event) {
+  public function disableDynamicForPages(AlterPopulationLogicOptionsEvent $event) {
     if (!($entity = $event->getEntity())) {
       return;
     }
@@ -91,7 +96,7 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
     return [
       RecommendationsEvents::ALTER_POPULATION_LOGIC_OPTIONS => [
         ['validateZoneMatch', 10],
-        ['disableDynamicForContentHub', -10],
+        ['disableDynamicForPages', -10],
       ],
       RecommendationsEvents::ALTER_MANUAL_LOGIC_BUNDLES => ['setContentHubAutocompleteBundle'],
     ];

@@ -6,11 +6,21 @@
     heading_level: search_page_header_heading_level,
     heading_base_class: search_page_header_heading_base_class
   }%}
+  <div class="search-input-wrapper">
+    {% block search_header__input %}
+      {% include "@molecules/search/search-input/search-input.twig" %}
+    {% endblock %}
 
-  {% block search_header__input %}
-    {% include "@molecules/search/search-input/search-input.twig" %}
-  {% endblock %}
-  
+    <div class="mars-search-autocomplete-suggestions-wrapper">
+      <div class="autocomplete-border"></div>
+      <div class="mars-suggestions">
+        {% include "@atoms/lists/ul.twig" with {
+          ul_items: search_results,
+        } %}
+      </div>
+    </div>
+  </div>
+
   {% include "@molecules/search/search-results/search-results.twig" with {
     search_results: search_results
   }%}

@@ -2,9 +2,13 @@
 
 namespace Drupal\salsify_integration;
 
-use Drupal;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Utility\Token;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\file\Entity\File;
@@ -37,6 +41,58 @@ class SalsifyImportMedia extends SalsifyImport {
   protected $fieldConfig;
 
   /**
+   * The token service.
+   *
+   * @var \Drupal\Core\Utility\Token
+   */
+  private $token;
+
+  /**
+   * The File system service.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  private $fileSystem;
+
+  /**
+   * SalsifyImportField constructor.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager interface.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache_salsify
+   *   The Salsify cache interface.
+   * @param \Drupal\salsify_integration\Salsify $salsify
+   *   The Salsify cache interface.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler interface.
+   * @param \Drupal\Core\Utility\Token $token
+   *   The token service.
+   * @param \Drupal\Core\File\FileSystemInterface $file_system
+   *   The File system service.
+   */
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager,
+    CacheBackendInterface $cache_salsify,
+    Salsify $salsify,
+    ModuleHandlerInterface $module_handler,
+    Token $token,
+    FileSystemInterface $file_system
+  ) {
+    parent::__construct(
+      $config_factory,
+      $entity_type_manager,
+      $cache_salsify,
+      $salsify,
+      $module_handler
+    );
+    $this->token = $token;
+    $this->fileSystem = $file_system;
+  }
+
+  /**
    * A function to import Salsify data as nodes in Drupal.
    *
    * @param array $field
@@ -46,6 +102,11 @@ class SalsifyImportMedia extends SalsifyImport {
    *
    * @return array|bool
    *   An array of media entities or FALSE.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function processSalsifyMediaItem(array $field, array $product_data) {
     if (!is_array($product_data[$field['salsify_id']])) {
@@ -61,9 +122,8 @@ class SalsifyImportMedia extends SalsifyImport {
       $salsify_data = $cache_entry->data;
     }
     else {
-      $salsify = Salsify::create(Drupal::getContainer());
       // NOTE: During this call the cached item is refreshed.
-      $salsify_data = $salsify->getProductData();
+      $salsify_data = $this->salsify->getProductData();
     }
 
     // Set the default fields to use to lookup any existing media that was
@@ -112,7 +172,8 @@ class SalsifyImportMedia extends SalsifyImport {
             $type = $media->bundle();
             $this->setMediaFields($type);
             $file_field_name = $this->fieldStorageConfig->getName();
-            $current_file = File::load($media->{$file_field_name}->target_id);
+            $current_file = $this->entityTypeManager->getStorage('file')
+              ->load($media->{$file_field_name}->target_id);
             if ($current_file) {
               $current_file->delete();
             }
@@ -139,7 +200,8 @@ class SalsifyImportMedia extends SalsifyImport {
               'asset_data' => $asset_data,
               'field_map' => $field,
             ];
-            Drupal::moduleHandler()->alter($hooks, $bundle, $context);
+            $this->moduleHandler
+              ->alter($hooks, $bundle, $context);
 
             $this->setMediaFields($bundle);
             $file = $this->moveFile($file);
@@ -156,8 +218,12 @@ class SalsifyImportMedia extends SalsifyImport {
                 'salsify:created_at' => date('Y-m-d', time()),
                 'date_updated' => time(),
               ];
-              $salsify = SalsifyFields::create(Drupal::getContainer());
-              $salsify->createDynamicField($salsify_id_field, $field_name, 'media', $bundle);
+              SalsifyFields::createDynamicField(
+                $salsify_id_field,
+                $field_name,
+                'media',
+                $bundle
+              );
             }
 
             // Clean up file name to use as media name if Salsify is sending the
@@ -211,7 +277,8 @@ class SalsifyImportMedia extends SalsifyImport {
    *   An array of media entity ids that match the given options.
    */
   private function getMediaEntity($field_name, $field_value) {
-    return $this->entityQuery->get('media')
+    return $this->entityTypeManager->getStorage('media')
+      ->getQuery()
       ->condition($field_name, $field_value)
       ->execute();
   }
@@ -248,9 +315,8 @@ class SalsifyImportMedia extends SalsifyImport {
   private function moveFile(File $file) {
     $scheme = $this->fieldStorageConfig->getSetting('uri_scheme');
     $location = $this->fieldConfig->getSetting('file_directory');
-    $token_service = Drupal::service('token');
-    $uri = $scheme . '://' . $token_service->replace($location);
-    Drupal::service('file_system')->prepareDirectory(
+    $uri = $scheme . '://' . $this->token->replace($location);
+    $this->fileSystem->prepareDirectory(
       $uri,
       FileSystemInterface::CREATE_DIRECTORY
     );

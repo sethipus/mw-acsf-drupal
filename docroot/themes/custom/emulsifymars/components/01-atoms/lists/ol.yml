@@ -1,9 +1,15 @@
 ol_items:
-  - content: 'This is the first item in the ordered list.'
+  - content: 'Aenean vulputate eleifend tellus. Cras varius.'
     image: 
       src: 'https://mars.com/sites/g/files/jydpyr316/files/styles/image_copy/public/webimage-GettyImages-964172312.png?itok=IHauQ4Os'
       alt: 'alt text'
       title: 'title text'
-  - content: 'And here is the item that goes with the label.'
-  - content: "Here's the third item."
-  - content: "And here's the last item."
+    item_number: '1'
+  - content: 'Praesent blandit laoreet nibh. Fusce pharetra convallis urna. Sed a libero.'
+    item_number: '2'
+  - content: "Nam pretium turpis et arcu. Fusce ac felis sit amet ligula pharetra condimentum. Ut a nisl id ante tempus hendrerit."
+    item_number: '3'
+  - content: "Morbi ac felis. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Suspendisse feugiat."
+    item_number: '4'
+  - content: "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Aenean vulputate eleifend tellus. Phasellus volutpat, metus eget egestas mollis, lacus lacus blandit dui, id egestas quam mauris ut lacus."
+    item_number: '4.1'
