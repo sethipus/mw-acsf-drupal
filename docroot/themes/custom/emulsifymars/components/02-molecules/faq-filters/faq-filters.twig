@@ -10,6 +10,7 @@
         {{ search_form }}
       </div>
     </div>
+<<<<<<< Updated upstream
     <div class="mars-search-autocomplete-suggestions-wrapper">
       <div class="autocomplete-border"></div>
       <div class="mars-suggestions">
@@ -23,16 +24,28 @@
       {{ search_result_counter }}
     </div>
   {% endblock %}
+=======
+>>>>>>> Stashed changes
 
-  {% block faq_filters__filters %}
-    <div {{ bem('filters', [], faq_filters_base_class) }}>
-      {% for link in facetLinks %}
-        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-          default_link_base_class: link.class,
-          default_link_content: link.text,
-          default_link_attributes: link.attr
-        } %}
-      {% endfor %}
-    </div>
+    {% if search_result_counter > 0 %}
+        <div {{ bem('search-results', [], faq_filters_base_class) }}>
+          {{ search_result_counter }} {{search_result_text}}
+        </div>
+    {% endif %}
+    
   {% endblock %}
+
+  {% if search_result_counter > 0 %}
+    {% block faq_filters__filters %}
+      <div {{ bem('filters', [], faq_filters_base_class) }}>
+        {% for link in facetLinks %}
+          {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+            default_link_base_class: link.class,
+            default_link_content: link.text,
+            default_link_attributes: link.attr
+          } %}
+        {% endfor %}
+      </div>
+    {% endblock %}
+  {% endif %}
 </div>
