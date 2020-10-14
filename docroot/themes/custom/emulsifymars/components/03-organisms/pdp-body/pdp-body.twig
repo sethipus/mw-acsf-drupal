@@ -21,5 +21,11 @@
       pdp_allergen_data: pdp_item.allergen_data,
       pdp_common_allergen_data: pdp_common_data.allergen_data,
     } %}
+    <!-- PDP More Information -->
+    {% include "@molecules/pdp/pdp-more-information/pdp-more-information.twig" with {
+      size_id: pdp_item.size_id,
+      pdp_more_information_data: pdp_item.more_information_data,
+      pdp_common_more_information_data: pdp_common_data.more_information_data,
+    } %}
   </section>
 {% endfor %}

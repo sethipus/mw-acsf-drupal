@@ -224,6 +224,23 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#maxlength' => 50,
       '#required' => TRUE,
     ];
+    $form['more_information'] = [
+      '#type' => 'details',
+      '#title' => $this->t('More Information part settings'),
+      '#open' => TRUE,
+    ];
+    $form['more_information']['more_information_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('More Information label'),
+      '#default_value' => $this->configuration['more_information']['more_information_label'],
+      '#maxlength' => 50,
+      '#required' => TRUE,
+    ];
+    $form['more_information']['show_more_information_label'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show More Information'),
+      '#default_value' => $this->configuration['more_information']['show_more_information_label'] ?? FALSE,
+    ];
     $form['use_background_color'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use Background Color Override'),
@@ -273,6 +290,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
+      'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More Information'),
+      'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? FALSE,
       'wtb' => [
         'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
         'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
@@ -324,6 +343,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'allergen_data' => [
         'allergen_label' => $this->configuration['allergen_label'],
       ],
+      'more_information_data' => [
+        'more_information_label' => $this->configuration['more_information']['more_information_label'],
+      ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
     $build['#pdp_size_data'] = $this->getSizeData($node);
@@ -366,6 +388,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         ],
         'allergen_data' => [
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
+        ],
+        'more_information_data' => [
+          'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'],
         ],
       ];
     }
