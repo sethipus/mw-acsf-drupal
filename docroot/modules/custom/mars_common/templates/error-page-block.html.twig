@@ -5,21 +5,21 @@
  *
  * Available variables:
  * 'eyebrow' => NULL,
+ * 'body' => NULL,
+ * 'links' => NULL,
+ * 'image_src' => NULL,
+ * 'image_alt' => NULL,
+ * 'graphic_divider' => NULL,
+ * 'brand_shape' => NULL,
  */
 #}
 
-{% set image_bundle = image.bundle() %}
-{% if image_bundle == 'lighthouse_image' %}
-  {% set image_src = file_url(image.field_media_image.entity.fileuri) %}
-{% elseif image_bundle == 'image' %}
-  {% set image_src = file_url(image.image.entity.fileuri) %}
-{% endif %}
 
 {% include "@molecules/error-component/error-component.twig" with {
   theme_styles: 'drupal',
   error_component_heading: title,
   error_component_heading_level: 1,
-  error_component_paragraph_content: body|striptags,
+  error_component_paragraph_content: body,
   error_component_links: links,
   error_component_bg_image_src: image_src,
   error_component_bg_image_alt: image_alt,

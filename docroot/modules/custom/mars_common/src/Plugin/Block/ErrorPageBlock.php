@@ -3,11 +3,10 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,10 +18,13 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * @Block(
  *   id = "error_page_block",
  *   admin_label = @Translation("MARS: Error Page Block"),
- *   category = @Translation("Mars Common")
+ *   category = @Translation("Mars Common"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Error page"))
+ *   }
  * )
  */
-class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class ErrorPageBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
 
@@ -37,34 +39,6 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
    * @var \Drupal\Core\Menu\MenuLinkTreeInterface
    */
   protected $menuLinkTree;
-
-  /**
-   * Menu storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $menuStorage;
-
-  /**
-   * Entity storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $entityStorage;
-
-  /**
-   * Media storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $mediaStorage;
-
-  /**
-   * Media storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorage;
 
   /**
    * ThemeConfiguratorParser.
@@ -89,7 +63,6 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_id,
       $plugin_definition,
       $container->get('menu.link_tree'),
-      $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_common.media_helper')
     );
@@ -103,16 +76,11 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $plugin_id,
     $plugin_definition,
     MenuLinkTreeInterface $menu_link_tree,
-    EntityTypeManagerInterface $entity_type_manager,
     ThemeConfiguratorParser $themeConfiguratorParser,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
-    $this->menuStorage = $entity_type_manager->getStorage('menu');
-    $this->entityStorage = $entity_type_manager->getStorage('node');
-    $this->mediaStorage = $entity_type_manager->getStorage('media');
-    $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->mediaHelper = $media_helper;
   }
@@ -130,13 +98,16 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
    * {@inheritdoc}
    */
   public function build() {
-    $conf = $this->getConfiguration();
-
-    $node = $this->entityStorage->loadByProperties(['type' => 'error_page']);
+    $node = $this->getContextValue('node');
     if ($node) {
-      $node = $node[key($node)];
       $build['#title'] = $node->title->value;
       $build['#body'] = $node->body->value;
+      $media_id = $this->mediaHelper->getEntityMainMediaId($node);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $build['#image_src'] = $media_params['src'];
+        $build['#image_alt'] = $media_params['alt'];
+      }
     }
 
     $linksMenu = $this->buildMenu('error-page-menu');
@@ -152,12 +123,6 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
     }
 
     $build['#links'] = $links;
-    if (!empty($conf['image'])) {
-      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['image']);
-      $build['#image'] = $this->mediaStorage->load($media_id);
-    }
-    $build['#image_alt'] = $conf['image_alt'] ?? '';
-
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
     $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
     $build['#theme'] = 'error_page_block';
@@ -198,40 +163,6 @@ class ErrorPageBlock extends BlockBase implements ContainerFactoryPluginInterfac
       }
     }
     return $menu_links;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildConfigurationForm($form, $form_state);
-    $config = $this->getConfiguration();
-
-    $image_default = isset($config['image']) ? $config['image'] : NULL;
-    // Entity Browser element for background image.
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
-    // Convert the wrapping container to a details element.
-    $form['image']['#type'] = 'details';
-    $form['image']['#title'] = $this->t('Image');
-    $form['image']['#open'] = TRUE;
-
-    $form['image_alt'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Image Alt'),
-      '#default_value' => $this->configuration['image_alt'] ?? '',
-      '#required' => TRUE,
-    ];
-
-    return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function blockSubmit($form, FormStateInterface $form_state) {
-    parent::blockSubmit($form, $form_state);
-    $this->configuration['image'] = $this->getEntityBrowserValue($form_state, 'image');
-    $this->configuration['image_alt'] = $form_state->getValue('image_alt');
   }
 
 }
