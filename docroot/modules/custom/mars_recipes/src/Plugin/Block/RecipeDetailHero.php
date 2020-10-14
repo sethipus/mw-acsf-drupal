@@ -122,7 +122,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
     if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
       $build['#image'] = [
-        'label' => $image_arr['alt'] ?? '',
+        'alt' => $image_arr['alt'] ?? '',
         'url' => $image_arr['src'] ?? '',
       ];
     }
