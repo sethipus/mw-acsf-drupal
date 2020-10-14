@@ -3,11 +3,6 @@ salsify_integration.configuration:
   route_name: salsify_integration.configuration
   base_route: salsify_integration.configuration
 
-salsify_integration.mapping:
-  title: 'Field Mapping'
-  route_name: salsify_integration.mapping
-  base_route: salsify_integration.configuration
-
 salsify_integration.media_assets:
   deriver: 'Drupal\salsify_integration\Plugin\Derivative\DynamicLocalTasks'
   weight: 100

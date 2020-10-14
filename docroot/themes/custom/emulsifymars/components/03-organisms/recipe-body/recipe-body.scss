@@ -242,7 +242,7 @@
     }
   }
 
-  .ambient-video #playpause[data-state="play"] {
+  .ambient-video__control[data-state="play"] {
     left: calc(50% - 30px);
     top: calc(50% - 30px);
   }
