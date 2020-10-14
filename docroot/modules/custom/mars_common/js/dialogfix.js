@@ -1,7 +1,7 @@
 (function($){
     Drupal.behaviors.dialogfix = {
         attach: function (context) {
-            $(context).on('focusin', function(e) {
+            $(context).once('dialogfix').on('focusin', function(e) {
                 e.stopImmediatePropagation();
             });
 
