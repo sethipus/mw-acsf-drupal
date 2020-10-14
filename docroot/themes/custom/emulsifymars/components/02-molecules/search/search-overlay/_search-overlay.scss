@@ -14,10 +14,6 @@
     top: 0;
   }
 
-  &.opened {
-    display: flex !important;
-  }
-
   & .wrapper-overlay {
     display: flex;
     width: 100%;
@@ -31,7 +27,7 @@
     }
   }
 
-  & .search-field-wrapper {
+  & .search-input-wrapper {
 
     @include medium {
       display: flex;
@@ -66,13 +62,6 @@
             border-bottom: 1px solid clr(subcolor-4);
             margin: 0 20px;
           }
-        }
-      }
-
-      & input.mars-autocomplete-field {
-        @include medium {
-          border-bottom-right-radius: unset;
-          border-bottom-left-radius: unset;
         }
       }
 
@@ -124,18 +113,24 @@
     }
 
     & .mars-search-autocomplete-suggestions-wrapper {
-      color: clr(primary);
       font-size: 16px;
       margin-top: 0;
-      background-color: clr(subcolor-3);
       display: none;
       line-height: 100%;
 
       @include medium {
+        background-color: clr(subcolor-3);
+        color: clr(primary);
         border-bottom-left-radius: variable(card-border-radius);
         border-bottom-right-radius: variable(card-border-radius);
         border: 1px solid clr(subcolor-4);
         border-top: none;
+      }
+
+      & .suggestions-links a {
+        text-decoration: none;
+        color: clr(subcolor-3);
+        line-height: 150%;
       }
 
       & .suggestions-label {
@@ -150,6 +145,12 @@
           padding-left: 0;
           margin-bottom: 0;
         }
+      }
+
+      .no-results {
+        margin-top: 10px;
+        color: clr(subcolor-3);
+        line-height: 150%;
       }
     }
 
@@ -218,6 +219,18 @@
       height: 60px;
     }
   }
+
+   &.opened {
+    display: flex !important;
+     .mars-search-autocomplete-suggestions-wrapper {
+       @include large {
+         position: absolute;
+         top: 100%;
+         width: 100%;
+         z-index: 5;
+       }
+     }
+   }
 }
 
 input.mars-autocomplete-field:-webkit-autofill,
