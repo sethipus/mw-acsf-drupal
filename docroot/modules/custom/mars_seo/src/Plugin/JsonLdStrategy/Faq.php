@@ -4,7 +4,6 @@ namespace Drupal\mars_seo\Plugin\JsonLdStrategy;
 
 use Drupal\Core\Render\Element;
 use Drupal\mars_seo\JsonLdStrategyPluginBase;
-use Drupal\views\ResultRow;
 use Spatie\SchemaOrg\Schema;
 
 /**
@@ -32,7 +31,7 @@ class Faq extends JsonLdStrategyPluginBase {
   /**
    * {@inheritdoc}
    */
-  protected $supportedBundles = ['page', 'landing_page'];
+  protected $supportedBundles = [];
 
   /**
    * {@inheritdoc}
@@ -57,17 +56,18 @@ class Faq extends JsonLdStrategyPluginBase {
       return NULL;
     }
 
-    /** @var \Drupal\views\ViewExecutable $view */
-    $view = $this->component['content']['#view'];
+    if (empty($this->component['content']['#qa_items'])) {
+      return NULL;
+    }
 
     return Schema::fAQPage()
-      ->mainEntity(array_map(function (ResultRow $row) {
+      ->mainEntity(array_map(function ($value) {
         return Schema::question()
-          ->name($row->_entity->field_qa_item_question->value)
+          ->name($value['content']['question'])
           ->acceptedAnswer(
-            Schema::answer()->text($row->_entity->field_qa_item_answer->value)
+            Schema::answer()->text($value['content']['answer'])
           );
-      }, $view->result));
+      }, array_values($this->component['content']['#qa_items'])));
   }
 
   /**
@@ -91,7 +91,7 @@ class Faq extends JsonLdStrategyPluginBase {
         foreach ($regions as $region) {
           if (isset($section[$region])) {
             foreach ($section[$region] as $component) {
-              if ('views_block' == ($component['#base_plugin_id'] ?? NULL) && 'faq_view' == ($component['content']['#name'] ?? NULL)) {
+              if (isset($component['#plugin_id']) && $component['#plugin_id'] == 'search_faq_block') {
                 return $component;
               }
             }
