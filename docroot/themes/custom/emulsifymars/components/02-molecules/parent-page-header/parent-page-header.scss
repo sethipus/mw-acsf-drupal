@@ -7,7 +7,6 @@
   padding: 12rem 4rem 8rem 4rem;
   position: relative;
   overflow: hidden;
-  min-height: 400px;
 
   @include small {
     background-position: center -16rem;
@@ -103,6 +102,22 @@
       left: 0;
       background-color: rgba(0, 0, 0, .5);
       z-index: 2
+    }
+  }
+
+  &--with-bg-video {
+    background-position: top center;
+    background-size: cover;
+    padding: 0;
+    .parent-page-heading,
+    .eyebrow,
+    .parent-page-paragraph {
+      color: clr(subcolor-3);
+
+      a {
+        color: clr(subcolor-3);
+        text-decoration: none;
+      }
     }
   }
 }
