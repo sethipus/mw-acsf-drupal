@@ -3,7 +3,6 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\MediaHelper;
@@ -31,13 +30,6 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
 
   /**
-   * Media storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $mediaStorage;
-
-  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -45,17 +37,20 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   protected $themeConfiguratorParser;
 
   /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $entity_type_manager = $container->get('entity_type.manager');
-    $entity_storage = $entity_type_manager->getStorage('media');
-
     return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $entity_storage,
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_common.media_helper')
     );
@@ -68,12 +63,10 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityStorageInterface $entity_storage,
     ThemeConfiguratorParser $themeConfiguratorParser,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->mediaStorage = $entity_storage;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->mediaHelper = $media_helper;
   }
@@ -86,10 +79,15 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
 
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
     $build['#title'] = $conf['title'] ?? '';
+
     if (!empty($conf['background'])) {
-      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
-      $build['#background'] = $this->mediaStorage->load($media_id);
+      $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
+      $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
+      if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
+        $build['#background'] = $mediaParams['src'];
+      }
     }
+
     $build['#description'] = $conf['description'] ?? '';
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';

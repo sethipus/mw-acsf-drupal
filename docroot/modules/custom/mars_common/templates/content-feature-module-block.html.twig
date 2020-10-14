@@ -13,13 +13,6 @@
  */
 #}
 
-{% set background_bundle = background.bundle() %}
-{% if background_bundle == 'lighthouse_image' %}
-  {% set background = file_url(background.field_media_image.entity.fileuri) %}
-{% elseif background_bundle == 'image' %}
-  {% set background = file_url(background.image.entity.fileuri) %}
-{% endif %}
-
 {% include "@molecules/content-feature/content-feature.twig" with {
   theme_styles: 'drupal',
   eyebrow_text: eyebrow,
