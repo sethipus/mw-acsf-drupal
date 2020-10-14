@@ -36,9 +36,19 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   const LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID = 'lighthouse_video_browser';
 
   /**
+   * Key option image.
+   */
+  const KEY_OPTION_DEFAULT = 'default';
+
+  /**
    * Key option video.
    */
   const KEY_OPTION_VIDEO = 'video';
+
+  /**
+   * Key option video loop.
+   */
+  const KEY_OPTION_VIDEO_LOOP = 'video_loop';
 
   /**
    * Key option image.
@@ -160,61 +170,114 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
-
+    $form['block_type'] = [
+      '#title' => $this->t('Choose block type'),
+      '#type' => 'select',
+      '#options' => [
+        self::KEY_OPTION_DEFAULT => $this->t('Default'),
+        self::KEY_OPTION_IMAGE => $this->t('Image'),
+        self::KEY_OPTION_VIDEO => $this->t('Video'),
+        self::KEY_OPTION_VIDEO_LOOP => $this->t('Video No Text, CTA'),
+      ],
+      '#default_value' => $config['block_type'] ?? self::KEY_OPTION_DEFAULT,
+    ];
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 15,
-      '#required' => TRUE,
       '#default_value' => $config['eyebrow'] ?? '',
+      '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP],
+        ],
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
+      ],
     ];
     $form['title'] = [
       '#type' => 'details',
       '#title' => $this->t('Title'),
       '#open' => TRUE,
+      '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP],
+        ],
+      ],
     ];
     $form['title']['url'] = [
       '#type' => 'url',
       '#title' => $this->t('Title Link URL'),
       '#maxlength' => 2048,
-      '#required' => TRUE,
       '#default_value' => $config['title']['url'] ?? '',
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
+      ],
     ];
     $form['title']['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title label'),
       '#maxlength' => 50,
-      '#required' => TRUE,
       '#default_value' => $config['title']['label'] ?? '',
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
+      ],
     ];
     $form['cta'] = [
       '#type' => 'details',
       '#title' => $this->t('CTA'),
       '#open' => TRUE,
+      '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP],
+        ],
+      ],
     ];
     $form['cta']['url'] = [
       '#type' => 'url',
       '#title' => $this->t('CTA Link URL'),
       '#maxlength' => 2048,
-      '#required' => TRUE,
       '#default_value' => $config['cta']['url'] ?? '',
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
+      ],
     ];
     $form['cta']['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link Title'),
       '#maxlength' => 15,
-      '#required' => TRUE,
       '#default_value' => $config['cta']['title'] ?? 'Explore',
-    ];
-    $form['block_type'] = [
-      '#title' => $this->t('Choose block type'),
-      '#type' => 'select',
-      '#options' => [
-        'default' => $this->t('Default'),
-        'image' => $this->t('Image'),
-        'video' => $this->t('Video'),
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
       ],
-      '#default_value' => $config['block_type'] ?? 'default',
     ];
 
     $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
@@ -242,13 +305,16 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['background_video']['#open'] = TRUE;
     $form['background_video']['#states'] = [
       'visible' => [
-        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO],
+        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        'or',
+        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
       ],
       'required' => [
-        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO],
+        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        'or',
+        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
       ],
     ];
-
     $form['card'] = [
       '#type' => 'fieldset',
       '#tree' => TRUE,

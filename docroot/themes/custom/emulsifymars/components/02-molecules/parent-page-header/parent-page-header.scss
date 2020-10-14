@@ -14,7 +14,22 @@
     padding: 5rem 4rem 8rem 4rem;
   }
 
- @include medium {
+  .bg-video {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    .ambient-video__control {
+      z-index: 10;
+      top: 15px;
+      left: calc(100% - 75px);
+    }
+  }
+
+  @include medium {
     background-size: 75rem;
     background-position: center -50rem;
   }
@@ -69,7 +84,12 @@
     .parent-page-heading,
     .eyebrow,
     .parent-page-paragraph {
-      color: clr(text-inverse);
+      color: clr(subcolor-3);
+
+      a {
+        color: clr(subcolor-3);
+        text-decoration: none;
+      }
     }
 
     &::after {
@@ -82,6 +102,22 @@
       left: 0;
       background-color: rgba(0, 0, 0, .5);
       z-index: 2
+    }
+  }
+
+  &--with-bg-video {
+    background-position: top center;
+    background-size: cover;
+    padding: 0;
+    .parent-page-heading,
+    .eyebrow,
+    .parent-page-paragraph {
+      color: clr(subcolor-3);
+
+      a {
+        color: clr(subcolor-3);
+        text-decoration: none;
+      }
     }
   }
 }

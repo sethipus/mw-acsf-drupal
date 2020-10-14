@@ -4,7 +4,6 @@ namespace Drupal\salsify_integration\Plugin\QueueWorker;
 
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueWorkerBase;
@@ -40,13 +39,6 @@ class SalsifyEntityTypeUpdate extends QueueWorkerBase implements ContainerFactor
   protected $entityFieldManager;
 
   /**
-   * Entity query factory.
-   *
-   * @var \Drupal\Core\Entity\Query\QueryFactory
-   */
-  protected $entityQuery;
-
-  /**
    * The QueueFactory object.
    *
    * @var \Drupal\Core\Queue\QueueFactory
@@ -62,14 +54,15 @@ class SalsifyEntityTypeUpdate extends QueueWorkerBase implements ContainerFactor
    *   The entity type manager.
    * @param \Drupal\Core\Queue\QueueFactory $queue_factory
    *   The QueueFactory object.
-   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
-   *   The query factory.
    */
-  public function __construct(EntityFieldManagerInterface $entity_field_manager, EntityTypeManagerInterface $entity_type_manager, QueueFactory $queue_factory, QueryFactory $entity_query) {
+  public function __construct(
+    EntityFieldManagerInterface $entity_field_manager,
+    EntityTypeManagerInterface $entity_type_manager,
+    QueueFactory $queue_factory
+  ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
     $this->queueFactory = $queue_factory;
-    $this->entityQuery = $entity_query;
   }
 
   /**
@@ -79,8 +72,7 @@ class SalsifyEntityTypeUpdate extends QueueWorkerBase implements ContainerFactor
     return new static(
       $container->get('entity_field.manager'),
       $container->get('entity_type.manager'),
-      $container->get('queue'),
-      $container->get('entity.query')
+      $container->get('queue')
     );
   }
 
@@ -95,7 +87,9 @@ class SalsifyEntityTypeUpdate extends QueueWorkerBase implements ContainerFactor
     $current_bundle = $data['current']['bundle'];
 
     // Delete the old content before switching out fields.
-    $old_entity_ids = $this->entityQuery->get($original_type)
+    $old_entity_ids = $this->entityTypeManager
+      ->getStorage($original_type)
+      ->getQuery()
       ->exists('salsify_id')
       ->execute();
     $partial_entity_ids = array_chunk($old_entity_ids, 50);

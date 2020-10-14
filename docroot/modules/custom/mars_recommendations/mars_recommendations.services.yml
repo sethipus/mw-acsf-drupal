@@ -15,3 +15,8 @@ services:
     class: Drupal\mars_recommendations\EventSubscriber\PopulationLogicSubscriber
     tags:
       - { name: event_subscriber }
+
+  mars_recommendations.manual_page_subscriber:
+    class: Drupal\mars_recommendations\EventSubscriber\ManualPagesSubscriber
+    tags:
+      - { name: event_subscriber }

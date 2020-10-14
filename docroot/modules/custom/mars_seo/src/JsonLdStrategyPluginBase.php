@@ -69,7 +69,7 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
       /** @var \Drupal\node\NodeInterface $node */
       $node = $this->getContextValue('node');
 
-      return in_array($node->bundle(), $this->supportedBundles());
+      return empty($this->supportedBundles()) || in_array($node->bundle(), $this->supportedBundles());
     }
     catch (PluginException $e) {
       return FALSE;

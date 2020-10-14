@@ -60,7 +60,7 @@ class MediaHelper {
    *   Media parameters.
    */
   public function getMediaParametersById($media_id, $absolute_urls = FALSE) {
-    if (empty($media_id) || !($entity = $this->mediaStorage->load($media_id))) {
+    if (empty($media_id) || empty($entity = $this->mediaStorage->load($media_id))) {
       return ['error' => TRUE, 'message' => $this->t('Media not found.')];
     }
 
@@ -102,6 +102,10 @@ class MediaHelper {
         ];
 
       case 'video_file':
+        if (!$entity->field_media_image || !$entity->field_media_image->target_id) {
+          return ['error' => TRUE, 'message' => $this->t('Image not set.')];
+        }
+
         return [
           'video' => TRUE,
           'src' => $entity->field_media_video_file->entity->createFileUrl(!$absolute_urls),
@@ -110,6 +114,10 @@ class MediaHelper {
         ];
 
       case 'video':
+        if (!$entity->field_media_video_embed_field || !$entity->field_media_video_embed_field->target_id) {
+          return ['error' => TRUE, 'message' => $this->t('Image not set.')];
+        }
+
         return [
           'video' => TRUE,
           'src' => $entity->field_media_video_embed_field->value,

@@ -233,6 +233,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       $recipe_media_set = [
         'srcset' => sprintf($format, $media_file_url, $media_file_url, $media_file_url, $media_file_url),
         'src' => $media_file_url,
+        'alt' => $media_params['alt'] ?? '',
       ];
     }
     return $recipe_media_set;
@@ -256,6 +257,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $form['recipe_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Recipe title'),
+      '#description' => $this->t('Recipe title is by default pulled from the selected recipe. In case you need to change the title, please add Recipe title in the field above to override it.'),
       '#maxlength' => 60,
       '#default_value' => $config['recipe_title'] ?? '',
     ];

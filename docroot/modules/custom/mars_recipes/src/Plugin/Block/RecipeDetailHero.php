@@ -112,9 +112,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build = [
       '#label' => $node->label(),
       '#description' => $node->field_recipe_description->value,
-      '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
-      '#ingredients_number' => $node->field_recipe_ingredients_number->value . $node->get('field_recipe_ingredients_number')->getSettings()['suffix'],
-      '#number_of_servings' => $node->field_recipe_number_of_servings->value . $node->get('field_recipe_number_of_servings')->getSettings()['suffix'],
+      '#cooking_time' => $node->field_recipe_cooking_time->value,
+      '#ingredients_number' => $node->field_recipe_ingredients_number->value,
+      '#number_of_servings' => $node->field_recipe_number_of_servings->value,
       '#theme' => 'recipe_detail_hero_block',
     ];
 
