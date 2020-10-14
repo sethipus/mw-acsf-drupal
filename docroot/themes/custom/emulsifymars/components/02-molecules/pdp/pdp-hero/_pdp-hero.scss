@@ -516,19 +516,6 @@
     }
   }
 
-  .pdp-hero-menu-container {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    margin-bottom: 0;
-    bottom: 0;
-    width: 100%;
-
-    @include large {
-      width: auto;
-    }
-  }
-
   &__nutrition-menu,
   &__allergen-menu,
   &__more-info-menu {
@@ -543,7 +530,6 @@
     text-align: center;
     background: $white;
     border-bottom: 0;
-    border-top-left-radius: 20px;
     color: clr(secondary);
     cursor: pointer;
     margin: 0;
@@ -557,12 +543,9 @@
   }
 
   &__nutrition-menu {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
     width: 100%;
 
     @include large {
-      border-top-right-radius: 0;
       width: auto;
     }
 
@@ -584,8 +567,6 @@
 
   &__allergen-menu {
     color: #c4c4c4;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
     display: none;
     
     &:hover {
@@ -610,8 +591,6 @@
 
   &__more-info-menu {
     color: #c4c4c4;
-    border-top-left-radius: 0;
-    border-top-right-radius: 20px;
     display: none;
 
     &:hover {
@@ -620,6 +599,28 @@
 
     @include large {
       display: block;
+    }
+  }
+
+  .pdp-hero-menu-container {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    margin-bottom: 0;
+    bottom: 0;
+    width: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+
+    @include large {
+      width: auto;
+    }
+
+    & h5:last-child {
+      &::after {
+        display: none;
+      }
     }
   }
 }

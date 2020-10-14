@@ -36,6 +36,24 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         });
       });
 
+      let $nutritionContainer = $('.pdp-nutrition');
+      let $allergenContainer = $('.pdp-allergen');
+      let $moreInfoContainer = $('.pdp-more-information');
+      let $pdpMenuContainer = $('.pdp-hero-menu-container');
+
+      $pdpMenuContainer.once('pdpBody').click(event => {
+        if (event.target.className === 'pdp-hero__nutrition-menu') {
+          let nutritionPosition =$nutritionContainer.offset().top;
+          $(context).scrollTop(nutritionPosition);
+        } else if (event.target.className === 'pdp-hero__allergen-menu'){
+          let allergenPosition =$allergenContainer.offset().top;
+          $(context).scrollTop(allergenPosition);
+        } else if (event.target.className === 'pdp-hero__more-info-menu') {
+          let moreInfoPosition =$moreInfoContainer.offset().top;
+          $(context).scrollTop(moreInfoPosition);
+        }
+      })
+      
       //size control
       function updateSizeSlider(event, sizeId) {
         event.preventDefault();
