@@ -1,7 +1,9 @@
 {% set pp_header_base_class = pp_header_base_class|default('parent-page-header') %}
 
-{% if parent_page_media_url %}
+{% if parent_page_media_url and parent_page_media_type == 'image' %}
   {% set pp_header_modifiers = ['with-bg-media'] %}
+{% elseif parent_page_media_url and parent_page_media_type == 'video' %}
+  {% set pp_header_modifiers = ['with-bg-video'] %}
 {% endif %}
 
 <section

@@ -99,6 +99,12 @@
   }
 
     @include medium {
+      flex-flow: row wrap;
+      flex-grow: 1;
+      align-items: stretch;
+    }
+
+    @include large {
       flex-flow: row nowrap;
       flex-grow: 1;
     }
@@ -156,6 +162,14 @@
   & .grid__item {
     display: flex;
     flex-flow: column;
+
+    @include medium {
+      flex: 1 1 50%;
+    }
+
+    @include large {
+      flex: 1 1 100%;
+    }
 
     & .cta-wrapper {
       margin-top: auto;
