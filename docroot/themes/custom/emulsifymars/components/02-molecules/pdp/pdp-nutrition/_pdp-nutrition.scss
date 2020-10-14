@@ -2,6 +2,21 @@
   position: relative;
   padding: 3rem 2rem;
   background: $white;
+  padding-top: 14rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -.4px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-color: rgba(87, 189, 244, 0.7);
+  
+    @include medium {
+      content: none;
+    }
+  }
   
   @include medium {
     padding: 4rem;
@@ -9,6 +24,41 @@
   
   @include large {
     padding: 8rem 4rem 4rem;
+  }
+
+  &__header {
+    position: absolute;
+    top: 7.7rem;
+    left: 2rem;
+    right: 2rem;
+    display: block;
+    margin: 0;
+    padding: 2.3rem 2.3rem 0;
+    font-family: variable(primary-font);
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: 0.96px;
+    text-transform: uppercase;
+    text-align: center;
+    background: $white;
+    border-bottom: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: clr(secondary);
+  
+    @include medium {
+      top: -4.3rem;
+      left: 10rem;
+      right: 10rem;
+    }
+    
+    @include large {
+      top: -5.1rem;
+      left: 4rem;
+      right: auto;
+      padding: 2.7rem 2.8rem 0;
+      font-size: 2.4rem;
+    }
   }
 
   &__container {

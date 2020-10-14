@@ -369,9 +369,11 @@
 
     &-container {
       padding: 1.8rem 0 .2rem 0;
+      height: 80vh;
       
       @include medium {
         padding: 1rem 0 2rem;
+        height: auto;
       }
     }
 
