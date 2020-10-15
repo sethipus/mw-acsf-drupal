@@ -31,6 +31,9 @@ validate:
     functions:
       - bem
       - add_attributes
+    filters:
+      - entityMainMediaId
+      - mediaParamsById
 tests:
   phpunit:
     -
