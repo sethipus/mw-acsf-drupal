@@ -70,6 +70,9 @@
         "acquia/blt-require-dev": "11.x-dev",
         "symfony/phpunit-bridge": "^5.1"
     },
+    "require-global": {
+        "drush/drush": "7.*"
+    },
     "config": {
         "platform": {
             "php": "7.3"
