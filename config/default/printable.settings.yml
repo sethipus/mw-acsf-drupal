@@ -13,8 +13,8 @@ printable_entities:
   media: '0'
   page_variant: '0'
   path_alias: '0'
-  poll: '0'
   poll_choice: '0'
+  poll: '0'
   redirect: '0'
   search_api_task: '0'
   shortcut: '0'
@@ -23,7 +23,7 @@ printable_entities:
   user: '0'
   menu_link_content: '0'
 open_target_blank: true
-css_include: ''
+css_include: themes/custom/emulsifymars/dist/css/print.css
 extract_links: '0'
 save_pdf: false
 pdf_tool: mPDF
