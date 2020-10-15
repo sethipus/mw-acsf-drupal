@@ -107,6 +107,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    * {@inheritdoc}
    */
   public function build() {
+    /** @var \Drupal\node\Entity\Node $node */
     $node = $this->getContextValue('node');
 
     $build = [
@@ -131,8 +132,15 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-hero-border');
     $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
 
-    if ($node->hasField('field_recipe_video') && $node->field_recipe_video->entity) {
-      $build['#video'] = $node->field_recipe_video->entity->get('field_media_video_file')->entity->createFileUrl();
+    if (
+      $node->hasField('field_recipe_video') &&
+      !$node->get('field_recipe_video')->isEmpty()
+    ) {
+      $video_id = $node->get('field_recipe_video')->first()->target_id;
+      $vide_params = $this->mediaHelper->getMediaParametersById($video_id);
+      if (!($vide_params['error'] ?? FALSE) && ($vide_params['src'] ?? FALSE)) {
+        $build['#video'] = $vide_params['src'];
+      }
     }
 
     // Toggle to simplify unit test.
