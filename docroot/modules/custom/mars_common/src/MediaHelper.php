@@ -250,6 +250,15 @@ class MediaHelper {
             ->target_id;
         }
         break;
+
+      case 'content_hub_page':
+        if (!$contentEntity->get('field_content_hub_image')->isEmpty()) {
+          $media_id = $contentEntity
+            ->get('field_content_hub_image')
+            ->first()
+            ->target_id;
+        }
+        break;
     }
     return $media_id;
   }
