@@ -241,6 +241,15 @@ class MediaHelper {
             ->target_id;
         }
         break;
+
+      case 'campaign':
+        if (!$contentEntity->get('field_campaign_image')->isEmpty()) {
+          $media_id = $contentEntity
+            ->get('field_campaign_image')
+            ->first()
+            ->target_id;
+        }
+        break;
     }
     return $media_id;
   }
