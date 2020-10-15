@@ -36,24 +36,22 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         });
       });
 
-      let $nutritionContainer = $('.pdp-nutrition');
-      let $allergenContainer = $('.pdp-allergen');
-      let $moreInfoContainer = $('.pdp-more-information');
-      let $pdpMenuContainer = $('.pdp-hero-menu-container');
-
-      $pdpMenuContainer.once('pdpBody').click(event => {
-        if (event.target.className === 'pdp-hero__nutrition-menu') {
-          let nutritionPosition =$nutritionContainer.offset().top;
-          $(context).scrollTop(nutritionPosition);
-        } else if (event.target.className === 'pdp-hero__allergen-menu'){
-          let allergenPosition =$allergenContainer.offset().top;
-          $(context).scrollTop(allergenPosition);
-        } else if (event.target.className === 'pdp-hero__more-info-menu') {
-          let moreInfoPosition =$moreInfoContainer.offset().top;
-          $(context).scrollTop(moreInfoPosition);
+      $('.pdp-hero-menu-container').once('pdpBody').click(event => {
+        if (event.target.className.indexOf('pdp-hero__nutrition-menu') > -1) {
+          $(context).scrollTop(
+            $('.pdp-nutrition:visible').offset().top
+          );
+        } else if (event.target.className.indexOf('pdp-hero__allergen-menu') > -1) {
+          $(context).scrollTop(
+            $('.pdp-allergen:visible').offset().top
+          );
+        } else if (event.target.className.indexOf('pdp-hero__more-info-menu') > -1) {
+          $(context).scrollTop(
+            $('.pdp-more-information:visible').offset().top
+          );
         }
       })
-      
+
       //size control
       function updateSizeSlider(event, sizeId) {
         event.preventDefault();
@@ -77,7 +75,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       //scroll effects: bubbles, section-select and WTB
       function onScrollEffects() {
         const pdp_size_id = context.querySelector('[data-pdp-size-active="true"]').dataset.pdpSizeId;
-        
+
         const pdp_bubble_1 = context.getElementById(`pdp-hero__bubble_1-${pdp_size_id}`);
         const pdp_bubble_2 = context.getElementById(`pdp-hero__bubble_2-${pdp_size_id}`);
         const pdp_bubble_3 = context.getElementById(`pdp-hero__bubble_3-${pdp_size_id}`);
