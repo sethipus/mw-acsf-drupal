@@ -3,6 +3,13 @@ services:
     class: Drupal\mars_common\MediaHelper
     arguments: ['@entity_type.manager']
 
+  mars_common.media_helper_twig_filters:
+    class: Drupal\mars_common\Twig\MediaHelperFilters
+    arguments:
+      [ '@mars_common.media_helper' ]
+    tags:
+      - { name: twig.extension }
+
   mars_common.theme_configurator_parser:
     class: Drupal\mars_common\ThemeConfiguratorParser
     arguments: [ '@entity_type.manager', '@config.factory' ]
