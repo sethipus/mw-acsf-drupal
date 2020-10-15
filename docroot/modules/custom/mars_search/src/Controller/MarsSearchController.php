@@ -146,11 +146,16 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       '#suggestions' => $suggestions,
       '#cards_view' => $options['cards_view'],
       '#show_all' => $show_all,
+      '#empty_text' => $this->t('There are no matching results for "@keys"', ['@keys' => $options['keys']]),
+      '#empty_text_description' => $empty_text_description ? $empty_text_description : $this->t('Please try entering different search'),
       '#no_results' => $this->getSearchNoResult(
         $this->t('There are no matching results for "@keys"', ['@keys' => $options['keys']]),
         $empty_text_description ? $empty_text_description : $this->t('Please try entering different search')
       ),
     ];
+    if ($options['cards_view']) {
+      $build['#no_results'] = $this->getSearchNoResult($build['#empty_text'], $build['#empty_text_description']);
+    }
 
     return new JsonResponse($this->renderer->render($build));
   }
