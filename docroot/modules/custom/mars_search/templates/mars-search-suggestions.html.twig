@@ -39,7 +39,14 @@
     </div>
   {% endif %}
 {% else %}
-  <div class="search-cards-container" data-theme="drupal">
-    {{ no_results }}
-  </div>
+  {% if cards_view %}
+    <div class="search-cards-container" data-theme="drupal">
+      {{ no_results }}
+    </div>
+  {% else %}
+    <div class="no-results">
+      <div class="empty-text">{{ empty_text }}</div>
+      <div class="empty-text-description">{{ empty_text_description }}</div>
+    </div>
+  {% endif %}
 {% endif %}

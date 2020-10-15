@@ -289,6 +289,23 @@ function mars_common_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_entity_operation().
+ */
+function mars_common_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if (!(\Drupal::currentUser()->hasPermission('administer polls'))) {
+    return;
+  }
+  $entityTypeId = $entity->getEntityTypeId();
+  if ($entityTypeId === 'poll') {
+    $operations['results'] = [
+      'title' => t('Results'),
+      'url' => Url::fromRoute('mars_common.poll.votes', ['poll' => $entity->id()]),
+      'weight' => 10,
+    ];
+  }
+}
+
+/**
  * Prepares variables for carousel item widget templates.
  *
  * Default template: carousel-item-widget.html.twig.
@@ -989,6 +1006,22 @@ function mars_common_taxonomy_term_presave(TermInterface $term) {
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function mars_common_page_attachments(&$page) {
+  $current_route = Drupal::routeMatch();
+  $route_name = $current_route->getRouteName();
+  $supported_routes = [
+    'layout_builder.overrides.node.view',
+    'layout_builder.defaults.node.view',
+  ];
+
+  if (in_array($route_name, $supported_routes)) {
+    $page['#attached']['library'][] = 'mars_common/mars_common.dialog_fix';
   }
 }
 
