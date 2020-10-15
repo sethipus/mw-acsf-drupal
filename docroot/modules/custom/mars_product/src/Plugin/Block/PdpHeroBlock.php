@@ -350,7 +350,19 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
     $build['#pdp_size_data'] = $this->getSizeData($node);
-    $build['#pdp_data'] = $this->getPdpData($node);
+
+    $node_bundle = $node->bundle();
+    $build['#pdp_bundle_type'] = $node_bundle;
+    switch ($node_bundle) {
+      case 'product_multipack':
+        $build['#pdp_data'] = $this->getPdpMultiPackProductData($node);
+        break;
+
+      case 'product':
+        $build['#pdp_data'] = $this->getPdpSingleProductData($node);
+      default:
+        break;
+    }
 
     $build['#theme'] = 'pdp_hero_block';
     $this->pageAttachments($build);
@@ -359,7 +371,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * Get PDP data.
+   * Get single product PDP data.
    *
    * @param object $node
    *   Product node.
@@ -369,7 +381,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function getPdpData($node) {
+  public function getPdpSingleProductData($node) {
     $items = [];
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
@@ -392,6 +404,49 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         ],
       ];
     }
+
+    return $items;
+  }
+
+  /**
+   * Get multipack product PDP data.
+   *
+   * @param object $node
+   *   Product node.
+   *
+   * @return array
+   *   PDP data array.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  protected function getPdpMultiPackProductData($node) {
+    $items = [];
+
+    $products_data = [];
+    foreach ($node->field_product_pack_items as $product_reference) {
+      $product = $product_reference->entity;
+      $product_variant_first = $product->field_product_variants->first()->entity;
+      $products_data[] = [
+        'product_title'  => $product_variant_first->getTitle(),
+        'product_image'  => 'https://static.hanos.com/sys-master/productimages/he4/h02/9325797310494/28204159.jpg_256Wx256H',
+        'nutrition_data' => [
+          'serving_item' => $this->getServingItems($product_variant_first),
+        ],
+        'allergen_data'  => [
+          'allergens_list' => $this->getVisibleAllergenItems($product_variant_first),
+        ],
+      ];
+    }
+
+    $items[] = [
+      'size_id'   => $node->id(),
+      'active'    => 'true',
+      'hero_data' => [
+        'image_items' => $this->getImageItems($product_variant_first),
+        'mobile_sections_items' => [],
+      ],
+      'products'  => $products_data,
+    ];
 
     return $items;
   }

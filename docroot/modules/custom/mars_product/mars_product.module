@@ -15,6 +15,7 @@ function mars_product_theme($existing, $type, $theme, $path) {
         'pdp_common_data' => [],
         'pdp_size_data' => [],
         'pdp_data' => [],
+        'pdp_bundle_type' => [],
       ],
       'template' => 'pdp-hero-block',
     ],
