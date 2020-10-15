@@ -43,9 +43,9 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     public function loginDrupal()
     {
         echo "pwd: " . shell_exec('pwd') . "\n";
-        $loginUrl = preg_replace('/\n$/', '', shell_exec('cd /vendor/bin; drush uli'));
+        $loginUrl = preg_replace('/\n$/', '', shell_exec('drush uli'));
         echo "loginUrl: " . $loginUrl . "\n";
-        $loginUrl = str_replace( 'https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl );
+        $loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
         echo "http loginUrl: " . $loginUrl;
         $this->visitPath($loginUrl);
         $this->loginUrl = $loginUrl;
@@ -167,6 +167,47 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     {
         $this->assertSession()
             ->elementExists('xpath', $element)->click();
+    }
+
+    /**
+     * Expands area with the given name
+     * Example: Then I expand "Relations" area
+     * Example: And I expand "Relations" area
+     *
+     * @Then /^(?:|I )expand "(?P<areaName>[^"]*)" area/
+     */
+    public function expandArea($areaName)
+    {
+        $this->getSession()
+            ->getDriver()
+            ->click("//*[@aria-expanded='false' and text()='" . $areaName . "']");
+    }
+
+    /**
+     * Click on the link element which href attribute contains the specified value
+     * Example: Then I click link which contains "edit?destination=/admin/structure/taxonomy/manage/mars_flavor/overview"
+     * Example: And I click link which contains "edit?destination=/admin/structure/taxonomy/manage/mars_flavor/overview"
+     *
+     * @Then /^(?:|I )click link which contains "(?P<value>[^"]*)"/
+     */
+    public function clickLink($value)
+    {
+        $xpath = "//a[contains(@href, '" . $value . "')]";
+        $this->getSession()
+            ->getDriver()
+            ->click($xpath);
+    }
+
+    /**
+     * Sleep n seconds
+     * Example: Then I sleep "5" seconds
+     * Example: And I sleep "5" seconds
+     *
+     * @Then /^(?:|I )sleep "(?P<value>[^"]*)" seconds/
+     */
+    public function sleep($seconds)
+    {
+        sleep($seconds);
     }
 
     /**
@@ -611,3 +652,4 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         return $roles;
     }
 }
+
