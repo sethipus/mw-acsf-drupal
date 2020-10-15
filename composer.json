@@ -64,8 +64,7 @@
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
         "nedsbeds/profile_split_enable": "^1.0",
-        "symfony/string": "^5.1",
-        "drush/drush": "10.2.2"
+        "symfony/string": "^5.1"
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev",
