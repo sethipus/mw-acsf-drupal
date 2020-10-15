@@ -259,6 +259,15 @@ class MediaHelper {
             ->target_id;
         }
         break;
+
+      case 'landing_page':
+        if (!$contentEntity->get('field_landing_page_image')->isEmpty()) {
+          $media_id = $contentEntity
+            ->get('field_landing_page_image')
+            ->first()
+            ->target_id;
+        }
+        break;
     }
     return $media_id;
   }
