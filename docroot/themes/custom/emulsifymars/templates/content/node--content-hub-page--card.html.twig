@@ -5,7 +5,10 @@
  */
 #}
 
-{% set image_src = file_url(node.field_content_hub_image.entity.image.entity.fileuri) %}
+{% set image_src = NULL %}
+{% if node.field_content_hub_image.entity.image.entity.fileuri %}
+  {% set image_src = file_url(node.field_content_hub_image.entity.image.entity.fileuri) %}
+{% endif %}
 {% set image_alt = node.field_content_hub_image.entity.image.entity.alt %}
 
 {% include "@molecules/card/recommendations-card/content-hub-card.twig" with {
