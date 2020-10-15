@@ -5,7 +5,10 @@
  */
 #}
 
-{% set image_src = file_url(node.field_campaign_image.entity.image.entity.fileuri) %}
+{% set image_src = NULL %}
+{% if node.field_campaign_image.entity.image.entity.fileuri %}
+  {% set image_src = file_url(node.field_campaign_image.entity.image.entity.fileuri) %}
+{% endif %}
 {% set image_alt = node.field_campaign_image.entity.image.entity.alt %}
 
 {% include "@molecules/card/recommendations-card/campaign-card.twig" with {
