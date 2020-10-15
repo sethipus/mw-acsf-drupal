@@ -5,7 +5,10 @@
  */
 #}
 
-{% set image_src = file_url(node.field_landing_page_image.entity.image.entity.fileuri) %}
+{% set image_src = NULL %}
+{% if node.field_landing_page_image.entity.image.entity.fileuri %}
+  {% set image_src = file_url(node.field_landing_page_image.entity.image.entity.fileuri) %}
+{% endif %}
 {% set image_alt = node.field_landing_page_image.entity.image.entity.alt %}
 
 {% include "@molecules/card/recommendations-card/landing-card.twig" with {
