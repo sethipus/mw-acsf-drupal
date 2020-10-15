@@ -69,15 +69,42 @@ view_modes:
     menu_link_content:
       default: '1'
   node:
+    about_page:
+      default: '1'
+      full: '1'
     article:
+      default: '1'
+      full: '1'
+    campaign:
+      default: '1'
+      full: '1'
+    content_hub_page:
+      default: '1'
+      full: '1'
+    error_page:
       default: '1'
       full: '1'
     faq:
       default: '1'
       full: '1'
+    faq_contact:
+      default: '1'
+      full: '1'
+    homepage:
+      default: '1'
+      full: '1'
+    landing_page:
+      default: '1'
+      full: '1'
+    newsletter_sign_up:
+      default: '1'
+      full: '1'
     recipe:
       default: '1'
       full: '1'
+  path_alias:
+    path_alias:
+      default: '1'
   poll:
     poll:
       default: '1'

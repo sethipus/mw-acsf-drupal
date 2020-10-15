@@ -191,7 +191,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     if (!empty($config['content_type'])) {
       $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
       $grid_options['filters']['type'][$grid_id] = $config['content_type'];
-      $grid_options['filters']['options_logic'] = $config['general_filters']['options_logic'];
+      $grid_options['filters']['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
     }
 
     // Populate top results items before other results.
@@ -229,7 +229,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
           ];
         }
       }
-      $searchOptions['options_logic'] = $config['general_filters']['options_logic'];
+      $searchOptions['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
     }
 
     // Getting and building search results.
