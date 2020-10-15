@@ -225,7 +225,7 @@ class MediaHelper {
             ->first()
             ->target_id;
         }
-        elseif (!$variant->get('field_product_key_image_override')->isEmpty()) {
+        elseif (!$variant->get('field_product_key_image')->isEmpty()) {
           $media_id = $variant
             ->get('field_product_key_image')
             ->first()
