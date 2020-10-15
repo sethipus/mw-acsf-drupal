@@ -12,6 +12,9 @@ import { useEffect } from '@storybook/client-api';
 import '../../03-organisms/pdp-body/pdp-body';
 import './pdp-multipack/pdp-multipack';
 
+import pdpMultipackDetails from './pdp-multipack-details/pdp-multipack-details.twig';
+import pdpMultipackDetailsData from './pdp-multipack-details/pdp-multipack-details.yml';
+
 /**
  * Storybook Definition.
  */
@@ -35,4 +38,8 @@ export const pdpAllergenModule = () => {
 export const pdpMultipackModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: pdpMultipack(pdpMultipackData) }} />
+};
+
+export const pdpMultipackDetailsModule = () => {
+  return <div dangerouslySetInnerHTML={{ __html: pdpMultipackDetails(pdpMultipackDetailsData) }} />
 };
