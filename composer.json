@@ -65,7 +65,7 @@
         "mikemadison13/blt-azure-pipelines": "dev-master",
         "nedsbeds/profile_split_enable": "^1.0",
         "symfony/string": "^5.1",
-        "drush/drush": "9.5.0"
+        "drush/drush": "10.2.2"
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev",
@@ -147,7 +147,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Example\\": "blt/src/"        }
+            "Acquia\\Blt\\Overrides\\": "blt/src/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
