@@ -7,7 +7,7 @@ Feature: Product Test
 #    And I am on "media/add/image"
 #    And I attach the file "icon.png" to "Add a new file"
 #    And I wait for the ajax response
-#    TODO How to wait for picture to be loaded properly after it's added to the field
+#    TODO: Wait for picture to be loaded properly after it's added to the field
 #    And I fill in "Name" with "icon"
 #    And I press "Save"
 #    Then save a screenshot
