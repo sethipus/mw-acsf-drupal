@@ -1,6 +1,6 @@
 .pdp-multipack-details {
   position: relative;
-  margin-bottom: 8rem;
+  margin-bottom: 4rem;
 
   &::after {
     content: '';
@@ -15,15 +15,29 @@
 
   &__header {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 37.7rem;
+
+    @include xs {
+      flex-direction: column;
+    }
+
+    @include medium {
+      flex-direction: row;
+      height: 37.7rem;
+    }
   }
 
   &__image {
     max-width: 23.5rem;
-    margin: 0 3rem;
+
+    @include xs {
+      margin: 3rem auto;
+    }
+
+    @include medium {
+      margin: 0 3rem;
+    }
   }
 
   &__heading {
@@ -33,13 +47,28 @@
     line-height: 2.64rem;
     letter-spacing: 0.12rem;
     max-width: 37.8rem;
-    margin: 0 3rem;
     text-align: center;
+
+    @include xs {
+      margin: 3rem auto;
+    }
+
+    @include medium {
+      margin: 0 3rem;
+    }
   }
 
   @include large {
     .pdp-allergen {
       padding: 3.6rem 4rem 8rem;
     }
+
+    .pdp-nutrition {
+      padding: 2rem 4rem 4rem;
+    }
+  }
+
+  .pdp-nutrition__header {
+    display: none;
   }
 }
