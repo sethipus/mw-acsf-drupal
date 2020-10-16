@@ -601,6 +601,9 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__flexible_framer(array &$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
   $field_ff_items = $variables['content']['field_ff_items_reference'];
   $field_ff_title = $variables['content']['field_ff_title']['#items']->value;
 
@@ -615,7 +618,6 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
       $item_block = $item_value['#options']['entity'];
       $field_desc_val = $item_block->get('field_ff_item_description')->value;
       $field_title_val = $item_block->get('field_ff_item_title')->value;
-      $field_image_val = $item_block->get('field_ff_item_image')->getValue();
       $field_cta_val = $item_block->get('field_ff_item_cta')->value;
 
       $item = [
@@ -625,25 +627,24 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
         'card__body' => ($with_desc_flag) ? $field_desc_val : NULL,
       ];
 
-      if (isset($field_image_val[0])) {
-        $file_uri = Drupal::entityTypeManager()
-          ->getStorage('file')
-          ->load($field_image_val[0]['target_id'])
-          ->getFileUri();
+      if ($with_image_flag && !$item_block->get('field_ff_item_image')->isEmpty()) {
+        $media_id = $item_block
+          ->get('field_ff_item_image')
+          ->first()
+          ->target_id;
 
-        $file_url = Url::fromUri(file_create_url($file_uri));
-        $image_alt = $field_image_val[0]['alt'];
-        $image_title = $field_image_val[0]['title'];
-
-        $item['card__image__src'] = ($with_image_flag) ? $file_url->getUri() : NULL;
-        $item['card__image__alt'] = ($with_image_flag) ? $image_alt : NULL;
-        $item['card__image__title'] = ($with_image_flag) ? $image_title : NULL;
+        $media_params = $media_helper->getMediaParametersById($media_id);
+        if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+          $item['card__image__src'] = $media_params['src'];
+          $item['card__image__alt'] = $media_params['alt'];
+          $item['card__image__title'] = $media_params['title'];
+        }
       }
 
       $ff_items[] = $item;
     }
   }
-
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
   $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
