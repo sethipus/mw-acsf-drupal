@@ -14,20 +14,11 @@
     } %}
     {% for pdp_product in pdp_item.products %}
       <!-- PDP Multipack Product Header -->
-      {% include "@molecules/pdp/pdp-multipack-product-header/pdp-multipack-product-header.twig" with {
-        size_id: pdp_item.size_id,
+      {% include "@molecules/pdp/pdp-multipack-details/pdp-multipack-details.twig" with {
         product_title: pdp_product.product_title,
         product_image: pdp_product.product_image,
-      } %}
-      <!-- PDP Nutrition -->
-      {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
-        size_id: pdp_item.size_id,
         pdp_nutrition_data: pdp_product.nutrition_data,
         pdp_common_nutrition_data: pdp_common_data.nutrition_data,
-      } %}
-      <!-- PDP Allergen -->
-      {% include "@molecules/pdp/pdp-allergen/pdp-allergen.twig" with {
-        size_id: pdp_item.size_id,
         pdp_allergen_data: pdp_product.allergen_data,
         pdp_common_allergen_data: pdp_common_data.allergen_data,
       } %}

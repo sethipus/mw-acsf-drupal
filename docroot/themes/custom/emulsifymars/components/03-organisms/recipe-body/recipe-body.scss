@@ -3,7 +3,7 @@
   position: relative;
 
   @include medium {
-    padding: 40px 40px 30px;
+    padding: 40px 0 30px;
   }
 
   @include xl {
@@ -71,7 +71,6 @@
     padding: 0;
   }
 
-
   .recipe-body-content-header {
     margin: 31px 0 13px;
     font: 20px/1.1em variable(primary-font);
@@ -84,12 +83,10 @@
       margin: 31px 0 24px;
       font-size: 26px;
       line-height: 29px;
-      padding: 0 40px;
+      padding: 0;
     }
 
     @include xl {
-      margin-right: auto;
-      margin-left: auto;
       font-size: 28px;
       line-height: 31px;
       max-width: 1125px;
@@ -103,16 +100,14 @@
     font: 18px/29px variable(secondary-font);
     color: clr(primary);
     letter-spacing: -1.1px;
-    padding: 0 15px;
+    padding: 0;
     margin: 13px 0 60px;
 
     @include medium {
-      padding: 0 40px;
+      padding: 0;
     }
 
     @include xl {
-      margin-right: auto;
-      margin-left: auto;
       font-size: 20px;
       line-height: 36px;
       max-width: 1125px;
@@ -152,7 +147,7 @@
     padding: 0 15px;
 
     @include medium {
-      padding: 0 40px;
+      padding: 0;
     }
 
     @include xl {
