@@ -556,24 +556,45 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__full_width_video(array &$variables) {
-  if (!empty($variables['content']['field_full_video_svg_asset']['#items'])) {
-    $field_shape_motif = $variables['content']['field_full_video_svg_asset']['#items']->value;
-    $variables['shape_motif'] = (bool) $field_shape_motif;
-  }
-  if (!empty($variables['content']['field_full_video_description']['#items'])) {
-    $field_video_desc = $variables['content']['field_full_video_description']['#items']->value;
-    $variables['description'] = $field_video_desc;
-  }
-  if (!empty($variables['content']['field_full_video_title']['#items'])) {
-    $field_heading = $variables['content']['field_full_video_title']['#items']->value;
-    $variables['heading'] = $field_heading;
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
+
+  if (!$block->get('field_full_video')->isEmpty()) {
+    $media_id = $block
+      ->get('field_full_video')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['media']['video'] = TRUE;
+      $variables['media']['src'] = $media_params['src'];
+    }
   }
 
-  $field_video_url = $variables['content']['field_full_video_path']['#items']->value;
-  $variables['media'] = [
-    'video' => TRUE,
-    'src' => $field_video_url,
-  ];
+  if (!$block->get('field_full_video_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_full_video_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_video_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_full_video_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_video_title')->isEmpty()) {
+    $variables['heading'] = $block
+      ->get('field_full_video_title')
+      ->first()
+      ->value;
+  }
 }
 
 /**
