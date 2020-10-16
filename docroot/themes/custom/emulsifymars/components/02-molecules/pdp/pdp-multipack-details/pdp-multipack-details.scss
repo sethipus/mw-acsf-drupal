@@ -13,6 +13,12 @@
     background-color: rgba(var(--c-subcolor-4-rgb), 0.4);
   }
 
+  &:last-child {
+    &::after {
+      display: none;
+    }
+  }
+
   &__header {
     display: flex;
     justify-content: center;
