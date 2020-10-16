@@ -553,15 +553,23 @@
   &__nutrition-menu,
   &__allergen-menu {
     @include large {
-      &::after {
-        content: '';
-        position: absolute;
-        display: block;
-        width: 1px;
-        height: 2rem;
-        background-color: #c4c4c4;
-        bottom: 0.3rem;
-        right: 1px;
+      @include large {
+        &::after {
+          content: '';
+          position: absolute;
+          display: block;
+          width: 1px;
+          height: 2rem;
+          background-color: #c4c4c4;
+          bottom: 0.3rem;
+          right: 1px;
+        }
+
+        &:last-child {
+          &::after {
+            display: none;
+          }
+        }
       }
 
       &:last-child {
