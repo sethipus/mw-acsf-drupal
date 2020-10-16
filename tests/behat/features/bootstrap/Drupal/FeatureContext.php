@@ -26,6 +26,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function __construct()
     {
+      if (strcmp(shell_exec('drush uli'), "") == 0) {
+        echo "Installing drush/drush:10.2.2...";
+        shell_exec('composer global require drush/drush:10.2.2');
+        $isComposerInstalled = TRUE;
+      }
     }
 
     /**
@@ -42,14 +47,14 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function loginDrupal()
     {
-        echo "pwd: " . shell_exec('pwd') . "\n";
+        //echo "pwd: " . shell_exec('pwd') . "\n";
 
-        echo "which drush is: " . shell_exec('which drush') . "\n";
+        //echo "which drush is: " . shell_exec('which drush') . "\n";
 
         $loginUrl = preg_replace('/\n$/', '', shell_exec('cd /home/vsts/work/1/s/vendor/bin; drush uli'));
-        echo "loginUrl: " . $loginUrl . "\n";
+        //echo "loginUrl: " . $loginUrl . "\n";
         $loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
-        echo "http loginUrl: " . $loginUrl;
+        //echo "http loginUrl: " . $loginUrl;
 
 
         $this->visitPath($loginUrl);
