@@ -19,13 +19,6 @@ function mars_product_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'pdp-hero-block',
     ],
-    'pdp_product_multipack_block' => [
-      'variables' => [
-        'multipack_label' => NULL,
-        'multipack_view' => NULL,
-      ],
-      'template' => 'pdp-product-multipack-block',
-    ],
     'product_content_pair_up_block' => [
       'variables' => [
         'title' => NULL,

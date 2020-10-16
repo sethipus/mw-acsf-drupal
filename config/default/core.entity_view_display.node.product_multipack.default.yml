@@ -67,19 +67,6 @@ third_party_settings:
                 node: layout_builder.entity
             additional: {  }
             weight: 0
-          70cf8e0e-767c-45f3-9085-ca7e7b5d2dda:
-            uuid: 70cf8e0e-767c-45f3-9085-ca7e7b5d2dda
-            region: content
-            configuration:
-              id: pdp_product_multipack_block
-              label: 'MARS: Multipack Products'
-              provider: mars_product
-              label_display: '1'
-              multipack_label: 'What''s in the pack'
-              context_mapping:
-                node: layout_builder.entity
-            additional: {  }
-            weight: 1
           929f0b72-723a-40ec-a098-f3aa161dc4a2:
             uuid: 929f0b72-723a-40ec-a098-f3aa161dc4a2
             region: content
@@ -243,7 +230,6 @@ third_party_settings:
             Menus: {  }
             'Moderation Dashboard': {  }
             Product:
-              - pdp_product_multipack_block
               - pdp_hero_block
             Recipe:
               - recipe_feature_block
@@ -272,7 +258,6 @@ third_party_settings:
             Menus: {  }
             'Moderation Dashboard': {  }
             Product:
-              - pdp_product_multipack_block
               - pdp_hero_block
             Recipe: {  }
             'Social feed': {  }
