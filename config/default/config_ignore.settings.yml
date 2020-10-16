@@ -4,7 +4,7 @@ ignored_config_entities:
   - 'system.site:page.front'
   - acquia_connector.settings
   - samlauth.authentication
-  - onetrust.settings
+  - mars_onetrust.settings
   - mars_entry_gate.settings
   - 'juicer_io.feed.*'
   - emulsifymars.settings

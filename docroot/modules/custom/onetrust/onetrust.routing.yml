@@ -1,7 +1,0 @@
-onetrust.form:
-  path: '/admin/config/services/onetrust'
-  defaults:
-    _form: 'Drupal\onetrust\Form\OneTrustConfigForm'
-    _title: 'OneTrust integration settings'
-  requirements:
-    _permission: 'administer site configuration'
