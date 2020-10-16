@@ -1,0 +1,8 @@
+name: OneTrust integration
+description: Defines an integration between OneTrust and Drupal.
+package: Web services
+core_version_requirement: '^8.8 || ^9'
+
+type: module
+
+configure: onetrust.form
