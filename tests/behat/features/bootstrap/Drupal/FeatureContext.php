@@ -29,6 +29,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       if (strcmp(shell_exec('drush uli'), "") == 0) {
         echo "Installing drush/drush:10.2.2...";
         shell_exec('composer global require drush/drush:10.2.2');
+        shell_exec('export PATH="$HOME/.composer/vendor/bin:$PATH"');
         $isComposerInstalled = TRUE;
       }
     }
