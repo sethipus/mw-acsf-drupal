@@ -420,17 +420,17 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   protected function getPdpMultiPackProductData($node) {
-    $items = [];
-
     $products_data = [];
     foreach ($node->field_product_pack_items as $product_reference) {
       $product = $product_reference->entity;
       $product_variant_first = $product->field_product_variants->first()->entity;
+      $serving_items = $this->getServingItems($product_variant_first);
       $products_data[] = [
         'product_title'  => $product_variant_first->getTitle(),
         'product_image'  => 'https://static.hanos.com/sys-master/productimages/he4/h02/9325797310494/28204159.jpg_256Wx256H',
         'nutrition_data' => [
-          'serving_item' => $this->getServingItems($product_variant_first),
+          'serving_item' => $serving_items,
+          'serving_item_empty' => $this->isServingItemsEmpty($serving_items),
         ],
         'allergen_data'  => [
           'allergens_list' => $this->getVisibleAllergenItems($product_variant_first),
@@ -438,15 +438,23 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ];
     }
 
-    $items[] = [
-      'size_id'   => $node->id(),
-      'active'    => 'true',
-      'hero_data' => [
-        'image_items' => $this->getImageItems($product_variant_first),
-        'mobile_sections_items' => [],
-      ],
-      'products'  => $products_data,
-    ];
+    $items = [];
+    $i = 0;
+    foreach ($node->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $size_id = $product_variant->id();
+      $i++;
+      $state = $i == 1 ? 'true' : 'false';
+      $items[] = [
+        'size_id' => $size_id,
+        'active' => $state,
+        'hero_data' => [
+          'image_items' => $this->getImageItems($product_variant),
+          'mobile_sections_items' => [],
+        ],
+        'products'  => $products_data,
+      ];
+    }
 
     return $items;
   }
@@ -570,6 +578,27 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $result_item;
+  }
+
+  /**
+   * Check serving items is empty or not.
+   *
+   * @param array $serving_items
+   *   serving items - results of getServingItems.
+   *
+   * @return bool
+   *   reflects serving items empty or non-empty state.
+   */
+  public function isServingItemsEmpty(array $serving_items) {
+    if (
+      empty($serving_items['ingredients_value'] ?? NULL) &&
+      empty($serving_items['warnings_value'] ?? NULL) &&
+      empty($serving_items['serving_size']['value'] ?? NULL) &&
+      empty($serving_items['serving_per_container']['value'] ?? NULL)
+    ) {
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /**
