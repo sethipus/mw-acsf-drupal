@@ -17,15 +17,17 @@
     } %}
   </div>
 
-  <div {{ bem('media', [], card_base_class) }}>
-    <a href={{ media_url }}>
-      {% include "@atoms/images/image/_image.twig" with {
-        output_image_tag: true,
-        image_alt: card_image_alt,
-        image_src: card_image_src,
-        responsive_image_blockname: 'content_hub_image',
-      } %}
-    </a>
-  </div>
+  {% if card_image_src %}
+    <div {{ bem('media', [], card_base_class) }}>
+      <a href={{ media_url }}>
+        {% include "@atoms/images/image/_image.twig" with {
+          output_image_tag: true,
+          image_alt: card_image_alt,
+          image_src: card_image_src,
+          responsive_image_blockname: 'content_hub_image',
+        } %}
+      </a>
+    </div>
+  {% endif %}
 
 </section>
