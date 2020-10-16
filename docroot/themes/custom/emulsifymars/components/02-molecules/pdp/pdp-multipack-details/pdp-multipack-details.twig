@@ -5,9 +5,9 @@
   <div {{ bem('header', [], pdp_multipack_details_base_class) }} >
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
-      image_alt: 'Product image',
+      image_alt: product_image_alt,
       image_sizes: '212px',
-      image_src: product_image,
+      image_src: product_image_src,
       responsive_image_blockname: 'pdp-multipack-details'
     } %}
 
@@ -21,6 +21,7 @@
   {% if pdp_nutrition_data %}
     <div {{ bem('nutrition', [], pdp_multipack_details_base_class) }} >
       {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
+        size_id: size_id,
         pdp_nutrition_data: pdp_nutrition_data
       } %}
     </div>
@@ -28,6 +29,7 @@
 
   <div {{ bem('allergens', [], pdp_multipack_details_base_class) }} >
     {% include "@molecules/pdp/pdp-allergen/pdp-allergen.twig" with {
+      size_id: size_id,
       pdp_common_allergen_data: pdp_common_allergen_data,
       pdp_allergen_data: pdp_allergen_data
     } %}

@@ -185,7 +185,7 @@
 
     @include medium {
       flex-direction: column;
-      padding: 4rem 10rem 9.5rem;
+      padding: 4rem 4rem 9.5rem;
     }
 
     @include large {
@@ -264,7 +264,7 @@
     color: clr(primary);
 
     @include medium {
-      margin: 21.4rem 13.8rem 10rem 11.8rem;
+      margin: 2rem 13.8rem 10rem 11.8rem;
     }
 
     @include large {
@@ -356,7 +356,7 @@
       padding: 1.8rem 0 .2rem 0;
 
       @include medium {
-        padding: 1rem 0 18rem;
+        padding: 1rem 0 2rem;
       }
     }
 
@@ -415,9 +415,13 @@
   }
 
   &__sections-item {
-    flex: 0 1 30%;
-    display: flex;
-    justify-content: center;
+    width: 100%;
+  }
+
+  .default-link__label {
+    display: inline-block;
+    position: relative;
+    width: 100%;
   }
 
   &__slider-container {
@@ -603,6 +607,8 @@
     width: 100%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+    border: 1px solid #c4c4c4;
+    border-bottom: none;
     overflow: hidden;
 
     @include large {
@@ -657,6 +663,8 @@
 
   &--pdp-hero {
     width: 100%;
+    display: flex;
+    justify-content: center;
 
     @include large {
       display: inline-block;
@@ -684,12 +692,7 @@
     background-color: clr(subcolor-3);
     color: clr(secondary);
     height: 6rem;
-    width: 10.6rem;
-
-    @include medium {
-      height: 6rem;
-      width: 17rem;
-    }
+    width: 100%;
 
     &:hover {
       color: clr(subcolor-3);

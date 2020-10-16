@@ -239,7 +239,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $form['more_information']['show_more_information_label'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Show More Information'),
-      '#default_value' => $this->configuration['more_information']['show_more_information_label'] ?? FALSE,
+      '#default_value' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
     ];
     $form['use_background_color'] = [
       '#type' => 'checkbox',
@@ -425,14 +425,22 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $product = $product_reference->entity;
       $product_variant_first = $product->field_product_variants->first()->entity;
       $serving_items = $this->getServingItems($product_variant_first);
+
+      $product_image = $product_variant_first->field_product_key_image_override ?? $product_variant_first->field_product_key_image;
+      $product_image_entity = $product_image->entity ? $product_image->entity->image : NULL;
+      $file = $product_image_entity ? $this->fileStorage->load($product_image_entity->target_id) : NULL;
+      $image_src = $file ? $file->createFileUrl() : NULL;
+      $image_alt = $product_image_entity ? $product_image_entity[0]->alt : NULL;
+
       $products_data[] = [
-        'product_title'  => $product_variant_first->getTitle(),
-        'product_image'  => 'https://static.hanos.com/sys-master/productimages/he4/h02/9325797310494/28204159.jpg_256Wx256H',
+        'product_title' => $product_variant_first->getTitle(),
+        'product_image_src' => $image_src,
+        'product_image_alt' => $image_alt,
         'nutrition_data' => [
           'serving_item' => $serving_items,
           'serving_item_empty' => $this->isServingItemsEmpty($serving_items),
         ],
-        'allergen_data'  => [
+        'allergen_data' => [
           'allergens_list' => $this->getVisibleAllergenItems($product_variant_first),
         ],
       ];
@@ -450,7 +458,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
-          'mobile_sections_items' => [],
+          'mobile_sections_items' => $this->getMobileItems($product_variant),
         ],
         'products'  => $products_data,
       ];
@@ -724,14 +732,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $size_id = $node->id();
 
     $map = [
-      'section-nutrition' => $this->t('Nutrition & Ingredients'),
-      'section-products' => $this->t('Related products'),
+      'section-nutrition' => $this->configuration['nutrition']['label'],
     ];
+    if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
+      $map['section-more-information'] = $this->configuration['more_information']['more_information_label'];
+    }
     if (
       $this->isAllergenVisible() &&
       !$node->field_product_diet_allergens->isEmpty()
     ) {
-      $map['section-allergens'] = $this->t('Diet & Allergens');
+      $map['section-allergen'] = $this->configuration['allergen_label'];
     }
     $items = [];
     foreach ($map as $id => $title) {

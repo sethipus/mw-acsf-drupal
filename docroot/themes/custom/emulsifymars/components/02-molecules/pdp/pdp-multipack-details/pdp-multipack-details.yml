@@ -1,6 +1,9 @@
 theme_styles: 'twix'
 
-product_image: image9@3x.png
+size_id: 1
+
+product_image_src: image9@3x.png
+product_image_alt: 'Image alt'
 product_title: 'DOVE Caramel & Milk Chocolate Candies'
 
 # nutrition related data
