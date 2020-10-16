@@ -730,25 +730,31 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getMobileItems($node) {
     $size_id = $node->id();
-
-    $map = [
-      'section-nutrition' => $this->configuration['nutrition']['label'],
+    $items = [];
+    $items[] = [
+      'title' => $this->configuration['nutrition']['label'],
+      'link_attributes' => [
+        'href' => '#section-nutrition-' . $size_id,
+      ],
     ];
+
     if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
-      $map['section-more-information'] = $this->configuration['more_information']['more_information_label'];
+      $items[] = [
+        'title' => $this->configuration['more_information']['more_information_label'],
+        'link_attributes' => [
+          'href' => '#section-more-information',
+        ],
+      ];
     }
+
     if (
       $this->isAllergenVisible() &&
       !$node->field_product_diet_allergens->isEmpty()
     ) {
-      $map['section-allergen'] = $this->configuration['allergen_label'];
-    }
-    $items = [];
-    foreach ($map as $id => $title) {
       $items[] = [
-        'title' => $title,
+        'title' => $this->configuration['allergen_label'],
         'link_attributes' => [
-          'href' => '#' . $id . '-' . $size_id,
+          'href' => '#section-allergen-' . $size_id,
         ],
       ];
     }

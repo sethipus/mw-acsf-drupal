@@ -192,8 +192,15 @@
       position: static;
     }
 
+    .pdp-hero__sections-container {
+      transition: visibility 0.7s, opacity 0.7s ease-out;
+      visibility: visible;
+      opacity: 1;
+    }
+
     &.sections--hide .pdp-hero__sections-container {
-      display: none;
+      visibility: hidden;
+      opacity: 0;
     }
 
     &.nav--hide {
@@ -416,6 +423,7 @@
 
   &__sections-item {
     width: 100%;
+    margin: 0.5rem;
   }
 
   .default-link__label {
@@ -588,7 +596,7 @@
   &__more-info-menu {
     color: #c4c4c4;
     display: none;
-    
+
     &:hover {
       color: clr(secondary);
     }
@@ -644,6 +652,9 @@
     bottom: 2rem;
     text-align: center;
     z-index: 10;
+    transition: visibility 0.5s, opacity 0.5s ease-out;
+    visibility: visible;
+    opacity: 1;
 
     @include medium {
       left: 4rem;
@@ -658,7 +669,8 @@
   }
 
   &--hide {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
   }
 
   &--pdp-hero {
@@ -680,7 +692,7 @@
   @include medium {
     padding: 0 3.4rem;
   }
-  
+
   &--pdp-sections {
     display: flex;
     align-items: center;
