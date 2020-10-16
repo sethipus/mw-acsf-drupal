@@ -388,7 +388,7 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
           ->load($field_image_val[0]['target_id'])
           ->getFileUri();
 
-        $file_url = Url::fromUri(file_create_url($file_uri));
+        $file_url = file_create_url($file_uri);
         $image_alt = $field_image_val[0]['alt'];
         $image_title = $field_image_val[0]['title'];
 
@@ -457,7 +457,7 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
       ->load($field_image)
       ->getFileUri();
 
-    $file_url = Url::fromUri(file_create_url($file_uri));
+    $file_url = file_create_url($file_uri);
   }
 
   $variables['heading'] = !$variables['content']['field_full_image_title'] ? $variables['content']['field_full_image_title']['#items']->value : NULL;
