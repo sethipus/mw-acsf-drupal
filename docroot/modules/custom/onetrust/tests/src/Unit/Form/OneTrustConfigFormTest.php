@@ -1,18 +1,18 @@
 <?php
 
-namespace Drupal\Tests\mars_onetrust\Unit\Form;
+namespace Drupal\Tests\onetrust\Unit\Form;
 
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\mars_onetrust\Form\OneTrustConfigForm;
+use Drupal\onetrust\Form\OneTrustConfigForm;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @coversDefaultClass \Drupal\mars_onetrust\Form\OneTrustConfigForm
+ * @coversDefaultClass \Drupal\onetrust\Form\OneTrustConfigForm
  * @group mars
  * @group mars_onetrust
  */
@@ -21,7 +21,7 @@ class OneTrustConfigFormTest extends UnitTestCase {
   /**
    * System under test.
    *
-   * @var \Drupal\mars_onetrust\Form\OneTrustConfigForm
+   * @var \Drupal\onetrust\Form\OneTrustConfigForm
    */
   private $oneTrustConfigForm;
 

@@ -10,7 +10,7 @@
 
   'use strict';
 
-  Drupal.behaviors.mars_onetrust = {
+  Drupal.behaviors.onetrust = {
     attach: function () {
       function OptanonWrapper() {
         window.dataLayer.push({
