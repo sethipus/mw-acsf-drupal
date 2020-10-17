@@ -78,6 +78,7 @@ Drupal.behaviors.searchFilterBehaviour = {
     const updateCounters = () => {
       let appliedFilters = [];
       const filterBlocks = context.querySelectorAll('.filter-block');
+      const appliedFiltersContainer = context.querySelector('.search-filter-info');
       const appliedFiltersBlock = context.querySelector('.search-filter-info__applied');
       const appliedFiltersCount = context.querySelector('.search-filter-info__applied-count');
       const appliedFiltersList = context.querySelector('.search-filter-info__applied-text');
@@ -96,9 +97,11 @@ Drupal.behaviors.searchFilterBehaviour = {
       if (appliedFilters.length) {
         appliedFiltersBlock.classList.remove('search-filter-info__applied--hidden');
         clearAllButton.classList.remove('search-filter-block__button--hidden');
+        appliedFiltersContainer.classList.remove('search-filter-info--hidden');
       } else {
         appliedFiltersBlock.classList.add('search-filter-info__applied--hidden');
         clearAllButton.classList.add('search-filter-block__button--hidden');
+        appliedFiltersContainer.classList.add('search-filter-info--hidden');
       }
 
       appliedFiltersCount.innerHTML = appliedFilters.length;
