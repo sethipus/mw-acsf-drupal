@@ -42,7 +42,7 @@
       <a href="#" {{ bem('button', ['highlighted', 'apply'], search_filter_block_base_class) }}>{{ "Apply" | t }}</a>
     </div>
   </div>
-  <div {{ bem(search_filter_information_base_class) }}>
+  <div {{ bem(search_filter_information_base_class, [modifier]) }}>
     <div {{ bem('applied', [modifier], search_filter_information_base_class) }}>
       <div {{ bem('applied-label', [], search_filter_information_base_class) }}>
         {{ "Applied filters (" | t }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | t }}
