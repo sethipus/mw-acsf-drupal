@@ -58,3 +58,4 @@ Feature: Content Test
     Then the url should match "content/node/delete"
     When I press "Delete"
     Then the url should match "admin/content"
+    And I close browser

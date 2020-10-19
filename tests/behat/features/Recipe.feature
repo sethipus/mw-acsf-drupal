@@ -39,4 +39,5 @@ Feature: Recipe Test
 
     #And I click on "//img[contains(@class, 'image-style-medium')]" xpath element
 
+    And I close browser
 

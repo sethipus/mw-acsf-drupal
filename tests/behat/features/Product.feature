@@ -77,3 +77,4 @@ Feature: Product Test
     Then I should see "Are you sure you want to delete the taxonomy term Flavor1?"
     When I press "Delete"
     Then I should see "Deleted term Flavor1."
+    And I close browser

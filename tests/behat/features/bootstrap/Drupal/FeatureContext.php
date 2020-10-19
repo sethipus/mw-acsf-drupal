@@ -49,6 +49,19 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
 
     /**
+         * @Given I close browser
+         *
+         * Examples:
+         * Given I close browser
+         *
+         * @throws \Exception;
+         */
+        public function closeBrowser()
+        {
+          $this->getSession()->executeScript("window.close()");
+        }
+
+    /**
      * Entity Functions.
      */
 
