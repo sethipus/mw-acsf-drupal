@@ -16,7 +16,7 @@ use Drupal\block_content\Entity\BlockContentType;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 {
 
-    public $loginUrl = "";
+    public static $loginUrl;
 
     /**
      * Every scenario gets its own context instance.
@@ -70,28 +70,30 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         //echo "cd ..; ls: " . shell_exec('cd ..; ls') . "\n";
         //echo "cd ../drush; ls: " . shell_exec('cd ../drush; ls') . "\n";
 
-        $domain = $this->getMinkParameter('base_url');
-        echo "domain: " . $domain . "\n";
-        $session = $this->getSession();
-        $session->visit($domain . "/admin");
-        $code = $session->getStatusCode();
+        echo "this login url: " . $this->loginUrl . "\n";
 
-        if ($code != 200) {
-          shell_exec('sudo killall chrome');
-          shell_exec('ps aux | grep chrome');
+        //$domain = $this->getMinkParameter('base_url');
+        //echo "domain: " . $domain . "\n";
+        //$session = $this->getSession();
+        //$session->visit($domain . "/admin");
+        //$code = $session->getStatusCode();
+
+        //if ($code != 200) {
+          //shell_exec('sudo killall chrome');
+          //shell_exec('ps aux | grep chrome');
           echo "cd ../vendor/bin; ls: " . shell_exec('cd ../vendor/bin; ls') . "\n";
           echo "cd ../vendor/drush/drush; ls: " . shell_exec('cd ../vendor/drush/drush; ls') . "\n";
           $domain = $this->getMinkParameter('base_url');
           echo "domain: " . $domain . "\n";
 
-          $loginUrl = preg_replace('/\n$/', '', shell_exec('cd ../vendor/bin; ./drush uli --uri=' .$domain));
-          echo "loginUrl: " . $loginUrl . "\n";
-          $loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
-          echo "http loginUrl: " . $loginUrl . "\n";;
+          $uli = preg_replace('/\n$/', '', shell_exec('cd ../vendor/bin; ./drush uli --uri=' .$domain));
+          echo "uli: " . $uli . "\n";
+          $uli = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $uli);
+          echo "http uli: " . $uli . "\n";;
 
-          $this->getSession()->visit($loginUrl);
-          $this->loginUrl = $loginUrl;
-        }
+          $this->getSession()->visit($uli);
+          $this->loginUrl = $uli;
+        //}
     }
 
     /**

@@ -9,7 +9,17 @@ default:
       browser_name: chrome
       javascript_session: selenium2
       goutte: ~
-      selenium2: ~
+      selenium2:
+        capabilities:
+          chrome:
+            switches:
+              - headless
+              - disable-gpu
+              - no-sandbox
+              - disable-dev-shm-usage
+              - disable-extensions
+              - remote-debugging-address=0.0.0.0
+              - remote-debugging-port=9222
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
       blackbox: ~
