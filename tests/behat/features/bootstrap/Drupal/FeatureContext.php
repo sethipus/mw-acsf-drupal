@@ -62,7 +62,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function loginDrupal()
     {
-        //echo "pwd: " . shell_exec('pwd') . "\n";
+        echo "pwd: " . shell_exec('pwd') . "\n";
 
         echo "which drush is: " . shell_exec('which drush') . "\n";
 
