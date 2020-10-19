@@ -70,7 +70,15 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         //echo "cd ..; ls: " . shell_exec('cd ..; ls') . "\n";
         //echo "cd ../drush; ls: " . shell_exec('cd ../drush; ls') . "\n";
 
-        shell_exec('sudo killall chrome');
+        $domain = $this->getMinkParameter('base_url');
+        echo "domain: " . $domain . "\n";
+        $session = $this->getSession();
+        $session->visit($domain . "/admin");
+        $code = $session->getStatusCode();
+
+        if ($code != 200) {
+          shell_exec('sudo killall chrome');
+          shell_exec('ps aux | grep chrome');
           echo "cd ../vendor/bin; ls: " . shell_exec('cd ../vendor/bin; ls') . "\n";
           echo "cd ../vendor/drush/drush; ls: " . shell_exec('cd ../vendor/drush/drush; ls') . "\n";
           $domain = $this->getMinkParameter('base_url');
@@ -83,7 +91,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
           $this->getSession()->visit($loginUrl);
           $this->loginUrl = $loginUrl;
-
+        }
     }
 
     /**
