@@ -125,11 +125,12 @@ class SearchHelper implements SearchHelperInterface {
 
     $query_results = $query->execute();
 
-    $results = [];
+    $results = $highlighted_fields = [];
     foreach ($query_results->getResultItems() as $resultItem) {
       // Do not fail page load if search index is not in sync with database.
       try {
         $results[] = $resultItem->getOriginalObject()->getValue();
+        $highlighted_fields[] = $resultItem->getExtraData('highlighted_fields');
       }
       catch (SearchApiException $e) {
         $this->logger->warning($e->getMessage());
@@ -148,6 +149,7 @@ class SearchHelper implements SearchHelperInterface {
       'results' => $results,
       'facets' => $facets_data,
       'resultsCount' => $query_results->getResultCount(),
+      'highlighted_fields' => $highlighted_fields,
     ];
 
     return $this->searches[$searcher_key];

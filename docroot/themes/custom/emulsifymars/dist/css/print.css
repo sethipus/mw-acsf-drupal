@@ -1,0 +1,54 @@
+div[data-block-plugin-id="article_header"] .share-block,
+div[data-block-plugin-id="recipe_detail_hero"] .recipe-info__social,
+div[data-block-plugin-id="recipe_detail_hero"] .social-menu {
+  display: none;
+}
+
+.recipe-info__social {
+  /*display: none;*/
+}
+
+.logo {
+  max-width: 212px;
+}
+
+img {
+	max-width: 100%;
+}
+
+.recommendations {
+  display: none;
+}
+
+.recipe-details .recipe-details-item__icon-container {
+  display: none;
+}
+
+.recipe-details .recipe-details-item__info {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.recipe-details .recipe-details-item__label {
+  font-weight: bold;
+}
+
+.recipe-details .recipe-details-item__value {
+  font-style: normal;
+  margin-left: 10px;
+}
+
+.recipe-media {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 10px 0;
+}
+
+.recipe-media .recipe-media__image {
+  width: 80%;
+}
+
+.recipe-media .recipe-media__info {
+  margin-left: 25px;
+  margin-top: auto;
+}
