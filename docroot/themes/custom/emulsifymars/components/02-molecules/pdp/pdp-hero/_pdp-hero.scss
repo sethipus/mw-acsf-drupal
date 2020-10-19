@@ -264,7 +264,7 @@
   }
 
   &__description {
-    min-height: 100vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -369,11 +369,9 @@
 
     &-container {
       padding: 1.8rem 0 .2rem 0;
-      height: 80vh;
       
       @include medium {
         padding: 1rem 0 2rem;
-        height: auto;
       }
     }
 

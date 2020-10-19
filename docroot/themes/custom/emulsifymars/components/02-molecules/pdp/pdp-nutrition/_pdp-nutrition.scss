@@ -1,25 +1,28 @@
 .pdp-nutrition {
   position: relative;
-  padding: 3rem 2rem;
+  padding: 14rem 2rem 3rem;
   background: $white;
-  padding-top: 14rem;
 
   &::before {
     content: "";
     position: absolute;
-    top: -.4px;
+    top: -.438px;
     left: 0;
     right: 0;
     height: 100px;
     background-color: rgba(87, 189, 244, 0.7);
   
     @include medium {
+      height: 153px;
+    }
+  
+    @include large {
       content: none;
     }
   }
   
   @include medium {
-    padding: 4rem;
+    padding: 20rem 4rem 4rem;
   }
   
   @include large {
@@ -47,7 +50,7 @@
     color: clr(secondary);
   
     @include medium {
-      top: -4.3rem;
+      top: 11.8rem;
       left: 10rem;
       right: 10rem;
     }
