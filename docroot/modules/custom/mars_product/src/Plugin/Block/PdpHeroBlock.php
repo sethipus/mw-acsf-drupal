@@ -42,13 +42,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $config;
 
   /**
-   * Route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
    * The entity repository service.
    *
    * @var \Drupal\Core\Entity\EntityRepositoryInterface
@@ -291,7 +284,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
       'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More Information'),
-      'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? FALSE,
+      'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? TRUE,
       'wtb' => [
         'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
         'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
@@ -344,8 +337,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'allergen_label' => $this->configuration['allergen_label'],
       ],
       'more_information_data' => [
-        'more_information_label' => $this->configuration['more_information']['more_information_label'] ?? '',
-        'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? FALSE,
+        'more_information_label' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More Information'),
+        'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
       ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
@@ -740,7 +733,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
       $items[] = [
-        'title' => $this->configuration['more_information']['more_information_label'],
+        'title' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More Information'),
         'link_attributes' => [
           'href' => '#section-more-information',
         ],
