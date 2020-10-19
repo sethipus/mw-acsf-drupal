@@ -26,26 +26,26 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function __construct()
     {
-      if (strcmp(shell_exec('drush uli'), "") == 0) {
-        echo "Installing drush/drush:10.2.2...";
+      //if (strcmp(shell_exec('drush uli'), "") == 0) {
+        //echo "Installing drush/drush:10.2.2...";
         //shell_exec('composer global require drush/drush:10.2.2');
         //shell_exec('export PATH="$HOME/.composer/vendor/bin:$PATH"');
 
-        shell_exec('sudo apt-get update && sudo apt-get upgrade');
-        shell_exec('sudo apt-get install git');
-        shell_exec('sudo apt-get install php-xml, zip');
-        shell_exec('curl -sS https://getcomposer.org/installer | php');
-        shell_exec('sudo mv composer.phar /usr/local/bin/composer');
+        //shell_exec('sudo apt-get update && sudo apt-get upgrade');
+        //shell_exec('sudo apt-get install git');
+        //shell_exec('sudo apt-get install php-xml, zip');
+        //shell_exec('curl -sS https://getcomposer.org/installer | php');
+        //shell_exec('sudo mv composer.phar /usr/local/bin/composer');
 
-        shell_exec('sudo ln -s /usr/local/bin/composer /usr/bin/composer');
-        shell_exec('sudo git clone https://github.com/drush-ops/drush.git /usr/local/src/drush');
-        shell_exec('cd /usr/local/src/drush');
-        shell_exec('sudo git checkout 10.2.2');
-        shell_exec('sudo ln -s /usr/local/src/drush/drush /usr/bin/drush');
-        shell_exec('sudo composer install');
-        echo "Drush version is: " . shell_exec('drush --version');
-        $isComposerInstalled = TRUE;
-      }
+        //shell_exec('sudo ln -s /usr/local/bin/composer /usr/bin/composer');
+        //shell_exec('sudo git clone https://github.com/drush-ops/drush.git /usr/local/src/drush');
+        //shell_exec('cd /usr/local/src/drush');
+        //shell_exec('sudo git checkout 10.2.2');
+        //shell_exec('sudo ln -s /usr/local/src/drush/drush /usr/bin/drush');
+        //shell_exec('sudo composer install');
+        //echo "Drush version is: " . shell_exec('drush --version');
+        //$isComposerInstalled = TRUE;
+      //}
     }
 
     /**
@@ -64,9 +64,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     {
         //echo "pwd: " . shell_exec('pwd') . "\n";
 
-        //echo "which drush is: " . shell_exec('which drush') . "\n";
+        echo "which drush is: " . shell_exec('which drush') . "\n";
 
-        $loginUrl = preg_replace('/\n$/', '', shell_exec('cd /home/vsts/.composer/vendor/bin; drush uli'));
+        //$loginUrl = preg_replace('/\n$/', '', shell_exec('cd /home/vsts/.composer/vendor/bin; drush uli'));
+        $loginUrl = preg_replace('/\n$/', '', shell_exec('drush uli'));
         //echo "loginUrl: " . $loginUrl . "\n";
         $loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
         //echo "http loginUrl: " . $loginUrl;
