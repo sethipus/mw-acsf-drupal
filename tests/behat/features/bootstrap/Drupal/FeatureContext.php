@@ -75,6 +75,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function loginDrupal()
     {
+        shell_exec('sudo pkill chrome');
         //echo "pwd: " . shell_exec('pwd') . "\n";
 
         //echo "which drush is: " . shell_exec('which drush') . "\n";
