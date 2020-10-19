@@ -69,7 +69,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
 
       var sizeElements = context.querySelectorAll('[data-size-id]');
       sizeElements.forEach((item) => {
-        item.addEventListener('click', e => updateSizeSlider(e, item.dataset.sizeId), false);
+        item.once('pdpBody').click(e => updateSizeSlider(e, item.dataset.sizeId), false);
       });
 
       //scroll effects: bubbles, section-select and WTB
