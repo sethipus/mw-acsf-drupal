@@ -5,8 +5,8 @@ dependencies:
   config:
     - block_content.type.list_item
     - entity_browser.browser.lighthouse_browser
-    - field.field.block_content.list_item.field_field_list_item_image
     - field.field.block_content.list_item.field_list_item_description
+    - field.field.block_content.list_item.field_list_item_image
     - field.field.block_content.list_item.field_list_item_order
   module:
     - entity_browser
@@ -15,7 +15,15 @@ targetEntityType: block_content
 bundle: list_item
 mode: default
 content:
-  field_field_list_item_image:
+  field_list_item_description:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_list_item_image:
     type: entity_browser_entity_reference
     weight: 2
     settings:
@@ -30,14 +38,6 @@ content:
       field_widget_replace: false
     region: content
     third_party_settings: {  }
-  field_list_item_description:
-    weight: 1
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_list_item_order:
     weight: 3
     settings:
