@@ -182,6 +182,7 @@
     flex-direction: column;
     padding: 2rem 2rem 7.5rem;
     z-index: 10;
+    transition: z-index 0.7s;
 
     @include medium {
       flex-direction: column;
@@ -201,6 +202,10 @@
     &.sections--hide .pdp-hero__sections-container {
       visibility: hidden;
       opacity: 0;
+    }
+
+    &.sections--hide {
+      z-index: -1;
     }
 
     &.nav--hide {
