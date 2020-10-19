@@ -62,24 +62,39 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function loginDrupal()
     {
-        echo "pwd: " . shell_exec('pwd') . "\n";
+        //echo "pwd: " . shell_exec('pwd') . "\n";
 
         //echo "which drush is: " . shell_exec('which drush') . "\n";
 
-        echo "ls: " . shell_exec('ls') . "\n";
-        echo "cd ..; ls: " . shell_exec('cd ..; ls') . "\n";
-        echo "cd ../drush; ls: " . shell_exec('cd ../drush; ls') . "\n";
+        //echo "ls: " . shell_exec('ls') . "\n";
+        //echo "cd ..; ls: " . shell_exec('cd ..; ls') . "\n";
+        //echo "cd ../drush; ls: " . shell_exec('cd ../drush; ls') . "\n";
 
 
         //$loginUrl = preg_replace('/\n$/', '', shell_exec('cd /home/vsts/.composer/vendor/bin; drush uli'));
-        $loginUrl = preg_replace('/\n$/', '', shell_exec('cd ../drush; drush uli'));
+        //$loginUrl = preg_replace('/\n$/', '', shell_exec('cd ../drush; drush uli'));
         //echo "loginUrl: " . $loginUrl . "\n";
-        $loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
+        //$loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
         //echo "http loginUrl: " . $loginUrl;
 
+    $domain = $this->getMinkParameter('base_url');
 
-        $this->visitPath($loginUrl);
-        $this->loginUrl = $loginUrl;
+    // Pass base url to drush command.
+    $uli = $this->getDriver('drush')->drush('uli', [
+      "--browser=0",
+      "--uri=$domain",
+    ]);
+
+    echo "uli: " . $uli;
+
+    // Trim EOL characters.
+    $uli = trim($uli);
+
+    // Log in.
+    //$this->getSession()->visit($uli);
+
+        $this->visitPath($uli);
+        $this->loginUrl = $uli;
     }
 
     /**

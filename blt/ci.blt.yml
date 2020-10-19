@@ -13,5 +13,5 @@ drush.debug: false
 command-hooks:
   post-config-import:
     dir: ${deploy.dir}/docroot
-    command: vendor/bin/drush uli && vendor/bin/drush pm:enable fixture_import && vendor/bin/drush migrate:import mars_pages
+    vendor/bin/drush pm:enable fixture_import && vendor/bin/drush migrate:import mars_pages
 
