@@ -80,4 +80,3 @@
 #    Then I should see "Entityqueues"
 #    And I should see "Add entity queue"
 #    And the url should match "admin/structure/entityqueue"
-#    And I close browser

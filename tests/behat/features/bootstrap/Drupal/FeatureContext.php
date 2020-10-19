@@ -49,19 +49,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
 
     /**
-         * @Given I close browser
-         *
-         * Examples:
-         * Given I close browser
-         *
-         * @throws \Exception;
-         */
-        public function closeBrowser()
-        {
-          $this->getSession()->executeScript("window.close()");
-        }
-
-    /**
      * Entity Functions.
      */
 
@@ -86,15 +73,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
         echo "this login url: " . $this->loginUrl . "\n";
 
-        //$domain = $this->getMinkParameter('base_url');
-        //echo "domain: " . $domain . "\n";
         //$session = $this->getSession();
         //$session->visit($domain . "/admin");
         //$code = $session->getStatusCode();
 
-        //if ($code != 200) {
-          //shell_exec('sudo killall chrome');
-          //shell_exec('ps aux | grep chrome');
           echo "cd ../vendor/bin; ls: " . shell_exec('cd ../vendor/bin; ls') . "\n";
           echo "cd ../vendor/drush/drush; ls: " . shell_exec('cd ../vendor/drush/drush; ls') . "\n";
           $domain = $this->getMinkParameter('base_url');
@@ -107,7 +89,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
           $this->getSession()->visit($uli);
           $this->loginUrl = $uli;
-        //}
     }
 
     /**

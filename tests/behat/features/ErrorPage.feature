@@ -28,4 +28,3 @@ Feature: Error Page Test
     And I check content with title "TestErrorPageTitle"
     And I press "Apply to selected items"
     And I press "Delete"
-    And I close browser

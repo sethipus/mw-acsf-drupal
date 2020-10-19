@@ -18,7 +18,7 @@ default:
               - no-sandbox
               - disable-dev-shm-usage
               - disable-extensions
-              - remote-debugging-address=0.0.0.0
+              - remote-debugging-address=http://127.0.0.1:
               - remote-debugging-port=9222
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
