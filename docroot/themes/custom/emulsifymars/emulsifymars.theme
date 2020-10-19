@@ -681,19 +681,7 @@ function _emulsifymars_load_images_from_theme(string &$properties) {
   ];
   foreach ($fields as $field) {
     $svg = $themeParser->getFileContentFromTheme($field);
-    $symbols = [
-      '<' => '%3C',
-      '>' => '%3E',
-      '#' => '%23',
-      '"' => '\'',
-      '\n' => '',
-      '\r\n' => '',
-      '\r' => '',
-    ];
-    foreach ($symbols as $symbol => $replace) {
-      $svg = str_replace($symbol, $replace, $svg);
-    }
-    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml,' . $svg . '")');
+    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml;base64,' . base64_encode($svg) . '")');
   }
 }
 

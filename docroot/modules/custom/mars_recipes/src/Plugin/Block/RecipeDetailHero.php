@@ -118,10 +118,11 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#theme' => 'recipe_detail_hero_block',
     ];
 
-    if ($node->hasField('field_recipe_image') && $node->field_recipe_image->target_id) {
-      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_recipe_image->target_id);
+    $media_id = $this->mediaHelper->getEntityMainMediaId($node);
+    $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
+    if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
       $build['#image'] = [
-        'label' => $image_arr['title'] ?? '',
+        'alt' => $image_arr['alt'] ?? '',
         'url' => $image_arr['src'] ?? '',
       ];
     }

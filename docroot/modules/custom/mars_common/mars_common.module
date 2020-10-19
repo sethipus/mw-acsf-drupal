@@ -84,11 +84,7 @@ function mars_common_preprocess(&$variables, $hook) {
 
   if ($hook === 'poll_vote' || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $pngAssetFile = $themeParser->getFileFromTheme('png_asset');
-    if ($pngAssetFile instanceof EntityInterface) {
-      $pngAssetUri = $pngAssetFile->getFileUri();
-      $variables['polling_png_asset'] = Url::fromUri(file_create_url($pngAssetUri));
-    }
+    $variables['polling_png_asset'] = $themeParser->getUrlForFile('png_asset');
   }
 
   if ($hook === 'views_infinite_scroll_pager__grid_card') {
@@ -186,6 +182,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'label' => NULL,
         'background' => NULL,
         'description' => NULL,
+        'media_type' => NULL,
+        'media_format' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -210,7 +208,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'eyebrow' => NULL,
         'title' => NULL,
         'background_color' => NULL,
-        'image' => NULL,
+        'image_src' => NULL,
+        'image_alt' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
       ],
@@ -234,7 +233,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'title' => NULL,
         'body' => NULL,
         'links' => NULL,
-        'image' => NULL,
+        'image_src' => NULL,
         'image_alt' => NULL,
         'graphic_divider' => NULL,
         'brand_shape' => NULL,

@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.error_page.body
+    - field.field.node.error_page.field_error_page_image
     - field.field.node.error_page.field_meta_tags
     - node.type.error_page
   module:
@@ -30,6 +31,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  field_error_page_image: true
   field_meta_tags: true
   published_at: true
   search_api_excerpt: true

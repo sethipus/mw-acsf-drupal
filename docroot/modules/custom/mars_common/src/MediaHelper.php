@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common;
 
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
@@ -9,6 +10,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  * Class MediaHelpers.
  */
 class MediaHelper {
+
   use StringTranslationTrait;
 
   /**
@@ -95,6 +97,8 @@ class MediaHelper {
         return [
           'video' => TRUE,
           'src' => $entity->field_media_video_file_1->entity->createFileUrl(!$absolute_urls),
+          // Todo: Get proper format data.
+          'format' => 'video/mp4',
         ];
 
       case 'video_file':
@@ -104,7 +108,9 @@ class MediaHelper {
 
         return [
           'video' => TRUE,
-          'src' => $entity->field_media_image->entity->createFileUrl(!$absolute_urls),
+          'src' => $entity->field_media_video_file->entity->createFileUrl(!$absolute_urls),
+          // Todo: Get proper format data.
+          'format' => 'video/mp4',
         ];
 
       case 'video':
@@ -167,6 +173,76 @@ class MediaHelper {
     }
 
     return substr($entityBrowserSelectValue, $colonPosition + 1);
+  }
+
+  /**
+   * Returns the main media id for a given content.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $contentEntity
+   *   The content entity.
+   *
+   * @return string|null
+   *   The main image media id or NULL.
+   */
+  public function getEntityMainMediaId(
+    ContentEntityInterface $contentEntity
+  ): ?string {
+    // TODO: Use event dispatch to handle this.
+    $media_id = NULL;
+    switch ($contentEntity->bundle()) {
+      case 'article':
+        if (!$contentEntity->get('field_article_image')->isEmpty()) {
+          $media_id = $contentEntity
+            ->get('field_article_image')
+            ->first()
+            ->target_id;
+        }
+        break;
+
+      case 'recipe':
+        if (!$contentEntity->get('field_recipe_image')->isEmpty()) {
+          $media_id = $contentEntity
+            ->get('field_recipe_image')
+            ->first()
+            ->target_id;
+        }
+        break;
+
+      case 'product':
+        /** @var \Drupal\Core\Entity\ContentEntityInterface $variant */
+        $variant = $contentEntity
+          ->get('field_product_variants')
+          ->first()
+          ->entity;
+
+        if (!$variant) {
+          break;
+        }
+
+        if (!$variant->get('field_product_key_image_override')->isEmpty()) {
+          $media_id = $variant
+            ->get('field_product_key_image_override')
+            ->first()
+            ->target_id;
+        }
+        elseif (!$variant->get('field_product_key_image_override')->isEmpty()) {
+          $media_id = $variant
+            ->get('field_product_key_image')
+            ->first()
+            ->target_id;
+        }
+        break;
+
+      case 'error_page':
+        if (!$contentEntity->get('field_error_page_image')->isEmpty()) {
+          $media_id = $contentEntity
+            ->get('field_error_page_image')
+            ->first()
+            ->target_id;
+        }
+        break;
+    }
+    return $media_id;
   }
 
 }
