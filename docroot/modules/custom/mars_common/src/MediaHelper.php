@@ -211,21 +211,13 @@ class MediaHelper {
     $media_id = NULL;
     switch ($contentEntity->bundle()) {
       case 'article':
-        if (!$contentEntity->get('field_article_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_article_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_article_image');
         break;
 
       case 'recipe':
-        if (!$contentEntity->get('field_recipe_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_recipe_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_recipe_image');
         break;
 
       case 'product':
@@ -237,55 +229,60 @@ class MediaHelper {
         break;
 
       case 'product_variant':
-        if (!$contentEntity->get('field_product_key_image_override')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_product_key_image_override')
-            ->first()
-            ->target_id;
-        }
-        elseif (!$contentEntity->get('field_product_key_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_product_key_image')
-            ->first()
-            ->target_id;
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_product_key_image_override');
+        if (empty($media_id)) {
+          $media_id = $this->getTargetIdFromField($contentEntity,
+            'field_product_key_image');
         }
         break;
 
       case 'error_page':
-        if (!$contentEntity->get('field_error_page_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_error_page_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_error_page_image');
         break;
 
       case 'campaign':
-        if (!$contentEntity->get('field_campaign_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_campaign_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_campaign_image');
         break;
 
       case 'content_hub_page':
-        if (!$contentEntity->get('field_content_hub_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_content_hub_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_content_hub_image');
         break;
 
       case 'landing_page':
-        if (!$contentEntity->get('field_landing_page_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_landing_page_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_landing_page_image');
         break;
+    }
+    return $media_id;
+  }
+
+  /**
+   * Get entity ref field target id value or NULL if it's missing.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $contentEntity
+   *   The content enity.
+   * @param string $fieldName
+   *   The name of the field to check.
+   *
+   * @return string|null
+   *   The entity reference field target id, or null if it does not exist.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  private function getTargetIdFromField(
+    ContentEntityInterface $contentEntity,
+    string $fieldName
+  ) {
+    $media_id = NULL;
+    if (!$contentEntity->get($fieldName)->isEmpty()) {
+      $media_id = $contentEntity
+        ->get($fieldName)
+        ->first()
+        ->target_id;
     }
     return $media_id;
   }
