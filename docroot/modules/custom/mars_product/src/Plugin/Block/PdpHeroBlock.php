@@ -42,13 +42,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $config;
 
   /**
-   * Route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
    * The entity repository service.
    *
    * @var \Drupal\Core\Entity\EntityRepositoryInterface
@@ -226,19 +219,19 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
     $form['more_information'] = [
       '#type' => 'details',
-      '#title' => $this->t('More Information part settings'),
+      '#title' => $this->t('More information part settings'),
       '#open' => TRUE,
     ];
     $form['more_information']['more_information_label'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('More Information label'),
+      '#title' => $this->t('More information label'),
       '#default_value' => $this->configuration['more_information']['more_information_label'] ?? '',
       '#maxlength' => 18,
       '#required' => TRUE,
     ];
     $form['more_information']['show_more_information_label'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Show More Information'),
+      '#title' => $this->t('Show More information tab'),
       '#default_value' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
     ];
     $form['use_background_color'] = [
@@ -290,8 +283,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
-      'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More Information'),
-      'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? FALSE,
+      'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More information'),
+      'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? TRUE,
       'wtb' => [
         'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
         'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
@@ -344,8 +337,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'allergen_label' => $this->configuration['allergen_label'],
       ],
       'more_information_data' => [
-        'more_information_label' => $this->configuration['more_information']['more_information_label'] ?? '',
-        'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? FALSE,
+        'more_information_label' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
+        'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
       ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
@@ -740,7 +733,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
       $items[] = [
-        'title' => $this->configuration['more_information']['more_information_label'],
+        'title' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
         'link_attributes' => [
           'href' => '#section-more-information',
         ],
