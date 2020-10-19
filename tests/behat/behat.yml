@@ -6,7 +6,7 @@ default:
   extensions:
     Behat\MinkExtension:
       default_session: goutte
-      browser_name: chrome
+      browser_name: firefox
       javascript_session: selenium2
       goutte: ~
       selenium2: ~
