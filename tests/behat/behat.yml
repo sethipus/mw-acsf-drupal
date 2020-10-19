@@ -5,7 +5,7 @@ default:
         - "%paths.base%/features"
   extensions:
     Behat\MinkExtension:
-      default_session: selenium2
+      default_session: goutte
       browser_name: chrome
       javascript_session: selenium2
       goutte: ~
