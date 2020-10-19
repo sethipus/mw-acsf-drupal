@@ -8,10 +8,10 @@
 /**
  * Implements hook_page_attachments().
  */
-function mars_onetrust_page_attachments(&$page) {
+function onetrust_page_attachments(&$page) {
   // Get the data domain.
-  $config = \Drupal::config('mars_onetrust.settings');
-  $data_domain = $config->get('mars_onetrust.data_domain');
+  $config = \Drupal::config('onetrust.settings');
+  $data_domain = $config->get('onetrust.data_domain');
 
   if ($data_domain) {
     // Adding the initial OneTrust scripts.
@@ -37,6 +37,6 @@ function mars_onetrust_page_attachments(&$page) {
 
     $page['#attached']['html_head'][] = [$init_script, 'onetrust_init'];
     $page['#attached']['html_head'][] = [$template_script, 'onetrust_template'];
-    $page['#attached']['library'][] = 'mars_onetrust/onetrust';
+    $page['#attached']['library'][] = 'onetrust/onetrust';
   }
 }

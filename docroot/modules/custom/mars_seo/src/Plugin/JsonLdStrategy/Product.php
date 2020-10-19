@@ -37,14 +37,8 @@ class Product extends JsonLdStrategyPluginBase {
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->getContextValue('node');
 
-    $images = [];
-    foreach ($node->field_product_variants as $item) {
-      if (!$item->entity->field_product_key_image->target_id || !($url = $this->mediaHelper->getMediaUrl($item->entity->field_product_key_image->target_id))) {
-        continue;
-      }
-
-      $images[] = $url;
-    }
+    $main_image_id = $this->mediaHelper->getEntityMainMediaId($node);
+    $main_image_url = $this->mediaHelper->getMediaUrl($main_image_id);
 
     // TODO: Import from rating engine or similar.
     return Schema::product()
@@ -62,7 +56,9 @@ class Product extends JsonLdStrategyPluginBase {
       ->if($node->field_product_variants->first(), function (SchemaProduct $product) use ($node) {
         $product->sku($node->field_product_variants->first()->entity->field_product_sku->value);
       })
-      ->image($images);
+      ->if($main_image_url, function (SchemaProduct $product) use ($main_image_url) {
+        $product->image([$main_image_url]);
+      });
   }
 
 }

@@ -20,8 +20,8 @@
  */
 #}
 
-{% set background_src = background ? file_url(background) : NULL %}
-{% set png_asset_src = png_asset ? file_url(png_asset) : NULL %}
+{% set background_src = background ? background : NULL %}
+{% set png_asset_src = png_asset ? png_asset : NULL %}
 
 {% include "@molecules/product-content-pair-up/product-content-pair-up.twig" with {
   theme_styles: 'drupal',

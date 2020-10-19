@@ -25,7 +25,7 @@ export const productCardImageOverride = () => {
     item: {
       card_url: 'https://storybook.js.org/',
       card__image__src: 'image9@3x.png',
-      card__image__override__src: 'image-4@3x.png',
+      card__image__hover__src: 'image-4@3x.png',
       paragraph_content: 'TWIX® PEANUT BUTTER Minis',
       default_link_attributes: {
         target: '_self',
