@@ -1,22 +1,20 @@
-uuid: 0c84acb9-fe62-40c9-a6ad-e43b68e59663
+uuid: e26ef841-5f49-43f0-ba06-83b3db7aa818
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_recipe_video
+    - block_content.type.inline_video
+    - field.storage.block_content.field_inline_video
     - media.type.lighthouse_video
     - media.type.video
     - media.type.video_file
-    - node.type.recipe
-_core:
-  default_config_hash: MCAuUgYPkeZSmw7AasCO6-GshoknQupkD1IjNum9NOU
-id: node.recipe.field_recipe_video
-field_name: field_recipe_video
-entity_type: node
-bundle: recipe
+id: block_content.inline_video.field_inline_video
+field_name: field_inline_video
+entity_type: block_content
+bundle: inline_video
 label: Video
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -30,5 +28,5 @@ settings:
     sort:
       field: _none
     auto_create: false
-    auto_create_bundle: video
+    auto_create_bundle: lighthouse_video
 field_type: entity_reference

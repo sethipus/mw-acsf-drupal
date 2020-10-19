@@ -5,6 +5,7 @@ namespace Drupal\mars_common;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mars_product\ProductHelper;
 
 /**
  * Class MediaHelpers.
@@ -21,10 +22,29 @@ class MediaHelper {
   protected $mediaStorage;
 
   /**
-   * {@inheritdoc}
+   * Product helper service.
+   *
+   * @var \Drupal\mars_product\ProductHelper
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  private $productHelper;
+
+  /**
+   * MediaHelper constructor.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   * @param \Drupal\mars_product\ProductHelper $product_helper
+   *   The product helper service.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    ProductHelper $product_helper
+  ) {
     $this->mediaStorage = $entity_type_manager->getStorage('media');
+    $this->productHelper = $product_helper;
   }
 
   /**
@@ -191,56 +211,78 @@ class MediaHelper {
     $media_id = NULL;
     switch ($contentEntity->bundle()) {
       case 'article':
-        if (!$contentEntity->get('field_article_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_article_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_article_image');
         break;
 
       case 'recipe':
-        if (!$contentEntity->get('field_recipe_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_recipe_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_recipe_image');
         break;
 
       case 'product':
-        /** @var \Drupal\Core\Entity\ContentEntityInterface $variant */
-        $variant = $contentEntity
-          ->get('field_product_variants')
-          ->first()
-          ->entity;
+        $main_variant = $this->productHelper->mainVariant($contentEntity);
 
-        if (!$variant) {
-          break;
+        if ($main_variant) {
+          $media_id = $this->getEntityMainMediaId($main_variant);
         }
+        break;
 
-        if (!$variant->get('field_product_key_image_override')->isEmpty()) {
-          $media_id = $variant
-            ->get('field_product_key_image_override')
-            ->first()
-            ->target_id;
-        }
-        elseif (!$variant->get('field_product_key_image_override')->isEmpty()) {
-          $media_id = $variant
-            ->get('field_product_key_image')
-            ->first()
-            ->target_id;
+      case 'product_variant':
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_product_key_image_override');
+        if (empty($media_id)) {
+          $media_id = $this->getTargetIdFromField($contentEntity,
+            'field_product_key_image');
         }
         break;
 
       case 'error_page':
-        if (!$contentEntity->get('field_error_page_image')->isEmpty()) {
-          $media_id = $contentEntity
-            ->get('field_error_page_image')
-            ->first()
-            ->target_id;
-        }
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_error_page_image');
         break;
+
+      case 'campaign':
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_campaign_image');
+        break;
+
+      case 'content_hub_page':
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_content_hub_image');
+        break;
+
+      case 'landing_page':
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_landing_page_image');
+        break;
+    }
+    return $media_id;
+  }
+
+  /**
+   * Get entity ref field target id value or NULL if it's missing.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $contentEntity
+   *   The content enity.
+   * @param string $fieldName
+   *   The name of the field to check.
+   *
+   * @return string|null
+   *   The entity reference field target id, or null if it does not exist.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  private function getTargetIdFromField(
+    ContentEntityInterface $contentEntity,
+    string $fieldName
+  ) {
+    $media_id = NULL;
+    if (!$contentEntity->get($fieldName)->isEmpty()) {
+      $media_id = $contentEntity
+        ->get($fieldName)
+        ->first()
+        ->target_id;
     }
     return $media_id;
   }

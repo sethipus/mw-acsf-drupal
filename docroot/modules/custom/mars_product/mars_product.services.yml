@@ -1,0 +1,10 @@
+services:
+  mars_product.product_helper:
+    class: Drupal\mars_product\ProductHelper
+
+  mars_product.product_twig_filters:
+    class: Drupal\mars_product\Twig\ProductFilters
+    arguments:
+      [ '@mars_product.product_helper' ]
+    tags:
+      - { name: twig.extension }
