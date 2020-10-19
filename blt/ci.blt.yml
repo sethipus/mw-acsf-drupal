@@ -13,4 +13,7 @@ drush.debug: false
 command-hooks:
   post-config-import:
     dir: ${deploy.dir}/docroot
-    command: vendor/bin/drush pm:enable fixture_import && vendor/bin/drush migrate:import mars_pages && composer require drush/drush:10.2.2
+    command: vendor/bin/drush pm:enable fixture_import && vendor/bin/drush migrate:import mars_pages
+  frontend-assets:
+    dir: ${deploy.dir}/docroot
+    command: composer require drush/drush:10.2.2
