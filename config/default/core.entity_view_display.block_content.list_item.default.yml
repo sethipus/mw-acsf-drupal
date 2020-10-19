@@ -4,16 +4,23 @@ status: true
 dependencies:
   config:
     - block_content.type.list_item
+    - field.field.block_content.list_item.field_field_list_item_image
     - field.field.block_content.list_item.field_list_item_description
-    - field.field.block_content.list_item.field_list_item_image
     - field.field.block_content.list_item.field_list_item_order
-  module:
-    - image
 id: block_content.list_item.default
 targetEntityType: block_content
 bundle: list_item
 mode: default
 content:
+  field_field_list_item_image:
+    type: entity_reference_entity_view
+    weight: 3
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
   field_list_item_description:
     weight: 0
     label: above
@@ -21,15 +28,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
-    region: content
-  field_list_item_image:
-    weight: 1
-    label: above
-    settings:
-      image_style: ''
-      image_link: ''
-    third_party_settings: {  }
-    type: image
     region: content
   field_list_item_order:
     weight: 2
