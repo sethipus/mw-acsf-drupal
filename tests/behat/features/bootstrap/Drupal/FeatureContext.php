@@ -70,35 +70,20 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         //echo "cd ..; ls: " . shell_exec('cd ..; ls') . "\n";
         //echo "cd ../drush; ls: " . shell_exec('cd ../drush; ls') . "\n";
 
-        echo "cd ../vendor/bin; ls: " . shell_exec('cd ../vendor/bin; ls') . "\n";
-        echo "cd ../vendor/drush/drush; ls: " . shell_exec('cd ../vendor/drush/drush; ls') . "\n";
-        $domain = $this->getMinkParameter('base_url');
-        echo "domain: " . $domain . "\n";
+        shell_exec('sudo killall chrome');
+          echo "cd ../vendor/bin; ls: " . shell_exec('cd ../vendor/bin; ls') . "\n";
+          echo "cd ../vendor/drush/drush; ls: " . shell_exec('cd ../vendor/drush/drush; ls') . "\n";
+          $domain = $this->getMinkParameter('base_url');
+          echo "domain: " . $domain . "\n";
 
-        //$loginUrl = preg_replace('/\n$/', '', shell_exec('cd /home/vsts/.composer/vendor/bin; drush uli'));
-        $loginUrl = preg_replace('/\n$/', '', shell_exec('cd ../vendor/bin; ./drush uli --uri=' .$domain));
-        echo "loginUrl: " . $loginUrl . "\n";
-        $loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
-        echo "http loginUrl: " . $loginUrl . "\n";;
+          $loginUrl = preg_replace('/\n$/', '', shell_exec('cd ../vendor/bin; ./drush uli --uri=' .$domain));
+          echo "loginUrl: " . $loginUrl . "\n";
+          $loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
+          echo "http loginUrl: " . $loginUrl . "\n";;
 
-    //$domain = $this->getMinkParameter('base_url');
+          $this->getSession()->visit($loginUrl);
+          $this->loginUrl = $loginUrl;
 
-    // Pass base url to drush command.
-    //$uli = $this->getDriver('drush')->drush('uli', [
-    //  "--browser=0",
-    //  "--uri=$domain",
-    //]);
-
-    //echo "uli: " . $uli;
-
-    // Trim EOL characters.
-    //$uli = trim($uli);
-
-    // Log in.
-    //$this->getSession()->visit($uli);
-
-        $this->visitPath($loginUrl);
-        $this->loginUrl = $loginUrl;
     }
 
     /**
