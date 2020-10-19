@@ -67,7 +67,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         echo "which drush is: " . shell_exec('which drush') . "\n";
 
         //$loginUrl = preg_replace('/\n$/', '', shell_exec('cd /home/vsts/.composer/vendor/bin; drush uli'));
-        $loginUrl = preg_replace('/\n$/', '', shell_exec('drush uli'));
+        $loginUrl = preg_replace('/\n$/', '', shell_exec('cd ../deploy/docroot; drush uli'));
         //echo "loginUrl: " . $loginUrl . "\n";
         $loginUrl = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $loginUrl);
         //echo "http loginUrl: " . $loginUrl;

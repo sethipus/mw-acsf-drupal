@@ -17,6 +17,4 @@ command-hooks:
   frontend-assets:
     dir: ${deploy.dir}/docroot
     command: composer require drush/drush:10.2.2
-  frontend-test:
-    dir: ${deploy.dir}/docroot
-    command: 'which drush'
+
