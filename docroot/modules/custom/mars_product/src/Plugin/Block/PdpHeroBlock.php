@@ -5,6 +5,7 @@ namespace Drupal\mars_product\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -387,7 +388,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
-          'mobile_sections_items' => $this->getMobileItems($product_variant),
+          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle()),
         ],
         'nutrition_data' => [
           'serving_item' => $this->getServingItems($product_variant),
@@ -451,7 +452,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
-          'mobile_sections_items' => $this->getMobileItems($product_variant),
+          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle()),
         ],
         'products'  => $products_data,
       ];
@@ -715,43 +716,48 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * Get Mobile section for Product Variant.
    *
-   * @param object $node
+   * @param \Drupal\Core\Entity\EntityInterface $node
    *   Product Variant node.
+   * @param string $bundle
+   *   Product bundle.
    *
    * @return array
    *   Mobile section array.
    */
-  public function getMobileItems($node) {
+  public function getMobileItems(EntityInterface $node, string $bundle) {
     $size_id = $node->id();
     $items = [];
     $items[] = [
       'title' => $this->configuration['nutrition']['label'],
       'link_attributes' => [
+        'class' => 'pdp-hero__nutrition-menu',
         'href' => '#section-nutrition-' . $size_id,
       ],
     ];
 
-    if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
-      $items[] = [
-        'title' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
-        'link_attributes' => [
-          'href' => '#section-more-information',
-        ],
-      ];
-    }
-
     if (
+      $bundle !== 'product_multipack' &&
       $this->isAllergenVisible() &&
       !$node->field_product_diet_allergens->isEmpty()
     ) {
       $items[] = [
         'title' => $this->configuration['allergen_label'],
         'link_attributes' => [
+          'class' => 'pdp-hero__allergen-menu',
           'href' => '#section-allergen-' . $size_id,
         ],
       ];
     }
 
+    if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
+      $items[] = [
+        'title' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
+        'link_attributes' => [
+          'class' => 'pdp-hero__more-info-menu',
+          'href' => '#section-more-information',
+        ],
+      ];
+    }
     return $items;
   }
 
