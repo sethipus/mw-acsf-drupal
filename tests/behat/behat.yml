@@ -19,7 +19,7 @@ default:
           goutte: ~
         js_enabled_browser:
           chrome:
-            api_url: http://localhost:9222
+            api_url: http://127.0.0.1:9222
             validate_certificate: false
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
