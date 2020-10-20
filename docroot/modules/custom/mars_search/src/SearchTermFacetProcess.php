@@ -66,7 +66,7 @@ class SearchTermFacetProcess {
           ) {
             $facetValues[count($facetValues) - 1]['checked'] = 'checked';
             $countSelected++;
-            $appliedFilters[] = $terms[$facet['filter']]->label();
+            $appliedFilters[] = $facetValues[count($facetValues) - 1];
           }
         }
         if (count($facetValues) == 0) {
