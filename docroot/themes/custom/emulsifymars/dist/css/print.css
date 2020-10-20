@@ -5,7 +5,7 @@ div[data-block-plugin-id="recipe_detail_hero"] .social-menu {
 }
 
 .recipe-info__social {
-  /*display: none;*/
+  display: none;
 }
 
 .logo {
@@ -25,30 +25,39 @@ img {
 }
 
 .recipe-details .recipe-details-item__info {
-  display: flex;
-  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  float: left;
 }
 
 .recipe-details .recipe-details-item__label {
   font-weight: bold;
+  float: left;
+  width: 50%;
 }
 
 .recipe-details .recipe-details-item__value {
   font-style: normal;
   margin-left: 10px;
+  float: left;
+  width: 45%;
 }
 
 .recipe-media {
-  display: flex;
-  flex-flow: row nowrap;
+
   margin: 10px 0;
+  overflow: hidden;
+  width: 100%;
 }
 
-.recipe-media .recipe-media__image {
-  width: 80%;
+.recipe-media .recipe-media-image-wrapper {
+  float: left;
+  width: 65%;
 }
 
 .recipe-media .recipe-media__info {
+  width: 30%;
+  float: left;
   margin-left: 25px;
   margin-top: auto;
 }
