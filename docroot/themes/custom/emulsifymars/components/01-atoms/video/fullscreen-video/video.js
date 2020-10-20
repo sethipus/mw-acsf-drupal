@@ -72,6 +72,14 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
         });
+        videoElements('video').addEventListener('click', function(e) {
+          if (videoElements('video').paused || videoElements('video').ended) {
+            videoElements('video').play();
+          } else {
+            videoElements('video').pause();
+          }
+          changeButtonState(videoElements, 'control');
+        });
 
         // The Media API has no 'stop()' function, so pause the video and reset its time and the progress bar
         videoElements('stop').addEventListener('click', function(e) {

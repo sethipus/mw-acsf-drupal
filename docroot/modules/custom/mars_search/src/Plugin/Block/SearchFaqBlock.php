@@ -157,8 +157,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
           continue;
         }
 
-        $question_value = $search_result->get('field_qa_item_question')->value;
-        $answer_value = $search_result->get('field_qa_item_answer')->value;
+        $question_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0]) ? $search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0] : $search_result->get('field_qa_item_question')->value;
+        $answer_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0]) ? $search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0] : $search_result->get('field_qa_item_answer')->value;
 
         $faq_items[$row_key]['content'] = [
           'question' => $question_value,

@@ -7,6 +7,7 @@ heading_level: 1
 heading: 'The Newest Member: Twix Cookies & Creme'
 heading_url: 'https://storybook.js.org/'
 image_src: 'twix-104.png'
+image_alt: 'Image alt text'
 
 default_link_content: 'Explore'
 default_link_base_class: 'default-link'

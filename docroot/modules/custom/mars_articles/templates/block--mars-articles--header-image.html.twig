@@ -9,7 +9,7 @@
   {% block article_media_image %}
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
-      image_alt: image.label,
+      image_alt: image.alt,
       image_srcset: image.url,
       image_sizes: '(max-width: 375px) 375px,
                 (max-width: 768px) 768px,
