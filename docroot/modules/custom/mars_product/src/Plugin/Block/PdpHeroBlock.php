@@ -602,18 +602,19 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @return array
    *   Allergen items array.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getAllergenItems($node) {
     $items = [];
     foreach ($node->field_product_diet_allergens as $reference) {
       $allergen_term = $reference->entity;
-      $icon_src = $this->getIconSrc($allergen_term);
-      $items[] = [
-        'allergen_icon' => $icon_src,
-        'allergen_label' => $allergen_term->getName(),
-      ];
+      $media_id = $this->mediaHelper->getEntityMainMediaId($allergen_term);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $items[] = [
+          'allergen_icon' => $media_params['src'],
+          'allergen_label' => $allergen_term->getName(),
+        ];
+      }
     }
 
     return $items;
@@ -652,38 +653,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $items;
-  }
-
-  /**
-   * Get Icon src from entity.
-   *
-   * @param object $entity
-   *   Taxonomy term entity.
-   * @param string $image_field
-   *   Image field name.
-   *
-   * @return string
-   *   Image src value.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   */
-  public function getIconSrc($entity, $image_field = 'field_allergen_image') {
-    $icon_src = '';
-    if (!$entity->get($image_field)->isEmpty()) {
-      $icon_src = $entity->{$image_field}->entity->createFileUrl();
-    }
-    else {
-      $field = $entity->get($image_field);
-      $default_image = $field->getSetting('default_image');
-      if (isset($default_image['uuid'])) {
-        if ($default_image_file
-          = $this->entityRepository->loadEntityByUuid('file', $default_image['uuid'])) {
-          $icon_src = $default_image_file->createFileUrl();
-        };
-      }
-    }
-
-    return $icon_src;
   }
 
   /**
