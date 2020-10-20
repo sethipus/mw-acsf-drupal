@@ -13,7 +13,7 @@
     </php>
     <testsuites>
         <testsuite name="mars_acsf_tests">
-            <directory>./docroot/modules/custom/</directory>
+            <directory>./docroot/modules/custom/mars_common/</directory>
         </testsuite>
     </testsuites>
     <filter>
