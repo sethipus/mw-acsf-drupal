@@ -1,25 +1,24 @@
 default:
   suites:
     default:
+      contexts:
+        - FeatureContext
+        - Behat\MinkExtension\Context\MinkContext
       paths:
         - "%paths.base%/features"
   extensions:
     Behat\MinkExtension:
-      default_session: goutte
+      default_session: command_line_browser
       browser_name: chrome
-      javascript_session: selenium2
+      javascript_session: js_enabled_browser
       goutte: ~
-      selenium2:
-        capabilities:
+      sessions:
+        command_line_browser:
+          goutte: ~
+        js_enabled_browser:
           chrome:
-            switches:
-              - headless
-              - disable-gpu
-              - no-sandbox
-              - disable-dev-shm-usage
-              - disable-extensions
-              - remote-debugging-address=http://127.0.0.1
-              - remote-debugging-port=9222
+            api_url: http://localhost:9222
+            validate_certificate: false
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
       blackbox: ~
