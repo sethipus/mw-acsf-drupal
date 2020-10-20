@@ -8,6 +8,7 @@ default:
         - "%paths.base%/features"
   extensions:
     Behat\MinkExtension:
+      base_url: http://mars.ddev.site:8080
       default_session: command_line_browser
       browser_name: chrome
       javascript_session: js_enabled_browser
