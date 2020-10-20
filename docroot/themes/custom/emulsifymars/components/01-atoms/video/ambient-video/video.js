@@ -28,8 +28,15 @@ Drupal.behaviors.ambientVideoPlayer = {
           changeButtonState(video, playpause, 'playpause');
         }, false);
   
-        // Add events for all buttons			
+        // Add events for play/pause button and video container			
         playpause.addEventListener('click', function(e) {
+          if (video.paused || video.ended) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+        video.addEventListener('click', function(e) {
           if (video.paused || video.ended) {
             video.play();
           } else {
