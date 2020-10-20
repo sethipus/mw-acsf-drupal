@@ -50,7 +50,12 @@
         {{ "Applied filters (" | t }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | t }}
       </div>
       <div {{ bem('applied-text', [], search_filter_information_base_class) }}>
-        {{ applied_filters_list|join(', ') }}
+        {% for item in applied_filters_list %}
+          <span {{ bem('applied-name', [], search_filter_information_base_class) }}>
+            <span>{{ item.title }}</span>
+            <div data-id="{{ item.key }}" {{ bem('applied-clear', [], search_filter_information_base_class) }}></div>
+          </span>
+        {% endfor %}
       </div>
     </div>
     <div {{ bem('clear', [], search_filter_information_base_class) }}>
