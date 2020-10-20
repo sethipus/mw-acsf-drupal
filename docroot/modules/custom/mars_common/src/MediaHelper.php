@@ -256,6 +256,11 @@ class MediaHelper {
         $media_id = $this->getTargetIdFromField($contentEntity,
           'field_landing_page_image');
         break;
+
+      case 'mars_diet_allergens':
+        $media_id = $this->getTargetIdFromField($contentEntity,
+          'field_allergen_image');
+        break;
     }
     return $media_id;
   }
