@@ -191,7 +191,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     if (empty($query_parameters['see-all'])) {
       // We need only 8 items to show initially.
       // Parse query will trim limit in case of see all.
-      // But initial results count needs to be 8 instead of configured default (12).
+      // But initial results count needs to be 8 instead of configured default.
       $searchOptions['limit'] = 8;
     }
 
