@@ -1,11 +1,15 @@
 .story-highlight {
   font-family: variable(primary-font);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin: 0;
+  top: -1.5rem;
+
+  @include medium {
+    top: -2rem;
+  }
 
   &__content {
-    padding-top: 7rem;
     margin-bottom: -40rem;
 
     @include small {
@@ -63,7 +67,23 @@
     width: 100%;
     height: auto;
     z-index: -1;
-    top: 3px;
+    top: -4rem;
+
+    @include small {
+      top: -5rem;
+    }
+
+    @include medium {
+      top: -7.5rem;
+    }
+
+    @include large {
+      top: -10.5rem;
+    }
+
+    @include xl {
+      top: -12.5rem;
+    }
 
     >svg {
       width: 100%;
@@ -112,6 +132,11 @@
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
+    padding-top: 2rem;
+
+    @include medium {
+      padding-top: 5rem;
+    }
   }
 
   & .graphic_divider {
