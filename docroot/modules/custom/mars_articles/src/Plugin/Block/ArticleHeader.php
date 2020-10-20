@@ -137,11 +137,11 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       '#publication_date' => $node->isPublished() ? $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 
-    // Check which template to use.
-    if ($node->hasField('field_article_image') && $node->field_article_image->target_id) {
-      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_article_image->target_id);
+    $media_id = $this->mediaHelper->getEntityMainMediaId($node);
+    $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
+    if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
       $build['#image'] = [
-        'label' => $image_arr['title'] ?? '',
+        'alt' => $image_arr['alt'] ?? '',
         'url' => $image_arr['src'] ?? '',
       ];
       $build['#theme'] = 'article_header_block_image';

@@ -5,17 +5,13 @@
  */
 #}
 
-{% set image_src = NULL %}
-{% if node.field_landing_page_image.entity.image.entity.fileuri %}
-  {% set image_src = file_url(node.field_landing_page_image.entity.image.entity.fileuri) %}
-{% endif %}
-{% set image_alt = node.field_landing_page_image.entity.image.entity.alt %}
+{% set background_asset = node | entityMainMediaId | mediaParamsById %}
 
 {% include "@molecules/card/recommendations-card/landing-card.twig" with {
   theme_styles: 'drupal',
 
-  card_image_src: image_src,
-  card_image_alt: image_alt ,
+  card_image_src: background_asset.src,
+  card_image_alt: background_asset.alt ,
   media_url: url,
 
   heading: node.label,

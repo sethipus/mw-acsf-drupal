@@ -3,10 +3,10 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
+use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,25 +20,29 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  use EntityBrowserFormTrait;
+
   /**
-   * Media storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
+   * Lighthouse entity browser image id.
    */
-  protected $mediaStorage;
+  const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
+
+  /**
+   * Mars Media Helper service.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  protected $mediaHelper;
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $entity_type_manager = $container->get('entity_type.manager');
-    $entity_storage = $entity_type_manager->getStorage('media');
-
     return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $entity_storage
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -49,10 +53,10 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityStorageInterface $entity_storage
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->mediaStorage = $entity_storage;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -64,7 +68,14 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#eyebrow'] = $conf['eyebrow'] ?? '';
     $build['#title'] = $conf['title'] ?? '';
     $build['#background_color'] = $conf['background_color'] ?? '';
-    $build['#image'] = $this->getImageEntity();
+    if (!empty($conf['image'])) {
+      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['image']);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $build['#image_src'] = $media_params['src'];
+        $build['#image_alt'] = $media_params['alt'];
+      }
+    }
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
 
@@ -90,6 +101,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $config = $this->getConfiguration();
 
     $form['eyebrow'] = [
       '#type' => 'textfield',
@@ -112,13 +124,15 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       '#default_value' => $this->configuration['background_color'] ?? '',
       '#required' => FALSE,
     ];
-    $form['image'] = [
-      '#type' => 'entity_autocomplete',
-      '#title' => $this->t('Image'),
-      '#target_type' => 'media',
-      '#default_value' => $this->getImageEntity(),
-      '#required' => TRUE,
-    ];
+
+    $image_default = isset($config['image']) ? $config['image'] : NULL;
+    // Entity Browser element for background image.
+    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    // Convert the wrapping container to a details element.
+    $form['image']['#type'] = 'details';
+    $form['image']['#title'] = $this->t('Image');
+    $form['image']['#open'] = TRUE;
+
     $form['explore_group'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Explore CTA'),
@@ -148,21 +162,9 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
     $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['background_color'] = $form_state->getValue('background_color');
-    $this->configuration['image'] = $form_state->getValue('image');
+    $this->configuration['image'] = $this->getEntityBrowserValue($form_state, 'image');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
-  }
-
-  /**
-   * Returns the entity that's saved to the block.
-   */
-  private function getImageEntity(): ?EntityInterface {
-    $imageEntityId = $this->getConfiguration()['image'] ?? NULL;
-    if (!$imageEntityId) {
-      return NULL;
-    }
-
-    return $this->mediaStorage->load($imageEntityId);
   }
 
 }
