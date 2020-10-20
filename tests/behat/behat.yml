@@ -10,7 +10,7 @@ default:
     DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
     Behat\MinkExtension:
       base_url: http://mars.ddev.site:8080
-      default_session: command_line_browser
+      default_session: js_enabled_browser
       browser_name: chrome
       javascript_session: js_enabled_browser
       goutte: ~
@@ -22,14 +22,3 @@ default:
             api_url: http://localhost:9222
             validate_certificate: false
       files_path: "%paths.base%/media"
-    Drupal\DrupalExtension:
-      blackbox: ~
-      api_driver: "drupal"
-    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
-        filename: report.xml
-        outputDir: "%paths.base%/build/tests"
-    Bex\Behat\ScreenshotExtension:
-      screenshot_taking_mode: failed_steps
-      image_drivers:
-        local:
-          screenshot_directory: /tmp
