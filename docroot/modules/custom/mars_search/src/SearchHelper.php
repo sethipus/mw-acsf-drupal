@@ -38,6 +38,13 @@ class SearchHelper implements SearchHelperInterface {
   public $request;
 
   /**
+   * Taxonomy facet process service.
+   *
+   * @var \Drupal\mars_search\SearchTermFacetProcess
+   */
+  protected $searchTermFacetProcess;
+
+  /**
    * Arrays with searches metadata.
    *
    * @var \Symfony\Component\HttpFoundation\RequestStack
@@ -47,10 +54,16 @@ class SearchHelper implements SearchHelperInterface {
   /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactoryInterface $logger_factory, RequestStack $request) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    LoggerChannelFactoryInterface $logger_factory,
+    RequestStack $request,
+    SearchTermFacetProcess $searchTermFacetProcess
+  ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get('mars_search');
     $this->request = $request->getMasterRequest();
+    $this->searchTermFacetProcess = $searchTermFacetProcess;
   }
 
   /**
@@ -182,23 +195,17 @@ class SearchHelper implements SearchHelperInterface {
   }
 
   /**
-   * Review if query has key.
+   * Process taxonomy facet links.
    *
-   * @param string $key
-   *   Query key.
+   * @param array $facets
+   *   The facet result from search query.
+   * @param array $vocabularies
+   *   List of vocabularies to process.
+   * @param int $grid_id
+   *   Id of grid for search.
    */
-  public function hasQueryKey($key) {
-    return $this->request->query->has($key);
-  }
-
-  /**
-   * Retrieve query key value.
-   *
-   * @param string $key
-   *   Query key.
-   */
-  public function getQueryValue($key) {
-    return $this->request->query->get($key);
+  public function processTermFacets(array $facets, array $vocabularies, int $grid_id) {
+    return $this->searchTermFacetProcess->processFilter($facets, $vocabularies, $grid_id);
   }
 
   /**
