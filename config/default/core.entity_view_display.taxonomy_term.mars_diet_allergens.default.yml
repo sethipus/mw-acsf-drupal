@@ -6,7 +6,6 @@ dependencies:
     - field.field.taxonomy_term.mars_diet_allergens.field_allergen_image
     - taxonomy.vocabulary.mars_diet_allergens
   module:
-    - image
     - text
 id: taxonomy_term.mars_diet_allergens.default
 targetEntityType: taxonomy_term
@@ -21,13 +20,13 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_allergen_image:
+    type: entity_reference_entity_view
     weight: 1
     label: above
     settings:
-      image_style: ''
-      image_link: ''
+      view_mode: default
+      link: false
     third_party_settings: {  }
-    type: image
     region: content
 hidden:
   search_api_excerpt: true

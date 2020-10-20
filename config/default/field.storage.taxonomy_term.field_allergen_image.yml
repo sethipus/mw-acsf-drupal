@@ -1,27 +1,17 @@
-uuid: 8f12ca95-ece4-4550-a2aa-03d8b5c88e2c
+uuid: 58905d36-e4e7-48d6-ade4-ed6763c7f7bd
 langcode: en
 status: true
 dependencies:
   module:
-    - file
-    - image
+    - media
     - taxonomy
 id: taxonomy_term.field_allergen_image
 field_name: field_allergen_image
 entity_type: taxonomy_term
-type: image
+type: entity_reference
 settings:
-  uri_scheme: public
-  default_image:
-    uuid: ''
-    alt: ''
-    title: ''
-    width: null
-    height: null
-  target_type: file
-  display_field: false
-  display_default: false
-module: image
+  target_type: media
+module: core
 locked: false
 cardinality: 1
 translatable: true
