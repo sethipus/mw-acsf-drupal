@@ -293,7 +293,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
             continue;
           }
           $facetValues[] = [
-            'title' => $terms[$facet['filter']]->label(),
+            'title' => !empty($terms[$facet['filter']]) ? $terms[$facet['filter']]->label() : '',
             'key' => $facet['filter'],
           ];
           if (
