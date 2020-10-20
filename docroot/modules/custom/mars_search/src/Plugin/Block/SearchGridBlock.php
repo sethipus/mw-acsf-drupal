@@ -214,6 +214,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $facetOptions = $searchOptions;
     // We don't need taxonomy filters and keys filter applied for facets query.
     $facetOptions['disable_filters'] = TRUE;
+    unset($facetOptions['limit']);
 
     // Taxonomy preset filter(s).
     // Adding them only if facets are disabled.
@@ -249,7 +250,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     // Populating filters.
     if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
       $query_search_results = $this->searchHelper->getSearchResults($facetOptions, "grid_{$grid_id}_facets");
-      list($build['#applied_filters_list'], $build['#filters']) = $this->processFilter($query_search_results['facets']);
+      list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($query_search_results['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
     }
 
     $build['#ajax_card_grid_heading'] = $config['title'];
@@ -258,66 +259,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#theme'] = 'mars_search_grid_block';
 
     return $build;
-  }
-
-  /**
-   * Prepare filter variables.
-   *
-   * @param array $facets
-   *   The facet result from search query.
-   */
-  private function processFilter(array $facets) {
-    $filters = $term_ids = [];
-
-    // Getting term names.
-    foreach ($facets as $facet_key => $facet) {
-      // That means it's a taxonomy facet.
-      if (in_array($facet_key, array_keys(self::TAXONOMY_VOCABULARIES))) {
-        foreach ($facet as $facet_data) {
-          if (is_numeric($facet_data['filter'])) {
-            $term_ids[] = $facet_data['filter'];
-          }
-        }
-      }
-    }
-    // Loading needed taxonomy terms.
-    $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($term_ids);
-    $appliedFilters = [];
-
-    foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
-      if (array_key_exists($vocabulary, $facets) && count($facets[$vocabulary]) > 0) {
-        $facetValues = [];
-        $countSelected = 0;
-        foreach ($facets[$vocabulary] as $facet) {
-          if ($facet['filter'] == '!') {
-            continue;
-          }
-          $facetValues[] = [
-            'title' => !empty($terms[$facet['filter']]) ? $terms[$facet['filter']]->label() : '',
-            'key' => $facet['filter'],
-          ];
-          if (
-            $this->searchHelper->hasQueryKey($vocabulary) &&
-            $this->searchHelper->getQueryValue($vocabulary) == $facet['filter']
-          ) {
-            $facetValues[count($facetValues) - 1]['checked'] = 'checked';
-            $countSelected++;
-            $appliedFilters[] = $terms[$facet['filter']]->label();
-          }
-        }
-        if (count($facetValues) == 0) {
-          continue;
-        }
-        $filters[] = [
-          'filter_title' => $vocabulary_data['label'],
-          'filter_id' => $vocabulary,
-          'active_filters_count' => $countSelected,
-          'checkboxes' => $facetValues,
-        ];
-      }
-    }
-
-    return [$appliedFilters, $filters];
   }
 
   /**
