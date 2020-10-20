@@ -420,7 +420,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $product_variant_first = $product->field_product_variants->first()->entity;
       $serving_items = $this->getServingItems($product_variant_first);
 
-      $product_image = $product_variant_first->field_product_key_image_override ?? $product_variant_first->field_product_key_image;
+      $product_image = $product_variant_first->field_product_key_image_override->first() ?? $product_variant_first->field_product_key_image->first();
       $product_image_entity = $product_image->entity ? $product_image->entity->image : NULL;
       $file = $product_image_entity ? $this->fileStorage->load($product_image_entity->target_id) : NULL;
       $image_src = $file ? $file->createFileUrl() : NULL;
