@@ -8,19 +8,21 @@
 {{ attach_library('emulsifymars/card-grid-filter') }}
 
 <div {{ bem(search_filter_container_base_class) }} data-theme="{{ theme_styles }}">
+  {% if search_form is not empty %}
     <div {{ bem('search', [], search_filter_container_base_class, ['search-input-wrapper']) }}>
-    <div class="search-input">
-      {{ search_form }}
+      <div class="search-input">
+        {{ search_form }}
+      </div>
+      <div class="mars-search-autocomplete-suggestions-wrapper">
+        <div class="autocomplete-border"></div>
+        <div class="mars-suggestions">
+          {% include "@atoms/lists/ul.twig" with {
+            ul_items: search_results,
+          } %}
+        </div>
+      </div>
     </div>
-  <div class="mars-search-autocomplete-suggestions-wrapper">
-    <div class="autocomplete-border"></div>
-    <div class="mars-suggestions">
-      {% include "@atoms/lists/ul.twig" with {
-        ul_items: search_results,
-      } %}
-    </div>
-  </div>
-  </div>
+  {% endif %}
   <div class="search-filter-open-button">{{ 'Filter' | t }}</div>
   <div {{ bem(search_filter_block_base_class) }}>
     <div {{ bem(search_filter_header_base_class) }}>
@@ -42,7 +44,7 @@
       <a href="#" {{ bem('button', ['highlighted', 'apply'], search_filter_block_base_class) }}>{{ "Apply" | t }}</a>
     </div>
   </div>
-  <div {{ bem(search_filter_information_base_class) }}>
+  <div {{ bem(search_filter_information_base_class, [modifier]) }}>
     <div {{ bem('applied', [modifier], search_filter_information_base_class) }}>
       <div {{ bem('applied-label', [], search_filter_information_base_class) }}>
         {{ "Applied filters (" | t }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | t }}

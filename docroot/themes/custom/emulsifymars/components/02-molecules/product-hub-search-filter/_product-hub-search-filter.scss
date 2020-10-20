@@ -1,6 +1,7 @@
 .search-filter-container {
   padding: 20px;
   background-color: clr(subcolor-2);
+  position: relative;
 
   &__search {
     margin: 60px auto;
@@ -286,4 +287,14 @@
   &__clear {
     flex-shrink: 0;
   }
+
+  &--hidden {
+    display: none;
+  }
+}
+
+.search-results-page {
+  .search-filter-container {
+    background-color: clr(subcolor-3);
+  }  
 }

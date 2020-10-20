@@ -1,0 +1,32 @@
+uuid: e26ef841-5f49-43f0-ba06-83b3db7aa818
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.inline_video
+    - field.storage.block_content.field_inline_video
+    - media.type.lighthouse_video
+    - media.type.video
+    - media.type.video_file
+id: block_content.inline_video.field_inline_video
+field_name: field_inline_video
+entity_type: block_content
+bundle: inline_video
+label: Video
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      lighthouse_video: lighthouse_video
+      video: video
+      video_file: video_file
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: lighthouse_video
+field_type: entity_reference
