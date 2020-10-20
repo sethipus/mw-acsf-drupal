@@ -103,6 +103,10 @@ steps:
     inputs:
       filePath: '$(scriptDir)/setup_env.sh'
   - task: Bash@3
+    displayName: 'Run Behat Tests'
+    inputs:
+      filePath: './scripts/tests_behat_run.sh'
+  - task: Bash@3
     displayName: 'Setup App'
     inputs:
       filePath: '$(scriptDir)/setup_app.sh'

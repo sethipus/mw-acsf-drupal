@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -ev
+
+vendor/bin/blt tests:behat:run --commit-msg "Automated commit by Azure Pipelines for Build $BUILD_BUILDID" --tag "$BUILD_SOURCEBRANCHNAME-build" --no-interaction --verbose
+
+set +v
