@@ -3,11 +3,6 @@
   position: relative;
   overflow: visible;
   margin: 0;
-  top: -1.5rem;
-
-  @include medium {
-    top: -2rem;
-  }
 
   &__content {
     margin-bottom: -40rem;
@@ -67,22 +62,22 @@
     width: 100%;
     height: auto;
     z-index: -1;
-    top: -4rem;
+    top: -2rem;
 
     @include small {
-      top: -5rem;
+      top: -3rem;
     }
 
     @include medium {
-      top: -7.5rem;
+      top: -4rem;
     }
 
     @include large {
-      top: -10.5rem;
+      top: -6rem;
     }
 
     @include xl {
-      top: -12.5rem;
+      top: -8rem;
     }
 
     >svg {
