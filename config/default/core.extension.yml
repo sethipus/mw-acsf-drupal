@@ -111,7 +111,6 @@ module:
   moderation_dashboard: 0
   moderation_sidebar: 0
   node: 0
-  onetrust: 0
   openapi: 0
   openapi_jsonapi: 0
   openapi_ui: 0
@@ -123,8 +122,11 @@ module:
   panels: 0
   path: 0
   path_alias: 0
+  pdf_api: 0
   platform_core: 0
   poll: 0
+  printable: 0
+  printable_pdf: 0
   quickedit: 0
   rdf: 0
   redirect: 0

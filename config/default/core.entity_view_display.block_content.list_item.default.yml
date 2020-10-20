@@ -7,8 +7,6 @@ dependencies:
     - field.field.block_content.list_item.field_list_item_description
     - field.field.block_content.list_item.field_list_item_image
     - field.field.block_content.list_item.field_list_item_order
-  module:
-    - image
 id: block_content.list_item.default
 targetEntityType: block_content
 bundle: list_item
@@ -23,13 +21,13 @@ content:
     type: string
     region: content
   field_list_item_image:
-    weight: 1
+    type: entity_reference_entity_view
+    weight: 3
     label: above
     settings:
-      image_style: ''
-      image_link: ''
+      view_mode: default
+      link: false
     third_party_settings: {  }
-    type: image
     region: content
   field_list_item_order:
     weight: 2

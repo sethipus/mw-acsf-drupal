@@ -144,25 +144,28 @@ class Carousel extends JsonLdStrategyPluginBase {
 
         return Schema::itemList()
           ->itemListElement(array_map(function ($delta, $item) use ($node) {
+            $variant = $item->entity;
+            $main_image_id = $this->mediaHelper->getEntityMainMediaId($variant);
+
             return Schema::listItem()
               ->position($delta + 1)
               ->item(
                 Schema::product()
                   ->name($node->getTitle())
-                  ->url($node->toUrl('canonical', ['absolute' => TRUE, 'fragment' => $item->entity->id()])->toString())
+                  ->url($node->toUrl('canonical', ['absolute' => TRUE, 'fragment' => $variant->id()])->toString())
                   ->aggregateRating(Schema::aggregateRating()
                     ->ratingValue(5)
                     ->ratingCount(18)
                   )
-                  ->sku($item->entity->field_product_sku->value)
+                  ->sku($variant->field_product_sku->value)
                   ->if($node->field_product_brand->target_id, function (Product $product) use ($node) {
                     $product->brand($node->field_product_brand->entity->getName());
                   })
                   ->if($node->field_product_description->value, function (Product $product) use ($node) {
                     $product->description($node->field_product_description->value);
                   })
-                  ->if($item->entity->field_product_key_image->target_id, function (Product $product) use ($item) {
-                    $url = $this->mediaHelper->getMediaUrl($item->entity->field_product_key_image->target_id);
+                  ->if($main_image_id, function (Product $product) use ($main_image_id) {
+                    $url = $this->mediaHelper->getMediaUrl($main_image_id);
 
                     if ($url) {
                       $product->image([$url]);

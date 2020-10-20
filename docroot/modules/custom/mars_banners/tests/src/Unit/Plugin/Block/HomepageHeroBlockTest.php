@@ -3,12 +3,11 @@
 namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
 use Drupal;
-use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_banners\Plugin\Block\HomepageHeroBlock;
+use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -76,23 +75,16 @@ class HomepageHeroBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
    */
-  private $entityTypeManagerMock;
-
-  /**
-   * File storage.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorageMock;
+  private $mediaHelperMock;
 
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactoryInterface
+   * @var \Drupal\mars_common\ThemeConfiguratorParser|\PHPUnit\Framework\MockObject\MockObject
    */
-  private $configFactoryMock;
+  private $themeConfiguratorParserMock;
 
   /**
    * {@inheritdoc}
@@ -102,20 +94,12 @@ class HomepageHeroBlockTest extends UnitTestCase {
     $this->createMocks();
     Drupal::setContainer($this->containerMock);
 
-    $this->entityTypeManagerMock
-      ->expects($this->any())
-      ->method('getStorage')
-      ->withConsecutive(
-        [$this->equalTo('file')]
-      )
-      ->will($this->onConsecutiveCalls($this->fileStorageMock));
-
     $this->homepageBlock = new HomepageHeroBlock(
       self::TEST_CONFIGURATION,
       'homepage_hero_block',
       self::TEST_DEFENITION,
-      $this->entityTypeManagerMock,
-      $this->configFactoryMock
+      $this->mediaHelperMock,
+      $this->themeConfiguratorParserMock
     );
   }
 
@@ -123,23 +107,6 @@ class HomepageHeroBlockTest extends UnitTestCase {
    * Test.
    */
   public function testShouldBuild() {
-    $configMock = $this->getMockBuilder(stdClass::class)
-      ->setMethods(['get'])
-      ->getMock();
-
-    $this->configFactoryMock
-      ->expects($this->once())
-      ->method('get')
-      ->with('emulsifymars.settings')
-      ->willReturn(
-        $configMock
-      );
-
-    $configMock
-      ->expects($this->once())
-      ->method('get')
-      ->willReturn(['brand_shape' => [9]]);
-
     $block_build = $this->homepageBlock->build();
     $this->assertSame(
       'Homepage Hero block',
@@ -202,9 +169,8 @@ class HomepageHeroBlockTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
-    $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
-    $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
-    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 
 }

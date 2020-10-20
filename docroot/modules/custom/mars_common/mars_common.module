@@ -84,11 +84,7 @@ function mars_common_preprocess(&$variables, $hook) {
 
   if ($hook === 'poll_vote' || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $pngAssetFile = $themeParser->getFileFromTheme('png_asset');
-    if ($pngAssetFile instanceof EntityInterface) {
-      $pngAssetUri = $pngAssetFile->getFileUri();
-      $variables['polling_png_asset'] = Url::fromUri(file_create_url($pngAssetUri));
-    }
+    $variables['polling_png_asset'] = $themeParser->getUrlForFile('png_asset');
   }
 
   if ($hook === 'views_infinite_scroll_pager__grid_card') {
@@ -186,6 +182,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'label' => NULL,
         'background' => NULL,
         'description' => NULL,
+        'media_type' => NULL,
+        'media_format' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -210,7 +208,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'eyebrow' => NULL,
         'title' => NULL,
         'background_color' => NULL,
-        'image' => NULL,
+        'image_src' => NULL,
+        'image_alt' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
       ],
@@ -234,7 +233,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'title' => NULL,
         'body' => NULL,
         'links' => NULL,
-        'image' => NULL,
+        'image_src' => NULL,
         'image_alt' => NULL,
         'graphic_divider' => NULL,
         'brand_shape' => NULL,
@@ -285,7 +284,27 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'poll-block',
     ],
+    'where_to_buy_block' => [
+      'template' => 'where-to-buy-block',
+    ],
   ];
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function mars_common_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if (!(\Drupal::currentUser()->hasPermission('administer polls'))) {
+    return;
+  }
+  $entityTypeId = $entity->getEntityTypeId();
+  if ($entityTypeId === 'poll') {
+    $operations['results'] = [
+      'title' => t('Results'),
+      'url' => Url::fromRoute('mars_common.poll.votes', ['poll' => $entity->id()]),
+      'weight' => 10,
+    ];
+  }
 }
 
 /**
@@ -349,6 +368,9 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__list(array &$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
   $field_list_items = $variables['content']['field_list_items_reference'];
 
   $ol_items = [];
@@ -357,7 +379,6 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
 
       $item_block = $item_value['#options']['entity'];
       $field_desc_val = $item_block->get('field_list_item_description')->value;
-      $field_image_val = $item_block->get('field_list_item_image')->getValue();
       $field_item_order = $item_block->get('field_list_item_order')->value;
 
       $item = [
@@ -365,21 +386,20 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
         'item_number' => $field_item_order,
       ];
 
-      if (isset($field_image_val[0])) {
-        $file_uri = Drupal::entityTypeManager()
-          ->getStorage('file')
-          ->load($field_image_val[0]['target_id'])
-          ->getFileUri();
+      if (!$item_block->get('field_list_item_image')->isEmpty()) {
+        $media_id = $item_block
+          ->get('field_list_item_image')
+          ->first()
+          ->target_id;
 
-        $file_url = Url::fromUri(file_create_url($file_uri));
-        $image_alt = $field_image_val[0]['alt'];
-        $image_title = $field_image_val[0]['title'];
-
-        $item['image'] = [
-          'src' => $file_url,
-          'alt' => $image_alt,
-          'title' => $image_title,
-        ];
+        $media_params = $media_helper->getMediaParametersById($media_id);
+        if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+          $item['image'] = [
+            'src' => $media_params['src'],
+            'alt' => $media_params['alt'],
+            'title' => $media_params['title'],
+          ];
+        }
       }
 
       $ol_items[] = $item;
@@ -403,85 +423,191 @@ function mars_common_preprocess_block__inline_block__text_component(array &$vari
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__inline_image(array &$variables) {
-  $field_image = $variables['content']['field_inline_image_file']['#items']->target_id;
-  $image_alt = $variables['content']['field_inline_image_file']['#items']->alt;
-  $field_shape_motif = $variables['content']['field_inline_image_svg_asset']['#items']->value;
-  $field_image_desc = $variables['content']['field_inline_image_description']['#items']->value;
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
 
-  $file_url = NULL;
-  if (isset($field_image)) {
-    $file_uri = Drupal::entityTypeManager()
-      ->getStorage('file')
-      ->load($field_image)
-      ->getFileUri();
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
 
-    $file_url = Url::fromUri(file_create_url($file_uri));
+  if (!$block->get('field_inline_image_file')->isEmpty()) {
+    $media_id = $block
+      ->get('field_inline_image_file')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['image_src'] = $media_params['src'];
+      $variables['image_alt'] = $media_params['alt'];
+      $variables['image_title'] = $media_params['title'];
+    }
   }
 
-  $variables['image_src'] = $file_url;
-  $variables['image_alt'] = $image_alt;
-  $variables['image_title'] = NULL;
-  $variables['shape_motif'] = (bool) $field_shape_motif;
-  $variables['content'] = $field_image_desc;
+  if (!$block->get('field_inline_image_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_inline_image_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_inline_image_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_inline_image_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_inline_image_title')->isEmpty()) {
+    $variables['title'] = $block
+      ->get('field_inline_image_title')
+      ->first()
+      ->value;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__inline_video(array &$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
+
+  if (!$block->get('field_inline_video')->isEmpty()) {
+    $media_id = $block
+      ->get('field_inline_video')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['video_src'] = $media_params['src'];
+    }
+  }
+
+  if (!$block->get('field_inline_video_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_inline_video_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_inline_video_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_inline_video_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_inline_video_title')->isEmpty()) {
+    $variables['title'] = $block
+      ->get('field_inline_video_title')
+      ->first()
+      ->value;
+  }
 }
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__full_width_image(array &$variables) {
-  $field_image = $variables['content']['field_full_image_file']['#items']->target_id;
-  $image_alt = $variables['content']['field_full_image_file']['#items']->alt;
-  $field_shape_motif = $variables['content']['field_full_image_svg_asset']['#items']->value;
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
 
-  $file_url = NULL;
-  if (isset($field_image)) {
-    $file_uri = Drupal::entityTypeManager()
-      ->getStorage('file')
-      ->load($field_image)
-      ->getFileUri();
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
 
-    $file_url = Url::fromUri(file_create_url($file_uri));
+  if (!$block->get('field_full_image_file')->isEmpty()) {
+    $media_id = $block
+      ->get('field_full_image_file')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['media']['image'] = TRUE;
+      $variables['media']['src'] = $media_params['src'];
+      $variables['media']['alt'] = $media_params['alt'];
+      $variables['media']['title'] = $media_params['title'];
+    }
   }
 
-  $variables['heading'] = !$variables['content']['field_full_image_title'] ? $variables['content']['field_full_image_title']['#items']->value : NULL;
-  $variables['content'] = !$variables['content']['field_full_image_description'] ? $variables['content']['field_full_image_description']['#items']->value : NULL;
-  $variables['shape_motif'] = (bool) $field_shape_motif;
-  $variables['media'] = [
-    'image' => TRUE,
-    'src' => $file_url,
-    'alt' => $image_alt,
-    'title' => NULL,
-  ];
+  if (!$block->get('field_full_image_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_full_image_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_image_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_full_image_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_image_title')->isEmpty()) {
+    $variables['heading'] = $block
+      ->get('field_full_image_title')
+      ->first()
+      ->value;
+  }
 }
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__full_width_video(array &$variables) {
-  if (!empty($variables['content']['field_full_video_svg_asset']['#items'])) {
-    $field_shape_motif = $variables['content']['field_full_video_svg_asset']['#items']->value;
-    $variables['shape_motif'] = (bool) $field_shape_motif;
-  }
-  if (!empty($variables['content']['field_full_video_description']['#items'])) {
-    $field_video_desc = $variables['content']['field_full_video_description']['#items']->value;
-    $variables['description'] = $field_video_desc;
-  }
-  if (!empty($variables['content']['field_full_video_title']['#items'])) {
-    $field_heading = $variables['content']['field_full_video_title']['#items']->value;
-    $variables['heading'] = $field_heading;
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
+
+  if (!$block->get('field_full_video')->isEmpty()) {
+    $media_id = $block
+      ->get('field_full_video')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['media']['video'] = TRUE;
+      $variables['media']['src'] = $media_params['src'];
+    }
   }
 
-  $field_video_url = $variables['content']['field_full_video_path']['#items']->value;
-  $variables['media'] = [
-    'video' => TRUE,
-    'src' => $field_video_url,
-  ];
+  if (!$block->get('field_full_video_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_full_video_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_video_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_full_video_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_video_title')->isEmpty()) {
+    $variables['heading'] = $block
+      ->get('field_full_video_title')
+      ->first()
+      ->value;
+  }
 }
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__flexible_framer(array &$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
   $field_ff_items = $variables['content']['field_ff_items_reference'];
   $field_ff_title = $variables['content']['field_ff_title']['#items']->value;
 
@@ -496,7 +622,6 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
       $item_block = $item_value['#options']['entity'];
       $field_desc_val = $item_block->get('field_ff_item_description')->value;
       $field_title_val = $item_block->get('field_ff_item_title')->value;
-      $field_image_val = $item_block->get('field_ff_item_image')->getValue();
       $field_cta_val = $item_block->get('field_ff_item_cta')->value;
 
       $item = [
@@ -506,25 +631,24 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
         'card__body' => ($with_desc_flag) ? $field_desc_val : NULL,
       ];
 
-      if (isset($field_image_val[0])) {
-        $file_uri = Drupal::entityTypeManager()
-          ->getStorage('file')
-          ->load($field_image_val[0]['target_id'])
-          ->getFileUri();
+      if ($with_image_flag && !$item_block->get('field_ff_item_image')->isEmpty()) {
+        $media_id = $item_block
+          ->get('field_ff_item_image')
+          ->first()
+          ->target_id;
 
-        $file_url = Url::fromUri(file_create_url($file_uri));
-        $image_alt = $field_image_val[0]['alt'];
-        $image_title = $field_image_val[0]['title'];
-
-        $item['card__image__src'] = ($with_image_flag) ? $file_url->getUri() : NULL;
-        $item['card__image__alt'] = ($with_image_flag) ? $image_alt : NULL;
-        $item['card__image__title'] = ($with_image_flag) ? $image_title : NULL;
+        $media_params = $media_helper->getMediaParametersById($media_id);
+        if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+          $item['card__image__src'] = $media_params['src'];
+          $item['card__image__alt'] = $media_params['alt'];
+          $item['card__image__title'] = $media_params['title'];
+        }
       }
 
       $ff_items[] = $item;
     }
   }
-
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
   $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
@@ -989,6 +1113,22 @@ function mars_common_taxonomy_term_presave(TermInterface $term) {
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function mars_common_page_attachments(&$page) {
+  $current_route = Drupal::routeMatch();
+  $route_name = $current_route->getRouteName();
+  $supported_routes = [
+    'layout_builder.overrides.node.view',
+    'layout_builder.defaults.node.view',
+  ];
+
+  if (in_array($route_name, $supported_routes)) {
+    $page['#attached']['library'][] = 'mars_common/mars_common.dialog_fix';
   }
 }
 

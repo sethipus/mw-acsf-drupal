@@ -6,9 +6,12 @@ search_form: '<form class="mars-search-form" data-drupal-selector="mars-search-f
               </form>'
 title: 'Filter By:'
 applied_filters_list:
-  - Nut Free
-  - Cocoa For Generations
-  - Bars/Countlines
+  - title: 'Nut Free'
+    key: 'nut_free'
+  - title: 'Cocoa For Generations'
+    key: 'cocoa_for_generations'
+  - title: 'Bars/Countlines'
+    key: 'bars_countlines'
 items:
   - filter_title: 'Diet & Allergens'
     filter_id: 'mars_diet_allergens'

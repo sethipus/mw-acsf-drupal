@@ -59,6 +59,13 @@ Drupal.behaviors.overlayVideoPlayer = {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
         });
+        videoElements('video').addEventListener('click', function(e) {
+          if (videoElements('video').paused || videoElements('video').ended) {
+            videoElements('video').play();
+          } else {
+            videoElements('video').pause();
+          }
+        });
 
         videoElements('mute').addEventListener('click', function(e) {
           videoElements('video').muted = !videoElements('video').muted;
