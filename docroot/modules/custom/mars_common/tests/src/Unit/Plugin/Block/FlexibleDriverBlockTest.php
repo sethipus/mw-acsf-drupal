@@ -53,9 +53,8 @@ class FlexibleDriverBlockTest extends UnitTestCase {
     'title' => 'Flexible driver',
     'description' => 'Description',
     'cta_label' => 'CTA Label',
-    'cta_link' => 'CTA Link'
+    'cta_link' => 'CTA Link',
   ];
-
 
   /**
    * {@inheritdoc}
@@ -100,4 +99,5 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   public function buildBlockRenderArrayProperly() {
 
   }
+
 }
