@@ -284,6 +284,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'poll-block',
     ],
+    'where_to_buy_block' => [
+      'template' => 'where-to-buy-block',
+    ],
   ];
 }
 
