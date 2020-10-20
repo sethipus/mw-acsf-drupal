@@ -10,6 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -77,6 +78,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $entityFormBuilder;
 
   /**
+   * Helper service to deal with media.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  private $mediaHelper;
+
+  /**
    * Price spider id.
    */
   const VENDOR_PRICE_SPIDER = 'price_spider';
@@ -108,7 +116,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityRepositoryInterface $entity_repository,
     EntityFormBuilderInterface $entity_form_builder,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    LanguageManagerInterface $language_manager
+    LanguageManagerInterface $language_manager,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
@@ -117,6 +126,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->entityFormBuilder = $entity_form_builder;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageManager = $language_manager;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -132,7 +142,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity.repository'),
       $container->get('entity.form_builder'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('language_manager')
+      $container->get('language_manager'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -393,18 +404,22 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
 
     foreach ($map as $image_field => $image_field_override) {
-      $media = $node->{$image_field}->entity;
-      $media_override = $node->{$image_field_override}->entity;
-      if (!$media && !$media_override) {
-        continue;
-      }
-      if ($media && $media_override) {
-        $media = $media_override;
+      $media_override_id = $node->{$image_field_override}->target_id;
+      $media_params = $this->mediaHelper->getMediaParametersById($media_override_id);
+
+      // Override media missing or has error try the normal version.
+      if ($media_params['error'] ?? FALSE) {
+        $media_id = $node->{$image_field}->target_id;
+        $media_params = $this->mediaHelper->getMediaParametersById($media_id);
       }
 
-      $file = $this->fileStorage->load($media->image->target_id);
-      $image_src = $file->createFileUrl();
-      $image_alt = $media->image[0]->alt;
+      // Override media and the normal version both failed, we should skip this.
+      if ($media_params['error'] ?? FALSE) {
+        continue;
+      }
+
+      $image_src = $media_params['src'];
+      $image_alt = $media_params['alt'];
 
       $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
       $items[] = [
@@ -587,18 +602,19 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @return array
    *   Allergen items array.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function getAllergenItems($node) {
     $items = [];
     foreach ($node->field_product_diet_allergens as $reference) {
       $allergen_term = $reference->entity;
-      $icon_src = $this->getIconSrc($allergen_term);
-      $items[] = [
-        'allergen_icon' => $icon_src,
-        'allergen_label' => $allergen_term->getName(),
-      ];
+      $media_id = $this->mediaHelper->getEntityMainMediaId($allergen_term);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $items[] = [
+          'allergen_icon' => $media_params['src'],
+          'allergen_label' => $allergen_term->getName(),
+        ];
+      }
     }
 
     return $items;
@@ -637,38 +653,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $items;
-  }
-
-  /**
-   * Get Icon src from entity.
-   *
-   * @param object $entity
-   *   Taxonomy term entity.
-   * @param string $image_field
-   *   Image field name.
-   *
-   * @return string
-   *   Image src value.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   */
-  public function getIconSrc($entity, $image_field = 'field_allergen_image') {
-    $icon_src = '';
-    if (!$entity->get($image_field)->isEmpty()) {
-      $icon_src = $entity->{$image_field}->entity->createFileUrl();
-    }
-    else {
-      $field = $entity->get($image_field);
-      $default_image = $field->getSetting('default_image');
-      if (isset($default_image['uuid'])) {
-        if ($default_image_file
-          = $this->entityRepository->loadEntityByUuid('file', $default_image['uuid'])) {
-          $icon_src = $default_image_file->createFileUrl();
-        };
-      }
-    }
-
-    return $icon_src;
   }
 
   /**
