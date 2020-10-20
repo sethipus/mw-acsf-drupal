@@ -23,5 +23,7 @@ function mars_common_update_8001() {
  */
 function mars_common_update_8002() {
   $content_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('contact_help');
-  $content_type->delete();
+  if ($content_type) {
+    $content_type->delete();
+  }
 }

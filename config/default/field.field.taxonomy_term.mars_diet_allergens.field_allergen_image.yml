@@ -1,38 +1,30 @@
-uuid: ce22591c-59d9-4faf-a53d-7ff4c998ba9c
+uuid: 73b77928-34d3-4119-a9f9-1e600a94ead5
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.taxonomy_term.field_allergen_image
+    - media.type.image
+    - media.type.lighthouse_image
     - taxonomy.vocabulary.mars_diet_allergens
-  module:
-    - image
 id: taxonomy_term.mars_diet_allergens.field_allergen_image
 field_name: field_allergen_image
 entity_type: taxonomy_term
 bundle: mars_diet_allergens
-label: 'Allergen Image'
+label: Image
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'png gif jpg jpeg'
-  max_filesize: ''
-  max_resolution: ''
-  min_resolution: ''
-  alt_field: true
-  alt_field_required: true
-  title_field: false
-  title_field_required: false
-  default_image:
-    uuid: ''
-    alt: ''
-    title: ''
-    width: null
-    height: null
-  handler: 'default:file'
-  handler_settings: {  }
-field_type: image
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference
