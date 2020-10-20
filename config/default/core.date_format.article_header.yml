@@ -1,0 +1,8 @@
+uuid: 7ae0fd33-a537-491d-a7cc-c3a4dcbc4df2
+langcode: en
+status: true
+dependencies: {  }
+id: article_header
+label: 'Article header'
+locked: false
+pattern: 'F j, Y'
