@@ -62,7 +62,15 @@ Drupal.behaviors.inlineVideoPlayer = {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
         });
-
+        videoElements('video').addEventListener('click', function(e) {
+          if (videoElements('video').paused || videoElements('video').ended) {
+            videoElements('video').play();
+          } else {
+            videoElements('video').pause();
+          }
+          changeButtonState(videoElements, 'control');
+        });
+        
         videoElements('mute').addEventListener('click', function(e) {
           videoElements('video').muted = !videoElements('video').muted;
           changeButtonState(videoElements, 'mute');
@@ -96,11 +104,11 @@ Drupal.behaviors.inlineVideoPlayer = {
     // Changes the button state of certain button's so the correct visuals can be displayed with CSS
     var changeButtonState = function(videoElements, type) {
       // Play/Pause button
-      if (type == 'playpause') {
+      if (type == 'playpause' || type === 'control') {
         if (videoElements('video').paused || videoElements('video').ended) {
-          videoElements('playpause').setAttribute('data-state', 'play');
+          videoElements(type).setAttribute('data-state', 'play');
         } else {
-          videoElements('playpause').setAttribute('data-state', 'pause');
+          videoElements(type).setAttribute('data-state', 'pause');
         }
       }
       // Mute button
