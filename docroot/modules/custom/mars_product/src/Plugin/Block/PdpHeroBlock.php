@@ -13,6 +13,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_product\ProductHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -79,6 +80,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   private $mediaHelper;
 
   /**
+   * Product helper service.
+   *
+   * @var \Drupal\mars_product\ProductHelper
+   */
+  private $productHelper;
+
+  /**
    * Price spider id.
    */
   const VENDOR_PRICE_SPIDER = 'price_spider';
@@ -111,6 +119,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityFormBuilderInterface $entity_form_builder,
     ThemeConfiguratorParser $themeConfiguratorParser,
     LanguageManagerInterface $language_manager,
+    ProductHelper $product_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -120,6 +129,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->entityFormBuilder = $entity_form_builder;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageManager = $language_manager;
+    $this->productHelper = $product_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -137,6 +147,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity.form_builder'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('language_manager'),
+      $container->get('mars_product.product_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -416,7 +427,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * Get multipack product PDP data.
    *
-   * @param object $node
+   * @param \Drupal\Core\Entity\EntityInterface $node
    *   Product node.
    *
    * @return array
@@ -424,23 +435,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function getPdpMultiPackProductData($node) {
+  protected function getPdpMultiPackProductData(EntityInterface $node) {
     $products_data = [];
     foreach ($node->field_product_pack_items as $product_reference) {
       $product = $product_reference->entity;
-      $product_variant_first = $product->field_product_variants->first()->entity;
+      $product_variant_first = $this->productHelper->mainVariant($product);
       $serving_items = $this->getServingItems($product_variant_first);
-
-      $product_image = $product_variant_first->field_product_key_image_override->first() ?? $product_variant_first->field_product_key_image->first();
-      $product_image_entity = $product_image->entity ? $product_image->entity->image : NULL;
-      $file = $product_image_entity ? $this->fileStorage->load($product_image_entity->target_id) : NULL;
-      $image_src = $file ? $file->createFileUrl() : NULL;
-      $image_alt = $product_image_entity ? $product_image_entity[0]->alt : NULL;
 
       $products_data[] = [
         'product_title' => $product_variant_first->getTitle(),
-        'product_image_src' => $image_src,
-        'product_image_alt' => $image_alt,
+        'product_image' => $this->getProductVariantImage($product_variant_first),
         'nutrition_data' => [
           'serving_item' => $serving_items,
           'serving_item_empty' => $this->isServingItemsEmpty($serving_items),
@@ -470,6 +474,31 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $items;
+  }
+
+  /**
+   * Get product variant image.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $product_variant
+   *   Product variant.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getProductVariantImage(EntityInterface $product_variant) {
+    $media_id = $this->mediaHelper->getEntityMainMediaId($product_variant);
+    $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+
+    if ($media_params['error'] ?? FALSE) {
+      return [
+        'src' => NULL,
+        'alt' => '',
+      ];
+    }
+    return [
+      'src' => $media_params['src'],
+      'alt' => $media_params['alt'],
+    ];
   }
 
   /**
