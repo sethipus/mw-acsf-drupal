@@ -6,17 +6,17 @@
 trigger:
   branches:
     include:
-    - '*'
+      - '*'
   tags:
     include:
-    - '*'
+      - '*'
 
 schedules:
-- cron: "0 3,8,14 * * Mon-Fri"
-  displayName: Daily Scheduled Build
-  branches:
-    include:
-    - 'dev'
+  - cron: "0 3,8,14 * * Mon-Fri"
+    displayName: Daily Scheduled Build
+    branches:
+      include:
+        - 'dev'
 
 pool:
   vmImage: 'ubuntu-16.04'
@@ -103,21 +103,13 @@ steps:
     inputs:
       filePath: '$(scriptDir)/setup_env.sh'
   - task: Bash@3
-    displayName: 'Setup Blt'
-    inputs:
-      filePath: './scripts/tests_behat_prepare.sh'
-  - task: Bash@3
-    displayName: 'Run Tests'
-    inputs:
-      filePath: './scripts/tests_behat_run.sh'
-  - task: Bash@3
     displayName: 'Setup App'
     inputs:
       filePath: '$(scriptDir)/setup_app.sh'
   - task: Bash@3
     displayName: 'Run Tests'
     inputs:
-      filePath: './scripts/tests_behat_run.sh'
+      filePath: '$(scriptDir)/test.sh'
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
