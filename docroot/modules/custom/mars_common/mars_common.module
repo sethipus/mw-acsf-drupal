@@ -294,6 +294,19 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'text-block',
     ],
+    'inline_image_video_block' => [
+      'variables' => [
+        'block_type' => NULL,
+        'video_src' => NULL,
+        'image_src' => NULL,
+        'image_alt' => NULL,
+        'image_title' => NULL,
+        'shape_motif' => NULL,
+        'content' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'inline-image-video-block',
+    ],
   ];
 }
 
