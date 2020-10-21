@@ -104,7 +104,6 @@ third_party_settings:
             Menus: {  }
             'Moderation Dashboard': {  }
             Product:
-              - pdp_product_multipack_block
               - pdp_hero_block
             Recipe: {  }
             'Social feed':
@@ -133,7 +132,6 @@ third_party_settings:
             Menus: {  }
             'Moderation Dashboard': {  }
             Product:
-              - pdp_product_multipack_block
               - pdp_hero_block
             Recipe: {  }
             'Social feed': {  }
