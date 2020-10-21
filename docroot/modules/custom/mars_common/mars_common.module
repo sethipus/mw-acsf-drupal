@@ -999,7 +999,7 @@ function mars_common_field_widget_form_alter(
     'field_inline_video_title',
     'field_full_image_title',
     'field_full_video_title',
-    'field_carousel_title'
+    'field_carousel_title',
   ];
   if (in_array($field_name, $applied_titles)) {
     $element['value']['#maxlength'] = 55;
