@@ -1,7 +1,7 @@
 Drupal.behaviors.mainMenu = {
   attach(context) {
-    const toggleExpand = context.getElementById('toggle-expand');
-    const menu = context.getElementById('main-nav-mobile');
+    const toggleExpand = document.getElementById('toggle-expand');
+    const menu = document.querySelector('#main-nav-mobile:not(.inited)');
     if (menu) {
       const expandMenu = menu.getElementsByClassName('expand-sub');
 
@@ -22,6 +22,7 @@ Drupal.behaviors.mainMenu = {
           subMenu.classList.toggle('main-menu--sub-open');
         });
       }
+      menu.classList.add('inited');
     }
   },
 };

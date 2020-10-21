@@ -677,6 +677,12 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 
   if (strpos($form_id, 'poll_view_form_') === 0) {
     $form['actions']['cancel'] = NULL;
+    if ($form['actions']['vote']['#ajax'] ?? NULL) {
+      $form['actions']['vote']['#ajax']['progress'] = FALSE;
+    }
+    if ($form['actions']['result']['#ajax'] ?? NULL) {
+      $form['actions']['result']['#ajax']['progress'] = FALSE;
+    }
   }
 
   // Alter layout form related to content type

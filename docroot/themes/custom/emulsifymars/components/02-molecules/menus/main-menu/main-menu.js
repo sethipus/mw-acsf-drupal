@@ -1,7 +1,7 @@
 Drupal.behaviors.mainMenu = {
   attach(context) {
-    const toggleExpand = context.getElementById('toggle-expand');
-    const header = context.getElementById('header-menu-trigger');
+    const toggleExpand = document.getElementById('toggle-expand');
+    const header = document.querySelector('#header-menu-trigger:not(.inited)');
     if (header) {
       const expandHeader = header.getElementsByClassName('main-menu__link--with-sub');
 
@@ -24,6 +24,7 @@ Drupal.behaviors.mainMenu = {
           subMenu.nextElementSibling.classList.toggle('main-menu--sub-open');
         });
       }
+      header.classList.add('inited');
     }
   },
 };
