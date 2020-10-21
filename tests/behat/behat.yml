@@ -5,9 +5,8 @@ default:
         - "%paths.base%/features"
   extensions:
     Behat\MinkExtension:
-      default_session: selenium2
       browser_name: chrome
-      javascript_session: default
+      javascript_session: selenium2
       selenium2: ~
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
