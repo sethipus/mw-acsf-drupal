@@ -2,6 +2,6 @@
 
 set -ev
 
-vendor/bin/blt tests:behat:run --environment=ci --no-interaction --ansi --verbose
+vendor/bin/blt tests:behat:run --no-interaction --ansi --verbose
 
 set +v
