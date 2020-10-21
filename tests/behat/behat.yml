@@ -1,33 +1,22 @@
 default:
   suites:
     default:
-      contexts:
-        - FeatureContext
-        - Behat\MinkExtension\Context\MinkContext
       paths:
         - "%paths.base%/features"
   extensions:
-    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
     Behat\MinkExtension:
-      base_url: http://mars.ddev.site:8080
-      default_session: command_line_browser
+      default_session: goutte
       browser_name: chrome
-      javascript_session: js_enabled_browser
+      javascript_session: selenium2
       goutte: ~
-      sessions:
-        command_line_browser:
-          goutte: ~
-        js_enabled_browser:
-          chrome:
-            api_url: http://127.0.0.1:9222
-            validate_certificate: false
+      selenium2: ~
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: "drupal"
     jarnaiz\JUnitFormatter\JUnitFormatterExtension:
-        filename: report.xml
-        outputDir: "%paths.base%/build/tests"
+      filename: report.xml
+      outputDir: "%paths.base%/build/tests"
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_steps
       image_drivers:
