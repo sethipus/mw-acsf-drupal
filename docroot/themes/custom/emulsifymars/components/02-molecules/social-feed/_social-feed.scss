@@ -58,8 +58,9 @@
 
   // increasing specificity to avoid using !important
   .social-feed-swiper-container.swiper-container-horizontal>.swiper-scrollbar {
-    height: 16px;
-    transform: scale(.5);
+    height: 0.8rem;
+    width: 70%;
+    left: 15%;
 
     & .swiper-scrollbar-drag {
       background: clr(primary);
