@@ -1012,7 +1012,6 @@ function mars_common_field_widget_form_alter(
     $element['value']['#maxlength'] = 160;
   }
 
-  // TODO: these fields are text_format. User can type any number of characters.
   if ($field_name == 'field_product_description') {
     $element['#maxlength'] = 160;
   }
