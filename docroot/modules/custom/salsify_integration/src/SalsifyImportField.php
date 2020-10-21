@@ -241,6 +241,15 @@ class SalsifyImportField extends SalsifyImport {
               $options = substr($options, 0, $max_length);
             }
           }
+          elseif ($field_config->getType() == 'list_string' && $field['salsify_data_type'] == 'string') {
+            $field_storage = $field_config->getFieldStorageDefinition();
+            $allowed_values = $field_storage->getSetting('allowed_values');
+            if (!isset($allowed_values[$options])) {
+              $allowed_values[$options] = $options;
+              $field_storage->setSetting('allowed_values', $allowed_values);
+              $field_storage->save();
+            }
+          }
           // For taxonomy term mapping, add processing for the terms coming in
           // from Salsify.
           elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'enumerated') {
