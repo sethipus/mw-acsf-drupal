@@ -166,7 +166,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('Search heading title'),
       '#maxlength' => 2048,
       '#required' => TRUE,
-      '#default_value' => $config['search_header_heading'] ?? '',
+      '#default_value' => $config['search_header_heading'] ?? $this->t('What are you looking for?'),
     ];
 
     return $form;
