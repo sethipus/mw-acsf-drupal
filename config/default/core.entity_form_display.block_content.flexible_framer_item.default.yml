@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - block_content.type.flexible_framer_item
-    - entity_browser.browser.image_browser
+    - entity_browser.browser.lighthouse_browser
     - field.field.block_content.flexible_framer_item.field_ff_item_cta
     - field.field.block_content.flexible_framer_item.field_ff_item_description
     - field.field.block_content.flexible_framer_item.field_ff_item_image
@@ -17,7 +17,7 @@ bundle: flexible_framer_item
 mode: default
 content:
   field_ff_item_cta:
-    weight: 29
+    weight: 4
     settings:
       size: 60
       placeholder: ''
@@ -25,7 +25,7 @@ content:
     type: string_textfield
     region: content
   field_ff_item_description:
-    weight: 28
+    weight: 3
     settings:
       rows: 5
       placeholder: ''
@@ -33,21 +33,22 @@ content:
     type: string_textarea
     region: content
   field_ff_item_image:
-    type: entity_browser_file
-    weight: 26
+    type: entity_browser_entity_reference
+    weight: 2
     settings:
-      entity_browser: image_browser
+      entity_browser: lighthouse_browser
+      field_widget_display: rendered_entity
+      field_widget_display_settings:
+        view_mode: thumbnail
       field_widget_edit: true
       field_widget_remove: true
-      view_mode: default
-      preview_image_style: thumbnail
       open: true
-      field_widget_replace: false
       selection_mode: selection_append
+      field_widget_replace: false
     region: content
     third_party_settings: {  }
   field_ff_item_title:
-    weight: 27
+    weight: 1
     settings:
       size: 60
       placeholder: ''
@@ -56,7 +57,7 @@ content:
     region: content
   info:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60

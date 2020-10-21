@@ -36,21 +36,23 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         });
       });
 
-      $('.pdp-hero-menu-container').once('pdpBody').click(event => {
+      $('.pdp-hero-menu-container, .pdp-hero__sticky-nav-bottom').once('pdpBody').click(event => {
+        event.preventDefault();
+        const stickyNavTopHeight = $(window).width() < 1024 ? $('.pdp-hero__sticky-nav-top').outerHeight() : 0;
         if (event.target.className.indexOf('pdp-hero__nutrition-menu') > -1) {
           $(context).scrollTop(
-            $('.pdp-nutrition:visible').offset().top
+            $('.pdp-nutrition:visible').offset().top - stickyNavTopHeight
           );
         } else if (event.target.className.indexOf('pdp-hero__allergen-menu') > -1) {
           $(context).scrollTop(
-            $('.pdp-allergen:visible').offset().top
+            $('.pdp-allergen:visible').offset().top - stickyNavTopHeight
           );
         } else if (event.target.className.indexOf('pdp-hero__more-info-menu') > -1) {
           $(context).scrollTop(
-            $('.pdp-more-information:visible').offset().top
+            $('.pdp-more-information:visible').offset().top - stickyNavTopHeight
           );
         }
-      })
+      });
 
       //size control
       function updateSizeSlider(event, sizeId) {

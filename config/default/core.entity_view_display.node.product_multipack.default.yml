@@ -51,11 +51,8 @@ third_party_settings:
               label_display: '1'
               eyebrow: Products
               available_sizes: 'Available sizes'
-              wtb:
-                cta_label: 'Where to buy'
-                cta_link: 'https://cta.test'
               nutrition:
-                label: Nutrition
+                label: 'Pack nutrition'
                 serving_label: 'Amount per serving'
                 daily_label: '% Daily value'
                 vitamins_label: 'Vitamins | Minerals'
@@ -65,6 +62,9 @@ third_party_settings:
               data_widget_id: ''
               context_mapping:
                 node: layout_builder.entity
+              more_information:
+                more_information_label: 'More information'
+                show_more_information_label: 1
             additional: {  }
             weight: 0
           929f0b72-723a-40ec-a098-f3aa161dc4a2:

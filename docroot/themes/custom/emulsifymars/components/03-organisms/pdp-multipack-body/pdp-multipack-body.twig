@@ -17,8 +17,7 @@
       {% include "@molecules/pdp/pdp-multipack-details/pdp-multipack-details.twig" with {
         size_id: pdp_item.size_id,
         product_title: pdp_product.product_title,
-        product_image_src: pdp_product.product_image_src,
-        product_image_alt: pdp_product.product_image_alt,
+        product_image: pdp_product.product_image,
         pdp_nutrition_data: pdp_product.nutrition_data.serving_item_empty? NULL : pdp_product.nutrition_data,
         pdp_common_nutrition_data: pdp_common_data.nutrition_data,
         pdp_allergen_data: pdp_product.allergen_data,

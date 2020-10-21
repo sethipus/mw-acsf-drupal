@@ -433,6 +433,7 @@
 
   .default-link__label {
     display: inline-block;
+    pointer-events: none;
     position: relative;
     width: 100%;
   }
@@ -577,7 +578,7 @@
           display: block;
           width: 1px;
           height: 2rem;
-          background-color: #c4c4c4;
+          background-color: clr(subcolor-4);
           bottom: 0.3rem;
           right: 1px;
         }
@@ -599,7 +600,7 @@
 
   &__allergen-menu,
   &__more-info-menu {
-    color: #c4c4c4;
+    color: clr(subcolor-4);
     display: none;
 
     &:hover {
@@ -620,7 +621,7 @@
     width: 100%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    border: 1px solid #c4c4c4;
+    border: 1px solid clr(subcolor-4);
     border-bottom: none;
     overflow: hidden;
 
@@ -710,11 +711,6 @@
     color: clr(secondary);
     height: 6rem;
     width: 100%;
-
-    &:hover {
-      color: clr(subcolor-3);
-    }
-
   }
 }
 
