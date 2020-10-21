@@ -4,6 +4,7 @@ namespace Drupal\mars_common;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 
 /**
@@ -146,13 +147,31 @@ class ThemeConfiguratorParser {
    * @return \Drupal\file\Entity\File|null
    *   File entity.
    */
-  public function getFileFromTheme(string $field): ?File {
+  private function getFileFromTheme(string $field): ?File {
     if (!isset($this->themeSettings[$field][0])) {
       return NULL;
     }
 
     $configField = $this->themeSettings[$field][0];
     return $this->fileStorage->load($configField);
+  }
+
+  /**
+   * Creates an URL for a field if it's a File.
+   *
+   * @param string $field
+   *   The name of the config field.
+   *
+   * @return \Drupal\Core\Url|null
+   *   The url for the file, or NULL if it's not a file or not set.
+   */
+  public function getUrlForFile(string $field): ?Url {
+    $pngAssetFile = $this->getFileFromTheme($field);
+    if ($pngAssetFile instanceof File) {
+      $pngAssetUri = $pngAssetFile->getFileUri();
+      return Url::fromUri(file_create_url($pngAssetUri));
+    }
+    return NULL;
   }
 
 }

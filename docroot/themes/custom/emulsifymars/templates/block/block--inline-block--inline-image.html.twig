@@ -7,6 +7,7 @@
  * 'image_title' => NULL,
  * 'shape_motif' => NULL,
  * 'content' => NULL,
+ * 'title' => NULL,
  */
 #}
 
@@ -16,11 +17,13 @@
     {% block content %}
         {% include "@molecules/article-media/inline/inline-media.twig" with {
             theme_styles: 'drupal',
+            media_type: 'image',
             image_src: image_src,
             image_alt: image_alt,
             image_title: image_title,
             shape_motif: shape_motif,
-            content: content
+            content: content,
+            title: title
         } %}
     {% endblock %}
 </div>

@@ -9,6 +9,7 @@
   &__item {
     margin-bottom: $space-one-fourth;
     flex-basis: 20px;
+    margin-right: 3rem;
   }
 
   &__link {
@@ -20,7 +21,6 @@
     display: inline;
     height: 22px;
     width: 22px;
-    margin-right: 35px;
     fill: currentColor;
   }
 

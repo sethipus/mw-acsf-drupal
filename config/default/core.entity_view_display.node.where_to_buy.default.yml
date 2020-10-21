@@ -97,7 +97,19 @@ third_party_settings:
         layout_id: where_to_buy_where_to_buy
         layout_settings:
           label: 'Where to Buy Integration'
-        components: {  }
+        components:
+          1afe1627-3904-4704-b1e8-8296bdad8583:
+            uuid: 1afe1627-3904-4704-b1e8-8296bdad8583
+            region: content
+            configuration:
+              id: where_to_buy_block
+              label: 'MARS: Where To Buy'
+              provider: mars_common
+              label_display: '1'
+              widget_id: 2762-5b80256eb307f7009e536b50
+              context_mapping: {  }
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -164,6 +176,33 @@ third_party_settings:
         - where_to_buy_where_to_buy
         - where_to_buy_community
       whitelisted_blocks:
+        where_to_buy_where_to_buy:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - feedback_block
+              - where_to_buy_block
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
         where_to_buy_parent_page_header:
           all_regions:
             Article: {  }
@@ -207,33 +246,6 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common':
               - recommendations_module
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        where_to_buy_where_to_buy:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common':
-              - feedback_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }

@@ -4,10 +4,12 @@ status: true
 dependencies:
   config:
     - field.field.node.error_page.body
+    - field.field.node.error_page.field_error_page_image
     - field.field.node.error_page.field_meta_tags
     - node.type.error_page
   module:
     - layout_builder
+    - layout_builder_restrictions
     - layout_discovery
     - layout_library
     - mars_common
@@ -34,27 +36,21 @@ third_party_settings:
               label_display: ''
               image: '1'
               image_alt: ffff
-              context_mapping: {  }
+              context_mapping:
+                node: layout_builder.entity
             additional: {  }
             weight: 3
-          82aec05b-ce96-4be9-bf77-b9a97571d77c:
-            uuid: 82aec05b-ce96-4be9-bf77-b9a97571d77c
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:error_page:field_meta_tags'
-              formatter:
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-                type: metatag_empty_formatter
-            additional: {  }
-            weight: 4
         third_party_settings: {  }
   layout_library:
     enable: false
+  layout_builder_restrictions:
+    allowed_block_categories: {  }
+    entity_view_mode_restriction:
+      whitelisted_blocks: {  }
+      blacklisted_blocks: {  }
+      allowed_layouts: {  }
+    entity_view_mode_restriction_by_region:
+      allowed_layouts: {  }
 id: node.error_page.default
 targetEntityType: node
 bundle: error_page
@@ -65,6 +61,15 @@ content:
     type: text_default
     weight: 101
     settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_error_page_image:
+    type: entity_reference_entity_view
+    weight: 103
+    label: above
+    settings:
+      view_mode: default
+      link: false
     third_party_settings: {  }
     region: content
   field_meta_tags:

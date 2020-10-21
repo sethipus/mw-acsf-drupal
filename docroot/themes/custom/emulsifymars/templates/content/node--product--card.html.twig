@@ -5,22 +5,19 @@
  */
 #}
 
-{% set image_product_key_src = node.field_product_variants.entity.field_product_key_image_override.entity.image.entity.fileuri %}
-{% if image_product_key_src == NULL %}
-  {% set image_product_key_src = node.field_product_variants.entity.field_product_key_image.entity.image.entity.fileuri %}
-{% endif %}
+{% set main_variant = node | mainVariant %}
+{% set main_media = main_variant | entityMainMediaId | mediaParamsById %}
+{% set product_card_media = main_variant | productCardMedia | mediaParamsById %}
 
-{% set image_product_key_src = file_url(image_product_key_src) %}
-{% set image_override_src = node.field_product_variants.entity.field_product_card_imageoverride.entity.image.entity.fileuri %}
-{% if image_override_src %}
-  {% set image_override_src = file_url(image_override_src) %}
+{% set has_card_media = product_card_media.error is not defined or not product_card_media.error %}
+
+{% if has_card_media %}
+  {% set background_image =  product_card_media.src %}
+  {% set hover_image =  main_media.src %}
 {% else %}
-  {% set image_override_src = image_product_key_src %}
-  {% set image_product_key_src = null %}
+  {% set background_image =  main_media.src %}
+  {% set hover_image = null %}
 {% endif %}
-
-{% set card_image_src = image_override_src ? image_override_src : image_product_key_src %}
-{% set card_image_override_src = image_override_src ? image_product_key_src : null %}
 
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
@@ -34,8 +31,8 @@
   link_base_class: 'text_link',
   item: {
     card_url: url,
-    card__image__src: card_image_src,
-    card__image__override__src: card_image_override_src,
+    card__image__src: background_image,
+    card__image__hover__src: hover_image,
     paragraph_content: node.title.value,
     default_link_attributes: {
       href: url
