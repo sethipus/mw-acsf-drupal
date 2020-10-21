@@ -81,6 +81,24 @@
   &--with-bg-media {
     background-position: top center;
     background-size: cover;
+    min-height: 320px;
+
+    .horizontal-img__inner {
+      margin: 4rem auto 4rem auto;
+    }
+
+    @include medium {
+      min-height: 400px;
+    }
+
+    @include large {
+      min-height: 480px;
+
+      .horizontal-img__inner {
+        margin: 6rem auto 6rem auto;
+      }
+    }
+
     .parent-page-heading,
     .eyebrow,
     .parent-page-paragraph {
