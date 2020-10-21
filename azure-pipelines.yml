@@ -108,6 +108,7 @@ steps:
       filePath: '$(scriptDir)/setup_app.sh'
   - task: Bash@3
     displayName: 'Run Behat Tests'
+    continueOnError: true
     inputs:
       filePath: './scripts/tests_behat_run.sh'
   - task: PublishTestResults@2
