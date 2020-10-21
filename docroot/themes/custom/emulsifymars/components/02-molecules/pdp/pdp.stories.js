@@ -7,10 +7,15 @@ import pdpAllergen from './pdp-allergen/pdp-allergen.twig';
 import pdpAllergenData from './pdp-allergen/pdp-allergen.yml';
 import pdpMultipack from './pdp-multipack/pdp-multipack.twig';
 import pdpMultipackData from './pdp-multipack/pdp-multipack.yml';
+import pdpMoreInformation from './pdp-more-information/pdp-more-information.twig';
+import pdpMoreInformationData from './pdp-more-information/pdp-more-information.yml';
 import { useEffect } from '@storybook/client-api';
 
 import '../../03-organisms/pdp-body/pdp-body';
 import './pdp-multipack/pdp-multipack';
+
+import pdpMultipackDetails from './pdp-multipack-details/pdp-multipack-details.twig';
+import pdpMultipackDetailsData from './pdp-multipack-details/pdp-multipack-details.yml';
 
 /**
  * Storybook Definition.
@@ -35,4 +40,13 @@ export const pdpAllergenModule = () => {
 export const pdpMultipackModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: pdpMultipack(pdpMultipackData) }} />
+};
+
+export const pdpMoreInformationModule = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return <div dangerouslySetInnerHTML={{__html: pdpMoreInformation(pdpMoreInformationData)}}/>
+};
+
+export const pdpMultipackDetailsModule = () => {
+  return <div dangerouslySetInnerHTML={{ __html: pdpMultipackDetails(pdpMultipackDetailsData) }} />
 };

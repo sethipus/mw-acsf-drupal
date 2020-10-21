@@ -4,12 +4,6 @@
 {% set pdp_nutrition_value_daily_base_class = 'nutrition-value-daily' %}
 
 <section id="section-nutrition-{{size_id}}" {{ bem(pdp_nutrition_base_class) }} data-theme="{{ theme_styles }}">
-  {% include "@atoms/text/headings/_heading.twig" with {
-    heading_level: 5,
-    heading: pdp_common_nutrition_data.nutritional_label,
-    heading_blockname: pdp_nutrition_base_class,
-    heading_base_class: 'header',
-  } %}
   <div {{ bem('container', [], pdp_nutrition_base_class) }}>
     <div {{ bem('heading', [], pdp_nutrition_base_class) }}>
       <dl {{ bem('heading-list', [], pdp_nutrition_base_class) }}>
