@@ -22,7 +22,7 @@ Feature: Recipe Test
     And press "Add media"
     When I wait for the ajax response
     And I sleep "1" seconds
-    Then save a screenshot
+#    Then save a screenshot
 #    And I click on "//a[contains(@data-button-id, 'edit-tab-selector') and contains(text(), 'Upload')]" xpath element
 #    When I wait for the ajax response
 #    And I sleep "1" seconds

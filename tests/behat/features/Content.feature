@@ -50,7 +50,7 @@ Feature: Content Test
     And I fill in "Description" with "MyDescription"
     And I fill in "Button Label" with "Explore"
     And I fill in "URL" with "http://link.com"
-    Then save a screenshot
+#    Then save a screenshot
 
     When I follow "Content"
     And I check content with title "TestBasicPageTitle"
