@@ -36,6 +36,24 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         });
       });
 
+      $('.pdp-hero-menu-container, .pdp-hero__sticky-nav-bottom').once('pdpBody').click(event => {
+        event.preventDefault();
+        const stickyNavTopHeight = $(window).width() < 1024 ? $('.pdp-hero__sticky-nav-top').outerHeight() : 0;
+        if (event.target.className.indexOf('pdp-hero__nutrition-menu') > -1) {
+          $(context).scrollTop(
+            $('.pdp-nutrition:visible').offset().top - stickyNavTopHeight
+          );
+        } else if (event.target.className.indexOf('pdp-hero__allergen-menu') > -1) {
+          $(context).scrollTop(
+            $('.pdp-allergen:visible').offset().top - stickyNavTopHeight
+          );
+        } else if (event.target.className.indexOf('pdp-hero__more-info-menu') > -1) {
+          $(context).scrollTop(
+            $('.pdp-more-information:visible').offset().top - stickyNavTopHeight
+          );
+        }
+      });
+
       //size control
       function updateSizeSlider(event, sizeId) {
         event.preventDefault();
@@ -59,7 +77,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       //scroll effects: bubbles, section-select and WTB
       function onScrollEffects() {
         const pdp_size_id = context.querySelector('[data-pdp-size-active="true"]').dataset.pdpSizeId;
-        
+
         const pdp_bubble_1 = context.getElementById(`pdp-hero__bubble_1-${pdp_size_id}`);
         const pdp_bubble_2 = context.getElementById(`pdp-hero__bubble_2-${pdp_size_id}`);
         const pdp_bubble_3 = context.getElementById(`pdp-hero__bubble_3-${pdp_size_id}`);
