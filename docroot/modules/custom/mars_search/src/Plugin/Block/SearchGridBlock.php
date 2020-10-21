@@ -301,7 +301,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $form['title'] = [
       '#title' => $this->t('Title'),
       '#type' => 'textfield',
-      '#size' => 35,
+      '#size' => 55,
       '#required' => TRUE,
       '#default_value' => $config['title'] ?? $this->t('All products'),
     ];
