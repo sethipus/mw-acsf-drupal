@@ -10,7 +10,13 @@
  */
 #}
 {{ attach_library('emulsifymars/pdp-body') }}
-{% include "@organisms/pdp-body/pdp-body.twig" with {
+
+{% set include_twig = '@organisms/pdp-body/pdp-body.twig' %}
+{% if pdp_bundle_type == 'product_multipack' %}
+  {% set include_twig = '@organisms/pdp-multipack-body/pdp-multipack-body.twig' %}
+{% endif %}
+
+{% include include_twig with {
   theme_styles: 'drupal',
   pdp_common_data: pdp_common_data,
   pdp_size_data: pdp_size_data,

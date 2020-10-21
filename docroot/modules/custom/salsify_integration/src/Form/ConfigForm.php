@@ -222,8 +222,8 @@ class ConfigForm extends ConfigFormBase {
     if ($form_state->getValue('entity_type') || $config->get('entity_type')) {
       $entity_type = $form_state->getValue('entity_type') ? $form_state->getValue('entity_type') : $config->get('entity_type');
       // Load the entity type definition to get the bundle type name.
-      $entity_Type_def = $this->entityTypeManager->getDefinition($entity_type);
-      $entity_bundles = $this->entityTypeManager->getStorage($entity_Type_def->getBundleEntityType())->loadMultiple();
+      $entity_type_def = $this->entityTypeManager->getDefinition($entity_type);
+      $entity_bundles = $this->entityTypeManager->getStorage($entity_type_def->getBundleEntityType())->loadMultiple();
       $entity_bundles_options = [];
       foreach ($entity_bundles as $entity_bundle) {
         $entity_bundles_options[$entity_bundle->id()] = $entity_bundle->label();
