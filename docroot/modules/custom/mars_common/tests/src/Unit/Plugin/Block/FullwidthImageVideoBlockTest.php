@@ -3,22 +3,22 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\mars_common\MediaHelper;
-use Drupal\mars_common\Plugin\Block\InlineImageVideoBlock;
+use Drupal\mars_common\Plugin\Block\FullwidthImageVideoBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * @coversDefaultClass \Drupal\mars_common\Plugin\Block\InlineImageVideoBlock
+ * @coversDefaultClass \Drupal\mars_common\Plugin\Block\FullwidthImageVideoBlock
  * @group mars
  * @group mars_common
  */
-class InlineImageVideoBlockTest extends UnitTestCase {
+class FullwidthImageVideoBlockTest extends UnitTestCase {
 
   /**
    * System under test.
    *
-   * @var \Drupal\mars_common\Plugin\Block\InlineImageVideoBlock
+   * @var \Drupal\mars_common\Plugin\Block\FullwidthImageVideoBlock
    */
   private $block;
 
@@ -65,9 +65,9 @@ class InlineImageVideoBlockTest extends UnitTestCase {
       'admin_label' => 'test',
     ];
 
-    $this->block = new InlineImageVideoBlock(
+    $this->block = new FullwidthImageVideoBlock(
       $this->configuration,
-      'inline_image_video_block',
+      'fullwidth_image_video_block',
       $definitions,
       $this->mediaHelperMock
     );
@@ -93,7 +93,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
     $this->block::create(
       $this->containerMock,
       $this->configuration,
-      'inline_image_video_block',
+      'fullwidth_image_video_block',
       [
         'provider'    => 'test',
         'admin_label' => 'test',
@@ -136,7 +136,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
       ]);
 
     $build = $this->block->build();
-    $this->assertEquals('inline_image_video_block', $build['#theme']);
+    $this->assertEquals('fullwidth_image_video_block', $build['#theme']);
   }
 
   /**
@@ -164,7 +164,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
       ]);
 
     $build = $this->block->build();
-    $this->assertEquals('inline_image_video_block', $build['#theme']);
+    $this->assertEquals('fullwidth_image_video_block', $build['#theme']);
   }
 
   /**
@@ -193,4 +193,19 @@ class InlineImageVideoBlockTest extends UnitTestCase {
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
   }
 
+}
+namespace Drupal\mars_common\Plugin\Block;
+
+/**
+ * Stub for drupal file_create_url function.
+ *
+ * @param string $uri
+ *   The URI to a file for which we need an external URL, or the path to a
+ *   shipped file.
+ *
+ * @return string
+ *   Result.
+ */
+function file_create_url($uri) {
+  return 'url';
 }

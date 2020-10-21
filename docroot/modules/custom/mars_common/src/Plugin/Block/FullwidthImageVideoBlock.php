@@ -3,15 +3,15 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 /**
- * Provides a Inline image/video component block.
+ * Provides a Fullwidth image/video component block.
  *
  * @Block(
- *   id = "inline_image_video_block",
- *   admin_label = @Translation("MARS: Inline image/video block"),
+ *   id = "fullwidth_image_video_block",
+ *   admin_label = @Translation("MARS: Fullwidth image/video block"),
  *   category = @Translation("Page components"),
  * )
  */
-class InlineImageVideoBlock extends ImageVideoBlockBase {
+class FullwidthImageVideoBlock extends ImageVideoBlockBase {
 
   /**
    * {@inheritdoc}
@@ -19,7 +19,7 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
   public function build() {
     $config = $this->getConfiguration();
 
-    $build['#title'] = $config['title'];
+    $build['#heading'] = $config['title'];
     $build['#content'] = $config['description'];
     $build['#shape_motif'] = (bool) $config['svg_asset'];
     $build['#block_type'] = $config['block_content_type'];
@@ -36,9 +36,12 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
           $image_url = file_create_url($media_params['src']);
         }
       }
-      $build['#image_src'] = $image_url;
-      $build['#image_alt'] = $media_params['alt'] ?? NULL;
-      $build['#image_title'] = $media_params['title'] ?? NULL;
+      $build['#media'] = [
+        'image' => TRUE,
+        'src' => $image_url,
+        'alt' => $media_params['alt'] ?? NULL,
+        'title' => $media_params['title'] ?? NULL,
+      ];
     }
     elseif ($config['block_content_type'] == self::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
 
@@ -52,10 +55,14 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
           $video_url = file_create_url($media_params['src']);
         }
       }
-      $build['#video_src'] = $video_url;
+
+      $build['#media'] = [
+        'video' => TRUE,
+        'src' => $video_url,
+      ];
     }
 
-    $build['#theme'] = 'inline_image_video_block';
+    $build['#theme'] = 'fullwidth_image_video_block';
 
     return $build;
   }
