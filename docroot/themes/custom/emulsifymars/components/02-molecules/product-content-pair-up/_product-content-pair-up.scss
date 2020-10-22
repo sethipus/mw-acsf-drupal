@@ -128,6 +128,12 @@
       .wrapper > section {
         max-width: 31.5rem;
       }
+
+      .recipe-card__media {
+        width: 100%;
+        height: auto;
+        max-height: 23.6rem;
+      }
     }
   }
 
@@ -210,6 +216,12 @@
           .wrapper > section {
             max-width: 33.4rem;
           }
+
+          .recipe-card__media {
+            width: 100%;
+            height: auto;
+            max-height: 25.1rem;
+          }
         }
       }
     }
@@ -287,11 +299,17 @@
         .supportive-card {
           top: 185px;
           left: auto;
-          max-width: none;
+          max-width: 43.3rem;
           right: 158px;
 
           .wrapper > section {
-            max-width: 43.2rem;
+            max-width: 43.3rem;
+          }
+
+          .recipe-card__media {
+            width: 100%;
+            height: auto;
+            max-height: 32.5rem;
           }
         }
       }
