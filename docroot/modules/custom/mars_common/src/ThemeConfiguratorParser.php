@@ -180,8 +180,8 @@ class ThemeConfiguratorParser {
    */
   private function readContentFromFile(?File $file) {
     $content = '';
-    if (!empty($file)) {
-      $filePath = file_create_url($file->uri->value);
+    if ($file !== NULL) {
+      $filePath = $file->getFileUri();
       $content = !empty($filePath) && file_exists($filePath) ? file_get_contents($filePath) : '';
     }
     return (string) $content;
