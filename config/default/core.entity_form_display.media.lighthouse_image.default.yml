@@ -13,6 +13,7 @@ dependencies:
     - field.field.media.lighthouse_image.field_marketing_country
     - field.field.media.lighthouse_image.field_media_image
     - field.field.media.lighthouse_image.field_media_in_library
+    - field.field.media.lighthouse_image.field_original_external_id
     - field.field.media.lighthouse_image.field_region
     - field.field.media.lighthouse_image.field_segment
     - field.field.media.lighthouse_image.field_sub_brand
@@ -111,6 +112,14 @@ content:
       display_label: true
     weight: 7
     third_party_settings: {  }
+    region: content
+  field_original_external_id:
+    weight: 37
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_region:
     weight: 31

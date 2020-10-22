@@ -1,0 +1,7 @@
+mars_onetrust.form:
+  path: '/admin/config/services/mars_onetrust'
+  defaults:
+    _form: 'Drupal\mars_onetrust\Form\OneTrustConfigForm'
+    _title: 'OneTrust integration settings'
+  requirements:
+    _permission: 'administer site configuration'
