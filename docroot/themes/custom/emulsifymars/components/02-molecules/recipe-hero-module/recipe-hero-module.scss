@@ -72,39 +72,6 @@ $xl-gap-width: 30px;
     }
   }
 
-  #playpause[data-state="play"] {
-    top: 15px;
-    right: 15px;
-    left: auto;
-    height: 50px;
-    width: 50px;
-    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.2);
-
-    @include medium {
-      top: 20px;
-      right: 20px;
-      height: 60px;
-      width: 60px;
-    }
-
-    @include xl {
-      top: 40px;
-      right: 40px;
-    }
-
-    & > div {
-      border-left-color: white;
-    }
-  }
-
-  #playpause[data-state="pause"] {
-
-    @include medium {
-      bottom: 160px;
-    }
-  }
-
   .stretch {
     position: absolute;
     width: 100%;
@@ -277,6 +244,7 @@ $xl-gap-width: 30px;
 .more-recipes {
   width: 100vw;
   margin-left: calc((100% - 100vw) / 2);
+  max-width: 100%;
 }
 
 .recipe-info {
@@ -289,7 +257,6 @@ $xl-gap-width: 30px;
   @include xl {
     padding: 60px 0 0;
     width: calc(#{$xl-column-width*6 + $xl-gap-width*5});
-    margin-left: calc(#{$xl-column-width + $xl-gap-width} + (100vw - 1360px) / 2);
   }
 
   &__text {

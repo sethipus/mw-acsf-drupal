@@ -8,12 +8,32 @@
     display: inline-block;
   }
 
+  &--with-sub {
+    @include xs {
+      flex-direction: column;
+
+      .main-menu--sub {
+        display: none;
+
+        &.main-menu--sub-open {
+          display: block;
+
+          @include large {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
   /* Only top level */
   &:not(.main-menu__item--sub):hover {
     transition: all 0.2s;
 
     & > .main-menu--sub {
-      display: block;
+      @include large {
+        display: block;
+      }
     }
 
     &:hover {

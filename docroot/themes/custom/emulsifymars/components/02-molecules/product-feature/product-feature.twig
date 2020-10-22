@@ -12,7 +12,7 @@
     <div {{ bem('product_image', [], product_feature_base_class) }}>
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
-        image_alt: 'product image',
+        image_alt: image_alt,
         image_sizes: '212px',
         image_src: image_src,
         responsive_image_blockname: 'product_image',

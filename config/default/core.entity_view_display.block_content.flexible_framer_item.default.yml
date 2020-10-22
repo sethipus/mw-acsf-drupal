@@ -8,8 +8,6 @@ dependencies:
     - field.field.block_content.flexible_framer_item.field_ff_item_description
     - field.field.block_content.flexible_framer_item.field_ff_item_image
     - field.field.block_content.flexible_framer_item.field_ff_item_title
-  module:
-    - image
 id: block_content.flexible_framer_item.default
 targetEntityType: block_content
 bundle: flexible_framer_item
@@ -31,13 +29,13 @@ content:
     type: basic_string
     region: content
   field_ff_item_image:
-    weight: 0
+    type: entity_reference_entity_view
+    weight: 4
     label: above
     settings:
-      image_style: ''
-      image_link: ''
+      view_mode: default
+      link: false
     third_party_settings: {  }
-    type: image
     region: content
   field_ff_item_title:
     weight: 1

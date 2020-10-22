@@ -10,7 +10,11 @@ module.exports = api => {
       },
     ],
     '@babel/preset-react',
-    'minify',
+    ['minify', {
+      builtIns: false,
+      evaluate: false,
+      mangle: false,
+    }],
   ];
 
   const comments = false;

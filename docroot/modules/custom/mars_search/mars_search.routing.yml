@@ -1,7 +1,13 @@
 mars_search.autocomplete:
   path: '/mars-autocomplete'
   defaults:
-    _controller: \Drupal\mars_search\Controller\AutocompleteController::autocomplete
+    _controller: \Drupal\mars_search\Controller\MarsSearchController::autocomplete
+  requirements:
+    _permission: 'access content'
+mars_search.callback:
+  path: '/search-callback'
+  defaults:
+    _controller: \Drupal\mars_search\Controller\MarsSearchController::searchCallback
   requirements:
     _permission: 'access content'
 mars_search.settings:
