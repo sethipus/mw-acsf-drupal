@@ -3,6 +3,9 @@
 {% set pdp_nutrition_value_base_class = 'nutrition-value' %}
 {% set pdp_nutrition_value_daily_base_class = 'nutrition-value-daily' %}
 {% set scroll_mandatory_base_class = 'scroll-mandatory' %}
+{% if scroll_fix %}
+  {% set scroll_mandatory_base_class = scroll_mandatory_base_class ~ ' scroll-mandatory-minus' %}
+{% endif %}
 
 <section id="section-nutrition-{{size_id}}" {{ bem(pdp_nutrition_base_class, '', '', [scroll_mandatory_base_class]) }} data-theme="{{ theme_styles }}">
   <div {{ bem('container', [], pdp_nutrition_base_class) }}>

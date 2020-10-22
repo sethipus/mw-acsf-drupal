@@ -58,7 +58,11 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       function _nonIterableSpread() {
         throw new TypeError("Invalid attempt to spread non-iterable instance");
       }
-    
+
+      function offsetPaddingCalc(item) {
+        return ($(window).width() < 1024) ? $('.pdp-hero__sticky-nav-top').outerHeight() : 0;
+      }
+
       var SnapScroll = function SnapScroll(selector, options) {
         var defaults = _objectSpread({
           proximity: 100,
@@ -70,7 +74,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         }, options);
     
         var items = _toConsumableArray(document.querySelectorAll(selector));
-    
+
         var positions = [];
         var currentlySnapped;
         var snapTimeout;
@@ -80,7 +84,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           
           positions = items.map(function (item) {
             return {
-              offset: $(item).is(":visible") ? item.getBoundingClientRect().top + window.scrollY : -5000,
+              offset: $(item).is(":visible") ? item.getBoundingClientRect().top + window.scrollY - offsetPaddingCalc(item) : -5000,
               element: item,
             };
           });
@@ -160,16 +164,14 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
 
       // scroll snapping
       var optionsMandatory = {
-        proximity: 300,
+        proximity: 200,
       };
-      var snapScroller;
-      if(context.querySelector('.pdp-body') !== null && window.innerWidth < 1024 ) {
-        snapScroller = SnapScroll('.scroll-mandatory', optionsMandatory);
+      if (!window.snapScroller && context.querySelector('.pdp-body') !== null && window.innerWidth < 1024 ) {
+        window.snapScroller = SnapScroll('.scroll-mandatory', optionsMandatory);
         setTimeout(() => {
-          snapScroller.recalculateLayout();
+          window.snapScroller.recalculateLayout();
         }, 300);
       }
-      
 
       // init swiper
       Swiper.use([Autoplay, Pagination]);
@@ -206,7 +208,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
 
       $('.pdp-hero-menu-container, .pdp-hero__sticky-nav-bottom').once('pdpBody').click(event => {
         event.preventDefault();
-        const stickyNavTopHeight = $(window).width() < 1024 ? $('.pdp-hero__sticky-nav-top').outerHeight() : 0;
+        const stickyNavTopHeight = offsetPaddingCalc();
         if (event.target.className.indexOf('pdp-hero__nutrition-menu') > -1) {
           $(context).scrollTop(
             $('.pdp-nutrition:visible').offset().top - stickyNavTopHeight
@@ -241,7 +243,9 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       sizeElements.forEach((item) => {
         item.addEventListener('click', e => {
           updateSizeSlider(e, item.dataset.sizeId);
-          snapScroller.recalculateLayout();
+          if (window.snapScroller) {
+            window.snapScroller.recalculateLayout();
+          }
         }, false);
       });
 

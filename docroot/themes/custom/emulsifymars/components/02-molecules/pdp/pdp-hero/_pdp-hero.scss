@@ -643,6 +643,14 @@
     @include large {
       width: auto;
     }
+
+    .pdp-hero__nutrition-menu {
+      pointer-events: none;
+
+      @include large {
+        pointer-events: auto;
+      }
+    }
   }
 }
 
