@@ -21,7 +21,8 @@
 
       &__field {
         width: calc(100% - 20px);
-        margin: 0 20px;
+        margin-right: 20px;
+        padding: 0 0 0 50px;
       }
     }
   }
@@ -102,16 +103,16 @@
         height: 0;
         background-color: clr(secondary);
         transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
-    
+
         @include xs {
           width: 1000px;
         }
-    
+
         @include medium {
           width: 750px;
         }
       }
-    
+
       &:hover {
         background-color: clr(secondary);
         color: clr(subcolor-3);
