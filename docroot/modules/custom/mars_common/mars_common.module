@@ -284,6 +284,13 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'poll-block',
     ],
+    'list_component' => [
+      'variables' => [
+        'label' => NULL,
+        'ol_items' => NULL,
+      ],
+      'template' => 'block--mars-common--list-component',
+    ],
   ];
 }
 
