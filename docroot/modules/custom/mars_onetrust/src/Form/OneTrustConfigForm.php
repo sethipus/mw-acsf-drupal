@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\onetrust\Form;
+namespace Drupal\mars_onetrust\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -25,13 +25,13 @@ class OneTrustConfigForm extends ConfigFormBase {
     $form = parent::buildForm($form, $form_state);
 
     // Default settings.
-    $config = $this->config('onetrust.settings');
+    $config = $this->config('mars_onetrust.settings');
 
     // Data domain field that will be different per environment.
     $form['data_domain'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Data domain'),
-      '#default_value' => $config->get('onetrust.data_domain'),
+      '#default_value' => $config->get('mars_onetrust.data_domain'),
     ];
 
     return $form;
@@ -41,8 +41,8 @@ class OneTrustConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('onetrust.settings')
-      ->set('onetrust.data_domain', $form_state->getValue('data_domain'))
+    $this->config('mars_onetrust.settings')
+      ->set('mars_onetrust.data_domain', $form_state->getValue('data_domain'))
       ->save();
 
     return parent::submitForm($form, $form_state);
@@ -55,7 +55,7 @@ class OneTrustConfigForm extends ConfigFormBase {
     // This function returns the name of the settings files we will
     // create / use.
     return [
-      'onetrust.settings',
+      'mars_onetrust.settings',
     ];
   }
 

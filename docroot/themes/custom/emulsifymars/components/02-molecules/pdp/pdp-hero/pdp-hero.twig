@@ -10,7 +10,7 @@
     style="background-color: {{ pdp_common_hero_data.background_color }};"
   {% endif %}
 >
-  
+
   <div {{ bem('bubble_1', [], pdp_hero_base_class) }} id="pdp-hero__bubble_1-{{size_id}}">
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
@@ -134,8 +134,35 @@
           cta_title: pdp_common_hero_data.product_CTA_title,
         } %}
       </div>
+
+      <div class='menu-container' {{ bem('slider-container', [], pdp_hero_base_class) }}>
+        <div class="pdp-hero-menu-container">
+          {% include "@atoms/text/headings/_heading.twig" with {
+            heading_level: 5,
+            heading: pdp_label_nutrition,
+            heading_blockname: pdp_hero_base_class,
+            heading_base_class: 'nutrition-menu',
+          } %}
+          {% if pdp_label_allergen %}
+            {% include "@atoms/text/headings/_heading.twig" with {
+              heading_level: 5,
+              heading: pdp_label_allergen,
+              heading_blockname: pdp_hero_base_class,
+              heading_base_class: 'allergen-menu',
+            } %}
+          {% endif %}
+          {% if pdp_label_more_information %}
+            {% include "@atoms/text/headings/_heading.twig" with {
+              heading_level: 5,
+              heading: pdp_label_more_information,
+              heading_blockname: pdp_hero_base_class,
+              heading_base_class: 'more-info-menu',
+            } %}
+          {% endif %}
+        </div>
+      </div>
     </div>
-    
+
     <div {{ bem('slider-container', [], pdp_hero_base_class) }}>
       <div class="swiper-container pdp-hero-swiper-container">
         <div class="swiper-wrapper">

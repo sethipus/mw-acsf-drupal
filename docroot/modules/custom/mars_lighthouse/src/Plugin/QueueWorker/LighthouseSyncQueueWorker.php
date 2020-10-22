@@ -364,9 +364,11 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
       $data = $this->lighthouseClient->getAssetById($external_id, $params);
     }
 
-    if (!empty($data) &&
+    if ((!empty($data) &&
       isset($data['versionIdOTMM']) &&
-      $data['versionIdOTMM'] != $media->field_version_id->value) {
+      $data['versionIdOTMM'] != $media->field_version_id->value) ||
+      $media->get('field_original_external_id')->isEmpty()
+    ) {
       $this->updateMediaData($media, $data);
 
       $this->logger->info($this->t('Result processed. Media with external id was updated @external_id', [
