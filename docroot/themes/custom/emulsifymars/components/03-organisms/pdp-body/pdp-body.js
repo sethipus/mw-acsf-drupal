@@ -206,7 +206,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         });
       });
 
-      $('.pdp-hero-menu-container, .pdp-hero__sticky-nav-bottom').once('pdpBody').click(event => {
+      $('.pdp-hero-menu-container').once('pdpBody').click(event => {
         event.preventDefault();
         const stickyNavTopHeight = offsetPaddingCalc();
         if (event.target.className.indexOf('pdp-hero__nutrition-menu') > -1) {
@@ -222,6 +222,14 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             $('.pdp-more-information:visible').offset().top - stickyNavTopHeight
           );
         }
+      });
+
+      $('.pdp-hero__sticky-nav-bottom a[href^="#"]').once('pdpBody').click(event => {
+        event.preventDefault();
+        const stickyNavTopHeight = offsetPaddingCalc();
+        $('html, body').animate({
+          scrollTop: $(event.target.getAttribute('href')).offset().top - stickyNavTopHeight
+        }, 600);
       });
 
       //size control
