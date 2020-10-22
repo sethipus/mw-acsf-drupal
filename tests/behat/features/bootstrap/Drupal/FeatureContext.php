@@ -16,8 +16,6 @@ use Drupal\block_content\Entity\BlockContentType;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 {
 
-    public static $loginUrl;
-
     /**
      * Every scenario gets its own context instance.
      *
@@ -42,46 +40,14 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function loginDrupal()
     {
-        shell_exec('sudo pkill chrome');
-        //echo "pwd: " . shell_exec('pwd') . "\n";
+        $domain = $this->getMinkParameter('base_url');
+        echo "domain: " . $domain . "\n";
 
-        //echo "which drush is: " . shell_exec('which drush') . "\n";
+        $uli = preg_replace('/\n$/', '', shell_exec('cd ../vendor/bin; ./drush uli --uri=' . $domain));
+        echo "uli: " . $uli . "\n";
 
-        //echo "ls: " . shell_exec('ls') . "\n";
-        //echo "cd ..; ls: " . shell_exec('cd ..; ls') . "\n";
-        //echo "cd ../drush; ls: " . shell_exec('cd ../drush; ls') . "\n";
-
-        echo "this login url: " . $this->loginUrl . "\n";
-
-        //$session = $this->getSession();
-        //$session->visit($domain . "/admin");
-        //$code = $session->getStatusCode();
-
-          echo "cd ../vendor/bin; ls: " . shell_exec('cd ../vendor/bin; ls') . "\n";
-          echo "cd ../vendor/drush/drush; ls: " . shell_exec('cd ../vendor/drush/drush; ls') . "\n";
-          $domain = $this->getMinkParameter('base_url');
-          echo "domain: " . $domain . "\n";
-
-          $uli = preg_replace('/\n$/', '', shell_exec('cd ../vendor/bin; ./drush uli --uri=' .$domain));
-          echo "uli: " . $uli . "\n";
-          $uli = str_replace('https://mars.ddev.site:8443', 'http://mars.ddev.site:8080', $uli);
-          echo "http uli: " . $uli . "\n";;
-
-          $this->getSession()->visit($uli);
-          $this->loginUrl = $uli;
-    }
-
-    /**
-     * @When I login into Drupal with used url
-     *
-     * Examples:
-     * When I login into Drupal with used url
-     *
-     * @throws \Exception;
-     */
-    public function loginDrupalWithUsedUrl()
-    {
-        $this->visitPath($this->loginUrl);
+        $this->getSession()
+            ->visit($uli);
     }
 
     /**
@@ -747,12 +713,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function iFillTextArea($name, $text)
     {
-        //$xpath = "//IFRAME[@id='{$name}' or @name='{$name}' or @title='{$name}']";
-        //$this->getSession()->getDriver()->switchToIFrame();
-        //print_r($this->getSession()->getDriver()->getWindowNames());
-        //$fieldXpath = "//html//body";
-        //$fieldXpath = "//iframe[contains(@title, 'Rich Text Editor, Answer field')]";
-        //$fieldXpath = "//label[(text() = '" . $name . "')]/ancestor::div[contains(@class, 'js-form-type-textarea')]//div[contains(@class, 'form-textarea-wrapper')]//textarea";
         $fieldXpath = "//textarea[contains(@id, 'edit-field-qa-item-question')]";
         $this->getSession()
             ->getDriver()
@@ -776,4 +736,3 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
             ->setValue($fieldXpath, $text);
     }
 }
-
