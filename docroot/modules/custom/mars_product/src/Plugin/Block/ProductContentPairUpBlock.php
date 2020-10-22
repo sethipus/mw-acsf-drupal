@@ -8,7 +8,6 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Url;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -302,10 +301,10 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    * @param \Drupal\Core\Entity\ContentEntityInterface|null $main_entity
    *   The main entity of the component.
    *
-   * @return \Drupal\Core\Url|null
+   * @return string|null
    *   The bg image.
    */
-  private function getBgImage(?ContentEntityInterface $main_entity): ?Url {
+  private function getBgImage(?ContentEntityInterface $main_entity): ?string {
     $bg_src = NULL;
     $background_id = NULL;
     $conf = $this->getConfiguration();
@@ -318,7 +317,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     if ($background_id) {
       $background_params = $this->mediaHelper->getMediaParametersById($background_id);
       if (!isset($background_params['error'])) {
-        $bg_src = Url::fromUri(file_create_url($background_params['src']));
+        $bg_src = $background_params['src'];
       }
     }
     return $bg_src;

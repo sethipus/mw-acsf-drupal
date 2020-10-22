@@ -20,6 +20,11 @@ Drupal.behaviors.searchFilterBehaviour = {
           break;
         case target.classList.contains('checkbox-item__input'):
           updateCounters();
+        case target.classList.contains('search-filter-info__applied-clear'):
+          const currentFilter = context.getElementById(target.getAttribute('data-id'));
+          currentFilter.checked = false;
+          updateCounters();
+          processFilters();
           break;
       }
     });
@@ -40,43 +45,48 @@ Drupal.behaviors.searchFilterBehaviour = {
         else {
           document.location.search = '';
         }
-        
+
       });
     });
 
     applyFiltersButtons.forEach(function (button) {
       button.addEventListener('click', function(event) {
         event.preventDefault();
-        let queryElements = [];
-        let appliedFilters = [];
-        let appliedIds = [];
-        const filterBlocks = context.querySelectorAll('.filter-block');
-        const searchQuery = context.querySelector('.search-input__field').value;
-        if (searchQuery !== '') {
-          queryElements.push('search=' + searchQuery);
-        }
-  
-        filterBlocks.forEach(function(element) {
-          const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
-          const inputElements = element.querySelectorAll('.checkbox-item__input:checked');
-  
-          inputLabels.forEach(function(label) {
-            appliedFilters.push(label.innerText);
-          });
-          inputElements.forEach(function(input) {
-            appliedIds.push(input.getAttribute('id'));
-          });
-          if (appliedIds.length > 0) {
-            queryElements.push(element.getAttribute('data-filter') + '=' +  appliedIds.join(','));
-            appliedIds = [];
-          }
-        });
-        document.location.search = queryElements.join('&');
+        processFilters();
       });
     });
 
-    const updateCounters = () => {
+    const processFilters = () => {
+      let queryElements = [];
       let appliedFilters = [];
+      let appliedIds = [];
+      const filterBlocks = context.querySelectorAll('.filter-block');
+      const searchQuery = context.querySelector('.search-input__field').value;
+      if (searchQuery !== '') {
+        queryElements.push('search=' + searchQuery);
+      }
+
+      filterBlocks.forEach(function(element) {
+        const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
+        const inputElements = element.querySelectorAll('.checkbox-item__input:checked');
+
+        inputLabels.forEach(function(label) {
+          appliedFilters.push(label.innerText);
+        });
+        inputElements.forEach(function(input) {
+          appliedIds.push(input.getAttribute('id'));
+        });
+        if (appliedIds.length > 0) {
+          queryElements.push(element.getAttribute('data-filter') + '=' +  appliedIds.join(','));
+          appliedIds = [];
+        }
+      });
+      document.location.search = queryElements.join('&');
+    };
+
+    const updateCounters = () => {
+      let appliedFilters = '';
+      let appliedFiltersCounter = 0;
       const filterBlocks = context.querySelectorAll('.filter-block');
       const appliedFiltersContainer = context.querySelector('.search-filter-info');
       const appliedFiltersBlock = context.querySelector('.search-filter-info__applied');
@@ -90,7 +100,13 @@ Drupal.behaviors.searchFilterBehaviour = {
         let counter = inputLabels.length;
         counterElement.innerHTML = counter ? counter : '';
         inputLabels.forEach(function(label) {
-          appliedFilters.push(label.innerText);
+          appliedFilters += '\
+            <span class="search-filter-info__applied-name">\
+              <span>'+ label.innerText +'</span>\
+              <div data-id="'+ label.getAttribute('for') +'" class="search-filter-info__applied-clear"></div>\
+            </span>\
+            '
+          appliedFiltersCounter++;
         });
       });
 
@@ -104,8 +120,8 @@ Drupal.behaviors.searchFilterBehaviour = {
         appliedFiltersContainer.classList.add('search-filter-info--hidden');
       }
 
-      appliedFiltersCount.innerHTML = appliedFilters.length;
-      appliedFiltersList.innerHTML = appliedFilters.join(', ');
+      appliedFiltersCount.innerHTML = appliedFiltersCounter;
+      appliedFiltersList.innerHTML = appliedFilters;
     }
   },
 };
