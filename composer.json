@@ -73,6 +73,7 @@
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev",
+        "mikey179/vfsstream": "^1.6",
         "symfony/phpunit-bridge": "^5.1"
     },
     "config": {
