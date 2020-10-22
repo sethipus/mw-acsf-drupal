@@ -317,6 +317,17 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'fullwidth-image-video-block',
     ],
+    'flexible_framer_block' => [
+      'variables' => [
+        'grid_label' => NULL,
+        'grid_type' => NULL,
+        'item_type' => NULL,
+        'items' => NULL,
+        'brand_borders' => NULL,
+        'divider' => NULL,
+      ],
+      'template' => 'flexible-framer-block',
+    ],
   ];
 }
 

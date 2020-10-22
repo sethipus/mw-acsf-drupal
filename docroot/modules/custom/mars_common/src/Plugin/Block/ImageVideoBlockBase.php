@@ -29,12 +29,12 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
   /**
    * Lighthouse entity browser image id.
    */
-  protected const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
+  public const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
 
   /**
    * Lighthouse entity browser video id.
    */
-  protected const LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID = 'lighthouse_video_browser';
+  public const LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID = 'lighthouse_video_browser';
 
   /**
    * Mars Media Helper service.
