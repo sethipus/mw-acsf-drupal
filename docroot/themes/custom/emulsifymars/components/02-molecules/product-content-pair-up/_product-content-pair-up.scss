@@ -167,7 +167,7 @@
         .lead-card {
           height: 538px;
           padding-top: 60px;
-          background-size: 130%;
+          background-size: auto 130%;
 
           .wrapper {
             margin: 0 auto;
@@ -229,7 +229,7 @@
     &:not(.max-size--375) {
       .product-content-pair-up__container {
         .lead-card {
-          background-size: 120%;
+          background-size: auto 120%;
         }
       }
     }
