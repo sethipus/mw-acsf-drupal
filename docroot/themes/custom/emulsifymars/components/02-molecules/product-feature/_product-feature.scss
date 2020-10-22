@@ -108,6 +108,11 @@
     flex: 0 0 auto;
     max-width: 50%;
 
+    & .h1__link {
+      font-family: variable(primary-font);
+      font-size: 6.4rem;
+    }
+
     & .eyebrow {
       letter-spacing: .16rem;
       font-family: variable(primary-font);
