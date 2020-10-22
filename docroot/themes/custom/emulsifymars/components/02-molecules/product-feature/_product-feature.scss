@@ -108,6 +108,11 @@
     flex: 0 0 auto;
     max-width: 50%;
 
+    & .eyebrow {
+      letter-spacing: .16rem;
+      font-family: variable(primary-font);
+    }
+
     @media (max-width: 768px) {
       padding: 2rem;
       max-width: 100%;
