@@ -88,7 +88,7 @@
 
   &__product_image {
     flex: 0 0 auto;
-    margin-right: 5rem;
+    margin: 0 4rem;
     animation: action 1.2s cubic-bezier(0, 0, 1, 1) infinite alternate;
     max-width: 45%;
 
@@ -107,6 +107,16 @@
   &__product_text {
     flex: 0 0 auto;
     max-width: 50%;
+
+    & .h1__link {
+      font-family: variable(primary-font);
+      font-size: 6.4rem;
+    }
+
+    & .eyebrow {
+      letter-spacing: .16rem;
+      font-family: variable(primary-font);
+    }
 
     @media (max-width: 768px) {
       padding: 2rem;
