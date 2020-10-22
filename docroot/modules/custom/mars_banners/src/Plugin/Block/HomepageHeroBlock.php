@@ -205,7 +205,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['title']['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title label'),
-      '#maxlength' => 50,
+      '#maxlength' => 55,
       '#default_value' => $config['title']['label'] ?? '',
       '#states' => [
         'required' => [
@@ -336,7 +336,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $form['card'][$key]['title']['label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Card Title label'),
-        '#maxlength' => 45,
+        '#maxlength' => 55,
         '#default_value' => $config['card'][$key]['title']['label'] ?? '',
       ];
       $form['card'][$key]['title']['url'] = [
