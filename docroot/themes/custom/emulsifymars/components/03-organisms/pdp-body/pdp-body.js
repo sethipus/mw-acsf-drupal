@@ -211,7 +211,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         const stickyNavTopHeight = offsetPaddingCalc();
         if (event.target.className.indexOf('pdp-hero__nutrition-menu') > -1) {
           $(context).scrollTop(
-            $('.pdp-nutrition:visible').offset().top - stickyNavTopHeight
+            $('.pdp-hero-menu-container .pdp-hero__nutrition-menu:visible').offset().top - stickyNavTopHeight
           );
         } else if (event.target.className.indexOf('pdp-hero__allergen-menu') > -1) {
           $(context).scrollTop(
