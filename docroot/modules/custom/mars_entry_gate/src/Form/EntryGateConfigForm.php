@@ -44,7 +44,7 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#default_value' => $config->get('title') ?? 'Our Promise',
-      '#maxlength' => 25,
+      '#maxlength' => 55,
       '#required' => TRUE,
     ];
 
