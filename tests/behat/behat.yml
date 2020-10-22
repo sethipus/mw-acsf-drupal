@@ -9,14 +9,16 @@ default:
     Behat\MinkExtension:
       browser_name: chrome
       default_session: goutte
+      javascript_session: selenium2
       goutte: ~
+      selenium2: ~
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: "drupal"
     jarnaiz\JUnitFormatter\JUnitFormatterExtension:
-      filename: report.xml
-      outputDir: "%paths.base%/build/tests"
+        filename: report.xml
+        outputDir: "%paths.base%/build/tests"
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_steps
       image_drivers:
