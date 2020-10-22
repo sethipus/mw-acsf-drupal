@@ -129,7 +129,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
@@ -145,7 +145,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 65,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => TRUE,
     ];
