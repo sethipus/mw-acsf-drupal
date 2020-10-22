@@ -4,7 +4,7 @@ ignored_config_entities:
   - 'system.site:page.front'
   - acquia_connector.settings
   - samlauth.authentication
-  - onetrust.settings
+  - mars_onetrust.settings
   - mars_entry_gate.settings
   - 'juicer_io.feed.*'
   - emulsifymars.settings
@@ -12,6 +12,7 @@ ignored_config_entities:
   - block.block.footerblock
   - block.block.marsheaderblock
   - acquia_contenthub.admin_settings
+  - field.storage.node.field_product_allergen_statement
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'

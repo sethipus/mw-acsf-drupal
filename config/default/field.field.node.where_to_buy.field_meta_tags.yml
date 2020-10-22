@@ -1,0 +1,21 @@
+uuid: 28e21b4f-96f4-4135-8801-d3d3ff8c8e8f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags
+    - node.type.where_to_buy
+  module:
+    - metatag
+id: node.where_to_buy.field_meta_tags
+field_name: field_meta_tags
+entity_type: node
+bundle: where_to_buy
+label: 'Meta tags'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: metatag

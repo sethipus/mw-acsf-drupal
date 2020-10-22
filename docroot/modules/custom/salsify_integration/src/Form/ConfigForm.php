@@ -43,11 +43,11 @@ class ConfigForm extends ConfigFormBase {
   protected $moduleHandler;
 
   /**
-   * The Drupal container.
+   * The Salsify fields module.
    *
-   * @var \Symfony\Component\DependencyInjection\ContainerInterface
+   * @var \Drupal\salsify_integration\SalsifyFields
    */
-  protected $container;
+  protected $salsifyFields;
 
   /**
    * ConfigForm constructor.
@@ -60,21 +60,21 @@ class ConfigForm extends ConfigFormBase {
    *   The event dispatcher service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler service.
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The container service.
+   * @param \Drupal\salsify_integration\SalsifyFields $salsify_fields
+   *   The Salsify fields module.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     ContainerAwareEventDispatcher $event_dispatcher,
     ModuleHandlerInterface $module_handler,
-    ContainerInterface $container
+    SalsifyFields $salsify_fields
   ) {
     parent::__construct($config_factory);
     $this->entityTypeManager = $entity_type_manager;
     $this->eventDispatcher = $event_dispatcher;
     $this->moduleHandler = $module_handler;
-    $this->container = $container;
+    $this->salsifyFields = $salsify_fields;
   }
 
   /**
@@ -86,7 +86,7 @@ class ConfigForm extends ConfigFormBase {
       $container->get('entity_type.manager'),
       $container->get('event_dispatcher'),
       $container->get('module_handler'),
-      $container
+      $container->get('salsify_integration.salsify_fields')
     );
   }
 
@@ -222,8 +222,8 @@ class ConfigForm extends ConfigFormBase {
     if ($form_state->getValue('entity_type') || $config->get('entity_type')) {
       $entity_type = $form_state->getValue('entity_type') ? $form_state->getValue('entity_type') : $config->get('entity_type');
       // Load the entity type definition to get the bundle type name.
-      $entity_Type_def = $this->entityTypeManager->getDefinition($entity_type);
-      $entity_bundles = $this->entityTypeManager->getStorage($entity_Type_def->getBundleEntityType())->loadMultiple();
+      $entity_type_def = $this->entityTypeManager->getDefinition($entity_type);
+      $entity_bundles = $this->entityTypeManager->getStorage($entity_type_def->getBundleEntityType())->loadMultiple();
       $entity_bundles_options = [];
       foreach ($entity_bundles as $entity_bundle) {
         $entity_bundles_options[$entity_bundle->id()] = $entity_bundle->label();
@@ -399,13 +399,13 @@ class ConfigForm extends ConfigFormBase {
     // process right away.
     $trigger = $form_state->getTriggeringElement();
     if ($trigger['#id'] == 'edit-salsify-start-import') {
-      $product_feed = SalsifyFields::create($this->container);
       $update_method = $form_state->getValue('salsify_manual_import_method');
       $force_update = FALSE;
       if ($update_method == 'force') {
         $force_update = TRUE;
       }
-      $results = $product_feed->importProductData(TRUE, $force_update);
+      $results = $this->salsifyFields
+        ->importProductData(TRUE, $force_update);
       if ($results) {
         $this->messenger()->addMessage($results['message'], $results['status']);
       }

@@ -73,7 +73,6 @@
 
           .social-menu__icon {
             fill: clr(subcolor-1);
-            margin-right: 30px;
           }
         }
       }
@@ -86,6 +85,7 @@
     &__image {
       position: relative;
       margin-bottom: 10px;
+      width: 100%;
 
       & .stretch {
         position: absolute;
@@ -111,6 +111,7 @@
         width: 100%;
         height: auto;
         z-index: 2;
+        bottom: 20px;
 
         svg {
           width: 100%;

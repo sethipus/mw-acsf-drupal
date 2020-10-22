@@ -1,0 +1,30 @@
+uuid: 1b364fcd-3ff5-4983-a058-7882dd0df37f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_campaign_image
+    - media.type.image
+    - media.type.lighthouse_image
+    - node.type.campaign
+id: node.campaign.field_campaign_image
+field_name: field_campaign_image
+entity_type: node
+bundle: campaign
+label: Image
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

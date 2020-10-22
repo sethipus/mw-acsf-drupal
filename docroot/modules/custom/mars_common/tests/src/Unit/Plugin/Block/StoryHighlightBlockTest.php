@@ -22,16 +22,22 @@ class StoryHighlightBlockTest extends UnitTestCase {
 
   const STORY_ITEM_1_MEDIA_ID = 10;
   const STORY_ITEM_1_MEDIA_URI = 'public://story_media/image1.png';
+  const STORY_ITEM_1_ENTITY_BROWSER_VALUE = 'media:10';
   const STORY_ITEM_2_MEDIA_ID = 15;
   const STORY_ITEM_2_MEDIA_URI = 'public://story_media/image2.png';
+  const STORY_ITEM_2_ENTITY_BROWSER_VALUE = 'media:15';
   const STORY_ITEM_3_MEDIA_ID = 20;
   const STORY_ITEM_3_MEDIA_URI = 'public://story_media/image3.png';
+  const STORY_ITEM_3_ENTITY_BROWSER_VALUE = 'media:20';
   const SVG_ASSET_1_MEDIA_ID = 25;
   const SVG_ASSET_1_MEDIA_URI = 'public://svg_asset/image1.png';
+  const SVG_ASSET_1_ENTITY_BROWSER_VALUE = 'media:25';
   const SVG_ASSET_2_MEDIA_ID = 30;
   const SVG_ASSET_2_MEDIA_URI = 'public://svg_asset/image2.png';
+  const SVG_ASSET_2_ENTITY_BROWSER_VALUE = 'media:30';
   const SVG_ASSET_3_MEDIA_ID = 35;
   const SVG_ASSET_3_MEDIA_URI = 'public://svg_asset/image3.png';
+  const SVG_ASSET_3_ENTITY_BROWSER_VALUE = 'media:35';
 
   /**
    * Entity Type Manager Mock.
@@ -128,14 +134,14 @@ class StoryHighlightBlockTest extends UnitTestCase {
       'story_block_title' => 'Test Block Title',
       'story_block_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       'items' => [
-        ['title' => 'Story Item 1', 'media' => self::STORY_ITEM_1_MEDIA_ID],
-        ['title' => 'Story Item 2', 'media' => self::STORY_ITEM_2_MEDIA_ID],
-        ['title' => 'Story Item 3', 'media' => self::STORY_ITEM_3_MEDIA_ID],
+        ['title' => 'Story Item 1', 'media' => self::STORY_ITEM_1_ENTITY_BROWSER_VALUE],
+        ['title' => 'Story Item 2', 'media' => self::STORY_ITEM_2_ENTITY_BROWSER_VALUE],
+        ['title' => 'Story Item 3', 'media' => self::STORY_ITEM_3_ENTITY_BROWSER_VALUE],
       ],
       'svg_assets' => [
-        'svg_asset_1' => self::SVG_ASSET_1_MEDIA_ID,
-        'svg_asset_2' => self::SVG_ASSET_2_MEDIA_ID,
-        'svg_asset_3' => self::SVG_ASSET_3_MEDIA_ID,
+        'svg_asset_1' => self::SVG_ASSET_1_ENTITY_BROWSER_VALUE,
+        'svg_asset_2' => self::SVG_ASSET_2_ENTITY_BROWSER_VALUE,
+        'svg_asset_3' => self::SVG_ASSET_3_ENTITY_BROWSER_VALUE,
       ],
       'view_more' => [
         'label' => 'View Extra',
@@ -369,23 +375,11 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this
       ->mediaHelperMock
-      ->method('getMediaUriById')
-      ->willReturnMap([
-        [self::STORY_ITEM_1_MEDIA_ID, self::STORY_ITEM_1_MEDIA_URI],
-        [self::STORY_ITEM_2_MEDIA_ID, self::STORY_ITEM_2_MEDIA_URI],
-        [self::STORY_ITEM_3_MEDIA_ID, self::STORY_ITEM_3_MEDIA_URI],
-        [self::SVG_ASSET_1_MEDIA_ID, self::SVG_ASSET_1_MEDIA_URI],
-        [self::SVG_ASSET_2_MEDIA_ID, self::SVG_ASSET_2_MEDIA_URI],
-        [self::SVG_ASSET_3_MEDIA_ID, self::SVG_ASSET_3_MEDIA_URI],
-      ]);
-
-    $this->mediaHelperMock = $this->createMock(MediaHelper::class);
-    $this
-      ->mediaHelperMock
       ->method('getMediaParametersById')
       ->willReturnMap([
         [
           self::STORY_ITEM_1_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_1_MEDIA_URI,
@@ -395,6 +389,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::STORY_ITEM_2_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_2_MEDIA_URI,
@@ -404,6 +399,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::STORY_ITEM_3_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::STORY_ITEM_3_MEDIA_URI,
@@ -413,6 +409,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_1_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_1_MEDIA_URI,
@@ -422,6 +419,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_2_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_2_MEDIA_URI,
@@ -431,12 +429,42 @@ class StoryHighlightBlockTest extends UnitTestCase {
         ],
         [
           self::SVG_ASSET_3_MEDIA_ID,
+          FALSE,
           [
             'image' => TRUE,
             'src' => self::SVG_ASSET_3_MEDIA_URI,
             'alt' => 'Alt',
             'title' => 'Title',
           ],
+        ],
+      ]);
+    $this
+      ->mediaHelperMock
+      ->method('getIdFromEntityBrowserSelectValue')
+      ->willReturnMap([
+        [
+          self::STORY_ITEM_1_ENTITY_BROWSER_VALUE,
+          self::STORY_ITEM_1_MEDIA_ID,
+        ],
+        [
+          self::STORY_ITEM_2_ENTITY_BROWSER_VALUE,
+          self::STORY_ITEM_2_MEDIA_ID,
+        ],
+        [
+          self::STORY_ITEM_3_ENTITY_BROWSER_VALUE,
+          self::STORY_ITEM_3_MEDIA_ID,
+        ],
+        [
+          self::SVG_ASSET_1_ENTITY_BROWSER_VALUE,
+          self::SVG_ASSET_1_MEDIA_ID,
+        ],
+        [
+          self::SVG_ASSET_2_ENTITY_BROWSER_VALUE,
+          self::SVG_ASSET_2_MEDIA_ID,
+        ],
+        [
+          self::SVG_ASSET_3_ENTITY_BROWSER_VALUE,
+          self::SVG_ASSET_3_MEDIA_ID,
         ],
       ]);
   }
