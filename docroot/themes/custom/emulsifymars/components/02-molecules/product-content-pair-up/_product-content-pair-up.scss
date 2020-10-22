@@ -27,7 +27,7 @@
 
     .lead-card {
       background-color: clr(subcolor-2);
-      background-size: cover;
+      background-size: auto 110%;
       background-repeat: no-repeat;
       background-position: center center;
       padding-top: 50px;
@@ -167,6 +167,7 @@
         .lead-card {
           height: 538px;
           padding-top: 60px;
+          background-size: auto 130%;
 
           .wrapper {
             margin: 0 auto;
@@ -228,7 +229,7 @@
     &:not(.max-size--375) {
       .product-content-pair-up__container {
         .lead-card {
-          background-size: cover;
+          background-size: auto 120%;
         }
       }
     }
