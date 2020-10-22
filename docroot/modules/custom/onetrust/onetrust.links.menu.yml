@@ -1,5 +1,0 @@
-onetrust.form:
-  title: 'OneTrust integration'
-  description: 'Settings for the OneTrust integration module.'
-  route_name: onetrust.form
-  parent: 'system.admin_config_services'

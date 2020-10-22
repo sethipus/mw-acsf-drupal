@@ -160,6 +160,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function build() {
+    // Getting all GET parameters in array.
+    $query_parameters = $this->searchHelper->request->query->all();
     // Getting unique grid id for the page.
     // This will be used later when several grids on a single page will be
     // approved. In that case URL will be like
@@ -174,7 +176,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     }
 
     // Initializing grid options array.
-    // It is needed to pass preset filteds to autocomplete.
+    // It is needed to pass preset filters to autocomplete.
     $grid_options = [
       'grid_id' => $grid_id,
       'filters' => [],
@@ -185,6 +187,13 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
+
+    if (empty($query_parameters['see-all'])) {
+      // We need only 8 items to show initially.
+      // Parse query will trim limit in case of see all.
+      // But initial results count needs to be 8 instead of configured default.
+      $searchOptions['limit'] = 8;
+    }
 
     // Adjusting them with grid specific configuration.
     // Content type filter.
@@ -253,6 +262,16 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($query_search_results['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
     }
 
+    // Output See all only if we have enough results.
+    if ($query_search_results['resultsCount'] > count($build['#items'])) {
+      $url = $this->searchHelper->getCurrentUrl();
+      $url_options = $url->getOptions();
+      $url_options['query']['see-all'] = 1;
+      $url->setOptions($url_options);
+      $build['#ajax_card_grid_link_text'] = $this->t('See all');
+      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
+    }
+
     $build['#ajax_card_grid_heading'] = $config['title'];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
     $build['#theme_styles'] = 'drupal';
@@ -282,7 +301,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $form['title'] = [
       '#title' => $this->t('Title'),
       '#type' => 'textfield',
-      '#size' => 35,
+      '#size' => 55,
       '#required' => TRUE,
       '#default_value' => $config['title'] ?? $this->t('All products'),
     ];
@@ -305,9 +324,9 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $form['content_type'] = [
       '#type' => 'radios',
       '#title' => $this->t('Content type'),
-      '#multiple' => TRUE,
       '#options' => self::CONTENT_TYPES,
       '#default_value' => $config['content_type'] ?? NULL,
+      '#required' => TRUE,
     ];
 
     $form = array_merge($form, $this->buildExposedFilters());

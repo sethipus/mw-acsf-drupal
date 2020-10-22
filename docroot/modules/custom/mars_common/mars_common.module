@@ -284,6 +284,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'poll-block',
     ],
+    'where_to_buy_block' => [
+      'template' => 'where-to-buy-block',
+    ],
   ];
 }
 
@@ -993,8 +996,27 @@ function mars_common_field_widget_form_alter(
   $plugin_id = $context['widget']->getPluginId();
   $field_name = $context['items']->getName();
 
+  // Apply for titles:
+  $applied_titles = [
+    'field_ff_item_title',
+    'field_inline_image_title',
+    'field_inline_video_title',
+    'field_full_image_title',
+    'field_full_video_title',
+    'field_carousel_title',
+  ];
+  if (in_array($field_name, $applied_titles)) {
+    $element['value']['#maxlength'] = 55;
+  }
   if ($field_name === 'field_ff_item_description') {
-    $element['value']['#maxlength'] = 120;
+    $element['value']['#maxlength'] = 160;
+  }
+
+  if ($field_name == 'field_product_description') {
+    $element['#maxlength'] = 160;
+  }
+  if ($field_name == 'field_recipe_description') {
+    $element['#maxlength'] = 160;
   }
 
   if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
