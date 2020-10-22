@@ -187,7 +187,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#required' => TRUE,
-      '#maxlength' => 33,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? NULL,
     ];
 
