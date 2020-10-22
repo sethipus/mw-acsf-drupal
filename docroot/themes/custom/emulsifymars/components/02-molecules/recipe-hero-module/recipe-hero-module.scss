@@ -256,7 +256,13 @@ $xl-gap-width: 30px;
 
   @include xl {
     padding: 60px 0 0;
-    width: calc(#{$xl-column-width*6 + $xl-gap-width*5});
+    max-width: 1360px;
+    margin: auto;
+  }
+
+  &__text,
+  &__social {
+    width: #{$xl-column-width*6 + $xl-gap-width*5};
   }
 
   &__text {
