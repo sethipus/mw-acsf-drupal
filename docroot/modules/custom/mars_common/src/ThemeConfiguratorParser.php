@@ -112,7 +112,7 @@ class ThemeConfiguratorParser {
       if (!empty($file)) {
         $social_menu_items[$key]['title'] = $social_settings['name'];
         $social_menu_items[$key]['url'] = $social_settings['link'];
-        $social_menu_items[$key]['icon'] = $file->createFileUrl();
+        $social_menu_items[$key]['icon'] = $this->readContentFromFile($file);
       }
     }
     return $social_menu_items;
