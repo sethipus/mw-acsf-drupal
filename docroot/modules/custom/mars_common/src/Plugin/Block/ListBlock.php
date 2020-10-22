@@ -8,7 +8,6 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 
 /**
@@ -16,7 +15,7 @@ use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
  *
  * @Block(
  *   id = "list_block",
- *   admin_label = @Translation("List component"),
+ *   admin_label = @Translation("MARS: List component"),
  *   category = @Translation("Page components"),
  * )
  *
@@ -32,27 +31,6 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
   const LIGHTHOUSE_ENTITY_BROWSER_ID = 'lighthouse_browser';
 
   /**
-   * A view builder instance.
-   *
-   * @var \Drupal\Core\Entity\EntityViewBuilderInterface
-   */
-  protected $viewBuilder;
-
-  /**
-   * Node storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $nodeStorage;
-
-  /**
-   * ThemeConfiguratorParser.
-   *
-   * @var \Drupal\mars_common\ThemeConfiguratorParser
-   */
-  protected $themeConfiguratorParser;
-
-  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -66,12 +44,9 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    EntityTypeManagerInterface $entity_type_manager,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
-    $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->mediaHelper = $media_helper;
   }
 
@@ -83,7 +58,6 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -116,7 +90,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
 
       $ol_items[] = $item;
     }
-    $build['#label'] = $config['list_label'];
+    $build['#label'] = $config['list_label'] ?? '';
     $build['#ol_items'] = $ol_items;
     $build['#theme'] = 'list_component';
     return $build;
@@ -138,7 +112,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
     $form['list'] = [
       '#type' => 'fieldset',
       '#tree' => TRUE,
-      '#title' => $this->t('Setup list items'),
+      '#title' => $this->t('List items'),
       '#prefix' => '<div id="list-wrapper">',
       '#suffix' => '</div>',
     ];
@@ -231,7 +205,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
   }
 
   /**
-   * Add remove card callback.
+   * Add remove list item callback.
    *
    * @param array $form
    *   Theme settings form.
@@ -268,7 +242,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
     unset($values['list']['add_item']);
     $this->setConfiguration($values);
     if (isset($values['list']) && !empty($values['list'])) {
-      foreach ($values['list'] as $key => $card) {
+      foreach ($values['list'] as $key => $item) {
         $this->configuration['list'][$key]['image'] = $this->getEntityBrowserValue($form_state, [
           'list',
           $key,
