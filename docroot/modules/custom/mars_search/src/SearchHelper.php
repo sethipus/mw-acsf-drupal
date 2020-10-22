@@ -3,8 +3,11 @@
 namespace Drupal\mars_search;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\mars_search\Plugin\Block\SearchGridBlock;
+use Drupal\search_api\SearchApiException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -21,11 +24,25 @@ class SearchHelper implements SearchHelperInterface {
   protected $entityTypeManager;
 
   /**
+   * Mars Search logger channel.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
    * Request stack that controls the lifecycle of requests.
    *
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
   public $request;
+
+  /**
+   * Taxonomy facet process service.
+   *
+   * @var \Drupal\mars_search\SearchTermFacetProcess
+   */
+  protected $searchTermFacetProcess;
 
   /**
    * Arrays with searches metadata.
@@ -37,9 +54,16 @@ class SearchHelper implements SearchHelperInterface {
   /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    LoggerChannelFactoryInterface $logger_factory,
+    RequestStack $request,
+    SearchTermFacetProcess $searchTermFacetProcess
+  ) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->logger = $logger_factory->get('mars_search');
     $this->request = $request->getMasterRequest();
+    $this->searchTermFacetProcess = $searchTermFacetProcess;
   }
 
   /**
@@ -55,17 +79,11 @@ class SearchHelper implements SearchHelperInterface {
       $options = $this->getSearchQueryDefaultOptions();
     }
 
-    // Getting search keywords.
-    $keys = $this->request->query->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
-
     $index = $this->entityTypeManager->getStorage('search_api_index')->load('acquia_search_index');
 
-    $query_options = [
-      'limit' => isset($options['limit']) ? $options['limit'] : 8,
-    ];
-    // Remove limit in "See all" case.
-    if ($this->request->query->get('see-all')) {
-      $query_options = [];
+    $query_options = [];
+    if (!empty($options['limit'])) {
+      $query_options = ['limit' => $options['limit']];
     }
 
     $query = $index->query($query_options);
@@ -81,37 +99,34 @@ class SearchHelper implements SearchHelperInterface {
         'min_count' => 1,
         'missing' => TRUE,
       ];
-      // Applying filters.
-      if (empty($options['disable_filters']) && $facet_field_value = $this->request->query->get($facet_field)) {
-        $query = $query->addCondition($facet_field, $facet_field_value);
-      }
     }
     $query->setOption('search_api_facets', $facet_options);
 
     // Applying predefined conditions.
-    // Applying predefined conditions.
     // $condition[0] is a filter key.
     // $condition[1] is a filter value.
     // $condition[2] is a filter comparison operator: equals, not equals etc.
-    // $condition[3] is a multiple field operator(OR/AND). Could be not set.
     if (!empty($options['conditions'])) {
+      $conditionsGroup = $query->createConditionGroup($options['options_logic']);
       foreach ($options['conditions'] as $condition) {
-        if (!isset($condition[3])) {
-          $query->addCondition($condition[0], $condition[1], $condition[2]);
+        // Disable all filters in case corresponding flag is set.
+        if (!empty($options['disable_filters']) && empty($condition[3])) {
+          continue;
+        }
+        // Taxonomy filters go as a separate condition group with OR/AND logic.
+        if (in_array($condition[0], array_keys(SearchGridBlock::TAXONOMY_VOCABULARIES))) {
+          $conditionsGroup->addCondition($condition[0], $condition[1], $condition[2]);
         }
         else {
-          $conditionsGroup = $query->createConditionGroup($condition[3]);
-          foreach ($condition[1] as $filter_value) {
-            $conditionsGroup->addCondition($condition[0], $filter_value, $condition[2]);
-          }
-          $query->addConditionGroup($conditionsGroup);
+          $query->addCondition($condition[0], $condition[1], $condition[2]);
         }
       }
+      $query->addConditionGroup($conditionsGroup);
     }
 
     // Applying search keys.
-    if ($keys && empty($options['disable_filters'])) {
-      $query->keys($keys);
+    if ($options['keys'] && empty($options['disable_filters'])) {
+      $query->keys($options['keys']);
     }
 
     // Adding sorting.
@@ -123,9 +138,16 @@ class SearchHelper implements SearchHelperInterface {
 
     $query_results = $query->execute();
 
-    $results = [];
+    $results = $highlighted_fields = [];
     foreach ($query_results->getResultItems() as $resultItem) {
-      $results[] = $resultItem->getOriginalObject()->getValue();
+      // Do not fail page load if search index is not in sync with database.
+      try {
+        $results[] = $resultItem->getOriginalObject()->getValue();
+        $highlighted_fields[] = $resultItem->getExtraData('highlighted_fields');
+      }
+      catch (SearchApiException $e) {
+        $this->logger->warning($e->getMessage());
+      }
     }
 
     // It's better to trim facet values in a single place.
@@ -140,6 +162,7 @@ class SearchHelper implements SearchHelperInterface {
       'results' => $results,
       'facets' => $facets_data,
       'resultsCount' => $query_results->getResultCount(),
+      'highlighted_fields' => $highlighted_fields,
     ];
 
     return $this->searches[$searcher_key];
@@ -172,29 +195,23 @@ class SearchHelper implements SearchHelperInterface {
   }
 
   /**
-   * Review if query has key.
+   * Process taxonomy facet links.
    *
-   * @param string $key
-   *   Query key.
+   * @param array $facets
+   *   The facet result from search query.
+   * @param array $vocabularies
+   *   List of vocabularies to process.
+   * @param int $grid_id
+   *   Id of grid for search.
    */
-  public function hasQueryKey($key) {
-    return $this->request->query->has($key);
-  }
-
-  /**
-   * Retrieve query key value.
-   *
-   * @param string $key
-   *   Query key.
-   */
-  public function getQueryValue($key) {
-    return $this->request->query->get($key);
+  public function processTermFacets(array $facets, array $vocabularies, int $grid_id) {
+    return $this->searchTermFacetProcess->processFilter($facets, $vocabularies, $grid_id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function prepareFacetsLinks($facets, $facet_key) {
+  public function prepareFacetsLinks($facets, $facet_key, $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     $facets_links = [];
     if (!$facets) {
       return $facets_links;
@@ -208,14 +225,15 @@ class SearchHelper implements SearchHelperInterface {
         $facet_link_class = '';
 
         // That means facet is active.
-        if ($this->request->query->get($facet_key) == $facet['filter']) {
+        $facet_query_value = $this->request->query->get($facet_key);
+        if (isset($facet_query_value[$search_id]) && $facet_query_value[$search_id] == $facet['filter']) {
           $facet_link_class = 'active';
           // Removing facet query from active filter to allow deselect it.
           unset($options['query'][$facet_key]);
         }
         else {
           // Adding facet filter to the query.
-          $options['query'][$facet_key] = $facet['filter'];
+          $options['query'][$facet_key][$search_id] = $facet['filter'];
         }
 
         $url->setOptions($options);
@@ -237,6 +255,7 @@ class SearchHelper implements SearchHelperInterface {
       'conditions' => [
         // We don't need FAQ nodes in most cases.
         ['type', 'faq', '<>'],
+        ['type', 'product_multipack', '<>'],
       ],
       'limit' => 12,
       'sort' => [

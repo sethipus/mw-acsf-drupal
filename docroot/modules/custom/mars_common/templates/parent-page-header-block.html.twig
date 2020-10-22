@@ -7,30 +7,24 @@
  * 'eyebrow' => NULL,
  * 'label' => NULL,
  * 'background' => NULL,
+ * 'media_type' => NULL,
+ * 'media_format' => NULL,
  * 'description' => NULL,
  */
 #}
 
 {{ attach_library('emulsifymars/parent-page-header') }}
 
-{% set background_bundle = background.bundle() %}
-{% if background_bundle == 'video_file' %}
-  {% set media_type = 'video' %}
-  {% set background_uri = file_url(background.field_media_video_file.entity.fileuri) %}
-{% elseif background_bundle == 'image' %}
-  {% set media_type = 'image' %}
-  {% set background_uri = file_url(background.image.entity.fileuri) %}
-{% endif %}
-
 {% include "@molecules/parent-page-header/parent-page-header.twig" with {
+  theme_styles: 'drupal',
   pp_header_eyebrow_modifiers: ['parent-page'],
   pp_header_eyebrow_text: eyebrow,
   pp_header_heading: label,
   pp_header_heading_base_class: 'parent-page-heading',
   pp_header_paragraph_content: description,
-  parent_page_media_url: background_uri,
+  parent_page_media_url: background,
   parent_page_media_type: media_type,
-  pp_header_video_type: background_bundle == 'video_file' ? 'video/mp4' : NULL,
+  pp_header_video_type: media_format,
   pp_header_heading_level: '1',
   pp_header_paragraph_base_class: 'parent-page-paragraph'
 } %}

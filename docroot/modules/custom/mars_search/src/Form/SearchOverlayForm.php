@@ -6,6 +6,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
+use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -59,8 +60,11 @@ class SearchOverlayForm extends FormBase {
       '#attributes' => [
         'class' => [
           'mars-autocomplete-field',
+          'mars-cards-view',
         ],
         'autocomplete' => 'off',
+        // This is needed for correct work of SearchQueryParser.
+        'data-grid-id' => SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID,
       ],
     ];
     $form['actions'] = [

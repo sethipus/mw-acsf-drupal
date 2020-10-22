@@ -4,6 +4,7 @@ namespace Drupal\mars_common;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 
 /**
@@ -105,16 +106,19 @@ class ThemeConfiguratorParser {
   public function socialLinks(): array {
     $social_menu_items = [];
     foreach ($this->themeSettings['social'] as $key => $social_settings) {
-      if (!$social_settings['name']) {
+      if (!$social_settings['name'] ||
+        !$social_settings['icon'] ||
+        !is_array($social_settings['icon']) ||
+        !$social_settings['link']) {
         continue;
       }
-      $social_menu_items[$key]['title'] = $social_settings['name'];
-      $social_menu_items[$key]['url'] = $social_settings['link'];
-      if (!empty($social_settings['icon']) && is_array($social_settings['icon'])) {
-        $fid = reset($social_settings['icon']);
-        $file = $this->fileStorage->load($fid);
+      $fid = reset($social_settings['icon']);
+      $file = $this->fileStorage->load($fid);
+      if (!empty($file)) {
+        $social_menu_items[$key]['title'] = $social_settings['name'];
+        $social_menu_items[$key]['url'] = $social_settings['link'];
+        $social_menu_items[$key]['icon'] = $file->createFileUrl();
       }
-      $social_menu_items[$key]['icon'] = !empty($file) ? $file->createFileUrl() : '';
     }
     return $social_menu_items;
   }
@@ -143,13 +147,31 @@ class ThemeConfiguratorParser {
    * @return \Drupal\file\Entity\File|null
    *   File entity.
    */
-  public function getFileFromTheme(string $field): ?File {
+  private function getFileFromTheme(string $field): ?File {
     if (!isset($this->themeSettings[$field][0])) {
       return NULL;
     }
 
     $configField = $this->themeSettings[$field][0];
     return $this->fileStorage->load($configField);
+  }
+
+  /**
+   * Creates an URL for a field if it's a File.
+   *
+   * @param string $field
+   *   The name of the config field.
+   *
+   * @return \Drupal\Core\Url|null
+   *   The url for the file, or NULL if it's not a file or not set.
+   */
+  public function getUrlForFile(string $field): ?Url {
+    $pngAssetFile = $this->getFileFromTheme($field);
+    if ($pngAssetFile instanceof File) {
+      $pngAssetUri = $pngAssetFile->getFileUri();
+      return Url::fromUri(file_create_url($pngAssetUri));
+    }
+    return NULL;
   }
 
 }

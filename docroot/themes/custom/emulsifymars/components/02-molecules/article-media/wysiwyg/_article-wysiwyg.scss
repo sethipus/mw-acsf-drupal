@@ -21,3 +21,19 @@
     padding: 0 1rem;
   }
 }
+
+.article-detail {
+  .article-wysiwyg {
+    width: 90%;
+    margin: 0 auto;
+
+    @include medium {
+      max-width: 100%;
+      width: 70%;
+    }
+  }
+
+  .article-wysiwyg__content {
+    padding: 0;
+  }
+}

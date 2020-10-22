@@ -2,9 +2,11 @@
 
 namespace Drupal\mars_search\Form;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_search\SearchHelperInterface;
+use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -50,16 +52,42 @@ class SearchForm extends FormBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Builds search form.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   * @param bool $autocomplete
+   *   Enables/disables autocomplete for the form.
+   * @param array $grid_options
+   *   Search grid specific options like preset filters, grid id etc.
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $autocomplete = TRUE, array $grid_options = []) {
     $keys = $this->searchHelper->request->get(SearchHelperInterface::MARS_SEARCH_SEARCH_KEY);
+    $search_input_classes = ['search-input__field'];
+    if ($autocomplete) {
+      $search_input_classes[] = 'mars-autocomplete-field';
+      $form['#attached']['library'][] = 'mars_search/autocomplete';
+    }
+
+    // Generating grid options query string.
+    $grid_query = '';
+    if (!empty($grid_options['filters'])) {
+      $grid_query = UrlHelper::buildQuery($grid_options['filters']);
+    }
+    // Adding FAQ-specific class just to have it.
+    if (!empty($grid_options['filters']['faq'])) {
+      $search_input_classes[] = 'mars-autocomplete-field-faq';
+    }
     $form['search'] = [
       '#type' => 'textfield',
       '#attributes' => [
         'placeholder' => $this->t('Search'),
-        'class' => ['search-input__field'],
+        'class' => $search_input_classes,
         'autocomplete' => 'off',
+        'data-grid-query' => $grid_query,
+        'data-grid-id' => !empty($grid_options['grid_id']) ? $grid_options['grid_id'] : SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID,
       ],
       '#default_value' => $keys,
     ];
@@ -72,6 +100,7 @@ class SearchForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Submit'),
     ];
+    $form_state->set('grid_options', $grid_options);
 
     return $form;
   }
@@ -85,6 +114,10 @@ class SearchForm extends FormBase {
    *   The current state of the form.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $grid_options = $form_state->get('grid_options');
+    // Default search ID is 1.
+    $search_id = !empty($grid_options['grid_id']) ? $grid_options['grid_id'] : SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID;
+
     $keys = $form_state->getValue('search');
 
     $url = $this->searchHelper->getCurrentUrl();
@@ -92,11 +125,16 @@ class SearchForm extends FormBase {
 
     // Either change or delete "search" URL parameter.
     if ($keys) {
-      $options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY] = $keys;
+      $options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY][$search_id] = $keys;
+      // Adding FAQ specific flag.
+      if (!empty($grid_options['filters']['faq'])) {
+        $options['query']['faq'] = TRUE;
+      }
     }
     else {
-      unset($options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY]);
+      unset($options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY][$search_id]);
     }
+
     $url->setOptions($options);
 
     $form_state->setRedirectUrl($url);

@@ -1,0 +1,80 @@
+.pdp-multipack-details {
+  position: relative;
+  margin-bottom: 4rem;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 90%;
+    height: 2px;
+    bottom: 0;
+    left: 5%;
+    background-color: rgba(clr(subcolor-4-rgb), 0.4);
+  }
+
+  &:last-child {
+    &::after {
+      display: none;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include xs {
+      flex-direction: column;
+    }
+
+    @include medium {
+      flex-direction: row;
+      height: 37.7rem;
+    }
+  }
+
+  &__image {
+    max-width: 23.5rem;
+
+    @include xs {
+      margin: 3rem auto;
+    }
+
+    @include medium {
+      margin: 0 3rem;
+    }
+  }
+
+  &__heading {
+    font-family: variable(primary-font);
+    color: clr(primary);
+    font-size: 2.4rem;
+    line-height: 2.64rem;
+    letter-spacing: 0.12rem;
+    max-width: 37.8rem;
+    text-align: center;
+
+    @include xs {
+      margin: 3rem auto;
+    }
+
+    @include medium {
+      margin: 0 3rem;
+    }
+  }
+
+  @include large {
+    .pdp-allergen {
+      padding: 3.6rem 4rem 8rem;
+    }
+
+    .pdp-nutrition {
+      padding: 2rem 4rem 4rem;
+    }
+  }
+
+  .pdp-nutrition__header {
+    display: none;
+  }
+}

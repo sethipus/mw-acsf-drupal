@@ -1,0 +1,30 @@
+uuid: bd4260ab-37d7-48e8-b973-18aa70ee7d65
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_error_page_image
+    - media.type.image
+    - media.type.lighthouse_image
+    - node.type.error_page
+id: node.error_page.field_error_page_image
+field_name: field_error_page_image
+entity_type: node
+bundle: error_page
+label: Image
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

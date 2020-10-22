@@ -208,7 +208,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $host = $this->request->getSchemeAndHttpHost();
       $build['#search_menu'] = [['title' => 'Search', 'url' => $host]];
     }
-    $build['#primary_menu'] = $this->buildMenu($config['primary_menu']);
+    $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
 
     $build['#theme'] = 'header_block';
@@ -237,13 +237,15 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    *
    * @param string $menu_name
    *   Menu name.
+   * @param int $max_depth
+   *   The max menu depth to render.
    *
    * @return array
    *   Rendered menu.
    */
-  protected function buildMenu($menu_name) {
+  protected function buildMenu(string $menu_name, int $max_depth = 1) {
     $menu_parameters = new MenuTreeParameters();
-    $menu_parameters->setMaxDepth(1);
+    $menu_parameters->setMaxDepth($max_depth);
     // Get the tree.
     $tree = $this->menuLinkTree->load($menu_name, $menu_parameters);
     // Apply some manipulators (checking the access, sorting).
@@ -258,7 +260,20 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $menu_links = [];
     if (!empty($menu['#items'])) {
       foreach ($menu['#items'] as $item) {
-        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
+        $children = [];
+        if (!empty($item['below'])) {
+          foreach ($item['below'] as $child) {
+            $children[] = [
+              'title' => $child['title'],
+              'url' => $child['url']->setAbsolute()->toString(),
+            ];
+          }
+        }
+        $menu_links[] = [
+          'title' => $item['title'],
+          'url' => $item['url']->setAbsolute()->toString(),
+          'below' => $children,
+        ];
       }
     }
     return $menu_links;

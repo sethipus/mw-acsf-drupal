@@ -5,12 +5,16 @@ module.exports = api => {
     [
       '@babel/preset-env',
       {
-        corejs: '2',
-        useBuiltIns: 'usage',
+        corejs: '3',
+        useBuiltIns: 'entry'
       },
     ],
     '@babel/preset-react',
-    'minify',
+    ['minify', {
+      builtIns: false,
+      evaluate: false,
+      mangle: false,
+    }],
   ];
 
   const comments = false;
