@@ -78,14 +78,12 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
     
         var getPositions = function getPositions() {
           
-          console.log(items)
           positions = items.map(function (item) {
             return {
               offset: $(item).is(":visible") ? item.getBoundingClientRect().top + window.scrollY : -5000,
               element: item,
             };
           });
-          console.log(positions)
         };
     
         var animatedScrollTo = function animatedScrollTo() {
@@ -120,7 +118,6 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             return element.offset - defaults.proximity <= scrollY && element.offset + defaults.proximity >= scrollY;
           });
           clearTimeout(snapTimeout);
-          console.log(currentlySnapped)
     
           if (snapElement && !isScrolling && snapElement != currentlySnapped) {
             snapTimeout = setTimeout(function () {
@@ -129,7 +126,6 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
                 isScrolling = !isScrolling;
               });
               currentlySnapped = snapElement;
-              console.log(currentlySnapped)
             }, defaults.onSnapWait);
           }
         };
@@ -172,14 +168,6 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         setTimeout(() => {
           snapScroller.recalculateLayout();
         }, 300);
-        $(document).on('click', 'a[href^="#"]', function (e) {
-          snapScroller.recalculateLayout();
-          e.preventDefault();
-          $('html, body').animate({
-            //magic number for sticky header 
-            scrollTop: $($.attr(this, 'href')).offset().top
-          }, 600);
-        });
       }
       
 
