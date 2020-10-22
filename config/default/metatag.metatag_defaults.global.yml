@@ -9,6 +9,7 @@ label: Global
 tags:
   canonical_url: '[current-page:url]'
   title: '[current-page:title] | [site:name]'
+  og_image: '[og_token:hero_image]'
   og_site_name: '[site:name]'
   og_title: '[current-page:title] | [site:name]'
   og_type: '[og_token:type_page]'
