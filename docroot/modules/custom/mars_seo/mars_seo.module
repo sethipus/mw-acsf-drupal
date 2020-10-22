@@ -8,6 +8,8 @@
 use Drupal\node\NodeInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Spatie\SchemaOrg\Type;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\mars_seo\Form\OpenGraphSettingForm;
 
 /**
  * Implements hook_node_view_alter().
@@ -44,4 +46,68 @@ function mars_seo_node_view_alter(array &$build, NodeInterface $node, EntityView
     }
   }
 
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function mars_seo_token_info() {
+  $type = [
+    'name' => t('Custom Token'),
+    'description' => t('Tokens for custom things.'),
+  ];
+  $node['type_page'] = [
+    'name' => t("Type"),
+    'description' => t('Type of page'),
+  ];
+  $node['hero_image'] = [
+    'name' => t("Hero image"),
+    'description' => t('Default hero image.'),
+  ];
+  return [
+    'types' => ['og_token' => $type],
+    'tokens' => ['og_token' => $node],
+  ];
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function mars_seo_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  $replacements = [];
+
+  if ($type == 'og_token') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'type_page':
+          $type = 'article';
+          if (!empty($data['node']))  {
+            if ($data['node']->bundle() == 'product') {
+              $type = $data['node']->bundle();
+            }
+            elseif ($data['node']->bundle() == 'recipe') {
+              $type = $data['node']->bundle();
+            }
+          }
+          $replacements[$original] = $type;
+          break;
+        case 'hero_image':
+          $image_src = NULL;
+          $config = \Drupal::config(OpenGraphSettingForm::SETTINGS);
+          $image = $config->get('image');
+          if (!empty($image)) {
+            $media_helper_service = \Drupal::service('mars_common.media_helper');
+            $mediaId = $media_helper_service->getIdFromEntityBrowserSelectValue($image);
+            $mediaParams = $media_helper_service->getMediaParametersById($mediaId);
+            if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
+              $image_src = $mediaParams['src'];
+            }
+          }
+
+          $replacements[$original] = $image_src;
+          break;
+      }
+    }
+  }
+  return $replacements;
 }
