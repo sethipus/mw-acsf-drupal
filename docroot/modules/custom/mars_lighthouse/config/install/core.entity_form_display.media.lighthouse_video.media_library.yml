@@ -14,11 +14,14 @@ dependencies:
     - field.field.media.lighthouse_video.field_marketing_country
     - field.field.media.lighthouse_video.field_media_in_library
     - field.field.media.lighthouse_video.field_media_video_file_1
+    - field.field.media.lighthouse_video.field_original_external_id
     - field.field.media.lighthouse_video.field_region
     - field.field.media.lighthouse_video.field_segment
     - field.field.media.lighthouse_video.field_sub_brand
     - field.field.media.lighthouse_video.field_sub_type
     - media.type.lighthouse_video
+_core:
+  default_config_hash: whU0L992KJx2lreON5mlPKNewkZbidXBjZ-JJ-5FMaM
 id: media.lighthouse_video.media_library
 targetEntityType: media
 bundle: lighthouse_video
@@ -44,6 +47,7 @@ hidden:
   field_marketing_country: true
   field_media_in_library: true
   field_media_video_file_1: true
+  field_original_external_id: true
   field_region: true
   field_segment: true
   field_sub_brand: true

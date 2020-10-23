@@ -113,7 +113,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 50,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];

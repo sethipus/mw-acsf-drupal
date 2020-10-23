@@ -107,11 +107,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $build['#label'] = $conf['title'] ?? '';
     $media_id = NULL;
 
-    if ($conf['background_options'] == self::KEY_OPTION_IMAGE && !empty($conf['background_image'])) {
-      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_image']);
-    }
-    elseif ($conf['background_options'] == self::KEY_OPTION_VIDEO && !empty($conf['background_video'])) {
-      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_video']);
+    if (!empty($conf['background_options'])) {
+      if ($conf['background_options'] == self::KEY_OPTION_IMAGE && !empty($conf['background_image'])) {
+        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_image']);
+      }
+      elseif ($conf['background_options'] == self::KEY_OPTION_VIDEO && !empty($conf['background_video'])) {
+        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background_video']);
+      }
     }
 
     if ($media_id) {
@@ -153,13 +155,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
+      '#maxlength' => 30,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
     ];
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 45,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? '',
     ];
     $form['background_options'] = [
@@ -197,7 +199,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 65,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
     ];
 

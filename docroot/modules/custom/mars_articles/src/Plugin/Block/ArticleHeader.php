@@ -134,7 +134,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $build = [
       '#label' => $node->label(),
       '#eyebrow' => $this->configuration['eyebrow'],
-      '#publication_date' => $node->isPublished() ? $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
+      '#publication_date' => $node->isPublished() ? $this->t('Published') . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 
     $media_id = $this->mediaHelper->getEntityMainMediaId($node);

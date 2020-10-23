@@ -21,7 +21,8 @@
 
       &__field {
         width: calc(100% - 20px);
-        margin: 0 20px;
+        margin-right: 20px;
+        padding: 0 0 0 50px;
       }
     }
   }
@@ -56,6 +57,8 @@
     a {
       display: inline-block;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
       background-color: clr(subcolor-3);
       border: 1px solid clr(secondary);
       padding: 12px;
@@ -68,6 +71,8 @@
       color: clr(secondary);
       margin: 0 12px 12px 0;
       text-decoration: none;
+      transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+      transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
 
       @include medium {
         padding: 17px 45px;
@@ -80,6 +85,40 @@
       &.active {
         background-color: clr(secondary);
         color: clr(subcolor-3);
+      }
+
+      span {
+        position: relative;
+        z-index: 1;
+        transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        bottom: -100px;
+        left: -120px;
+        width: 1000px;
+        transform: rotate(18deg);
+        height: 0;
+        background-color: clr(secondary);
+        transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
+        @include xs {
+          width: 1000px;
+        }
+        @include medium {
+          width: 750px;
+        }
+      }
+      &:hover {
+        background-color: clr(secondary);
+        color: clr(subcolor-3);
+        transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+
+        &::after {
+          height: 300px;
+        }
       }
     }
 
