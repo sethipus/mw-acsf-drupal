@@ -4,6 +4,17 @@ Drupal.behaviors.searchFilterBehaviour = {
     const searchFilterOpenButton = context.querySelector('.search-filter-open-button');
     const clearAllButtons = context.querySelectorAll('.search-filter-block__button--clear-all');
     const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
+    const filters = context.querySelectorAll('.filter-block');
+
+    filters.forEach(filter => {
+      filter.addEventListener('click', () => {
+       filter.classList.toggle('filter-block--open');
+      });
+    })
+
+    filter.addEventListener('click', (event) => {
+        event.target.classList.toggle('filter-block--open');
+    });
 
     searchFilterOpenButton.addEventListener('click', function(event) {
       const searchFilterBlock = context.querySelector('.search-filter-block');
@@ -82,7 +93,7 @@ Drupal.behaviors.searchFilterBehaviour = {
       const appliedFiltersCount = context.querySelector('.search-filter-info__applied-count');
       const appliedFiltersList = context.querySelector('.search-filter-info__applied-text');
       const clearAllButton = context.querySelector('.search-filter-info .search-filter-block__button--clear-all');
-
+      
       filterBlocks.forEach(function(element) {
         const counterElement = element.querySelector('.filter-title__counter');
         const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
