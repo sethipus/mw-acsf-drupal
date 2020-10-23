@@ -81,7 +81,7 @@ function mars_seo_tokens($type, $tokens, array $data, array $options, Bubbleable
       switch ($name) {
         case 'type_page':
           $type = 'article';
-          if (!empty($data['node']))  {
+          if (!empty($data['node'])) {
             if ($data['node']->bundle() == 'product') {
               $type = $data['node']->bundle();
             }
@@ -91,11 +91,17 @@ function mars_seo_tokens($type, $tokens, array $data, array $options, Bubbleable
           }
           $replacements[$original] = $type;
           break;
+
         case 'hero_image':
           $image_src = NULL;
           $config = \Drupal::config(OpenGraphSettingForm::SETTINGS);
           $image = $config->get('image');
-          if (!empty($image)) {
+          $hero_image_service = \Drupal::service('mars_seo.hero_image');
+          $hero_image = $hero_image_service->getHeroImage();
+          if ($hero_image) {
+            $image_src = $hero_image;
+          }
+          elseif (!empty($image)) {
             $media_helper_service = \Drupal::service('mars_common.media_helper');
             $mediaId = $media_helper_service->getIdFromEntityBrowserSelectValue($image);
             $mediaParams = $media_helper_service->getMediaParametersById($mediaId);

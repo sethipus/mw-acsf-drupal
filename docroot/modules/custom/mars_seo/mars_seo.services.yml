@@ -6,3 +6,7 @@ services:
   plugin.manager.mars_json_ld_strategy:
     class: Drupal\mars_seo\JsonLdStrategyPluginManager
     parent: default_plugin_manager
+
+  mars_seo.hero_image:
+    class: Drupal\mars_seo\HeroImageService
+    arguments: ['@entity_type.manager', '@current_route_match', '@mars_common.media_helper', '@current_user']
