@@ -264,6 +264,10 @@
   }
 
   &__description {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin: 3rem 0 10rem;
     font-family: variable(secondary-font);
     font-size: 1.8rem;
@@ -276,6 +280,8 @@
     }
 
     @include large {
+      display: block;
+      min-height: auto;
       margin: 3.7rem 17rem 3.6rem 0;
       text-align: left;
       line-height: 2.24rem;
@@ -360,9 +366,10 @@
     justify-content: center;
     animation: cubic-bezier(0, 0, 1, 1) pulse 4.8s infinite;
 
+
     &-container {
       padding: 1.8rem 0 .2rem 0;
-
+      
       @include medium {
         padding: 1rem 0 2rem;
       }
@@ -393,6 +400,18 @@
       @include medium {
         margin-left: 9.8rem;
         margin-right: 11.8rem;
+      }
+    }
+
+    &-item {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      @include large {
+        min-height: auto;
+        display: block;
       }
     }
 
@@ -623,6 +642,14 @@
 
     @include large {
       width: auto;
+    }
+
+    .pdp-hero__nutrition-menu {
+      pointer-events: none;
+
+      @include large {
+        pointer-events: auto;
+      }
     }
   }
 }
