@@ -37,7 +37,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   protected $themeConfiguratorParserMock;
 
 
-   /**
+  /**
    * Media Helper service mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
