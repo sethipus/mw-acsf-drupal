@@ -68,6 +68,7 @@ class HeroImageService {
     elseif ($this->routeMatch->getRouteName() == self::HOMEPAGE_ROUTE_NAME) {
       $homepage_hero_block = $this->entityTypeManager->getStorage('block')->load(self::HOMEPAGE_HERO_BLOCK_ID);
       if ($homepage_hero_block instanceof BlockInterface &&
+        $homepage_hero_block->access('view') &&
         $homepage_hero_block->get('settings')['block_type'] === 'image' &&
         $homepage_hero_block->get('settings')['background_image']) {
         $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($homepage_hero_block->get('settings')['background_image']);
