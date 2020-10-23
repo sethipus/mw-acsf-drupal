@@ -40,7 +40,9 @@
       <div {{ bem('social', [], footer__base_class) }}>
         {% block footer__social %}
           <div {{ bem('section-header', [], footer__base_class) }}>{{ social_text }}</div>
-          {% include "@molecules/menus/social/social-menu.twig" %}
+          {% include "@molecules/menus/social/social-menu.twig" with {
+            social_menu_items: social_menu_items,
+          } %}
         {% endblock %}
       </div>
       <div {{ bem('legal-links', [modifier], footer__base_class) }}>
