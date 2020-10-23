@@ -1,7 +1,8 @@
 {% set pdp_allergen_base_class = pdp_allergen_base_class|default('pdp-allergen') %}
+{% set scroll_mandatory_base_class = 'scroll-mandatory' %}
 
 {% if pdp_allergen_data.allergens_list|length > 0 %}
-  <section id="section-allergen-{{size_id}}" {{ bem(pdp_allergen_base_class) }} data-theme="{{ theme_styles }}">
+  <section id="section-allergen-{{size_id}}" {{ bem(pdp_allergen_base_class, '', '', [scroll_mandatory_base_class]) }} data-theme="{{ theme_styles }}">
     {% set header_modifiers = pdp_allergen_data.multipack ? 'multipack' : 'singlepack' %}
     {% include "@atoms/text/headings/_heading.twig" with {
       heading_level: 5,
