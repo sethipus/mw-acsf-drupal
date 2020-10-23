@@ -23,13 +23,6 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   const STORY_ITEM_3_ENTITY_BROWSER_VALUE = 'media:20';
 
   /**
-   * Mock.
-   *
-   * @var \Symfony\Component\DependencyInjection\ContainerInterface|\PHPUnit\Framework\MockObject\MockObject
-   */
-  private $containerMock;
-
-  /**
    * Tested FlexibleDriverBlock block.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\Plugin\Block\FlexibleDriverBlock
@@ -43,29 +36,8 @@ class FlexibleDriverBlockTest extends UnitTestCase {
    */
   protected $themeConfiguratorParserMock;
 
-  /**
-   * Mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Form\FormStateInterface
-   */
-  private $formStateMock;
 
-  /**
-   * EntityBrowserForm mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|Drupal\mars_common\Plugin\Block\FlexibleDriverBlock
-   */
-  protected $entityBrowserFormMock;
-
-  /**
-   * GetMediaIdMock mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|Drupal\mars_common\Plugin\Block\FlexibleDriverBlock
-   */
-  protected $getMediaIdMock;
-
-
-  /**
+   /**
    * Media Helper service mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
@@ -89,16 +61,6 @@ class FlexibleDriverBlockTest extends UnitTestCase {
     parent::setUp();
 
     $this->createMocks();
-    // $container = new ContainerBuilder();
-    // $container->set(
-    // 'mars_common.media_helper',
-    // $this->mediaHelperMock2
-    // );
-    // $container->set(
-    // 'mars_common.theme_configurator_parser',
-    // $this->themeConfiguratorParserMock
-    // );
-    // Drupal::setContainer($this->containerMock);
     $definitions = [
       'provider' => 'test',
       'admin_label' => 'test',
@@ -117,17 +79,8 @@ class FlexibleDriverBlockTest extends UnitTestCase {
    * Create all mocks for tests.
    */
   private function createMocks(): void {
-    // $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
-    // $this->formStateMock = $this->createMock(FormStateInterface::class);
-    // $this->entityBrowserFormMock =
-    // $this->createMock(EntityBrowserFormTrait::class);
-    // $this->entityBrowserFormMock
-    // ->method('getEntityBrowserForm')
-    // ->willReturn([]);
-    // $this->getMediaIdMock = $this->getMockBuilder('FlexibleDriverBlock')->setMethods(['getMediaId'])->getMock();
-    // $this->entityBrowserFormMock = $this->getMockBuilder('FlexibleDriverBlock')->setMethods(['getEntityBrowserForm'])->getMock();
   }
 
   /**
