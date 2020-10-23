@@ -15,13 +15,13 @@
   &__link {
     text-decoration: none;
     color: clr(subcolor-3);
-  }
 
-  &__icon {
-    display: inline;
-    height: 22px;
-    width: 22px;
-    fill: currentColor;
+    & svg {
+      display: inline;
+      height: 22px;
+      width: 22px;
+      fill: clr(secondary);
+    }
   }
 
   &__text {

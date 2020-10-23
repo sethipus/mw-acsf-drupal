@@ -6,8 +6,10 @@ use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\file\Entity\File;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
+use org\bovigo\vfs\vfsStream;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -82,14 +84,16 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     $this->createMocks();
     Drupal::setContainer($this->containerMock);
 
-    $fileMock = $this->getMockBuilder(stdClass::class)
-      ->setMethods(['createFileUrl'])
-      ->getMock();
+    $vfsRoot = vfsStream::setup('root');
+    $vfsFile = vfsStream::newFile('mock.file')
+      ->withContent('mock_content')
+      ->at($vfsRoot);
 
+    $fileMock = $this->createMock(File::class);
     $fileMock
       ->expects($this->any())
-      ->method('createFileUrl')
-      ->willReturn('http://mars.com');
+      ->method('getFileUri')
+      ->willReturn($vfsFile->url());
 
     $this->fileStorageMock
       ->expects($this->any())
