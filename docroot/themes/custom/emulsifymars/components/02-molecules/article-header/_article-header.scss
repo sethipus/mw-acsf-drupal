@@ -1,7 +1,7 @@
 .article-header-image, .article-header-noimage {
   font-family: variable(primary-font);
   color: clr(primary);
-  background-color: clr(subcolor-3);
+  background-color: clr(subcolor-2);
 
     &__text_wrapper {
       width: 90%;
@@ -96,7 +96,7 @@
 
         svg {
           path {
-            fill: clr(subcolor-3);
+            fill: clr(subcolor-2);
             width: 100%;
           }
           rect {
