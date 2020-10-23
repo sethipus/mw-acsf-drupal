@@ -97,46 +97,79 @@ third_party_settings:
               - banner
               - bulleted_list
               - flexible_framer
+              - flexible_framer_item
               - full_width_image
               - full_width_video
               - google_map
               - inline_image
               - inline_video
               - list
+              - list_item
               - media_carousel
               - media_slideshow
               - text
+              - text_component
             'Custom blocks':
               - mars_common_content_feature_module
               - parent_page_header
             'Entity Block': {  }
             'Entity Browser': {  }
-            'Flexible driver': {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
             'Global elements':
               - homepage_hero_block
             Help: {  }
-            'Inline blocks': {  }
+            'Inline blocks':
+              - 'inline_block:banner'
+              - 'inline_block:bulleted_list'
+              - 'inline_block:flexible_framer'
+              - 'inline_block:flexible_framer_item'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:google_map'
+              - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
+              - 'inline_block:list'
+              - 'inline_block:list_item'
+              - 'inline_block:media_carousel'
+              - 'inline_block:media_slideshow'
+              - 'inline_block:text'
+              - 'inline_block:text_component'
             'Lists (Views)': {  }
             'Mars Common':
+              - contact_form
+              - contact_help_banner_block
+              - error_page_block
               - feedback_block
+              - freeform_story_block
+              - header_block
+              - iframe_block
+              - newsletter_signup_form
               - poll_block
+              - product_feature
               - recommendations_module
-            'Mars Product': {  }
+              - story_highlight
+              - where_to_buy_block
+            'Mars Product':
+              - grid_card
+              - product_content_pair_up_block
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
-            Printable: {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
+            Printable:
+              - 'printable_links_block:node'
+            Product:
+              - pdp_hero_block
+            Recipe:
+              - recipe_feature_block
+            'Social feed':
+              - social_feed
+            'Social media share':
+              - social_sharing_block
             System: {  }
             User: {  }
-            core:
-              - page_title_block
-              - local_actions_block
-              - local_tasks_block
+            core: {  }
 id: node.campaign.default
 targetEntityType: node
 bundle: campaign
