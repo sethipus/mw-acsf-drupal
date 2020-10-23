@@ -61,30 +61,21 @@
       width: 100%;
     }
 
-    #fullscreen-play[data-state="play"] {
-      top: calc(50% - 7rem / 2);;
-      left: calc(50% - 6.6rem / 2);;
-      width: 6.6rem;
-      height: 7rem;
-      background-color: clr(text-inverse);  
-
-      @include clearfix;
-
-      @include playbutton;
-
-      >div {
-        width: 0;
-        height: 0;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-left: 20px solid clr(player);
-        margin: auto 35%
+    .inline-video {
+    
+      &__control[data-state="play"] {
+        width: 6.6rem;
+        height: 7rem;
+        top: calc(50% - 7rem / 2);;
+        left: calc(50% - 6.6rem / 2);;
       }
-    }
-
-    .fullscreen-video__main {
-      width: 100%;
+    
+      &__control[data-state="pause"] {
+        width: 6.6rem;
+        height: 7rem;
+        top: calc(50% - 7rem / 2);;
+        left: calc(50% - 6.6rem / 2);;
+      }
     }
   }
 }
-

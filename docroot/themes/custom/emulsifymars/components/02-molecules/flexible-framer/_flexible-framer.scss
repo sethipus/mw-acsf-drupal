@@ -99,6 +99,12 @@
   }
 
     @include medium {
+      flex-flow: row wrap;
+      flex-grow: 1;
+      align-items: stretch;
+    }
+
+    @include large {
       flex-flow: row nowrap;
       flex-grow: 1;
     }
@@ -107,35 +113,45 @@
       text-align: center;
       &__heading {
         text-align: center;
+        color: clr(primary);
+        font-family: variable(primary-font);
+        font-size: 2rem;
+        line-height: 1.1;
+        letter-spacing: 0.8px;
 
         &-link {
           color: clr(primary);
+          text-decoration: none;
 
           &:hover {
             color: clr(secondary);
           }
         }
-
-        a {
-          text-decoration: none;
-          font-size: 20px;
-          font-weight: 22px;
+        
+        @include large {
+          font-size: 2.4rem;
+          letter-spacing: 0.96px;
         }
       }
 
       &__body {
         font-family: variable(secondary-font);
-        font-size: 16px;
-        line-height: 22.4px;
+        font-size: 1.6rem;
+        line-height: 1.4;
+        
+        @include large {
+          font-size: 1.8rem;
+        }
       }
 
       & a.default-link {
-       height: 50px;
-       line-height: 50px;
-       padding: 0 20px;
-       background-color: clr(secondary);
-       font-size: 14px;
-       border:none;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 20px;
+        background-color: clr(secondary);
+        font-size: 14px;
+        border:none;
+        transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
 
         &:hover {
           color: clr(secondary);
@@ -147,6 +163,14 @@
   & .grid__item {
     display: flex;
     flex-flow: column;
+
+    @include medium {
+      flex: 1 1 50%;
+    }
+
+    @include large {
+      flex: 1 1 100%;
+    }
 
     & .cta-wrapper {
       margin-top: auto;

@@ -1,0 +1,20 @@
+uuid: ffda5ffb-a434-485e-ad46-672c0130b164
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - node
+id: node.field_error_page_image
+field_name: field_error_page_image
+entity_type: node
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

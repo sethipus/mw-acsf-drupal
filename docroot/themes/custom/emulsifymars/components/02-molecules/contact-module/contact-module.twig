@@ -46,7 +46,9 @@
           heading_level: contact_module_social_heading_level,
           heading_base_class: contact_module_social_heading_base_class
         } %}
-        {% include "@molecules/menus/social/social-menu.twig" %}
+        {% include "@molecules/menus/social/social-menu.twig" with {
+          social_menu_items: social_menu_items,
+        } %}
       </div>
     {% endif %}
   </div>

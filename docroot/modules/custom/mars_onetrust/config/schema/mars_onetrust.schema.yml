@@ -1,0 +1,10 @@
+mars_onetrust.settings:
+  type: config_object
+  label: 'OneTrust settings'
+  mapping:
+    mars_onetrust:
+      type: mapping
+      mapping:
+        data_domain:
+          type: text
+          label: 'Data domain'

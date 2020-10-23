@@ -3,7 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.campaign.field_body
     - field.field.node.campaign.field_brand_initiatives
+    - field.field.node.campaign.field_campaign_image
     - field.field.node.campaign.field_campaign_related_products
     - field.field.node.campaign.field_meta_tags
     - field.field.node.campaign.field_product_occasions
@@ -15,7 +17,7 @@ dependencies:
     - layout_discovery
     - layout_library
     - mars_common
-    - metatag
+    - text
     - user
 third_party_settings:
   layout_builder:
@@ -27,25 +29,23 @@ third_party_settings:
         layout_settings:
           label: 'Free Editorial Capabilities'
         components:
-          ea2fc118-19f2-4c67-98d8-48d22dc6d099:
-            uuid: ea2fc118-19f2-4c67-98d8-48d22dc6d099
+          67606297-104a-40b8-9939-f31ef6a92b8c:
+            uuid: 67606297-104a-40b8-9939-f31ef6a92b8c
             region: content
             configuration:
-              id: 'field_block:node:campaign:title'
-              label: Title
-              provider: layout_builder
+              id: parent_page_header
+              label: 'Parent Page Header'
+              provider: mars_common
               label_display: ''
-              formatter:
-                label: hidden
-                type: string
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
+              eyebrow: ''
+              title: ''
+              description: ''
+              background_options: default
+              background_image: ''
+              background_video: ''
+              context_mapping: {  }
             additional: {  }
-            weight: 1
+            weight: 0
         third_party_settings: {  }
   layout_library:
     enable: false
@@ -69,6 +69,7 @@ third_party_settings:
       - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
+      - Printable
       - Product
       - Recipe
       - 'Social feed'
@@ -77,7 +78,8 @@ third_party_settings:
       - User
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - campaign_section
@@ -90,28 +92,41 @@ third_party_settings:
             Article:
               - article_header
             'Chaos Tools': {  }
-            'Content fields':
-              - 'field_block:node:campaign:field_brand_initiatives'
-              - 'field_block:node:campaign:field_product_occasions'
-              - 'field_block:node:campaign:field_campaign_related_products'
-              - 'field_block:node:campaign:title'
-            'Custom block types': {  }
-            'Custom blocks': {  }
+            'Content fields': {  }
+            'Custom block types':
+              - banner
+              - bulleted_list
+              - flexible_framer
+              - full_width_image
+              - full_width_video
+              - google_map
+              - inline_image
+              - inline_video
+              - list
+              - media_carousel
+              - media_slideshow
+              - text
+            'Custom blocks':
+              - mars_common_content_feature_module
+              - parent_page_header
             'Entity Block': {  }
             'Entity Browser': {  }
             'Flexible driver': {  }
             Forms: {  }
-            'Global elements': {  }
+            'Global elements':
+              - homepage_hero_block
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
               - feedback_block
               - poll_block
+              - recommendations_module
             'Mars Product': {  }
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            Printable: {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
@@ -127,6 +142,13 @@ targetEntityType: node
 bundle: campaign
 mode: default
 content:
+  field_body:
+    weight: 106
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
   field_brand_initiatives:
     weight: 105
     label: above
@@ -135,6 +157,15 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
+  field_campaign_image:
+    type: entity_reference_entity_view
+    weight: 107
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
   field_campaign_related_products:
     weight: 104
     label: above
@@ -142,13 +173,6 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
-    region: content
-  field_meta_tags:
-    weight: 106
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: metatag_empty_formatter
     region: content
   field_product_occasions:
     weight: 103
@@ -165,6 +189,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  field_meta_tags: true
   layout_builder__layout: true
   published_at: true
   search_api_excerpt: true

@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
+use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -109,6 +110,13 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $formBuilder;
 
   /**
+   * Search query parser.
+   *
+   * @var \Drupal\mars_search\SearchQueryParserInterface
+   */
+  protected $searchQueryParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -120,7 +128,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $container->get('mars_search.search_helper'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('entity_type.manager')->getViewBuilder('node'),
-      $container->get('form_builder')
+      $container->get('form_builder'),
+      $container->get('mars_search.search_query_parser')
     );
   }
 
@@ -135,7 +144,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     SearchHelperInterface $search_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
     EntityViewBuilderInterface $node_view_builder,
-    FormBuilderInterface $form_builder
+    FormBuilderInterface $form_builder,
+    SearchQueryParserInterface $search_query_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
@@ -143,12 +153,15 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeViewBuilder = $node_view_builder;
     $this->formBuilder = $form_builder;
+    $this->searchQueryParser = $search_query_parser;
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
+    // Getting all GET parameters in array.
+    $query_parameters = $this->searchHelper->request->query->all();
     // Getting unique grid id for the page.
     // This will be used later when several grids on a single page will be
     // approved. In that case URL will be like
@@ -162,16 +175,32 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $grid_id++;
     }
 
+    // Initializing grid options array.
+    // It is needed to pass preset filters to autocomplete.
+    $grid_options = [
+      'grid_id' => $grid_id,
+      'filters' => [],
+    ];
+
     $config = $this->getConfiguration();
     $build['#items'] = [];
 
     // Getting default search options.
-    $searchOptions = $this->searchHelper->getSearchQueryDefaultOptions();
+    $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
+
+    if (empty($query_parameters['see-all'])) {
+      // We need only 8 items to show initially.
+      // Parse query will trim limit in case of see all.
+      // But initial results count needs to be 8 instead of configured default.
+      $searchOptions['limit'] = 8;
+    }
 
     // Adjusting them with grid specific configuration.
     // Content type filter.
     if (!empty($config['content_type'])) {
       $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
+      $grid_options['filters']['type'][$grid_id] = $config['content_type'];
+      $grid_options['filters']['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
     }
 
     // Populate top results items before other results.
@@ -192,23 +221,25 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // After this line $facetOptions and $searchOptions become different.
     $facetOptions = $searchOptions;
-    // We don't need taxonomy filters for facets.
+    // We don't need taxonomy filters and keys filter applied for facets query.
     $facetOptions['disable_filters'] = TRUE;
+    unset($facetOptions['limit']);
 
-    // Taxonomy filter(s).
+    // Taxonomy preset filter(s).
     // Adding them only if facets are disabled.
     if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
       foreach ($config['general_filters'] as $filter_key => $filter_value) {
         if (!empty($filter_value['select'])) {
+          $grid_options['filters'][$filter_key][$grid_id] = implode(',', $filter_value['select']);
+
           $searchOptions['conditions'][] = [
             $filter_key,
             $filter_value['select'],
-            '=',
-            $filter_value['options_logic'],
+            'IN',
           ];
         }
       }
-      $searchOptions['disable_filters'] = TRUE;
+      $searchOptions['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
     }
 
     // Getting and building search results.
@@ -223,12 +254,22 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     // Populating search form.
     if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
       // Preparing search form.
-      $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class);
+      $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class, TRUE, $grid_options);
     }
     // Populating filters.
     if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
       $query_search_results = $this->searchHelper->getSearchResults($facetOptions, "grid_{$grid_id}_facets");
-      list($build['#applied_filters_list'], $build['#filters']) = $this->processFilter($query_search_results['facets']);
+      list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($query_search_results['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
+    }
+
+    // Output See all only if we have enough results.
+    if ($query_search_results['resultsCount'] > count($build['#items'])) {
+      $url = $this->searchHelper->getCurrentUrl();
+      $url_options = $url->getOptions();
+      $url_options['query']['see-all'] = 1;
+      $url->setOptions($url_options);
+      $build['#ajax_card_grid_link_text'] = $this->t('See all');
+      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
     $build['#ajax_card_grid_heading'] = $config['title'];
@@ -237,66 +278,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#theme'] = 'mars_search_grid_block';
 
     return $build;
-  }
-
-  /**
-   * Prepare filter variables.
-   *
-   * @param array $facets
-   *   The facet result from search query.
-   */
-  private function processFilter(array $facets) {
-    $filters = $term_ids = [];
-
-    // Getting term names.
-    foreach ($facets as $facet_key => $facet) {
-      // That means it's a taxonomy facet.
-      if (in_array($facet_key, array_keys(self::TAXONOMY_VOCABULARIES))) {
-        foreach ($facet as $facet_data) {
-          if (is_numeric($facet_data['filter'])) {
-            $term_ids[] = $facet_data['filter'];
-          }
-        }
-      }
-    }
-    // Loading needed taxonomy terms.
-    $terms = $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($term_ids);
-    $appliedFilters = [];
-
-    foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
-      if (array_key_exists($vocabulary, $facets) && count($facets[$vocabulary]) > 0) {
-        $facetValues = [];
-        $countSelected = 0;
-        foreach ($facets[$vocabulary] as $facet) {
-          if ($facet['filter'] == '!') {
-            continue;
-          }
-          $facetValues[] = [
-            'title' => $terms[$facet['filter']]->label(),
-            'key' => $facet['filter'],
-          ];
-          if (
-            $this->searchHelper->hasQueryKey($vocabulary) &&
-            $this->searchHelper->getQueryValue($vocabulary) == $facet['filter']
-          ) {
-            $facetValues[count($facetValues) - 1]['checked'] = 'checked';
-            $countSelected++;
-            $appliedFilters[] = $terms[$facet['filter']]->label();
-          }
-        }
-        if (count($facetValues) == 0) {
-          continue;
-        }
-        $filters[] = [
-          'filter_title' => $vocabulary_data['label'],
-          'filter_id' => $vocabulary,
-          'active_filters_count' => $countSelected,
-          'checkboxes' => $facetValues,
-        ];
-      }
-    }
-
-    return [$appliedFilters, $filters];
   }
 
   /**
@@ -320,7 +301,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $form['title'] = [
       '#title' => $this->t('Title'),
       '#type' => 'textfield',
-      '#size' => 35,
+      '#size' => 55,
       '#required' => TRUE,
       '#default_value' => $config['title'] ?? $this->t('All products'),
     ];
@@ -343,9 +324,9 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $form['content_type'] = [
       '#type' => 'radios',
       '#title' => $this->t('Content type'),
-      '#multiple' => TRUE,
       '#options' => self::CONTENT_TYPES,
       '#default_value' => $config['content_type'] ?? NULL,
+      '#required' => TRUE,
     ];
 
     $form = array_merge($form, $this->buildExposedFilters());
@@ -425,17 +406,17 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
         '#options' => $terms_options,
         '#default_value' => $config['general_filters'][$vocabulary]['select'] ?? NULL,
       ];
-      $form['general_filters'][$vocabulary]['options_logic'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Operator for %vocabulary options', ['%vocabulary' => $label]),
-        '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
-        '#options' => [
-          'and' => $this->t('AND'),
-          'or' => $this->t('OR'),
-        ],
-        '#default_value' => $config['general_filters'][$vocabulary]['options_logic'] ?? 'and',
-      ];
     }
+    $form['general_filters']['options_logic'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Logic operator'),
+      '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
+      '#options' => [
+        'and' => $this->t('AND'),
+        'or' => $this->t('OR'),
+      ],
+      '#default_value' => $config['general_filters']['options_logic'] ?? 'and',
+    ];
 
     return $form;
   }

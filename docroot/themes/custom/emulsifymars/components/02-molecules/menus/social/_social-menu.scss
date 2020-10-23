@@ -9,19 +9,19 @@
   &__item {
     margin-bottom: $space-one-fourth;
     flex-basis: 20px;
+    margin-right: 3rem;
   }
 
   &__link {
     text-decoration: none;
     color: clr(subcolor-3);
-  }
 
-  &__icon {
-    display: inline;
-    height: 22px;
-    width: 22px;
-    margin-right: 35px;
-    fill: currentColor;
+    & svg {
+      display: inline;
+      height: 22px;
+      width: 22px;
+      fill: clr(secondary);
+    }
   }
 
   &__text {

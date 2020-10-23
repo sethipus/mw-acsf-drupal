@@ -18,6 +18,7 @@
       } %}
     {% endblock %}
   {% else %}
+    <div class="recipe-media-image-wrapper">
     {% block recipe_media_image %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
@@ -28,6 +29,7 @@
         responsive_image_blockname: 'recipe-media',
       } %}
     {% endblock %}
+    </div>
   {% endif %}
   <div class="recipe-media__info">
     <div class="{{ brand_shape_class }}">
@@ -44,7 +46,7 @@
         </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">{{ 'Time'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_cooking_time }}</div>
+          <div class="recipe-details-item__value">{{ recipe_cooking_time ~ ' mins'|t}}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -57,7 +59,7 @@
         </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">{{ 'Ingredients'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_ingredients_number }}</div>
+          <div class="recipe-details-item__value">{{ recipe_ingredients_number ~ ' items'|t}}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -70,7 +72,7 @@
         </div>
         <div class="recipe-details-item__info">
           <div class="recipe-details-item__label">{{ 'Makes'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_number_of_servings }}</div>
+          <div class="recipe-details-item__value">{{ recipe_number_of_servings ~ ' servings'|t}}</div>
         </div>
       </div>
     </div>
@@ -82,7 +84,7 @@
     <div class="recipe-info__social-text">Share</div>
     {% block recipe_social_menu %}
       {% include "@molecules/menus/social/social-menu.twig" with {
-        configured_icons: true
+        social_menu_items: social_menu_items,
       } %}
     {% endblock %}
   </div>

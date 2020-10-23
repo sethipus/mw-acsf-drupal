@@ -1,4 +1,5 @@
 {% set footer__base_class = 'footer' %}
+{% set modifier = legal_links_menu_items|length > 10 ? 'large' : 'small' %}
 
 <footer {{ bem(footer__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('section', ['primary'], footer__base_class) }}>
@@ -39,10 +40,12 @@
       <div {{ bem('social', [], footer__base_class) }}>
         {% block footer__social %}
           <div {{ bem('section-header', [], footer__base_class) }}>{{ social_text }}</div>
-          {% include "@molecules/menus/social/social-menu.twig" %}
+          {% include "@molecules/menus/social/social-menu.twig" with {
+            social_menu_items: social_menu_items,
+          } %}
         {% endblock %}
       </div>
-      <div {{ bem('legal-links', [], footer__base_class) }}>
+      <div {{ bem('legal-links', [modifier], footer__base_class) }}>
         {% block footer__legal_links %}
           {% include "@molecules/menus/legal-links/legal-links-menu.twig" %}
         {% endblock %}
