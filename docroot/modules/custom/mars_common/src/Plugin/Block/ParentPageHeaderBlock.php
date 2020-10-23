@@ -155,13 +155,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
-      '#maxlength' => 15,
+      '#maxlength' => 30,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
     ];
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 45,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? '',
     ];
     $form['background_options'] = [
@@ -199,7 +199,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 65,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
     ];
 

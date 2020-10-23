@@ -71,12 +71,7 @@ class ThemeConfiguratorParser {
    */
   public function getFileContentFromTheme(string $field): string {
     $file = $this->getFileFromTheme($field);
-    if (!empty($file)) {
-      $filePath = file_create_url($file->uri->value);
-      return !empty($filePath) && file_exists($filePath) ? file_get_contents($filePath) : '';
-    }
-
-    return '';
+    return $this->readContentFromFile($file);
   }
 
   /**
@@ -117,7 +112,7 @@ class ThemeConfiguratorParser {
       if (!empty($file)) {
         $social_menu_items[$key]['title'] = $social_settings['name'];
         $social_menu_items[$key]['url'] = $social_settings['link'];
-        $social_menu_items[$key]['icon'] = $file->createFileUrl();
+        $social_menu_items[$key]['icon'] = $this->readContentFromFile($file);
       }
     }
     return $social_menu_items;
@@ -172,6 +167,24 @@ class ThemeConfiguratorParser {
       return Url::fromUri(file_create_url($pngAssetUri));
     }
     return NULL;
+  }
+
+  /**
+   * Reads the content of a file entity.
+   *
+   * @param \Drupal\file\Entity\File|null $file
+   *   File entity.
+   *
+   * @return string
+   *   The content of the file or empty on error.
+   */
+  private function readContentFromFile(?File $file) {
+    $content = '';
+    if ($file !== NULL) {
+      $filePath = $file->getFileUri();
+      $content = !empty($filePath) && file_exists($filePath) ? file_get_contents($filePath) : '';
+    }
+    return (string) $content;
   }
 
 }

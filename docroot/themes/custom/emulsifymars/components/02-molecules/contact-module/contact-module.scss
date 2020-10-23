@@ -13,6 +13,10 @@
     padding: 6rem 4rem;
   }
 
+  @include large {
+    padding: 6rem 15.5rem;
+  }
+
   &__brand-shape {
     position: absolute;
     z-index: 1;
