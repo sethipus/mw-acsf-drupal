@@ -10,10 +10,6 @@ Drupal.behaviors.searchFilterBehaviour = {
       filter.addEventListener('click', () => {
        filter.classList.toggle('filter-block--open');
       });
-    })
-
-    filter.addEventListener('click', (event) => {
-        event.target.classList.toggle('filter-block--open');
     });
 
     searchFilterOpenButton.addEventListener('click', function(event) {
