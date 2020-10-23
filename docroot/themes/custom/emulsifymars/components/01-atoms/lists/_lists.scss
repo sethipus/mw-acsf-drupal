@@ -50,7 +50,7 @@ ol {
 
       @include medium {
         left: calc(20px + 32px / 2);
-        top: calc(40% - 32px / 2);
+        top: calc(50% - 32px / 2);
       }
 
     }
@@ -97,6 +97,24 @@ ol {
   @include xl {
     padding: 10px 40px;
     margin-bottom: 60px;
+  }
+
+  .search-highlight {
+    font-weight: inherit;
+    display: inline-block;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: clr(primary);
+      opacity: 0.1;
+    }
   }
 }
 
@@ -151,7 +169,7 @@ ol {
 
 .article-detail {
   .ul {
-    font-size: 18px; 
+    font-size: 18px;
     font-family: (secondary-font);
     line-height: 29px;
     list-style-position: inside;
@@ -171,7 +189,7 @@ ol {
       max-width: 1125px;
     }
   }
-  
+
   .list-item {
     position: relative;
     text-indent: 18px;
