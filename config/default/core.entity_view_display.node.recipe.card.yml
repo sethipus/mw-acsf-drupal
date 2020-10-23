@@ -9,7 +9,6 @@ dependencies:
     - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
-    - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients
@@ -236,14 +235,6 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     type: number_integer
-    region: content
-  field_recipe_cta:
-    weight: 7
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
     region: content
   field_recipe_description:
     weight: 4
