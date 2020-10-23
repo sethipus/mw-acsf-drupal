@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\mars_seo\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
