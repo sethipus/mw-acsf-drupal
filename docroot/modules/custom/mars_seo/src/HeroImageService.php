@@ -90,7 +90,5 @@ class HeroImageService {
     }
     return $main_image_url;
   }
-
-
-
+  
 }
