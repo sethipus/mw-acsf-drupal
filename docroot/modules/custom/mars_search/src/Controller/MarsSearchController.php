@@ -147,10 +147,10 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       '#suggestions' => $suggestions,
       '#cards_view' => $options['cards_view'],
       '#show_all' => $show_all,
-      '#empty_text' => $this->t($empty_text_heading, ['@keys' => $options['keys']]),
+      '#empty_text' => str_replace('@keys', $options['keys'], $empty_text_heading),
       '#empty_text_description' => $empty_text_description ?? $this->t('Please try entering different search'),
       '#no_results' => $this->getSearchNoResult(
-        $this->t($empty_text_heading, ['@keys' => $options['keys']]),
+        str_replace('@keys', $options['keys'], $empty_text_heading),
         $empty_text_description ?? $this->t('Please try entering different search')
       ),
     ];

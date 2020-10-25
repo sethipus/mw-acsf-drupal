@@ -168,7 +168,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     return [
-      '#no_results_heading' => $this->t($config['no_results_heading'], ['@keys' => $search_text]),
+      '#no_results_heading' => str_replace('@keys', $search_text, $config['no_results_heading']),
       '#no_results_text' => $config['no_results_text'],
       '#no_results_links' => $links,
       '#theme' => 'mars_search_no_results',

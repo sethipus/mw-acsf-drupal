@@ -209,7 +209,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#search_form' => render($search_from),
       '#search_result_counter' => !empty($options['keys']) ? $this->formatPlural($search_results['resultsCount'], '1 Result for "@keys"', '@count Results for "@keys"', ['@keys' => $options['keys']]) : '',
       '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
-      '#no_results_heading' => $this->t($config_no_results['no_results_heading'], ['@keys' => $options['keys']]),
+      '#no_results_heading' => str_replace('@keys', $options['keys'], $config_no_results['no_results_heading']),
       '#no_results_text' => $config_no_results['no_results_text'],
     ];
   }
