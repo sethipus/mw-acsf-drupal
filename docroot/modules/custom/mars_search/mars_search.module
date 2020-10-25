@@ -50,6 +50,8 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'search_form' => NULL,
         'search_result_counter' => NULL,
         'facets' => NULL,
+        'no_results_heading' => NULL,
+        'no_results_text' => NULL,
       ],
     ],
     'mars_search_search_results_block' => [

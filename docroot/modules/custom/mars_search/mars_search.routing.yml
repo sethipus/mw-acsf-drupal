@@ -11,9 +11,9 @@ mars_search.callback:
   requirements:
     _permission: 'access content'
 mars_search.settings:
-  path: '/admin/config/search/autocomplete'
+  path: '/admin/config/search/search-no-results'
   defaults:
-    _title: 'Autocomplete'
-    _form: 'Drupal\mars_search\Form\AutocompleteSettingsForm'
+    _title: 'Search no results settings'
+    _form: 'Drupal\mars_search\Form\SearchNoResultsSettingsForm'
   requirements:
     _permission: 'administer search_api'

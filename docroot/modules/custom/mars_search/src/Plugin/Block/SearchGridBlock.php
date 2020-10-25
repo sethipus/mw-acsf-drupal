@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -117,6 +118,13 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $searchQueryParser;
 
   /**
+   * Config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -129,7 +137,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('entity_type.manager')->getViewBuilder('node'),
       $container->get('form_builder'),
-      $container->get('mars_search.search_query_parser')
+      $container->get('mars_search.search_query_parser'),
+      $container->get('config.factory')
     );
   }
 
@@ -145,7 +154,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     ThemeConfiguratorParser $themeConfiguratorParser,
     EntityViewBuilderInterface $node_view_builder,
     FormBuilderInterface $form_builder,
-    SearchQueryParserInterface $search_query_parser
+    SearchQueryParserInterface $search_query_parser,
+    ConfigFactoryInterface $configFactory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
@@ -154,6 +164,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->nodeViewBuilder = $node_view_builder;
     $this->formBuilder = $form_builder;
     $this->searchQueryParser = $search_query_parser;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -324,7 +335,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * Render search no result block.
    */
   private function getSearchNoResult() {
-    $config = $this->getConfiguration();
+    $config = $this->configFactory->get('mars_search.search_no_results');
     return [
       '#no_results_heading' => $config['no_results_heading'],
       '#no_results_text' => $config['no_results_text'],
@@ -344,21 +355,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#size' => 35,
       '#required' => TRUE,
       '#default_value' => $config['title'] ?? $this->t('All products'),
-    ];
-
-    $form['no_results_heading'] = [
-      '#title' => $this->t('Heading for no results case'),
-      '#default_value' => $config['no_results_heading'] ?? $this->t('There are no matching results for current filter set'),
-      '#type' => 'textfield',
-      '#size' => 35,
-      '#required' => TRUE,
-    ];
-    $form['no_results_text'] = [
-      '#title' => $this->t('Text for no results case'),
-      '#default_value' => $config['no_results_text'] ?? $this->t('Please try entering a different search'),
-      '#type' => 'textfield',
-      '#size' => 50,
-      '#required' => TRUE,
     ];
 
     $form['content_type'] = [

@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -55,6 +56,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $logger;
 
   /**
+   * Config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -65,7 +73,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $container->get('mars_search.search_helper'),
       $container->get('form_builder'),
       $container->get('mars_search.search_query_parser'),
-      $container->get('logger.factory')->get('mars_search')
+      $container->get('logger.factory')->get('mars_search'),
+      $container->get('config.factory')
     );
   }
 
@@ -79,7 +88,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     SearchHelperInterface $search_helper,
     FormBuilderInterface $form_builder,
     SearchQueryParserInterface $search_query_parser,
-    LoggerInterface $logger
+    LoggerInterface $logger,
+    ConfigFactoryInterface $configFactory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -87,6 +97,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $this->formBuilder = $form_builder;
     $this->searchQueryParser = $search_query_parser;
     $this->logger = $logger;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -120,6 +131,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function build() {
     $config = $this->getConfiguration();
+    $config_no_results = $this->configFactory->get('mars_search.search_no_results');
     $faq_facet_key = 'faq_filter_topic';
 
     $options = $this->searchQueryParser->parseQuery();
@@ -197,6 +209,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#search_form' => render($search_from),
       '#search_result_counter' => !empty($options['keys']) ? $this->formatPlural($search_results['resultsCount'], '1 Result for "@keys"', '@count Results for "@keys"', ['@keys' => $options['keys']]) : '',
       '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
+      '#no_results_heading' => $this->t($config_no_results['no_results_heading'], ['@keys' => $options['keys']]),
+      '#no_results_text' => $config_no_results['no_results_text'],
     ];
   }
 
