@@ -14,14 +14,18 @@ use Drupal\Core\Routing\RouteMatchInterface;
 class HeroImageService {
 
   /**
-   * Home page route name.
+   * Blocks structure with hero image.
    */
-  const HOMEPAGE_ROUTE_NAME = 'view.frontpage.page_1';
-
-  /**
-   * Home page hero block id.
-   */
-  const HOMEPAGE_HERO_BLOCK_ID = 'homepageheroblock';
+  const BLOCKS_IDS_HERO_IMAGES = [
+    'homepageheroblock' => [
+      'background_type_field' => 'block_type',
+      'hero_image_field' => 'background_image',
+    ],
+    'parentpageheader' => [
+      'background_type_field' => 'background_options',
+      'hero_image_field' => 'background_image',
+    ],
+  ];
 
   /**
    * The entity type manager.
@@ -64,17 +68,19 @@ class HeroImageService {
       $main_image_id = $this->mediaHelper->getEntityMainMediaId($node);
       $main_image_url = $this->mediaHelper->getMediaUrl($main_image_id);
     }
-    // Home page hero image.
-    elseif ($this->routeMatch->getRouteName() == self::HOMEPAGE_ROUTE_NAME) {
-      $homepage_hero_block = $this->entityTypeManager->getStorage('block')->load(self::HOMEPAGE_HERO_BLOCK_ID);
-      if ($homepage_hero_block instanceof BlockInterface &&
-        $homepage_hero_block->access('view') &&
-        $homepage_hero_block->get('settings')['block_type'] === 'image' &&
-        $homepage_hero_block->get('settings')['background_image']) {
-        $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($homepage_hero_block->get('settings')['background_image']);
-        $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-        if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
-          $main_image_url = $mediaParams['src'];
+    // Images from block.
+    else {
+      $blocks = $this->entityTypeManager->getStorage('block')->loadMultiple(array_keys(self::BLOCKS_IDS_HERO_IMAGES));
+      foreach ($blocks as $key => $block) {
+        if ($block instanceof BlockInterface &&
+          $block->access('view') &&
+          $block->get('settings')[self::BLOCKS_IDS_HERO_IMAGES[$key]['background_type_field']] === 'image' &&
+          $block->get('settings')[self::BLOCKS_IDS_HERO_IMAGES[$key]['hero_image_field']]) {
+          $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($block->get('settings')[self::BLOCKS_IDS_HERO_IMAGES[$key]['hero_image_field']]);
+          $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
+          if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
+            $main_image_url = $mediaParams['src'];
+          }
         }
       }
     }

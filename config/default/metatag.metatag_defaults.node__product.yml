@@ -7,3 +7,5 @@ label: 'Content: Product'
 tags:
   description: '[node:field_product_description]'
   title: '[node:title]'
+  og_description: '[node:field_product_description]'
+  og_title: '[node:title]'
