@@ -1,0 +1,31 @@
+uuid: acf7217d-7187-4863-9a80-3e49723fd9f8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_diet_allergens
+    - node.type.product_variant
+    - taxonomy.vocabulary.mars_diet_allergens
+_core:
+  default_config_hash: L-NNS6chQ6gKTew-IiS6dFsX6RCxq3X1iDCxkg87h3o
+id: node.product_variant.field_product_diet_allergens
+field_name: field_product_diet_allergens
+entity_type: node
+bundle: product_variant
+label: 'Diet & Allergens'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_diet_allergens: mars_diet_allergens
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

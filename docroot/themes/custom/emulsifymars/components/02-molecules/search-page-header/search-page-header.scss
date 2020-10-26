@@ -1,0 +1,89 @@
+.search-page-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: clr(secondary);
+  background-image: variable(brand-shape),
+                    variable(brand-shape),
+                    variable(brand-shape);
+  background-repeat: no-repeat;
+  background-position: 212% 89px, 57% 470px, -22% 231px;
+  background-size: 280px, 285px, 122px;
+  padding: 10px 40px;
+  min-height: 500px;
+
+  @include medium {
+    padding: 60px 40px;
+    background-position: 131% 188px, 4% 390px, -4% 42px;
+    background-size: 431px, 255px, 102px;
+  }
+
+  @include xl {
+    padding: 80px 40px;
+    background-position: 108% 218px, 15% 390px, 5% 70px;
+    background-size: 450px, 265px, 110px;
+  }
+
+  .search-page-heading {
+    font-family: variable(primary-font);
+    color: clr(subcolor-3);
+    font-size: 40px;
+    line-height: 1em;
+    text-align: center;
+    font-weight: normal;
+
+    @include medium {
+      font-size: 56px;
+    }
+
+    @include xl {
+      font-size: 64px;
+    }
+  }
+
+  .search-input {
+    margin-top: 20px;
+  }
+
+  .stretch {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    bottom: -5px;
+
+    svg {
+      path {
+        fill: clr(subcolor-3);
+        width: 100%;
+      }
+      rect {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .repeat {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    bottom: 15px;
+
+    svg {
+      width: 100%;
+      position: absolute;
+      bottom: -120px;
+
+      path {
+        fill: clr(subcolor-3);
+      }
+      rect {
+        width: 100%;
+        height: 3rem;
+      }
+    }
+  }
+}

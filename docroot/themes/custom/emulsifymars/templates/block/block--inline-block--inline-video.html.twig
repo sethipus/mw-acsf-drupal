@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Inline video component.
+ * 'video_src' => NULL,
+ * 'shape_motif' => NULL,
+ * 'content' => NULL,
+ * 'content' => NULL,
+ */
+#}
+<div {{ bem('block') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+  {% block content %}
+    {% include "@molecules/article-media/inline/inline-media.twig" with {
+      theme_styles: 'drupal',
+      media_type: 'video',
+      video__src__url: video_src,
+      video__control: true,
+      shape_motif: shape_motif,
+      content: content,
+      title: title
+    } %}
+  {% endblock %}
+</div>

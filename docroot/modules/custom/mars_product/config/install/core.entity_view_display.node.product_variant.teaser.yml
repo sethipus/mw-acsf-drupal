@@ -1,0 +1,138 @@
+uuid: 304860b1-7100-48d2-9285-5083b06644c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.product_variant.field_product_allergen_statement
+    - field.field.node.product_variant.field_product_allergen_warnings
+    - field.field.node.product_variant.field_product_calcium
+    - field.field.node.product_variant.field_product_calcium_daily
+    - field.field.node.product_variant.field_product_calories
+    - field.field.node.product_variant.field_product_calories_fat
+    - field.field.node.product_variant.field_product_carb
+    - field.field.node.product_variant.field_product_carb_daily
+    - field.field.node.product_variant.field_product_cholesterol
+    - field.field.node.product_variant.field_product_cholesterol_daily
+    - field.field.node.product_variant.field_product_diet_allergens
+    - field.field.node.product_variant.field_product_dietary_daily
+    - field.field.node.product_variant.field_product_dietary_fiber
+    - field.field.node.product_variant.field_product_image_1
+    - field.field.node.product_variant.field_product_image_1_override
+    - field.field.node.product_variant.field_product_image_2
+    - field.field.node.product_variant.field_product_image_2_override
+    - field.field.node.product_variant.field_product_image_3
+    - field.field.node.product_variant.field_product_image_3_override
+    - field.field.node.product_variant.field_product_image_4
+    - field.field.node.product_variant.field_product_image_4_override
+    - field.field.node.product_variant.field_product_iron
+    - field.field.node.product_variant.field_product_iron_daily
+    - field.field.node.product_variant.field_product_key_image
+    - field.field.node.product_variant.field_product_key_image_override
+    - field.field.node.product_variant.field_product_potassium
+    - field.field.node.product_variant.field_product_potassium_daily
+    - field.field.node.product_variant.field_product_protein
+    - field.field.node.product_variant.field_product_protein_daily
+    - field.field.node.product_variant.field_product_saturated_daily
+    - field.field.node.product_variant.field_product_saturated_fat
+    - field.field.node.product_variant.field_product_serving_size
+    - field.field.node.product_variant.field_product_servings_per
+    - field.field.node.product_variant.field_product_size
+    - field.field.node.product_variant.field_product_sku
+    - field.field.node.product_variant.field_product_sodium
+    - field.field.node.product_variant.field_product_sodium_daily
+    - field.field.node.product_variant.field_product_sugars
+    - field.field.node.product_variant.field_product_sugars_daily
+    - field.field.node.product_variant.field_product_total_fat
+    - field.field.node.product_variant.field_product_total_fat_daily
+    - field.field.node.product_variant.field_product_trans_fat
+    - field.field.node.product_variant.field_product_trans_fat_daily
+    - field.field.node.product_variant.field_product_vitamin_a
+    - field.field.node.product_variant.field_product_vitamin_a_daily
+    - field.field.node.product_variant.field_product_vitamin_c
+    - field.field.node.product_variant.field_product_vitamin_c_daily
+    - field.field.node.product_variant.field_product_vitamin_d
+    - field.field.node.product_variant.field_product_vitamin_d_daily
+    - node.type.product_variant
+  module:
+    - user
+_core:
+  default_config_hash: zOXVSI-YyrXWA4V1-0XypinNtiqGPh2Myoau7YFpFvk
+id: node.product_variant.teaser
+targetEntityType: node
+bundle: product_variant
+mode: teaser
+content:
+  field_product_key_image:
+    type: entity_reference_entity_view
+    weight: 1
+    region: content
+    label: above
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+  field_product_key_image_override:
+    type: entity_reference_entity_view
+    weight: 2
+    region: content
+    label: above
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  content_moderation_control: true
+  field_product_allergen_statement: true
+  field_product_allergen_warnings: true
+  field_product_calcium: true
+  field_product_calcium_daily: true
+  field_product_calories: true
+  field_product_calories_fat: true
+  field_product_carb: true
+  field_product_carb_daily: true
+  field_product_cholesterol: true
+  field_product_cholesterol_daily: true
+  field_product_diet_allergens: true
+  field_product_dietary_daily: true
+  field_product_dietary_fiber: true
+  field_product_image_1: true
+  field_product_image_1_override: true
+  field_product_image_2: true
+  field_product_image_2_override: true
+  field_product_image_3: true
+  field_product_image_3_override: true
+  field_product_image_4: true
+  field_product_image_4_override: true
+  field_product_iron: true
+  field_product_iron_daily: true
+  field_product_potassium: true
+  field_product_potassium_daily: true
+  field_product_protein: true
+  field_product_protein_daily: true
+  field_product_saturated_daily: true
+  field_product_saturated_fat: true
+  field_product_serving_size: true
+  field_product_servings_per: true
+  field_product_size: true
+  field_product_sku: true
+  field_product_sodium: true
+  field_product_sodium_daily: true
+  field_product_sugars: true
+  field_product_sugars_daily: true
+  field_product_total_fat: true
+  field_product_total_fat_daily: true
+  field_product_trans_fat: true
+  field_product_trans_fat_daily: true
+  field_product_vitamin_a: true
+  field_product_vitamin_a_daily: true
+  field_product_vitamin_c: true
+  field_product_vitamin_c_daily: true
+  field_product_vitamin_d: true
+  field_product_vitamin_d_daily: true
+  search_api_excerpt: true

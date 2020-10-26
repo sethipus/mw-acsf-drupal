@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * MARS Product module main file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_product_theme($existing, $type, $theme, $path) {
+  return [
+    'pdp_hero_block' => [
+      'variables' => [
+        'pdp_common_data' => [],
+        'pdp_size_data' => [],
+        'pdp_data' => [],
+        'pdp_bundle_type' => [],
+      ],
+      'template' => 'pdp-hero-block',
+    ],
+    'product_content_pair_up_block' => [
+      'variables' => [
+        'title' => NULL,
+        'graphic_divider' => NULL,
+        'background' => NULL,
+        'lead_card_entity' => NULL,
+        'lead_card_eyebrow' => NULL,
+        'lead_card_title' => NULL,
+        'cta_link_url' => NULL,
+        'cta_link_text' => NULL,
+        'supporting_card_entity' => NULL,
+        'supporting_card_eyebrow' => NULL,
+        'supporting_card_entity_view' => NULL,
+        'max_width' => NULL,
+        'png_asset' => NULL,
+      ],
+      'template' => 'product-content-pair-up-block',
+    ],
+  ];
+}

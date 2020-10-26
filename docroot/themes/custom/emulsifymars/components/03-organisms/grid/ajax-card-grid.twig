@@ -1,0 +1,38 @@
+{% set card_grid_base_class = card_grid_base_class|default('ajax-card-grid') %}
+{% set ajax_card_grid_heading_base_class = ajax_card_grid_heading_base_class|default('ajax-card-grid__heading') %}
+{% set ajax_card_grid_modifiers = ajax_card_grid_modifiers|default(['centered']) %}
+
+<section {{ bem(card_grid_base_class, grid_modifiers, grid_blockname) }} data-theme="{{ theme_styles }}">
+  <div class="ajax-card-grid__brand-border">
+    {{ brand_border | raw }}
+  </div>
+
+  <div class="ajax-card-grid__content">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: ajax_card_grid_heading,
+      heading_level: ajax_card_grid_heading_level,
+      heading_base_class: ajax_card_grid_heading_base_class
+    } %}
+
+    <div class="ajax-card-grid__graphic-divider">
+      {{ graphic_divider | raw }}
+    </div>
+
+    <div class="ajax-card-grid__items">
+      {% for item in items %}
+        {{ item }}
+      {% endfor %}
+    </div>
+
+    <div class="ajax-card-grid__more-link">
+      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+        default_link_content: ajax_card_grid_link_text,
+        default_link_border_radius: ajax_card_grid_border_radius,
+        default_link_modifiers: ajax_card_grid_modifiers,
+        default_link_attributes: ajax_card_grid_link_attributes
+      } %}
+    </div>
+  </div>
+
+
+</section>

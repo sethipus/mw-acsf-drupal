@@ -1,8 +1,18 @@
 ignored_config_entities:
-  0: 'system.site:name'
-  2: 'system.site:mail'
-  4: 'system.site:page.front'
-  6: acquia_connector.settings
+  - 'system.site:name'
+  - 'system.site:mail'
+  - 'system.site:page.front'
+  - acquia_connector.settings
+  - samlauth.authentication
+  - mars_onetrust.settings
+  - mars_entry_gate.settings
+  - 'juicer_io.feed.*'
+  - emulsifymars.settings
+  - mars_lighthouse.settings
+  - block.block.footerblock
+  - block.block.marsheaderblock
+  - acquia_contenthub.admin_settings
+  - field.storage.node.field_product_allergen_statement
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'

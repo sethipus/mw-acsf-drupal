@@ -1,0 +1,34 @@
+{{ attach_library('emulsifymars/social-feed') }}
+{% set social_feed_base_class = social_feed_base_class|default('social-feed') %}
+
+<section id="social-feed" {{ bem(social_feed_base_class) }} data-theme="{{theme_styles}}" >
+  <div class="social-feed__brand-border">
+    {{ brand_border | raw }}
+  </div>
+
+  <div class="social-feed__content">
+    <div class="social-feed__heading">
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 1,
+        heading_base_class: 'social-feed__heading',
+        heading_modifiers: ['main-heading'],
+        heading: title
+      } %}
+    </div>
+
+    <div class="social-feed__graphic-divider">
+      {{ graphic_divider | raw }}
+    </div>
+
+    <div class="swiper-container social-feed-swiper-container">
+      <div class="swiper-wrapper">
+          {% for item in items %}
+            {% include "@molecules/slide/social-feed-slide/social-feed-slide.twig" with { item: item } %}
+          {% endfor %}
+      </div>
+      <div class="swiper-button-prev" id="swiper-button" role="img" alt="previous slide"></div>
+      <div class="swiper-button-next" id="swiper-button" role="img" alt="next slide"></div>
+      <div class="swiper-scrollbar" role="img" alt="scroll bar"></div>
+    </div>
+  </div>
+</section>

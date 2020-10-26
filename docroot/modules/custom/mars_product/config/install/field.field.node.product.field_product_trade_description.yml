@@ -1,0 +1,29 @@
+uuid: 10d46c23-c11b-43a0-846c-7166cf421d04
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_trade_description
+    - node.type.product
+    - taxonomy.vocabulary.mars_trade_item_description
+id: node.product.field_product_trade_description
+field_name: field_product_trade_description
+entity_type: node
+bundle: product
+label: 'Trade item description'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_trade_item_description: mars_trade_item_description
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

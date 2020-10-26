@@ -1,0 +1,54 @@
+{#
+# Available variables:
+# - search__base_class - base classname of the wrapper.
+#}
+{{ attach_library('emulsifymars/search-overlay') }}
+{% set search__base_class = search__base_class|default('search-autocomplete-wrapper') %}
+{% set search__placeholder = search__placeholder|default('Search' | t) %}
+{% set inline_search__close_btn = 'Close' | t %}
+
+<div {{ bem(search__base_class, [], '') }}>
+  <div class="wrapper-overlay">
+    <div {{ bem('branding', [], header__base_class) }}>
+      {% block header__branding %}
+        <div {{ bem('logo', [], header__base_class) }}>
+          {% embed "@atoms/links/link/link.twig" with {
+            link_modifiers: ['logo'],
+            link_url: logo_link__url|default('/'),
+          } %}
+            {% block link_content %}
+              {% include "@atoms/images/image/responsive-image.twig" with {
+                output_image_tag: true,
+                image_alt: 'Logo',
+                image_srcset: logo_srcset,
+                image_sizes: '212px',
+                image_src: logo_src,
+                responsive_image_blockname: 'logo',
+              } %}
+            {% endblock %}
+          {% endembed %}
+        </div>
+      {% endblock %}
+    </div>
+    <div class="search-input-wrapper">
+      <div class="search-field">
+        {% block search_header__input %}
+          {% include "@molecules/search/search-input/search-input.twig" %}
+        {% endblock %}
+      </div>
+      <div class="mars-search-autocomplete-suggestions-wrapper">
+        <div class="autocomplete-border"></div>
+        <div class="mars-suggestions">
+          {% include "@atoms/lists/ul.twig" with {
+            ul_items: search_results,
+          } %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include "@molecules/search/inline-search/inline-search.twig" with {
+    inline_search__modifiers: ['closebtn'],
+    inline_search_title: inline_search__close_btn,
+    inline_search_icon: 'closed'
+  } %}
+</div>

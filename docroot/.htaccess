@@ -1,3 +1,16 @@
+# Block some known robots/crawlers on URLs where query arguments are present.
+#   DOES allow basic URLs like /news/feed, /node/1 or /rss, etc.
+#   BLOCKS only when search arguments are present like
+#     /news/feed?search=XXX or /rss?page=21.
+# Note: You can add more conditions if needed.
+#   For example, to only block on URLs that begin with '/search', add this
+#   line before the RewriteRule:
+#     RewriteCond %{REQUEST_URI} ^/search
+#
+RewriteCond %{QUERY_STRING} .
+RewriteCond %{HTTP_USER_AGENT} 11A465|Ahrefs|ArchiveBot|AspiegelBot|Baiduspider|BLEXBot|Bytespider|CCBot|Curebot|Daum|Detectify|DotBot|Grapeshot|heritrix|Kinza|LieBaoFast|Linguee|LMY47V|MauiBot|Mb2345Browser|MegaIndex|MicroMessenger|MJ12bot|MQQBrowser|PageFreezer|PiplBot|Riddler|Screaming.Frog|Search365bot|SearchBlox|Seekport|SemanticScholarBot|SemrushBot|SEOkicks|serpstatbot|Siteimprove.com|Sogou.web.spider|trendictionbot|TurnitinBot|UCBrowser|weborama-fetcher|Vagabondo|VelenPublicWebCrawler|YandexBot|YisouSpider [NC]
+RewriteRule ^.* - [F,L]
+
 #
 # Apache/PHP/Drupal settings:
 #

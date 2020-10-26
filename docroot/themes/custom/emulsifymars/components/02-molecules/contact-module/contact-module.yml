@@ -1,0 +1,39 @@
+theme_styles: "twix"
+contact_module_heading: "Haven't found what you're looking for?"
+contact_module_heading_level: 1
+
+contact_module_paragraph_content: "Plus I'm all in whenever Twix are involved. Except, can we just chat a quick minute? This is a PSA to the makers of the TWIX bar."
+
+# default case, this is for the link variant
+# contact_module_default_link_content: 'Help & contact us'
+# contact_module_default_link_attributes:
+#   target: '_self'
+#   href: 'https://storybook.js.org/'
+
+
+# contact information variant, phone and email
+contact_module_contact_phone: '222-555-1616'
+contact_module_contact_phone_attributes:
+  href: 'tel:222-555-1616'
+
+contact_module_contact_email_text: 'Email us'
+contact_module_contact_email_attributes:
+  href: 'mailto:mars@mars.com'
+
+contact_module_social_heading: 'See more on'
+contact_module_social_heading_level: 2
+
+social_menu_items:
+  - title: 'Facebook'
+    url: '#'
+    icon: 'facebook'
+  - title: 'Twitter'
+    url: '#'
+    icon: 'twitter'
+  - title: 'Instagram'
+    url: '#'
+    icon: 'instagram'
+
+brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="243" height="243" fill="none" viewBox="0 0 243 243">
+    <path fill="#EAAA00" fill-rule="evenodd" d="M121.5 243c67.103 0 121.5-54.397 121.5-121.5C243 54.397 188.603 0 121.5 0 54.397 0 0 54.397 0 121.5 0 188.603 54.397 243 121.5 243z" clip-rule="evenodd" opacity=".2"/>
+</svg>'

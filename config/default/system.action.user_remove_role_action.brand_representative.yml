@@ -1,0 +1,14 @@
+uuid: 37417964-5471-4f51-b485-be82878999f7
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.brand_representative
+  module:
+    - user
+id: user_remove_role_action.brand_representative
+label: 'Remove the Brand Representative role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: brand_representative

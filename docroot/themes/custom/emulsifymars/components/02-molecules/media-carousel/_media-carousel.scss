@@ -1,0 +1,189 @@
+.carousel {
+  background-color: clr(subcolor-2);
+  padding: 2rem 0 4rem 0;
+  overflow-x: hidden;
+  max-width: 1128px;
+  margin: 0 auto;
+
+  &__heading {
+    &--main-heading {
+      text-align: center;
+      color: clr(primary);
+      text-transform: uppercase;
+      font-size: 2.8rem;
+      line-height: 1.1rem;
+      font-weight: 500;
+      font-family: variable(heading-font);
+    }
+  }
+
+  &__divider {
+    position: absolute;
+    z-index: 2;
+    bottom: 30px;
+    height: 1px;
+
+    svg {
+      width: 1128px;
+
+      path {
+        fill: clr(subcolor-2);
+      }
+      rect {
+        width: 100%;
+        height: 20rem;
+      }
+    }
+  }
+
+  .overlay-video {
+  
+    &__control[data-state="play"] {
+      width: 60px;
+      height: 65px;
+      left: 50%;
+      bottom: 50%;
+    }
+  
+    &__control[data-state="pause"] {
+      width: 60px;
+      height: 65px;
+      left: 50%;
+      bottom: 50%;
+    }
+  }
+  
+  .carousel__content .swiper-slide {
+    height: auto;
+    padding-top: 1px;
+    background-color: clr(subcolor-2);
+
+    @include medium {
+      height: auto;
+    }
+
+    @include xl {
+      height: auto;
+    }
+  }
+
+  &__content {
+    background-color: clr(subcolor-2);
+    color: clr(primary);
+    font-family: variable(secondary-font);
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    padding: 2rem 3rem;
+
+    @include medium {
+      padding: 2rem 4rem;
+    }
+
+    @include xl {
+      padding: 2rem 11.6rem;
+    }
+  }
+
+  .swiper-slide {
+    background: clr(subcolor-2);
+    height: 25rem;
+
+    @include medium {
+      height: 43.4rem;
+    }
+
+    @include xl {
+      height: 63.5rem;
+    }
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    #fullscreen-play[data-state="play"] {
+      top: calc(50% - 7rem / 2);;
+      left: calc(50% - 6.6rem / 2);;
+      width: 6.6rem;
+      height: 7rem;
+      background-color: clr(subcolor-3);  
+
+      @include clearfix;
+
+      @include playbutton;
+
+      >div {
+        width: 0;
+        height: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 20px solid clr(player);
+        margin: auto 35%
+      }
+    }
+
+    .fullscreen-video__main {
+      width: 100%;
+    }
+  }
+
+  // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
+  .carousel-container {
+    width: 100%;
+    height: auto;
+  }
+
+  // increasing specificity to avoid using !important
+  .carousel-container.swiper-container-horizontal>.swiper-scrollbar {
+    height: 1rem;
+    transform: scale(.6);
+
+    & .swiper-scrollbar-drag {
+      background: clr(secondary);
+    }
+  }
+
+  #swiper-button {
+    background-color: clr(subcolor-3);
+    border-radius: 50%;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    width: 5.5rem;
+    height: 5.5rem;
+    top: 85%;
+
+    @include small {
+      width: 6rem;
+      height: 6rem;
+    }
+
+    @include medium {
+      width: 7rem;
+      height: 7rem;
+      top: 88%;
+      }
+
+    &.swiper-button-disabled {
+      opacity: 0;
+    }
+
+    &::after {
+      color: clr(secondary);
+      font-size: 2.5rem;
+    }
+  }
+}
+

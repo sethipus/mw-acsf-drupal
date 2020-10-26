@@ -1,6 +1,6 @@
 uuid: f206d090-993c-4322-ba98-92d6512c1fb5
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - search_api.index.content
@@ -76,8 +76,18 @@ display:
         options:
           view_modes:
             'entity:node':
+              article: default
+              faq: default
+              faq_contact: default
+              homepage: default
               landing_page: teaser
+              newsletter_sign_up: default
               page: teaser
+              product: default
+              product_multipack: default
+              product_variant: default
+              recipe: default
+              where_to_buy: default
       fields:
         rendered:
           table: search_api_index_content

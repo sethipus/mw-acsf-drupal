@@ -1,0 +1,30 @@
+uuid: accf2eb5-e1db-4f51-b15c-7ac8d99cdaf1
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer_item
+    - field.storage.block_content.field_ff_item_image
+    - media.type.image
+    - media.type.lighthouse_image
+id: block_content.flexible_framer_item.field_ff_item_image
+field_name: field_ff_item_image
+entity_type: block_content
+bundle: flexible_framer_item
+label: Image
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

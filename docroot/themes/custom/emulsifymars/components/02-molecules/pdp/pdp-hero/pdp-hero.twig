@@ -1,0 +1,180 @@
+{% set pdp_hero_base_class = pdp_hero_base_class|default('pdp-hero') %}
+{% set pdp_main_image = pdp_hero_data.image_items|first %}
+{% set pdp_side_images = pdp_hero_data.image_items[1:] %}
+{% set scroll_mandatory_base_class = 'scroll-mandatory' %}
+
+<section
+  id="pdp-hero-{{size_id}}"
+  {{ bem(pdp_hero_base_class) }}
+  data-theme="{{ theme_styles }}"
+  {% if pdp_common_hero_data.background_color %}
+    style="background-color: {{ pdp_common_hero_data.background_color }};"
+  {% endif %}
+>
+
+  <div {{ bem('bubble_1', [], pdp_hero_base_class) }} id="pdp-hero__bubble_1-{{size_id}}">
+    {{ pdp_common_hero_data.brand_shape | raw }}
+  </div>
+  <div {{ bem('bubble_2', [], pdp_hero_base_class) }} id="pdp-hero__bubble_2-{{size_id}}">
+    {{ pdp_common_hero_data.brand_shape | raw }}
+  </div>
+  <div {{ bem('bubble_3', [], pdp_hero_base_class) }} id="pdp-hero__bubble_3-{{size_id}}">
+    {{ pdp_common_hero_data.brand_shape | raw }}
+  </div>
+  <div {{ bem('container', [], pdp_hero_base_class) }}>
+    <div {{ bem('content-container', [], pdp_hero_base_class) }}>
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 5,
+        heading: pdp_common_hero_data.product_label,
+        heading_blockname: pdp_hero_base_class,
+        heading_base_class: 'product-label',
+      } %}
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 2,
+        heading: pdp_common_hero_data.product_name,
+        heading_blockname: pdp_hero_base_class,
+        heading_base_class: 'product-name',
+      } %}
+      <div id='sticky-nav-top-{{size_id}}' {{ bem('sticky-nav-top', [], pdp_hero_base_class) }}>
+        {% include "@atoms/text/headings/_heading.twig" with {
+          heading_level: 5,
+          heading: pdp_common_hero_data.product_label,
+          heading_blockname: pdp_hero_base_class,
+          heading_base_class: 'product-label',
+          heading_modifiers: ['sticky'],
+        } %}
+        {% include "@atoms/text/headings/_heading.twig" with {
+          heading_level: 2,
+          heading: pdp_common_hero_data.product_name,
+          heading_blockname: pdp_hero_base_class,
+          heading_base_class: 'product-name',
+          heading_modifiers: ['sticky'],
+        } %}
+      </div>
+      <div {{ bem('size-container', [], pdp_hero_base_class) }}>
+        {% include "@atoms/text/text/07-span.twig" with {
+          span_content: pdp_common_hero_data.size_label,
+          span_base_class: 'size-label',
+          span_blockname: pdp_hero_base_class,
+        } %}
+        <ul {{ bem('size-list', [], pdp_hero_base_class)}}>
+          {% for size_item in pdp_size_items_data %}
+            {% set active_size = size_item.size_id == size_id ? 'true' : 'false' %}
+            {% set size_attributes = {'data-size-id' : size_item.size_id, 'data-size-selected' : active_size } %}
+            <li {{ bem('list-item', [], pdp_hero_base_class)}}>
+              {% include "@atoms/links/link/link.twig" with {
+                link_base_class: 'list-item--link',
+                link_blockname: pdp_hero_base_class,
+                link_content: size_item.title,
+                link_url: size_item.link_url,
+                link_attributes: size_attributes,
+              } %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
+        <div id='pdp-hero-main-image-{{size_id}}' {{ bem('main-image-container', [], pdp_hero_base_class) }}>
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            image_alt: pdp_main_image.image.alt,
+            image_srcset: pdp_main_image.image.srcset,
+            image_sizes: '(max-width: 375px) 375px,
+                (max-width: 768px) 768px,
+                (max-width: 1024px) 1024px,
+                1440px',
+            image_src: image_items|first.image.src,
+              responsive_image_base_class: 'main-image',
+            responsive_image_blockname: pdp_hero_base_class,
+          } %}
+        </div>
+        <div id='sticky-nav-bottom-{{size_id}}' {{ bem('sticky-nav-bottom', [], pdp_hero_base_class) }}>
+          <div {{ bem('sections-container', [], pdp_hero_base_class) }}>
+            <ul {{ bem('sections-list', [], pdp_hero_base_class)}}>
+              {% for section_item in pdp_hero_data.mobile_sections_items %}
+                <li {{ bem('sections-item', [], pdp_hero_base_class)}}>
+                  {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+                    default_link_content: section_item.title,
+                    default_link_url: section_item.link_url,
+                    default_link_attributes: section_item.link_attributes,
+                    default_link_modifiers: ['pdp-sections'],
+                  } %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div {{ bem('side-image-container', [], pdp_hero_base_class) }}>
+          {% for item in pdp_side_images %}
+            <div {{ bem('side-image-item', [], pdp_hero_base_class, [scroll_mandatory_base_class]) }}>
+              {% include "@atoms/images/image/responsive-image.twig" with {
+                image_alt: item.image.alt,
+                image_srcset: item.image.srcset,
+                image_sizes: '(max-width: 375px) 375px,
+                    (max-width: 768px) 768px,
+                    (max-width: 1024px) 1024px,
+                    1440px',
+                image_src: item.image.src,
+                responsive_image_base_class: 'side-image',
+                responsive_image_blockname: pdp_hero_base_class,
+              } %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div {{ bem('description', [], pdp_hero_base_class, [scroll_mandatory_base_class]) }}>
+        {% include "@atoms/text/text/07-element.twig" with {
+          paragraph_content: pdp_common_hero_data.product_description,
+        } %}
+      </div>
+      <div id='where-to-buy-{{size_id}}' class="where-to-buy--container">
+        {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
+          where_to_buy_modifiers: ['pdp-hero'],
+          product_sku: pdp_common_hero_data.product_sku,
+          commerce_vendor: pdp_common_hero_data.commerce_vendor,
+          data_widget_id: pdp_common_hero_data.data_widget_id,
+          reference_for_analitics: pdp_common_hero_data.reference_for_analitics,
+          cta_title: pdp_common_hero_data.product_CTA_title,
+        } %}
+      </div>
+
+      <div class='menu-container' {{ bem('slider-container', [], pdp_hero_base_class) }}>
+        <div {{ bem('pdp-hero-menu-container', '', '', [scroll_mandatory_base_class]) }} id='section-nutrition-{{size_id}}'>
+          {% include "@atoms/text/headings/_heading.twig" with {
+            heading_level: 5,
+            heading: pdp_label_nutrition,
+            heading_blockname: pdp_hero_base_class,
+            heading_base_class: 'nutrition-menu',
+          } %}
+          {% if pdp_label_allergen %}
+            {% include "@atoms/text/headings/_heading.twig" with {
+              heading_level: 5,
+              heading: pdp_label_allergen,
+              heading_blockname: pdp_hero_base_class,
+              heading_base_class: 'allergen-menu',
+            } %}
+          {% endif %}
+          {% if pdp_label_more_information %}
+            {% include "@atoms/text/headings/_heading.twig" with {
+              heading_level: 5,
+              heading: pdp_label_more_information,
+              heading_blockname: pdp_hero_base_class,
+              heading_base_class: 'more-info-menu',
+            } %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div {{ bem('slider-container', [], pdp_hero_base_class) }}>
+      <div class="swiper-container pdp-hero-swiper-container">
+        <div class="swiper-wrapper">
+            {% for image_item in pdp_hero_data.image_items %}
+              {% include "@molecules/slide/pdp-hero-slide/pdp-hero-slide.twig" with { item: image_item } %}
+            {% endfor %}
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-control" tabindex="0"><a href="#" class="playpause-icon"></a></div>
+    </div>
+  </div>
+</section>

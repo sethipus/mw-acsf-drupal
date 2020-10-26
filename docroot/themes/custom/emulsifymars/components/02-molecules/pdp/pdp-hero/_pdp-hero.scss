@@ -1,0 +1,744 @@
+.pdp-hero {
+  position: relative;
+  padding: 2rem 2rem 0;
+  background-color: clr(subcolor-2);
+  overflow: hidden;
+
+  @include medium {
+    padding: 2rem 4rem 0;
+  }
+
+  @include large {
+    padding-top: 4.8rem;
+    padding-bottom: 0;
+  }
+
+  &__bubble_1 {
+    position: absolute;
+    top: 5.5%;
+    right: 5%;
+    height: 90px;
+    width: 90px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+
+    @include medium {
+      top: 3%;
+      right: 6.5%;
+      height: 117px;
+      width: 117px;
+    }
+
+    @include large {
+      top: -6%;
+      right: -6%;
+      height: 420px;
+      width: 420px;
+    }
+  }
+
+  &__bubble_2 {
+    position: absolute;
+    top: 26.5%;
+    left: 47%;
+    height: 292px;
+    width: 292px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+
+    @include medium {
+      top: 14%;
+      left: -21%;
+      height: 302px;
+      width: 302px;
+    }
+
+    @include large {
+      top: 11%;
+      left: 25%;
+      height: 115px;
+      width: 115px;
+    }
+  }
+
+  &__bubble_3 {
+    display: none;
+    position: absolute;
+    top: 83%;
+    left: 31.5%;
+    height: 214px;
+    width: 214px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    // background-image: variable(brand-shape);
+
+    circle {
+      fill: rgba(255, 255, 255, .15);
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+
+    @include medium {
+      display: block;
+      top: 19%;
+      left: 41%;
+      height: 505px;
+      width: 505px;
+    }
+
+    @include large {
+      top: 83%;
+      left: 31.5%;
+      height: 214px;
+      width: 214px;
+    }
+  }
+
+  &__container {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  &__content-container {
+    flex: 1 0 50%;
+    padding-top: 1.2rem;
+
+    @include large {
+      padding-top: 4.2rem;
+      padding-right: 6rem;
+    }
+  }
+
+  &__content-mobile {
+    display: block;
+
+    @include large {
+      display: none;
+    }
+  }
+
+  &__sticky-nav-top {
+    flex: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background-image: radial-gradient(circle at 0 0, rgb(245, 225, 164), clr(subcolor-1));
+    transform: translateY(-100%);
+    transition: transform 1s ease-out;
+    z-index: 10;
+
+    @include medium {
+      flex-direction: column;
+      padding: 4rem;
+    }
+
+    @include large {
+      display: none;
+    }
+
+    &.nav--show {
+      transform: translateY(0);
+    }
+  }
+
+  &__sticky-nav-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2rem 7.5rem;
+    z-index: 10;
+    transition: z-index 0.7s;
+
+    @include medium {
+      flex-direction: column;
+      padding: 4rem 4rem 9.5rem;
+    }
+
+    @include large {
+      position: static;
+    }
+
+    .pdp-hero__sections-container {
+      transition: visibility 0.7s, opacity 0.7s ease-out;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &.sections--hide .pdp-hero__sections-container {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    &.sections--hide {
+      z-index: -1;
+    }
+
+    &.nav--hide {
+      display: none;
+    }
+  }
+
+  &__product-label {
+    margin: .3rem 0;
+    font-family: variable(primary-font);
+    font-size: 1.4rem;
+    font-weight: normal;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: clr(primary);
+
+    @include large {
+      font-size: 1.6rem;
+    }
+
+    &--sticky {
+      margin: 0;
+      padding-right: 3.2rem;
+      color: clr(primary);
+      line-height: 1;
+      letter-spacing: 1.4px;
+    }
+  }
+
+  &__product-name {
+    margin: 2rem 0 1.7rem;
+    font-family: variable(primary-font);
+    font-size: 2.8rem;
+    font-weight: normal;
+    line-height: 1;
+    color: clr(primary);
+
+    @include medium {
+      font-size: 4rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @include large {
+      font-size: 4.8rem;
+      margin-top: 2.7rem;
+      margin-bottom: 3.6rem;
+    }
+
+    &--sticky {
+      margin: 0;
+      color: clr(primary);
+      font-size: 1.6rem;
+      text-transform: uppercase;
+
+      @include medium {
+        font-size: 1.8rem;
+        letter-spacing: 1.4px;
+      }
+    }
+  }
+
+  &__description {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 3rem 0 10rem;
+    font-family: variable(secondary-font);
+    font-size: 1.8rem;
+    line-height: 2.88rem;
+    text-align: center;
+    color: clr(primary);
+
+    @include medium {
+      margin: 2rem 13.8rem 10rem 11.8rem;
+    }
+
+    @include large {
+      display: block;
+      min-height: auto;
+      margin: 3.7rem 17rem 3.6rem 0;
+      text-align: left;
+      line-height: 2.24rem;
+      font-size: 1.6rem;
+    }
+  }
+
+  &__size-container {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 0.9rem 0;
+  }
+
+  &__size-label {
+    flex: 1 0 42%;
+    font-family: variable(secondary-font);
+    font-size: 1.2rem;
+    line-height: 1.3;
+    color: clr(primary);
+
+    @include medium {
+      flex: 1 0 auto;
+      font-size: 1.4rem;
+    }
+
+    @include large {
+      flex: 1 0 37%;
+      font-size: 1.6rem;
+    }
+  }
+
+  &__size-list {
+    @include list-reset;
+
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: flex-end;
+
+    @include medium {
+      flex: 1 0 58%;
+      justify-content: flex-start;
+    }
+
+    @include large {
+      flex: 1 0 63%;
+    }
+  }
+
+  &__list-item {
+    flex: 0 0 auto;
+
+    &--link {
+      padding: 1.6rem 1rem;
+      font-family: variable(secondary-font);
+      font-size: 1.2rem;
+      line-height: 1.3;
+      text-decoration: none;
+      color: clr(secondary);
+
+      &[data-size-selected="true"] {
+        text-decoration: underline;
+      }
+
+      @include medium {
+        font-size: 1.4rem;
+        padding: 1.6rem 1.3rem;
+      }
+
+      @include large {
+        padding: 1.5rem;
+        font-size: 1.6rem;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__main-image {
+    display: flex;
+    justify-content: center;
+    animation: cubic-bezier(0, 0, 1, 1) pulse 4.8s infinite;
+
+
+    &-container {
+      padding: 1.8rem 0 .2rem 0;
+      
+      @include medium {
+        padding: 1rem 0 2rem;
+      }
+    }
+
+    img {
+      @media (max-width: 768px) {
+        width: 54.9rem;
+      }
+      @media (max-width: 375px) {
+        width: 27.7rem;
+      }
+    }
+  }
+
+  &__side-image {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+
+    @include medium {
+      margin: 4rem 0;
+    }
+
+    &-container {
+      margin: 4.5rem 0 2rem;
+
+      @include medium {
+        margin-left: 9.8rem;
+        margin-right: 11.8rem;
+      }
+    }
+
+    &-item {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      @include large {
+        min-height: auto;
+        display: block;
+      }
+    }
+
+    img {
+      @media (max-width: 768px) {
+        width: 47.2rem;
+      }
+      @media (max-width: 375px) {
+        width: 27.7rem;
+      }
+    }
+  }
+
+  &__sections-list {
+    @include list-reset;
+
+    flex: 1 0 auto;
+    margin: 1rem 0 2rem;
+
+    @include small {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @include large {
+      display: none;
+    }
+  }
+
+  &__sections-item {
+    width: 100%;
+    margin: 0.5rem;
+  }
+
+  .default-link__label {
+    display: inline-block;
+    pointer-events: none;
+    position: relative;
+    width: 100%;
+  }
+
+  &__slider-container {
+    position: relative;
+    display: none;
+    flex: 1 0 50%;
+    padding-right: 13.2rem;
+
+    @include large {
+      display: flex;
+      align-items: center;
+    }
+
+    .swiper-pagination {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      flex-flow: column nowrap;
+    }
+
+    .swiper-pagination-bullet {
+      width: .5rem;
+      height: 3.5rem;
+      border-radius: 3px;
+      margin: .7rem 0;
+      background: clr(secondary);
+    }
+
+    .swiper-control {
+      position: absolute;
+      top: 2.3rem;
+      right: 3.1rem;
+      width: 0;
+      height: 0;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        transform: translate(-50%, -50%);
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+        background-color: clr(accent-high);
+        opacity: 0.2;
+      }
+
+      & .playpause-icon {
+        position: absolute;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          opacity: 1;
+          width: 5px;
+          height: 16px;
+          background-color: clr(subcolor-3);
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        &::before {
+          left: 22px;
+        }
+
+        &::after {
+          right: 22px;
+        }
+      }
+
+      &-play .playpause-icon {
+        &::before {
+          width: 0;
+          height: 0;
+          background: transparent;
+          border-top: 12px solid transparent;
+          border-bottom: 12px solid transparent;
+          border-left: 20px solid clr(secondary);
+        }
+
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__nutrition-menu,
+  &__allergen-menu,
+  &__more-info-menu {
+    position: relative;
+    display: block;
+    font-family: variable(primary-font);
+    padding: 2.3rem 2.3rem 0;
+    font-size: 2rem;
+    line-height: 2.2rem;
+    letter-spacing: 0.08px;
+    text-transform: uppercase;
+    text-align: center;
+    background: $white;
+    border-bottom: 0;
+    color: clr(secondary);
+    cursor: pointer;
+    margin: 0;
+    z-index: 1;
+
+    @include large {
+      font-size: 2.4rem;
+      line-height: 2.64rem;
+      letter-spacing: 0.12rem;
+    }
+  }
+
+  &__nutrition-menu {
+    width: 100%;
+
+    @include large {
+      width: auto;
+    }
+  }
+
+  &__nutrition-menu,
+  &__allergen-menu {
+    @include large {
+      @include large {
+        &::after {
+          content: '';
+          position: absolute;
+          display: block;
+          width: 1px;
+          height: 2rem;
+          background-color: clr(subcolor-4);
+          bottom: 0.3rem;
+          right: 1px;
+        }
+
+        &:last-child {
+          &::after {
+            display: none;
+          }
+        }
+      }
+
+      &:last-child {
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__allergen-menu,
+  &__more-info-menu {
+    color: clr(subcolor-4);
+    display: none;
+
+    &:hover {
+      color: clr(secondary);
+    }
+
+    @include large {
+      display: block;
+    }
+  }
+
+  .pdp-hero-menu-container {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    margin-bottom: 0;
+    bottom: 0;
+    width: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border: 1px solid clr(subcolor-4);
+    border-bottom: none;
+    overflow: hidden;
+
+    @include large {
+      width: auto;
+    }
+
+    .pdp-hero__nutrition-menu {
+      pointer-events: none;
+
+      @include large {
+        pointer-events: auto;
+      }
+    }
+  }
+}
+
+// overrides for the default styles of swiper - container, progress bar and buttons of the carousel
+.swiper-container.pdp-hero-swiper-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10.4rem;
+
+  &::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  .swiper-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.where-to-buy {
+  &--container {
+    position: fixed;
+    left: 2rem;
+    right: 2rem;
+    bottom: 2rem;
+    text-align: center;
+    z-index: 10;
+    transition: visibility 0.5s, opacity 0.5s ease-out;
+    visibility: visible;
+    opacity: 1;
+
+    @include medium {
+      left: 4rem;
+      right: 4rem;
+      bottom: 4rem;
+    }
+
+    @include large {
+      position: static;
+      text-align: left;
+    }
+  }
+
+  &--hide {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &--pdp-hero {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    @include large {
+      display: inline-block;
+      width: auto;
+    }
+  }
+
+}
+
+.default-link {
+    padding: 0 1.2rem;
+
+  @include medium {
+    padding: 0 3.4rem;
+  }
+
+  &--pdp-sections {
+    display: flex;
+    align-items: center;
+    font-family: variable(primary-font);
+    font-size: 1.2rem;
+    line-height: 1.1;
+    letter-spacing: normal;
+    text-align: center;
+    background-color: clr(subcolor-3);
+    color: clr(secondary);
+    height: 6rem;
+    width: 100%;
+  }
+}
+
+@keyframes pulse {
+  0%   { transform: translateY(-16px); }
+  50%  { transform: translateY(16px); }
+  100%  { transform: translateY(-16px); }
+}

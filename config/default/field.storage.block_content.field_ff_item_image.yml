@@ -1,0 +1,20 @@
+uuid: 1b85ea6c-e4f6-48d2-871c-7c2be32ae869
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - media
+id: block_content.field_ff_item_image
+field_name: field_ff_item_image
+entity_type: block_content
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

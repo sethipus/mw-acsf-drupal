@@ -1,0 +1,16 @@
+theme_styles: 'twix'
+
+eyebrow_text: 'PRODUCTS'
+background_color: 'blue'
+
+heading_level: 1
+heading: 'The Newest Member: Twix Cookies & Creme'
+heading_url: 'https://storybook.js.org/'
+image_src: 'Bitmap@3x.png'
+image_alt: 'Image alt text'
+
+default_link_content: 'Explore'
+default_link_base_class: 'default-link'
+default_link_attributes:
+  'target': '_self'
+  'href': 'https://storybook.js.org/'

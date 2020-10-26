@@ -1,0 +1,23 @@
+uuid: cc66f3e5-f968-41fb-ab3f-75793d33af5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer
+    - field.storage.block_content.field_ff_with_cta
+id: block_content.flexible_framer.field_ff_with_cta
+field_name: field_ff_with_cta
+entity_type: block_content
+bundle: flexible_framer
+label: 'With CTA'
+description: 'With/without CTA'
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

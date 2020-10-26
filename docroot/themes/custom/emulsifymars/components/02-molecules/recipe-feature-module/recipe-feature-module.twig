@@ -1,0 +1,59 @@
+{% set recipe_template__base_class = 'recipe-feature-block' %}
+{% set icon_clock = icon_clock|default('/' ~ base_path ~ directory ~ '/images/icons/clock.svg') %}
+{% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
+<section {{ bem(recipe_template__base_class) }} data-theme="{{ theme_styles }}">
+  <div class="media">
+    {% if recipe_media.video_url is not empty %}
+      {% block recipe_media_video %}
+        {% include "@atoms/video/ambient-video/video.twig" with {
+          video__src__url: recipe_media.video_url,
+          video__base_class: 'ambient-video',
+          video__control: true,
+        } %}
+      {% endblock %}
+    {% else %}
+      {% block recipe_media_image %}
+        {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: recipe_media.alt,
+          image_srcset: recipe_media.srcset,
+          image_sizes: '',
+          image_src: recipe_media.src,
+          responsive_image_blockname: 'recipe-media',
+        } %}
+      {% endblock %}
+    {% endif %}
+    <div class="media-info">
+      <div class="{{ brand_shape_class }}">{{ brand_borders | raw }}</div>
+      <div class="eyebrow"> {{ eyebrow}} </div>
+      <h2 class="title">
+        {% include "@atoms/links/link/link.twig" with {
+          link_url: cta.url,
+          link_content: title,
+          link_modifiers: {class: 'title'}
+        } %}
+      </h2>
+      <div class="cooking-time">
+        <div class="cooking-time__icon">
+          {% include "@atoms/images/image/_image.twig" with {
+            image_base_class: 'recipe-details-item__icon',
+            image_modifiers: ['clock'],
+            image_src: icon_clock,
+          } %}
+        </div>
+        <div class="cooking-time__info">
+          <div class="cooking-time__label">{{ 'Time'|t }}</div>
+          <div class="cooking-time__value">{{ cooking_time }}</div>
+        </div>
+      </div>
+      <div class="cta-btn">
+        {% set attr = {'href': cta.url} %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: cta.title,
+          default_link_border_radius: 30,
+          default_link_attributes: attr
+        } %}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,126 @@
+.header-inline-menu {
+  @include list-reset;
+
+  display: inline-block;
+  margin-left: -$space-one-and-half;
+
+  @include large {
+    margin-left: 0;
+  }
+}
+
+.header-inline-menu__item {
+  display: inline-block;
+  padding-top: 2.8rem;
+  line-height: 1rem;
+  position: relative;
+
+  @include large {
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 3.9rem;
+      opacity: 0.6;
+      background: clr(primary);
+    }
+
+    &:first-child {
+      &::before {
+        content: none;
+      }
+    }
+  }
+}
+
+.header-inline-menu__link {
+  @include link;
+
+  padding: $space $space-one-and-half;
+  color: clr(subcolor-3);
+  font-size: 1.8rem;
+  font-family: variable(primary-font);
+  line-height: 1.8rem;
+  font-weight: normal;
+  text-decoration: none;
+
+  &:hover {
+    color: clr(subcolor-3);
+  }
+
+  @include large {
+    color: clr(primary);
+    font-size: 1.4rem;
+    line-height: 1.4rem;
+
+    &:hover {
+      color: clr(secondary);
+    }
+  }
+}
+
+.dropdown--header-navigation {
+  width: 8rem;
+
+  @include large {
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 3.9rem;
+      opacity: 0.6;
+      background: clr(subcolor-1);
+    }
+  }
+
+  .dropdown__trigger {
+    padding: 1rem 1.5rem;
+    color: clr(subcolor-3);
+    background: transparent;
+    font-family: variable(primary-font);
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    box-shadow: none;
+
+    &::after {
+      top: 10px;
+    }
+
+    @include large {
+      color: clr(primary);
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+
+      &:hover {
+        color: clr(secondary);
+      }
+    }
+  }
+
+  .dropdown__content--outer {
+    top: auto;
+    bottom: 52px;
+    width: 180px;
+
+    @include medium {
+      top: 52px;
+      bottom: auto;
+    }
+  }
+
+  .dropdown__span,
+  .dropdown__link {
+    font-size: 1.4rem;
+    letter-spacing: 0.7px;
+  }
+  
+  &:hover {
+    .dropdown__trigger::after {
+      top: 15px;
+    }
+  }
+}

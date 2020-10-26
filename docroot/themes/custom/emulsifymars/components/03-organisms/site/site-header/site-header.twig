@@ -1,0 +1,64 @@
+{% set header__base_class = 'header' %}
+{# If `directory` is defined, set the path relative for Drupal.
+ # Otherwise, set the path relative to the Component Library. #}
+{% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
+
+<header {{ bem(header__base_class) }} data-theme="{{ theme_styles }}">
+  <div {{ bem('inner', [], header__base_class) }}>
+    <div {{ bem('primary', [], header__base_class) }} id="header-menu-trigger">
+      <div {{ bem('primary-container', [], header__base_class) }}>
+        <div {{ bem('branding', [], header__base_class) }}>
+          {% block header__branding %}
+          <div {{ bem('logo', [], header__base_class) }}>
+            {% embed "@atoms/links/link/link.twig" with {
+              link_modifiers: ['logo'],
+              link_url: logo_link__url|default('/'),
+            } %}
+              {% block link_content %}
+                {% include "@atoms/images/image/responsive-image.twig" with {
+                  output_image_tag: true,
+                  image_alt: 'Logo',
+                  image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
+                  image_sizes: '212px',
+                  image_src: 'twix-logo.png',
+                  responsive_image_blockname: 'logo',
+                } %}
+              {% endblock %}
+            {% endembed %}
+          </div>
+          {% endblock %}
+        </div>
+        <div {{ bem('menu', [], header__base_class) }}>
+          {% block header__menu %}
+            {% include "@molecules/menus/main-menu/main-menu.twig" %}
+          {% endblock %}
+        </div>
+        <div {{ bem('menu', ['secondary'], header__base_class) }}>
+          {% block header__menu_secondary %}
+            {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
+            {% include "@molecules/search/inline-search/inline-search.twig" with {
+              inline_search__modifiers: ['searchbtn'],
+              inline_search_title: 'Search'
+            } %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+    <div {{ bem('secondary', [], header__base_class) }}>
+      {% block header__secondary %}
+        {% include "@molecules/status/status.twig" with {
+          message_list: { alert: { message: alert_banner} },
+          message_url: alert_banner_url,
+        }%}
+      {% endblock %}
+    </div>
+    {% block search_results %}
+      {% include "@molecules/search/search-overlay/search-overlay.twig" with {
+        search_results: search_form,
+        logo_src: logo_src,
+        logo_srcset: logo_srcset
+      }%}
+    {% endblock %}
+
+  </div>
+</header>

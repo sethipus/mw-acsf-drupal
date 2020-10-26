@@ -1,0 +1,4 @@
+lighthouse-gallery:
+  css:
+    layout:
+      css/lighthouse-gallery.css: {}

@@ -1,0 +1,180 @@
+theme_styles: 'twix'
+products_used: 'products used'
+
+product_used_items:
+  - card__image__output_image_tag: true
+    card__image__src: 'image9.png'
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX®<br>PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card__image__src: 'image-4.png'
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX®<br>PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+ingredients_list:
+  - content: '3/4 cup butter, melted'
+  - content: '2 cups light brown sugar'
+  - content: '3 eggs'
+  - content: '2 teaspoons vanilla'
+  - content: '2 teaspoons baking powder'
+  - content: '1 teaspoon flaked (or coarse) sea salt'
+  - content: '2 1/2 cup all purpose flour'
+  - content: '30 mini Twix bars coarsely chopped'
+  - content: '1 cup semi-sweet chocolate chips'
+  - content: 'Optional – more flaked sea salt for sprinkling'
+
+instructions_list:
+  - content: 'Preheat oven to 350°. Line a 9×13 baking pan with foil and coat with nonstick spray. Set aside.'
+  - content: 'In the bowl of your stand mixer fitted with the paddle attachment combine the butter and brown sugar on low speed. Add in the eggs, vanilla, baking powder and salt and mix until smooth.'
+  - content: 'With the mixer still on low add the the flour and mix until just combined.'
+  - content: 'Stir in the Twix and chocolate chips until evenly incorporated.'
+
+recommended_items:
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+recipe_text_1: 'This is an older recipe of mine that I posted back in 2010. I have been on a kick going through my old posts and updating the pictures. Turns out that way back in 2010 I was a little confused on what a “good picture” was.'
+recipe_text_2: 'Plus, I’m all in whenever Twix are involved. Except, can we just chat a quick minute? This is a PSA to the makers of the TWIX bar. Twix are classic and fantastic and everyone loves them. BUT, Twix makers, how about a little sprinkle of sea salt on top. I mean SALTED CARAMEL TWIX? Why isn’t that a thing in the world?'

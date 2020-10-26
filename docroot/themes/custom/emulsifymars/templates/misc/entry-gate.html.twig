@@ -1,0 +1,54 @@
+{#
+/**
+ * @file
+ * Template for the entry gate.
+ *
+ * Available variables:
+ * - title:  Title for entry gate.
+ * - description: Description for entry gate.
+ * - heading:  Heading for entry gate.
+ * - marketing_message: Marketing message for entry gate.
+ * - minimum_age: The minimum age requirement as integer.
+ * - error_title: Error title for entry gate.
+ * - error_message: Error message for entry gate.
+ * - error_link_1: Link 1 for error page.
+ * - error_link_2: Link 2 for error page.
+ * - brand_shape: Brand shape asset.
+ *
+ */
+#}
+
+{% include "@molecules/entry-gate/entry-gate.twig" with {
+  theme_styles: 'drupal',
+  brand_shape: brand_shape,
+
+  entry_gate_heading: title,
+  entry_gate_paragraph_content: description,
+  entry_gate_eyebrow_text: heading,
+  entry_gate_bottom_paragraph_content:marketing_message,
+  entry_gate_minimal_age: minimum_age,
+  entry_gate_error_heading: error_title,
+  entry_gate_error_paragraph_content: error_message,
+  entry_gate_error_top_link_url: error_link_1,
+  entry_gate_error_bottom_link_url: error_link_2,
+
+  entry_gate_heading_level: 2,
+  entry_gate_paragraph_size: 'large',
+  entry_gate_form_submit_text: 'Submit' | t,
+  entry_gate_form_day_placeholder: 'DD' | t,
+  entry_gate_form_month_placeholder: 'MM' | t,
+  entry_gate_form_year_placeholder: 'YYYY' | t,
+  entry_gate_bottom_paragraph_size: 'large',
+  entry_gate_form_error_message: 'Please check your details!' | t,
+  product: 'twix',
+  entry_gate_error_heading_level: 2,
+  entry_gate_error_paragraph_size: 'large',
+  entry_gate_error_top_link_content: 'More information about the mars marketing code' | t,
+  entry_gate_error_top_link_attributes: {
+    target: '_blank',
+  },
+  entry_gate_error_bottom_link_content: 'Imprint' | t,
+  entry_gate_error_bottom_link_attributes: {
+    target: '_blank'
+  }
+} %}

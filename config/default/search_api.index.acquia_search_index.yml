@@ -1,0 +1,294 @@
+uuid: 0f5e7408-f672-4206-be26-83b21c33c855
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_brand
+    - field.storage.node.field_faq_filter_topic
+    - field.storage.node.field_qa_item_answer
+    - field.storage.node.field_qa_item_question
+    - field.storage.node.field_brand_initiatives
+    - field.storage.node.field_product_diet_allergens
+    - field.storage.node.field_product_variants
+    - field.storage.node.field_product_flavor
+    - field.storage.node.field_product_format
+    - field.storage.node.field_product_occasions
+    - field.storage.node.field_product_trade_description
+    - field.storage.node.field_product_name
+    - search_api.server.acquia_search_server
+  module:
+    - taxonomy
+    - node
+    - search_api_solr
+    - search_api
+    - mars_search
+_core:
+  default_config_hash: 5kXLh0sYJ2Yc_THnDbYg_pPAc1UJ0gabzabQYjrYyAc
+id: acquia_search_index
+name: 'Acquia Search Solr Index'
+description: ''
+read_only: false
+field_settings:
+  brand:
+    label: 'Brand » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_brand:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_brand
+      module:
+        - taxonomy
+  created:
+    label: 'Authored on'
+    datasource_id: 'entity:node'
+    property_path: created
+    type: integer
+    dependencies:
+      module:
+        - node
+  faq_filter_topic:
+    label: 'FAQ Filter topic » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_faq_filter_topic:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_faq_filter_topic
+      module:
+        - taxonomy
+  faq_item_queue_weight:
+    label: 'FAQ item queue weight'
+    property_path: faq_item_queue_weight
+    type: string
+  field_qa_item_answer:
+    label: Answer
+    datasource_id: 'entity:node'
+    property_path: field_qa_item_answer
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_qa_item_answer
+  field_qa_item_question:
+    label: Question
+    datasource_id: 'entity:node'
+    property_path: field_qa_item_question
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_qa_item_question
+  mars_brand_initiatives:
+    label: 'Brand Initiatives'
+    datasource_id: 'entity:node'
+    property_path: field_brand_initiatives
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_brand_initiatives
+  mars_brand_initiatives_name:
+    label: 'Brand Initiatives » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_brand_initiatives:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_brand_initiatives
+      module:
+        - taxonomy
+  mars_diet_allergens:
+    label: 'Product Variants » Content » Diet & Allergens'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_variants:entity:field_product_diet_allergens'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_diet_allergens
+        - field.storage.node.field_product_variants
+      module:
+        - node
+  mars_diet_allergens_name:
+    label: 'Product Variants » Content » Diet & Allergens » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_variants:entity:field_product_diet_allergens:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_diet_allergens
+        - field.storage.node.field_product_variants
+      module:
+        - node
+        - taxonomy
+  mars_flavor:
+    label: Flavor
+    datasource_id: 'entity:node'
+    property_path: field_product_flavor
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_flavor
+  mars_flavor_name:
+    label: 'Flavor » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_flavor:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_flavor
+      module:
+        - taxonomy
+  mars_format:
+    label: Format
+    datasource_id: 'entity:node'
+    property_path: field_product_format
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_format
+  mars_format_name:
+    label: 'Format » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_format:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_format
+      module:
+        - taxonomy
+  mars_occasions:
+    label: Occasions
+    datasource_id: 'entity:node'
+    property_path: field_product_occasions
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_occasions
+  mars_occasions_name:
+    label: 'Occasions » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_occasions:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_occasions
+      module:
+        - taxonomy
+  mars_trade_item_description:
+    label: 'Trade item description'
+    datasource_id: 'entity:node'
+    property_path: field_product_trade_description
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_trade_description
+  mars_trade_item_description_name:
+    label: 'Trade item description » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_trade_description:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_trade_description
+      module:
+        - taxonomy
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  product_name:
+    label: 'Product Name'
+    datasource_id: 'entity:node'
+    property_path: field_product_name
+    type: solr_text_ngram
+    boost: !!float 5
+    dependencies:
+      config:
+        - field.storage.node.field_product_name
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: solr_text_ngram
+    boost: !!float 5
+    dependencies:
+      module:
+        - node
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - article
+        - campaign
+        - faq
+        - landing_page
+        - product
+        - product_multipack
+        - recipe
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  entity_status: {  }
+  faq_item_queue_weight: {  }
+  highlight:
+    highlight: always
+    highlight_partial: false
+    excerpt: true
+    excerpt_length: null
+    exclude_fields: {  }
+    prefix: '<strong class="search-highlight">'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
+  ignore_character:
+    all_fields: true
+    fields:
+      - brand
+      - faq_filter_topic
+      - faq_item_queue_weight
+      - field_qa_item_answer
+      - field_qa_item_question
+      - mars_brand_initiatives_name
+      - mars_diet_allergens_name
+      - mars_flavor_name
+      - mars_format_name
+      - mars_occasions_name
+      - mars_trade_item_description_name
+      - product_name
+      - title
+      - type
+    ignorable: '[''¿¡!?,.:;]'
+    ignorable_classes:
+      - Pc
+      - Pd
+      - Pe
+      - Pf
+      - Pi
+      - Po
+      - Ps
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
+  language_with_fallback: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: acquia_search_server

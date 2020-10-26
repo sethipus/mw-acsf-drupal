@@ -1,0 +1,20 @@
+.article-inline {
+  background-color: clr(subcolor-2);
+  padding: 2rem 0 4rem 0;
+  overflow-x: hidden;
+  max-width: 780px;
+  margin: 0 auto 60px auto;
+  font-family: variable(secondary-font);
+  font-size: 2rem;
+  line-height: 1.8;
+  color: clr(primary);
+
+  img {
+    width: 100%;
+    margin-bottom: 60px
+  }
+
+  &__content {
+    padding: 0 1rem;
+  }
+}

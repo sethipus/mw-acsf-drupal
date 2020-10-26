@@ -1,0 +1,20 @@
+{{ attach_library('emulsifymars/product-used-module') }}
+
+{% set product_used_base_class = product_used_base_class|default('product-used-items') %}
+
+<section id="product-used-items" {{ bem(product_used_base_class) }} data-theme="{{ theme_styles }}">
+  <div class="swiper-container product-used-swiper-container">
+    <div class="swiper-wrapper">
+      {% for item in product_used_items %}
+        <div class="swiper-slide product-used-item">
+          {{ item }}
+        </div>
+      {% endfor %}
+    </div>
+    {% if product_used_items|length > 1 %}
+      <div class="swiper-button-prev product-used-nav" id="swiper-button"></div>
+      <div class="swiper-button-next product-used-nav" id="swiper-button"></div>
+    {% endif %}
+    <div class="swiper-scrollbar product-used-nav"></div>
+  </div>
+</section>

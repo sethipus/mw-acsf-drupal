@@ -1,0 +1,34 @@
+{#
+/**
+ * @file
+ * Template for the article card component.
+ */
+#}
+
+{% set background_asset = node | entityMainMediaId | mediaParamsById %}
+
+{% include "@molecules/card/article-card/article-card.twig" with {
+  theme_styles: 'drupal',
+  article_is_new: node.field_article_new.value,
+  article_card_background_img_url: background_asset.src,
+
+  article_card_eyebrow: elements['#eyebrow'],
+  brand_shape: brand_shape,
+
+  article_card_heading: node.title.value,
+  article_card_heading_level: 3,
+  article_card_heading_base_class: 'article-card-heading',
+
+  article_card_text: node.field_article_description.value | render | striptags,
+  article_card_button_text: '',
+  article_card_paragraph_base_class: 'article-card-paragraph',
+  article_card_paragraph_size: 'large',
+  article_card_paragraph_modifiers: ['xs'],
+
+  article_card_button_modifiers: ['small'],
+  article_card_button_text: 'EXPLORE',
+
+  article_card_button_link_attributes: {
+    'href': path('entity.node.canonical', {'node': node.nid.value})
+  },
+} %}

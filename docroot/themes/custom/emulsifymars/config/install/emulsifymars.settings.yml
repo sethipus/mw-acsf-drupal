@@ -1,0 +1,38 @@
+# Color.
+# ----------------------------
+color_a: '490e00'
+color_b: 'e62b1e'
+color_c: 'eaaa00'
+color_d: 'f9f1db'
+color_e: 'ffffff'
+color_f: '4c4c4c'
+card_background: '4c4c4c'
+top_nav: 'eaaa00'
+top_nav_gradient: 'f9f1db'
+bottom_nav: 'e62b1e'
+
+# Font.
+# ----------------------------
+headline_font_path: 'font1'
+primary_font_path: 'font2'
+secondary_font_path: 'font3'
+
+# Icons.
+# ----------------------------
+graphic_divider: { }
+brand_shape: { }
+brand_borders: { }
+brand_borders_2: { }
+png_asset: { }
+button_style: 0
+
+# Product layout settings.
+# ----------------------------
+show_allergen_info: false
+
+# Social links.
+# ----------------------------
+social_links:
+  - name: 'facebook'
+    link: 'facebook.com'
+    icon: 'social_icon1'

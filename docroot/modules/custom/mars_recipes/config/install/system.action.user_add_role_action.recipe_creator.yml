@@ -1,0 +1,16 @@
+uuid: 29ec78b3-b68d-4f8e-af3a-a1d718095b80
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.recipe_creator
+  module:
+    - user
+_core:
+  default_config_hash: jgel5W9FNJtYRWTSgJwmHkk3N4fb4HT84oqG0pg2n2c
+id: user_add_role_action.recipe_creator
+label: 'Add the Recipe creator role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: recipe_creator

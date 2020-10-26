@@ -1,0 +1,47 @@
+.social-feed-slide {
+  max-width: 31.7rem;
+
+  @media (max-width: 768px) {
+    max-width: 21.6rem;
+  }
+
+  @media (max-width: 375px) {
+    max-width: 24.8rem;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    background: linear-gradient(180deg, #444 0%, rgba(0, 0, 0, 0) 73%);
+    position: absolute;
+    width: 100%;
+    border-radius: 1rem;
+    padding: 2rem 0 6rem 0;
+
+    svg {
+      width: 1.8rem;
+      fill: clr(subcolor-3);
+      margin-left: 2rem;
+    }
+  }
+
+  &__data {
+    font-size: 1.4rem;
+    font-family: variable(primary-font);
+    font-weight: 600;
+    margin-right: 2rem;
+    color: clr(subcolor-3);
+  }
+
+  &__image {
+    border-radius: 1rem;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: clr(text-inverse);
+    font-size: 1.4rem;
+  }
+}

@@ -1,0 +1,32 @@
+uuid: b8a7380c-5ade-4ae4-861f-b9ad5e185be4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_image_1
+    - media.type.image
+    - media.type.lighthouse_image
+    - node.type.product_variant
+_core:
+  default_config_hash: lKjKcUO5vgKxJNsNu3NYFNEPY8AaYn0qua3jRpBJSoo
+id: node.product_variant.field_product_image_1
+field_name: field_product_image_1
+entity_type: node
+bundle: product_variant
+label: 'Supporting Image 1'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

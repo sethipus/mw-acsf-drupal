@@ -1,0 +1,33 @@
+{% set pdp_template__base_class = 'pdp-body' %}
+
+{% for pdp_item in pdp_data %}
+  <section {{ bem(pdp_template__base_class) }} data-theme="{{ theme_styles }}" data-pdp-size-active={{pdp_item.active}} data-pdp-size-id={{pdp_item.size_id}}>
+    <!-- PDP Hero Module -->
+    {% include "@molecules/pdp/pdp-hero/pdp-hero.twig" with {
+      size_id: pdp_item.size_id,
+      pdp_common_hero_data: pdp_common_data.hero_data,
+      pdp_size_items_data: pdp_size_data,
+      pdp_hero_data: pdp_item.hero_data,
+      pdp_label_nutrition: pdp_common_data.nutrition_data.nutritional_label,
+      pdp_label_allergen: pdp_item.allergen_data.allergens_list|length ? pdp_common_data.allergen_data.allergen_label : '',
+      pdp_label_more_information: pdp_common_data.more_information_data.show_more_information_label ? pdp_common_data.more_information_data.more_information_label : '',
+    } %}
+    <!-- PDP Nutrition -->
+    {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
+      size_id: pdp_item.size_id,
+      pdp_nutrition_data: pdp_item.nutrition_data,
+      pdp_common_nutrition_data: pdp_common_data.nutrition_data,
+    } %}
+    <!-- PDP Allergen -->
+    {% include "@molecules/pdp/pdp-allergen/pdp-allergen.twig" with {
+      size_id: pdp_item.size_id,
+      pdp_allergen_data: pdp_item.allergen_data,
+      pdp_common_allergen_data: pdp_common_data.allergen_data,
+    } %}
+  </section>
+{% endfor %}
+<!-- PDP More Information -->
+{% include "@molecules/pdp/pdp-more-information/pdp-more-information.twig" with {
+  pdp_more_information_data: pdp_item.more_information_data,
+  pdp_common_more_information_data: pdp_common_data.more_information_data,
+} %}

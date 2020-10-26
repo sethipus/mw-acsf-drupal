@@ -1,0 +1,23 @@
+uuid: effd511a-166c-47bb-9db7-f4254834b046
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: BgDYKyUOLfpQ01BiiI7zh9q8Zw1KQMWBRsDtAe8XmDw
+id: node.field_product_vitamin_d
+field_name: field_product_vitamin_d
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

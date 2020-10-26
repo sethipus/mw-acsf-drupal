@@ -1,0 +1,57 @@
+uuid: 20b95f4f-47e9-486d-915b-e57a9de1cd64
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.list_item
+    - entity_browser.browser.lighthouse_browser
+    - field.field.block_content.list_item.field_list_item_description
+    - field.field.block_content.list_item.field_list_item_image
+    - field.field.block_content.list_item.field_list_item_order
+  module:
+    - entity_browser
+id: block_content.list_item.default
+targetEntityType: block_content
+bundle: list_item
+mode: default
+content:
+  field_list_item_description:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_list_item_image:
+    type: entity_browser_entity_reference
+    weight: 2
+    settings:
+      entity_browser: lighthouse_browser
+      field_widget_display: rendered_entity
+      field_widget_display_settings:
+        view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
+  field_list_item_order:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

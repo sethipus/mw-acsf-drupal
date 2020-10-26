@@ -1,0 +1,92 @@
+# Schema for the configuration files of the Emulsify Subtheme.
+
+emulsifymars.settings:
+  type: theme_settings
+  label: 'MARS theme settings'
+  mapping:
+
+# Color.
+# ----------------------------
+color_a:
+  type: text
+  label: 'Primary Color. Will be used as a main color throughout the site. Must be AA compliant.'
+color_b:
+  type: text
+  label: 'Secondary Color. Will be used as a main color throughout the site. Must be AA compliant.'
+color_c:
+  type: text
+  label: 'Includes the option to select a radial gradient variation (white in the center, assigned color on the outside) or keep the default flat color. Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+color_d:
+  type: text
+  label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+color_e:
+  type: text
+  label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+color_f:
+  type: text
+  label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+card_background:
+  type: text
+  label: 'Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+top_nav:
+  type: text
+  label: 'Footer top part Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+top_nav_gradient:
+  type: text
+  label: 'Footer top part gradient Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+bottom_nav:
+  type: text
+  label: 'Footer bottom part Color. Will be used for visual accents throughout the site. Must be AA compliant.'
+
+# Font.
+# ----------------------------
+headline_font_path:
+  type: text
+  label: 'Primary Typeface'
+primary_font_path:
+  type: text
+  label: 'Secondary Typeface'
+secondary_font_path:
+  type: text
+  label: 'Tertiary Typeface'
+
+# Icons.
+# ----------------------------
+graphic_divider:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+brand_shape:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+brand_borders:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+brand_borders_2:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+png_asset:
+  type: text
+  label: 'Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'
+button_style:
+  type: integer
+  label: 'Designates rounded buttons or sharp corner buttons and card corner. For example: 5px.'
+
+# Product layout settings.
+# ----------------------------
+show_allergen_info:
+  type: boolean
+  label: 'Show allergen info at product details.'
+
+# Social links.
+# ----------------------------
+social_links:
+  type: sequence
+  sequence:
+    type: mapping
+    mapping:
+      name:
+        type: label
+      link:
+        type: text
+      icon:
+        type: integer

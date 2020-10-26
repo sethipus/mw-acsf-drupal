@@ -1,0 +1,62 @@
+uuid: 173f7215-4e82-4646-b128-5e36638d2d24
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.mars_regions.field_default_region
+    - field.field.taxonomy_term.mars_regions.field_mars_url
+    - taxonomy.vocabulary.mars_regions
+  module:
+    - link
+    - path
+    - text
+id: taxonomy_term.mars_regions.default
+targetEntityType: taxonomy_term
+bundle: mars_regions
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+      rows: 5
+    third_party_settings: {  }
+  field_default_region:
+    weight: 2
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_mars_url:
+    weight: 1
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 5
+    region: content
+    third_party_settings: {  }
+hidden: {  }

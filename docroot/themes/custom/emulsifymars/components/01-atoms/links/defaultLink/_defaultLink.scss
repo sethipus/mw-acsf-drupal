@@ -1,0 +1,90 @@
+.default-link {
+  color: clr(text-inverse);
+  background-color: clr(secondary);
+  font-family: variable(primary-font);
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  letter-spacing: 0.16rem;
+  text-decoration: none;
+  line-height: 6rem;
+  padding: 0 5.7rem;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+  transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+  border-radius: variable(button-border-radius);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    bottom: -100px;
+    left: -120px;
+    width: 1000px;
+    transform: rotate(18deg);
+    height: 0;
+    background-color: clr(subcolor-3);
+    transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
+
+    @include xs {
+      width: 1000px;
+    }
+
+    @include medium {
+      width: 750px;
+    }
+  }
+
+  &:hover {
+    color: clr(secondary);
+    background-color: clr(subcolor-3);
+    transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+
+    &::after {
+      height: 300px;
+    }
+  }
+
+  &--light {
+    background-color: clr(subcolor-3);
+    color: clr(secondary);
+    box-shadow: 0 0 5px #ccc;
+    margin-bottom: 2rem;
+    text-align: center;
+    transition: all 1.2s ease;
+
+    &::after {
+      background-color: clr(secondary);
+    }
+    
+    &:hover {
+      color: clr(subcolor-3);
+      
+    }
+  }
+
+  &__label {
+    position: relative;
+    z-index: 1;
+  }
+
+  &--rounded {
+    border-radius: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+    padding: 0 3.7rem;
+  }
+
+  @media (max-width: 375px) {
+    padding: 0 2.7rem;
+  }
+
+  &--small {
+    line-height: 5rem;
+    padding: 0 2.7rem;
+    font-size: 1.4rem;
+  }
+}

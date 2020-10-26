@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Template for the contact help banner component.
+ *
+ * Available variables:
+ * 'label' => NULL,
+ * 'description' => NULL,
+ * 'social_links_label' => NULL,
+ * 'phone_cta_label' => NULL,
+ * 'phone_cta_link' => NULL,
+ * 'email_cta_label' => NULL,
+ * 'email_cta_link' => NULL,
+ * 'help_and_contact_cta_label' => NULL,
+ * 'help_and_contact_cta_url' => NULL,
+ * 'social_menu_items' => NULL,
+ * 'brand_shape' => NULL,
+ */
+#}
+
+{% include "@molecules/contact-module/contact-module.twig" with {
+  theme_styles: 'drupal',
+  contact_module_heading: title,
+  contact_module_heading_level: 1,
+  contact_module_paragraph_content: description,
+  contact_module_default_link_content: help_and_contact_cta_label,
+  contact_module_default_link_attributes: {
+    href: help_and_contact_cta_url
+  },
+  contact_module_contact_phone: phone_cta_label,
+  contact_module_contact_phone_attributes: {
+    href: phone_cta_link
+  },
+  contact_module_contact_email_text: email_cta_label,
+  contact_module_contact_email_attributes: {
+    href: email_cta_link
+  },
+
+  contact_module_social_heading: social_links_label,
+  contact_module_social_heading_level: 2,
+
+  social_menu_items: social_menu_items,
+  configured_icons: true,
+  brand_shape: brand_shape
+} %}

@@ -1,0 +1,163 @@
+// Color Usage variables - use these (via the `clr` function below)
+// rather than color variables directly.
+$defaultColors: (
+  text: $gray,
+  text-inverse: $white,
+  background: $white,
+  background-section: $gray-lightest,
+  background-button: $gray-tranparent,
+  accent: $gray-dark,
+  accent-high: $black,
+  highlight: $gray-lighter,
+  highlight-high: $gray-lightest,
+  player: $red,
+  muted: $near-white,
+  warning: $yellow-light,
+  error: $red-light,
+  message: $green-light,
+  subcolor-1: $cerise-red,
+  pp-header-bg: $coconut-cream,
+);
+
+$marsColors: (
+  top-nav: $white,
+  top-nav-gradient: $white,
+  bottom-nav: $mine-shaft,
+  card-background: $white,
+  primary: $mine-shaft,
+  secondary: $midnight-blue,
+  subcolor-1: $egg-blue,
+  subcolor-2: $golden-yellow,
+  subcolor-3: $white,
+  subcolor-4: $silver,
+  primary-rgb: $mine-shaft-rgb,
+  secondary-rgb: $midnight-blue-rgb,
+  subcolor-1-rgb: $egg-blue-rgb,
+  subcolor-2-rgb: $golden-yellow-rgb,
+  subcolor-3-rgb: $white-rgb,
+  subcolor-4-rgb: $silver-rgb,
+);
+
+$twixColors: (
+  top-nav: $web-orange,
+  top-nav-gradient: $coconut-cream,
+  bottom-nav: $alizarin-crimson,
+  card-background: $coconut-cream,
+  primary: $brown-pod,
+  secondary: $alizarin-crimson,
+  subcolor-1: $web-orange,
+  subcolor-2: $coconut-cream,
+  subcolor-3: $white,
+  subcolor-4: $silver,
+  primary-rgb: $brown-pod-rgb,
+  secondary-rgb: $alizarin-crimson-rgb,
+  subcolor-1-rgb: $web-orange-rgb,
+  subcolor-2-rgb: $coconut-cream-rgb,
+  subcolor-3-rgb: $white-rgb,
+  subcolor-4-rgb: $silver-rgb,
+);
+
+$doveColors: (
+  top-nav: $white,
+  top-nav-gradient: $white,
+  bottom-nav: $metallic-bronze,
+  card-background: $white,
+  primary: $metallic-bronze,
+  secondary: $persian_red,
+  subcolor-1: $tussock,
+  subcolor-2: $merino,
+  subcolor-3: $white,
+  subcolor-4: $silver,
+  primary-rgb: $metallic-bronze-rgb,
+  secondary-rgb: $persian_red-rgb,
+  subcolor-1-rgb: $tussock-rgb,
+  subcolor-2-rgb: $merino-rgb,
+  subcolor-3-rgb: $white-rgb,
+  subcolor-4-rgb: $silver-rgb,
+);
+
+$galaxyColors: (
+  top-nav: $white,
+  top-nav-gradient: $white,
+  bottom-nav: $metallic-bronze,
+  card-background: $white,
+  primary: $metallic-bronze,
+  secondary: $cerise-red,
+  subcolor-1: $tussock,
+  subcolor-2: $merino,
+  subcolor-3: $white,
+  subcolor-4: $silver,
+  primary-rgb: $metallic-bronze-rgb,
+  secondary-rgb: $cerise-red-rgb,
+  subcolor-1-rgb: $tussock-rgb,
+  subcolor-2-rgb: $merino-rgb,
+  subcolor-3-rgb: $white-rgb,
+  subcolor-4-rgb: $silver-rgb,
+);
+
+///////////
+// Usage //
+///////////
+// This color function makes it easy for you to call a color by it's functional
+// name anywhere you need.
+// E.g. to use the `text` color, you type: `color: clr(text);`
+//
+// How it works:
+// This function works in conjunction with the dynamic css custom properties
+// declarations below. The item called in the function is prefixed with
+// `var(--c-` to call the custom property for that color.
+// E.g. `color: clr(text);` will return `color: var(--c-text);`
+// Note: (The `--c-` is added via the `@each` loops below)
+@function clr($colorChoice) {
+  @return var(--c-#{$colorChoice});
+}
+
+// Create CSS custom properties
+// This is what powers the built-in OS light/dark mode switching.
+// For each color variable above (e.g. `text` and `background`) a css custom
+// property will be created. (e.g. `--c-text:` and `--c-background:`).
+//
+// The first `@each` below will create a custom property for each item in the
+// `$defaultColors` map. So put all of your default colors there.
+//
+// The `prefers-color-scheme: dark` media query below will then create custom
+// properties for each of the colors in the `$darkColors` map only if the
+// browser supports that feature. If there is an exact match (e.g. `text`) in
+// both maps, the one from `$darkColors` will be used on machines that have
+// opted to use the 'dark mode' on their OS.
+:root {
+  // Create custom properties for default colors
+  @each $name, $color in $defaultColors {
+    --c-#{$name}: #{$color};
+  }
+
+  [data-theme='default'] {
+    @each $name, $color in $defaultColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+
+  [data-theme='mars'] {
+    @each $name, $color in $marsColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+
+  [data-theme='twix'] {
+    @each $name, $color in $twixColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+
+  [data-theme='dove'] {
+    @each $name, $color in $doveColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+
+  [data-theme='galaxy'] {
+    @each $name, $color in $galaxyColors {
+      --c-#{$name}: #{$color};
+    }
+  }
+}

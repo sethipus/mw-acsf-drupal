@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Template for the Freeform Story Block.
+ *
+ * Available variables:
+ *   'block_aligned' => NULL,
+ *   'header_1' => NULL,
+ *   'header_2' => NULL,
+ *   'image' => NULL,
+ *   'image_alt' => NULL,
+ *   'body' => NULL,
+ *   'background_shape' => NULL,
+ *   'brand_shape' => NULL,
+ *   'custom_background_color' => NULL,
+ *   'use_custom_color' => NULL,
+ */
+#}
+{% include "@molecules/freeform-story/freeform-story.twig" with {
+  theme_styles: 'drupal',
+  freeform_story_align: block_aligned,
+  freeform_story_img_src: image,
+  freeform_story_img_alt: image_alt,
+  freeform_story_header_1: header_1,
+  freeform_story_header_2: header_2,
+  freeform_story_paragraph_content: body,
+  freeform_story_header_1_level: 2,
+  freeform_story_header_2_level: 2,
+  brand_shape: brand_shape,
+  custom_background_color: custom_background_color,
+  use_custom_color: use_custom_color,
+} %}

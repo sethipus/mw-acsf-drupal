@@ -1,4 +1,12 @@
 module:
+  acquia_connector: 0
+  acquia_contenthub: 0
+  acquia_contenthub_curation: 0
+  acquia_contenthub_publisher: 0
+  acquia_contenthub_subscriber: 0
+  acquia_lift: 0
+  acquia_lift_publisher: 0
+  acquia_search: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
   adminimal_admin_toolbar: 0
@@ -10,6 +18,7 @@ module:
   breakpoint: 0
   ckeditor: 0
   color: 0
+  components: 0
   config: 0
   config_filter: 0
   config_ignore: 0
@@ -23,27 +32,39 @@ module:
   crop: 0
   ctools: 0
   datetime: 0
+  depcalc: 0
   diff: 0
   dropzonejs: 0
   editor: 0
   embed: 0
+  emulsify_twig: 0
   entity_block: 0
   entity_browser: 0
   entity_browser_block: 0
   entity_embed: 0
   entity_reference: 0
+  entityqueue: 0
+  externalauth: 0
+  facets: 0
   field: 0
+  field_group: 0
   field_ui: 0
   file: 0
+  filelog: 0
   filter: 0
   help: 0
   history: 0
   image: 0
   image_widget_crop: 0
   inline_entity_form: 0
+  jquery_colorpicker: 0
   jsonapi: 0
+  juicer_io: 0
   layout_builder: 0
+  layout_builder_lock: 0
+  layout_builder_modal: 0
   layout_builder_restrictions: 0
+  layout_builder_restrictions_by_region: 0
   layout_builder_styles: 0
   layout_discovery: 0
   layout_library: 0
@@ -71,6 +92,17 @@ module:
   lightning_search: 0
   lightning_workflow: 0
   link: 0
+  mars_articles: 0
+  mars_banners: 0
+  mars_common: 0
+  mars_entry_gate: 0
+  mars_lighthouse: 0
+  mars_onetrust: 0
+  mars_product: 0
+  mars_recipes: 0
+  mars_recommendations: 0
+  mars_search: 0
+  mars_seo: 0
   media: 0
   media_entity_instagram: 0
   media_entity_twitter: 0
@@ -91,21 +123,32 @@ module:
   panels: 0
   path: 0
   path_alias: 0
+  pdf_api: 0
   platform_core: 0
+  poll: 0
+  printable: 0
+  printable_pdf: 0
   quickedit: 0
   rdf: 0
   redirect: 0
+  remote_stream_wrapper: 0
+  remote_stream_wrapper_widget: 0
+  robotstxt: 0
+  salsify_integration: 0
+  samlauth: 0
   schemata: 0
   schemata_json_schema: 0
   search_api: 0
-  search_api_db: 0
+  search_api_solr: 0
   serialization: 0
   shortcut: 0
   simple_gmap: 0
   simple_oauth: 0
   simple_oauth_extras: 0
+  simple_sitemap: 0
   slick: 0
   slick_entityreference: 0
+  social_media: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -121,15 +164,14 @@ module:
   menu_link_content: 1
   pathauto: 1
   views: 10
+  publication_date: 99
   lightning: 1000
 theme:
   stable: 0
   classy: 0
   bartik: 0
   claro: 0
-blacklist:
-  - acsf_sso
-  - simplesamlphp_auth
+  emulsifymars: 0
 profile: lightning
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc

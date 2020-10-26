@@ -1,0 +1,41 @@
+uuid: e82f240e-2a51-40c8-b082-3876fd74c383
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.list_item
+    - field.field.block_content.list_item.field_list_item_description
+    - field.field.block_content.list_item.field_list_item_image
+    - field.field.block_content.list_item.field_list_item_order
+id: block_content.list_item.default
+targetEntityType: block_content
+bundle: list_item
+mode: default
+content:
+  field_list_item_description:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_list_item_image:
+    type: entity_reference_entity_view
+    weight: 3
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_list_item_order:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  search_api_excerpt: true

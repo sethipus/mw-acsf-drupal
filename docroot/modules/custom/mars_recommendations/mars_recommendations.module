@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Mars Recommendations module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_recommendations_theme($existing, $type, $theme, $path) {
+  return [
+    'recommendations_module_block' => [
+      'variables' => [
+        'title' => NULL,
+        'graphic_divider' => NULL,
+        'recommended_items' => [],
+      ],
+      'template' => 'recommendations-module-block',
+    ],
+  ];
+}

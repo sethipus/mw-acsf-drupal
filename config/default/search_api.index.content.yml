@@ -1,12 +1,11 @@
 uuid: 2c196d3e-54d1-463f-8372-2e4ae1898807
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - node
     - search_api
   config:
-    - search_api.server.database
     - core.entity_view_mode.node.full
 _core:
   default_config_hash: qEX0c8Yf878jYMC-3TrFlGSSNQeGbl3u0Hs6GJfxA38
@@ -39,8 +38,18 @@ field_settings:
         anonymous: anonymous
       view_mode:
         'entity:node':
+          article: default
+          faq: default
+          faq_contact: default
+          homepage: default
           landing_page: full
+          newsletter_sign_up: default
           page: default
+          product: default
+          product_multipack: default
+          product_variant: default
+          recipe: default
+          where_to_buy: default
   status:
     label: null
     datasource_id: 'entity:node'
@@ -170,4 +179,4 @@ tracker_settings:
 options:
   index_directly: true
   cron_limit: 50
-server: database
+server: null

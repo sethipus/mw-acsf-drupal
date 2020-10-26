@@ -1,0 +1,30 @@
+uuid: 7ef80996-339e-4808-aca8-168ae5db319f
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.inline_image
+    - field.storage.block_content.field_inline_image_file
+    - media.type.image
+    - media.type.lighthouse_image
+id: block_content.inline_image.field_inline_image_file
+field_name: field_inline_image_file
+entity_type: block_content
+bundle: inline_image
+label: Image
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

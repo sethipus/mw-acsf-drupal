@@ -1,0 +1,33 @@
+uuid: 7115fc65-89e0-47b6-a810-f613fd5fa65b
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.article.field_brand_initiatives
+    - field.field.node.article.field_article_description
+    - field.field.node.article.field_article_image
+    - field.field.node.article.field_article_new
+    - field.field.node.article.field_article_occasions
+    - field.field.node.article.field_article_related_products
+    - node.type.article
+  module:
+    - user
+id: node.article.teaser
+targetEntityType: node
+bundle: article
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_brand_initiatives: true
+  field_article_description: true
+  field_article_image: true
+  field_article_new: true
+  field_article_occasions: true
+  field_article_related_products: true
+  search_api_excerpt: true

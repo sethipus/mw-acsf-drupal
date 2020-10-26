@@ -1,0 +1,27 @@
+uuid: a77d2ac3-6e09-482c-9708-f16ff4a6f216
+langcode: en
+status: true
+dependencies: {  }
+id: article_creator
+label: 'Article creator'
+weight: 7
+is_admin: false
+permissions:
+  - 'access ckeditor_media_browser entity browser pages'
+  - 'access contextual links'
+  - 'access image_browser entity browser pages'
+  - 'access in-place editing'
+  - 'access media_browser entity browser pages'
+  - 'access toolbar'
+  - 'configure any layout'
+  - 'create article content'
+  - 'create url aliases'
+  - 'edit own article content'
+  - 'use editorial transition create_new_draft'
+  - 'use editorial transition review'
+  - 'use moderation sidebar'
+  - 'use text format rich_text'
+  - 'view any unpublished content'
+  - 'view article revisions'
+  - 'view latest version'
+  - 'view own unpublished content'

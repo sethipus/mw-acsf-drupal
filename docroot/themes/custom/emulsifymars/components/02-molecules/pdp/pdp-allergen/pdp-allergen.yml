@@ -1,0 +1,19 @@
+theme_styles: 'twix'
+size_id: '1oz'
+pdp_common_allergen_data:
+  allergen_label: 'DIET & ALLERGENS'
+pdp_allergen_data:
+  multipack: false
+  allergens_list:
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS NUT1'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS DAIRY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'
+    - allergen_icon: 'twix-logo-102-x2.png'
+      allergen_label: 'CONTAINS SOY'

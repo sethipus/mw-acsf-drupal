@@ -1,0 +1,99 @@
+/* A */
+.main-menu__link {
+  color: clr(primary);
+  display: block;
+  width: 100%;
+  font-family: variable(primary-font);
+  font-size: 3.2rem;
+  font-weight: normal;
+  line-height: 1.5;
+  padding: $space $space-quadruple;
+  text-decoration: none;
+
+  @include large {
+    border-bottom: none;
+    display: inline-block;
+    font-size: 1.8rem;
+    line-height: 1;
+    letter-spacing: 0.72px;
+    padding: $space-one-and-half $space-triple;
+    text-transform: none;
+    position: relative;
+    width: auto;
+
+    &.active,
+    &:active,
+    &:hover {
+      color: clr(secondary);
+
+      & .menu_chevron__icon {
+        transform: scaleX(-1);
+      }
+    }
+  }
+
+  &--with-sub {
+    @include large {
+      width: auto;
+      padding-right: $space-quintuple;
+    }
+  }
+}
+
+.menu_chevron__icon {
+  display: inline-block;
+  position: absolute;
+  right: 2.6rem;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 7px;
+
+  @include xs {
+    pointer-events: none;
+    top: 3rem;
+
+    &.main-menu--sub-open {
+      transform: translateY(-50%) rotate(180deg);
+    }
+  }
+
+  @include large {
+    top: 50%;
+
+    &.main-menu--sub-open {
+      transform: translateY(-50%);
+    }
+  }
+}
+
+/*
+ * Sub Navigation Links
+ */
+
+/* A (Nested) */
+.main-menu__link--sub {
+  color: clr(primary);
+  padding-left: $space-triple;
+  font-family: variable(secondary-font);
+  font-weight: normal;
+
+  @include large {
+    color: clr(primary);
+    display: block;
+    padding: 1.2rem $space-double;
+    font-size: 1.4rem;
+    font-weight: normal;
+    letter-spacing: 0.7px;
+
+    &.active,
+    &:active,
+    &:hover {
+      color: clr(secondary);
+      font-weight: 500;
+
+      & .menu_chevron__icon {
+        transform: scaleX(-1);
+      }
+    }
+  }
+}

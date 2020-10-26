@@ -1,0 +1,8 @@
+{% set search_results_item_base_class = search_results_item_base_class|default('search-results-item') %}
+{% set search_results_item_modifier = search_results_item_modifier %}
+{{ attach_library('emulsifymars/search-facet-type') }}
+
+<div {{ bem(search_results_item_base_class, [search_results_item_modifier], '', search_results_item_base_class) }}>
+  <span>{{ item_title }} ({{ item_count }})</span>
+  <div {{ bem('clear', [], search_results_item_base_class) }}></div>
+</div>

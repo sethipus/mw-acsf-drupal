@@ -1,0 +1,21 @@
+media:
+  field_external_id: assetId
+  field_segment: segment
+  field_brand: brand
+  field_sub_brand: subBrand
+  field_category: category
+  field_sub_type: subType
+  field_region: region
+  field_marketing_country: mktingCountry
+  field_language: language
+  field_agency: agencyPartnerVendor
+  field_last_mod_date: lastModDate
+  name: assetName
+  field_version_id: versionIdOTMM
+  field_original_external_id: origAssetId
+file:
+  filename: assetName
+  uri: urls.001orig
+  filemime: fileType
+_core:
+  default_config_hash: xuNwZ7AfKAVRNiwkv-MFtsGbWaL9U5kHp7I-eO_jEmI

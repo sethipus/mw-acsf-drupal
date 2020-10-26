@@ -1,0 +1,12 @@
+<div class="form-item">
+  <label for="select" class="{{ labelClassname }}">{{ title }}</label>
+  <div class="form-item__dropdown">
+    <select class="form-item__select" id="select">
+        {% for selection in select %}
+          {% include "@atoms/forms/select/_select-item.twig" with {
+            select_item: selection.title
+          } %}
+        {% endfor %}
+    </select>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+uuid: 00c2d40c-1166-4b69-917a-ed4f81874fda
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_vitamin_c
+    - node.type.product_variant
+_core:
+  default_config_hash: TiL8jJcjL8Cu_5vfgePMmYU3HA2kizrCCryas0h2ZRI
+id: node.product_variant.field_product_vitamin_c
+field_name: field_product_vitamin_c
+entity_type: node
+bundle: product_variant
+label: 'Vitamin C'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

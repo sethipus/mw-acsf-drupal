@@ -1,0 +1,45 @@
+{{ attach_library('emulsifymars/main-menu') }}
+
+<nav class="main-nav__desktop">
+  {% include "@molecules/menus/_menu.twig" with {
+    menu_class: "main-menu",
+    items: menu_items,
+  } %}
+</nav>
+<a href="#" id="toggle-expand" class="toggle-expand">
+  {% include "@atoms/images/icons/_icon.twig" with {
+    icon_base_class: "icon",
+    icon_blockname: "toggle-expand",
+    icon_modifiers: ['open'],
+    icon_name: "hamburger",
+    icon_title: true,
+  } %}
+  {% include "@atoms/images/icons/_icon.twig" with {
+    icon_base_class: "icon",
+    icon_blockname: "toggle-expand",
+    icon_modifiers: ['close'],
+    icon_name: "close",
+    icon_title: true,
+  } %}
+  <span class="toggle-expand__text">Menu</span>
+</a>
+<nav class="main-nav__mobile">
+  {% include "@molecules/menus/_menu.twig" with {
+    menu_class: "main-menu",
+    items: menu_items,
+  } %}
+  <div {{ bem('brand-border', [], header__base_class) }}>
+    {% block footer__brand_border %}
+      {% include "@atoms/images/image/background-image.twig" with {
+        image_src: 'twix-border.svg',
+        background_repeat: 'repeat',
+        height: '15px',
+      } %}
+    {% endblock %}
+  </div>
+  <div {{ bem('menu', ['secondary-mobile'], header__base_class) }}>
+    {% block header__menu_secondary %}
+         {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
+    {% endblock %}
+  </div>
+</nav>

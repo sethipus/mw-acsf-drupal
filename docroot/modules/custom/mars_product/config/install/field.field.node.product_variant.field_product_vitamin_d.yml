@@ -1,0 +1,21 @@
+uuid: 331df44f-3ae3-4e7d-b98a-73f21309cf29
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_vitamin_d
+    - node.type.product_variant
+_core:
+  default_config_hash: Bhsd60YS4kUVQpjMpzJZS6R3ipY1LyFHKxU9Acu5PhY
+id: node.product_variant.field_product_vitamin_d
+field_name: field_product_vitamin_d
+entity_type: node
+bundle: product_variant
+label: 'Vitamin D'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

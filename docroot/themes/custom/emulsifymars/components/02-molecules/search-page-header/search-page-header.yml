@@ -1,0 +1,25 @@
+theme_styles: 'twix'
+search_page_header_heading: 'What are you looking for?'
+search_page_header_heading_level: 1
+search_page_header_heading_base_class: 'search-page-heading'
+
+shape: '<svg xmlns="http://www.w3.org/2000/svg"><defs><pattern viewBox="0 0 768 291" id="divider-pattern" x="0" y="0" width="768" height="291" patternUnits="userSpaceOnUse"><path fill="#E62B1E" fill-rule="evenodd" d="M26.839 14l-13.5-14-13 14H0v277h768V14h-.352l-13.5-14-12.583 13.552L728.497 0l-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.23l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.178l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.69l-13.5-14-13 14h-.691l-13.5-14-13 14h-.177l-13.5-14-12.584 13.552L344.754 0l-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.229l-13.5-14-13 14H135.6L122.1 0l-13 14h-.177l-13.5-14-13 14h-1.204L67.72 0l-13 14h-.69L40.53 0l-13 14h-.69z" clip-rule="evenodd"/></pattern></defs><rect x="0" y="0" stroke="#630" stroke-width="0" fill="url(#divider-pattern)"></rect></svg>'
+#shape: '<svg viewBox="0 0 768 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+#                <path d="M241.283 15.337C98.3615 29.6176 20.877 18.502 0 11.1592V48H768V21.4138C646.845 -9.72996 419.936 -2.51371 241.283 15.337Z" fill="#F9F5EF"/>
+#              </svg>'
+brand_shape_class: 'repeat'
+#brand_shape_class: 'stretch'
+
+search_results:
+  - content: "Topics & Campaigns"
+    count: 13
+    search_results_item_modifier: ""
+  - content: "Products"
+    count: 13
+    search_results_item_modifier: "active"
+  - content: "Recipes"
+    count: 7
+    search_results_item_modifier: ""
+  - content: "Articles"
+    count: 3
+    search_results_item_modifier: ""

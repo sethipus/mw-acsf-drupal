@@ -1,0 +1,21 @@
+uuid: 4e052e05-ba12-4f61-bc8f-9d8197f8e038
+langcode: en
+status: true
+dependencies:
+  module:
+    - poll
+id: poll.field_positive_feedback
+field_name: field_positive_feedback
+entity_type: poll
+type: string
+settings:
+  max_length: 50
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

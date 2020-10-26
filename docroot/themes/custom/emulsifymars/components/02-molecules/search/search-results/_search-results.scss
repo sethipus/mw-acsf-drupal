@@ -1,0 +1,44 @@
+.search-results-container {
+  width: 335px;
+
+  @include medium {
+    width: 688px;
+  }
+
+  @include xl {
+    width: 896px;
+  }
+
+  .results-text {
+    font-family: variable(secondary-font);
+    color: clr(subcolor-3);
+    font-size: 14px;
+    line-height: 1.4em;
+    text-align: left;
+    margin: 20px 0 0;
+
+    @include medium {
+      margin-top: 30px;
+    }
+  }
+
+  .results {
+    display: flex;
+    flex-direction: column;
+
+    @include medium {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  &--active {
+    .search-results-item {
+      opacity: .5;
+
+      &--active {
+        opacity: 1;
+      }
+    }
+  }
+}

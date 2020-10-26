@@ -1,0 +1,32 @@
+uuid: c103c31e-2fa4-43f0-9e7b-63c51f3541b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_recipe_image
+    - media.type.image
+    - media.type.lighthouse_image
+    - node.type.recipe
+_core:
+  default_config_hash: 5iZ2IG6vwdIJhgIY0x1oLhAM3ny3zV5XxP6nJzRoMxw
+id: node.recipe.field_recipe_image
+field_name: field_recipe_image
+entity_type: node
+bundle: recipe
+label: Image
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

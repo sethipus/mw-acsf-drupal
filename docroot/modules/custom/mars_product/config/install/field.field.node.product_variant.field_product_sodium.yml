@@ -1,0 +1,21 @@
+uuid: 8bfd24a8-2af8-4718-8d7e-5d6678000c30
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_sodium
+    - node.type.product_variant
+_core:
+  default_config_hash: d0UfSkFKpPMStkokKDMTL33j6ntWaIlEaJJ46A3hdDk
+id: node.product_variant.field_product_sodium
+field_name: field_product_sodium
+entity_type: node
+bundle: product_variant
+label: Sodium
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

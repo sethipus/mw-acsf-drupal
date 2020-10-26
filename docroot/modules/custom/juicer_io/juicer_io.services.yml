@@ -1,0 +1,4 @@
+services:
+  juicer_io.feed_factory:
+    class: 'Drupal\juicer_io\Model\FeedFactory'
+    arguments: ['@http_client']

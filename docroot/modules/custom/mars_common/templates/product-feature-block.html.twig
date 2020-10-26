@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Template for the product feature component.
+ *
+ * Available variables:
+ * 'eyebrow' => NULL,
+ * 'title' => NULL,
+ * 'image_src' => NULL,
+ * 'image_alt' => NULL,
+ * 'background_color' => NULL,
+ * 'explore_cta' => NULL,
+ * 'explore_cta_link' => NULL,
+ */
+#}
+
+{% include "@molecules/product-feature/product-feature.twig" with {
+  theme_styles: 'drupal',
+  eyebrow_text: eyebrow,
+  heading: title,
+  image_src: image_src,
+  image_alt: image_alt,
+  background_color: background_color,
+  default_link_base_class: 'default-link',
+  default_link_content: explore_cta,
+  default_link_attributes: {
+    href: explore_cta_link
+  },
+  heading_level: 1
+} %}

@@ -1,0 +1,10 @@
+theme_styles: 'twix'
+alert_banner: 'Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection'
+alert_banner_url: '#'
+language_switcher: 'true'
+search_results:
+  - content: 'Think'
+  - content: 'This'
+  - content: 'that'
+  - content: "them"
+  - content: "Something"

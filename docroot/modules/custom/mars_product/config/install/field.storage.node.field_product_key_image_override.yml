@@ -1,0 +1,22 @@
+uuid: bd72927c-0270-4a78-88fd-1ea1d18ffacd
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - node
+_core:
+  default_config_hash: KiToVmD6oznPRhFR0dT6frO23JmnsppTWHGGr6GOCko
+id: node.field_product_key_image_override
+field_name: field_product_key_image_override
+entity_type: node
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

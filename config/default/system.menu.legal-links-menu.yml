@@ -1,0 +1,8 @@
+uuid: 76621837-3b0f-418c-ad2b-636bba14b341
+langcode: en
+status: true
+dependencies: {  }
+id: legal-links-menu
+label: 'Legal links menu'
+description: ''
+locked: false

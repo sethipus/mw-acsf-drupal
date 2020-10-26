@@ -1,0 +1,23 @@
+uuid: 6e33519b-0ab1-4bd3-a6fa-7314d137ce1d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_allergen_warnings
+    - node.type.product_variant
+  module:
+    - text
+_core:
+  default_config_hash: 4BQ_6b5J2Q3OIC5It8Sx-vNrNrqDcvbwQUjGRL1zdzs
+id: node.product_variant.field_product_allergen_warnings
+field_name: field_product_allergen_warnings
+entity_type: node
+bundle: product_variant
+label: Warnings
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

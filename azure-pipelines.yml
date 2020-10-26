@@ -6,10 +6,17 @@
 trigger:
   branches:
     include:
-    - 'develop'
+    - '*'
   tags:
     include:
     - '*'
+
+schedules:
+- cron: "0 23 * * Mon-Fri"
+  displayName: Nightly Scheduled Build
+  branches:
+    include:
+    - 'dev'
 
 pool:
   vmImage: 'ubuntu-16.04'
@@ -18,6 +25,7 @@ variables:
   phpVersion: 7.3
   scriptDir: $(Build.Repository.LocalPath)/vendor/mikemadison13/blt-azure-pipelines/scripts/azure
   COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
+  deployment_user: 'digie'
 
 steps:
   - task: InstallSSHKey@0
@@ -39,11 +47,11 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        sudo update-alternatives --set php /usr/bin/php$(phpVersion)
-        sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
-        sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
-        sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
-        sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+        sudo update-alternatives --set php /usr/bin/php$(phpVersion) &&
+        sudo update-alternatives --set phar /usr/bin/phar$(phpVersion) &&
+        sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion) &&
+        sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion) &&
+        sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion) &&
         sudo service mysql start
   - task: NodeTool@0
     displayName: 'Install Node JS'
@@ -74,9 +82,18 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        composer validate --no-check-all --ansi
-        composer install
+        composer validate --no-check-all --ansi &&
+        composer install &&
         npm install npm@latest -g
+  - task: Npm@1
+    inputs:
+      command: 'ci'
+      workingDir: 'docroot/themes/custom/emulsifymars'
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      workingDir: 'docroot/themes/custom/emulsifymars'
+      customCommand: 'run build'
   - task: Bash@3
     displayName: 'BLT Validation'
     inputs:
@@ -93,13 +110,35 @@ steps:
     displayName: 'Run Tests'
     inputs:
       filePath: '$(scriptDir)/test.sh'
-  - task: Bash@3
-    displayName: 'Deploy Branch'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'develop'))
+  - task: PublishTestResults@2
     inputs:
-      filePath: './scripts/deploy_branch.sh'
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'reports/phpunit/*.xml'
+      mergeTestResults: true
+      testRunTitle: 'Unit tests'
+  - task: Bash@3
+    displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
+    inputs:
+      targetType: 'inline'
+      script: |
+        ./scripts/deploy_branch.sh &&
+        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
+  - task: Bash@3
+    displayName: 'Deploy dev Branch and Trigger Application Deployment to QA env'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'Schedule'), eq(variables['build.sourceBranchName'], 'dev'))
+    inputs:
+      targetType: 'inline'
+      script: |
+        ./scripts/deploy_branch.sh &&
+        ./scripts/deploy_db.sh 01qa $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
   - task: Bash@3
     displayName: 'Deploy Tag'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))
     inputs:
       filePath: './scripts/deploy_tag.sh'
+  - task: Bash@3
+    displayName: 'Deploy Release Branch For QA Environment'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release'))
+    inputs:
+      filePath: './scripts/deploy_branch.sh'

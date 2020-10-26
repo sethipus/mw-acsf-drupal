@@ -1,0 +1,16 @@
+uuid: bf7941ee-b6d6-4e4c-af5e-1e1d7c547119
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.recipe_creator
+  module:
+    - user
+_core:
+  default_config_hash: MwEEXmAuFbJ39WkucTLzBhmFIeLXGyy4IERiYCgCCN8
+id: user_remove_role_action.recipe_creator
+label: 'Remove the Recipe creator role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: recipe_creator

@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Recipe feature block.
+  'brand_borders' => NULL,
+  'eyebrow' => NULL,
+  'title' => NULL,
+  'recipe_media' => [],
+  'cooking_time' => NULL,
+  'cta' => [],
+ */
+#}
+{{ attach_library('emulsifymars/ambient-video') }}
+
+{% block content %}
+  {% include "@molecules/recipe-feature-module/recipe-feature-module.twig" with {
+    theme_styles: 'drupal',
+    eyebrow: eyebrow,
+    title: title,
+    recipe_media: recipe_media,
+    cooking_time: cooking_time,
+    cta: cta,
+    brand_borders: brand_borders,
+    brand_shape_class: brand_shape_class
+  } %}
+{% endblock %}

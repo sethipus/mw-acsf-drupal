@@ -1,0 +1,19 @@
+uuid: f35060ef-b9a8-407b-ad8e-c79372ea0684
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.salsify_id
+    - taxonomy.vocabulary.mars_flavor
+id: taxonomy_term.mars_flavor.salsify_id
+field_name: salsify_id
+entity_type: taxonomy_term
+bundle: mars_flavor
+label: salsify_id
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

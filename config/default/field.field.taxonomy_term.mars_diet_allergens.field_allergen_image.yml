@@ -1,0 +1,30 @@
+uuid: 73b77928-34d3-4119-a9f9-1e600a94ead5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_allergen_image
+    - media.type.image
+    - media.type.lighthouse_image
+    - taxonomy.vocabulary.mars_diet_allergens
+id: taxonomy_term.mars_diet_allergens.field_allergen_image
+field_name: field_allergen_image
+entity_type: taxonomy_term
+bundle: mars_diet_allergens
+label: Image
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

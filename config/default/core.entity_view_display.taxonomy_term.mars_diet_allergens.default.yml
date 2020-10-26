@@ -1,0 +1,32 @@
+uuid: 2138f657-a720-4f8b-a9a4-a237e6c5a548
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.mars_diet_allergens.field_allergen_image
+    - taxonomy.vocabulary.mars_diet_allergens
+  module:
+    - text
+id: taxonomy_term.mars_diet_allergens.default
+targetEntityType: taxonomy_term
+bundle: mars_diet_allergens
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_allergen_image:
+    type: entity_reference_entity_view
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+hidden:
+  search_api_excerpt: true

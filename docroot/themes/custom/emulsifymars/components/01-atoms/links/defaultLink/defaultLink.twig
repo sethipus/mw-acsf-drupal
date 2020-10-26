@@ -1,0 +1,21 @@
+{# 
+  Available variables:
+    default_link_base_class - base class of the link
+    default_link_attributes - attributes array, like href, target, rel, ...
+    default_link_content - content of the link, image or text
+ #}
+
+{% set link_class = default_link_attributes.class ? default_link_attributes.class : '' %}
+
+{% set default_link_base_class = default_link_base_class|default('default-link') %}
+
+<a 
+  {{ bem(default_link_base_class, default_link_modifiers, '', link_class) }}
+  {% for key, value in default_link_attributes %}
+    {{ key }}="{{ value }}"
+  {% endfor %}
+>
+  {% block default_link_content %}
+    <span class="{{ default_link_base_class ~ '__label' }}">{{ default_link_content }}</span>
+  {% endblock %}
+</a>

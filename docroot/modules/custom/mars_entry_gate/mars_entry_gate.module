@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * MARS Entry gate module main file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function mars_entry_gate_theme($existing, $type, $theme, $path) {
+  return [
+    'entry_gate' => [
+      'variables' => [
+        'title' => '',
+        'description' => '',
+        'heading' => '',
+        'marketing_message' => '',
+        'minimum_age' => '',
+        'error_title' => '',
+        'error_message' => '',
+        'error_link_1' => '',
+        'error_link_2' => '',
+        'brand_shape' => '',
+      ],
+      'template' => 'entry-gate',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_entry_gate_preprocess_page(&$variables) {
+  $config = Drupal::config('mars_entry_gate.settings');
+
+  $variables['#cache']['tags'][] = 'config:mars_entry_gate.settings';
+
+  if ($variables['is_admin'] || !$config || !$config->get('enabled')) {
+    return;
+  }
+
+  $keys = [
+    'title',
+    'description',
+    'heading',
+    'marketing_message',
+    'minimum_age',
+    'error_title',
+    'error_message',
+    'error_link_1',
+    'error_link_2',
+  ];
+
+  $entry_gate_render_array = [
+    '#theme' => 'entry_gate',
+  ];
+
+  foreach ($keys as $key) {
+    $entry_gate_render_array['#' . $key] = $config->get($key) ?? '';
+  }
+
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $theme_configurator */
+  $theme_configurator = Drupal::service('mars_common.theme_configurator_parser');
+  $entry_gate_render_array['#brand_shape'] = $theme_configurator->getFileContentFromTheme('brand_shape');
+
+  $variables['page']['content']['entry_gate'] = $entry_gate_render_array;
+}

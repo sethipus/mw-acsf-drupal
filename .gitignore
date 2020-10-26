@@ -27,6 +27,7 @@ drush/Commands
 docroot/themes/custom/*/node_modules
 docroot/themes/custom/*/css
 docroot/themes/custom/*/styleguide
+docroot/themes/custom/*/dist
 
 # Ignore build artifacts
 deployment_identifier
@@ -97,6 +98,7 @@ tramp
 
 # User-specific stuff:
 .idea/
+.ssh/
 
 #XHProf
 xhprof_*
@@ -127,6 +129,10 @@ nbproject/*
 # PHPStorm
 atlassian-ide-plugin.xml
 
+#VSCode IDE
+.vscode
+.vscode/*
+
 #NPM
 npm-debug.log
 
@@ -142,3 +148,9 @@ docroot/sites/default/settings.ddev.php
 
 # Sonarqube
 .scannerwork/
+
+# Storybook
+.out
+
+# Git deploy
+.publish

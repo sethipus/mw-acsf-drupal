@@ -1,0 +1,43 @@
+.legal-links-menu {
+  @include list-reset;
+
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.legal-links-menu__item {
+  flex: 0 1 50%;
+  margin: 0 0 22px;
+
+  @include medium {
+    flex: 0 0 33%;
+    margin: 0 0 21px;
+  }
+}
+
+.legal-links-menu__link {
+  @include link;
+
+  font-family: variable(secondary-font);
+  font-size: 12px;
+  letter-spacing: -0.85px;
+  color: clr(subcolor-3);
+  text-decoration: none;
+
+  @include medium {
+    font-size: 14px;
+  }
+
+  @include large {
+    font-size: 14px;
+  }
+
+  @include xl {
+    font-size: 16px;
+  }
+
+  &:hover {
+    color: clr(subcolor-3);
+  }
+}
