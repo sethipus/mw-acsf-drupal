@@ -156,7 +156,7 @@
   }
 
   &.max-size--1440 {
-    max-width: 1440px;
+    max-width: 100%;
   }
 
   @include medium {
@@ -267,7 +267,7 @@
         padding-bottom: 275px;
 
         .lead-card {
-          width: 1127px;
+          width: 85%;
           height: 665px;
           padding: 179px 0 0 85px;
 
