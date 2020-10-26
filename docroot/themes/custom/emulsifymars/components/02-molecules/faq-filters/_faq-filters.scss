@@ -21,15 +21,24 @@
 
       &__field {
         width: calc(100% - 20px);
-        margin: 0 20px;
+        margin-right: 20px;
+        padding: 0 0 0 50px;
       }
     }
   }
 
   &__search-results {
-    margin: 20px 40px 0 40px;
+    margin: 20px 40px 0 45px;
     font-size: 1.6rem;
     color: clr(primary);
+
+    @include medium {
+      margin: 20px 40px 0 65px;
+    }
+
+    @include xl {
+      margin: 20px 40px 0 25px;
+    }
   }
 
   &__filters {
@@ -89,6 +98,7 @@
       span {
         position: relative;
         z-index: 1;
+        transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
       }
 
       &::after {
@@ -102,16 +112,13 @@
         height: 0;
         background-color: clr(secondary);
         transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
-    
         @include xs {
           width: 1000px;
         }
-    
         @include medium {
           width: 750px;
         }
       }
-    
       &:hover {
         background-color: clr(secondary);
         color: clr(subcolor-3);

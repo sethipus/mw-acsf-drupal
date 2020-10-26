@@ -734,8 +734,6 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
 
       $body_raw = $entity->get('field_recipe_description')->first()->getValue();
       $description = !empty($body_raw['value']) ? $body_raw['value'] : '';
-      $cta_raw = $entity->get('field_recipe_cta')->getValue();
-      $card_link_text = !empty($cta_raw[0]['value']) ? $cta_raw[0]['value'] : '';
 
       $media_id = $media_helper->getEntityMainMediaId($entity);
       $media_params = $media_helper->getMediaParametersById($media_id);
@@ -752,7 +750,7 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
         'card__image__alt' => $image_alt,
         'card__heading' => $entity->getTitle(),
         'card__link__url' => $url,
-        'card__link__text' => $card_link_text,
+        'card__link__text' => t('See details'),
         'card__body' => $description,
       ];
     }
