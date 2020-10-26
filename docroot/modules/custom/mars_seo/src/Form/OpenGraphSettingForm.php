@@ -50,7 +50,7 @@ class OpenGraphSettingForm extends ConfigFormBase {
     $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $config->get('image'), 1, 'thumbnail');
     // Convert the wrapping container to a details element.
     $form['image']['#type'] = 'details';
-    $form['image']['#title'] = $this->t('Image');
+    $form['image']['#title'] = $this->t('Default OG image');
     $form['image']['#open'] = TRUE;
 
     return parent::buildForm($form, $form_state);

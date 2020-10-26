@@ -2,99 +2,229 @@
 
 namespace Drupal\mars_seo;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
+use Drupal\layout_builder\SectionComponent;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_seo\Form\OpenGraphSettingForm;
 use Drupal\node\NodeInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
  * Hero image service.
  */
 class HeroImageService {
 
+  const CONFIG_KEY_VARIATION = 'background_type_field';
+
+  const CONFIG_KEY_IMAGE = 'hero_image_field';
+
   /**
    * Blocks structure with hero image.
    */
-  const BLOCKS_IDS_HERO_IMAGES = [
+  const HERO_BLOCK_TYPES = [
     'homepage_hero_block' => [
-      'background_type_field' => 'block_type',
-      'hero_image_field' => 'background_image',
+      self::CONFIG_KEY_VARIATION => 'block_type',
+      self::CONFIG_KEY_IMAGE => 'background_image',
     ],
     'parent_page_header' => [
-      'background_type_field' => 'background_options',
-      'hero_image_field' => 'background_image',
+      self::CONFIG_KEY_VARIATION => 'background_options',
+      self::CONFIG_KEY_IMAGE => 'background_image',
     ],
   ];
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The route match object.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
 
   /**
    * Mars Common Media Helper.
    *
    * @var \Drupal\mars_common\MediaHelper
    */
-  protected $mediaHelper;
+  private $mediaHelper;
+
+  /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactory;
 
   /**
    * Constructs a HeroImageService object.
+   *
+   * @param \Drupal\mars_common\MediaHelper $media_helper
+   *   The media helper service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RouteMatchInterface $route_match, MediaHelper $media_helper) {
-    $this->entityTypeManager = $entity_type_manager;
-    $this->routeMatch = $route_match;
+  public function __construct(
+    MediaHelper $media_helper,
+    ConfigFactoryInterface $config_factory
+  ) {
     $this->mediaHelper = $media_helper;
+    $this->configFactory = $config_factory;
   }
 
   /**
-   * Returns hero image.
+   * Create the cacheable metadata for the hero image calculation of the node.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node.
+   *
+   * @return \Drupal\Core\Cache\CacheableMetadata
+   *   The cacheable metadata.
    */
-  public function getHeroImage() {
-    $main_image_url = NULL;
-    /** @var \Drupal\node\NodeInterface $node */
-    $node = $this->routeMatch->getParameter('node');
+  public function getCacheableMetadata(NodeInterface $node) {
+    $metadata = new CacheableMetadata();
 
-    if ($node instanceof NodeInterface) {
-      $main_image_id = $this->mediaHelper->getEntityMainMediaId($node);
-      $main_image_url = $this->mediaHelper->getMediaUrl($main_image_id);
+    if ($node) {
+      $metadata->addCacheableDependency($node);
     }
 
-    // Images from block.
-    if (empty($main_image_url) && $node instanceof NodeInterface) {
-      foreach (self::BLOCKS_IDS_HERO_IMAGES as $key => $block_id) {
-        $sections = $node->get('layout_builder__layout')->getSections();
-        foreach ($sections as $section) {
-          /* @var $section \Drupal\layout_builder\Section */
-          $components = $section->getComponents();
-          foreach ($components as $component) {
-            /* @var $component \Drupal\layout_builder\SectionComponent */
-            $configuration = $component->get('configuration');
-            if ($configuration['id'] == $key &&
-              $configuration[self::BLOCKS_IDS_HERO_IMAGES[$key]['background_type_field']] === 'image' &&
-              $configuration[self::BLOCKS_IDS_HERO_IMAGES[$key]['hero_image_field']]
-            ) {
-              $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($configuration[self::BLOCKS_IDS_HERO_IMAGES[$key]['hero_image_field']]);
-              $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-              if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
-                $main_image_url = $mediaParams['src'];
-                break 3;
-              }
-            }
-          }
+    $metadata->addCacheableDependency($this->getOpenGraphConfig());
+
+    return $metadata;
+  }
+
+  /**
+   * Returns hero image url for a given node.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node.
+   *
+   * @return string|null
+   *   Hero image url.
+   */
+  public function getHeroImageUrl(NodeInterface $node): ?string {
+    $media_url = $this->mediaHelper->getMediaUrl($this->getHeroImageId($node));
+
+    if (!$media_url) {
+      return NULL;
+    }
+
+    return $media_url;
+  }
+
+  /**
+   * Returns the media id for the hero image.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node.
+   *
+   * @return string|null
+   *   The id of the hero image or null if it was not found.
+   */
+  private function getHeroImageId(NodeInterface $node): ?string {
+    $hero_image_id = $this->mediaHelper->getEntityMainMediaId($node);
+    if ($hero_image_id !== NULL) {
+      return $hero_image_id;
+    }
+    $hero_image_id = $this->extractFromLayoutBuilder($node);
+    if ($hero_image_id !== NULL) {
+      return $hero_image_id;
+    }
+    return $this->getDefaultImage();
+  }
+
+  /**
+   * Returns the default image id, or null if was not set.
+   *
+   * @return string|null
+   *   The media id or null if it was not set.
+   */
+  private function getDefaultImage(): ?string {
+    $config = $this->getOpenGraphConfig();
+    $image = $config->get('image');
+    return $this->mediaHelper->getIdFromEntityBrowserSelectValue($image);
+  }
+
+  /**
+   * Extracts hero image id from layout builder layout field.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node.
+   *
+   * @return string|null
+   *   The hero media id or null if it was not found.
+   */
+  private function extractFromLayoutBuilder(NodeInterface $node): ?string {
+    if (!$node->hasField('layout_builder__layout')) {
+      return NULL;
+    }
+
+    $media_id = NULL;
+    /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layoutBuilderField */
+    $layoutBuilderField = $node->get('layout_builder__layout');
+    /** @var \Drupal\layout_builder\Section[] $sections */
+    $sections = $layoutBuilderField->getSections();
+
+    foreach ($sections as $section) {
+      $components = $section->getComponents();
+      foreach ($components as $component) {
+        try {
+          $media_id = $this->getHeroImageFromBlock($component);
+        }
+        catch (PluginException $e) {
+          // Skip this component.
+        }
+        if ($media_id !== NULL) {
+          return $media_id;
         }
       }
     }
-    return $main_image_url;
+    return $media_id;
+  }
+
+  /**
+   * Extracts hero image from a layout builder block.
+   *
+   * @param \Drupal\layout_builder\SectionComponent $component
+   *   Layout builder block.
+   *
+   * @return string|null
+   *   The media id if it's a hero block with an image.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   */
+  private function getHeroImageFromBlock(SectionComponent $component): ?string {
+    $media_id = NULL;
+    $block_type = $component->getPluginId();
+
+    if ($this->blockIsHeroBlock($block_type)) {
+      $configuration = $component->get('configuration');
+      $variation_config_name = self::HERO_BLOCK_TYPES[$block_type][self::CONFIG_KEY_VARIATION];
+      $image_config_name = self::HERO_BLOCK_TYPES[$block_type][self::CONFIG_KEY_IMAGE];
+
+      if (($configuration[$variation_config_name] ?? NULL) === 'image') {
+        $image_config_value = $configuration[$image_config_name] ?? NULL;
+        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($image_config_value);
+      }
+    }
+
+    return $media_id;
+  }
+
+  /**
+   * Checks if the given block is a supported hero block type.
+   *
+   * @param string $block_type
+   *   The type of the block.
+   *
+   * @return bool
+   *   True if the block is a hero block, false otherwise.
+   */
+  private function blockIsHeroBlock(string $block_type): bool {
+    $hero_block_types = array_keys(self::HERO_BLOCK_TYPES);
+    return in_array($block_type, $hero_block_types);
+  }
+
+  /**
+   * Returns the OG config object.
+   *
+   * @return \Drupal\Core\Config\ImmutableConfig
+   *   The OG config object.
+   */
+  private function getOpenGraphConfig(): ImmutableConfig {
+    return $this->configFactory->get(OpenGraphSettingForm::SETTINGS);
   }
 
 }

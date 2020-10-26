@@ -9,4 +9,4 @@ services:
 
   mars_seo.hero_image:
     class: Drupal\mars_seo\HeroImageService
-    arguments: ['@entity_type.manager', '@current_route_match', '@mars_common.media_helper']
+    arguments: [ '@mars_common.media_helper', '@config.factory']
