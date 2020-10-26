@@ -24,11 +24,13 @@
           span_content: share_text
         } %}
         {% block article_social_menu %}
-          {% include "@molecules/menus/social/social-menu.twig" %}
+          {% include "@molecules/menus/social/social-menu.twig" with {
+            social_menu_items: social_menu_items,
+          } %}
         {% endblock %}
       </div>
     </div>
-    <div class="curve">
+    <div class="{{ brand_shape_class }}">
       {{ shape }}
     </div>
   </div>

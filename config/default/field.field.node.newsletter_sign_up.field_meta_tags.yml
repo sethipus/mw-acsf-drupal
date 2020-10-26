@@ -1,0 +1,21 @@
+uuid: da837f0d-9a1a-420a-ae8a-e7bb11d13c13
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags
+    - node.type.newsletter_sign_up
+  module:
+    - metatag
+id: node.newsletter_sign_up.field_meta_tags
+field_name: field_meta_tags
+entity_type: node
+bundle: newsletter_sign_up
+label: 'Meta tags'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: metatag

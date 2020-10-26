@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Template for the Content Hub Page Card component.
+ */
+#}
+
+{% set background_asset = node | entityMainMediaId | mediaParamsById %}
+
+{% include "@molecules/card/recommendations-card/content-hub-card.twig" with {
+  theme_styles: 'drupal',
+
+  card_image_src: background_asset.src,
+  card_image_alt: background_asset.alt ,
+  media_url: url,
+
+  heading: node.label,
+  heading_level: 3,
+  heading_base_class: 'recommendations-card-heading',
+
+  button_text: 'See Details'|t,
+  button_modifiers: ['small'],
+  button_link_attributes: {
+    href: url,
+    target: '_blank'
+  },
+} %}

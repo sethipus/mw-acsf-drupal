@@ -12,8 +12,8 @@ trigger:
     - '*'
 
 schedules:
-- cron: "0 3,8,14 * * Mon-Fri"
-  displayName: Daily Scheduled Build
+- cron: "0 23 * * Mon-Fri"
+  displayName: Nightly Scheduled Build
   branches:
     include:
     - 'dev'
@@ -87,7 +87,7 @@ steps:
         npm install npm@latest -g
   - task: Npm@1
     inputs:
-      command: 'install'
+      command: 'ci'
       workingDir: 'docroot/themes/custom/emulsifymars'
   - task: Npm@1
     inputs:
@@ -118,12 +118,20 @@ steps:
       testRunTitle: 'Unit tests'
   - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Schedule'), eq(variables['build.sourceBranchName'], 'dev'))
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
     inputs:
       targetType: 'inline'
       script: |
         ./scripts/deploy_branch.sh &&
         ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
+  - task: Bash@3
+    displayName: 'Deploy dev Branch and Trigger Application Deployment to QA env'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'Schedule'), eq(variables['build.sourceBranchName'], 'dev'))
+    inputs:
+      targetType: 'inline'
+      script: |
+        ./scripts/deploy_branch.sh &&
+        ./scripts/deploy_db.sh 01qa $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
   - task: Bash@3
     displayName: 'Deploy Tag'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))

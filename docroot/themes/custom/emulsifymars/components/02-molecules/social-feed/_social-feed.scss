@@ -2,6 +2,19 @@
   padding: 2rem 0 4rem 0;
   overflow-x: hidden;
   position: relative;
+  z-index: 100;
+
+  @include xs {
+    top: -3rem;
+  }
+
+  @include medium {
+    top: -5rem;
+  }
+
+  @include large {
+    top: -9rem;
+  }
 
   &__brand-border {
     position: absolute;
@@ -16,8 +29,15 @@
     position: relative;
     z-index: 2;
     background-color: clr(subcolor-2);
-    margin-top: 12rem;
     padding-bottom: 8rem;
+
+    @include xs {
+      margin-top: 0;
+    }
+
+    @include large {
+      margin-top: 12rem;
+    }
   }
 
   &__heading {
@@ -58,12 +78,19 @@
 
   // increasing specificity to avoid using !important
   .social-feed-swiper-container.swiper-container-horizontal>.swiper-scrollbar {
-    height: 16px;
-    transform: scale(.5);
+    height: 0.8rem;
+    width: 70%;
+    left: 15%;
 
     & .swiper-scrollbar-drag {
       background: clr(primary);
     }
+  }
+
+  .social-feed-slide.swiper-slide {
+    border-radius: 1rem;
+    max-height: 31.7rem;
+    overflow: hidden;
   }
 
   .social-feed-swiper-container #swiper-button {

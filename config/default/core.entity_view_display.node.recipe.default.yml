@@ -4,10 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.node.recipe.field_brand_initiatives
+    - field.field.node.recipe.field_meta_tags
     - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
-    - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients
@@ -26,6 +26,7 @@ dependencies:
     - mars_common
     - mars_recipes
     - mars_recommendations
+    - metatag
     - text
     - user
 third_party_settings:
@@ -82,6 +83,21 @@ third_party_settings:
                 type: entity_reference_label
             additional: {  }
             weight: 3
+          10a8ae51-92d8-4252-baf0-ce86683004a8:
+            uuid: 10a8ae51-92d8-4252-baf0-ce86683004a8
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:recipe:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 4
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -162,7 +178,6 @@ third_party_settings:
       - 'Custom blocks'
       - 'Entity Block'
       - 'Entity Browser'
-      - Facets
       - 'Flexible driver'
       - Forms
       - 'Global elements'
@@ -180,11 +195,9 @@ third_party_settings:
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        Facets: {  }
         'Flexible driver': {  }
         'Mars Search': {  }
       blacklisted_blocks: {  }
@@ -202,48 +215,43 @@ third_party_settings:
         - recipe_ratings_reviews
         - recipe_recipe_recommendations
       whitelisted_blocks:
-        recipe_storytelling_community:
+        recipe_recipe_body:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
+            'Custom block types':
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - list
+              - text_component
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
-            'Flexible driver':
-              - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks':
-              - 'inline_block:flexible_framer'
               - 'inline_block:full_width_image'
               - 'inline_block:full_width_video'
               - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
               - 'inline_block:list'
-              - 'inline_block:media_carousel'
               - 'inline_block:text_component'
             'Lists (Views)': {  }
-            'Mars Common':
-              - contact_help_banner_block
-              - iframe_block
-              - newsletter_signup_form
-              - recommendations_module
-              - story_highlight
-              - poll_block
+            'Mars Common': {  }
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
             Recipe:
-              - recipe_detail_hero
-            'Social feed':
-              - social_feed
+              - recipe_detail_body
+            'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         recipe_recipe_hero:
           all_regions:
@@ -272,34 +280,55 @@ third_party_settings:
             User: {  }
             Views: {  }
             core: {  }
-        recipe_recipe_body:
+        recipe_storytelling_community:
           all_regions:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types': {  }
+            'Custom block types':
+              - flexible_framer
+              - full_width_image
+              - full_width_video
+              - inline_image
+              - inline_video
+              - list
+              - media_carousel
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks':
+              - 'inline_block:flexible_framer'
+              - 'inline_block:full_width_image'
+              - 'inline_block:full_width_video'
+              - 'inline_block:inline_image'
+              - 'inline_block:inline_video'
               - 'inline_block:list'
+              - 'inline_block:media_carousel'
               - 'inline_block:text_component'
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - contact_help_banner_block
+              - iframe_block
+              - newsletter_signup_form
+              - poll_block
+              - recommendations_module
+              - story_highlight
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
             Recipe:
-              - recipe_detail_body
-            'Social feed': {  }
+              - recipe_detail_hero
+            'Social feed':
+              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         recipe_ratings_reviews:
           all_regions:
@@ -336,7 +365,6 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
-            Facets: {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -344,7 +372,6 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common':
               - recommendations_module
-              - feedback_block
             'Mars Product': {  }
             'Mars Search': {  }
             Menus: {  }
@@ -355,7 +382,6 @@ third_party_settings:
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
 _core:
   default_config_hash: _ZPEEI6zv2Q3bdSP58uDyEUV3NOsTRwldavCoPyT9ac
@@ -371,6 +397,13 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
+  field_meta_tags:
+    weight: 13
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_product_occasions:
     weight: 11
@@ -388,14 +421,6 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     type: number_integer
-    region: content
-  field_recipe_cta:
-    weight: 7
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
     region: content
   field_recipe_description:
     weight: 4

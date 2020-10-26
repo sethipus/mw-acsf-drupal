@@ -1,5 +1,140 @@
-view_modes: {  }
-render_role: anonymous
-personalized_content_only: true
+view_modes:
+  block_content:
+    flexible_framer:
+      default: '1'
+      full: '1'
+    flexible_framer_item:
+      default: '1'
+      full: '1'
+      acquia_lift_preview_image: field_ff_item_image
+    full_width_image:
+      default: '1'
+      full: '1'
+      acquia_lift_preview_image: field_full_image_file
+    full_width_video:
+      default: '1'
+      full: '1'
+    inline_image:
+      default: '1'
+      full: '1'
+      acquia_lift_preview_image: field_inline_image_file
+    inline_video:
+      default: '1'
+      full: '1'
+    list:
+      default: '1'
+      full: '1'
+    list_item:
+      default: '1'
+      full: '1'
+      acquia_lift_preview_image: field_list_item_image
+    media_carousel:
+      default: '1'
+      full: '1'
+    text_component:
+      default: '1'
+      full: '1'
+  file:
+    file:
+      default: '1'
+  media:
+    image:
+      default: '1'
+      embedded: '1'
+      acquia_lift_preview_image: image
+      full: '1'
+      media_library: '1'
+    lighthouse_image:
+      default: '1'
+      embedded: '1'
+      acquia_lift_preview_image: field_media_image
+      full: '1'
+      media_library: '1'
+    lighthouse_video:
+      default: '1'
+      embedded: '1'
+      full: '1'
+      media_library: '1'
+    video:
+      default: '1'
+      embedded: '1'
+      full: '1'
+      media_library: '1'
+    video_file:
+      default: '1'
+      embedded: '1'
+      full: '1'
+      media_library: '1'
+  menu_link_content:
+    menu_link_content:
+      default: '1'
+  node:
+    about_page:
+      default: '1'
+      full: '1'
+    article:
+      default: '1'
+      full: '1'
+    campaign:
+      default: '1'
+      full: '1'
+    content_hub_page:
+      default: '1'
+      full: '1'
+    error_page:
+      default: '1'
+      full: '1'
+    faq:
+      default: '1'
+      full: '1'
+    faq_contact:
+      default: '1'
+      full: '1'
+    homepage:
+      default: '1'
+      full: '1'
+    landing_page:
+      default: '1'
+      full: '1'
+    newsletter_sign_up:
+      default: '1'
+      full: '1'
+    recipe:
+      default: '1'
+      full: '1'
+  path_alias:
+    path_alias:
+      default: '1'
+  poll:
+    poll:
+      default: '1'
+  taxonomy_term:
+    faq_filter_topic:
+      default: '1'
+      full: '1'
+    mars_brand_initiatives:
+      default: '1'
+      full: '1'
+    mars_diet_allergens:
+      default: '1'
+      full: '1'
+      acquia_lift_preview_image: field_allergen_image
+    mars_flavor:
+      default: '1'
+      full: '1'
+    mars_format:
+      default: '1'
+      full: '1'
+    mars_occasions:
+      default: '1'
+      full: '1'
+    mars_regions:
+      default: '1'
+      full: '1'
+    mars_trade_item_description:
+      default: '1'
+      full: '1'
+render_role: brand_representative
+personalized_content_only: false
 _core:
   default_config_hash: U-n8DDkN7Flu1ctVqMkJ2EBgvCA8EEaPLCvXnC4RjGI

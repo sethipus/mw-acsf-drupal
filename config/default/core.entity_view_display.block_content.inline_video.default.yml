@@ -4,8 +4,8 @@ status: true
 dependencies:
   config:
     - block_content.type.inline_video
+    - field.field.block_content.inline_video.field_inline_video
     - field.field.block_content.inline_video.field_inline_video_description
-    - field.field.block_content.inline_video.field_inline_video_path
     - field.field.block_content.inline_video.field_inline_video_svg_asset
     - field.field.block_content.inline_video.field_inline_video_title
 id: block_content.inline_video.default
@@ -13,16 +13,17 @@ targetEntityType: block_content
 bundle: inline_video
 mode: default
 content:
-  field_inline_video_description:
-    weight: 2
+  field_inline_video:
+    type: entity_reference_entity_view
+    weight: 4
     label: above
     settings:
-      link_to_entity: false
+      view_mode: default
+      link: false
     third_party_settings: {  }
-    type: string
     region: content
-  field_inline_video_path:
-    weight: 1
+  field_inline_video_description:
+    weight: 2
     label: above
     settings:
       link_to_entity: false

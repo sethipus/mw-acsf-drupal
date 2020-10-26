@@ -15,7 +15,7 @@
       {% block recipe_media_image %}
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
-          image_alt: '',
+          image_alt: recipe_media.alt,
           image_srcset: recipe_media.srcset,
           image_sizes: '',
           image_src: recipe_media.src,
@@ -24,7 +24,7 @@
       {% endblock %}
     {% endif %}
     <div class="media-info">
-      <div class="border">{{ brand_borders | raw }}</div>
+      <div class="{{ brand_shape_class }}">{{ brand_borders | raw }}</div>
       <div class="eyebrow"> {{ eyebrow}} </div>
       <h2 class="title">
         {% include "@atoms/links/link/link.twig" with {

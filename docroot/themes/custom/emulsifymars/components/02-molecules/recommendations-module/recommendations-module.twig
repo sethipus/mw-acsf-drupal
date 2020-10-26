@@ -10,7 +10,11 @@
       heading: recommendation_title,
     } %}
   </div>
-  {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
+
+  <div class="graphic-divider">
+    {{ graphic_divider | raw }}
+  </div>
+
   <div class="swiper-container recommendations-swiper-container">
     <div class="swiper-wrapper">
         {% for item in recommended_items %}

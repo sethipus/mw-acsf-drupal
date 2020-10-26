@@ -9,7 +9,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\File\Exception\FileException;
 use Drupal\file\Entity\File;
 use Drupal\Core\Render\Markup;
-use Drupal\media\Entity\Media;
 use Drupal\Core\Url;
 
 /**
@@ -218,6 +217,17 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#default_value'       => theme_get_setting('brand_borders'),
   ];
 
+  $form['icons_settings']['brand_border_style'] = [
+    '#type'          => 'radios',
+    '#title'         => $translation->translate('Brand border style'),
+    '#description'   => $translation->translate('Designates stretched border or repeated border shape.'),
+    '#default_value' => theme_get_setting('brand_border_style'),
+    '#options' => [
+      'repeat' => $translation->translate('Repeat'),
+      'stretch' => $translation->translate('Stretch'),
+    ],
+  ];
+
   $form['icons_settings']['brand_borders_2'] = [
     '#title'           => $translation->translate('Brand Borders for Cards'),
     '#type'            => 'managed_file',
@@ -257,7 +267,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   $form['icons_settings']['button_style'] = [
     '#type'          => 'radios',
     '#title'         => $translation->translate('Button/Card Style'),
-    '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner. For example: 5px.'),
+    '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner.'),
     '#default_value' => theme_get_setting('button_style'),
     '#options' => [
       0 => $translation->translate('Round'),
@@ -284,7 +294,7 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
         '#title'           => $translation->translate('Social network icon'),
         '#type'            => 'managed_file',
         '#upload_location' => 'public://theme_config/',
-        '#required'        => FALSE,
+        '#required'        => TRUE,
         '#process'         => [
           ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
           'emulsifymars_process_image_widget',
@@ -299,17 +309,20 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
       $form['social'][$key]['link'] = [
         '#title'         => $translation->translate('Social network link'),
         '#type'          => 'textfield',
+        '#required'      => TRUE,
         '#default_value' => $value['link'],
       ];
       $form['social'][$key]['name'] = [
         '#title'         => $translation->translate('Social network title'),
         '#type'          => 'textfield',
+        '#required'      => TRUE,
         '#default_value' => $value['name'],
       ];
       $form['social'][$key]['remove_social'] = [
         '#type'  => 'button',
         '#name' => 'social_' . $key,
         '#value' => $translation->translate('Remove social link'),
+        '#limit_validation_errors' => [],
         '#ajax'  => [
           'callback' => 'emulsifymars_theme_settings_ajax_remove_social',
           'wrapper' => 'social',
@@ -322,10 +335,24 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
     '#type' => 'button',
     '#value' => $translation->translate('Add new social link'),
     '#href' => '',
+    '#limit_validation_errors' => [],
     '#ajax' => [
       'callback' => 'emulsifymars_theme_settings_ajax_add_social',
       'wrapper' => 'social',
     ],
+  ];
+
+  $form['product_layout'] = [
+    '#type' => 'details',
+    '#open' => TRUE,
+    '#title' => $translation->translate('Product layout settings'),
+    '#description' => $translation->translate("MARS theme settings for Product layout."),
+  ];
+
+  $form['product_layout']['show_allergen_info'] = [
+    '#type' => 'checkbox',
+    '#title' => $translation->translate('Show allergen info'),
+    '#default_value' => theme_get_setting('show_allergen_info'),
   ];
 
   $form['#validate'] = ['_emulsifymars_form_system_theme_settings_validate'];
@@ -653,19 +680,7 @@ function _emulsifymars_load_images_from_theme(string &$properties) {
   ];
   foreach ($fields as $field) {
     $svg = $themeParser->getFileContentFromTheme($field);
-    $symbols = [
-      '<' => '%3C',
-      '>' => '%3E',
-      '#' => '%23',
-      '"' => '\'',
-      '\n' => '',
-      '\r\n' => '',
-      '\r' => '',
-    ];
-    foreach ($symbols as $symbol => $replace) {
-      $svg = str_replace($symbol, $replace, $svg);
-    }
-    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml,' . $svg . '")');
+    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml;base64,' . base64_encode($svg) . '")');
   }
 }
 
@@ -704,36 +719,38 @@ function emulsifymars_theme() {
  * Implements hook_preprocess_views_view_unformatted().
  */
 function emulsifymars_preprocess_views_view_unformatted(&$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
   $view = $variables['view'];
   $id = $view->storage->id();
   $items = [];
 
   if ($id == 'related_recipes') {
     foreach ($view->result as $result) {
-      $url = Url::fromRoute('entity.node.canonical', ['node' => $result->_entity->id()]);
+      /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
+      $entity = $result->_entity;
+      $url = Url::fromRoute('entity.node.canonical', ['node' => $entity->id()]);
       $url = $url->toString();
 
-      $body_raw = $result->_entity->get('field_recipe_description')->first()->getValue();
+      $body_raw = $entity->get('field_recipe_description')->first()->getValue();
       $description = !empty($body_raw['value']) ? $body_raw['value'] : '';
-      $cta_raw = $result->_entity->get('field_recipe_cta')->getValue();
-      $card_link_text = !empty($cta_raw[0]['value']) ? $cta_raw[0]['value'] : '';
 
-      $image_value = $result->_entity->get('field_recipe_image')->first()->getValue();
-      $media = Media::load($image_value['target_id']);
+      $media_id = $media_helper->getEntityMainMediaId($entity);
+      $media_params = $media_helper->getMediaParametersById($media_id);
 
-      $media_field = $media->get('image')->first()->getValue();
-      $file = File::load($media_field['target_id']);
-      if ($file) {
-        $file_uri = $file->getFileUri();
+      $image_src = NULL;
+      $image_alt = NULL;
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $image_src = $media_params['src'];
+        $image_alt = $media_params['alt'];
       }
-      $image_src = !empty($file_uri) ? file_create_url($file_uri) : '';
 
       $items[] = [
         'card__image__src' => $image_src,
-        'card__image__alt' => $media_field['alt'],
-        'card__heading' => $result->_entity->getTitle(),
+        'card__image__alt' => $image_alt,
+        'card__heading' => $entity->getTitle(),
         'card__link__url' => $url,
-        'card__link__text' => $card_link_text,
+        'card__link__text' => t('See details'),
         'card__body' => $description,
       ];
     }

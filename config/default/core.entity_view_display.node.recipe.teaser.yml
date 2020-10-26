@@ -5,10 +5,10 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.recipe.field_brand_initiatives
+    - field.field.node.recipe.field_meta_tags
     - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
-    - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients
@@ -31,14 +31,6 @@ targetEntityType: node
 bundle: recipe
 mode: teaser
 content:
-  field_recipe_cta:
-    type: string
-    weight: 2
-    region: content
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
   field_recipe_description:
     type: text_default
     weight: 1
@@ -58,6 +50,7 @@ content:
 hidden:
   content_moderation_control: true
   field_brand_initiatives: true
+  field_meta_tags: true
   field_product_occasions: true
   field_product_reference: true
   field_recipe_cooking_time: true

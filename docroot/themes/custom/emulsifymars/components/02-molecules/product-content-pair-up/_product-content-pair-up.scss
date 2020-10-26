@@ -27,9 +27,9 @@
 
     .lead-card {
       background-color: clr(subcolor-2);
-      background-size: cover;
+      background-size: auto 110%;
       background-repeat: no-repeat;
-      background-position: center 0;
+      background-position: center center;
       padding-top: 50px;
       position: relative;
 
@@ -128,6 +128,12 @@
       .wrapper > section {
         max-width: 31.5rem;
       }
+
+      .recipe-card__media {
+        width: 100%;
+        height: auto;
+        max-height: 23.6rem;
+      }
     }
   }
 
@@ -141,22 +147,22 @@
     }
   }
 
-  &.size--375 {
+  &.max-size--375 {
     max-width: 375px;
   }
 
-  &.size--768 {
+  &.max-size--768 {
     max-width: 768px;
   }
 
-  &.size--1440 {
+  &.max-size--1440 {
     max-width: 1440px;
   }
 
   @include medium {
     padding-bottom: 600px;
 
-    &:not(.size--375) {
+    &:not(.max-size--375):not(.size--default), &.size--medium {
       .product-content-pair-up__heading {
         letter-spacing: 0.2rem;
         font-size: 4rem;
@@ -167,6 +173,7 @@
         .lead-card {
           height: 538px;
           padding-top: 60px;
+          background-size: auto 130%;
 
           .wrapper {
             margin: 0 auto;
@@ -209,11 +216,17 @@
           .wrapper > section {
             max-width: 33.4rem;
           }
+
+          .recipe-card__media {
+            width: 100%;
+            height: auto;
+            max-height: 25.1rem;
+          }
         }
       }
     }
 
-    .layout-builder &:not(.size--375) {
+    .layout-builder &:not(.max-size--375) {
       .png-asset {
         top: 365px;
       }
@@ -224,10 +237,20 @@
     }
   }
 
+  @include large {
+    &:not(.max-size--375) {
+      .product-content-pair-up__container {
+        .lead-card {
+          background-size: auto 120%;
+        }
+      }
+    }
+  }
+
   @include xl {
     padding-bottom: 275px;
 
-    &:not(.size--375):not(.size--768) {
+    &:not(.max-size--375):not(.max-size--768):not(.size--medium):not(.size--default), &.size--large {
       .product-content-pair-up__heading {
         max-width: none;
         font-size: 4.8rem;
@@ -276,17 +299,23 @@
         .supportive-card {
           top: 185px;
           left: auto;
-          max-width: none;
+          max-width: 43.3rem;
           right: 158px;
 
           .wrapper > section {
-            max-width: 43.2rem;
+            max-width: 43.3rem;
+          }
+
+          .recipe-card__media {
+            width: 100%;
+            height: auto;
+            max-height: 32.5rem;
           }
         }
       }
     }
 
-    .layout-builder &:not(.size--375):not(.size--768) {
+    .layout-builder &:not(.max-size--375):not(.max-size--768) {
       .png-asset {
         top: 80px;
       }

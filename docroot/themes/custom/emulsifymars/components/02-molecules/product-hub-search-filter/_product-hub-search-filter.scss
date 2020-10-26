@@ -1,6 +1,7 @@
 .search-filter-container {
   padding: 20px;
   background-color: clr(subcolor-2);
+  position: relative;
 
   &__search {
     margin: 60px auto;
@@ -12,7 +13,7 @@
       flex-grow: 1;
       width: 100%;
       background-color: clr(subcolor-3);
-  
+
       &__field {
         width: calc(100% - 20px);
         margin: 0 20px;
@@ -20,6 +21,22 @@
         @include medium {
           width: calc(100% - 20px);
         }
+      }
+    }
+  }
+
+  .search-input-wrapper {
+    &.suggested {
+      .search-input {
+        border-bottom-right-radius: unset;
+        border-bottom-left-radius: unset;
+        border-bottom: none;
+      }
+      .mars-search-autocomplete-suggestions-wrapper {
+        margin-top: -25px;
+        padding-top: 25px;
+        border: 1px solid clr(subcolor-4);
+        border-top: none;
       }
     }
   }
@@ -214,11 +231,49 @@
   }
 
   &__applied-text {
-    font: 16px/1.4em variable(secondary-font);
+    font: 16px/1.8em variable(secondary-font);
     color: clr(primary);
     letter-spacing: 0.65px;
     margin-top: 20px;
     padding-right: 50px;
+  }
+
+  &__applied-name {
+    display: inline-flex;
+    margin-right: 16px;
+  }
+
+  &__applied-clear {
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: clr(secondary);
+    position: relative;
+    cursor: pointer;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      height: 2px;
+      width: 16px;
+      border-radius: 2px;
+      background-color: clr(subcolor-3);
+      position: absolute;
+      top: 9px;
+    }
+
+    &::before {
+      left: 2px;
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      right: 2px;
+      transform: rotate(-45deg);
+    }
   }
 
   &__applied {
@@ -232,4 +287,14 @@
   &__clear {
     flex-shrink: 0;
   }
+
+  &--hidden {
+    display: none;
+  }
+}
+
+.search-results-page {
+  .search-filter-container {
+    background-color: clr(subcolor-3);
+  }  
 }

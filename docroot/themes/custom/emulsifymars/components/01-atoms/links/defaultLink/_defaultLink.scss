@@ -47,16 +47,20 @@
   }
 
   &--light {
-    background-color: clr(secondary);
-    color: clr(subcolor-3);
+    background-color: clr(subcolor-3);
+    color: clr(secondary);
     box-shadow: 0 0 5px #ccc;
     margin-bottom: 2rem;
     text-align: center;
+    transition: all 1.2s ease;
+
     &::after {
-      background-color: clr(subcolor-3);
+      background-color: clr(secondary);
     }
+    
     &:hover {
-      color: clr(secondary);
+      color: clr(subcolor-3);
+      
     }
   }
 

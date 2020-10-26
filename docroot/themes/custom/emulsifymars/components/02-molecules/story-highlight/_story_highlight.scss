@@ -1,23 +1,50 @@
 .story-highlight {
   font-family: variable(primary-font);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin: 0;
 
   &__content {
-    background-color: clr(subcolor-2);
-    padding-top: 7rem;
+    margin-bottom: -40rem;
 
-    @include xs {
-      margin-top: 4rem;
+    @include small {
+      margin-bottom: -30rem;
     }
 
     @include medium {
-      margin-top: 7rem;
+      margin-bottom: -40rem;
+    }
+  }
+
+  &__contentbg {
+    background-color: clr(subcolor-2);
+    padding-bottom: 40rem;
+    overflow: hidden;
+
+    @include xs {
+      padding-top: 3rem;
     }
 
-    @include large {
-      margin-top: 10rem;
+    @include small {
+      padding-bottom: 30rem;
+    }
+
+    @include medium {
+      padding-bottom: 40rem;
+    }
+  }
+
+  &_whitebg {
+    position: relative;
+    top: -40rem;
+    overflow: hidden;
+
+    @include small {
+      top: -30rem;
+    }
+
+    @include medium {
+      top: -40rem;
     }
   }
 
@@ -30,12 +57,28 @@
   //   margin-top: 15.3rem;
   // }
 
-  & .curve {
+  & .stretch {
     position: absolute;
     width: 100%;
     height: auto;
     z-index: -1;
-    top: 3px;
+    top: -2rem;
+
+    @include small {
+      top: -3rem;
+    }
+
+    @include medium {
+      top: -4rem;
+    }
+
+    @include large {
+      top: -6rem;
+    }
+
+    @include xl {
+      top: -8rem;
+    }
 
     >svg {
       width: 100%;
@@ -52,6 +95,27 @@
     }
   }
 
+  & .repeat {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    top: 80px;
+
+    svg {
+      width: 100%;
+      max-height: 30px;
+
+      path {
+        fill: clr(secondary);
+      }
+      rect {
+        width: 100%;
+        height: 3rem;
+      }
+    }
+  }
+
   & .h2 {
     font-family: variable(heading-font);
     font-size: 64px;
@@ -63,6 +127,11 @@
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
+    padding-top: 2rem;
+
+    @include medium {
+      padding-top: 5rem;
+    }
   }
 
   & .graphic_divider {
@@ -117,6 +186,10 @@
     @include xs {
       margin: 0 2rem;
     }
+
+    @include large {
+      max-width: 55%;
+    }
   }
 
   & .media_item_2 {
@@ -169,7 +242,7 @@
     }
   }
 
-  #fullscreen-play[data-state="play"] {
+  .overlay-video__control[data-state="play"] {
     top: calc(50% - 7rem);
     left: calc(50% - 6.6rem / 2);
     width: 6.6rem;
@@ -198,22 +271,31 @@
     height: 24.2rem;
     z-index: 1;
     top: 45%;
+    display: flex;
+
+    & img {
+      margin: auto;
+    }
 
     @include small {
-      top: 81rem;
+      top: 45rem;
       right: -9rem;
     }
 
     @include medium {
-      top: 89rem;
+      top: 49rem;
       right: -8rem;
       z-index: 1;
     }
 
     @include large {
       z-index: 1;
-      top: 51rem;
+      top: 47rem;
       right: -8rem;
+    }
+
+    @include xl {
+      top: 11rem;
     }
   }
 
@@ -223,22 +305,33 @@
     min-height: 41.3rem;
     width: 44.3rem;
     height: 44.3rem;
+    display: flex;
+
+    & img {
+      margin: auto;
+    }
 
     @include small {
-      top: 80rem;
+      top: 50rem;
       left: -17rem;
       z-index: 1;
     }
 
     @include medium {
-      top: 105rem;
+      top: 65rem;
       left: -18rem;
       z-index: 1;
     }
 
     @include large {
       z-index: 1;
-      top: 111rem;
+      top: 100rem;
+      left: -8rem;
+    }
+
+    @include xl {
+      z-index: 1;
+      top: 71rem;
       left: -8rem;
     }
   }
@@ -249,16 +342,21 @@
     min-height: 34.1rem;
     width: 35.6rem;
     height: 35.6rem;
+    display: flex;
+
+    & img {
+      margin: auto;
+    }
 
     @include small {
       z-index: 0;
-      bottom: -8rem;
+      bottom: 3rem;
       right: -8rem;
     }
 
     @include large {
       z-index: 0;
-      bottom: -5rem;
+      bottom: 5rem;
       right: -5rem;
       width: 48rem;
     }

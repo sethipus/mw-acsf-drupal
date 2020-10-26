@@ -46,6 +46,7 @@
         "drupal/migrate_tools": "^5.0",
         "drupal/migration_tools": "^2.2",
         "drupal/poll": "^1.4",
+        "drupal/printable": "^1.1",
         "drupal/publication_date": "^2.0@beta",
         "drupal/qa_accounts": "^1.0.0-alpha1",
         "drupal/redirect": "^1.5",
@@ -64,6 +65,7 @@
         "emulsify-ds/emulsify-drupal": "^1.0@beta",
         "eyecon/jquery_colorpicker": "master",
         "lcatlett/blt-ddev": "dev-master",
+        "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
         "nedsbeds/profile_split_enable": "^1.0",
@@ -71,6 +73,7 @@
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev",
+        "mikey179/vfsstream": "^1.6",
         "symfony/phpunit-bridge": "^5.1"
     },
     "config": {
@@ -147,6 +150,9 @@
             },
             "drupal/poll": {
                 "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
+            },
+            "drupal/pdf_api": {
+                "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2019-01-31/tmp-directory-3016161-4.patch"
             }
         }
     },
@@ -188,6 +194,10 @@
                    "classmap": ["."]
                 }
             }
+        },
+        "mars_seo": {
+            "type": "path",
+            "url": "docroot/modules/custom/mars_seo"
         }
     },
     "minimum-stability": "dev",
