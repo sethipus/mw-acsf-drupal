@@ -21,6 +21,9 @@ pdp_common_data:
     warnings_label: 'WARNINGS:'
   allergen_data:
     allergen_label: 'DIET & ALLERGENS'
+  more_information_data:
+    more_information_label: 'MORE INFORMATION'
+    show_more_information_label: true
 pdp_size_data:
   - size_id : '1oz'
     title: '1.36 oz'

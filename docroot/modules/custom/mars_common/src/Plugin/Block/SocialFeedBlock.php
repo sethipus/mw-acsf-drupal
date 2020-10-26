@@ -139,7 +139,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $form['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['label'] ?? '',
       '#required' => TRUE,
     ];
