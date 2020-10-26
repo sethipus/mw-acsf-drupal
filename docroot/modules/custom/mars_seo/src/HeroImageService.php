@@ -2,7 +2,6 @@
 
 namespace Drupal\mars_seo;
 
-use Drupal\block\BlockInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_common\MediaHelper;
 use Drupal\node\NodeInterface;
@@ -17,11 +16,11 @@ class HeroImageService {
    * Blocks structure with hero image.
    */
   const BLOCKS_IDS_HERO_IMAGES = [
-    'homepageheroblock' => [
+    'homepage_hero_block' => [
       'background_type_field' => 'block_type',
       'hero_image_field' => 'background_image',
     ],
-    'parentpageheader' => [
+    'parent_page_header' => [
       'background_type_field' => 'background_options',
       'hero_image_field' => 'background_image',
     ],
@@ -64,22 +63,33 @@ class HeroImageService {
     $main_image_url = NULL;
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->routeMatch->getParameter('node');
+
     if ($node instanceof NodeInterface) {
       $main_image_id = $this->mediaHelper->getEntityMainMediaId($node);
       $main_image_url = $this->mediaHelper->getMediaUrl($main_image_id);
     }
+
     // Images from block.
-    else {
-      $blocks = $this->entityTypeManager->getStorage('block')->loadMultiple(array_keys(self::BLOCKS_IDS_HERO_IMAGES));
-      foreach ($blocks as $key => $block) {
-        if ($block instanceof BlockInterface &&
-          $block->access('view') &&
-          $block->get('settings')[self::BLOCKS_IDS_HERO_IMAGES[$key]['background_type_field']] === 'image' &&
-          $block->get('settings')[self::BLOCKS_IDS_HERO_IMAGES[$key]['hero_image_field']]) {
-          $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($block->get('settings')[self::BLOCKS_IDS_HERO_IMAGES[$key]['hero_image_field']]);
-          $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
-          if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
-            $main_image_url = $mediaParams['src'];
+    if (empty($main_image_url)) {
+      foreach (self::BLOCKS_IDS_HERO_IMAGES as $key => $block_id) {
+        $sections = $node->get('layout_builder__layout')->getSections();
+        foreach ($sections as $section) {
+          /* @var $section \Drupal\layout_builder\Section */
+          $components = $section->getComponents();
+          foreach ($components as $component) {
+            /* @var $component \Drupal\layout_builder\SectionComponent */
+            $configuration = $component->get('configuration');
+            if ($configuration['id'] == $key &&
+              $configuration[self::BLOCKS_IDS_HERO_IMAGES[$key]['background_type_field']] === 'image' &&
+              $configuration[self::BLOCKS_IDS_HERO_IMAGES[$key]['hero_image_field']]
+            ) {
+              $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($configuration[self::BLOCKS_IDS_HERO_IMAGES[$key]['hero_image_field']]);
+              $mediaParams = $this->mediaHelper->getMediaParametersById($mediaId);
+              if (!($mediaParams['error'] ?? FALSE) && ($mediaParams['src'] ?? FALSE)) {
+                $main_image_url = $mediaParams['src'];
+                break 3;
+              }
+            }
           }
         }
       }
