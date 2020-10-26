@@ -5,10 +5,10 @@ namespace Drupal\mars_search\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Drupal\mars_search\SearchHelperInterface;
 
 /**
  * SearchOverlayForm.
@@ -47,7 +47,7 @@ class SearchOverlayForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('request_stack'),
+      $container->get('request_stack')
     );
   }
 
