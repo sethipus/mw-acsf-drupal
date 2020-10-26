@@ -70,7 +70,7 @@ class HeroImageService {
     }
 
     // Images from block.
-    if (empty($main_image_url)) {
+    if (empty($main_image_url) && $node instanceof NodeInterface) {
       foreach (self::BLOCKS_IDS_HERO_IMAGES as $key => $block_id) {
         $sections = $node->get('layout_builder__layout')->getSections();
         foreach ($sections as $section) {
