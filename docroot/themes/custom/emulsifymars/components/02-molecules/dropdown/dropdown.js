@@ -18,6 +18,17 @@ Drupal.behaviors.dropdown = {
       $(target).addClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','true');
     };
     
+    var toggleMenu = function(target, e) {
+      if (!target) return false;
+
+      if ($(target).hasClass('is-expanded')) {
+        hideMenus();
+      } else {
+        hideMenus();
+        $(target).addClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','true');
+      }
+    };
+    
     var listenForMouse = function() {
       let target;
       
@@ -33,9 +44,10 @@ Drupal.behaviors.dropdown = {
         hideMenus();  
       });
       
-      $(dropdown).on('click', dropdownTrigger, function(event) {
-        if($(event.currentTarget).closest(expandedDropdown)) {
-          hideMenus();  
+      $(dropdown).on('click', function(event) {
+        target = $(event.currentTarget);
+        if (target) {
+          toggleMenu(target, event);
         }
       });
     };
