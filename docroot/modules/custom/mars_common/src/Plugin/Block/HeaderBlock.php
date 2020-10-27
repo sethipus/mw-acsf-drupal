@@ -8,10 +8,13 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,6 +27,21 @@ use Symfony\Component\HttpFoundation\Request;
  * )
  */
 class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * The path matcher.
+   *
+   * @var \Drupal\Core\Path\PathMatcherInterface
+   */
+  protected $pathMatcher;
+
   /**
    * Menu link tree.
    *
@@ -76,6 +94,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageManagerInterface $language_manager,
+    PathMatcherInterface $path_matcher,
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
@@ -84,6 +104,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     RendererInterface $renderer
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageManager = $language_manager;
+    $this->pathMatcher = $path_matcher;
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->fileStorage = $entity_type_manager->getStorage('file');
@@ -101,6 +123,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('language_manager'),
+      $container->get('path.matcher'),
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
@@ -211,11 +235,49 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
 
+    $current_language_id = $this->languageManager->getCurrentLanguage($this->getDerivativeId())->getId();
+    $build['#language_selector_current'] = mb_strtoupper($current_language_id);
+    $build['#language_selector_label'] = $this->t('Select language');
+    $build['#language_selector_items'] = $this->getLanguageLinks();
+    $build['#language_selector'] = $config['language_selector'] && count($build['#language_selector_items']);
+
     $build['#theme'] = 'header_block';
 
     $build['#search_form'] = $this->buildSearchForm();
 
     return $build;
+  }
+
+  /**
+   * Get language links.
+   *
+   * @return array
+   *   Language selector links.
+   */
+  protected function getLanguageLinks() {
+    $languages = $this->languageManager->getLanguages();
+    $render_links = [];
+
+    if (count($languages) > 1) {
+      $derivative_id = $this->getDerivativeId();
+      $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
+      $current_language = $this->languageManager->getCurrentLanguage($derivative_id)->getId();
+      $links = $this->languageManager->getLanguageSwitchLinks($derivative_id, Url::fromRoute($route))->links;
+
+      if (isset($links[$current_language])) {
+        $links = [$current_language => $links[$current_language]] + $links;
+        $links[$current_language]['url'] = Url::fromRoute('<current>');
+      }
+
+      foreach ($links as $link_key => $link_data) {
+        $render_links[] = [
+          'title' => $link_data['title'],
+          'abbr' => mb_strtoupper($link_key),
+          'url' => $link_data['url']->toString(),
+        ];
+      }
+    }
+    return $render_links;
   }
 
   /**
