@@ -1,6 +1,6 @@
-mars_search.autocomplete_settings:
-  title: 'Autocomplete'
+mars_search.search_no_results_settings:
+  title: 'Search no results'
   parent: system.admin_config_search
-  description: 'Search autocomplete settings.'
+  description: 'Search no results settings.'
   route_name: mars_search.settings
   weight: 50
