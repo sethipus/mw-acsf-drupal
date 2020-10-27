@@ -253,6 +253,10 @@
 .list-container-block {
   margin: 0 20px 30px;
 
+  h2 {
+    padding-left: 2em;
+  }
+
   @include medium {
     margin: 0 40px 40px;
   }

@@ -1,0 +1,5 @@
+metatag.open_graph_settings:
+  route_name: 'open_graph.settings'
+  base_route: 'entity.metatag_defaults.collection'
+  title: 'Open graph settings'
+  weight: 11
