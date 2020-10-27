@@ -8,38 +8,4 @@ lead_card_eyebrow: "Recipe"
 lead_card_title: "Dove Dark Chocolate and Blood Orange Scones"
 cta_link_url: "https://storybook.js"
 png_asset: "./dove-png-asset.png"
-supporting_card_content: "<section data-theme=\"dove\" class=\"recipe-card\">
-   <span class=\"badge\" data-theme=\"dove\">
-   new
-   </span>
-   <div class=\"recipe-card__media\">
-      <a href=\"https://storybook.js.org/\">
-      <img class=\"image\" src=\"Recipe_Image.png\" alt=\"Recipe image\">
-      </a>
-   </div>
-   <h3 class=\"recipe-card-heading\">
-      <a class=\"recipe-card-heading__link\" href=\"https://storybook.js.org/\">
-      Dove caramel soft bread pudding
-      </a>
-   </h3>
-   <div class=\"recipe-card__labels_section\">
-      <div class=\"cooking-block\">
-         <label class=\"cooking-time\">Cooking Time</label>
-         <p class=\"recipe-card-time recipe-card-time--xs\">
-            25 mins
-         </p>
-      </div>
-      <div class=\"ingredients-block\">
-         <label class=\"ingredients\">Ingredients</label>
-         <p class=\"recipe-card-items recipe-card-items--xs\">
-            10 items
-         </p>
-      </div>
-   </div>
-   <div class=\"recipe-card__details-button\">
-      <a class=\"default-link default-link--small\" href=\"https://storybook.js.org/\" target=\"_blank\">
-      <span class=\"default-link__label\">see details</span>
-      </a>
-   </div>
-</section>"
 max_width: 1440

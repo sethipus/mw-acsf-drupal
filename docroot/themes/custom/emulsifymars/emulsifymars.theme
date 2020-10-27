@@ -9,7 +9,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\File\Exception\FileException;
 use Drupal\file\Entity\File;
 use Drupal\Core\Render\Markup;
-use Drupal\media\Entity\Media;
 use Drupal\Core\Url;
 
 /**
@@ -681,19 +680,7 @@ function _emulsifymars_load_images_from_theme(string &$properties) {
   ];
   foreach ($fields as $field) {
     $svg = $themeParser->getFileContentFromTheme($field);
-    $symbols = [
-      '<' => '%3C',
-      '>' => '%3E',
-      '#' => '%23',
-      '"' => '\'',
-      '\n' => '',
-      '\r\n' => '',
-      '\r' => '',
-    ];
-    foreach ($symbols as $symbol => $replace) {
-      $svg = str_replace($symbol, $replace, $svg);
-    }
-    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml,' . $svg . '")');
+    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml;base64,' . base64_encode($svg) . '")');
   }
 }
 
@@ -732,36 +719,38 @@ function emulsifymars_theme() {
  * Implements hook_preprocess_views_view_unformatted().
  */
 function emulsifymars_preprocess_views_view_unformatted(&$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
   $view = $variables['view'];
   $id = $view->storage->id();
   $items = [];
 
   if ($id == 'related_recipes') {
     foreach ($view->result as $result) {
-      $url = Url::fromRoute('entity.node.canonical', ['node' => $result->_entity->id()]);
+      /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
+      $entity = $result->_entity;
+      $url = Url::fromRoute('entity.node.canonical', ['node' => $entity->id()]);
       $url = $url->toString();
 
-      $body_raw = $result->_entity->get('field_recipe_description')->first()->getValue();
+      $body_raw = $entity->get('field_recipe_description')->first()->getValue();
       $description = !empty($body_raw['value']) ? $body_raw['value'] : '';
-      $cta_raw = $result->_entity->get('field_recipe_cta')->getValue();
-      $card_link_text = !empty($cta_raw[0]['value']) ? $cta_raw[0]['value'] : '';
 
-      $image_value = $result->_entity->get('field_recipe_image')->first()->getValue();
-      $media = Media::load($image_value['target_id']);
+      $media_id = $media_helper->getEntityMainMediaId($entity);
+      $media_params = $media_helper->getMediaParametersById($media_id);
 
-      $media_field = $media->get('image')->first()->getValue();
-      $file = File::load($media_field['target_id']);
-      if ($file) {
-        $file_uri = $file->getFileUri();
+      $image_src = NULL;
+      $image_alt = NULL;
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $image_src = $media_params['src'];
+        $image_alt = $media_params['alt'];
       }
-      $image_src = !empty($file_uri) ? file_create_url($file_uri) : '';
 
       $items[] = [
         'card__image__src' => $image_src,
-        'card__image__alt' => $media_field['alt'],
-        'card__heading' => $result->_entity->getTitle(),
+        'card__image__alt' => $image_alt,
+        'card__heading' => $entity->getTitle(),
         'card__link__url' => $url,
-        'card__link__text' => $card_link_text,
+        'card__link__text' => t('See details'),
         'card__body' => $description,
       ];
     }

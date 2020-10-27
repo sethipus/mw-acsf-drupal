@@ -69,6 +69,8 @@
 
   @include xl {
     padding: 0;
+    max-width: 1360px;
+    margin: auto;
   }
 
   .recipe-body-content-header {
@@ -250,6 +252,10 @@
 
 .list-container-block {
   margin: 0 20px 30px;
+
+  h2 {
+    padding-left: 2em;
+  }
 
   @include medium {
     margin: 0 40px 40px;

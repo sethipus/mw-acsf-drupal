@@ -25,6 +25,40 @@ use Drupal\Core\Menu\MenuTreeParameters;
 class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
+   * List of vocabularies which are included in indexing.
+   *
+   * @var array
+   */
+  const TAXONOMY_VOCABULARIES = [
+    'mars_brand_initiatives' => [
+      'label' => 'Brand initiatives',
+      'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],
+    ],
+    'mars_occasions' => [
+      'label' => 'Occasions',
+      'content_types' => [
+        'article', 'recipe', 'product', 'landing_page', 'campaign',
+      ],
+    ],
+    'mars_flavor' => [
+      'label' => 'Flavor',
+      'content_types' => ['product'],
+    ],
+    'mars_format' => [
+      'label' => 'Format',
+      'content_types' => ['product'],
+    ],
+    'mars_diet_allergens' => [
+      'label' => 'Diet & Allergens',
+      'content_types' => ['product'],
+    ],
+    'mars_trade_item_description' => [
+      'label' => 'Trade item description',
+      'content_types' => ['product'],
+    ],
+  ];
+
+  /**
    * Search helper.
    *
    * @var \Drupal\mars_search\SearchHelperInterface
@@ -112,10 +146,17 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   public function build() {
     $build = [];
 
-    $options = $this->searchQueryParser->parseQuery();
+    $searchOptions = $this->searchQueryParser->parseQuery();
 
     // Results should be obtained from static cache.
-    $query_search_results = $this->searchHelper->getSearchResults($options, 'main_search');
+    $query_search_results = $this->searchHelper->getSearchResults($searchOptions, 'main_search');
+    // After this line $facetOptions and $searchOptions become different.
+    $facetOptions = $searchOptions;
+    // We don't need taxonomy filters and keys filter applied for facets query.
+    $facetOptions['disable_filters'] = TRUE;
+    unset($facetOptions['limit']);
+
+    $facets_query = $this->searchHelper->getSearchResults($facetOptions, 'main_search_facet');
 
     // Preparing search results.
     $build['#items'] = [];
@@ -123,7 +164,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
     if (count($build['#items']) == 0) {
-      return $this->getSearchNoResult();
+      $build['#no_results'] = $this->getSearchNoResult();
     }
 
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
@@ -142,6 +183,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     $build['#ajax_card_grid_heading'] = $this->t('All results');
+    list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
     return $build;
   }
@@ -153,7 +195,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $config = $this->configFactory->get('mars_search.search_no_results');
     $url = $this->searchHelper->getCurrentUrl();
     $url_options = $url->getOptions();
-    $search_text = $url_options['query']['search'];
+    $search_text = array_key_exists('search', $url_options['query']) ? reset($url_options['query']['search']) : '';
 
     $linksMenu = $this->buildMenu('error-page-menu');
     $links = [];

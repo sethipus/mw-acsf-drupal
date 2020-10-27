@@ -29,57 +29,23 @@ third_party_settings:
         layout_settings:
           label: 'Free Editorial Capabilities'
         components:
-          ea2fc118-19f2-4c67-98d8-48d22dc6d099:
-            uuid: ea2fc118-19f2-4c67-98d8-48d22dc6d099
+          67606297-104a-40b8-9939-f31ef6a92b8c:
+            uuid: 67606297-104a-40b8-9939-f31ef6a92b8c
             region: content
             configuration:
-              id: 'field_block:node:campaign:title'
-              label: Title
-              provider: layout_builder
+              id: parent_page_header
+              label: 'Parent Page Header'
+              provider: mars_common
               label_display: ''
-              formatter:
-                label: hidden
-                type: string
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
+              eyebrow: ''
+              title: ''
+              description: ''
+              background_options: default
+              background_image: ''
+              background_video: ''
+              context_mapping: {  }
             additional: {  }
-            weight: 1
-          231c1a20-750b-4181-8655-19b11fd9dac6:
-            uuid: 231c1a20-750b-4181-8655-19b11fd9dac6
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:campaign:field_body'
-              formatter:
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-                type: text_default
-            additional: {  }
-            weight: 2
-          bb321d0a-7b1e-4e1d-a20c-33394b5286bf:
-            uuid: bb321d0a-7b1e-4e1d-a20c-33394b5286bf
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:campaign:field_campaign_image'
-              formatter:
-                type: entity_reference_entity_view
-                label: above
-                settings:
-                  view_mode: default
-                  link: false
-                third_party_settings: {  }
-            additional: {  }
-            weight: 3
+            weight: 0
         third_party_settings: {  }
   layout_library:
     enable: false
@@ -103,6 +69,8 @@ third_party_settings:
       - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
+      - 'Page components'
+      - Printable
       - Product
       - Recipe
       - 'Social feed'
@@ -111,7 +79,9 @@ third_party_settings:
       - User
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        'Page components': {  }
+        Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - campaign_section
@@ -121,42 +91,57 @@ third_party_settings:
       whitelisted_blocks:
         campaign_section:
           all_regions:
-            Article:
-              - article_header
+            Article: {  }
             'Chaos Tools': {  }
-            'Content fields':
-              - 'field_block:node:campaign:field_brand_initiatives'
-              - 'field_block:node:campaign:field_product_occasions'
-              - 'field_block:node:campaign:field_campaign_related_products'
-              - 'field_block:node:campaign:title'
-            'Custom block types': {  }
+            'Content fields': {  }
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
-            'Flexible driver': {  }
+            'Flexible driver':
+              - flexible_driver
             Forms: {  }
-            'Global elements': {  }
+            'Global elements':
+              - homepage_hero_block
             Help: {  }
-            'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
+              - contact_form
+              - contact_help_banner_block
+              - error_page_block
               - feedback_block
+              - freeform_story_block
+              - header_block
+              - iframe_block
+              - newsletter_signup_form
               - poll_block
+              - product_feature
               - recommendations_module
-            'Mars Product': {  }
+              - story_highlight
+              - where_to_buy_block
+            'Mars Product':
+              - grid_card
+              - product_content_pair_up_block
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components':
+              - carousel_block
+              - flexible_framer_block
+              - fullwidth_image_video_block
+              - inline_image_video_block
+              - list_block
+              - text_block
+            Printable: {  }
             Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
+            Recipe:
+              - recipe_feature_block
+            'Social feed':
+              - social_feed
+            'Social media share':
+              - social_sharing_block
             System: {  }
             User: {  }
-            core:
-              - page_title_block
-              - local_actions_block
-              - local_tasks_block
+            core: {  }
 id: node.campaign.default
 targetEntityType: node
 bundle: campaign

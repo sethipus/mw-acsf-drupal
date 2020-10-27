@@ -18,6 +18,7 @@
       } %}
     {% endblock %}
   {% else %}
+    <div class="recipe-media-image-wrapper">
     {% block recipe_media_image %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
@@ -28,6 +29,7 @@
         responsive_image_blockname: 'recipe-media',
       } %}
     {% endblock %}
+    </div>
   {% endif %}
   <div class="recipe-media__info">
     <div class="{{ brand_shape_class }}">
@@ -82,7 +84,7 @@
     <div class="recipe-info__social-text">Share</div>
     {% block recipe_social_menu %}
       {% include "@molecules/menus/social/social-menu.twig" with {
-        configured_icons: true
+        social_menu_items: social_menu_items,
       } %}
     {% endblock %}
   </div>

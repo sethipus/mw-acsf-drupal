@@ -21,7 +21,7 @@
   {% block recipe_media_image %}
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
-      image_alt: image.label,
+      image_alt: image.alt,
       image_srcset: image.url,
       image_sizes: '',
       image_src: image.url,
@@ -31,7 +31,6 @@
   {% block recipe_social_menu %}
     {% include "@molecules/menus/social/social-menu.twig" with {
       social_menu_items: social_links,
-      configured_icons: true
     } %}
   {% endblock %}
 {% endembed %}

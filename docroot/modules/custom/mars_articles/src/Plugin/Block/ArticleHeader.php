@@ -27,7 +27,7 @@ use Drupal\Core\Utility\Token;
  *   }
  * )
  *
- * @package Drupal\mars_recipes\Plugin\Block
+ * @package Drupal\mars_articles\Plugin\Block
  */
 class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
 
@@ -134,14 +134,14 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $build = [
       '#label' => $node->label(),
       '#eyebrow' => $this->configuration['eyebrow'],
-      '#publication_date' => $node->isPublished() ? $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
+      '#publication_date' => $node->isPublished() ? $this->t('Published') . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 
-    // Check which template to use.
-    if ($node->hasField('field_article_image') && $node->field_article_image->target_id) {
-      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_article_image->target_id);
+    $media_id = $this->mediaHelper->getEntityMainMediaId($node);
+    $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
+    if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
       $build['#image'] = [
-        'label' => $image_arr['title'] ?? '',
+        'alt' => $image_arr['alt'] ?? '',
         'url' => $image_arr['src'] ?? '',
       ];
       $build['#theme'] = 'article_header_block_image';
@@ -199,6 +199,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
    */
   protected function socialLinks() {
     global $base_url;
+    $node = $this->getContextValue('node');
     $social_menu_items = [];
     $social_medias = $this->configFactory->get('social_media.settings')
       ->get('social_media');
@@ -208,7 +209,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
         continue;
       }
       $social_menu_items[$name]['title'] = $social_media['text'];
-      $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url']);
+      $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url'], ['node' => $node]);
       $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {
