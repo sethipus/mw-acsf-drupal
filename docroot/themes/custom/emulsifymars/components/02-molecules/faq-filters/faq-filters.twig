@@ -19,20 +19,26 @@
       </div>
     </div>
   </div>
-    <div {{ bem('search-results', [], faq_filters_base_class) }}>
-      {{ search_result_counter }}
-    </div>
+
+    {% if search_result_counter > 0 %}
+        <div {{ bem('search-results', [], faq_filters_base_class) }}>
+          {{ search_result_counter }} {{search_result_text}}
+        </div>
+    {% endif %}
+    
   {% endblock %}
 
-  {% block faq_filters__filters %}
-    <div {{ bem('filters', [], faq_filters_base_class) }}>
-      {% for link in facetLinks %}
-        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-          default_link_base_class: link.class,
-          default_link_content: link.text,
-          default_link_attributes: link.attr
-        } %}
-      {% endfor %}
-    </div>
-  {% endblock %}
+  {% if search_result_counter > 0 %}
+    {% block faq_filters__filters %}
+      <div {{ bem('filters', [], faq_filters_base_class) }}>
+        {% for link in facetLinks %}
+          {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+            default_link_base_class: link.class,
+            default_link_content: link.text,
+            default_link_attributes: link.attr
+          } %}
+        {% endfor %}
+      </div>
+    {% endblock %}
+  {% endif %}
 </div>

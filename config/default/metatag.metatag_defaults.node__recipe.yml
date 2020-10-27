@@ -7,3 +7,5 @@ label: 'Content: Recipe'
 tags:
   description: '[node:field_recipe_description]'
   title: '[node:title]'
+  og_description: '[node:field_recipe_description]'
+  og_title: '[node:title]'
