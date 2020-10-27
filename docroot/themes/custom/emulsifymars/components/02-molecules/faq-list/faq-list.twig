@@ -20,8 +20,16 @@
     faq_base_class: 'faq-filters',
     search_form: search_form,
     search_result_counter: search_result_counter,
+    search_result_text: search_result_text,
     facetLinks: facetLinks,
   }%}
+
+  {% if search_result_counter == 0 %}
+    {% include "@molecules/search/search-no-results/search-no-results.twig" with {
+      no_results_heading: no_results_heading,
+      no_results_text: no_results_text,
+    }%}
+  {% endif %}
 
   {% include "@atoms/lists/faq.twig" %}
 

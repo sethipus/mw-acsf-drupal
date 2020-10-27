@@ -146,6 +146,8 @@ third_party_settings:
       - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
+      - 'Page components'
+      - Printable
       - Product
       - Recipe
       - 'Social feed'
@@ -157,6 +159,7 @@ third_party_settings:
       whitelisted_blocks:
         'Flexible driver': {  }
         'Mars Search': {  }
+        Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - article_article_header
@@ -174,17 +177,8 @@ third_party_settings:
               - article_header
             'Chaos Tools': {  }
             'Content fields': {  }
-            'Custom block types':
-              - flexible_framer
-              - full_width_image
-              - full_width_video
-              - inline_image
-              - inline_video
-              - list
-              - media_carousel
-              - text_component
-            'Custom blocks':
-              - mars_common_content_feature_module
+            'Custom block types': {  }
+            'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
             'Flexible driver':
@@ -192,15 +186,7 @@ third_party_settings:
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks':
-              - 'inline_block:flexible_framer'
-              - 'inline_block:full_width_image'
-              - 'inline_block:full_width_video'
-              - 'inline_block:inline_image'
-              - 'inline_block:inline_video'
-              - 'inline_block:list'
-              - 'inline_block:media_carousel'
-              - 'inline_block:text_component'
+            'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
               - contact_help_banner_block
@@ -213,6 +199,14 @@ third_party_settings:
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components':
+              - carousel_block
+              - flexible_framer_block
+              - fullwidth_image_video_block
+              - inline_image_video_block
+              - list_block
+              - text_block
+            Printable: {  }
             Product: {  }
             Recipe: {  }
             'Social feed':

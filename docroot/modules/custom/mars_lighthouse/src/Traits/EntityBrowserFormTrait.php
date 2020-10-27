@@ -4,6 +4,7 @@ namespace Drupal\mars_lighthouse\Traits;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Form\FormInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\entity_browser\Element\EntityBrowserElement;
@@ -130,7 +131,13 @@ trait EntityBrowserFormTrait {
    */
   public function getEntityBrowserValue(FormStateInterface $form_state, $parents) {
     $parents = is_array($parents) ? $parents : [$parents];
-    $value = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']));
+    if ($this instanceof FormInterface) {
+      $value = $form_state->getValue(array_merge($parents, ['entity_ids']));
+    }
+    else {
+      $value = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']));
+    }
+
     if (strpos($value, self::$file) !== FALSE) {
       $file_id = str_replace('file:', '', $value);
       $file = File::load($file_id);
@@ -171,7 +178,15 @@ trait EntityBrowserFormTrait {
     // For deep form elements.
     $parents = $element['#array_parents'];
     array_pop($parents);
-    $entity_ids = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']), '');
+
+    // Added check on config form.
+    if (isset($complete_form['#theme']) && $complete_form['#theme'] == 'system_config_form') {
+      $entity_ids = $form_state->getValue(['browser', 'entity_ids']);
+    }
+    else {
+      $entity_ids = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']), '');
+    }
+
     $entities = empty($entity_ids) ? [] : self::loadEntityBrowserEntitiesByIds($entity_ids);
     $entity_type_manager = \Drupal::entityTypeManager();
 
