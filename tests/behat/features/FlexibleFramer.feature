@@ -46,7 +46,7 @@ Feature: Flexible Framer Test
 
     # TODO: After error on Flexible Framer disappears -> check fields of Flexible Framer and also delete it
 
-    When I follow "Content"
+    When I am on "/admin/content"
     And I check content with title "TestBasicPageTitle"
     And I press "Apply to selected items"
     Then the url should match "content/node/delete"
