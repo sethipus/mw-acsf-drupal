@@ -116,7 +116,7 @@ class SearchQueryParser implements SearchQueryParserInterface {
       ],
       'limit' => 12,
       // Just to not have this empty.
-      'options_logic' => 'OR',
+      'options_logic' => 'AND',
       'keys' => '',
       'sort' => [
         'created' => 'DESC',

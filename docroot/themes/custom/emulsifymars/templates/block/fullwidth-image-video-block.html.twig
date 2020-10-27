@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Inline image/video component.
+ * 'block_type' => NULL,
+ * 'heading' => NULL,
+ * 'media' => NULL,
+ * 'content' => NULL,
+ * 'shape_motif' => NULL,
+ */
+#}
+<div {{ bem('block') }}>
+    {{ title_prefix }}
+    {{ title_suffix }}
+    {% block content %}
+        {% if (block_type == 'image') %}
+        {% include "@molecules/article-media/full-width/full-width-media.twig" with {
+            theme_styles: 'drupal',
+            heading: heading,
+            media: media,
+            content: content,
+            shape_motif: shape_motif
+        } %}
+        {% elseif (block_type == 'video') %}
+
+        {% include "@molecules/article-media/full-width/full-width-media.twig" with {
+            theme_styles: 'drupal',
+            heading: heading,
+            media: media,
+            content: content,
+            shape_motif: shape_motif
+        } %}
+        {% endif %}
+    {% endblock %}
+</div>

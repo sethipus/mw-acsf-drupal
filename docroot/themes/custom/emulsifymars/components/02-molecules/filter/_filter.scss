@@ -12,6 +12,7 @@
     max-width: 230px;
     flex-grow: 0;
     border: none;
+    cursor: pointer;
 
     &:first-child {
       .filter-title {
@@ -69,7 +70,7 @@
       }
     }
 
-    &:hover {
+    &--open {
       .filter-title {
         &::before {
           top: 12px;
