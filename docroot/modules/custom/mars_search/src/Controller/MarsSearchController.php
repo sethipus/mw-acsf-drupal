@@ -140,17 +140,18 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         ],
       ] : [];
     }
-    $empty_text_description = $this->config('mars_search.autocomplete')->get('empty_text_description');
+    $empty_text_heading = $this->config('mars_search.search_no_results')->get('no_results_heading');
+    $empty_text_description = $this->config('mars_search.search_no_results')->get('no_results_text');
     $build = [
       '#theme' => 'mars_search_suggestions',
       '#suggestions' => $suggestions,
       '#cards_view' => $options['cards_view'],
       '#show_all' => $show_all,
-      '#empty_text' => $this->t('There are no matching results for "@keys"', ['@keys' => $options['keys']]),
-      '#empty_text_description' => $empty_text_description ? $empty_text_description : $this->t('Please try entering different search'),
+      '#empty_text' => str_replace('@keys', $options['keys'], $empty_text_heading),
+      '#empty_text_description' => $empty_text_description ?? $this->t('Please try entering different search'),
       '#no_results' => $this->getSearchNoResult(
-        $this->t('There are no matching results for "@keys"', ['@keys' => $options['keys']]),
-        $empty_text_description ? $empty_text_description : $this->t('Please try entering different search')
+        str_replace('@keys', $options['keys'], $empty_text_heading),
+        $empty_text_description ?? $this->t('Please try entering different search')
       ),
     ];
     if ($options['cards_view']) {

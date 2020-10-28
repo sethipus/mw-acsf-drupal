@@ -122,7 +122,7 @@ class MediaHelper {
         ];
 
       case 'video_file':
-        if (!$entity->field_media_image || !$entity->field_media_image->target_id) {
+        if (!$entity->field_media_video_file || !$entity->field_media_video_file->target_id) {
           return ['error' => TRUE, 'message' => $this->t('Image not set.')];
         }
 

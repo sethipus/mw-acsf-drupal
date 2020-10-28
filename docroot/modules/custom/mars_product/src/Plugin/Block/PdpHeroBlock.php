@@ -443,7 +443,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $serving_items = $this->getServingItems($product_variant_first);
 
       $products_data[] = [
-        'product_title' => $product_variant_first->getTitle(),
+        'product_title' => $product->getTitle(),
         'product_image' => $this->getProductVariantImage($product_variant_first),
         'nutrition_data' => [
           'serving_item' => $serving_items,
