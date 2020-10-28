@@ -16,7 +16,7 @@ services:
 
   mars_common.menu_add_access:
     class: Drupal\mars_common\Access\MenuAddAccess
-    arguments: ['@current_route_match', '@plugin.manager.menu.link']
+    arguments: ['@current_route_match', '@menu.link_tree']
     tags:
       - { name: access_check, applies_to: _menu_add_access }
 

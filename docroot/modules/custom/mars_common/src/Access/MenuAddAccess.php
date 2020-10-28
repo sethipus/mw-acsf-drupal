@@ -3,7 +3,8 @@
 namespace Drupal\mars_common\Access;
 
 use Drupal\Core\Access\AccessResult;
-use Drupal\Core\Menu\MenuLinkManager;
+use Drupal\Core\Menu\MenuLinkTree;
+use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Routing\Access\AccessInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -24,18 +25,18 @@ class MenuAddAccess implements AccessInterface {
   protected $routeMatch;
 
   /**
-   * The menu link manager.
+   * The menu link tree.
    *
-   * @var \Drupal\Core\Menu\MenuLinkManager
+   * @var \Drupal\Core\Menu\MenuLinkTree
    */
-  protected $menuLinkManager;
+  protected $menuLinkTree;
 
   /**
    * {@inheritdoc}
    */
-  public function __construct(RouteMatchInterface $route_match, MenuLinkManager $menu_link_manager) {
+  public function __construct(RouteMatchInterface $route_match, MenuLinkTree $menu_link_tree) {
     $this->routeMatch = $route_match;
-    $this->menuLinkManager = $menu_link_manager;
+    $this->menuLinkTree = $menu_link_tree;
   }
 
   /**
@@ -43,8 +44,11 @@ class MenuAddAccess implements AccessInterface {
    */
   public function access(AccountInterface $account) {
     $param_menu = $this->routeMatch->getParameter('menu');
-    if ($param_menu->id() === MenuConstants::MAIN_MENU_ID) {
-      if ($this->menuLinkManager->countMenuLinks(MenuConstants::MAIN_MENU_ID) >= MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT) {
+    if ($param_menu && $param_menu->id() === MenuConstants::MAIN_MENU_ID) {
+      $menu_tree_params = new MenuTreeParameters();
+      $menu_tree_params->setMaxDepth(1);
+      $menu_tree = $this->menuLinkTree->load(MenuConstants::MAIN_MENU_ID, $menu_tree_params);
+      if ($menu_tree && count($menu_tree) >= MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT) {
         return AccessResult::forbidden();
       }
     }
