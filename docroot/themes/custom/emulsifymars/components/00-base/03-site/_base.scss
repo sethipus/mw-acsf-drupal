@@ -34,10 +34,3 @@ body {
   width: 1px;
   word-wrap: normal;
 }
-
-.layout__region {
-  & > div {
-    position: relative;
-    z-index: 1;
-  }
-}
