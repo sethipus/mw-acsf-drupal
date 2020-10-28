@@ -5,15 +5,19 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +38,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @var \Drupal\Core\Language\LanguageManagerInterface
    */
   protected $languageManager;
+
+  /**
+   * Drupal\Core\Routing\CurrentRouteMatch definition.
+   *
+   * @var \Drupal\Core\Routing\CurrentRouteMatch
+   */
+  protected $currentRouteMatch;
 
   /**
    * The path matcher.
@@ -95,6 +106,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_id,
     $plugin_definition,
     LanguageManagerInterface $language_manager,
+    CurrentRouteMatch $current_route_match,
     PathMatcherInterface $path_matcher,
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
@@ -105,6 +117,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->languageManager = $language_manager;
+    $this->currentRouteMatch = $current_route_match;
     $this->pathMatcher = $path_matcher;
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
@@ -124,6 +137,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_id,
       $plugin_definition,
       $container->get('language_manager'),
+      $container->get('current_route_match'),
       $container->get('path.matcher'),
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
@@ -235,10 +249,16 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
 
-    $current_language_id = $this->languageManager->getCurrentLanguage($this->getDerivativeId())->getId();
+    $current_language_id = $this->languageManager->getCurrentLanguage()->getId();
     $build['#language_selector_current'] = mb_strtoupper($current_language_id);
     $build['#language_selector_label'] = $this->t('Select language');
-    $build['#language_selector_items'] = $this->getLanguageLinks();
+    $language_selector_items = [];
+    try {
+      $language_selector_items = $this->getLanguageLinks();
+    }
+    catch (EntityMalformedException $entity_malformed_exception) {
+    }
+    $build['#language_selector_items'] = $language_selector_items;
     $build['#language_selector'] = $config['language_selector'] && count($build['#language_selector_items']);
 
     $build['#theme'] = 'header_block';
@@ -253,13 +273,16 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    *
    * @return array
    *   Language selector links.
+   *
+   * @throws \Drupal\Core\Entity\EntityMalformedException
    */
   protected function getLanguageLinks() {
     $languages = $this->languageManager->getLanguages();
     $render_links = [];
 
     if (count($languages) > 1) {
-      $derivative_id = $this->getDerivativeId();
+      $derivative_id = LanguageInterface::TYPE_URL;
+      $page_entity = $this->getPageEntity();
       $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
       $current_language = $this->languageManager->getCurrentLanguage($derivative_id)->getId();
       $links = $this->languageManager->getLanguageSwitchLinks($derivative_id, Url::fromRoute($route))->links;
@@ -270,14 +293,34 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       }
 
       foreach ($links as $link_key => $link_data) {
+        $url = $page_entity ?
+          $page_entity->toUrl('canonical', ['language' => $link_data['language']])->toString()
+          : Url::fromRoute('<current>', [], ['language' => $link_data['language']]);
         $render_links[] = [
           'title' => $link_data['title'],
           'abbr' => mb_strtoupper($link_key),
-          'url' => $link_data['url']->toString(),
+          'url' => $url,
         ];
       }
     }
     return $render_links;
+  }
+
+  /**
+   * Retrieves the current page entity.
+   *
+   * @return \Drupal\Core\Entity\ContentEntityInterface|bool
+   *   The retrieved entity, or FALSE if none found.
+   */
+  protected function getPageEntity() {
+    $params = $this->currentRouteMatch->getParameters()->all();
+
+    foreach ($params as $param) {
+      if ($param instanceof ContentEntityInterface) {
+        return $param;
+      }
+    }
+    return FALSE;
   }
 
   /**
