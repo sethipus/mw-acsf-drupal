@@ -1,79 +1,80 @@
-Drupal.behaviors.dropdown = {
-  attach(context) {
-    let dropdown = '.dropdown',
-      dropdownTrigger = '.dropdown__trigger',
-      expandedDropdown = '.dropdown.is-expanded',
-      dropdownContent = '.dropdown__content--outer';
+(function($) {
+  Drupal.behaviors.dropdown = {
+    attach(context) {
+      let dropdown = '.dropdown',
+        dropdownTrigger = '.dropdown__trigger',
+        expandedDropdown = '.dropdown.is-expanded',
+        dropdownContent = '.dropdown__content--outer';
+        
+      var hideMenus = function() {
+        $(expandedDropdown).each(function(index, element) {
+          $(element).removeClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','false');
+        });
+      };
       
-    var hideMenus = function() {
-      $(expandedDropdown).each(function(index, element) {
-        $(element).removeClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','false');
-      });
-    };
-    
-    var showMenu = function(target, e) {
-      if (!target) return false;
+      var showMenu = function(target) {
+        if (!target) return false;
 
-      hideMenus();
-      $(target).addClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','true');
-    };
-    
-    var toggleMenu = function(target, e) {
-      if (!target) return false;
-
-      if ($(target).hasClass('is-expanded')) {
-        hideMenus();
-      } else {
         hideMenus();
         $(target).addClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','true');
-      }
-    };
-    
-    var listenForMouse = function() {
-      let target;
+      };
       
-      $(dropdown).on('mouseenter', function(event) {
-        target = $(event.currentTarget);
-        
-        if (target) {
-          showMenu(target, event);
-        }
-      });
-      
-      $(dropdown).on('mouseleave', function(event) {
-        hideMenus();  
-      });
-      
-      $(dropdown).on('click', function(event) {
-        target = $(event.currentTarget);
-        if (target) {
-          toggleMenu(target, event);
-        }
-      });
-    };
-    
-    var listenForKeyboard = function() {
-      let target;
+      var toggleMenu = function(target) {
+        if (!target) return false;
 
-      $(dropdown).on('focus', dropdownTrigger, function(e) {
-        target = $(e.currentTarget).parents(dropdown);
-        
-        hideMenus();
-        showMenu(target, e);
-      });
+        if ($(target).hasClass('is-expanded')) {
+          hideMenus();
+        } else {
+          showMenu(target);
+        }
+      };
       
-      $(dropdown).on('focusout', dropdownContent, function(e) {
-        setTimeout(function () { // 'focusout' workaround
-          if ($(':focus').closest(dropdown).length == 0) {
-            hideMenus();
+      var listenForMouse = function() {
+        let target;
+        
+        $(dropdown).on('mouseenter', function(event) {
+          target = $(event.currentTarget);
+          
+          if (target) {
+            showMenu(target);
           }
-        }, 0);
-      });
-    };
+        });
+        
+        $(dropdown).on('mouseleave', function(event) {
+          hideMenus();  
+        });
+        
+        $(dropdown).on('click', function(event) {
+          target = $(event.currentTarget);
+          if (target) {
+            toggleMenu(target);
+          }
+        });
+      };
+      
+      var listenForKeyboard = function() {
+        let target;
 
-    //init
-    hideMenus();
-    listenForMouse();
-    listenForKeyboard();
-  },
-};
+        $(dropdown).on('focus', dropdownTrigger, function(e) {
+          target = $(e.currentTarget).parents(dropdown);
+          
+          hideMenus();
+          showMenu(target);
+        });
+        
+        $(dropdown).on('focusout', dropdownContent, function(e) {
+          setTimeout(function () { // 'focusout' workaround
+            if ($(':focus').closest(dropdown).length == 0) {
+              hideMenus();
+            }
+          }, 0);
+        });
+      };
+
+      //init
+      hideMenus();
+      listenForMouse();
+      listenForKeyboard();
+    },
+  };
+})(jQuery);
