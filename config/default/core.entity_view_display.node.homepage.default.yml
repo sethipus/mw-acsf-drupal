@@ -147,7 +147,8 @@ third_party_settings:
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types': {  }
-            'Custom blocks': {  }
+            'Custom blocks':
+              - mars_common_content_feature_module
             'Entity Block': {  }
             'Entity Browser': {  }
             'Flexible driver': {  }
@@ -184,6 +185,33 @@ third_party_settings:
             System: {  }
             User: {  }
             core: {  }
+        homepage_homepage_hero:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements':
+              - homepage_hero_block
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            Views: {  }
+            core: {  }
         homepage_drive_to_product:
           all_regions:
             Article: {  }
@@ -216,33 +244,6 @@ third_party_settings:
             'Social media share': {  }
             System: {  }
             User: {  }
-            core: {  }
-        homepage_homepage_hero:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements':
-              - homepage_hero_block
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
             core: {  }
 id: node.homepage.default
 targetEntityType: node
