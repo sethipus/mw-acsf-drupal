@@ -166,6 +166,8 @@
 
   button.fullscreen-video__mute {
     margin-right: 10px;
+    width: 30px;
+    height: 30px;
 
     @include medium {
       margin-right: 20px;
