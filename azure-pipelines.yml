@@ -82,7 +82,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        composer self-update --1 &&
+        sudo composer self-update --1 &&
         composer validate --no-check-all --ansi &&
         composer install &&
         npm install npm@latest -g
