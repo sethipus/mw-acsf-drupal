@@ -272,6 +272,7 @@ video:-webkit-full-screen+.fullscreen-video__controls progress {
 /* hide controls on fullscreen with WebKit */
 
 figure[data-fullscreen="true"] {
+  display: flex;
   max-width: 100%;
   width: 100%;
   margin: 0;
