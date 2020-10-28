@@ -117,10 +117,8 @@
     font-size: 1.4rem;
     letter-spacing: 0.7px;
   }
-  
-  &:hover {
-    .dropdown__trigger::after {
-      top: 15px;
-    }
+
+  .dropdown__trigger[aria-expanded="true"]::after {
+    top: 15px;
   }
 }
