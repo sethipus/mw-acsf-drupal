@@ -15,7 +15,11 @@ label: Body
 description: ''
 required: false
 translatable: true
-default_value: {  }
+default_value:
+  -
+    summary: ''
+    value: "<p>\r\nUnfortunately, this page does not exist. Here are some helpful links instead:</p>\r\n"
+    format: rich_text
 default_value_callback: ''
 settings:
   display_summary: true
