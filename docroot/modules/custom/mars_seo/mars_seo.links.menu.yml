@@ -1,0 +1,5 @@
+metatag.open_graph_settings:
+  title: 'Open graph settings'
+  route_name: open_graph.settings
+  description: 'Configure open graph settings.'
+  parent: entity.metatag_defaults.collection

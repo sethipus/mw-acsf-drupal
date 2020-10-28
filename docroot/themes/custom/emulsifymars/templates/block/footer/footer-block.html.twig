@@ -26,6 +26,8 @@
   regions: region_selector,
   corporate_tout_text: corporate_tout,
   card__button__content: corporate_tout_button,
+  brand_shape_class: brand_shape_class,
+  brand_border: brand_border,
 } %}
 
   {% block footer__logo %}
@@ -44,7 +46,7 @@
 
   {% block footer__brand_border %}
     <div class="{{ brand_shape_class }}">
-      {{ border | raw }}
+      {{ brand_border | raw }}
     </div>
   {% endblock %}
 

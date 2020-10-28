@@ -3,6 +3,7 @@
   position: relative;
   overflow: visible;
   margin: 0;
+  z-index: 1;
 
   &__content {
     margin-bottom: -40rem;

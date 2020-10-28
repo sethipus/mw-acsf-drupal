@@ -27,7 +27,7 @@ use Drupal\Core\Utility\Token;
  *   }
  * )
  *
- * @package Drupal\mars_recipes\Plugin\Block
+ * @package Drupal\mars_articles\Plugin\Block
  */
 class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
 
