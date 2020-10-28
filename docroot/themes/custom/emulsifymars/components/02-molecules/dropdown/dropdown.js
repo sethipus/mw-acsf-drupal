@@ -26,7 +26,6 @@
           hideMenus();
         } else {
           showMenu(target);
-          $(target).addClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','true');
         }
       };
 
