@@ -51,3 +51,20 @@ function mars_common_update_8003() {
     }
   }
 }
+
+/**
+ * Hide footer block at error page (AB#184643).
+ */
+function mars_common_update_8004() {
+  /* @var \Drupal\Core\Config\Config $config */
+  $config = \Drupal::service('config.factory')->getEditable('block.block.footerblock');
+  $config->set('visibility', [
+    'entity_bundle:node' => [
+      'id' => 'entity_bundle:node',
+      'bundles' => ['error_page' => 'error_page'],
+      'negate' => TRUE,
+      'context_mapping' => ['node' => '@node.node_route_context:node'],
+    ],
+  ]);
+  $config->save();
+}
