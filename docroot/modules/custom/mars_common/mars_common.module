@@ -36,6 +36,7 @@ use Drupal\taxonomy\TermInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\mars_common\Constants\MenuConstants;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_menu_insert().
@@ -960,8 +961,7 @@ function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterf
   }
 
   if ($menu_tree_root_items_count > MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT && $menu_tree_root_items_count != count($menu_tree)) {
-    $form_state->setErrorByName(
-      'title',
+    \Drupal::messenger()->addError(
       t(
         'The maximum menu count of <b>@menu</b> is <b>@max_count</b>.',
         [
@@ -970,6 +970,9 @@ function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterf
         ]
       )
     );
+    $response = new RedirectResponse(Url::fromRoute('<current>')->toString());
+    $response->sendHeaders();
+    exit();
   }
 }
 
