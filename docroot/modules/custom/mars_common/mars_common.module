@@ -1089,6 +1089,19 @@ function mars_common_field_widget_form_alter(
     $element['choice']['#size'] = 40;
     $element['choice']['#maxlength'] = 25;
   }
+
+  $form_id = $form_state->getFormObject()->getFormId();
+  $form_array = [
+    'node_error_page_edit_form',
+    'node_error_page_form',
+  ];
+  if (in_array($form_id, $form_array) && $field_name == 'title') {
+    $element['value']['#maxlength'] = 15;
+    $element['value']['#default_value'] = $element['value']['#default_value'] ?? t('Oops');
+  }
+  if (in_array($form_id, $form_array) && $field_name == 'body') {
+    $element['#maxlength'] = 100;
+  }
 }
 
 /**

@@ -7,6 +7,7 @@
 
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\Entity\BaseFieldOverride;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_theme().
@@ -66,4 +67,24 @@ function mars_recipes_entity_bundle_field_info(EntityTypeInterface $entity_type,
   $fields['title'] = $field;
 
   return $fields;
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function mars_recipes_field_widget_form_alter(
+  &$element,
+  FormStateInterface $form_state,
+  $context
+) {
+  $field_name = $context['items']->getName();
+
+  $form_id = $form_state->getFormObject()->getFormId();
+  $form_array = [
+    'node_recipe_edit_form',
+    'node_recipe_form',
+  ];
+  if (in_array($form_id, $form_array) && $field_name == 'field_recipe_cooking_time') {
+    $element['value']['#step'] = 5;
+  }
 }
