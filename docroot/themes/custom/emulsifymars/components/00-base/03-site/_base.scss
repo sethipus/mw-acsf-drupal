@@ -37,6 +37,7 @@ body {
 
 .layout__region {
   & > div {
-    transform: translateZ(0);
+    position: relative;
+    z-index: 1;
   }
 }
