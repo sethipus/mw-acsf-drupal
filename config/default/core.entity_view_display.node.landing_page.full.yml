@@ -302,6 +302,7 @@ hidden:
   field_landing_page_image: true
   field_landing_page_new: true
   field_product_occasions: true
+  langcode: true
   layout_builder__layout: true
   links: true
   published_at: true
