@@ -345,19 +345,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#description' => $this->t('2 additional cards for hero block on homepage.'),
       '#prefix' => '<div id="cards-wrapper">',
       '#suffix' => '</div>',
+      '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+        ],
+      ]
     ];
-    $form['card']['#states'] = [
-      'invisible' => [
-        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
-      ],
-      //TODO: required?????
-//      'required' => [
-//        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
-//        'or',
-//        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
-//      ],
-    ];
-//    var_dump($form['card']);
+
     $card_settings = !empty($config['card']) ? $config['card'] : '';
     $card_storage = $form_state->get('card_storage');
     if (!isset($card_storage)) {
@@ -382,6 +376,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'details',
         '#title' => $this->t('Product card'),
         '#open' => TRUE,
+        '#states' => [
+          'invisible' => [
+            ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+          ],
+        ]
       ];
       $form['card'][$key]['eyebrow'] = [
         '#type' => 'textfield',
@@ -420,6 +419,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $form['card'][$key]['foreground_image']['#type'] = 'details';
       $form['card'][$key]['foreground_image']['#title'] = $this->t('Foreground Image');
       $form['card'][$key]['foreground_image']['#open'] = TRUE;
+      $form['card'][$key]['foreground_image']['#states'] = [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+        ],
+      ];
 
       $form['card'][$key]['remove_card'] = [
         '#type'  => 'button',
@@ -429,6 +433,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           'callback' => [$this, 'ajaxRemoveCardCallback'],
           'wrapper' => 'cards-wrapper',
         ],
+        '#states' => [
+          'invisible' => [
+            ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+          ],
+        ]
       ];
     }
     if (count($card_storage) < 2) {
@@ -441,6 +450,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
         '#limit_validation_errors' => [],
         '#submit' => [[$this, 'addCardSubmited']],
+        '#states' => [
+          'invisible' => [
+            ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+          ],
+        ]
       ];
     }
 
