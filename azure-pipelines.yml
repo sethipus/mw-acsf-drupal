@@ -105,11 +105,11 @@ steps:
   - task: Bash@3
     displayName: 'Setup App'
     inputs:
-      filePath: '$(scriptDir)/setup_app.sh'
+      filePath: './scripts/setup_app.sh'
   - task: Bash@3
     displayName: 'Run Tests'
     inputs:
-      filePath: '$(scriptDir)/test.sh'
+      filePath: './scripts/test.sh'
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
