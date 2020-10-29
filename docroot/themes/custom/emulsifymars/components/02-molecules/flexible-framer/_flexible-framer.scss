@@ -196,13 +196,11 @@
       }
     }
   }
-}
 
-.flexible-framer   {
   .grid-items-2 {
     .image-wrapper {
       @include large {
-        min-height: calc((100vw/2)*0.5625);
+        min-height: calc((100vw/2) * 0.5625);
         flex-grow: 1;
       }
     }
@@ -211,7 +209,7 @@
   .grid-items-3 {
     .image-wrapper {
       @include large {
-        min-height: calc((100vw/3)*0.5625);
+        min-height: calc((100vw/3) * 0.5625);
         flex-grow: 1;
       }
     }
@@ -220,7 +218,7 @@
   .grid-items-4 {
     .image-wrapper {
       @include large {
-        min-height: calc((100vw/4)*0.5625);
+        min-height: calc((100vw/4) * 0.5625);
         flex-grow: 1;
       }
     }
