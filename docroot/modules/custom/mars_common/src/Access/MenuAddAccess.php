@@ -43,7 +43,7 @@ class MenuAddAccess implements AccessInterface {
    */
   public function access(AccountInterface $account) {
     $param_menu = $this->routeMatch->getParameter('menu');
-    if ($param_menu->id() === MenuConstants::MAIN_MENU_ID) {
+    if ($param_menu && $param_menu->id() === MenuConstants::MAIN_MENU_ID) {
       if ($this->menuLinkManager->countMenuLinks(MenuConstants::MAIN_MENU_ID) >= MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT) {
         return AccessResult::forbidden();
       }
