@@ -153,6 +153,9 @@
             },
             "drupal/pdf_api": {
                 "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2019-01-31/tmp-directory-3016161-4.patch"
+            },
+            "drupal/field_group": {
+                "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
             }
         }
     },
