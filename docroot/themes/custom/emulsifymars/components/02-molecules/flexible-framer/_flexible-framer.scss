@@ -150,7 +150,6 @@
         background-color: clr(secondary);
         font-size: 14px;
         border:none;
-        transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
 
         &:hover {
           color: clr(secondary);
