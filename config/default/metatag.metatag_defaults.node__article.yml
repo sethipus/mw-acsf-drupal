@@ -7,3 +7,4 @@ label: 'Content: Article'
 tags:
   description: '[node:field_article_description]'
   title: '[node:title]'
+  og_description: '[node:field_article_description]'
