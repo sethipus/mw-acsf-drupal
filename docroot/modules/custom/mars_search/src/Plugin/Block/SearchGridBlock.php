@@ -297,8 +297,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   private function getSearchNoResult() {
     $config = $this->configFactory->get('mars_search.search_no_results');
     return [
-      '#no_results_heading' => $config['no_results_heading'],
-      '#no_results_text' => $config['no_results_text'],
+      '#no_results_heading' => $config->get('no_results_heading'),
+      '#no_results_text' => $config->get('no_results_text'),
       '#theme' => 'mars_search_no_results',
     ];
   }
