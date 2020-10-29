@@ -11,8 +11,7 @@
   position: relative;
   overflow: hidden;
   display: inline-block;
-  transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
-  transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+  transition: color 1.2s cubic-bezier(.75, 0, .25, 1), background-color 1.2s cubic-bezier(.75, 0, .25, 1);
   border-radius: variable(button-border-radius);
 
   &::after {
@@ -38,8 +37,7 @@
 
   &:hover {
     color: clr(secondary);
-    background-color: clr(subcolor-3);
-    transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+    background-color: transparent !important;
 
     &::after {
       height: 300px;
@@ -57,10 +55,9 @@
     &::after {
       background-color: clr(secondary);
     }
-    
+
     &:hover {
       color: clr(subcolor-3);
-      
     }
   }
 
