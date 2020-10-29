@@ -51,7 +51,7 @@ class SearchTermFacetProcess {
       if (array_key_exists($vocabulary, $facets) && count($facets[$vocabulary]) > 0) {
         $facetValues = [];
         $countSelected = 0;
-        $query_filter = urlencode($vocabulary . '[' . $grid_id . ']');
+        $queryFilter = urlencode($vocabulary . '[' . $grid_id . ']');
         foreach ($facets[$vocabulary] as $facet) {
           if ($facet['filter'] == '!' || !array_key_exists($facet['filter'], $terms)) {
             continue;
@@ -62,7 +62,7 @@ class SearchTermFacetProcess {
           ];
           if (
             $this->hasQueryKey($vocabulary) &&
-            $this->getQueryValue($vocabulary, $grid_id) == $facet['filter']
+            strpos($this->getQueryValue($vocabulary, $grid_id), $facet['filter']) !== FALSE
           ) {
             $facetValues[count($facetValues) - 1]['checked'] = 'checked';
             $countSelected++;
@@ -74,7 +74,7 @@ class SearchTermFacetProcess {
         }
         $filters[] = [
           'filter_title' => $vocabulary_data['label'],
-          'filter_id' => $query_filter,
+          'filter_id' => $queryFilter,
           'active_filters_count' => $countSelected,
           'checkboxes' => $facetValues,
         ];

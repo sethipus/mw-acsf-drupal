@@ -8,7 +8,14 @@ Drupal.behaviors.searchFilterBehaviour = {
 
     filters.forEach(filter => {
       filter.addEventListener('click', () => {
-       filter.classList.toggle('filter-block--open');
+        let open = false;
+        if (!filter.classList.contains('filter-block--open'))
+          open = true;
+        document.querySelectorAll('.filter-block--open').forEach(function (filter) {
+          filter.classList.remove('filter-block--open');
+        });
+        if (open)
+          filter.classList.toggle('filter-block--open');
       });
     });
 
@@ -46,13 +53,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         updateCounters();
 
         const searchQuery = context.querySelector('.search-input__field').value;
-        if (searchQuery !== '') {
-          document.location.search = 'search=' + searchQuery;
-        }
-        else {
-          document.location.search = '';
-        }
-
+        document.location.search = getClearQuery();
       });
     });
 
@@ -90,6 +91,24 @@ Drupal.behaviors.searchFilterBehaviour = {
       });
       document.location.search = queryElements.join('&');
     };
+
+    const getClearQuery = () => {
+      const query = window.location.search.substring(1);
+      const vars = query.split('&');
+      let resultQuery = '';
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (pair[0].includes('search') || pair[0].includes('type')) {
+          if (resultQuery.length == 0) {
+            resultQuery += vars[i];
+          }
+          else {
+            resultQuery = resultQuery.concat('&', vars[i]);
+          }
+        }
+      }
+      return resultQuery;
+    }
 
     const updateCounters = () => {
       let appliedFilters = '';
