@@ -20,6 +20,9 @@
       display: inline;
       height: 22px;
       width: 22px;
+    }
+
+    & svg path {
       fill: clr(secondary);
     }
   }
