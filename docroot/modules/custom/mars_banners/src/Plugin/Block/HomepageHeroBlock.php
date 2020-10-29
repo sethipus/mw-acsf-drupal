@@ -54,6 +54,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   const KEY_OPTION_IMAGE = 'image';
 
   /**
+   * Key option image + text
+   */
+  const KEY_OPTION_IMAGE_AND_TEXT = 'image_and_text';
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -109,6 +114,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#cta_title'] = $config['cta']['title'];
     $build['#block_type'] = $config['block_type'];
     $build['#background_asset'] = $this->getBgAsset();
+    if ($build['#block_type'] === self::KEY_OPTION_IMAGE_AND_TEXT) {
+      $build['#title_label'] = $config['basic_title']['label'];
+    }
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
@@ -148,16 +156,18 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+    $block_type_value = $config['block_type'] ?? self::KEY_OPTION_DEFAULT;
     $form['block_type'] = [
       '#title' => $this->t('Choose block type'),
       '#type' => 'select',
       '#options' => [
         self::KEY_OPTION_DEFAULT => $this->t('Default'),
         self::KEY_OPTION_IMAGE => $this->t('Image'),
+        self::KEY_OPTION_IMAGE_AND_TEXT => $this->t('Image + text'),
         self::KEY_OPTION_VIDEO => $this->t('Video'),
         self::KEY_OPTION_VIDEO_LOOP => $this->t('Video No Text, CTA'),
       ],
-      '#default_value' => $config['block_type'] ?? self::KEY_OPTION_DEFAULT,
+      '#default_value' => $block_type_value,
     ];
     $form['eyebrow'] = [
       '#type' => 'textfield',
@@ -166,7 +176,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#default_value' => $config['eyebrow'] ?? '',
       '#states' => [
         'invisible' => [
-          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP],
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]]
         ],
         'required' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
@@ -183,7 +195,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#open' => TRUE,
       '#states' => [
         'invisible' => [
-          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP],
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]]
         ],
       ],
     ];
@@ -217,13 +231,40 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
       ],
     ];
+
+    $form['basic_title'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Title'),
+      '#open' => TRUE,
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]
+        ],
+      ],
+    ];
+    $form['basic_title']['label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Title label'),
+      '#maxlength' => 55,
+      '#default_value' => $config['basic_title']['label'] ?? '',
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]
+        ],
+        'required' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+        ],
+      ],
+    ];
     $form['cta'] = [
       '#type' => 'details',
       '#title' => $this->t('CTA'),
       '#open' => TRUE,
       '#states' => [
         'invisible' => [
-          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP],
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]]
         ],
       ],
     ];
@@ -267,10 +308,14 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['background_image']['#open'] = TRUE;
     $form['background_image']['#states'] = [
       'visible' => [
-        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
+        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+        'or',
+        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]]
       ],
       'required' => [
-        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
+        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+        'or',
+        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]]
       ],
     ];
 
@@ -301,7 +346,18 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#prefix' => '<div id="cards-wrapper">',
       '#suffix' => '</div>',
     ];
-
+    $form['card']['#states'] = [
+      'invisible' => [
+        ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+      ],
+      //TODO: required?????
+//      'required' => [
+//        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+//        'or',
+//        [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
+//      ],
+    ];
+//    var_dump($form['card']);
     $card_settings = !empty($config['card']) ? $config['card'] : '';
     $card_storage = $form_state->get('card_storage');
     if (!isset($card_storage)) {
@@ -467,7 +523,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $bg_image_media_id = NULL;
     $bg_image_url = NULL;
 
-    if ($config['block_type'] == self::KEY_OPTION_IMAGE && !empty($config['background_image'])) {
+    if (in_array($config['block_type'], [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]) && !empty($config['background_image'])) {
       $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_image']);
     }
     elseif ($config['block_type'] == self::KEY_OPTION_VIDEO && !empty($config['background_video'])) {

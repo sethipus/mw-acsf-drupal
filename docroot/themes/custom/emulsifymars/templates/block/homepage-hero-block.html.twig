@@ -45,8 +45,7 @@
 
   {% set hero_image = {
     'srcset': background_srcset,
-    'src': background_asset}
-  %}
+    'src': background_asset} %}
 
   {% include "@molecules/homepage-hero/standard/homepage-hero-standard.twig" with {
     theme_styles: 'drupal',
@@ -66,8 +65,7 @@
 
   {% set hero_image = {
     'srcset': background_srcset,
-    'src': background_asset}
-  %}
+    'src': background_asset} %}
 
   {% include "@molecules/homepage-hero/3up/homepage-hero-3up.twig" with {
     theme_styles: 'drupal',
@@ -79,6 +77,26 @@
     cta_base_class: 'cta-link',
     hero_image: hero_image,
     blocks: blocks,
+  } %}
+
+{% elseif (block_type == 'image_and_text') %}
+
+  {{ title_label }}
+  {% set background_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' |
+    format(background_asset, background_asset, background_asset, background_asset) %}
+
+  {% set hero_image = {
+    'srcset': background_srcset,
+    'src': background_asset} %}
+  {% include "@atoms/images/image/responsive-image.twig" with {
+    output_image_tag: true,
+    image_alt: '',
+    image_srcset: hero_image.srcset,
+    image_sizes: '(max-width: 375px) 375px,
+                (max-width: 768px) 768px,
+                1440px',
+    image_src: hero_image.src,
+    responsive_image_blockname: 'homepage-hero-image',
   } %}
 
 {% endif %}
