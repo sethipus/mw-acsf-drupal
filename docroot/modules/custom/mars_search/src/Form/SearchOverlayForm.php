@@ -88,13 +88,23 @@ class SearchOverlayForm extends FormBase {
    *   The current state of the form.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $query = [];
-    $keys = $form_state->getValue('search');
-    if ($keys) {
-      $query = [SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => $keys];
-    }
-    $form_state->setRedirectUrl(Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, ['query' => $query]));
+    // Default search ID is 1.
+    $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID;
 
+    $keys = $form_state->getValue('search');
+
+    $url = Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH);
+    $options = $url->getOptions();
+
+    if ($keys) {
+      $options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY][$search_id] = $keys;
+    }
+    else {
+      unset($options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY][$search_id]);
+    }
+
+    $url->setOptions($options);
+    $form_state->setRedirectUrl($url);
   }
 
 }

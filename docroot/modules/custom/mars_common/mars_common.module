@@ -115,14 +115,15 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'footer_block' => [
       'variables' => [
-        'logo'            => NULL,
-        'border'          => NULL,
-        'social_links'    => NULL,
-        'top_footer_menu' => NULL,
-        'legal_links'     => NULL,
-        'marketing'       => NULL,
-        'corporate_tout'  => NULL,
-        'region_selector' => NULL,
+        'logo'                 => NULL,
+        'brand_shape_class'    => NULL,
+        'brand_border'         => NULL,
+        'social_links'         => NULL,
+        'top_footer_menu'      => NULL,
+        'legal_links'          => NULL,
+        'marketing'            => NULL,
+        'corporate_tout'       => NULL,
+        'region_selector'      => NULL,
         'current_region_title' => NULL,
       ],
       'template' => 'footer-block',
@@ -286,6 +287,62 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'where_to_buy_block' => [
       'template' => 'where-to-buy-block',
+    ],
+    'text_block' => [
+      'variables' => [
+        'drop_cap' => NULL,
+        'content' => NULL,
+      ],
+      'template' => 'text-block',
+    ],
+    'inline_image_video_block' => [
+      'variables' => [
+        'block_type' => NULL,
+        'video_src' => NULL,
+        'image_src' => NULL,
+        'image_alt' => NULL,
+        'image_title' => NULL,
+        'shape_motif' => NULL,
+        'content' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'inline-image-video-block',
+    ],
+    'fullwidth_image_video_block' => [
+      'variables' => [
+        'block_type' => NULL,
+        'media' => NULL,
+        'shape_motif' => NULL,
+        'content' => NULL,
+        'heading' => NULL,
+      ],
+      'template' => 'fullwidth-image-video-block',
+    ],
+    'list_component' => [
+      'variables' => [
+        'label' => NULL,
+        'ol_items' => NULL,
+      ],
+      'template' => 'block--mars-common--list-component',
+    ],
+    'carousel_component' => [
+      'variables' => [
+        'brand_borders' => NULL,
+        'title' => NULL,
+        'items' => NULL,
+      ],
+      'template' => 'block--mars-common--media-carousel',
+    ],
+    'flexible_framer_block' => [
+      'variables' => [
+        'grid_label' => NULL,
+        'grid_type' => NULL,
+        'item_type' => NULL,
+        'items' => NULL,
+        'brand_borders' => NULL,
+        'divider' => NULL,
+      ],
+      'template' => 'flexible-framer-block',
     ],
   ];
 }
@@ -1028,6 +1085,19 @@ function mars_common_field_widget_form_alter(
   if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
     $element['choice']['#size'] = 40;
     $element['choice']['#maxlength'] = 25;
+  }
+
+  $form_id = $form_state->getFormObject()->getFormId();
+  $form_array = [
+    'node_error_page_edit_form',
+    'node_error_page_form',
+  ];
+  if (in_array($form_id, $form_array) && $field_name == 'title') {
+    $element['value']['#maxlength'] = 15;
+    $element['value']['#default_value'] = $element['value']['#default_value'] ?? t('Oops');
+  }
+  if (in_array($form_id, $form_array) && $field_name == 'body') {
+    $element['#maxlength'] = 100;
   }
 }
 

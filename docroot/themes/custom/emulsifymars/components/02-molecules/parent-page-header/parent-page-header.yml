@@ -8,7 +8,7 @@ pp_header_heading_level: 1
 pp_header_heading_base_class: 'parent-page-heading'
 
 pp_header_paragraph_size: 'large'
-pp_header_paragraph_content: 'Plus, I am all in whenever Twix are involved. Except, can we just chat a quick minute? This is a PSA to the makers of the TWIX bar.'
+pp_header_paragraph_content: 'This is exactly 65 character long text to test the twix stuff out. Lets just double the length to see if it is still good. Or is it? Add some more text here to check'
 pp_header_paragraph_base_class: 'parent-page-paragraph'
 
 # parent_page_img_url: ''

@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -93,6 +94,13 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $searchQueryParser;
 
   /**
+   * Config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -104,7 +112,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('entity_type.manager')->getViewBuilder('node'),
       $container->get('menu.link_tree'),
-      $container->get('mars_search.search_query_parser')
+      $container->get('mars_search.search_query_parser'),
+      $container->get('config.factory')
     );
   }
 
@@ -119,7 +128,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     ThemeConfiguratorParser $themeConfiguratorParser,
     EntityViewBuilderInterface $node_view_builder,
     MenuLinkTreeInterface $menu_link_tree,
-    SearchQueryParserInterface $search_query_parser
+    SearchQueryParserInterface $search_query_parser,
+    ConfigFactoryInterface $configFactory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->searchHelper = $search_helper;
@@ -127,6 +137,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $this->nodeViewBuilder = $node_view_builder;
     $this->menuLinkTree = $menu_link_tree;
     $this->searchQueryParser = $search_query_parser;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -181,6 +192,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
    * Render search no result block.
    */
   private function getSearchNoResult() {
+    $config = $this->configFactory->get('mars_search.search_no_results');
     $url = $this->searchHelper->getCurrentUrl();
     $url_options = $url->getOptions();
     $search_text = array_key_exists('search', $url_options['query']) ? reset($url_options['query']['search']) : '';
@@ -198,8 +210,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     return [
-      '#no_results_heading' => $this->t('There are no matching results for "%search"', ['%search' => $search_text]),
-      '#no_results_text' => $this->t('Please try entering a different search'),
+      '#no_results_heading' => str_replace('@keys', $search_text, $config->get('no_results_heading')),
+      '#no_results_text' => $config->get('no_results_text'),
       '#no_results_links' => $links,
       '#theme' => 'mars_search_no_results',
     ];

@@ -82,10 +82,11 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+        sudo composer self-update --1 &&
         composer validate --no-check-all --ansi &&
         composer install &&
         npm install npm@latest -g
-  - task: Npm@1
+  - task: Npm@1 
     inputs:
       command: 'ci'
       workingDir: 'docroot/themes/custom/emulsifymars'
