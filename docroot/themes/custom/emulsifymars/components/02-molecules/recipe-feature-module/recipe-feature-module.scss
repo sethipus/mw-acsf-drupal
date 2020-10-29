@@ -3,6 +3,7 @@
 
   .media {
     position: relative;
+    overflow: hidden;
 
     img, figure {
       @include large {
@@ -11,9 +12,8 @@
     }
 
     .media-info {
-      background-color: clr(subcolor-3);
-      margin-top: -50px;
-      position: relative;
+      background-color: clr(subcolor-2);
+      position: absolute;
       text-align: center;
       margin-right: 15px;
       margin-left: 15px;
@@ -24,11 +24,15 @@
       }
 
       @include large {
-        left: 50%;
-        width: 50%;
-        bottom: 82px;
+        left: 60%;
+        width: 40%;
         margin-left: 0;
         margin-right: 0;
+        top: 0;
+        height: 100%;
+        display: inline-flex;
+        justify-content: center;
+        flex-flow: column nowrap;
       }
 
       .stretch {
@@ -37,7 +41,7 @@
         height: auto;
         z-index: 2;
         top: -20px;
-    
+
         svg {
           path {
             fill: clr(subcolor-3);
@@ -53,14 +57,16 @@
       .repeat {
         position: absolute;
         width: 100%;
-        height: 15px;
-        top: -15px;
+        height: 16px;
+        top: 50%;
+        transform: rotate(-90deg);
+        left: calc(-50% - 7px);
 
         svg {
           width: 100%;
 
           path {
-            fill: clr(subcolor-3);
+            fill: clr(subcolor-2);
           }
           rect {
             width: inherit;
@@ -76,14 +82,15 @@
         line-height: 14px;
         color: clr(primary);
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.4px;
       }
       .title {
         font-family: variable(primary-font);
-        font-size: 28px;
-        line-height: 28px;
+        font-size: 64px;
+        line-height: 100%;
         text-transform: capitalize;
         font-weight: normal;
+        margin: 30px auto;
 
         a.link {
           color: clr(primary);
@@ -91,35 +98,8 @@
         }
       }
 
-      .cooking-time {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: variable(primary-font);
-
-        &__icon {
-          width: 15px;
-          display: flex;
-        }
-
-        &__info {
-          display: flex;
-          font-size: 12px;
-          line-height: 110%;
-        }
-
-        &__label {
-          color: clr(primary);
-          margin: 0 5px;
-        }
-
-        &__value {
-          color: clr(secondary);
-        }
-      }
-
       .default-link {
-        margin-top: 20px;
+        margin-top: 50px;
         background-color: clr(secondary);
 
         &:hover {

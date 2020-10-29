@@ -33,19 +33,6 @@
           link_modifiers: {class: 'title'}
         } %}
       </h2>
-      <div class="cooking-time">
-        <div class="cooking-time__icon">
-          {% include "@atoms/images/image/_image.twig" with {
-            image_base_class: 'recipe-details-item__icon',
-            image_modifiers: ['clock'],
-            image_src: icon_clock,
-          } %}
-        </div>
-        <div class="cooking-time__info">
-          <div class="cooking-time__label">{{ 'Time'|t }}</div>
-          <div class="cooking-time__value">{{ cooking_time }}</div>
-        </div>
-      </div>
       <div class="cta-btn">
         {% set attr = {'href': cta.url} %}
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
