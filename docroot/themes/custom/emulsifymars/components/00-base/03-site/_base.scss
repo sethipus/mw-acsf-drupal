@@ -34,9 +34,3 @@ body {
   width: 1px;
   word-wrap: normal;
 }
-
-.layout__region {
-  & > div {
-    transform: translateZ(0);
-  }
-}

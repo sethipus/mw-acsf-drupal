@@ -6,11 +6,15 @@
     display: none;
   }
 
+  @include xs {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
   padding: $space;
   text-decoration: none;
   width: 100%;
-  display: flex;
-  flex-flow: row nowrap;
+  display: block;
 }
 
 .toggle-expand__text {
