@@ -82,6 +82,7 @@ dropdown:
     dist/js/02-molecules/dropdown/dropdown.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
 
 parent-page-header:
   js:
