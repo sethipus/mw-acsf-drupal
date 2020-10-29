@@ -62,7 +62,6 @@
     font-family: variable(secondary-font);
     color: clr(primary);
     text-align: center;
-    max-width: 70%;
     margin: 0 auto;
 
     @include small {
@@ -71,6 +70,7 @@
 
     @include medium {
       font-size: 2rem;
+      max-width: 70%;
     }
 
     @include large {
