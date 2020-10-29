@@ -3,6 +3,7 @@
   position: relative;
   overflow: visible;
   margin: 0;
+  z-index: 1;
 
   &__content {
     margin-bottom: -40rem;
@@ -18,12 +19,8 @@
 
   &__contentbg {
     background-color: clr(subcolor-2);
-    padding-bottom: 40rem;
+    padding: 3rem 2rem 40rem;
     overflow: hidden;
-
-    @include xs {
-      padding-top: 3rem;
-    }
 
     @include small {
       padding-bottom: 30rem;
@@ -31,6 +28,11 @@
 
     @include medium {
       padding-bottom: 40rem;
+    }
+
+    @include large { 
+      padding-left: 4rem;
+      padding-right: 4rem;
     }
   }
 
@@ -46,17 +48,12 @@
     @include medium {
       top: -40rem;
     }
+
+    @include large {
+      padding: 0 2rem;
+    }
   }
-
-
-  // @include medium {
-  //   margin-top: 10.3rem;
-  // }
-
-  // @include large {
-  //   margin-top: 15.3rem;
-  // }
-
+  
   & .stretch {
     position: absolute;
     width: 100%;
