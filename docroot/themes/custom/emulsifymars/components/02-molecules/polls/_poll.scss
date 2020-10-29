@@ -28,19 +28,34 @@
     @include xs {
       width: 18rem;
       height: 18rem;
-      bottom: -13rem;
+      bottom: 0;
     }
 
     @include medium {
       width: 25rem;
       height: 25rem;
-      bottom: -15rem;
+      bottom: 0;
     }
 
     @include large {
       width: 35rem;
-      height: 35rem;
-      bottom: -22rem;
+      height: 26rem;
+      bottom: 0;
+    }
+
+    & img {
+
+      @include xs {
+        transform: translateY(100%);
+      }
+
+      @include medium {
+        transform: translateY(95%);
+      }
+
+      @include large {
+        transform: translateY(50%);
+      }
     }
   }
 
