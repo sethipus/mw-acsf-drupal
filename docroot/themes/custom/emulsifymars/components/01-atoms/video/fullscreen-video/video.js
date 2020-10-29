@@ -99,6 +99,9 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         videoElements('close').addEventListener('click', function(e) {
           handleFullscreen(videoContainer, videoElements);
         });
+        videoElements('video').addEventListener('webkitendfullscreen', function(e){
+          setFullscreenData(videoContainer, videoElements, false);
+        });
         if (videoElements('control')) {
           videoElements('control').addEventListener('click', function(e) {
             if (videoElements('control').getAttribute('data-state') == 'play') {

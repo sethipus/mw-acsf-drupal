@@ -20,7 +20,7 @@
     </div>
   </div>
 
-    {% if search_result_counter > 0 %}
+    {% if search_result_text is not empty %}
         <div {{ bem('search-results', [], faq_filters_base_class) }}>
           {{ search_result_counter }} {{search_result_text}}
         </div>

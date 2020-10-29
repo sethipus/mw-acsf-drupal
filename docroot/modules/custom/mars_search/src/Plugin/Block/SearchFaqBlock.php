@@ -207,11 +207,11 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
       '#search_form' => render($search_from),
-      '#search_result_counter' => !empty($options['keys']) ? $search_results['resultsCount'] : '',
-      '#search_result_text' => !empty($options['keys']) ? $this->formatPlural($search_results['resultsCount'], 'Result for "@keys"', 'Results for "@keys"', ['@keys' => $options['keys']]) : '',
+      '#search_result_counter' => $search_results['resultsCount'],
+      '#search_result_text' => (!empty($options['keys']) && $search_results['resultsCount'] > 0) ? $this->formatPlural($search_results['resultsCount'], 'Result for "@keys"', 'Results for "@keys"', ['@keys' => $options['keys']]) : '',
       '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
-      '#no_results_heading' => str_replace('@keys', $options['keys'], $config_no_results['no_results_heading']),
-      '#no_results_text' => $config_no_results['no_results_text'],
+      '#no_results_heading' => str_replace('@keys', $options['keys'], $config_no_results->get('no_results_heading')),
+      '#no_results_text' => $config_no_results->get('no_results_text'),
     ];
   }
 
