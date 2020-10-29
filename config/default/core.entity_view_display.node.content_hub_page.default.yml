@@ -58,7 +58,14 @@ third_party_settings:
                 type: metatag_empty_formatter
             additional: {  }
             weight: 1
-        third_party_settings: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
       -
         layout_id: content_hub_feature
         layout_settings:
