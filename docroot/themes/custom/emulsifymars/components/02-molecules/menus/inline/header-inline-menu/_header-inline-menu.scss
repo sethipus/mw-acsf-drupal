@@ -121,6 +121,7 @@
   .dropdown__list {
     padding: 1rem 0;
     position: relative;
+    overflow-y: auto;
   }
 
   .dropdown__span,
