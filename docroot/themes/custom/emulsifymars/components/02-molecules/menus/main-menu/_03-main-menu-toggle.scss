@@ -2,6 +2,15 @@
 .toggle-expand {
   @include link;
 
+  padding: $space;
+  text-decoration: none;
+  width: 100%;
+  display: block;
+
+  @include large {
+    display: none;
+  }
+
   @include xs {
     display: flex;
     flex-flow: row nowrap;
