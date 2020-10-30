@@ -167,11 +167,11 @@
     }
   }
 
-  &:hover &__title-selected {
+  &.is-expanded &__title-selected {
     display: none;
   }
 
-  &:hover &__title-selected + &__title-default {
+  &.is-expanded &__title-selected + &__title-default {
     display: inline;
   }
 }
