@@ -54,11 +54,7 @@
         });
       };
 
-      if (!Drupal.dropDownLoaded) {
-        Drupal.dropDownLoaded = true;
-        hideMenus();
-      }
-
+      hideMenus();
       listenForMouse();
       listenForKeyboard();
 

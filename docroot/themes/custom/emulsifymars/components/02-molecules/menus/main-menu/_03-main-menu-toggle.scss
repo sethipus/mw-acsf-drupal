@@ -2,13 +2,13 @@
 .toggle-expand {
   @include link;
 
-  @include large {
-    display: none;
-  }
-
   @include xs {
     display: flex;
     flex-flow: row nowrap;
+  }
+
+  @include large {
+    display: none;
   }
 
   padding: $space;

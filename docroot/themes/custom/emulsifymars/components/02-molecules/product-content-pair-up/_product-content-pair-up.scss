@@ -1,5 +1,5 @@
 .product-content-pair-up {
-  padding-bottom: 500px;
+  padding-bottom: 50rem;
 
   .product-content-pair-up__heading {
     width: 100%;
@@ -105,6 +105,7 @@
       width: 100%;
       min-height: 375px;
       margin: auto;
+      z-index: $content-pair-up-asset;
 
       .wrapper {
         position: absolute;
@@ -124,6 +125,7 @@
       top: 420px;
       max-width: 31.5rem;
       margin: auto;
+      z-index: $content-pair-supportive-card;
 
       .wrapper > section {
         max-width: 31.5rem;
@@ -160,7 +162,7 @@
   }
 
   @include medium {
-    padding-bottom: 600px;
+    padding-bottom: 60rem;
 
     &:not(.max-size--375):not(.size--default), &.size--medium {
       .product-content-pair-up__heading {
@@ -248,7 +250,7 @@
   }
 
   @include xl {
-    padding-bottom: 275px;
+    padding-bottom: 2rem;
 
     &:not(.max-size--375):not(.max-size--768):not(.size--medium):not(.size--default), &.size--large {
       .product-content-pair-up__heading {
@@ -264,7 +266,7 @@
       }
 
       .product-content-pair-up__container {
-        padding-bottom: 275px;
+        padding-bottom: 2rem;
 
         .lead-card {
           width: 85%;
