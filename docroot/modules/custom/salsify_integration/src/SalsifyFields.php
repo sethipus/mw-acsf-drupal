@@ -465,6 +465,10 @@ class SalsifyFields extends Salsify {
       // Add child entity references.
       $this->addChildLinks($product_data['mapping'], $product);
       $product['CMS: Market'] = $product_data['market'] ?? NULL;
+      if (isset($product['CMS: Meta Description']) ||
+        isset($product['CMS: Keywords'])) {
+        $product['CMS: Meta tags'] = TRUE;
+      }
 
       if (ProductHelper::getProductType($product) == $content_type) {
         $result = $this->salsifyImportField->processSalsifyItem(
