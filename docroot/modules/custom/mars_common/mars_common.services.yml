@@ -24,3 +24,6 @@ services:
     class: Drupal\mars_common\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+
+  mars_common.theme_configurator_service:
+    class: Drupal\mars_common\ThemeConfiguratorService
