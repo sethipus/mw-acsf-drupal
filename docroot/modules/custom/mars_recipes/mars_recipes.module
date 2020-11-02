@@ -41,6 +41,8 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
       'variables' => [
         'brand_borders' => NULL,
         'brand_shape_class' => NULL,
+        'block_title' => NULL,
+        'graphic_divider' => NULL,
         'eyebrow' => NULL,
         'title' => NULL,
         'recipe_media' => [],
