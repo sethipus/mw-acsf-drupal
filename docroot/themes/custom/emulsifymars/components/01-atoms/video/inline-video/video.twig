@@ -5,7 +5,11 @@
 {% set video__base_class = video__base_class|default('inline-video') %}
 
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} data-fullcontrol="false">
-  <video {{ bem('video', [], video__base_class) }}>
+  <video 
+    data-component-id="{{ video_componentId }}"
+    data-video-title="{{ video_title }}"
+    data-video-id="{{ video_id }}"
+    {{ bem('video', [], video__base_class) }}>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
