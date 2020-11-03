@@ -3,12 +3,13 @@
   position: relative;
   overflow: visible;
   margin: 0 auto;
-  max-width: 99%;
   box-shadow: 1px 1px 3px #ccc;
   border-radius: variable(button-border-radius);
+  max-width: 1128px;
 
   @include xs {
     padding: 3rem 1.7rem 7rem 1.7rem;
+    margin: 4rem 2rem;
   }
 
   @include medium {
@@ -18,7 +19,7 @@
 
   @include large {
     padding: 6rem 11.8rem 8rem 11.8rem;
-    margin: 6rem;
+    margin: 6rem auto;
   }
 
   &__png-asset {
@@ -31,18 +32,21 @@
       width: 17rem;
       height: 9rem;
       bottom: -35px;
+      right: 5px;
     }
 
     @include medium {
       width: 22rem;
       height: 12rem;
-      bottom: -25px;
+      bottom: -30px;
+      right: 15px;
     }
 
     @include large {
       width: 35rem;
       height: 19rem;
       bottom: -30px;
+      right: 0;
     }
 
   }
