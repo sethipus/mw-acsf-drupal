@@ -15,7 +15,8 @@ ignored_config_entities:
   - block.block.marsheaderblock
   - acquia_contenthub.admin_settings
   - field.storage.node.field_product_allergen_statement
-  - open_graph.settings
+  - mars_seo.settings
+  - google_tag.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'
