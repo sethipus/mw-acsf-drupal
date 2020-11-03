@@ -1,20 +1,16 @@
 .pdp-hero {
   position: relative;
-  padding: 2rem 2rem 3.2rem;
+  padding: 2rem 2rem 0;
   background-color: clr(subcolor-2);
   overflow: hidden;
 
-  @include small {
-    padding: 2rem 2rem 18rem;
-  }
-
   @include medium {
-    padding: 2rem 4rem 18.7rem;
+    padding: 2rem 4rem 0;
   }
 
   @include large {
     padding-top: 4.8rem;
-    padding-bottom: 10.4rem;
+    padding-bottom: 0;
   }
 
   &__bubble_1 {
@@ -168,7 +164,7 @@
       display: none;
     }
 
-    &.show-nav {
+    &.nav--show {
       transform: translateY(0);
     }
   }
@@ -182,6 +178,7 @@
     flex-direction: column;
     padding: 2rem 2rem 7.5rem;
     z-index: 10;
+    transition: z-index 0.7s;
 
     @include medium {
       flex-direction: column;
@@ -192,8 +189,19 @@
       position: static;
     }
 
+    .pdp-hero__sections-container {
+      transition: visibility 0.7s, opacity 0.7s ease-out;
+      visibility: visible;
+      opacity: 1;
+    }
+
     &.sections--hide .pdp-hero__sections-container {
-      display: none;
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    &.sections--hide {
+      z-index: -1;
     }
 
     &.nav--hide {
@@ -256,21 +264,28 @@
   }
 
   &__description {
-    margin: 3rem 0 5rem;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 3rem 0 10rem;
     font-family: variable(secondary-font);
-    font-size: 1.4rem;
-    line-height: 1.4;
+    font-size: 1.8rem;
+    line-height: 2.88rem;
     text-align: center;
     color: clr(primary);
 
     @include medium {
-      margin: 21.4rem 13.8rem 2rem 11.8rem;
-      font-size: 1.6rem;
+      margin: 2rem 13.8rem 10rem 11.8rem;
     }
 
     @include large {
+      display: block;
+      min-height: auto;
       margin: 3.7rem 17rem 3.6rem 0;
       text-align: left;
+      line-height: 2.24rem;
+      font-size: 1.6rem;
     }
   }
 
@@ -351,11 +366,21 @@
     justify-content: center;
     animation: cubic-bezier(0, 0, 1, 1) pulse 4.8s infinite;
 
-    &-container {
-      padding: 1.8rem 3.2rem .2rem 2.6rem;
 
+    &-container {
+      padding: 1.8rem 0 .2rem 0;
+      
       @include medium {
-        padding: 1rem 7rem 18rem;
+        padding: 1rem 0 2rem;
+      }
+    }
+
+    img {
+      @media (max-width: 768px) {
+        width: 54.9rem;
+      }
+      @media (max-width: 375px) {
+        width: 27.7rem;
       }
     }
   }
@@ -370,11 +395,32 @@
     }
 
     &-container {
-      margin: 4.5rem 2.9rem 2rem;
+      margin: 4.5rem 0 2rem;
 
       @include medium {
         margin-left: 9.8rem;
         margin-right: 11.8rem;
+      }
+    }
+
+    &-item {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      @include large {
+        min-height: auto;
+        display: block;
+      }
+    }
+
+    img {
+      @media (max-width: 768px) {
+        width: 47.2rem;
+      }
+      @media (max-width: 375px) {
+        width: 27.7rem;
       }
     }
   }
@@ -396,9 +442,15 @@
   }
 
   &__sections-item {
-    flex: 0 1 30%;
-    display: flex;
-    justify-content: center;
+    width: 100%;
+    margin: 0.5rem;
+  }
+
+  .default-link__label {
+    display: inline-block;
+    pointer-events: none;
+    position: relative;
+    width: 100%;
   }
 
   &__slider-container {
@@ -496,12 +548,117 @@
       }
     }
   }
+
+  &__nutrition-menu,
+  &__allergen-menu,
+  &__more-info-menu {
+    position: relative;
+    display: block;
+    font-family: variable(primary-font);
+    padding: 2.3rem 2.3rem 0;
+    font-size: 2rem;
+    line-height: 2.2rem;
+    letter-spacing: 0.08px;
+    text-transform: uppercase;
+    text-align: center;
+    background: $white;
+    border-bottom: 0;
+    color: clr(secondary);
+    cursor: pointer;
+    margin: 0;
+    z-index: 1;
+
+    @include large {
+      font-size: 2.4rem;
+      line-height: 2.64rem;
+      letter-spacing: 0.12rem;
+    }
+  }
+
+  &__nutrition-menu {
+    width: 100%;
+
+    @include large {
+      width: auto;
+    }
+  }
+
+  &__nutrition-menu,
+  &__allergen-menu {
+    @include large {
+      @include large {
+        &::after {
+          content: '';
+          position: absolute;
+          display: block;
+          width: 1px;
+          height: 2rem;
+          background-color: clr(subcolor-4);
+          bottom: 0.3rem;
+          right: 1px;
+        }
+
+        &:last-child {
+          &::after {
+            display: none;
+          }
+        }
+      }
+
+      &:last-child {
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__allergen-menu,
+  &__more-info-menu {
+    color: clr(subcolor-4);
+    display: none;
+
+    &:hover {
+      color: clr(secondary);
+    }
+
+    @include large {
+      display: block;
+    }
+  }
+
+  .pdp-hero-menu-container {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    margin-bottom: 0;
+    bottom: 0;
+    width: 100%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border: 1px solid clr(subcolor-4);
+    border-bottom: none;
+    overflow: hidden;
+
+    @include large {
+      width: auto;
+    }
+
+    .pdp-hero__nutrition-menu {
+      pointer-events: none;
+
+      @include large {
+        pointer-events: auto;
+      }
+    }
+  }
 }
 
 // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
 .swiper-container.pdp-hero-swiper-container {
   position: relative;
   width: 100%;
+  margin-bottom: 10.4rem;
 
   &::after {
     content: "";
@@ -524,6 +681,9 @@
     bottom: 2rem;
     text-align: center;
     z-index: 10;
+    transition: visibility 0.5s, opacity 0.5s ease-out;
+    visibility: visible;
+    opacity: 1;
 
     @include medium {
       left: 4rem;
@@ -538,11 +698,14 @@
   }
 
   &--hide {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
   }
 
   &--pdp-hero {
     width: 100%;
+    display: flex;
+    justify-content: center;
 
     @include large {
       display: inline-block;
@@ -553,7 +716,11 @@
 }
 
 .default-link {
-  padding: 0 3.4rem;
+    padding: 0 1.2rem;
+
+  @include medium {
+    padding: 0 3.4rem;
+  }
 
   &--pdp-sections {
     display: flex;
@@ -563,14 +730,10 @@
     line-height: 1.1;
     letter-spacing: normal;
     text-align: center;
-    padding: 1.8rem .6rem;
     background-color: clr(subcolor-3);
     color: clr(secondary);
-
-    &:hover {
-      color: clr(subcolor-3);
-    }
-
+    height: 6rem;
+    width: 100%;
   }
 }
 

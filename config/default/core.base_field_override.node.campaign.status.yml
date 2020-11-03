@@ -1,0 +1,22 @@
+uuid: bec1f52e-0a4a-474c-83e0-f99d78d94d3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.campaign
+id: node.campaign.status
+field_name: status
+entity_type: node
+bundle: campaign
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

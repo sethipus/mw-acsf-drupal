@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.mars_regions.field_default_region
     - field.field.taxonomy_term.mars_regions.field_mars_url
     - taxonomy.vocabulary.mars_regions
   module:
@@ -16,12 +17,19 @@ mode: default
 content:
   description:
     type: text_textarea
-    weight: 2
+    weight: 3
     region: content
     settings:
       placeholder: ''
       rows: 5
     third_party_settings: {  }
+  field_default_region:
+    weight: 2
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   field_mars_url:
     weight: 1
     settings:
@@ -40,7 +48,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -48,7 +56,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 5
     region: content
     third_party_settings: {  }
 hidden: {  }

@@ -3,6 +3,7 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Menu\MenuTreeParameters;
@@ -51,6 +52,20 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $termStorage;
 
   /**
+   * Custom cache tag.
+   *
+   * @var string
+   */
+  const CUSTOM_CACHE_TAG = 'custom_region_cache';
+
+  /**
+   * Vocabulary id of taxonomy terms region.
+   *
+   * @var string
+   */
+  const VID_TAXONOMY_REGION = 'mars_regions';
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -90,7 +105,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#logo'] = $this->themeConfiguratorParser->getLogoFromTheme();
 
     // Get brand border path.
-    $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'footer-border');
+    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
+    $build['#brand_border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'footer-border');
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
@@ -102,15 +118,28 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $build['#social_links'] = $this->themeConfiguratorParser->socialLinks();
     }
     if ($conf['region_selector_toggle']) {
-      $vid = 'mars_regions';
-      $terms = $this->termStorage->loadTree($vid, 0, NULL, TRUE);
+      $terms = $this->termStorage->loadTree(self::VID_TAXONOMY_REGION, 0, NULL, TRUE);
       $build['#region_selector'] = [];
       if (!empty($terms)) {
         foreach ($terms as $term) {
+          $region_url = '#';
+          $url = $term->get('field_mars_url')->first();
+          if (!is_null($url)) {
+            $region_url = $url->getUrl();
+          }
           $build['#region_selector'][] = [
             'title' => $term->getName(),
-            'url' => $term->get('field_mars_url')->first()->getUrl(),
+            'url' => $region_url,
           ];
+        }
+        $terms_objects = $this->termStorage->loadByProperties([
+          'vid' => self::VID_TAXONOMY_REGION,
+          'field_default_region' => TRUE,
+        ]);
+        if ($terms_objects) {
+          /** @var \Drupal\taxonomy\TermInterface $default_region */
+          $default_region = reset($terms_objects);
+          $build['#current_region_title'] = $default_region->getName();
         }
       }
     }
@@ -218,6 +247,17 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->setConfiguration($form_state->getValues());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheTags() {
+    $cache_tags = parent::getCacheTags();
+    // Include taxonomies
+    // update process dependencies cache.
+    $cache_tags = Cache::mergeTags($cache_tags, [self::CUSTOM_CACHE_TAG]);
+    return $cache_tags;
   }
 
 }

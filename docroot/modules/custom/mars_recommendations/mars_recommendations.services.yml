@@ -1,0 +1,28 @@
+services:
+  mars_recommendations.recommendations_service:
+    class: Drupal\mars_recommendations\RecommendationsService
+    arguments: ['@event_dispatcher', '@plugin.manager.mars_recommendations_logic']
+
+  plugin.manager.mars_recommendations_logic:
+    class: Drupal\mars_recommendations\RecommendationsLogicPluginManager
+    parent: default_plugin_manager
+
+  plugin.manager.dynamic_recommendations_strategy:
+    class: Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginManager
+    parent: default_plugin_manager
+
+  mars_recommendations.event_subscriber:
+    class: Drupal\mars_recommendations\EventSubscriber\PopulationLogicSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  mars_recommendations.manual_page_subscriber:
+    class: Drupal\mars_recommendations\EventSubscriber\ManualPagesSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  mars_recommendations.component_dependency_calculator:
+    class: Drupal\mars_recommendations\EventSubscriber\DependencyCollector\ManualRecommendationBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

@@ -9,11 +9,10 @@
   {% block article_social_menu %}
     {% include "@molecules/menus/social/social-menu.twig" with {
       social_menu_items: social_links,
-      configured_icons: true
     } %}
   {% endblock %}
   {% block article_media_devider %}
-    <div class="triangle">
+    <div class="{{ brand_shape_class }}">
       {{ shape | raw }}
     </div>
   {% endblock %}

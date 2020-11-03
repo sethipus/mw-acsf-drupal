@@ -20,8 +20,24 @@
       flex-grow: 1;
 
       &__field {
-        width: 100%;
+        width: calc(100% - 20px);
+        margin-right: 20px;
+        padding: 0 0 0 50px;
       }
+    }
+  }
+
+  &__search-results {
+    margin: 20px 40px 0 45px;
+    font-size: 1.6rem;
+    color: clr(primary);
+
+    @include medium {
+      margin: 20px 40px 0 65px;
+    }
+
+    @include xl {
+      margin: 20px 40px 0 25px;
     }
   }
 
@@ -49,10 +65,12 @@
     a {
       display: inline-block;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
       background-color: clr(subcolor-3);
       border: 1px solid clr(secondary);
-      padding: 20px 40px;
-      border-radius: variable(border-radius);;
+      padding: 12px;
+      border-radius: variable(button-border-radius);
       font-family: variable(primary-font);
       font-size: 14px;
       line-height: 14px;
@@ -61,10 +79,54 @@
       color: clr(secondary);
       margin: 0 12px 12px 0;
       text-decoration: none;
+      transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+      transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+
+      @include medium {
+        padding: 17px 45px;
+      }
+
+      @include xl {
+        padding: 20px 40px;
+      }
 
       &.active {
         background-color: clr(secondary);
         color: clr(subcolor-3);
+      }
+
+      span {
+        position: relative;
+        z-index: 1;
+        transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        bottom: -100px;
+        left: -120px;
+        width: 1000px;
+        transform: rotate(18deg);
+        height: 0;
+        background-color: clr(secondary);
+        transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
+        @include xs {
+          width: 1000px;
+        }
+        @include medium {
+          width: 750px;
+        }
+      }
+      &:hover {
+        background-color: clr(secondary);
+        color: clr(subcolor-3);
+        transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+
+        &::after {
+          height: 300px;
+        }
       }
     }
 
@@ -75,6 +137,22 @@
       background-color: clr(subcolor-4);
       position: absolute;
       bottom: 0;
+    }
+  }
+
+  .search-input-wrapper {
+    &.suggested {
+      .search-input {
+        border-bottom-right-radius: unset;
+        border-bottom-left-radius: unset;
+        border-bottom: none;
+      }
+      .mars-search-autocomplete-suggestions-wrapper {
+        margin-top: -25px;
+        padding-top: 25px;
+        border: 1px solid clr(subcolor-4);
+        border-top: none;
+      }
     }
   }
 }

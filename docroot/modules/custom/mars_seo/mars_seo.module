@@ -1,0 +1,112 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for mars_seo module.
+ */
+
+use Drupal\node\NodeInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Spatie\SchemaOrg\Type;
+use Drupal\Core\Render\BubbleableMetadata;
+
+/**
+ * Implements hook_node_view_alter().
+ */
+function mars_seo_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display) {
+  $route_match = \Drupal::routeMatch();
+  if ($route_match->getRouteName() !== 'entity.node.canonical' || $route_match->getParameter('node')->id() !== $node->id()) {
+    return;
+  }
+
+  /** @var \Drupal\mars_seo\JsonLdService $service */
+  $service = \Drupal::service('mars_seo.json_ld');
+  $data = $service->getStructuredData($node, $build);
+
+  $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data), RecursiveIteratorIterator::CHILD_FIRST);
+
+  /** @var \Spatie\SchemaOrg\Type|null $item */
+  foreach ($iterator as $key => $item) {
+    if (isset($item) && $item instanceof Type) {
+      $tag = [
+        '#type' => 'html_tag',
+        '#tag' => 'script',
+        '#attributes' => [
+          'type' => 'application/ld+json',
+        ],
+        '#value' => json_encode($item->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+        '#cache' => [
+          'tags' => $node->getCacheTags(),
+          'contexts' => $node->getCacheContexts(),
+        ],
+      ];
+
+      $build['#attached']['html_head'][] = [$tag, 'mars_seo_json_ld__' . $key];
+    }
+  }
+
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function mars_seo_token_info() {
+  $type = [
+    'name' => t('Custom Token'),
+    'description' => t('Tokens for custom things.'),
+  ];
+  $node['type_page'] = [
+    'name' => t("Type"),
+    'description' => t('Type of page'),
+  ];
+  $node['hero_image'] = [
+    'name' => t("Hero image"),
+    'description' => t('Default hero image.'),
+  ];
+  return [
+    'types' => ['og_token' => $type],
+    'tokens' => ['og_token' => $node],
+  ];
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function mars_seo_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  $replacements = [];
+
+  if ($type == 'og_token') {
+    foreach ($tokens as $name => $original) {
+      /** @var \Drupal\node\Entity\Node $node */
+      $node = $data['node'] ?? NULL;
+      switch ($name) {
+        case 'type_page':
+          $type = 'article';
+          if ($node !== NULL) {
+            if ($node->bundle() == 'product') {
+              $type = $node->bundle();
+            }
+            elseif ($node->bundle() == 'recipe') {
+              $type = $node->bundle();
+            }
+            $bubbleable_metadata->addCacheableDependency($node);
+          }
+          $replacements[$original] = $type;
+          break;
+
+        case 'hero_image':
+          if ($node !== NULL) {
+            /** @var \Drupal\mars_seo\HeroImageService $hero_image_service */
+            $hero_image_service = \Drupal::service('mars_seo.hero_image');
+
+            $bubbleable_metadata->merge($hero_image_service->getCacheableMetadata($node));
+            $replacement = $hero_image_service->getHeroImageUrl($node);
+          }
+
+          $replacements[$original] = $replacement ?? '';
+          break;
+      }
+    }
+  }
+  return $replacements;
+}

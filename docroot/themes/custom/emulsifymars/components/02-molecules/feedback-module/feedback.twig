@@ -1,0 +1,53 @@
+{% set feedback_base_class = 'feedback-module' %}
+{% set feedback_heading_base_class = 'feedback-module__heading' %}
+{% set feedback_heading_level = 1 %}
+{% set feedback_paragraph_base_class = 'feedback-module__paragraph' %}
+{% set feedback_link_base_class = 'feedback-module__bottom-link' %}
+
+<section {{ bem(feedback_base_class) }} data-theme="{{ theme_styles }}">
+  <div class="feedback-module__brand-shape">
+    {{ brand_shape | raw }}
+  </div>
+
+  <div class="feedback-module__main-content">
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: feedback_heading,
+      heading_level: feedback_heading_level,
+      heading_base_class: feedback_heading_base_class
+    } %}
+
+    {% include "@atoms/text/text/01-paragraph.twig" with {
+      paragraph_content: feedback_paragraph_content,
+      paragraph_base_class: feedback_paragraph_base_class
+    } %}
+
+    {# <div class="feedback-module__btn-group">
+      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+        default_link_content: default_link_positive_content
+      } %}
+
+      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+        default_link_content: default_link_negative_content
+      } %}
+    </div> #}
+
+    <form class="feedback-module__btn-group">
+      {% for key, value in choices %}
+        <label class="feedback-module__label default-link" for="edit-choice-{{key}}">
+          <input class="feedback-module__radio" type="radio" name="choice" id="edit-choice-{{key}}" value="{{key}}" data-drupal-selector="edit-choice-{{key}}" />
+          <span class="feedback-module__label-text">{{value}}</span>
+        </label>
+      {% endfor %}
+
+      {{ feedback_button }}
+      {{ hidden_form_inputs }}
+    </form>
+
+
+  </div>
+  {% include "@atoms/links/link/link.twig" with {
+    link_base_class: feedback_link_base_class,
+    link_content: feedback_bottom_link_content,
+    link_url: feedback_bottom_link_url
+  } %}
+</section>

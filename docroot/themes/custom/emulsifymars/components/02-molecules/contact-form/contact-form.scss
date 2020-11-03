@@ -6,6 +6,7 @@
     box-shadow: 1px 1px 12px 0 rgba(0, 0, 0, 0.08);
     max-width: 33.5rem !important;
     background-color: white;
+    margin: auto;
 
     @include medium {
       max-width: 68.8rem !important;
@@ -54,17 +55,29 @@
   .ff-section-header {
     color: clr(secondary);
     font-family: variable(primary-font);
-    font-size: 2.2rem;
+    font-size: 2rem;
     line-height: 3rem;
     display: block;
     text-transform: uppercase;
     text-align: center;
     margin-top: 3rem;
+
+    @include medium {
+      font-size: 2.6rem;
+    }
+
+    @include large {
+      font-size: 2.8rem;
+    }
   }
 
   .ff-fileupload-select {
     color: clr(primary);
     font-size: 1.6rem;
+
+    @include large {
+      font-size: 1.8rem;
+    }
   }
 
   .ff-fileupload-select:hover {
@@ -72,14 +85,55 @@
   }
 
   .ff-select-type {
-    border: 1px solid #c4c4c4;
-    width: 100%;
-    height: 5rem;
-    color: clr(primary);
+    position: relative;
+    display: block;
     font-size: 1.6rem;
     font-family: variable(secondary-font);
-    border-radius: variable(border-radius);
-    padding-left: 2rem;
+    color: clr(primary);
+    line-height: 2.24rem;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    width: 100%;
+    height: 5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #c4c4c4;
+    border-radius: variable(button-border-radius);
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: linear-gradient(
+        45deg,
+        transparent 50%,
+        clr(secondary) 50%
+      ),
+      linear-gradient(135deg, clr(secondary) 50%, transparent 50%);
+    background-position: calc(100% - 40px) 50%, calc(100% - 32px) 50%, 100% 0;
+    background-size: 8px 8px, 8px 8px, 5em 5em;
+    background-repeat: no-repeat;
+
+    @include large {
+      font-size: 1.8rem;
+      line-height: 2.52rem;
+    }
+  }
+
+  .ff-select-type:focus {
+    background-image: linear-gradient(
+        45deg,
+        clr(secondary) 50%,
+        transparent 50%
+      ),
+      linear-gradient(135deg, transparent 50%, clr(secondary) 50%);
+    background-position: calc(100% - 32px) 50%, calc(100% - 40px) 50%, 100% 0;
+    background-size: 8px 8px, 8px 8px, 5em 5em;
+    background-repeat: no-repeat;
+    outline: 0;
+  }
+
+  .ff-select-type::-ms-expand {
+    display: none;
   }
 
   .ff-input-type {
@@ -92,6 +146,10 @@
     cursor: text;
     font-size: 1.6rem;
     padding-bottom: 1rem;
+
+    @include large {
+      font-size: 1.8rem;
+    }
   }
 
   .ff-input-type::-webkit-input-placeholder {
@@ -99,39 +157,55 @@
     color: clr(primary);
     font-size: 1.6rem;
     opacity: 1;
+
+    @include large {
+      font-size: 1.8rem;
+    }
   }
   .ff-input-type::-moz-placeholder {
     font-family: variable(secondary-font);
     color: clr(primary);
     font-size: 1.6rem;
     opacity: 1;
+
+    @include large {
+      font-size: 1.8rem;
+    }
   }
   .ff-input-type:-ms-input-placeholder {
     font-family: variable(secondary-font);
     color: clr(primary);
     font-size: 1.6rem;
     opacity: 1;
+
+    @include large {
+      font-size: 1.8rem;
+    }
   }
   .ff-input-type:-moz-placeholder {
     font-family: variable(secondary-font);
     color: clr(primary);
     font-size: 1.6rem;
     opacity: 1;
+
+    @include large {
+      font-size: 1.8rem;
+    }
   }
 
   .ff-textarea::-webkit-input-placeholder {
-    color: transparent
+    color: transparent;
   }
   .ff-textarea::-moz-placeholder {
-    color: transparent
+    color: transparent;
   }
   .ff-textarea:-ms-input-placeholder {
-    color: transparent
+    color: transparent;
   }
   .ff-textarea:-moz-placeholder {
-    color: transparent
+    color: transparent;
   }
-   
+
   .ff-input-type:focus,
   .ff-textarea:focus,
   .ff-select-type:focus {
@@ -155,6 +229,10 @@
     font-family: variable(secondary-font);
     color: clr(primary);
     font-size: 1.6rem;
+
+    @include large {
+      font-size: 1.8rem;
+    }
   }
 
   #lblCaseDescription {
@@ -163,11 +241,15 @@
     font-size: 1.6rem;
     font-family: variable(secondary-font);
     cursor: text;
+
+    @include large {
+      font-size: 1.8rem;
+    }
   }
-  
+
   #dvFastForms .btnDiv input {
     margin: 0 !important;
-    border-radius: variable(border-radius);
+    border-radius: variable(button-border-radius);
     text-transform: uppercase;
   }
 
@@ -177,10 +259,14 @@
     width: 100%;
     height: 5rem;
     border: none;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     margin-right: 5%;
     font-family: variable(secondary-font);
     letter-spacing: 0.1rem;
+
+    @include large {
+      font-size: 1.6rem;
+    }
   }
 
   #dvFastForms .btnDiv {
@@ -189,10 +275,10 @@
 
   .ff-textarea {
     height: 14rem;
-    margin-top: 1.4rem;
+    margin-top: 2rem;
     width: 100%;
     border-color: #c4c4c4;
-    border-radius: variable(border-radius);
+    border-radius: variable(button-border-radius);
     color: clr(primary);
     font-family: variable(secondary-font);
     padding: 1rem 1.5rem;
@@ -200,6 +286,10 @@
 
     @include medium {
       height: 20rem;
+    }
+
+    @include large {
+      font-size: 1.8rem;
     }
   }
 
@@ -210,7 +300,7 @@
     padding: 1.15rem;
     display: inline-block;
     border: 0.5px solid #c4c4c4;
-    border-radius: variable(border-radius) !important;
+    border-radius: variable(button-border-radius) !important;
     font-family: variable(secondary-font);
   }
 
@@ -223,12 +313,24 @@
     font-size: 1.2rem;
     color: clr(primary);
     font-family: variable(secondary-font);
+
+    @include medium {
+      font-size: 1.4rem;
+    }
+
+    @include large {
+      font-size: 1.6rem;
+    }
   }
 
   .ff-footnote-label {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: clr(primary);
     font-family: variable(secondary-font);
+
+    @include large {
+      font-size: 1.4rem;
+    }
   }
 
   .footnoteDiv {
@@ -244,12 +346,12 @@
 
   .ff-textarea.ff-input-type-invalid {
     border: 0.5px solid clr(secondary) !important;
-    border-radius: variable(border-radius) !important;
+    border-radius: variable(button-border-radius) !important;
   }
 
   .ff-select-type.ff-input-type-invalid {
     border: 0.5px solid clr(secondary) !important;
-    border-radius: variable(border-radius) !important;
+    border-radius: variable(button-border-radius) !important;
   }
 
   #reqdvCase\.Description {
@@ -284,23 +386,59 @@
     color: clr(secondary);
   }
 
+  .ff-ui-dialog .ff-ui-dialog-content {
+    color: clr(secondary);
+    font-family: variable(secondary-font);
+    font-size: 1.6rem;
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+
+    @include large {
+      font-size: 1.8rem;
+    }
+  }
+
+  .ff-btn-submit {
+    color: white;
+    background-color: clr(secondary);
+    width: 15rem;
+    height: 5rem;
+    border: none;
+    font-size: 1.4rem;
+    font-family: variable(secondary-font);
+    letter-spacing: 0.1rem;
+    border-radius: variable(button-border-radius);
+    padding-bottom: 2rem;
+
+    @include large {
+      font-size: 1.6rem;
+    }
+  }
+
+  .ff-btn-submit:hover {
+    background-color: white;
+    border: 1px solid #c4c4c4;
+    color: clr(secondary);
+  }
+
   @include medium {
     .group-1 .ff-item-row:nth-child(2) {
       display: block;
       float: left;
       width: 47%;
     }
-  
+
     .group-1 .ff-item-row:nth-child(3) {
       display: block;
       float: right;
       width: 53%;
     }
-  
+
     .btnDiv input {
       width: 23% !important;
     }
-  
+
     .group-1 .ff-item-row:nth-child(3) .ff-col-2 input {
       width: 89%;
     }

@@ -11,6 +11,8 @@ media:
   field_agency: 'agencyPartnerVendor'
   field_last_mod_date: 'lastModDate'
   name: 'assetName'
+  field_version_id: 'versionIdOTMM'
+  field_original_external_id: 'origAssetId'
 
 file:
   filename: 'assetName'

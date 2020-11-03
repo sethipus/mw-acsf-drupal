@@ -1,38 +1,30 @@
-uuid: aa33bb68-46d1-4640-b716-45a642918c47
+uuid: accf2eb5-e1db-4f51-b15c-7ac8d99cdaf1
 langcode: en
 status: true
 dependencies:
   config:
     - block_content.type.flexible_framer_item
     - field.storage.block_content.field_ff_item_image
-  module:
-    - image
+    - media.type.image
+    - media.type.lighthouse_image
 id: block_content.flexible_framer_item.field_ff_item_image
 field_name: field_ff_item_image
 entity_type: block_content
 bundle: flexible_framer_item
-label: 'Item image'
+label: Image
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'png gif jpg jpeg'
-  max_filesize: ''
-  max_resolution: ''
-  min_resolution: ''
-  alt_field: true
-  alt_field_required: true
-  title_field: true
-  title_field_required: false
-  default_image:
-    uuid: ''
-    alt: ''
-    title: ''
-    width: null
-    height: null
-  handler: 'default:file'
-  handler_settings: {  }
-field_type: image
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      lighthouse_image: lighthouse_image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

@@ -1,0 +1,8 @@
+salsify_integration.configuration:
+  title: 'Configuration'
+  route_name: salsify_integration.configuration
+  base_route: salsify_integration.configuration
+
+salsify_integration.media_assets:
+  deriver: 'Drupal\salsify_integration\Plugin\Derivative\DynamicLocalTasks'
+  weight: 100

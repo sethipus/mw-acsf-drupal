@@ -4,7 +4,7 @@
   display: inline-block;
   margin-left: -$space-one-and-half;
 
-  @include medium {
+  @include large {
     margin-left: 0;
   }
 }
@@ -15,7 +15,7 @@
   line-height: 1rem;
   position: relative;
 
-  @include medium {
+  @include large {
     &::before {
       content: '';
       position: absolute;
@@ -50,7 +50,7 @@
     color: clr(subcolor-3);
   }
 
-  @include medium {
+  @include large {
     color: clr(primary);
     font-size: 1.4rem;
     line-height: 1.4rem;
@@ -64,7 +64,7 @@
 .dropdown--header-navigation {
   width: 8rem;
 
-  @include medium {
+  @include large {
     &::before {
       content: '';
       position: absolute;
@@ -90,7 +90,7 @@
       top: 10px;
     }
 
-    @include medium {
+    @include large {
       color: clr(primary);
       font-size: 1.4rem;
       line-height: 1.4rem;
@@ -118,9 +118,7 @@
     letter-spacing: 0.7px;
   }
   
-  &:hover {
-    .dropdown__trigger::after {
-      top: 15px;
-    }
+  .dropdown__trigger[aria-expanded="true"]::after {
+    top: 15px;
   }
 }

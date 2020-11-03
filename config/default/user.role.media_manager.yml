@@ -6,10 +6,11 @@ _core:
   default_config_hash: L47HI71RjV8g6EyXHqdUuAOtEFv7iUxYDREF-OSBMUE
 id: media_manager
 label: 'Media manager'
-weight: 6
+weight: 0
 is_admin: false
 permissions:
   - 'access ckeditor_media_browser entity browser pages'
+  - 'access contextual links'
   - 'access media overview'
   - 'access media_browser entity browser pages'
   - 'administer media'

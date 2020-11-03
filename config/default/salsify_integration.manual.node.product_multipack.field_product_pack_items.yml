@@ -1,0 +1,9 @@
+field_id: 'CMS: Child products'
+salsify_id: 'CMS: Child products'
+salsify_data_type: entity_ref
+entity_type: node
+bundle: product_multipack
+field_name: field_product_pack_items
+method: manual
+created: 1546300800
+changed: 1546300801

@@ -119,7 +119,7 @@
     line-height: 5.8rem;
     background: clr(secondary);
     color: clr(subcolor-3);
-    border-radius: variable(border-radius);
+    border-radius: variable(button-border-radius);
     font-family: variable(secondary-font);
     font-size: 1.6rem;
     font-weight: 600;
@@ -138,6 +138,8 @@
 
     &:hover {
       color: clr(primary);
+      background-color: transparent;
+      transition: background-color 0.5s cubic-bezier(.75, 0, .25, 1);
     }
 
     &::after {

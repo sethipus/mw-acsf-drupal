@@ -30,4 +30,43 @@ interface SearchHelperInterface {
    */
   public function getSearchResults(array $options, $searcher_key);
 
+  /**
+   * Returns list with available facets keys.
+   *
+   * @return array
+   *   Array with facets keys.
+   */
+  public function getFacetKeys();
+
+  /**
+   * Returns Url based on current request with GET parameters.
+   *
+   * @return \Drupal\Core\Url
+   *   Current Url object.
+   */
+  public function getCurrentUrl();
+
+  /**
+   * Converts SOLR facets to mars-friendly links.
+   *
+   * @param array $facets
+   *   SOLR facets.
+   * @param string $facet_key
+   *   Facet key.
+   * @param int $search_id
+   *   Search id.
+   *
+   * @return array
+   *   Array with links according to mars frontend logic.
+   */
+  public function prepareFacetsLinks(array $facets, $facet_key, $search_id);
+
+  /**
+   * Returns default options for search query.
+   *
+   * @return array
+   *   Array with options.
+   */
+  public function getSearchQueryDefaultOptions();
+
 }

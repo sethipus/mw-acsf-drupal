@@ -75,12 +75,20 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       $email_cta_address = 'mailto:' . $conf['email_cta_address'];
     }
 
+    $email_cta_label = '';
+    if ($conf['email_cta_label']) {
+      $email_cta_label = $conf['email_cta_label'];
+    }
+    elseif ($conf['email_cta_address']) {
+      $email_cta_label = $conf['email_cta_address'];
+    }
+
     $build['#title'] = $conf['title'] ?? '';
     $build['#description'] = $conf['description'] ?? '';
     $build['#social_links_label'] = $conf['social_links_label'] ?? '';
     $build['#phone_cta_label'] = $phone_cta_label;
     $build['#phone_cta_link'] = $phone_cta_number;
-    $build['#email_cta_label'] = $conf['email_cta_label'] ?? '';
+    $build['#email_cta_label'] = $email_cta_label;
     $build['#email_cta_link'] = $email_cta_address;
     $build['#help_and_contact_cta_label'] = $conf['help_and_contact_cta_label'] ?? '';
     $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
@@ -114,14 +122,14 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 45,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 150,
+      '#maxlength' => 160,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];

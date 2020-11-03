@@ -5,10 +5,20 @@
 .status {
   display: block;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-family: variable(secondary-font);
   line-height: 1.2;
-  padding: 2.2rem $space-quadruple 1.7rem;
+  padding: 1.2rem $space-quadruple 1.1rem;
+
+  @include medium {
+    font-size: 1.6rem;
+    padding: 1.9rem $space-quadruple 2.1rem;
+  }
+
+  @include large {
+    font-size: 1.8rem;
+    padding: 2.2rem $space-quadruple 1.7rem;
+  }
 
   &--warning {
     color: $gray;

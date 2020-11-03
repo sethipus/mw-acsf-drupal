@@ -12,15 +12,17 @@ dependencies:
     - field.field.media.lighthouse_image.field_marketing_country
     - field.field.media.lighthouse_image.field_media_image
     - field.field.media.lighthouse_image.field_media_in_library
+    - field.field.media.lighthouse_image.field_original_external_id
     - field.field.media.lighthouse_image.field_region
     - field.field.media.lighthouse_image.field_segment
     - field.field.media.lighthouse_image.field_sub_brand
     - field.field.media.lighthouse_image.field_sub_type
+    - field.field.media.lighthouse_image.field_version_id
     - media.type.lighthouse_image
   module:
     - remote_stream_wrapper_widget
 _core:
-  default_config_hash: ABpOlEfDZ2VdlWO-FFkr90gi5IPm2qKisCeS4LuuWsI
+  default_config_hash: HKzAHdF_PJgmnsfLeFCcBPh_tWTP1KI0fV4PkaPe6NQ
 id: media.lighthouse_image.media_browser
 targetEntityType: media
 bundle: lighthouse_image
@@ -57,10 +59,12 @@ hidden:
   field_last_mod_date: true
   field_marketing_country: true
   field_media_in_library: true
+  field_original_external_id: true
   field_region: true
   field_segment: true
   field_sub_brand: true
   field_sub_type: true
+  field_version_id: true
   path: true
   status: true
   uid: true

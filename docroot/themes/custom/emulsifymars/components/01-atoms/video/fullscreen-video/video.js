@@ -5,74 +5,214 @@ Drupal.behaviors.fullscreenVideoPlayer = {
     if (supportsVideo === false) {
       return;
     }
-    // Obtain handles to main elements
-    var videoContainer = document.getElementById('video-container');
-    var video = document.getElementById('fullscreen-video');
-    var videoControls = document.getElementById('video-controls');
 
-    // Video settings
-    if (video === null) {
-      return;
+    var videoInitState = function(videoContainer) {
+      // Setup memoize function for video elements selectors
+      var videoElements = (function() {
+        var memo = {};
+
+        function f(n) {
+          var value;
+          if (n in memo) {
+            value = memo[n];
+          } else {
+            value = videoContainer.querySelector('.fullscreen-video__' + n);
+            memo[n] = value;
+          }
+          return value;
+        }
+
+        return f;
+      })();
+
+      if (videoElements('video') === null || videoContainer.getAttribute('data-video-init')) {
+        return;
+      }
+      videoElements('video').controls = false;
+      videoElements('video').muted = true;
+      videoElements('video').loop = true;
+      videoElements('video').autoplay = true;
+      videoElements('video').play();
+
+      // Display the user defined video controls
+      videoElements('controls').setAttribute('data-state', 'hidden');
+
+      // If the browser doesn't support the progress element, set its state for some different styling
+      var supportsProgress = (document.createElement('progress').max !== undefined);
+      if (!supportsProgress) videoElements('progress-time--inner').setAttribute('data-state', 'fake');
+
+      // Check if the browser supports the Fullscreen API
+      var fullScreenEnabled = !!(document.fullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || document.webkitSupportsFullscreen || document.webkitFullscreenEnabled || document.createElement('video').webkitRequestFullScreen);
+      // If the browser doesn't support the Fulscreen API then hide the fullscreen button
+      if (!fullScreenEnabled) {
+        videoElements('fs').style.display = 'none';
+      }
+
+      // Only add the events if addEventListener is supported (IE8 and less don't support it, but that will use Flash anyway)
+      if (document.addEventListener) {
+        // Wait for the video's meta data to be loaded, then set the progress bar's max value to the duration of the video
+        videoElements('video').addEventListener('loadedmetadata', function() {
+          videoElements('progress-time--inner').setAttribute('max', videoElements('video').duration);
+          videoElements('progress-time--duration').innerHTML = '0:00/' + videoElements('video').duration;
+        });
+
+        // Add event listeners for video specific events
+        videoElements('video').addEventListener('play', function() {
+          changeButtonState(videoElements, 'playpause');
+        }, false);
+        videoElements('video').addEventListener('pause', function() {
+          changeButtonState(videoElements, 'playpause');
+        }, false);
+        videoElements('video').addEventListener('volumechange', function() {
+          checkVolume(videoElements);
+        }, false);
+
+        // Add events for all buttons
+        videoElements('playpause').addEventListener('click', function(e) {
+          if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
+          else videoElements('video').pause();
+        });
+        videoElements('video').addEventListener('click', function(e) {
+          if (videoElements('video').paused || videoElements('video').ended) {
+            videoElements('video').play();
+          } else {
+            videoElements('video').pause();
+          }
+          changeButtonState(videoElements, 'control');
+        });
+
+        // The Media API has no 'stop()' function, so pause the video and reset its time and the progress bar
+        videoElements('stop').addEventListener('click', function(e) {
+          videoElements('video').pause();
+          videoElements('video').currentTime = 0;
+          videoElements('progress-time--inner').value = 0;
+          // Update the play/pause button's 'data-state' which allows the correct button image to be set via CSS
+          changeButtonState(videoElements, 'playpause');
+        });
+        videoElements('mute').addEventListener('click', function(e) {
+          videoElements('video').muted = !videoElements('video').muted;
+          changeButtonState(videoElements, 'mute');
+        });
+        videoElements('fs').addEventListener('click', function(e) {
+          handleFullscreen(videoContainer, videoElements);
+        });
+        videoElements('close').addEventListener('click', function(e) {
+          handleFullscreen(videoContainer, videoElements);
+        });
+        videoElements('video').addEventListener('webkitendfullscreen', function(e){
+          setFullscreenData(videoContainer, videoElements, false);
+        });
+        if (videoElements('control')) {
+          videoElements('control').addEventListener('click', function(e) {
+            if (videoElements('control').getAttribute('data-state') == 'play') {
+              handleFullscreen(videoContainer, videoElements);
+              videoElements('video').muted = false;
+              videoElements('video').play();
+            }
+            else if (videoElements('control').getAttribute('data-state') == 'pause') {
+              videoElements('video').pause();
+              changeButtonState(videoElements, 'control');
+            }
+          });
+        }
+        else if (videoContainer.parentElement.parentElement.querySelector('.homepage-hero-video__container--title .fullscreen-video__control')) {
+          var outerControl = videoContainer.parentElement.parentElement.querySelector('.homepage-hero-video__container--title .fullscreen-video__control');
+          outerControl.addEventListener('click', function(e) {
+            handleFullscreen(videoContainer, videoElements);
+            videoElements('video').muted = !videoElements('video').muted;
+          });
+        }
+
+        // As the video is playing, update the progress bar
+        videoElements('video').addEventListener('timeupdate', function() {
+          // For mobile browsers, ensure that the progress element's max attribute is set
+          if (!videoElements('progress-time--inner').getAttribute('max')) videoElements('progress-time--inner').setAttribute('max', videoElements('video').duration);
+          videoElements('progress-time--inner').value = videoElements('video').currentTime;
+          videoElements('progress-time--progress-bar').style.width = Math.floor((videoElements('video').currentTime / videoElements('video').duration) * 100) + '%';
+          videoElements('progress-time--duration').innerHTML = handleDuration(videoElements('video').currentTime) + '/'+ handleDuration(videoElements('video').duration);
+        });
+
+        // React to the user clicking within the progress bar
+        videoElements('progress-time--inner').addEventListener('click', function(e) {
+          var pos = e.offsetX / this.offsetWidth;
+          videoElements('video').currentTime = pos * videoElements('video').duration;
+        });
+
+        // Listen for fullscreen change events (from other controls, e.g. right clicking on the video itself)
+        document.addEventListener('fullscreenchange', function(e) {
+          setFullscreenData(videoContainer, videoElements, !!(document.fullScreen || document.fullscreenElement));
+        });
+        document.addEventListener('webkitfullscreenchange', function(e) {
+          setFullscreenData(videoContainer, videoElements, !!document.webkitIsFullScreen);
+        });
+        document.addEventListener('mozfullscreenchange', function(e) {
+          setFullscreenData(videoContainer, videoElements, !!document.mozFullScreen);
+        });
+        document.addEventListener('msfullscreenchange', function(e) {
+          setFullscreenData(videoContainer, videoElements, !!document.msFullscreenElement);
+        });
+        
+        // Listen to scroll event to pause video when out of viewport
+        let videoVisible = false;
+        document.addEventListener('scroll', function() {
+          let videoPosition = videoElements('video').offsetTop;
+          let videoHeight = videoElements('video').getBoundingClientRect().height;
+          let windowPosition = window.pageYOffset;
+          let windowHeight = window.innerHeight;
+
+          if (videoPosition + videoHeight - windowPosition < 0 || windowPosition + windowHeight - videoPosition < 0) {
+            videoElements('video').pause();
+            videoVisible = false;
+          } else {
+            if(!videoVisible) {
+              videoElements('video').play();
+              videoVisible = true;
+            }
+          }
+        });
+      }
+
+      videoElements('video').setAttribute('data-video-init', true);
     }
-    video.controls = false;
-    video.muted = false;
 
-    // Hide the default controls
-    video.controls = false;
-
-    // Display the user defined video controls
-    videoControls.setAttribute('data-state', 'hidden');
-
-    // Obtain handles to buttons and other elements
-    var fullscreenPlay = document.getElementById('fullscreen-play');
-    var playpause = document.getElementById('playpause');
-    var stop = document.getElementById('stop');
-    var mute = document.getElementById('mute');
-    var progressTime = document.getElementById('progress-time');
-    var progress = document.getElementById('progress');
-    var progressBar = document.getElementById('progress-bar');
-    var fullscreen = document.getElementById('fs');
-
-    // If the browser doesn't support the progress element, set its state for some different styling
-    var supportsProgress = (document.createElement('progress').max !== undefined);
-    if (!supportsProgress) progress.setAttribute('data-state', 'fake');
-
-    // Check if the browser supports the Fullscreen API
-    var fullScreenEnabled = !!(document.fullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || document.webkitSupportsFullscreen || document.webkitFullscreenEnabled || document.createElement('video').webkitRequestFullScreen);
-    // If the browser doesn't support the Fulscreen API then hide the fullscreen button
-    if (!fullScreenEnabled) {
-      fullscreen.style.display = 'none';
+    // Changes the button state of certain button's so the correct visuals can be displayed with CSS
+    var changeButtonState = function(videoElements, type) {
+      if (videoElements('video').paused || videoElements('video').ended) {
+        videoElements(type).setAttribute('data-state', 'play');
+      } else {
+        videoElements(type).setAttribute('data-state', 'pause');
+      }
     }
 
     // Check the volume
-    var checkVolume = function(dir) {
+    var checkVolume = function(videoElements, dir) {
       if (dir) {
-        var currentVolume = Math.floor(video.volume * 10) / 10;
+        var currentVolume = Math.floor(videoElements('video').volume * 10) / 10;
         if (dir === '+') {
-          if (currentVolume < 1) video.volume += 0.1;
+          if (currentVolume < 1) videoElements('video').volume += 0.1;
         } else if (dir === '-') {
-          if (currentVolume > 0) video.volume -= 0.1;
+          if (currentVolume > 0) videoElements('video').volume -= 0.1;
         }
         // If the volume has been turned off, also set it as muted
         // Note: can only do this with the custom control set as when the 'volumechange' event is raised, there is no way to know if it was via a volume or a mute change
-        if (currentVolume <= 0) video.muted = true;
-        else video.muted = false;
+        if (currentVolume <= 0) videoElements('video').muted = true;
+        else videoElements('video').muted = false;
       }
-      changeButtonState('mute');
     }
 
     // Change the volume
-    var alterVolume = function(dir) {
-      checkVolume(dir);
+    var alterVolume = function(videoElements, dir) {
+      checkVolume(videoElements, dir);
     }
 
     // Set the video container's fullscreen state
-    var setFullscreenData = function(state) {
+    var setFullscreenData = function(videoContainer, videoElements, state) {
+      if (!state) videoElements('video').pause();
       videoContainer.setAttribute('data-fullscreen', !!state);
       // Set the fullscreen button's 'data-state' which allows the correct button image to be set via CSS
-      fullscreen.setAttribute('data-state', !!state ? 'cancel-fullscreen' : 'go-fullscreen');
-      fullscreenPlay.setAttribute('data-state', !!state ? 'hidden' : 'play');
-      videoControls.setAttribute('data-state', !!state ? 'visible' : 'hidden');
+      videoElements('fs').setAttribute('data-state', !!state ? 'cancel-fullscreen' : 'go-fullscreen');
+      videoElements('controls').setAttribute('data-state', !!state ? 'visible' : 'hidden');
+      videoElements('control').setAttribute('data-state', !!state ? 'hidden' : 'play');
     }
 
     // Checks if the document is currently in fullscreen mode
@@ -81,8 +221,8 @@ Drupal.behaviors.fullscreenVideoPlayer = {
     }
 
     // Fullscreen
-    var handleFullscreen = function() {
-      // If fullscreen mode is active...	
+    var handleFullscreen = function(videoContainer, videoElements) {
+      // If fullscreen mode is active...
       if (isFullScreen()) {
         // ...exit fullscreen mode
         // (Note: this can only be called on document)
@@ -90,115 +230,31 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
         else if (document.webkitCancelFullScreen) document.webkitCancelFullScreen();
         else if (document.msExitFullscreen) document.msExitFullscreen();
-        videoControls.setAttribute('data-state', 'hidden');
-        video.pause();
-        setFullscreenData(false);
+        setFullscreenData(videoContainer, videoElements, false);
       } else {
         // ...otherwise enter fullscreen mode
         // (Note: can be called on document, but here the specific element is used as it will also ensure that the element's children, e.g. the custom controls, go fullscreen also)
         if (videoContainer.requestFullscreen) videoContainer.requestFullscreen();
         else if (videoContainer.mozRequestFullScreen) videoContainer.mozRequestFullScreen();
         else if (videoContainer.webkitRequestFullScreen) {
-          // Safari 5.1 only allows proper fullscreen on the video element. This also works fine on other WebKit browsers as the following CSS (set in styles.css) hides the default controls that appear again, and 
+          // Safari 5.1 only allows proper fullscreen on the video element. This also works fine on other WebKit browsers as the following CSS (set in styles.css) hides the default controls that appear again, and
           // ensures that our custom controls are visible:
           // figure[data-fullscreen=true] video::-webkit-media-controls { display:none !important; }
           // figure[data-fullscreen=true] .controls { z-index:2147483647; }
-          video.webkitRequestFullScreen();
+          videoElements('video').webkitRequestFullScreen();
         } else if (videoContainer.msRequestFullscreen) videoContainer.msRequestFullscreen();
-        videoControls.setAttribute('data-state', 'visible');
-        setFullscreenData(true);
+        setFullscreenData(videoContainer, videoElements, true);
       }
     }
 
-    // Only add the events if addEventListener is supported (IE8 and less don't support it, but that will use Flash anyway)
-    if (document.addEventListener) {
-      // Wait for the video's meta data to be loaded, then set the progress bar's max value to the duration of the video
-      video.addEventListener('loadedmetadata', function() {
-        progress.setAttribute('max', video.duration);
-        progressTime.innerHTML = '0:00/' + video.duration;
-      });
-
-      // Changes the button state of certain button's so the correct visuals can be displayed with CSS
-      var changeButtonState = function(type) {
-        // Play/Pause button
-        if (type == 'playpause') {
-          if (video.paused || video.ended) {
-            playpause.setAttribute('data-state', 'play');
-          } else {
-            playpause.setAttribute('data-state', 'pause');
-          }
-        }
-        // Mute button
-        else if (type == 'mute') {
-          mute.setAttribute('data-state', video.muted ? 'unmute' : 'mute');
-        }
-      }
-
-      // Add event listeners for video specific events
-      video.addEventListener('play', function() {
-        changeButtonState('playpause');
-      }, false);
-      video.addEventListener('pause', function() {
-        changeButtonState('playpause');
-      }, false);
-      video.addEventListener('volumechange', function() {
-        checkVolume();
-      }, false);
-
-      // Add events for all buttons			
-      playpause.addEventListener('click', function(e) {
-        if (video.paused || video.ended) video.play();
-        else video.pause();
-      });
-
-      // The Media API has no 'stop()' function, so pause the video and reset its time and the progress bar
-      stop.addEventListener('click', function(e) {
-        video.pause();
-        video.currentTime = 0;
-        progress.value = 0;
-        // Update the play/pause button's 'data-state' which allows the correct button image to be set via CSS
-        changeButtonState('playpause');
-      });
-      mute.addEventListener('click', function(e) {
-        video.muted = !video.muted;
-        changeButtonState('mute');
-      });
-      fs.addEventListener('click', function(e) {
-        handleFullscreen();
-      });
-      fullscreenPlay.addEventListener('click', function(e) {
-        handleFullscreen();
-      });
-
-      // As the video is playing, update the progress bar
-      video.addEventListener('timeupdate', function() {
-        // For mobile browsers, ensure that the progress element's max attribute is set
-        if (!progress.getAttribute('max')) progress.setAttribute('max', video.duration);
-        progress.value = video.currentTime;
-        progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + '%';
-        progressTime.innerHTML = parseFloat(video.currentTime.toFixed(2)) + '/' + video.duration;
-      });
-
-      // React to the user clicking within the progress bar
-      progress.addEventListener('click', function(e) {
-        //var pos = (e.pageX  - this.offsetLeft) / this.offsetWidth; // Also need to take the parent into account here as .controls now has position:relative
-        var pos = (e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)) / this.offsetWidth;
-        video.currentTime = pos * video.duration;
-      });
-
-      // Listen for fullscreen change events (from other controls, e.g. right clicking on the video itself)
-      document.addEventListener('fullscreenchange', function(e) {
-        setFullscreenData(!!(document.fullScreen || document.fullscreenElement));
-      });
-      document.addEventListener('webkitfullscreenchange', function(e) {
-        setFullscreenData(!!document.webkitIsFullScreen);
-      });
-      document.addEventListener('mozfullscreenchange', function(e) {
-        setFullscreenData(!!document.mozFullScreen);
-      });
-      document.addEventListener('msfullscreenchange', function(e) {
-        setFullscreenData(!!document.msFullscreenElement);
-      });
+    var handleDuration = function(time) {
+      return `${Math.floor(time/60)}:${time%60 > 10 ? Math.floor(time%60) : '0' + Math.floor(time%60)}`
     }
+
+    // Obtain handles to main elements
+    var videos = document.querySelectorAll('.fullscreen-video');
+    videos.forEach(function(video) {
+      videoInitState(video);
+    });
   }
 }

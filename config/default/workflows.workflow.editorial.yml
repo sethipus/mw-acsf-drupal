@@ -3,8 +3,10 @@ langcode: en
 status: true
 dependencies:
   config:
+    - node.type.about_page
     - node.type.article
-    - node.type.contact_help
+    - node.type.campaign
+    - node.type.faq_contact
     - node.type.error_page
     - node.type.faq
     - node.type.homepage
@@ -15,6 +17,7 @@ dependencies:
     - node.type.product_multipack
     - node.type.product_variant
     - node.type.recipe
+    - node.type.search
     - node.type.where_to_buy
   module:
     - content_moderation
@@ -86,8 +89,10 @@ type_settings:
         - review
   entity_types:
     node:
+      - about_page
       - article
-      - contact_help
+      - campaign
+      - faq_contact
       - error_page
       - faq
       - homepage
@@ -98,4 +103,5 @@ type_settings:
       - product_multipack
       - product_variant
       - recipe
+      - search
       - where_to_buy

@@ -1,0 +1,22 @@
+uuid: 406701d3-00a6-4918-8a57-40c0eca6d2eb
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.about_page
+id: node.about_page.status
+field_name: status
+entity_type: node
+bundle: about_page
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

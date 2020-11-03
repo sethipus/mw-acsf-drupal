@@ -5,6 +5,7 @@
  * MARS Search module main file.
  */
 
+use Drupal\entityqueue\EntitySubqueueInterface;
 use Drupal\search_api\IndexInterface;
 
 /**
@@ -15,17 +16,20 @@ function mars_search_theme($existing, $type, $theme, $path) {
     'mars_search_suggestions' => [
       'variables' => [
         'suggestions' => [],
-        'show_all' => NULL,
+        'show_all' => [],
         'empty_text' => NULL,
         'empty_text_description' => NULL,
+        'no_results' => NULL,
+        'cards_view' => NULL,
       ],
     ],
     'mars_search_header' => [
       'variables' => [
         'search_header_heading' => NULL,
         'brand_shape' => NULL,
+        'brand_shape_class' => NULL,
         'input_form' => NULL,
-        'search_results' => NULL,
+        'search_filters' => NULL,
       ],
       'template' => 'mars-search-header',
     ],
@@ -36,6 +40,49 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'no_results_heading' => NULL,
       ],
       'template' => 'mars-search-no-results',
+    ],
+    'mars_search_faq_block' => [
+      'variables' => [
+        'faq_title' => NULL,
+        'qa_items' => [],
+        'cta_button_label' => NULL,
+        'cta_button_link' => NULL,
+        'search_form' => NULL,
+        'search_result_counter' => NULL,
+        'search_result_text' => NULL,
+        'facets' => NULL,
+        'no_results_heading' => NULL,
+        'no_results_text' => NULL,
+      ],
+    ],
+    'mars_search_search_results_block' => [
+      'variables' => [
+        'items' => [],
+        'theme_styles' => '',
+        'graphic_divider' => NULL,
+        'filters' => [],
+        'applied_filters_list' => [],
+        'ajax_card_grid_heading' => NULL,
+        'ajax_card_grid_link_text' => NULL,
+        'ajax_card_grid_link_attributes' => [],
+        'ajax_card_grid_border_radius' => NULL,
+        'no_results' => NULL,
+      ],
+    ],
+    'mars_search_grid_block' => [
+      'variables' => [
+        'items' => [],
+        'filters' => [],
+        'applied_filters_list' => [],
+        'input_form' => [],
+        'theme_styles' => '',
+        'graphic_divider' => NULL,
+        'ajax_card_grid_heading' => NULL,
+        'ajax_card_grid_link_text' => NULL,
+        'ajax_card_grid_link_attributes' => [],
+        'ajax_card_grid_border_radius' => NULL,
+        'no_results' => NULL,
+      ],
     ],
   ];
 }
@@ -54,5 +101,18 @@ function mars_search_search_api_index_items_alter(IndexInterface $index, array &
       $object->set('type', 'product');
     }
     $item->setOriginalObject($object);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for entity_subqueue entities.
+ */
+function mars_search_entity_subqueue_presave(EntitySubqueueInterface $queue) {
+  // Looping through all queue items.
+  foreach ($queue->get('items')->referencedEntities() as $node) {
+    // This is needed for search_api_entity_update().
+    $node->original = clone $node;
+    // Re-indexing items.
+    search_api_entity_update($node);
   }
 }

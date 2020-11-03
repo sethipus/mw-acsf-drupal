@@ -6,6 +6,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
+use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -46,7 +47,7 @@ class SearchOverlayForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('request_stack'),
+      $container->get('request_stack')
     );
   }
 
@@ -59,8 +60,11 @@ class SearchOverlayForm extends FormBase {
       '#attributes' => [
         'class' => [
           'mars-autocomplete-field',
+          'mars-cards-view',
         ],
         'autocomplete' => 'off',
+        // This is needed for correct work of SearchQueryParser.
+        'data-grid-id' => SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID,
       ],
     ];
     $form['actions'] = [
@@ -84,13 +88,23 @@ class SearchOverlayForm extends FormBase {
    *   The current state of the form.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $query = [];
-    $keys = $form_state->getValue('search');
-    if ($keys) {
-      $query = [SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => $keys];
-    }
-    $form_state->setRedirectUrl(Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, ['query' => $query]));
+    // Default search ID is 1.
+    $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID;
 
+    $keys = $form_state->getValue('search');
+
+    $url = Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH);
+    $options = $url->getOptions();
+
+    if ($keys) {
+      $options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY][$search_id] = $keys;
+    }
+    else {
+      unset($options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY][$search_id]);
+    }
+
+    $url->setOptions($options);
+    $form_state->setRedirectUrl($url);
   }
 
 }

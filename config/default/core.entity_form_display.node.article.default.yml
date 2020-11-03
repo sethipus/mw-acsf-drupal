@@ -3,18 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_browser
-    - field.field.node.article.field_article_brand_initiatives
+    - entity_browser.browser.lighthouse_browser
     - field.field.node.article.field_article_description
     - field.field.node.article.field_article_image
     - field.field.node.article.field_article_new
     - field.field.node.article.field_article_related_products
+    - field.field.node.article.field_brand_initiatives
+    - field.field.node.article.field_meta_tags
     - field.field.node.article.field_product_occasions
     - field.field.node.article.layout_builder__layout
     - node.type.article
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - entity_browser
+    - metatag
     - path
     - publication_date
     - text
@@ -31,16 +34,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_article_brand_initiatives:
-    weight: 8
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_article_description:
     weight: 7
     settings:
@@ -53,14 +46,14 @@ content:
     type: entity_browser_entity_reference
     weight: 6
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -72,7 +65,7 @@ content:
     type: boolean_checkbox
     region: content
   field_article_related_products:
-    weight: 10
+    weight: 11
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -81,8 +74,25 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_brand_initiatives:
+    weight: 9
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_meta_tags:
+    weight: 26
+    settings:
+      sidebar: true
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
   field_product_occasions:
-    weight: 27
+    weight: 14
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -93,7 +103,7 @@ content:
     region: content
   moderation_state:
     type: moderation_state_default
-    weight: 12
+    weight: 13
     settings: {  }
     region: content
     third_party_settings: {  }
@@ -113,7 +123,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 11
+    weight: 12
     region: content
     third_party_settings: {  }
   title:
