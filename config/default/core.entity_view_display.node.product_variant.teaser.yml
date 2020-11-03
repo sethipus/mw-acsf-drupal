@@ -141,6 +141,7 @@ hidden:
   field_product_vitamin_c_daily: true
   field_product_vitamin_d: true
   field_product_vitamin_d_daily: true
+  langcode: true
   published_at: true
   salsify_id: true
   salsify_updated: true

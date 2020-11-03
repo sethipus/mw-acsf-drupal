@@ -88,6 +88,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  langcode: true
   layout_builder__layout: true
   layout_selection: true
   published_at: true
