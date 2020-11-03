@@ -1,0 +1,9 @@
+{
+    "defaults": {
+        "includeWarnings": false,
+        "includeNotices": false
+    },
+         "urls": [
+             "http://mars.ddev.site:8080"
+         ]
+}
