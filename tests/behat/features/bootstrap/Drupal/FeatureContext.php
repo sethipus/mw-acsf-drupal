@@ -48,6 +48,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
         $this->getSession()
             ->visit($uli);
+
+        echo "Docker id: " . shell_exec('head -1 /proc/self/cgroup|cut -d/ -f3') . "\n";
     }
 
     /**
