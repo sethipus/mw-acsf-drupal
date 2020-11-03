@@ -81,7 +81,25 @@
   &__main-content {
     position: relative;
     z-index: 2;
-    margin-bottom: 6rem;
+
+
+    @include xs {
+      margin-bottom: 9rem;
+    }
+
+    @include medium {
+      margin-bottom: 6rem;
+    }
+
+    .default-link {
+      width: 15.7rem;
+      margin: .1rem 1rem;
+      cursor: pointer;
+
+      &::after {
+        bottom: -130px;
+      }
+    }
   }
 
   &__heading {
@@ -133,16 +151,6 @@
 
     &:focus-within {
       outline: 1px solid Highlight;
-    }
-
-    .default-link {
-      width: 15.7rem;
-      margin: .1rem 1rem;
-      cursor: pointer;
-
-      &::after {
-        bottom: -130px;
-      }
     }
 
     @include xs {
