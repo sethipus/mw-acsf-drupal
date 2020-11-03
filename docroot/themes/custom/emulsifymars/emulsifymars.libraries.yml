@@ -179,3 +179,9 @@ card-grid-filter:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
   dependencies:
     - core/drupal
+
+site-footer:
+  js:
+    dist/js/03-organisms/site/site-footer/site-footer.js: {}
+  dependencies:
+    - core/drupal

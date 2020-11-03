@@ -17,6 +17,7 @@ import siteHeaderData from './site-header/site-header.yml';
 
 import '../../02-molecules/menus/main-menu/main-menu';
 import '../../02-molecules/dropdown/dropdown';
+import './site-footer/site-footer';
 
 /**
  * Storybook Definition.
