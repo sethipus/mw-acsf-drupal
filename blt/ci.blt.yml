@@ -16,4 +16,4 @@ command-hooks:
     command: vendor/bin/drush pm:enable fixture_import && vendor/bin/drush migrate:import mars_pages
   frontend-test:
     dir: ${docroot}/themes/custom/emulsifymars
-    command: 'npx pa11y-ci --sitemap-find mars.ddev.site:8080 --sitemap-replace 127.0.0.1:8888'
+    command: 'npx pa11y-ci'
