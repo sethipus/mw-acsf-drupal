@@ -30,7 +30,6 @@
     span {
       position: relative;
       z-index: 3;
-      transition: color .4s ease;
     }
 
     &:hover {
@@ -139,10 +138,6 @@
       width: 15.7rem;
       margin: .1rem 1rem;
       cursor: pointer;
-
-      &::after {
-        bottom: -130px;
-      }
     }
 
     @include xs {
