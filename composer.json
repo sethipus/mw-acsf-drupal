@@ -66,6 +66,7 @@
         "drupal/tmgmt_smartling": "^4.10",
         "emulsify-ds/emulsify-drupal": "^1.0@beta",
         "eyecon/jquery_colorpicker": "master",
+        "lcatlett/blt-ddev": "dev-master",
         "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -187,12 +188,12 @@
                 "version": "master",
                 "type": "drupal-library",
                 "dist": {
-                   "type": "zip",
-                   "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
-                   "reference": "master"
+                    "type": "zip",
+                    "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
+                    "reference": "master"
                 },
                 "autoload": {
-                   "classmap": ["."]
+                    "classmap": ["."]
                 }
             }
         },
