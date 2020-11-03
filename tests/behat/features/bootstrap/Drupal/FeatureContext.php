@@ -40,6 +40,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
      */
     public function loginDrupal()
     {
+        echo "Docker id: " . shell_exec('head -1 /proc/self/cgroup|cut -d/ -f3') . "\n";
+
         $domain = $this->getMinkParameter('base_url');
         echo "domain: " . $domain . "\n";
 
@@ -48,8 +50,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
         $this->getSession()
             ->visit($uli);
-
-        echo "Docker id: " . shell_exec('head -1 /proc/self/cgroup|cut -d/ -f3') . "\n";
     }
 
     /**
