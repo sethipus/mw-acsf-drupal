@@ -114,9 +114,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#cta_title'] = $config['cta']['title'];
     $build['#block_type'] = $config['block_type'];
     $build['#background_asset'] = $this->getBgAsset();
-    if ($build['#block_type'] === self::KEY_OPTION_IMAGE_AND_TEXT) {
-      $build['#title_label'] = $config['basic_title']['label'];
-    }
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
@@ -195,9 +192,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#open' => TRUE,
       '#states' => [
         'invisible' => [
-          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
-          'or',
-          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP],
         ],
       ],
     ];
@@ -207,6 +202,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#maxlength' => 2048,
       '#default_value' => $config['title']['url'] ?? '',
       '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+        ],
         'required' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
           'or',
@@ -228,34 +226,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
           'or',
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
         ],
       ],
     ];
 
-    $form['basic_title'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Title'),
-      '#open' => TRUE,
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
-        ],
-      ],
-    ];
-    $form['basic_title']['label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Title label'),
-      '#maxlength' => 55,
-      '#default_value' => $config['basic_title']['label'] ?? '',
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
-        ],
-        'required' => [
-          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
-        ],
-      ],
-    ];
     $form['cta'] = [
       '#type' => 'details',
       '#title' => $this->t('CTA'),
