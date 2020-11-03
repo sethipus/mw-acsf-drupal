@@ -20,5 +20,14 @@ Drupal.behaviors.searchInput = {
       request.open('Get', 'https://run.mocky.io/v3/a91dbc17-a403-411f-b06f-b6465c25b84f');
       request.send();
     });
+
+    search.addEventListener('focus', function() {
+      // SITE SEARCH START
+      window.dataLayer.push({
+        'event': 'siteSearch_Start',
+        'siteSearchTerm': '',
+        'siteSearchResults': ''
+      })
+    });
   },
 };

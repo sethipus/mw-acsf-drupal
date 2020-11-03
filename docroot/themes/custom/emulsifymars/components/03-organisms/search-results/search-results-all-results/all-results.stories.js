@@ -12,6 +12,7 @@ import articleCard from './../../../02-molecules/card/article-card/article-card.
 import articleCardData from './../../../02-molecules/card/article-card/article-card.yml';
 
 import { useEffect } from '@storybook/client-api';
+import './all-results.js';
 import '../../../01-atoms/search-results-item/search-results-item';
 
 /**
@@ -35,7 +36,7 @@ export const allResultsTemplate = () => {
       ...allResultsData,
       ...ajaxCardGridData,
       ...searchResultsData
-    }) 
+    })
   }} />
 };
 
