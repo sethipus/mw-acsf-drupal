@@ -2,6 +2,6 @@
 
 set -ev
 
-vendor/bin/blt setup --define drush.alias='${drush.aliases.ci}' --no-interaction --ansi --verbose --environment local
+vendor/bin/blt setup --no-interaction --ansi --verbose --environment local
 
 set +v
