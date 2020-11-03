@@ -25,5 +25,12 @@ services:
     tags:
       - { name: event_subscriber }
 
+  mars_common.media_dependency_calculator:
+    class: Drupal\mars_common\EventSubscriber\DependencyCollector\MediaEntityBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
   mars_common.theme_configurator_service:
     class: Drupal\mars_common\ThemeConfiguratorService
+

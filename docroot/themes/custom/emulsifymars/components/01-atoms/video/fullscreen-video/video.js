@@ -151,6 +151,25 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         document.addEventListener('msfullscreenchange', function(e) {
           setFullscreenData(videoContainer, videoElements, !!document.msFullscreenElement);
         });
+        
+        // Listen to scroll event to pause video when out of viewport
+        let videoVisible = false;
+        document.addEventListener('scroll', function() {
+          let videoPosition = videoElements('video').offsetTop;
+          let videoHeight = videoElements('video').getBoundingClientRect().height;
+          let windowPosition = window.pageYOffset;
+          let windowHeight = window.innerHeight;
+
+          if (videoPosition + videoHeight - windowPosition < 0 || windowPosition + windowHeight - videoPosition < 0) {
+            videoElements('video').pause();
+            videoVisible = false;
+          } else {
+            if(!videoVisible) {
+              videoElements('video').play();
+              videoVisible = true;
+            }
+          }
+        });
       }
 
       videoElements('video').setAttribute('data-video-init', true);

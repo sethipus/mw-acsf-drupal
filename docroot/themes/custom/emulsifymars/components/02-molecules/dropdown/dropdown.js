@@ -11,11 +11,21 @@ Drupal.behaviors.dropdown = {
       });
     };
     
-    var showMenu = function(target, e) {
+    var showMenu = function(target) {
       if (!target) return false;
 
       hideMenus();
       $(target).addClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','true');
+    };
+    
+    var toggleMenu = function(target) {
+      if (!target) return false;
+
+      if ($(target).hasClass('is-expanded')) {
+        hideMenus();
+      } else {
+        showMenu(target);
+      }
     };
     
     var listenForMouse = function() {
@@ -25,7 +35,7 @@ Drupal.behaviors.dropdown = {
         target = $(event.currentTarget);
         
         if (target) {
-          showMenu(target, event);
+          showMenu(target);
         }
       });
       
@@ -33,9 +43,10 @@ Drupal.behaviors.dropdown = {
         hideMenus();  
       });
       
-      $(dropdown).on('click', dropdownTrigger, function(event) {
-        if($(event.currentTarget).closest(expandedDropdown)) {
-          hideMenus();  
+      $(dropdown).on('click', function(event) {
+        target = $(event.currentTarget);
+        if (target) {
+          toggleMenu(target);
         }
       });
     };
@@ -47,7 +58,7 @@ Drupal.behaviors.dropdown = {
         target = $(e.currentTarget).parents(dropdown);
         
         hideMenus();
-        showMenu(target, e);
+        showMenu(target);
       });
       
       $(dropdown).on('focusout', dropdownContent, function(e) {
