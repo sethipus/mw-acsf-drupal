@@ -30,7 +30,6 @@
     span {
       position: relative;
       z-index: 3;
-      transition: color .4s ease;
     }
 
     &:hover {
@@ -151,6 +150,12 @@
 
     &:focus-within {
       outline: 1px solid Highlight;
+    }
+
+    .default-link {
+      width: 15.7rem;
+      margin: .1rem 1rem;
+      cursor: pointer;
     }
 
     @include xs {
