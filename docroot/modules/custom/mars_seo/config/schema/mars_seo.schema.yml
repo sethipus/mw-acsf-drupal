@@ -1,0 +1,7 @@
+mars_seo.settings:
+  type: config_object
+  label: 'MARS SEO settings'
+  mapping:
+    og_default_image:
+      type: string
+      label: 'OG default image'
