@@ -18,7 +18,6 @@
     content: '';
     position: absolute;
     display: block;
-    bottom: -100px;
     left: -120px;
     width: 1000px;
     transform: rotate(18deg);
@@ -28,10 +27,12 @@
 
     @include xs {
       width: 1000px;
+
     }
 
     @include medium {
       width: 750px;
+      bottom: -100px;
     }
   }
 

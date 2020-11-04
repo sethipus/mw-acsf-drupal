@@ -1,5 +1,5 @@
 .product-content-pair-up {
-  padding-bottom: 500px;
+  padding-bottom: 50rem;
 
   .product-content-pair-up__heading {
     width: 100%;
@@ -105,6 +105,7 @@
       width: 100%;
       min-height: 375px;
       margin: auto;
+      z-index: $content-pair-up-asset;
 
       .wrapper {
         position: absolute;
@@ -122,17 +123,12 @@
       left: 0;
       right: 0;
       top: 420px;
-      max-width: 31.5rem;
+      max-width: 31.8rem;
       margin: auto;
+      z-index: $content-pair-supportive-card;
 
       .wrapper > section {
-        max-width: 31.5rem;
-      }
-
-      .recipe-card__media {
-        width: 100%;
-        height: auto;
-        max-height: 23.6rem;
+        max-width: 31.8rem;
       }
     }
   }
@@ -160,7 +156,7 @@
   }
 
   @include medium {
-    padding-bottom: 600px;
+    padding-bottom: 60rem;
 
     &:not(.max-size--375):not(.size--default), &.size--medium {
       .product-content-pair-up__heading {
@@ -173,7 +169,7 @@
         .lead-card {
           height: 538px;
           padding-top: 60px;
-          background-size: auto 130%;
+          background-size: auto 150%;
 
           .wrapper {
             margin: 0 auto;
@@ -211,17 +207,6 @@
 
         .supportive-card {
           top: 361px;
-          max-width: 33.4rem;
-
-          .wrapper > section {
-            max-width: 33.4rem;
-          }
-
-          .recipe-card__media {
-            width: 100%;
-            height: auto;
-            max-height: 25.1rem;
-          }
         }
       }
     }
@@ -248,7 +233,7 @@
   }
 
   @include xl {
-    padding-bottom: 275px;
+    padding-bottom: 2rem;
 
     &:not(.max-size--375):not(.max-size--768):not(.size--medium):not(.size--default), &.size--large {
       .product-content-pair-up__heading {
@@ -264,7 +249,7 @@
       }
 
       .product-content-pair-up__container {
-        padding-bottom: 275px;
+        padding-bottom: 2rem;
 
         .lead-card {
           width: 85%;
@@ -299,18 +284,7 @@
         .supportive-card {
           top: 185px;
           left: auto;
-          max-width: 43.3rem;
           right: 158px;
-
-          .wrapper > section {
-            max-width: 43.3rem;
-          }
-
-          .recipe-card__media {
-            width: 100%;
-            height: auto;
-            max-height: 32.5rem;
-          }
         }
       }
     }

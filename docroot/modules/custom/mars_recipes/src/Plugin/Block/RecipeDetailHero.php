@@ -182,10 +182,20 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {
         $icon_path = $base_url . '/' . drupal_get_path('module', 'social_media') . '/icons/';
-        $social_menu_items[$name]['icon'] = $icon_path . $name . '.svg';
+        $social_menu_items[$name]['icon'] = [
+          '#theme' => 'image',
+          '#uri' => $icon_path . $name . '.svg',
+          '#title' => $social_media['text'],
+          '#alt' => $social_media['text'],
+        ];
       }
       elseif (!empty($social_media['img'])) {
-        $social_menu_items[$name]['icon'] = $base_url . '/' . $social_media['img'];
+        $social_menu_items[$name]['icon'] = [
+          '#theme' => 'image',
+          '#uri' => $base_url . '/' . $social_media['img'],
+          '#title' => $social_media['text'],
+          '#alt' => $social_media['text'],
+        ];
       }
     }
 
