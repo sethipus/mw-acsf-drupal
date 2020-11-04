@@ -22,6 +22,10 @@ recipe_card_button_modifiers: ['small']
 recipe_card_button_link_attributes:
   href: 'https://storybook.js.org/'
   target: '_blank'
+  data-clickName: 'see details'
+  data-cardDetails: '120'
+  data-event: 'clickCards'
+  data-cardType: 'Recipe'
 
 label_for_cooking_time: 'Cooking Time'
 label_for_ingredients: 'Ingredients'

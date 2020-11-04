@@ -10,4 +10,8 @@ item:
   default_link_attributes:
     'target': '_self'
     'href': 'https://storybook.js.org/'
+    data-clickName: 'See details'
+    data-cardDetails: '110'
+    data-event: 'clickCards'
+    data-cardType: 'Product'
   link_url: ''

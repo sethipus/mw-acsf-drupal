@@ -12,5 +12,9 @@ button_modifiers: ['small']
 button_link_attributes:
   href: 'https://storybook.js.org/'
   target: '_blank'
+  data-clickName: 'see details'
+  data-cardDetails: '130'
+  data-event: 'clickCards'
+  data-cardType: 'Campaign'
 
 is_new: true

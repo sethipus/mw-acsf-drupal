@@ -191,3 +191,9 @@ site-header:
     dist/js/03-organisms/site/site-header/site-header.js: {}
   dependencies:
     - core/drupal
+
+cards:
+  js:
+    dist/js/02-molecules/card/cards.js: {}
+  dependencies:
+    - core/drupal
