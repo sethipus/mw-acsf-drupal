@@ -5,7 +5,8 @@
  */
 #}
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
-
+{% set button_text = 'See Details' %}
+{% set  button_link_attributes = { href: url, target: '_blank', 'data-clickName': button_text } | merge(attributes)  %}
 {% include "@molecules/card/recommendations-card/campaign-card.twig" with {
   theme_styles: 'drupal',
 
@@ -17,10 +18,7 @@
   heading_level: 3,
   heading_base_class: 'recommendations-card-heading',
 
-  button_text: 'See Details'|t,
+  button_text: button_text |t,
   button_modifiers: ['small'],
-  button_link_attributes: {
-    href: url,
-    target: '_blank'
-  },
+  button_link_attributes: button_link_attributes
 } %}

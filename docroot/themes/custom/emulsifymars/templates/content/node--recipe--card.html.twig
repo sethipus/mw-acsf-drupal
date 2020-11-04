@@ -7,6 +7,9 @@
 
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
 {% set recipe_is_new = node.field_recipe_new.value == 1 ? true : false %}
+{% set recipe_card_button_text = 'see details' %}
+{% set   recipe_card_button_link_attributes = { href: url, target: '_blank',
+  'data-clickName': recipe_card_button_text } | merge(attributes) %}
 
 {% include "@molecules/card/recipe-card/recipe-card.twig" with {
   theme_styles: 'drupal',
@@ -26,12 +29,9 @@
   recipe_card_items_base_class: 'recipe-card-items',
   recipe_card_items_size: 'large',
   recipe_card_items_modifiers: ['xs'],
-  recipe_card_button_text: 'see details'|t,
+  recipe_card_button_text: recipe_card_button_text|t,
   recipe_card_button_modifiers: ['small'],
-  recipe_card_button_link_attributes: {
-    href: url,
-    target: '_blank'
-  },
+  recipe_card_button_link_attributes: recipe_card_button_link_attributes,
   label_for_cooking_time: node.field_recipe_cooking_time.fieldDefinition.label,
   label_for_ingredients: node.field_recipe_ingredients.fieldDefinition.label,
 } %}

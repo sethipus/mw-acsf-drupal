@@ -19,13 +19,15 @@
   {% set hover_image = null %}
 {% endif %}
 
+{% set default_link_content_text = 'SEE DETAILS' %}
+{% set default_link_attributes = {href: url, 'data-clickName': default_link_content_text} | merge(attributes) %}
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
   card__eyebrow: elements['#eyebrow'],
   paragraph_size: 'large',
   paragraph_base_class: 'paragraph',
   paragraph_modifiers: ['large'],
-  default_link_content: 'SEE DETAILS',
+  default_link_content: default_link_content_text,
   default_link_base_class: 'default-link',
   link_content: 'BUY NOW',
   link_base_class: 'text_link',
@@ -34,9 +36,7 @@
     card__image__src: background_image,
     card__image__hover__src: hover_image,
     paragraph_content: node.title.value,
-    default_link_attributes: {
-      href: url
-    },
+    default_link_attributes: default_link_attributes,
     link_url: ''
   }
 } %}
