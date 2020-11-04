@@ -1,67 +1,62 @@
-Drupal.behaviors.dropdown = {
-  attach(context) {
-    let dropdown = '.dropdown',
-      dropdownTrigger = '.dropdown__trigger',
-      expandedDropdown = '.dropdown.is-expanded',
-      dropdownContent = '.dropdown__content--outer';
-      
-    var hideMenus = function() {
-      $(expandedDropdown).each(function(index, element) {
-        $(element).removeClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','false');
-      });
-    };
-    
-    var showMenu = function(target, e) {
-      if (!target) return false;
+(function ($, Drupal) {
+  Drupal.behaviors.dropdown = {
+    attach(context) {
+      $(context).find('.dropdown').once('dropdown').each(function () {
+        const $dropdown = $(this),
+          $dropdownTrigger = $(this).find('.dropdown__trigger');
 
-      hideMenus();
-      $(target).addClass('is-expanded').find(dropdownTrigger).attr('aria-expanded','true');
-    };
-    
-    var listenForMouse = function() {
-      let target;
-      
-      $(dropdown).on('mouseenter', function(event) {
-        target = $(event.currentTarget);
-        
-        if (target) {
-          showMenu(target, event);
-        }
-      });
-      
-      $(dropdown).on('mouseleave', function(event) {
-        hideMenus();  
-      });
-      
-      $(dropdown).on('click', dropdownTrigger, function(event) {
-        if($(event.currentTarget).closest(expandedDropdown)) {
-          hideMenus();  
-        }
-      });
-    };
-    
-    var listenForKeyboard = function() {
-      let target;
+        const hideMenu = function () {
+          $dropdown.removeClass('is-expanded');
+          $dropdownTrigger.attr('aria-expanded', 'false');
+        };
 
-      $(dropdown).on('focus', dropdownTrigger, function(e) {
-        target = $(e.currentTarget).parents(dropdown);
-        
-        hideMenus();
-        showMenu(target, e);
-      });
-      
-      $(dropdown).on('focusout', dropdownContent, function(e) {
-        setTimeout(function () { // 'focusout' workaround
-          if ($(':focus').closest(dropdown).length == 0) {
-            hideMenus();
+        const showMenu = function () {
+          $dropdown.addClass('is-expanded');
+          $dropdownTrigger.attr('aria-expanded', 'true');
+        };
+
+        const toggleMenu = function () {
+          if ($dropdown.hasClass('is-expanded')) {
+            hideMenu();
           }
-        }, 0);
-      });
-    };
+          else {
+            showMenu();
+          }
+        };
 
-    //init
-    hideMenus();
-    listenForMouse();
-    listenForKeyboard();
-  },
-};
+        const listenForMouse = function () {
+          $dropdown
+            .on('mouseenter', function () {
+              showMenu();
+            })
+            .on('mouseleave', function () {
+              hideMenu();
+            })
+            .on('click', function () {
+              toggleMenu();
+            });
+        };
+
+        const listenForKeyboard = function () {
+          $dropdownTrigger
+            .on('focus', function () {
+              showMenu();
+            })
+          $dropdown
+            .on('focusout', function () {
+              setTimeout(function () {  // 'focusout' workaround
+                if ($dropdown.find(':focus').length === 0) {
+                  hideMenu();
+                }
+              });
+            });
+        };
+
+        hideMenu();
+        listenForMouse();
+        listenForKeyboard();
+
+      });
+    }
+  };
+})(jQuery, Drupal);

@@ -27,7 +27,26 @@ Drupal.behaviors.ambientVideoPlayer = {
         video.addEventListener('pause', function() {
           changeButtonState(video, playpause, 'playpause');
         }, false);
-  
+        
+        // Listen to scroll event to pause video when out of viewport
+        let videoVisible = false;
+        document.addEventListener('scroll', function() {
+          let videoPosition = video.offsetTop;
+          let videoHeight = video.getBoundingClientRect().height;
+          let windowPosition = window.pageYOffset;
+          let windowHeight = window.innerHeight;
+
+          if (videoPosition + videoHeight - windowPosition < 0 || windowPosition + windowHeight - videoPosition < 0) {
+            video.pause();
+            videoVisible = false;
+          } else {
+            if(!videoVisible) {
+              video.play();
+              videoVisible = true;
+            }
+          }
+        });
+        
         // Add events for play/pause button and video container			
         playpause.addEventListener('click', function(e) {
           if (video.paused || video.ended) {

@@ -176,9 +176,11 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     // Get brand border path.
     $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-feature-border');
     $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
     $config['cta']['url'] = $node->toUrl('canonical', ['absolute' => FALSE])->toString();
 
     $build += [
+      '#block_title' => $config['block_title'],
       '#eyebrow' => $config['eyebrow'],
       '#title' => $title,
       '#recipe_media' => $recipe_media_set,
@@ -245,6 +247,14 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
+
+    $form['block_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Featured Recipe'),
+      '#maxlength' => 55,
+      '#required' => TRUE,
+      '#default_value' => $config['block_title'] ?? $this->t('Featured Recipe'),
+    ];
 
     $form['eyebrow'] = [
       '#type' => 'textfield',

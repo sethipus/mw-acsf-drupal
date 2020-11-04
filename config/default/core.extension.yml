@@ -31,6 +31,7 @@ module:
   contextual: 0
   crop: 0
   ctools: 0
+  datalayer: 0
   datetime: 0
   depcalc: 0
   diff: 0
@@ -52,6 +53,7 @@ module:
   file: 0
   filelog: 0
   filter: 0
+  gtm: 0
   help: 0
   history: 0
   image: 0
@@ -60,6 +62,7 @@ module:
   jquery_colorpicker: 0
   jsonapi: 0
   juicer_io: 0
+  language: 0
   layout_builder: 0
   layout_builder_lock: 0
   layout_builder_modal: 0

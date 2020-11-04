@@ -108,6 +108,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'secondary_menu'    => NULL,
         'search_menu'       => NULL,
         'language_selector' => NULL,
+        'language_selector_current' => NULL,
+        'language_selector_label' => NULL,
+        'language_selector_items' => NULL,
         'search_block'      => NULL,
         'alert_banner_text' => NULL,
         'alert_banner_url'  => NULL,
@@ -1139,6 +1142,19 @@ function mars_common_field_widget_form_alter(
   if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
     $element['choice']['#size'] = 40;
     $element['choice']['#maxlength'] = 25;
+  }
+
+  $form_id = $form_state->getFormObject()->getFormId();
+  $form_array = [
+    'node_error_page_edit_form',
+    'node_error_page_form',
+  ];
+  if (in_array($form_id, $form_array) && $field_name == 'title') {
+    $element['value']['#maxlength'] = 15;
+    $element['value']['#default_value'] = $element['value']['#default_value'] ?? t('Oops');
+  }
+  if (in_array($form_id, $form_array) && $field_name == 'body') {
+    $element['#maxlength'] = 100;
   }
 }
 

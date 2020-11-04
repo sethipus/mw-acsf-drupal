@@ -45,8 +45,7 @@
 
   {% set hero_image = {
     'srcset': background_srcset,
-    'src': background_asset}
-  %}
+    'src': background_asset} %}
 
   {% include "@molecules/homepage-hero/standard/homepage-hero-standard.twig" with {
     theme_styles: 'drupal',
@@ -66,8 +65,7 @@
 
   {% set hero_image = {
     'srcset': background_srcset,
-    'src': background_asset}
-  %}
+    'src': background_asset} %}
 
   {% include "@molecules/homepage-hero/3up/homepage-hero-3up.twig" with {
     theme_styles: 'drupal',
@@ -79,6 +77,14 @@
     cta_base_class: 'cta-link',
     hero_image: hero_image,
     blocks: blocks,
+  } %}
+
+{% elseif (block_type == 'image_and_text') %}
+
+  {% include "@molecules/homepage-hero/basic/homepage-hero-basic.twig" with {
+    theme_styles: 'drupal',
+    homepage_hero_basic_content: title_label,
+    homepage_hero_basic_img_url: background_asset
   } %}
 
 {% endif %}

@@ -24,3 +24,9 @@ services:
     class: Drupal\mars_common\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+
+  mars_common.media_dependency_calculator:
+    class: Drupal\mars_common\EventSubscriber\DependencyCollector\MediaEntityBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
