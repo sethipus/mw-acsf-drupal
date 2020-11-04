@@ -969,6 +969,38 @@ function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterf
         '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
       ]
     ));
+
+    // TODO: find a proper fix.
+    /*
+     * Upon validation error, the form should show the invalid state in which it
+     * was submitted. In this case because of tabledrag behavior, upon
+     * validation error the form will look like as if it's in its initial state,
+     * but in reality the hidden parent and weight fields will contain the
+     * invalid state.
+     *
+     * We are resetting those fields to their default values so the
+     * visible state and the actual hidden input state are equal. This has to be
+     * done manually as an invalid form is not rebuilt by the form builder even
+     * if we set it to do so.
+     *
+     * The proper fix would be to properly change the visibly rendered table to
+     * reflect the posted values, but currently it's done based on the actually
+     * saved menu structure and the posted values are not used at all.
+     */
+    foreach ($form['links']['links'] as &$link_form) {
+      if (is_array($link_form)) {
+        if (
+        isset($link_form['parent']['#value'], $link_form['parent']['#default_value'])
+        ) {
+          $link_form['parent']['#value'] = $link_form['parent']['#default_value'];
+        }
+        if (
+        isset($link_form['weight']['#value'], $link_form['weight']['#default_value'])
+        ) {
+          $link_form['weight']['#value'] = $link_form['weight']['#default_value'];
+        }
+      }
+    }
   }
 }
 
