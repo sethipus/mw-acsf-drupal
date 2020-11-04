@@ -716,12 +716,6 @@
 }
 
 .default-link {
-    padding: 0 1.2rem;
-
-  @include medium {
-    padding: 0 3.4rem;
-  }
-
   &--pdp-sections {
     display: flex;
     align-items: center;
