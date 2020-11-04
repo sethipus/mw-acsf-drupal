@@ -262,7 +262,7 @@ $xl-gap-width: 30px;
 
   &__text,
   &__social {
-    width: #{$xl-column-width*6 + $xl-gap-width*5};
+    max-width: #{$xl-column-width*6 + $xl-gap-width*5};
   }
 
   &__text {
