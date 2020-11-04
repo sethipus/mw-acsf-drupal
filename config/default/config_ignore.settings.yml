@@ -16,7 +16,7 @@ ignored_config_entities:
   - acquia_contenthub.admin_settings
   - field.storage.node.field_product_allergen_statement
   - mars_seo.settings
-  - google_tag.settings
+  - gtm.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: '1'
