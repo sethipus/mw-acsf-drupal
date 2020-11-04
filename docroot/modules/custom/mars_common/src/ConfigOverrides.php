@@ -4,6 +4,7 @@ namespace Drupal\mars_common;
 
 use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ConfigFactoryOverrideInterface;
 use Drupal\Core\Config\StorageInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
@@ -32,6 +33,11 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
     'icons_settings',
     'product_layout',
   ];
+
+  /**
+   * Theme config name.
+   */
+  const THEME_CONFIG = 'emulsifymars.settings';
 
   /**
    * Needed config override from general theme.
@@ -76,13 +82,21 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   protected $requestStack;
 
   /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    *
    * Set config manager as protected property.
    */
-  public function __construct(RouteMatchInterface $route_match, RequestStack $request_stack) {
+  public function __construct(RouteMatchInterface $route_match, RequestStack $request_stack, ConfigFactoryInterface $config_factory) {
     $this->routeMatch = $route_match;
     $this->requestStack = $request_stack;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -90,7 +104,7 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    */
   public function loadOverrides($names) {
     $overrides = [];
-    if (in_array('emulsifymars.settings', $names)) {
+    if (in_array(self::THEME_CONFIG, $names)) {
       $current_route = $this->routeMatch;
       $request = $this->requestStack->getCurrentRequest();
       // Additional check request to avoid console errors.
@@ -99,7 +113,7 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
         $node = $current_route->getParameter('node');
         if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
           $theme_configuration = $this->extractFromLayoutBuilder($node);
-          $overrides['emulsifymars.settings'] = $this->getOverrideConfigOptions($theme_configuration);
+          $overrides[self::THEME_CONFIG] = $this->getOverrideConfigOptions($theme_configuration);
         };
       }
     }
@@ -118,7 +132,7 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    */
   public function getCacheableMetadata($name) {
     $metadata = new CacheableMetadata();
-    if ($name === 'emulsifymars.settings') {
+    if ($name === self::THEME_CONFIG) {
       $current_route = $this->routeMatch;
       $request = $this->requestStack->getCurrentRequest();
       // Additional check request to avoid console errors.
@@ -126,8 +140,10 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
         /* @var $node \Drupal\node\NodeInterface */
         $node = $current_route->getParameter('node');
         if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
-          $metadata->setCacheTags(['node:' . $node->id()]);
+          $metadata->addCacheableDependency($node);
         }
+        $theme_config = $this->configFactory->get(self::THEME_CONFIG);
+        $metadata->addCacheableDependency($theme_config);
       }
     }
 
@@ -208,7 +224,7 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    * @return array|null
    *   Theme configuration.
    */
-  public function getOverrideConfigOptions(array $theme_configuration): ?array {
+  private function getOverrideConfigOptions(array $theme_configuration): ?array {
     $overrides = [];
     foreach (self::BLOCK_CONFIG_THEME_PARENT_KEYS as $key) {
       $theme_configuration = array_merge($theme_configuration, $theme_configuration[$key]);

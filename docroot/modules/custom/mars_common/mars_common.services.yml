@@ -36,6 +36,6 @@ services:
 
   mars_common.config_overrider:
     class: Drupal\mars_common\ConfigOverrides
-    arguments: ['@current_route_match', '@request_stack']
+    arguments: ['@current_route_match', '@request_stack', '@config.factory']
     tags:
       - {name: config.factory.override, priority: 5}
