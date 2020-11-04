@@ -1,50 +1,50 @@
-Drupal.behaviors.siteFooter = {
+Drupal.behaviors.siteHeader = {
     attach(context) {
-        let footer = context.querySelector('footer');
-        if(footer && dataLayer && typeof(dataLayer.push) === 'function') {
-            footer.addEventListener('click', (event) => {
+        let header = context.querySelector('header');
+        if(header && dataLayer && typeof(dataLayer.push) === 'function') {
+            header.addEventListener('click', (event) => {
                 let link = event.target.closest('a');
                 if(link) {
                     let response = {
-                        event: 'clickFooter',
-                        componentName: 'siteFooter'
+                        event: 'clickHeader',
+                        componentName: 'siteHeader'
                     };
                     let item = link.parentElement.className.trim().split(' ')[0];
 
                     switch(item) {
-                        case 'footer__logo':
+                        case 'header__logo':
                             response = { ...response, 
                                 clickType: 'Brand Logo',
                                 clickName: 'Brand Logo',
                                 clickDetails: null
                             }
                             break;
-                        case 'footer-menu__item':
+                        case 'header-inline-menu__item':
                             response = { ...response, 
                                 clickType: 'Upper menu items',
-                                clickName: 'Upper menu items',
+                                clickName: event.target.innerText.trim(),
                                 clickDetails: null
                             }
                             break;
-                        case 'legal-links-menu__item': 
+                        case 'main-menu__item': 
                             response = { ...response, 
                                 clickType: 'Lower menu items',
-                                clickName: 'Lower menu items',
-                                clickDetails: null
-                            }
-                            break;
-                        case 'social-menu__item':
-                            response = { ...response, 
-                                clickType: 'Social icons',
-                                clickName: 'Social icons',
+                                clickName: event.target.innerText.trim(),
                                 clickDetails: null
                             }
                             break;
                         case 'dropdown__item':
                             response = { ...response, 
-                                clickType: 'Region selectors',
-                                clickName: 'Region selectors',
+                                clickType: 'Language selectors',
+                                clickName: 'Language selectors',
                                 clickDetails: event.target.innerText.trim()
+                            }
+                            break;
+                        case 'status__container':
+                            response = { ...response, 
+                                clickType: 'Banner',
+                                clickName: 'Banner',
+                                clickDetails: null
                             }
                             break;
                     }

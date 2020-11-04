@@ -185,3 +185,9 @@ site-footer:
     dist/js/03-organisms/site/site-footer/site-footer.js: {}
   dependencies:
     - core/drupal
+
+site-header:
+  js:
+    dist/js/03-organisms/site/site-header/site-header.js: {}
+  dependencies:
+    - core/drupal
