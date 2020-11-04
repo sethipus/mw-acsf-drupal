@@ -770,7 +770,6 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
  * Implements hook_preprocess_node().
  */
 function emulsifymars_preprocess_node(&$variables) {
-
   if ($variables['view_mode'] == 'card') {
     $attributes = [];
     $attributes += [
@@ -779,5 +778,20 @@ function emulsifymars_preprocess_node(&$variables) {
       'data-cardDetails' => $variables['node']->id(),
     ];
     $variables['attributes'] = array_merge($attributes, $variables['attributes']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function emulsifymars_preprocess_block(&$variables) {
+  if ($variables['plugin_id'] == 'recommendations_module') {
+    $attributes = [];
+    $attributes += [
+      'data-componentName' => $variables['attributes']['data-block-plugin-id'],
+    ];
+    foreach ($variables['content']['#recommended_items'] as $key => $value) {
+      $variables['content']['#recommended_items'][$key]['#attributes'] = $attributes;
+    }
   }
 }

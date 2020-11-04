@@ -9,6 +9,7 @@
 
 {% set button_link_content_text = 'SEE DETAILS' %}
 
+{% set heading_link_attributes = { href: url, target: '_blank', 'data-clickName': node.label } | merge(attributes) %}
 {% set button_link_attributes = { href: url, target: '_blank', 'data-clickName': button_link_content_text } | merge(attributes) %}
 
 {% include "@molecules/card/recommendations-card/content-hub-card.twig" with {
@@ -21,6 +22,7 @@
   heading: node.label,
   heading_level: 3,
   heading_base_class: 'recommendations-card-heading',
+  heading_link_attributes: heading_link_attributes,
 
   button_text: button_link_content_text |t,
   button_modifiers: ['small'],

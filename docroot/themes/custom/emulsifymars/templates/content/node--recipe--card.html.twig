@@ -8,6 +8,8 @@
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
 {% set recipe_is_new = node.field_recipe_new.value == 1 ? true : false %}
 {% set recipe_card_button_text = 'see details' %}
+{% set   recipe_card_heading_link_attributes = { href: url, target: '_blank',
+  'data-clickName': node.label } | merge(attributes) %}
 {% set   recipe_card_button_link_attributes = { href: url, target: '_blank',
   'data-clickName': recipe_card_button_text } | merge(attributes) %}
 
@@ -21,6 +23,7 @@
   recipe_card_heading: node.label,
   recipe_card_heading_level: 3,
   recipe_card_heading_base_class: 'recipe-card-heading',
+  recipe_card_heading_link_attributes: recipe_card_heading_link_attributes,
   recipe_card_minutes_number: content.field_recipe_cooking_time['#items'].0.value,
   recipe_card_minutes_base_class: 'recipe-card-time',
   recipe_card_minutes_size: 'large',

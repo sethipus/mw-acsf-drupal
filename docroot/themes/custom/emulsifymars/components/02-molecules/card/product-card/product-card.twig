@@ -3,7 +3,11 @@
 {% set link_content = 'Buy now'|t %}
 
 <div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} data-theme="{{ theme_styles }}">
-  <a href={{ item.card_url }}>
+  <a href={{ item.card_url }}
+    {% for attribute, value in product_card_link_attributes %}
+     {{ attribute }}="{{ value }}"
+    {% endfor %}
+  >
 
     {% if recipe_is_new %}
       {% include "@atoms/badge/badge.twig" %}

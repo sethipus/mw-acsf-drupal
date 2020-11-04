@@ -7,6 +7,7 @@ item:
   card_url: https://storybook.js.org/
   card__image__src: image9@3x.png
   paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+  product_card_link_attributes: []
   default_link_attributes:
     'target': '_self'
     'href': 'https://storybook.js.org/'
