@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
+use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
@@ -161,10 +162,18 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     // Preparing search results.
     $build['#items'] = [];
     foreach ($query_search_results['results'] as $node) {
-      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      $nodeView = $this->nodeViewBuilder->view($node, 'card');
+      $nodeView['#dataLayer'] = serialize($this->buildDataLayerSearchClick($searchOptions['keys'], $node));
+      $build['#items'][] = $nodeView;
     }
     if (count($build['#items']) == 0) {
       $build['#no_results'] = $this->getSearchNoResult();
+      $build['#attached']['drupalSettings']['siteSearchNoResults'] = $this->buildDataLayerSearchNoResults($searchOptions['keys']);
+    }
+
+    // Build dataLayer attributes if search results are displayed for keys.
+    if (!empty($searchOptions['keys']) && $query_search_results['resultsCount'] > 0) {
+      $build['#attached']['drupalSettings']['siteSearchResults'] = $this->buildDataLayerSearchResults($searchOptions['keys'], $query_search_results['resultsCount']);
     }
 
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
@@ -183,7 +192,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     $build['#ajax_card_grid_heading'] = $this->t('All results');
-    list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
+    [$build['#applied_filters_list'], $build['#filters']] = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
     return $build;
   }
@@ -250,6 +259,66 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       }
     }
     return $menu_links;
+  }
+
+  /**
+   * Builds an array of dataLayer attributes for search no results event.
+   *
+   * @param string $key
+   *   Card grid search key.
+   * @param \Drupal\node\NodeInterface $node
+   *   Node object.
+   *
+   * @return array
+   *   DataLayer attributes.
+   */
+  protected function buildDataLayerSearchClick(string $key, NodeInterface $node) {
+    // Build attributes array that will be used in JS.
+    return [
+      'event' => 'siteSearch_ResultClick',
+      'siteSearchTerm' => $key,
+      'siteSearchClick' => "{$node->bundle()}_{$node->id()}",
+    ];
+  }
+
+  /**
+   * Builds an array of dataLayer attributes for search no results event.
+   *
+   * @param string $key
+   *   Card grid search key.
+   *
+   * @return array
+   *   DataLayer attributes.
+   */
+  protected function buildDataLayerSearchNoResults($key) {
+    // Build attributes array that will be used in JS.
+    return [
+      'event' => 'siteSearch_ResultNo',
+      'siteSearchTerm' => $key,
+      'siteSearchResults' => '',
+    ];
+  }
+
+  /**
+   * Builds an array of dataLayer attributes for search results.
+   *
+   * This is an event when we have a search key in query.
+   *
+   * @param string $key
+   *   Card grid search key.
+   * @param int $resultsCount
+   *   All results count.
+   *
+   * @return array
+   *   DataLayer attributes.
+   */
+  protected function buildDataLayerSearchResults(string $key, int $resultsCount) {
+    // Build attributes array that will be used in JS.
+    return [
+      'event' => 'siteSearch_ResultShown',
+      'siteSearchTerm' => $key,
+      'siteSearchResults' => $resultsCount,
+    ];
   }
 
   /**

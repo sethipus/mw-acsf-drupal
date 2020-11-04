@@ -98,6 +98,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class);
     $build['#input_form']['search']['#attributes']['class'][] = 'search-input__field';
     $build['#input_form']['search']['#attributes']['placeholder'] = $conf['search_header_placeholder'] ?? $this->t('Search products, recipes, articles...');
+    $build['#input_form']['search']['#attributes']['data-layer'] = serialize($this->buildDataLayerSearchElement());
 
     // Getting search results from SOLR.
     $options = $this->searchQueryParser->parseQuery();
@@ -189,6 +190,20 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->setConfiguration($form_state->getValues());
+  }
+
+  /**
+   * Build data layer attributes for Search form element.
+   *
+   * @return array
+   *   Data layer attributes.
+   */
+  protected function buildDataLayerSearchElement() {
+    return [
+      'event' => 'siteSearch_Start',
+      'siteSearchTerm' => '',
+      'siteSearchResults' => '',
+    ];
   }
 
 }
