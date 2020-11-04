@@ -62,6 +62,7 @@ module:
   jquery_colorpicker: 0
   jsonapi: 0
   juicer_io: 0
+  language: 0
   layout_builder: 0
   layout_builder_lock: 0
   layout_builder_modal: 0

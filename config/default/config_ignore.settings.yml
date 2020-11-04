@@ -7,6 +7,8 @@ ignored_config_entities:
   - mars_onetrust.settings
   - mars_entry_gate.settings
   - 'juicer_io.feed.*'
+  - 'language.negotiation:url'
+  - 'language.entity.*'
   - emulsifymars.settings
   - mars_lighthouse.settings
   - block.block.footerblock

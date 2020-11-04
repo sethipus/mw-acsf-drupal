@@ -50,6 +50,7 @@ hidden:
   field_product_sub_brand: true
   field_product_trade_description: true
   field_product_variants: true
+  langcode: true
   layout_builder__layout: true
   published_at: true
   salsify_id: true
