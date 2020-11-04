@@ -1,6 +1,6 @@
 {% set card_base_class = card_base_class|default('recommendations-card') %}
 
-<section data-theme="{{ theme_styles }}" {{ bem(card_base_class) }}>
+<section data-theme="{{ theme_styles }}" data-layer="{{ dataLayer }}" {{ bem(card_base_class) }}>
 
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: heading,
