@@ -52,6 +52,10 @@
   &__menu {
     flex: 0 0 auto;
 
+    @include medium {
+      margin-right: 3rem;
+    }
+
     @include large {
       flex: 1 0 calc(100% - 272px);
       align-self: flex-start;
