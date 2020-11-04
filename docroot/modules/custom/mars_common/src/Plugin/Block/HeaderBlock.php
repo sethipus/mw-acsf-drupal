@@ -392,7 +392,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   protected function buildSearchForm() {
     $form = $this->formBuilder->getForm('\Drupal\mars_search\Form\SearchOverlayForm');
-    unset($form['actions']['submit']);
+    $form['actions']['submit']['#attributes']['class'][] = 'visually-hidden';
 
     return $this->renderer->render($form);
   }
