@@ -524,9 +524,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
   /**
    * Builds an array of dataLayer default.
-   *
-   * @return void
-   *   Build DataLayer default attributes.
    */
   protected function buildDataLayerDefaults() {
     $blockConfig = $this->getConfiguration();
@@ -568,6 +565,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
   /**
    * Builds an array of dataLayer attributes for search results.
+   *
    * This is an event when we have a search key in query.
    *
    * @param string $key
