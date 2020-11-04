@@ -114,6 +114,9 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
         $form_state_values['font_settings'][$field . '_path'] = $form_state->getValue($field . '_path');
       }
     }
+    if (isset($form_state_values['social']) && isset($form_state_values['social']['add_social'])) {
+      unset($form_state_values['social']['add_social']);
+    }
     $this->setConfiguration($form_state_values);
 
   }

@@ -33,3 +33,9 @@ services:
 
   mars_common.theme_configurator_service:
     class: Drupal\mars_common\ThemeConfiguratorService
+
+  mars_common.config_overrider:
+    class: Drupal\mars_common\ConfigOverrides
+    arguments: ['@current_route_match', '@request_stack']
+    tags:
+      - {name: config.factory.override, priority: 5}

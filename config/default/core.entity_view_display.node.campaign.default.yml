@@ -27,6 +27,14 @@ third_party_settings:
       -
         layout_id: campaign_section
         layout_settings:
+          label: 'Theme Configuration Section'
+        components: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock: {  }
+      -
+        layout_id: campaign_section
+        layout_settings:
           label: 'Free Editorial Capabilities'
         components:
           67606297-104a-40b8-9939-f31ef6a92b8c:
@@ -46,7 +54,9 @@ third_party_settings:
               context_mapping: {  }
             additional: {  }
             weight: 0
-        third_party_settings: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock: {  }
   layout_library:
     enable: false
   layout_builder_restrictions:
@@ -117,6 +127,7 @@ third_party_settings:
               - product_feature
               - recommendations_module
               - story_highlight
+              - theme_configuration_block
               - where_to_buy_block
             'Mars Product':
               - grid_card
