@@ -8,10 +8,10 @@ Drupal.behaviors.articleCard = {
         const cardClickListener = (element, type) => {
             element.addEventListener('click', (event) => {
                 const item = event.target.closest('a');
-                if(item && dataLayer && typeof(dataLayer.push) === 'function') {
+                if (item && dataLayer && typeof(dataLayer.push) === 'function') {
                     dataLayer.push({
                         event: item.dataset.event||'clickCards', 
-                        componentName: `${type} Card`,
+                        componentName: item.dataset.componentname||`${type} Card`,
                         cardType: item.dataset.cardtype||`${type}`,
                         clickName: item.innerText.trim(),
                         cardDetails: {

@@ -1,5 +1,6 @@
 {% set footer__base_class = 'footer' %}
 {% set modifier = legal_links_menu_items|length > 10 ? 'large' : 'small' %}
+{{ attach_library('emulsifymars/site-footer') }}
 
 <footer {{ bem(footer__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('section', ['primary'], footer__base_class) }}>

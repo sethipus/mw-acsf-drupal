@@ -2,6 +2,7 @@
 {# If `directory` is defined, set the path relative for Drupal.
  # Otherwise, set the path relative to the Component Library. #}
 {% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
+{{ attach_library('emulsifymars/site-header') }}
 
 <header {{ bem(header__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('inner', [], header__base_class) }}>

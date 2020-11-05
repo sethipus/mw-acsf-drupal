@@ -1,6 +1,7 @@
 {% set card__base_class = 'product-card' %}
 {% set default_link_content = 'See details'|t %}
 {% set link_content = 'Buy now'|t %}
+{{ attach_library('emulsifymars/cards') }}
 
 <div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} data-theme="{{ theme_styles }}" onclick="window.location='{{ item.card_url }}'">
   <a href={{ item.card_url }}

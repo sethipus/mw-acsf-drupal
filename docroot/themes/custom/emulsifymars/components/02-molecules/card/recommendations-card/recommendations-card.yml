@@ -16,5 +16,6 @@ button_link_attributes:
   data-cardDetails: '130'
   data-event: 'clickCards'
   data-cardType: 'Campaign'
+  data-componentName: 'Campaign card'
 
 is_new: true
