@@ -21882,45 +21882,6 @@
             "time": "2016-01-26T17:05:07+00:00"
         },
         {
-            "name": "lcatlett/blt-ddev",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lcatlett/blt-ddev.git",
-                "reference": "773a2795d9ae4f8bb215726a48ab0e6685fb953b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lcatlett/blt-ddev/zipball/773a2795d9ae4f8bb215726a48ab0e6685fb953b",
-                "reference": "773a2795d9ae4f8bb215726a48ab0e6685fb953b",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Lcatlett\\BltDdev\\": "./src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lindsey Catlett",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "ddev integration for Acquia BLT",
-            "homepage": "https://github.com/lcatlett/blt-ddev",
-            "keywords": [
-                "acquia",
-                "blt",
-                "ddev"
-            ],
-            "time": "2020-01-22T17:30:03+00:00"
-        },
-        {
             "name": "mikey179/vfsstream",
             "version": "v1.6.8",
             "source": {
