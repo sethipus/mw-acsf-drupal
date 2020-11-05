@@ -65,7 +65,6 @@ class SearchOverlayForm extends FormBase {
         'autocomplete' => 'off',
         // This is needed for correct work of SearchQueryParser.
         'data-grid-id' => SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID,
-        'data-layer' => serialize($this->buildDataLayerSearchElement()),
       ],
     ];
     $form['actions'] = [
@@ -106,20 +105,6 @@ class SearchOverlayForm extends FormBase {
 
     $url->setOptions($options);
     $form_state->setRedirectUrl($url);
-  }
-
-  /**
-   * Build data layer attributes for Search form element.
-   *
-   * @return array
-   *   Data layer attributes.
-   */
-  protected function buildDataLayerSearchElement() {
-    return [
-      'event' => 'siteSearch_Start',
-      'siteSearchTerm' => '',
-      'siteSearchResults' => '',
-    ];
   }
 
 }
