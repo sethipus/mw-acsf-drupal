@@ -11,7 +11,7 @@
   &__fieldset {
     padding: 0;
     margin: 0 0 2rem 0;
-    border-radius: 4rem;
+    border-radius: variable(button-border-radius);
     display: inline-block;
     font-size: 0;
     border: none;
@@ -71,13 +71,13 @@
     }
 
     &--rounded-left {
-      border-top-left-radius: 4rem;
-      border-bottom-left-radius: 4rem;
+      border-top-left-radius: variable(button-border-radius);
+      border-bottom-left-radius: variable(button-border-radius);
     }
 
     &--rounded-right {
-      border-top-right-radius: 4rem;
-      border-bottom-right-radius: 4rem;
+      border-top-right-radius: variable(button-border-radius);
+      border-bottom-right-radius: variable(button-border-radius);
     }
 
     &:focus+label,
