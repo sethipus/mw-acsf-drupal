@@ -98,7 +98,8 @@ class ProductsDataCollector implements DataCollectorInterface, DataLayerCollecto
     foreach ($decorator->getEntities() as $node) {
       if (isset($node) &&
         $node->bundle() == self::PRODUCT_CONTENT_TYPE &&
-        $node->hasField('salsify_id')) {
+        $node->hasField('salsify_id')
+      ) {
         $gtin = $node->get('salsify_id')->value;
         $products[$gtin] = $gtin;
       }
@@ -116,8 +117,13 @@ class ProductsDataCollector implements DataCollectorInterface, DataLayerCollecto
   public function getGaData() {
     $ga_data = NULL;
 
-    if (!empty($this->data['products']['rendered'])) {
-      $ga_data = implode(', ', $this->data['products']['rendered']);
+    if (
+      !empty($this->data['products']['rendered']) &&
+      is_array($this->data['products']['rendered']) &&
+      count($this->data['products']['rendered']) > 0
+    ) {
+      $ga_data = $this->data['products']['rendered'];
+      $ga_data = count($ga_data) > 1 ? implode(', ', $ga_data) : reset($ga_data);
     }
 
     return $ga_data;

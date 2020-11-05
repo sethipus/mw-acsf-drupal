@@ -133,9 +133,6 @@ class TermsDataCollector implements DataCollectorInterface, DataLayerCollectorIn
    *   Node.
    * @param array $terms
    *   Terms.
-   *
-   * @return \Drupal\Core\Entity\EntityInterface[]|null
-   *   An array of entity objects keyed by field item deltas.
    */
   private function getLoadedTermsByNode(NodeInterface $node, array &$terms) {
     $field_defs = $node->getFieldDefinitions();
@@ -152,8 +149,6 @@ class TermsDataCollector implements DataCollectorInterface, DataLayerCollectorIn
         }
       }
     }
-
-    return $terms;
   }
 
 }

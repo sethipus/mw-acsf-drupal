@@ -29,6 +29,7 @@ function mars_google_analytics_page_attachments(array &$page) {
     $collector_service->collect();
     $page['#attached']['drupalSettings']['dataLayer'][$collector_service->getDataLayerId()] = $collector_service->getGaData();
   }
+  $page['#attached']['library'][] = 'mars_google_analytics/datalayer.page_view';
 }
 
 /**
