@@ -1,8 +1,9 @@
-uuid: 6d338fa0-bbee-437a-a537-03b56e91c223
+uuid: bef57452-f041-41ed-b274-0987fb73762b
 langcode: en
-status: true
+status: false
 dependencies:
   config:
+    - core.entity_view_mode.node.full
     - field.field.node.campaign.field_body
     - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_image
@@ -21,37 +22,15 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: true
+    allow_custom: false
     enabled: true
     sections:
       -
         layout_id: campaign_section
         layout_settings:
           label: 'Free Editorial Capabilities'
-        components:
-          67606297-104a-40b8-9939-f31ef6a92b8c:
-            uuid: 67606297-104a-40b8-9939-f31ef6a92b8c
-            region: content
-            configuration:
-              id: parent_page_header
-              label: 'Parent Page Header'
-              provider: mars_common
-              label_display: ''
-              eyebrow: ''
-              title: ''
-              description: ''
-              background_options: default
-              background_image: ''
-              background_video: ''
-              context_mapping: {  }
-            additional: {  }
-            weight: 0
-        third_party_settings:
-          layout_builder_lock:
-            lock:
-              5: 5
-              6: 6
-              7: 7
+        components: {  }
+        third_party_settings: {  }
   layout_library:
     enable: false
   layout_builder_restrictions:
@@ -85,6 +64,7 @@ third_party_settings:
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
+        'Page components': {  }
         Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
@@ -99,7 +79,8 @@ third_party_settings:
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types': {  }
-            'Custom blocks': {  }
+            'Custom blocks':
+              - parent_page_header
             'Entity Block': {  }
             'Entity Browser': {  }
             'Flexible driver':
@@ -111,13 +92,19 @@ third_party_settings:
             'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
+              - contact_form
               - contact_help_banner_block
+              - error_page_block
               - feedback_block
+              - freeform_story_block
+              - header_block
               - iframe_block
               - newsletter_signup_form
               - poll_block
+              - product_feature
               - recommendations_module
               - story_highlight
+              - where_to_buy_block
             'Mars Product':
               - grid_card
               - product_content_pair_up_block
@@ -142,10 +129,10 @@ third_party_settings:
             System: {  }
             User: {  }
             core: {  }
-id: node.campaign.default
+id: node.campaign.full
 targetEntityType: node
 bundle: campaign
-mode: default
+mode: full
 content:
   field_body:
     weight: 106
