@@ -6,7 +6,9 @@ use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ConfigFactoryOverrideInterface;
+use Drupal\Core\Config\ConfigInstallerInterface;
 use Drupal\Core\Config\StorageInterface;
+use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\layout_builder\SectionComponent;
@@ -89,14 +91,22 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   protected $configFactory;
 
   /**
+   * The config installer.
+   *
+   * @var \Drupal\Core\Config\ConfigInstallerInterface
+   */
+  protected $configInstaller;
+
+  /**
    * {@inheritdoc}
    *
    * Set config manager as protected property.
    */
-  public function __construct(RouteMatchInterface $route_match, RequestStack $request_stack, ConfigFactoryInterface $config_factory) {
+  public function __construct(RouteMatchInterface $route_match, RequestStack $request_stack, ConfigFactoryInterface $config_factory, ConfigInstallerInterface $config_installer) {
     $this->routeMatch = $route_match;
     $this->requestStack = $request_stack;
     $this->configFactory = $config_factory;
+    $this->configInstaller = $config_installer;
   }
 
   /**
@@ -105,16 +115,18 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   public function loadOverrides($names) {
     $overrides = [];
     if (in_array(self::THEME_CONFIG, $names)) {
-      $current_route = $this->routeMatch;
-      $request = $this->requestStack->getCurrentRequest();
-      // Additional check request to avoid console errors.
-      if ($current_route instanceof CurrentRouteMatch && $request instanceof Request) {
-        /* @var $node \Drupal\node\NodeInterface */
-        $node = $current_route->getParameter('node');
-        if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
-          $theme_configuration = $this->extractFromLayoutBuilder($node);
-          $overrides[self::THEME_CONFIG] = $this->getOverrideConfigOptions($theme_configuration);
-        };
+      if (!$this->configInstaller->isSyncing() && !InstallerKernel::installationAttempted()) {
+        $current_route = $this->routeMatch;
+        $request = $this->requestStack->getCurrentRequest();
+        // Additional check request to avoid console errors.
+        if ($current_route instanceof CurrentRouteMatch && $request instanceof Request) {
+          /* @var $node \Drupal\node\NodeInterface */
+          $node = $current_route->getParameter('node');
+          if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
+            $theme_configuration = $this->extractFromLayoutBuilder($node);
+            $overrides[self::THEME_CONFIG] = $this->getOverrideConfigOptions($theme_configuration);
+          };
+        }
       }
     }
     return $overrides;
@@ -133,17 +145,19 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   public function getCacheableMetadata($name) {
     $metadata = new CacheableMetadata();
     if ($name === self::THEME_CONFIG) {
-      $current_route = $this->routeMatch;
-      $request = $this->requestStack->getCurrentRequest();
-      // Additional check request to avoid console errors.
-      if ($current_route instanceof CurrentRouteMatch && $request instanceof Request) {
-        /* @var $node \Drupal\node\NodeInterface */
-        $node = $current_route->getParameter('node');
-        if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
-          $metadata->addCacheableDependency($node);
+      if (!$this->configInstaller->isSyncing() && !InstallerKernel::installationAttempted()) {
+        $current_route = $this->routeMatch;
+        $request = $this->requestStack->getCurrentRequest();
+        // Additional check request to avoid console errors.
+        if ($current_route instanceof CurrentRouteMatch && $request instanceof Request) {
+          /* @var $node \Drupal\node\NodeInterface */
+          $node = $current_route->getParameter('node');
+          if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
+            $metadata->addCacheableDependency($node);
+            $theme_config = $this->configFactory->get(self::THEME_CONFIG);
+            $metadata->addCacheableDependency($theme_config);
+          }
         }
-        $theme_config = $this->configFactory->get(self::THEME_CONFIG);
-        $metadata->addCacheableDependency($theme_config);
       }
     }
 
@@ -168,10 +182,10 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    */
   private function extractFromLayoutBuilder(NodeInterface $node): ?array {
     if (!$node->hasField('layout_builder__layout')) {
-      return NULL;
+      return [];
     }
 
-    $theme_configuration = NULL;
+    $theme_configuration = [];
     /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layoutBuilderField */
     $layoutBuilderField = $node->get('layout_builder__layout');
     /** @var \Drupal\layout_builder\Section[] $sections */
@@ -224,7 +238,10 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    * @return array|null
    *   Theme configuration.
    */
-  private function getOverrideConfigOptions(array $theme_configuration): ?array {
+  private function getOverrideConfigOptions(array $theme_configuration = []): ?array {
+    if (empty($theme_configuration)) {
+      return [];
+    }
     $overrides = [];
     foreach (self::BLOCK_CONFIG_THEME_PARENT_KEYS as $key) {
       $theme_configuration = array_merge($theme_configuration, $theme_configuration[$key]);
