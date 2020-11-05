@@ -1,11 +1,11 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
-(function($){
+(function($, Drupal){
   Drupal.behaviors.socialFeed = {
     attach(context) {
       // init swiper
       Swiper.use([Navigation, Pagination, Scrollbar]);
-      
+
       const swiper = new Swiper('.social-feed-swiper-container', {
         slidesPerView: 'auto',
         spaceBetween: 20,
@@ -30,4 +30,4 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
     },
   };
 
-})(jQuery);
+})(jQuery, Drupal);
