@@ -24,7 +24,7 @@ behat:
     api_url: http://localhost:9222
 
 ddev:
-  enable: true
+  enable: false
 
 command-hooks:
   post-config-import:

@@ -15,5 +15,4 @@ command-hooks:
     dir: ${deploy.dir}/docroot
     command: vendor/bin/drush pm:enable fixture_import && vendor/bin/drush migrate:import mars_pages && composer require behat/mink-selenium2-driver
 ddev:
-  enable: true
-
+  enable: false
