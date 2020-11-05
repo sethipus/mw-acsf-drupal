@@ -281,7 +281,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, "grid_{$this->gridId}");
     if ($query_search_results['resultsCount'] == 0) {
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys']);
-      $build['#attached']['drupalSettings']['cardSearchNoResults'][$this->gridId] = $this->buildDataLayerSearchNoResults($searchOptions['keys']);
     }
     foreach ($query_search_results['results'] as $node) {
       $nodeView = $this->nodeViewBuilder->view($node, 'card');
@@ -294,7 +293,9 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       // Preparing search form.
       $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class, TRUE, $grid_options);
       // Prepare dataLayer attributes.
-      $build['#input_form']['search']['#attributes']['data-layer'] = serialize($this->buildDataLayerSearchElement());
+      foreach ($this->buildDataLayerSearchElement() as $key => $value) {
+        $build['#input_form']['search']['#attributes']["data-layer-{$key}"] = $value;
+      }
     }
     // Populating filters.
     if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
@@ -312,10 +313,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
-    // Build dataLayer attributes if search results are displayed for keys.
-    if (!empty($searchOptions['keys']) && $query_search_results['resultsCount'] > 0) {
-      $build['#attached']['drupalSettings']['cardSearchResults'][$this->gridId] = $this->buildDataLayerSearchResults($searchOptions['keys'], $query_search_results['resultsCount']);
-    }
+    // Build dataLayer attributes for search results.
+    $build['#attached']['drupalSettings']['dataLayer']['cardSearchResults'][$this->gridId] = $this->buildDataLayerSearchResults($searchOptions['keys'], $query_search_results['resultsCount']);
 
     $build['#ajax_card_grid_heading'] = $config['title'];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
@@ -555,12 +554,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   protected function buildDataLayerSearchElement() {
     // Build attributes array that will be used in JS.
-    return array_merge([
-      'event' => 'cardGridSearch_Start',
-      // Below values are empty since we don't have any data for them.
-      'cardGridSearchTerm' => '',
-      'cardGridSearchResults' => '',
-    ], $this->getDataLayerDefaults());
+    return $this->getDataLayerDefaults();
   }
 
   /**
@@ -579,27 +573,8 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected function buildDataLayerSearchResults(string $key, int $resultsCount) {
     // Build attributes array that will be used in JS.
     return array_merge([
-      'event' => 'cardGridSearch_ResultShown',
       'cardGridSearchTerm' => $key,
       'cardGridSearchResults' => $resultsCount,
-    ], $this->getDataLayerDefaults());
-  }
-
-  /**
-   * Builds an array of dataLayer attributes for search no results event.
-   *
-   * @param string $key
-   *   Card grid search key.
-   *
-   * @return array
-   *   DataLayer attributes.
-   */
-  protected function buildDataLayerSearchNoResults(string $key) {
-    // Build attributes array that will be used in JS.
-    return array_merge([
-      'event' => 'cardGridSearch_ResultNo',
-      'cardGridSearchTerm' => $key,
-      'cardGridSearchResults' => '',
     ], $this->getDataLayerDefaults());
   }
 
@@ -617,7 +592,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected function buildDataLayerSearchClick(string $key, NodeInterface $node) {
     // Build attributes array that will be used in JS.
     return array_merge([
-      'event' => 'cardGridSearch_ResultClick',
       'cardGridSearchTerm' => $key,
       'cardGridSearchClick' => "{$node->bundle()}_{$node->id()}",
     ], $this->getDataLayerDefaults());
