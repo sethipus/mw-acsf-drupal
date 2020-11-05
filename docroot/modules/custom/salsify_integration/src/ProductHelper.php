@@ -155,20 +155,40 @@ class ProductHelper {
    */
   public function getParentEntitiesMapping($response) {
     $mapping = [];
+    $bazaarvoice_mapping = [];
 
-    $product_gtins = [];
     foreach ($this->getProductsData($response) as $product) {
-      $product_gtins[$product['GTIN']] = $product['GTIN'];
+      if (isset($product['Bazaarvoice Family ID'])) {
+        if (!isset($bazaarvoice_mapping[$product['Bazaarvoice Family ID']])) {
+          $bazaarvoice_mapping[$product['Bazaarvoice Family ID']] = [
+            self::PRODUCT_CONTENT_TYPE => [],
+            self::PRODUCT_MULTIPACK_CONTENT_TYPE => [],
+            self::PRODUCT_VARIANT_CONTENT_TYPE => [],
+          ];
+        }
+        $bazaarvoice_mapping[$product['Bazaarvoice Family ID']][self::getProductType($product)][] = $product['GTIN'];
+      }
+
     }
 
-    foreach ($this->getProductsData($response) as $product) {
-      if (isset($product['Parent GTIN'])) {
-        $parent_gtin = is_array($product['Parent GTIN']) ? $product['Parent GTIN'] : [$product['Parent GTIN']];
-        foreach ($parent_gtin as $gtin) {
-          if (isset($product_gtins[$gtin])) {
-            $mapping[$gtin][(string) $product['GTIN']] = ProductHelper::getProductType($product);
-          }
-        }
+    foreach ($bazaarvoice_mapping as $bazaarvoice_family) {
+      foreach ($bazaarvoice_family[self::PRODUCT_CONTENT_TYPE] as $product_gtin) {
+        $mapping[$product_gtin] = $this->combineChildProducts(
+          $bazaarvoice_family[self::PRODUCT_VARIANT_CONTENT_TYPE],
+          self::PRODUCT_VARIANT_CONTENT_TYPE
+        );
+      }
+      foreach ($bazaarvoice_family[self::PRODUCT_MULTIPACK_CONTENT_TYPE] as $product_gtin) {
+        $mapping[$product_gtin] = array_merge(
+          $this->combineChildProducts(
+            $bazaarvoice_family[self::PRODUCT_CONTENT_TYPE],
+            self::PRODUCT_CONTENT_TYPE
+          ),
+          $this->combineChildProducts(
+            $bazaarvoice_family[self::PRODUCT_VARIANT_CONTENT_TYPE],
+            self::PRODUCT_VARIANT_CONTENT_TYPE
+          )
+        );
       }
     }
 
@@ -305,6 +325,28 @@ class ProductHelper {
       }
     }
     return array_values($assets);
+  }
+
+  /**
+   * Combine child GTINS and types.
+   *
+   * @param mixed $child_products
+   *   Array of child products.
+   * @param string $type
+   *   Salsify content type.
+   *
+   * @return array|false
+   *   Combined array.
+   */
+  private function combineChildProducts($child_products, $type) {
+    return array_combine(
+      $child_products,
+      array_fill(
+        0,
+        count($child_products),
+        $type
+      )
+    );
   }
 
 }

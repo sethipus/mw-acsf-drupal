@@ -31,6 +31,7 @@ hidden:
   created: true
   field_media_in_library: true
   image: true
+  langcode: true
   name: true
   salsify_id: true
   search_api_excerpt: true
