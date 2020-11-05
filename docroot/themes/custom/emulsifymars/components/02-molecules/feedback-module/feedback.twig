@@ -21,16 +21,6 @@
       paragraph_base_class: feedback_paragraph_base_class
     } %}
 
-    {# <div class="feedback-module__btn-group">
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: default_link_positive_content
-      } %}
-
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: default_link_negative_content
-      } %}
-    </div> #}
-
     <form class="feedback-module__btn-group">
       {% for key, value in choices %}
         <label class="feedback-module__label default-link" for="edit-choice-{{key}}">
@@ -43,9 +33,9 @@
       {{ hidden_form_inputs }}
     </form>
 
-
   </div>
-  {% include "@atoms/links/link/link.twig" with {
+
+    {% include "@atoms/links/link/link.twig" with {
     link_base_class: feedback_link_base_class,
     link_content: feedback_bottom_link_content,
     link_url: feedback_bottom_link_url
