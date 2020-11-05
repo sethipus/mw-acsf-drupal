@@ -45,112 +45,112 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   $form_state->setStorage($social_storage);
 
   $form['color_settings'] = [
-    '#type'        => 'details',
-    '#title'       => $translation->translate('Color settings'),
-    '#open'        => TRUE,
+    '#type' => 'details',
+    '#title' => $translation->translate('Color settings'),
+    '#open' => TRUE,
     '#description' => $translation->translate("MARS theme settings for color pallete."),
   ];
   $form['color_settings']['color_a'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Color A'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Color A'),
     '#default_value' => theme_get_setting('color_a'),
-    '#description'   => $translation->translate('Primary Color. Will be used as a main color throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Primary Color. Will be used as a main color throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['color_b'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Color B'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Color B'),
     '#default_value' => theme_get_setting('color_b'),
-    '#description'   => $translation->translate('Secondary Color. Will be used as a main color throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Secondary Color. Will be used as a main color throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['color_c'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Color C'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Color C'),
     '#default_value' => theme_get_setting('color_c'),
-    '#description'   => $translation->translate('Includes the option to select a radial gradient variation (white in the center, assigned color on the outside) or keep the default flat color. Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Includes the option to select a radial gradient variation (white in the center, assigned color on the outside) or keep the default flat color. Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['color_d'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Color D'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Color D'),
     '#default_value' => theme_get_setting('color_d'),
-    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['color_e'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Color E'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Color E'),
     '#default_value' => theme_get_setting('color_e'),
-    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['color_f'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Color F'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Color F'),
     '#default_value' => theme_get_setting('color_f'),
-    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['top_nav'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Top part of the header/footer'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Top part of the header/footer'),
     '#default_value' => theme_get_setting('top_nav'),
-    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['top_nav_gradient'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Top part of the header/footer gradient color'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Top part of the header/footer gradient color'),
     '#default_value' => theme_get_setting('top_nav_gradient'),
-    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['bottom_nav'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Bottom part of the footer'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Bottom part of the footer'),
     '#default_value' => theme_get_setting('bottom_nav'),
-    '#description'   => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+    '#description' => $translation->translate('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
   ];
   $form['color_settings']['card_background'] = [
-    '#type'          => 'jquery_colorpicker',
-    '#title'         => $translation->translate('Card Background'),
+    '#type' => 'jquery_colorpicker',
+    '#title' => $translation->translate('Card Background'),
     '#default_value' => theme_get_setting('card_background'),
-    '#description'   => $translation->translate('If gradient check box is checked, use HEX color with white to create radial gradient.'),
+    '#description' => $translation->translate('If gradient check box is checked, use HEX color with white to create radial gradient.'),
   ];
 
   $form['font_settings'] = [
-    '#type'        => 'details',
-    '#title'       => $translation->translate('Theme font settings'),
-    '#open'        => TRUE,
+    '#type' => 'details',
+    '#title' => $translation->translate('Theme font settings'),
+    '#open' => TRUE,
     '#description' => $translation->translate("MARS theme settings for font upload."),
   ];
   $form['font_settings']['headline_font_path'] = [
-    '#type'  => 'textfield',
+    '#type' => 'textfield',
     '#title' => $translation->translate('Path to Headline Campaign Typeface'),
-    '#default_value'   => theme_get_setting('headline_font_path'),
+    '#default_value' => theme_get_setting('headline_font_path'),
   ];
   $form['font_settings']['headline_font'] = [
-    '#type'              => 'file',
-    '#title'             => $translation->translate('Headline Campaign Typeface'),
+    '#type' => 'file',
+    '#title' => $translation->translate('Headline Campaign Typeface'),
     '#upload_location' => 'public://theme_config/',
     '#upload_validators' => [
       'file_validate_extensions' => ['woff ttf'],
     ],
   ];
   $form['font_settings']['primary_font_path'] = [
-    '#type'  => 'textfield',
+    '#type' => 'textfield',
     '#title' => $translation->translate('Path to Primary Typeface'),
-    '#default_value'   => theme_get_setting('primary_font_path'),
+    '#default_value' => theme_get_setting('primary_font_path'),
   ];
   $form['font_settings']['primary_font'] = [
-    '#type'              => 'file',
-    '#title'             => $translation->translate('Primary Typeface'),
+    '#type' => 'file',
+    '#title' => $translation->translate('Primary Typeface'),
     '#upload_location' => 'public://theme_config/',
     '#upload_validators' => [
       'file_validate_extensions' => ['woff ttf'],
     ],
   ];
   $form['font_settings']['secondary_font_path'] = [
-    '#type'  => 'textfield',
+    '#type' => 'textfield',
     '#title' => $translation->translate('Path to Secondary Typeface'),
-    '#default_value'   => theme_get_setting('secondary_font_path'),
+    '#default_value' => theme_get_setting('secondary_font_path'),
   ];
   $form['font_settings']['secondary_font'] = [
-    '#type'              => 'file',
-    '#title'             => $translation->translate('Secondary Typeface'),
+    '#type' => 'file',
+    '#title' => $translation->translate('Secondary Typeface'),
     '#upload_location' => 'public://theme_config/',
     '#upload_validators' => [
       'file_validate_extensions' => ['woff ttf'],
@@ -158,69 +158,69 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   ];
 
   $form['icons_settings'] = [
-    '#type'        => 'details',
-    '#title'       => $translation->translate('Theme images settings'),
-    '#open'        => TRUE,
+    '#type' => 'details',
+    '#title' => $translation->translate('Theme images settings'),
+    '#open' => TRUE,
     '#description' => $translation->translate("MARS theme settings for icons/images upload."),
   ];
   $form['icons_settings']['graphic_divider'] = [
-    '#title'           => $translation->translate('Graphic Divider'),
-    '#type'            => 'managed_file',
-    '#description'     => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#title' => $translation->translate('Graphic Divider'),
+    '#type' => 'managed_file',
+    '#description' => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
     '#upload_location' => 'public://theme_config/',
-    '#required'        => FALSE,
-    '#process'         => [
+    '#required' => FALSE,
+    '#process' => [
       ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
       'emulsifymars_process_image_widget',
     ],
     '#upload_validators' => [
       'file_validate_extensions' => ['svg'],
     ],
-    '#theme'               => 'image_widget',
+    '#theme' => 'image_widget',
     '#preview_image_style' => 'medium',
-    '#default_value'       => theme_get_setting('graphic_divider'),
+    '#default_value' => theme_get_setting('graphic_divider'),
   ];
 
   $form['icons_settings']['brand_shape'] = [
-    '#title'           => $translation->translate('Path to Brand Shape'),
-    '#type'            => 'managed_file',
-    '#description'     => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#title' => $translation->translate('Path to Brand Shape'),
+    '#type' => 'managed_file',
+    '#description' => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
     '#upload_location' => 'public://theme_config/',
-    '#required'        => FALSE,
-    '#process'         => [
+    '#required' => FALSE,
+    '#process' => [
       ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
       'emulsifymars_process_image_widget',
     ],
     '#upload_validators' => [
       'file_validate_extensions' => ['svg'],
     ],
-    '#theme'               => 'image_widget',
+    '#theme' => 'image_widget',
     '#preview_image_style' => 'medium',
-    '#default_value'       => theme_get_setting('brand_shape'),
+    '#default_value' => theme_get_setting('brand_shape'),
   ];
 
   $form['icons_settings']['brand_borders'] = [
-    '#title'           => $translation->translate('Brand Borders'),
-    '#type'            => 'managed_file',
-    '#description'     => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#title' => $translation->translate('Brand Borders'),
+    '#type' => 'managed_file',
+    '#description' => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
     '#upload_location' => 'public://theme_config/',
-    '#required'        => FALSE,
-    '#process'         => [
+    '#required' => FALSE,
+    '#process' => [
       ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
       'emulsifymars_process_image_widget',
     ],
     '#upload_validators' => [
       'file_validate_extensions' => ['svg'],
     ],
-    '#theme'               => 'image_widget',
+    '#theme' => 'image_widget',
     '#preview_image_style' => 'medium',
-    '#default_value'       => theme_get_setting('brand_borders'),
+    '#default_value' => theme_get_setting('brand_borders'),
   ];
 
   $form['icons_settings']['brand_border_style'] = [
-    '#type'          => 'radios',
-    '#title'         => $translation->translate('Brand border style'),
-    '#description'   => $translation->translate('Designates stretched border or repeated border shape.'),
+    '#type' => 'radios',
+    '#title' => $translation->translate('Brand border style'),
+    '#description' => $translation->translate('Designates stretched border or repeated border shape.'),
     '#default_value' => theme_get_setting('brand_border_style'),
     '#options' => [
       'repeat' => $translation->translate('Repeat'),
@@ -229,45 +229,45 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   ];
 
   $form['icons_settings']['brand_borders_2'] = [
-    '#title'           => $translation->translate('Brand Borders for Cards'),
-    '#type'            => 'managed_file',
-    '#description'     => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#title' => $translation->translate('Brand Borders for Cards'),
+    '#type' => 'managed_file',
+    '#description' => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
     '#upload_location' => 'public://theme_config/',
-    '#required'        => FALSE,
-    '#process'         => [
+    '#required' => FALSE,
+    '#process' => [
       ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
       'emulsifymars_process_image_widget',
     ],
     '#upload_validators' => [
       'file_validate_extensions' => ['svg'],
     ],
-    '#theme'               => 'image_widget',
+    '#theme' => 'image_widget',
     '#preview_image_style' => 'medium',
-    '#default_value'       => theme_get_setting('brand_borders_2'),
+    '#default_value' => theme_get_setting('brand_borders_2'),
   ];
 
   $form['icons_settings']['png_asset'] = [
-    '#title'           => $translation->translate('PNG Asset'),
-    '#type'            => 'managed_file',
-    '#description'     => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+    '#title' => $translation->translate('PNG Asset'),
+    '#type' => 'managed_file',
+    '#description' => $translation->translate('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
     '#upload_location' => 'public://theme_config/',
-    '#required'        => FALSE,
-    '#process'         => [
+    '#required' => FALSE,
+    '#process' => [
       ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
       'emulsifymars_process_image_widget',
     ],
     '#upload_validators' => [
       'file_validate_extensions' => ['svg png'],
     ],
-    '#theme'               => 'image_widget',
+    '#theme' => 'image_widget',
     '#preview_image_style' => 'medium',
-    '#default_value'       => theme_get_setting('png_asset'),
+    '#default_value' => theme_get_setting('png_asset'),
   ];
 
   $form['icons_settings']['button_style'] = [
-    '#type'          => 'radios',
-    '#title'         => $translation->translate('Button/Card Style'),
-    '#description'   => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner.'),
+    '#type' => 'radios',
+    '#title' => $translation->translate('Button/Card Style'),
+    '#description' => $translation->translate('Designates rounded buttons or sharp corner buttons and card corner.'),
     '#default_value' => theme_get_setting('button_style'),
     '#options' => [
       0 => $translation->translate('Round'),
@@ -276,12 +276,12 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
   ];
 
   $form['social'] = [
-    '#type'        => 'fieldset',
-    '#tree'        => TRUE,
-    '#title'       => $translation->translate('Theme social link settings'),
+    '#type' => 'fieldset',
+    '#tree' => TRUE,
+    '#title' => $translation->translate('Theme social link settings'),
     '#description' => $translation->translate("MARS theme settings for icons/images upload."),
-    '#prefix'      => '<div id="social">',
-    '#suffix'      => '</div>',
+    '#prefix' => '<div id="social">',
+    '#suffix' => '</div>',
   ];
 
   if (isset($social_storage['social'])) {
@@ -291,39 +291,39 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
         '#tree' => TRUE,
       ];
       $form['social'][$key]['icon'] = [
-        '#title'           => $translation->translate('Social network icon'),
-        '#type'            => 'managed_file',
+        '#title' => $translation->translate('Social network icon'),
+        '#type' => 'managed_file',
         '#upload_location' => 'public://theme_config/',
-        '#required'        => TRUE,
-        '#process'         => [
+        '#required' => TRUE,
+        '#process' => [
           ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
           'emulsifymars_process_image_widget',
         ],
         '#upload_validators' => [
           'file_validate_extensions' => ['svg'],
         ],
-        '#theme'               => 'image_widget',
+        '#theme' => 'image_widget',
         '#preview_image_style' => 'thumbnail',
-        '#default_value'       => $value['icon'],
+        '#default_value' => $value['icon'],
       ];
       $form['social'][$key]['link'] = [
-        '#title'         => $translation->translate('Social network link'),
-        '#type'          => 'textfield',
-        '#required'      => TRUE,
+        '#title' => $translation->translate('Social network link'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
         '#default_value' => $value['link'],
       ];
       $form['social'][$key]['name'] = [
-        '#title'         => $translation->translate('Social network title'),
-        '#type'          => 'textfield',
-        '#required'      => TRUE,
+        '#title' => $translation->translate('Social network title'),
+        '#type' => 'textfield',
+        '#required' => TRUE,
         '#default_value' => $value['name'],
       ];
       $form['social'][$key]['remove_social'] = [
-        '#type'  => 'button',
+        '#type' => 'button',
         '#name' => 'social_' . $key,
         '#value' => $translation->translate('Remove social link'),
         '#limit_validation_errors' => [],
-        '#ajax'  => [
+        '#ajax' => [
           'callback' => 'emulsifymars_theme_settings_ajax_remove_social',
           'wrapper' => 'social',
         ],
@@ -707,8 +707,8 @@ function emulsifymars_preprocess_social_icons(&$variables) {
 function emulsifymars_theme() {
   return [
     'social_icons' => [
-      'template'   => 'misc/social-menu',
-      'variables'  => [
+      'template' => 'misc/social-menu',
+      'variables' => [
         'social_menu_items' => [],
       ],
     ],
@@ -785,13 +785,20 @@ function emulsifymars_preprocess_node(&$variables) {
  * Implements hook_preprocess_block().
  */
 function emulsifymars_preprocess_block(&$variables) {
-  if ($variables['plugin_id'] == 'recommendations_module') {
-    $attributes = [];
-    $attributes += [
-      'data-componentName' => $variables['attributes']['data-block-plugin-id'],
-    ];
-    foreach ($variables['content']['#recommended_items'] as $key => $value) {
-      $variables['content']['#recommended_items'][$key]['#attributes'] = $attributes;
-    }
+  switch ($variables['plugin_id']) {
+    case 'recommendations_module':
+      $attributes = [];
+      $attributes += [
+        'data-componentName' => $variables['attributes']['data-block-plugin-id'],
+      ];
+      foreach ($variables['content']['#recommended_items'] as $key => $value) {
+        $variables['content']['#recommended_items'][$key]['#attributes'] = $attributes;
+      }
+      break;
+
+    case 'header_block':
+
+      break;
+
   }
 }
