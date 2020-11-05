@@ -99,6 +99,7 @@ module:
   mars_banners: 0
   mars_common: 0
   mars_entry_gate: 0
+  mars_google_analytics: 0
   mars_lighthouse: 0
   mars_onetrust: 0
   mars_product: 0
