@@ -36,13 +36,13 @@ class ThemeConfiguratorService {
     // Process multiple social links with form_state.
     $triggered = $form_state->getTriggeringElement();
 
-    if (isset($triggered['#parents']) && in_array('remove_social', $triggered['#parents'])) {
+    if (isset($triggered['#parents']) && in_array('remove_social', $triggered['#parents'], TRUE)) {
       $removed_key = array_key_last($triggered['#parents']);
       if (is_int($removed_key)) {
         unset($social_storage['social'][$triggered['#parents'][$removed_key - 1]]);
       }
     }
-    if (isset($triggered['#parents']) && in_array('add_social', $triggered['#parents'])) {
+    if (isset($triggered['#parents']) && in_array('add_social', $triggered['#parents'], TRUE)) {
       array_push($social_storage['social'], [
         'icon' => '',
         'link' => '',
