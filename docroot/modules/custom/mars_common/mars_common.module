@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
@@ -885,17 +886,22 @@ function mars_common_menu_link_content_delete(EntityInterface $entity) {
  */
 function _mars_common_form_menu_link_content_menu_link_content_form_validate(array &$form, FormStateInterface $form_state) {
   $entity = $form_state->getFormObject()->getEntity();
-
   $form_values = $form_state->getValues();
-  if (substr($form_values['menu_parent'], 0, -1) === MenuConstants::MAIN_MENU_ID) {
-    $menu_manager = \Drupal::service('plugin.manager.menu.link');
+  $form_values_parent_menu = substr($form_values['menu_parent'], 0, -1);
+  if ($form_values_parent_menu === MenuConstants::MAIN_MENU_ID) {
     if ($entity->isNew()
-      || (!$entity->isNew() && $entity->get('menu_name')->value !== MenuConstants::MAIN_MENU_ID)) {
-      if ($menu_manager->countMenuLinks(MenuConstants::MAIN_MENU_ID) >= MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT) {
+      || (
+        $entity->get('menu_name')->value !== MenuConstants::MAIN_MENU_ID
+        || $entity->get('parent')->value !== NULL)
+    ) {
+      $menu_tree_params = new MenuTreeParameters();
+      $menu_tree_params->setMaxDepth(1);
+      $menu_tree = \Drupal::menuTree()->load(MenuConstants::MAIN_MENU_ID, $menu_tree_params);
+      if (count($menu_tree) >= MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT) {
         $form_state->setErrorByName(
-          'title',
+          'menu_parent',
           t(
-            'The maximum menu count of <b>@menu</b> is <b>@max_count</b>.',
+            'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
             [
               '@menu' => '<Main navigation>',
               '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
@@ -933,6 +939,80 @@ function mars_common_form_menu_link_content_menu_link_content_form_alter(array &
       'type' => 'throbber',
     ],
   ];
+}
+
+/**
+ * Validate "main menu" edit form.
+ *
+ * @param array $form
+ *   Render array of the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterface $form_state) {
+  $menu_tree_params = new MenuTreeParameters();
+  $menu_tree_params->setMaxDepth(1);
+  $menu_tree = \Drupal::menuTree()->load(MenuConstants::MAIN_MENU_ID, $menu_tree_params);
+  $form_values = $form_state->getValues();
+  $menu_tree_root_items_count = 0;
+  foreach ($form_values['links'] as $link) {
+    if (!$link['parent']) {
+      $menu_tree_root_items_count++;
+    }
+  }
+
+  if ($menu_tree_root_items_count > MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT && $menu_tree_root_items_count != count($menu_tree)) {
+    $form_state->setErrorByName('links', t(
+      'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+      [
+        '@menu' => '<Main navigation>',
+        '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
+      ]
+    ));
+
+    // TODO: find a proper fix.
+    /*
+     * Upon validation error, the form should show the invalid state in which it
+     * was submitted. In this case because of tabledrag behavior, upon
+     * validation error the form will look like as if it's in its initial state,
+     * but in reality the hidden parent and weight fields will contain the
+     * invalid state.
+     *
+     * We are resetting those fields to their default values so the
+     * visible state and the actual hidden input state are equal. This has to be
+     * done manually as an invalid form is not rebuilt by the form builder even
+     * if we set it to do so.
+     *
+     * The proper fix would be to properly change the visibly rendered table to
+     * reflect the posted values, but currently it's done based on the actually
+     * saved menu structure and the posted values are not used at all.
+     */
+    foreach ($form['links']['links'] as &$link_form) {
+      if (is_array($link_form)) {
+        if (
+        isset($link_form['parent']['#value'], $link_form['parent']['#default_value'])
+        ) {
+          $link_form['parent']['#value'] = $link_form['parent']['#default_value'];
+        }
+        if (
+        isset($link_form['weight']['#value'], $link_form['weight']['#default_value'])
+        ) {
+          $link_form['weight']['#value'] = $link_form['weight']['#default_value'];
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_menu_edit_form_alter(array &$form, FormStateInterface $form_state) {
+  $entity = $form_state->getFormObject()->getEntity();
+  if ($entity && $entity->id() === MenuConstants::MAIN_MENU_ID) {
+    $form_state->setCached(FALSE);
+    $form['#validate'][] = '_mars_common_form_menu_edit_form_validate';
+  }
 }
 
 /**

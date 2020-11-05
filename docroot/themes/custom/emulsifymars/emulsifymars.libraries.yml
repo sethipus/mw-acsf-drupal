@@ -16,6 +16,9 @@ content-feature:
     dist/js/02-molecules/content-feature/content-feature.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 social-feed:
   js:
