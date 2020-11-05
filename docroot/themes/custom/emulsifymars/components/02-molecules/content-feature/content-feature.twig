@@ -3,7 +3,7 @@
 {% set content_feature_heading_base_class = 'content-feature__heading' %}
 {% set content_feature_paragraph_base_class = 'content-feature__paragraph' %}
 
-<section {{ bem(content_feature_base_class) }} id="content-feature" style="background-image: url('{{ background_image }}');" data-theme="{{theme_styles}}">
+<section {{ bem(content_feature_base_class) }} style="background-image: url('{{ background_image }}');" data-theme="{{theme_styles}}">
 
   {% include "@atoms/text/eyebrow/eyebrow.twig" with {
     eyebrow_text: eyebrow_text
