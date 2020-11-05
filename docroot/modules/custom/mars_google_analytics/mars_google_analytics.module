@@ -12,6 +12,10 @@ function mars_google_analytics_page_attachments(array &$page) {
 
   $page['#attached']['drupalSettings']['dataLayer']['session_id'] = \Drupal::service('session_manager')->getId();
 
+  $page['#attached']['drupalSettings']['dataLayer']['language'] = \Drupal::service('language_manager')
+    ->getCurrentLanguage()
+    ->getId();
+
   $mars_config = \Drupal::configFactory()
     ->getEditable('mars.system.site');
   $page['#attached']['drupalSettings']['dataLayer']['brand'] = $mars_config->get('brand');
