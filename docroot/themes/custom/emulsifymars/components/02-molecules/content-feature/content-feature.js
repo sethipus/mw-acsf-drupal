@@ -1,15 +1,16 @@
-(function($, _){
+(function($, Drupal, _){
   Drupal.behaviors.contentFeature = {
     attach(context) {
-      if (context.getElementById('content-feature') === null) {
+      const parallaxElement = $('.content-feature', context);
+
+      if (!parallaxElement.length) {
         return;
       }
   
-      $(window).on('scroll', _.throttle(() => {
-        const parallaxElement = context.getElementById('content-feature');
-        if (isInViewport(parallaxElement)){
+      $(window).once('contentFeature').on('scroll', _.throttle(() => {
+        if (isInViewport(parallaxElement[0])){
           const offset = window.pageYOffset;
-          parallaxElement.style.backgroundPosition = `50% ${- (offset * .3)}px`;
+          parallaxElement.css('background-position', `50% ${- (offset * .3)}px`);
         }
       }, 50));
       
@@ -29,4 +30,4 @@
       }
     }
   }
-})(jQuery, _);
+})(jQuery, Drupal, _);
