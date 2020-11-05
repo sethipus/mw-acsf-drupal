@@ -1,0 +1,9 @@
+{
+    "defaults": {
+        "includeWarnings": false,
+        "includeNotices": false
+    },
+         "urls": [
+             "http://127.0.0.1:8888"
+         ]
+}
