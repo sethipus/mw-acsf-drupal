@@ -12,12 +12,12 @@ Feature: Content Test
 
     When I fill in "Title" with "TestBasicPageTitle"
     And I press "Save"
-    And the url should match "testbasicpagetitle"
+    Then the url should match "testbasicpagetitle"
     And I should see "Basic page TestBasicPageTitle has been created."
     And print current URL
 
     When I edit added content
-    And I should see "Edit Basic page"
+    Then I should see "Edit Basic page"
     And I should see "TestBasicPageTitle"
     And I should see "View"
     And I should see "Edit"
@@ -49,11 +49,9 @@ Feature: Content Test
     And I fill in "Description" with "MyDescription"
     And I fill in "Button Label" with "Explore"
     And I fill in "URL" with "http://link.com"
-
     And I press "Add block"
     Then I should see "You are editing the layout for this Basic page content item."
-
-    Then print current URL
+    And print current URL
 
     When I press "Save layout"
     Then print current URL
