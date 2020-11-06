@@ -140,10 +140,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
     /**
      * Checks, that XPATH element exists and click on it
-     * Example: Then I click on "//body" xpath element
-     * Example: And I click on "//body" xpath element
+     * Example: Then I click on a "//body" xpath element
+     * Example: And I click on a "//body" xpath element
      *
-     * @Then /^(?:|I )click on "(?P<element>[^"]*)" xpath element$/
+     * @Then /^(?:|I )click on a "(?P<element>[^"]*)" xpath element$/
      */
     public function clickXpathElementOnPage($element)
     {
@@ -687,16 +687,29 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
 
     /**
-     * Switches to the dialog
-     * Example: Then I switch to the dialog
-     * Example: Then I switch to the dialog
+     * Switches to the iframe
+     * Example: When I switch to the iframe "entity_browser_iframe_lighthouse_browser"
+     * Example: Then I switch to the iframe "entity_browser_iframe_lighthouse_browser"
      *
-     * @Then /^(?:|I )switch to the dialog$/
+     * @When I switch to the iframe :arg
      */
-    public function iSwitchToDialog()
+    public function iSwitchToIFrame($name)
     {
         $this->getSession()
-            ->switchToIFrame();
+            ->switchToIFrame($name);
+    }
+
+    /**
+     * Switches to the main window
+     * Example: When I switch to the main window
+     * Example: When I switch to the main window
+     *
+     * @When I switch to the main window
+     */
+    public function iSwitchToTheMainWindow()
+    {
+        $this->getSession()
+            ->switchToIFrame(null);
     }
 
     /**
