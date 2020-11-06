@@ -1,0 +1,8 @@
+datalayer.page_view:
+  version: 1.x
+  js:
+    js/datalayer_page_view.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
