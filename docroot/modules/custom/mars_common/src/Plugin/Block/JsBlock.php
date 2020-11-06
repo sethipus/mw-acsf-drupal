@@ -27,9 +27,6 @@ class JsBlock extends BlockBase {
       '#type' => 'textarea',
       '#title' => $this->t('Javascript code'),
       '#default_value' => $config['js_code'] ?? '',
-//      '#editor' => FALSE,
-//      '#format' => 'full_html',
-//      '#allowed_formats' => ['full_html'],
     ];
 
     return $form;
