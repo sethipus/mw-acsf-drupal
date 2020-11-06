@@ -106,8 +106,8 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
-    $this->themeConfiguratorService::formSystemThemeSettingsSubmit($form, $form_state);
-    $font_fields = $this->themeConfiguratorService::getFontFields();
+    $this->themeConfiguratorService->formSystemThemeSettingsSubmit($form, $form_state);
+    $font_fields = $this->themeConfiguratorService->getFontFields();
     $form_state_values = $form_state->getValues();
     foreach ($font_fields as $field) {
       if ($form_state->hasValue($field . '_path')) {
@@ -125,7 +125,7 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
    * {@inheritdoc}
    */
   public function blockValidate($form, FormStateInterface $form_state) {
-    $this->themeConfiguratorService::formSystemThemeSettingsValidate($form, $form_state);
+    $this->themeConfiguratorService->formSystemThemeSettingsValidate($form, $form_state);
   }
 
 }

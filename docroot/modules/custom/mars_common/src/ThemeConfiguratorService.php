@@ -3,9 +3,16 @@
 namespace Drupal\mars_common;
 
 use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
+use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\File\Exception\FileException;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\file\Element\ManagedFile;
+use Drupal\mars_common\Element\OverrideFile;
 
 /**
  * Class ThemeConfiguratorService.
@@ -15,20 +22,93 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 class ThemeConfiguratorService {
 
   use StringTranslationTrait;
+  use DependencySerializationTrait;
+
+  const FONT_FIELDS = [
+    'headline_font',
+    'primary_font',
+    'secondary_font',
+  ];
+
+  /**
+   * The image factory service.
+   *
+   * @var \Drupal\Core\Image\ImageFactory
+   */
+  private $imageFactory;
+
+  /**
+   * The module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandler
+   */
+  private $moduleHandler;
+
+  /**
+   * The file system service.
+   *
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  private $fileSystem;
+
+  /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactory;
+
+  /**
+   * ThemeConfiguratorService constructor.
+   *
+   * @param \Drupal\Core\Image\ImageFactory $image_factory
+   *   The image factory service.
+   * @param \Drupal\Core\Extension\ModuleHandler $module_handler
+   *   The module handler service.
+   * @param \Drupal\Core\File\FileSystemInterface $file_system
+   *   The file system service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
+   */
+  public function __construct(
+    ImageFactory $image_factory,
+    ModuleHandler $module_handler,
+    FileSystemInterface $file_system,
+    ConfigFactoryInterface $config_factory
+  ) {
+    $this->imageFactory = $image_factory;
+    $this->moduleHandler = $module_handler;
+    $this->fileSystem = $file_system;
+    $this->configFactory = $config_factory;
+  }
 
   /**
    * Get theme configurator form.
+   *
+   * @param array $form
+   *   Base form array where we add the theme config form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Form state for the form.
+   * @param array|null $config
+   *   The current config that we want to use for default values.
+   *
+   * @return array
+   *   The array with added theme config form parts.
    */
-  public function getThemeConfiguratorForm(array &$form, FormStateInterface $form_state, $config = NULL) {
-    $social_storage = $form_state->getStorage('social');
+  public function getThemeConfiguratorForm(
+    array &$form,
+    FormStateInterface $form_state,
+    array $config = NULL
+  ) {
+    $form_storage = $form_state->getStorage();
     $social_settings = !empty($config) ? $config['social'] : theme_get_setting('social');
     // Init social form elements.
-    if (!isset($social_storage['social'])) {
+    if (!isset($form_storage['social'])) {
       if (isset($social_settings) && count($social_settings) > 0) {
-        $social_storage['social'] = $social_settings;
+        $form_storage['social'] = $social_settings;
       }
       else {
-        $social_storage['social'] = [
+        $form_storage['social'] = [
           ['icon' => '', 'link' => '', 'name' => ''],
         ];
       }
@@ -39,17 +119,17 @@ class ThemeConfiguratorService {
     if (isset($triggered['#parents']) && in_array('remove_social', $triggered['#parents'], TRUE)) {
       $removed_key = array_key_last($triggered['#parents']);
       if (is_int($removed_key)) {
-        unset($social_storage['social'][$triggered['#parents'][$removed_key - 1]]);
+        unset($form_storage['social'][$triggered['#parents'][$removed_key - 1]]);
       }
     }
     if (isset($triggered['#parents']) && in_array('add_social', $triggered['#parents'], TRUE)) {
-      array_push($social_storage['social'], [
+      array_push($form_storage['social'], [
         'icon' => '',
         'link' => '',
         'name' => '',
       ]);
     }
-    $form_state->setStorage($social_storage);
+    $form_state->setStorage($form_storage);
 
     $form['color_settings'] = [
       '#type'        => 'details',
@@ -151,7 +231,7 @@ class ThemeConfiguratorService {
         'file_validate_extensions' => ['woff ttf'],
       ],
       '#process'         => [
-        ['\Drupal\mars_common\Element\OverrideFile', 'processFile'],
+        [OverrideFile::class, 'processFile'],
       ],
     ];
 
@@ -171,7 +251,7 @@ class ThemeConfiguratorService {
         'file_validate_extensions' => ['woff ttf'],
       ],
       '#process'         => [
-        ['\Drupal\mars_common\Element\OverrideFile', 'processFile'],
+        [OverrideFile::class, 'processFile'],
       ],
     ];
 
@@ -191,7 +271,7 @@ class ThemeConfiguratorService {
         'file_validate_extensions' => ['woff ttf'],
       ],
       '#process'         => [
-        ['\Drupal\mars_common\Element\OverrideFile', 'processFile'],
+        [OverrideFile::class, 'processFile'],
       ],
     ];
 
@@ -209,8 +289,8 @@ class ThemeConfiguratorService {
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
-        ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
-        [get_class($this), 'processImageWidget'],
+        [ManagedFile::class, 'processManagedFile'],
+        [$this, 'processImageWidget'],
       ],
       '#upload_validators' => [
         'file_validate_extensions' => ['svg'],
@@ -227,8 +307,8 @@ class ThemeConfiguratorService {
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
-        ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
-        [get_class($this), 'processImageWidget'],
+        [ManagedFile::class, 'processManagedFile'],
+        [$this, 'processImageWidget'],
       ],
       '#upload_validators' => [
         'file_validate_extensions' => ['svg'],
@@ -245,8 +325,8 @@ class ThemeConfiguratorService {
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
-        ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
-        [get_class($this), 'processImageWidget'],
+        [ManagedFile::class, 'processManagedFile'],
+        [$this, 'processImageWidget'],
       ],
       '#upload_validators' => [
         'file_validate_extensions' => ['svg'],
@@ -274,8 +354,8 @@ class ThemeConfiguratorService {
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
-        ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
-        [get_class($this), 'processImageWidget'],
+        [ManagedFile::class, 'processManagedFile'],
+        [$this, 'processImageWidget'],
       ],
       '#upload_validators' => [
         'file_validate_extensions' => ['svg'],
@@ -292,8 +372,8 @@ class ThemeConfiguratorService {
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
-        ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
-        [get_class($this), 'processImageWidget'],
+        [ManagedFile::class, 'processManagedFile'],
+        [$this, 'processImageWidget'],
       ],
       '#upload_validators' => [
         'file_validate_extensions' => ['svg png'],
@@ -315,35 +395,35 @@ class ThemeConfiguratorService {
     ];
 
     $form['social'] = [
-      '#type'        => 'fieldset',
-      '#tree'        => TRUE,
-      '#title'       => $this->t('Theme social link settings'),
+      '#type' => 'fieldset',
+      '#tree' => TRUE,
+      '#title' => $this->t('Theme social link settings'),
       '#description' => $this->t("MARS theme settings for icons/images upload."),
-      '#prefix'      => '<div id="social">',
-      '#suffix'      => '</div>',
+      '#prefix' => '<div id="social">',
+      '#suffix' => '</div>',
     ];
 
-    if (isset($social_storage['social'])) {
-      foreach ($social_storage['social'] as $key => $value) {
+    if (isset($form_storage['social'])) {
+      foreach ($form_storage['social'] as $key => $value) {
         $form['social'][$key] = [
           '#type' => 'fieldset',
           '#tree' => TRUE,
         ];
         $form['social'][$key]['icon'] = [
-          '#title'           => $this->t('Social network icon'),
-          '#type'            => 'managed_file',
+          '#title' => $this->t('Social network icon'),
+          '#type' => 'managed_file',
           '#upload_location' => 'public://theme_config/',
-          '#required'        => TRUE,
-          '#process'         => [
-            ['\Drupal\file\Element\ManagedFile', 'processManagedFile'],
-            [get_class($this), 'processImageWidget'],
+          '#required' => TRUE,
+          '#process' => [
+            [ManagedFile::class, 'processManagedFile'],
+            [$this, 'processImageWidget'],
           ],
           '#upload_validators' => [
             'file_validate_extensions' => ['svg'],
           ],
-          '#theme'               => 'image_widget',
+          '#theme' => 'image_widget',
           '#preview_image_style' => 'thumbnail',
-          '#default_value'       => $value['icon'],
+          '#default_value' => $value['icon'],
         ];
         $form['social'][$key]['link'] = [
           '#title'         => $this->t('Social network link'),
@@ -363,7 +443,7 @@ class ThemeConfiguratorService {
           '#value' => $this->t('Remove social link'),
           '#limit_validation_errors' => [],
           '#ajax'  => [
-            'callback' => [get_called_class(), 'themeSettingsAjaxRemoveSocial'],
+            'callback' => [$this, 'themeSettingsAjaxRemoveSocial'],
             'wrapper' => 'social',
           ],
         ];
@@ -376,7 +456,7 @@ class ThemeConfiguratorService {
       '#href' => '',
       '#limit_validation_errors' => [],
       '#ajax' => [
-        'callback' => [get_called_class(), 'themeSettingsAjaxAddSocial'],
+        'callback' => [$this, 'themeSettingsAjaxAddSocial'],
         'wrapper' => 'social',
       ],
     ];
@@ -393,9 +473,9 @@ class ThemeConfiguratorService {
       '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
     ];
 
-    if (!self::isPluginBlock($form)) {
-      $form['#validate'][] = [get_class($this), 'formSystemThemeSettingsValidate'];
-      $form['#submit'][] = [get_class($this), 'formSystemThemeSettingsSubmit'];
+    if (!$this->isPluginBlock($form)) {
+      $form['#validate'][] = [$this, 'formSystemThemeSettingsValidate'];
+      $form['#submit'][] = [$this, 'formSystemThemeSettingsSubmit'];
     }
 
     return $form;
@@ -414,7 +494,11 @@ class ThemeConfiguratorService {
    * @return array
    *   Form element for further processing and theming
    */
-  public static function processImageWidget(array &$element, FormStateInterface $form_state, array &$complete_form) {
+  public function processImageWidget(
+    array &$element,
+    FormStateInterface $form_state,
+    array &$complete_form
+  ) {
     if (empty($element['fids']['#value'])) {
       return $element;
     }
@@ -431,7 +515,7 @@ class ThemeConfiguratorService {
       $file_variables['height'] = $element['#value']['height'];
     }
     else {
-      $image = \Drupal::service('image.factory')->get($file->getFileUri());
+      $image = $this->imageFactory->get($file->getFileUri());
       if ($image->isValid()) {
         $file_variables['width'] = $image->getWidth();
         $file_variables['height'] = $image->getHeight();
@@ -475,8 +559,11 @@ class ThemeConfiguratorService {
    * @return array
    *   Social container of theme settings.
    */
-  public static function themeSettingsAjaxRemoveSocial(array $form, FormStateInterface $form_state): array {
-    if (self::isPluginBlock($form)) {
+  public function themeSettingsAjaxRemoveSocial(
+    array $form,
+    FormStateInterface $form_state
+  ): array {
+    if ($this->isPluginBlock($form)) {
       return $form['settings']['social'];
     }
     else {
@@ -495,8 +582,11 @@ class ThemeConfiguratorService {
    * @return array
    *   Social container of theme settings.
    */
-  public static function themeSettingsAjaxAddSocial(array $form, FormStateInterface $form_state): array {
-    if (self::isPluginBlock($form)) {
+  public function themeSettingsAjaxAddSocial(
+    array $form,
+    FormStateInterface $form_state
+  ): array {
+    if ($this->isPluginBlock($form)) {
       return $form['settings']['social'];
     }
     else {
@@ -510,12 +600,8 @@ class ThemeConfiguratorService {
    * @return array
    *   Return list of font form elements.
    */
-  public static function getFontFields(): array {
-    return [
-      'headline_font',
-      'primary_font',
-      'secondary_font',
-    ];
+  public function getFontFields(): array {
+    return self::FONT_FIELDS;
   }
 
   /**
@@ -526,10 +612,17 @@ class ThemeConfiguratorService {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Theme settings form state.
    */
-  public static function formSystemThemeSettingsValidate(array &$form, FormStateInterface $form_state) {
-    if (\Drupal::moduleHandler()->moduleExists('file')) {
-      foreach (self::getFontFields() as $font) {
-        self::fileSaveProcess($form['font_settings'][$font], $form_state, $font);
+  public function formSystemThemeSettingsValidate(
+    array &$form,
+    FormStateInterface $form_state
+  ) {
+    if ($this->moduleHandler->moduleExists('file')) {
+      foreach (self::FONT_FIELDS as $font) {
+        $this->fileSaveProcess(
+          $form['font_settings'][$font],
+          $form_state,
+          $font
+        );
       }
     }
   }
@@ -544,7 +637,11 @@ class ThemeConfiguratorService {
    * @param string $value_name
    *   File value to store.
    */
-  public static function fileSaveProcess(array $form_element, FormStateInterface &$form_state, string $value_name) {
+  private function fileSaveProcess(
+    array $form_element,
+    FormStateInterface &$form_state,
+    string $value_name
+  ) {
     $file = _file_save_upload_from_form($form_element, $form_state, 0);
     if ($file) {
       $form_state->setValue($value_name, $file);
@@ -559,10 +656,14 @@ class ThemeConfiguratorService {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Theme settings form state.
    */
-  public static function formSystemThemeSettingsSubmit(array &$form, FormStateInterface $form_state) {
-    $default_scheme = \Drupal::config('system.file')->get('default_scheme');
-    foreach (self::getFontFields() as $font) {
-      self::fileStoreProcess($form_state, $font, $default_scheme);
+  public function formSystemThemeSettingsSubmit(
+    array &$form,
+    FormStateInterface $form_state
+  ) {
+    $config = $this->configFactory->get('system.file');
+    $default_scheme = $config->get('default_scheme');
+    foreach (self::FONT_FIELDS as $font) {
+      $this->fileStoreProcess($form_state, $font, $default_scheme);
     }
   }
 
@@ -576,13 +677,19 @@ class ThemeConfiguratorService {
    * @param string $default_scheme
    *   Default file scheme.
    */
-  public static function fileStoreProcess(FormStateInterface &$form_state, string $value_name, string $default_scheme) {
+  private function fileStoreProcess(
+    FormStateInterface &$form_state,
+    string $value_name,
+    string $default_scheme
+  ) {
     $values = $form_state->getValues();
     try {
       if (!empty($values[$value_name])) {
-        $filename = \Drupal::service('file_system')->copy($values[$value_name]->getFileUri(), $default_scheme . '://');
+        $filename = $this->fileSystem->copy($values[$value_name]->getFileUri(),
+          $default_scheme . '://');
         $form_state->setValue($value_name, '');
-        $form_state->setValue($value_name . '_path', file_create_url($filename));
+        $form_state->setValue($value_name . '_path',
+          file_create_url($filename));
       }
     }
     catch (FileException $e) {
@@ -592,12 +699,18 @@ class ThemeConfiguratorService {
 
   /**
    * Check provider is plugin block.
+   *
+   * @param array $form
+   *   The form array.
+   *
+   * @return bool
+   *   The result.
    */
-  public static function isPluginBlock(array $form) {
+  private function isPluginBlock(array $form) {
     $is_plugin_block = FALSE;
     if ((isset($form['settings']) &&
-      isset($form['settings']['#class_provider']) &&
-      $form['settings']['#class_provider'] instanceof BlockPluginInterface) ||
+        isset($form['settings']['#class_provider']) &&
+        $form['settings']['#class_provider'] instanceof BlockPluginInterface) ||
       (isset($form['#class_provider']) &&
         $form['#class_provider'] instanceof BlockPluginInterface)) {
       $is_plugin_block = TRUE;
