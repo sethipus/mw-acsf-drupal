@@ -348,6 +348,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'flexible-framer-block',
     ],
+    'js_block' => [
+      'variables' => [
+        'js_code' => NULL,
+      ],
+      'template' => 'js-block',
+    ],
   ];
 }
 

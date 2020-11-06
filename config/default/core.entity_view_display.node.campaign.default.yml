@@ -114,6 +114,7 @@ third_party_settings:
               - contact_help_banner_block
               - feedback_block
               - iframe_block
+              - js_block
               - newsletter_signup_form
               - poll_block
               - recommendations_module
