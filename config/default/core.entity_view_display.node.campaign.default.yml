@@ -56,7 +56,10 @@ third_party_settings:
             weight: 0
         third_party_settings:
           layout_builder_lock:
-            lock: {  }
+            lock:
+              5: 5
+              6: 6
+              7: 7
   layout_library:
     enable: false
   layout_builder_restrictions:
@@ -90,7 +93,6 @@ third_party_settings:
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        'Page components': {  }
         Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
@@ -104,6 +106,7 @@ third_party_settings:
             Article: {  }
             'Chaos Tools': {  }
             'Content fields': {  }
+            'Custom block types': {  }
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
@@ -113,22 +116,17 @@ third_party_settings:
             'Global elements':
               - homepage_hero_block
             Help: {  }
+            'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
-              - contact_form
               - contact_help_banner_block
-              - error_page_block
               - feedback_block
-              - freeform_story_block
-              - header_block
               - iframe_block
               - newsletter_signup_form
               - poll_block
-              - product_feature
               - recommendations_module
               - story_highlight
               - theme_configuration_block
-              - where_to_buy_block
             'Mars Product':
               - grid_card
               - product_content_pair_up_block
