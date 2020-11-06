@@ -14,7 +14,7 @@ export const productCardDefault = () => (
 );
 
 export const productCardNewProduct = () => (
-  <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {recipe_is_new: true})) }} style={{padding: '5rem'}}/>
+  <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {is_new: true})) }} style={{padding: '5rem'}}/>
 );
 
 export const productCardImageOverride = () => {
