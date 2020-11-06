@@ -98,11 +98,23 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   protected $configInstaller;
 
   /**
-   * {@inheritdoc}
-   *
    * Set config manager as protected property.
+   *
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   The request stack.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   * @param \Drupal\Core\Config\ConfigInstallerInterface $config_installer
+   *   The config installer.
    */
-  public function __construct(RouteMatchInterface $route_match, RequestStack $request_stack, ConfigFactoryInterface $config_factory, ConfigInstallerInterface $config_installer) {
+  public function __construct(
+    RouteMatchInterface $route_match,
+    RequestStack $request_stack,
+    ConfigFactoryInterface $config_factory,
+    ConfigInstallerInterface $config_installer
+  ) {
     $this->routeMatch = $route_match;
     $this->requestStack = $request_stack;
     $this->configFactory = $config_factory;
@@ -114,21 +126,16 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    */
   public function loadOverrides($names) {
     $overrides = [];
-    if (in_array(self::THEME_CONFIG, $names)) {
-      if (!$this->configInstaller->isSyncing() && !InstallerKernel::installationAttempted()) {
-        $current_route = $this->routeMatch;
-        $request = $this->requestStack->getCurrentRequest();
-        // Additional check request to avoid console errors.
-        if ($current_route instanceof CurrentRouteMatch && $request instanceof Request) {
-          /* @var $node \Drupal\node\NodeInterface */
-          $node = $current_route->getParameter('node');
-          if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
-            $theme_configuration = $this->extractFromLayoutBuilder($node);
-            $overrides[self::THEME_CONFIG] = $this->getOverrideConfigOptions($theme_configuration);
-          };
-        }
-      }
+    if (!$this->isApplicableForConfigs($names)) {
+      return $overrides;
     }
+
+    $node = $this->getCurrentCampaignNode();
+    if ($node) {
+      $theme_configuration = $this->extractFromLayoutBuilder($node);
+      $overrides[self::THEME_CONFIG] = $this->getOverrideConfigOptions($theme_configuration);
+    }
+
     return $overrides;
   }
 
@@ -144,21 +151,15 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    */
   public function getCacheableMetadata($name) {
     $metadata = new CacheableMetadata();
-    if ($name === self::THEME_CONFIG) {
-      if (!$this->configInstaller->isSyncing() && !InstallerKernel::installationAttempted()) {
-        $current_route = $this->routeMatch;
-        $request = $this->requestStack->getCurrentRequest();
-        // Additional check request to avoid console errors.
-        if ($current_route instanceof CurrentRouteMatch && $request instanceof Request) {
-          /* @var $node \Drupal\node\NodeInterface */
-          $node = $current_route->getParameter('node');
-          if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
-            $metadata->addCacheableDependency($node);
-            $theme_config = $this->configFactory->get(self::THEME_CONFIG);
-            $metadata->addCacheableDependency($theme_config);
-          }
-        }
-      }
+    if (!$this->isApplicableForConfigs((array) $name)) {
+      return $metadata;
+    }
+
+    $node = $this->getCurrentCampaignNode();
+    if ($node) {
+      $metadata->addCacheableDependency($node);
+      $theme_config = $this->configFactory->get(self::THEME_CONFIG);
+      $metadata->addCacheableDependency($theme_config);
     }
 
     return $metadata;
@@ -167,7 +168,10 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   /**
    * {@inheritdoc}
    */
-  public function createConfigObject($name, $collection = StorageInterface::DEFAULT_COLLECTION) {
+  public function createConfigObject(
+    $name,
+    $collection = StorageInterface::DEFAULT_COLLECTION
+  ) {
     return NULL;
   }
 
@@ -222,8 +226,9 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   private function getThemeConfiguration(SectionComponent $component): ?array {
     $theme_configuration = NULL;
 
-    if ($component->get('configuration')['id'] == self::THEME_CONFIGURATION_BLOCK_ID) {
-      $theme_configuration = $component->get('configuration');
+    $configuration = $component->get('configuration') ?? NULL;
+    if ($configuration['id'] == self::THEME_CONFIGURATION_BLOCK_ID) {
+      $theme_configuration = $configuration;
     }
 
     return $theme_configuration;
@@ -235,16 +240,21 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    * @param array $theme_configuration
    *   Theme block configuration from campaign page.
    *
-   * @return array|null
+   * @return array
    *   Theme configuration.
    */
-  private function getOverrideConfigOptions(array $theme_configuration = []): ?array {
+  private function getOverrideConfigOptions(
+    array $theme_configuration = []
+  ): array {
     if (empty($theme_configuration)) {
       return [];
     }
     $overrides = [];
     foreach (self::BLOCK_CONFIG_THEME_PARENT_KEYS as $key) {
-      $theme_configuration = array_merge($theme_configuration, $theme_configuration[$key]);
+      $theme_configuration = array_merge(
+        $theme_configuration,
+        $theme_configuration[$key] ?? []
+      );
     }
 
     foreach (self::NEEDED_CONFIG_OVERRIDE as $item) {
@@ -254,6 +264,41 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
 
     }
     return $overrides;
+  }
+
+  /**
+   * Extracts the campaign node from url.
+   *
+   * @return \Drupal\node\NodeInterface|null
+   *   The current campaign node.
+   */
+  private function getCurrentCampaignNode(): ?NodeInterface {
+    $current_route = $this->routeMatch;
+    $request = $this->requestStack->getCurrentRequest();
+    // Additional check request to avoid console errors.
+    if ($current_route instanceof CurrentRouteMatch && $request instanceof Request) {
+      /* @var $node \Drupal\node\NodeInterface */
+      $node = $current_route->getParameter('node');
+      if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
+        return $node;
+      }
+    }
+    return NULL;
+  }
+
+  /**
+   * Checks if the override should run for the given config names.
+   *
+   * @param string[] $names
+   *   The config names.
+   *
+   * @return bool
+   *   The result.
+   */
+  private function isApplicableForConfigs(array $names): bool {
+    return in_array(self::THEME_CONFIG, $names) &&
+      !$this->configInstaller->isSyncing() &&
+      !InstallerKernel::installationAttempted();
   }
 
 }
