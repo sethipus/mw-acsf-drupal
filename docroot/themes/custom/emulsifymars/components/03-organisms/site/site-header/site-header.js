@@ -7,7 +7,8 @@ Drupal.behaviors.siteHeader = {
                 if(link) {
                     let response = {
                         event: 'clickHeader',
-                        componentName: 'siteHeader'
+                        componentName: 'siteHeader',
+                        pageType: link.dataset.pagetype
                     };
                     let item = link.parentElement.className.trim().split(' ')[0];
 

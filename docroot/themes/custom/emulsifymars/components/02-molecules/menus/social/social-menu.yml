@@ -2,9 +2,24 @@ social_menu_items:
   - title: 'Facebook'
     url: '#'
     icon: 'facebook'
+    item_attributes: 
+      data-clickName: 'Facebook'
+      data-pageType: 'Recipe'
   - title: 'Twitter'
     url: '#'
     icon: 'twitter'
+    item_attributes: 
+      data-clickName: 'Twitter'
+      data-pageType: 'Recipe'
   - title: 'Instagram'
     url: '#'
     icon: 'instagram'
+    item_attributes: 
+      data-clickName: 'Instagram'
+      data-pageType: 'Recipe'
+  - title: 'Print'
+    url: '#'
+    icon: 'print'
+    item_attributes: 
+      data-clickName: 'Print'
+      data-pageType: 'Recipe'

@@ -7,7 +7,8 @@ Drupal.behaviors.siteFooter = {
                 if(link) {
                     let response = {
                         event: 'clickFooter',
-                        componentName: 'siteFooter'
+                        componentName: 'siteFooter',
+                        pageType: link.dataset.pagetype
                     };
                     let item = link.parentElement.className.trim().split(' ')[0];
 

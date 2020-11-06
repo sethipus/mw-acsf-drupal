@@ -206,3 +206,9 @@ cards:
     dist/js/02-molecules/card/cards.js: {}
   dependencies:
     - core/drupal
+
+social-menu:
+  js:
+    dist/js/02-molecules/menus/social/social-menu.js: {}
+  dependencies:
+    - core/drupal
