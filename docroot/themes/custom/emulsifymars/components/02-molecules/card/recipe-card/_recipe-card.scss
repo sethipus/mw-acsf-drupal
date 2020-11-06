@@ -30,10 +30,14 @@
     justify-content: center;
     border-top-left-radius: variable(card-border-radius);
     border-top-right-radius: variable(card-border-radius);
+    position: relative;
 
     img {
       min-width: 100%;
       min-height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     a {
@@ -83,10 +87,11 @@
   &-items,
   &-time {
     color: clr(primary);
-    font-family: variable(secondary-font);
+    font-family: variable(primary-font);
     font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;
+    letter-spacing: 0.064px;
   }
 
   &__details-button {
@@ -102,5 +107,6 @@
     position: absolute;
     top: -3.5rem;
     right: -1.5rem;
+    z-index: 2;
   }
 }
