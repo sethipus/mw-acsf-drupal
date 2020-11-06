@@ -3,13 +3,14 @@
   border-top: 5px solid clr(secondary);
   position: relative;
   overflow: hidden;
+  margin: 5rem;
 
-  @include xs {
-    margin: 10rem 5rem;
+  @include medium {
+    margin: 6rem 5rem;
   }
 
   @include large {
-    margin: 5rem 8rem;
+    margin: 8rem;
   }
 
   &__content {
