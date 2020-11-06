@@ -7,3 +7,11 @@ autocomplete:
     - core/jquery
     - core/drupalSettings
     - core/drupal.autocomplete
+
+datalayer.search:
+  js:
+    js/datalayer_search.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery

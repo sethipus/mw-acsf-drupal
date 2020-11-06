@@ -17,4 +17,21 @@
   &__content {
     padding: 0 1rem;
   }
+
+  .inline-video {
+    
+    &__control[data-state="play"] {
+      width: 6.6rem;
+      height: 7rem;
+      top: calc(50% - 7rem / 2);;
+      left: calc(50% - 6.6rem / 2);;
+    }
+  
+    &__control[data-state="pause"] {
+      width: 6.6rem;
+      height: 7rem;
+      top: calc(50% - 7rem / 2);;
+      left: calc(50% - 6.6rem / 2);;
+    }
+  }
 }

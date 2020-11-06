@@ -13,7 +13,7 @@
   &__error {
     display: none;
     text-align: center;
-    border-radius: 1.5rem;
+    border-radius: variable(card-border-radius);
     padding: 0 11rem 6rem 11rem;
     max-width: 89.6rem;
     background-color: clr(subcolor-2);
@@ -43,18 +43,37 @@
   &__brand-shape {
     position: absolute;
     width: 100%;
-    margin-left: -11rem;
-    bottom: -45rem;
+    margin-left: -10rem;
+    bottom: -16rem;
+    opacity: 0.2;
+
+    @include medium {
+      bottom: -20rem;
+    }
+
+    @include large {
+      margin-left: -13rem;
+      bottom: -22rem;
+    }
 
     & svg {
-      height: 70rem;
-      width: 70rem;
+      width: 45rem;
+      height: 45rem;
+
+      @include large {
+        width: 60rem;
+        height: 60rem;
+      }
+
+      path {
+        fill: clr(subcolor-1);
+      }
     }
   }
 
   &__inner {
     text-align: center;
-    border-radius: 1.5rem;
+    border-radius: variable(card-border-radius);
     max-width: 89.6rem;
     background-color: clr(subcolor-2);
     position: relative;
