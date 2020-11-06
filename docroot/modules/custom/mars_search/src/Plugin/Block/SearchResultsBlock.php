@@ -168,13 +168,10 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
     if (count($build['#items']) == 0) {
       $build['#no_results'] = $this->getSearchNoResult();
-      $build['#attached']['drupalSettings']['siteSearchNoResults'] = $this->buildDataLayerSearchNoResults($searchOptions['keys']);
     }
 
     // Build dataLayer attributes if search results are displayed for keys.
-    if (!empty($searchOptions['keys']) && $query_search_results['resultsCount'] > 0) {
-      $build['#attached']['drupalSettings']['siteSearchResults'] = $this->buildDataLayerSearchResults($searchOptions['keys'], $query_search_results['resultsCount']);
-    }
+    $build['#attached']['drupalSettings']['dataLayer']['siteSearchResults'] = $this->buildDataLayerSearchResults($searchOptions['keys'], $query_search_results['resultsCount']);
 
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
 
@@ -275,27 +272,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   protected function buildDataLayerSearchClick(string $key, NodeInterface $node) {
     // Build attributes array that will be used in JS.
     return [
-      'event' => 'siteSearch_ResultClick',
       'siteSearchTerm' => $key,
       'siteSearchClick' => "{$node->bundle()}_{$node->id()}",
-    ];
-  }
-
-  /**
-   * Builds an array of dataLayer attributes for search no results event.
-   *
-   * @param string $key
-   *   Card grid search key.
-   *
-   * @return array
-   *   DataLayer attributes.
-   */
-  protected function buildDataLayerSearchNoResults($key) {
-    // Build attributes array that will be used in JS.
-    return [
-      'event' => 'siteSearch_ResultNo',
-      'siteSearchTerm' => $key,
-      'siteSearchResults' => '',
     ];
   }
 
@@ -315,7 +293,6 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   protected function buildDataLayerSearchResults(string $key, int $resultsCount) {
     // Build attributes array that will be used in JS.
     return [
-      'event' => 'siteSearch_ResultShown',
       'siteSearchTerm' => $key,
       'siteSearchResults' => $resultsCount,
     ];
