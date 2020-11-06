@@ -13,6 +13,10 @@
     padding: 6rem 4rem;
   }
 
+  @include large {
+    padding: 6rem 15.5rem;
+  }
+
   &__brand-shape {
     position: absolute;
     z-index: 1;
@@ -155,10 +159,6 @@
 
     &__label {
       font-family: variable(primary-font);
-    }
-
-    &::after {
-      width: 350px;
     }
   }
 }

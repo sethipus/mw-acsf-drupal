@@ -1,11 +1,11 @@
 .story-highlight {
   font-family: variable(primary-font);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin: 0;
+  z-index: 1;
 
   &__content {
-    padding-top: 7rem;
     margin-bottom: -40rem;
 
     @include small {
@@ -19,19 +19,20 @@
 
   &__contentbg {
     background-color: clr(subcolor-2);
-    padding-bottom: 40rem;
+    padding: 3rem 2rem 40rem;
     overflow: hidden;
-
-    @include xs {
-      padding-top: 3rem;
-    }
 
     @include small {
       padding-bottom: 30rem;
     }
 
     @include medium {
-      padding-bottom: 40rem;
+      padding-bottom: 20rem;
+    }
+
+    @include large { 
+      padding-left: 4rem;
+      padding-right: 4rem;
     }
   }
 
@@ -45,25 +46,36 @@
     }
 
     @include medium {
-      top: -40rem;
+      top: -20rem;
+    }
+
+    @include large {
+      padding: 0 2rem;
     }
   }
-
-
-  // @include medium {
-  //   margin-top: 10.3rem;
-  // }
-
-  // @include large {
-  //   margin-top: 15.3rem;
-  // }
-
+  
   & .stretch {
     position: absolute;
     width: 100%;
     height: auto;
     z-index: -1;
-    top: 3px;
+    top: -2rem;
+
+    @include small {
+      top: -3rem;
+    }
+
+    @include medium {
+      top: -4rem;
+    }
+
+    @include large {
+      top: -6rem;
+    }
+
+    @include xl {
+      top: -8rem;
+    }
 
     >svg {
       width: 100%;
@@ -103,7 +115,7 @@
 
   & .h2 {
     font-family: variable(heading-font);
-    font-size: 64px;
+    font-size: 40px;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
@@ -112,6 +124,18 @@
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
+    padding-top: 2rem;
+
+    @include medium {
+      padding-top: 5rem;
+      letter-spacing: 2px;
+    }
+
+    @include large {
+      font-size: 64px;
+      line-height: 64px;
+      letter-spacing: 2.4px;
+    }
   }
 
   & .graphic_divider {
@@ -145,6 +169,7 @@
     margin-top: 5rem;
 
     & .paragraph {
+      align-self: flex-start;
       margin-top: 3rem;
       text-align: left;
       font-family: variable(secondary-font);
@@ -160,15 +185,17 @@
     border-bottom: 1px solid lightgrey;
 
     & img {
-      width: 100%;
+      width: auto;
+      max-width: 100%;
     }
 
     @include xs {
       margin: 0 2rem;
+      width: 100%;
     }
 
     @include large {
-      max-width: 55%;
+      width: 55%;
     }
   }
 
@@ -181,7 +208,8 @@
     border-bottom: 1px solid lightgrey;
 
     img {
-      width: 100%;
+      width: auto;
+      max-width: 100%;
     }
 
     @include small {
@@ -208,7 +236,8 @@
     margin-bottom: 0;
 
     & img {
-      width: 100%;
+      width: auto;
+      max-width: 100%;
     }
 
     @include small {
@@ -220,6 +249,16 @@
       width: 55.6rem;
       margin: 12rem auto 0;
     }
+  }
+
+  & .media_item_1,
+  & .media_item_2,
+  & .media_item_3 {
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .overlay-video__control[data-state="play"] {

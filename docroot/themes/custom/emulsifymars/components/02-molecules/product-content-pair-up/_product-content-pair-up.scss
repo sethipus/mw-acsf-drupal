@@ -1,5 +1,5 @@
 .product-content-pair-up {
-  padding-bottom: 500px;
+  padding-bottom: 50rem;
 
   .product-content-pair-up__heading {
     width: 100%;
@@ -105,6 +105,7 @@
       width: 100%;
       min-height: 375px;
       margin: auto;
+      z-index: $content-pair-up-asset;
 
       .wrapper {
         position: absolute;
@@ -122,11 +123,12 @@
       left: 0;
       right: 0;
       top: 420px;
-      max-width: 31.5rem;
+      max-width: 31.8rem;
       margin: auto;
+      z-index: $content-pair-supportive-card;
 
       .wrapper > section {
-        max-width: 31.5rem;
+        max-width: 31.8rem;
       }
     }
   }
@@ -150,11 +152,11 @@
   }
 
   &.max-size--1440 {
-    max-width: 1440px;
+    max-width: 100%;
   }
 
   @include medium {
-    padding-bottom: 600px;
+    padding-bottom: 60rem;
 
     &:not(.max-size--375):not(.size--default), &.size--medium {
       .product-content-pair-up__heading {
@@ -167,7 +169,7 @@
         .lead-card {
           height: 538px;
           padding-top: 60px;
-          background-size: 130%;
+          background-size: auto 150%;
 
           .wrapper {
             margin: 0 auto;
@@ -205,11 +207,6 @@
 
         .supportive-card {
           top: 361px;
-          max-width: 33.4rem;
-
-          .wrapper > section {
-            max-width: 33.4rem;
-          }
         }
       }
     }
@@ -229,14 +226,14 @@
     &:not(.max-size--375) {
       .product-content-pair-up__container {
         .lead-card {
-          background-size: 120%;
+          background-size: auto 120%;
         }
       }
     }
   }
 
   @include xl {
-    padding-bottom: 275px;
+    padding-bottom: 2rem;
 
     &:not(.max-size--375):not(.max-size--768):not(.size--medium):not(.size--default), &.size--large {
       .product-content-pair-up__heading {
@@ -252,10 +249,10 @@
       }
 
       .product-content-pair-up__container {
-        padding-bottom: 275px;
+        padding-bottom: 2rem;
 
         .lead-card {
-          width: 1127px;
+          width: 85%;
           height: 665px;
           padding: 179px 0 0 85px;
 
@@ -287,12 +284,7 @@
         .supportive-card {
           top: 185px;
           left: auto;
-          max-width: none;
           right: 158px;
-
-          .wrapper > section {
-            max-width: 43.2rem;
-          }
         }
       }
     }

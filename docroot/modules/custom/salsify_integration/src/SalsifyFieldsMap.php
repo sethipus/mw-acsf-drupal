@@ -49,7 +49,7 @@ class SalsifyFieldsMap {
     'field_product_potassium_daily' => ['salsify:id' => 'Potassium pct', 'salsify:data_type' => 'string'],
     'field_product_iron' => ['salsify:id' => 'Iron', 'salsify:data_type' => 'string'],
     'field_product_iron_daily' => ['salsify:id' => 'Iron Pct Daily Value', 'salsify:data_type' => 'string'],
-    'field_product_key_image' => ['salsify:id' => 'Hero Image', 'salsify:data_type' => 'digital_asset'],
+    'field_product_key_image' => ['salsify:id' => 'CMS: image 1', 'salsify:data_type' => 'digital_asset'],
     'field_product_image_1' => ['salsify:id' => 'ATF Image 2', 'salsify:data_type' => 'digital_asset'],
     'field_product_image_2' => ['salsify:id' => 'ATF Image 3', 'salsify:data_type' => 'digital_asset'],
     'field_product_image_3' => ['salsify:id' => 'ATF Image 4', 'salsify:data_type' => 'digital_asset'],
@@ -64,13 +64,17 @@ class SalsifyFieldsMap {
     'field_product_name' => ['salsify:id' => 'Generic Product Name', 'salsify:data_type' => 'string'],
     'field_product_description' => ['salsify:id' => 'Generic Product Description', 'salsify:data_type' => 'string'],
     // Enumirated.
-    'field_product_format' => ['salsify:id' => 'Pack Size', 'salsify:data_type' => 'enumerated'],
+    'field_product_format' => ['salsify:id' => 'Pack Type', 'salsify:data_type' => 'enumerated'],
     'field_product_market' => ['salsify:id' => 'CMS: Market', 'salsify:data_type' => 'string'],
     // Enumirated.
     'field_product_trade_description' => ['salsify:id' => 'Trade Item Description', 'salsify:data_type' => 'enumerated'],
     // Enumirated.
     'field_product_flavor' => ['salsify:id' => 'CMS: Flavor', 'salsify:data_type' => 'enumerated'],
     'field_product_variants' => ['salsify:id' => 'CMS: Child variants', 'salsify:data_type' => 'entity_ref'],
+    'field_product_occasions' => ['salsify:id' => 'CMS: Category Computed', 'salsify:data_type' => 'enumerated'],
+    // There is a custom logic for fields with 'complex' data type in
+    // SalsifyImportField class.
+    'field_meta_tags' => ['salsify:id' => 'CMS: Meta tags', 'salsify:data_type' => 'complex'],
   ];
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK = self::SALSIFY_FIELD_MAPPING_PRODUCT + [

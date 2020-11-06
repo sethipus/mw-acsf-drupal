@@ -4,6 +4,20 @@ Drupal.behaviors.searchFilterBehaviour = {
     const searchFilterOpenButton = context.querySelector('.search-filter-open-button');
     const clearAllButtons = context.querySelectorAll('.search-filter-block__button--clear-all');
     const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
+    const filters = context.querySelectorAll('.filter-block');
+
+    filters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        let open = false;
+        if (!filter.classList.contains('filter-block--open'))
+          open = true;
+        document.querySelectorAll('.filter-block--open').forEach(function (filter) {
+          filter.classList.remove('filter-block--open');
+        });
+        if (open)
+          filter.classList.toggle('filter-block--open');
+      });
+    });
 
     searchFilterOpenButton.addEventListener('click', function(event) {
       const searchFilterBlock = context.querySelector('.search-filter-block');
@@ -39,13 +53,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         updateCounters();
 
         const searchQuery = context.querySelector('.search-input__field').value;
-        if (searchQuery !== '') {
-          document.location.search = 'search=' + searchQuery;
-        }
-        else {
-          document.location.search = '';
-        }
-
+        document.location.search = getClearQuery();
       });
     });
 
@@ -62,9 +70,7 @@ Drupal.behaviors.searchFilterBehaviour = {
       let appliedIds = [];
       const filterBlocks = context.querySelectorAll('.filter-block');
       const searchQuery = context.querySelector('.search-input__field').value;
-      if (searchQuery !== '') {
-        queryElements.push('search=' + searchQuery);
-      }
+      queryElements.push(getClearQuery());
 
       filterBlocks.forEach(function(element) {
         const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
@@ -84,6 +90,24 @@ Drupal.behaviors.searchFilterBehaviour = {
       document.location.search = queryElements.join('&');
     };
 
+    const getClearQuery = () => {
+      const query = window.location.search.substring(1);
+      const vars = query.split('&');
+      let resultQuery = '';
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (pair[0].includes('search') || pair[0].includes('type')) {
+          if (resultQuery.length == 0) {
+            resultQuery += vars[i];
+          }
+          else {
+            resultQuery = resultQuery.concat('&', vars[i]);
+          }
+        }
+      }
+      return resultQuery;
+    }
+
     const updateCounters = () => {
       let appliedFilters = '';
       let appliedFiltersCounter = 0;
@@ -93,7 +117,7 @@ Drupal.behaviors.searchFilterBehaviour = {
       const appliedFiltersCount = context.querySelector('.search-filter-info__applied-count');
       const appliedFiltersList = context.querySelector('.search-filter-info__applied-text');
       const clearAllButton = context.querySelector('.search-filter-info .search-filter-block__button--clear-all');
-
+      
       filterBlocks.forEach(function(element) {
         const counterElement = element.querySelector('.filter-title__counter');
         const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');

@@ -58,7 +58,14 @@ third_party_settings:
                 type: metatag_empty_formatter
             additional: {  }
             weight: 1
-        third_party_settings: {  }
+        third_party_settings:
+          layout_builder_lock:
+            lock:
+              2: 2
+              3: 3
+              5: 5
+              6: 6
+              7: 7
       -
         layout_id: content_hub_feature
         layout_settings:
@@ -162,6 +169,8 @@ third_party_settings:
       - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
+      - 'Page components'
+      - Printable
       - Product
       - Recipe
       - 'Social feed'
@@ -170,7 +179,8 @@ third_party_settings:
       - User
       - core
     entity_view_mode_restriction:
-      whitelisted_blocks: {  }
+      whitelisted_blocks:
+        Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - content_hub_parent_header
@@ -190,6 +200,35 @@ third_party_settings:
         - content_hub_flex_driver
         - content_hub_community
       whitelisted_blocks:
+        content_hub_parent_header:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks':
+              - parent_page_header
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            'Page components': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
         content_hub_feature:
           all_regions:
             Article: {  }
@@ -213,6 +252,7 @@ third_party_settings:
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe:
               - recipe_feature_block
@@ -242,42 +282,13 @@ third_party_settings:
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
-            core: {  }
-        content_hub_parent_header:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks':
-              - parent_page_header
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Facets: {  }
-            'Flexible driver': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            'Mars Search': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
             core: {  }
         content_hub_collection_cards:
           all_regions:
@@ -300,6 +311,7 @@ third_party_settings:
               - search_grid_block
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
@@ -328,9 +340,41 @@ third_party_settings:
               - search_grid_block
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
+        content_hub_community:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver': {  }
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - feedback_block
+              - poll_block
+            'Mars Product': {  }
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            'Page components': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed':
+              - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
@@ -344,59 +388,27 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
-            Facets: {  }
             'Flexible driver':
               - flexible_driver
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks':
-              - 'inline_block:flexible_framer'
+            'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common': {  }
             'Mars Product': {  }
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components':
+              - flexible_framer_block
+            Printable: {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
-            core: {  }
-        content_hub_community:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Facets: {  }
-            'Flexible driver': {  }
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common':
-              - poll_block
-              - feedback_block
-            'Mars Product': {  }
-            'Mars Search': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed':
-              - social_feed
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
             core: {  }
 id: node.content_hub_page.default
 targetEntityType: node
@@ -433,6 +445,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  langcode: true
   layout_builder__layout: true
   published_at: true
   search_api_excerpt: true

@@ -79,7 +79,6 @@
   }
 
   & .image-wrapper {
-    min-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -127,7 +126,7 @@
             color: clr(secondary);
           }
         }
-        
+
         @include large {
           font-size: 2.4rem;
           letter-spacing: 0.96px;
@@ -138,19 +137,19 @@
         font-family: variable(secondary-font);
         font-size: 1.6rem;
         line-height: 1.4;
-        
+
         @include large {
           font-size: 1.8rem;
         }
       }
 
       & a.default-link {
-       height: 50px;
-       line-height: 50px;
-       padding: 0 20px;
-       background-color: clr(secondary);
-       font-size: 14px;
-       border:none;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 20px;
+        background-color: clr(secondary);
+        font-size: 14px;
+        border:none;
 
         &:hover {
           color: clr(secondary);
@@ -193,6 +192,33 @@
             fill: clr(subcolor-2);
           }
         }
+      }
+    }
+  }
+
+  .grid-items-2 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/2) * 0.5625);
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .grid-items-3 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/3) * 0.5625);
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .grid-items-4 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/4) * 0.5625);
+        flex-grow: 1;
       }
     }
   }
