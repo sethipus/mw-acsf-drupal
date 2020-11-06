@@ -5,7 +5,8 @@
   style="{{ article_card_background_img_url=='' ? '' : 'background-image: url(' ~ article_card_background_img_url ~ ')' }}"
   data-theme="{{ theme_styles }}"
   data-layer="{{ dataLayer }}"
->
+  data-type="card">
+
   {% if article_is_new %}
     {% include "@atoms/badge/badge.twig" %}
   {% endif %}

@@ -1,4 +1,5 @@
 theme_styles: 'twix'
+dataLayer: 'data'
 default_link_content: 'See details'
 link_content: BUY NOW2
 # recipe_is_new: true;
