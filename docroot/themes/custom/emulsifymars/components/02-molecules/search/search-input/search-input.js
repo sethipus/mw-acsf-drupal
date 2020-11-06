@@ -23,7 +23,7 @@ Drupal.behaviors.searchInput = {
 
     search.addEventListener('focus', function() {
       // SITE SEARCH START
-      window.dataLayer.push({
+      dataLayer.push({
         'event': 'siteSearch_Start',
         'siteSearchTerm': '',
         'siteSearchResults': ''

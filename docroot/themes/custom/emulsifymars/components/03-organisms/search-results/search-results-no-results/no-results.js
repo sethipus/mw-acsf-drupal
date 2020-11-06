@@ -3,7 +3,7 @@ Drupal.behaviors.noResults = {
     let searchResultsPage = document.getElementsByClassName('search-results-page')[0];
 
     // SITE SEARCH NO RESULT
-    window.dataLayer.push({
+    dataLayer.push({
       'event': 'siteSearch_ResultNo',
       'siteSearchTerm': searchResultsPage.dataset.siteSearchTerm,
       'siteSearchResults': ''

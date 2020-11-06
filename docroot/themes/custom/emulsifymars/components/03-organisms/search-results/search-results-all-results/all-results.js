@@ -4,7 +4,7 @@ Drupal.behaviors.allResults = {
     let searchResults = document.querySelector('.ajax-card-grid__items');
 
     // SITE SEARCH RESULT SHOWN
-    window.dataLayer.push({
+    dataLayer.push({
       'event': 'siteSearch_ResultClick',
       'siteSearchTerm': searchResultsPage.dataset.siteSearchTerm,
       'siteSearchResultsNum': searchResultsPage.dataset.siteSearchResultsNum
@@ -14,7 +14,7 @@ Drupal.behaviors.allResults = {
       let card = e.target.closest('.product-card');
       if (e.target && card){
         // SITE SEARCH RESULT CLICK
-        window.dataLayer.push({
+        dataLayer.push({
           'event': 'siteSearch_ResultClick',
           'siteSearchTerm': searchResultsPage.dataset.siteSearchTerm,
           'siteSearchClicked': card.dataset.siteSearchClicked
