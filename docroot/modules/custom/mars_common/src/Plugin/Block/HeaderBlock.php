@@ -239,7 +239,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $theme_settings = $this->config->get('emulsifymars.settings')->get();
 
     $build['#logo'] = $theme_settings['logo']['path'] ?? '';
-
     $build['#alert_banner_text'] = $config['alert_banner']['alert_banner_text']['value'];
     $build['#alert_banner_url'] = $config['alert_banner']['alert_banner_url'];
     if ($config['search_block']) {
@@ -248,7 +247,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
-
     $current_language_id = $this->languageManager->getCurrentLanguage()->getId();
     $build['#language_selector_current'] = mb_strtoupper($current_language_id);
     $build['#language_selector_label'] = $this->t('Select language');
@@ -265,6 +263,34 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#search_form'] = $this->buildSearchForm();
 
+    // Get current node from route.
+    $node = $this->currentRouteMatch->getParameter('node');
+
+    $build['#data_attributes']['logo'] = [
+      'data-event' => 'click_TopNav',
+      'data-pageType' => $node->bundle(),
+      'data-componentName' => $this->pluginId,
+      'data-clickName' => 'Brand logo',
+      'data-clickType' => 'Brand logo',
+    ];
+    foreach ($build['#primary_menu'] as $key => $value) {
+      $build['#primary_menu'][$key]['item_attributes'] = [
+        'data-event' => 'click_TopNav',
+        'data-pageType' => $node->bundle(),
+        'data-componentName' => $this->pluginId,
+        'data-clickName' => 'Upper menu items',
+        'data-clickType' => 'Upper menu items',
+      ];
+    }
+    foreach ($build['#secondary_menu'] as $key => $value) {
+      $build['#secondary_menu'][$key]['item_attributes'] = [
+        'data-event' => 'click_TopNav',
+        'data-pageType' => $node->bundle(),
+        'data-componentName' => $this->pluginId,
+        'data-clickName' => 'Lower menu items',
+        'data-clickType' => 'Lower menu items',
+      ];
+    }
     return $build;
   }
 
