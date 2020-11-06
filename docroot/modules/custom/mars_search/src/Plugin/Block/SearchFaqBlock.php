@@ -212,6 +212,32 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
       '#no_results_heading' => str_replace('@keys', $options['keys'], $config_no_results->get('no_results_heading')),
       '#no_results_text' => $config_no_results->get('no_results_text'),
+      '#attached' => [
+        'drupalSettings' => [
+          'dataLayer' => [
+            'faqSearchResults' => $this->buildDataLayerSearchResults($options['keys'], $search_results['resultsCount']),
+          ],
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * Builds an array of dataLayer attributes for FAQ results.
+   *
+   * @param string $key
+   *   FAQ search key.
+   * @param int $resultsCount
+   *   All results count.
+   *
+   * @return array
+   *   DataLayer attributes.
+   */
+  protected function buildDataLayerSearchResults(string $key, int $resultsCount) {
+    // Build attributes array that will be used in JS.
+    return [
+      'faqSearchTerm' => $key,
+      'faqSearchResults' => $resultsCount,
     ];
   }
 
