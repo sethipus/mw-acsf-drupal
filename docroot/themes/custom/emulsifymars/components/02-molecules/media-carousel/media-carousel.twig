@@ -27,7 +27,8 @@
           {% elseif item.video %}
             {% include "@atoms/video/overlay-video/video.twig" with {
               video__src__url: item.src,
-              video__control: true
+              video__control: true,
+              data_layer: item.data_layer,
             } %}
           {% endif %}
         </div>

@@ -15,7 +15,8 @@
   {% elseif media_type == 'video' %}
     {% include "@atoms/video/inline-video/video.twig" with {
       video__src__url: video_src,
-      video__control: video__control | default(false)
+      video__control: video__control | default(false),
+      data_layer: data_layer,
     } %}
   {% endif %}
 
