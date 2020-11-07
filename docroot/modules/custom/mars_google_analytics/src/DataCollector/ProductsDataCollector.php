@@ -122,7 +122,7 @@ class ProductsDataCollector implements DataCollectorInterface, DataLayerCollecto
       is_array($this->data['products']['rendered']) &&
       count($this->data['products']['rendered']) > 0
     ) {
-      $ga_data = $this->data['products']['rendered'];
+      $ga_data = array_filter($this->data['products']['rendered']);
       $ga_data = count($ga_data) > 1 ? implode(', ', $ga_data) : reset($ga_data);
     }
 

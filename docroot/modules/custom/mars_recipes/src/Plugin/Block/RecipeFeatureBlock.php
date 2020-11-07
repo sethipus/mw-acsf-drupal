@@ -180,8 +180,8 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     $config['cta']['url'] = $node->toUrl('canonical', ['absolute' => FALSE])->toString();
 
     $build += [
-      '#block_title' => $config['block_title'],
-      '#eyebrow' => $config['eyebrow'],
+      '#block_title' => $config['block_title'] ?? '',
+      '#eyebrow' => $config['eyebrow'] ?? '',
       '#title' => $title,
       '#recipe_media' => $recipe_media_set,
       '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
