@@ -161,17 +161,19 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     // Preparing search results.
     $build['#items'] = [];
     foreach ($query_search_results['results'] as $node) {
-      $nodeView = $this->nodeViewBuilder->view($node, 'card');
-      $build['#items'][] = $nodeView;
+      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
     if (count($build['#items']) == 0) {
       $build['#no_results'] = $this->getSearchNoResult();
     }
 
     // Build dataLayer attributes if search results are displayed for keys.
-    $build['#attached']['drupalSettings']['dataLayer']['siteSearchResults'] = [
-      'siteSearchTerm' => $searchOptions['keys'],
-      'siteSearchResults' => $query_search_results['resultsCount'],
+    $build['#attached']['drupalSettings']['dataLayer'] = [
+      'searchPage' => 'search_page',
+      'siteSearchResults' => [
+        'siteSearchTerm' => $searchOptions['keys'],
+        'siteSearchResults' => $query_search_results['resultsCount'],
+      ],
     ];
 
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
