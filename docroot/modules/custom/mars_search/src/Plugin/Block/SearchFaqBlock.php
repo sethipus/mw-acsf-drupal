@@ -194,7 +194,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       // FAQ specific flag to distinguish FAQ query.
       'faq' => TRUE,
     ];
-    $search_from = $this->formBuilder->getForm(SearchForm::class, TRUE, $autocomplete_options);
+    $search_form = $this->formBuilder->getForm(SearchForm::class, TRUE, $autocomplete_options);
+    $search_form['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
 
     // Facets query.
     $options['disable_filters'] = TRUE;
@@ -206,7 +207,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#qa_items' => $faq_items,
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
-      '#search_form' => render($search_from),
+      '#search_form' => render($search_form),
       '#search_result_counter' => $search_results['resultsCount'],
       '#search_result_text' => (!empty($options['keys']) && $search_results['resultsCount'] > 0) ? $this->formatPlural($search_results['resultsCount'], 'Result for "@keys"', 'Results for "@keys"', ['@keys' => $options['keys']]) : '',
       '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
@@ -215,11 +216,15 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#attached' => [
         'drupalSettings' => [
           'dataLayer' => [
-            'faqSearchResults' => [
-              'faqSearchTerm' => $options['keys'],
-              'faqSearchResults' => $search_results['resultsCount'],
+            'searchPage' => 'faq',
+            'siteSearchResults' => [
+              'siteSearchTerm' => $options['keys'],
+              'siteSearchResults' => $search_results['resultsCount'],
             ],
           ],
+        ],
+        'library' => [
+          'mars_search/datalayer.search',
         ],
       ],
     ];

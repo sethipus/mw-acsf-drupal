@@ -2,11 +2,10 @@
 {% set default_link_content = 'See details'|t %}
 {% set link_content = 'Buy now'|t %}
 
-<section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} data-theme="{{ theme_styles }}"
-                                                                                        data-site-search-clicked="{{ item.paragraph_content }}"
-                                                                                        data-layer="{{ dataLayer }}"
-                                                                                        data-type="card"
-                                                                                        onclick="window.location='{{ item.card_url }}'">
+<section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} 
+         data-theme="{{ theme_styles }}"
+         data-site-search-clicked="{{ item.paragraph_content }}"
+         onclick="window.location='{{ item.card_url }}'">
 
     {% if recipe_is_new %}
       {% include "@atoms/badge/badge.twig" %}

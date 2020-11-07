@@ -15,3 +15,11 @@ datalayer.search:
     - core/drupal
     - core/drupalSettings
     - core/jquery
+
+datalayer.card_grid:
+  js:
+    js/datalayer_card_grid.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
