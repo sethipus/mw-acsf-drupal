@@ -12,7 +12,6 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
-use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -243,9 +242,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
         $top_result_ids[] = $top_result['target_id'];
       }
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
-        $nodeView = $this->nodeViewBuilder->view($top_result_node, 'card');
-        $nodeView['#dataLayer'] = serialize($this->buildDataLayerSearchClick($searchOptions['keys'], $top_result_node));
-        $build['#items'][] = $nodeView;
+        $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
       }
       // Adjusting query options to consider top results.
       // Adjusting limit.
@@ -283,9 +280,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys']);
     }
     foreach ($query_search_results['results'] as $node) {
-      $nodeView = $this->nodeViewBuilder->view($node, 'card');
-      $nodeView['#dataLayer'] = serialize($this->buildDataLayerSearchClick($searchOptions['keys'], $node));
-      $build['#items'][] = $nodeView;
+      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
 
     // Populating search form.
@@ -575,25 +570,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     return array_merge([
       'cardGridSearchTerm' => $key,
       'cardGridSearchResults' => $resultsCount,
-    ], $this->getDataLayerDefaults());
-  }
-
-  /**
-   * Builds an array of dataLayer attributes for search no results event.
-   *
-   * @param string $key
-   *   Card grid search key.
-   * @param \Drupal\node\NodeInterface $node
-   *   Node object.
-   *
-   * @return array
-   *   DataLayer attributes.
-   */
-  protected function buildDataLayerSearchClick(string $key, NodeInterface $node) {
-    // Build attributes array that will be used in JS.
-    return array_merge([
-      'cardGridSearchTerm' => $key,
-      'cardGridSearchClick' => "{$node->bundle()}_{$node->id()}",
     ], $this->getDataLayerDefaults());
   }
 

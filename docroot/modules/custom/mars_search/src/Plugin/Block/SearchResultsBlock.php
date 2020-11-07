@@ -161,8 +161,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     // Preparing search results.
     $build['#items'] = [];
     foreach ($query_search_results['results'] as $node) {
-      $nodeView = $this->nodeViewBuilder->view($node, 'card');
-      $build['#items'][] = $nodeView;
+      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
     if (count($build['#items']) == 0) {
       $build['#no_results'] = $this->getSearchNoResult();
