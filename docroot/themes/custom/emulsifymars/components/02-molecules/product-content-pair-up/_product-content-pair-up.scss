@@ -123,18 +123,12 @@
       left: 0;
       right: 0;
       top: 420px;
-      max-width: 31.5rem;
+      max-width: 31.8rem;
       margin: auto;
       z-index: $content-pair-supportive-card;
 
       .wrapper > section {
-        max-width: 31.5rem;
-      }
-
-      .recipe-card__media {
-        width: 100%;
-        height: auto;
-        max-height: 23.6rem;
+        max-width: 31.8rem;
       }
     }
   }
@@ -175,7 +169,7 @@
         .lead-card {
           height: 538px;
           padding-top: 60px;
-          background-size: auto 130%;
+          background-size: auto 150%;
 
           .wrapper {
             margin: 0 auto;
@@ -213,17 +207,6 @@
 
         .supportive-card {
           top: 361px;
-          max-width: 33.4rem;
-
-          .wrapper > section {
-            max-width: 33.4rem;
-          }
-
-          .recipe-card__media {
-            width: 100%;
-            height: auto;
-            max-height: 25.1rem;
-          }
         }
       }
     }
@@ -301,18 +284,7 @@
         .supportive-card {
           top: 185px;
           left: auto;
-          max-width: 43.3rem;
           right: 158px;
-
-          .wrapper > section {
-            max-width: 43.3rem;
-          }
-
-          .recipe-card__media {
-            width: 100%;
-            height: auto;
-            max-height: 32.5rem;
-          }
         }
       }
     }
