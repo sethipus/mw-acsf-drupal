@@ -8,7 +8,7 @@
   max-width: 1128px;
 
   @include xs {
-    padding: 3rem 1.7rem 7rem 1.7rem;
+    padding: 3rem 1.7rem 5rem 1.7rem;
     margin: 4rem 2rem;
   }
 
@@ -18,7 +18,7 @@
   }
 
   @include large {
-    padding: 6rem 11.8rem 8rem 11.8rem;
+    padding: 6rem 10.5rem 8rem 10.5rem;
     margin: 6rem auto;
   }
 
@@ -183,7 +183,14 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    margin: 0 1rem 2rem 1rem;
+
+    @include xs {
+      margin: 0 0 2rem 0;
+    }
+
+    @include medium {
+      margin: 0 1rem 2rem 1rem;
+    }
   }
 
   &__label-text {

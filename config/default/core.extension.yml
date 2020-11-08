@@ -31,7 +31,6 @@ module:
   contextual: 0
   crop: 0
   ctools: 0
-  datalayer: 0
   datetime: 0
   depcalc: 0
   diff: 0
@@ -99,6 +98,7 @@ module:
   mars_banners: 0
   mars_common: 0
   mars_entry_gate: 0
+  mars_google_analytics: 0
   mars_lighthouse: 0
   mars_onetrust: 0
   mars_product: 0
