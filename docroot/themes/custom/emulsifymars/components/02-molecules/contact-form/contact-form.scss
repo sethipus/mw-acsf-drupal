@@ -6,8 +6,10 @@
     box-shadow: 1px 1px 12px 0 rgba(0, 0, 0, 0.08);
     max-width: 33.5rem !important;
     background-color: white;
+    margin: auto;
 
     @include medium {
+      margin: auto;
       max-width: 68.8rem !important;
     }
 

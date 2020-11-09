@@ -14,13 +14,23 @@ services:
     class: Drupal\mars_common\ThemeConfiguratorParser
     arguments: [ '@entity_type.manager', '@config.factory' ]
 
-  mars_common.menu_add_access:
-    class: Drupal\mars_common\Access\MenuAddAccess
-    arguments: ['@current_route_match', '@plugin.manager.menu.link']
-    tags:
-      - { name: access_check, applies_to: _menu_add_access }
-
   mars_common.route_subscriber:
     class: Drupal\mars_common\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+
+  mars_common.media_dependency_calculator:
+    class: Drupal\mars_common\EventSubscriber\DependencyCollector\MediaEntityBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  mars_common.theme_configurator_service:
+    arguments: ['@image.factory', '@module_handler', '@file_system', '@config.factory']
+    class: Drupal\mars_common\ThemeConfiguratorService
+
+  mars_common.config_overrider:
+    class: Drupal\mars_common\ConfigOverrides
+    arguments: ['@current_route_match', '@request_stack', '@config.factory', '@config.installer']
+    tags:
+      - {name: config.factory.override, priority: 5}

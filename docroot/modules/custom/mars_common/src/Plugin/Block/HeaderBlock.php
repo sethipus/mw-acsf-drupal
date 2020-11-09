@@ -5,13 +5,20 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Routing\CurrentRouteMatch;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,6 +31,28 @@ use Symfony\Component\HttpFoundation\Request;
  * )
  */
 class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * Drupal\Core\Routing\CurrentRouteMatch definition.
+   *
+   * @var \Drupal\Core\Routing\CurrentRouteMatch
+   */
+  protected $currentRouteMatch;
+
+  /**
+   * The path matcher.
+   *
+   * @var \Drupal\Core\Path\PathMatcherInterface
+   */
+  protected $pathMatcher;
+
   /**
    * Menu link tree.
    *
@@ -76,6 +105,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageManagerInterface $language_manager,
+    CurrentRouteMatch $current_route_match,
+    PathMatcherInterface $path_matcher,
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
@@ -84,6 +116,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     RendererInterface $renderer
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageManager = $language_manager;
+    $this->currentRouteMatch = $current_route_match;
+    $this->pathMatcher = $path_matcher;
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->fileStorage = $entity_type_manager->getStorage('file');
@@ -101,6 +136,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('language_manager'),
+      $container->get('current_route_match'),
+      $container->get('path.matcher'),
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
@@ -211,11 +249,78 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
 
+    $current_language_id = $this->languageManager->getCurrentLanguage()->getId();
+    $build['#language_selector_current'] = mb_strtoupper($current_language_id);
+    $build['#language_selector_label'] = $this->t('Select language');
+    $language_selector_items = [];
+    try {
+      $language_selector_items = $this->getLanguageLinks();
+    }
+    catch (EntityMalformedException $entity_malformed_exception) {
+    }
+    $build['#language_selector_items'] = $language_selector_items;
+    $build['#language_selector'] = $config['language_selector'] && count($build['#language_selector_items']);
+
     $build['#theme'] = 'header_block';
 
     $build['#search_form'] = $this->buildSearchForm();
 
     return $build;
+  }
+
+  /**
+   * Get language links.
+   *
+   * @return array
+   *   Language selector links.
+   *
+   * @throws \Drupal\Core\Entity\EntityMalformedException
+   */
+  protected function getLanguageLinks() {
+    $languages = $this->languageManager->getLanguages();
+    $render_links = [];
+
+    if (count($languages) > 1) {
+      $derivative_id = LanguageInterface::TYPE_URL;
+      $page_entity = $this->getPageEntity();
+      $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
+      $current_language = $this->languageManager->getCurrentLanguage($derivative_id)->getId();
+      $links = $this->languageManager->getLanguageSwitchLinks($derivative_id, Url::fromRoute($route))->links;
+
+      if (isset($links[$current_language])) {
+        $links = [$current_language => $links[$current_language]] + $links;
+        $links[$current_language]['url'] = Url::fromRoute('<current>');
+      }
+
+      foreach ($links as $link_key => $link_data) {
+        $url = $page_entity ?
+          $page_entity->toUrl('canonical', ['language' => $link_data['language']])->toString()
+          : Url::fromRoute('<current>', [], ['language' => $link_data['language']]);
+        $render_links[] = [
+          'title' => $link_data['title'],
+          'abbr' => mb_strtoupper($link_key),
+          'url' => $url,
+        ];
+      }
+    }
+    return $render_links;
+  }
+
+  /**
+   * Retrieves the current page entity.
+   *
+   * @return \Drupal\Core\Entity\ContentEntityInterface|bool
+   *   The retrieved entity, or FALSE if none found.
+   */
+  protected function getPageEntity() {
+    $params = $this->currentRouteMatch->getParameters()->all();
+
+    foreach ($params as $param) {
+      if ($param instanceof ContentEntityInterface) {
+        return $param;
+      }
+    }
+    return FALSE;
   }
 
   /**
@@ -287,7 +392,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   protected function buildSearchForm() {
     $form = $this->formBuilder->getForm('\Drupal\mars_search\Form\SearchOverlayForm');
-    unset($form['actions']['submit']);
+    $form['actions']['submit']['#attributes']['class'][] = 'visually-hidden';
+    $form['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
 
     return $this->renderer->render($form);
   }
