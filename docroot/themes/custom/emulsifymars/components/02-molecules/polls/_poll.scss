@@ -6,8 +6,11 @@
   box-shadow: 1px 1px 3px #ccc;
   border-radius: variable(button-border-radius);
   max-width: 1128px;
-  padding: 3rem 1.7rem 5rem 1.7rem;
-  margin: 4rem 2rem;
+
+  @include xs {
+    padding: 3rem 1.7rem 5rem 1.7rem;
+    margin: 4rem 2rem;
+  }
 
   @include medium {
     padding: 6rem;

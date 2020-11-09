@@ -97,6 +97,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     // Preparing search form.
     $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class);
     $build['#input_form']['search']['#attributes']['class'][] = 'search-input__field';
+    $build['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
     $build['#input_form']['search']['#attributes']['placeholder'] = $conf['search_header_placeholder'] ?? $this->t('Search products, recipes, articles...');
 
     // Getting search results from SOLR.

@@ -263,6 +263,7 @@ third_party_settings:
             'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
+              - feedback_block
               - freeform_story_block
               - iframe_block
               - poll_block

@@ -1,7 +1,6 @@
 Drupal.behaviors.searchInput = {
-  attach(context) {
+  attach(context, settings) {
     var search = document.getElementById('search');
-
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function() {
