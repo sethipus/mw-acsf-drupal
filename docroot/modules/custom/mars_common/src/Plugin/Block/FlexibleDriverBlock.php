@@ -8,6 +8,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
+use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -134,12 +135,14 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['asset_1']['#type'] = 'details';
     $form['asset_1']['#title'] = $this->t('Asset #1');
     $form['asset_1']['#open'] = TRUE;
+    $form['asset_1']['#required'] = TRUE;
 
     $form['asset_2'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
       $this->configuration['asset_2'], 1, 'thumbnail');
     $form['asset_2']['#type'] = 'details';
     $form['asset_2']['#title'] = $this->t('Asset #2');
     $form['asset_2']['#open'] = TRUE;;
+    $form['asset_2']['#required'] = TRUE;
 
     return $form;
   }
@@ -157,6 +160,19 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
       'asset_1');
     $this->configuration['asset_2'] = $this->getEntityBrowserValue($form_state,
       'asset_2');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    if (!($this->getEntityBrowserValue($form_state, 'asset_1'))) {
+      $form_state->setErrorByName('asset_1', $this->t('Please upload the file for Asset 1!'));
+    }
+
+    if (!($this->getEntityBrowserValue($form_state, 'asset_2'))) {
+      $form_state->setErrorByName('asset_2', $this->t('Please upload the file for Asset 2!'));
+    }
   }
 
   /**
