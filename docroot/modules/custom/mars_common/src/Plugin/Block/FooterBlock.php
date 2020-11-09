@@ -5,7 +5,6 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -24,12 +23,6 @@ use Drupal\Core\Menu\MenuLinkTreeInterface;
  */
 class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
-  /**
-   * Drupal\Core\Routing\CurrentRouteMatch definition.
-   *
-   * @var \Drupal\Core\Routing\CurrentRouteMatch
-   */
-  protected $currentRouteMatch;
   /**
    * Menu link tree.
    *
@@ -81,15 +74,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_definition,
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
-    ThemeConfiguratorParser $themeConfiguratorParser,
-    CurrentRouteMatch $current_route_match
+    ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
-    $this->currentRouteMatch = $current_route_match;
   }
 
   /**
@@ -102,8 +93,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_definition,
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
-      $container->get('mars_common.theme_configurator_parser'),
-      $container->get('current_route_match')
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -153,14 +143,6 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
         }
       }
     }
-    // Get current node from route.
-    $node = $this->currentRouteMatch->getParameter('node');
-    foreach ($build['#top_footer_menu'] as $key => $value) {
-      $build['#top_footer_menu'][$key]['item_attributes'] = [
-        'data-pageType' => $node->bundle(),
-      ];
-    }
-
     $build['#theme'] = 'footer_block';
     return $build;
   }

@@ -10,9 +10,9 @@
 {% set article_card_button_text = 'EXPLORE' %}
 
 {% set article_card_button_link_attributes = { 'href': path('entity.node.canonical', {'node': node.nid.value}),
-  'data-clickName': article_card_button_text } | merge(attributes) %}
+  'data-click-name': article_card_button_text } | merge(attributes) %}
 {% set heading_link_attributes = { 'href': path('entity.node.canonical', {'node': node.nid.value}),
-  'data-clickName': node.title.value } | merge(attributes) %}
+  'data-click-name': node.title.value } | merge(attributes) %}
 
 {% include "@molecules/card/article-card/article-card.twig" with {
   theme_styles: 'drupal',
@@ -37,9 +37,3 @@
   article_card_button_link_attributes: article_card_button_link_attributes
   
 } %}
-
-{# @TODO replace with proper attributes substitution.
-  article_card_button_link_attributes: {
-    'href': path('entity.node.canonical', {'node': node.nid.value})
-  },
-#}

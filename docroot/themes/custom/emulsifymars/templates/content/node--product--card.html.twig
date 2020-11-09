@@ -20,8 +20,8 @@
 {% endif %}
 
 {% set default_link_content_text = 'SEE DETAILS' %}
-{% set product_card_link_attributes = {href: url, 'data-clickName': node.title.value} | merge(attributes) %}
-{% set default_link_attributes = {href: url, 'data-clickName': default_link_content_text} | merge(attributes) %}
+{% set product_card_link_attributes = {href: url, 'data-click-name': node.title.value} | merge(attributes) %}
+{% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} | merge(attributes) %}
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
   card__eyebrow: elements['#eyebrow'],

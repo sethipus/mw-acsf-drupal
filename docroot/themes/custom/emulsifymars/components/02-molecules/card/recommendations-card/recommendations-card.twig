@@ -1,8 +1,9 @@
 {% set card_base_class = card_base_class|default('recommendations-card') %}
-{{ attach_library('emulsifymars/cards') }}
+{% set card__extra_classes = ['card-item'] %}
 
-<section {{ bem(card_base_class) }}
+<section {{ bem(card_base_class, [], '', card__extra_classes) }}
          data-theme="{{ theme_styles }}" 
+         data-card-type="{{ card_type }}"
          data-site-search-clicked="{{ heading }}">
 
   {% include "@atoms/text/headings/_heading.twig" with {

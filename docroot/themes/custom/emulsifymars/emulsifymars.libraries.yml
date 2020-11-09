@@ -192,24 +192,6 @@ card-grid-filter:
   dependencies:
     - core/drupal
 
-site-footer:
-  js:
-    dist/js/03-organisms/site/site-footer/site-footer.js: {}
-  dependencies:
-    - core/drupal
-
-site-header:
-  js:
-    dist/js/03-organisms/site/site-header/site-header.js: {}
-  dependencies:
-    - core/drupal
-
-cards:
-  js:
-    dist/js/02-molecules/card/cards.js: {}
-  dependencies:
-    - core/drupal
-
 social-menu:
   js:
     dist/js/02-molecules/menus/social/social-menu.js: {}

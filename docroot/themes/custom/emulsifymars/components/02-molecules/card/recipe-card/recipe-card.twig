@@ -1,8 +1,9 @@
 {% set recipe_card_base_class = recipe_card_base_class|default('recipe-card') %}
-{{ attach_library('emulsifymars/cards') }}
+{% set card__extra_classes = ['card-item'] %}
 
-<section {{ bem(recipe_card_base_class) }}
+<section {{ bem(recipe_card_base_class, [], '', card__extra_classes) }}
          data-theme="{{ theme_styles }}"
+         data-card-type="recipe-card"
          data-site-search-clicked="{{ recipe_card_heading }}">
 
   {% if recipe_is_new %}
