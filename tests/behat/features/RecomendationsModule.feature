@@ -44,6 +44,6 @@ Feature: Recomendations Module Test
     And I check content with title "TestBasicPageTitle"
     And I press "Apply to selected items"
     Then the url should match "content/node/delete"
-    
+
     When I press "Delete"
     Then the url should match "admin/content"
