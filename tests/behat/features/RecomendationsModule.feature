@@ -2,9 +2,7 @@ Feature: Recomendations Module Test
   @javascript
   Scenario: Recomendations Module Test
     When I login into Drupal
-    And I follow "Content"
-    And I follow "Add content"
-    And I follow "Basic page"
+    And I am on "/node/add/page"
     And I fill in "Title" with "TestBasicPageTitle"
     And I press "Save"
     Then the url should match "testbasicpagetitle"
@@ -16,9 +14,10 @@ Feature: Recomendations Module Test
 
     When I press the "Layout" section of added content
     Then the url should match "layout"
+
     When I follow "Add block "
     And I wait for the ajax response
-    Then I should see "Choose a block"
+    And I should see "Choose a block"
     And I should see "Create custom block"
 
     When I load page by link with text "MARS: Recommendations Module"
@@ -29,6 +28,7 @@ Feature: Recomendations Module Test
     When I fill in "Title" with "MyTitle"
     And I click on a "//label[text()='Dynamic']" xpath element
     Then I should see "Please wait..."
+
     When I wait for the ajax response
     And I press "Add block"
     Then I should see "You are editing the layout for this Basic page content item."
@@ -44,5 +44,6 @@ Feature: Recomendations Module Test
     And I check content with title "TestBasicPageTitle"
     And I press "Apply to selected items"
     Then the url should match "content/node/delete"
+    
     When I press "Delete"
     Then the url should match "admin/content"

@@ -2,9 +2,7 @@ Feature: Contact Module Phone Test
   @javascript
   Scenario: Contact Module Phone Test
     When I login into Drupal
-    And I follow "Content"
-    And I follow "Add content"
-    And I follow "Basic page"
+    And I am on "/node/add/page"
     And I fill in "Title" with "TestBasicPageTitle"
     And I press "Save"
     And I edit added content
