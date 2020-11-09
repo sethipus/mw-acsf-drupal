@@ -18,17 +18,7 @@
       } %}
     {% endblock %}
   {% else %}
-    <div class="recipe-media-image-wrapper">
-    {% block recipe_media_image %}
-      {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: image_title,
-        image_srcset: image_srcset,
-        image_sizes: '',
-        image_src: image_src,
-        responsive_image_blockname: 'recipe-media',
-      } %}
-    {% endblock %}
+    <div class="recipe-media__image-wrapper" style="background-image: url('{{ image_srcset }}')">
     </div>
   {% endif %}
   <div class="recipe-media__info">
