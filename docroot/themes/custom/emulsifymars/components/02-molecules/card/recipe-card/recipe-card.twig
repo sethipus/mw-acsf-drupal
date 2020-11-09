@@ -1,9 +1,8 @@
 {% set recipe_card_base_class = recipe_card_base_class|default('recipe-card') %}
 
-<section 
-  {{ bem(recipe_card_base_class) }}
-  data-theme="{{ theme_styles }}"
-  data-site-search-clicked="{{ recipe_card_heading }}">
+<section {{ bem(recipe_card_base_class) }}
+         data-theme="{{ theme_styles }}"
+         data-site-search-clicked="{{ recipe_card_heading }}">
 
   {% if recipe_is_new %}
     {% include "@atoms/badge/badge.twig" %}
