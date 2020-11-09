@@ -8,6 +8,32 @@ services:
     # These labels ensure this service is discoverable by ddev
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: $DDEV_APPROOT
+    external_links:
+      - ddev-router:mars.ddev.site
+    environment:
+      COLUMNS: '80'
+      DDEV_PHP_VERSION: '7.3'
+      DDEV_PRIMARY_URL: https://mars.ddev.site:8443
+      DDEV_PROJECT: mars
+      DDEV_PROJECT_TYPE: drupal8
+      DDEV_ROUTER_HTTPS_PORT: '8443'
+      DDEV_ROUTER_HTTP_PORT: '8080'
+      DDEV_SITENAME: mars
+      DDEV_TLD: ddev.site
+      DDEV_WEBSERVER_TYPE: nginx-fpm
+      DDEV_XDEBUG_ENABLED: "false"
+      DEPLOY_NAME: local
+      DOCKER_IP: 127.0.0.1
+      DOCROOT: docroot
+      DRUSH_OPTIONS_URI: https://mars.ddev.site:8443
+      HOST_DOCKER_INTERNAL_IP: ''
+      HTTPS_EXPOSE: 8443:80,8026:8025
+      HTTP_EXPOSE: 8080:80,8025:8025
+      IS_DDEV_PROJECT: "true"
+      LINES: '24'
+      SSH_AUTH_SOCK: /home/.ssh-agent/socket
+      TZ: ''
+      VIRTUAL_HOST: mars.ddev.site
   # This links the Chromedriver service to the web service defined
   # in the main docker-compose.yml, allowing applications running
   # in the web service to access the driver at `chrome`.
