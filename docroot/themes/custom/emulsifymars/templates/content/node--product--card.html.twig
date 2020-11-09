@@ -19,7 +19,7 @@
   {% set hover_image = null %}
 {% endif %}
 
-{% set default_link_content_text = 'SEE DETAILS' %}
+{% set default_link_content_text = 'SEE DETAILS' | t %}
 {% set product_card_link_attributes = {href: url, 'data-click-name': node.title.value} | merge(attributes) %}
 {% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} | merge(attributes) %}
 {% include "@molecules/card/product-card/product-card.twig" with {
