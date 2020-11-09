@@ -1,14 +1,17 @@
 default:
   suites:
     default:
+      contexts:
+        - FeatureContext
       paths:
         - "%paths.base%/features"
   extensions:
     Behat\MinkExtension:
-      default_session: goutte
       browser_name: chrome
-      javascript_session: default
+      default_session: goutte
+      javascript_session: selenium2
       goutte: ~
+      selenium2: ~
       files_path: "%paths.base%/media"
     Drupal\DrupalExtension:
       blackbox: ~
