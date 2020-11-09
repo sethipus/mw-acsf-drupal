@@ -133,7 +133,9 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
     $node = $this->getCurrentCampaignNode();
     if ($node) {
       $theme_configuration = $this->extractFromLayoutBuilder($node);
-      $overrides[self::THEME_CONFIG] = $this->getOverrideConfigOptions($theme_configuration);
+      if (!empty($theme_configuration)) {
+        $overrides[self::THEME_CONFIG] = $this->getOverrideConfigOptions($theme_configuration);
+      }
     }
 
     return $overrides;
