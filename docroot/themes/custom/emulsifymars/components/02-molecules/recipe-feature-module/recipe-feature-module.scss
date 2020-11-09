@@ -88,6 +88,8 @@
         position: absolute;
         top: -14px;
         width: 100%;
+        height: auto;
+        z-index: 2;
 
         @include large {
           transform: rotate(-90deg);
