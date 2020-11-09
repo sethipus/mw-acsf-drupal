@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "becbd45cb11f0bb38d0b7c68db1be31b",
+    "content-hash": "802f05a9be482f01256ef07cc39023bc",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -1216,7 +1216,7 @@
             "version": "3.5.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
