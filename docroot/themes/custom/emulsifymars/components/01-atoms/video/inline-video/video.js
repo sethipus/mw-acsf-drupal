@@ -57,6 +57,23 @@ Drupal.behaviors.inlineVideoPlayer = {
           checkVolume(videoElements);
         }, false);
 
+        // Add event listener to provide info to Data layer
+        if(dataLayer && typeof(dataLayer.push) === 'function') {
+          videoElements('video').addEventListener('play', function(event) {
+            const video = event.target;
+            dataLayer.push({
+              event: 'videoView',
+              pageName: 'IDK',
+              pageId: 1234,
+              componentId: video.dataset.componentId,
+              videoStart: 1,
+              videoTitle: video.dataset.videoTitle,
+              videoId: video.dataset.videoId,
+              videoFlag: 'inline'
+            });
+          }, {once : true});
+        }
+        
         // Add events for all buttons
         videoElements('playpause').addEventListener('click', function(e) {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
