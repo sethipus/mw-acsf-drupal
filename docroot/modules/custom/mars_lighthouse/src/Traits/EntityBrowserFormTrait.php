@@ -32,17 +32,23 @@ trait EntityBrowserFormTrait {
    *   The ID of the entity browser to use.
    * @param string $default_value
    *   The default value for the entity browser.
-   * @param bool $required
-   *   Decides whether the selection is required or not.
    * @param int $cardinality
    *   The cardinality of the entity browser.
    * @param string $view_mode
    *   The view mode to use when displaying the selected entity in the table.
+   * @param bool $required
+   *   Decides whether the selection is required or not.
    *
    * @return array
    *   The form element containing the entity browser.
    */
-  public function getEntityBrowserForm($entity_browser_id, $default_value, $required = TRUE, $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED, $view_mode = 'default') {
+  public function getEntityBrowserForm(
+    $entity_browser_id,
+    $default_value,
+    $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED,
+    $view_mode = 'default',
+    $required = TRUE
+  ) {
     // We need a wrapping container for AJAX operations.
     $element = [
       '#type' => 'container',
