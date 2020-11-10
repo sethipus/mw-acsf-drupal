@@ -18,7 +18,7 @@ class MarsSiteInformationForm extends SiteInformationForm {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
-    $site_config = $this->config('mars.system.site');
+    $site_config = $this->config('mars_common.system.site');
 
     $form['mars_site_information'] = [
       '#type' => 'details',
@@ -51,7 +51,7 @@ class MarsSiteInformationForm extends SiteInformationForm {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->configFactory()->getEditable('mars.system.site')
+    $this->configFactory()->getEditable('mars_common.system.site')
       ->set('brand', $form_state->getValue('brand'))
       ->set('segment', $form_state->getValue('segment'))
       ->set('market', $form_state->getValue('market'))

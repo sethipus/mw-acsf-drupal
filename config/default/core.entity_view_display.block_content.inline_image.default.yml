@@ -49,5 +49,7 @@ content:
     type: string
     region: content
 hidden:
+  field_inline_image_svg_asset: true
+  field_inline_image_title: true
   langcode: true
   search_api_excerpt: true
