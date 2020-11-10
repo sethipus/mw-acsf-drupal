@@ -9,6 +9,7 @@
     margin: auto;
 
     @include medium {
+      margin: auto;
       max-width: 68.8rem !important;
     }
 

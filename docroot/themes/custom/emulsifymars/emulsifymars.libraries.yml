@@ -16,6 +16,9 @@ content-feature:
     dist/js/02-molecules/content-feature/content-feature.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 social-feed:
   js:
@@ -186,5 +189,11 @@ feedback:
 card-grid-filter:
   js:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
+  dependencies:
+    - core/drupal
+
+social-menu:
+  js:
+    dist/js/02-molecules/menus/social/social-menu.js: {}
   dependencies:
     - core/drupal
