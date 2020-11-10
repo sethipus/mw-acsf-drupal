@@ -56,20 +56,43 @@ Drupal.behaviors.inlineVideoPlayer = {
         videoElements('video').addEventListener('volumechange', function() {
           checkVolume(videoElements);
         }, false);
+        
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const videoContainer = videoElements('video').target.closest('figure');
+          const videoHeading = videoContainer.closest('section').querySelector('h1');
 
-        // Add event listener to provide info to Data layer
-        if(dataLayer && typeof(dataLayer.push) === 'function') {
-          videoElements('video').addEventListener('play', function(event) {
-            const video = event.target;
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: container.title,
+            videoTitle: videoHeading.innerText.trim() || '',
+            videoId: videoContainer.dataset.videoId,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: 'Inline Video'
+          }, {once : true});
+
+          videoElements('video').addEventListener('play', () => {
             dataLayer.push({
               event: 'videoView',
-              pageName: 'IDK',
-              pageId: 1234,
-              componentId: video.dataset.componentId,
+              pageName: container.title,
               videoStart: 1,
-              videoTitle: video.dataset.videoTitle,
-              videoId: video.dataset.videoId,
-              videoFlag: 'inline'
+              videoTitle: videoHeading.innerText.trim() || '',
+              videoId: videoContainer.dataset.videoId,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: 'Inline Video'
+            });
+          }, {once : true});
+
+          videoElements('video').addEventListener('ended', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: container.title,
+              videoStart: 1,
+              videoComplete: 1,
+              videoTitle: videoHeading.innerText.trim() || '',
+              videoId: videoContainer.dataset.videoId,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: 'Inline Video'
             });
           }, {once : true});
         }

@@ -27,6 +27,46 @@ Drupal.behaviors.ambientVideoPlayer = {
         video.addEventListener('pause', function() {
           changeButtonState(video, playpause, 'playpause');
         }, false);
+
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const videoContainer = video.target.closest('figure');
+          const videoHeading = videoContainer.closest('section').querySelector('h1');
+
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: container.title,
+            videoTitle: videoHeading.innerText.trim() || '',
+            videoId: videoContainer.dataset.videoId,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: 'Ambient Video'
+          }, {once : true});
+
+          video.addEventListener('play', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: container.title,
+              videoStart: 0,
+              videoTitle: videoHeading.innerText.trim() || '',
+              videoId: videoContainer.dataset.videoId,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: 'Ambient Video'
+            });
+          }, {once : true});
+
+          video.addEventListener('ended', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: container.title,
+              videoStart: 0,
+              videoComplete: 1,
+              videoTitle: videoHeading.innerText.trim() || '',
+              videoId: videoContainer.dataset.videoId,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: 'Ambient Video'
+            });
+          }, {once : true});
+        }
         
         // Listen to scroll event to pause video when out of viewport
         let videoVisible = false;

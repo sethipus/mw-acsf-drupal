@@ -67,6 +67,46 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           checkVolume(videoElements);
         }, false);
 
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const videoContainer = video.target.closest('figure');
+          const videoHeading = videoContainer.closest('section').querySelector('h1');
+
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: container.title,
+            videoTitle: videoHeading.innerText.trim() || '',
+            videoId: videoContainer.dataset.videoId,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: 'Fullscreen Video'
+          }, {once : true});
+
+          video.addEventListener('play', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: container.title,
+              videoStart: 0,
+              videoTitle: videoHeading.innerText.trim() || '',
+              videoId: videoContainer.dataset.videoId,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: 'Fullscreen Video'
+            });
+          }, {once : true});
+
+          video.addEventListener('ended', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: container.title,
+              videoStart: 0,
+              videoComplete: 1,
+              videoTitle: videoHeading.innerText.trim() || '',
+              videoId: videoContainer.dataset.videoId,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: 'Fullscreen Video'
+            });
+          }, {once : true});
+        }
+
         // Add events for all buttons
         videoElements('playpause').addEventListener('click', function(e) {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
