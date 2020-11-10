@@ -262,7 +262,10 @@ class LighthouseClient implements LighthouseClientInterface {
     $content = $response->getBody()->getContents();
     $content = Json::decode($content);
 
-    return $content['assetModified'] ?? [];
+    $asset_modified = $content['assetModified'] ?? [];
+    $asset_with_new_version = $content['assetWithNewVersion'] ?? [];
+    $result = array_merge($asset_modified, $asset_with_new_version);
+    return $result;
   }
 
   /**
