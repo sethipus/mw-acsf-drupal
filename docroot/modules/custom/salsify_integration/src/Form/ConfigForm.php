@@ -331,6 +331,12 @@ class ConfigForm extends ConfigFormBase {
       '#default_value' => $config->get('keep_fields_on_uninstall'),
     ];
 
+    $form['admin_options']['cron_force_update'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Force entities update by cron.'),
+      '#default_value' => $config->get('cron_force_update'),
+    ];
+
     $mail_config = $this->config('user.mail');
 
     $email_token_help = $this->t('Available tokens are: [site:name],
@@ -433,6 +439,7 @@ class ConfigForm extends ConfigFormBase {
     $config->set('entity_type', $form_state->getValue('entity_type'));
     $config->set('bundle', $form_state->getValue('bundle'));
     $config->set('keep_fields_on_uninstall', $form_state->getValue('keep_fields_on_uninstall'));
+    $config->set('cron_force_update', $form_state->getValue('cron_force_update'));
     $config->set('entity_reference_allow', $form_state->getValue('entity_reference_allow'));
     $config->set('process_media_assets', $form_state->getValue('process_media_assets'));
     $config->set('import_method', $form_state->getValue('import_method'));
