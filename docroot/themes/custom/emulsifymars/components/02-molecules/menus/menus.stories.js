@@ -18,6 +18,7 @@ import mainMenuData from './main-menu/main-menu.yml';
 import socialMenuData from './social/social-menu.yml';
 
 import './main-menu/main-menu';
+import './social/social-menu';
 
 /**
  * Storybook Definition.
@@ -43,6 +44,7 @@ export const main = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: mainMenu(mainMenuData) }} />;
 };
-export const social = () => (
-  <div dangerouslySetInnerHTML={{ __html: socialMenu(socialMenuData) }} />
-);
+export const social = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return <div dangerouslySetInnerHTML={{ __html: socialMenu(socialMenuData) }} />
+};

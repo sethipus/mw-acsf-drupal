@@ -26,6 +26,8 @@ social-feed:
   dependencies:
     - core/drupal
     - core/jquery
+    - core/jquery.once
+    - core/underscore
     - emulsifymars/vendor-chunk-2
 
 entry-gate:
@@ -189,5 +191,11 @@ feedback:
 card-grid-filter:
   js:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
+  dependencies:
+    - core/drupal
+
+social-menu:
+  js:
+    dist/js/02-molecules/menus/social/social-menu.js: {}
   dependencies:
     - core/drupal

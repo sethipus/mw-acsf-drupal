@@ -49,11 +49,14 @@ class ManualRecommendationBlockCollector extends BaseDependencyCollector {
   public function onCalculateSectionComponentDependencies(SectionComponentDependenciesEvent $event) {
     $component = $event->getComponent();
     $config = $component->get('configuration');
+    $productCT = ['product', 'product_variant', 'product_multipack'];
     if ($component->getPluginId() == 'recommendations_module' && $config['population_plugin_id'] == 'manual') {
       foreach ($config['population_plugin_configuration']['nodes'] as $nid) {
         /** @var \Drupal\core\Entity\EntityInterface $node */
         $node = $this->entityTypeManager->getStorage('node')->load($nid);
-        $event->addEntityDependency($node);
+        if (!in_array($node->bundle(), $productCT)) {
+          $event->addEntityDependency($node);
+        }
       }
     }
   }
