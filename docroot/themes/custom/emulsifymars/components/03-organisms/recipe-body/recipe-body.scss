@@ -16,7 +16,7 @@
   &__title {
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: capitalize;
+    text-transform: uppercase;
     letter-spacing: 1px;
 
     @include medium {
@@ -77,15 +77,17 @@
     margin: 31px 0 13px;
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: capitalize;
-    letter-spacing: 1.12px;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
     padding: 0;
+    font-weight: 500;
 
     @include medium {
       margin: 31px 0 24px;
       font-size: 26px;
       line-height: 29px;
       padding: 0;
+      letter-spacing: 1.3px;
     }
 
     @include xl {
@@ -93,6 +95,7 @@
       line-height: 31px;
       max-width: 1125px;
       padding: 0 460px 0 0;
+      letter-spacing: 1.4px;
     }
   }
 
