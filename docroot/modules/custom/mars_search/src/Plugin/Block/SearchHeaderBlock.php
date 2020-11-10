@@ -118,7 +118,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
         $url_options = $url->getOptions();
         // That means facet is active.
         $state = '';
-        $facet_query_value = $this->searchHelper->request->query->get($type_facet_key);
+        $facet_query_value = $this->searchHelper->getRequest()->query->get($type_facet_key);
 
         if (!empty($facet_query_value[$search_id]) &&  $facet_query_value[$search_id] == $type_facet['filter']) {
           // Removing facet query from active filter to allow deselect it.

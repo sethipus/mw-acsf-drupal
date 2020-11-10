@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
@@ -63,6 +64,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $configFactory;
 
   /**
+   * Renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -74,7 +82,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $container->get('form_builder'),
       $container->get('mars_search.search_query_parser'),
       $container->get('logger.factory')->get('mars_search'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('renderer')
     );
   }
 
@@ -89,7 +98,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     FormBuilderInterface $form_builder,
     SearchQueryParserInterface $search_query_parser,
     LoggerInterface $logger,
-    ConfigFactoryInterface $configFactory
+    ConfigFactoryInterface $configFactory,
+    RendererInterface $renderer
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -98,6 +108,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $this->searchQueryParser = $search_query_parser;
     $this->logger = $logger;
     $this->configFactory = $configFactory;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -134,7 +145,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $config_no_results = $this->configFactory->get('mars_search.search_no_results');
     $faq_facet_key = 'faq_filter_topic';
 
-    $options = $this->searchQueryParser->parseQuery();
+    $options = $this->searchQueryParser->parseQuery(SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
     // Overriding some default options with FAQ specific values.
     // Overriding first condition from SearchQueryParser::getDefaultOptions().
     $options['conditions'][0] = ['type', 'faq', '=', TRUE];
@@ -146,11 +157,11 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     ];
 
     // That means filter topic filter is active.
-    if ($this->searchHelper->request->get($faq_facet_key)) {
+    if ($this->searchHelper->getRequest()->get($faq_facet_key)) {
       // Disabling entityqueue sorting when topic filter is active.
       unset($options['sort']['faq_item_queue_weight']);
     }
-    $search_results = $this->searchHelper->getSearchResults($options);
+    $search_results = $this->searchHelper->getSearchResults($options, 'faq_results');
     $faq_items = [];
     $cta_button_label = $cta_button_link = '';
 
@@ -207,10 +218,10 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#qa_items' => $faq_items,
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
-      '#search_form' => render($search_form),
+      '#search_form' => $this->renderer->render($search_form),
       '#search_result_counter' => $search_results['resultsCount'],
       '#search_result_text' => (!empty($options['keys']) && $search_results['resultsCount'] > 0) ? $this->formatPlural($search_results['resultsCount'], 'Result for "@keys"', 'Results for "@keys"', ['@keys' => $options['keys']]) : '',
-      '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key),
+      '#facets' => $this->searchHelper->prepareFacetsLinks($facets_search_results['facets'][$faq_facet_key], $faq_facet_key, SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID),
       '#no_results_heading' => str_replace('@keys', $options['keys'], $config_no_results->get('no_results_heading')),
       '#no_results_text' => $config_no_results->get('no_results_text'),
       '#attached' => [

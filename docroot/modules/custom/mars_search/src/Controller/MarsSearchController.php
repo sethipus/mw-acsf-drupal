@@ -4,6 +4,7 @@ namespace Drupal\mars_search\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
@@ -56,6 +57,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $viewBuilder;
 
   /**
+   * Entity type manager interface..
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -66,17 +74,21 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Search helper.
    * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
    *   Menu Link tree.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   Entity type manager.
    */
   public function __construct(
     RendererInterface $renderer,
     SearchHelperInterface $search_helper,
     SearchQueryParserInterface $search_query_parser,
-    MenuLinkTreeInterface $menu_link_tree
+    MenuLinkTreeInterface $menu_link_tree,
+    EntityTypeManagerInterface $entityTypeManager
   ) {
+    $this->entityTypeManager = $entityTypeManager;
     $this->renderer = $renderer;
     $this->searchHelper = $search_helper;
     $this->searchQueryParser = $search_query_parser;
-    $this->viewBuilder = $this->entityTypeManager()->getViewBuilder('node');
+    $this->viewBuilder = $this->entityTypeManager->getViewBuilder('node');
     $this->menuLinkTree = $menu_link_tree;
   }
 
@@ -88,7 +100,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('renderer'),
       $container->get('mars_search.search_helper'),
       $container->get('mars_search.search_query_parser'),
-      $container->get('menu.link_tree')
+      $container->get('menu.link_tree'),
+      $container->get('entity_type.manager')
     );
   }
 

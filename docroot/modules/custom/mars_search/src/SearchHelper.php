@@ -31,11 +31,11 @@ class SearchHelper implements SearchHelperInterface {
   protected $logger;
 
   /**
-   * Request stack that controls the lifecycle of requests.
+   * Current master request.
    *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
+   * @var \Symfony\Component\HttpFoundation\Request
    */
-  public $request;
+  protected $request;
 
   /**
    * Taxonomy facet process service.
@@ -262,6 +262,13 @@ class SearchHelper implements SearchHelperInterface {
         'created' => 'DESC',
       ],
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequest() {
+    return $this->request;
   }
 
 }
