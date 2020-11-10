@@ -331,7 +331,7 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     $external_ids = [];
     foreach ($data as $item) {
       $media_objects = $this->mediaStorage->loadByProperties([
-        'field_external_id' => $item['assetId'],
+        'field_original_external_id' => $item['origAssetId'],
       ]);
       foreach ($media_objects as $media) {
         $external_ids[] = $media->field_external_id->value;
