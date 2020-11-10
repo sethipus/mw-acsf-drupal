@@ -32,6 +32,8 @@ trait EntityBrowserFormTrait {
    *   The ID of the entity browser to use.
    * @param string $default_value
    *   The default value for the entity browser.
+   * @param bool $required
+   *   Decides whether the selection is required or not.
    * @param int $cardinality
    *   The cardinality of the entity browser.
    * @param string $view_mode
@@ -40,7 +42,7 @@ trait EntityBrowserFormTrait {
    * @return array
    *   The form element containing the entity browser.
    */
-  public function getEntityBrowserForm($entity_browser_id, $default_value, $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED, $view_mode = 'default') {
+  public function getEntityBrowserForm($entity_browser_id, $default_value, $required = TRUE, $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED, $view_mode = 'default') {
     // We need a wrapping container for AJAX operations.
     $element = [
       '#type' => 'container',
@@ -48,6 +50,12 @@ trait EntityBrowserFormTrait {
         'id' => Html::getUniqueId('entity-browser-' . $entity_browser_id . '-wrapper'),
       ],
     ];
+
+    if ($required) {
+      $element['#element_validate'] = [
+        [self::class, 'validateRequiredElement']
+      ];
+    }
 
     $element['browser'] = [
       '#type' => 'entity_browser',
@@ -247,6 +255,22 @@ trait EntityBrowserFormTrait {
       $selection = NestedArray::getValue($form, $parents);
     }
     return $selection;
+  }
+
+  /**
+   * Validate the empty value of the selected element if its required.
+   *
+   * @param array $element
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   */
+  public static function validateRequiredElement(array $element, FormStateInterface $form_state) {
+    $trigger = $form_state->getTriggeringElement();
+    if ($trigger['#type'] === 'submit' && empty($element['selected']['media:1'])) {
+      $form_state->setError(
+        $element,
+        'File selection is required!'
+      );
+    }
   }
 
 }
