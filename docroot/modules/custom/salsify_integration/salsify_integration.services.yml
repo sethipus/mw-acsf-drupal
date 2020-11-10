@@ -62,6 +62,7 @@ services:
       - '@salsify_integration.product_fields_mapper'
       - '@salsify_integration.salsify_import_field'
       - '@salsify_integration.salsify_import_taxonomy'
+      - '@messenger'
 
   salsify_integration.salsify_import_field:
     class: Drupal\salsify_integration\SalsifyImportField
