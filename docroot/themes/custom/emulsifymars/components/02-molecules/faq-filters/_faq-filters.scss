@@ -16,7 +16,7 @@
 
     .search-input {
       border: 1px solid clr(subcolor-4);
-      border-radius: 30px;
+      border-radius: variable(button-border-radius);
       flex-grow: 1;
 
       &__field {
@@ -152,6 +152,16 @@
         padding-top: 25px;
         border: 1px solid clr(subcolor-4);
         border-top: none;
+
+        @include large {
+          margin-left: 40px;
+          margin-right: 40px;
+        }
+
+        @include xl {
+          margin-left: 0;
+          margin-right: 0;
+        }
       }
     }
   }
