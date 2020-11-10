@@ -8,3 +8,6 @@ social_menu_items:
   - title: 'Instagram'
     url: '#'
     icon: 'instagram'
+  - title: 'Print'
+    url: '#'
+    icon: 'print'

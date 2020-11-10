@@ -17,7 +17,7 @@ function mars_google_analytics_page_attachments(array &$page) {
     ->getId();
 
   $mars_config = \Drupal::configFactory()
-    ->getEditable('mars.system.site');
+    ->getEditable('mars_common.system.site');
   $page['#attached']['drupalSettings']['dataLayer']['brand'] = $mars_config->get('brand');
   $page['#attached']['drupalSettings']['dataLayer']['segment'] = $mars_config->get('segment');
   $page['#attached']['drupalSettings']['dataLayer']['market'] = $mars_config->get('market');
