@@ -2,15 +2,8 @@ Feature: Content Test
   @javascript
   Scenario: Content Test
     When I login into Drupal
-    And I follow "Content"
-    Then I should see "Add content"
-
-    When I follow "Add content"
-    Then I should see "Basic page"
-    When I follow "Basic page"
-    Then I should see "Create Basic page"
-
-    When I fill in "Title" with "TestBasicPageTitle"
+    And I am on "/node/add/page"
+    And I fill in "Title" with "TestBasicPageTitle"
     And I press "Save"
     Then the url should match "testbasicpagetitle"
     And I should see "Basic page TestBasicPageTitle has been created."
@@ -29,8 +22,10 @@ Feature: Content Test
     When I press the "Layout" section of added content
     Then print current URL
     And the url should match "layout"
+
     When I follow "Add block "
     Then print current URL
+
     When I wait for the ajax response
     Then I should see "Choose a block"
     And I should see "Create custom block"
@@ -65,5 +60,6 @@ Feature: Content Test
     And I check content with title "TestBasicPageTitle"
     And I press "Apply to selected items"
     Then the url should match "content/node/delete"
+
     When I press "Delete"
     Then the url should match "admin/content"
