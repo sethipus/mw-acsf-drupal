@@ -137,13 +137,14 @@
     background-position: right top;
     background-repeat: no-repeat;
     background-size: 60% auto;
+    background-image: variable(brand-shape);
 
     @include medium {
       background-size: 40% auto;
     }
 
     @include large {
-      background-size: 38% auto;
+      background-size: 25% auto;
     }
 
     .stretch {
