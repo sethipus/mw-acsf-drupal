@@ -28,6 +28,7 @@
             {% include "@atoms/video/overlay-video/video.twig" with {
               video__src__url: item.src,
               video__control: true,
+              video__title: heading,
               data_layer: item.data_layer,
             } %}
           {% endif %}

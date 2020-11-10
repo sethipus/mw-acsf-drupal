@@ -4,3 +4,4 @@ video__control: true
 data_layer: 
   video_id: 1234
   video_flag: 'Played'
+video__title: 'Mars Adv'

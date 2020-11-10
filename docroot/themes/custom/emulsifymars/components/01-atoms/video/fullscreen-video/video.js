@@ -70,12 +70,11 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
           const videoContainer = video.target.closest('figure');
-          const videoHeading = videoContainer.closest('section').querySelector('h1');
 
           dataLayer.push({
             event: 'videoPageView',
             pageName: container.title,
-            videoTitle: videoHeading.innerText.trim() || '',
+            videoTitle: videoContainer.dataset.videoTitle || '',
             videoId: videoContainer.dataset.videoId,
             videoFlag: videoContainer.dataset.videoFlag,
             componentName: 'Fullscreen Video'
@@ -86,7 +85,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
               event: 'videoView',
               pageName: container.title,
               videoStart: 0,
-              videoTitle: videoHeading.innerText.trim() || '',
+              videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: 'Fullscreen Video'
@@ -99,7 +98,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
               pageName: container.title,
               videoStart: 0,
               videoComplete: 1,
-              videoTitle: videoHeading.innerText.trim() || '',
+              videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: 'Fullscreen Video'

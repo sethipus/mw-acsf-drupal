@@ -57,12 +57,11 @@ Drupal.behaviors.overlayVideoPlayer = {
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
           const videoContainer = videoElements('video').target.closest('figure');
-          const videoHeading = videoContainer.closest('section').querySelector('h1');
 
           dataLayer.push({
             event: 'videoPageView',
             pageName: container.title,
-            videoTitle: videoHeading.innerText.trim() || '',
+            videoTitle: videoContainer.dataset.videoTitle || '',
             videoId: videoContainer.dataset.videoId,
             videoFlag: videoContainer.dataset.videoFlag,
             componentName: 'Overlay Video'
@@ -73,7 +72,7 @@ Drupal.behaviors.overlayVideoPlayer = {
               event: 'videoView',
               pageName: container.title,
               videoStart: 1,
-              videoTitle: videoHeading.innerText.trim() || '',
+              videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: 'Overlay Video'
@@ -86,7 +85,7 @@ Drupal.behaviors.overlayVideoPlayer = {
               pageName: container.title,
               videoStart: 1,
               videoComplete: 1,
-              videoTitle: videoHeading.innerText.trim() || '',
+              videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: 'Overlay Video'
