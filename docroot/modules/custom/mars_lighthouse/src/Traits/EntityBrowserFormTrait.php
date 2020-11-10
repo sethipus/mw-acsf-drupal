@@ -53,7 +53,7 @@ trait EntityBrowserFormTrait {
 
     if ($required) {
       $element['#element_validate'] = [
-        [self::class, 'validateRequiredElement']
+        [self::class, 'validateRequiredElement'],
       ];
     }
 
@@ -261,7 +261,9 @@ trait EntityBrowserFormTrait {
    * Validate the empty value of the selected element if its required.
    *
    * @param array $element
+   *   The current element of the form.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
    */
   public static function validateRequiredElement(array $element, FormStateInterface $form_state) {
     $trigger = $form_state->getTriggeringElement();
