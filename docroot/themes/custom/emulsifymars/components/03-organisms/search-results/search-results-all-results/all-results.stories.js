@@ -35,7 +35,7 @@ export const allResultsTemplate = () => {
       ...allResultsData,
       ...ajaxCardGridData,
       ...searchResultsData
-    }) 
+    })
   }} />
 };
 

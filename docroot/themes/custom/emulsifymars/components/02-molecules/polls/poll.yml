@@ -11,6 +11,7 @@ choices:
   'left': 'left side'
   'right': 'right side'
   'center': 'center side'
+  'center2': 'center side'
 
 # settings for submitted state
 polling_submitted_text: 'Thanks for voting!'
