@@ -449,24 +449,21 @@ class ConfigForm extends ConfigFormBase {
               $product_data,
               $force_update,
               ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE,
-            ],
-            );
+            ]);
           $this->batchBuilder->addOperation(
             [$this, 'batchProcessItems'],
             [
               $product_data,
               $force_update,
               ProductHelper::PRODUCT_CONTENT_TYPE,
-            ],
-            );
+            ]);
           $this->batchBuilder->addOperation(
             [$this, 'batchProcessItems'],
             [
               $product_data,
               $force_update,
               ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE,
-            ],
-            );
+            ]);
 
           $this->batchBuilder->setFinishCallback([
             $this,
