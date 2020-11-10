@@ -154,6 +154,11 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
       '#default_value' => $market_value,
     ];
 
+    $form['filter']['is_submitted'] = [
+      '#type' => 'hidden',
+      '#value' => 1,
+    ];
+
     $form['filter']['submit'] = [
       '#type' => 'submit',
       '#submit' => [[$this, 'searchCallback']],
@@ -161,7 +166,14 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
     ];
 
     $total_found = 0;
-    $form['view'] = $this->getView($total_found, $form_state);
+    if ($form_state->getValue('is_submitted')) {
+      $this->currentRequest->query->set('page', 0);
+    }
+    $form['view'] = $this->getView($total_found, [
+      'text' => $text_value,
+      'brand' => $brand_value,
+      'market' => $market_value,
+    ]);
 
     if ($total_found) {
       $this->pageManager->createPager($total_found, self::PAGE_LIMIT);
@@ -213,13 +225,13 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
    *
    * @param int $total_found
    *   Returns the amount of results.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   Form state object which is used to process pager and search text.
+   * @param array $filters
+   *   The filter parameters.
    *
    * @return array
    *   Render array.
    */
-  protected function getView(&$total_found, FormStateInterface $form_state) {
+  protected function getView(&$total_found, array $filters) {
     $view = [
       '#type' => 'container',
       '#tree' => TRUE,
@@ -233,15 +245,10 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
     // Get data from API.
     try {
-      $text = $form_state->getValue('text');
-      $filters = [
-        'brand' => $form_state->getValue('brand'),
-        'market' => $form_state->getValue('market'),
-      ];
       $page = $this->currentRequest->query->get('page') ?? 0;
       $data = $this->lighthouseAdapter->getMediaDataList(
         $total_found,
-        $text,
+        $filters['text'],
         $filters,
         [],
         $page * self::PAGE_LIMIT,

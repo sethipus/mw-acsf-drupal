@@ -74,6 +74,7 @@
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev",
+        "behat/mink-selenium2-driver": "^1.4",
         "mikey179/vfsstream": "^1.6",
         "symfony/phpunit-bridge": "^5.1"
     },

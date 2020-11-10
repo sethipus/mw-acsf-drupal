@@ -68,3 +68,29 @@ function mars_common_update_8004() {
   ]);
   $config->save();
 }
+
+/**
+ * Update image field definition.
+ */
+function mars_common_update_8005() {
+  // Update field field_ff_item_image.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_ff_item_image', 'block_content');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+  // Update field_inline_image_file.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_inline_image_file', 'block_content');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+  // Update field_list_item_image.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_list_item_image', 'block_content');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+  // Update field_full_image_file.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_full_image_file', 'block_content');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+  // Update field_allergen_image.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_allergen_image', 'taxonomy_term');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+}
