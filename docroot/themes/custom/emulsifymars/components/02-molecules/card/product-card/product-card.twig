@@ -1,8 +1,13 @@
 {% set card__base_class = 'product-card' %}
 {% set default_link_content = 'See details'|t %}
 {% set link_content = 'Buy now'|t %}
+{% set card__extra_classes = ['card-item'] %}
 
-<div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} data-theme="{{ theme_styles }}" onclick="window.location='{{ item.card_url }}'">
+<section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} 
+         data-theme="{{ theme_styles }}"
+         data-site-search-clicked="{{ item.paragraph_content }}"
+         data-card-type="product-card"
+         onclick="window.location='{{ item.card_url }}'">
 
     {% if is_new %}
       {% include "@atoms/badge/badge.twig" %}
@@ -70,4 +75,4 @@
         } %}
       </div>
     </div>
-</div>
+</section>

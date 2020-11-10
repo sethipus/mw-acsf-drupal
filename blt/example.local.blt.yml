@@ -21,7 +21,7 @@ drupal:
 behat:
   # The URL for Chrome debug endpoint.
   chrome:
-    api_url: http://chrome:9222
+    api_url: http://localhost:9222
 
 ddev:
   enable: true

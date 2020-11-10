@@ -136,8 +136,6 @@ third_party_settings:
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        'Flexible driver': {  }
-        'Mars Search': {  }
         Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
@@ -163,6 +161,7 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -170,8 +169,10 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common': {  }
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe:
               - recipe_detail_hero
@@ -190,17 +191,19 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks':
-              - 'inline_block:list'
-              - 'inline_block:text_component'
+            'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common': {  }
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
+            Product: {  }
             Recipe:
               - recipe_detail_body
             'Social feed': {  }
@@ -262,15 +265,19 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - feedback_block
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
@@ -288,6 +295,7 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -296,8 +304,10 @@ third_party_settings:
             'Mars Common':
               - recommendations_module
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
