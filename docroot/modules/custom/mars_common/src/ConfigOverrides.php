@@ -3,7 +3,6 @@
 namespace Drupal\mars_common;
 
 use Drupal\Component\Plugin\Exception\PluginException;
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ConfigFactoryOverrideInterface;
@@ -13,7 +12,6 @@ use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\layout_builder\SectionComponent;
-use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -317,7 +315,7 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   }
 
   /**
-   * @param $social_layout
+   * Fill out social links.
    */
   private function fillOutSocialLinks(array &$social_layout) {
     // Social links from default theme.
