@@ -239,7 +239,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $theme_settings = $this->config->get('emulsifymars.settings')->get();
 
     $build['#logo'] = $theme_settings['logo']['path'] ?? '';
-
     $build['#alert_banner_text'] = $config['alert_banner']['alert_banner_text']['value'];
     $build['#alert_banner_url'] = $config['alert_banner']['alert_banner_url'];
     if ($config['search_block']) {
@@ -248,7 +247,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
-
     $current_language_id = $this->languageManager->getCurrentLanguage()->getId();
     $build['#language_selector_current'] = mb_strtoupper($current_language_id);
     $build['#language_selector_label'] = $this->t('Select language');
@@ -393,6 +391,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected function buildSearchForm() {
     $form = $this->formBuilder->getForm('\Drupal\mars_search\Form\SearchOverlayForm');
     $form['actions']['submit']['#attributes']['class'][] = 'visually-hidden';
+    $form['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
 
     return $this->renderer->render($form);
   }

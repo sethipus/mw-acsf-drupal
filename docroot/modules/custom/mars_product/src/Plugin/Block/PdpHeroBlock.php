@@ -440,6 +440,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     foreach ($node->field_product_pack_items as $product_reference) {
       $product = $product_reference->entity;
       $product_variant_first = $this->productHelper->mainVariant($product);
+      if (empty($product_variant_first)) {
+        continue;
+      }
       $serving_items = $this->getServingItems($product_variant_first);
 
       $products_data[] = [

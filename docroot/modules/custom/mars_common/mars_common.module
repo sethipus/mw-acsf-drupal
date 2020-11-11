@@ -351,6 +351,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'flexible-framer-block',
     ],
+    'js_block' => [
+      'variables' => [
+        'js_code' => NULL,
+      ],
+      'template' => 'js-block',
+    ],
   ];
 }
 
@@ -1162,7 +1168,7 @@ function mars_common_field_widget_form_alter(
   }
 
   if ($field_name == 'field_product_description') {
-    $element['#maxlength'] = 160;
+    $element['#maxlength'] = 300;
   }
   if ($field_name == 'field_recipe_description') {
     $element['#maxlength'] = 160;

@@ -167,6 +167,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $build['#no_results'] = $this->getSearchNoResult();
     }
 
+    // Build dataLayer attributes if search results are displayed for keys.
+    $build['#attached']['drupalSettings']['dataLayer'] = [
+      'searchPage' => 'search_page',
+      'siteSearchResults' => [
+        'siteSearchTerm' => $searchOptions['keys'],
+        'siteSearchResults' => $query_search_results['resultsCount'],
+      ],
+    ];
+
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
 
     $build['#theme_styles'] = 'drupal';
@@ -183,8 +192,9 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     $build['#ajax_card_grid_heading'] = $this->t('All results');
-    list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
+    [$build['#applied_filters_list'], $build['#filters']] = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
+    $build['#attached']['library'][] = 'mars_search/datalayer.search';
     return $build;
   }
 

@@ -9,13 +9,13 @@ import cardData from './product-card.yml';
  */
 export default { title: 'Molecules/Cards/ProductCard' };
 
-export const productCardDefault = () => (
-  <div dangerouslySetInnerHTML={{ __html: card(cardData) }} style={{padding: '5rem'}}/>
-);
+export const productCardDefault = () => {
+  return <div dangerouslySetInnerHTML={{ __html: card(cardData) }} style={{padding: '5rem'}}/>
+};
 
-export const productCardNewProduct = () => (
-  <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {recipe_is_new: true})) }} style={{padding: '5rem'}}/>
-);
+export const productCardNewProduct = () => {
+  return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {is_new: true})) }} style={{padding: '5rem'}}/>
+}
 
 export const productCardImageOverride = () => {
   return <div dangerouslySetInnerHTML={{ __html: card({
