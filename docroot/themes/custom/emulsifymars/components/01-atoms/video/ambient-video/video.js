@@ -31,11 +31,8 @@ Drupal.behaviors.ambientVideoPlayer = {
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
           const videoContainer = video.target.closest('figure');
-          var componentName = '';
-          var componentBlock = videoContainer.closest('[data-block-plugin-id]');
-          if (typeof componentBlock !== 'undefined') {
-            componentName = componentBlock.dataset.blockPluginId;
-          }
+          const componentBlock = video.closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
 
           dataLayer.push({
             event: 'videoPageView',
