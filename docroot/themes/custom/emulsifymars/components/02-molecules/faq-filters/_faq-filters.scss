@@ -16,7 +16,7 @@
 
     .search-input {
       border: 1px solid clr(subcolor-4);
-      border-radius: 30px;
+      border-radius: variable(button-border-radius);
       flex-grow: 1;
 
       &__field {
@@ -28,16 +28,16 @@
   }
 
   &__search-results {
-    margin: 20px 40px 0 45px;
+    margin: 20px 40px 0 0;
     font-size: 1.6rem;
     color: clr(primary);
 
     @include medium {
-      margin: 20px 40px 0 65px;
+      margin: 20px 40px 0 40px;
     }
 
     @include xl {
-      margin: 20px 40px 0 25px;
+      margin: 20px 40px 0 0;
     }
   }
 
@@ -152,6 +152,16 @@
         padding-top: 25px;
         border: 1px solid clr(subcolor-4);
         border-top: none;
+
+        @include large {
+          margin-left: 40px;
+          margin-right: 40px;
+        }
+
+        @include xl {
+          margin-left: 0;
+          margin-right: 0;
+        }
       }
     }
   }

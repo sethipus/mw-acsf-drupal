@@ -223,7 +223,7 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function getAssetsByIds(array $ids, string $date, array $params = []): array {
+  public function getAssetsByIds(array $request_data, string $date, array $params = []): array {
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
@@ -231,7 +231,7 @@ class LighthouseClient implements LighthouseClientInterface {
     $body = [
       'token' => $params['mars_lighthouse.access_token'],
       'checkDate' => $date,
-      'assets' => $ids,
+      'assets' => $request_data,
     ];
 
     $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_ASSETS_BY_IDS);
@@ -262,7 +262,10 @@ class LighthouseClient implements LighthouseClientInterface {
     $content = $response->getBody()->getContents();
     $content = Json::decode($content);
 
-    return $content['assetList'] ?? [];
+    $asset_modified = $content['assetModified'] ?? [];
+    $asset_with_new_version = $content['assetWithNewVersion'] ?? [];
+    $result = array_merge($asset_modified, $asset_with_new_version);
+    return $result;
   }
 
   /**
