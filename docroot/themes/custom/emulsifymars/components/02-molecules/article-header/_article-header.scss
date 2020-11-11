@@ -134,7 +134,7 @@
 
   &__inner {
     position: relative;
-    background-position: right top;
+    background-position: 125% 30%;
     background-repeat: no-repeat;
     background-size: 60% auto;
     background-image: variable(brand-shape);
@@ -144,7 +144,7 @@
     }
 
     @include large {
-      background-size: 25% auto;
+      background-size: 48% auto;
     }
 
     .stretch {
@@ -156,7 +156,7 @@
 
       svg {
         path {
-          fill: clr(secondary);
+          fill: clr(subcolor-3);
           width: 100%;
         }
 
@@ -179,7 +179,7 @@
         max-height: 30px;
 
         path {
-          fill: clr(secondary);
+          fill: clr(subcolor-3);
         }
         rect {
           width: 100%;
