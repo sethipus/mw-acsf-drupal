@@ -192,7 +192,6 @@
               dataLayer.push({
                 event: 'clickOutbound',
                 clickName: item.innerText.trim(),
-                clickDetails: item.hostname + item.pathname,
                 componentName: componentName
               })
             }, 100);
