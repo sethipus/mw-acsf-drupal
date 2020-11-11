@@ -139,6 +139,7 @@ publication_date: 2.0.0-beta1
 quickedit: 8.8.1
 rdf: 8.8.1
 redirect: 1.5.0
+redirect_404: 1.6.0
 remote_stream_wrapper: 1.4.0
 remote_stream_wrapper_widget: 1.2.0
 robotstxt: 1.4.0
