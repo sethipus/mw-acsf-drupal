@@ -37,6 +37,7 @@ depcalc: 1.1.0
 diff: 1.0.0
 dropzonejs: 2.0.0-alpha4
 editor: 8.8.1
+editor_advanced_link: 1.8.0
 embed: 1.3.0
 emulsify_twig: 1.0.0
 entity_block: 1.0.0-beta1
