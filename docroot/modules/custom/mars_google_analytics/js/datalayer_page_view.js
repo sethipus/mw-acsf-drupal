@@ -45,20 +45,13 @@
 
       // CARDS CLICK EVENTS
       var cardContainers = context.querySelectorAll('.card-item');
-      cardContainers.forEach(function(element) {
-        element.addEventListener('click', function(event) {
+      cardContainers.forEach(function(card) {
+        card.addEventListener('click', function(event) {
           setTimeout(function() {
             var item = event.target.closest('a');
-            var clickName = '';
-            if (item) {
-              clickName = item.innerText.trim();
-            }
+            var clickName = item.innerText.trim() ? item.innerText.trim() : card.dataset.siteSearchClicked;
             var componentName = getComponentName(event.target);
-            cardType = '';
-            var card = event.target.closest('section');
-            if (card) {
-              cardType = card.dataset.cardType;
-            }
+            var cardType = card.dataset.cardType;
             // CARD CLICK
             dataLayer.push({
               event: 'clickCards', 
