@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04c68c1497391f2709da5dc955bdfc20",
+    "content-hash": "2b39f539010c8c945ff7f4f4ccbe53d4",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -9991,7 +9991,7 @@
                     }
                 },
                 "patches_applied": {
-                    "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2019-01-31/tmp-directory-3016161-4.patch"
+                    "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2020-10-21/tmp-directory-3016161-9.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
