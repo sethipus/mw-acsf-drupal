@@ -57,6 +57,11 @@ Drupal.behaviors.overlayVideoPlayer = {
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
           const videoContainer = videoElements('video').target.closest('figure');
+          var componentName = '';
+          var componentBlock = videoContainer.closest('[data-block-plugin-id]');
+          if (typeof componentBlock !== 'undefined') {
+            componentName = componentBlock.dataset.blockPluginId;
+          }
 
           dataLayer.push({
             event: 'videoPageView',
@@ -64,7 +69,7 @@ Drupal.behaviors.overlayVideoPlayer = {
             videoTitle: videoContainer.dataset.videoTitle || '',
             videoId: videoContainer.dataset.videoId,
             videoFlag: videoContainer.dataset.videoFlag,
-            componentName: 'Overlay Video'
+            componentName: componentName
           }, {once : true});
 
           videoElements('video').addEventListener('play', () => {
@@ -75,7 +80,7 @@ Drupal.behaviors.overlayVideoPlayer = {
               videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
-              componentName: 'Overlay Video'
+              componentName: componentName
             });
           }, {once : true});
 
@@ -88,7 +93,7 @@ Drupal.behaviors.overlayVideoPlayer = {
               videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
-              componentName: 'Overlay Video'
+              componentName: componentName
             });
           }, {once : true});
         }

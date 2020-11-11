@@ -31,6 +31,11 @@ Drupal.behaviors.ambientVideoPlayer = {
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
           const videoContainer = video.target.closest('figure');
+          var componentName = '';
+          var componentBlock = videoContainer.closest('[data-block-plugin-id]');
+          if (typeof componentBlock !== 'undefined') {
+            componentName = componentBlock.dataset.blockPluginId;
+          }
 
           dataLayer.push({
             event: 'videoPageView',
@@ -38,7 +43,7 @@ Drupal.behaviors.ambientVideoPlayer = {
             videoTitle: videoContainer.dataset.videoTitle || '',
             videoId: videoContainer.dataset.videoId,
             videoFlag: videoContainer.dataset.videoFlag,
-            componentName: 'Ambient Video'
+            componentName: componentName
           }, {once : true});
 
           video.addEventListener('play', () => {
@@ -49,7 +54,7 @@ Drupal.behaviors.ambientVideoPlayer = {
               videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
-              componentName: 'Ambient Video'
+              componentName: componentName
             });
           }, {once : true});
 
@@ -62,7 +67,7 @@ Drupal.behaviors.ambientVideoPlayer = {
               videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
-              componentName: 'Ambient Video'
+              componentName: componentName
             });
           }, {once : true});
         }
