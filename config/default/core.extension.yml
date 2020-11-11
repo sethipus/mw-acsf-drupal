@@ -137,6 +137,7 @@ module:
   quickedit: 0
   rdf: 0
   redirect: 0
+  redirect_404: 0
   remote_stream_wrapper: 0
   remote_stream_wrapper_widget: 0
   robotstxt: 0
