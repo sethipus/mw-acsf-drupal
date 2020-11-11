@@ -773,6 +773,18 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
+  if (isset($form['logo']['settings']['logo_upload']['#upload_validators']['file_validate_is_image'])) {
+    unset($form['logo']['settings']['logo_upload']['#upload_validators']['file_validate_is_image']);
+  }
+  $form['logo']['settings']['logo_upload']['#upload_validators']['file_validate_extensions'] = [
+    'png gif jpg jpeg apng svg',
+  ];
+}
+
+/**
  * Returns Layout Form Alter class based on Drupal entity.
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
