@@ -24,7 +24,9 @@
       {{ attach_library('emulsifymars/inline-video') }}
       {% include "@atoms/video/inline-video/video.twig" with {
         video__src__url: media.src,
-        video__control: true
+        video__control: true,
+        video__title: heading,
+        data_layer: data_layer,
       } %}
     {% endif %}
   </div>
