@@ -28,16 +28,16 @@
   }
 
   &__search-results {
-    margin: 20px 40px 0 45px;
+    margin: 20px 40px 0 0;
     font-size: 1.6rem;
     color: clr(primary);
 
     @include medium {
-      margin: 20px 40px 0 65px;
+      margin: 20px 40px 0 40px;
     }
 
     @include xl {
-      margin: 20px 40px 0 25px;
+      margin: 20px 40px 0 0;
     }
   }
 

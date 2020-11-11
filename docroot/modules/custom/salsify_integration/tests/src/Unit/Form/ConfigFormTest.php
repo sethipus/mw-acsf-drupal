@@ -279,10 +279,7 @@ class ConfigFormTest extends UnitTestCase {
       $this->formStateMock
     );
     $this->assertIsArray($form);
-    $this->assertSame(
-      'button',
-      $form['salsify_operations']['salsify_start_import']['#type']
-    );
+    $this->assertNotEmpty($form['salsify_operations']['salsify_start_import']);
   }
 
   /**
@@ -302,43 +299,6 @@ class ConfigFormTest extends UnitTestCase {
     $this->assertInstanceOf(
       AjaxResponse::class,
       $response
-    );
-  }
-
-  /**
-   * Test.
-   */
-  public function testShouldValidateForm() {
-    $form = [];
-
-    $this->formStateMock
-      ->expects($this->once())
-      ->method('getTriggeringElement')
-      ->willReturn([
-        '#id' => 'edit-salsify-start-import',
-      ]);
-
-    $this->formStateMock
-      ->expects($this->once())
-      ->method('getValue')
-      ->willReturn('force');
-
-    $this->salsifyFieldsMock
-      ->expects($this->once())
-      ->method('importProductData')
-      ->willReturn([
-        'status' => 'status',
-        'message' => 'message',
-      ]);
-
-    $this->messengerMock
-      ->expects($this->once())
-      ->method('addMessage');
-
-    $this->form->setMessenger($this->messengerMock);;
-    $this->form->validateForm(
-      $form,
-      $this->formStateMock
     );
   }
 

@@ -12,8 +12,8 @@ feedback_paragraph_content: 'Did we have the selection you were looking for?'
 #default_link_positive_content: 'Yes'
 #default_link_negative_content: 'No'
 choices:
-  'yes': 'yes'
-  'no': 'no'
+  'yes': 'Left twix'
+  'no': 'Right twix'
 
 # positive feedback
 feedback_positive_heading: 'Great! Thanks for <br/> submitting!'
