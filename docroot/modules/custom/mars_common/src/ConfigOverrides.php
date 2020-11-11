@@ -263,7 +263,10 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
       if (isset($theme_configuration[$item]) && !empty($theme_configuration[$item])) {
         $overrides[$item] = $theme_configuration[$item];
       }
-
+    }
+    // Override logo.
+    if (!empty($theme_configuration['logo_path'])) {
+      $overrides['logo']['path'] = $theme_configuration['logo_path'];
     }
     return $overrides;
   }

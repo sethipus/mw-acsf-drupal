@@ -131,6 +131,31 @@ class ThemeConfiguratorService {
     }
     $form_state->setStorage($form_storage);
 
+    if ($this->isPluginBlock($form)) {
+      $form['logo'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Logo image'),
+        '#open' => TRUE,
+      ];
+      $form['logo']['settings']['logo_path'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Path to custom logo'),
+        '#default_value' => !empty($config) ? $config['logo_path'] : '',
+      ];
+      $form['logo']['settings']['logo_upload'] = [
+        '#type' => 'file',
+        '#title' => $this->t('Upload logo image'),
+        '#maxlength' => 40,
+        '#description' => $this->t("If you don't have direct file access to the server, use this field to upload your logo."),
+        '#upload_validators' => [
+          'file_validate_is_image' => [],
+        ],
+        '#process' => [
+          [OverrideFile::class, 'processFile'],
+        ],
+      ];
+    }
+
     $form['color_settings'] = [
       '#type'        => 'details',
       '#title'       => $this->t('Color settings'),
