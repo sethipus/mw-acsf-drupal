@@ -31,3 +31,4 @@ Feature: Flexible Driver Test
     And I check content with title "TestBasicPageTitle"
     And I press "Apply to selected items"
     And I press "Delete"
+
