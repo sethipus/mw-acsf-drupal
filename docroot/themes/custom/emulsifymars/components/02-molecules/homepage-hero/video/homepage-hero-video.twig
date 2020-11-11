@@ -6,7 +6,8 @@
     <div {{ bem('container', ['video'], homepage_hero__base_class) }}>
       {% include "@atoms/video/fullscreen-video/video.twig" with {
         video__src__url: video__src__url,
-        video__control: true
+        video__control: true,
+        video__title: title_label
       } %}
     </div>
 
