@@ -273,9 +273,6 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $ff_items = [];
 
     foreach ($config['items'] as $key => $item) {
-
-      var_dump($key);
-
       $ff_item = [
         'card__heading' => $config['items'][$key]['title'] ?? NULL,
         'card__link__url' => ($with_cta_flag) ? $config['items'][$key]['cta']['url'] : NULL,

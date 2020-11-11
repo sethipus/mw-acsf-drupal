@@ -27,7 +27,73 @@ Drupal.behaviors.ambientVideoPlayer = {
         video.addEventListener('pause', function() {
           changeButtonState(video, playpause, 'playpause');
         }, false);
-  
+
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const componentBlock = video.closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: document.title,
+            videoTitle: videoContainer.dataset.videoTitle || '',
+            videoId: videoContainer.dataset.videoId,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: componentName
+          }, {once : true});
+
+          video.addEventListener('play', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: document.title,
+              videoStart: 0,
+              videoTitle: videoContainer.dataset.videoTitle || '',
+              videoId: videoContainer.dataset.videoId,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: componentName
+            });
+          }, {once : true});
+
+          let videoEndedHandler = () => {
+            var tr = video.played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==video.duration);
+            if(hasLoopedOnce) {
+              dataLayer.push({
+                event: 'videoView',
+                pageName: document.title,
+                videoStart: 0,
+                videoComplete: 1,
+                videoTitle: videoContainer.dataset.videoTitle || '',
+                videoId: videoContainer.dataset.videoId,
+                videoFlag: videoContainer.dataset.videoFlag,
+                componentName: componentName
+              });
+              video.removeEventListener('timeupdate', videoEndedHandler);
+            }
+          }
+
+          video.addEventListener("timeupdate", videoEndedHandler);
+        }
+        
+        // Listen to scroll event to pause video when out of viewport
+        let videoVisible = false;
+        document.addEventListener('scroll', function() {
+          let videoPosition = video.offsetTop;
+          let videoHeight = video.getBoundingClientRect().height;
+          let windowPosition = window.pageYOffset;
+          let windowHeight = window.innerHeight;
+
+          if (videoPosition + videoHeight - windowPosition < 0 || windowPosition + windowHeight - videoPosition < 0) {
+            video.pause();
+            videoVisible = false;
+          } else {
+            if(!videoVisible) {
+              video.play();
+              videoVisible = true;
+            }
+          }
+        });
+        
         // Add events for play/pause button and video container			
         playpause.addEventListener('click', function(e) {
           if (video.paused || video.ended) {

@@ -70,9 +70,7 @@ Drupal.behaviors.searchFilterBehaviour = {
       let appliedIds = [];
       const filterBlocks = context.querySelectorAll('.filter-block');
       const searchQuery = context.querySelector('.search-input__field').value;
-      if (searchQuery !== '') {
-        queryElements.push('search=' + searchQuery);
-      }
+      queryElements.push(getClearQuery());
 
       filterBlocks.forEach(function(element) {
         const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');

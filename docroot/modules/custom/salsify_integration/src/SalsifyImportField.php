@@ -286,6 +286,16 @@ class SalsifyImportField extends SalsifyImport {
               }
             }
           }
+          elseif ($field_config->getType() == 'metatag' && $field['salsify_data_type'] == 'complex') {
+            $meta_tags = $entity->get($field['field_name'])->value;
+            $meta_tags_value = [];
+            if (isset($meta_tags)) {
+              $meta_tags_value = unserialize($meta_tags);
+            }
+            $meta_tags_value['description'] = $product_data['CMS: Meta Description'] ?? NULL;
+            $meta_tags_value['keywords'] = $product_data['CMS: Keywords'] ?? NULL;
+            $options = serialize($meta_tags_value);
+          }
 
           $entity->set($field['field_name'], $options);
         }

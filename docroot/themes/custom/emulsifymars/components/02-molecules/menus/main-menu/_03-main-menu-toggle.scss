@@ -2,6 +2,12 @@
 .toggle-expand {
   @include link;
 
+  position: relative;
+  padding: 0 2rem 0 1rem;
+  text-decoration: none;
+  width: 100%;
+  display: block;
+
   @include large {
     display: none;
   }
@@ -9,27 +15,44 @@
   @include xs {
     display: flex;
     flex-flow: row nowrap;
+    align-items: center;
   }
 
-  padding: $space;
-  text-decoration: none;
-  width: 100%;
-  display: block;
+  @include medium {
+    padding-right: 4rem;
+  }
+
+  @include large {
+    display: none;
+  }
 }
 
 .toggle-expand__text {
   display: block;
   font-family: variable(primary-font);
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   text-transform: uppercase;
-  color: clr(subcolor-1);
+  color: clr(primary);
+
+  @include medium {
+    font-size: 1.8rem;
+    letter-spacing: 1.8px;
+  }
 }
 
 /* SVG icon */
 .toggle-expand__icon {
-  height: 3rem;
-  width: 3rem;
+  position: absolute;
+  left: -19px;
+  top: -1px;
+  height: 2rem;
+  width: 2rem;
   margin: 0 auto;
+
+  @include medium {
+    left: -22px;
+    top: 3px;
+  }
 
   &--open {
     display: inline-block;

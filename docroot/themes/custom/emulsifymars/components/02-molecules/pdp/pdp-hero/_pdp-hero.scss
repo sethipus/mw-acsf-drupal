@@ -282,7 +282,7 @@
     @include large {
       display: block;
       min-height: auto;
-      margin: 3.7rem 17rem 3.6rem 0;
+      margin: 2.2rem 17rem 3.6rem 0;
       text-align: left;
       line-height: 2.24rem;
       font-size: 1.6rem;
@@ -313,12 +313,17 @@
     }
   }
 
+  &__list-container {
+    flex: 1 0 auto;
+  }
+
   &__size-list {
     @include list-reset;
 
     flex: 1 0 auto;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    flex-flow: row wrap;
 
     @include medium {
       flex: 1 0 58%;
@@ -332,6 +337,7 @@
 
   &__list-item {
     flex: 0 0 auto;
+    margin-bottom: 1rem;
 
     &--link {
       padding: 1.6rem 1rem;
@@ -346,8 +352,9 @@
       }
 
       @include medium {
-        font-size: 1.4rem;
         padding: 1.6rem 1.3rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.4rem;
       }
 
       @include large {
@@ -716,12 +723,6 @@
 }
 
 .default-link {
-    padding: 0 1.2rem;
-
-  @include medium {
-    padding: 0 3.4rem;
-  }
-
   &--pdp-sections {
     display: flex;
     align-items: center;
@@ -734,6 +735,11 @@
     color: clr(secondary);
     height: 6rem;
     width: 100%;
+    padding: 0 1.2rem;
+
+    @include medium {
+      padding: 0 3.4rem;
+    }
   }
 }
 

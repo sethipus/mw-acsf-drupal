@@ -2,21 +2,23 @@
   display: block;
   position: relative;
   overflow: visible;
-  margin: 0 auto;
-  max-width: 99%;
   box-shadow: 1px 1px 3px #ccc;
   border-radius: variable(button-border-radius);
+  max-width: 1128px;
 
   @include xs {
     padding: 3rem 1.7rem 5rem 1.7rem;
+    margin: 4rem 2rem;
   }
 
   @include medium {
     padding: 6rem;
+    margin: 4rem;
   }
 
   @include large {
-    padding: 6rem 11.8rem 8rem 11.8rem;
+    padding: 6rem 10.5rem 8rem 10.5rem;
+    margin: 6rem auto;
   }
 
   &__png-asset {
@@ -26,22 +28,26 @@
     right: 0;
 
     @include xs {
-      width: 18rem;
-      height: 18rem;
-      bottom: -13rem;
+      width: 17rem;
+      height: 9rem;
+      bottom: -35px;
+      right: 5px;
     }
 
     @include medium {
-      width: 25rem;
-      height: 25rem;
-      bottom: -15rem;
+      width: 22rem;
+      height: 12rem;
+      bottom: -30px;
+      right: 15px;
     }
 
     @include large {
       width: 35rem;
-      height: 35rem;
-      bottom: -22rem;
+      height: 19rem;
+      bottom: -30px;
+      right: 0;
     }
+
   }
 
   &__content {
@@ -176,7 +182,14 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    margin: 0 1rem 2rem 1rem;
+
+    @include xs {
+      margin: 0 0 2rem 0;
+    }
+
+    @include medium {
+      margin: 0 1rem 2rem 1rem;
+    }
   }
 
   &__label-text {

@@ -97,12 +97,11 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     // Preparing search form.
     $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class);
     $build['#input_form']['search']['#attributes']['class'][] = 'search-input__field';
+    $build['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
     $build['#input_form']['search']['#attributes']['placeholder'] = $conf['search_header_placeholder'] ?? $this->t('Search products, recipes, articles...');
 
     // Getting search results from SOLR.
     $options = $this->searchQueryParser->parseQuery();
-    // Filters should not affect facets output.
-    $options['disable_filters'] = TRUE;
 
     $query_search_results = $this->searchHelper->getSearchResults($options, 'main_search_facets');
 

@@ -1,11 +1,11 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
-(function($){
+(function($, _, Drupal){
   Drupal.behaviors.socialFeed = {
     attach(context) {
       // init swiper
       Swiper.use([Navigation, Pagination, Scrollbar]);
-      
+
       const swiper = new Swiper('.social-feed-swiper-container', {
         slidesPerView: 'auto',
         spaceBetween: 20,
@@ -26,8 +26,8 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
         }
       });
 
-      $(window).resize($.debounce(200, e => {swiper.scrollbar.updateSize()}));
+      $(window).once('socialFeed').on('resize', _.debounce(200, e => {swiper.scrollbar.updateSize()}));
     },
   };
 
-})(jQuery);
+})(jQuery, _, Drupal);

@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -10,6 +11,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
@@ -79,6 +81,20 @@ class SalsifyFields extends Salsify {
   private $salsifyImportTaxonomy;
 
   /**
+   * Batch Builder.
+   *
+   * @var \Drupal\Core\Batch\BatchBuilder
+   */
+  protected $batchBuilder;
+
+  /**
+   * Salsify import taxonomy.
+   *
+   * @var \Drupal\Core\Messenger\Messenger
+   */
+  private $messenger;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
@@ -113,6 +129,8 @@ class SalsifyFields extends Salsify {
    *   Salsify import field service.
    * @param \Drupal\salsify_integration\SalsifyImportTaxonomyTerm $import_taxonomy
    *   Salsify import taxonomy service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   Messenger service.
    */
   public function __construct(
     LoggerChannelFactoryInterface $logger,
@@ -130,7 +148,8 @@ class SalsifyFields extends Salsify {
     SalsifyEmailReport $email_report,
     ProductFieldsMapper $product_fields_mapper,
     SalsifyImportField $import_field,
-    SalsifyImportTaxonomyTerm $import_taxonomy
+    SalsifyImportTaxonomyTerm $import_taxonomy,
+    MessengerInterface $messenger
   ) {
     parent::__construct(
       $logger,
@@ -150,6 +169,8 @@ class SalsifyFields extends Salsify {
     $this->productFieldsMappger = $product_fields_mapper;
     $this->salsifyImportField = $import_field;
     $this->salsifyImportTaxonomy = $import_taxonomy;
+    $this->batchBuilder = new BatchBuilder();
+    $this->messenger = $messenger;
   }
 
   /**
@@ -328,8 +349,6 @@ class SalsifyFields extends Salsify {
    * initiate a field data sync prior to importing product data. Once the field
    * data is ready, the product data is imported using Drupal's queue system.
    *
-   * @param bool $process_immediately
-   *   If set to TRUE, the product import will bypass the queue system.
    * @param bool $force_update
    *   If set to TRUE, the updated date highwater mark will be ignored.
    *
@@ -340,7 +359,7 @@ class SalsifyFields extends Salsify {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function importProductData($process_immediately = FALSE, $force_update = FALSE) {
+  public function importProductData($force_update = FALSE) {
     try {
       // Refresh the product field settings from Salsify.
       $product_data = $this->importProductFields();
@@ -349,64 +368,18 @@ class SalsifyFields extends Salsify {
       // entity reference fields that point to taxonomy fields.
       $this->prepareTermData($product_data);
 
-      $process_result = [];
       // Import the actual product data.
       if (!empty($product_data['products'])) {
-        // Handle cases where the user wants to perform all of the data
-        // processing immediately instead of waiting for the queue to finish.
-        if ($process_immediately) {
+        $this->addItemsToQueue($product_data, $force_update);
+        $message = $this->t('The Salsify data import queue was created.');
 
-          // Product variant import.
-          $variant_process_result = $this->processItems(
-            $product_data,
-            $force_update,
-            ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE
-          );
-
-          // Product import.
-          $product_process_result = $this->processItems(
-            $product_data,
-            $force_update,
-            ProductHelper::PRODUCT_CONTENT_TYPE
-          );
-
-          // Product multipack import.
-          $multipack_process_result = $this->processItems(
-            $product_data,
-            $force_update,
-            ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE
-          );
-
-          $process_result = array_merge_recursive(
-            $variant_process_result,
-            $product_process_result,
-            $multipack_process_result
-          );
-          $this->logger->info($this->t(
-            'The Salsify data import is complete. @created @updated', [
-              '@created' => 'Created products: ' . implode(', ', $process_result['created_products']) . '.',
-              '@updated' => 'Updated products: ' . implode(', ', $process_result['updated_products']) . '.',
-            ]
-          ));
-
-          $message = $this->t('The Salsify data import is complete.');
-        }
-        // Add each product value into a queue for background processing.
-        else {
-          $this->addItemsToQueue($product_data, $force_update);
-          $message = $this->t('The Salsify data import queue was created.');
-        }
-
-        // Unpublish products in case of deletion at Salsify side.
         $deleted_items = $this->salsifyProductRepository
           ->unpublishProducts($product_data['products']);
 
-        // Send import report.
-        if ((isset($process_result['validation_errors']) && !empty($process_result['validation_errors'])) ||
-          !empty($deleted_items)) {
-          $validation_errors = $process_result['validation_errors'] ?? [];
+        // Send report with deleted items.
+        if (!empty($deleted_items)) {
           $this->salsifyEmailReport
-            ->sendReport($validation_errors, $deleted_items);
+            ->sendReport([], $deleted_items);
         }
 
         return [
@@ -433,64 +406,6 @@ class SalsifyFields extends Salsify {
       ];
     }
 
-  }
-
-  /**
-   * Process salsify items.
-   *
-   * @param mixed $product_data
-   *   Array of salsify products.
-   * @param bool $force_update
-   *   Force update.
-   * @param string $content_type
-   *   Content type for import.
-   *
-   * @return array
-   *   Array of updated and created GTINs.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   */
-  private function processItems(
-    &$product_data,
-    bool $force_update,
-    $content_type
-  ) {
-    $updated_products = [];
-    $created_products = [];
-    $validation_errors = [];
-
-    foreach ($product_data['products'] as $product) {
-      // Add child entity references.
-      $this->addChildLinks($product_data['mapping'], $product);
-      $product['CMS: Market'] = $product_data['market'] ?? NULL;
-
-      if (ProductHelper::getProductType($product) == $content_type) {
-        $result = $this->salsifyImportField->processSalsifyItem(
-          $product,
-          $force_update,
-          $content_type
-        );
-
-        if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
-          $updated_products[] = $product['GTIN'];
-        }
-        elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
-          $created_products[] = $product['GTIN'];
-        }
-        $validation_errors = array_merge(
-          $validation_errors,
-          $result['validation_errors']
-        );
-      }
-    }
-
-    return [
-      'updated_products' => $updated_products,
-      'created_products' => $created_products,
-      'validation_errors' => $validation_errors,
-    ];
   }
 
   /**
@@ -522,7 +437,7 @@ class SalsifyFields extends Salsify {
    * @param array $product
    *   Product record.
    */
-  private function addChildLinks(array $mapping, array &$product) {
+  public function addChildLinks(array $mapping, array &$product) {
     if (isset($mapping[$product['GTIN']])) {
       foreach ($mapping[$product['GTIN']] as $child_gtin => $child_type) {
         if ($child_type == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
@@ -541,7 +456,7 @@ class SalsifyFields extends Salsify {
    * @param array $product_data
    *   Data of product.
    */
-  protected function prepareTermData(array $product_data) {
+  public function prepareTermData(array $product_data) {
     $salsify_fields = $product_data['fields'];
     $entity_type = $this->getEntityType();
     $entity_bundle = $this->getEntityBundle();
