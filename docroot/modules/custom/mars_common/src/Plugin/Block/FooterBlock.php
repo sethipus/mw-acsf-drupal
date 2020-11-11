@@ -260,4 +260,15 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     return $cache_tags;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheContexts() {
+    $cache_context = parent::getCacheContexts();
+    // TODO: Create cache context in case the campaign page
+    // when social links can be different.
+    $cache_context = Cache::mergeContexts($cache_context, ['url.path']);
+    return $cache_context;
+  }
+
 }
