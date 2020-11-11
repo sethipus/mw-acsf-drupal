@@ -3,6 +3,7 @@
 namespace Drupal\mars_common;
 
 use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ConfigFactoryOverrideInterface;
@@ -12,6 +13,7 @@ use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\layout_builder\SectionComponent;
+use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -42,6 +44,11 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   const THEME_CONFIG = 'emulsifymars.settings';
 
   /**
+   * Social const.
+   */
+  const SOCIAL = 'social';
+
+  /**
    * Needed config override from general theme.
    */
   const NEEDED_CONFIG_OVERRIDE = [
@@ -65,7 +72,6 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
     'brand_borders_2',
     'png_asset',
     'button_style',
-    'show_allergen_info',
     'social',
   ];
 
@@ -261,6 +267,10 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
 
     foreach (self::NEEDED_CONFIG_OVERRIDE as $item) {
       if (isset($theme_configuration[$item]) && !empty($theme_configuration[$item])) {
+        if ($item == self::SOCIAL) {
+          // Social links from layout builder.
+          $this->fillOutSocialLinks($theme_configuration[self::SOCIAL]);
+        };
         $overrides[$item] = $theme_configuration[$item];
       }
     }
@@ -304,6 +314,24 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
     return in_array(self::THEME_CONFIG, $names) &&
       !$this->configInstaller->isSyncing() &&
       !InstallerKernel::installationAttempted();
+  }
+
+  /**
+   * @param $social_layout
+   */
+  private function fillOutSocialLinks(array &$social_layout) {
+    // Social links from default theme.
+    $social_theme_origin = $this->configFactory->getEditable(self::THEME_CONFIG)->getOriginal(self::SOCIAL, FALSE);
+    if (!empty($social_theme_origin) && !empty($social_layout)) {
+      $social_theme_origin_qty = count($social_theme_origin);
+      $social_layout_qty = count($social_layout);
+      if ($social_theme_origin_qty > $social_layout_qty) {
+        $difference = $social_theme_origin_qty - $social_layout_qty;
+        for ($i = 1; $i <= $difference; $i++) {
+          $social_layout[] = NULL;
+        }
+      }
+    }
   }
 
 }

@@ -486,17 +486,19 @@ class ThemeConfiguratorService {
       ],
     ];
 
-    $form['product_layout'] = [
-      '#type' => 'details',
-      '#open' => TRUE,
-      '#title' => $this->t('Product layout settings'),
-      '#description' => $this->t("MARS theme settings for Product layout."),
-    ];
-    $form['product_layout']['show_allergen_info'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Show allergen info'),
-      '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
-    ];
+    if (!$this->isPluginBlock($form)) {
+      $form['product_layout'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('Product layout settings'),
+        '#description' => $this->t("MARS theme settings for Product layout."),
+      ];
+      $form['product_layout']['show_allergen_info'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Show allergen info'),
+        '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
+      ];
+    }
 
     if (!$this->isPluginBlock($form)) {
       $form['#validate'][] = [$this, 'formSystemThemeSettingsValidate'];
