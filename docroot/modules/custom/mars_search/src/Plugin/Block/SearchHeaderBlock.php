@@ -102,8 +102,6 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
 
     // Getting search results from SOLR.
     $options = $this->searchQueryParser->parseQuery();
-    // Filters should not affect facets output.
-    $options['disable_filters'] = TRUE;
 
     $query_search_results = $this->searchHelper->getSearchResults($options, 'main_search_facets');
 
