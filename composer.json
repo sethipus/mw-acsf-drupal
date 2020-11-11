@@ -155,7 +155,7 @@
                 "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
             },
             "drupal/pdf_api": {
-                "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2019-01-31/tmp-directory-3016161-4.patch"
+                "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2020-10-21/tmp-directory-3016161-9.patch"
             }
         }
     },

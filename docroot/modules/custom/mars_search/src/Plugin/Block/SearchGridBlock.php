@@ -252,8 +252,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // After this line $facetOptions and $searchOptions become different.
     $facetOptions = $searchOptions;
-    // We don't need taxonomy filters and keys filter applied for facets query.
-    $facetOptions['disable_filters'] = TRUE;
     unset($facetOptions['limit']);
 
     // Taxonomy preset filter(s).

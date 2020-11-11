@@ -13,7 +13,8 @@
         return;
       }
 
-      var eventPrefix = 'faqSearch';
+      var eventPrefix = 'faqSearch',
+          eventSelector = '.mars-autocomplete-field-faq';
       if (settings.dataLayer.searchPage === 'search_page') {
         eventPrefix = 'siteSearch';
         var searchResults = document.querySelector('.ajax-card-grid__items');
@@ -30,7 +31,18 @@
         });
       }
 
-      // SITE SEARCH dataLayer events
+      // SITE SEARCH dataLayer events.
+      var searchInput = document.querySelector(eventSelector);
+      if (searchInput) {
+        searchInput.addEventListener('focus', function() {
+          // Data Layer search START.
+          dataLayer.push({
+            'event': [eventPrefix, 'Start'].join('_'),
+            [eventPrefix + 'Term']: '',
+            [eventPrefix + 'Results']: ''
+          });
+        });
+      }
       if (settings.dataLayer.siteSearchResults.siteSearchResults == '0') {
         // SITE SEARCH NO RESULT
         dataLayer.push({
