@@ -184,7 +184,7 @@
       const links = document.querySelectorAll('a');
       links.forEach((link) => {
         //Check if link is external and add listener
-        if (link.href.indexOf(window.location.hostname) < 0) {
+        if (link.href.indexOf(window.location.hostname) < 0 && link.href.indexOf('http') >= 0) {
           link.addEventListener('click', (event) => {
             setTimeout(function() {
               const item = event.target.closest('a');
