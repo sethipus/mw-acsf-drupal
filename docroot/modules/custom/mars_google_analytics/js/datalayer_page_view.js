@@ -37,11 +37,9 @@
 
       // COMPONENT NAME
       var getComponentName = function(element) {
-        var componentName = '';
-        var componentBlock = element.closest('[data-block-plugin-id]');
-        if (typeof componentBlock !== 'undefined') {
-          componentName = componentBlock.dataset.blockPluginId;
-        }
+        const componentBlock = element.closest('[data-block-plugin-id]');
+        var componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+
         return componentName;
       }
 
@@ -58,7 +56,7 @@
             var componentName = getComponentName(event.target);
             cardType = '';
             var card = event.target.closest('section');
-            if (typeof card !== 'undefined') {
+            if (card) {
               cardType = card.dataset.cardType;
             }
             // CARD CLICK
@@ -184,7 +182,7 @@
       const links = document.querySelectorAll('a');
       links.forEach((link) => {
         //Check if link is external and add listener
-        if (link.href.indexOf(window.location.hostname) < 0 && link.href.indexOf('http') >= 0) {
+        if (link.href.indexOf(window.location.hostname) < 0) {
           link.addEventListener('click', (event) => {
             setTimeout(function() {
               const item = event.target.closest('a');
