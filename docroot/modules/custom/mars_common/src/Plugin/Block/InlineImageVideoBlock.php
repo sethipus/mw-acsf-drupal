@@ -53,6 +53,11 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
         }
       }
       $build['#video_src'] = $video_url;
+      // Datalayer attributes.
+      $build['#data_layer'] = [
+        'video_id' => $media_id,
+        'video_flag' => 'User played',
+      ];
     }
 
     $build['#theme'] = 'inline_image_video_block';

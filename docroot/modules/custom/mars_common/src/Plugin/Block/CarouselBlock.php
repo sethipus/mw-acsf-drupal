@@ -111,6 +111,10 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
           'image' => ($item_value['item_type'] == self::KEY_OPTION_IMAGE),
           'alt' => NULL,
           'title' => NULL,
+          'data_layer' => [
+            'video_id' => $media_id,
+            'video_flag' => 'User played',
+          ],
         ];
         $items[] = $item;
       }
