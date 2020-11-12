@@ -1,0 +1,115 @@
+<?php
+
+namespace Drupal\mars_lighthouse\Plugin\QueueWorker;
+
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mars_lighthouse\LighthouseClientInterface;
+use Drupal\mars_lighthouse\LighthouseInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+
+/**
+ * Process a queue.
+ *
+ * @QueueWorker(
+ *   id = "lighthouse_inventory_report_queue",
+ *   title = @Translation("Lighthouse inventory report queue worker"),
+ *   cron = {"time" = 60}
+ * )
+ */
+class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
+
+  use StringTranslationTrait;
+
+  /**
+   * Media storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $mediaStorage;
+
+  /**
+   * The configFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * Lighthouse client.
+   *
+   * @var \Drupal\mars_lighthouse\LighthouseClientInterface
+   */
+  protected $lighthouseClient;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Lighthouse adapter.
+   *
+   * @var \Drupal\mars_lighthouse\LighthouseInterface
+   */
+  protected $lighthouseAdapter;
+
+  /**
+   * Logger for this channel.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected $logger;
+
+  /**
+   * LighthouseQueueWorker constructor.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityTypeManagerInterface $entity_type_manager,
+    ConfigFactoryInterface $config_factory,
+    LighthouseClientInterface $lighthouse_client,
+    LighthouseInterface $lighthouse,
+    LoggerChannelFactoryInterface $logger_factory
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->mediaStorage = $entity_type_manager->getStorage('media');
+    $this->configFactory = $config_factory;
+    $this->lighthouseClient = $lighthouse_client;
+    $this->lighthouseAdapter = $lighthouse;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->logger = $logger_factory->get('mars_lighthouse');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('config.factory'),
+      $container->get('lighthouse.client'),
+      $container->get('lighthouse.adapter'),
+      $container->get('logger.factory')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function processItem($data) {
+    return [];
+  }
+
+}
