@@ -90,11 +90,20 @@
   }
 
   &__item_wrapper {
-    width: 25%;
+    width: 100%;
+
+    @include medium {
+      width: 50%;
+    }
+
+    @include xl {
+      width: 25%;
+    }
 
     & > section, & > article {
       display: block;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 }
