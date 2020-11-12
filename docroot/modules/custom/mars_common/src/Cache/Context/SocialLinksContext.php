@@ -57,11 +57,14 @@ class SocialLinksContext implements CacheContextInterface {
    */
   public function getContext() {
     $node = $this->routeMatch->getParameter('node');
+    $social = [];
     if ($node instanceof NodeInterface && $node->bundle() === 'campaign') {
       $theme_override_from_layout = $this->extractFromLayoutBuilder($node);
-      $social = $theme_override_from_layout['social'];
-      foreach ($social as &$item) {
-        unset($item['remove_social']);
+      if (!empty($theme_override_from_layout) && isset($theme_override_from_layout['social'])) {
+        $social = $theme_override_from_layout['social'];
+        foreach ($social as &$item) {
+          unset($item['remove_social']);
+        }
       }
     }
     else {
