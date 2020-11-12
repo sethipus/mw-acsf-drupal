@@ -69,46 +69,49 @@ Drupal.behaviors.fullscreenVideoPlayer = {
 
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
-          const videoContainer = video.target.closest('figure');
-          var componentName = '';
-          var componentBlock = videoContainer.closest('[data-block-plugin-id]');
-          if (typeof componentBlock !== 'undefined') {
-            componentName = componentBlock.dataset.blockPluginId;
-          }
+          const componentBlock = video.closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
 
           dataLayer.push({
             event: 'videoPageView',
-            pageName: container.title,
+            pageName: document.title,
             videoTitle: videoContainer.dataset.videoTitle || '',
             videoId: videoContainer.dataset.videoId,
             videoFlag: videoContainer.dataset.videoFlag,
-            componentName: componentBlock
+            componentName: componentName
           }, {once : true});
 
           video.addEventListener('play', () => {
             dataLayer.push({
               event: 'videoView',
-              pageName: container.title,
+              pageName: document.title,
               videoStart: 0,
               videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
               videoFlag: videoContainer.dataset.videoFlag,
-              componentName: componentBlock
+              componentName: componentName
             });
           }, {once : true});
 
-          video.addEventListener('ended', () => {
-            dataLayer.push({
-              event: 'videoView',
-              pageName: container.title,
-              videoStart: 0,
-              videoComplete: 1,
-              videoTitle: videoContainer.dataset.videoTitle || '',
-              videoId: videoContainer.dataset.videoId,
-              videoFlag: videoContainer.dataset.videoFlag,
-              componentName: componentBlock
-            });
-          }, {once : true});
+          let videoEndedHandler = () => {
+            var tr = video.played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==video.duration);
+            if(hasLoopedOnce) {
+              dataLayer.push({
+                event: 'videoView',
+                pageName: document.title,
+                videoStart: 0,
+                videoComplete: 1,
+                videoTitle: videoContainer.dataset.videoTitle || '',
+                videoId: videoContainer.dataset.videoId,
+                videoFlag: videoContainer.dataset.videoFlag,
+                componentName: componentName
+              });
+              video.removeEventListener('timeupdate', videoEndedHandler);
+            }
+          }
+
+          video.addEventListener("timeupdate", videoEndedHandler);
         }
 
         // Add events for all buttons
