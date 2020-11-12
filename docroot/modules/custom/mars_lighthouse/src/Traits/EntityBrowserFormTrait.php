@@ -61,6 +61,7 @@ trait EntityBrowserFormTrait {
       $element['#element_validate'] = [
         [self::class, 'validateRequiredElement'],
       ];
+      $element['#required'] = TRUE;
     }
 
     $element['browser'] = [
