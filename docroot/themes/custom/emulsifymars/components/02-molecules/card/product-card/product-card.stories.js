@@ -4,6 +4,7 @@ import card from './product-card.twig';
 
 import cardData from './product-card.yml';
 
+import contentPairUpData from './product-in-pair-up.yml'
 /**
  * Storybook Definition.
  */
@@ -14,7 +15,11 @@ export const productCardDefault = () => {
 };
 
 export const productCardNewProduct = () => {
-  return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {is_new: true})) }} style={{padding: '5rem'}}/>
+  return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {recipe_is_new: true})) }} style={{padding: '5rem'}}/>
+}
+
+export const contentPairUp = () => {
+  return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, contentPairUpData)) }} style={{padding: '5rem'}}/>
 }
 
 export const productCardImageOverride = () => {
