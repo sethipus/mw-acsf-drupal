@@ -61,7 +61,7 @@ ___________________________________________
 
 5) Full update of the project:
     
-        ddev composer install  
+        (run from outside docker container) ddev composer install  
     
         ddev start
         
