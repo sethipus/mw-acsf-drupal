@@ -15,6 +15,7 @@
       {% include "@atoms/video/ambient-video/video.twig" with {
         video__src__url: video_src,
         video__base_class: 'ambient-video',
+        video__title: recipe_header_text,
         video__control: true,
       } %}
     {% endblock %}

@@ -4,7 +4,11 @@
  #}
 {% set video__base_class = video__base_class|default('inline-video') %}
 
-<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} data-fullcontrol="false">
+<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} 
+  data-fullcontrol="false" 
+  data-video-id="{{ data_layer.video_id }}" 
+  data-video-flag="{{ data_layer.video_flag }}"
+  data-video-title="{{ video__title }}">
   <video {{ bem('video', [], video__base_class) }}>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>

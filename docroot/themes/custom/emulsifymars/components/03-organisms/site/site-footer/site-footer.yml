@@ -1,5 +1,6 @@
 theme_styles: 'twix'
 social_text: 'Follow Us On'
+footer_logo_link: '#homepage_link'
 region_selector_label: 'Select Region'
 marketing_text_title: 'This is a marketing site'
 marketing_text: 'This site includes information, games, advertisements and promotional offers featuring our products. Children should get a parent’s permission before visiting any website or giving personal information. You must be 18 or older to shop online.'

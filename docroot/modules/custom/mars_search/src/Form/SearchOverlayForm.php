@@ -61,6 +61,7 @@ class SearchOverlayForm extends FormBase {
         'class' => [
           'mars-autocomplete-field',
           'mars-cards-view',
+          'data-layer-search-form-input',
         ],
         'autocomplete' => 'off',
         'aria-label' => $this->t('Search input field'),

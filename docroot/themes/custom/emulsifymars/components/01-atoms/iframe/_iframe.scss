@@ -12,7 +12,7 @@
 
 .newsletter-iframe {
   &__inner {
-    height: 750px;
+    height: 768px; // 750px + 2*8px of user style agent margin
     overflow: hidden;
   }
 }

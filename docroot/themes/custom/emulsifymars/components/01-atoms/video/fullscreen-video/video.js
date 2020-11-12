@@ -67,6 +67,53 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           checkVolume(videoElements);
         }, false);
 
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const componentBlock = video.closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: document.title,
+            videoTitle: videoContainer.dataset.videoTitle || '',
+            videoId: videoContainer.dataset.videoId,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: componentName
+          }, {once : true});
+
+          video.addEventListener('play', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: document.title,
+              videoStart: 0,
+              videoTitle: videoContainer.dataset.videoTitle || '',
+              videoId: videoContainer.dataset.videoId,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: componentName
+            });
+          }, {once : true});
+
+          let videoEndedHandler = () => {
+            var tr = video.played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==video.duration);
+            if(hasLoopedOnce) {
+              dataLayer.push({
+                event: 'videoView',
+                pageName: document.title,
+                videoStart: 0,
+                videoComplete: 1,
+                videoTitle: videoContainer.dataset.videoTitle || '',
+                videoId: videoContainer.dataset.videoId,
+                videoFlag: videoContainer.dataset.videoFlag,
+                componentName: componentName
+              });
+              video.removeEventListener('timeupdate', videoEndedHandler);
+            }
+          }
+
+          video.addEventListener("timeupdate", videoEndedHandler);
+        }
+
         // Add events for all buttons
         videoElements('playpause').addEventListener('click', function(e) {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();

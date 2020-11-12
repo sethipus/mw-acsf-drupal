@@ -63,7 +63,7 @@
             }
             // CARD CLICK
             dataLayer.push({
-              event: 'clickCards', 
+              event: 'clickCards',
               componentName: componentName,
               cardType: cardType,
               clickName: clickName,
@@ -97,7 +97,7 @@
                   clickName: event.target.innerText.trim(),
                 });
                 break;
-              case 'main-menu__item': 
+              case 'main-menu__item':
                 dataLayer.push({
                   event: 'clickHeader',
                   componentName: componentName,
@@ -151,7 +151,7 @@
                   clickName: 'Upper menu items',
                 });
                 break;
-              case 'legal-links-menu__item': 
+              case 'legal-links-menu__item':
                 dataLayer.push({
                   event: 'clickFooter',
                   componentName: componentName,
@@ -180,6 +180,24 @@
         }, 100);
       });
 
+      // EXTERNAL(outbound) LINKS CLICK EVENT
+      const links = document.querySelectorAll('a');
+      links.forEach((link) => {
+        //Check if link is external and add listener
+        if (link.href.indexOf(window.location.hostname) < 0 && link.href.indexOf('http') >= 0) {
+          link.addEventListener('click', (event) => {
+            setTimeout(function() {
+              const item = event.target.closest('a');
+              const componentName = getComponentName(event.target);
+              dataLayer.push({
+                event: 'clickOutbound',
+                clickName: item.innerText.trim(),
+                componentName: componentName
+              })
+            }, 100);
+          });
+        }
+      });
     }
   };
 })(jQuery, Drupal, drupalSettings);

@@ -129,8 +129,7 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
   public function processItem($data) {
     // Create a new SalsifyImport object and pass the Salsify data through.
     $force_update = $data['force_update'];
-    $process_result = $this->salsifyImportField
-      ->processSalsifyItem(
+    $process_result = SalsifyImportField::processSalsifyItem(
       $data,
       $force_update,
       ProductHelper::getProductType($data)

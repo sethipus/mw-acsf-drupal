@@ -26,6 +26,8 @@ social-feed:
   dependencies:
     - core/drupal
     - core/jquery
+    - core/jquery.once
+    - core/underscore
     - emulsifymars/vendor-chunk-2
 
 entry-gate:
