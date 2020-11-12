@@ -34,3 +34,9 @@ services:
     arguments: ['@current_route_match', '@request_stack', '@config.factory', '@config.installer']
     tags:
       - {name: config.factory.override, priority: 5}
+
+  cache_context.social_links:
+    class: Drupal\mars_common\Cache\Context\SocialLinksContext
+    arguments: ['@current_route_match', '@config.factory']
+    tags:
+      - { name: cache.context }

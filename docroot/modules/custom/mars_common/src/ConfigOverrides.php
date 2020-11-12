@@ -156,19 +156,7 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
    * {@inheritdoc}
    */
   public function getCacheableMetadata($name) {
-    $metadata = new CacheableMetadata();
-    if (!$this->isApplicableForConfigs((array) $name)) {
-      return $metadata;
-    }
-
-    $node = $this->getCurrentCampaignNode();
-    if ($node) {
-      $metadata->addCacheableDependency($node);
-      $theme_config = $this->configFactory->get(self::THEME_CONFIG);
-      $metadata->addCacheableDependency($theme_config);
-    }
-
-    return $metadata;
+    return new CacheableMetadata();
   }
 
   /**

@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\Cache\Context\SocialLinksContext;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -265,9 +266,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   public function getCacheContexts() {
     $cache_context = parent::getCacheContexts();
-    // TODO: Create cache context in case the campaign page
-    // when social links can be different.
-    $cache_context = Cache::mergeContexts($cache_context, ['url.path']);
+    $cache_context = Cache::mergeContexts($cache_context, [SocialLinksContext::CACHE_CONTEXT_NAME_SOCIAL_LINKS]);
     return $cache_context;
   }
 
