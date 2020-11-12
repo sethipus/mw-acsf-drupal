@@ -8,13 +8,16 @@
   <div class="recipe-header__title">{{ "Recipe" | t }}</div>
   <div class="recipe-header__text">{{ recipe_header_text }}</div>
 </div>
-<div class="recipe-media" data-theme="{{ theme_styles }}">
+<div class="recipe-media" data-theme="{{ theme_styles }}"
+  {% if recipe_header_text and video_src %}
+    data-component-title="{{ recipe_header_text }}"
+  {% endif %}
+>
   {% if video_src %}
     {% block recipe_media_video %}
       {% include "@atoms/video/ambient-video/video.twig" with {
         video__src__url: video_src,
         video__base_class: 'ambient-video',
-        video__title: recipe_header_text,
         video__control: true,
       } %}
     {% endblock %}

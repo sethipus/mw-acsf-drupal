@@ -5,11 +5,10 @@
 {% set video__base_class = video__base_class|default('ambient-video') %}
 {% set video__extra_classes = ['ambient-video'] %}
 
-<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} 
-  data-fullscreen="false" 
-  data-video-id="{{ data_layer.video_id }}" 
-  data-video-flag="{{ data_layer.video_flag }}" 
-  data-video-title="{{ video__title }}">
+<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
+  data-fullscreen="false"
+  data-video-id="{{ data_layer.video_id }}"
+  data-video-flag="Background">
   <video {{ bem('main', [], video__base_class) }}>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>

@@ -56,7 +56,6 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
       // Datalayer attributes.
       $build['#data_layer'] = [
         'video_id' => $media_id,
-        'video_flag' => 'User played',
       ];
     }
 
