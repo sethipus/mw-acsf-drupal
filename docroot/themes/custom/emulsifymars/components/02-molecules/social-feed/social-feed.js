@@ -1,6 +1,6 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
-(function($, Drupal){
+(function($, _, Drupal){
   Drupal.behaviors.socialFeed = {
     attach(context) {
       // init swiper
@@ -26,8 +26,8 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
         }
       });
 
-      $(window).resize($.debounce(200, e => {swiper.scrollbar.updateSize()}));
+      $(window).once('socialFeed').on('resize', _.debounce(200, e => {swiper.scrollbar.updateSize()}));
     },
   };
 
-})(jQuery, Drupal);
+})(jQuery, _, Drupal);

@@ -9,7 +9,7 @@
          data-card-type="product-card"
          onclick="window.location='{{ item.card_url }}'">
 
-    {% if recipe_is_new %}
+    {% if is_new %}
       {% include "@atoms/badge/badge.twig" %}
     {% endif %}
 
