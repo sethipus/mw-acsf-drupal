@@ -131,7 +131,8 @@
     letter-spacing: 0.7px;
   }
 
-  .dropdown__link:hover {
+  .dropdown__link:hover,
+  .dropdown__item--selected .dropdown__link {
     font-weight: bold;
     color: clr(secondary);
     background: transparent;
