@@ -91,5 +91,10 @@
 
   &__item_wrapper {
     width: 25%;
+
+    & > section, & > article {
+      display: block;
+      margin: 0 auto;
+    }
   }
 }
