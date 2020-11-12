@@ -77,17 +77,17 @@ Drupal.behaviors.ambientVideoPlayer = {
         
         // Listen to scroll event to pause video when out of viewport
         let videoVisible = false;
+        let manuallyPaused = false;
         document.addEventListener('scroll', function() {
-          let videoPosition = video.offsetTop;
+          let videoPosition = video.getBoundingClientRect().top;
           let videoHeight = video.getBoundingClientRect().height;
-          let windowPosition = window.pageYOffset;
           let windowHeight = window.innerHeight;
 
-          if (videoPosition + videoHeight - windowPosition < 0 || windowPosition + windowHeight - videoPosition < 0) {
+          if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
             video.pause();
             videoVisible = false;
           } else {
-            if(!videoVisible) {
+            if(!manuallyPaused && !videoVisible) {
               video.play();
               videoVisible = true;
             }
@@ -98,15 +98,19 @@ Drupal.behaviors.ambientVideoPlayer = {
         playpause.addEventListener('click', function(e) {
           if (video.paused || video.ended) {
             video.play();
+            manuallyPaused = false;
           } else {
             video.pause();
+            manuallyPaused = true;
           }
         });
         video.addEventListener('click', function(e) {
           if (video.paused || video.ended) {
             video.play();
+            manuallyPaused = false;
           } else {
             video.pause();
+            manuallyPaused = true;
           }
         });
       }
