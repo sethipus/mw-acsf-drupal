@@ -101,7 +101,7 @@ class SalsifyProductRepository {
         ['product', 'product_variant', 'product_multipack'],
         'IN'
       )
-      ->condition('salsify_id', array_column($products, 'salsify:id'), 'NOT IN')
+      ->condition('salsify_id', $products, 'NOT IN')
       ->execute();
 
     $product_entities_delete = $this->entityTypeManager
