@@ -56,7 +56,7 @@ Drupal.behaviors.overlayVideoPlayer = {
 
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
-          const componentBlock = video.closest('[data-block-plugin-id]');
+          const componentBlock = videoElements('video').closest('[data-block-plugin-id]');
           const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
 
           dataLayer.push({
@@ -81,8 +81,8 @@ Drupal.behaviors.overlayVideoPlayer = {
           }, {once : true});
 
           let videoEndedHandler = () => {
-            var tr = video.played;
-            var hasLoopedOnce = (tr.end(tr.length-1)==video.duration);
+            var tr = videoElements('video').played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==videoElements('video').duration);
             if(hasLoopedOnce) {
               dataLayer.push({
                 event: 'videoView',
@@ -94,11 +94,11 @@ Drupal.behaviors.overlayVideoPlayer = {
                 videoFlag: videoContainer.dataset.videoFlag,
                 componentName: componentName
               });
-              video.removeEventListener('timeupdate', videoEndedHandler);
+              videoElements('video').removeEventListener('timeupdate', videoEndedHandler);
             }
           }
 
-          video.addEventListener("timeupdate", videoEndedHandler);
+          videoElements('video').addEventListener("timeupdate", videoEndedHandler);
         }
 
         // Add events for all buttons
