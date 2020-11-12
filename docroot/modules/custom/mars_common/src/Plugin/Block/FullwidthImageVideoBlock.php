@@ -60,6 +60,11 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         'video' => TRUE,
         'src' => $video_url,
       ];
+      // Datalayer attributes.
+      $build['#data_layer'] = [
+        'video_id' => $media_id,
+        'video_flag' => 'User played',
+      ];
     }
 
     $build['#theme'] = 'fullwidth_image_video_block';

@@ -36,6 +36,7 @@ module:
   diff: 0
   dropzonejs: 0
   editor: 0
+  editor_advanced_link: 0
   embed: 0
   emulsify_twig: 0
   entity_block: 0

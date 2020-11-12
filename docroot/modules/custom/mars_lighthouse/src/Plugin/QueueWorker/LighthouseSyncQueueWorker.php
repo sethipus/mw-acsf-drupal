@@ -213,7 +213,7 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function updateMediaData(MediaInterface $media, array $data) {
+  public function updateMediaData(MediaInterface $media, array $data): ?MediaInterface {
     if (!$data) {
       return NULL;
     }
@@ -303,34 +303,39 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    * Sync media bulk.
    */
   public function syncLighthouseSiteBulk($media_objects) {
-    $assets_ids = [];
+    $request_data = [];
+    /* @var \Drupal\media\Entity\Media $media */
     foreach ($media_objects as $media) {
-      $assets_ids[] = $media->field_external_id->value;
+      if (!empty($media->field_original_external_id->value)) {
+        $request_data[$media->field_external_id->value] = $media->field_original_external_id->value;
+      }
+      else {
+        $request_data[$media->field_external_id->value] = $media->field_external_id->value;
+      }
     }
 
     $params = $this->lighthouseAdapter->getToken();
     try {
-      $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate($media_objects), $params);
+      $data = $this->lighthouseClient->getAssetsByIds($request_data, $this->getLatestModifiedDate($media_objects), $params);
     }
     catch (TokenIsExpiredException $e) {
       // Try to refresh token.
       $params = $this->lighthouseAdapter->refreshToken();
-      $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate($media_objects), $params);
+      $data = $this->lighthouseClient->getAssetsByIds($request_data, $this->getLatestModifiedDate($media_objects), $params);
     }
     catch (LighthouseAccessException $e) {
       // Try to force request new token.
       $params = $this->lighthouseAdapter->getToken(TRUE);
-      $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate($media_objects), $params);
+      $data = $this->lighthouseClient->getAssetsByIds($request_data, $this->getLatestModifiedDate($media_objects), $params);
     }
     $external_ids = [];
     foreach ($data as $item) {
       $media_objects = $this->mediaStorage->loadByProperties([
-        'field_external_id' => $item['assetId'],
+        'field_original_external_id' => $item['origAssetId'],
       ]);
       foreach ($media_objects as $media) {
-        if (isset($item['versionIdOTMM']) &&
-          $item['versionIdOTMM'] != $media->field_version_id->value) {
-          $external_ids[] = $media->field_external_id->value;
+        $external_ids[] = $media->field_external_id->value;
+        if (!empty($item) && isset($item['assetId'])) {
           $this->updateMediaData($media, $item);
         }
       }
@@ -364,11 +369,7 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
       $data = $this->lighthouseClient->getAssetById($external_id, $params);
     }
 
-    if ((!empty($data) &&
-      isset($data['versionIdOTMM']) &&
-      $data['versionIdOTMM'] != $media->field_version_id->value) ||
-      $media->get('field_original_external_id')->isEmpty()
-    ) {
+    if (!empty($data) && isset($data['assetId'])) {
       $this->updateMediaData($media, $data);
 
       $this->logger->info($this->t('Result processed. Media with external id was updated @external_id', [

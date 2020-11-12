@@ -68,7 +68,7 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#type' => 'text_format',
       '#format' => 'rich_text',
       '#title' => $this->t('Marketing message'),
-      '#default_value' => $config->get('marketing_message') ?? '<p>For more information about responsible use of our products, please follow the link to the <a href="https://twix.de/assets/media/Mars-Code.pdf">Mars Marketing Code</a>.</p>',
+      '#default_value' => $config->get('marketing_message') ?? '<p>For more information about responsible use of our products, please follow the link to the <a target="_blank" href="https://twix.de/assets/media/Mars-Code.pdf">Mars Marketing Code</a>.</p>',
       '#required' => TRUE,
     ];
 
