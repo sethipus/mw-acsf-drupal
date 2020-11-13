@@ -4,14 +4,14 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\mars_common\Cache\Context\SocialLinksContext;
-use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
 
 /**
  * Footer Block.
@@ -144,6 +144,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
         }
       }
     }
+
+    CacheableMetadata::createFromRenderArray($build)
+      ->merge(
+        $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
+      )
+      ->applyTo($build);
+
     $build['#theme'] = 'footer_block';
     return $build;
   }
@@ -259,15 +266,6 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     // update process dependencies cache.
     $cache_tags = Cache::mergeTags($cache_tags, [self::CUSTOM_CACHE_TAG]);
     return $cache_tags;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getCacheContexts() {
-    $cache_context = parent::getCacheContexts();
-    $cache_context = Cache::mergeContexts($cache_context, [SocialLinksContext::CACHE_CONTEXT_NAME_SOCIAL_LINKS]);
-    return $cache_context;
   }
 
 }
