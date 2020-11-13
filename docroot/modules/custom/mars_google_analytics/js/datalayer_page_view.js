@@ -49,7 +49,7 @@
         card.addEventListener('click', function(event) {
           setTimeout(function() {
             var item = event.target.closest('a');
-            var clickName = item.innerText.trim() ? item.innerText.trim() : card.dataset.siteSearchClicked;
+            var clickName = item.innerText.trim() || card.dataset.siteSearchClicked;
             var componentName = getComponentName(event.target);
             var cardType = card.dataset.cardType;
             // CARD CLICK
@@ -58,6 +58,7 @@
               componentName: componentName,
               cardType: cardType,
               clickName: clickName,
+              clickDetails: card.dataset.siteSearchClicked
             });
           }, 100);
         })
@@ -102,6 +103,7 @@
                   componentName: componentName,
                   clickType: 'Language selectors',
                   clickName: 'Language selectors',
+                  clickDetails: event.target.innerText.trim()
                 });
                 break;
               case 'status__container':
@@ -164,6 +166,7 @@
                   componentName: componentName,
                   clickType: 'Region selectors',
                   clickName: 'Region selectors',
+                  clickDetails: event.target.innerText.trim()
                 });
                 break;
             }
