@@ -76,7 +76,6 @@ Feature: Product Test
     And I fill in "Segment" with "product_segment"
     And I fill in "Product Name" with "product_name"
     And I select "Format1" from "Format"
-    And I click on a "//a[contains(text(), 'Variants')]" xpath element
 
     # Delete format
     When I am on "admin/structure/taxonomy/manage/mars_format/overview"
