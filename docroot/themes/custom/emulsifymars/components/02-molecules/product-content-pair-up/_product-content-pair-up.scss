@@ -17,7 +17,7 @@
     @include medium {
       letter-spacing: 2.8px;
       font-size: 5.6rem;
-      max-width: 532px;
+      max-width: 688px;
     }
 
     @include xl {
@@ -91,10 +91,10 @@
 
         @include xl {
           margin: 0;
-          max-width: 640px;
+          max-width: 900px;
         }
 
-        .eyebrow {
+        .content-pair-up-eyebrow {
           color: clr(subcolor-3);
           font-size: 1.4rem;
           letter-spacing: 0.14rem;
@@ -161,7 +161,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: 300px;
+      top: 350px;
       max-width: 31.8rem;
       margin: auto;
       z-index: $content-pair-supportive-card;

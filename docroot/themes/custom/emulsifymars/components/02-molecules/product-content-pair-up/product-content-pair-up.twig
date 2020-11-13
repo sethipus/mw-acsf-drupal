@@ -16,9 +16,11 @@
   <div {{ bem('container', [], product_content_pair_up_base_class) }}>
     <div class="lead-card" style="background-image: url('{{ background }}')">
       <div class="wrapper">
-        {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-          eyebrow_text: lead_card_eyebrow
-        } %}
+        <div class="content-pair-up-eyebrow">
+          {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+            eyebrow_text: lead_card_eyebrow
+          } %}
+        </div>
         {% include "@atoms/text/headings/_heading.twig" with {
           heading_level: 3,
           heading: lead_card_title,
