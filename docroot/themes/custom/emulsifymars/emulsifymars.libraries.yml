@@ -61,14 +61,6 @@ pdp-multipack:
     - emulsifymars/vendor-chunk-2
     - core/drupal
 
-product-content-pair-up:
-  js:
-    dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
-  dependencies:
-    - core/drupal
-    - core/jquery
-    - core/jquery.once
-
 recommendations-module:
   js:
     dist/js/recommendations_module.js: { }
