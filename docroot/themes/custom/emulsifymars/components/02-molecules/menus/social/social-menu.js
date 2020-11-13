@@ -9,11 +9,8 @@ Drupal.behaviors.socialMenu = {
         setTimeout(function() {
           const item = event.target.closest('a');
           const clickName = item.querySelector('img').getAttribute('title');
-          let componentName = '';
-          const componentBlock = item.closest("[data-block-plugin-id]");
-          if (typeof componentBlock !== 'undefined') {
-            componentName = componentBlock.dataset.blockPluginId;
-          }
+          const componentBlock = element.closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
           let result = {
             componentName: componentName,
           }
@@ -22,12 +19,12 @@ Drupal.behaviors.socialMenu = {
             if (componentName === 'recipe_detail_hero') {
               result.recipeName = context.querySelector('.recipe-header__text').innerText.trim();
               result.recipeTaxonomy = settings.dataLayer.taxonomy;
-              result.event = `article${clickName}`;
+              result.event = `recipe${clickName}`;
             } 
             if (componentName === 'article_header') {
               result.articleName = context.querySelector('.heading').innerText.trim();
               result.articleTaxonomy = settings.dataLayer.taxonomy;
-              result.event = `recipe${clickName}`;
+              result.event = `article${clickName}`;
             }
           } 
           else {
