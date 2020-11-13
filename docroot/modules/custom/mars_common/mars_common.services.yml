@@ -29,8 +29,18 @@ services:
     arguments: ['@image.factory', '@module_handler', '@file_system', '@config.factory']
     class: Drupal\mars_common\ThemeConfiguratorService
 
-  mars_common.config_overrider:
-    class: Drupal\mars_common\ConfigOverrides
-    arguments: ['@current_route_match', '@request_stack', '@config.factory', '@config.installer']
+  mars_common.theme_config_factory_override:
+    class: Drupal\mars_common\ThemeOverride\ConfigFactoryOverride
+    arguments: [ '@config.factory', '@config.installer', '@mars_common.theme_override_service' ]
     tags:
-      - {name: config.factory.override, priority: 5}
+      - { name: config.factory.override, priority: 5 }
+
+  mars_common.theme_override_service:
+    class: Drupal\mars_common\ThemeOverride\ThemeOverrideService
+    arguments: [ '@current_route_match' ]
+
+  cache_context.theme_override:
+    class: Drupal\mars_common\Cache\Context\ThemeOverrideContext
+    arguments: [ '@mars_common.theme_override_service' ]
+    tags:
+      - { name: cache.context }
