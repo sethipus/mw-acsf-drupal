@@ -110,11 +110,13 @@ class SearchQueryParser implements SearchQueryParserInterface {
    */
   public function getDefaultOptions($query_parameters = []) {
     $faq_operator = empty($query_parameters['faq']) ? '<>' : '=';
+    $search_in = ['product', 'recipe', 'article', 'landing_page', 'campaign'];
     return [
       'conditions' => [
         ['type', 'faq', $faq_operator, TRUE],
+        ['type', $search_in, 'IN', TRUE],
       ],
-      'limit' => 12,
+      'limit' => 8,
       // Just to not have this empty.
       'options_logic' => 'AND',
       'keys' => '',
