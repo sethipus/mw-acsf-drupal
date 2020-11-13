@@ -40,7 +40,7 @@ Feature: Flexible Framer Test
     Then I should see "The layout override has been saved."
     And I should see "My Framer Title"
     And I should see "My Item Title"
-    And I should see a "//div[@class='error-component__img-container']//img[@alt='Alternative text']" xpath element
+    And I should see a "//img[@alt='Alternative text']" xpath element
 
     When I am on "/admin/content"
     And I check content with title "TestBasicPageTitle"
