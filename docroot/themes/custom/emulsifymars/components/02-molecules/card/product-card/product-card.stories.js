@@ -15,10 +15,10 @@ export const productCardDefault = () => {
 };
 
 export const productCardNewProduct = () => {
-  return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {recipe_is_new: true})) }} style={{padding: '5rem'}}/>
+  return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {is_new: true})) }} style={{padding: '5rem'}}/>
 }
 
-export const contentPairUp = () => {
+export const productCardContentPairUp = () => {
   return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, contentPairUpData)) }} style={{padding: '5rem'}}/>
 }
 
