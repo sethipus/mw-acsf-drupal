@@ -54,7 +54,7 @@
             var cardType = card.dataset.cardType;
             // CARD CLICK
             dataLayer.push({
-              event: 'clickCards', 
+              event: 'clickCards',
               componentName: componentName,
               cardType: cardType,
               clickName: clickName,
@@ -89,7 +89,7 @@
                   clickName: event.target.innerText.trim(),
                 });
                 break;
-              case 'main-menu__item': 
+              case 'main-menu__item':
                 dataLayer.push({
                   event: 'clickHeader',
                   componentName: componentName,
@@ -144,7 +144,7 @@
                   clickName: 'Upper menu items',
                 });
                 break;
-              case 'legal-links-menu__item': 
+              case 'legal-links-menu__item':
                 dataLayer.push({
                   event: 'clickFooter',
                   componentName: componentName,
