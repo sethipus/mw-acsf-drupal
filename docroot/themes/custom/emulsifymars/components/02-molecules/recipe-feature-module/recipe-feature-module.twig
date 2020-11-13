@@ -1,7 +1,11 @@
 {% set recipe_template__base_class = 'recipe-feature-block' %}
 {% set icon_clock = icon_clock|default('/' ~ base_path ~ directory ~ '/images/icons/clock.svg') %}
 {% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
-<section {{ bem(recipe_template__base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(recipe_template__base_class) }} data-theme="{{ theme_styles }}"
+  {% if title and (recipe_media.video_url is not empty) %}
+    data-component-title="{{ title }}"
+  {% endif %}
+>
   <div {{ bem('title', [], recipe_template__base_class) }}>{{ block_title }}</div>
   <div {{ bem('graphic_divider', [], recipe_template__base_class) }}>{{graphic_divider | raw}}</div>
   <div class="media">
