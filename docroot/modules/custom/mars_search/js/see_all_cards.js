@@ -1,6 +1,6 @@
 /**
  * @file
- * Javascript for the search related things.
+ * Javascript for the ajax pager of search grid block.
  */
 
 

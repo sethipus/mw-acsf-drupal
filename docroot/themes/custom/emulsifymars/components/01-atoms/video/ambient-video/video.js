@@ -30,16 +30,12 @@ Drupal.behaviors.ambientVideoPlayer = {
 
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
-          const videoContainer = video.target.closest('figure');
-          var componentName = '';
-          var componentBlock = videoContainer.closest('[data-block-plugin-id]');
-          if (typeof componentBlock !== 'undefined') {
-            componentName = componentBlock.dataset.blockPluginId;
-          }
+          const componentBlock = video.closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
 
           dataLayer.push({
             event: 'videoPageView',
-            pageName: container.title,
+            pageName: document.title,
             videoTitle: videoContainer.dataset.videoTitle || '',
             videoId: videoContainer.dataset.videoId,
             videoFlag: videoContainer.dataset.videoFlag,
@@ -49,7 +45,7 @@ Drupal.behaviors.ambientVideoPlayer = {
           video.addEventListener('play', () => {
             dataLayer.push({
               event: 'videoView',
-              pageName: container.title,
+              pageName: document.title,
               videoStart: 0,
               videoTitle: videoContainer.dataset.videoTitle || '',
               videoId: videoContainer.dataset.videoId,
@@ -58,33 +54,40 @@ Drupal.behaviors.ambientVideoPlayer = {
             });
           }, {once : true});
 
-          video.addEventListener('ended', () => {
-            dataLayer.push({
-              event: 'videoView',
-              pageName: container.title,
-              videoStart: 0,
-              videoComplete: 1,
-              videoTitle: videoContainer.dataset.videoTitle || '',
-              videoId: videoContainer.dataset.videoId,
-              videoFlag: videoContainer.dataset.videoFlag,
-              componentName: componentName
-            });
-          }, {once : true});
+          let videoEndedHandler = () => {
+            var tr = video.played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==video.duration);
+            if(hasLoopedOnce) {
+              dataLayer.push({
+                event: 'videoView',
+                pageName: document.title,
+                videoStart: 0,
+                videoComplete: 1,
+                videoTitle: videoContainer.dataset.videoTitle || '',
+                videoId: videoContainer.dataset.videoId,
+                videoFlag: videoContainer.dataset.videoFlag,
+                componentName: componentName
+              });
+              video.removeEventListener('timeupdate', videoEndedHandler);
+            }
+          }
+
+          video.addEventListener("timeupdate", videoEndedHandler);
         }
         
         // Listen to scroll event to pause video when out of viewport
         let videoVisible = false;
+        let manuallyPaused = false;
         document.addEventListener('scroll', function() {
-          let videoPosition = video.offsetTop;
+          let videoPosition = video.getBoundingClientRect().top;
           let videoHeight = video.getBoundingClientRect().height;
-          let windowPosition = window.pageYOffset;
           let windowHeight = window.innerHeight;
 
-          if (videoPosition + videoHeight - windowPosition < 0 || windowPosition + windowHeight - videoPosition < 0) {
+          if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
             video.pause();
             videoVisible = false;
           } else {
-            if(!videoVisible) {
+            if(!manuallyPaused && !videoVisible) {
               video.play();
               videoVisible = true;
             }
@@ -95,15 +98,19 @@ Drupal.behaviors.ambientVideoPlayer = {
         playpause.addEventListener('click', function(e) {
           if (video.paused || video.ended) {
             video.play();
+            manuallyPaused = false;
           } else {
             video.pause();
+            manuallyPaused = true;
           }
         });
         video.addEventListener('click', function(e) {
           if (video.paused || video.ended) {
             video.play();
+            manuallyPaused = false;
           } else {
             video.pause();
+            manuallyPaused = true;
           }
         });
       }
