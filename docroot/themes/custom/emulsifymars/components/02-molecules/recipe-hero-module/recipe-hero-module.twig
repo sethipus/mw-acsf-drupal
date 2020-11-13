@@ -1,3 +1,4 @@
+{{ attach_library('emulsifymars/recipe-hero-module') }}
 {% set recipe_template__base_class = 'recipe-detail' %}
 {% set icon_clock = icon_clock|default('/' ~ base_path ~ directory ~ '/images/icons/clock.svg') %}
 {% set icon_ingredients = icon_ingredients|default('/' ~ base_path ~ directory ~ '/images/icons/ingredients.svg') %}
@@ -14,21 +15,12 @@
       {% include "@atoms/video/ambient-video/video.twig" with {
         video__src__url: video_src,
         video__base_class: 'ambient-video',
+        video__title: recipe_header_text,
         video__control: true,
       } %}
     {% endblock %}
   {% else %}
-    <div class="recipe-media-image-wrapper">
-    {% block recipe_media_image %}
-      {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: image_title,
-        image_srcset: image_srcset,
-        image_sizes: '',
-        image_src: image_src,
-        responsive_image_blockname: 'recipe-media',
-      } %}
-    {% endblock %}
+    <div class="recipe-media__image-wrapper" style="background-image: url('{{ image_srcset }}')">
     </div>
   {% endif %}
   <div class="recipe-media__info">

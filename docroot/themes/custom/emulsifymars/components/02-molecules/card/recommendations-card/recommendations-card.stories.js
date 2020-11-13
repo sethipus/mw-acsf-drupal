@@ -1,4 +1,5 @@
 import React from 'react';
+
 import card from './recommendations-card.twig';
 import cardData from './recommendations-card.yml';
 
@@ -13,18 +14,18 @@ import campaignCardData from './recommendations-card.yml';
 
 export default { title: 'Molecules/Cards/Recommendations card' };
 
-export const recomendationsCard = () => (
-  <div dangerouslySetInnerHTML={{ __html: card(cardData) }} />
-);
+export const recomendationsCard = () => {
+  return <div dangerouslySetInnerHTML={{ __html: card(cardData) }} />
+};
 
-export const contentHubCard = () => (
-  <div dangerouslySetInnerHTML={{ __html: hubCard(hubCardData) }} />
-);
+export const contentHubCard = () => {
+  return <div dangerouslySetInnerHTML={{ __html: hubCard(hubCardData) }} />
+};
 
-export const landingPageCard = () => (
-  <div dangerouslySetInnerHTML={{ __html: landingCard(landingCardData) }} />
-);
+export const landingPageCard = () => {
+  return <div dangerouslySetInnerHTML={{ __html: landingCard(landingCardData) }} />
+}
 
-export const campaignPageCard = () => (
-  <div dangerouslySetInnerHTML={{ __html: campaignCard(campaignCardData) }} />
-);
+export const campaignPageCard = () => {
+  return <div dangerouslySetInnerHTML={{ __html: campaignCard(campaignCardData) }} />
+}

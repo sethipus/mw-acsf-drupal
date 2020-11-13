@@ -11,7 +11,7 @@
       color: clr(primary);
       text-transform: uppercase;
       font-size: 2.8rem;
-      line-height: 1.1rem;
+      line-height: 1.1;
       font-weight: 500;
       font-family: variable(heading-font);
     }
@@ -62,14 +62,14 @@
     }
 
     .inline-video {
-    
+
       &__control[data-state="play"] {
         width: 6.6rem;
         height: 7rem;
         top: calc(50% - 7rem / 2);;
         left: calc(50% - 6.6rem / 2);;
       }
-    
+
       &__control[data-state="pause"] {
         width: 6.6rem;
         height: 7rem;
