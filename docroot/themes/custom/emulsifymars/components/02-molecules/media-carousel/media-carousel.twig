@@ -15,8 +15,8 @@
     <div class="swiper-wrapper">
       {% for item in items %}
         <div class="swiper-slide"
-          {% if item.title and item.video %}
-            data-component-title="{{ item.title }}"
+          {% if item.content and item.video %}
+            data-component-title="{{ item.content }}"
           {% endif %}
         >
           {% if item.image %}
@@ -32,7 +32,6 @@
             {% include "@atoms/video/overlay-video/video.twig" with {
               video__src__url: item.src,
               video__control: true,
-              data_layer: item.data_layer,
             } %}
           {% endif %}
         </div>

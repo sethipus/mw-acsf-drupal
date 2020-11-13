@@ -125,9 +125,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
         if ($media_params['video'] ?? FALSE) {
           $build['#media_type'] = 'video';
           $build['#media_format'] = $media_params['format'];
-          $build['#data_layer'] = [
-            'video_id' => $media_id,
-          ];
         }
 
       }
