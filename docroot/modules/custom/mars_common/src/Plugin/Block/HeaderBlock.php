@@ -288,7 +288,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       if (isset($links[$current_language])) {
         $links = [$current_language => $links[$current_language]] + $links;
         $links[$current_language]['url'] = Url::fromRoute('<current>');
+        $links[$current_language]['selected'] = TRUE;
       }
+      ksort($links);
 
       foreach ($links as $link_key => $link_data) {
         $url = $page_entity ?
@@ -298,6 +300,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
           'title' => $link_data['title'],
           'abbr' => mb_strtoupper($link_key),
           'url' => $url,
+          'selected' => $link_data['selected'] ?? FALSE,
         ];
       }
     }
