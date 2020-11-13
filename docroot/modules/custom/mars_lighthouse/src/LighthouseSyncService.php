@@ -26,6 +26,16 @@ class LighthouseSyncService {
   const SIZE_CHUNK = 10;
 
   /**
+   * Inventory queue id.
+   */
+  const INVENTORY_QUEUE_ID = 'lighthouse_inventory_report_queue';
+
+  /**
+   * Sync queue id.
+   */
+  const SYNC_QUEUE_ID = 'lighthouse_sync_queue';
+
+  /**
    * The queue service.
    *
    * @var \Drupal\Core\Queue\QueueFactory
@@ -56,11 +66,10 @@ class LighthouseSyncService {
   public function runLighthouseSyncQueue() {
     $media_chunks = $this->getAllMediaChunks();
     /** @var \Drupal\entityqueue\EntityQueueInterface $queue */
-    $queue = $this->queueFactory->get('lighthouse_sync_queue');
+    $queue = $this->queueFactory->get(self::SYNC_QUEUE_ID);
     foreach ($media_chunks as $media_chunk) {
       $queue->createItem($media_chunk);
     }
-
   }
 
   /**
@@ -69,7 +78,7 @@ class LighthouseSyncService {
   public function runLighthouseInventoryReport() {
     $media_chunks = $this->getAllMediaChunks();
     /** @var \Drupal\entityqueue\EntityQueueInterface $queue */
-    $queue = $this->queueFactory->get('lighthouse_inventory_report_queue');
+    $queue = $this->queueFactory->get(self::INVENTORY_QUEUE_ID);
     foreach ($media_chunks as $media_chunk) {
       $queue->createItem($media_chunk);
     }

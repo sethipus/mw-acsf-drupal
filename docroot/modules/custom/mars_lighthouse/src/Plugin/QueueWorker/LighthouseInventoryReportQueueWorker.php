@@ -5,8 +5,10 @@ namespace Drupal\mars_lighthouse\Plugin\QueueWorker;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mars_lighthouse\LighthouseAccessException;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
 use Drupal\mars_lighthouse\LighthouseInterface;
+use Drupal\mars_lighthouse\TokenIsExpiredException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -109,7 +111,42 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
    * {@inheritdoc}
    */
   public function processItem($data) {
-    return [];
+    $asset_list = [];
+    $asset_ids = [];
+    if (!empty($data)) {
+      /* @var \Drupal\media\Entity\Media $media */
+      foreach ($data as $media) {
+        $asset_ids[] = $media->field_external_id->value;
+        $asset_list[] = [
+          'assetId' => $media->field_external_id->value,
+          'isDerivedAsset' => FALSE,
+          'repoId' => '',
+          'repoLoc' => '',
+          'note' => '',
+        ];
+      }
+    }
+
+    $params = $this->lighthouseAdapter->getToken();
+    try {
+      $data = $this->lighthouseClient->sentInventoryReport($asset_list, $params);
+    }
+    catch (TokenIsExpiredException $e) {
+      // Try to refresh token.
+      $params = $this->lighthouseAdapter->refreshToken();
+      $data = $this->lighthouseClient->sentInventoryReport($asset_list, $params);
+    }
+    catch (LighthouseAccessException $e) {
+      // Try to force request new token.
+      $params = $this->lighthouseAdapter->getToken(TRUE);
+      $data = $this->lighthouseClient->sentInventoryReport($asset_list, $params);
+    }
+
+    if (!empty($data)) {
+      $this->logger->info($this->t('Inventory report have already sent to lighthouse with asset ids @external_ids', [
+        '@external_ids' => implode(', ', array_unique($asset_ids)),
+      ]));
+    }
   }
 
 }
