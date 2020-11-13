@@ -27,27 +27,6 @@ class ThemeOverride implements CacheableDependencyInterface {
   ];
 
   /**
-   * The override values.
-   *
-   * @var array
-   */
-  private $values;
-
-  /**
-   * The override id.
-   *
-   * @var string
-   */
-  private $id;
-
-  /**
-   * The cache tags of this override.
-   *
-   * @var array
-   */
-  private $cacheTags;
-
-  /**
    * Creates an empty ThemeOverride object.
    *
    * @return ThemeOverride
@@ -124,6 +103,27 @@ class ThemeOverride implements CacheableDependencyInterface {
     }
     return $component_configuration;
   }
+
+  /**
+   * The override values.
+   *
+   * @var array
+   */
+  private $values;
+
+  /**
+   * The override id.
+   *
+   * @var string
+   */
+  private $id;
+
+  /**
+   * The cache tags of this override.
+   *
+   * @var array
+   */
+  private $cacheTags;
 
   /**
    * ThemeOverride constructor.
