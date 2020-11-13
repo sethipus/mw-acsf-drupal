@@ -18,6 +18,7 @@ use Drupal\salsify_integration\ProductHelper;
 use Drupal\salsify_integration\Salsify;
 use Drupal\salsify_integration\SalsifyFields;
 use Drupal\salsify_integration\SalsifyImport;
+use Drupal\salsify_integration\SalsifyImportField;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -443,27 +444,28 @@ class ConfigForm extends ConfigFormBase {
             ->setProgressMessage($this->t('Completed @current of @total.'))
             ->setErrorMessage($this->t('An error has occurred.'));
 
-          $this->batchBuilder->addOperation(
-            [$this, 'batchProcessItems'],
-            [
-              $product_data,
-              $force_update,
-              ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE,
-            ]);
-          $this->batchBuilder->addOperation(
-            [$this, 'batchProcessItems'],
-            [
-              $product_data,
-              $force_update,
-              ProductHelper::PRODUCT_CONTENT_TYPE,
-            ]);
-          $this->batchBuilder->addOperation(
-            [$this, 'batchProcessItems'],
-            [
-              $product_data,
-              $force_update,
-              ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE,
-            ]);
+          $this->batchProcessItems(
+            $product_data,
+            $force_update,
+            ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE
+          );
+          $this->batchProcessItems(
+            $product_data,
+            $force_update,
+            ProductHelper::PRODUCT_CONTENT_TYPE
+          );
+          $this->batchProcessItems(
+            $product_data,
+            $force_update,
+            ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE
+          );
+
+          $product_ids = array_column($product_data['products'], 'salsify:id');
+          $this->batchBuilder
+            ->addOperation(
+              [$this, 'batchDeleteItems'],
+              [$product_ids]
+            );
 
           $this->batchBuilder->setFinishCallback([
             $this,
@@ -535,9 +537,33 @@ class ConfigForm extends ConfigFormBase {
   }
 
   /**
+   * Pre-processor for batch operations.
+   */
+  public function batchProcessItems($items, $force_update, $content_type) {
+
+    foreach ($items['products'] as $product) {
+      // Add child entity references.
+      $this->salsifyFields->addChildLinks($items['mapping'], $product);
+      $product['CMS: Market'] = $items['market'] ?? NULL;
+      if (isset($product['CMS: Meta Description']) ||
+        isset($product['CMS: Keywords'])) {
+        $product['CMS: Meta tags'] = TRUE;
+      }
+
+      if (ProductHelper::getProductType($product) == $content_type) {
+        $this->batchBuilder
+          ->addOperation(
+            [$this, 'batchProcessItem'],
+            [[$product], $force_update, $content_type]
+          );
+      }
+    }
+  }
+
+  /**
    * Processor for batch operations.
    */
-  public static function batchProcessItems($items, $force_update, $content_type, array &$context) {
+  public static function batchProcessItem($items, $force_update, $content_type, array &$context) {
 
     // Elements per operation.
     $limit = 20;
@@ -545,12 +571,12 @@ class ConfigForm extends ConfigFormBase {
     // Set default progress values.
     if (empty($context['sandbox']['progress'])) {
       $context['sandbox']['progress'] = 0;
-      $context['sandbox']['max'] = count($items['products']);
+      $context['sandbox']['max'] = count($items);
     }
 
     // Save items to array which will be changed during processing.
     if (empty($context['sandbox']['items'])) {
-      $context['sandbox']['items'] = $items['products'];
+      $context['sandbox']['items'] = $items;
     }
 
     $counter = 0;
@@ -563,16 +589,9 @@ class ConfigForm extends ConfigFormBase {
       foreach ($context['sandbox']['items'] as $product) {
 
         if ($counter != $limit) {
-          // Add child entity references.
-          \Drupal::service('salsify_integration.salsify_fields')->addChildLinks($items['mapping'], $product);
-          $product['CMS: Market'] = $items['market'] ?? NULL;
-          if (isset($product['CMS: Meta Description']) ||
-            isset($product['CMS: Keywords'])) {
-            $product['CMS: Meta tags'] = TRUE;
-          }
 
           if (ProductHelper::getProductType($product) == $content_type) {
-            $result = \Drupal::service('salsify_integration.salsify_import_field')->processSalsifyItem(
+            $result = SalsifyImportField::processSalsifyItem(
               $product,
               $force_update,
               $content_type
@@ -598,26 +617,29 @@ class ConfigForm extends ConfigFormBase {
 
           $counter++;
           $context['sandbox']['progress']++;
-
-          $context['message'] = t('Now processing product :progress of :count', [
-            ':progress' => $context['sandbox']['progress'],
-            ':count' => $context['sandbox']['max'],
-          ]);
-
-          // Increment total processed item values. Will be used in finished
-          // callback.
-          $context['results']['processed'] = $context['sandbox']['progress'];
         }
-
-        // Unpublish products in case of deletion at Salsify side.
-        $context['results']['deleted_items'] = \Drupal::service('salsify_integration.salsify_product_repository')
-          ->unpublishProducts($items['products']);
       }
     }
 
     // If not finished all tasks, we count percentage of process. 1 = 100%.
     if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
       $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
+  }
+
+  /**
+   * Processor for batch operations.
+   *
+   * @param mixed $items
+   *   Items for batch processing.
+   * @param array $context
+   *   Context array.
+   */
+  public static function batchDeleteItems($items, array &$context) {
+    if (!empty($items)) {
+      // Unpublish products in case of deletion at Salsify side.
+      $context['results']['deleted_items'] = \Drupal::service('salsify_integration.salsify_product_repository')
+        ->unpublishProducts($items);
     }
   }
 
@@ -641,9 +663,7 @@ class ConfigForm extends ConfigFormBase {
         ->sendReport($validation_errors, $results['deleted_items']);
     }
 
-    $message = t('Number of products affected by batch: @count', [
-      '@count' => $results['processed'],
-    ]);
+    $message = t('The Salsify data import is complete.');
     \Drupal::messenger()
       ->addStatus($message);
   }

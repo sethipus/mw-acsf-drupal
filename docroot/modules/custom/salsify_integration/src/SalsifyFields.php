@@ -374,7 +374,7 @@ class SalsifyFields extends Salsify {
         $message = $this->t('The Salsify data import queue was created.');
 
         $deleted_items = $this->salsifyProductRepository
-          ->unpublishProducts($product_data['products']);
+          ->unpublishProducts(array_column($product_data['products'], 'salsify:id'));
 
         // Send report with deleted items.
         if (!empty($deleted_items)) {
