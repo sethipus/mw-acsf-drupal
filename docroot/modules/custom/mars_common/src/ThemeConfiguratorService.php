@@ -131,6 +131,31 @@ class ThemeConfiguratorService {
     }
     $form_state->setStorage($form_storage);
 
+    if ($this->isPluginBlock($form)) {
+      $form['logo'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Logo image'),
+        '#open' => TRUE,
+      ];
+      $form['logo']['settings']['logo_path'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Path to custom logo'),
+        '#default_value' => !empty($config) ? $config['logo_path'] : '',
+      ];
+      $form['logo']['settings']['logo_upload'] = [
+        '#type' => 'file',
+        '#title' => $this->t('Upload logo image'),
+        '#maxlength' => 40,
+        '#description' => $this->t("If you don't have direct file access to the server, use this field to upload your logo."),
+        '#upload_validators' => [
+          'file_validate_is_image' => [],
+        ],
+        '#process' => [
+          [OverrideFile::class, 'processFile'],
+        ],
+      ];
+    }
+
     $form['color_settings'] = [
       '#type'        => 'details',
       '#title'       => $this->t('Color settings'),
@@ -461,17 +486,19 @@ class ThemeConfiguratorService {
       ],
     ];
 
-    $form['product_layout'] = [
-      '#type' => 'details',
-      '#open' => TRUE,
-      '#title' => $this->t('Product layout settings'),
-      '#description' => $this->t("MARS theme settings for Product layout."),
-    ];
-    $form['product_layout']['show_allergen_info'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Show allergen info'),
-      '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
-    ];
+    if (!$this->isPluginBlock($form)) {
+      $form['product_layout'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('Product layout settings'),
+        '#description' => $this->t("MARS theme settings for Product layout."),
+      ];
+      $form['product_layout']['show_allergen_info'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Show allergen info'),
+        '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
+      ];
+    }
 
     if (!$this->isPluginBlock($form)) {
       $form['#validate'][] = [$this, 'formSystemThemeSettingsValidate'];

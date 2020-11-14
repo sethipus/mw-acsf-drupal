@@ -20,7 +20,9 @@
 
     <div class="ajax-card-grid__items">
       {% for item in items %}
-        {{ item }}
+        <div {{ bem('item_wrapper', [], card_grid_base_class) }}>
+          {{ item }}
+        </div>
       {% endfor %}
     </div>
 

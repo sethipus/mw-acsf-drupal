@@ -69,6 +69,14 @@ product-content-pair-up:
     - core/jquery
     - core/jquery.once
 
+recipe-hero-module:
+  js:
+    dist/js/02-molecules/recipe-hero-module/recipe-hero-module.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+
 recommendations-module:
   js:
     dist/js/recommendations_module.js: { }
