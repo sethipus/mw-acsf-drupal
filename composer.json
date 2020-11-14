@@ -5,6 +5,7 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.3",
+        "ext-dom": "*",
         "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
         "acquia/blt": "^11.1.0",

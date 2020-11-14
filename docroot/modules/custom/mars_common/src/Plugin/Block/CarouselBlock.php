@@ -8,8 +8,8 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class CarouselBlock.
@@ -116,7 +116,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       }
     }
 
-    $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'carousel');
+    $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder('carousel');
 
     $build['#title'] = $config['carousel_label'] ?? '';
     $build['#items'] = $items;

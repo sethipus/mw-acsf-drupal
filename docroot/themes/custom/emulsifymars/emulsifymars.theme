@@ -6,9 +6,9 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\file\Entity\File;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -142,14 +142,20 @@ function hex2_rgb($hexStr, $returnAsString = FALSE, $seperator = ',') {
  * Helper function to preload images as background with theme configurator.
  */
 function _emulsifymars_load_images_from_theme(string &$properties) {
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-  $fields = [
-    'graphic_divider',
-    'brand_shape',
+  $assets = [
+    'graphic_divider' => $themeParser->getGraphicDivider(),
+    'brand_shape' => $themeParser->getBrandShape(),
   ];
-  foreach ($fields as $field) {
-    $svg = $themeParser->getFileContentFromTheme($field);
-    $properties .= sprintf(" --v-%s: %s;", str_replace('_', '-', $field), 'url("data:image/svg+xml;base64,' . base64_encode($svg) . '")');
+
+  /** @var \Drupal\mars_common\SVG\SVG|null $asset */
+  foreach ($assets as $asset_name => $asset) {
+    if ($asset) {
+      $css_var_name = str_replace('_', '-', $asset_name);
+      $css_var_value = 'url("data:image/svg+xml;base64,' . $asset->toBase64() . '")';
+      $properties .= sprintf(" --v-%s: %s;", $css_var_name, $css_var_value);
+    }
   }
 }
 
@@ -224,10 +230,10 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
       ];
     }
   }
-
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
-  $variables['divider'] = $themeParser->getFileContentFromTheme('graphic_divider');
-  $variables['brand_borders'] = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
+  $variables['divider'] = $themeParser->getGraphicDivider();
+  $variables['brand_borders'] = $themeParser->getBrandBorder2('recipe-hero-border');
 
   $variables['theme_styles'] = 'drupal';
   $variables['grid_type'] = 'card';

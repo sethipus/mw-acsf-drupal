@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\file\Entity\File;
+use Drupal\mars_common\SVG\SVGFactory;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
@@ -54,6 +55,13 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityStorageInterface
    */
   protected $fileStorageMock;
+
+  /**
+   * Mocked SVG factory service.
+   *
+   * @var \Drupal\mars_common\SVG\SVGFactory|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $svgFactoryMock;
 
   /**
    * Test block configuration.
@@ -125,7 +133,8 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
 
     $this->themeConfiguratorParser = new ThemeConfiguratorParser(
       $this->entityTypeManagerMock,
-      $this->configFactoryMock
+      $this->configFactoryMock,
+      $this->svgFactoryMock
     );
   }
 
@@ -137,6 +146,7 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->svgFactoryMock = $this->createMock(SVGFactory::class);
   }
 
   /**

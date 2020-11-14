@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -213,8 +214,8 @@ class FooterBlockTest extends UnitTestCase {
 
     $this->themeConfiguratorParserMock
       ->expects($this->exactly(1))
-      ->method('getFileWithId')
-      ->willReturn('');
+      ->method('getBrandBorder')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />'));
 
     $this->menuLinkTreeMock
       ->expects($this->exactly(2))

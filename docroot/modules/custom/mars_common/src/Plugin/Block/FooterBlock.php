@@ -107,7 +107,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     // Get brand border path.
     $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
-    $build['#brand_border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'footer-border');
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder('footer-border');
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);

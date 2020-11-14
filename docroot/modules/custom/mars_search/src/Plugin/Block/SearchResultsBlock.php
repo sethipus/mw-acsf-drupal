@@ -174,7 +174,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       ],
     ];
 
-    $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
 
     $build['#theme_styles'] = 'drupal';
     $build['#graphic_divider'] = $file_divider_content ?? '';

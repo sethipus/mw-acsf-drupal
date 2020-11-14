@@ -145,7 +145,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $build['#title'] = $conf['title'];
     $build['#graphic_divider'] = $this
       ->themeConfiguratorParser
-      ->getFileContentFromTheme('graphic_divider');
+      ->getGraphicDivider();
 
     if ($main_entity) {
       $build['#lead_card_entity'] = $main_entity;

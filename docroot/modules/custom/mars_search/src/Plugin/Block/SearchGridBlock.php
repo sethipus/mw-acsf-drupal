@@ -311,7 +311,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_results_count,
     ];
-    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';

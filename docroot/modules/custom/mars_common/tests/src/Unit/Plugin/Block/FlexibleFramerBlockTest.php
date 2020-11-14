@@ -4,6 +4,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\FlexibleFramerBlock;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -235,13 +236,12 @@ class FlexibleFramerBlockTest extends UnitTestCase {
 
     $this->themeConfiguratorParserMock
       ->expects($this->once())
-      ->method('getFileContentFromTheme')
-      ->willReturn('content');
+      ->method('getGraphicDivider');
 
     $this->themeConfiguratorParserMock
       ->expects($this->once())
-      ->method('getFileWithId')
-      ->willReturn('content');
+      ->method('getBrandBorder2')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />'));
 
     $this->themeConfiguratorParserMock
       ->expects($this->once())

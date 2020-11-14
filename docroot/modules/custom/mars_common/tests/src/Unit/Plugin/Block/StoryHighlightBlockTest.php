@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\file\Entity\File;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\StoryHighlightBlock;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\UnitTestCase;
@@ -349,19 +350,12 @@ class StoryHighlightBlockTest extends UnitTestCase {
       });
 
     $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
-    $this
-      ->themeConfigurationParserMock
-      ->method('getFileContentFromTheme')
-      ->willReturnCallback(function ($field) {
-        switch ($field) {
-          case 'brand_borders_2':
-          case 'graphic_divider':
-            return sprintf('Mocked %s content', $field);
-
-          default:
-            return '';
-        }
-      });
+    $this->themeConfigurationParserMock
+      ->method('getGraphicDivider')
+      ->willReturn(new SVG('Mocked graphic_divider content'));
+    $this->themeConfigurationParserMock
+      ->method('getBrandBorder2')
+      ->willReturn(new SVG('Mocked brand_borders_2 content'));
 
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this
