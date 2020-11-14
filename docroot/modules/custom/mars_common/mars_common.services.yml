@@ -26,7 +26,7 @@ services:
       - { name: event_subscriber }
 
   mars_common.theme_configurator_service:
-    arguments: ['@image.factory', '@module_handler', '@file_system', '@config.factory']
+    arguments: ['@image.factory', '@module_handler', '@file_system', '@config.factory', '@entity_type.manager']
     class: Drupal\mars_common\ThemeConfiguratorService
 
   mars_common.config_overrider:
