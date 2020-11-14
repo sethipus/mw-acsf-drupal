@@ -15,6 +15,13 @@ use Drupal\Core\Url;
  */
 function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterface $form_state, $form_id = NULL) {
   \Drupal::service('mars_common.theme_configurator_service')->getThemeConfiguratorForm($form, $form_state);
+
+  if (isset($form['logo']['settings']['logo_upload']['#upload_validators']['file_validate_is_image'])) {
+    unset($form['logo']['settings']['logo_upload']['#upload_validators']['file_validate_is_image']);
+  }
+  $form['logo']['settings']['logo_upload']['#upload_validators']['file_validate_extensions'] = [
+    'png gif jpg jpeg apng svg',
+  ];
 }
 
 /**

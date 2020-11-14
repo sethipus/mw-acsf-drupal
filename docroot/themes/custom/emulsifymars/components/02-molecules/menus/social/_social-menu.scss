@@ -1,10 +1,13 @@
 .social-menu {
   @include list-reset;
 
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
   margin: 15px 0 23px -5px;
 
   &__item {
-    display: inline;
+    flex-basis: 20px;
     margin-bottom: $space-one-fourth;
     margin-right: 3rem;
   }
