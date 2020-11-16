@@ -116,7 +116,21 @@ class ThemeConfiguratorParser {
    *   The brand border or null.
    */
   public function getBrandBorder(string $usage_id = ''): ?SVG {
-    return $this->getSvgFor('brand_borders');
+    $svg = $this->getSVGFor('brand_borders');
+
+    $style = $this->getSettingValue(
+      'brand_border_style',
+      ThemeConfiguratorService::BORDER_STYLE_REPEAT
+    );
+
+    if ($style === ThemeConfiguratorService::BORDER_STYLE_REPEAT) {
+      $svg = $svg->repeated();
+    }
+    else {
+      $svg = $svg->stretched();
+    }
+
+    return $svg;
   }
 
   /**
