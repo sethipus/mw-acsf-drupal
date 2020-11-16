@@ -600,13 +600,13 @@ class ConfigForm extends ConfigFormBase {
             if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
               $context['results']['updated_products'] = array_merge(
                 $context['results']['updated_products'] ?? [],
-                [$product['GTIN']],
+                [$product['GTIN']]
               );
             }
             elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
               $context['results']['created_products'] = array_merge(
                 $context['results']['created_products'] ?? [],
-                [$product['GTIN']],
+                [$product['GTIN']]
               );
             }
             $context['results']['validation_errors'] = array_merge(
