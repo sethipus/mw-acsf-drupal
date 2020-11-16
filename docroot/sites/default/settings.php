@@ -782,15 +782,3 @@ require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
 if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
   include $app_root . '/' . $site_path . '/settings.ddev.php';
 }
-
-/**
- * Default values for lighthouse API configuration.
- *
- * DEV
- */
-$settings['mars_lighthouse_defaults']['client_id'] = 'DrupalTest';
-$settings['mars_lighthouse_defaults']['client_secret'] = 'DrupalTest@1234';
-$settings['mars_lighthouse_defaults']['api_key'] = 'api_sample_key';
-$settings['mars_lighthouse_defaults']['base_path'] = 'https://lighthouse-api-dev.mars.com';
-$settings['mars_lighthouse_defaults']['subpath'] = '/lh-integration/api/v1';
-$settings['mars_lighthouse_defaults']['port'] = 80; //443;
