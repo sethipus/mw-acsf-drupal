@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
@@ -15,36 +16,55 @@ use Drupal\file\Entity\File;
 class ThemeConfiguratorParser {
 
   /**
-   * The configFactory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * File storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $fileStorage;
+  private $fileStorage;
 
   /**
    * Theme settings.
    *
    * @var array
    */
-  protected $themeSettings;
+  private $themeSettings;
 
   /**
-   * {@inheritdoc}
+   * The theme config object.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $config;
+
+  /**
+   * Default constructor for ThemeConfiguratorParser.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory
   ) {
-    $this->configFactory = $config_factory;
+    $this->config = $config_factory->get('emulsifymars.settings');
     $this->fileStorage = $entity_type_manager->getStorage('file');
-    $this->themeSettings = $this->configFactory->get('emulsifymars.settings')->get();
+    $this->themeSettings = $this->config->get();
+  }
+
+  /**
+   * Returns the cache metadata for the theme configurator.
+   *
+   * @return \Drupal\Core\Cache\CacheableMetadata
+   *   The cache metadata for theme configurator.
+   */
+  public function getCacheMetadataForThemeConfigurator(): CacheableMetadata {
+    $cache_metadata = new CacheableMetadata();
+    return $cache_metadata->addCacheableDependency($this->config);
   }
 
   /**
