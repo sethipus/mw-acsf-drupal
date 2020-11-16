@@ -32,23 +32,23 @@ Drupal.behaviors.ambientVideoPlayer = {
         if (typeof dataLayer !== 'undefined') {
           const componentBlock = video.closest('[data-block-plugin-id]');
           const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+          const parentTitleBlock = video.closest('[data-component-title]');
+          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
 
           dataLayer.push({
             event: 'videoPageView',
             pageName: document.title,
-            videoTitle: videoContainer.dataset.videoTitle || '',
-            videoId: videoContainer.dataset.videoId,
+            videoTitle: videoTitle,
             videoFlag: videoContainer.dataset.videoFlag,
             componentName: componentName
-          }, {once : true});
+          });
 
           video.addEventListener('play', () => {
             dataLayer.push({
               event: 'videoView',
               pageName: document.title,
               videoStart: 0,
-              videoTitle: videoContainer.dataset.videoTitle || '',
-              videoId: videoContainer.dataset.videoId,
+              videoTitle: videoTitle,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: componentName
             });
@@ -63,8 +63,7 @@ Drupal.behaviors.ambientVideoPlayer = {
                 pageName: document.title,
                 videoStart: 0,
                 videoComplete: 1,
-                videoTitle: videoContainer.dataset.videoTitle || '',
-                videoId: videoContainer.dataset.videoId,
+                videoTitle: videoTitle,
                 videoFlag: videoContainer.dataset.videoFlag,
                 componentName: componentName
               });
