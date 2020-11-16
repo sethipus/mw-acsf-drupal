@@ -21,11 +21,9 @@ card__button__content: 'See all'
 #              </svg>'
 brand_border: '<svg xmlns="http://www.w3.org/2000/svg">
                   <defs>
-                    <pattern viewBox="0 0 768 291" id="divider-pattern" x="0" y="0" width="768" height="291" patternUnits="userSpaceOnUse">
-                      <path fill="#E62B1E" fill-rule="evenodd" d="M26.839 14l-13.5-14-13 14H0v277h768V14h-.352l-13.5-14-12.583 13.552L728.497 0l-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.23l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.178l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.69l-13.5-14-13 14h-.691l-13.5-14-13 14h-.177l-13.5-14-12.584 13.552L344.754 0l-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.229l-13.5-14-13 14H135.6L122.1 0l-13 14h-.177l-13.5-14-13 14h-1.204L67.72 0l-13 14h-.69L40.53 0l-13 14h-.69z" clip-rule="evenodd"/>
+                    <pattern patternUnits="userSpaceOnUse" id="repeat-pattern" width="425" height="15">
+                      <path xmlns:default="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542zM225.004 12.542L212.502 0l-12.5 12.542L187.501 0 175 12.542 162.501 0 150 12.542 137.499 0 125 12.542V15h125v-2.458L237.501 0l-12.497 12.542zM400.004 12.542L387.502 0l-12.5 12.542L362.501 0 350 12.542 337.501 0 325 12.542 312.499 0 300 12.542V15h125v-2.458L412.501 0l-12.497 12.542z" clip-rule="evenodd"></path><path xmlns:default="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M350.004 12.542L337.502 0l-12.5 12.542L312.501 0 300 12.542 287.501 0 275 12.542 262.499 0 250 12.542V15h125v-2.458L362.501 0l-12.497 12.542z" clip-rule="evenodd"></path>
                     </pattern>
                   </defs>
-                  <rect x="0" y="0" stroke="#630" stroke-width="0" fill="url(#divider-pattern)"></rect>
+                  <rect width="100%" height="100%" fill="url(#repeat-pattern)"></rect>
                 </svg>'
-#brand_shape_class: 'stretch'
-brand_shape_class: 'repeat'

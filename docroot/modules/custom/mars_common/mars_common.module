@@ -120,7 +120,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'footer_block' => [
       'variables' => [
         'logo'                 => NULL,
-        'brand_shape_class'    => NULL,
         'brand_border'         => NULL,
         'social_links'         => NULL,
         'top_footer_menu'      => NULL,

@@ -33,7 +33,7 @@
   </div>
   <div {{ bem('section', ['secondary'], footer__base_class) }}>
     {% block footer__brand_border %}
-      <div class="{{ brand_shape_class }}">
+      <div {{  bem('border', [], footer__base_class)  }}>
         {{ brand_border | raw }}
       </div>
     {% endblock %}
