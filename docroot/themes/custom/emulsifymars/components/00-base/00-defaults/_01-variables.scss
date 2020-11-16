@@ -48,9 +48,14 @@ $space-one-eighth: $space/8;
 // z-index
 $content-pair-up-asset: 11;
 $content-pair-supportive-card: 12;
+$brand-border-overflow-zindex: 100;
 $menu-overlay-zindex: 1000;
 $menu-overlay-content-zindex: 1010;
 $entry-gate-zindex: 1500;
+
+// border
+$brand-border-height: 13rem;
+$brand-border-offset: -8rem;
 
 /*
  * Use this on the outer wrapper of page-level elements.

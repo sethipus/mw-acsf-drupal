@@ -118,16 +118,18 @@ class ThemeConfiguratorParser {
   public function getBrandBorder(string $usage_id = ''): ?SVG {
     $svg = $this->getSVGFor('brand_borders');
 
-    $style = $this->getSettingValue(
-      'brand_border_style',
-      ThemeConfiguratorService::BORDER_STYLE_REPEAT
-    );
+    if ($svg !== NULL) {
+      $style = $this->getSettingValue(
+        'brand_border_style',
+        ThemeConfiguratorService::BORDER_STYLE_REPEAT
+      );
 
-    if ($style === ThemeConfiguratorService::BORDER_STYLE_REPEAT) {
-      $svg = $svg->repeated();
-    }
-    else {
-      $svg = $svg->stretched();
+      if ($style === ThemeConfiguratorService::BORDER_STYLE_REPEAT) {
+        $svg = $svg->repeated();
+      }
+      else {
+        $svg = $svg->stretched();
+      }
     }
 
     return $svg;
@@ -143,7 +145,11 @@ class ThemeConfiguratorParser {
    *   The brand border 2 or null.
    */
   public function getBrandBorder2(string $usage_id = ''): ?SVG {
-    return $this->getSvgFor('brand_borders_2');
+    $svg = $this->getSvgFor('brand_borders_2');
+    if ($svg !== NULL) {
+      $svg = $svg->stretched();
+    }
+    return $svg;
   }
 
   /**

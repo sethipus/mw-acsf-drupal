@@ -2,9 +2,11 @@
 
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 <section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}">
-  <div class="{{ brand_shape_class }}">
-    {{ brand_borders | raw }}
-  </div>
+  {% block footer__brand_border %}
+    <div {{  bem('border', [], related_recipes__base_class)  }}>
+      {{ brand_borders | raw }}
+    </div>
+  {% endblock %}
 
   {% include "@organisms/grid/grid-ff.twig" with {
     grid_label: grid_label,
