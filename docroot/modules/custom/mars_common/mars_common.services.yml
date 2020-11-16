@@ -1,19 +1,46 @@
 services:
   mars_common.media_helper:
     class: Drupal\mars_common\MediaHelper
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@mars_product.product_helper']
+
+  mars_common.media_helper_twig_filters:
+    class: Drupal\mars_common\Twig\MediaHelperFilters
+    arguments:
+      [ '@mars_common.media_helper' ]
+    tags:
+      - { name: twig.extension }
 
   mars_common.theme_configurator_parser:
     class: Drupal\mars_common\ThemeConfiguratorParser
     arguments: [ '@entity_type.manager', '@config.factory' ]
 
-  mars_common.menu_add_access:
-    class: Drupal\mars_common\Access\MenuAddAccess
-    arguments: ['@current_route_match', '@plugin.manager.menu.link']
-    tags:
-      - { name: access_check, applies_to: _menu_add_access }
-
   mars_common.route_subscriber:
     class: Drupal\mars_common\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+
+  mars_common.media_dependency_calculator:
+    class: Drupal\mars_common\EventSubscriber\DependencyCollector\MediaEntityBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  mars_common.theme_configurator_service:
+    arguments: ['@image.factory', '@module_handler', '@file_system', '@config.factory']
+    class: Drupal\mars_common\ThemeConfiguratorService
+
+  mars_common.theme_config_factory_override:
+    class: Drupal\mars_common\ThemeOverride\ConfigFactoryOverride
+    arguments: [ '@config.factory', '@config.installer', '@mars_common.theme_override_service' ]
+    tags:
+      - { name: config.factory.override, priority: 5 }
+
+  mars_common.theme_override_service:
+    class: Drupal\mars_common\ThemeOverride\ThemeOverrideService
+    arguments: [ '@current_route_match' ]
+
+  cache_context.theme_override:
+    class: Drupal\mars_common\Cache\Context\ThemeOverrideContext
+    arguments: [ '@mars_common.theme_override_service' ]
+    tags:
+      - { name: cache.context }

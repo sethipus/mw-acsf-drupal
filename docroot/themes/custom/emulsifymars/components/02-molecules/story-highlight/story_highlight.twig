@@ -26,7 +26,11 @@
     <div class="story-highlight_whitebg">
       <div class="media_items">
       {% for item in items %}
-        <div class="media_item_{{loop.index}}">
+        <div class="media_item_{{loop.index}}"
+          {% if item.title and item.video %}
+            data-component-title="{{ item.title }}"
+          {% endif %}
+        >
           {% if item.image %}
 
             {% include "@atoms/images/image/_image.twig" with {
@@ -40,7 +44,7 @@
 
           {% elseif item.video %}
             {% include "@atoms/video/overlay-video/video.twig" with {
-              video__src__url: item.src
+              video__src__url: item.src,
             } %}
             <button {{ bem('control', [], 'video') }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
           {% endif %}

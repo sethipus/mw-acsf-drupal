@@ -3,12 +3,13 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_browser
+    - entity_browser.browser.lighthouse_browser
     - field.field.node.content_hub_page.body
     - field.field.node.content_hub_page.field_content_hub_image
     - field.field.node.content_hub_page.field_meta_tags
     - field.field.node.content_hub_page.layout_builder__layout
     - node.type.content_hub_page
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - entity_browser
@@ -41,14 +42,14 @@ content:
     type: entity_browser_entity_reference
     weight: 122
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -59,6 +60,13 @@ content:
     third_party_settings: {  }
     type: metatag_firehose
     region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 100
@@ -118,8 +126,8 @@ content:
     third_party_settings: {  }
   url_redirects:
     weight: 50
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
   layout_builder__layout: true

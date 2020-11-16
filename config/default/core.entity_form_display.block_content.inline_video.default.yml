@@ -4,25 +4,35 @@ status: true
 dependencies:
   config:
     - block_content.type.inline_video
+    - entity_browser.browser.lighthouse_video_browser
+    - field.field.block_content.inline_video.field_inline_video
     - field.field.block_content.inline_video.field_inline_video_description
-    - field.field.block_content.inline_video.field_inline_video_path
     - field.field.block_content.inline_video.field_inline_video_svg_asset
     - field.field.block_content.inline_video.field_inline_video_title
+  module:
+    - entity_browser
 id: block_content.inline_video.default
 targetEntityType: block_content
 bundle: inline_video
 mode: default
 content:
-  field_inline_video_description:
-    weight: 28
+  field_inline_video:
+    type: entity_browser_entity_reference
+    weight: 2
     settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
+      entity_browser: lighthouse_video_browser
+      field_widget_display: rendered_entity
+      field_widget_display_settings:
+        view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_replace: false
     region: content
-  field_inline_video_path:
-    weight: 27
+    third_party_settings: {  }
+  field_inline_video_description:
+    weight: 3
     settings:
       size: 60
       placeholder: ''
@@ -30,14 +40,14 @@ content:
     type: string_textfield
     region: content
   field_inline_video_svg_asset:
-    weight: 29
+    weight: 4
     settings:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
   field_inline_video_title:
-    weight: 26
+    weight: 1
     settings:
       size: 60
       placeholder: ''
@@ -46,10 +56,17 @@ content:
     region: content
   info:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
     third_party_settings: {  }
 hidden: {  }

@@ -1,0 +1,3 @@
+mars_common.dialog_fix:
+    js:
+      js/dialogfix.js: {}

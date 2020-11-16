@@ -27,13 +27,89 @@ Drupal.behaviors.ambientVideoPlayer = {
         video.addEventListener('pause', function() {
           changeButtonState(video, playpause, 'playpause');
         }, false);
-  
-        // Add events for all buttons			
+
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const componentBlock = video.closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+          const parentTitleBlock = video.closest('[data-component-title]');
+          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
+
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: document.title,
+            videoTitle: videoTitle,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: componentName
+          });
+
+          video.addEventListener('play', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: document.title,
+              videoStart: 0,
+              videoTitle: videoTitle,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: componentName
+            });
+          }, {once : true});
+
+          let videoEndedHandler = () => {
+            var tr = video.played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==video.duration);
+            if(hasLoopedOnce) {
+              dataLayer.push({
+                event: 'videoView',
+                pageName: document.title,
+                videoStart: 0,
+                videoComplete: 1,
+                videoTitle: videoTitle,
+                videoFlag: videoContainer.dataset.videoFlag,
+                componentName: componentName
+              });
+              video.removeEventListener('timeupdate', videoEndedHandler);
+            }
+          }
+
+          video.addEventListener("timeupdate", videoEndedHandler);
+        }
+        
+        // Listen to scroll event to pause video when out of viewport
+        let videoVisible = false;
+        let manuallyPaused = false;
+        document.addEventListener('scroll', function() {
+          let videoPosition = video.getBoundingClientRect().top;
+          let videoHeight = video.getBoundingClientRect().height;
+          let windowHeight = window.innerHeight;
+
+          if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
+            video.pause();
+            videoVisible = false;
+          } else {
+            if(!manuallyPaused && !videoVisible) {
+              video.play();
+              videoVisible = true;
+            }
+          }
+        });
+        
+        // Add events for play/pause button and video container			
         playpause.addEventListener('click', function(e) {
           if (video.paused || video.ended) {
             video.play();
+            manuallyPaused = false;
           } else {
             video.pause();
+            manuallyPaused = true;
+          }
+        });
+        video.addEventListener('click', function(e) {
+          if (video.paused || video.ended) {
+            video.play();
+            manuallyPaused = false;
+          } else {
+            video.pause();
+            manuallyPaused = true;
           }
         });
       }

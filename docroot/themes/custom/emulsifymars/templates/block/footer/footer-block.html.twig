@@ -26,6 +26,8 @@
   regions: region_selector,
   corporate_tout_text: corporate_tout,
   card__button__content: corporate_tout_button,
+  brand_shape_class: brand_shape_class,
+  brand_border: brand_border,
 } %}
 
   {% block footer__logo %}
@@ -44,7 +46,7 @@
 
   {% block footer__brand_border %}
     <div class="{{ brand_shape_class }}">
-      {{ border | raw }}
+      {{ brand_border | raw }}
     </div>
   {% endblock %}
 
@@ -52,7 +54,6 @@
     <div {{ bem('section-header', [], footer__base_class) }}>{{ 'Follow Us On' | t }}</div>
     {% include "@molecules/menus/social/social-menu.twig" with {
       social_menu_items: social_menu_items,
-      configured_icons: true
     }%}
   {% endblock %}
 

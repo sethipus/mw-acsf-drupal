@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Mars google analytics module main file.
+ */
+
+/**
+ * Implements hook_page_attachments().
+ */
+function mars_google_analytics_page_attachments(array &$page) {
+
+  $page['#attached']['drupalSettings']['dataLayer']['session_id'] = \Drupal::service('session_manager')->getId();
+
+  $page['#attached']['drupalSettings']['dataLayer']['language'] = \Drupal::service('language_manager')
+    ->getCurrentLanguage()
+    ->getId();
+
+  $mars_config = \Drupal::configFactory()
+    ->getEditable('mars_common.system.site');
+  $page['#attached']['drupalSettings']['dataLayer']['brand'] = $mars_config->get('brand');
+  $page['#attached']['drupalSettings']['dataLayer']['segment'] = $mars_config->get('segment');
+  $page['#attached']['drupalSettings']['dataLayer']['market'] = $mars_config->get('market');
+
+  $collector_services = \Drupal::service('mars_google_analytics.data_collector.service_collector')
+    ->getServices();
+
+  foreach ($collector_services as $collector_service) {
+    $collector_service->collect();
+    $page['#attached']['drupalSettings']['dataLayer'][$collector_service->getDataLayerId()] = $collector_service->getGaData();
+  }
+  $page['#attached']['library'][] = 'mars_google_analytics/datalayer.page_view';
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_load().
+ */
+function mars_google_analytics_taxonomy_term_load($terms) {
+  foreach ($terms as $term) {
+    /* @var \Drupal\taxonomy\Entity\Term $term */
+    \Drupal::service('mars_google_analytics.data_collector.terms')
+      ->addLoadedTerms($term->referencedEntities()[0]->label(), $term->label());
+  }
+}

@@ -1,0 +1,6 @@
+services:
+  mars_recipes.recipe_feature_dependency_calculator:
+    class: Drupal\mars_recipes\EventSubscriber\DependencyCollector\RecipeFeatureBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

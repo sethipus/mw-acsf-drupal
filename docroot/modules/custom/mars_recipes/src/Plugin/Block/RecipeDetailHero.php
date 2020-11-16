@@ -107,21 +107,23 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    * {@inheritdoc}
    */
   public function build() {
+    /** @var \Drupal\node\Entity\Node $node */
     $node = $this->getContextValue('node');
 
     $build = [
       '#label' => $node->label(),
       '#description' => $node->field_recipe_description->value,
-      '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
-      '#ingredients_number' => $node->field_recipe_ingredients_number->value . $node->get('field_recipe_ingredients_number')->getSettings()['suffix'],
-      '#number_of_servings' => $node->field_recipe_number_of_servings->value . $node->get('field_recipe_number_of_servings')->getSettings()['suffix'],
+      '#cooking_time' => $node->field_recipe_cooking_time->value,
+      '#ingredients_number' => $node->field_recipe_ingredients_number->value,
+      '#number_of_servings' => $node->field_recipe_number_of_servings->value,
       '#theme' => 'recipe_detail_hero_block',
     ];
 
-    if ($node->hasField('field_recipe_image') && $node->field_recipe_image->target_id) {
-      $image_arr = $this->mediaHelper->getMediaParametersById($node->field_recipe_image->target_id);
+    $media_id = $this->mediaHelper->getEntityMainMediaId($node);
+    $image_arr = $this->mediaHelper->getMediaParametersById($media_id);
+    if (!($image_arr['error'] ?? FALSE) && ($image_arr['src'] ?? FALSE)) {
       $build['#image'] = [
-        'label' => $image_arr['title'] ?? '',
+        'alt' => $image_arr['alt'] ?? '',
         'url' => $image_arr['src'] ?? '',
       ];
     }
@@ -130,8 +132,15 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'recipe-hero-border');
     $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
 
-    if ($node->hasField('field_recipe_video') && $node->field_recipe_video->entity) {
-      $build['#video'] = $node->field_recipe_video->entity->get('field_media_video_file')->entity->createFileUrl();
+    if (
+      $node->hasField('field_recipe_video') &&
+      !$node->get('field_recipe_video')->isEmpty()
+    ) {
+      $video_id = $node->get('field_recipe_video')->first()->target_id;
+      $vide_params = $this->mediaHelper->getMediaParametersById($video_id);
+      if (!($vide_params['error'] ?? FALSE) && ($vide_params['src'] ?? FALSE)) {
+        $build['#video'] = $vide_params['src'];
+      }
     }
 
     // Toggle to simplify unit test.
@@ -158,6 +167,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
    */
   protected function socialLinks() {
     global $base_url;
+    $node = $this->getContextValue('node');
     $social_menu_items = [];
     $social_medias = $this->configFactory->get('social_media.settings')
       ->get('social_media');
@@ -167,15 +177,25 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
         continue;
       }
       $social_menu_items[$name]['title'] = $social_media['text'];
-      $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url']);
+      $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url'], ['node' => $node]);
       $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {
         $icon_path = $base_url . '/' . drupal_get_path('module', 'social_media') . '/icons/';
-        $social_menu_items[$name]['icon'] = $icon_path . $name . '.svg';
+        $social_menu_items[$name]['icon'] = [
+          '#theme' => 'image',
+          '#uri' => $icon_path . $name . '.svg',
+          '#title' => $social_media['text'],
+          '#alt' => $social_media['text'],
+        ];
       }
       elseif (!empty($social_media['img'])) {
-        $social_menu_items[$name]['icon'] = $base_url . '/' . $social_media['img'];
+        $social_menu_items[$name]['icon'] = [
+          '#theme' => 'image',
+          '#uri' => $base_url . '/' . $social_media['img'],
+          '#title' => $social_media['text'],
+          '#alt' => $social_media['text'],
+        ];
       }
     }
 

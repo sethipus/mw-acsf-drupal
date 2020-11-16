@@ -9,13 +9,13 @@ import cardData from './product-card.yml';
  */
 export default { title: 'Molecules/Cards/ProductCard' };
 
-export const productCardDefault = () => (
-  <div dangerouslySetInnerHTML={{ __html: card(cardData) }} style={{padding: '5rem'}}/>
-);
+export const productCardDefault = () => {
+  return <div dangerouslySetInnerHTML={{ __html: card(cardData) }} style={{padding: '5rem'}}/>
+};
 
-export const productCardNewProduct = () => (
-  <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {recipe_is_new: true})) }} style={{padding: '5rem'}}/>
-);
+export const productCardNewProduct = () => {
+  return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, {is_new: true})) }} style={{padding: '5rem'}}/>
+}
 
 export const productCardImageOverride = () => {
   return <div dangerouslySetInnerHTML={{ __html: card({
@@ -25,7 +25,7 @@ export const productCardImageOverride = () => {
     item: {
       card_url: 'https://storybook.js.org/',
       card__image__src: 'image9@3x.png',
-      card__image__override__src: 'image-4@3x.png',
+      card__image__hover__src: 'image-4@3x.png',
       paragraph_content: 'TWIX® PEANUT BUTTER Minis',
       default_link_attributes: {
         target: '_self',

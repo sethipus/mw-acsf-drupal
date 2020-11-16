@@ -27,7 +27,7 @@ _core:
 id: acquia_search_index
 name: 'Acquia Search Solr Index'
 description: ''
-read_only: true
+read_only: false
 field_settings:
   brand:
     label: 'Brand » Taxonomy term » Name'
@@ -244,6 +244,16 @@ processor_settings:
   aggregated_field: {  }
   entity_status: {  }
   faq_item_queue_weight: {  }
+  highlight:
+    highlight: always
+    highlight_partial: false
+    excerpt: true
+    excerpt_length: null
+    exclude_fields: {  }
+    prefix: '<strong class="search-highlight">'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
   ignore_character:
     all_fields: true
     fields:
@@ -273,26 +283,6 @@ processor_settings:
     weights:
       preprocess_index: -10
       preprocess_query: -10
-  ignorecase:
-    all_fields: true
-    fields:
-      - brand
-      - faq_filter_topic
-      - faq_item_queue_weight
-      - field_qa_item_answer
-      - field_qa_item_question
-      - mars_brand_initiatives_name
-      - mars_diet_allergens_name
-      - mars_flavor_name
-      - mars_format_name
-      - mars_occasions_name
-      - mars_trade_item_description_name
-      - product_name
-      - title
-      - type
-    weights:
-      preprocess_index: -20
-      preprocess_query: -20
   language_with_fallback: {  }
   rendered_item: {  }
 tracker_settings:

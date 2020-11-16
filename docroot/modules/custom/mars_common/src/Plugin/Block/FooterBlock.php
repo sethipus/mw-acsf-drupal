@@ -4,13 +4,14 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
 
 /**
  * Footer Block.
@@ -105,7 +106,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#logo'] = $this->themeConfiguratorParser->getLogoFromTheme();
 
     // Get brand border path.
-    $build['#border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'footer-border');
+    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
+    $build['#brand_border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'footer-border');
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
@@ -142,6 +144,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
         }
       }
     }
+
+    CacheableMetadata::createFromRenderArray($build)
+      ->merge(
+        $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
+      )
+      ->applyTo($build);
+
     $build['#theme'] = 'footer_block';
     return $build;
   }

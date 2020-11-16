@@ -5,41 +5,40 @@
  */
 #}
 
-{% set image_product_key_src = node.field_product_variants.entity.field_product_key_image_override.entity.image.entity.fileuri %}
-{% if image_product_key_src == NULL %}
-  {% set image_product_key_src = node.field_product_variants.entity.field_product_key_image.entity.image.entity.fileuri %}
-{% endif %}
+{% set main_variant = node | mainVariant %}
+{% set main_media = main_variant | entityMainMediaId | mediaParamsById %}
+{% set product_card_media = main_variant | productCardMedia | mediaParamsById %}
 
-{% set image_product_key_src = file_url(image_product_key_src) %}
-{% set image_override_src = node.field_product_variants.entity.field_product_card_imageoverride.entity.image.entity.fileuri %}
-{% if image_override_src %}
-  {% set image_override_src = file_url(image_override_src) %}
+{% set has_card_media = product_card_media.error is not defined or not product_card_media.error %}
+
+{% if has_card_media %}
+  {% set background_image =  product_card_media.src %}
+  {% set hover_image =  main_media.src %}
 {% else %}
-  {% set image_override_src = image_product_key_src %}
-  {% set image_product_key_src = null %}
+  {% set background_image =  main_media.src %}
+  {% set hover_image = null %}
 {% endif %}
 
-{% set card_image_src = image_override_src ? image_override_src : image_product_key_src %}
-{% set card_image_override_src = image_override_src ? image_product_key_src : null %}
-
+{% set default_link_content_text = 'SEE DETAILS' | t %}
+{% set product_card_link_attributes = {href: url, 'data-click-name': node.title.value} | merge(attributes) %}
+{% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} | merge(attributes) %}
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
   card__eyebrow: elements['#eyebrow'],
   paragraph_size: 'large',
   paragraph_base_class: 'paragraph',
   paragraph_modifiers: ['large'],
-  default_link_content: 'SEE DETAILS',
+  default_link_content: default_link_content_text,
   default_link_base_class: 'default-link',
-  link_content: 'BUY NOW',
+  link_content: 'BUY NOW' | t,
+  is_new: node.field_product_new.value,
   link_base_class: 'text_link',
   item: {
     card_url: url,
-    card__image__src: card_image_src,
-    card__image__override__src: card_image_override_src,
+    card__image__src: background_image,
+    card__image__hover__src: hover_image,
     paragraph_content: node.title.value,
-    default_link_attributes: {
-      href: url
-    },
+    default_link_attributes: default_link_attributes,
     link_url: ''
-  }
+  },
 } %}

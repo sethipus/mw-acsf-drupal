@@ -67,10 +67,65 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           checkVolume(videoElements);
         }, false);
 
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const componentBlock = videoElements('video').closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+          const parentTitleBlock = videoElements('video').closest('[data-component-title]');
+          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
+
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: document.title,
+            videoTitle: videoTitle,
+            videoId: videoContainer.dataset.videoId,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: componentName
+          });
+
+          videoElements('video').addEventListener('play', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: document.title,
+              videoStart: 0,
+              videoTitle: videoTitle,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: componentName
+            });
+          }, {once : true});
+
+          let videoEndedHandler = () => {
+            var tr = videoElements('video').played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==videoElements('video').duration);
+            if(hasLoopedOnce) {
+              dataLayer.push({
+                event: 'videoView',
+                pageName: document.title,
+                videoStart: 0,
+                videoComplete: 1,
+                videoTitle: videoTitle,
+                videoFlag: videoContainer.dataset.videoFlag,
+                componentName: componentName
+              });
+              videoElements('video').removeEventListener('timeupdate', videoEndedHandler);
+            }
+          }
+
+          videoElements('video').addEventListener("timeupdate", videoEndedHandler);
+        }
+
         // Add events for all buttons
         videoElements('playpause').addEventListener('click', function(e) {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
+        });
+        videoElements('video').addEventListener('click', function(e) {
+          if (videoElements('video').paused || videoElements('video').ended) {
+            videoElements('video').play();
+          } else {
+            videoElements('video').pause();
+          }
+          changeButtonState(videoElements, 'control');
         });
 
         // The Media API has no 'stop()' function, so pause the video and reset its time and the progress bar
@@ -90,6 +145,9 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         });
         videoElements('close').addEventListener('click', function(e) {
           handleFullscreen(videoContainer, videoElements);
+        });
+        videoElements('video').addEventListener('webkitendfullscreen', function(e){
+          setFullscreenData(videoContainer, videoElements, false);
         });
         if (videoElements('control')) {
           videoElements('control').addEventListener('click', function(e) {
@@ -118,7 +176,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           if (!videoElements('progress-time--inner').getAttribute('max')) videoElements('progress-time--inner').setAttribute('max', videoElements('video').duration);
           videoElements('progress-time--inner').value = videoElements('video').currentTime;
           videoElements('progress-time--progress-bar').style.width = Math.floor((videoElements('video').currentTime / videoElements('video').duration) * 100) + '%';
-          videoElements('progress-time--duration').innerHTML = parseFloat(videoElements('video').currentTime.toFixed(2)) + '/' + videoElements('video').duration;
+          videoElements('progress-time--duration').innerHTML = handleDuration(videoElements('video').currentTime) + '/'+ handleDuration(videoElements('video').duration);
         });
 
         // React to the user clicking within the progress bar
@@ -139,6 +197,24 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         });
         document.addEventListener('msfullscreenchange', function(e) {
           setFullscreenData(videoContainer, videoElements, !!document.msFullscreenElement);
+        });
+        
+        // Listen to scroll event to pause video when out of viewport
+        let videoVisible = false;
+        document.addEventListener('scroll', function() {
+          let videoPosition = videoElements('video').getBoundingClientRect().top;
+          let videoHeight = videoElements('video').getBoundingClientRect().height;
+          let windowHeight = window.innerHeight;
+
+          if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
+            videoElements('video').pause();
+            videoVisible = false;
+          } else {
+            if(videoElements('control').getAttribute('data-state') === 'pause' && !videoVisible) {
+              videoElements('video').play();
+              videoVisible = true;
+            }
+          }
         });
       }
 
@@ -215,6 +291,10 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         } else if (videoContainer.msRequestFullscreen) videoContainer.msRequestFullscreen();
         setFullscreenData(videoContainer, videoElements, true);
       }
+    }
+
+    var handleDuration = function(time) {
+      return `${Math.floor(time/60)}:${time%60 > 10 ? Math.floor(time%60) : '0' + Math.floor(time%60)}`
     }
 
     // Obtain handles to main elements

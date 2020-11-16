@@ -56,13 +56,67 @@ Drupal.behaviors.inlineVideoPlayer = {
         videoElements('video').addEventListener('volumechange', function() {
           checkVolume(videoElements);
         }, false);
+        
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const componentBlock = videoElements('video').closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+          const parentTitleBlock = videoElements('video').closest('[data-component-title]');
+          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
 
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: document.title,
+            videoTitle: videoTitle,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: componentName
+          });
+
+          videoElements('video').addEventListener('play', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: document.title,
+              videoStart: 1,
+              videoTitle: videoTitle,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: componentName
+            });
+          }, {once : true});
+
+          let videoEndedHandler = () => {
+            var tr = videoElements('video').played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==videoElements('video').duration);
+            if(hasLoopedOnce) {
+              dataLayer.push({
+                event: 'videoView',
+                pageName: document.title,
+                videoStart: 1,
+                videoComplete: 1,
+                videoTitle: videoTitle,
+                videoFlag: videoContainer.dataset.videoFlag,
+                componentName: componentName
+              });
+              videoElements('video').removeEventListener('timeupdate', videoEndedHandler);
+            }
+          }
+
+          videoElements('video').addEventListener("timeupdate", videoEndedHandler);
+        }
+        
         // Add events for all buttons
         videoElements('playpause').addEventListener('click', function(e) {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
         });
-
+        videoElements('video').addEventListener('click', function(e) {
+          if (videoElements('video').paused || videoElements('video').ended) {
+            videoElements('video').play();
+          } else {
+            videoElements('video').pause();
+          }
+          changeButtonState(videoElements, 'control');
+        });
+        
         videoElements('mute').addEventListener('click', function(e) {
           videoElements('video').muted = !videoElements('video').muted;
           changeButtonState(videoElements, 'mute');
@@ -96,11 +150,11 @@ Drupal.behaviors.inlineVideoPlayer = {
     // Changes the button state of certain button's so the correct visuals can be displayed with CSS
     var changeButtonState = function(videoElements, type) {
       // Play/Pause button
-      if (type == 'playpause') {
+      if (type == 'playpause' || type === 'control') {
         if (videoElements('video').paused || videoElements('video').ended) {
-          videoElements('playpause').setAttribute('data-state', 'play');
+          videoElements(type).setAttribute('data-state', 'play');
         } else {
-          videoElements('playpause').setAttribute('data-state', 'pause');
+          videoElements(type).setAttribute('data-state', 'pause');
         }
       }
       // Mute button

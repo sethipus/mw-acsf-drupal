@@ -6,8 +6,10 @@ use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\file\Entity\File;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
+use org\bovigo\vfs\vfsStream;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -69,7 +71,7 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
       [
         'name' => 'facebook',
         'link' => 'link',
-        'icon' => 'icon',
+        'icon' => [34],
       ],
     ],
   ];
@@ -81,6 +83,22 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     parent::setUp();
     $this->createMocks();
     Drupal::setContainer($this->containerMock);
+
+    $vfsRoot = vfsStream::setup('root');
+    $vfsFile = vfsStream::newFile('mock.file')
+      ->withContent('mock_content')
+      ->at($vfsRoot);
+
+    $fileMock = $this->createMock(File::class);
+    $fileMock
+      ->expects($this->any())
+      ->method('getFileUri')
+      ->willReturn($vfsFile->url());
+
+    $this->fileStorageMock
+      ->expects($this->any())
+      ->method('load')
+      ->willReturn($fileMock);
 
     $this->entityTypeManagerMock
       ->expects($this->any())

@@ -54,10 +54,63 @@ Drupal.behaviors.overlayVideoPlayer = {
           checkVolume(videoElements);
         }, false);
 
+        // Add event listeners to provide info to Data layer
+        if (typeof dataLayer !== 'undefined') {
+          const componentBlock = videoElements('video').closest('[data-block-plugin-id]');
+          const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+          const parentTitleBlock = videoElements('video').closest('[data-component-title]');
+          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
+
+          dataLayer.push({
+            event: 'videoPageView',
+            pageName: document.title,
+            videoTitle: videoTitle,
+            videoFlag: videoContainer.dataset.videoFlag,
+            componentName: componentName
+          });
+
+          videoElements('video').addEventListener('play', () => {
+            dataLayer.push({
+              event: 'videoView',
+              pageName: document.title,
+              videoStart: 1,
+              videoTitle: videoTitle,
+              videoFlag: videoContainer.dataset.videoFlag,
+              componentName: componentName
+            });
+          }, {once : true});
+
+          let videoEndedHandler = () => {
+            var tr = videoElements('video').played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==videoElements('video').duration);
+            if(hasLoopedOnce) {
+              dataLayer.push({
+                event: 'videoView',
+                pageName: document.title,
+                videoStart: 1,
+                videoComplete: 1,
+                videoTitle: videoTitle,
+                videoFlag: videoContainer.dataset.videoFlag,
+                componentName: componentName
+              });
+              videoElements('video').removeEventListener('timeupdate', videoEndedHandler);
+            }
+          }
+
+          videoElements('video').addEventListener("timeupdate", videoEndedHandler);
+        }
+
         // Add events for all buttons
         videoElements('playpause').addEventListener('click', function(e) {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
+        });
+        videoElements('video').addEventListener('click', function(e) {
+          if (videoElements('video').paused || videoElements('video').ended) {
+            videoElements('video').play();
+          } else {
+            videoElements('video').pause();
+          }
         });
 
         videoElements('mute').addEventListener('click', function(e) {

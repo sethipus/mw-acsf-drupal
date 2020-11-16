@@ -3,13 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_browser
+    - entity_browser.browser.lighthouse_video_browser
     - field.field.node.recipe.field_brand_initiatives
     - field.field.node.recipe.field_meta_tags
     - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
     - field.field.node.recipe.field_recipe_cooking_time
-    - field.field.node.recipe.field_recipe_cta
     - field.field.node.recipe.field_recipe_description
     - field.field.node.recipe.field_recipe_image
     - field.field.node.recipe.field_recipe_ingredients
@@ -85,14 +84,6 @@ content:
     third_party_settings: {  }
     type: number
     region: content
-  field_recipe_cta:
-    weight: 19
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_recipe_description:
     weight: 13
     settings:
@@ -157,16 +148,23 @@ content:
     type: entity_browser_entity_reference
     weight: 9
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_video_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default

@@ -5,24 +5,26 @@
  */
 #}
 
-{% set image_src = file_url(node.field_content_hub_image.entity.image.entity.fileuri) %}
-{% set image_alt = node.field_content_hub_image.entity.image.entity.alt %}
+{% set background_asset = node | entityMainMediaId | mediaParamsById %}
+
+{% set button_link_content_text = 'SEE DETAILS' | t %}
+
+{% set heading_link_attributes = { href: url, target: '_blank', 'data-click-name': node.label } | merge(attributes) %}
+{% set button_link_attributes = { href: url, target: '_blank', 'data-click-name': button_link_content_text } | merge(attributes) %}
 
 {% include "@molecules/card/recommendations-card/content-hub-card.twig" with {
   theme_styles: 'drupal',
 
-  card_image_src: image_src,
-  card_image_alt: image_alt ,
+  card_image_src: background_asset.src,
+  card_image_alt: background_asset.alt ,
   media_url: url,
 
   heading: node.label,
   heading_level: 3,
   heading_base_class: 'recommendations-card-heading',
+  heading_link_attributes: heading_link_attributes,
 
-  button_text: 'See Details'|t,
+  button_text: button_link_content_text,
   button_modifiers: ['small'],
-  button_link_attributes: {
-    href: url,
-    target: '_blank'
-  },
+  button_link_attributes: button_link_attributes,
 } %}

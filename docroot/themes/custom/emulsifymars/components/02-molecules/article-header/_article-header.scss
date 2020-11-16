@@ -1,7 +1,7 @@
 .article-header-image, .article-header-noimage {
   font-family: variable(primary-font);
   color: clr(primary);
-  background-color: clr(subcolor-3);
+  background-color: clr(subcolor-2);
 
     &__text_wrapper {
       width: 90%;
@@ -73,7 +73,6 @@
 
           .social-menu__icon {
             fill: clr(subcolor-1);
-            margin-right: 30px;
           }
         }
       }
@@ -97,7 +96,7 @@
 
         svg {
           path {
-            fill: clr(subcolor-3);
+            fill: clr(subcolor-2);
             width: 100%;
           }
           rect {
@@ -112,7 +111,6 @@
         width: 100%;
         height: auto;
         z-index: 2;
-        bottom: 20px;
 
         svg {
           width: 100%;
@@ -120,7 +118,7 @@
           bottom: -120px;
 
           path {
-            fill: clr(subcolor-3);
+            fill: clr(subcolor-2);
           }
           rect {
             width: 100%;
@@ -136,16 +134,17 @@
 
   &__inner {
     position: relative;
-    background-position: right top;
+    background-position: 125% 30%;
     background-repeat: no-repeat;
     background-size: 60% auto;
+    background-image: variable(brand-shape);
 
     @include medium {
       background-size: 40% auto;
     }
 
     @include large {
-      background-size: 38% auto;
+      background-size: 48% auto;
     }
 
     .stretch {
@@ -157,7 +156,7 @@
 
       svg {
         path {
-          fill: clr(secondary);
+          fill: clr(subcolor-3);
           width: 100%;
         }
 
@@ -169,18 +168,20 @@
     }
 
     .repeat {
-      position: absolute;
+      position: relative;
       width: 100%;
       height: auto;
-      z-index: 2;
       bottom: 0;
 
       svg {
         width: 100%;
         max-height: 30px;
+        position: absolute;
+        bottom: 0;
+        z-index: 2;
 
         path {
-          fill: clr(secondary);
+          fill: clr(subcolor-3);
         }
         rect {
           width: 100%;

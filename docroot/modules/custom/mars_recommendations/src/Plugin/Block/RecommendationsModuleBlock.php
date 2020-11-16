@@ -130,7 +130,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#title' => $this->t('Title'),
       '#description' => $this->t('Defaults to <em>More <strong>&lt;Content Type&gt;</strong>s Like This</em>'),
       '#placeholder' => $this->t('More &lt;Content Type&gt;s Like This'),
-      '#maxwidth' => 35,
+      '#maxwidth' => 55,
       '#default_value' => $conf['title'] ?? NULL,
     ];
 

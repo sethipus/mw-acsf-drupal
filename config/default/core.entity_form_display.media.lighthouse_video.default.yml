@@ -13,6 +13,7 @@ dependencies:
     - field.field.media.lighthouse_video.field_marketing_country
     - field.field.media.lighthouse_video.field_media_in_library
     - field.field.media.lighthouse_video.field_media_video_file_1
+    - field.field.media.lighthouse_video.field_original_external_id
     - field.field.media.lighthouse_video.field_region
     - field.field.media.lighthouse_video.field_segment
     - field.field.media.lighthouse_video.field_sub_brand
@@ -112,6 +113,14 @@ content:
     third_party_settings: {  }
     type: file_generic
     region: content
+  field_original_external_id:
+    weight: 114
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_region:
     weight: 109
     settings:
@@ -144,6 +153,13 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   name:
     type: string_textfield
     weight: -5

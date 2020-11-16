@@ -13,6 +13,7 @@ dependencies:
     - field.field.media.lighthouse_image.field_marketing_country
     - field.field.media.lighthouse_image.field_media_image
     - field.field.media.lighthouse_image.field_media_in_library
+    - field.field.media.lighthouse_image.field_original_external_id
     - field.field.media.lighthouse_image.field_region
     - field.field.media.lighthouse_image.field_segment
     - field.field.media.lighthouse_image.field_sub_brand
@@ -42,6 +43,13 @@ content:
     settings: {  }
     region: content
     third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   name:
     type: string_textfield
     weight: 0
@@ -59,6 +67,7 @@ hidden:
   field_last_mod_date: true
   field_marketing_country: true
   field_media_in_library: true
+  field_original_external_id: true
   field_region: true
   field_segment: true
   field_sub_brand: true
