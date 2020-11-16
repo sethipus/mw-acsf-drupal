@@ -1,0 +1,29 @@
+uuid: 77ae148b-eb9d-46ec-8e3c-ca0f5757f9d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_brand_initiatives
+    - node.type.recipe
+    - taxonomy.vocabulary.mars_brand_initiatives
+id: node.recipe.field_brand_initiatives
+field_name: field_brand_initiatives
+entity_type: node
+bundle: recipe
+label: 'Brand Initiatives'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_brand_initiatives: mars_brand_initiatives
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

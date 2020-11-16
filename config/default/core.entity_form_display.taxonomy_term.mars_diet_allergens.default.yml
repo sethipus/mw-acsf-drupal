@@ -3,11 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.lighthouse_browser
     - field.field.taxonomy_term.mars_diet_allergens.field_allergen_image
-    - image.style.thumbnail
     - taxonomy.vocabulary.mars_diet_allergens
   module:
-    - image
+    - entity_browser
     - text
 id: taxonomy_term.mars_diet_allergens.default
 targetEntityType: taxonomy_term
@@ -23,13 +23,27 @@ content:
       rows: 5
     third_party_settings: {  }
   field_allergen_image:
-    weight: 1
+    type: entity_browser_entity_reference
+    weight: 3
     settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
-    type: image_image
+      entity_browser: lighthouse_browser
+      field_widget_display: rendered_entity
+      field_widget_display_settings:
+        view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_replace: false
     region: content
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   name:
     type: string_textfield
     weight: 0

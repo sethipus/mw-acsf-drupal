@@ -25,6 +25,9 @@ $purple: #610c63;
 $blue: #005de0;
 $red: #F00;
 
+// RGB Colors (for RGBA usage)
+$white-rgb: 255,255,255;
+
 // Use color names from name-that-color service http://chir.ag/projects/name-that-color/#6195ED
 
 // ------------------
@@ -36,6 +39,12 @@ $egg-blue: #00d7b9;
 $golden-yellow: #ffdc00;
 //$white: #fff;
 $silver: #c4c4c4;
+$mine-shaft-rgb: 60,60,60;
+$midnight-blue-rgb: 0,0,160;
+$egg-blue-rgb: 0,215,185;
+$golden-yellow-rgb: 255,220,0;
+//$white-rgb: 255,255,255;
+$silver-rgb: 196,196,196;
 
 // ----------
 // -- Twix --
@@ -45,7 +54,13 @@ $alizarin-crimson: #e62b1e;
 $web-orange: #eaaa00;
 $coconut-cream: #f9f1db;
 //$white: #fff;
-$silver: #c4c4c4;
+//$silver: #c4c4c4;
+$brown-pod-rgb: 73,15,0;
+$alizarin-crimson-rgb: 230,43,30;
+$web-orange-rgb: 234,172,0;
+$coconut-cream-rgb: 249,241,219;
+//$white-rgb: 255,255,255;
+//$silver-rgb: 196,196,196;
 
 // ----------
 // -- Dove --
@@ -56,13 +71,25 @@ $tussock: #cb9f53;
 $merino: #f9f5ef;
 //$white: #fff;
 // $silver: #c4c4c4;
+$metallic-bronze-rgb: 80,44,28;
+$persian_red-rgb: 228,37,37;
+$tussock-rgb: 203,159,83;
+$merino-rgb: 249,245,239;
+//$white-rgb: 255,255,255;
+//$silver-rgb: 196,196,196;
 
 // ------------
 // -- Galaxy --
 // ------------
-// $metallic-bronze: #502c1c;
+//$metallic-bronze: #502c1c;
 $cerise-red: #e02466;
-// $tussock: #cb9f53;
-// $merino: #f9f5ef;
-// $white: #fff;
-// $silver: #c4c4c4;
+//$tussock: #cb9f53;
+//$merino: #f9f5ef;
+//$white: #fff;
+//$silver: #c4c4c4;
+//$metallic-bronze-rgb: 80,44,28;
+$cerise-red-rgb: 224,36,102;
+//$tussock-rgb: 203,159,83;
+//$merino-rgb: 249,245,239;
+//$white-rgb: 255,255,255;
+//$silver-rgb: 196,196,196;

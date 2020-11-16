@@ -5,12 +5,15 @@ namespace Drupal\mars_product\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_product\ProductHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -42,13 +45,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $config;
 
   /**
-   * Route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
    * The entity repository service.
    *
    * @var \Drupal\Core\Entity\EntityRepositoryInterface
@@ -77,6 +73,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $entityFormBuilder;
 
   /**
+   * Helper service to deal with media.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  private $mediaHelper;
+
+  /**
+   * Product helper service.
+   *
+   * @var \Drupal\mars_product\ProductHelper
+   */
+  private $productHelper;
+
+  /**
    * Price spider id.
    */
   const VENDOR_PRICE_SPIDER = 'price_spider';
@@ -85,6 +95,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * Commerce connector id.
    */
   const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
+
+  /**
+   * Fields with bold labels.
+   */
+  const FIELDS_WITH_BOLD_LABELS = [
+    'field_product_saturated_fat' => 'Saturated Fat',
+    'field_product_trans_fat' => 'Trans Fat',
+    'field_product_sugars' => 'Sugars',
+    'field_product_protein' => 'Protein',
+  ];
 
   /**
    * {@inheritdoc}
@@ -98,7 +118,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityRepositoryInterface $entity_repository,
     EntityFormBuilderInterface $entity_form_builder,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    LanguageManagerInterface $language_manager
+    LanguageManagerInterface $language_manager,
+    ProductHelper $product_helper,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
@@ -107,6 +129,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->entityFormBuilder = $entity_form_builder;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageManager = $language_manager;
+    $this->productHelper = $product_helper;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -122,7 +146,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity.repository'),
       $container->get('entity.form_builder'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('language_manager')
+      $container->get('language_manager'),
+      $container->get('mars_product.product_helper'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -186,7 +212,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('Nutrition section label'),
       '#default_value' => $this->configuration['nutrition']['label'],
-      '#maxlength' => 15,
+      '#maxlength' => 18,
       '#required' => TRUE,
     ];
     $form['nutrition']['serving_label'] = [
@@ -211,8 +237,25 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('Diet & Allergens part label'),
       '#default_value' => $this->configuration['allergen_label'],
-      '#maxlength' => 50,
+      '#maxlength' => 18,
       '#required' => TRUE,
+    ];
+    $form['more_information'] = [
+      '#type' => 'details',
+      '#title' => $this->t('More information part settings'),
+      '#open' => TRUE,
+    ];
+    $form['more_information']['more_information_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('More information label'),
+      '#default_value' => $this->configuration['more_information']['more_information_label'] ?? '',
+      '#maxlength' => 18,
+      '#required' => TRUE,
+    ];
+    $form['more_information']['show_more_information_label'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show More information tab'),
+      '#default_value' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
     ];
     $form['use_background_color'] = [
       '#type' => 'checkbox',
@@ -263,6 +306,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
+      'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More information'),
+      'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? TRUE,
       'wtb' => [
         'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
         'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
@@ -314,10 +359,26 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'allergen_data' => [
         'allergen_label' => $this->configuration['allergen_label'],
       ],
+      'more_information_data' => [
+        'more_information_label' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
+        'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
+      ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
     $build['#pdp_size_data'] = $this->getSizeData($node);
-    $build['#pdp_data'] = $this->getPdpData($node);
+
+    $node_bundle = $node->bundle();
+    $build['#pdp_bundle_type'] = $node_bundle;
+    switch ($node_bundle) {
+      case 'product_multipack':
+        $build['#pdp_data'] = $this->getPdpMultiPackProductData($node);
+        break;
+
+      case 'product':
+        $build['#pdp_data'] = $this->getPdpSingleProductData($node);
+      default:
+        break;
+    }
 
     $build['#theme'] = 'pdp_hero_block';
     $this->pageAttachments($build);
@@ -326,7 +387,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * Get PDP data.
+   * Get single product PDP data.
    *
    * @param object $node
    *   Product node.
@@ -336,14 +397,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function getPdpData($node) {
+  public function getPdpSingleProductData($node) {
     $items = [];
-    $field_size = 'field_product_size';
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $size = $product_variant->get($field_size)->value;
-      $size_id = $this->getMachineName($size);
+      $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
       $items[] = [
@@ -351,18 +410,98 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
-          'mobile_sections_items' => $this->getMobileItems($product_variant),
+          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle()),
         ],
         'nutrition_data' => [
           'serving_item' => $this->getServingItems($product_variant),
         ],
         'allergen_data' => [
-          'allergens_list' => $this->getAllergenItems($product_variant),
+          'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
       ];
     }
 
     return $items;
+  }
+
+  /**
+   * Get multipack product PDP data.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $node
+   *   Product node.
+   *
+   * @return array
+   *   PDP data array.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  protected function getPdpMultiPackProductData(EntityInterface $node) {
+    $products_data = [];
+    foreach ($node->field_product_pack_items as $product_reference) {
+      $product = $product_reference->entity;
+      $product_variant_first = $this->productHelper->mainVariant($product);
+      if (empty($product_variant_first)) {
+        continue;
+      }
+      $serving_items = $this->getServingItems($product_variant_first);
+
+      $products_data[] = [
+        'product_title' => $product->getTitle(),
+        'product_image' => $this->getProductVariantImage($product_variant_first),
+        'nutrition_data' => [
+          'serving_item' => $serving_items,
+          'serving_item_empty' => $this->isServingItemsEmpty($serving_items),
+        ],
+        'allergen_data' => [
+          'allergens_list' => $this->getVisibleAllergenItems($product_variant_first),
+        ],
+      ];
+    }
+
+    $items = [];
+    $i = 0;
+    foreach ($node->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $size_id = $product_variant->id();
+      $i++;
+      $state = $i == 1 ? 'true' : 'false';
+      $items[] = [
+        'size_id' => $size_id,
+        'active' => $state,
+        'hero_data' => [
+          'image_items' => $this->getImageItems($product_variant),
+          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle()),
+        ],
+        'products'  => $products_data,
+      ];
+    }
+
+    return $items;
+  }
+
+  /**
+   * Get product variant image.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $product_variant
+   *   Product variant.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getProductVariantImage(EntityInterface $product_variant) {
+    $media_id = $this->mediaHelper->getEntityMainMediaId($product_variant);
+    $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+
+    if ($media_params['error'] ?? FALSE) {
+      return [
+        'src' => NULL,
+        'alt' => '',
+      ];
+    }
+    return [
+      'src' => $media_params['src'],
+      'alt' => $media_params['alt'],
+    ];
   }
 
   /**
@@ -385,18 +524,22 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
 
     foreach ($map as $image_field => $image_field_override) {
-      $media = $node->{$image_field}->entity;
-      $media_override = $node->{$image_field_override}->entity;
-      if (!$media && !$media_override) {
-        continue;
-      }
-      if ($media && $media_override) {
-        $media = $media_override;
+      $media_override_id = $node->{$image_field_override}->target_id;
+      $media_params = $this->mediaHelper->getMediaParametersById($media_override_id);
+
+      // Override media missing or has error try the normal version.
+      if ($media_params['error'] ?? FALSE) {
+        $media_id = $node->{$image_field}->target_id;
+        $media_params = $this->mediaHelper->getMediaParametersById($media_id);
       }
 
-      $file = $this->fileStorage->load($media->image->target_id);
-      $image_src = $file->createFileUrl();
-      $image_alt = $media->image[0]->alt;
+      // Override media and the normal version both failed, we should skip this.
+      if ($media_params['error'] ?? FALSE) {
+        continue;
+      }
+
+      $image_src = $media_params['src'];
+      $image_alt = $media_params['alt'];
 
       $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
       $items[] = [
@@ -426,11 +569,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $field_size = 'field_product_size';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $title = $product_variant->get($field_size)->value;
-      $size_id = $this->getMachineName($title);
+      $size = $product_variant->get($field_size)->value;
+      $size_id = $product_variant->id();
       $items[] = [
         'size_id' => $size_id,
-        'title' => $title,
+        'title' => $size,
         'link_url' => '#',
       ];
     }
@@ -464,11 +607,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $mapping = $this->getGroupingMethod($node);
     foreach ($mapping as $section => $fields) {
       foreach ($fields as $field => $field_daily) {
+        $bold_modifier = array_key_exists($field, self::FIELDS_WITH_BOLD_LABELS) ? TRUE : FALSE;
         $item = [
           'label' => $node->get($field)
             ->getFieldDefinition()
             ->getLabel(),
           'value' => $node->get($field)->value,
+          'bold_modifier' => $bold_modifier,
         ];
         if ($field_daily !== FALSE) {
           $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
@@ -482,6 +627,27 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     return $result_item;
+  }
+
+  /**
+   * Check serving items is empty or not.
+   *
+   * @param array $serving_items
+   *   serving items - results of getServingItems.
+   *
+   * @return bool
+   *   reflects serving items empty or non-empty state.
+   */
+  public function isServingItemsEmpty(array $serving_items) {
+    if (
+      empty($serving_items['ingredients_value'] ?? NULL) &&
+      empty($serving_items['warnings_value'] ?? NULL) &&
+      empty($serving_items['serving_size']['value'] ?? NULL) &&
+      empty($serving_items['serving_per_container']['value'] ?? NULL)
+    ) {
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /**
@@ -538,7 +704,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   }
 
   /**
-   * Get Allergen items.
+   * Get theme setting for Allergen info visibility.
+   *
+   * @return bool
+   *   Allergen visibility
+   */
+  public function isAllergenVisible() {
+    $show_allergen_info = $this->themeConfiguratorParser->getSettingValue('show_allergen_info');
+    if ($show_allergen_info) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
+   * Get all visible allergen items.
    *
    * @param object $node
    *   Product Variant node.
@@ -548,15 +728,34 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
+  public function getVisibleAllergenItems($node) {
+    if ($this->isAllergenVisible()) {
+      return $this->getAllergenItems($node);
+    }
+    return [];
+  }
+
+  /**
+   * Get Allergen items.
+   *
+   * @param object $node
+   *   Product Variant node.
+   *
+   * @return array
+   *   Allergen items array.
+   */
   public function getAllergenItems($node) {
     $items = [];
     foreach ($node->field_product_diet_allergens as $reference) {
       $allergen_term = $reference->entity;
-      $icon_src = $this->getIconSrc($allergen_term);
-      $items[] = [
-        'allergen_icon' => $icon_src,
-        'allergen_label' => $allergen_term->getName(),
-      ];
+      $media_id = $this->mediaHelper->getEntityMainMediaId($allergen_term);
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+        $items[] = [
+          'allergen_icon' => $media_params['src'],
+          'allergen_label' => $allergen_term->getName(),
+        ];
+      }
     }
 
     return $items;
@@ -565,67 +764,49 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * Get Mobile section for Product Variant.
    *
-   * @param object $node
+   * @param \Drupal\Core\Entity\EntityInterface $node
    *   Product Variant node.
+   * @param string $bundle
+   *   Product bundle.
    *
    * @return array
    *   Mobile section array.
    */
-  public function getMobileItems($node) {
-    $field_size = 'field_product_size';
-    $size = $node->get($field_size)->value;
-    $size_id = $this->getMachineName($size);
-
-    $map = [
-      'section-nutrition' => $this->t('Nutrition & Ingredients'),
-      'section-products' => $this->t('Related products'),
-    ];
-    if (!$node->field_product_diet_allergens->isEmpty()) {
-      $map['section-allergens'] = $this->t('Diet & Allergens');
-    }
+  public function getMobileItems(EntityInterface $node, string $bundle) {
+    $size_id = $node->id();
     $items = [];
-    foreach ($map as $id => $title) {
+    $items[] = [
+      'title' => $this->configuration['nutrition']['label'],
+      'link_attributes' => [
+        'class' => 'pdp-hero__nutrition-menu',
+        'href' => '#section-nutrition-' . $size_id,
+      ],
+    ];
+
+    if (
+      $bundle !== 'product_multipack' &&
+      $this->isAllergenVisible() &&
+      !$node->field_product_diet_allergens->isEmpty()
+    ) {
       $items[] = [
-        'title' => $title,
+        'title' => $this->configuration['allergen_label'],
         'link_attributes' => [
-          'href' => '#' . $id . '-' . $size_id,
+          'class' => 'pdp-hero__allergen-menu',
+          'href' => '#section-allergen-' . $size_id,
         ],
       ];
     }
 
+    if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
+      $items[] = [
+        'title' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
+        'link_attributes' => [
+          'class' => 'pdp-hero__more-info-menu',
+          'href' => '#section-more-information',
+        ],
+      ];
+    }
     return $items;
-  }
-
-  /**
-   * Get Icon src from entity.
-   *
-   * @param object $entity
-   *   Taxonomy term entity.
-   * @param string $image_field
-   *   Image field name.
-   *
-   * @return string
-   *   Image src value.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   */
-  public function getIconSrc($entity, $image_field = 'field_allergen_image') {
-    $icon_src = '';
-    if (!$entity->get($image_field)->isEmpty()) {
-      $icon_src = $entity->{$image_field}->entity->createFileUrl();
-    }
-    else {
-      $field = $entity->get($image_field);
-      $default_image = $field->getSetting('default_image');
-      if (isset($default_image['uuid'])) {
-        if ($default_image_file
-          = $this->entityRepository->loadEntityByUuid('file', $default_image['uuid'])) {
-          $icon_src = $default_image_file->createFileUrl();
-        };
-      }
-    }
-
-    return $icon_src;
   }
 
   /**

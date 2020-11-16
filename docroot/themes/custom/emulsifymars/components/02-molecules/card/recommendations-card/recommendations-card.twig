@@ -1,0 +1,42 @@
+{% set card_base_class = card_base_class|default('recommendations-card') %}
+{% set card__extra_classes = ['card-item'] %}
+
+<section {{ bem(card_base_class, [], '', card__extra_classes) }}
+         data-theme="{{ theme_styles }}" 
+         data-card-type="{{ card_type }}"
+         data-site-search-clicked="{{ heading }}">
+
+  {% include "@atoms/text/headings/_heading.twig" with {
+    heading: heading,
+    heading_level: heading_level,
+    heading_url: button_link_attributes.href,
+    heading_base_class: heading_base_class,
+    heading_link_attributes: heading_link_attributes
+  } %}
+
+  <div {{ bem('details-button', [], recipe_card_base_class) }}>
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content: button_text,
+      default_link_attributes: button_link_attributes,
+      default_link_modifiers: button_modifiers
+    } %}
+  </div>
+
+  {% if card_image_src %}
+    <div {{ bem('media', [], card_base_class) }}>
+      <a href={{ media_url }}
+       {% for attribute, value in heading_link_attributes %}
+         {{ attribute }}="{{ value }}"
+        {% endfor %}
+      >
+        {% include "@atoms/images/image/_image.twig" with {
+          output_image_tag: true,
+          image_alt: card_image_alt,
+          image_src: card_image_src,
+          responsive_image_blockname: 'content_hub_image',
+        } %}
+      </a>
+    </div>
+  {% endif %}
+
+</section>

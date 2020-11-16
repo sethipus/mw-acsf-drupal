@@ -42,6 +42,20 @@ const customViewports = {
       height: '1024px',
     },
   },
+  xxl: {
+    name: 'Desktop',
+    styles: {
+      width: '1920px',
+      height: '1080px',
+    },
+  },
+  xxxl: {
+    name: '2K Desktop',
+    styles: {
+      width: '2560px',
+      height: '1440px',
+    },
+  }
 };
 
 addParameters({
@@ -74,9 +88,12 @@ twigAddAttributes(Twig);
 
 // config.js
 import jquery from "jquery";
+import once from "jquery-once";
+import underscore from "underscore";
 
 global.$ = jquery;
 global.jQuery =  jquery;
+global._ = underscore;
 
 // If in a Drupal project, it's recommended to import a symlinked version of drupal.js.
 import './_drupal.js';

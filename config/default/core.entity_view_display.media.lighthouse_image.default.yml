@@ -12,10 +12,12 @@ dependencies:
     - field.field.media.lighthouse_image.field_marketing_country
     - field.field.media.lighthouse_image.field_media_image
     - field.field.media.lighthouse_image.field_media_in_library
+    - field.field.media.lighthouse_image.field_original_external_id
     - field.field.media.lighthouse_image.field_region
     - field.field.media.lighthouse_image.field_segment
     - field.field.media.lighthouse_image.field_sub_brand
     - field.field.media.lighthouse_image.field_sub_type
+    - field.field.media.lighthouse_image.field_version_id
     - image.style.large
     - media.type.lighthouse_image
   module:
@@ -27,14 +29,6 @@ targetEntityType: media
 bundle: lighthouse_image
 mode: default
 content:
-  field_external_id:
-    weight: 1
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
   field_media_image:
     label: visually_hidden
     weight: 0
@@ -49,14 +43,18 @@ hidden:
   field_agency: true
   field_brand: true
   field_category: true
+  field_external_id: true
   field_language: true
   field_last_mod_date: true
   field_marketing_country: true
   field_media_in_library: true
+  field_original_external_id: true
   field_region: true
   field_segment: true
   field_sub_brand: true
   field_sub_type: true
+  field_version_id: true
+  langcode: true
   name: true
   search_api_excerpt: true
   thumbnail: true

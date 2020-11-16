@@ -12,6 +12,10 @@
   @include xl {
     max-width: 89.6rem;
   }
+
+  .search-no-results {
+    background-color: var(--c-background);
+  }
 }
 .faq-heading {
   font-family: variable(primary-font);
@@ -37,6 +41,7 @@
 .list-item__question,
 .list-item__answer {
   color: clr(primary);
+  word-break: break-all;
 }
 
 .faq__see_all {

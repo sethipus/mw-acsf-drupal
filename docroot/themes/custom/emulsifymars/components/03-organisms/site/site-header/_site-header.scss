@@ -16,7 +16,7 @@
       align-items: center;
       justify-content: space-between;
 
-      @include medium {
+      @include large {
         justify-content: flex-start;
       }
     }
@@ -33,11 +33,22 @@
     }
   }
 
+  &__secondary {
+    max-height: 0;
+    overflow: hidden;
+    animation: alert-banner-slide-in 0.8s ease forwards;
+  }
+
   &__branding {
-    flex: 0 0 150px;
-    margin: 2.5rem;
+    flex: 0 0 101px;
+    margin: 1.5rem;
 
     @include medium {
+      flex: 0 0 150px;
+      margin: 2.5rem;
+    }
+
+    @include large {
       flex-basis: 212px;
       margin: 3.2rem $space-triple;
     }
@@ -46,8 +57,10 @@
   &__menu {
     flex: 0 0 auto;
 
-    @include medium {
-      flex: 1 0 auto;
+    @include large {
+      flex: 1 0 calc(100% - 272px);
+      align-self: flex-start;
+      padding: 5.7rem 0 2rem;
     }
 
     &--secondary {
@@ -57,7 +70,7 @@
       right: 0;
       padding: 0 4rem;
 
-      @include medium {
+      @include large {
         display: flex;
         justify-content: flex-end;
         width: 100%;
@@ -71,10 +84,19 @@
       display: flex;
       flex-flow: row wrap;
 
-      @include medium {
+      @include large {
         display: none;
       }
     }
+  }
+}
+
+@keyframes alert-banner-slide-in {
+  0% {
+    max-height: 0;
+  }
+  100% {
+    max-height: 120px;
   }
 }
 

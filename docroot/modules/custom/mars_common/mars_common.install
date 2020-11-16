@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * @file
+ * Update scripts for the Mars Common module.
+ */
+
+/**
+ * Implements hook_update_N().
+ *
+ * Delete all nodes of a "Contact & Help" content type.
+ */
+function mars_common_update_8001() {
+  $storage_handler = \Drupal::entityTypeManager()->getStorage('node');
+  $entities = $storage_handler->loadByProperties(['type' => 'contact_help']);
+  $storage_handler->delete($entities);
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Delete content type "Contact & Help".
+ */
+function mars_common_update_8002() {
+  $content_type = \Drupal::entityTypeManager()->getStorage('node_type')->load('contact_help');
+  if ($content_type) {
+    $content_type->delete();
+  }
+}
+
+/**
+ * Sanitize Multipack Products per node overridden layout (AB#190757).
+ */
+function mars_common_update_8003() {
+  $storage_handler = \Drupal::entityTypeManager()->getStorage('node');
+  $multipack_products = $storage_handler->loadByProperties(['type' => 'product_multipack']);
+  $product_multipack_block_id = 'pdp_product_multipack_block';
+  foreach ($multipack_products as $multipack_product) {
+    $display = $multipack_product->layout_builder__layout ?? NULL;
+    if (!$display) {
+      continue;
+    }
+
+    foreach ($display->getSections() as $section) {
+      foreach ($section->getComponents() as $component) {
+        if ($component->getPluginId() === $product_multipack_block_id) {
+          $section->removeComponent($component->getUuid());
+          $multipack_product->save();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Hide footer block at error page (AB#184643).
+ */
+function mars_common_update_8004() {
+  /* @var \Drupal\Core\Config\Config $config */
+  $config = \Drupal::service('config.factory')->getEditable('block.block.footerblock');
+  $config->set('visibility', [
+    'entity_bundle:node' => [
+      'id' => 'entity_bundle:node',
+      'bundles' => ['error_page' => 'error_page'],
+      'negate' => TRUE,
+      'context_mapping' => ['node' => '@node.node_route_context:node'],
+    ],
+  ]);
+  $config->save();
+}
+
+/**
+ * Update image field definition.
+ */
+function mars_common_update_8005() {
+  // Update field field_ff_item_image.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_ff_item_image', 'block_content');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+  // Update field_inline_image_file.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_inline_image_file', 'block_content');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+  // Update field_list_item_image.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_list_item_image', 'block_content');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+  // Update field_full_image_file.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_full_image_file', 'block_content');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+  // Update field_allergen_image.
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_definition = $definition_update_manager->getFieldStorageDefinition('field_allergen_image', 'taxonomy_term');
+  $definition_update_manager->updateFieldStorageDefinition($field_definition);
+}

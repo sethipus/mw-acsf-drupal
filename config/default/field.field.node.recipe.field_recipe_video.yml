@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_recipe_video
+    - media.type.lighthouse_video
     - media.type.video
     - media.type.video_file
     - node.type.recipe
@@ -23,6 +24,7 @@ settings:
   handler: 'default:media'
   handler_settings:
     target_bundles:
+      lighthouse_video: lighthouse_video
       video: video
       video_file: video_file
     sort:

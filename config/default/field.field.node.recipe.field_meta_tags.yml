@@ -1,0 +1,21 @@
+uuid: 6cc946f4-2989-4cce-aab0-b76db709546f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags
+    - node.type.recipe
+  module:
+    - metatag
+id: node.recipe.field_meta_tags
+field_name: field_meta_tags
+entity_type: node
+bundle: recipe
+label: 'Meta tags'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: metatag

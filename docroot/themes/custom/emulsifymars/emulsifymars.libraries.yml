@@ -8,53 +8,57 @@ main-menu:
     dist/js/02-molecules/menus/main-menu/main-menu.js: {}
   dependencies:
     - core/drupal
-
-ambient-video:
-  js:
-    dist/js/ambient_video.js: {}
-  dependencies:
-    - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 content-feature:
   js:
     dist/js/02-molecules/content-feature/content-feature.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 social-feed:
   js:
     dist/js/social_feed.js: {}
-    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
+    - emulsifymars/vendor-chunk-2
 
 entry-gate:
   js:
     dist/js/entry_gate.js: {}
-    dist/js/vendors~entry_gate~social_feed_slide.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-1
 
 social-feed-slide:
   js:
     dist/js/social_feed_slide.js: {}
-    dist/js/vendors~entry_gate~social_feed_slide.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-1
 
 pdp-body:
   js:
     dist/js/pdp_body.js: {}
-    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
 
 pdp-multipack:
   js:
     dist/js/pdp_multipack.js: {}
-    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - emulsifymars/pdp-body
+    - emulsifymars/vendor-chunk-2
     - core/drupal
 
 product-content-pair-up:
@@ -62,6 +66,23 @@ product-content-pair-up:
     dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+
+recipe-hero-module:
+  js:
+    dist/js/02-molecules/recipe-hero-module/recipe-hero-module.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+
+recommendations-module:
+  js:
+    dist/js/recommendations_module.js: { }
+  dependencies:
+    - core/drupal
+    - emulsifymars/vendor-chunk-2
 
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
@@ -75,22 +96,49 @@ tabs:
   dependencies:
     - core/drupal
 
+dropdown:
+  js:
+    dist/js/02-molecules/dropdown/dropdown.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+
 parent-page-header:
   js:
     dist/js/02-molecules/parent-page-header/parent-page-header.js: {}
+    dist/js/01-atoms/video/ambient-video/video.js: {}
   dependencies:
     - core/drupal
 
 media-carousel:
   js:
     dist/js/media_carousel.js: {}
-    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
+  dependencies:
+    - core/drupal
+    - emulsifymars/vendor-chunk-2
+
+ambient-video:
+  js:
+    dist/js/01-atoms/video/ambient-video/video.js: {}
   dependencies:
     - core/drupal
 
 fullscreen-video:
   js:
-    dist/js/fullscreen_video.js: {}
+    dist/js/01-atoms/video/fullscreen-video/video.js: {}
+  dependencies:
+    - core/drupal
+
+inline-video:
+  js:
+    dist/js/01-atoms/video/inline-video/video.js: {}
+  dependencies:
+    - core/drupal
+
+overlay-video:
+  js:
+    dist/js/01-atoms/video/overlay-video/video.js: {}
   dependencies:
     - core/drupal
 
@@ -103,9 +151,9 @@ iframe:
 product-used-module:
   js:
     dist/js/product_used.js: {}
-    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~social_feed.js: {}
   dependencies:
     - core/drupal
+    - emulsifymars/vendor-chunk-2
 
 recipe-body:
   js:
@@ -125,3 +173,37 @@ search-overlay:
   dependencies:
     - core/drupal
     - core/jquery
+
+vendor-chunk-1:
+  js:
+    dist/js/vendors~entry_gate~social_feed_slide.js: {}
+
+vendor-chunk-2:
+  js:
+    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~recommendations_module~social_feed.js: {}
+
+search-facet-type:
+  js:
+    dist/js/01-atoms/search-results-item/search-results-item.js: {}
+  dependencies:
+    - core/drupal
+
+feedback:
+  js:
+    dist/js/02-molecules/feedback-module/feedback.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+
+card-grid-filter:
+  js:
+    dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
+  dependencies:
+    - core/drupal
+
+social-menu:
+  js:
+    dist/js/02-molecules/menus/social/social-menu.js: {}
+  dependencies:
+    - core/drupal

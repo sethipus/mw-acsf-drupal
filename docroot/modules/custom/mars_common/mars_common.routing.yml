@@ -1,0 +1,12 @@
+mars_common.poll.votes:
+  path: '/poll/{poll}/results'
+  defaults:
+    _title_callback: '\Drupal\mars_common\Controller\PollController::getResultsViewTitle'
+    _controller: '\Drupal\mars_common\Controller\PollController::buildResultsView'
+  requirements:
+    _permission: 'administer polls'
+  options:
+    _admin_route: TRUE
+    parameters:
+      poll:
+        type: entity:poll

@@ -3,6 +3,15 @@
   border-top: 5px solid clr(secondary);
   position: relative;
   overflow: hidden;
+  margin: 5rem;
+
+  @include medium {
+    margin: 6rem 5rem;
+  }
+
+  @include large {
+    margin: 8rem;
+  }
 
   &__content {
     position: relative;
@@ -94,7 +103,7 @@
     }
 
     @include large {
-      padding: 6.3rem 0 6.3rem 0;
+      padding: 6.3rem 0 8rem 0;
     }
   }
 

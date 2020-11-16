@@ -6,10 +6,11 @@ _core:
   default_config_hash: 4xRLPoyhr5ynv4NK0SXc_NfjeWzkXN2PaV9zAmNIH3s
 id: layout_manager
 label: 'Layout manager'
-weight: 2
+weight: -2
 is_admin: false
 permissions:
+  - 'access contextual links'
   - 'administer node display'
-  - 'configure any layout'
   - 'administer panelizer node landing_page defaults'
   - 'administer panelizer node page defaults'
+  - 'configure any layout'

@@ -1,3 +1,5 @@
+theme_styles: 'twix'
+
 pp_header_eyebrow_text: 'faq'
 pp_header_eyebrow_modifiers: ['parent-page']
 
@@ -6,7 +8,7 @@ pp_header_heading_level: 1
 pp_header_heading_base_class: 'parent-page-heading'
 
 pp_header_paragraph_size: 'large'
-pp_header_paragraph_content: 'Plus, I am all in whenever Twix are involved. Except, can we just chat a quick minute? This is a PSA to the makers of the TWIX bar.'
+pp_header_paragraph_content: 'A while back I needed to count the amount of letters that a piece of text in an email template had (to avoid passing any character limits). Unfortunately, I could not think of a quick way to do so on my macbook and I therefore turned to the Internet. There'
 pp_header_paragraph_base_class: 'parent-page-paragraph'
 
 # parent_page_img_url: ''

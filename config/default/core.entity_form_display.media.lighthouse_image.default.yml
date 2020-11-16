@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.image_browser
     - field.field.media.lighthouse_image.field_agency
     - field.field.media.lighthouse_image.field_brand
     - field.field.media.lighthouse_image.field_category
@@ -12,14 +13,16 @@ dependencies:
     - field.field.media.lighthouse_image.field_marketing_country
     - field.field.media.lighthouse_image.field_media_image
     - field.field.media.lighthouse_image.field_media_in_library
+    - field.field.media.lighthouse_image.field_original_external_id
     - field.field.media.lighthouse_image.field_region
     - field.field.media.lighthouse_image.field_segment
     - field.field.media.lighthouse_image.field_sub_brand
     - field.field.media.lighthouse_image.field_sub_type
+    - field.field.media.lighthouse_image.field_version_id
     - media.type.lighthouse_image
   module:
+    - entity_browser
     - path
-    - remote_stream_wrapper_widget
 _core:
   default_config_hash: KY9UnvSIy-CKrmAVba8kOUfs5l3n048q0dWnyGmlZVA
 id: media.lighthouse_image.default
@@ -110,6 +113,14 @@ content:
     weight: 7
     third_party_settings: {  }
     region: content
+  field_original_external_id:
+    weight: 37
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_region:
     weight: 31
     settings:
@@ -142,6 +153,21 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_version_id:
+    weight: 36
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   name:
     type: string_textfield
     weight: 0

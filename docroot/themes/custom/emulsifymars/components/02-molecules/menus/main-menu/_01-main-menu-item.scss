@@ -4,8 +4,30 @@
   flex-wrap: wrap;
   position: relative;
 
-  @include medium {
+  @include large {
     display: inline-block;
+  }
+
+  &--with-sub {
+    @include xs {
+      flex-direction: column;
+
+      .main-menu--sub {
+        display: none;
+
+        &.main-menu--sub-open {
+          display: block;
+
+          @include large {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .main-menu__item--sub {
+      display: flex;
+    }
   }
 
   /* Only top level */
@@ -13,7 +35,9 @@
     transition: all 0.2s;
 
     & > .main-menu--sub {
-      display: block;
+      @include large {
+        display: block;
+      }
     }
 
     &:hover {
@@ -33,7 +57,7 @@
   color: $white;
   position: relative;
 
-  @include medium {
+  @include large {
     display: none;
   }
 

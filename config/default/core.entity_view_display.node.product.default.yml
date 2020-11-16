@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.product.field_meta_tags
     - field.field.node.product.field_product_brand
     - field.field.node.product.field_product_description
     - field.field.node.product.field_product_flavor
@@ -16,6 +17,8 @@ dependencies:
     - field.field.node.product.field_product_trade_description
     - field.field.node.product.field_product_variants
     - field.field.node.product.layout_builder__layout
+    - field.field.node.product.salsify_id
+    - field.field.node.product.salsify_updated
     - node.type.product
   module:
     - layout_builder
@@ -24,6 +27,8 @@ dependencies:
     - layout_library
     - mars_common
     - mars_product
+    - mars_recommendations
+    - metatag
     - text
     - user
 third_party_settings:
@@ -46,9 +51,6 @@ third_party_settings:
               label_display: '1'
               eyebrow: Products
               available_sizes: 'Available sizes'
-              wtb:
-                cta_label: 'Where to buy'
-                cta_link: 'https://test.test'
               nutrition:
                 label: Nutrition
                 serving_label: 'Amount per serving'
@@ -60,8 +62,26 @@ third_party_settings:
               data_widget_id: ''
               context_mapping:
                 node: layout_builder.entity
+              more_information:
+                more_information_label: 'More information'
+                show_more_information_label: 1
             additional: {  }
             weight: 0
+          83df8b5c-40dc-4cc4-b683-36705f318a55:
+            uuid: 83df8b5c-40dc-4cc4-b683-36705f318a55
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:product:field_meta_tags'
+              formatter:
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+                type: metatag_empty_formatter
+            additional: {  }
+            weight: 1
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -96,7 +116,22 @@ third_party_settings:
         layout_id: product_product_recommendations
         layout_settings:
           label: 'Product Recommendations'
-        components: {  }
+        components:
+          9adfc8fa-7813-4a01-b628-9a1c05b0cb68:
+            uuid: 9adfc8fa-7813-4a01-b628-9a1c05b0cb68
+            region: content
+            configuration:
+              id: recommendations_module
+              label: 'MARS: Recommendations Module'
+              provider: mars_recommendations
+              label_display: ''
+              title: ''
+              population_plugin_id: dynamic
+              population_plugin_configuration: null
+              context_mapping:
+                node: layout_builder.entity
+            additional: {  }
+            weight: 0
         third_party_settings:
           layout_builder_lock:
             lock:
@@ -124,19 +159,23 @@ third_party_settings:
       - 'Lists (Views)'
       - 'Mars Common'
       - 'Mars Product'
+      - 'Mars Search'
       - Menus
       - 'Moderation Dashboard'
+      - 'Page components'
+      - Printable
       - Product
       - Recipe
       - 'Social feed'
       - 'Social media share'
       - System
       - User
-      - Views
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
         'Flexible driver': {  }
+        'Mars Search': {  }
+        Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
         - product_product_detail_hero
@@ -164,33 +203,35 @@ third_party_settings:
             Forms: {  }
             'Global elements': {  }
             Help: {  }
-            'Inline blocks':
-              - 'inline_block:flexible_framer'
-              - 'inline_block:full_width_image'
-              - 'inline_block:full_width_video'
-              - 'inline_block:inline_image'
-              - 'inline_block:list'
-              - 'inline_block:media_carousel'
-              - 'inline_block:text_component'
+            'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
               - contact_help_banner_block
               - iframe_block
               - newsletter_signup_form
-              - product_feature
+              - poll_block
+              - recommendations_module
               - story_highlight
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components':
+              - carousel_block
+              - flexible_framer_block
+              - fullwidth_image_video_block
+              - inline_image_video_block
+              - list_block
+              - text_block
+            Printable: {  }
             Product:
               - pdp_hero_block
-            Recipe: {  }
+            Recipe:
+              - recipe_feature_block
             'Social feed':
               - social_feed
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         product_product_detail_hero:
           all_regions:
@@ -233,7 +274,8 @@ third_party_settings:
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - feedback_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
@@ -259,8 +301,10 @@ third_party_settings:
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - recommendations_module
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
             Product: {  }
@@ -269,7 +313,6 @@ third_party_settings:
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
 _core:
   default_config_hash: 01Ch74Sp8GX2Eb4THbDJHsZBk6gq2mDwnetTQ4jmYGw
@@ -278,6 +321,13 @@ targetEntityType: node
 bundle: product
 mode: default
 content:
+  field_meta_tags:
+    weight: 116
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
   field_product_brand:
     weight: 110
     label: above
@@ -382,6 +432,9 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  langcode: true
   layout_builder__layout: true
   published_at: true
+  salsify_id: true
+  salsify_updated: true
   search_api_excerpt: true

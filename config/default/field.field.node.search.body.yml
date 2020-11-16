@@ -1,0 +1,23 @@
+uuid: 759f6619-e80e-4bc9-a053-a9e2393734a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.search
+  module:
+    - text
+id: node.search.body
+field_name: body
+entity_type: node
+bundle: search
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

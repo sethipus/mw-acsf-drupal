@@ -1,0 +1,23 @@
+uuid: 4be26d1b-9f78-4c68-a3b7-e677b6e1e46f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.poll.field_type
+  module:
+    - options
+    - poll
+id: poll.poll.field_type
+field_name: field_type
+entity_type: poll
+bundle: poll
+label: Type
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: poll
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,100 @@
+theme_styles: twix
+cards:
+  - type: 'product'
+    card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - type: 'product'
+    card__image__output_image_tag: true
+    card_url: https://storybook.js.org/
+    card__image__src: image9@3x.png
+
+    paragraph_size: 'large'
+    paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+    paragraph_base_class: 'paragraph'
+    paragraph_modifiers: ['large']
+
+    default_link_content: 'See details'
+    default_link_base_class: 'default-link'
+    default_link_attributes:
+      'target': '_self'
+      'href': 'https://storybook.js.org/'
+
+    link_base_class: text_link
+    link_content: BUY NOW
+
+  - type: 'recipe'
+    theme_styles: 'twix'
+    recipe_card_image_alt: 'Recipe image'
+    recipe_card_image_src: 'Recipe_Image.png'
+    recipe_card_media_url: https://storybook.js.org/
+
+    recipe_card_heading: 'Dove caramel soft bread pudding'
+    recipe_card_heading_level: 3
+    recipe_card_heading_base_class: 'recipe-card-heading'
+
+    recipe_card_minutes_number: 25
+    recipe_card_minutes_base_class: 'recipe-card-time'
+    recipe_card_minutes_size: 'large'
+    recipe_card_minutes_modifiers: ['xs']
+
+    recipe_card_items_number: 10
+    recipe_card_items_base_class: 'recipe-card-items'
+    recipe_card_items_size: 'large'
+    recipe_card_items_modifiers: ['xs']
+
+    recipe_card_button_text: 'see details'
+    recipe_card_button_modifiers: ['small']
+    recipe_card_button_link_attributes:
+      href: 'https://storybook.js.org/'
+      target: '_blank'
+
+    label_for_cooking_time: 'Cooking Time'
+    label_for_ingredients: 'Ingredients'
+
+    recipe_is_new: false
+
+  - type: 'article'
+    theme_styles: 'twix'
+    article_card_heading: 'Delicious chocolate is just the beginning.'
+    article_card_heading_level: 3
+    article_card_heading_base_class: 'article-card-heading'
+
+    article_card_text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, incididunt ut labore et dolore magna aliqua.'
+    article_card_paragraph_base_class: 'article-card-paragraph'
+    article_card_paragraph_size: 'large'
+    article_card_paragraph_modifiers: ['xs']
+
+    article_card_button_text: 'explore'
+    article_card_button_modifiers: ['small']
+    article_card_button_link_attributes:
+      href: 'https://storybook.js.org/'
+      target: '_blank'
+
+    brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" width="243" height="243" fill="none" viewBox="0 0 243 243">
+      <path fill="#EAAA00" fill-rule="evenodd" d="M121.5 243c67.103 0 121.5-54.397 121.5-121.5C243 54.397 188.603 0 121.5 0 54.397 0 0 54.397 0 121.5 0 188.603 54.397 243 121.5 243z" clip-rule="evenodd" opacity=".2"/>
+    </svg>'
+
+    article_card_background_img_url: '/content-feature-bg.png'
+    article_is_new: false
+
+all_results_button_text: 'Show All Results for “Caramel”'
+all_results_button_link_attributes:
+  href: 'https://storybook.js.org/'
+  target: '_blank'
+all_results__button_modifiers: ['small']

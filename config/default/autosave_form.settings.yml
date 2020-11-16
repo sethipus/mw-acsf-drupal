@@ -17,9 +17,12 @@ allowed_content_entity_types:
       article: article
       recipe: recipe
       faq: faq
-      contact_help: contact_help
+      faq_contact: faq_contact
       newsletter_sign_up: newsletter_sign_up
       where_to_buy: where_to_buy
       homepage: homepage
+      campaign: campaign
+      about_page: about_page
+      search: search
 _core:
   default_config_hash: QnLi3Y7e5T_v9EZqYxRb90E0bBDb2g1y7xREWLKJLC0

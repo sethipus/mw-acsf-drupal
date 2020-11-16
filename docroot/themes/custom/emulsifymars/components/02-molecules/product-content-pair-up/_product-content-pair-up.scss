@@ -1,5 +1,5 @@
 .product-content-pair-up {
-  padding-bottom: 500px;
+  padding-bottom: 50rem;
 
   .product-content-pair-up__heading {
     width: 100%;
@@ -26,15 +26,28 @@
     position: relative;
 
     .lead-card {
-      background-size: cover;
+      background-color: clr(subcolor-2);
+      background-size: auto 110%;
       background-repeat: no-repeat;
-      background-position: center 0;
+      background-position: center center;
       padding-top: 50px;
+      position: relative;
+
+      &::before {
+        position: absolute;
+        content: "\200B";
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba($black, 0.4);
+      }
 
       .wrapper {
         height: 538px;
         max-width: 335px;
         margin: 0 auto;
+        position: relative;
         text-align: center;
 
         .eyebrow {
@@ -92,6 +105,7 @@
       width: 100%;
       min-height: 375px;
       margin: auto;
+      z-index: $content-pair-up-asset;
 
       .wrapper {
         position: absolute;
@@ -109,11 +123,12 @@
       left: 0;
       right: 0;
       top: 420px;
-      max-width: 31.5rem;
+      max-width: 31.8rem;
       margin: auto;
+      z-index: $content-pair-supportive-card;
 
       .wrapper > section {
-        max-width: 31.5rem;
+        max-width: 31.8rem;
       }
     }
   }
@@ -128,22 +143,22 @@
     }
   }
 
-  &.size--375 {
+  &.max-size--375 {
     max-width: 375px;
   }
 
-  &.size--768 {
+  &.max-size--768 {
     max-width: 768px;
   }
 
-  &.size--1440 {
-    max-width: 1440px;
+  &.max-size--1440 {
+    max-width: 100%;
   }
 
   @include medium {
-    padding-bottom: 600px;
+    padding-bottom: 60rem;
 
-    &:not(.size--375) {
+    &:not(.max-size--375):not(.size--default), &.size--medium {
       .product-content-pair-up__heading {
         letter-spacing: 0.2rem;
         font-size: 4rem;
@@ -154,6 +169,7 @@
         .lead-card {
           height: 538px;
           padding-top: 60px;
+          background-size: auto 150%;
 
           .wrapper {
             margin: 0 auto;
@@ -191,16 +207,11 @@
 
         .supportive-card {
           top: 361px;
-          max-width: 33.4rem;
-
-          .wrapper > section {
-            max-width: 33.4rem;
-          }
         }
       }
     }
 
-    .layout-builder &:not(.size--375) {
+    .layout-builder &:not(.max-size--375) {
       .png-asset {
         top: 365px;
       }
@@ -211,10 +222,20 @@
     }
   }
 
-  @include xl {
-    padding-bottom: 275px;
+  @include large {
+    &:not(.max-size--375) {
+      .product-content-pair-up__container {
+        .lead-card {
+          background-size: auto 120%;
+        }
+      }
+    }
+  }
 
-    &:not(.size--375):not(.size--768) {
+  @include xl {
+    padding-bottom: 2rem;
+
+    &:not(.max-size--375):not(.max-size--768):not(.size--medium):not(.size--default), &.size--large {
       .product-content-pair-up__heading {
         max-width: none;
         font-size: 4.8rem;
@@ -228,10 +249,10 @@
       }
 
       .product-content-pair-up__container {
-        padding-bottom: 275px;
+        padding-bottom: 2rem;
 
         .lead-card {
-          width: 1127px;
+          width: 85%;
           height: 665px;
           padding: 179px 0 0 85px;
 
@@ -263,17 +284,12 @@
         .supportive-card {
           top: 185px;
           left: auto;
-          max-width: none;
           right: 158px;
-
-          .wrapper > section {
-            max-width: 43.2rem;
-          }
         }
       }
     }
 
-    .layout-builder &:not(.size--375):not(.size--768) {
+    .layout-builder &:not(.max-size--375):not(.max-size--768) {
       .png-asset {
         top: 80px;
       }

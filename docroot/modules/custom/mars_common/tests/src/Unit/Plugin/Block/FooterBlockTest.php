@@ -3,16 +3,15 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal;
-use Drupal\Tests\UnitTestCase;
-use ReflectionClass;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\Config;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Tests\UnitTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class FooterBlockTest.
@@ -190,11 +189,10 @@ class FooterBlockTest extends UnitTestCase {
       )
       ->will($this->onConsecutiveCalls('', ''));
 
-    $reflection = new ReflectionClass($this->footerBlock);
-    $method = $reflection->getMethod('buildConfigurationForm');
-    $method->setAccessible(TRUE);
-
-    $config_form = $method->invokeArgs($this->footerBlock, ['arg1' => [], 'arg2' => $this->formStateMock]);
+    $config_form = $this->footerBlock->buildConfigurationForm(
+      [],
+      $this->formStateMock
+    );
     $this->assertCount(11, $config_form);
     $this->assertArrayHasKey('top_footer_menu', $config_form);
     $this->assertArrayHasKey('legal_links', $config_form);
@@ -239,7 +237,8 @@ class FooterBlockTest extends UnitTestCase {
 
     $build = $this->footerBlock->build();
 
-    $this->assertCount(9, $build);
+    $this->assertCount(11, $build);
+    $this->assertArrayHasKey('#cache', $build);
     $this->assertArrayHasKey('#top_footer_menu', $build);
     $this->assertArrayHasKey('#legal_links', $build);
     $this->assertArrayHasKey('#marketing', $build);

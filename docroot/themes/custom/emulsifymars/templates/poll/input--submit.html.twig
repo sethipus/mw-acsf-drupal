@@ -1,0 +1,7 @@
+{% if 'edit-vote' in attributes['data-drupal-selector']|render %}
+  <button type="submit" class="button button--primary button-vote js-form-submit form-submit default-link default-link--" data-drupal-selector="{{ attributes.id }}" id="{{ attributes.id }}">{{ safe_value_label | raw }}
+    <span class="default-link__label">{{ attributes.value }}</span>
+  </button>
+{% else %}
+  <input{{ attributes }} />{{ children }}
+{% endif %}

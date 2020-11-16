@@ -1,6 +1,7 @@
 .contact-module {
   background-color: clr(subcolor-2);
   border-top: 5px solid clr(secondary);
+  margin-top: 4rem;
   position: relative;
   overflow: hidden;
 
@@ -10,6 +11,10 @@
 
   @include medium {
     padding: 6rem 4rem;
+  }
+
+  @include large {
+    padding: 6rem 15.5rem;
   }
 
   &__brand-shape {
@@ -154,10 +159,6 @@
 
     &__label {
       font-family: variable(primary-font);
-    }
-
-    &::after {
-      width: 350px;
     }
   }
 }

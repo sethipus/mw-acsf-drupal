@@ -14,17 +14,39 @@
 #}
 
 {% if suggestions %}
-  <ul class="suggestions-links">
-    {% for suggestion in suggestions %}
-      <li>{{ suggestion }}</li>
-    {% endfor %}
-  </ul>
-  <div class="show-all">
-    {{ show_all }}
-  </div>
+  {% if cards_view %}
+    <div class="search-cards-container" data-theme="drupal">
+      <div class="search-cards">
+        {% for suggestion in suggestions %}
+          {{ suggestion }}
+        {% endfor %}
+      </div>
+      <div class="search-cards-all-results">
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: show_all.title,
+          default_link_attributes: show_all.attributes,
+        } %}
+      </div>
+    </div>
+  {% else %}
+    <ul class="suggestions-links">
+      {% for suggestion in suggestions %}
+        <li>{{ suggestion|raw }}</li>
+      {% endfor %}
+    </ul>
+    <div class="show-all">
+      {{ show_all }}
+    </div>
+  {% endif %}
 {% else %}
-  <div class="no-results">
-    <div class="empty-text">{{ empty_text }}</div>
-    <div class="empty-text-description">{{ empty_text_description }}</div>
-  </div>
+  {% if cards_view %}
+    <div class="search-cards-container" data-theme="drupal">
+      {{ no_results }}
+    </div>
+  {% else %}
+    <div class="no-results">
+      <div class="empty-text">{{ empty_text }}</div>
+      <div class="empty-text-description">{{ empty_text_description }}</div>
+    </div>
+  {% endif %}
 {% endif %}

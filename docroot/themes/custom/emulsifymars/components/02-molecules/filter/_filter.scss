@@ -1,0 +1,108 @@
+.filter-block {
+  padding-bottom: 10px;
+  border-bottom: 1px solid clr(subcolor-4);
+  position: relative;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @include xl {
+    flex-basis: 230px;
+    max-width: 230px;
+    flex-grow: 0;
+    border: none;
+    cursor: pointer;
+
+    &:first-child {
+      .filter-title {
+        padding-left: 0;
+      }
+    }
+
+    &:last-child,
+    &:nth-child(4n) {
+      .filter-title {
+        border-right: none;
+      }
+    }
+
+    .filter-title {
+      padding: 5px 45px 15px 15px;
+      border-bottom: 1px solid clr(subcolor-4);
+      border-right: 1px solid clr(subcolor-4);
+      color: clr(secondary);
+      position: relative;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        top: 7px;
+        right: 20px;
+        border-right: 1px solid clr(secondary);
+        border-bottom: 1px solid clr(secondary);
+        transform: rotate(45deg);
+      }
+    }
+
+    .filter-checkboxes {
+      position: absolute;
+      z-index: 1;
+      padding: 0 12px;
+      box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      display: none;
+      width: 230px;
+
+      .checkbox-item {
+        padding-right: 40px;
+      }
+
+      .search-filter-block__button--apply {
+        margin: 10px auto;
+        width: 208px;
+        text-align: center;
+      }
+    }
+
+    &--open {
+      .filter-title {
+        &::before {
+          top: 12px;
+          transform: rotate(225deg);
+        }
+      }
+
+      .filter-checkboxes {
+        display: block;
+        background-color: clr(subcolor-3);
+      }
+    }
+  }
+}
+
+.filter-title {
+  margin: 30px 0 10px;
+  font: 16px/1.4em variable(primary-font);
+  color: clr(primary);
+  letter-spacing: 0.65px;
+
+  &__counter {
+    &::before {
+      content: '(';
+    }
+
+    &::after {
+      content: ')';
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+}

@@ -163,9 +163,9 @@ class LighthouseClient implements LighthouseClientInterface {
       'orderBy' => '',
       'brand' => $filters['brand'] ?? '',
       'market' => $filters['market'] ?? '',
-      // 'subBrand' => [],
-      // 'subtype' => [],
-      // 'category' => [],
+      /* 'subBrand' => [],
+         'subtype' => [],
+         'category' => [], */
       'contentType' => $media_type,
       'pagingConfig' => [
         'startRow' => $offset,
@@ -218,6 +218,54 @@ class LighthouseClient implements LighthouseClientInterface {
     $content = $this->get($endpoint_full_path, $params);
 
     return $content['assetList'][0] ?? [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAssetsByIds(array $request_data, string $date, array $params = []): array {
+    if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
+      return [];
+    }
+
+    $body = [
+      'token' => $params['mars_lighthouse.access_token'],
+      'checkDate' => $date,
+      'assets' => $request_data,
+    ];
+
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_ASSETS_BY_IDS);
+
+    try {
+      /**@var \Psr\Http\Message\ResponseInterface $response */
+      $response = $this->httpClient->post(
+        $endpoint_full_path,
+        [
+          'json' => $body,
+          'headers' => $params['mars_lighthouse.headers'],
+        ]
+      );
+    }
+    catch (RequestException $exception) {
+      if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
+        throw new TokenIsExpiredException('Access token is expired.');
+      }
+      elseif ($exception->getCode() == self::ACCESS_ERROR_CODE) {
+        throw new LighthouseAccessException('Access token is invalid. A new one should be forced requested.');
+      }
+      else {
+        $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
+        throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
+      }
+    }
+
+    $content = $response->getBody()->getContents();
+    $content = Json::decode($content);
+
+    $asset_modified = $content['assetModified'] ?? [];
+    $asset_with_new_version = $content['assetWithNewVersion'] ?? [];
+    $result = array_merge($asset_modified, $asset_with_new_version);
+    return $result;
   }
 
   /**

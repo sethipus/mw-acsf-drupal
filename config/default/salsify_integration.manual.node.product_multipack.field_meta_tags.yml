@@ -1,0 +1,9 @@
+field_id: 'CMS: Meta tags'
+salsify_id: 'CMS: Meta tags'
+salsify_data_type: complex
+entity_type: node
+bundle: product_multipack
+field_name: field_meta_tags
+method: manual
+created: 1546300800
+changed: 1546300801
