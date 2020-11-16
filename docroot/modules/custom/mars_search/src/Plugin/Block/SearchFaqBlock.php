@@ -141,9 +141,6 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    * {@inheritdoc}
    */
   public function build() {
-
-    /** @var \Drupal\node\Entity\Node $node */
-    $node = $this->routeMatch->getParameter('node');
     $config = $this->getConfiguration();
     $config_no_results = $this->configFactory->get('mars_search.search_no_results');
     $faq_facet_key = 'faq_filter_topic';
@@ -164,7 +161,6 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       // Disabling entityqueue sorting when topic filter is active.
       unset($options['sort']['faq_item_queue_weight']);
     }
-    $options_see_all = $options;
     $search_results = $this->searchHelper->getSearchResults($options);
     $faq_items = [];
     $cta_button_label = $cta_button_link = '';
@@ -237,8 +233,6 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
               'siteSearchResults' => $search_results['resultsCount'],
             ],
           ],
-          'searchOptions' => $options_see_all,
-          'nid' => !empty($node) ? $node->id() : '',
         ],
         'library' => [
           'mars_search/datalayer.search',

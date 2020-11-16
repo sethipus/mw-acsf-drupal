@@ -282,10 +282,18 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   The learn more action response.
    */
   public function seeAllCallback(Request $request) {
-    $parameters = $this->requestStack->getCurrentRequest()->request->all();
+    $query_parameters = $this->searchHelper->request->query->all();
+    $search_options = $this->searchQueryParser->parseQuery($query_parameters['id'] ?
+      $query_parameters['id'] : 1);
+    if (!empty($query_parameters['contentType'])) {
+      $search_options['conditions'][] = [
+        'type',
+        $query_parameters['contentType'],
+        '=',
+      ];
+    }
     $items = [];
-    $search_options = $parameters['searchOptions'];
-    $top_results = $parameters['topResults'];
+    $top_results = $query_parameters['topResults'];
     unset($search_options['limit']);
     if (!empty($top_results)) {
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_results) as $top_result_node) {
@@ -293,18 +301,22 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
     }
 
-    $results = $this->searchHelper->getSearchResults($search_options, !empty($parameters['id']) ?
-      "grid_{$parameters['id']}" : 'main_search');
+    $results = $this->searchHelper->getSearchResults($search_options, $query_parameters['id'] ?
+      "grid_{$query_parameters['id']}" : 'main_search');
 
     if (!empty($results['results'])) {
       foreach ($results['results'] as $entity) {
         if (!in_array($entity->id(), $top_results)) {
-          $items[] = $this->nodeViewBuilder->view($entity, 'card');
+          $items[] = [
+            '#type' => 'container',
+            'children' => $this->nodeViewBuilder->view($entity, 'card'),
+            '#attributes' => ['class' => ['ajax-card-grid__item_wrapper']],
+          ];
         }
       }
     }
 
-    return new Response($this->renderer->render($items));
+    return new Response($this->renderer->renderRoot($items));
   }
 
   /**
@@ -317,10 +329,14 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   The learn more action response.
    */
   public function seeAllFaqCallback(Request $request) {
-    $parameters = $this->requestStack->getCurrentRequest()->request->all();
-    $search_options = $parameters['searchOptions'];
+    $search_options = $this->searchQueryParser->parseQuery();
+    $search_options['conditions'][0] = ['type', 'faq', '=', TRUE];
     $faq_items = [];
     unset($search_options['limit']);
+    $search_options['sort'] = [
+      'faq_item_queue_weight' => 'ASC',
+      'created' => 'DESC',
+    ];
     $search_results = $this->searchHelper->getSearchResults($search_options);
     if ($search_results['results']) {
       /** @var \Drupal\node\NodeInterface $search_result */

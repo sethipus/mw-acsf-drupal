@@ -274,7 +274,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, "grid_{$this->gridId}");
-    $build['#attached']['drupalSettings']['cards'][$this->gridId]['searchOptions'] = $searchOptions;
     if ($query_search_results['resultsCount'] == 0) {
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys']);
     }
@@ -302,6 +301,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $url_options['query']['see-all'] = 1;
       $url->setOptions($url_options);
       $build['#ajax_card_grid_link_text'] = $this->t('See all');
+      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
     $build['#ajax_card_grid_heading'] = $config['title'];
@@ -311,6 +311,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_results_count,
     ];
+    $build['#attached']['drupalSettings']['cards'][$this->gridId]['contentType'] = $config['content_type'];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';

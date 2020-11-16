@@ -173,7 +173,6 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
         'siteSearchResults' => $query_search_results['resultsCount'],
       ],
     ];
-    $build['#attached']['drupalSettings']['searchOptions'] = $searchOptions;
 
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
 
@@ -187,6 +186,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $url_options['query']['see-all'] = 1;
       $url->setOptions($url_options);
       $build['#ajax_card_grid_link_text'] = $this->t('See all');
+      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
     $build['#ajax_card_grid_heading'] = $this->t('All results');
