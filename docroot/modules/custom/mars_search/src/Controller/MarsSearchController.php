@@ -4,16 +4,19 @@ namespace Drupal\mars_search\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides a controllers for search functionality.
@@ -56,6 +59,20 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $viewBuilder;
 
   /**
+   * The node view builder.
+   *
+   * @var \Drupal\node\NodeViewBuilder
+   */
+  protected $nodeViewBuilder;
+
+  /**
+   * The request stack.
+   *
+   * @var Symfony\Component\HttpFoundation\RequestStack
+   */
+  private $requestStack;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -66,18 +83,26 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Search helper.
    * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
    *   Menu Link tree.
+   * @param \Drupal\Core\Entity\EntityViewBuilderInterface $node_view_builder
+   *   Node view builder.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   Request stack.
    */
   public function __construct(
     RendererInterface $renderer,
     SearchHelperInterface $search_helper,
     SearchQueryParserInterface $search_query_parser,
-    MenuLinkTreeInterface $menu_link_tree
+    MenuLinkTreeInterface $menu_link_tree,
+    EntityViewBuilderInterface $node_view_builder,
+    RequestStack $request_stack
   ) {
     $this->renderer = $renderer;
     $this->searchHelper = $search_helper;
     $this->searchQueryParser = $search_query_parser;
     $this->viewBuilder = $this->entityTypeManager()->getViewBuilder('node');
     $this->menuLinkTree = $menu_link_tree;
+    $this->nodeViewBuilder = $node_view_builder;
+    $this->requestStack = $request_stack;
   }
 
   /**
@@ -88,7 +113,9 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('renderer'),
       $container->get('mars_search.search_helper'),
       $container->get('mars_search.search_query_parser'),
-      $container->get('menu.link_tree')
+      $container->get('menu.link_tree'),
+      $container->get('entity_type.manager')->getViewBuilder('node'),
+      $container->get('request_stack')
     );
   }
 
@@ -243,6 +270,40 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
     }
     return new JsonResponse($json_output);
+  }
+
+  /**
+   * Render all search cards block.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   The learn more action response.
+   */
+  public function seeAllCallback(Request $request) {
+    $parameters = $this->requestStack->getCurrentRequest()->request->all();
+    $items = [];
+    $search_options = $parameters['searchOptions'];
+    $top_results = $parameters['topResults'];
+    unset($search_options['limit']);
+    if (!empty($top_results)) {
+      foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_results) as $top_result_node) {
+        $items[] = $this->nodeViewBuilder->view($top_result_node, 'card');
+      }
+    }
+
+    $results = $this->searchHelper->getSearchResults($search_options, "grid_{$parameters['id']}");
+
+    if (!empty($results['results'])) {
+      foreach ($results['results'] as $entity) {
+        if (!in_array($entity->id(), $top_results)) {
+          $items[] = $this->nodeViewBuilder->view($entity, 'card');
+        }
+      }
+    }
+
+    return new Response($this->renderer->render($items));
   }
 
 }
