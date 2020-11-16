@@ -5,14 +5,7 @@
   color: clr(primary);
   padding-top: 50px;
 
-  &__border svg {
-    position: absolute;
-    top: $brand-border-offset;
-    width: 100%;
-    height: $brand-border-height;
-    fill: clr(subcolor-2);
-    z-index: $brand-border-overflow-zindex;
-  }
+  @include brand-border-overflow;
 
   & .h2 {
     position: relative;
