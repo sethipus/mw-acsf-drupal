@@ -103,7 +103,7 @@ Feature: Product Test
     When I press "Delete"
     Then I should see "The media item icon has been deleted."
 
-        #Delete product variant
+    # Delete product variant
     When I follow "Content"
     And I check content with title "product_variant_title"
     And I press "Apply to selected items"
