@@ -345,11 +345,11 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $render_array['#brand_shape'] = $brand_shape;
     }
 
-    $cache_metadata = CacheableMetadata::createFromRenderArray($render_array);
-    $cache_metadata->merge(
-      $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
-    );
-    $cache_metadata->applyTo($render_array);
+    CacheableMetadata::createFromRenderArray($render_array)
+      ->merge(
+        $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
+      )
+      ->applyTo($render_array);
 
     $render_array['#cache']['keys'][] = md5($eyebrow_text);
     return $render_array;
