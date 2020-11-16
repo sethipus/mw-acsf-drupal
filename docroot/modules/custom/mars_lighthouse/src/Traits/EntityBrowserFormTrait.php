@@ -57,7 +57,7 @@ trait EntityBrowserFormTrait {
       ],
       '#cardinality' => $cardinality,
       '#selection_mode' => $cardinality === 1 ? EntityBrowserElement::SELECTION_MODE_PREPEND : EntityBrowserElement::SELECTION_MODE_APPEND,
-      '#default_value' => $default_value,
+      '#default_value' => !is_array($default_value) ? $default_value : NULL,
       '#wrapper_id' => &$element['#attributes']['id'],
     ];
     $element['selected'] = [
