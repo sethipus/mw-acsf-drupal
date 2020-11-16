@@ -349,8 +349,6 @@ class SalsifyFields extends Salsify {
    * initiate a field data sync prior to importing product data. Once the field
    * data is ready, the product data is imported using Drupal's queue system.
    *
-   * @param bool $process_immediately
-   *   If set to TRUE, the product import will bypass the queue system.
    * @param bool $force_update
    *   If set to TRUE, the updated date highwater mark will be ignored.
    *
@@ -361,7 +359,7 @@ class SalsifyFields extends Salsify {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function importProductData($process_immediately = FALSE, $force_update = FALSE) {
+  public function importProductData($force_update = FALSE) {
     try {
       // Refresh the product field settings from Salsify.
       $product_data = $this->importProductFields();
@@ -372,58 +370,16 @@ class SalsifyFields extends Salsify {
 
       // Import the actual product data.
       if (!empty($product_data['products'])) {
-        // Handle cases where the user wants to perform all of the data
-        // processing immediately instead of waiting for the queue to finish.
-        if ($process_immediately) {
-          $this->batchBuilder
-            ->setTitle($this->t('Salsify items processing'))
-            ->setInitMessage($this->t('Initializing.'))
-            ->setProgressMessage($this->t('Completed @current of @total.'))
-            ->setErrorMessage($this->t('An error has occurred.'));
+        $this->addItemsToQueue($product_data, $force_update);
+        $message = $this->t('The Salsify data import queue was created.');
 
-          $this->batchBuilder->addOperation(
-            [$this, 'batchProcessItems'],
-            [
-              $product_data,
-              $force_update,
-              ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE,
-            ],
-          );
-          $this->batchBuilder->addOperation(
-            [$this, 'batchProcessItems'],
-            [
-              $product_data,
-              $force_update,
-              ProductHelper::PRODUCT_CONTENT_TYPE,
-            ],
-          );
-          $this->batchBuilder->addOperation(
-            [$this, 'batchProcessItems'],
-            [
-              $product_data,
-              $force_update,
-              ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE,
-            ],
-          );
+        $deleted_items = $this->salsifyProductRepository
+          ->unpublishProducts(array_column($product_data['products'], 'salsify:id'));
 
-          $this->batchBuilder->setFinishCallback([$this, 'finished']);
-          batch_set($this->batchBuilder->toArray());
-
-          $message = $this->t('The Salsify data import is complete.');
-        }
-        // Add each product value into a queue for background processing.
-        else {
-          $this->addItemsToQueue($product_data, $force_update);
-          $message = $this->t('The Salsify data import queue was created.');
-
-          $deleted_items = $this->salsifyProductRepository
-            ->unpublishProducts($product_data['products']);
-
-          // Send report with deleted items.
-          if (!empty($deleted_items)) {
-            $this->salsifyEmailReport
-              ->sendReport([], $deleted_items);
-          }
+        // Send report with deleted items.
+        if (!empty($deleted_items)) {
+          $this->salsifyEmailReport
+            ->sendReport([], $deleted_items);
         }
 
         return [
@@ -481,7 +437,7 @@ class SalsifyFields extends Salsify {
    * @param array $product
    *   Product record.
    */
-  private function addChildLinks(array $mapping, array &$product) {
+  public function addChildLinks(array $mapping, array &$product) {
     if (isset($mapping[$product['GTIN']])) {
       foreach ($mapping[$product['GTIN']] as $child_gtin => $child_type) {
         if ($child_type == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
@@ -500,7 +456,7 @@ class SalsifyFields extends Salsify {
    * @param array $product_data
    *   Data of product.
    */
-  protected function prepareTermData(array $product_data) {
+  public function prepareTermData(array $product_data) {
     $salsify_fields = $product_data['fields'];
     $entity_type = $this->getEntityType();
     $entity_bundle = $this->getEntityBundle();
@@ -875,119 +831,6 @@ class SalsifyFields extends Salsify {
 
     $form_storage->setComponent($field_name, $field_options)->save();
 
-  }
-
-  /**
-   * Processor for batch operations.
-   */
-  public function batchProcessItems($items, $force_update, $content_type, array &$context) {
-
-    // Elements per operation.
-    $limit = 20;
-
-    // Set default progress values.
-    if (empty($context['sandbox']['progress'])) {
-      $context['sandbox']['progress'] = 0;
-      $context['sandbox']['max'] = count($items['products']);
-    }
-
-    // Save items to array which will be changed during processing.
-    if (empty($context['sandbox']['items'])) {
-      $context['sandbox']['items'] = $items['products'];
-    }
-
-    $counter = 0;
-    if (!empty($context['sandbox']['items'])) {
-      // Remove already processed items.
-      if ($context['sandbox']['progress'] != 0) {
-        array_splice($context['sandbox']['items'], 0, $limit);
-      }
-
-      foreach ($context['sandbox']['items'] as $product) {
-
-        if ($counter != $limit) {
-          // Add child entity references.
-          $this->addChildLinks($items['mapping'], $product);
-          $product['CMS: Market'] = $items['market'] ?? NULL;
-          if (isset($product['CMS: Meta Description']) ||
-            isset($product['CMS: Keywords'])) {
-            $product['CMS: Meta tags'] = TRUE;
-          }
-
-          if (ProductHelper::getProductType($product) == $content_type) {
-            $result = $this->salsifyImportField->processSalsifyItem(
-              $product,
-              $force_update,
-              $content_type
-            );
-
-            if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
-              $context['results']['updated_products'] = array_merge(
-                $context['results']['updated_products'] ?? [],
-                $product['GTIN']
-              );
-            }
-            elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
-              $context['results']['created_products'] = array_merge(
-                $context['results']['created_products'] ?? [],
-                $product['GTIN']
-              );
-            }
-            $context['results']['validation_errors'] = array_merge(
-              $context['results']['validation_errors'] ?? [],
-              $result['validation_errors']
-            );
-          }
-
-          $counter++;
-          $context['sandbox']['progress']++;
-
-          $context['message'] = $this->t('Now processing product :progress of :count', [
-            ':progress' => $context['sandbox']['progress'],
-            ':count' => $context['sandbox']['max'],
-          ]);
-
-          // Increment total processed item values. Will be used in finished
-          // callback.
-          $context['results']['processed'] = $context['sandbox']['progress'];
-        }
-
-        // Unpublish products in case of deletion at Salsify side.
-        $context['results']['deleted_items'] = $this->salsifyProductRepository
-          ->unpublishProducts($items['products']);
-      }
-    }
-
-    // If not finished all tasks, we count percentage of process. 1 = 100%.
-    if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
-    }
-  }
-
-  /**
-   * Finished callback for batch.
-   */
-  public function finished($success, $results, $operations) {
-    $this->logger->info($this->t(
-      'The Salsify data import is complete. @created @updated', [
-        '@created' => 'Created products: ' . implode(', ', $results['created_products']) . '.',
-        '@updated' => 'Updated products: ' . implode(', ', $results['updated_products']) . '.',
-      ]
-    ));
-
-    // Send import report.
-    if ((isset($results['validation_errors']) && !empty($results['validation_errors'])) ||
-      !empty($results['deleted_items'])) {
-      $validation_errors = $results['validation_errors'] ?? [];
-      $this->salsifyEmailReport
-        ->sendReport($validation_errors, $results['deleted_items']);
-    }
-
-    $message = $this->t('Number of products affected by batch: @count', [
-      '@count' => $results['processed'],
-    ]);
-    $this->messenger
-      ->addStatus($message);
   }
 
 }
