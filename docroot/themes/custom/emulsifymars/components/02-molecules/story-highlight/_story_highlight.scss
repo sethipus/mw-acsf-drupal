@@ -5,15 +5,25 @@
   margin: 0;
   z-index: 1;
 
-  &__content {
-    margin-bottom: -40rem;
-
-    @include small {
+  &__content:not(.no-cta-button) {
+    @include medium {
       margin-bottom: -30rem;
     }
 
+    @include large {
+      margin-bottom: -20rem;
+    }
+  }
+
+  &__content {
+    margin-bottom: -40rem;
+
     @include medium {
-      margin-bottom: -40rem;
+      margin-bottom: -25rem;
+    }
+
+    @include large {
+      margin-bottom: -15rem;
     }
   }
 
