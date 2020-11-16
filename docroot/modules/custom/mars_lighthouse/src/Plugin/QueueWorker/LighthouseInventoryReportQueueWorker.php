@@ -120,7 +120,7 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
         $asset_list[] = [
           'assetId' => $media->field_external_id->value,
           'isDerivedAsset' => FALSE,
-          'repoId' => '',
+          'repoId' => $this->configFactory->get('system.site')->get('name') . ':' . $media->id(),
           'repoLoc' => '',
           'note' => '',
         ];
