@@ -192,12 +192,12 @@
                 "version": "master",
                 "type": "drupal-library",
                 "dist": {
-                   "type": "zip",
-                   "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
-                   "reference": "master"
+                    "type": "zip",
+                    "url": "https://www.eyecon.ro/colorpicker/colorpicker.zip",
+                    "reference": "master"
                 },
                 "autoload": {
-                   "classmap": ["."]
+                    "classmap": ["."]
                 }
             }
         },
