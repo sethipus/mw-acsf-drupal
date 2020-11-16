@@ -16,7 +16,6 @@
       // PAGE VIEW EVENT
       var body = context.querySelector('body');
       if (body === null || body.getAttribute('datalayer-page-view')) {
-        console.log(settings);
         return;
       }
       dataLayer.push(settings.dataLayer);

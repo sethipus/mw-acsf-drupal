@@ -8,7 +8,6 @@
   Drupal.behaviors.seeAllAjax = {
     attach: function (context, settings) {
       var selector = '.ajax-card-grid__more-link a';
-      console.log(drupalSettings);
       $(selector, context).on('click', function () {
         let id = $(this).closest('.card-grid-results').attr('data-layer-grid-id');
 
