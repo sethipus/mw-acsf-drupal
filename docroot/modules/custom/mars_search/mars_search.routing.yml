@@ -10,6 +10,12 @@ mars_search.callback:
     _controller: \Drupal\mars_search\Controller\MarsSearchController::searchCallback
   requirements:
     _permission: 'access content'
+mars_see_all.callback:
+  path: '/see-all-callback'
+  defaults:
+    _controller: \Drupal\mars_search\Controller\MarsSearchController::seeAllCallback
+  requirements:
+    _permission: 'access content'
 mars_search.settings:
   path: '/admin/config/search/search-no-results'
   defaults:

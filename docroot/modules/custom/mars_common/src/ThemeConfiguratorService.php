@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
@@ -59,6 +60,13 @@ class ThemeConfiguratorService {
   private $configFactory;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * ThemeConfiguratorService constructor.
    *
    * @param \Drupal\Core\Image\ImageFactory $image_factory
@@ -69,17 +77,21 @@ class ThemeConfiguratorService {
    *   The file system service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
   public function __construct(
     ImageFactory $image_factory,
     ModuleHandler $module_handler,
     FileSystemInterface $file_system,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager
   ) {
     $this->imageFactory = $image_factory;
     $this->moduleHandler = $module_handler;
     $this->fileSystem = $file_system;
     $this->configFactory = $config_factory;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -130,6 +142,31 @@ class ThemeConfiguratorService {
       ]);
     }
     $form_state->setStorage($form_storage);
+
+    if ($this->isPluginBlock($form)) {
+      $form['logo'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Logo image'),
+        '#open' => TRUE,
+      ];
+      $form['logo']['settings']['logo_path'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Path to custom logo'),
+        '#default_value' => !empty($config) ? $config['logo_path'] : '',
+      ];
+      $form['logo']['settings']['logo_upload'] = [
+        '#type' => 'file',
+        '#title' => $this->t('Upload logo image'),
+        '#maxlength' => 40,
+        '#description' => $this->t("If you don't have direct file access to the server, use this field to upload your logo."),
+        '#upload_validators' => [
+          'file_validate_is_image' => [],
+        ],
+        '#process' => [
+          [OverrideFile::class, 'processFile'],
+        ],
+      ];
+    }
 
     $form['color_settings'] = [
       '#type'        => 'details',
@@ -461,17 +498,19 @@ class ThemeConfiguratorService {
       ],
     ];
 
-    $form['product_layout'] = [
-      '#type' => 'details',
-      '#open' => TRUE,
-      '#title' => $this->t('Product layout settings'),
-      '#description' => $this->t("MARS theme settings for Product layout."),
-    ];
-    $form['product_layout']['show_allergen_info'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Show allergen info'),
-      '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
-    ];
+    if (!$this->isPluginBlock($form)) {
+      $form['product_layout'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('Product layout settings'),
+        '#description' => $this->t("MARS theme settings for Product layout."),
+      ];
+      $form['product_layout']['show_allergen_info'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Show allergen info'),
+        '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
+      ];
+    }
 
     if (!$this->isPluginBlock($form)) {
       $form['#validate'][] = [$this, 'formSystemThemeSettingsValidate'];
@@ -664,6 +703,44 @@ class ThemeConfiguratorService {
     $default_scheme = $config->get('default_scheme');
     foreach (self::FONT_FIELDS as $font) {
       $this->fileStoreProcess($form_state, $font, $default_scheme);
+    }
+    $this->fileStatusProcess($form, $form_state);
+  }
+
+  /**
+   * Helper function to set permanent state for all file entities.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Theme settings form state.
+   */
+  private function fileStatusProcess(
+    array $form,
+    FormStateInterface &$form_state
+  ) {
+    $values = $form_state->getUserInput();
+    foreach ($values as $value) {
+      if (!is_array($value) || !array_key_exists('fids', $value)) {
+        continue;
+      }
+      $file = $this->entityTypeManager->getStorage('file')->load($value['fids']);
+      if ($file && $file->isTemporary()) {
+        $file->setPermanent();
+        $file->save();
+      }
+    }
+    if (!array_key_exists('social', $values)) {
+      return;
+    }
+    foreach ($values['social'] as $social) {
+      if (array_key_exists('icon', $social) && array_key_exists('fids', $social['icon'])) {
+        $file = $this->entityTypeManager->getStorage('file')->load($social['icon']['fids']);
+        if ($file && $file->isTemporary()) {
+          $file->setPermanent();
+          $file->save();
+        }
+      }
     }
   }
 

@@ -72,6 +72,21 @@ $xl-gap-width: 30px;
     }
   }
 
+  &__image-wrapper {
+    display: block;
+    width: 100%;
+    padding-bottom: 70.7%;
+    background-size: auto 150%;
+
+    @include medium {
+      padding-bottom: 60.9%;
+    }
+
+    @include xl {
+      padding-bottom: 42.8%;
+    }
+  }
+
   .stretch {
     position: absolute;
     width: 100%;
