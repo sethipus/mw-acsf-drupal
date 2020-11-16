@@ -1,0 +1,11 @@
+uuid: 039a1fb0-4dd3-44c3-9072-c4d1b62a9641
+langcode: en
+status: true
+dependencies: {  }
+id: node__product
+label: 'Content: Product'
+tags:
+  description: '[node:field_product_description]'
+  title: '[node:title]'
+  og_description: '[node:field_product_description]'
+  og_title: '[node:title]'

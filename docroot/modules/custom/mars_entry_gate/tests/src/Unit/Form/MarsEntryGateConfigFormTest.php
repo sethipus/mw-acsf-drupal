@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\mars_entry_gate\Form\EntryGateConfigForm;
-use Drupal\onetrust\Form\OneTrustConfigForm;
+use Drupal\mars_onetrust\Form\OneTrustConfigForm;
 use Drupal\Tests\UnitTestCase;
 use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerInterface;

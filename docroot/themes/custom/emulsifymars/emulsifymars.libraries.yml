@@ -8,24 +8,26 @@ main-menu:
     dist/js/02-molecules/menus/main-menu/main-menu.js: {}
   dependencies:
     - core/drupal
-
-ambient-video:
-  js:
-    dist/js/ambient_video.js: {}
-  dependencies:
-    - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 content-feature:
   js:
     dist/js/02-molecules/content-feature/content-feature.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 social-feed:
   js:
     dist/js/social_feed.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
     - emulsifymars/vendor-chunk-2
 
 entry-gate:
@@ -49,6 +51,7 @@ pdp-body:
     - core/drupal
     - emulsifymars/vendor-chunk-2
     - core/jquery
+    - core/jquery.once
 
 pdp-multipack:
   js:
@@ -63,6 +66,16 @@ product-content-pair-up:
     dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+
+recipe-hero-module:
+  js:
+    dist/js/02-molecules/recipe-hero-module/recipe-hero-module.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 recommendations-module:
   js:
@@ -83,9 +96,18 @@ tabs:
   dependencies:
     - core/drupal
 
+dropdown:
+  js:
+    dist/js/02-molecules/dropdown/dropdown.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+
 parent-page-header:
   js:
     dist/js/02-molecules/parent-page-header/parent-page-header.js: {}
+    dist/js/01-atoms/video/ambient-video/video.js: {}
   dependencies:
     - core/drupal
 
@@ -96,9 +118,27 @@ media-carousel:
     - core/drupal
     - emulsifymars/vendor-chunk-2
 
+ambient-video:
+  js:
+    dist/js/01-atoms/video/ambient-video/video.js: {}
+  dependencies:
+    - core/drupal
+
 fullscreen-video:
   js:
-    dist/js/fullscreen_video.js: {}
+    dist/js/01-atoms/video/fullscreen-video/video.js: {}
+  dependencies:
+    - core/drupal
+
+inline-video:
+  js:
+    dist/js/01-atoms/video/inline-video/video.js: {}
+  dependencies:
+    - core/drupal
+
+overlay-video:
+  js:
+    dist/js/01-atoms/video/overlay-video/video.js: {}
   dependencies:
     - core/drupal
 
@@ -153,9 +193,17 @@ feedback:
     dist/js/02-molecules/feedback-module/feedback.js: { }
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 card-grid-filter:
   js:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
+  dependencies:
+    - core/drupal
+
+social-menu:
+  js:
+    dist/js/02-molecules/menus/social/social-menu.js: {}
   dependencies:
     - core/drupal

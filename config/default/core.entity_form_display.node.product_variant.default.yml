@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_browser
+    - entity_browser.browser.lighthouse_browser
     - field.field.node.product_variant.field_product_allergen_statement
     - field.field.node.product_variant.field_product_allergen_warnings
     - field.field.node.product_variant.field_product_calcium
@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.product_variant.field_product_calories_fat
     - field.field.node.product_variant.field_product_carb
     - field.field.node.product_variant.field_product_carb_daily
+    - field.field.node.product_variant.field_product_card_imageoverride
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
     - field.field.node.product_variant.field_product_diet_allergens
@@ -164,6 +165,7 @@ third_party_settings:
       children:
         - field_product_key_image
         - field_product_key_image_override
+        - field_product_card_imageoverride
         - field_product_image_1
         - field_product_image_1_override
         - field_product_image_2
@@ -338,6 +340,21 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_card_imageoverride:
+    type: entity_browser_entity_reference
+    weight: 22
+    settings:
+      entity_browser: lighthouse_browser
+      field_widget_display: rendered_entity
+      field_widget_display_settings:
+        view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_replace: false
+    region: content
+    third_party_settings: {  }
   field_product_cholesterol:
     weight: 23
     settings:
@@ -382,76 +399,76 @@ content:
     region: content
   field_product_image_1:
     type: entity_browser_entity_reference
-    weight: 22
+    weight: 23
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
   field_product_image_1_override:
     type: entity_browser_entity_reference
-    weight: 23
+    weight: 24
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
   field_product_image_2:
     type: entity_browser_entity_reference
-    weight: 24
+    weight: 25
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
   field_product_image_2_override:
     type: entity_browser_entity_reference
-    weight: 25
+    weight: 26
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
   field_product_image_3:
     type: entity_browser_entity_reference
-    weight: 26
+    weight: 27
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -459,14 +476,14 @@ content:
     type: entity_browser_entity_reference
     weight: 28
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -474,14 +491,14 @@ content:
     type: entity_browser_entity_reference
     weight: 29
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -489,14 +506,14 @@ content:
     type: entity_browser_entity_reference
     weight: 30
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -528,14 +545,14 @@ content:
     type: entity_browser_entity_reference
     weight: 20
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -543,14 +560,14 @@ content:
     type: entity_browser_entity_reference
     weight: 21
     settings:
-      entity_browser: media_browser
+      entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
       field_widget_display_settings:
         view_mode: thumbnail
+      field_widget_edit: true
+      field_widget_remove: true
       open: true
+      selection_mode: selection_append
       field_widget_replace: false
     region: content
     third_party_settings: {  }
@@ -746,6 +763,13 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 8

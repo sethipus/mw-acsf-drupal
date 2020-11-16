@@ -11,5 +11,7 @@ export default { title: 'Molecules/Social feed' };
 
 export const socialFeedModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
-  return <div dangerouslySetInnerHTML={{ __html: socialFeed(socialFeedData) }} />
+  return <div>
+    <div dangerouslySetInnerHTML={{ __html: socialFeed(socialFeedData) }} />
+  </div>;
 };

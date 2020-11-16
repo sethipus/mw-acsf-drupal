@@ -5,10 +5,12 @@
     default_link_content - content of the link, image or text
  #}
 
+{% set link_class = default_link_attributes.class ? default_link_attributes.class : '' %}
+
 {% set default_link_base_class = default_link_base_class|default('default-link') %}
 
 <a 
-  {{ bem(default_link_base_class, default_link_modifiers) }}
+  {{ bem(default_link_base_class, default_link_modifiers, '', link_class) }}
   {% for key, value in default_link_attributes %}
     {{ key }}="{{ value }}"
   {% endfor %}

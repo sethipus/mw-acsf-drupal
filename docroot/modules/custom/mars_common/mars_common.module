@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
@@ -34,6 +35,7 @@ use Drupal\system\Entity\Menu;
 use Drupal\taxonomy\TermInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
+use Drupal\mars_common\Constants\MenuConstants;
 
 /**
  * Implements hook_menu_insert().
@@ -83,23 +85,7 @@ function mars_common_preprocess(&$variables, $hook) {
 
   if ($hook === 'poll_vote' || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $pngAssetFile = $themeParser->getFileFromTheme('png_asset');
-    if ($pngAssetFile instanceof EntityInterface) {
-      $pngAssetUri = $pngAssetFile->getFileUri();
-      $variables['polling_png_asset'] = Url::fromUri(file_create_url($pngAssetUri));
-    }
-  }
-
-  if ($hook === 'views_view__acquia_search') {
-    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
-    $border_radius = Drupal::config('emulsifymars.settings')
-      ->get('button_style');
-    $variables['theme_styles'] = 'drupal';
-    $variables['graphic_divider'] = $file_divider_content ?? '';
-    $variables['ajax_card_grid_heading'] = Drupal::translation()->translate('All results');
-    $variables['ajax_card_grid_link_text'] = 'See All';
-    $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
+    $variables['polling_png_asset'] = $themeParser->getUrlForFile('png_asset');
   }
 
   if ($hook === 'views_infinite_scroll_pager__grid_card') {
@@ -121,6 +107,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'secondary_menu'    => NULL,
         'search_menu'       => NULL,
         'language_selector' => NULL,
+        'language_selector_current' => NULL,
+        'language_selector_label' => NULL,
+        'language_selector_items' => NULL,
         'search_block'      => NULL,
         'alert_banner_text' => NULL,
         'alert_banner_url'  => NULL,
@@ -130,14 +119,15 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'footer_block' => [
       'variables' => [
-        'logo'            => NULL,
-        'border'          => NULL,
-        'social_links'    => NULL,
-        'top_footer_menu' => NULL,
-        'legal_links'     => NULL,
-        'marketing'       => NULL,
-        'corporate_tout'  => NULL,
-        'region_selector' => NULL,
+        'logo'                 => NULL,
+        'brand_shape_class'    => NULL,
+        'brand_border'         => NULL,
+        'social_links'         => NULL,
+        'top_footer_menu'      => NULL,
+        'legal_links'          => NULL,
+        'marketing'            => NULL,
+        'corporate_tout'       => NULL,
+        'region_selector'      => NULL,
         'current_region_title' => NULL,
       ],
       'template' => 'footer-block',
@@ -197,6 +187,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'label' => NULL,
         'background' => NULL,
         'description' => NULL,
+        'media_type' => NULL,
+        'media_format' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -221,7 +213,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'eyebrow' => NULL,
         'title' => NULL,
         'background_color' => NULL,
-        'image' => NULL,
+        'image_src' => NULL,
+        'image_alt' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
       ],
@@ -245,7 +238,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'title' => NULL,
         'body' => NULL,
         'links' => NULL,
-        'image' => NULL,
+        'image_src' => NULL,
         'image_alt' => NULL,
         'graphic_divider' => NULL,
         'brand_shape' => NULL,
@@ -296,7 +289,89 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'poll-block',
     ],
+    'where_to_buy_block' => [
+      'template' => 'where-to-buy-block',
+    ],
+    'text_block' => [
+      'variables' => [
+        'drop_cap' => NULL,
+        'content' => NULL,
+      ],
+      'template' => 'text-block',
+    ],
+    'inline_image_video_block' => [
+      'variables' => [
+        'block_type' => NULL,
+        'video_src' => NULL,
+        'image_src' => NULL,
+        'image_alt' => NULL,
+        'image_title' => NULL,
+        'shape_motif' => NULL,
+        'content' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'inline-image-video-block',
+    ],
+    'fullwidth_image_video_block' => [
+      'variables' => [
+        'block_type' => NULL,
+        'media' => NULL,
+        'shape_motif' => NULL,
+        'content' => NULL,
+        'heading' => NULL,
+      ],
+      'template' => 'fullwidth-image-video-block',
+    ],
+    'list_component' => [
+      'variables' => [
+        'label' => NULL,
+        'ol_items' => NULL,
+      ],
+      'template' => 'block--mars-common--list-component',
+    ],
+    'carousel_component' => [
+      'variables' => [
+        'brand_borders' => NULL,
+        'title' => NULL,
+        'items' => NULL,
+      ],
+      'template' => 'block--mars-common--media-carousel',
+    ],
+    'flexible_framer_block' => [
+      'variables' => [
+        'grid_label' => NULL,
+        'grid_type' => NULL,
+        'item_type' => NULL,
+        'items' => NULL,
+        'brand_borders' => NULL,
+        'divider' => NULL,
+      ],
+      'template' => 'flexible-framer-block',
+    ],
+    'js_block' => [
+      'variables' => [
+        'js_code' => NULL,
+      ],
+      'template' => 'js-block',
+    ],
   ];
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function mars_common_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if (!(\Drupal::currentUser()->hasPermission('administer polls'))) {
+    return;
+  }
+  $entityTypeId = $entity->getEntityTypeId();
+  if ($entityTypeId === 'poll') {
+    $operations['results'] = [
+      'title' => t('Results'),
+      'url' => Url::fromRoute('mars_common.poll.votes', ['poll' => $entity->id()]),
+      'weight' => 10,
+    ];
+  }
 }
 
 /**
@@ -360,6 +435,9 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__list(array &$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
   $field_list_items = $variables['content']['field_list_items_reference'];
 
   $ol_items = [];
@@ -368,29 +446,27 @@ function mars_common_preprocess_block__inline_block__list(array &$variables) {
 
       $item_block = $item_value['#options']['entity'];
       $field_desc_val = $item_block->get('field_list_item_description')->value;
-      $field_image_val = $item_block->get('field_list_item_image')->getValue();
       $field_item_order = $item_block->get('field_list_item_order')->value;
 
       $item = [
         'content' => $field_desc_val,
-        'order' => $field_item_order,
+        'item_number' => $field_item_order,
       ];
 
-      if (isset($field_image_val[0])) {
-        $file_uri = Drupal::entityTypeManager()
-          ->getStorage('file')
-          ->load($field_image_val[0]['target_id'])
-          ->getFileUri();
+      if (!$item_block->get('field_list_item_image')->isEmpty()) {
+        $media_id = $item_block
+          ->get('field_list_item_image')
+          ->first()
+          ->target_id;
 
-        $file_url = Url::fromUri(file_create_url($file_uri));
-        $image_alt = $field_image_val[0]['alt'];
-        $image_title = $field_image_val[0]['title'];
-
-        $item['image'] = [
-          'src' => $file_url,
-          'alt' => $image_alt,
-          'title' => $image_title,
-        ];
+        $media_params = $media_helper->getMediaParametersById($media_id);
+        if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+          $item['image'] = [
+            'src' => $media_params['src'],
+            'alt' => $media_params['alt'],
+            'title' => $media_params['title'],
+          ];
+        }
       }
 
       $ol_items[] = $item;
@@ -414,87 +490,191 @@ function mars_common_preprocess_block__inline_block__text_component(array &$vari
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__inline_image(array &$variables) {
-  $field_image = $variables['content']['field_inline_image_file']['#items']->target_id;
-  $image_alt = $variables['content']['field_inline_image_file']['#items']->alt;
-  $field_shape_motif = $variables['content']['field_inline_image_svg_asset']['#items']->value;
-  $field_image_desc = $variables['content']['field_inline_image_description']['#items']->value;
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
 
-  $file_url = NULL;
-  if (isset($field_image)) {
-    $file_uri = Drupal::entityTypeManager()
-      ->getStorage('file')
-      ->load($field_image)
-      ->getFileUri();
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
 
-    $file_url = Url::fromUri(file_create_url($file_uri));
+  if (!$block->get('field_inline_image_file')->isEmpty()) {
+    $media_id = $block
+      ->get('field_inline_image_file')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['image_src'] = $media_params['src'];
+      $variables['image_alt'] = $media_params['alt'];
+      $variables['image_title'] = $media_params['title'];
+    }
   }
 
-  $variables['image_src'] = $file_url;
-  $variables['image_alt'] = $image_alt;
-  $variables['image_title'] = NULL;
-  $variables['shape_motif'] = (bool) $field_shape_motif;
-  $variables['content'] = $field_image_desc;
+  if (!$block->get('field_inline_image_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_inline_image_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_inline_image_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_inline_image_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_inline_image_title')->isEmpty()) {
+    $variables['title'] = $block
+      ->get('field_inline_image_title')
+      ->first()
+      ->value;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_block__inline_block__inline_video(array &$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
+
+  if (!$block->get('field_inline_video')->isEmpty()) {
+    $media_id = $block
+      ->get('field_inline_video')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['video_src'] = $media_params['src'];
+    }
+  }
+
+  if (!$block->get('field_inline_video_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_inline_video_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_inline_video_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_inline_video_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_inline_video_title')->isEmpty()) {
+    $variables['title'] = $block
+      ->get('field_inline_video_title')
+      ->first()
+      ->value;
+  }
 }
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__full_width_image(array &$variables) {
-  $field_image = $variables['content']['field_full_image_file']['#items']->target_id;
-  $image_alt = $variables['content']['field_full_image_file']['#items']->alt;
-  $field_shape_motif = $variables['content']['field_full_image_svg_asset']['#items']->value;
-  $field_image_desc = $variables['content']['field_full_image_description']['#items']->value;
-  $field_heading = $variables['content']['field_full_image_title']['#items']->value;
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
 
-  $file_url = NULL;
-  if (isset($field_image)) {
-    $file_uri = Drupal::entityTypeManager()
-      ->getStorage('file')
-      ->load($field_image)
-      ->getFileUri();
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
 
-    $file_url = Url::fromUri(file_create_url($file_uri));
+  if (!$block->get('field_full_image_file')->isEmpty()) {
+    $media_id = $block
+      ->get('field_full_image_file')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['media']['image'] = TRUE;
+      $variables['media']['src'] = $media_params['src'];
+      $variables['media']['alt'] = $media_params['alt'];
+      $variables['media']['title'] = $media_params['title'];
+    }
   }
 
-  $variables['heading'] = $field_heading;
-  $variables['content'] = $field_image_desc;
-  $variables['shape_motif'] = (bool) $field_shape_motif;
-  $variables['media'] = [
-    'image' => TRUE,
-    'src' => $file_url,
-    'alt' => $image_alt,
-    'title' => NULL,
-  ];
+  if (!$block->get('field_full_image_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_full_image_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_image_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_full_image_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_image_title')->isEmpty()) {
+    $variables['heading'] = $block
+      ->get('field_full_image_title')
+      ->first()
+      ->value;
+  }
 }
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__full_width_video(array &$variables) {
-  if (!empty($variables['content']['field_full_video_svg_asset']['#items'])) {
-    $field_shape_motif = $variables['content']['field_full_video_svg_asset']['#items']->value;
-    $variables['shape_motif'] = (bool) $field_shape_motif;
-  }
-  if (!empty($variables['content']['field_full_video_description']['#items'])) {
-    $field_video_desc = $variables['content']['field_full_video_description']['#items']->value;
-    $variables['content'] = $field_video_desc;
-  }
-  if (!empty($variables['content']['field_full_video_title']['#items'])) {
-    $field_heading = $variables['content']['field_full_video_title']['#items']->value;
-    $variables['heading'] = $field_heading;
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
+  /** @var \Drupal\block_content\BlockContentInterface $block */
+  $block = $variables['content']['#block_content'];
+
+  if (!$block->get('field_full_video')->isEmpty()) {
+    $media_id = $block
+      ->get('field_full_video')
+      ->first()
+      ->target_id;
+
+    $media_params = $media_helper->getMediaParametersById($media_id);
+    if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+      $variables['media']['video'] = TRUE;
+      $variables['media']['src'] = $media_params['src'];
+    }
   }
 
-  $field_video_url = $variables['content']['field_full_video_path']['#items']->value;
-  $variables['media'] = [
-    'video' => TRUE,
-    'src' => $field_video_url,
-  ];
+  if (!$block->get('field_full_video_svg_asset')->isEmpty()) {
+    $variables['shape_motif'] = (bool) $block
+      ->get('field_full_video_svg_asset')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_video_description')->isEmpty()) {
+    $variables['content'] = $block
+      ->get('field_full_video_description')
+      ->first()
+      ->value;
+  }
+
+  if (!$block->get('field_full_video_title')->isEmpty()) {
+    $variables['heading'] = $block
+      ->get('field_full_video_title')
+      ->first()
+      ->value;
+  }
 }
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__flexible_framer(array &$variables) {
+  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_common.media_helper');
+
   $field_ff_items = $variables['content']['field_ff_items_reference'];
   $field_ff_title = $variables['content']['field_ff_title']['#items']->value;
 
@@ -509,7 +689,6 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
       $item_block = $item_value['#options']['entity'];
       $field_desc_val = $item_block->get('field_ff_item_description')->value;
       $field_title_val = $item_block->get('field_ff_item_title')->value;
-      $field_image_val = $item_block->get('field_ff_item_image')->getValue();
       $field_cta_val = $item_block->get('field_ff_item_cta')->value;
 
       $item = [
@@ -519,25 +698,24 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
         'card__body' => ($with_desc_flag) ? $field_desc_val : NULL,
       ];
 
-      if (isset($field_image_val[0])) {
-        $file_uri = Drupal::entityTypeManager()
-          ->getStorage('file')
-          ->load($field_image_val[0]['target_id'])
-          ->getFileUri();
+      if ($with_image_flag && !$item_block->get('field_ff_item_image')->isEmpty()) {
+        $media_id = $item_block
+          ->get('field_ff_item_image')
+          ->first()
+          ->target_id;
 
-        $file_url = Url::fromUri(file_create_url($file_uri));
-        $image_alt = $field_image_val[0]['alt'];
-        $image_title = $field_image_val[0]['title'];
-
-        $item['card__image__src'] = ($with_image_flag) ? $file_url->getUri() : NULL;
-        $item['card__image__alt'] = ($with_image_flag) ? $image_alt : NULL;
-        $item['card__image__title'] = ($with_image_flag) ? $image_title : NULL;
+        $media_params = $media_helper->getMediaParametersById($media_id);
+        if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
+          $item['card__image__src'] = $media_params['src'];
+          $item['card__image__alt'] = $media_params['alt'];
+          $item['card__image__title'] = $media_params['title'];
+        }
       }
 
       $ff_items[] = $item;
     }
   }
-
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
   $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
@@ -548,6 +726,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   $variables['item_type'] = 'card';
   $variables['divider'] = $file_divider_content ?? NULL;
   $variables['brand_borders'] = $file_border_content ?? NULL;
+  $variables['brand_shape_class'] = $themeParser->getSettingValue('brand_border_style', 'stretch');
 }
 
 /**
@@ -565,6 +744,13 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
 
   if (strpos($form_id, 'poll_view_form_') === 0) {
     $form['actions']['cancel'] = NULL;
+    if ($form['actions']['vote']['#ajax'] ?? NULL) {
+      $form['actions']['vote']['#ajax']['progress'] = FALSE;
+    }
+    $form['actions']['vote']['#submit'][] = 'poll_form_submit_action_callback';
+    if ($form['actions']['result']['#ajax'] ?? NULL) {
+      $form['actions']['result']['#ajax']['progress'] = FALSE;
+    }
   }
 
   // Alter layout form related to content type
@@ -582,6 +768,14 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['#validate'][] = [$form_alter_class, 'validate'];
     }
   }
+}
+
+/**
+ * Callback function to delete status messages in the poll submit function.
+ */
+function poll_form_submit_action_callback() {
+  $msg = \Drupal::messenger();
+  $msg->deleteByType('status');
 }
 
 /**
@@ -605,7 +799,7 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
   }
 
   switch ($original_id) {
-    case 'node.contact_help.default':
+    case 'node.faq_contact.default':
       return ContactHelpLayoutFormAlter::class;
 
     case 'node.newsletter_sign_up.default':
@@ -657,6 +851,183 @@ function mars_common_get_layout_alter_class(EntityInterface $entity): ?string {
 function _mars_common_feedback_ajax_callback(&$form, FormStateInterface $form_state) {
   $form_state->setRebuild();
   return $form;
+}
+
+/**
+ * Clear render cache.
+ */
+function _mars_common_render_cache_clear() {
+  foreach (Cache::getBins() as $service_id => $cache_backend) {
+    if ($service_id === 'render') {
+      $cache_backend->deleteAll();
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function mars_common_menu_link_content_insert(EntityInterface $entity) {
+  if ($entity->get('menu_name')->value == MenuConstants::MAIN_MENU_ID) {
+    _mars_common_render_cache_clear();
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function mars_common_menu_link_content_update(EntityInterface $entity) {
+  if ($entity->get('menu_name')->value == MenuConstants::MAIN_MENU_ID) {
+    _mars_common_render_cache_clear();
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function mars_common_menu_link_content_delete(EntityInterface $entity) {
+  if ($entity->get('menu_name')->value == MenuConstants::MAIN_MENU_ID) {
+    _mars_common_render_cache_clear();
+  }
+}
+
+/**
+ * Add custom validation to menu link form.
+ *
+ * @param array $form
+ *   Render array of the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function _mars_common_form_menu_link_content_menu_link_content_form_validate(array &$form, FormStateInterface $form_state) {
+  $entity = $form_state->getFormObject()->getEntity();
+  $form_values = $form_state->getValues();
+  $form_values_parent_menu = substr($form_values['menu_parent'], 0, -1);
+  if ($form_values_parent_menu === MenuConstants::MAIN_MENU_ID) {
+    if ($entity->isNew()
+      || (
+        $entity->get('menu_name')->value !== MenuConstants::MAIN_MENU_ID
+        || $entity->get('parent')->value !== NULL)
+    ) {
+      $menu_tree_params = new MenuTreeParameters();
+      $menu_tree_params->setMaxDepth(1);
+      $menu_tree = \Drupal::menuTree()->load(MenuConstants::MAIN_MENU_ID, $menu_tree_params);
+      if (count($menu_tree) >= MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT) {
+        $form_state->setErrorByName(
+          'menu_parent',
+          t(
+            'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+            [
+              '@menu' => '<Main navigation>',
+              '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
+            ]
+          )
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Menu link form alter.
+ *
+ * @param array $form
+ *   Render array of the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function mars_common_form_menu_link_content_menu_link_content_form_alter(array &$form, FormStateInterface $form_state) {
+  $form['#validate'][] = '_mars_common_form_menu_link_content_menu_link_content_form_validate';
+  $form['#prefix'] = '<div id="menu-link-form-content-wrapper">';
+  $form['#suffix'] = '</div>';
+
+  $form_input = $form_state->getUserInput();
+  $menu_parent = $form_input['menu_parent'] ?? $form['menu_parent']['#default_value'];
+  if (substr($menu_parent, 0, -1) === MenuConstants::MAIN_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::MAIN_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
+  $form['menu_parent']['#ajax'] = [
+    'disable-refocus' => FALSE,
+    'event' => 'change',
+    'wrapper' => 'menu-link-form-content-wrapper',
+    'progress' => [
+      'type' => 'throbber',
+    ],
+  ];
+}
+
+/**
+ * Validate "main menu" edit form.
+ *
+ * @param array $form
+ *   Render array of the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterface $form_state) {
+  $menu_tree_params = new MenuTreeParameters();
+  $menu_tree_params->setMaxDepth(1);
+  $menu_tree = \Drupal::menuTree()->load(MenuConstants::MAIN_MENU_ID, $menu_tree_params);
+  $form_values = $form_state->getValues();
+  $menu_tree_root_items_count = 0;
+  foreach ($form_values['links'] as $link) {
+    if (!$link['parent']) {
+      $menu_tree_root_items_count++;
+    }
+  }
+
+  if ($menu_tree_root_items_count > MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT && $menu_tree_root_items_count != count($menu_tree)) {
+    $form_state->setErrorByName('links', t(
+      'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+      [
+        '@menu' => '<Main navigation>',
+        '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
+      ]
+    ));
+
+    // TODO: find a proper fix.
+    /*
+     * Upon validation error, the form should show the invalid state in which it
+     * was submitted. In this case because of tabledrag behavior, upon
+     * validation error the form will look like as if it's in its initial state,
+     * but in reality the hidden parent and weight fields will contain the
+     * invalid state.
+     *
+     * We are resetting those fields to their default values so the
+     * visible state and the actual hidden input state are equal. This has to be
+     * done manually as an invalid form is not rebuilt by the form builder even
+     * if we set it to do so.
+     *
+     * The proper fix would be to properly change the visibly rendered table to
+     * reflect the posted values, but currently it's done based on the actually
+     * saved menu structure and the posted values are not used at all.
+     */
+    foreach ($form['links']['links'] as &$link_form) {
+      if (is_array($link_form)) {
+        if (
+        isset($link_form['parent']['#value'], $link_form['parent']['#default_value'])
+        ) {
+          $link_form['parent']['#value'] = $link_form['parent']['#default_value'];
+        }
+        if (
+        isset($link_form['weight']['#value'], $link_form['weight']['#default_value'])
+        ) {
+          $link_form['weight']['#value'] = $link_form['weight']['#default_value'];
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_menu_edit_form_alter(array &$form, FormStateInterface $form_state) {
+  $entity = $form_state->getFormObject()->getEntity();
+  if ($entity && $entity->id() === MenuConstants::MAIN_MENU_ID) {
+    $form_state->setCached(FALSE);
+    $form['#validate'][] = '_mars_common_form_menu_edit_form_validate';
+  }
 }
 
 /**
@@ -786,13 +1157,45 @@ function mars_common_field_widget_form_alter(
   $plugin_id = $context['widget']->getPluginId();
   $field_name = $context['items']->getName();
 
+  // Apply for titles:
+  $applied_titles = [
+    'field_ff_item_title',
+    'field_inline_image_title',
+    'field_inline_video_title',
+    'field_full_image_title',
+    'field_full_video_title',
+    'field_carousel_title',
+  ];
+  if (in_array($field_name, $applied_titles)) {
+    $element['value']['#maxlength'] = 55;
+  }
   if ($field_name === 'field_ff_item_description') {
-    $element['value']['#maxlength'] = 120;
+    $element['value']['#maxlength'] = 160;
+  }
+
+  if ($field_name == 'field_product_description') {
+    $element['#maxlength'] = 300;
+  }
+  if ($field_name == 'field_recipe_description') {
+    $element['#maxlength'] = 160;
   }
 
   if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
     $element['choice']['#size'] = 40;
     $element['choice']['#maxlength'] = 25;
+  }
+
+  $form_id = $form_state->getFormObject()->getFormId();
+  $form_array = [
+    'node_error_page_edit_form',
+    'node_error_page_form',
+  ];
+  if (in_array($form_id, $form_array) && $field_name == 'title') {
+    $element['value']['#maxlength'] = 15;
+    $element['value']['#default_value'] = $element['value']['#default_value'] ?? t('Oops');
+  }
+  if (in_array($form_id, $form_array) && $field_name == 'body') {
+    $element['#maxlength'] = 100;
   }
 }
 
@@ -818,19 +1221,48 @@ function mars_common_theme_suggestions_block_alter(array &$suggestions, array $v
 }
 
 /**
+ * Implements hook_element_info_alter().
+ */
+function mars_common_element_info_alter(array &$info) {
+  if (isset($info['inline_entity_form'])) {
+    $info['inline_entity_form']['#process'][] = 'mars_common_include_ief_entities';
+  }
+}
+
+/**
+ * Implements hook_field_widget_multivalue_inline_entity_form_complex_form_alter().
+ */
+function mars_common_field_widget_multivalue_inline_entity_form_complex_form_alter(array &$elements, FormStateInterface $form_state, array $context) {
+  if (isset($elements['form']['inline_entity_form'])) {
+    $elements['form']['inline_entity_form']['#process'][] = 'mars_common_include_ief_entities';
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info_alter().
+ */
+function mars_common_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
+  foreach ($fields as $field) {
+    if ($fields[$field->getName()]->getConstraint('UniqueField') !== NULL) {
+      $fields[$field->getName()]->addConstraint('MarsCommonInlineEntityFormUniqueField');
+    }
+  }
+}
+
+/**
  * Implements hook_entity_bundle_field_info_alter().
  */
-function mars_common_entity_bundle_field_info_alter(
-  &$fields,
-  EntityTypeInterface $entity_type,
-  $bundle
-) {
+function mars_common_entity_bundle_field_info_alter(&$fields, EntityTypeInterface $entity_type, $bundle) {
   foreach ($fields as $field) {
     if ($field->getName() == 'field_list_item_order') {
       $fields[$field->getName()]->addConstraint('RegExValidationConstraint', [
         'regex' => '/^\d{0,2}\.{0,1}\d{0,2}$/i',
         'errorMessage' => 'Please enter correct order number. Example: 1.1 or 1.',
       ]);
+    }
+
+    if ($fields[$field->getName()]->getConstraint('UniqueField') !== NULL) {
+      $fields[$field->getName()]->addConstraint('MarsCommonInlineEntityFormUniqueField');
     }
   }
 }
@@ -878,6 +1310,22 @@ function mars_common_taxonomy_term_presave(TermInterface $term) {
 }
 
 /**
+ * Implements hook_page_attachments().
+ */
+function mars_common_page_attachments(&$page) {
+  $current_route = Drupal::routeMatch();
+  $route_name = $current_route->getRouteName();
+  $supported_routes = [
+    'layout_builder.overrides.node.view',
+    'layout_builder.defaults.node.view',
+  ];
+
+  if (in_array($route_name, $supported_routes)) {
+    $page['#attached']['library'][] = 'mars_common/mars_common.dialog_fix';
+  }
+}
+
+/**
  * Implements hook_entity_delete().
  */
 function mars_common_entity_delete(EntityInterface $entity) {
@@ -905,4 +1353,31 @@ function mars_common_entity_create(EntityInterface $entity) {
     $tags = [FooterBlock::CUSTOM_CACHE_TAG];
     Cache::invalidateTags($tags);
   }
+}
+
+/**
+ * Include entities list for validation.
+ *
+ * @param array $entity_form
+ *   Entity form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ * @param array $complete_form
+ *   Complete form.
+ *
+ * @return array
+ *   Updated entity form.
+ */
+function mars_common_include_ief_entities(array $entity_form, FormStateInterface $form_state, array &$complete_form) {
+  if (isset($entity_form['#entity']) && isset($entity_form['#ief_id'])) {
+    $entity_form['#entity']->_inline_entity_form_entities = array_map(function ($element) {
+      return $element['entity'];
+    }, $form_state->get([
+      'inline_entity_form',
+      $entity_form['#ief_id'],
+      'entities',
+    ]));
+  }
+
+  return $entity_form;
 }

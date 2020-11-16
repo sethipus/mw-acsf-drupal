@@ -1,16 +1,29 @@
 {% set inline_width__base_class = 'article-inline' %}
 
-<section {{ bem(inline_width__base_class) }} data-theme="{{ theme_styles }}">
-  <div {{ bem('media', [], inline_width__base_class) }}>
-    {% include "@atoms/images/image/_image.twig" with {
-      image_base_class: base_class,
-      image_modifiers: image_modifiers,
-      image_blockname: image_blockname,
-      image_src: image_src,
-      image_alt: image_alt,
-      image_title: image_title,
+<section {{ bem(inline_width__base_class) }} data-theme="{{ theme_styles }}"
+  {% if title and media_type == 'video' %}
+    data-component-title="{{ title }}"
+  {% endif %}
+>
+  {% if media_type == 'image' %}
+    <div {{ bem('media', [], inline_width__base_class) }}>
+      {% include "@atoms/images/image/_image.twig" with {
+        image_base_class: base_class,
+        image_modifiers: image_modifiers,
+        image_blockname: image_blockname,
+        image_src: image_src,
+        image_alt: image_alt,
+        image_title: image_title,
+      } %}
+    </div>
+  {% elseif media_type == 'video' %}
+    {% include "@atoms/video/inline-video/video.twig" with {
+      video__src__url: video_src,
+      video__control: video__control | default(false),
+      data_layer: data_layer,
     } %}
-  </div>
+  {% endif %}
+
 
   <div {{ bem('content', [], inline_width__base_class) }}>
     {% include "@atoms/text/text/01-paragraph.twig" with {

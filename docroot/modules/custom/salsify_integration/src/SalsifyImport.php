@@ -5,8 +5,7 @@ namespace Drupal\salsify_integration;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Class SalsifyImport.
@@ -46,13 +45,6 @@ class SalsifyImport {
   protected $config;
 
   /**
-   * Entity query factory.
-   *
-   * @var \Drupal\Core\Entity\Query\QueryFactory
-   */
-  protected $entityQuery;
-
-  /**
    * The Entity Type Manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -60,38 +52,46 @@ class SalsifyImport {
   protected $entityTypeManager;
 
   /**
+   * The Salsify core service.
+   *
+   * @var \Drupal\salsify_integration\Salsify
+   */
+  protected $salsify;
+
+  /**
+   * The module handler interface.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory interface.
-   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
-   *   The query factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_salsify
    *   The cache object associated with the Salsify bin.
+   * @param \Drupal\salsify_integration\Salsify $salsify
+   *   The Salsify core service.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler interface.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, QueryFactory $entity_query, EntityTypeManagerInterface $entity_type_manager, CacheBackendInterface $cache_salsify) {
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager,
+    CacheBackendInterface $cache_salsify,
+    Salsify $salsify,
+    ModuleHandlerInterface $module_handler
+  ) {
     $this->cache = $cache_salsify;
     $this->configFactory = $config_factory;
     $this->config = $this->configFactory->get('salsify_integration.settings');
-    $this->entityQuery = $entity_query;
     $this->entityTypeManager = $entity_type_manager;
-  }
-
-  /**
-   * Creates a new SalsifyImport object.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The container object to use when gathering dependencies.
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory'),
-      $container->get('entity.query'),
-      $container->get('entity_type.manager'),
-      $container->get('cache.default')
-    );
+    $this->salsify = $salsify;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -107,7 +107,7 @@ class SalsifyImport {
    * @return array
    *   Result status of processing (not updated, updated, or created)
    */
-  public function processSalsifyItem(
+  public static function processSalsifyItem(
     array $product_data,
     $force_update = FALSE,
     $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
@@ -129,7 +129,7 @@ class SalsifyImport {
    * @return array|string
    *   The options array or string values.
    */
-  protected function getFieldOptions(array $field, $field_data) {
+  public static function getFieldOptions(array $field, $field_data) {
     $options = $field_data;
     switch ($field['salsify_data_type']) {
       case 'link':

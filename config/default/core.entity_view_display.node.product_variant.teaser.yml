@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.product_variant.field_product_calories_fat
     - field.field.node.product_variant.field_product_carb
     - field.field.node.product_variant.field_product_carb_daily
+    - field.field.node.product_variant.field_product_card_imageoverride
     - field.field.node.product_variant.field_product_cholesterol
     - field.field.node.product_variant.field_product_cholesterol_daily
     - field.field.node.product_variant.field_product_diet_allergens
@@ -25,6 +26,7 @@ dependencies:
     - field.field.node.product_variant.field_product_image_3_override
     - field.field.node.product_variant.field_product_image_4
     - field.field.node.product_variant.field_product_image_4_override
+    - field.field.node.product_variant.field_product_ingredients
     - field.field.node.product_variant.field_product_iron
     - field.field.node.product_variant.field_product_iron_daily
     - field.field.node.product_variant.field_product_key_image
@@ -98,6 +100,7 @@ hidden:
   field_product_calories_fat: true
   field_product_carb: true
   field_product_carb_daily: true
+  field_product_card_imageoverride: true
   field_product_cholesterol: true
   field_product_cholesterol_daily: true
   field_product_diet_allergens: true
@@ -138,6 +141,7 @@ hidden:
   field_product_vitamin_c_daily: true
   field_product_vitamin_d: true
   field_product_vitamin_d_daily: true
+  langcode: true
   published_at: true
   salsify_id: true
   salsify_updated: true

@@ -1,7 +1,7 @@
 .social-feed {
-  padding: 2rem 0 4rem 0;
   overflow-x: hidden;
   position: relative;
+  z-index: 100;
 
   &__brand-border {
     position: absolute;
@@ -9,15 +9,30 @@
     z-index: 1;
     width: 100%;
     height: 20rem;
-    top: 0;
+    top: 2px;
   }
 
   &__content {
     position: relative;
     z-index: 2;
     background-color: clr(subcolor-2);
-    margin-top: 12rem;
     padding-bottom: 8rem;
+
+    @include xs {
+      margin-top: 4rem;
+    }
+
+    @include small {
+      margin-top: 5rem;
+    }
+
+    @include medium {
+      margin-top: 8rem;
+    }
+
+    @include large {
+      margin-top: 12rem;
+    }
   }
 
   &__heading {
@@ -58,12 +73,19 @@
 
   // increasing specificity to avoid using !important
   .social-feed-swiper-container.swiper-container-horizontal>.swiper-scrollbar {
-    height: 16px;
-    transform: scale(.5);
+    height: 0.8rem;
+    width: 70%;
+    left: 15%;
 
     & .swiper-scrollbar-drag {
       background: clr(primary);
     }
+  }
+
+  .social-feed-slide.swiper-slide {
+    border-radius: 1rem;
+    max-height: 31.7rem;
+    overflow: hidden;
   }
 
   .social-feed-swiper-container #swiper-button {

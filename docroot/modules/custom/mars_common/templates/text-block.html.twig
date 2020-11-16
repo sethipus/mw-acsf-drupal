@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * Text component.
+ * 'content' => NULL,
+ * 'drop_cap' => NULL
+ */
+#}
+
+<div {{ bem('block') }}>
+    {{ title_prefix }}
+    {{ title_suffix }}
+    {% block content %}
+        {% include "@molecules/article-media/wysiwyg/article-wysiwyg.twig" with {
+            theme_styles: 'drupal',
+            content: content,
+        } %}
+    {% endblock %}
+</div>

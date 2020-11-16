@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Template for the Content Hub Page Card component.
+ */
+#}
+{% set background_asset = node | entityMainMediaId | mediaParamsById %}
+{% set button_text = 'See Details' | t %}
+{% set  button_link_attributes = { href: url, target: '_blank', 'data-click-name': button_text } | merge(attributes)  %}
+{% set  heading_link_attributes = { href: url, target: '_blank', 'data-click-name': node.label } | merge(attributes)  %}
+{% include "@molecules/card/recommendations-card/campaign-card.twig" with {
+  theme_styles: 'drupal',
+
+  card_image_src: background_asset.src,
+  card_image_alt: background_asset.alt ,
+  media_url: url,
+
+  heading: node.label,
+  heading_level: 3,
+  heading_base_class: 'recommendations-card-heading',
+  heading_link_attributes: heading_link_attributes,
+  button_text: button_text,
+  button_modifiers: ['small'],
+  button_link_attributes: button_link_attributes
+
+} %}

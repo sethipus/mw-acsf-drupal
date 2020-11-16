@@ -13,11 +13,28 @@
   }
 
   @include xl {
-    margin: 0 auto 60px 157.5px;
-    max-width: 780px;
+    max-width: 70%;
+    margin: 0 auto;
+    text-align: justify;
   }
 
   &__content {
     padding: 0 1rem;
+  }
+}
+
+.article-detail {
+  .article-wysiwyg {
+    width: 90%;
+    margin: 0 auto;
+
+    @include medium {
+      max-width: 100%;
+      width: 70%;
+    }
+  }
+
+  .article-wysiwyg__content {
+    padding: 0;
   }
 }

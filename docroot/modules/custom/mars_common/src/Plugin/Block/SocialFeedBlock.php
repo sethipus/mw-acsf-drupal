@@ -136,12 +136,11 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
-    $form['label'] = [
+    $form['label_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['label'] ?? '',
-      '#required' => TRUE,
     ];
 
     $form['feed'] = [
@@ -168,6 +167,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['feed'] = $form_state->getValue('feed');
+    $this->configuration['label'] = $form_state->getValue('label_title');
   }
 
   /**

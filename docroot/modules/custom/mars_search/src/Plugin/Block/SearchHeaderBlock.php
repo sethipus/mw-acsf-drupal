@@ -9,6 +9,7 @@ use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -45,6 +46,13 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $formBuilder;
 
   /**
+   * Search query parser.
+   *
+   * @var \Drupal\mars_search\SearchQueryParserInterface
+   */
+  protected $searchQueryParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -54,7 +62,8 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
       $plugin_definition,
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_search.search_helper'),
-      $container->get('form_builder')
+      $container->get('form_builder'),
+      $container->get('mars_search.search_query_parser')
     );
   }
 
@@ -67,12 +76,14 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_definition,
     ThemeConfiguratorParser $themeConfiguratorParser,
     SearchHelperInterface $search_helper,
-    FormBuilderInterface $form_builder
+    FormBuilderInterface $form_builder,
+    SearchQueryParserInterface $search_query_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->searchHelper = $search_helper;
     $this->formBuilder = $form_builder;
+    $this->searchQueryParser = $search_query_parser;
   }
 
   /**
@@ -86,32 +97,35 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     // Preparing search form.
     $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class);
     $build['#input_form']['search']['#attributes']['class'][] = 'search-input__field';
-    $build['#input_form']['search']['#attributes']['placeholder'] = $this->t('Search products, recipes, articles...');
+    $build['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
+    $build['#input_form']['search']['#attributes']['placeholder'] = $conf['search_header_placeholder'] ?? $this->t('Search products, recipes, articles...');
 
     // Getting search results from SOLR.
-    $options['disable_filters'] = TRUE;
-    $options['conditions'] = [
-      ['type', 'faq', '<>'],
-    ];
+    $options = $this->searchQueryParser->parseQuery();
+
     $query_search_results = $this->searchHelper->getSearchResults($options, 'main_search_facets');
 
     // Preparing content type facet filter.
     $type_facet_key = 'type';
     $search_filters = [];
+
+    $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID;
     if (!empty($query_search_results['facets'][$type_facet_key])) {
       foreach ($query_search_results['facets'][$type_facet_key] as $type_facet) {
         $url = $this->searchHelper->getCurrentUrl();
         $url_options = $url->getOptions();
         // That means facet is active.
         $state = '';
-        if ($this->searchHelper->request->query->get($type_facet_key) == $type_facet['filter']) {
+        $facet_query_value = $this->searchHelper->request->query->get($type_facet_key);
+
+        if (!empty($facet_query_value[$search_id]) &&  $facet_query_value[$search_id] == $type_facet['filter']) {
           // Removing facet query from active filter to allow deselect it.
           unset($url_options['query'][$type_facet_key]);
           $state = 'active';
         }
         else {
           // Adding facet filter to the query.
-          $url_options['query'][$type_facet_key] = $type_facet['filter'];
+          $url_options['query'][$type_facet_key][$search_id] = $type_facet['filter'];
         }
         $url->setOptions($url_options);
 
@@ -126,6 +140,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#search_filters'] = $search_filters;
     $build['#search_header_heading'] = $conf['search_header_heading'] ?? $this->t('What are you looking for?');
     $build['#brand_shape'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'search-header-border');
+    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
     $build['#theme'] = 'mars_search_header';
 
     return $build;
@@ -148,9 +163,16 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['search_header_heading'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Search heading title'),
-      '#maxlength' => 2048,
+      '#maxlength' => 35,
       '#required' => TRUE,
-      '#default_value' => $config['search_header_heading'] ?? '',
+      '#default_value' => $config['search_header_heading'] ?? $this->t('What are you looking for?'),
+    ];
+
+    $form['search_header_placeholder'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Search input hint'),
+      '#required' => TRUE,
+      '#default_value' => $config['search_header_placeholder'] ?? $this->t('Search products, recipes, articles...'),
     ];
 
     return $form;

@@ -1,0 +1,11 @@
+uuid: f9b5e50f-a0a8-43e7-a3af-533af9e83fe0
+langcode: en
+status: true
+dependencies: {  }
+id: node__recipe
+label: 'Content: Recipe'
+tags:
+  description: '[node:field_recipe_description]'
+  title: '[node:title]'
+  og_description: '[node:field_recipe_description]'
+  og_title: '[node:title]'

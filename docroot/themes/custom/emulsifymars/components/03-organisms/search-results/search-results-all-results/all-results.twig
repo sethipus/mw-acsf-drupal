@@ -1,4 +1,5 @@
-<section class="search-results-page" data-theme="twix">
+<section class="search-results-page" data-theme="{{ theme_styles }}" data-site-search-term="{{ site_search_term }}"
+         data-site-search-results-num="{{ site_search_results_num }}">
   {% include "@molecules/search-page-header/search-page-header.twig" with {
       search_page_header_heading: 'What are you looking for?',
       search_page_header_heading_level: 1,

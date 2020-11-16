@@ -3,12 +3,15 @@
  # - video__src__url - the url the link should link to.
  #}
 {% set video__base_class = video__base_class|default('ambient-video') %}
+{% set video__extra_classes = ['ambient-video'] %}
 
-<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} id="video-container" data-fullscreen="false">
-  <video id='ambient-video' {{ bem('main', [], video__base_class) }}>
+<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
+  data-fullscreen="false"
+  data-video-flag="Background">
+  <video {{ bem('main', [], video__base_class) }}>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   {% if video__control == true %}
-    <button {{ bem('control', [], video__base_class) }} id="playpause" type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+    <button {{ bem('control', [], video__base_class) }} type="button" data-state="pause"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
   {% endif %}
 </figure>

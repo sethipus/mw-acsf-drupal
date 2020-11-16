@@ -1,0 +1,10 @@
+uuid: 00a101dc-cc34-4bc8-afd6-d7d85fbbac15
+langcode: en
+status: true
+dependencies: {  }
+id: node__article
+label: 'Content: Article'
+tags:
+  description: '[node:field_article_description]'
+  title: '[node:title]'
+  og_description: '[node:field_article_description]'

@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_product_key_image
     - media.type.image
+    - media.type.lighthouse_image
     - node.type.product_variant
 _core:
   default_config_hash: BP14gFX7h7GdqcIU_ejR95bDsOHuE168LWlmiY2h9XY
@@ -23,8 +24,9 @@ settings:
   handler_settings:
     target_bundles:
       image: image
+      lighthouse_image: lighthouse_image
     sort:
       field: _none
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: image
 field_type: entity_reference

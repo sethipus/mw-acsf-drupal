@@ -1,11 +1,12 @@
 {% set footer__base_class = 'footer' %}
+{% set modifier = legal_links_menu_items|length > 10 ? 'large' : 'small' %}
 
 <footer {{ bem(footer__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('section', ['primary'], footer__base_class) }}>
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('logo', [], footer__base_class) }}>
         {% block footer__logo %}
-          <a href="#">
+          <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }}>
             {% include "@atoms/images/image/_image.twig" with {
               output_image_tag: true,
               image_alt: 'Logo',
@@ -30,24 +31,23 @@
       </div>
     </div>
   </div>
-  <div {{ bem('brand-border', [], footer__base_class) }}>
-    {% block footer__brand_border %}
-      {% include "@atoms/images/image/background-image.twig" with {
-        image_src: 'twix-border.svg',
-        background_repeat: 'repeat',
-        height: '15px',
-      } %}
-    {% endblock %}
-  </div>
   <div {{ bem('section', ['secondary'], footer__base_class) }}>
+    {% block footer__brand_border %}
+      <div class="{{ brand_shape_class }}">
+        {{ brand_border | raw }}
+      </div>
+    {% endblock %}
+
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('social', [], footer__base_class) }}>
         {% block footer__social %}
           <div {{ bem('section-header', [], footer__base_class) }}>{{ social_text }}</div>
-          {% include "@molecules/menus/social/social-menu.twig" %}
+          {% include "@molecules/menus/social/social-menu.twig" with {
+            social_menu_items: social_menu_items,
+          } %}
         {% endblock %}
       </div>
-      <div {{ bem('legal-links', [], footer__base_class) }}>
+      <div {{ bem('legal-links', [modifier], footer__base_class) }}>
         {% block footer__legal_links %}
           {% include "@molecules/menus/legal-links/legal-links-menu.twig" %}
         {% endblock %}

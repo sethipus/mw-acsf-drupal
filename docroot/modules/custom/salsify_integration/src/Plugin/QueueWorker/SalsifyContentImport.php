@@ -2,7 +2,6 @@
 
 namespace Drupal\salsify_integration\Plugin\QueueWorker;
 
-use Drupal;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
@@ -71,6 +70,13 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
   protected $emailReport;
 
   /**
+   * The Salsify import field service.
+   *
+   * @var \Drupal\salsify_integration\SalsifyImportField
+   */
+  protected $salsifyImportField;
+
+  /**
    * Creates a new SalsifyContentImport object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -83,13 +89,16 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
    *   The LoggerFactory object.
    * @param \Drupal\salsify_integration\SalsifyEmailReport $email_report
    *   The Salsify email report object.
+   * @param \Drupal\salsify_integration\SalsifyImportField $salsify_import_field
+   *   The Salsify import field object.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     QueueFactory $queue_factory,
     LoggerChannelFactoryInterface $logger_factory,
-    SalsifyEmailReport $email_report
+    SalsifyEmailReport $email_report,
+    SalsifyImportField $salsify_import_field
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->configFactory = $config_factory;
@@ -97,6 +106,7 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
     $this->queueFactory = $queue_factory;
     $this->logger = $logger_factory->get('salsify_integration');
     $this->emailReport = $email_report;
+    $this->salsifyImportField = $salsify_import_field;
   }
 
   /**
@@ -108,7 +118,8 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
       $container->get('entity_type.manager'),
       $container->get('queue'),
       $container->get('logger.factory'),
-      $container->get('salsify_integration.email_report')
+      $container->get('salsify_integration.email_report'),
+      $container->get('salsify_integration.salsify_import_field')
     );
   }
 
@@ -117,9 +128,8 @@ class SalsifyContentImport extends QueueWorkerBase implements ContainerFactoryPl
    */
   public function processItem($data) {
     // Create a new SalsifyImport object and pass the Salsify data through.
-    $salsify_import = SalsifyImportField::create(Drupal::getContainer());
     $force_update = $data['force_update'];
-    $process_result = $salsify_import->processSalsifyItem(
+    $process_result = SalsifyImportField::processSalsifyItem(
       $data,
       $force_update,
       ProductHelper::getProductType($data)

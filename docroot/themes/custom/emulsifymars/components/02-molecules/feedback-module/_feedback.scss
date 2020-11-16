@@ -20,14 +20,16 @@
   }
 
   &__radio {
-    display: none;
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
 
   .default-link {
+    outline: none;
     span {
       position: relative;
       z-index: 3;
-      transition: color .4s ease;
     }
 
     &:hover {
@@ -36,6 +38,10 @@
       }
 
       cursor: pointer;
+    }
+
+    &:focus-within {
+      outline: 1px solid Highlight;
     }
   }
 
@@ -74,6 +80,25 @@
   &__main-content {
     position: relative;
     z-index: 2;
+
+
+    @include xs {
+      margin-bottom: 9rem;
+    }
+
+    @include medium {
+      margin-bottom: 6rem;
+    }
+
+    .default-link {
+      min-width: 15.7rem;
+      margin: .1rem 1rem;
+      cursor: pointer;
+
+      &::after {
+        bottom: -130px;
+      }
+    }
   }
 
   &__heading {
@@ -121,14 +146,16 @@
   }
 
   &__btn-group {
-    .default-link {
-      width: 15.7rem;
-      margin: 0 1rem;
-      cursor: pointer;
+    height: 6.2rem;
 
-      &::after {
-        bottom: -130px;
-      }
+    &:focus-within {
+      outline: 1px solid Highlight;
+    }
+
+    .default-link {
+      min-width: 15.7rem;
+      margin: .1rem 1rem;
+      cursor: pointer;
     }
 
     @include xs {
@@ -149,6 +176,10 @@
     font-family: variable(primary-font);
     text-decoration: none;
     text-transform: uppercase;
+
+    &:focus {
+      outline: 1px solid Highlight;
+    }
 
     @include xs {
       font-size: 1.4rem;
