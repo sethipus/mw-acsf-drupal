@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
@@ -63,6 +64,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $configFactory;
 
   /**
+   * The route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -74,7 +82,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $container->get('form_builder'),
       $container->get('mars_search.search_query_parser'),
       $container->get('logger.factory')->get('mars_search'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('current_route_match')
     );
   }
 
@@ -89,7 +98,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     FormBuilderInterface $form_builder,
     SearchQueryParserInterface $search_query_parser,
     LoggerInterface $logger,
-    ConfigFactoryInterface $configFactory
+    ConfigFactoryInterface $configFactory,
+    RouteMatchInterface $route_match
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
@@ -98,6 +108,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $this->searchQueryParser = $search_query_parser;
     $this->logger = $logger;
     $this->configFactory = $configFactory;
+    $this->routeMatch = $route_match;
   }
 
   /**
@@ -130,6 +141,9 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    * {@inheritdoc}
    */
   public function build() {
+
+    /** @var \Drupal\node\Entity\Node $node */
+    $node = $this->routeMatch->getParameter('node');
     $config = $this->getConfiguration();
     $config_no_results = $this->configFactory->get('mars_search.search_no_results');
     $faq_facet_key = 'faq_filter_topic';
@@ -150,6 +164,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       // Disabling entityqueue sorting when topic filter is active.
       unset($options['sort']['faq_item_queue_weight']);
     }
+    $options_see_all = $options;
     $search_results = $this->searchHelper->getSearchResults($options);
     $faq_items = [];
     $cta_button_label = $cta_button_link = '';
@@ -222,9 +237,12 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
               'siteSearchResults' => $search_results['resultsCount'],
             ],
           ],
+          'searchOptions' => $options_see_all,
+          'nid' => !empty($node) ? $node->id() : '',
         ],
         'library' => [
           'mars_search/datalayer.search',
+          'mars_search/see_all_cards',
         ],
       ],
     ];

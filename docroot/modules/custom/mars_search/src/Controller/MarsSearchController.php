@@ -293,7 +293,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
     }
 
-    $results = $this->searchHelper->getSearchResults($search_options, "grid_{$parameters['id']}");
+    $results = $this->searchHelper->getSearchResults($search_options, !empty($parameters['id']) ?
+      "grid_{$parameters['id']}" : 'main_search');
 
     if (!empty($results['results'])) {
       foreach ($results['results'] as $entity) {
@@ -304,6 +305,51 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     }
 
     return new Response($this->renderer->render($items));
+  }
+
+  /**
+   * Render all search cards block.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   The learn more action response.
+   */
+  public function seeAllFaqCallback(Request $request) {
+    $parameters = $this->requestStack->getCurrentRequest()->request->all();
+    $search_options = $parameters['searchOptions'];
+    $faq_items = [];
+    unset($search_options['limit']);
+    $search_results = $this->searchHelper->getSearchResults($search_options);
+    if ($search_results['results']) {
+      /** @var \Drupal\node\NodeInterface $search_result */
+      foreach ($search_results['results'] as $row_key => $search_result) {
+        // Do not fail page load if search index is not in sync with database.
+        if ($search_result->bundle() != 'faq') {
+          $search_results['resultsCount']--;
+
+          continue;
+        }
+
+        $question_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0]) ?
+          $search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0] : $search_result->get('field_qa_item_question')->value;
+        $answer_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0]) ?
+          $search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0] : $search_result->get('field_qa_item_answer')->value;
+        $faq_items[$row_key] = [
+          'question' => $question_value,
+          'answer' => $answer_value,
+          'order' => $row_key,
+        ];
+      }
+    }
+
+    $build = [
+      '#theme' => 'mars_search_see_all_faq',
+      '#qa_items' => $faq_items,
+    ];
+
+    return new Response($this->renderer->renderRoot($build));
   }
 
 }

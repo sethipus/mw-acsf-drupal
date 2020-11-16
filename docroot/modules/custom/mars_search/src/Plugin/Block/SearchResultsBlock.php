@@ -173,6 +173,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
         'siteSearchResults' => $query_search_results['resultsCount'],
       ],
     ];
+    $build['#attached']['drupalSettings']['searchOptions'] = $searchOptions;
 
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
 
@@ -186,13 +187,13 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $url_options['query']['see-all'] = 1;
       $url->setOptions($url_options);
       $build['#ajax_card_grid_link_text'] = $this->t('See all');
-      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
     $build['#ajax_card_grid_heading'] = $this->t('All results');
     [$build['#applied_filters_list'], $build['#filters']] = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.search';
+    $build['#attached']['library'][] = 'mars_search/see_all_cards';
     return $build;
   }
 
