@@ -40,8 +40,8 @@ Feature: Product Test
     And I fill in "Name" with "icon"
     And I fill in "Alternative text" with "icon_alternative_text"
     And I press "Save"
-    Then the url should match "admin/content/media"
-    And I should see "Image icon has been created."
+    And print current URL
+    Then I should see "Image icon has been created."
 
     # Add format
     When I am on "admin/structure/taxonomy/manage/mars_format/add"
@@ -49,7 +49,7 @@ Feature: Product Test
     And I expand "Relations" area
     And I fill in "Weight" with "5"
     And I press "Save"
-    Then the url should match "admin/structure/taxonomy/manage/mars_format/add"
+    And print current URL
     And I should see "Status message"
     And I should see "Created new term Format1."
 
@@ -59,7 +59,7 @@ Feature: Product Test
     And I expand "Relations" area
     And I fill in "Weight" with "5"
     And I press "Save"
-    Then the url should match "admin/structure/taxonomy/manage/mars_flavor/add"
+    And print current URL
     And I should see "Status message"
     And I should see "Created new term Flavor1."
 
