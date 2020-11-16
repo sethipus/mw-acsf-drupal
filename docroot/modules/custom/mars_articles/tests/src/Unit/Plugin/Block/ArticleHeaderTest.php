@@ -6,16 +6,21 @@ use Drupal;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Utility\Token;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_articles\Plugin\Block\ArticleHeader;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\node\Entity\Node;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\publication_date\Plugin\Field\FieldType\PublicationDateItem;
 
 /**
  * @coversDefaultClass \Drupal\mars_articles\Plugin\Block\ArticleHeader
@@ -24,6 +29,9 @@ use Drupal\node\NodeInterface;
  */
 class ArticleHeaderTest extends UnitTestCase {
 
+  /**
+   * Configuration data array.
+   */
   private const TEST_CONFIGURATION = [
     'id' => 'article_header',
     'label' => 'Article header',
@@ -32,16 +40,25 @@ class ArticleHeaderTest extends UnitTestCase {
     'article' => 1,
   ];
 
+  /**
+   * Definition data array.
+   */
   private const TEST_DEFENITION = [
     'provider' => 'mars_articles',
     'admin_label' => 'Article header',
   ];
 
-  private const TEST_NODE = [
-    'label' => 'article test label',
-    'provider' => 'mars_articles',
-    'eyebrow' => 'Test eyebrow text',
-    'article' => 1,
+  /**
+   * Social media test configuration.
+   */
+  private const TEST_SOCIAL_CONFIG = [
+    'social' => [
+      'enable' => 1,
+      'api_url' => 'http://domain.com',
+      'text' => 'Test social',
+      'img' => 'test/image/path/image.png',
+      'attributes' => [],
+    ],
   ];
 
   /**
@@ -129,6 +146,20 @@ class ArticleHeaderTest extends UnitTestCase {
   private $nodeMock;
 
   /**
+   * Immutable config mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
+
+  /**
+   * Translation mock.
+   *
+   * @var \Drupal\Core\StringTranslation\TranslationInterface
+   */
+  private $translationMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -137,12 +168,12 @@ class ArticleHeaderTest extends UnitTestCase {
     Drupal::setContainer($this->containerMock);
 
     $this->entityTypeManagerMock
-      ->expects($this->exactly(1))
+      ->expects($this->any())
       ->method('getViewBuilder')
       ->willReturn($this->viewBuilderMock);
 
     $this->entityTypeManagerMock
-      ->expects($this->exactly(1))
+      ->expects($this->any())
       ->method('getStorage')
       ->willReturn($this->entityStorageMock);
 
@@ -160,21 +191,118 @@ class ArticleHeaderTest extends UnitTestCase {
   }
 
   /**
+   * Test dependency injections.
+   */
+  public function testShouldInstantiateProperly() {
+    $this->containerMock
+      ->expects($this->exactly(6))
+      ->method('get')
+      ->willReturnMap(
+        [
+          [
+            'entity_type.manager',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->entityTypeManagerMock,
+          ],
+          [
+            'date.formatter',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->dateFormatterMock,
+          ],
+          [
+            'token',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->tokenMock,
+          ],
+          [
+            'mars_common.theme_configurator_parser',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->themeConfiguratorParserMock,
+          ],
+          [
+            'config.factory',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->configFactoryMock,
+          ],
+
+          [
+            'mars_common.media_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->mediaHelperMock,
+          ],
+        ]
+      );
+
+    $this->articleHeaderBlock::create(
+      $this->containerMock,
+      self::TEST_CONFIGURATION,
+      'article_header',
+      self::TEST_DEFENITION,
+    );
+  }
+
+  /**
    * Test block build.
    */
   public function testShouldBuild() {
+    // Mock node context.
+    $nodeMock = $this->createNodeMock();
+    $nodeContext = $this->getMockBuilder(Context::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $nodeContext->expects($this->exactly(2))
+      ->method('getContextValue')
+      ->willReturn($nodeMock);
+    $this->articleHeaderBlock->setContext('node', $nodeContext);
 
-    $this->entityStorageMock
+    $this->configFactoryMock
       ->expects($this->once())
-      ->method('load')
-      ->willReturn($this->nodeMock);
-    $this->nodeMock
+      ->method('get')
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
       ->expects($this->once())
-      ->method('label')
-      ->willReturn(self::TEST_NODE['label']);
+      ->method('get')
+      ->willReturn(self::TEST_SOCIAL_CONFIG);
+
+    $this->containerMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturnMap(
+        [
+          [
+            'string_translation',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->translationMock,
+          ],
+        ]
+      );
+    $this->dateFormatterMock
+      ->expects($this->once())
+      ->method('format')
+      ->with(1234567890, 'article_header');
+
+    $this->mediaHelperMock
+      ->expects($this->once())
+      ->method('getEntityMainMediaId');
+    $this->mediaHelperMock
+      ->expects($this->once())
+      ->method('getMediaParametersById')
+      ->willReturn(
+        [
+          'src' => 'test_image_source',
+          'alt' => 'test_image_alt',
+        ]
+      );
+
     $block_build = $this->articleHeaderBlock->build();
 
-    $this->assertEquals(self::TEST_NODE['label'], $block_build['#label']);
+    $this->assertEquals('Test article', $block_build['#label']);
+    $this->assertEquals('article_header_block_image', $block_build['#theme']);
+    $this->assertArrayHasKey('#image', $block_build);
+    $this->assertArrayHasKey('url', $block_build['#image']);
+    $this->assertArrayHasKey('social', $block_build['#social_links']);
+    $this->assertArrayHasKey('icon', $block_build['#social_links']['social']);
   }
 
   /**
@@ -240,6 +368,48 @@ class ArticleHeaderTest extends UnitTestCase {
     $this->viewBuilderMock = $this->createMock(EntityViewBuilderInterface::class);
     $this->entityStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->nodeMock = $this->createMock(NodeInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
+    $this->translationMock = $this->createMock(TranslationInterface::class);
+  }
+
+  /**
+   * Mock recipe node.
+   *
+   * @return \PHPUnit\Framework\MockObject\MockObject
+   *   Mock node object.
+   */
+  private function createNodeMock() {
+    $published = $this->getMockBuilder(PublicationDateItem::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $published
+      ->expects($this->once())
+      ->method('__get')
+      ->with('value')
+      ->willReturn(1234567890);
+    $node = $this->getMockBuilder(Node::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    $node
+      ->expects($this->once())
+      ->method('bundle')
+      ->willReturn('article');
+    $node
+      ->expects($this->once())
+      ->method('label')
+      ->willReturn('Test article');
+    $node
+      ->expects($this->once())
+      ->method('isPublished')
+      ->willReturn(TRUE);
+    $node
+      ->expects($this->once())
+      ->method('__get')
+      ->with('published_at')
+      ->willReturn($published);
+
+    return $node;
   }
 
 }
