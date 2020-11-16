@@ -3,6 +3,7 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -60,6 +61,13 @@ class FreeformStoryBlockTest extends UnitTestCase {
   protected $themeConfiguratorParserMock;
 
   /**
+   * Media Helper service Mock.
+   *
+   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $mediaHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -80,6 +88,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
       'image_alt' => 'Test',
       'custom_background_color' => 'ffffa8',
       'use_custom_color' => '1',
+      'custom_background_color' => '1',
     ];
     $definitions = [
       'provider'    => 'test',
@@ -92,7 +101,8 @@ class FreeformStoryBlockTest extends UnitTestCase {
       'freeform_story_block',
       $definitions,
       $this->entityTypeManagerMock,
-      $this->themeConfiguratorParserMock
+      $this->themeConfiguratorParserMock,
+      $this->mediaHelperMock
     );
   }
 
@@ -104,6 +114,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this->mediaHelperMock = $this->createMock(MediaHelper::class);
   }
 
   /**
@@ -111,7 +122,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->freeformStoryBlock->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(14, $config_form);
+    $this->assertCount(13, $config_form);
     $this->assertArrayHasKey('block_aligned', $config_form);
     $this->assertArrayHasKey('header_1', $config_form);
     $this->assertArrayHasKey('header_2', $config_form);
@@ -126,7 +137,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
   public function testBuildBlockRenderArrayProperly() {
     $build = $this->freeformStoryBlock->build();
 
-    $this->assertCount(10, $build);
+    $this->assertCount(9, $build);
     $this->assertArrayNotHasKey('#image', $build);
     $this->assertEquals('freeform_story_block', $build['#theme']);
   }
