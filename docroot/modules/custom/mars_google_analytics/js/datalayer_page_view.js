@@ -37,36 +37,28 @@
 
       // COMPONENT NAME
       var getComponentName = function(element) {
-        var componentName = '';
-        var componentBlock = element.closest('[data-block-plugin-id]');
-        if (typeof componentBlock !== 'undefined') {
-          componentName = componentBlock.dataset.blockPluginId;
-        }
+        const componentBlock = element.closest('[data-block-plugin-id]');
+        var componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+
         return componentName;
       }
 
       // CARDS CLICK EVENTS
       var cardContainers = context.querySelectorAll('.card-item');
-      cardContainers.forEach(function(element) {
-        element.addEventListener('click', function(event) {
+      cardContainers.forEach(function(card) {
+        card.addEventListener('click', function(event) {
           setTimeout(function() {
             var item = event.target.closest('a');
-            var clickName = '';
-            if (item) {
-              clickName = item.innerText.trim();
-            }
+            var clickName = item.innerText.trim() || card.dataset.siteSearchClicked;
             var componentName = getComponentName(event.target);
-            cardType = '';
-            var card = event.target.closest('section');
-            if (typeof card !== 'undefined') {
-              cardType = card.dataset.cardType;
-            }
+            var cardType = card.dataset.cardType;
             // CARD CLICK
             dataLayer.push({
               event: 'clickCards',
               componentName: componentName,
               cardType: cardType,
               clickName: clickName,
+              clickDetails: card.dataset.siteSearchClicked
             });
           }, 100);
         })
@@ -111,6 +103,7 @@
                   componentName: componentName,
                   clickType: 'Language selectors',
                   clickName: 'Language selectors',
+                  clickDetails: event.target.innerText.trim()
                 });
                 break;
               case 'status__container':
@@ -173,6 +166,7 @@
                   componentName: componentName,
                   clickType: 'Region selectors',
                   clickName: 'Region selectors',
+                  clickDetails: event.target.innerText.trim()
                 });
                 break;
             }
@@ -184,7 +178,7 @@
       const links = document.querySelectorAll('a');
       links.forEach((link) => {
         //Check if link is external and add listener
-        if (link.href.indexOf(window.location.hostname) < 0 && link.href.indexOf('http') >= 0) {
+        if (link.href.indexOf(window.location.hostname) < 0) {
           link.addEventListener('click', (event) => {
             setTimeout(function() {
               const item = event.target.closest('a');
