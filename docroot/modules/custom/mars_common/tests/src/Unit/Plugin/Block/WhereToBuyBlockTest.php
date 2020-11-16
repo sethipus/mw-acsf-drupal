@@ -26,6 +26,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
     'label_display' => '1',
     'widget_id' => 'test_widget_id',
     'context_mapping' => [],
+    'commerce_vendor' => WhereToBuyBlock::VENDOR_PRICE_SPIDER,
   ];
 
   private const DEFINITION = [
@@ -194,7 +195,47 @@ class WhereToBuyBlockTest extends UnitTestCase {
   /**
    * Test.
    */
-  public function testShouldBuild() {
+  public function testShouldBuildWhenPriceSpider() {
+    $this->configMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn('US');
+
+    $this->languageManagerMock
+      ->expects($this->once())
+      ->method('getCurrentLanguage')
+      ->willReturn($this->languageMock);
+
+    $this->languageMock
+      ->expects($this->once())
+      ->method('getId')
+      ->willReturn('en');
+
+    $build = $this->block->build();
+    $this->assertIsArray(
+      $build['#attached']['html_head']
+    );
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldBuildWhenCommerceConnector() {
+    $this->block->setConfiguration([
+      'id' => 'where_to_buy_block',
+      'label' => 'MARS: Where To Buy',
+      'provider' => 'mars_common',
+      'label_display' => '1',
+      'widget_id' => 'test_widget_id',
+      'context_mapping' => [],
+      'commerce_vendor' => WhereToBuyBlock::VENDOR_COMMERCE_CONNECTOR,
+    ]);
+
     $this->configMock
       ->expects($this->once())
       ->method('get')

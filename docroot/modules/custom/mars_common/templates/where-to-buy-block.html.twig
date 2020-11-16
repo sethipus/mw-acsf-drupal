@@ -2,6 +2,31 @@
 /**
  * @file
  * Template for the Where To Buy component.
+ *
+ * Available variables:
+ * - commerce_vendor -
+ * - product_id -
+ * - cta_title -
+ * - button_type -
+ * - widget_id -
  */
 #}
-<div class="ps-widget"></div>
+
+{% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
+{% set where_to_buy_modifiers = ['wtb-page'] %}
+
+{% if commerce_vendor == 'price_spider' %}
+    <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
+        <div class="ps-widget"></div>
+    </div>
+{% elseif commerce_vendor == 'commerce_connector' %}
+    {% if button_type == 'my_own' %}
+        <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
+            <a class="cc-fi-button text_link" data-ccwid="{{ widget_id }}" data-ean="{{ product_id }}">{{ cta_title }}</a>
+        </div>
+    {% else %}
+        <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
+            <div data-ccid="wtb-target" data-ccwid="{{ widget_id }}" data-ean="{{ product_id }}"></div>
+        </div>
+    {% endif %}
+{% endif %}

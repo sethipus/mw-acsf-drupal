@@ -292,6 +292,13 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'where_to_buy_block' => [
       'template' => 'where-to-buy-block',
+      'variables' => [
+        'commerce_vendor' => NULL,
+        'product_id' => NULL,
+        'cta_title' => NULL,
+        'button_type' => NULL,
+        'widget_id' => NULL,
+      ],
     ],
     'text_block' => [
       'variables' => [

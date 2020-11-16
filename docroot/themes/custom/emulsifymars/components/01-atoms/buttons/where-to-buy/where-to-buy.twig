@@ -7,6 +7,7 @@
  * - data_widget_id -
  * - reference_for_analitics -
  * - cta_title -
+ * - button_type -
  *
  */
 #}
@@ -17,20 +18,13 @@
     <div class="ps-widget" ps-sku="{{ product_sku }}">{{ cta_title }}</div>
   </div>
 {% else %}
-  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}>
-    <script
-      type="text/javascript"
-      src="https://fi-v2.global.commerce-connector.com/cc.js"
-      id="cci-widget"
-      data-token="080b73af92c4aa9324ac9f9296f5045e76256857"
-      data-locale="en-US"
-      data-displaylanguage="en-us"
-      data-widgetid="{{ data_widget_id }}"
-      data-ean="{{ product_sku }}"
-      data-subid="ohne"
-      {% if reference_for_analytics is defined and reference_for_analytics|length %}
-        data-trackingid="{{ reference_for_analytics }}"
-      {% endif %}
-    ></script>
-  </div>
+  {% if button_type == 'my_own' %}
+    <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}>
+      <a class="cc-fi-button text_link" data-ccwid="{{ data_widget_id }}" data-ean="{{ product_sku }}" >{{ cta_title }}</a>
+    </div>
+  {% else %}
+    <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }} data-ccid="cc-wtb-button-container">
+      <div data-ccid="wtb-target" data-ccwid="{{ data_widget_id }}" data-ean="{{ product_sku }}"></div>
+    </div>
+  {% endif %}
 {% endif %}

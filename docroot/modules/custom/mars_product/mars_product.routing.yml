@@ -1,0 +1,7 @@
+mars_product.where_to_buy.configuration:
+  path: '/admin/config/services/where_to_buy'
+  defaults:
+    _form: 'Drupal\mars_product\Form\WtbConfigForm'
+    _title: 'Where to buy global settigns'
+  requirements:
+    _permission: 'administer site configuration'

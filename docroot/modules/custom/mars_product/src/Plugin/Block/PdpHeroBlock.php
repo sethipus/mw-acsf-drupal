@@ -197,10 +197,56 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#required' => TRUE,
     ];
 
+    $form['wtb']['data_token'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Token'),
+      '#default_value' => $this->configuration['wtb']['data_token'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
+    $form['wtb']['data_subid'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('SubId'),
+      '#default_value' => $this->configuration['wtb']['data_subid'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
     $form['wtb']['product_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product ID'),
       '#default_value' => $this->configuration['wtb']['product_id'],
+    ];
+
+    $form['wtb']['cta_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('CTA title'),
+      '#default_value' => $this->configuration['wtb']['cta_title'],
+    ];
+
+    $form['wtb']['button_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Connector: button type'),
+      '#default_value' => $this->configuration['wtb']['button_type'],
+      '#options' => [
+        'my_own' => $this->t('My own button'),
+        'commerce_connector' => $this->t('Commerce Connector button'),
+      ],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
     ];
 
     $form['nutrition'] = [
@@ -311,7 +357,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'wtb' => [
         'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
         'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
+        'data_token' => $config['wtb']['data_token'] ?? '',
+        'data_subid' => $config['wtb']['data_subid'] ?? '',
+        'cta_title' => $config['wtb']['cta_title'] ?? '',
         'product_id' => $config['wtb']['product_id'] ?? '',
+        'button_type' => $config['wtb']['button_type'] ?? '',
       ],
 
     ];
@@ -347,6 +397,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'product_sku' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku,
         'commerce_vendor' => $this->configuration['wtb']['commerce_vendor'],
         'data_widget_id' => $this->configuration['wtb']['data_widget_id'] ?? '',
+        'data_token' => $this->configuration['wtb']['data_token'] ?? '',
+        'data_subid' => $this->configuration['wtb']['data_subid'] ?? '',
+        'product_CTA_title' => $this->configuration['wtb']['cta_title'] ?? '',
+        'button_type' => $this->configuration['wtb']['button_type'] ?? '',
       ],
       'nutrition_data' => [
         'nutritional_label' => $this->configuration['nutrition']['label'] ?? '',
@@ -867,6 +921,26 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $build['#attached']['html_head'][] = [$metatag, $key];
       }
     }
+    elseif ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
+      $locale = $this->languageManager->getCurrentLanguage()->getId();
+      $country = $this->config->get('system.date')
+        ->get('country.default');
+      $script = [
+        '#tag' => 'script',
+        '#attributes' => [
+          'src' => '//fi-v2.global.commerce-connector.com/cc.js',
+          'id' => 'cci-widget',
+          'data-token' => $this->configuration['wtb']['data_token'],
+          'data-locale' => $locale . '-' . $country,
+          'data-displaylanguage' => $locale,
+          'data-widgetid' => $this->configuration['wtb']['data_widget_id'],
+          'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
+          'async' => TRUE,
+        ],
+      ];
+      $build['#attached']['html_head'][] = [$script, self::VENDOR_COMMERCE_CONNECTOR];
+    }
+
     return $build;
   }
 

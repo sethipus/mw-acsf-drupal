@@ -68,10 +68,12 @@
       </div>
 
       <div {{ bem('link', [], card__base_class) }}>
-        {% include "@atoms/links/link/link.twig" with {
-          link_content: link_content,
-          link_url: item.link_url,
-          link_base_class: 'text_link',
+        {% include '@atoms/buttons/where-to-buy/where-to-buy.twig' with {
+            product_sku: product_sku,
+            commerce_vendor: wtb_commerce_vendor,
+            cta_title: link_content,
+            button_type: wtb_button_type,
+            data_widget_id: wtb_widget_id,
         } %}
       </div>
     </div>

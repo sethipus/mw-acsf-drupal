@@ -21,6 +21,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
+   * Price spider id.
+   */
+  const VENDOR_PRICE_SPIDER = 'price_spider';
+
+  /**
+   * Commerce connector id.
+   */
+  const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
+
+  /**
    * Config Factory.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -68,11 +78,80 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
 
+    $form['commerce_vendor'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Vendor'),
+      '#default_value' => $this->configuration['commerce_vendor'],
+      '#options' => [
+        self::VENDOR_PRICE_SPIDER => $this->t('Price Spider'),
+        self::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
+      ],
+      '#required' => TRUE,
+    ];
+
     $form['widget_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Widget id'),
       '#default_value' => $this->configuration['widget_id'],
       '#required' => TRUE,
+    ];
+
+    $form['data_token'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Token'),
+      '#default_value' => $this->configuration['data_token'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
+    $form['data_subid'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('SubId'),
+      '#default_value' => $this->configuration['data_subid'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
+    $form['product_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product ID'),
+      '#default_value' => $this->configuration['product_id'],
+      'visible' => [
+        [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+      ],
+    ];
+
+    $form['cta_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('CTA title'),
+      '#default_value' => $this->configuration['cta_title'],
+      'visible' => [
+        [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+      ],
+    ];
+
+    $form['button_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Connector: button type'),
+      '#default_value' => $this->configuration['button_type'],
+      '#options' => [
+        'my_own' => $this->t('My own button'),
+        'commerce_connector' => $this->t('Commerce Connector button'),
+      ],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
     ];
 
     return $form;
@@ -96,7 +175,13 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function defaultConfiguration(): array {
     $config = $this->getConfiguration();
     return [
+      'commerce_vendor' => $config['commerce_vendor'] ?? '',
       'widget_id' => $config['widget_id'] ?? '',
+      'data_token' => $config['data_token'] ?? '',
+      'data_subid' => $config['data_subid'] ?? '',
+      'cta_title' => $config['cta_title'] ?? '',
+      'product_id' => $config['product_id'] ?? '',
+      'button_type' => $config['button_type'] ?? '',
     ];
   }
 
@@ -106,6 +191,12 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function build() {
     $build['#theme'] = 'where_to_buy_block';
     $this->pageAttachments($build);
+
+    $build['#commerce_vendor'] = $this->configuration['commerce_vendor'];
+    $build['#product_id'] = $this->configuration['product_id'];
+    $build['#cta_title'] = $this->configuration['cta_title'];
+    $build['#button_type'] = $this->configuration['button_type'];
+    $build['#widget_id'] = $this->configuration['widget_id'];
 
     return $build;
   }
@@ -120,38 +211,62 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
    *   Return build.
    */
   public function pageAttachments(array &$build) {
-    $metatags = [
-      'ps-key' => [
-        '#tag' => 'meta',
-        '#attributes' => [
-          'name' => 'ps-key',
-          'content' => $this->configuration['widget_id'],
+    if ($this->configuration['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
+      $metatags = [
+        'ps-key' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-key',
+            'content' => $this->configuration['widget_id'],
+          ],
         ],
-      ],
-      'ps-country' => [
-        '#tag' => 'meta',
-        '#attributes' => [
-          'name' => 'ps-country',
-          'content' => $this->config->get('system.date')->get('country.default'),
+        'ps-country' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-country',
+            'content' => $this->config->get('system.date')
+              ->get('country.default'),
+          ],
         ],
-      ],
-      'ps-language' => [
-        '#tag' => 'meta',
-        '#attributes' => [
-          'name' => 'ps-language',
-          'content' => strtolower($this->languageManager->getCurrentLanguage()->getId()),
+        'ps-language' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-language',
+            'content' => strtolower($this->languageManager->getCurrentLanguage()
+              ->getId()),
+          ],
         ],
-      ],
-      'price-spider' => [
+        'price-spider' => [
+          '#tag' => 'script',
+          '#attributes' => [
+            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+            'async' => TRUE,
+          ],
+        ],
+      ];
+      foreach ($metatags as $key => $metatag) {
+        $build['#attached']['html_head'][] = [$metatag, $key];
+      }
+    }
+    elseif ($this->configuration['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
+      $locale = $this->languageManager->getCurrentLanguage()->getId();
+      $country = $this->config->get('system.date')
+        ->get('country.default');
+      $script = [
         '#tag' => 'script',
         '#attributes' => [
-          'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+          'src' => '//fi-v2.global.commerce-connector.com/cc.js',
+          'id' => 'cci-widget',
+          'data-token' => $this->configuration['data_token'],
+          'data-locale' => $locale . '-' . $country,
+          'data-displaylanguage' => $locale,
+          'data-widgetid' => $this->configuration['widget_id'],
+          'data-subid' => $this->configuration['data_subid'] ?? NULL,
           'async' => TRUE,
+
         ],
-      ],
-    ];
-    foreach ($metatags as $key => $metatag) {
-      $build['#attached']['html_head'][] = [$metatag, $key];
+      ];
+      $build['#attached']['html_head'][] = [$script, self::VENDOR_COMMERCE_CONNECTOR];
     }
     return $build;
   }
