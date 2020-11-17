@@ -69,12 +69,4 @@ interface SearchHelperInterface {
    */
   public function getSearchQueryDefaultOptions();
 
-  /**
-   * Returns current request.
-   *
-   * @return \Symfony\Component\HttpFoundation\Request
-   *   Current request stack object.
-   */
-  public function getRequest();
-
 }

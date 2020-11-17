@@ -157,7 +157,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     ];
 
     // That means filter topic filter is active.
-    if ($this->searchHelper->getRequest()->get($faq_facet_key)) {
+    if ($this->searchHelper->request->get($faq_facet_key)) {
       // Disabling entityqueue sorting when topic filter is active.
       unset($options['sort']['faq_item_queue_weight']);
     }

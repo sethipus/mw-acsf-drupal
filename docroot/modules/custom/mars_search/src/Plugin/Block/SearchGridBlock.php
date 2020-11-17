@@ -204,7 +204,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function build() {
     // Getting all GET parameters in array.
-    $query_parameters = $this->searchHelper->getRequest()->query->all();
+    $query_parameters = $this->searchHelper->request->query->all();
 
     // Initializing grid options array.
     // It is needed to pass preset filters to autocomplete.
