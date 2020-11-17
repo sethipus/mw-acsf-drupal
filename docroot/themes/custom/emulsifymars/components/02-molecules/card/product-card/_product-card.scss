@@ -46,6 +46,9 @@
       }
     }
 
+    .product-card__button a{
+      color: clr(secondary);
+    } 
   }
 
   &__image {
@@ -123,14 +126,20 @@
       padding: 0 1.85rem;;
       line-height: 5rem;
       font-size: 1.4rem;
-    }
-
-    &:hover {
-      a {
-        color: clr(secondary);
+      transition: none;
+      
+      &:hover {
+        color: clr(subcolor-3) !important;
+        transition: color 0.5s ease-in-out;
+        background-color: clr(subcolor-3) !important;
       }
     }
-  }
+
+    .default-link--light {
+      margin-bottom: 0;
+      box-shadow: none;
+    }
+  }  
 
   & .text_link{
     padding: 1.5rem 2rem;
