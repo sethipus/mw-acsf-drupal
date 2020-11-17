@@ -189,7 +189,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'description' => NULL,
         'media_type' => NULL,
         'media_format' => NULL,
-        'data_layer' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -310,7 +309,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'shape_motif' => NULL,
         'content' => NULL,
         'title' => NULL,
-        'data_layer' => NULL,
       ],
       'template' => 'inline-image-video-block',
     ],
@@ -321,7 +319,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'shape_motif' => NULL,
         'content' => NULL,
         'heading' => NULL,
-        'data_layer' => NULL,
       ],
       'template' => 'fullwidth-image-video-block',
     ],
@@ -750,6 +747,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     if ($form['actions']['vote']['#ajax'] ?? NULL) {
       $form['actions']['vote']['#ajax']['progress'] = FALSE;
     }
+    $form['actions']['vote']['#submit'][] = 'poll_form_submit_action_callback';
     if ($form['actions']['result']['#ajax'] ?? NULL) {
       $form['actions']['result']['#ajax']['progress'] = FALSE;
     }
@@ -770,6 +768,14 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['#validate'][] = [$form_alter_class, 'validate'];
     }
   }
+}
+
+/**
+ * Callback function to delete status messages in the poll submit function.
+ */
+function poll_form_submit_action_callback() {
+  $msg = \Drupal::messenger();
+  $msg->deleteByType('status');
 }
 
 /**

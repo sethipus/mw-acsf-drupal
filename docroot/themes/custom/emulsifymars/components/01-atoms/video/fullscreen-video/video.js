@@ -69,49 +69,49 @@ Drupal.behaviors.fullscreenVideoPlayer = {
 
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
-          const componentBlock = video.closest('[data-block-plugin-id]');
+          const componentBlock = videoElements('video').closest('[data-block-plugin-id]');
           const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
+          const parentTitleBlock = videoElements('video').closest('[data-component-title]');
+          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
 
           dataLayer.push({
             event: 'videoPageView',
             pageName: document.title,
-            videoTitle: videoContainer.dataset.videoTitle || '',
+            videoTitle: videoTitle,
             videoId: videoContainer.dataset.videoId,
             videoFlag: videoContainer.dataset.videoFlag,
             componentName: componentName
-          }, {once : true});
+          });
 
-          video.addEventListener('play', () => {
+          videoElements('video').addEventListener('play', () => {
             dataLayer.push({
               event: 'videoView',
               pageName: document.title,
               videoStart: 0,
-              videoTitle: videoContainer.dataset.videoTitle || '',
-              videoId: videoContainer.dataset.videoId,
+              videoTitle: videoTitle,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: componentName
             });
           }, {once : true});
 
           let videoEndedHandler = () => {
-            var tr = video.played;
-            var hasLoopedOnce = (tr.end(tr.length-1)==video.duration);
+            var tr = videoElements('video').played;
+            var hasLoopedOnce = (tr.end(tr.length-1)==videoElements('video').duration);
             if(hasLoopedOnce) {
               dataLayer.push({
                 event: 'videoView',
                 pageName: document.title,
                 videoStart: 0,
                 videoComplete: 1,
-                videoTitle: videoContainer.dataset.videoTitle || '',
-                videoId: videoContainer.dataset.videoId,
+                videoTitle: videoTitle,
                 videoFlag: videoContainer.dataset.videoFlag,
                 componentName: componentName
               });
-              video.removeEventListener('timeupdate', videoEndedHandler);
+              videoElements('video').removeEventListener('timeupdate', videoEndedHandler);
             }
           }
 
-          video.addEventListener("timeupdate", videoEndedHandler);
+          videoElements('video').addEventListener("timeupdate", videoEndedHandler);
         }
 
         // Add events for all buttons
@@ -202,16 +202,15 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         // Listen to scroll event to pause video when out of viewport
         let videoVisible = false;
         document.addEventListener('scroll', function() {
-          let videoPosition = videoElements('video').offsetTop;
+          let videoPosition = videoElements('video').getBoundingClientRect().top;
           let videoHeight = videoElements('video').getBoundingClientRect().height;
-          let windowPosition = window.pageYOffset;
           let windowHeight = window.innerHeight;
 
-          if (videoPosition + videoHeight - windowPosition < 0 || windowPosition + windowHeight - videoPosition < 0) {
+          if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
             videoElements('video').pause();
             videoVisible = false;
           } else {
-            if(!videoVisible) {
+            if(videoElements('control').getAttribute('data-state') === 'pause' && !videoVisible) {
               videoElements('video').play();
               videoVisible = true;
             }
