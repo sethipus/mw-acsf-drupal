@@ -130,13 +130,13 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     $form['asset_1'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
-      $this->configuration['asset_1'], 1, 'thumbnail', TRUE);
+      $this->configuration['asset_1'], 1, 'thumbnail');
     $form['asset_1']['#type'] = 'details';
     $form['asset_1']['#title'] = $this->t('Asset #1');
     $form['asset_1']['#open'] = TRUE;
 
     $form['asset_2'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
-      $this->configuration['asset_2'], 1, 'thumbnail', TRUE);
+      $this->configuration['asset_2'], 1, 'thumbnail');
     $form['asset_2']['#type'] = 'details';
     $form['asset_2']['#title'] = $this->t('Asset #2');
     $form['asset_2']['#open'] = TRUE;

@@ -388,7 +388,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ];
 
       $foreground_default = isset($config['card'][$key]['foreground_image']) ? $config['card'][$key]['foreground_image'] : NULL;
-      $form['card'][$key]['foreground_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $foreground_default, 1, 'thumbnail');
+      $form['card'][$key]['foreground_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $foreground_default, 1, 'thumbnail', FALSE);
       // Convert the wrapping container to a details element.
       $form['card'][$key]['foreground_image']['#type'] = 'details';
       $form['card'][$key]['foreground_image']['#title'] = $this->t('Foreground Image');

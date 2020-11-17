@@ -159,7 +159,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
       ];
 
       $form['list'][$key]['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
-        $config['list'][$key]['image'], 1, 'thumbnail');
+        $config['list'][$key]['image'], 1, 'thumbnail', FALSE);
       $form['list'][$key]['image']['#type'] = 'details';
       $form['list'][$key]['image']['#title'] = $this->t('List item image');
       $form['list'][$key]['image']['#open'] = TRUE;
