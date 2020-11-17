@@ -10,7 +10,6 @@ use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -294,7 +293,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     }
     $items = [];
     $top_results = $query_parameters['topResults'];
-    unset($search_options['limit']);
+    if (!empty($query_parameters['isFilterAjax'])) {
+      $search_options['limit'] = 4;
+    }
+    else {
+      unset($search_options['limit']);
+    }
+
     if (!empty($top_results)) {
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_results) as $top_result_node) {
         $items[] = $this->nodeViewBuilder->view($top_result_node, 'card');
@@ -316,7 +321,12 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
     }
 
-    return new Response($this->renderer->renderRoot($items));
+    $build = $this->renderer->renderRoot($items);
+
+    return new JsonResponse([
+      'build' => $build,
+      'showButton' => $results['resultsCount'] > count($items) ? TRUE : FALSE,
+    ]);
   }
 
   /**
@@ -329,10 +339,16 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   The learn more action response.
    */
   public function seeAllFaqCallback(Request $request) {
+    $query_parameters = $this->searchHelper->request->query->all();
     $search_options = $this->searchQueryParser->parseQuery();
     $search_options['conditions'][0] = ['type', 'faq', '=', TRUE];
     $faq_items = [];
-    unset($search_options['limit']);
+    if ($query_parameters['isFilterAjax']) {
+      $search_options['limit'] = 4;
+    }
+    else {
+      unset($search_options['limit']);
+    }
     $search_options['sort'] = [
       'faq_item_queue_weight' => 'ASC',
       'created' => 'DESC',
@@ -364,8 +380,12 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       '#theme' => 'mars_search_see_all_faq',
       '#qa_items' => $faq_items,
     ];
+    $build = $this->renderer->renderRoot($build);
 
-    return new Response($this->renderer->renderRoot($build));
+    return new JsonResponse([
+      'build' => $build,
+      'showButton' => $search_results['resultsCount'] > count($faq_items) ? TRUE : FALSE,
+    ]);
   }
 
 }
