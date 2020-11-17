@@ -664,7 +664,7 @@ class ConfigForm extends ConfigFormBase {
     }
 
     $message = t('The Salsify data import is complete.');
-    \Drupal::messenger()
+    \Drupal::service('messenger')
       ->addStatus($message);
   }
 
