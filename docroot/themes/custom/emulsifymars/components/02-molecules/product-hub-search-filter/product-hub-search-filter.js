@@ -33,6 +33,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
           break;
         case target.classList.contains('checkbox-item__input'):
+          enableApplyButtons();
           updateCounters();
         case target.classList.contains('search-filter-info__applied-clear'):
           const currentFilter = context.getElementById(target.getAttribute('data-id'));
@@ -117,7 +118,7 @@ Drupal.behaviors.searchFilterBehaviour = {
       const appliedFiltersCount = context.querySelector('.search-filter-info__applied-count');
       const appliedFiltersList = context.querySelector('.search-filter-info__applied-text');
       const clearAllButton = context.querySelector('.search-filter-info .search-filter-block__button--clear-all');
-      
+
       filterBlocks.forEach(function(element) {
         const counterElement = element.querySelector('.filter-title__counter');
         const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
@@ -146,6 +147,13 @@ Drupal.behaviors.searchFilterBehaviour = {
 
       appliedFiltersCount.innerHTML = appliedFiltersCounter;
       appliedFiltersList.innerHTML = appliedFilters;
+    }
+    const enableApplyButtons = () => {
+      const applyButtons = context.querySelectorAll('.search-filter-block__button--apply');
+
+      applyButtons.forEach(function(button) {
+        button.classList.remove('search-filter-block__button--disabled');
+      });
     }
   },
 };
