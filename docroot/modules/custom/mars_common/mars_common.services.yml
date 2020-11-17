@@ -30,11 +30,14 @@ services:
       - { name: event_subscriber }
 
   mars_common.svg_factory:
-    arguments: [ '@entity_type.manager' ]
+    arguments: [ '@entity_type.manager' , '@mars_common.svg_unique_id_generator' ]
     class: Drupal\mars_common\SVG\SVGFactory
 
+  mars_common.svg_unique_id_generator:
+    class: Drupal\mars_common\SVG\SVGUniqueIdGenerator
+
   mars_common.theme_configurator_service:
-    arguments: [ '@image.factory', '@module_handler', '@file_system', '@config.factory' , '@entity_type.manager']
+    arguments: [ '@image.factory', '@module_handler', '@file_system', '@config.factory' , '@entity_type.manager' ]
     class: Drupal\mars_common\ThemeConfiguratorService
 
   mars_common.theme_config_factory_override:

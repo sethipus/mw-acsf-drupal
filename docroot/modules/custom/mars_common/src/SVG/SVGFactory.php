@@ -17,18 +17,29 @@ class SVGFactory {
   private $fileStorage;
 
   /**
+   * Unique id generator service.
+   *
+   * @var \Drupal\mars_common\SVG\SVGUniqueIdGenerator
+   */
+  private $uniqueIdGenerator;
+
+  /**
    * SVGFactory constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\mars_common\SVG\SVGUniqueIdGenerator $unique_id_generator
+   *   Service for generating unique ids.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function __construct(
-    EntityTypeManagerInterface $entity_type_manager
+    EntityTypeManagerInterface $entity_type_manager,
+    SVGUniqueIdGenerator $unique_id_generator
   ) {
     $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->uniqueIdGenerator = $unique_id_generator;
   }
 
   /**
@@ -49,7 +60,8 @@ class SVGFactory {
       throw SVGException::missingDrupalFile($file_id);
     }
     $file_uri = $drupal_file->getFileUri();
-    return SVG::createFromFile($file_uri);
+    $id = $this->uniqueIdGenerator->generateId();
+    return SVG::createFromFile($file_uri, $id);
   }
 
 }

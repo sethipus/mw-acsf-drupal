@@ -129,7 +129,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     }
 
     // Get brand border path.
-    $build['#border'] = $this->themeConfiguratorParser->getBrandBorder('recipe-hero-border');
+    $build['#border'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
 
     if (

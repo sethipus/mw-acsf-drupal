@@ -15,17 +15,24 @@ class SVG {
   private $content;
 
   /**
+   * @var string
+   */
+  private $id;
+
+  /**
    * Reads a content of an svg file and creates an SVG object from it.
    *
    * @param string $uri
    *   The uri of the file.
+   * @param string $id
+   *   The unique id for this SVG object.
    *
    * @return \Drupal\mars_common\SVG\SVG
    *   The resulting SVG object.
    *
    * @throws \Drupal\mars_common\SVG\SVGException
    */
-  public static function createFromFile(string $uri): self {
+  public static function createFromFile(string $uri, string $id): self {
     if (!file_exists($uri)) {
       throw SVGException::missingPhysicalFile($uri);
     }
@@ -35,7 +42,7 @@ class SVG {
       throw SVGException::readingFromFileFailed($uri);
     }
 
-    return new self($content);
+    return new self($content, $id);
   }
 
   /**
@@ -43,9 +50,12 @@ class SVG {
    *
    * @param string $content
    *   The content of the svg file.
+   * @param string $id
+   *   The unique id for this SVG object.
    */
-  public function __construct(string $content) {
+  public function __construct(string $content, string $id) {
     $this->content = $content;
+    $this->id = $id;
   }
 
   /**
@@ -80,7 +90,7 @@ class SVG {
     $svg->removeAttribute('height');
 
     $content = $dom->saveXML();
-    return new self($content);
+    return new self($content, $this->id);
   }
 
   /**
@@ -96,7 +106,7 @@ class SVG {
     $svg->setAttribute('preserveAspectRatio', 'none');
 
     $content = $dom->saveXML();
-    return new self($content);
+    return new self($content, $this->id);
   }
 
   /**
@@ -106,22 +116,23 @@ class SVG {
    *   The new SVG object.
    */
   public function repeated(): self {
-    $id = 'repeat-pattern';
+    $pattern_id = $this->id . '-repeat-pattern';
 
     $dom = new \DOMDocument();
     $dom->loadXML($this->content);
     $svg = $dom->documentElement;
     $width = $svg->getAttributeNode('width');
     $height = $svg->getAttributeNode('height');
+    $view_box = $svg->getAttributeNode('viewBox');
     $svg->removeAttribute('width');
-    $svg->removeAttribute('height');
     $svg->removeAttribute('viewBox');
 
     $pattern = $dom->createElement('pattern');
     $pattern->setAttribute('patternUnits', "userSpaceOnUse");
-    $pattern->setAttribute('id', $id);
-    $pattern->setAttributeNode($width);
-    $pattern->setAttributeNode($height);
+    $pattern->setAttribute('id', $pattern_id);
+    $pattern->setAttributeNode($width->cloneNode());
+    $pattern->setAttributeNode($height->cloneNode());
+    $pattern->setAttributeNode($view_box->cloneNode());
 
 
     foreach (iterator_to_array($svg->childNodes) as $key => $child_node) {
@@ -137,12 +148,12 @@ class SVG {
 
     $rect = $dom->createElement('rect');
     $rect->setAttribute('width', '100%');
-    $rect->setAttribute('height', '100%');
-    $rect->setAttribute('fill', 'url(#' . $id . ')');
+    $rect->setAttributeNode($height->cloneNode());
+    $rect->setAttribute('fill', 'url(#' . $pattern_id . ')');
     $svg->appendChild($rect);
 
     $content = $dom->saveXML();
-    return new self($content);
+    return new self($content, $this->id);
   }
 
   /**
@@ -162,7 +173,7 @@ class SVG {
     }
 
     $content = $dom->saveXML();
-    return new self($content);
+    return new self($content, $this->id);
   }
 
 }

@@ -116,7 +116,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       }
     }
 
-    $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder('carousel');
+    $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
 
     $build['#title'] = $config['carousel_label'] ?? '';
     $build['#items'] = $items;

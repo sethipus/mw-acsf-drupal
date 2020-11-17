@@ -352,10 +352,10 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->themeConfigurationParserMock
       ->method('getGraphicDivider')
-      ->willReturn(new SVG('Mocked graphic_divider content'));
+      ->willReturn(new SVG('Mocked graphic_divider content', 'id'));
     $this->themeConfigurationParserMock
       ->method('getBrandBorder2')
-      ->willReturn(new SVG('Mocked brand_borders_2 content'));
+      ->willReturn(new SVG('Mocked brand_borders_2 content', 'id'));
 
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this

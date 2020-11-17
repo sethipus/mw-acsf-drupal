@@ -109,13 +109,10 @@ class ThemeConfiguratorParser {
   /**
    * Returns the brand border svg if there are any.
    *
-   * @param string $usage_id
-   *   Unique id that identifies the usage place.
-   *
    * @return \Drupal\mars_common\SVG\SVG|null
    *   The brand border or null.
    */
-  public function getBrandBorder(string $usage_id = ''): ?SVG {
+  public function getBrandBorder(): ?SVG {
     $svg = $this->getSVGFor('brand_borders');
 
     if ($svg !== NULL) {
@@ -138,13 +135,10 @@ class ThemeConfiguratorParser {
   /**
    * Returns the brand border 2 svg if there are any.
    *
-   * @param string $usage_id
-   *   Unique id that identifies the usage place.
-   *
    * @return \Drupal\mars_common\SVG\SVG|null
    *   The brand border 2 or null.
    */
-  public function getBrandBorder2(string $usage_id = ''): ?SVG {
+  public function getBrandBorder2(): ?SVG {
     $svg = $this->getSvgFor('brand_borders_2');
     if ($svg !== NULL) {
       $svg = $svg->stretched();

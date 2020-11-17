@@ -114,7 +114,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
     $this->themeConfiguratorParserMock
       ->expects($this->any())
       ->method('getBrandShape')
-      ->willReturn(new SVG($this->svgContent));
+      ->willReturn(new SVG($this->svgContent, 'id'));
 
     $this->themeConfiguratorParserMock
       ->expects($this->any())

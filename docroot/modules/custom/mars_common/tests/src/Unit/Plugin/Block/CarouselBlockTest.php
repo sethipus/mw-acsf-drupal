@@ -156,7 +156,7 @@ class CarouselBlockTest extends UnitTestCase {
     $this->themeConfiguratorParserMock
       ->expects($this->once())
       ->method('getBrandBorder')
-      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />'));
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
 
     $build = $this->block->build();
     $this->assertEquals('carousel_component', $build['#theme']);

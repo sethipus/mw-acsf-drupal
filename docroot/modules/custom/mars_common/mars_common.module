@@ -64,7 +64,7 @@ function mars_common_preprocess(&$variables, $hook) {
   if ($hook === 'views_view__grid_card') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
     $file_divider_content = $themeParser->getGraphicDivider();
-    $file_border_content = $themeParser->getBrandBorder2('card-grid-border');
+    $file_border_content = $themeParser->getBrandBorder2();
     $border_radius = Drupal::config('emulsifymars.settings')
       ->get('button_style');
 
@@ -410,7 +410,7 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
 
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-  $file_content = $themeParser->getBrandBorder('carousel');
+  $file_content = $themeParser->getBrandBorder();
 
   $media_items = [];
   foreach ($field_carousel_items as $item_key => $item_value) {
@@ -718,7 +718,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $file_divider_content = $themeParser->getGraphicDivider();
-  $file_border_content = $themeParser->getBrandBorder2('recipe-hero-border');
+  $file_border_content = $themeParser->getBrandBorder2();
 
   $variables['items'] = $ff_items;
   $variables['grid_label'] = $field_ff_title;
