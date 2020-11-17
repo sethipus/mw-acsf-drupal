@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Process a queue.
@@ -70,6 +71,13 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
   protected $logger;
 
   /**
+   * The current request.
+   *
+   * @var null|\Symfony\Component\HttpFoundation\Request
+   */
+  protected $currentRequest;
+
+  /**
    * LighthouseQueueWorker constructor.
    */
   public function __construct(
@@ -80,7 +88,8 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
     ConfigFactoryInterface $config_factory,
     LighthouseClientInterface $lighthouse_client,
     LighthouseInterface $lighthouse,
-    LoggerChannelFactoryInterface $logger_factory
+    LoggerChannelFactoryInterface $logger_factory,
+    RequestStack $request_stack
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaStorage = $entity_type_manager->getStorage('media');
@@ -89,6 +98,7 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
     $this->lighthouseAdapter = $lighthouse;
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get('mars_lighthouse');
+    $this->currentRequest = $request_stack->getCurrentRequest();
   }
 
   /**
@@ -103,7 +113,8 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
       $container->get('config.factory'),
       $container->get('lighthouse.client'),
       $container->get('lighthouse.adapter'),
-      $container->get('logger.factory')
+      $container->get('logger.factory'),
+      $container->get('request_stack')
     );
   }
 
@@ -114,13 +125,14 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
     $asset_list = [];
     $asset_ids = [];
     if (!empty($data)) {
+      $host = $this->currentRequest->getSchemeAndHttpHost();
       /* @var \Drupal\media\Entity\Media $media */
       foreach ($data as $media) {
         $asset_ids[] = $media->field_external_id->value;
         $asset_list[] = [
           'assetId' => $media->field_external_id->value,
           'isDerivedAsset' => FALSE,
-          'repoId' => $this->configFactory->get('system.site')->get('name') . ':' . $media->id(),
+          'repoId' => $host . ':' . $media->id(),
           'repoLoc' => '',
           'note' => '',
         ];
