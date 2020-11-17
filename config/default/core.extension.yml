@@ -31,12 +31,12 @@ module:
   contextual: 0
   crop: 0
   ctools: 0
-  datalayer: 0
   datetime: 0
   depcalc: 0
   diff: 0
   dropzonejs: 0
   editor: 0
+  editor_advanced_link: 0
   embed: 0
   emulsify_twig: 0
   entity_block: 0

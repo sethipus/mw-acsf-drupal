@@ -16,7 +16,9 @@ use Drupal\Core\Render\BubbleableMetadata;
  */
 function salsify_integration_cron() {
   $product_feed = \Drupal::service('salsify_integration.salsify_fields');
-  $product_feed->importProductData();
+  $force_update = (bool) \Drupal::config('salsify_integration.settings')
+    ->get('cron_force_update');
+  $product_feed->importProductData($force_update);
   \Drupal::logger('salsify_integration')
     ->notice('The Salsify data is queued to be imported and will be processed on the next cron run.');
 

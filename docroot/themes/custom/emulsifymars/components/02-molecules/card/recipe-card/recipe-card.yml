@@ -6,7 +6,7 @@ recipe_card_media_url: https://storybook.js.org/
 recipe_card_heading: 'Dove caramel soft bread pudding'
 recipe_card_heading_level: 3
 recipe_card_heading_base_class: 'recipe-card-heading'
-
+recipe_card_heading_link_attributes: []
 recipe_card_minutes_number: 25
 recipe_card_minutes_base_class: 'recipe-card-time'
 recipe_card_minutes_size: 'large'

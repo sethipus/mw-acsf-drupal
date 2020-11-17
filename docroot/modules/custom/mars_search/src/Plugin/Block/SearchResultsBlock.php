@@ -152,8 +152,6 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, 'main_search');
     // After this line $facetOptions and $searchOptions become different.
     $facetOptions = $searchOptions;
-    // We don't need taxonomy filters and keys filter applied for facets query.
-    $facetOptions['disable_filters'] = TRUE;
     unset($facetOptions['limit']);
 
     $facets_query = $this->searchHelper->getSearchResults($facetOptions, 'main_search_facet');
@@ -166,6 +164,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     if (count($build['#items']) == 0) {
       $build['#no_results'] = $this->getSearchNoResult();
     }
+
+    // Build dataLayer attributes if search results are displayed for keys.
+    $build['#attached']['drupalSettings']['dataLayer'] = [
+      'searchPage' => 'search_page',
+      'siteSearchResults' => [
+        'siteSearchTerm' => $searchOptions['keys'],
+        'siteSearchResults' => $query_search_results['resultsCount'],
+      ],
+    ];
 
     $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
 
@@ -183,8 +190,9 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     $build['#ajax_card_grid_heading'] = $this->t('All results');
-    list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
+    [$build['#applied_filters_list'], $build['#filters']] = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
+    $build['#attached']['library'][] = 'mars_search/datalayer.search';
     return $build;
   }
 

@@ -348,6 +348,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'flexible-framer-block',
     ],
+    'js_block' => [
+      'variables' => [
+        'js_code' => NULL,
+      ],
+      'template' => 'js-block',
+    ],
   ];
 }
 
@@ -741,6 +747,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     if ($form['actions']['vote']['#ajax'] ?? NULL) {
       $form['actions']['vote']['#ajax']['progress'] = FALSE;
     }
+    $form['actions']['vote']['#submit'][] = 'poll_form_submit_action_callback';
     if ($form['actions']['result']['#ajax'] ?? NULL) {
       $form['actions']['result']['#ajax']['progress'] = FALSE;
     }
@@ -761,6 +768,14 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['#validate'][] = [$form_alter_class, 'validate'];
     }
   }
+}
+
+/**
+ * Callback function to delete status messages in the poll submit function.
+ */
+function poll_form_submit_action_callback() {
+  $msg = \Drupal::messenger();
+  $msg->deleteByType('status');
 }
 
 /**
@@ -1159,7 +1174,7 @@ function mars_common_field_widget_form_alter(
   }
 
   if ($field_name == 'field_product_description') {
-    $element['#maxlength'] = 160;
+    $element['#maxlength'] = 300;
   }
   if ($field_name == 'field_recipe_description') {
     $element['#maxlength'] = 160;

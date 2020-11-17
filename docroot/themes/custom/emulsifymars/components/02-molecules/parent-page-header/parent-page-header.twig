@@ -11,6 +11,9 @@
 <section
   {{ bem(pp_header_base_class, pp_header_modifiers, pp_header_extra_classes) }}
   data-theme="{{ theme_styles }}"
+  {% if pp_header_heading and parent_page_media_type == 'video' %}
+    data-component-title="{{ pp_header_heading }}"
+  {% endif %}
   {% if parent_page_media_url and parent_page_media_type == 'image' %}
     style="background-image: url('{{ parent_page_media_url }}');"
   {% endif %}
@@ -41,7 +44,8 @@
     <div class="bg-video">
       {% include "@atoms/video/ambient-video/video.twig" with {
         video__src__url: parent_page_media_url,
-        video__control: true
+        video__control: true,
+        data_layer: data_layer,
       } %}
     </div>
   {% endif %}

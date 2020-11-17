@@ -43,6 +43,7 @@
             {% embed "@atoms/lists/_list-item.twig" with {
               list_item_label: dropdown_label,
               li_base_class: dropdown_base_class ~ '__item',
+              li_modifiers: ['label'],
             } %}
               {% block list_item_content %}
                 {% include "@atoms/text/text/07-span.twig" with {
@@ -66,9 +67,15 @@
                 {% endblock %}
               {% endembed %}
             {% else %}
+              {% if dropdown_item.selected %}
+                {% set dropdown_item_modifiers = ['link', 'selected'] %}
+              {% else %}
+                {% set dropdown_item_modifiers = ['link'] %}
+              {% endif %}
               {% embed "@atoms/lists/_list-item.twig" with {
                 list_item_label: dropdown_item.title,
                 li_base_class: dropdown_base_class ~ '__item',
+                li_modifiers: dropdown_item_modifiers,
               } %}
                 {% block list_item_content %}
                   {% embed "@atoms/links/link/link.twig" with {

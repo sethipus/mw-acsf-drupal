@@ -28,6 +28,7 @@
         "drupal/core-recommended": "^8.9",
         "drupal/datalayer": "^1.0@beta",
         "drupal/devel": "^2.0.0",
+        "drupal/editor_advanced_link": "^1.8",
         "drupal/entityqueue": "^1.1",
         "drupal/environment_indicator": "^3.7",
         "drupal/externalauth": "^1.3",
@@ -51,7 +52,7 @@
         "drupal/printable": "^1.1",
         "drupal/publication_date": "^2.0@beta",
         "drupal/qa_accounts": "^1.0.0-alpha1",
-        "drupal/redirect": "^1.5",
+        "drupal/redirect": "^1.6",
         "drupal/remote_stream_wrapper": "^1.3",
         "drupal/remote_stream_wrapper_widget": "^1.2",
         "drupal/robotstxt": "^1.4",
@@ -66,7 +67,6 @@
         "drupal/tmgmt_smartling": "^4.10",
         "emulsify-ds/emulsify-drupal": "^1.0@beta",
         "eyecon/jquery_colorpicker": "master",
-        "lcatlett/blt-ddev": "dev-master",
         "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -75,6 +75,7 @@
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev",
+        "behat/mink-selenium2-driver": "^1.4",
         "mikey179/vfsstream": "^1.6",
         "symfony/phpunit-bridge": "^5.1"
     },
@@ -154,7 +155,10 @@
                 "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
             },
             "drupal/pdf_api": {
-                "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2019-01-31/tmp-directory-3016161-4.patch"
+                "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2020-10-21/tmp-directory-3016161-9.patch"
+            },
+            "drupal/field_group": {
+                "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
             }
         }
     },
