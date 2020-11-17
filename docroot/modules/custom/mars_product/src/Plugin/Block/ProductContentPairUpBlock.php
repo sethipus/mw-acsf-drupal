@@ -164,7 +164,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     }
 
     $build['#background'] = $this->getBgImage($main_entity);
-    $build['#max_width'] = $conf['max_width'];
 
     return $build;
   }
@@ -247,18 +246,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#default_value' => $this->configuration['supporting_card_eyebrow'] ?? NULL,
     ];
 
-    $form['max_width'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Max Width'),
-      '#required' => TRUE,
-      '#options' => [
-        '1440' => '1440',
-        '768' => '768',
-        '375' => '375',
-      ],
-      '#default_value' => (string) ($this->configuration['max_width'] ?? 1440),
-    ];
-
     // Entity Browser element for background image.
     $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $this->configuration['background'], 1, 'thumbnail');
     // Convert the wrapping container to a details element.
@@ -283,7 +270,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['lead_card_title'] = $form_state->getValue('lead_card_title');
     $this->configuration['cta_link_text'] = $form_state->getValue('cta_link_text');
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
-    $this->configuration['max_width'] = $form_state->getValue('max_width');
     $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
   }
 
