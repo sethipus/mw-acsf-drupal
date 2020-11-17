@@ -1,6 +1,10 @@
 {% set inline_width__base_class = 'article-inline' %}
 
-<section {{ bem(inline_width__base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(inline_width__base_class) }} data-theme="{{ theme_styles }}"
+  {% if title and media_type == 'video' %}
+    data-component-title="{{ title }}"
+  {% endif %}
+>
   {% if media_type == 'image' %}
     <div {{ bem('media', [], inline_width__base_class) }}>
       {% include "@atoms/images/image/_image.twig" with {

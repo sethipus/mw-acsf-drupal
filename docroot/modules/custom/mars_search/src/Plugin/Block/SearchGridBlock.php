@@ -223,7 +223,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       // We need only 8 items to show initially.
       // Parse query will trim limit in case of see all.
       // But initial results count needs to be 8 instead of configured default.
-      $searchOptions['limit'] = 8;
+      $searchOptions['limit'] = 4;
     }
 
     // Adjusting them with grid specific configuration.
@@ -240,6 +240,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       foreach ($config['top_results_wrapper']['top_results'] as $top_result) {
         $top_result_ids[] = $top_result['target_id'];
       }
+      $build['#attached']['drupalSettings']['cards'][$this->gridId]['topResults'] = $top_result_ids;
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
         $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
       }
@@ -273,6 +274,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, "grid_{$this->gridId}");
+    $build['#attached']['drupalSettings']['cards'][$this->gridId]['searchOptions'] = $searchOptions;
     if ($query_search_results['resultsCount'] == 0) {
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys']);
     }
@@ -300,7 +302,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $url_options['query']['see-all'] = 1;
       $url->setOptions($url_options);
       $build['#ajax_card_grid_link_text'] = $this->t('See all');
-      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
     $build['#ajax_card_grid_heading'] = $config['title'];
@@ -314,6 +315,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
+    $build['#attached']['library'][] = 'mars_search/see_all_cards';
 
     return $build;
   }
