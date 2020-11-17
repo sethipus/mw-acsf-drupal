@@ -5,10 +5,10 @@
           const $productCard = $(this);
           const $cardCta = $productCard.find('.default-link');
 
-          $productCard.once('productCard').on('mouseover', () => {
+          $productCard.on('mouseover', () => {
             $cardCta.addClass('default-link--light')
           });
-          $productCard.once('productCard').on('mouseleave', () => {
+          $productCard.on('mouseleave', () => {
             $cardCta.removeClass('default-link--light')
           })
         })
