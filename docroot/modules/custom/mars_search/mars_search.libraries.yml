@@ -23,3 +23,10 @@ datalayer.card_grid:
     - core/drupal
     - core/drupalSettings
     - core/jquery
+see_all_cards:
+  js:
+    js/see_all_cards.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery

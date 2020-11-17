@@ -25,22 +25,6 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
 }
 
 /**
- * Helper function icon fields list.
- *
- * @return array
- *   Return list of font form elements.
- */
-function _emulsifymars_get_icon_fields(): array {
-  return [
-    'graphic_divider',
-    'brand_shape',
-    'brand_borders',
-    'brand_borders_2',
-    'png_asset',
-  ];
-}
-
-/**
  * Implements hook_preprocess_html().
  */
 function emulsifymars_preprocess_html(&$variables) {
