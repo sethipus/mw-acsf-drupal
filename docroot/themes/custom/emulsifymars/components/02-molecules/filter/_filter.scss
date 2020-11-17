@@ -28,7 +28,10 @@
     }
 
     .filter-title {
+      background: transparent;
+      width: 100%;
       padding: 5px 45px 15px 15px;
+      border: none;
       border-bottom: 1px solid clr(subcolor-4);
       border-right: 1px solid clr(subcolor-4);
       color: clr(secondary);
