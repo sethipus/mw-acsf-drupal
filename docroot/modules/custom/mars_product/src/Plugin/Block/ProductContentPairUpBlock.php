@@ -242,6 +242,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link text'),
       '#maxlength' => 15,
+      '#required' => TRUE,
       '#placeholder' => $this->t('Explore'),
       '#default_value' => $this->configuration['cta_link_text'] ?? NULL,
     ];
@@ -252,6 +253,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#description' => $this->t('Defaults to Made With or Seen In'),
       '#placeholder' => $this->t('Made With / Seen In'),
       '#maxlength' => 15,
+      '#required' => TRUE,
       '#default_value' => $this->configuration['supporting_card_eyebrow'] ?? NULL,
     ];
 
