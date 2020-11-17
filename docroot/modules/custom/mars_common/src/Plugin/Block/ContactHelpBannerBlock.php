@@ -180,13 +180,13 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
         '#title' => $this->t('Button Label'),
         '#maxlength' => 15,
         '#default_value' => $this->configuration['help_and_contact_cta_label'] ?? '',
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
       'url' => [
         '#type' => 'textfield',
         '#title' => $this->t('Page URL'),
         '#default_value' => $this->configuration['help_and_contact_cta_url'] ?? '',
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
     ];
 
@@ -195,7 +195,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       '#title' => $this->t('Social Links label'),
       '#maxlength' => 35,
       '#default_value' => $this->configuration['social_links_label'] ?? '',
-      '#required' => FALSE,
+      '#required' => TRUE,
     ];
 
     return $form;
