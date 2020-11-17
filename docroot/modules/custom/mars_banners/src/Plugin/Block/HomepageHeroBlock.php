@@ -131,6 +131,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           'srcset' => sprintf($format, $file_url, $file_url, $file_url, $file_url),
           'src' => $file_url,
           'class' => 'block1-small',
+          'alt' => !empty($media_data['alt']) ? $media_data['alt'] : 'homepage hero 3up image',
+          'title' => !empty($media_data['title']) ? $media_data['title'] : 'homepage hero 3up image',
         ];
         $build['#blocks'][$key]['cta'][] = [
           'title' => $card['cta']['title'],
@@ -488,18 +490,20 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   /**
    * Returns the bg image URL or NULL.
    *
-   * @return string|null
+   * @return array|null
    *   The bg image url or null of there is none.
    */
-  private function getBgAsset(): ?string {
+  private function getBgAsset(): ?array {
     $config = $this->getConfiguration();
     $bg_image_media_id = NULL;
     $bg_image_url = NULL;
+    $title = 'homepage hero background image';
+    $alt = 'homepage hero background image';
 
     if (in_array($config['block_type'], [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]) && !empty($config['background_image'])) {
       $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_image']);
     }
-    elseif ($config['block_type'] == self::KEY_OPTION_VIDEO && !empty($config['background_video'])) {
+    elseif (in_array($config['block_type'], [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP]) && !empty($config['background_video'])) {
       $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_video']);
     }
 
@@ -507,6 +511,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $media_params = $this->mediaHelper->getMediaParametersById($bg_image_media_id);
       if (!isset($media_params['error'])) {
         $bg_image_url = file_create_url($media_params['src']);
+        $title = !empty($media_params['title']) ? $media_params['title'] : $title;
+        $alt = !empty($media_params['alt']) ? $media_params['alt'] : $alt;
       }
     }
 
@@ -516,7 +522,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         $bg_image_url = $bg_url_object->toUriString();
       }
     }
-    return $bg_image_url;
+
+    return [
+      'src' => $bg_image_url,
+      'alt' => $alt,
+      'title' => $title,
+    ];
   }
 
 }
