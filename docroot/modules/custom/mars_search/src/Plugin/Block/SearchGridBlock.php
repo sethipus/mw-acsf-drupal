@@ -7,7 +7,6 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
@@ -125,12 +124,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   protected $configFactory;
 
-  /**
-   * Current route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
 
   /**
    * Current grid ID.
@@ -161,7 +154,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $container->get('form_builder'),
       $container->get('mars_search.search_query_parser'),
       $container->get('config.factory'),
-      $container->get('current_route_match')
     );
   }
 
@@ -178,8 +170,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     EntityViewBuilderInterface $node_view_builder,
     FormBuilderInterface $form_builder,
     SearchQueryParserInterface $search_query_parser,
-    ConfigFactoryInterface $configFactory,
-    RouteMatchInterface $routeMatch
+    ConfigFactoryInterface $configFactory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
@@ -189,7 +180,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->formBuilder = $form_builder;
     $this->searchQueryParser = $search_query_parser;
     $this->configFactory = $configFactory;
-    $this->routeMatch = $routeMatch;
     // Getting unique grid id for the page.
     // This will be used later when several grids on a single page will be
     // approved. In that case URL will be like
