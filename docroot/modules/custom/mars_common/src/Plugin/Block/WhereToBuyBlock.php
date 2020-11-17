@@ -197,6 +197,14 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#cta_title'] = $this->configuration['cta_title'];
     $build['#button_type'] = $this->configuration['button_type'];
     $build['#widget_id'] = $this->configuration['widget_id'];
+    $build['#data_subid'] = $this->configuration['data_subid'];
+    $build['#data_token'] = $this->configuration['data_token'];
+
+    $locale = $this->languageManager->getCurrentLanguage()->getId();
+    $country = $this->config->get('system.date')
+      ->get('country.default');
+    $build['#data_locale'] = $locale . '-' . $country;
+    $build['#data_displaylanguage'] = $locale;
 
     return $build;
   }
@@ -247,26 +255,6 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       foreach ($metatags as $key => $metatag) {
         $build['#attached']['html_head'][] = [$metatag, $key];
       }
-    }
-    elseif ($this->configuration['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
-      $locale = $this->languageManager->getCurrentLanguage()->getId();
-      $country = $this->config->get('system.date')
-        ->get('country.default');
-      $script = [
-        '#tag' => 'script',
-        '#attributes' => [
-          'src' => '//fi-v2.global.commerce-connector.com/cc.js',
-          'id' => 'cci-widget',
-          'data-token' => $this->configuration['data_token'],
-          'data-locale' => $locale . '-' . $country,
-          'data-displaylanguage' => $locale,
-          'data-widgetid' => $this->configuration['widget_id'],
-          'data-subid' => $this->configuration['data_subid'] ?? NULL,
-          'async' => TRUE,
-
-        ],
-      ];
-      $build['#attached']['html_head'][] = [$script, self::VENDOR_COMMERCE_CONNECTOR];
     }
     return $build;
   }
