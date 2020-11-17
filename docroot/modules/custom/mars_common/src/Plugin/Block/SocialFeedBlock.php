@@ -124,7 +124,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#label' => $label,
       '#items' => $this->getFeedItems(),
       '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
-      '#brand_border' => $this->themeConfigurator->getBrandBorder(),
+      '#brand_border' => $this->themeConfigurator->getBrandBorder2(),
       '#cache' => [
         'tags' => $configEntity->getCacheTags(),
         'max-age' => self::MAX_AGE_1_DAY,
@@ -141,6 +141,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#title' => $this->t('Title'),
       '#maxlength' => 55,
       '#default_value' => $this->configuration['label'] ?? '',
+      '#required' => TRUE,
     ];
 
     $form['feed'] = [
