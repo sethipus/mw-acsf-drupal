@@ -18,33 +18,26 @@
   }
 
   &__divider {
-    position: absolute;
+    position: relative;
     z-index: 2;
-    bottom: 30px;
-    height: 1px;
 
     svg {
-      width: 1128px;
-
-      path {
-        fill: clr(subcolor-2);
-      }
-      rect {
-        width: 100%;
-        height: 20rem;
-      }
+      position: absolute;
+      bottom: -1px;
+      width: 100%;
+      fill: clr(subcolor-2);
     }
   }
 
   .overlay-video {
-  
+
     &__control[data-state="play"] {
       width: 60px;
       height: 65px;
       left: 50%;
       bottom: 50%;
     }
-  
+
     &__control[data-state="pause"] {
       width: 60px;
       height: 65px;
@@ -52,7 +45,7 @@
       bottom: 50%;
     }
   }
-  
+
   .carousel__content .swiper-slide {
     height: auto;
     padding-top: 1px;
@@ -120,13 +113,13 @@
       left: calc(50% - 6.6rem / 2);;
       width: 6.6rem;
       height: 7rem;
-      background-color: clr(subcolor-3);  
+      background-color: clr(subcolor-3);
 
       @include clearfix;
 
       @include playbutton;
 
-      >div {
+      > div {
         width: 0;
         height: 0;
         border-top: 12px solid transparent;
@@ -145,15 +138,18 @@
   .carousel-container {
     width: 100%;
     height: auto;
-  }
+    overflow: visible;
 
-  // increasing specificity to avoid using !important
-  .carousel-container.swiper-container-horizontal>.swiper-scrollbar {
-    height: 1rem;
-    transform: scale(.6);
+    // increasing specificity to avoid using !important
+    &.swiper-container-horizontal > .swiper-scrollbar {
+      position: absolute;
+      bottom: -1.5rem;
+      height: 1rem;
+      transform: scale(.6);
 
-    & .swiper-scrollbar-drag {
-      background: clr(secondary);
+      & .swiper-scrollbar-drag {
+        background: clr(secondary);
+      }
     }
   }
 
