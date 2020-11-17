@@ -7,10 +7,10 @@ polling_png_asset_alt: 'alt text for png asset'
 
 # settings for polling initial state
 polling_submit_label: 'Submit'
-choices:
-  'left': 'left side'
-  'right': 'right side'
-  'center': 'center side'
+# choices:
+#   'left': 'left side'
+#   'right': 'right side'
+#   'center': 'center side'
 
 # settings for submitted state
 polling_submitted_text: 'Thanks for voting!'
@@ -23,16 +23,16 @@ tick: '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="19" fill="none
 user_vote: 'right'
 
 my_vote: 1
-results: 
-  - '#value': 'left'
-    '#choice': 'left side'
-    '#percentage': 25
-    'key': 0
-  - '#value': 'right'
-    '#choice': 'right side'
-    '#percentage': 75
-    'key': 1
-  - '#value': 'center'
-    '#choice': 'center side'
-    '#percentage': 100
-    'key': 2
+# results: 
+#   - '#value': 'left'
+#     '#choice': 'left side'
+#     '#percentage': 25
+#     'key': 0
+#   - '#value': 'right'
+#     '#choice': 'right side'
+#     '#percentage': 75
+#     'key': 1
+#   - '#value': 'center'
+#     '#choice': 'center side'
+#     '#percentage': 100
+#     'key': 2
