@@ -124,6 +124,24 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         $this->getSession()
             ->wait(5000, '(0 === jQuery.active)');
     }
+    /**
+     * Waits until the specified xpath element appears on the page
+     * Example: Then I wait until the "//*[@type='image/png; length=1174']" xpath element appears
+     * Example: And I wait until the "//*[@type='image/png; length=1174']" xpath element appears
+     *
+     * @Then /^(?:|I )wait until the "(?P<element>[^"]*)" xpath element appears$/
+     *
+     * @throws \Exception;
+     */
+    public function iWaitForTheXpathElementAppears($element)
+    {
+        $page = $this->getSession()
+            ->getPage();
+        $page->waitFor(10000, function () use ($page, $element)
+        {
+            return $page->find('xpath', $element);
+        });
+    }
 
     /**
      * Checks, that element with specified XPATH exists on page
@@ -745,3 +763,4 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
             ->setValue($fieldXpath, $text);
     }
 }
+
