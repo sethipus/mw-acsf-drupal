@@ -92,11 +92,6 @@
   & .grid--card {
     margin: 40px 20px 0 20px;
 
-  & .image-background {
-    display: inline-block;
-    margin: auto;
-  }
-
     @include medium {
       flex-flow: row wrap;
       flex-grow: 1;
@@ -105,12 +100,18 @@
 
     @include large {
       flex-flow: row nowrap;
-      flex-grow: 1;
+      align-items: flex-start;
+    }
+
+    & .image-background {
+      display: inline-block;
+      margin: auto;
     }
 
     & .card {
       text-align: center;
       &__heading {
+        margin-bottom: 0.7rem;
         text-align: center;
         color: clr(primary);
         font-family: variable(primary-font);
@@ -134,9 +135,11 @@
       }
 
       &__body {
+        margin-top: 0;
         font-family: variable(secondary-font);
         font-size: 1.6rem;
         line-height: 1.4;
+        flex: 1 0 auto;
 
         @include large {
           font-size: 1.8rem;
@@ -200,7 +203,7 @@
     .image-wrapper {
       @include large {
         min-height: calc((100vw/2) * 0.5625);
-        flex-grow: 1;
+        flex: 0 0 auto;
       }
     }
   }
@@ -209,7 +212,7 @@
     .image-wrapper {
       @include large {
         min-height: calc((100vw/3) * 0.5625);
-        flex-grow: 1;
+        flex: 0 0 auto;
       }
     }
   }
@@ -218,7 +221,7 @@
     .image-wrapper {
       @include large {
         min-height: calc((100vw/4) * 0.5625);
-        flex-grow: 1;
+        flex: 0 0 auto;
       }
     }
   }
