@@ -89,7 +89,7 @@
 
     &__border {
       position: absolute;
-      bottom: $brand-border-offset;
+      bottom: (-$brand-border-offset);
       width: 100%;
 
       svg {
@@ -106,7 +106,7 @@
 
   &__border {
     position: relative;
-    bottom: $brand-border-offset;
+    bottom: (-$brand-border-offset);
     width: 100%;
 
     svg {
