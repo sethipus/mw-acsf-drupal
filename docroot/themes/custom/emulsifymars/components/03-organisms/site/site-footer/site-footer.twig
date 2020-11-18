@@ -30,14 +30,13 @@
         {% endblock %}
       </div>
     </div>
-  </div>
-  <div {{ bem('section', ['secondary'], footer__base_class) }}>
     {% block footer__brand_border %}
       <div {{  bem('border', [], footer__base_class)  }}>
         {{ brand_border | raw }}
       </div>
     {% endblock %}
-
+  </div>
+  <div {{ bem('section', ['secondary'], footer__base_class) }}>
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('social', [], footer__base_class) }}>
         {% block footer__social %}

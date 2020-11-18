@@ -125,7 +125,7 @@ class ThemeConfiguratorParser {
         $svg = $svg->repeated();
       }
       else {
-        $svg = $svg->stretched();
+        $svg = $svg->scaleWhileKeepingAspectRatio();
       }
     }
 
@@ -141,7 +141,7 @@ class ThemeConfiguratorParser {
   public function getBrandBorder2(): ?SVG {
     $svg = $this->getSvgFor('brand_borders_2');
     if ($svg !== NULL) {
-      $svg = $svg->stretched();
+      $svg = $svg->scaleWhileKeepingAspectRatio();
     }
     return $svg;
   }
@@ -177,6 +177,10 @@ class ThemeConfiguratorParser {
    */
   private function getSvgFor(string $field_name): ?SVG {
     $file_id = $this->getFileId($field_name);
+    if (!$file_id) {
+      return NULL;
+    }
+
     try {
       $svg = $this->svgFactory->createSvgFromFileId($file_id);
     }

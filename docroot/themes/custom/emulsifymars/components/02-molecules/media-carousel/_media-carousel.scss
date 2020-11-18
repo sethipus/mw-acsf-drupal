@@ -18,13 +18,16 @@
   }
 
   &__divider {
-    position: relative;
+    position: absolute;
+    width: 100%;
+    height: auto;
     z-index: 2;
+    bottom: (-$brand-border2-offset);
 
     svg {
-      position: absolute;
-      bottom: -1px;
+      display: block;
       width: 100%;
+      height: auto;
       fill: clr(subcolor-2);
     }
   }

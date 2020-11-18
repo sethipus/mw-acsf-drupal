@@ -124,12 +124,18 @@ $outer-container-break: $small;
 }
 
 @mixin brand-border-overflow {
-  &__border svg {
+  &__border{
     position: absolute;
-    top: $brand-border-offset;
     width: 100%;
-    height: $brand-border-height;
-    fill: clr(subcolor-2);
+    transform: translateY(-100%) translateY($brand-border2-offset);
     z-index: $brand-border-overflow-zindex;
+
+    svg {
+      display: block;
+      top: $brand-border2-offset;
+      width: 100%;
+      height: auto;
+      fill: clr(subcolor-2);
+    }
   }
 }

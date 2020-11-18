@@ -54,8 +54,11 @@ $menu-overlay-content-zindex: 1010;
 $entry-gate-zindex: 1500;
 
 // border
-$brand-border-height: 13rem;
-$brand-border-offset: -8rem;
+$brand-border-offset: -3px;
+
+$brand-border2-height: 13rem;
+$brand-border2-offset: 5px;
+
 
 /*
  * Use this on the outer wrapper of page-level elements.

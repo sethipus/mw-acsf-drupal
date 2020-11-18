@@ -3,7 +3,6 @@
   font-family: variable(primary-font);
   background-color: clr(subcolor-2);
   color: clr(primary);
-  padding-top: 50px;
 
   @include brand-border-overflow;
 
@@ -19,6 +18,7 @@
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
+    padding-top: 50px;
     z-index: calc(#{$brand-border-overflow-zindex} + 100);
   }
 

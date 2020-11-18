@@ -29,18 +29,19 @@
     position: absolute;
     left: 0;
     top: 0;
-    transform: translateY(-100%) translateY(2px);
+    transform: translateY(-100%) translateY($brand-border2-offset);
     width: 100%;
     z-index: 2;
 
     @include large {
-      transform: translate(-50%, -50%) rotate(-90deg) translate(-50%, -50%) translateY(2px);
+      transform: translate(-50%, -50%) rotate(-90deg) translate(-50%, -50%) translateY($brand-border2-offset);
       width: $recipe-feature-desktop-max-height;
     }
 
     svg {
       display: block;
       width: 100%;
+      height: auto;
       fill: clr(subcolor-2);
     }
   }
