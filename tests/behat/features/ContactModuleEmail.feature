@@ -50,8 +50,7 @@ Feature: Contact Module Email Test
     When I fill in "Title" with "MyTitle"
     And I fill in "Description" with "MyDescription"
     And I fill in "E-mail address" with "test@gmail.com"
-    And I fill in "Button Label" with "my_button_label"
-    And I fill in "Page URL" with "http://contact.com"
+    And I fill in "Social Links label" with "MySocialLinks"
     And I press "Add block"
     Then I should see "You are editing the layout for this Basic page content item."
     And print current URL
@@ -62,8 +61,8 @@ Feature: Contact Module Email Test
     And I should see a ".contact-module" element
     And I should see "MyTitle"
     And I should see "MyDescription"
-    And I should see a "//a[contains(@href,'http://contact.com')]/span[contains(text(), 'my_button_label')]" xpath element
-    And I should see "Follow Us On"
+    And I should see a "//a[contains(@href,'mailto:test@gmail.com')]/span[contains(text(), 'Email Us')]" xpath element
+    And I should see "MySocialLinks"
 
     When I follow "Content"
     And I check content with title "TestBasicPageTitle"
