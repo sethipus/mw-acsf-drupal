@@ -278,11 +278,6 @@ class SearchFaqBlockTest extends UnitTestCase {
       ->expects($this->once())
       ->method('get');
 
-    $this->searchHelperMock
-      ->expects($this->once())
-      ->method('getRequest')
-      ->willReturn($this->requestMock);
-
     // Return 2 nodes, but only 1 as FAQ.
     $this->searchHelperMock
       ->expects($this->exactly(2))
@@ -336,15 +331,16 @@ class SearchFaqBlockTest extends UnitTestCase {
    * Create all mocks for tests.
    */
   private function createMocks(): void {
+    $this->requestMock = $this->createMock(Request::class);
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
-    $this->formBuilderMock = $this->createMock(FormBuilderInterface::class);;
+    $this->searchHelperMock->request = $this->requestMock;
+    $this->formBuilderMock = $this->createMock(FormBuilderInterface::class);
     $this->searchQueryParserMock = $this->createMock(SearchQueryParserInterface::class);
     $this->loggerMock = $this->createMock(LoggerChannelInterface::class);
     $this->loggerFactoryMock = $this->createMock(LoggerChannelFactoryInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
-    $this->requestMock = $this->createMock(Request::class);
     $this->rendererMock = $this->createMock(RendererInterface::class);
     $this->immutableConfig = $this->createMock(ImmutableConfig::class);
     $this->nodeMock = $this->createMock(NodeInterface::class);

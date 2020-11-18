@@ -2,15 +2,27 @@
 
 namespace Drupal\Tests\mars_search\Unit\Controller;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
+use Drupal\Core\Field\FieldItemList;
+use Drupal\Core\Menu\MenuLinkTreeElement;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Url;
 use Drupal\mars_search\Controller\MarsSearchController;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
+use Drupal\node\Entity\Node;
 use Drupal\Tests\UnitTestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @coversDefaultClass \Drupal\mars_search\Controller\MarsSearchController
@@ -18,6 +30,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @group mars_search
  */
 class MarsSearchControllerTest extends UnitTestCase {
+
+  const TEST_QUERY_OPTIONS = [
+    'conditions' => [
+      ['type', 'faq', '<>', TRUE],
+    ],
+    'keys' => 'some key',
+    'cards_view' => FALSE,
+  ];
 
   /**
    * System under test.
@@ -76,6 +96,34 @@ class MarsSearchControllerTest extends UnitTestCase {
   private $entityViewBuilderMock;
 
   /**
+   * Request stack mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\RequestStack
+   */
+  private $requestStackMock;
+
+  /**
+   * Config factory mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $configFactoryMock;
+
+  /**
+   * Immutable config mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ImmutableConfig
+   */
+  private $immutableConfigMock;
+
+  /**
+   * Menu link tree element mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Menu\MenuLinkTreeElement
+   */
+  private $menuLinkTreeElementMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -83,12 +131,20 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
 
+    $this->entityTypeManagerMock
+      ->expects($this->any())
+      ->method('getViewBuilder')
+      ->with('node')
+      ->willReturn($this->entityViewBuilderMock);
+
     $this->controller = new MarsSearchController(
+      $this->entityTypeManagerMock,
       $this->rendererMock,
       $this->searchHelperMock,
       $this->searchQueryParserMock,
       $this->menuLinkTreeMock,
-      $this->entityTypeManagerMock
+      $this->requestStackMock,
+      $this->configFactoryMock
     );
 
   }
@@ -97,15 +153,16 @@ class MarsSearchControllerTest extends UnitTestCase {
    * Test.
    */
   public function testShouldInstantiateProperly() {
-    $this->entityTypeManagerMock
-      ->expects($this->exactly(1))
-      ->method('getViewBuilder')
-      ->willReturn($this->entityViewBuilderMock);
     $this->containerMock
-      ->expects($this->exactly(5))
+      ->expects($this->exactly(7))
       ->method('get')
       ->willReturnMap(
         [
+          [
+            'entity_type.manager',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->entityTypeManagerMock,
+          ],
           [
             'renderer',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -127,9 +184,14 @@ class MarsSearchControllerTest extends UnitTestCase {
             $this->menuLinkTreeMock,
           ],
           [
-            'entity_type.manager',
+            'request_stack',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->entityTypeManagerMock,
+            $this->requestStackMock,
+          ],
+          [
+            'config.factory',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->configFactoryMock,
           ],
         ]
       );
@@ -137,6 +199,218 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->controller::create(
       $this->containerMock
     );
+  }
+
+  /**
+   * Test autocomplete.
+   */
+  public function testShouldAutocompleteNoResults() {
+    $this->searchQueryParserMock
+      ->expects($this->once())
+      ->method('parseQuery')
+      ->willReturn(self::TEST_QUERY_OPTIONS);
+
+    $this->searchHelperMock
+      ->expects($this->once())
+      ->method('getSearchResults');
+
+    $this->configFactoryMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn($this->immutableConfigMock);
+    $this->immutableConfigMock
+      ->expects($this->exactly(2))
+      ->method('get')
+      ->willReturnMap([
+        [
+          'no_results_heading',
+          'No results config heading',
+        ],
+        [
+          'no_results_text',
+          'No results config text',
+        ],
+      ]);
+
+    $this->menuBuildAsserts();
+
+    $this->rendererMock
+      ->expects($this->once())
+      ->method('render');
+
+    $autocompleteResult = $this->controller->autocomplete();
+    $this->assertInstanceOf(JsonResponse::class, $autocompleteResult);
+  }
+
+  /**
+   * Test autocomplete.
+   */
+  public function testShouldAutocompleteWithResults() {
+    $this->searchQueryParserMock
+      ->expects($this->once())
+      ->method('parseQuery')
+      ->willReturn(self::TEST_QUERY_OPTIONS);
+    $fieldMock = $this->getMockBuilder(FieldItemList::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $nodeMock = $this->getMockBuilder(Node::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $nodeMock
+      ->expects($this->once())
+      ->method('bundle')
+      ->willReturn('faq');
+    $nodeMock
+      ->expects($this->once())
+      ->method('get')
+      ->with('field_qa_item_question')
+      ->willReturn($fieldMock);
+    $this->searchHelperMock
+      ->expects($this->once())
+      ->method('getSearchResults')
+      ->willReturn([
+        'results' => [$nodeMock],
+      ]);
+    $this->configFactoryMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn($this->immutableConfigMock);
+
+    $this->menuBuildAsserts();
+
+    $autocompleteResult = $this->controller->autocomplete();
+    $this->assertInstanceOf(JsonResponse::class, $autocompleteResult);
+  }
+
+  /**
+   * Test search callback method.
+   */
+  public function testSearchCallback() {
+    $this->searchQueryParserMock
+      ->expects($this->once())
+      ->method('parseQuery')
+      ->willReturn(self::TEST_QUERY_OPTIONS);
+    $nodeMock = $this->getMockBuilder(Node::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $this->searchHelperMock
+      ->expects($this->once())
+      ->method('getSearchResults')
+      ->willReturn([
+        'results' => [$nodeMock],
+      ]);
+    $this->entityViewBuilderMock
+      ->expects($this->once())
+      ->method('view')
+      ->with($nodeMock, 'card');
+    $this->rendererMock
+      ->expects($this->once())
+      ->method('render');
+    $callbackResponse = $this->controller->searchCallback();
+    $this->assertInstanceOf(JsonResponse::class, $callbackResponse);
+  }
+
+  /**
+   * Test see all callback method.
+   */
+  public function testSeeAllCallback() {
+    // Request mock.
+    $request = $this->getMockBuilder(Request::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $params = $this->getMockBuilder(ParameterBagInterface::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $request->request = $params;
+    $this->requestStackMock
+      ->expects($this->once())
+      ->method('getCurrentRequest')
+      ->willReturn($request);
+
+    $topNodeMock = $this->getMockBuilder(Node::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $resultsNodeMock = clone $topNodeMock;
+    $resultsNodeMock->id = 2;
+
+    $entityStorageMock = $this->getMockBuilder(EntityStorageInterface::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $entityStorageMock
+      ->expects($this->once())
+      ->method('loadMultiple')
+      ->willReturn([$topNodeMock]);
+
+    $this->entityTypeManagerMock
+      ->expects($this->once())
+      ->method('getStorage')
+      ->with('node')
+      ->willReturn($entityStorageMock);
+    $params->expects($this->once())
+      ->method('all')
+      ->willReturn([
+        'searchOptions' => self::TEST_QUERY_OPTIONS,
+        'topResults' => [1 => $topNodeMock],
+        'id' => 'test_id',
+      ]);
+    $this->searchHelperMock
+      ->expects($this->once())
+      ->method('getSearchResults')
+      ->willReturn([
+        'results' => [$resultsNodeMock],
+      ]);
+    $this->entityViewBuilderMock
+      ->expects($this->exactly(2))
+      ->method('view')
+      ->withConsecutive(
+        [$topNodeMock, 'card'],
+        [$resultsNodeMock, 'card']
+      );
+    $this->rendererMock
+      ->expects($this->once())
+      ->method('render');
+
+    $callbackResponse = $this->controller->seeAllCallback();
+    $this->assertInstanceOf(Response::class, $callbackResponse);
+  }
+
+  /**
+   * Menu build asserts.
+   */
+  private function menuBuildAsserts() {
+    // Menu build.
+    $menu_item_url = $this->getMockBuilder(Url::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $menu_item_url
+      ->expects($this->once())
+      ->method('setAbsolute')
+      ->willReturn($menu_item_url);
+    $menu_item_url
+      ->expects($this->once())
+      ->method('toString')
+      ->willReturn('string_url');
+    $this->menuLinkTreeMock
+      ->expects($this->once())
+      ->method('load')
+      ->willReturn([]);
+    $this->menuLinkTreeMock
+      ->expects($this->once())
+      ->method('transform')
+      ->willReturn([]);
+    $this->menuLinkTreeMock
+      ->expects($this->once())
+      ->method('build')
+      ->willReturn(
+        [
+          '#items' => [
+            [
+              'title' => 'Test link title',
+              'url' => $menu_item_url,
+            ],
+          ],
+        ]
+      );
   }
 
   /**
@@ -150,6 +424,10 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->menuLinkTreeMock = $this->createMock(MenuLinkTreeInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->entityViewBuilderMock = $this->createMock(EntityViewBuilderInterface::class);
+    $this->requestStackMock = $this->createMock(RequestStack::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
+    $this->menuLinkTreeElementMock = $this->createMock(MenuLinkTreeElement::class);
   }
 
 }
