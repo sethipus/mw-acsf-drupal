@@ -315,6 +315,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $card_storage = $form_state->get('card_storage');
       $id = $triggered['#parents'][2];
       unset($card_storage[$id]);
+      $form_state->set('card_storage', $card_storage);
     }
 
     foreach ($card_storage as $key => $value) {
@@ -338,7 +339,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'textfield',
         '#title' => $this->t('Card Title label'),
         '#maxlength' => 55,
-        '#default_value' => $config['card'][$key]['title']['label'] ?? '',
+        '#default_value' => $config['card'][$key]['title_label'] ?? '',
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
@@ -349,7 +350,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'url',
         '#title' => $this->t('Card Title Link URL'),
         '#maxlength' => 2048,
-        '#default_value' => $config['card'][$key]['title']['url'] ?? '',
+        '#default_value' => $config['card'][$key]['title_url'] ?? '',
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
@@ -360,7 +361,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link Title'),
         '#maxlength' => 15,
-        '#default_value' => $config['card'][$key]['cta']['title'] ?? 'Explore',
+        '#default_value' => $config['card'][$key]['cta_title'] ?? 'Explore',
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
@@ -371,7 +372,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#type' => 'url',
         '#title' => $this->t('CTA Link URL'),
         '#maxlength' => 2048,
-        '#default_value' => $config['card'][$key]['cta']['url'] ?? '',
+        '#default_value' => $config['card'][$key]['cta_url'] ?? '',
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
@@ -461,37 +462,44 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    * {@inheritdoc}
    */
   public function blockValidate($form, FormStateInterface $form_state) {
-    $values = $form_state->getValues();
-    switch ($values['block_type']) {
-      case self::KEY_OPTION_IMAGE:
-        $required_card_fields = [
-          'eyebrow' => $this->t('Card Eyebrow'),
-          'title_label' => $this->t('Card Title label'),
-          'title_url' => $this->t('Card Title Link URL'),
-          'cta_title' => $this->t('CTA Link Title'),
-          'cta_url' => $this->t('CTA Link URL'),
-        ];
-        foreach ($values['card'] as $card_key => $card) {
-          foreach ($required_card_fields as $field_key => $field_label) {
-            if (empty($card[$field_key])) {
-              $form_state->setError(
-                $form['card'][$card_key][$field_key],
-                $this->t('@name field is required.', ['@name' => $field_label])
-              );
+    parent::blockValidate($form, $form_state);
+
+    $triggered = $form_state->getTriggeringElement();
+    if ($triggered['#name'] === 'op') {
+      $values = $form_state->getValues();
+      switch ($values['block_type']) {
+        case self::KEY_OPTION_IMAGE:
+          $required_card_fields = [
+            'eyebrow'     => $this->t('Card Eyebrow'),
+            'title_label' => $this->t('Card Title label'),
+            'title_url'   => $this->t('Card Title Link URL'),
+            'cta_title'   => $this->t('CTA Link Title'),
+            'cta_url'     => $this->t('CTA Link URL'),
+          ];
+          foreach ($values['card'] as $card_key => $card) {
+            if ($card_key === 'add_card') {
+              continue;
+            }
+            foreach ($required_card_fields as $field_key => $field_label) {
+              if (empty($card[$field_key])) {
+                $form_state->setError(
+                  $form['card'][$card_key][$field_key],
+                  $this->t('@name field is required.', ['@name' => $field_label])
+                );
+              }
             }
           }
-        }
-      case self::KEY_OPTION_DEFAULT:
-      case self::KEY_OPTION_IMAGE_AND_TEXT:
-      case self::KEY_OPTION_VIDEO:
-        if (!$values['title']['label']) {
-          $form_state->setError(
-            $form['title']['label'],
-            $this->t('@name field is required.', ['@name' => $this->t('Title label')])
-          );
-        }
-        break;
-
+        case self::KEY_OPTION_DEFAULT:
+        case self::KEY_OPTION_IMAGE_AND_TEXT:
+        case self::KEY_OPTION_VIDEO:
+          if (!$values['title']['label']) {
+            $form_state->setError(
+              $form['title']['label'],
+              $this->t('@name field is required.', ['@name' => $this->t('Title label')])
+            );
+          }
+          break;
+      }
     }
   }
 
