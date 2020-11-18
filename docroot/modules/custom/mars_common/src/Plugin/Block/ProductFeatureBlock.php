@@ -161,7 +161,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   public function blockValidate($form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
     $triggered = $form_state->getTriggeringElement();
-    if ($triggered['#name'] === 'op' &&empty($values['image']['selected'])) {
+    if ($triggered['#name'] === 'op' && empty($values['image']['selected'])) {
       $form_state->setError(
         $form['image'],
         $this->t('@name field is required.', ['@name' => $this->t('Image')])
