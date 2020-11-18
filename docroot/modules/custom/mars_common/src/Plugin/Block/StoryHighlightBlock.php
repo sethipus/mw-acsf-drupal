@@ -196,6 +196,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $form['items'][$i]['media']['#type'] = 'details';
       $form['items'][$i]['media']['#title'] = $this->t('Media');
       $form['items'][$i]['media']['#open'] = TRUE;
+      $form['items'][$i]['media']['#required'] = TRUE;
     }
 
     $form['svg_assets'] = [
@@ -230,6 +231,29 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    parent::blockValidate($form, $form_state);
+    $values = $form_state->getValues();
+    $triggered = $form_state->getTriggeringElement();
+    if ($triggered['#name'] === 'op') {
+      for ($i = 0; $i < self::STORY_ITEMS_COUNT; $i++) {
+        if (empty($values['items'][$i]['media']['selected'])) {
+          // @codingStandardsIgnoreStart
+          $error_msg = $this->t('Story Item @index', ['@index' => $i + 1]) . ': '
+            . $this->t('@name field is required.', ['@name' => $this->t('Media')]);
+          // @codingStandardsIgnoreEnd
+          $form_state->setError(
+            $form['items'][$i]['media'],
+            $error_msg
+          );
+        }
+      }
+    }
   }
 
   /**
