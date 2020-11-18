@@ -157,13 +157,13 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
         '#title' => $this->t('Button Label'),
         '#maxlength' => 15,
         '#default_value' => $this->configuration['explore_cta'],
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
       'explore_cta_link' => [
         '#type' => 'textfield',
         '#title' => $this->t('URL'),
         '#default_value' => $this->configuration['explore_cta_link'] ?? '',
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
     ];
 

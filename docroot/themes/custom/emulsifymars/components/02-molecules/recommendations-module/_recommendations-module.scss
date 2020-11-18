@@ -107,12 +107,16 @@
     width: 255px;
     height: 520px;
 
+    &__content {
+      display: block;
+    }
+
     .article-card-paragraph {
       flex-grow: 0;
     }
 
     .default-link {
-      margin-top: 5.85rem;
+      margin-top: 7.45rem;
     }
   }
 
