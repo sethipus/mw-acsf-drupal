@@ -75,6 +75,7 @@
           height: 15px;
           top: 50%;
           left: calc(-75% - 7px);
+          -webkit-backface-visibility: hidden;
         }
 
         svg {
