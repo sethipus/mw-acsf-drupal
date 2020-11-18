@@ -182,14 +182,39 @@ class SVG {
     $dom = new \DOMDocument();
     $dom->loadXML($this->content);
 
+    $svg = $dom->documentElement;
+    $this->removeFillInfo($svg);
+
     $xpath = new \DOMXPath($dom);
+    /** @var \DOMNodeList $elements */
     $elements = $xpath->query('//*');
+
+    /** @var \DOMNode $element */
     foreach ($elements as $element) {
-      $element->removeAttribute('fill');
+      $this->removeFillInfo($element);
     }
 
     $content = $dom->saveXML();
     return new self($content, $this->id);
+  }
+
+  /**
+   * Removes the fill attribute and fill style from the given node.
+   *
+   * @param \DOMNode $element
+   *   The DOM node.
+   */
+  private function removeFillInfo(\DOMNode $element): void {
+    $element->removeAttribute('fill');
+    $style_attribute = $element->getAttribute('style');
+    if ($style_attribute) {
+      $style_attribute = preg_replace(
+        '/(fill:[^;]+;?)/',
+        '',
+        $style_attribute
+      );
+      $element->setAttribute('style', $style_attribute);
+    }
   }
 
 }
