@@ -132,6 +132,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Image');
     $form['image']['#open'] = TRUE;
+    $form['image']['#required'] = TRUE;
 
     $form['explore_group'] = [
       '#type' => 'fieldset',
@@ -141,17 +142,31 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
         '#title' => $this->t('Button Label'),
         '#maxlength' => 15,
         '#default_value' => $this->configuration['explore_cta'],
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
       'explore_cta_link' => [
         '#type' => 'textfield',
         '#title' => $this->t('URL'),
         '#default_value' => $this->configuration['explore_cta_link'] ?? '',
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    $values = $form_state->getValues();
+    $triggered = $form_state->getTriggeringElement();
+    if ($triggered['#name'] === 'op' &&empty($values['image']['selected'])) {
+      $form_state->setError(
+        $form['image'],
+        $this->t('@name field is required.', ['@name' => $this->t('Image')])
+      );
+    }
   }
 
   /**
