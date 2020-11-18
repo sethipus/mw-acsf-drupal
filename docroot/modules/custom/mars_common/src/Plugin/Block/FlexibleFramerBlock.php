@@ -137,6 +137,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#title' => $this->t('Item title'),
         '#maxlength' => 60,
         '#default_value' => $config['items'][$key]['title'] ?? '',
+        '#required' => TRUE,
       ];
       $form['items'][$key]['cta']['title'] = [
         '#type' => 'textfield',
@@ -163,7 +164,6 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $form['items'][$key]['item_image']['#type'] = 'details';
       $form['items'][$key]['item_image']['#title'] = $this->t('Item Image');
       $form['items'][$key]['item_image']['#open'] = TRUE;
-      $form['items'][$key]['item_image']['#required'] = TRUE;
 
       $form['items'][$key]['remove_item'] = [
         '#type'  => 'button',
