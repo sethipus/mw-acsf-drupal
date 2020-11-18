@@ -10,8 +10,6 @@ import articleCard from './../../02-molecules/card/article-card/article-card.twi
 import articleCardData from './../../02-molecules/card/article-card/article-card.yml';
 import { useEffect } from '@storybook/client-api';
 
-import './product-content-pair-up';
-
 /**
  * Storybook Definition.
  */
