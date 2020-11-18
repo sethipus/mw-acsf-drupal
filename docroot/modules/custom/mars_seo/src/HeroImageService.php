@@ -8,6 +8,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\layout_builder\SectionComponent;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Utils\NodeLBComponentIterator;
 use Drupal\mars_seo\Form\OpenGraphSettingForm;
 use Drupal\node\NodeInterface;
 
@@ -147,28 +148,16 @@ class HeroImageService {
    *   The hero media id or null if it was not found.
    */
   private function extractFromLayoutBuilder(NodeInterface $node): ?string {
-    if (!$node->hasField('layout_builder__layout')) {
-      return NULL;
-    }
-
     $media_id = NULL;
-    /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layoutBuilderField */
-    $layoutBuilderField = $node->get('layout_builder__layout');
-    /** @var \Drupal\layout_builder\Section[] $sections */
-    $sections = $layoutBuilderField->getSections();
-
-    foreach ($sections as $section) {
-      $components = $section->getComponents();
-      foreach ($components as $component) {
-        try {
-          $media_id = $this->getHeroImageFromBlock($component);
-        }
-        catch (PluginException $e) {
-          // Skip this component.
-        }
-        if ($media_id !== NULL) {
-          return $media_id;
-        }
+    foreach (new NodeLBComponentIterator($node) as $component) {
+      try {
+        $media_id = $this->getHeroImageFromBlock($component);
+      }
+      catch (PluginException $e) {
+        // Skip this component.
+      }
+      if ($media_id !== NULL) {
+        return $media_id;
       }
     }
     return $media_id;
