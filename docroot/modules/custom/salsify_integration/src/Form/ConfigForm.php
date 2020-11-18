@@ -529,6 +529,8 @@ class ConfigForm extends ConfigFormBase {
 
   /**
    * Return the configuration names.
+   *
+   * @codeCoverageIgnore
    */
   protected function getEditableConfigNames() {
     return [
