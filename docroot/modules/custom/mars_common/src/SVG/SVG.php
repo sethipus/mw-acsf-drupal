@@ -110,6 +110,22 @@ class SVG {
   }
 
   /**
+   * Creates an SVG that scale with keeping his initial aspect ratio.
+   *
+   * @return \Drupal\mars_common\SVG\SVG
+   *   The new SVG object.
+   */
+  public function scaleWhileKeepingAspectRatio(): self {
+    $dom = new \DOMDocument();
+    $dom->loadXML($this->content);
+    $svg = $dom->documentElement;
+    $svg->setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+    $content = $dom->saveXML();
+    return new self($content, $this->id);
+  }
+
+  /**
    * Returns an SVG object that will repeat in the available space.
    *
    * @return \Drupal\mars_common\SVG\SVG

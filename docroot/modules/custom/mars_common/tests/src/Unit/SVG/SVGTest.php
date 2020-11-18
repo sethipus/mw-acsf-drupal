@@ -76,6 +76,23 @@ SVG;
   /**
    * @test
    */
+  public function shouldScaleWhileKeepingAspectRatio() {
+    $expected = <<<'SVG'
+      <svg xmlns:default="http://www.w3.org/2000/svg" width="500" height="200" viewBox="0 0 500 200" preserveAspectRatio="xMidYMid meet" fill="none">
+        <ellipse cx="240" cy="50" rx="220" ry="30" fill="yellow" />
+        <ellipse cx="220" cy="50" rx="190" ry="20" fill="white" />
+      </svg>
+SVG;
+    $svg = $this->createNewSVG();
+
+    $svg = $svg->scaleWhileKeepingAspectRatio();
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+  /**
+   * @test
+   */
   public function shouldRemoveFillInformation() {
     $expected = <<<'SVG'
       <svg xmlns:default="http://www.w3.org/2000/svg" width="500" height="200" viewBox="0 0 500 200" >
