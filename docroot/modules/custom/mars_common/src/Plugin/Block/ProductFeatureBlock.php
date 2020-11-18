@@ -159,6 +159,8 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function blockValidate($form, FormStateInterface $form_state) {
+    parent::blockValidate($form, $form_state);
+
     $values = $form_state->getValues();
     $triggered = $form_state->getTriggeringElement();
     if ($triggered['#name'] === 'op' && empty($values['image']['selected'])) {
