@@ -283,14 +283,17 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $page_entity = $this->getPageEntity();
       $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
       $current_language = $this->languageManager->getCurrentLanguage($derivative_id)->getId();
+      $default_language = $this->languageManager->getDefaultLanguage()->getId();
       $links = $this->languageManager->getLanguageSwitchLinks($derivative_id, Url::fromRoute($route))->links;
 
+      ksort($links);
       if (isset($links[$current_language])) {
-        $links = [$current_language => $links[$current_language]] + $links;
         $links[$current_language]['url'] = Url::fromRoute('<current>');
         $links[$current_language]['selected'] = TRUE;
       }
-      ksort($links);
+      if (isset($links[$default_language])) {
+        $links = [$default_language => $links[$default_language]] + $links;
+      }
 
       foreach ($links as $link_key => $link_data) {
         $url = $page_entity ?
