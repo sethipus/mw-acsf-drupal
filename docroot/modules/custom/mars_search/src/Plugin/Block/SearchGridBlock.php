@@ -312,6 +312,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'search_results' => $query_results_count,
     ];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
@@ -328,6 +329,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     return [
       '#no_results_heading' => str_replace('@keys', $key, $config->get('no_results_heading')),
       '#no_results_text' => $config->get('no_results_text'),
+      '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
       '#theme' => 'mars_search_no_results',
     ];
   }

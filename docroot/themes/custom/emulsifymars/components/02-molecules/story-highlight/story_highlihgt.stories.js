@@ -10,5 +10,5 @@ export default { title: 'Molecules/Story highlight' };
 
 export const storyHighlightModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
-  return <div dangerouslySetInnerHTML={{ __html: "<div style='height: 100px; background-color: grey'></div>" + storyHighlight(storyHighlightData) }} />
+  return <div dangerouslySetInnerHTML={{ __html: "<div style='height: 300px; background-color: grey'></div>" + storyHighlight(storyHighlightData) }} />
 };

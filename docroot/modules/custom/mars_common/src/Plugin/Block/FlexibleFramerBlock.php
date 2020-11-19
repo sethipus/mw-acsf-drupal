@@ -301,8 +301,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     }
 
     $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
-    $file_border_content = $this->themeConfiguratorParser
-      ->getBrandBorder2();
+    $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
 
     $build['#items'] = $ff_items;
     $build['#grid_type'] = 'card';

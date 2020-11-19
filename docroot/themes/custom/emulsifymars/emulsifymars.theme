@@ -233,7 +233,7 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
   $variables['divider'] = $themeParser->getGraphicDivider();
-  $variables['brand_borders'] = $themeParser->getBrandBorder2('recipe-hero-border');
+  $variables['brand_borders'] = $themeParser->getBrandBorder2();
 
   $variables['theme_styles'] = 'drupal';
   $variables['grid_type'] = 'card';
