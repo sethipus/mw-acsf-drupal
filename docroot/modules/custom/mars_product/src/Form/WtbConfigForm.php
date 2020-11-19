@@ -94,6 +94,20 @@ class WtbConfigForm extends ConfigFormBase {
       ],
     ];
 
+    $form['data_locale'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Commerce connector data locale'),
+      '#default_value' => $config->get('data_locale'),
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
     return $form;
   }
 
@@ -109,6 +123,7 @@ class WtbConfigForm extends ConfigFormBase {
     $config->set('data_subid', $form_state->getValue('data_subid'));
     $config->set('cta_title', $form_state->getValue('cta_title'));
     $config->set('button_type', $form_state->getValue('button_type'));
+    $config->set('data_locale', $form_state->getValue('data_locale'));
     // Save the configuration.
     $config->save();
 

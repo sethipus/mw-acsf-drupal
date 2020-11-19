@@ -125,8 +125,10 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#type' => 'textfield',
       '#title' => $this->t('Product ID'),
       '#default_value' => $this->configuration['product_id'],
-      'visible' => [
-        [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
       ],
     ];
 
@@ -134,8 +136,10 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#type' => 'textfield',
       '#title' => $this->t('CTA title'),
       '#default_value' => $this->configuration['cta_title'],
-      'visible' => [
-        [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
       ],
     ];
 
@@ -149,6 +153,20 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       ],
       '#states' => [
         'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
+    $form['data_locale'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Commerce connector data locale'),
+      '#default_value' => $this->configuration['data_locale'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
           [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
         ],
       ],
@@ -182,6 +200,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'cta_title' => $config['cta_title'] ?? '',
       'product_id' => $config['product_id'] ?? '',
       'button_type' => $config['button_type'] ?? '',
+      'data_locale' => $config['data_locale'] ?? '',
     ];
   }
 
@@ -199,11 +218,9 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#widget_id'] = $this->configuration['widget_id'];
     $build['#data_subid'] = $this->configuration['data_subid'];
     $build['#data_token'] = $this->configuration['data_token'];
+    $build['#data_locale'] = $this->configuration['data_locale'];
 
     $locale = $this->languageManager->getCurrentLanguage()->getId();
-    $country = $this->config->get('system.date')
-      ->get('country.default');
-    $build['#data_locale'] = $locale . '-' . $country;
     $build['#data_displaylanguage'] = $locale;
 
     return $build;

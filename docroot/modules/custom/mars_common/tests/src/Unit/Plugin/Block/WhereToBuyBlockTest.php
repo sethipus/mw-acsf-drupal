@@ -236,16 +236,6 @@ class WhereToBuyBlockTest extends UnitTestCase {
       'commerce_vendor' => WhereToBuyBlock::VENDOR_COMMERCE_CONNECTOR,
     ]);
 
-    $this->configMock
-      ->expects($this->once())
-      ->method('get')
-      ->willReturn($this->immutableConfigMock);
-
-    $this->immutableConfigMock
-      ->expects($this->once())
-      ->method('get')
-      ->willReturn('US');
-
     $this->languageManagerMock
       ->expects($this->once())
       ->method('getCurrentLanguage')

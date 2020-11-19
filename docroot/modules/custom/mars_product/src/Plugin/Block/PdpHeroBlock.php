@@ -249,6 +249,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ],
     ];
 
+    $form['wtb']['data_locale'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Commerce Connector: data locale'),
+      '#default_value' => $this->configuration['wtb']['data_locale'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
     $form['nutrition'] = [
       '#type' => 'details',
       '#title' => $this->t('Nutrition part settings'),
@@ -362,6 +376,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'cta_title' => $config['wtb']['cta_title'] ?? '',
         'product_id' => $config['wtb']['product_id'] ?? '',
         'button_type' => $config['wtb']['button_type'] ?? '',
+        'data_locale' => $config['wtb']['data_locale'] ?? '',
       ],
 
     ];
@@ -401,6 +416,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'data_subid' => $this->configuration['wtb']['data_subid'] ?? '',
         'product_CTA_title' => $this->configuration['wtb']['cta_title'] ?? '',
         'button_type' => $this->configuration['wtb']['button_type'] ?? '',
+        'data_locale' => $this->configuration['wtb']['data_locale'] ?? '',
       ],
       'nutrition_data' => [
         'nutritional_label' => $this->configuration['nutrition']['label'] ?? '',
@@ -923,22 +939,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
     elseif ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
       $locale = $this->languageManager->getCurrentLanguage()->getId();
-      $country = $this->config->get('system.date')
-        ->get('country.default');
-      $script = [
-        '#tag' => 'script',
-        '#attributes' => [
-          'src' => '//fi-v2.global.commerce-connector.com/cc.js',
-          'id' => 'cci-widget',
-          'data-token' => $this->configuration['wtb']['data_token'],
-          'data-locale' => $locale . '-' . $country,
-          'data-displaylanguage' => $locale,
-          'data-widgetid' => $this->configuration['wtb']['data_widget_id'],
-          'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
-          'async' => TRUE,
-        ],
+      $build['#attached']['drupalSettings']['cc'] = [
+        'data-token' => $this->configuration['wtb']['data_token'],
+        'data-locale' => $this->configuration['wtb']['data_locale'],
+        'data-displaylanguage' => $locale,
+        'data-widgetid' => $this->configuration['wtb']['data_widget_id'],
+        'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
       ];
-      $build['#attached']['html_head'][] = [$script, self::VENDOR_COMMERCE_CONNECTOR];
+      $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
     }
 
     return $build;

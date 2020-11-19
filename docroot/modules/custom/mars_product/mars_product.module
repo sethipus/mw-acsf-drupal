@@ -94,23 +94,15 @@ function mars_product_node_view(array &$build, EntityInterface $entity, EntityVi
     elseif (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
       $locale = \Drupal::languageManager()
         ->getCurrentLanguage()->getId();
-      $country = \Drupal::configFactory()->get('system.date')
-        ->get('country.default');
-      $script = [
-        '#tag' => 'script',
-        '#attributes' => [
-          'src' => '//fi-v2.global.commerce-connector.com/cc.js',
-          'id' => 'cci-widget',
-          'data-token' => $wtb_confg->get('data_token'),
-          'data-locale' => $locale . '-' . $country,
-          'data-displaylanguage' => $locale,
-          'data-widgetid' => $wtb_confg->get('widget_id'),
-          'data-subid' => $wtb_confg->get('data_subid'),
-          'async' => TRUE,
 
-        ],
+      $build['#attached']['drupalSettings']['cc'] = [
+        'data-token' => $wtb_confg->get('data_token'),
+        'data-locale' => $wtb_confg->get('data_locale'),
+        'data-displaylanguage' => $locale,
+        'data-widgetid' => $wtb_confg->get('widget_id'),
+        'data-subid' => $wtb_confg->get('data_subid'),
       ];
-      $build['#attached']['html_head'][] = [$script, PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR];
+      $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
     }
   }
 }
