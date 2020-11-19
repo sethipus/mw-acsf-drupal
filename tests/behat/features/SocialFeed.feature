@@ -41,6 +41,7 @@ Feature: Social Feed Test
     And I should see "Feed"
 
     When I fill in "Feed" with "Feed"
+    And I fill in "Title" with "Feed title"
     And I press "Add block"
     Then I should see "You are editing the layout for this Basic page content item."
     And print current URL

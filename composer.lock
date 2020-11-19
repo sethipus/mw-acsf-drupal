@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c22bc9484c52f8c8b026f84a81cfe933",
+    "content-hash": "bd70807717bb0c853114927331e3ed00",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -4090,6 +4090,9 @@
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
                 "drupal": {
                     "version": "8.x-1.1",
                     "datestamp": "1579005183",
@@ -8565,7 +8568,7 @@
                 "shasum": "c0ab77156c0e431f958d615f043e0255486db155"
             },
             "require": {
-                "drupal/core": "^8",
+                "drupal/core": "*",
                 "drupal/entity": "*"
             },
             "require-dev": {
@@ -8670,6 +8673,9 @@
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
                 "drupal": {
                     "version": "8.x-1.3",
                     "datestamp": "1525218780",
@@ -8999,13 +9005,13 @@
                 "shasum": "c471d9982a6540fd7baccc94572947923634fb6b"
             },
             "require": {
-                "drupal/core": "^8.7.7 || ^9",
+                "drupal/core": "^8 || ^9",
                 "drupal/token": "^1.0"
             },
             "require-dev": {
                 "drupal/metatag_dc": "*",
                 "drupal/metatag_open_graph": "*",
-                "drupal/page_manager": "*",
+                "drupal/page_manager": "4.x-dev",
                 "drupal/redirect": "1.x-dev"
             },
             "type": "drupal-module",
@@ -9473,6 +9479,9 @@
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
                 "drupal": {
                     "version": "8.x-2.0-rc2",
                     "datestamp": "1583438671",
@@ -9879,6 +9888,9 @@
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-4.x": "4.x-dev"
+                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
@@ -9949,11 +9961,14 @@
             "name": "drupal/panels_ipe",
             "version": "4.4.0",
             "require": {
-                "drupal/core": "^8",
-                "drupal/panels": "*"
+                "drupal/core": "*",
+                "drupal/panels": "self.version"
             },
             "type": "metapackage",
             "extra": {
+                "branch-alias": {
+                    "dev-4.x": "4.x-dev"
+                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
@@ -10538,6 +10553,9 @@
             },
             "type": "drupal-module",
             "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
                 "drupal": {
                     "version": "8.x-1.2",
                     "datestamp": "1559752088",
@@ -10878,7 +10896,7 @@
             "extra": {
                 "drupal": {
                     "version": "8.x-1.17",
-                    "datestamp": "1594482952",
+                    "datestamp": "1591128369",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -11289,10 +11307,6 @@
                     "homepage": "https://www.drupal.org/u/gbyte.co",
                     "email": "contact@gbyte.co",
                     "role": "Maintainer"
-                },
-                {
-                    "name": "gbyte",
-                    "homepage": "https://www.drupal.org/user/2381352"
                 }
             ],
             "description": "Creates a standard conform hreflang XML sitemap of the site content and provides a framework for developing other sitemap types.",
@@ -23299,6 +23313,7 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.3",
+        "ext-dom": "*",
         "ext-json": "*"
     },
     "platform-dev": [],
