@@ -145,16 +145,15 @@ function _emulsifymars_load_images_from_theme(string &$properties) {
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $assets = [
-    'graphic_divider' => $themeParser->getGraphicDivider(),
-    'brand_shape' => $themeParser->getBrandShape(),
+    'graphic-divider' => $themeParser->getGraphicDivider(),
+    'brand-shape' => $themeParser->getBrandShape(),
   ];
 
   /** @var \Drupal\mars_common\SVG\SVG|null $asset */
-  foreach ($assets as $asset_name => $asset) {
+  foreach ($assets as $var_name => $asset) {
     if ($asset) {
-      $css_var_name = str_replace('_', '-', $asset_name);
-      $css_var_value = 'url("data:image/svg+xml;base64,' . $asset->toBase64() . '")';
-      $properties .= sprintf(" --v-%s: %s;", $css_var_name, $css_var_value);
+      $var_value = 'url("data:image/svg+xml;base64,' . $asset->toBase64() . '")';
+      $properties .= sprintf(" --v-%s: %s;", $var_name, $var_value);
     }
   }
 }
