@@ -16,6 +16,7 @@ use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use GuzzleHttp\ClientInterface;
 
 /**
  * Class Salsify.
@@ -113,6 +114,8 @@ class SalsifyFields extends Salsify {
    *   The Module handler service.
    * @param \Drupal\salsify_integration\MulesoftConnector $mulesoft_connector
    *   The Mulesoft connector.
+   * @param \GuzzleHttp\ClientInterface $client
+   *   The HTTP client.
    * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
    *   Salsify product repository service.
    * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
@@ -141,6 +144,7 @@ class SalsifyFields extends Salsify {
     QueueFactory $queue_factory,
     ModuleHandlerInterface $module_handler,
     MulesoftConnector $mulesoft_connector,
+    ClientInterface $client,
     SalsifyProductRepository $salsify_product_repository,
     MailManagerInterface $mail_manager,
     LanguageManagerInterface $language_manager,
@@ -159,7 +163,8 @@ class SalsifyFields extends Salsify {
       $cache_salsify,
       $queue_factory,
       $module_handler,
-      $mulesoft_connector
+      $mulesoft_connector,
+      $client
     );
     $this->salsifyProductRepository = $salsify_product_repository;
     $this->mailManager = $mail_manager;
