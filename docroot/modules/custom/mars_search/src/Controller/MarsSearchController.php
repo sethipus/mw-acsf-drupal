@@ -4,16 +4,19 @@ namespace Drupal\mars_search\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides a controllers for search functionality.
@@ -56,6 +59,20 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $viewBuilder;
 
   /**
+   * The node view builder.
+   *
+   * @var \Drupal\node\NodeViewBuilder
+   */
+  protected $nodeViewBuilder;
+
+  /**
+   * The request stack.
+   *
+   * @var Symfony\Component\HttpFoundation\RequestStack
+   */
+  private $requestStack;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -66,18 +83,26 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Search helper.
    * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
    *   Menu Link tree.
+   * @param \Drupal\Core\Entity\EntityViewBuilderInterface $node_view_builder
+   *   Node view builder.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   Request stack.
    */
   public function __construct(
     RendererInterface $renderer,
     SearchHelperInterface $search_helper,
     SearchQueryParserInterface $search_query_parser,
-    MenuLinkTreeInterface $menu_link_tree
+    MenuLinkTreeInterface $menu_link_tree,
+    EntityViewBuilderInterface $node_view_builder,
+    RequestStack $request_stack
   ) {
     $this->renderer = $renderer;
     $this->searchHelper = $search_helper;
     $this->searchQueryParser = $search_query_parser;
     $this->viewBuilder = $this->entityTypeManager()->getViewBuilder('node');
     $this->menuLinkTree = $menu_link_tree;
+    $this->nodeViewBuilder = $node_view_builder;
+    $this->requestStack = $request_stack;
   }
 
   /**
@@ -88,7 +113,9 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('renderer'),
       $container->get('mars_search.search_helper'),
       $container->get('mars_search.search_query_parser'),
-      $container->get('menu.link_tree')
+      $container->get('menu.link_tree'),
+      $container->get('entity_type.manager')->getViewBuilder('node'),
+      $container->get('request_stack')
     );
   }
 
@@ -243,6 +270,106 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
     }
     return new JsonResponse($json_output);
+  }
+
+  /**
+   * Render all search cards block.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   The learn more action response.
+   */
+  public function seeAllCallback(Request $request) {
+    $query_parameters = $this->searchHelper->request->query->all();
+    $search_options = $this->searchQueryParser->parseQuery($query_parameters['id'] ?
+      $query_parameters['id'] : 1);
+    if (!empty($query_parameters['contentType'])) {
+      $search_options['conditions'][] = [
+        'type',
+        $query_parameters['contentType'],
+        '=',
+      ];
+    }
+    $items = [];
+    $top_results = $query_parameters['topResults'];
+    unset($search_options['limit']);
+    if (!empty($top_results)) {
+      foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_results) as $top_result_node) {
+        $items[] = [
+          '#type' => 'container',
+          'children' => $this->nodeViewBuilder->view($top_result_node, 'card'),
+          '#attributes' => ['class' => ['ajax-card-grid__item_wrapper']],
+        ];
+      }
+    }
+
+    $results = $this->searchHelper->getSearchResults($search_options, $query_parameters['id'] ?
+      "grid_{$query_parameters['id']}" : 'main_search');
+
+    if (!empty($results['results'])) {
+      foreach ($results['results'] as $entity) {
+        if (!in_array($entity->id(), $top_results)) {
+          $items[] = [
+            '#type' => 'container',
+            'children' => $this->nodeViewBuilder->view($entity, 'card'),
+            '#attributes' => ['class' => ['ajax-card-grid__item_wrapper']],
+          ];
+        }
+      }
+    }
+
+    return new Response($this->renderer->renderRoot($items));
+  }
+
+  /**
+   * Render all search cards block.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   The learn more action response.
+   */
+  public function seeAllFaqCallback(Request $request) {
+    $search_options = $this->searchQueryParser->parseQuery();
+    $search_options['conditions'][0] = ['type', 'faq', '=', TRUE];
+    $faq_items = [];
+    unset($search_options['limit']);
+    $search_options['sort'] = [
+      'faq_item_queue_weight' => 'ASC',
+      'created' => 'DESC',
+    ];
+    $search_results = $this->searchHelper->getSearchResults($search_options);
+    if ($search_results['results']) {
+      /** @var \Drupal\node\NodeInterface $search_result */
+      foreach ($search_results['results'] as $row_key => $search_result) {
+        // Do not fail page load if search index is not in sync with database.
+        if ($search_result->bundle() != 'faq') {
+          $search_results['resultsCount']--;
+
+          continue;
+        }
+
+        $question_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0]) ?
+          $search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0] : $search_result->get('field_qa_item_question')->value;
+        $answer_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0]) ?
+          $search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0] : $search_result->get('field_qa_item_answer')->value;
+        $faq_items[$row_key] = [
+          'question' => $question_value,
+          'answer' => $answer_value,
+          'order' => $row_key,
+        ];
+      }
+    }
+
+    $build = [
+      '#theme' => 'mars_search_see_all_faq',
+      '#qa_items' => $faq_items,
+    ];
+
+    return new Response($this->renderer->renderRoot($build));
   }
 
 }
