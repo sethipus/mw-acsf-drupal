@@ -12,6 +12,7 @@
  * 'background_image' => NULL,
  * 'background_video' => NULL,
  * 'blocks' => [],
+ * 'background_color' => [],
  */
 #}
 
@@ -59,6 +60,7 @@
     cta_base_class: 'cta-link',
     image_srcset: hero_image,
     image_src: hero_image,
+    background_color: background_color,
   } %}
 
 {% elseif (block_type == 'image') %}
