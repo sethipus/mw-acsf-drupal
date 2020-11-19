@@ -1,0 +1,62 @@
+.fonts-test-component {
+  color: clr(primary);
+  padding: 0 5rem;
+  font-family: variable(primary-font);
+
+  &__heading {
+    margin: 0;
+    font-size: 5rem;
+
+    &--100 {
+      font-weight: 100;
+    }
+
+    &--200 {
+      font-weight: 200;
+    }
+
+    &--300 {
+      font-weight: 300;
+    }
+
+    &--400 {
+      font-weight: 400;
+    }
+
+    &--500 {
+      font-weight: 500;
+    }
+
+    &--600 {
+      font-weight: 600;
+    }
+
+    &--700 {
+      font-weight: 700;
+    }
+
+    &--800 {
+      font-weight: 800;
+    }
+
+    &--900 {
+      font-weight: 900;
+    }
+  }
+
+  &__paragraph {
+    column-count: 3;
+    column-gap: 5rem;
+    font-size: 2rem;
+
+    &--light {
+      font-weight: 100;
+    }
+    &--medium {
+      font-weight: 400;
+    }
+    &--bold {
+      font-weight: 600;
+    }
+  }
+}

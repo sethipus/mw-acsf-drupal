@@ -82,6 +82,25 @@ $entry-gate-zindex: 1500;
   src: url('../fonts/twix-4.ttf') format('opentype');
 }
 
+// Dove fonts
+@font-face {
+  font-family: 'Geomanist';
+  src: url('../fonts/geomanist-regular.ttf') format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Geomanist';
+  src: url('../fonts/geomanist-medium.ttf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Geomanist';
+  src: url('../fonts/geomanist-bold.ttf') format('opentype');
+  font-weight: 600;
+}
+
 $defaultVariables: (
   heading-font: 'Courier New',
   primary-font: 'Arial',
@@ -113,7 +132,7 @@ $twixVariables: (
 );
 
 $doveVariables: (
-  heading-font: 'Courier New',
+  heading-font: 'Geomanist',
   primary-font: 'Geomanist',
   secondary-font: 'Geomanist',
   brand-shape: $circle,
