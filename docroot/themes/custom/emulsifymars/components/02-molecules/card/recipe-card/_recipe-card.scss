@@ -95,6 +95,10 @@
   }
 
   &__details-button {
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+
     .default-link--small {
       margin-left: 3rem;
       margin-bottom: 2.5rem;
