@@ -62,6 +62,7 @@
     margin-top: 0;
     font-weight: bold;
     max-height: 90px;
+    margin-bottom: auto;
   }
 
   &-heading__link,
@@ -102,5 +103,7 @@
   & .default-link {
     padding: 0 2.95rem;
     align-self: flex-start;
+    position: absolute;
+    bottom: 2.5rem;
   }
 }
