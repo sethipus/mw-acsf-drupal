@@ -1,69 +1,34 @@
 .story-highlight {
   font-family: variable(primary-font);
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   margin: 0;
   z-index: 1;
 
-  &__content:not(.no-cta-button) {
-    @include medium {
-      margin-bottom: -30rem;
-    }
-
-    @include large {
-      margin-bottom: -20rem;
-    }
-  }
-
-  &__content {
-    margin-bottom: -40rem;
-
-    @include medium {
-      margin-bottom: -25rem;
-    }
-
-    @include large {
-      margin-bottom: -15rem;
-    }
-  }
-
   &__contentbg {
     background-color: clr(subcolor-2);
-    padding: 3rem 2rem 40rem;
+    padding: 3rem 2rem 0;
     overflow: hidden;
 
-    @include small {
-      padding-bottom: 30rem;
-    }
-
-    @include medium {
-      padding-bottom: 20rem;
-    }
-
-    @include large { 
+    @include large {
       padding-left: 4rem;
       padding-right: 4rem;
     }
   }
 
-  &_whitebg {
-    position: relative;
-    top: -40rem;
-    overflow: hidden;
-
-    @include small {
-      top: -30rem;
-    }
-
-    @include medium {
-      top: -20rem;
-    }
+  .white-background {
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
 
     @include large {
-      padding: 0 2rem;
+      height: 65%;
     }
   }
-  
+
   & .stretch {
     position: absolute;
     width: 100%;
@@ -87,15 +52,15 @@
       top: -8rem;
     }
 
-    >svg {
+    > svg {
       width: 100%;
 
-      >path {
+      > path {
         fill: clr(subcolor-2);
         width: 100%;
       }
 
-      >rect {
+      > rect {
         width: 100%;
         height: 100%;
       }
@@ -160,7 +125,7 @@
   }
 
   &__paragraph {
-    margin: 5rem auto;
+    margin: 6rem auto 8rem;
     font-family: variable(secondary-font);
     text-align: center;
     color: clr(primary);
@@ -200,7 +165,6 @@
     }
 
     @include xs {
-      margin: 0 2rem;
       width: 100%;
     }
 
@@ -282,22 +246,22 @@
 
     @include playbutton;
 
-    >div {
+    > div {
       width: 0;
       height: 0;
       border-top: 12px solid transparent;
       border-bottom: 12px solid transparent;
       border-left: 20px solid clr(player);
-      margin: auto 35%
+      margin: auto 35%;
     }
   }
 
   &__brand-shape_1 {
     position: absolute;
-    min-width: 22.7rem;
-    min-height: 21.2rem;
-    width: 24.2rem;
-    height: 24.2rem;
+    width: 12.4rem;
+    height: 11.8rem;
+    min-width: 12.4rem;
+    min-height: 11.8rem;
     z-index: 1;
     top: 45%;
     display: flex;
@@ -307,14 +271,17 @@
     }
 
     @include small {
-      top: 45rem;
-      right: -9rem;
+      top: 90rem;
     }
 
     @include medium {
-      top: 49rem;
+      top: 75rem;
       right: -8rem;
       z-index: 1;
+      min-width: 22.7rem;
+      min-height: 21.2rem;
+      width: 24.2rem;
+      height: 24.2rem;
     }
 
     @include large {
@@ -324,16 +291,16 @@
     }
 
     @include xl {
-      top: 11rem;
+      top: 35rem;
     }
   }
 
   &__brand-shape_2 {
     position: absolute;
-    min-width: 42.8rem;
-    min-height: 41.3rem;
-    width: 44.3rem;
-    height: 44.3rem;
+    min-width: 15.3rem;
+    min-height: 15.3rem;
+    width: 15.3rem;
+    height: 15.3rem;
     display: flex;
 
     & img {
@@ -341,15 +308,19 @@
     }
 
     @include small {
-      top: 50rem;
-      left: -17rem;
+      top: 80rem;
+      right: 0;
       z-index: 1;
     }
 
     @include medium {
-      top: 65rem;
+      top: 90rem;
       left: -18rem;
       z-index: 1;
+      min-width: 42.8rem;
+      min-height: 41.3rem;
+      width: 44.3rem;
+      height: 44.3rem;
     }
 
     @include large {
@@ -360,7 +331,7 @@
 
     @include xl {
       z-index: 1;
-      top: 71rem;
+      top: 95rem;
       left: -8rem;
     }
   }
@@ -379,13 +350,16 @@
 
     @include small {
       z-index: 0;
-      bottom: 3rem;
-      right: -8rem;
+      right: 0;
+      bottom: 20rem;
+      min-width: 18.2rem;
+      min-height: 14.4rem;
+      width: 18.2rem;
+      height: 14.4rem;
     }
 
     @include large {
       z-index: 0;
-      bottom: 5rem;
       right: -5rem;
       width: 48rem;
     }

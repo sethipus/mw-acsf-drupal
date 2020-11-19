@@ -1,7 +1,6 @@
 {{ attach_library('emulsifymars/story_higlight') }}
 {% set story_highlight_base_class = story_highlight_base_class|default('story-highlight') %}
 {% set divider = '<div class=divider>'~divider~'</div>' %}
-{% set default_link_modifier = story_highlight_button_link_attributes.href ? '' : 'no-cta-button' %}
 
 <section id="story-highlight" {{ bem(story_highlight_base_class) }} data-theme="{{ theme_styles }}">
   <div class="{{ brand_shape_class }}">
@@ -23,11 +22,16 @@
         paragraph_content: story_highlight_paragraph_content,
         paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph')
       } %}
-    </div>
-    <div class="story-highlight_whitebg">
+
+      <div class="white-background"></div>
+
       <div class="media_items">
       {% for item in items %}
-        <div class="media_item_{{loop.index}}">
+        <div class="media_item_{{loop.index}}"
+          {% if item.title and item.video %}
+            data-component-title="{{ item.title }}"
+          {% endif %}
+        >
           {% if item.image %}
 
             {% include "@atoms/images/image/_image.twig" with {
@@ -42,7 +46,6 @@
           {% elseif item.video %}
             {% include "@atoms/video/overlay-video/video.twig" with {
               video__src__url: item.src,
-              video__title: heading
             } %}
             <button {{ bem('control', [], 'video') }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
           {% endif %}
@@ -90,6 +93,6 @@
           } %}
         </div>
       {% endif %}
-    </div>
+    </div>  
   </div>
 </section>
