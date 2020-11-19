@@ -3,8 +3,10 @@
 namespace Drupal\mars_product\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -138,14 +140,13 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       default:
         $main_entity = !empty($conf['article_recipe']) ? $this->nodeStorage->load($conf['article_recipe']) : NULL;
         $supporting_entity = !empty($conf['product']) ? $this->nodeStorage->load($conf['product']) : NULL;
-
     }
 
     $build['#theme'] = 'product_content_pair_up_block';
     $build['#title'] = $conf['title'];
     $build['#graphic_divider'] = $this
       ->themeConfiguratorParser
-      ->getFileContentFromTheme('graphic_divider');
+      ->getGraphicDivider();
 
     if ($main_entity) {
       $build['#lead_card_entity'] = $main_entity;
@@ -155,24 +156,14 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $build['#cta_link_text'] = ($conf['cta_link_text'] ?? NULL) ?: $this->t('Explore');
     }
 
-    $build['#background'] = $this->getBgImage($main_entity);
-
     if ($supporting_entity) {
       $build['#supporting_card_entity'] = $supporting_entity;
-
-      $default_eyebrow_text = $supporting_entity->bundle() == 'product' ? $this->t('Made With') : $this->t('Seen In');
-      $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
-
-      $build['#supporting_card_entity_view'] = $this->viewBuilder->view($supporting_entity, 'card');
-      $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
-      $build['#supporting_card_entity_view']['#eyebrow'] = $eyebrow_text;
-      $build['#supporting_card_entity_view']['#cache']['keys'][] = md5($eyebrow_text);
-      $build['#supporting_card_eyebrow'] = $build['#supporting_card_entity_view']['#eyebrow'];
+      $build['#supporting_card_entity_view'] = $this->createSupportCardRenderArray(
+        $supporting_entity
+      );
     }
 
-    // Get PNG asset path.
-    $build['#png_asset'] = $this->themeConfiguratorParser->getUrlForFile('png_asset');
-    $build['#max_width'] = $conf['max_width'];
+    $build['#background'] = $this->getBgImage($main_entity);
 
     return $build;
   }
@@ -255,18 +246,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#default_value' => $this->configuration['supporting_card_eyebrow'] ?? NULL,
     ];
 
-    $form['max_width'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Max Width'),
-      '#required' => TRUE,
-      '#options' => [
-        '1440' => '1440',
-        '768' => '768',
-        '375' => '375',
-      ],
-      '#default_value' => (string) ($this->configuration['max_width'] ?? 1440),
-    ];
-
     // Entity Browser element for background image.
     $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $this->configuration['background'], 1, 'thumbnail');
     // Convert the wrapping container to a details element.
@@ -291,7 +270,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['lead_card_title'] = $form_state->getValue('lead_card_title');
     $this->configuration['cta_link_text'] = $form_state->getValue('cta_link_text');
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
-    $this->configuration['max_width'] = $form_state->getValue('max_width');
     $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
   }
 
@@ -321,6 +299,46 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       }
     }
     return $bg_src;
+  }
+
+  /**
+   * Returns a render array for the support entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $supporting_entity
+   *   Entity that we would like to render.
+   *
+   * @return array
+   *   Render array for the support card.
+   */
+  private function createSupportCardRenderArray(
+    EntityInterface $supporting_entity
+  ): array {
+    $conf = $this->getConfiguration();
+    $is_product_card = $supporting_entity->bundle() === 'product';
+
+    $render_array = $this->viewBuilder->view(
+      $supporting_entity,
+      'card'
+    );
+
+    $default_eyebrow_text = $is_product_card ? $this->t('Made With') : $this->t('Seen In');
+    $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
+    $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
+    $render_array['#eyebrow'] = $eyebrow_text;
+
+    if ($is_product_card) {
+      $brand_shape = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
+      $render_array['#brand_shape'] = $brand_shape;
+    }
+
+    CacheableMetadata::createFromRenderArray($render_array)
+      ->merge(
+        $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
+      )
+      ->applyTo($render_array);
+
+    $render_array['#cache']['keys'][] = md5($eyebrow_text);
+    return $render_array;
   }
 
 }
