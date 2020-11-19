@@ -195,7 +195,7 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
    * {@inheritdoc}
    */
   public function validate(array &$form, FormStateInterface $form_state) {
-    // TODO: Add a validation.
+    // @todo Add a validation.
   }
 
   /**
@@ -273,7 +273,7 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
       foreach ($data as $item) {
         $icon_path = NULL;
         if ($this->mediaType === 'video') {
-          // TODO implement Video preview image,
+          // @todo implement Video preview image.
           // after it will be implemented on LightHouse side.
           $icon_path = drupal_get_path('module', 'media') . '/images/icons/video.png';
           $icon_path = file_create_url($icon_path);
@@ -284,12 +284,11 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
         // Adds a checkbox for each image.
         $view[$item['assetId']] = [
-          /* '#type' => 'lighthouse_gallery_radio', */
-          '#type' => 'lighthouse_gallery_checkbox',
+          '#type' => 'lighthouse_gallery_radio',
           '#title' => $item['name'],
           '#uri' => $icon_path,
-          /* '#return_value' => $item['assetId'],
-             '#parents' => ['view'], */
+          '#return_value' => $item['assetId'],
+          '#parents' => ['view'],
         ];
       }
     }
