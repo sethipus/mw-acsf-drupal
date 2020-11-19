@@ -297,7 +297,11 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     unset($search_options['limit']);
     if (!empty($top_results)) {
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_results) as $top_result_node) {
-        $items[] = $this->nodeViewBuilder->view($top_result_node, 'card');
+        $items[] = [
+          '#type' => 'container',
+          'children' => $this->nodeViewBuilder->view($top_result_node, 'card'),
+          '#attributes' => ['class' => ['ajax-card-grid__item_wrapper']],
+        ];
       }
     }
 
