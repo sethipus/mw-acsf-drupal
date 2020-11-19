@@ -22,6 +22,7 @@
         "drupal/acsf": "^2.47.0",
         "drupal/admin_toolbar": "^2.0",
         "drupal/adminimal_admin_toolbar": "^1.10",
+        "drupal/advagg": "^4.1",
         "drupal/bootstrap_barrio": "^4.28",
         "drupal/cog": "^1.0.0",
         "drupal/config_ignore": "^2.2",
