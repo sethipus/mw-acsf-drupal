@@ -277,7 +277,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
 
     $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
     // Entity Browser element for background image.
-    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
+          return in_array($form_state->getValue(['settings', 'block_type']), [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]);
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['background_image']['#type'] = 'details';
     $form['background_image']['#title'] = $this->t('Background Image');
@@ -297,7 +301,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
 
     $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
     // Entity Browser element for video.
-    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID, $video_default, 1);
+    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+      $video_default, $form_state, 1, 'default', function ($form_state) {
+        return in_array($form_state->getValue(['settings', 'block_type']), [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP]);
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['background_video']['#type'] = 'details';
     $form['background_video']['#title'] = $this->t('Background Video');
@@ -389,7 +397,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
 
       $foreground_default = isset($config['card'][$key]['foreground_image']) ? $config['card'][$key]['foreground_image'] : NULL;
       $form['card'][$key]['foreground_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-        $foreground_default, 1, 'thumbnail', FALSE);
+        $foreground_default, $form_state, 1, 'thumbnail', FALSE);
       // Convert the wrapping container to a details element.
       $form['card'][$key]['foreground_image']['#type'] = 'details';
       $form['card'][$key]['foreground_image']['#title'] = $this->t('Foreground Image');

@@ -32,11 +32,13 @@ trait EntityBrowserFormTrait {
    *   The ID of the entity browser to use.
    * @param string $default_value
    *   The default value for the entity browser.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current form state.
    * @param int $cardinality
    *   The cardinality of the entity browser.
    * @param string $view_mode
    *   The view mode to use when displaying the selected entity in the table.
-   * @param bool $required
+   * @param bool|callable $required
    *   Decides whether the selection is required or not.
    *
    * @return array
@@ -45,6 +47,7 @@ trait EntityBrowserFormTrait {
   public function getEntityBrowserForm(
     $entity_browser_id,
     $default_value,
+    FormStateInterface $form_state,
     $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED,
     $view_mode = 'default',
     $required = TRUE
@@ -58,9 +61,15 @@ trait EntityBrowserFormTrait {
     ];
 
     if ($required) {
+      $form_state->disableCache();
       $element['#element_validate'] = [
-        [self::class, 'validateRequiredElement'],
+        function ($element, $form_state) use ($required) {
+          if (!is_callable($required) || $required($form_state)) {
+            self::validateRequiredElement($element, $form_state);
+          }
+        },
       ];
+
       $element['#required'] = TRUE;
     }
 
@@ -274,7 +283,7 @@ trait EntityBrowserFormTrait {
    */
   public static function validateRequiredElement(array $element, FormStateInterface $form_state) {
     $trigger = $form_state->getTriggeringElement();
-    if ($trigger['#type'] === 'submit' && empty($element['selected']['media:1'])) {
+    if ($trigger['#type'] === 'submit' && empty($element['browser']['#value']['entities'])) {
       $form_state->setError(
         $element,
         'File selection is required!'
