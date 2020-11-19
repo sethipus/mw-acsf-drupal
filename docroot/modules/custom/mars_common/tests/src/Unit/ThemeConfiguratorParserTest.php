@@ -11,6 +11,7 @@ use Drupal\mars_common\SVG\SVGFactory;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
+use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -134,7 +135,8 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     $this->themeConfiguratorParser = new ThemeConfiguratorParser(
       $this->entityTypeManagerMock,
       $this->configFactoryMock,
-      $this->svgFactoryMock
+      $this->svgFactoryMock,
+      new NullLogger()
     );
   }
 

@@ -268,7 +268,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $mock = $this->createMock(ThemeConfiguratorParser::class);
     $mock
       ->method('getGraphicDivider')
-      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg"/>'));
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg"/>', 'id'));
 
     return $mock;
   }

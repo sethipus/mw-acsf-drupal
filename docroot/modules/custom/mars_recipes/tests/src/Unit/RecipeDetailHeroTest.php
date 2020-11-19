@@ -217,7 +217,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->themeConfiguratorParserMock
       ->expects($this->exactly(1))
       ->method('getBrandBorder')
-      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />'));
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
 
     // Mock node context.
     $nodeMock = $this->createNodeMock();

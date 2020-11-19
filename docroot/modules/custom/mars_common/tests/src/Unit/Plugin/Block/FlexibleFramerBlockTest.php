@@ -243,11 +243,6 @@ class FlexibleFramerBlockTest extends UnitTestCase {
       ->method('getBrandBorder2')
       ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
 
-    $this->themeConfiguratorParserMock
-      ->expects($this->once())
-      ->method('getSettingValue')
-      ->willReturn('value');
-
     $build = $this->block->build();
     $this->assertEquals('flexible_framer_block', $build['#theme']);
   }
