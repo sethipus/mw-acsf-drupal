@@ -86,6 +86,11 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'no_results' => NULL,
       ],
     ],
+    'mars_search_see_all_faq' => [
+      'variables' => [
+        'qa_items' => [],
+      ],
+    ],
   ];
 }
 
