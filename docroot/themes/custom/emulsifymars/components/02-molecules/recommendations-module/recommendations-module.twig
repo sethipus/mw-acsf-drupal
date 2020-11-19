@@ -2,6 +2,12 @@
 {% set recommendations_base_class = recommendations_base_class|default('recommendations') %}
 
 <section id="recommendations" {{ bem(recommendations_base_class) }} data-theme="{{ theme_styles }}">
+  {% block brand_border %}
+    <div {{  bem('border', [], recommendations_base_class)  }}>
+      {{ brand_border | raw }}
+    </div>
+  {% endblock %}
+
   <div class="recommendations__heading">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading_level: 1,
