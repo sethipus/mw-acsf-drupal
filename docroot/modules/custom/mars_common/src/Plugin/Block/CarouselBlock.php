@@ -172,15 +172,14 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       ];
 
       $form['carousel'][$key]['item_type'] = [
-        '#title'         => $this->t('Carousel item type'),
-        '#type'          => 'select',
-        '#required'      => TRUE,
-        '#default_value' => $config['carousel'][$key]['number'],
+        '#title' => $this->t('Carousel item type'),
+        '#type' => 'select',
+        '#required' => TRUE,
+        '#default_value' => $config['carousel'][$key]['item_type'] ?? self::KEY_OPTION_IMAGE,
         '#options' => [
           self::KEY_OPTION_IMAGE => $this->t('Image'),
           self::KEY_OPTION_VIDEO => $this->t('Video'),
         ],
-        '#default_value' => $config['block_type'] ?? self::KEY_OPTION_IMAGE,
       ];
       $form['carousel'][$key]['description'] = [
         '#title'         => $this->t('Carousel item description'),
@@ -296,6 +295,12 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
     $this->setConfiguration($values);
     if (isset($values['carousel']) && !empty($values['carousel'])) {
       foreach ($values['carousel'] as $key => $item) {
+
+        unset(
+          $this->configuration['carousel'][$key][self::KEY_OPTION_VIDEO],
+          $this->configuration['carousel'][$key][self::KEY_OPTION_IMAGE]
+        );
+
         $this->configuration['carousel'][$key][$item['item_type']] = $this->getEntityBrowserValue($form_state, [
           'carousel',
           $key,
