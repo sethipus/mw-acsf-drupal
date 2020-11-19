@@ -257,7 +257,7 @@ class SearchHelper implements SearchHelperInterface {
         ['type', 'faq', '<>'],
         ['type', 'product_multipack', '<>'],
       ],
-      'limit' => 12,
+      'limit' => 8,
       'sort' => [
         'created' => 'DESC',
       ],

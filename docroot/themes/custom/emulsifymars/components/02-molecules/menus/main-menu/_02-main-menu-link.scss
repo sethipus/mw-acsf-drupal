@@ -47,6 +47,7 @@
   transform: translateY(-50%);
   width: 12px;
   height: 7px;
+  fill: clr(secondary);
 
   @include xs {
     pointer-events: none;
