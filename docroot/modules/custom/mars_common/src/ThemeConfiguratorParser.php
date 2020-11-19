@@ -116,6 +116,7 @@ class ThemeConfiguratorParser {
     $svg = $this->getSVGFor('brand_borders');
 
     if ($svg !== NULL) {
+      $svg = $svg->withoutFillInfo();
       $style = $this->getSettingValue(
         'brand_border_style',
         ThemeConfiguratorService::BORDER_STYLE_REPEAT
@@ -141,7 +142,9 @@ class ThemeConfiguratorParser {
   public function getBrandBorder2(): ?SVG {
     $svg = $this->getSvgFor('brand_borders_2');
     if ($svg !== NULL) {
-      $svg = $svg->scaleWhileKeepingAspectRatio();
+      $svg = $svg
+        ->withoutFillInfo()
+        ->scaleWhileKeepingAspectRatio();
     }
     return $svg;
   }
@@ -188,7 +191,7 @@ class ThemeConfiguratorParser {
       $this->logger->error($e->getMessage());
       return NULL;
     }
-    return $svg->withoutFillInfo();
+    return $svg;
   }
 
   /**
