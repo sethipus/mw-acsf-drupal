@@ -303,7 +303,6 @@
     color: clr(primary);
 
     @include medium {
-      flex: 1 0 auto;
       font-size: 1.4rem;
     }
 
@@ -314,7 +313,11 @@
   }
 
   &__list-container {
-    flex: 1 0 auto;
+    flex: 1 0 58%;
+
+    @include large {
+      flex: 1 0 63%;
+    }
   }
 
   &__size-list {
@@ -324,15 +327,6 @@
     display: flex;
     justify-content: flex-start;
     flex-flow: row wrap;
-
-    @include medium {
-      flex: 1 0 58%;
-      justify-content: flex-start;
-    }
-
-    @include large {
-      flex: 1 0 63%;
-    }
   }
 
   &__list-item {
