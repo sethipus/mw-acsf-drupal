@@ -182,14 +182,27 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
         ],
       ];
       $form['carousel'][$key]['description'] = [
-        '#title'         => $this->t('Carousel item description'),
-        '#type'          => 'textfield',
-        '#default_value' => $config['carousel'][$key]['description'],
-        '#maxlength'     => 120,
+        '#title' => $this->t('Carousel item description'),
+        '#type' => 'textfield',
+        '#default_value' => $config['carousel'][$key]['description'] ?? NULL,
+        '#maxlength' => 120,
       ];
 
-      $form['carousel'][$key]['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
-        $config['carousel'][$key]['image'], 1, 'thumbnail');
+      /*
+       * BC fix: There could be wrong array values stored under this key.
+       * Currently the only valid value is a string, if it's not it then we
+       * throw away this value.
+       */
+      $current_image_selection = $config['carousel'][$key]['image'] ?? NULL;
+      if (!is_string($current_image_selection)) {
+        $current_image_selection = NULL;
+      }
+      $form['carousel'][$key]['image'] = $this->getEntityBrowserForm(
+        self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+        $current_image_selection,
+        1,
+        'thumbnail'
+      );
       $form['carousel'][$key]['image']['#type'] = 'details';
       $form['carousel'][$key]['image']['#title'] = $this->t('List item image');
       $form['carousel'][$key]['image']['#open'] = TRUE;
@@ -202,8 +215,20 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
         ],
       ];
 
-      $form['carousel'][$key]['video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
-        $config['carousel'][$key]['video'], 1);
+      /*
+       * BC fix: There could be wrong array values stored under this key.
+       * Currently the only valid value is a string, if it's not it then we
+       * throw away this value.
+       */
+      $current_video_selection = $config['carousel'][$key]['video'] ?? NULL;
+      if (!is_string($current_video_selection)) {
+        $current_video_selection = NULL;
+      }
+      $form['carousel'][$key]['video'] = $this->getEntityBrowserForm(
+        self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+        $current_video_selection,
+        1
+      );
       $form['carousel'][$key]['video']['#type'] = 'details';
       $form['carousel'][$key]['video']['#title'] = $this->t('List item video');
       $form['carousel'][$key]['video']['#open'] = TRUE;
