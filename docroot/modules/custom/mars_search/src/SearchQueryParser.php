@@ -114,7 +114,7 @@ class SearchQueryParser implements SearchQueryParserInterface {
       'conditions' => [
         ['type', 'faq', $faq_operator, TRUE],
       ],
-      'limit' => 12,
+      'limit' => 8,
       // Just to not have this empty.
       'options_logic' => 'AND',
       'keys' => '',
