@@ -108,6 +108,7 @@ module:
   mars_recommendations: 0
   mars_search: 0
   mars_seo: 0
+  maxlength: 0
   media: 0
   media_entity_instagram: 0
   media_entity_twitter: 0
