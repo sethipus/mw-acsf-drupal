@@ -5,6 +5,7 @@ Drupal.behaviors.searchFilterBehaviour = {
     const clearAllButtons = context.querySelectorAll('.search-filter-block__button--clear-all');
     const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
     const filters = context.querySelectorAll('.filter-block');
+    const filterCheckboxes = context.querySelectorAll('.checkbox-item');
 
     filters.forEach(filter => {
       filter.addEventListener('click', () => {
@@ -62,6 +63,15 @@ Drupal.behaviors.searchFilterBehaviour = {
       button.addEventListener('click', function(event) {
         event.preventDefault();
         processFilters();
+      });
+    });
+
+    filterCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('keypress', (e) => {
+        if (e.keyCode === 13) {
+          let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
+          check.checked = !check.checked;
+        }
       });
     });
 

@@ -53,7 +53,7 @@
         {% for item in applied_filters_list %}
           <span {{ bem('applied-name', [], search_filter_information_base_class) }}>
             <span>{{ item.title }}</span>
-            <div data-id="{{ item.key }}" {{ bem('applied-clear', [], search_filter_information_base_class) }}></div>
+            <button data-id="{{ item.key }}" {{ bem('applied-clear', [], search_filter_information_base_class) }}></button>
           </span>
         {% endfor %}
       </div>
