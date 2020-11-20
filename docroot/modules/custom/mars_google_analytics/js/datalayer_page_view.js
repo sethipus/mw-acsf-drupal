@@ -49,7 +49,10 @@
         card.addEventListener('click', function(event) {
           setTimeout(function() {
             var item = event.target.closest('a');
-            var clickName = item.innerText.trim() || card.dataset.siteSearchClicked;
+            var clickName = card.dataset.siteSearchClicked;
+            if (item !== null) {
+              clickName = item.innerText.trim();
+            }
             var componentName = getComponentName(event.target);
             var cardType = card.dataset.cardType;
             // CARD CLICK
