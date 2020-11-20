@@ -40,10 +40,16 @@ class MulesoftConnector {
    *   Data array.
    */
   public function transformData(string $response) {
-    $mapping = $this->productHelper
-      ->getParentEntitiesMapping($response);
     $response = $this->productHelper
       ->filterProductsInResponse($response);
+
+    // Process product variants in response in order to populate
+    // data by products and product multipacks.
+    $response = $this->productHelper->addProducts($response);
+    $response = $this->productHelper->addProductMultipacks($response);
+
+    $mapping = $this->productHelper
+      ->getParentEntitiesMapping($response);
     $data = [
       'attributes' => $this->productHelper->getAttributesByProducts($response),
       'attribute_values' => $this->productHelper->getAttributeValuesByProducts($response),

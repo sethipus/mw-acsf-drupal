@@ -30,10 +30,8 @@ class ProductHelper {
    */
   public static function isProductVariant(array $product) {
     $is_product_variant = FALSE;
-    if (isset($product['Case Net Weight']) &&
-      isset($product['CMS: Variety']) &&
-      strtolower($product['CMS: Variety']) == 'no') {
 
+    if (!isset($product['CMS: content type'])) {
       $is_product_variant = TRUE;
     }
 
@@ -50,7 +48,15 @@ class ProductHelper {
    *   Result.
    */
   public static function isProductMultipack(array $product) {
-    return (isset($product['CMS: Variety']) && strtolower($product['CMS: Variety']) == 'yes') ? TRUE : FALSE;
+    $is_product_multipack = FALSE;
+
+    if (isset($product['CMS: content type']) &&
+      $product['CMS: content type'] == self::PRODUCT_MULTIPACK_CONTENT_TYPE) {
+
+      $is_product_multipack = TRUE;
+    }
+
+    return $is_product_multipack;
   }
 
   /**
@@ -64,10 +70,10 @@ class ProductHelper {
    */
   public static function isProduct(array $product) {
     $is_product = FALSE;
-    if (
-      !isset($product['Case Net Weight']) &&
-      (!isset($product['CMS: Variety']) || strtolower($product['CMS: Variety']) != 'yes')
-    ) {
+
+    if (isset($product['CMS: content type']) &&
+      $product['CMS: content type'] == self::PRODUCT_CONTENT_TYPE) {
+
       $is_product = TRUE;
     }
 
@@ -155,37 +161,37 @@ class ProductHelper {
    */
   public function getParentEntitiesMapping($response) {
     $mapping = [];
-    $bazaarvoice_mapping = [];
+    $family_mapping = [];
 
     foreach ($this->getProductsData($response) as $product) {
-      if (isset($product['Bazaarvoice Family ID'])) {
-        if (!isset($bazaarvoice_mapping[$product['Bazaarvoice Family ID']])) {
-          $bazaarvoice_mapping[$product['Bazaarvoice Family ID']] = [
+      if (isset($product['CMS: Drupal Family ID'])) {
+        if (!isset($family_mapping[$product['CMS: Drupal Family ID']])) {
+          $family_mapping[$product['CMS: Drupal Family ID']] = [
             self::PRODUCT_CONTENT_TYPE => [],
             self::PRODUCT_MULTIPACK_CONTENT_TYPE => [],
             self::PRODUCT_VARIANT_CONTENT_TYPE => [],
           ];
         }
-        $bazaarvoice_mapping[$product['Bazaarvoice Family ID']][self::getProductType($product)][] = $product['GTIN'];
+        $family_mapping[$product['CMS: Drupal Family ID']][self::getProductType($product)][] = $product['GTIN'];
       }
 
     }
 
-    foreach ($bazaarvoice_mapping as $bazaarvoice_family) {
-      foreach ($bazaarvoice_family[self::PRODUCT_CONTENT_TYPE] as $product_gtin) {
+    foreach ($family_mapping as $family) {
+      foreach ($family[self::PRODUCT_CONTENT_TYPE] as $product_gtin) {
         $mapping[$product_gtin] = $this->combineChildProducts(
-          $bazaarvoice_family[self::PRODUCT_VARIANT_CONTENT_TYPE],
+          $family[self::PRODUCT_VARIANT_CONTENT_TYPE],
           self::PRODUCT_VARIANT_CONTENT_TYPE
         );
       }
-      foreach ($bazaarvoice_family[self::PRODUCT_MULTIPACK_CONTENT_TYPE] as $product_gtin) {
+      foreach ($family[self::PRODUCT_MULTIPACK_CONTENT_TYPE] as $product_gtin) {
         $mapping[$product_gtin] = array_merge(
           $this->combineChildProducts(
-            $bazaarvoice_family[self::PRODUCT_CONTENT_TYPE],
+            $family[self::PRODUCT_CONTENT_TYPE],
             self::PRODUCT_CONTENT_TYPE
           ),
           $this->combineChildProducts(
-            $bazaarvoice_family[self::PRODUCT_VARIANT_CONTENT_TYPE],
+            $family[self::PRODUCT_VARIANT_CONTENT_TYPE],
             self::PRODUCT_VARIANT_CONTENT_TYPE
           )
         );
@@ -212,6 +218,7 @@ class ProductHelper {
       if (isset($product['Send to Brand Site?']) &&
         $product['Send to Brand Site?']) {
 
+        $product = $this->addFamilyId($product);
         $products[] = $product;
       }
     }
@@ -220,6 +227,180 @@ class ProductHelper {
     $response['data'] = $products;
 
     return Json::encode($response);
+  }
+
+  /**
+   * Check whether product has family id field or not and add.
+   *
+   * @param array $product
+   *   Product data.
+   *
+   * @return array
+   *   Product.
+   */
+  private function addFamilyId(array $product) {
+    if (isset($product['CMS: Variety']) &&
+      strtolower($product['CMS: Variety'] == 'yes') &&
+      !isset($product['CMS: Product Pack Family ID'])) {
+
+      $product['CMS: Product Pack Family ID'] = $product['salsify:id'];
+    }
+    elseif (isset($product['CMS: Variety']) &&
+      strtolower($product['CMS: Variety'] == 'no') &&
+      !isset($product['CMS: Product Variant Family ID'])) {
+
+      $product['CMS: Product Variant Family ID'] = $product['salsify:id'];
+    }
+
+    return $product;
+  }
+
+  /**
+   * Add product entities into response based on data.
+   *
+   * @param string $response
+   *   Products data.
+   *
+   * @return string
+   *   Response data.
+   */
+  public function addProducts($response) {
+
+    $products = [];
+
+    foreach ($this->getProductsData($response) as $product) {
+      if (isset($product['CMS: Variety']) &&
+        strtolower($product['CMS: Variety']) == 'no') {
+
+        if (isset($product['CMS: Product Variant Family ID']) &&
+          !isset($products[$product['CMS: Product Variant Family ID']])
+        ) {
+          $products[$product['CMS: Product Variant Family ID']] = $this->createProductFromProductVariant(
+            self::PRODUCT_CONTENT_TYPE,
+            SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT,
+            $product
+          );
+          // Add Drupal Family ID in order to unify mapping process.
+          $product['CMS: Drupal Family ID'] = $product['CMS: Product Variant Family ID'];
+        }
+      }
+      $products[] = $product;
+    }
+
+    $response = Json::decode($response);
+    $response['data'] = array_values($products);
+
+    return Json::encode($response);
+  }
+
+  /**
+   * Create product entity based on product variant data.
+   *
+   * @param string $content_type
+   *   Content type.
+   * @param array $mapping
+   *   Mapping.
+   * @param array $product_variant
+   *   Products data.
+   *
+   * @return array
+   *   Product data.
+   */
+  public function createProductFromProductVariant(
+    $content_type,
+    array $mapping,
+    array $product_variant
+  ) {
+
+    $product = [];
+    $product_fields = array_column($mapping, 'salsify:id');
+    foreach ($product_fields as $product_field_name) {
+      if (isset($product_variant[$product_field_name])) {
+        $product[$product_field_name] = $product_variant[$product_field_name];
+      }
+    }
+
+    // Add Drupal Family ID in order to unify mapping process.
+    if ($content_type == self::PRODUCT_CONTENT_TYPE) {
+      $product['CMS: Drupal Family ID'] = $product_variant['CMS: Product Variant Family ID'];
+    }
+    elseif ($content_type == self::PRODUCT_MULTIPACK_CONTENT_TYPE) {
+      $product['CMS: Drupal Family ID'] = 'multipack_family_id_' . $product_variant['salsify:id'];
+    }
+
+    $salsify_id = base64_encode($product_variant['salsify:id']);
+    $product['salsify:id'] = $salsify_id;
+    $product['GTIN'] = $salsify_id;
+    $product['salsify:created_at'] = $product_variant['salsify:created_at'];
+    $product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
+    $product['CMS: content type'] = $content_type;
+
+    return $product;
+  }
+
+  /**
+   * Add product entities into response based on data.
+   *
+   * @param string $response
+   *   Products data.
+   *
+   * @return string
+   *   Response data.
+   */
+  public function addProductMultipacks($response) {
+
+    $products = [];
+    $product_pack_family_map = [];
+
+    foreach ($this->getProductsData($response) as $product) {
+      if (isset($product['CMS: Variety']) &&
+        strtolower($product['CMS: Variety']) == 'yes') {
+
+        if (isset($product['CMS: Product Pack Family ID']) &&
+          !in_array($product['salsify:id'], array_keys($product_pack_family_map))
+        ) {
+          $product_multipack = $this->createProductFromProductVariant(
+            self::PRODUCT_MULTIPACK_CONTENT_TYPE,
+            SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK,
+            $product
+          );
+          $products[] = $product_multipack;
+          $product_pack_family_map[$product['salsify:id']] = $product_multipack['CMS: Drupal Family ID'];
+
+          $this->populatePackFamilyMap(
+            $product['CMS: Product Pack Family ID'],
+            $product_pack_family_map,
+            $product_multipack['CMS: Drupal Family ID']
+          );
+        }
+        $product['CMS: Drupal Family ID'] = $product_pack_family_map[$product['salsify:id']];
+      }
+      $products[] = $product;
+    }
+
+    $response = Json::decode($response);
+    $response['data'] = $products;
+
+    return Json::encode($response);
+  }
+
+  /**
+   * Populate family map by data in Product pack family id.
+   *
+   * @param array|string $pack_family_id
+   *   Product pack family id.
+   * @param array $product_pack_family_map
+   *   Product pack family map.
+   * @param string $family_id
+   *   Drupal family id.
+   */
+  private function populatePackFamilyMap($pack_family_id, array &$product_pack_family_map, $family_id) {
+    $family_ids = explode(' , ', $pack_family_id);
+    foreach ($family_ids as $salsify_id) {
+      if (!isset($product_pack_family_map[$salsify_id])) {
+        $product_pack_family_map[$salsify_id] = $family_id;
+      }
+    }
   }
 
   /**
