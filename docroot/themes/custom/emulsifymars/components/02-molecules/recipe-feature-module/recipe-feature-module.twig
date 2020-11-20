@@ -30,7 +30,9 @@
       {% endblock %}
     {% endif %}
     <div class="media-info">
-      <div class="{{ brand_shape_class }}">{{ brand_borders | raw }}</div>
+      <div {{ bem('border', [], recipe_template__base_class) }}>
+        {{ brand_borders | raw }}
+      </div>
       <div class="eyebrow"> {{ eyebrow}} </div>
       <h2 class="title">
         {% include "@atoms/links/link/link.twig" with {
