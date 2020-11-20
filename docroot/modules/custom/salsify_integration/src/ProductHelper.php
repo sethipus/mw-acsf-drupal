@@ -240,13 +240,13 @@ class ProductHelper {
    */
   private function addFamilyId(array $product) {
     if (isset($product['CMS: Variety']) &&
-      strtolower($product['CMS: Variety'] == 'yes') &&
+      strtolower($product['CMS: Variety']) == 'yes' &&
       !isset($product['CMS: Product Pack Family ID'])) {
 
       $product['CMS: Product Pack Family ID'] = $product['salsify:id'];
     }
     elseif (isset($product['CMS: Variety']) &&
-      strtolower($product['CMS: Variety'] == 'no') &&
+      strtolower($product['CMS: Variety']) == 'no' &&
       !isset($product['CMS: Product Variant Family ID'])) {
 
       $product['CMS: Product Variant Family ID'] = $product['salsify:id'];
@@ -267,6 +267,7 @@ class ProductHelper {
   public function addProducts($response) {
 
     $products = [];
+    $mapping = [];
 
     foreach ($this->getProductsData($response) as $product) {
       if (isset($product['CMS: Variety']) &&
@@ -283,12 +284,14 @@ class ProductHelper {
           // Add Drupal Family ID in order to unify mapping process.
           $product['CMS: Drupal Family ID'] = $product['CMS: Product Variant Family ID'];
         }
+        $mapping[$product['salsify:id']] = $products[$product['CMS: Product Variant Family ID']]['salsify:id'];
       }
       $products[] = $product;
     }
 
     $response = Json::decode($response);
     $response['data'] = array_values($products);
+    $response['mapping'] = $mapping;
 
     return Json::encode($response);
   }
@@ -351,6 +354,10 @@ class ProductHelper {
 
     $products = [];
     $product_pack_family_map = [];
+    $response_tmp = Json::decode($response);
+    $mapping = [];
+    $mapping['product_variant'] = $response_tmp['mapping'];
+    unset($response_tmp);
 
     foreach ($this->getProductsData($response) as $product) {
       if (isset($product['CMS: Variety']) &&
@@ -365,12 +372,14 @@ class ProductHelper {
             $product
           );
           $products[] = $product_multipack;
-          $product_pack_family_map[$product['salsify:id']] = $product_multipack['CMS: Drupal Family ID'];
+          // A$product_pack_family_map[$product['salsify:id']] =.
+          // A$product_multipack['CMS: Drupal Family ID'];.
+          $mapping[$product_multipack['salsify:id']] = [$product['salsify:id'] => self::PRODUCT_VARIANT_CONTENT_TYPE];
 
-          $this->populatePackFamilyMap(
+          $this->populateMappingByFamilyPackId(
+            $product_multipack['salsify:id'],
             $product['CMS: Product Pack Family ID'],
-            $product_pack_family_map,
-            $product_multipack['CMS: Drupal Family ID']
+            $mapping,
           );
         }
         $product['CMS: Drupal Family ID'] = $product_pack_family_map[$product['salsify:id']];
@@ -387,18 +396,19 @@ class ProductHelper {
   /**
    * Populate family map by data in Product pack family id.
    *
-   * @param array|string $pack_family_id
+   * @param string $multipack_id
    *   Product pack family id.
-   * @param array $product_pack_family_map
+   * @param string $pack_family_id
    *   Product pack family map.
-   * @param string $family_id
-   *   Drupal family id.
+   * @param array $mapping
+   *   Mapping array.
    */
-  private function populatePackFamilyMap($pack_family_id, array &$product_pack_family_map, $family_id) {
+  private function populateMappingByFamilyPackId($multipack_id, $pack_family_id, array &$mapping) {
     $family_ids = explode(' , ', $pack_family_id);
+
     foreach ($family_ids as $salsify_id) {
-      if (!isset($product_pack_family_map[$salsify_id])) {
-        $product_pack_family_map[$salsify_id] = $family_id;
+      if (isset($mapping['product_variant'][$salsify_id])) {
+        $mapping[$multipack_id][$mapping['product_variant'][$salsify_id]] = self::PRODUCT_CONTENT_TYPE;
       }
     }
   }
