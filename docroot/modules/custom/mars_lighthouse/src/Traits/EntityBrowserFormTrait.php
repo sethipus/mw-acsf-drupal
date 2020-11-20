@@ -2,6 +2,8 @@
 
 namespace Drupal\mars_lighthouse\Traits;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormInterface;
@@ -59,6 +61,9 @@ trait EntityBrowserFormTrait {
       '#selection_mode' => $cardinality === 1 ? EntityBrowserElement::SELECTION_MODE_PREPEND : EntityBrowserElement::SELECTION_MODE_APPEND,
       '#default_value' => $default_value,
       '#wrapper_id' => &$element['#attributes']['id'],
+      '#widget_context' => [
+        'cardinality' => $cardinality,
+      ],
     ];
     $element['selected'] = [
       '#type' => 'table',
@@ -106,14 +111,43 @@ trait EntityBrowserFormTrait {
     }
     $ids = array_filter($ids);
 
-    $storage = [];
+    $entity_type_manager = \Drupal::entityTypeManager();
+
     $entities = [];
     foreach ($ids as $id) {
-      list($entity_type_id, $entity_id) = explode(':', $id);
-      if (!isset($storage[$entity_type_id])) {
-        $storage[$entity_type_id] = \Drupal::entityTypeManager()->getStorage($entity_type_id);
+      $id_parts = explode(':', $id);
+
+      if (!isset($id_parts[0], $id_parts[1])) {
+        \Drupal::logger('mars_lighthouse')
+          ->error(
+            "The id string '@id' is invalid, expected format is 'entity_type_id:entity_id'.",
+            [
+              '@id' => $id,
+            ]
+          );
+        continue;
       }
-      $entities[$entity_type_id . ':' . $entity_id] = $storage[$entity_type_id]->load($entity_id);
+
+      $entity_type_id = $id_parts[0];
+      $entity_id = $id_parts[1];
+
+      try {
+        $storage = $entity_type_manager->getStorage($entity_type_id);
+        $entity = $storage->load($entity_id);
+      }
+      catch (InvalidPluginDefinitionException | PluginNotFoundException $e) {
+        \Drupal::logger('mars_lighthouse')
+          ->error(
+            'Couldn\'t get storage for entity: @exception_message' .
+            ['@exception_message' => $e->getMessage()]
+          );
+        $entity = NULL;
+      }
+
+      if ($entity) {
+        $entities[$entity_type_id . ':' . $entity_id] = $entity;
+      }
+
     }
     return $entities;
   }

@@ -1,4 +1,6 @@
 .recipe-feature-block {
+  $recipe-feature-desktop-max-height: 665px;
+
   margin: 20px 0;
 
   &__title {
@@ -23,12 +25,33 @@
     }
   }
 
+  &__border {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(-100%) translateY($brand-border-offset);
+    width: 100%;
+    z-index: 2;
+
+    @include large {
+      transform: translate(-50%, -50%) rotate(-90deg) translate(-50%, -50%) translateY($brand-border-offset);
+      width: $recipe-feature-desktop-max-height;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      fill: clr(subcolor-2);
+    }
+  }
+
   .media {
     position: relative;
     overflow: hidden;
 
     @include large {
-      max-height: 665px;
+      height: $recipe-feature-desktop-max-height;
     }
 
     .ambient-video video {
@@ -39,7 +62,9 @@
       width: 100%;
 
       @include large {
-        width: 60%;
+        min-height: 100%;
+        min-width: 60%;
+        width: auto;
       }
     }
 
@@ -63,62 +88,6 @@
         flex-flow: column nowrap;
       }
 
-      .repeat {
-        position: absolute;
-        top: -14px;
-        width: 100%;
-
-
-        @include large {
-          transform: rotate(-90deg);
-          width: 150%;
-          height: 15px;
-          top: 50%;
-          left: calc(-75% - 7px);
-        }
-
-        svg {
-          width: 100%;
-
-          path {
-            fill: clr(subcolor-2);
-          }
-          rect {
-            width: 100%;
-            height: 16px;
-            display: block;
-          }
-        }
-      }
-
-      .stretch {
-        position: absolute;
-        top: -14px;
-        width: 100%;
-        height: auto;
-        z-index: 2;
-
-        @include large {
-          transform: rotate(-90deg);
-          width: 100%;
-          height: 35px;
-          top: 50%;
-          left: calc(-50% - 7px);
-        }
-
-        svg {
-          width: 100%;
-
-          path {
-            fill: clr(subcolor-2);
-          }
-          rect {
-            width: 100%;
-            height: 16px;
-          }
-        }
-      }
-
       .eyebrow {
         padding-top: 30px;
         font-family: variable(primary-font);
@@ -128,6 +97,7 @@
         text-transform: uppercase;
         letter-spacing: 1.4px;
       }
+
       .title {
         font-family: variable(primary-font);
         font-size: 56px;

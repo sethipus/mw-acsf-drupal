@@ -63,8 +63,8 @@ function mars_common_preprocess(&$variables, $hook) {
 
   if ($hook === 'views_view__grid_card') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
-    $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'card-grid-border');
+    $file_divider_content = $themeParser->getGraphicDivider();
+    $file_border_content = $themeParser->getBrandBorder2();
     $border_radius = Drupal::config('emulsifymars.settings')
       ->get('button_style');
 
@@ -79,7 +79,7 @@ function mars_common_preprocess(&$variables, $hook) {
   if ((isset($variables['view_mode']) && $variables['view_mode'] === 'article_card')
     || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $brand_shape_content = $themeParser->getFileContentFromTheme('brand_shape');
+    $brand_shape_content = $themeParser->getBrandShape();
     $variables['brand_shape'] = $brand_shape_content ?? '';
   }
 
@@ -120,7 +120,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
     'footer_block' => [
       'variables' => [
         'logo'                 => NULL,
-        'brand_shape_class'    => NULL,
         'brand_border'         => NULL,
         'social_links'         => NULL,
         'top_footer_menu'      => NULL,
@@ -409,8 +408,9 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-  $file_content = $themeParser->getFileWithId('brand_borders', 'carousel');
+  $file_content = $themeParser->getBrandBorder();
 
   $media_items = [];
   foreach ($field_carousel_items as $item_key => $item_value) {
@@ -717,8 +717,8 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   }
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-  $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
-  $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
+  $file_divider_content = $themeParser->getGraphicDivider();
+  $file_border_content = $themeParser->getBrandBorder2();
 
   $variables['items'] = $ff_items;
   $variables['grid_label'] = $field_ff_title;
@@ -726,7 +726,6 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   $variables['item_type'] = 'card';
   $variables['divider'] = $file_divider_content ?? NULL;
   $variables['brand_borders'] = $file_border_content ?? NULL;
-  $variables['brand_shape_class'] = $themeParser->getSettingValue('brand_border_style', 'stretch');
 }
 
 /**

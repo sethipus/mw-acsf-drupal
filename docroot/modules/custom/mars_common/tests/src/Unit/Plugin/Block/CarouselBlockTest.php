@@ -4,6 +4,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\CarouselBlock;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -154,8 +155,8 @@ class CarouselBlockTest extends UnitTestCase {
 
     $this->themeConfiguratorParserMock
       ->expects($this->once())
-      ->method('getFileWithId')
-      ->willReturn('content');
+      ->method('getBrandBorder')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
 
     $build = $this->block->build();
     $this->assertEquals('carousel_component', $build['#theme']);
