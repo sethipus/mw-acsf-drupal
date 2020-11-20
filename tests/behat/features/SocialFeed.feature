@@ -58,11 +58,3 @@ Feature: Social Feed Test
     When I press "Delete"
     Then I should see "Juicer.io feed configuration deleted: Feed."
     And I should see "There are no juicer.io feed entities yet."
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    And I press "Delete"
-    Then the url should match "admin/content"
-    And I should see "Status message"
-    And I should see "Deleted 1 content item."

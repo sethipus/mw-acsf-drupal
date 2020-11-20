@@ -35,10 +35,3 @@ Feature: Content Test
     And I should see "MyTitle"
     And I should see "MyDescription"
     And I should see a "//a[contains(@href,'http://link.com')]/span[contains(text(), 'Explore')]" xpath element
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    Then the url should match "content/node/delete"
-
-    When I press "Delete"

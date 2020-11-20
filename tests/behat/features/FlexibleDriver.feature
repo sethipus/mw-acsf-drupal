@@ -26,9 +26,3 @@ Feature: Flexible Driver Test
     When I press "Save layout"
     Then I should see "Title"
     And I should see a "//a[contains(@href,'http://link.com')]/span[contains(text(), 'Learn more')]" xpath element
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    And I press "Delete"
-

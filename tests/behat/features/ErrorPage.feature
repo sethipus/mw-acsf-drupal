@@ -50,8 +50,3 @@ Feature: Error Page Test
     And I should see "Delete"
     And I should see "History"
     And I should see "Revisions"
-
-    When I follow "Content"
-    And I check content with title "Oops"
-    And I press "Apply to selected items"
-    And I press "Delete"

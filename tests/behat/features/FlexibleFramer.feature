@@ -41,9 +41,3 @@ Feature: Flexible Framer Test
     And I should see "My Framer Title"
     And I should see "My Item Title"
     And I should see a "//img[@alt='Alternative text']" xpath element
-
-    When I am on "/admin/content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    And I press "Delete"
-    Then the url should match "admin/content"
