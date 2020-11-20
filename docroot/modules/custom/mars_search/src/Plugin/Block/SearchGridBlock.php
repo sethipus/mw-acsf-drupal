@@ -274,7 +274,6 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, "grid_{$this->gridId}");
-    $build['#attached']['drupalSettings']['cards'][$this->gridId]['searchOptions'] = $searchOptions;
     if ($query_search_results['resultsCount'] == 0) {
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys']);
     }
@@ -302,6 +301,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $url_options['query']['see-all'] = 1;
       $url->setOptions($url_options);
       $build['#ajax_card_grid_link_text'] = $this->t('See all');
+      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
     $build['#ajax_card_grid_heading'] = $config['title'];
@@ -311,7 +311,9 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_results_count,
     ];
-    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#attached']['drupalSettings']['cards'][$this->gridId]['contentType'] = $config['content_type'];
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
@@ -328,6 +330,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     return [
       '#no_results_heading' => str_replace('@keys', $key, $config->get('no_results_heading')),
       '#no_results_text' => $config->get('no_results_text'),
+      '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
       '#theme' => 'mars_search_no_results',
     ];
   }

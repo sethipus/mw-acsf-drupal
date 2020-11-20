@@ -315,18 +315,19 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     }
 
     $params = $this->lighthouseAdapter->getToken();
+    $latest_modified_date = $this->getLatestModifiedDate($media_objects);
     try {
-      $data = $this->lighthouseClient->getAssetsByIds($request_data, $this->getLatestModifiedDate($media_objects), $params);
+      $data = $this->lighthouseClient->getAssetsByIds($request_data, $latest_modified_date, $params);
     }
     catch (TokenIsExpiredException $e) {
       // Try to refresh token.
       $params = $this->lighthouseAdapter->refreshToken();
-      $data = $this->lighthouseClient->getAssetsByIds($request_data, $this->getLatestModifiedDate($media_objects), $params);
+      $data = $this->lighthouseClient->getAssetsByIds($request_data, $latest_modified_date, $params);
     }
     catch (LighthouseAccessException $e) {
       // Try to force request new token.
       $params = $this->lighthouseAdapter->getToken(TRUE);
-      $data = $this->lighthouseClient->getAssetsByIds($request_data, $this->getLatestModifiedDate($media_objects), $params);
+      $data = $this->lighthouseClient->getAssetsByIds($request_data, $latest_modified_date, $params);
     }
     $external_ids = [];
     foreach ($data as $item) {
@@ -342,9 +343,15 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     }
     if ($external_ids) {
       $this->state->set('system.sync_lighthouse_last', date('m/d/Y'));
-      $this->logger->info($this->t('@count results processed. List of entities with external ids were updated @external_ids', [
+      $this->logger->info($this->t('@count results processed. List of entities with external ids were updated @external_ids. Check date is @check_date.', [
         '@count' => count($data),
         '@external_ids' => implode(', ', array_unique($external_ids)),
+        '@check_date' => $latest_modified_date,
+      ]));
+    }
+    else {
+      $this->logger->info($this->t('Checked chunk of media with non updated information. Check date is @check_date.', [
+        '@check_date' => $latest_modified_date,
       ]));
     }
   }
