@@ -2,9 +2,11 @@
 {% set social_feed_base_class = social_feed_base_class|default('social-feed') %}
 
 <section id="social-feed" {{ bem(social_feed_base_class) }} data-theme="{{theme_styles}}" >
-  <div class="social-feed__brand-border">
-    {{ brand_border | raw }}
-  </div>
+  {% block brand_border %}
+    <div {{  bem('border', [], social_feed_base_class)  }}>
+      {{ brand_border | raw }}
+    </div>
+  {% endblock %}
 
   <div class="social-feed__content">
     <div class="social-feed__heading">
