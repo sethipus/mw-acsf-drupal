@@ -11,7 +11,7 @@
   background-position: 212% 89px, 57% 470px, -22% 231px;
   background-size: 280px, 285px, 122px;
   padding: 10px 40px;
-  min-height: 500px;
+  min-height: 570px;
 
   @include medium {
     padding: 60px 40px;
@@ -46,44 +46,16 @@
     margin-top: 20px;
   }
 
-  .stretch {
+  &__border {
     position: absolute;
+    bottom: (-$brand-border-offset);
     width: 100%;
-    height: auto;
-    z-index: 2;
-    bottom: -5px;
 
     svg {
-      path {
-        fill: clr(subcolor-3);
-        width: 100%;
-      }
-      rect {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  .repeat {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    bottom: 15px;
-
-    svg {
+      display: block;
       width: 100%;
-      position: absolute;
-      bottom: -120px;
-
-      path {
-        fill: clr(subcolor-3);
-      }
-      rect {
-        width: 100%;
-        height: 3rem;
-      }
+      height: auto;
+      fill: clr(subcolor-3);
     }
   }
 }
