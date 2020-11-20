@@ -69,7 +69,7 @@ third_party_settings:
       -
         layout_id: content_hub_feature
         layout_settings:
-          label: Feature
+          label: 'Featured Content'
         components: {  }
         third_party_settings:
           layout_builder_lock:
@@ -80,7 +80,7 @@ third_party_settings:
       -
         layout_id: content_hub_add_sub_groups
         layout_settings:
-          label: 'Add Sub Groups'
+          label: 'Drive to Collections'
         components: {  }
         third_party_settings:
           layout_builder_lock:
@@ -91,7 +91,7 @@ third_party_settings:
       -
         layout_id: content_hub_collection_cards
         layout_settings:
-          label: 'Collection Cards'
+          label: 'Card Grid'
         components: {  }
         third_party_settings:
           layout_builder_lock:
@@ -128,7 +128,7 @@ third_party_settings:
       -
         layout_id: content_hub_flex_driver
         layout_settings:
-          label: 'Flex Driver'
+          label: 'Driver Content'
         components: {  }
         third_party_settings:
           layout_builder_lock:
@@ -139,7 +139,7 @@ third_party_settings:
       -
         layout_id: content_hub_community
         layout_settings:
-          label: Community
+          label: 'Community Engagement'
         components: {  }
         third_party_settings:
           layout_builder_lock:
@@ -183,11 +183,6 @@ third_party_settings:
         Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
-        - recipe_recipe_hero
-        - recipe_recipe_body
-        - recipe_storytelling_community
-        - recipe_ratings_reviews
-        - recipe_recipe_recommendations
         - content_hub_parent_header
         - content_hub_feature
         - content_hub_add_sub_groups
@@ -197,11 +192,6 @@ third_party_settings:
         - content_hub_community
     entity_view_mode_restriction_by_region:
       allowed_layouts:
-        - recipe_recipe_hero
-        - recipe_recipe_body
-        - recipe_storytelling_community
-        - recipe_ratings_reviews
-        - recipe_recipe_recommendations
         - content_hub_parent_header
         - content_hub_feature
         - content_hub_add_sub_groups
