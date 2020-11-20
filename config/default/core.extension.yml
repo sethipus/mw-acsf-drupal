@@ -10,6 +10,7 @@ module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
   adminimal_admin_toolbar: 0
+  advagg: 0
   autosave_form: 0
   bg_image_formatter: 0
   blazy: 0
@@ -107,6 +108,7 @@ module:
   mars_recommendations: 0
   mars_search: 0
   mars_seo: 0
+  maxlength: 0
   media: 0
   media_entity_instagram: 0
   media_entity_twitter: 0
