@@ -4,6 +4,7 @@ namespace Drupal\mars_search;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Core\Url;
 
 /**
  * Class SearchTermFacetProcess.
@@ -130,6 +131,56 @@ class SearchTermFacetProcess {
    */
   public function getQueryValue($key, $grid_id) {
     return $this->request->query->get($key)[$grid_id];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCurrentUrl() {
+    // Getting Url object from current request.
+    $url = Url::createFromRequest($this->request);
+    // Adding GET parameters.
+    $url->setOption('query', $this->request->query->all());
+    return $url;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareFacetsLinks($facets, $facet_key, $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+    $facets_links = [];
+    if (!$facets) {
+      return $facets_links;
+    }
+    $url = $this->getCurrentUrl();
+    $options = $url->getOptions();
+    foreach ($facets as $facet) {
+      // "!" means all items without facets so ignore this "facet".
+      if ($facet['filter'] != '!') {
+        // HTML class for facet link.
+        $facet_link_class = '';
+
+        // That means facet is active.
+        $facet_query_value = $this->request->query->get($facet_key);
+        if (isset($facet_query_value[$search_id]) && $facet_query_value[$search_id] == $facet['filter']) {
+          $facet_link_class = 'active';
+          // Removing facet query from active filter to allow deselect it.
+          unset($options['query'][$facet_key]);
+        }
+        else {
+          // Adding facet filter to the query.
+          $options['query'][$facet_key][$search_id] = $facet['filter'];
+        }
+
+        $url->setOptions($options);
+        $facets_links[] = [
+          'class' => $facet_link_class,
+          'text' => $facet['filter'],
+          'attr' => ['href' => $url->toString()],
+        ];
+      }
+    }
+    return $facets_links;
   }
 
 }

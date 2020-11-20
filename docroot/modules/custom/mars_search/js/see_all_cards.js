@@ -57,14 +57,13 @@
         else {
           $('.faq-filters__filters a').removeClass('active');
           $(this).addClass('active');
-          currentQuery.faq_filter_topic = link;
+          currentQuery.faq_filter_topic = link[1];
         }
         currentQuery.isFilterAjax = true;
         $.ajax({
           url: '/see-all-faq-callback',
           data: currentQuery,
           success: function (data, textStatus) {
-            console.log(data);
             $list.html(data.build);
             if (data.showButton) {
               $('.faq__see_all').show();

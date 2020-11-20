@@ -364,7 +364,6 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         // Do not fail page load if search index is not in sync with database.
         if ($search_result->bundle() != 'faq') {
           $search_results['resultsCount']--;
-
           continue;
         }
 

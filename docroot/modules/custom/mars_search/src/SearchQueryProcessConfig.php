@@ -8,9 +8,9 @@ use Drupal\mars_search\Plugin\Block\SearchGridBlock;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class SearchQueryParser.
+ * Class SearchQueryProcessConfig.
  */
-class SearchQueryParser implements SearchQueryParserInterface {
+class SearchQueryProcessConfig implements SearchQueryParserInterface {
   use StringTranslationTrait;
 
   /**
@@ -35,19 +35,9 @@ class SearchQueryParser implements SearchQueryParserInterface {
   protected $searches = [];
 
   /**
-   * Array of solr filter parameters.
-   *
-   * @var array
-   */
-  private $options = [];
-
-  /**
    * {@inheritdoc}
    */
-  public function __construct(
-    EntityTypeManagerInterface $entity_type_manager,
-    RequestStack $request
-  ) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $request) {
     $this->entityTypeManager = $entity_type_manager;
     $this->request = $request->getMasterRequest();
   }
@@ -65,11 +55,11 @@ class SearchQueryParser implements SearchQueryParserInterface {
     }
 
     // Initializing options array.
-    $this->options[$search_id] = $this->getDefaultOptions($query_parameters);
+    $options[$search_id] = $this->getDefaultOptions($query_parameters);
 
     // Removing limit in "see all" case.
     if (!empty($query_parameters['see-all'])) {
-      unset($this->options[$search_id]['limit']);
+      unset($options[$search_id]['limit']);
     }
 
     // Looping through parameters to support several searches on a single page.
@@ -82,18 +72,18 @@ class SearchQueryParser implements SearchQueryParserInterface {
           }
           // Getting search keyword.
           if ($parameter_key == SearchQueryParserInterface::MARS_SEARCH_SEARCH_KEY) {
-            $this->options[$search_key]['keys'] = $parameter_value;
+            $options[$search_key]['keys'] = $parameter_value;
           }
           // Getting search filters values.
           elseif (in_array($parameter_key, array_keys(SearchGridBlock::TAXONOMY_VOCABULARIES))) {
-            $this->options[$search_key]['conditions'][] = [
+            $options[$search_key]['conditions'][] = [
               $parameter_key,
               explode(',', $parameter_value),
               'IN',
             ];
           }
           else {
-            $this->options[$search_key]['conditions'][] = [
+            $options[$search_key]['conditions'][] = [
               $parameter_key,
               $parameter_value,
               '=',
@@ -105,28 +95,14 @@ class SearchQueryParser implements SearchQueryParserInterface {
 
     // Getting search filters query logic.
     if (!empty($query_parameters['options_logic'])) {
-      $this->options[$search_key]['options_logic'] = $query_parameters['options_logic'];
+      $options[$search_key]['options_logic'] = $query_parameters['options_logic'];
     }
 
     // Autocomplete specific option for header search overlay.
     // If it is set we display nodes cards, otherwise – just links.
-    $this->options[$search_id]['cards_view'] = !empty($query_parameters['cards_view']);
+    $options[$search_id]['cards_view'] = !empty($query_parameters['cards_view']);
 
-    // Return new self($this->entityTypeManager,$this->request,$this->options);.
-    return $this->options[$search_id];
-  }
-
-  /**
-   * Return search options.
-   *
-   * @param int $search_id
-   *   Grid ID.
-   *
-   * @return array
-   *   Processed query option with preset.
-   */
-  public function parseResults(int $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
-    return $this->options[$search_id];
+    return $options[$search_id];
   }
 
   /**

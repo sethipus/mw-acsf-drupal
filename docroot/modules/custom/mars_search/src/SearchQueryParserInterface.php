@@ -27,7 +27,7 @@ interface SearchQueryParserInterface {
    * @return array
    *   Array with SOLR filters.
    */
-  public function parseQuery($search_id);
+  public function parseQuery(int $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
 
   /**
    * Returns default options for search query.
@@ -38,6 +38,6 @@ interface SearchQueryParserInterface {
    * @return array
    *   Array with options.
    */
-  public function getDefaultOptions(array $query_parameters);
+  public function getDefaultOptions(array $query_parameters = []);
 
 }

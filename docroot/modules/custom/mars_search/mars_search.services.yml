@@ -8,3 +8,8 @@ services:
   mars_search.facet_process:
     class: Drupal\mars_search\SearchTermFacetProcess
     arguments: ['@entity_type.manager', '@request_stack']
+  mars_search.search_factory:
+    class: Drupal\mars_search\SearchProcessFactory
+    arguments: ['@config_filter.storage.sync.inner']
+    tags:
+      - { name: service_collector, tag: 'mars_search.search_processor', call: addProcessManager }
