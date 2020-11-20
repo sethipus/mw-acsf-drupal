@@ -61,6 +61,9 @@ trait EntityBrowserFormTrait {
       '#selection_mode' => $cardinality === 1 ? EntityBrowserElement::SELECTION_MODE_PREPEND : EntityBrowserElement::SELECTION_MODE_APPEND,
       '#default_value' => $default_value,
       '#wrapper_id' => &$element['#attributes']['id'],
+      '#widget_context' => [
+        'cardinality' => $cardinality,
+      ],
     ];
     $element['selected'] = [
       '#type' => 'table',

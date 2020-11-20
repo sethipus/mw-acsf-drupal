@@ -1,7 +1,9 @@
 .recommendations {
+  position: relative;
   background-color: clr(subcolor-2);
   padding: 2rem 0 4rem 0;
-  overflow-x: hidden;
+
+  @include brand-border-overflow;
 
   .graphic-divider {
     text-align: center;
@@ -107,12 +109,16 @@
     width: 255px;
     height: 520px;
 
+    &__content {
+      display: block;
+    }
+
     .article-card-paragraph {
       flex-grow: 0;
     }
 
     .default-link {
-      margin-top: 5.85rem;
+      margin-top: 7.45rem;
     }
   }
 

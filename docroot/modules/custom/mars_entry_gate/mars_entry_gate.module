@@ -62,7 +62,7 @@ function mars_entry_gate_preprocess_page(&$variables) {
 
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $theme_configurator */
   $theme_configurator = Drupal::service('mars_common.theme_configurator_parser');
-  $entry_gate_render_array['#brand_shape'] = $theme_configurator->getFileContentFromTheme('brand_shape');
+  $entry_gate_render_array['#brand_shape'] = $theme_configurator->getBrandShape();
 
   $variables['page']['content']['entry_gate'] = $entry_gate_render_array;
 }

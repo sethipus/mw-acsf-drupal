@@ -23,6 +23,8 @@ class LighthouseConfiguration {
 
   public const ENDPOINT_GET_MARKETS = 'get_markets';
 
+  public const ENDPOINT_SENT_INVENTORY_REPORT = 'sent_inventory_report';
+
   private const API_PATHS = [
     'get_token' => '/session',
     'refresh_token' => '/session/refresh',
@@ -31,6 +33,7 @@ class LighthouseConfiguration {
     'assets_by_ids' => '/search/002',
     'get_brands' => '/lookup/brand',
     'get_markets' => '/lookup/market',
+    'sent_inventory_report' => '/inventory/acquia',
   ];
 
   /**
