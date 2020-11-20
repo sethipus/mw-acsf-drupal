@@ -1,46 +1,21 @@
 .fonts-test-component {
   color: clr(primary);
   padding: 0 5rem;
-  font-family: variable(primary-font);
 
   &__heading {
     margin: 0;
     font-size: 5rem;
 
-    &--100 {
-      font-weight: 100;
+    &--heading-font {
+      font-family: variable(heading-font);
     }
 
-    &--200 {
-      font-weight: 200;
+    &--primary-font {
+      font-family: variable(primary-font);
     }
 
-    &--300 {
-      font-weight: 300;
-    }
-
-    &--400 {
-      font-weight: 400;
-    }
-
-    &--500 {
-      font-weight: 500;
-    }
-
-    &--600 {
-      font-weight: 600;
-    }
-
-    &--700 {
-      font-weight: 700;
-    }
-
-    &--800 {
-      font-weight: 800;
-    }
-
-    &--900 {
-      font-weight: 900;
+    &--secondary-font {
+      font-family: variable(secondary-font);
     }
   }
 
@@ -50,13 +25,13 @@
     font-size: 2rem;
 
     &--light {
-      font-weight: 100;
+      font-family: variable(secondary-font);
     }
     &--medium {
-      font-weight: 400;
+      font-family: variable(primary-font);
     }
     &--bold {
-      font-weight: 600;
+      font-family: variable(heading-font);
     }
   }
 }
