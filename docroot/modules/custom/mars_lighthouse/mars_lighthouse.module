@@ -38,4 +38,6 @@ function mars_lighthouse_preprocess_lighthouse_gallery_item(&$variables) {
 function mars_lighthouse_cron() {
   // Run queue to sync drupal media with lighthouse.
   \Drupal::service('mars_lighthouse.sync')->runLighthouseSyncQueue();
+  // Run queue to make inventory report and sent to lighthouse.
+  \Drupal::service('mars_lighthouse.sync')->runLighthouseInventoryReport();
 }
