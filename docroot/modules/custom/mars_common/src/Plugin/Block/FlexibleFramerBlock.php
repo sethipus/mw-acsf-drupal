@@ -300,10 +300,8 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $ff_items[] = $ff_item;
     }
 
-    $file_divider_content = $this->themeConfiguratorParser
-      ->getFileContentFromTheme('graphic_divider');
-    $file_border_content = $this->themeConfiguratorParser
-      ->getFileWithId('brand_borders_2', 'recipe-hero-border');
+    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
+    $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
 
     $build['#items'] = $ff_items;
     $build['#grid_type'] = 'card';
@@ -311,9 +309,6 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#grid_label'] = $config['title'] ?? NULL;
     $build['#divider'] = $file_divider_content ?? NULL;
     $build['#brand_borders'] = $file_border_content ?? NULL;
-    $build['#brand_shape_class'] = $this->themeConfiguratorParser
-      ->getSettingValue('brand_border_style', 'stretch');
-
     $build['#theme'] = 'flexible_framer_block';
 
     return $build;

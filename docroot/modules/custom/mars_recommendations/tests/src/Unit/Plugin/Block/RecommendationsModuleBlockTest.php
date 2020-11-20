@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_recommendations\Plugin\Block\RecommendationsModuleBlock;
 use Drupal\mars_recommendations\RecommendationsLogicPluginInterface;
@@ -265,9 +266,9 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
    */
   private function createThemeConfigurationParserMock() {
     $mock = $this->createMock(ThemeConfiguratorParser::class);
-    $mock->method('getFileContentFromTheme')
-      ->with('graphic_divider')
-      ->willReturn('<svg xmlns="http://www.w3.org/2000/svg"/>');
+    $mock
+      ->method('getGraphicDivider')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg"/>', 'id'));
 
     return $mock;
   }
