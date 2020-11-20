@@ -110,8 +110,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#theme'] = 'story_highlight_block';
 
     $build['#title'] = $conf['story_block_title'];
-    $build['#brand_border'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_borders_2');
-    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#story_description'] = $conf['story_block_description'];
 
     $build['#story_items'] = array_map(function ($value) {

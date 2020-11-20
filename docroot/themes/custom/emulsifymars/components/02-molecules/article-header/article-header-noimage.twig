@@ -30,8 +30,10 @@
         {% endblock %}
       </div>
     </div>
-    <div class="{{ brand_shape_class }}">
-      {{ shape | raw }}
-    </div>
+    {% block article_media_devider %}
+      <div {{ bem('border', [], article_header) }}>
+        {{ shape | raw }}
+      </div>
+    {% endblock %}
   </div>
 </div>
