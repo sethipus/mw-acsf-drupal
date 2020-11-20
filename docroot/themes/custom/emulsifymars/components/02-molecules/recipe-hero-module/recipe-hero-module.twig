@@ -23,13 +23,15 @@
       } %}
     {% endblock %}
   {% else %}
-    <div class="recipe-media__image-wrapper" style="background-image: url('{{ image_srcset }}')">
+    <div class="recipe-media__image-wrapper" style="background-image: url('{{ image.url }}')">
     </div>
   {% endif %}
   <div class="recipe-media__info">
-    <div class="{{ brand_shape_class }}">
-      {{ brand_borders | raw }}
-    </div>
+    {% block brand_border %}
+      <div {{ bem('border', [], 'recipe-media') }}>
+        {{ brand_borders | raw }}
+      </div>
+    {% endblock %}
     <div class="recipe-details">
       <div class="recipe-details-item">
         <div class="recipe-details-item__icon-container">
