@@ -75,7 +75,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#default_value' => $config['title'] ?? '',
     ];
 
