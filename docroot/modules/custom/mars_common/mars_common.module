@@ -891,6 +891,32 @@ function mars_common_menu_link_content_delete(EntityInterface $entity) {
 }
 
 /**
+ * Validate menu links against limit.
+ *
+ * @param \Drupal\menu_link_content\Entity\MenuLinkContent $entity
+ *   MenuLinkContent entity for review.
+ * @param string $menu
+ *   The Menu name.
+ * @param int $limit
+ *   Max amount of menu links.
+ */
+function _mars_common_menu_link_count_validation(MenuLinkContent $entity, string $menu, int $limit) {
+  if ($entity->isNew() ||
+  (
+    $entity->get('menu_name')->value !== $menu ||
+    $entity->get('parent')->value !== NULL)
+  ) {
+    $menu_tree_params = new MenuTreeParameters();
+    $menu_tree_params->setMaxDepth(1);
+    $menu_tree = \Drupal::menuTree()->load($menu, $menu_tree_params);
+    if (count($menu_tree) >= $limit) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+/**
  * Add custom validation to menu link form.
  *
  * @param array $form
@@ -903,26 +929,31 @@ function _mars_common_form_menu_link_content_menu_link_content_form_validate(arr
   $form_values = $form_state->getValues();
   $form_values_parent_menu = substr($form_values['menu_parent'], 0, -1);
   if ($form_values_parent_menu === MenuConstants::MAIN_MENU_ID) {
-    if ($entity->isNew()
-      || (
-        $entity->get('menu_name')->value !== MenuConstants::MAIN_MENU_ID
-        || $entity->get('parent')->value !== NULL)
-    ) {
-      $menu_tree_params = new MenuTreeParameters();
-      $menu_tree_params->setMaxDepth(1);
-      $menu_tree = \Drupal::menuTree()->load(MenuConstants::MAIN_MENU_ID, $menu_tree_params);
-      if (count($menu_tree) >= MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT) {
-        $form_state->setErrorByName(
-          'menu_parent',
-          t(
-            'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
-            [
-              '@menu' => '<Main navigation>',
-              '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
-            ]
-          )
-        );
-      }
+    if (!_mars_common_menu_link_count_validation($entity, $form_values_parent_menu, MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT)) {
+      $form_state->setErrorByName(
+        'menu_parent',
+        t(
+          'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+          [
+            '@menu' => '<Main navigation>',
+            '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
+          ]
+        )
+      );
+    }
+  }
+  elseif ($form_values_parent_menu === MenuConstants::TOP_FOOTER_MENU_ID) {
+    if (!_mars_common_menu_link_count_validation($entity, $form_values_parent_menu, MenuConstants::TOP_FOOTER_MENU_ITEM_COUNT_LIMIT)) {
+      $form_state->setErrorByName(
+        'menu_parent',
+        t(
+          'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+          [
+            '@menu' => '<Top footer navigation>',
+            '@max_count' => MenuConstants::TOP_FOOTER_MENU_ITEM_COUNT_LIMIT,
+          ]
+        )
+      );
     }
   }
 }
@@ -944,6 +975,12 @@ function mars_common_form_menu_link_content_menu_link_content_form_alter(array &
   $menu_parent = $form_input['menu_parent'] ?? $form['menu_parent']['#default_value'];
   if (substr($menu_parent, 0, -1) === MenuConstants::MAIN_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::MAIN_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
+  elseif (substr($menu_parent, 0, -1) === MenuConstants::LEGAL_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::LEGAL_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
+  elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_FOOTER_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_FOOTER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
   }
   $form['menu_parent']['#ajax'] = [
     'disable-refocus' => FALSE,
@@ -1004,12 +1041,12 @@ function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterf
     foreach ($form['links']['links'] as &$link_form) {
       if (is_array($link_form)) {
         if (
-        isset($link_form['parent']['#value'], $link_form['parent']['#default_value'])
+          isset($link_form['parent']['#value'], $link_form['parent']['#default_value'])
         ) {
           $link_form['parent']['#value'] = $link_form['parent']['#default_value'];
         }
         if (
-        isset($link_form['weight']['#value'], $link_form['weight']['#default_value'])
+          isset($link_form['weight']['#value'], $link_form['weight']['#default_value'])
         ) {
           $link_form['weight']['#value'] = $link_form['weight']['#default_value'];
         }
