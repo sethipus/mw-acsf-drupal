@@ -16,6 +16,10 @@
     height: 100%;
     position: absolute;
 
+    @include medium {
+      position: static;
+    }
+
     .ambient-video__control {
       margin-left: 40px;
       z-index: 4;
