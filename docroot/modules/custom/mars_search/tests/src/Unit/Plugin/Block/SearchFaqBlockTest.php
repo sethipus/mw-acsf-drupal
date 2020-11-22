@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\Plugin\Block\SearchFaqBlock;
 use Drupal\mars_search\SearchHelperInterface;
@@ -131,6 +132,13 @@ class SearchFaqBlockTest extends UnitTestCase {
   private $configuration;
 
   /**
+   * Route match mock.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  private $routeMatchMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -154,6 +162,7 @@ class SearchFaqBlockTest extends UnitTestCase {
       $this->searchQueryParserMock,
       $this->loggerMock,
       $this->configFactoryMock,
+      $this->routeMatchMock,
       $this->rendererMock
     );
   }
@@ -167,7 +176,7 @@ class SearchFaqBlockTest extends UnitTestCase {
       ->method('get')
       ->willReturn($this->loggerMock);
     $this->containerMock
-      ->expects($this->exactly(6))
+      ->expects($this->exactly(7))
       ->method('get')
       ->willReturnMap(
         [
@@ -195,6 +204,11 @@ class SearchFaqBlockTest extends UnitTestCase {
             'config.factory',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->configFactoryMock,
+          ],
+          [
+            'current_route_match',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->routeMatchMock,
           ],
           [
             'renderer',
@@ -345,6 +359,7 @@ class SearchFaqBlockTest extends UnitTestCase {
     $this->immutableConfig = $this->createMock(ImmutableConfig::class);
     $this->nodeMock = $this->createMock(NodeInterface::class);
     $this->urlMock = $this->createMock(Url::class);
+    $this->routeMatchMock = $this->createMock(RouteMatchInterface::class);
   }
 
 }

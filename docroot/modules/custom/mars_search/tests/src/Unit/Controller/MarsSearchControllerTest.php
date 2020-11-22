@@ -103,6 +103,13 @@ class MarsSearchControllerTest extends UnitTestCase {
   private $requestStackMock;
 
   /**
+   * Request mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\Request
+   */
+  private $requestMock;
+
+  /**
    * Config factory mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactoryInterface
@@ -138,15 +145,14 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->willReturn($this->entityViewBuilderMock);
 
     $this->controller = new MarsSearchController(
-      $this->entityTypeManagerMock,
       $this->rendererMock,
       $this->searchHelperMock,
       $this->searchQueryParserMock,
       $this->menuLinkTreeMock,
+      $this->entityTypeManagerMock,
       $this->requestStackMock,
       $this->configFactoryMock
     );
-
   }
 
   /**
@@ -158,11 +164,6 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->method('get')
       ->willReturnMap(
         [
-          [
-            'entity_type.manager',
-            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->entityTypeManagerMock,
-          ],
           [
             'renderer',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -182,6 +183,11 @@ class MarsSearchControllerTest extends UnitTestCase {
             'menu.link_tree',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->menuLinkTreeMock,
+          ],
+          [
+            'entity_type.manager',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->entityTypeManagerMock,
           ],
           [
             'request_stack',
@@ -314,19 +320,6 @@ class MarsSearchControllerTest extends UnitTestCase {
    * Test see all callback method.
    */
   public function testSeeAllCallback() {
-    // Request mock.
-    $request = $this->getMockBuilder(Request::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-    $params = $this->getMockBuilder(ParameterBagInterface::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-    $request->request = $params;
-    $this->requestStackMock
-      ->expects($this->once())
-      ->method('getCurrentRequest')
-      ->willReturn($request);
-
     $topNodeMock = $this->getMockBuilder(Node::class)
       ->disableOriginalConstructor()
       ->getMock();
@@ -346,13 +339,17 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->method('getStorage')
       ->with('node')
       ->willReturn($entityStorageMock);
-    $params->expects($this->once())
+    $this->requestMock->query->expects($this->once())
       ->method('all')
       ->willReturn([
         'searchOptions' => self::TEST_QUERY_OPTIONS,
         'topResults' => [1 => $topNodeMock],
         'id' => 'test_id',
       ]);
+    $this->searchQueryParserMock
+      ->expects($this->once())
+      ->method('parseQuery')
+      ->willReturn(self::TEST_QUERY_OPTIONS);
     $this->searchHelperMock
       ->expects($this->once())
       ->method('getSearchResults')
@@ -368,7 +365,7 @@ class MarsSearchControllerTest extends UnitTestCase {
       );
     $this->rendererMock
       ->expects($this->once())
-      ->method('render');
+      ->method('renderRoot');
 
     $callbackResponse = $this->controller->seeAllCallback();
     $this->assertInstanceOf(Response::class, $callbackResponse);
@@ -418,8 +415,11 @@ class MarsSearchControllerTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
+    $this->requestMock = $this->createMock(Request::class);
+    $this->requestMock->query = $this->createMock(ParameterBagInterface::class);
     $this->rendererMock = $this->createMock(RendererInterface::class);
     $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
+    $this->searchHelperMock->request = $this->requestMock;
     $this->searchQueryParserMock = $this->createMock(SearchQueryParserInterface::class);
     $this->menuLinkTreeMock = $this->createMock(MenuLinkTreeInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
