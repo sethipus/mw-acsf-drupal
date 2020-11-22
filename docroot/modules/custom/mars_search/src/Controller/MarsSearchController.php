@@ -2,10 +2,9 @@
 
 namespace Drupal\mars_search\Controller;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchHelperInterface;
@@ -14,6 +13,7 @@ use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -22,13 +22,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Provides a controllers for search functionality.
  */
 class MarsSearchController extends ControllerBase implements ContainerInjectionInterface {
-
-  /**
-   * Entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
 
   /**
    * The renderer.
@@ -66,24 +59,22 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $viewBuilder;
 
   /**
+   * The node view builder.
+   *
+   * @var \Drupal\node\NodeViewBuilder
+   */
+  protected $nodeViewBuilder;
+
+  /**
    * The request stack.
    *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
+   * @var Symfony\Component\HttpFoundation\RequestStack
    */
   private $requestStack;
 
   /**
-   * Config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * Creates a new AutocompleteController instance.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The renderer.
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer.
    * @param \Drupal\mars_search\SearchHelperInterface $search_helper
@@ -92,29 +83,26 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Search helper.
    * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
    *   Menu Link tree.
+   * @param \Drupal\Core\Entity\EntityViewBuilderInterface $node_view_builder
    *   Node view builder.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   Request stack.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
-   *   Request stack.
    */
   public function __construct(
-    EntityTypeManagerInterface $entityTypeManager,
     RendererInterface $renderer,
     SearchHelperInterface $search_helper,
     SearchQueryParserInterface $search_query_parser,
     MenuLinkTreeInterface $menu_link_tree,
-    RequestStack $request_stack,
-    ConfigFactoryInterface $configFactory
+    EntityViewBuilderInterface $node_view_builder,
+    RequestStack $request_stack
   ) {
-    $this->entityTypeManager = $entityTypeManager;
     $this->renderer = $renderer;
     $this->searchHelper = $search_helper;
     $this->searchQueryParser = $search_query_parser;
-    $this->viewBuilder = $entityTypeManager->getViewBuilder('node');
+    $this->viewBuilder = $this->entityTypeManager()->getViewBuilder('node');
     $this->menuLinkTree = $menu_link_tree;
+    $this->nodeViewBuilder = $node_view_builder;
     $this->requestStack = $request_stack;
-    $this->configFactory = $configFactory;
   }
 
   /**
@@ -122,30 +110,32 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.manager'),
       $container->get('renderer'),
       $container->get('mars_search.search_helper'),
       $container->get('mars_search.search_query_parser'),
       $container->get('menu.link_tree'),
-      $container->get('request_stack'),
-      $container->get('config.factory'),
+      $container->get('entity_type.manager')->getViewBuilder('node'),
+      $container->get('request_stack')
     );
   }
 
   /**
    * Page callback: Retrieves autocomplete suggestions.
    *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   The autocompletion response.
    */
-  public function autocomplete() {
-    $options = $this->searchQueryParser->parseQuery(SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
+  public function autocomplete(Request $request) {
+    $options = $this->searchQueryParser->parseQuery();
     // We need only 4 results in autocomplete.
     $options['limit'] = 4;
 
     $suggestions = [];
     $show_all = '';
-    $results = $this->searchHelper->getSearchResults($options, 'search_autocomplete');
+    $results = $this->searchHelper->getSearchResults($options);
 
     if (!empty($results['results'])) {
       foreach ($results['results'] as $entity) {
@@ -177,9 +167,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         ],
       ] : [];
     }
-    $config = $this->configFactory->get('mars_search.search_no_results');
-    $empty_text_heading = $config->get('no_results_heading');
-    $empty_text_description = $config->get('no_results_text');
+    $empty_text_heading = $this->config('mars_search.search_no_results')->get('no_results_heading');
+    $empty_text_description = $this->config('mars_search.search_no_results')->get('no_results_text');
     $build = [
       '#theme' => 'mars_search_suggestions',
       '#suggestions' => $suggestions,
@@ -261,15 +250,18 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   /**
    * Search AJAX callback.
    *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   The autocompletion response.
    */
-  public function searchCallback() {
+  public function searchCallback(Request $request) {
     $json_output = [];
 
-    $options = $this->searchQueryParser->parseQuery(SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
+    $options = $this->searchQueryParser->parseQuery();
 
-    $results = $this->searchHelper->getSearchResults($options, 'search_callback');
+    $results = $this->searchHelper->getSearchResults($options);
 
     if (!empty($results['results'])) {
       foreach ($results['results'] as $entity) {
@@ -283,10 +275,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   /**
    * Render all search cards block.
    *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
    * @return \Symfony\Component\HttpFoundation\Response
    *   The learn more action response.
    */
-  public function seeAllCallback() {
+  public function seeAllCallback(Request $request) {
     $parameters = $this->requestStack->getCurrentRequest()->request->all();
     $items = [];
     $search_options = $parameters['searchOptions'];
@@ -294,7 +289,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     unset($search_options['limit']);
     if (!empty($top_results)) {
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_results) as $top_result_node) {
-        $items[] = $this->viewBuilder->view($top_result_node, 'card');
+        $items[] = $this->nodeViewBuilder->view($top_result_node, 'card');
       }
     }
 
@@ -303,7 +298,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     if (!empty($results['results'])) {
       foreach ($results['results'] as $entity) {
         if (!in_array($entity->id(), $top_results)) {
-          $items[] = $this->viewBuilder->view($entity, 'card');
+          $items[] = $this->nodeViewBuilder->view($entity, 'card');
         }
       }
     }
