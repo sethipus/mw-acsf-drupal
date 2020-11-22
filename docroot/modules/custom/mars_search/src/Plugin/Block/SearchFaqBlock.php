@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
@@ -64,6 +65,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $configFactory;
 
   /**
+   * The route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
    * Renderer service.
    *
    * @var \Drupal\Core\Render\RendererInterface
@@ -83,6 +91,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $container->get('mars_search.search_query_parser'),
       $container->get('logger.factory')->get('mars_search'),
       $container->get('config.factory'),
+      $container->get('current_route_match'),
       $container->get('renderer')
     );
   }
@@ -99,6 +108,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     SearchQueryParserInterface $search_query_parser,
     LoggerInterface $logger,
     ConfigFactoryInterface $configFactory,
+    RouteMatchInterface $route_match,
     RendererInterface $renderer
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -108,6 +118,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $this->searchQueryParser = $search_query_parser;
     $this->logger = $logger;
     $this->configFactory = $configFactory;
+    $this->routeMatch = $route_match;
     $this->renderer = $renderer;
   }
 
@@ -236,6 +247,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
         ],
         'library' => [
           'mars_search/datalayer.search',
+          'mars_search/see_all_cards',
         ],
       ],
     ];

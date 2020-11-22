@@ -3,6 +3,7 @@
 {% set link_content = 'Buy now'|t %}
 {% set card__extra_classes = ['card-item'] %}
 {% set card__modifiers = card__eyebrow ? [''] : ['no-eyebrow'] %}
+{{ attach_library('emulsifymars/product-card') }}
 
 <section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }}
          data-theme="{{ theme_styles }}"
