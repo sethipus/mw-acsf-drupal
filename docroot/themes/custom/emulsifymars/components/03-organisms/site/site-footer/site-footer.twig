@@ -38,7 +38,6 @@
   </div>
   <div {{ bem('section', ['secondary'], footer__base_class) }}>
     <div {{ bem('section-content', [], footer__base_class) }}>
-
       {% if social_menu_items|length > 0 %}
         <div {{ bem('social', [], footer__base_class) }}>
           {% block footer__social %}
@@ -49,7 +48,6 @@
           {% endblock %}
         </div>
       {% endif %}
-
       <div {{ bem('legal-links', [modifier], footer__base_class) }}>
         {% block footer__legal_links %}
           {% include "@molecules/menus/legal-links/legal-links-menu.twig" %}
