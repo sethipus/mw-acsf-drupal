@@ -200,6 +200,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       $form['carousel'][$key]['image'] = $this->getEntityBrowserForm(
         self::LIGHTHOUSE_ENTITY_BROWSER_ID,
         $current_image_selection,
+        $form_state,
         1,
         'thumbnail',
         FALSE
@@ -228,6 +229,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       $form['carousel'][$key]['video'] = $this->getEntityBrowserForm(
         self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
         $current_video_selection,
+        $form_state,
         1,
         'default',
         FALSE
@@ -326,6 +328,34 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
           $item['item_type'],
         ]);
       }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    parent::blockValidate($form, $form_state);
+    $values = $form_state->getValues();
+    $triggered = $form_state->getTriggeringElement();
+    if ($triggered['#name'] === 'op') {
+      unset($values['carousel']['add_item']);
+      foreach ($values['carousel'] as $key => $item) {
+        $item_type = $item['item_type'];
+        if (empty($values['carousel'][$key][$item_type]['selected'])) {
+          // @codingStandardsIgnoreStart
+          $error_msg = $this->t('Carousel Item @key', ['@key' => $key + 1]) . ': '
+            . $this->t('@name field is required.', ['@name' => $this->t('Media')]);
+          // @codingStandardsIgnoreEnd
+        }
+      }
+    }
+
+    if (isset($error_msg)) {
+      $form_state->setError(
+        $form['carousel'],
+        $error_msg
+      );
     }
   }
 
