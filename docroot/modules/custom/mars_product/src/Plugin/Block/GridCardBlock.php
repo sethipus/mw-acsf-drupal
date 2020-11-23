@@ -128,7 +128,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => TRUE,
     ];
