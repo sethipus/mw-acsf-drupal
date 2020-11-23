@@ -1,12 +1,7 @@
 .ajax-card-grid {
   position: relative;
 
-  &__brand-border {
-    position: absolute;
-    top: 0;
-    height: 15rem;
-    width: 100%;
-  }
+  @include brand-border-overflow;
 
   &__content {
     display: flex;
