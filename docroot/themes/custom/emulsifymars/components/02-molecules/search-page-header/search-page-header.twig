@@ -26,7 +26,7 @@
   }%}
 
   {% block search_page_header_divider %}
-    <div class="{{ brand_shape_class }}">
+    <div {{ bem('border', [], search_page_header_base_class) }}>
       {{ shape | raw }}
     </div>
   {% endblock %}

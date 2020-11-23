@@ -33,7 +33,7 @@ Drupal.behaviors.ambientVideoPlayer = {
           const componentBlock = video.closest('[data-block-plugin-id]');
           const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
           const parentTitleBlock = video.closest('[data-component-title]');
-          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
+          const videoTitle = parentTitleBlock ? parentTitleBlock.dataset.componentTitle : '';
 
           dataLayer.push({
             event: 'videoPageView',
