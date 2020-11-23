@@ -166,7 +166,11 @@ class ThemeConfiguratorParser {
    *   The brand shape or null.
    */
   public function getBrandShape(): ?SVG {
-    return $this->getSvgFor('brand_shape');
+    $svg = $this->getSvgFor('brand_shape');
+    if ($svg !== NULL) {
+      $svg = $svg->withoutSizeInfo();
+    }
+    return $svg;
   }
 
   /**
