@@ -94,7 +94,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
 
     $build['#social_menu_items'] = $this->themeConfiguratorParser->socialLinks();
-    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShape();
     $build['#theme'] = 'contact_help_banner_block';
 
     return $build;
@@ -195,7 +195,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       '#title' => $this->t('Social Links label'),
       '#maxlength' => 35,
       '#default_value' => $this->configuration['social_links_label'] ?? '',
-      '#required' => FALSE,
+      '#required' => TRUE,
     ];
 
     return $form;

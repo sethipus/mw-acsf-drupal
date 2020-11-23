@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_recommendations\Plugin\Block\RecommendationsModuleBlock;
 use Drupal\mars_recommendations\RecommendationsLogicPluginInterface;
@@ -136,7 +137,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $this->assertEquals($form['title']['#title'], $this->t('Title'));
     $this->assertEquals($form['title']['#description'], $this->t('Defaults to <em>More <strong>&lt;Content Type&gt;</strong>s Like This</em>'));
     $this->assertEquals($form['title']['#placeholder'], $this->t('More &lt;Content Type&gt;s Like This'));
-    $this->assertEquals($form['title']['#maxwidth'], 55);
+    $this->assertEquals($form['title']['#maxlength'], 55);
 
     $this->assertArrayHasKey('population', $form);
     $this->assertIsArray($form['population']);
@@ -265,9 +266,9 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
    */
   private function createThemeConfigurationParserMock() {
     $mock = $this->createMock(ThemeConfiguratorParser::class);
-    $mock->method('getFileContentFromTheme')
-      ->with('graphic_divider')
-      ->willReturn('<svg xmlns="http://www.w3.org/2000/svg"/>');
+    $mock
+      ->method('getGraphicDivider')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg"/>', 'id'));
 
     return $mock;
   }

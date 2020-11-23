@@ -116,20 +116,6 @@
     @include medium {
       flex-direction: row;
     }
-
-    .default-link:hover {
-      &::after {
-        @include xs {
-          bottom: -13rem;
-        }
-        @include medium {
-          width: 220px;
-          left: -10px;
-          height: 120px;
-          bottom: -30px;
-        }
-      }
-    }
   }
 
   &__img-container {

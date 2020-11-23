@@ -223,7 +223,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       // We need only 8 items to show initially.
       // Parse query will trim limit in case of see all.
       // But initial results count needs to be 8 instead of configured default.
-      $searchOptions['limit'] = 8;
+      $searchOptions['limit'] = 4;
     }
 
     // Adjusting them with grid specific configuration.
@@ -240,6 +240,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       foreach ($config['top_results_wrapper']['top_results'] as $top_result) {
         $top_result_ids[] = $top_result['target_id'];
       }
+      $build['#attached']['drupalSettings']['cards'][$this->gridId]['topResults'] = $top_result_ids;
       foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
         $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
       }
@@ -310,10 +311,13 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_results_count,
     ];
-    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#attached']['drupalSettings']['cards'][$this->gridId]['contentType'] = $config['content_type'];
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
+    $build['#attached']['library'][] = 'mars_search/see_all_cards';
 
     return $build;
   }
@@ -326,6 +330,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     return [
       '#no_results_heading' => str_replace('@keys', $key, $config->get('no_results_heading')),
       '#no_results_text' => $config->get('no_results_text'),
+      '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
       '#theme' => 'mars_search_no_results',
     ];
   }

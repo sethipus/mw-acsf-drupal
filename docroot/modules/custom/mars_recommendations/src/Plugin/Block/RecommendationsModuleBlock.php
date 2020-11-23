@@ -100,7 +100,8 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     return [
       '#theme' => 'recommendations_module_block',
       '#title' => !empty($this->configuration['title']) ? $this->configuration['title'] : $this->t('More @types Like This', ['@type' => $node->type->entity->label()]),
-      '#graphic_divider' => $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider'),
+      '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
+      '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
       '#recommended_items' => $plugin->getRenderedRecommendations(),
     ];
   }
@@ -130,7 +131,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#title' => $this->t('Title'),
       '#description' => $this->t('Defaults to <em>More <strong>&lt;Content Type&gt;</strong>s Like This</em>'),
       '#placeholder' => $this->t('More &lt;Content Type&gt;s Like This'),
-      '#maxwidth' => 55,
+      '#maxlength' => 55,
       '#default_value' => $conf['title'] ?? NULL,
     ];
 

@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
@@ -29,6 +30,10 @@ class ThemeConfiguratorService {
     'primary_font',
     'secondary_font',
   ];
+
+  const BORDER_STYLE_REPEAT = 'repeat';
+
+  const BORDER_STYLE_STRETCH = 'stretch';
 
   /**
    * The image factory service.
@@ -59,6 +64,13 @@ class ThemeConfiguratorService {
   private $configFactory;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * ThemeConfiguratorService constructor.
    *
    * @param \Drupal\Core\Image\ImageFactory $image_factory
@@ -69,17 +81,21 @@ class ThemeConfiguratorService {
    *   The file system service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
   public function __construct(
     ImageFactory $image_factory,
     ModuleHandler $module_handler,
     FileSystemInterface $file_system,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager
   ) {
     $this->imageFactory = $image_factory;
     $this->moduleHandler = $module_handler;
     $this->fileSystem = $file_system;
     $this->configFactory = $config_factory;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -367,8 +383,8 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('Designates stretched border or repeated border shape.'),
       '#default_value' => !empty($config) ? $config['icons_settings']['brand_border_style'] : theme_get_setting('brand_border_style'),
       '#options' => [
-        'repeat' => $this->t('Repeat'),
-        'stretch' => $this->t('Stretch'),
+        self::BORDER_STYLE_REPEAT => $this->t('Repeat'),
+        self::BORDER_STYLE_STRETCH => $this->t('Stretch'),
       ],
     ];
 
@@ -691,6 +707,44 @@ class ThemeConfiguratorService {
     $default_scheme = $config->get('default_scheme');
     foreach (self::FONT_FIELDS as $font) {
       $this->fileStoreProcess($form_state, $font, $default_scheme);
+    }
+    $this->fileStatusProcess($form, $form_state);
+  }
+
+  /**
+   * Helper function to set permanent state for all file entities.
+   *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Theme settings form state.
+   */
+  private function fileStatusProcess(
+    array $form,
+    FormStateInterface &$form_state
+  ) {
+    $values = $form_state->getUserInput();
+    foreach ($values as $value) {
+      if (!is_array($value) || !array_key_exists('fids', $value)) {
+        continue;
+      }
+      $file = $this->entityTypeManager->getStorage('file')->load($value['fids']);
+      if ($file && $file->isTemporary()) {
+        $file->setPermanent();
+        $file->save();
+      }
+    }
+    if (!array_key_exists('social', $values)) {
+      return;
+    }
+    foreach ($values['social'] as $social) {
+      if (array_key_exists('icon', $social) && array_key_exists('fids', $social['icon'])) {
+        $file = $this->entityTypeManager->getStorage('file')->load($social['icon']['fids']);
+        if ($file && $file->isTemporary()) {
+          $file->setPermanent();
+          $file->save();
+        }
+      }
     }
   }
 

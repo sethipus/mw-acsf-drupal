@@ -1,7 +1,11 @@
 services:
+  logger.channel.mars_common:
+    parent: logger.channel_base
+    arguments: [ 'mars_common' ]
+
   mars_common.media_helper:
     class: Drupal\mars_common\MediaHelper
-    arguments: ['@entity_type.manager', '@mars_product.product_helper']
+    arguments: [ '@entity_type.manager', '@mars_product.product_helper' ]
 
   mars_common.media_helper_twig_filters:
     class: Drupal\mars_common\Twig\MediaHelperFilters
@@ -12,7 +16,7 @@ services:
 
   mars_common.theme_configurator_parser:
     class: Drupal\mars_common\ThemeConfiguratorParser
-    arguments: [ '@entity_type.manager', '@config.factory' ]
+    arguments: [ '@entity_type.manager', '@config.factory', '@mars_common.svg_factory' ,'@logger.channel.mars_common' ]
 
   mars_common.route_subscriber:
     class: Drupal\mars_common\Routing\RouteSubscriber
@@ -21,12 +25,19 @@ services:
 
   mars_common.media_dependency_calculator:
     class: Drupal\mars_common\EventSubscriber\DependencyCollector\MediaEntityBlockCollector
-    arguments: ['@entity_type.manager']
+    arguments: [ '@entity_type.manager' ]
     tags:
       - { name: event_subscriber }
 
+  mars_common.svg_factory:
+    arguments: [ '@entity_type.manager' , '@mars_common.svg_unique_id_generator' ]
+    class: Drupal\mars_common\SVG\SVGFactory
+
+  mars_common.svg_unique_id_generator:
+    class: Drupal\mars_common\SVG\SVGUniqueIdGenerator
+
   mars_common.theme_configurator_service:
-    arguments: ['@image.factory', '@module_handler', '@file_system', '@config.factory']
+    arguments: [ '@image.factory', '@module_handler', '@file_system', '@config.factory' , '@entity_type.manager' ]
     class: Drupal\mars_common\ThemeConfiguratorService
 
   mars_common.theme_config_factory_override:

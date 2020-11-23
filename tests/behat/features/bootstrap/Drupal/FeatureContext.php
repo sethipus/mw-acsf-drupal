@@ -124,6 +124,24 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         $this->getSession()
             ->wait(5000, '(0 === jQuery.active)');
     }
+    /**
+     * Waits until the specified xpath element appears on the page
+     * Example: Then I wait until the "//*[@type='image/png; length=1174']" xpath element appears
+     * Example: And I wait until the "//*[@type='image/png; length=1174']" xpath element appears
+     *
+     * @Then /^(?:|I )wait until the "(?P<element>[^"]*)" xpath element appears$/
+     *
+     * @throws \Exception;
+     */
+    public function iWaitForTheXpathElementAppears($element)
+    {
+        $page = $this->getSession()
+            ->getPage();
+        $page->waitFor(10, function () use ($page, $element)
+        {
+            return $page->find('xpath', $element);
+        });
+    }
 
     /**
      * Checks, that element with specified XPATH exists on page
@@ -149,6 +167,50 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     {
         $this->assertSession()
             ->elementExists('xpath', $element)->click();
+    }
+
+    /**
+     * Switches to the iframe with specified selector
+     * Example: When I switch to iframe with selector "iframe[title^='Rich Text Editor, Question field']"
+     * Example: And I switch to iframe with selector "iframe[title^='Rich Text Editor, Answer field']"
+     *
+     * @Then /^(?:|I )switch to iframe with selector "(?P<iframeSelector>[^"]*)"$/
+     *
+     * @throws \Exception;
+     */
+    public function iSwitchToIframeW($iframeSelector)
+    {
+
+        $function = <<<JS
+            (function(){
+                 var iframe = document.querySelector("{$iframeSelector}");
+                 iframe.name = "iframeToSwitchTo";
+            })()
+JS;
+        try
+        {
+            $this->getSession()
+                ->executeScript($function);
+        }
+        catch(Exception $e)
+        {
+            print_r($e->getMessage());
+            throw new \Exception("Element $iframeSelector was NOT found." . PHP_EOL . $e->getMessage());
+        }
+
+        $this->getSession()
+            ->getDriver()
+            ->switchToIFrame("iframeToSwitchTo");
+    }
+
+    /**
+     * @Then /^(?:|I )manually press "(?P<key>[^"]*)"$/
+     */
+    public function manuallyPress($key)
+    {
+        $script = "jQuery.event.trigger({ type : 'keypress', which : '" . $key . "' });";
+        $this->getSession()
+            ->evaluateScript($script);
     }
 
     /**
@@ -711,37 +773,5 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         $this->getSession()
             ->switchToIFrame(null);
     }
-
-    /**
-     * Fills in textarea field with specified name
-     * Example: When I fill in "Question" textarea with "Question1"
-     *
-     * @When I fill in :arg1 textarea with :arg2
-     *
-     * @throws \Exception;
-     */
-    public function iFillTextArea($name, $text)
-    {
-        $fieldXpath = "//textarea[contains(@id, 'edit-field-qa-item-question')]";
-        $this->getSession()
-            ->getDriver()
-            ->click($fieldXpath);
-        $this->getSession()
-            ->getDriver()
-            ->keyPress($fieldXpath, "77");
-        $this->getSession()
-            ->getDriver()
-            ->keyPress($fieldXpath, "77");
-        $this->getSession()
-            ->getDriver()
-            ->keyPress($fieldXpath, "77");
-
-        $fieldXpath = "field_qa_item_question[0][value]";
-        $this->getSession()
-            ->getPage()
-            ->fillField($fieldXpath, $text);
-        $this->getSession()
-            ->getDriver()
-            ->setValue($fieldXpath, $text);
-    }
 }
+
