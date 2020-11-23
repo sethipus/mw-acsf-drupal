@@ -375,8 +375,17 @@ class SalsifyFields extends Salsify {
 
       // Import the actual product data.
       if (!empty($product_data['products'])) {
-        $this->addItemsToQueue($product_data, $force_update);
-        $message = $this->t('The Salsify data import queue was created.');
+
+        $message = $this->t('The Salsify data import was initialized.');
+        // Add items only to empty query in order to avoid
+        // infinite queue.
+        $number_of_items = $this->queueFactory
+          ->get('salsify_integration_content_import')
+          ->numberOfItems();
+        if ($number_of_items == 0) {
+          $this->addItemsToQueue($product_data, $force_update);
+          $message = $this->t('The Salsify data import queue was created.');
+        }
 
         $deleted_items = $this->salsifyProductRepository
           ->unpublishProducts(array_column($product_data['products'], 'salsify:id'));
