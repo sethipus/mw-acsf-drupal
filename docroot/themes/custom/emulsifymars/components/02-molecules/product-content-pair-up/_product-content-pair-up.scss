@@ -76,22 +76,27 @@
       }
 
       .wrapper {
-        height: 845px;
         max-width: 335px;
         margin: 0 auto;
         position: relative;
         text-align: center;
+        padding: 3rem 0;
 
         @include medium {
           margin: 0 auto;
           max-width: 572px;
           right: auto;
           background-position: center center;
+          padding: 0;
         }
 
         @include xl {
           margin: 0;
           max-width: 900px;
+        }
+
+        .recipe-card {
+          margin-bottom: 0;
         }
 
         .content-pair-up-eyebrow {
@@ -159,16 +164,16 @@
     }
 
     .supportive-card {
-      position: absolute;
+      position: relative;
       left: 0;
       right: 0;
-      top: 350px;
       max-width: 31.8rem;
       margin: auto;
       z-index: $content-pair-supportive-card;
 
       @include medium {
         top: 410px;
+        position: absolute;
       }
 
       @include xl {
