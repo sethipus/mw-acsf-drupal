@@ -218,6 +218,12 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
       return NULL;
     }
 
+    // Condition to prevent wrong image extensions like (*.psd, *.iso)
+    // from lighthouse side.
+    if ($media->bundle() === 'lighthouse_image') {
+      $this->lighthouseAdapter->prepareImageExtension($data);
+    }
+
     $file_mapping = $this->mapping->get('media');
     $field_config = $this->mediaConfig[$media->bundle()];
     $field_file = $field_config['field'];
