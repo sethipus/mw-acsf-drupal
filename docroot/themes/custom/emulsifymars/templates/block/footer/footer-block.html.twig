@@ -26,7 +26,6 @@
   regions: region_selector,
   corporate_tout_text: corporate_tout,
   card__button__content: corporate_tout_button,
-  brand_shape_class: brand_shape_class,
   brand_border: brand_border,
   footer_logo_link: url('<front>'),
 } %}
@@ -48,7 +47,7 @@
   {% endblock %}
 
   {% block footer__brand_border %}
-    <div class="{{ brand_shape_class }}">
+    <div {{  bem('border', [], footer__base_class)  }}>
       {{ brand_border | raw }}
     </div>
   {% endblock %}
