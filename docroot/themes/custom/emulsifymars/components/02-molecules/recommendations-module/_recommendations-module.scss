@@ -102,11 +102,12 @@
   .recipe-card,
   .article-card,
   .product-card {
+    box-sizing: border-box;
     margin-top: 3.5rem;
   }
 
   .article-card {
-    width: 255px;
+    width: 318px;
     height: 520px;
 
     &__content {
