@@ -173,7 +173,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
 
     $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
     // Entity Browser element for background image.
-    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
+        return $form_state->getValue(['settings', 'background_options']) === self::KEY_OPTION_IMAGE;
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['background_image']['#type'] = 'details';
     $form['background_image']['#title'] = $this->t('Image');
@@ -186,7 +190,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
 
     $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
     // Entity Browser element for video.
-    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID, $video_default, 1);
+    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+      $video_default, $form_state, 1, 'default', function ($form_state) {
+        return $form_state->getValue(['settings', 'background_options']) === self::KEY_OPTION_VIDEO;
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['background_video']['#type'] = 'details';
     $form['background_video']['#title'] = $this->t('Video');
