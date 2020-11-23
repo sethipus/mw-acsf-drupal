@@ -48,9 +48,15 @@ $space-one-eighth: $space/8;
 // z-index
 $content-pair-up-asset: 11;
 $content-pair-supportive-card: 12;
+$brand-border-overflow-zindex: 100;
 $menu-overlay-zindex: 1000;
 $menu-overlay-content-zindex: 1010;
 $entry-gate-zindex: 1500;
+
+// border
+$brand-border-offset: 2px;
+$brand-border2-offset: 5px;
+
 
 /*
  * Use this on the outer wrapper of page-level elements.
@@ -60,26 +66,114 @@ $entry-gate-zindex: 1500;
   margin-bottom: $space-double;
 }
 
-// twix-1.ttf
+// Twix fonts
+@font-face {
+  font-family: 'TwixHeadlineCampaignFont';
+  src: url('../fonts/twix-1.ttf') format('opentype');
+  font-weight: 100;
+}
 
 @font-face {
   font-family: 'TwixHeadlineCampaignFont';
   src: url('../fonts/twix-1.ttf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'TwixHeadlineCampaignFont';
+  src: url('../fonts/twix-1.ttf') format('opentype');
+  font-weight: 900;
 }
 
 @font-face {
   font-family: 'TwixSecondaryTypeface';
   src: url('../fonts/twix-2.ttf') format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'TwixSecondaryTypeface';
+  src: url('../fonts/twix-2.ttf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'TwixSecondaryTypeface';
+  src: url('../fonts/twix-2.ttf') format('opentype');
+  font-weight: 900;
 }
 
 @font-face {
   font-family: 'TwixPrimaryTypefaceFont';
   src: url('../fonts/twix-3.ttf') format('opentype');
+  font-weight: 100;
 }
 
 @font-face {
-  font-family: 'twix';
-  src: url('../fonts/twix-4.ttf') format('opentype');
+  font-family: 'TwixPrimaryTypefaceFont';
+  src: url('../fonts/twix-3.ttf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'TwixPrimaryTypefaceFont';
+  src: url('../fonts/twix-3.ttf') format('opentype');
+  font-weight: 900;
+}
+
+// Dove fonts
+@font-face {
+  font-family: 'GeomanistRegular';
+  src: url('../fonts/geomanist-regular.ttf') format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'GeomanistRegular';
+  src: url('../fonts/geomanist-regular.ttf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'GeomanistRegular';
+  src: url('../fonts/geomanist-regular.ttf') format('opentype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'GeomanistMedium';
+  src: url('../fonts/geomanist-medium.ttf') format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'GeomanistMedium';
+  src: url('../fonts/geomanist-medium.ttf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'GeomanistMedium';
+  src: url('../fonts/geomanist-medium.ttf') format('opentype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'GeomanistBold';
+  src: url('../fonts/geomanist-bold.ttf') format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'GeomanistBold';
+  src: url('../fonts/geomanist-bold.ttf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'GeomanistBold';
+  src: url('../fonts/geomanist-bold.ttf') format('opentype');
+  font-weight: 900;
 }
 
 $defaultVariables: (
@@ -113,9 +207,9 @@ $twixVariables: (
 );
 
 $doveVariables: (
-  heading-font: 'Courier New',
-  primary-font: 'Geomanist',
-  secondary-font: 'Geomanist',
+  heading-font: 'GeomanistBold',
+  primary-font: 'GeomanistMedium',
+  secondary-font: 'GeomanistRegular',
   brand-shape: $circle,
   card-border-radius: $square-border,
   button-border-radius: $square-border,
