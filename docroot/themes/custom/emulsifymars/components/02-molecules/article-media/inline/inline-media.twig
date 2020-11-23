@@ -5,6 +5,24 @@
     data-component-title="{{ title }}"
   {% endif %}
 >
+
+  {% if shape_motif %}
+    <div class="article-inline__brand-shape">
+      {{ shape_motif | raw }}
+    </div>
+  {% endif %}
+
+  {% if title %}
+    <div {{ bem('heading', [], full_width__base_class) }}>
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 1,
+        heading_base_class: 'article-full-width__heading',
+        heading_modifiers: ['main-heading'],
+        heading: title
+      } %}
+    </div>
+  {% endif %}
+
   {% if media_type == 'image' %}
     <div {{ bem('media', [], inline_width__base_class) }}>
       {% include "@atoms/images/image/_image.twig" with {

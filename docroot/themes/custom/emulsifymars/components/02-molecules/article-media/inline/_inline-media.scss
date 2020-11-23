@@ -9,6 +9,15 @@
   line-height: 1.8;
   color: clr(primary);
 
+  &__brand-shape {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    width: 10rem;
+    height: 10rem;
+    left: 70%;
+  }
+
   img {
     width: 100%;
     margin-bottom: 60px
