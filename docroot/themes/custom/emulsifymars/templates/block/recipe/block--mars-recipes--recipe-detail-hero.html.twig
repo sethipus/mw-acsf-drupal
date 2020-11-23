@@ -1,6 +1,6 @@
 {{ attach_library('emulsifymars/ambient-video') }}
 
-{% embed "@molecules/recipe-hero-module/recipe-hero-module.twig" with {
+{% include "@molecules/recipe-hero-module/recipe-hero-module.twig" with {
   theme_styles: 'drupal',
   brand_borders: border,
   brand_shape_class: brand_shape_class,
@@ -11,5 +11,6 @@
   recipe_number_of_servings: number_of_servings,
   image: image,
   image_srcset: image.url,
-  video_src: video
+  video_src: video,
+  social_menu_items: social_links
 } %}
