@@ -138,6 +138,7 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 
     @include xs {
       border-bottom: 1px solid #ccc;
@@ -150,15 +151,6 @@
     @include medium {
       border: none;
       flex-direction: row;
-      justify-content: center;
-    }
-
-    @include large {
-      justify-content: center;
-    }
-
-    @media (max-width: 1193px) {
-      justify-content: center;
     }
 
     &--column-layout {
@@ -169,7 +161,6 @@
   &__label {
     display: block;
     width: 100%;
-    max-width: 43.3rem;
     font-family: variable(primary-font);
     color: clr(secondary);
     font-size: 1.6rem;
@@ -184,11 +175,12 @@
     overflow: hidden;
 
     @include xs {
-      margin: 0 0 2rem 0;
+      margin-bottom: 2rem;
+      max-width: 100%;
     }
 
     @include medium {
-      margin: 0 1rem 2rem 1rem;
+      max-width: 49%;
     }
   }
 

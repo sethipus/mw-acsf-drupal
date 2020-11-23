@@ -8,8 +8,8 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class CarouselBlock.
@@ -116,7 +116,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       }
     }
 
-    $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'carousel');
+    $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
 
     $build['#title'] = $config['carousel_label'] ?? '';
     $build['#items'] = $items;
@@ -172,24 +172,38 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       ];
 
       $form['carousel'][$key]['item_type'] = [
-        '#title'         => $this->t('Carousel item type'),
-        '#type'          => 'select',
-        '#required'      => TRUE,
-        '#default_value' => $config['carousel'][$key]['number'],
+        '#title' => $this->t('Carousel item type'),
+        '#type' => 'select',
+        '#required' => TRUE,
+        '#default_value' => $config['carousel'][$key]['item_type'] ?? self::KEY_OPTION_IMAGE,
         '#options' => [
           self::KEY_OPTION_IMAGE => $this->t('Image'),
           self::KEY_OPTION_VIDEO => $this->t('Video'),
         ],
       ];
       $form['carousel'][$key]['description'] = [
-        '#title'         => $this->t('Carousel item description'),
-        '#type'          => 'textfield',
-        '#default_value' => $config['carousel'][$key]['description'],
-        '#maxlength'     => 120,
+        '#title' => $this->t('Carousel item description'),
+        '#type' => 'textfield',
+        '#default_value' => $config['carousel'][$key]['description'] ?? NULL,
+        '#maxlength' => 120,
       ];
 
-      $form['carousel'][$key]['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
-        $config['carousel'][$key]['image'], $form_state, 1, 'thumbnail', FALSE);
+      /*
+       * BC fix: There could be wrong array values stored under this key.
+       * Currently the only valid value is a string, if it's not it then we
+       * throw away this value.
+       */
+      $current_image_selection = $config['carousel'][$key]['image'] ?? NULL;
+      if (!is_string($current_image_selection)) {
+        $current_image_selection = NULL;
+      }
+      $form['carousel'][$key]['image'] = $this->getEntityBrowserForm(
+        self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+        $current_image_selection,
+        1,
+        'thumbnail',
+        FALSE
+      );
       $form['carousel'][$key]['image']['#type'] = 'details';
       $form['carousel'][$key]['image']['#title'] = $this->t('List item image');
       $form['carousel'][$key]['image']['#open'] = TRUE;
@@ -197,10 +211,27 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
         'visible' => [
           [':input[name="settings[carousel][' . $key . '][item_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
         ],
+        'required' => [
+          [':input[name="settings[carousel][' . $key . '][item_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+        ],
       ];
 
-      $form['carousel'][$key]['video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
-        $config['carousel'][$key]['video'], $form_state, 1, 'default', FALSE);
+      /*
+       * BC fix: There could be wrong array values stored under this key.
+       * Currently the only valid value is a string, if it's not it then we
+       * throw away this value.
+       */
+      $current_video_selection = $config['carousel'][$key]['video'] ?? NULL;
+      if (!is_string($current_video_selection)) {
+        $current_video_selection = NULL;
+      }
+      $form['carousel'][$key]['video'] = $this->getEntityBrowserForm(
+        self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+        $current_video_selection,
+        1,
+        'default',
+        FALSE
+      );
       $form['carousel'][$key]['video']['#type'] = 'details';
       $form['carousel'][$key]['video']['#title'] = $this->t('List item video');
       $form['carousel'][$key]['video']['#open'] = TRUE;
@@ -294,31 +325,6 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
           $key,
           $item['item_type'],
         ]);
-      }
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function blockValidate($form, FormStateInterface $form_state) {
-    parent::blockValidate($form, $form_state);
-    $values = $form_state->getValues();
-    $triggered = $form_state->getTriggeringElement();
-    if ($triggered['#name'] === 'op') {
-      unset($values['carousel']['add_item']);
-      foreach ($values['carousel'] as $key => $item) {
-        $item_type = $item['item_type'];
-        if (empty($values['carousel'][$key][$item_type]['selected'])) {
-          // @codingStandardsIgnoreStart
-          $error_msg = $this->t('Carousel Item @key', ['@key' => $key + 1]) . ': '
-            . $this->t('@name field is required.', ['@name' => $this->t('Media')]);
-          // @codingStandardsIgnoreEnd
-          $form_state->setError(
-            $form['carousel'][$key][$item_type]['browser'],
-            $error_msg
-          );
-        }
       }
     }
   }

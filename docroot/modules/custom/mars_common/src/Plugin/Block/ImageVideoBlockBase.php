@@ -88,7 +88,7 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#default_value' => $config['title'] ?? '',
     ];
 
