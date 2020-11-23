@@ -30,12 +30,12 @@
       <div {{ bem('close', [], search_filter_header_base_class) }}></div>
     </div>
     <div {{ bem(search_filter_content_base_class) }}>
-      {% for item in items %}
+      {% for filter in filters %}
         {% include "@molecules/filter/filter.twig" with {
-          filter_title: item.filter_title,
-          filter_id: item.filter_id,
-          active_filters_count: item.active_filters_count,
-          checkboxes: item.checkboxes,
+          filter_title: filter.filter_title,
+          filter_id: filter.filter_id,
+          active_filters_count: filter.active_filters_count,
+          checkboxes: filter.checkboxes,
         } %}
       {% endfor %}
     </div>
