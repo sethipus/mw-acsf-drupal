@@ -174,7 +174,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       ],
     ];
 
-    $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
 
     $build['#theme_styles'] = 'drupal';
     $build['#graphic_divider'] = $file_divider_content ?? '';
@@ -193,6 +193,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     [$build['#applied_filters_list'], $build['#filters']] = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.search';
+    $build['#attached']['library'][] = 'mars_search/see_all_cards';
     return $build;
   }
 

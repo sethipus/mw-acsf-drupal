@@ -108,6 +108,7 @@ mars_product: 0.0.0
 mars_recipes: 0.0.0
 mars_recommendations: 0.0.0
 mars_search: 0.0.0
+maxlength: 1.0.0-rc1
 media: 8.8.1
 media_entity_instagram: 2.0.0
 media_entity_twitter: 2.3.0
