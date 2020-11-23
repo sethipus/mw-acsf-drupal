@@ -166,6 +166,9 @@
             },
             "drupal/maxlength": {
                 "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch"
+            },
+            "drupal/samlauth": {
+                "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
             }
         }
     },
