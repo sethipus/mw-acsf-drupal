@@ -48,7 +48,7 @@
         dataLayer.push({
           'event': [eventPrefix, 'ResultNo'].join('_'),
           'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResults': ''
+          'siteSearchResultsNum': '0'
         });
       } else {
         // SITE SEARCH RESULT SHOWN

@@ -31,6 +31,10 @@ class ThemeConfiguratorService {
     'secondary_font',
   ];
 
+  const BORDER_STYLE_REPEAT = 'repeat';
+
+  const BORDER_STYLE_STRETCH = 'stretch';
+
   /**
    * The image factory service.
    *
@@ -379,8 +383,8 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('Designates stretched border or repeated border shape.'),
       '#default_value' => !empty($config) ? $config['icons_settings']['brand_border_style'] : theme_get_setting('brand_border_style'),
       '#options' => [
-        'repeat' => $this->t('Repeat'),
-        'stretch' => $this->t('Stretch'),
+        self::BORDER_STYLE_REPEAT => $this->t('Repeat'),
+        self::BORDER_STYLE_STRETCH => $this->t('Stretch'),
       ],
     ];
 
