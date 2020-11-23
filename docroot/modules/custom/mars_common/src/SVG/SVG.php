@@ -146,10 +146,15 @@ class SVG {
     $pattern = $dom->createElement('pattern');
     $pattern->setAttribute('patternUnits', "userSpaceOnUse");
     $pattern->setAttribute('id', $pattern_id);
-    $pattern->setAttributeNode($width->cloneNode());
-    $pattern->setAttributeNode($height->cloneNode());
-    $pattern->setAttributeNode($view_box->cloneNode());
-
+    if ($width) {
+      $pattern->setAttributeNode($width->cloneNode());
+    }
+    if ($height) {
+      $pattern->setAttributeNode($height->cloneNode());
+    }
+    if ($view_box) {
+      $pattern->setAttributeNode($view_box->cloneNode());
+    }
 
     foreach (iterator_to_array($svg->childNodes) as $key => $child_node) {
       if ($child_node->nodeType == XML_ELEMENT_NODE) {
@@ -164,7 +169,9 @@ class SVG {
 
     $rect = $dom->createElement('rect');
     $rect->setAttribute('width', '100%');
-    $rect->setAttributeNode($height->cloneNode());
+    if ($height) {
+      $rect->setAttributeNode($height->cloneNode());
+    }
     $rect->setAttribute('fill', 'url(#' . $pattern_id . ')');
     $svg->appendChild($rect);
 
