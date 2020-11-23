@@ -233,7 +233,7 @@ class ProductHelper {
       $product['CMS: Product Variant Family ID'] = $product_variant['CMS: Product Variant Family ID'] ?? NULL;
       $product['CMS: Product Family Groups ID'] = $product_variant['CMS: Product Family Groups ID'] ?? NULL;
       $product['CMS: Variety'] = $product_variant['CMS: Variety'] ?? NULL;
-      $product['salsify:digital_assets'] = $product_variant['salsify:digital_assets'];
+      $product['salsify:digital_assets'] = $product_variant['salsify:digital_assets'] ?? NULL;
 
       $products[] = $product;
     }
