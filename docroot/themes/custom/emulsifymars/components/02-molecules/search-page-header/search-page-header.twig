@@ -3,15 +3,15 @@
 <section {{ bem(search_page_header_base_class, [], []) }} data-theme="{{ theme_styles }}">
 
   <div class="search-page-header__brand-shape search-page-header__brand-shape--first">
-    {{brand_shape | raw}}
+    {{ brand_shape | raw }}
   </div>
 
   <div class="search-page-header__brand-shape search-page-header__brand-shape--second">
-    {{brand_shape | raw}}
+    {{ brand_shape | raw }}
   </div>
 
   <div class="search-page-header__brand-shape search-page-header__brand-shape--third">
-    {{brand_shape | raw}}
+    {{ brand_shape | raw }}
   </div>
 
   {% include "@atoms/text/headings/_heading.twig" with {
@@ -39,7 +39,7 @@
   }%}
 
   {% block search_page_header_divider %}
-    <div class="{{ brand_border_class }}">
+    <div {{ bem('border', [], search_page_header_base_class) }}>
       {{ brand_border | raw }}
     </div>
   {% endblock %}

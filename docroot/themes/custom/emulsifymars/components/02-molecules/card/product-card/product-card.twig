@@ -2,8 +2,10 @@
 {% set default_link_content = 'See details'|t %}
 {% set link_content = 'Buy now'|t %}
 {% set card__extra_classes = ['card-item'] %}
+{% set card__modifiers = card__eyebrow ? [''] : ['no-eyebrow'] %}
+{{ attach_library('emulsifymars/product-card') }}
 
-<section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} 
+<section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }}
          data-theme="{{ theme_styles }}"
          data-site-search-clicked="{{ item.paragraph_content }}"
          data-card-type="product-card"
@@ -18,6 +20,12 @@
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: card__eyebrow
       } %}
+    {% endif %}
+
+    {% if brand__shape %}
+      <div class="product-card__brand-shape">
+        {{ brand__shape | raw }}
+      </div>
     {% endif %}
 
     {% if item.card__image__hover__src %}

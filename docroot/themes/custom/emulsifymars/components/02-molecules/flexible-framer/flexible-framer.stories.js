@@ -9,5 +9,5 @@ import flexibleFramerData from './flexible-framer.yml';
 export default { title: 'Molecules/Flexible Framer' };
 
 export const flexibleFramerComponent = () => {
-    return <div dangerouslySetInnerHTML={{ __html: flexibleFramer(flexibleFramerData) }} />;
+    return <div dangerouslySetInnerHTML={{ __html: "<div style='height: 300px; background-color: grey'></div>" + flexibleFramer(flexibleFramerData) }} />;
 };

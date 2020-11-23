@@ -139,9 +139,8 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
 
     $build['#search_filters'] = $search_filters;
     $build['#search_header_heading'] = $conf['search_header_heading'] ?? $this->t('What are you looking for?');
-    $build['#brand_border'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'search-header-border');
-    $build['#brand_border_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
-    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileWithId('brand_shape', 'search-header-shape');
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShape();
     $build['#theme'] = 'mars_search_header';
 
     return $build;
@@ -164,7 +163,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['search_header_heading'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Search heading title'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#required' => TRUE,
       '#default_value' => $config['search_header_heading'] ?? $this->t('What are you looking for?'),
     ];

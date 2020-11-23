@@ -173,7 +173,6 @@ third_party_settings:
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        'Flexible driver': {  }
         'Mars Search': {  }
         Printable: {  }
       blacklisted_blocks: {  }
@@ -242,6 +241,7 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -251,6 +251,7 @@ third_party_settings:
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product:
               - pdp_hero_block
             Recipe: {  }
@@ -269,6 +270,7 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -279,6 +281,7 @@ third_party_settings:
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
@@ -296,6 +299,7 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -307,6 +311,7 @@ third_party_settings:
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }

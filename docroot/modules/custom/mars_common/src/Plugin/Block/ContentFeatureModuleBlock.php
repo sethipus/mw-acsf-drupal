@@ -92,7 +92,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $build['#explore_cta'] = $conf['explore_cta'] ?? '';
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
     $build['#border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
-    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
 
     $build['#theme'] = 'content_feature_module_block';
 
@@ -157,13 +157,13 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
         '#title' => $this->t('Button Label'),
         '#maxlength' => 15,
         '#default_value' => $this->configuration['explore_cta'],
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
       'explore_cta_link' => [
         '#type' => 'textfield',
         '#title' => $this->t('URL'),
         '#default_value' => $this->configuration['explore_cta_link'] ?? '',
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
     ];
 
