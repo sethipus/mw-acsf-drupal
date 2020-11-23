@@ -46,12 +46,22 @@ class MulesoftConnectorTest extends UnitTestCase {
 
     $this->productHelperMock
       ->expects($this->once())
-      ->method('getParentEntitiesMapping')
-      ->willReturn(['mapping']);
+      ->method('filterProductsInResponse')
+      ->willReturn($response);
 
     $this->productHelperMock
       ->expects($this->once())
-      ->method('filterProductsInResponse')
+      ->method('filterProductFields')
+      ->willReturn($response);
+
+    $this->productHelperMock
+      ->expects($this->once())
+      ->method('addProducts')
+      ->willReturn($response);
+
+    $this->productHelperMock
+      ->expects($this->once())
+      ->method('addProductMultipacks')
       ->willReturn($response);
 
     $this->productHelperMock

@@ -4,6 +4,7 @@ namespace Drupal\Tests\salsify_integration\Unit;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\salsify_integration\ProductHelper;
+use Drupal\salsify_integration\SalsifyFieldsMap;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -33,8 +34,7 @@ class ProductHelperTest extends UnitTestCase {
    */
   public function testShouldIsProductVariant() {
     $product = [
-      'Case Net Weight' => 'value',
-      'CMS: Variety' => 'no',
+      'CMS: content type' => 'product_variant',
     ];
 
     $result = $this->productHelper::isProductVariant($product);
@@ -46,7 +46,7 @@ class ProductHelperTest extends UnitTestCase {
    */
   public function testShouldIsProductMultipack() {
     $product = [
-      'CMS: Variety' => 'yes',
+      'CMS: content type' => 'product_multipack',
     ];
 
     $result = $this->productHelper::isProductMultipack($product);
@@ -58,7 +58,7 @@ class ProductHelperTest extends UnitTestCase {
    */
   public function testShouldIsProduct() {
     $product = [
-      'GTIN' => 'value',
+      'CMS: content type' => 'product',
     ];
 
     $result = $this->productHelper::isProduct($product);
@@ -70,22 +70,21 @@ class ProductHelperTest extends UnitTestCase {
    */
   public function testShouldGetProductType() {
     $product = [
-      'GTIN' => 'value',
+      'CMS: content type' => 'product',
     ];
 
     $result = $this->productHelper::getProductType($product);
     $this->assertSame(ProductHelper::PRODUCT_CONTENT_TYPE, $result);
 
     $product_multipack = [
-      'CMS: Variety' => 'yes',
+      'CMS: content type' => 'product_multipack',
     ];
 
     $result = $this->productHelper::getProductType($product_multipack);
     $this->assertSame(ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE, $result);
 
     $product_variant = [
-      'Case Net Weight' => 'value',
-      'CMS: Variety' => 'no',
+      'CMS: content type' => 'product_variant',
     ];
 
     $result = $this->productHelper::getProductType($product_variant);
@@ -127,36 +126,6 @@ class ProductHelperTest extends UnitTestCase {
   /**
    * Test.
    */
-  public function testShouldGetParentEntitiesMapping() {
-    $products = Json::encode([
-      'data' => [
-        [
-          'Bazaarvoice Family ID' => 'Family ID',
-          'GTIN' => 'value_1',
-        ],
-        [
-          'Bazaarvoice Family ID' => 'Family ID',
-          'GTIN' => 'value_2',
-          'Case Net Weight' => 'value',
-          'CMS: Variety' => 'no',
-        ],
-        [
-          'Bazaarvoice Family ID' => 'Family ID',
-          'GTIN' => 'value_3',
-          'CMS: Variety' => 'yes',
-        ],
-      ],
-    ]);
-
-    $mapping = $this->productHelper->getParentEntitiesMapping($products);
-    $this->assertIsArray($mapping);
-    $this->assertNotEmpty($mapping['value_1']);
-    $this->assertNotEmpty($mapping['value_3']);
-  }
-
-  /**
-   * Test.
-   */
   public function testShouldFilterProductsInResponse() {
     $products = Json::encode([
       'data' => [
@@ -164,6 +133,7 @@ class ProductHelperTest extends UnitTestCase {
           'Bazaarvoice Family ID' => 'Family ID',
           'GTIN' => 'value_1',
           'Send to Brand Site?' => TRUE,
+          'salsify:id' => '123',
         ],
         [
           'Bazaarvoice Family ID' => 'Family ID',
@@ -171,12 +141,14 @@ class ProductHelperTest extends UnitTestCase {
           'Case Net Weight' => 'value',
           'CMS: Variety' => 'no',
           'Send to Brand Site?' => FALSE,
+          'salsify:id' => '123',
         ],
         [
           'Bazaarvoice Family ID' => 'Family ID',
           'GTIN' => 'value_3',
           'CMS: Variety' => 'yes',
           'Send to Brand Site?' => TRUE,
+          'salsify:id' => '123',
         ],
       ],
     ]);
@@ -188,6 +160,131 @@ class ProductHelperTest extends UnitTestCase {
       2,
       count(Json::decode($response)['data'])
     );
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldFilterProductFields() {
+    $products = Json::encode([
+      'data' => [
+        [
+          'Bazaarvoice Family ID' => 'Family ID',
+          'GTIN' => 'value_2',
+          'Case Net Weight' => 'value',
+          'CMS: Variety' => 'no',
+          'Send to Brand Site?' => FALSE,
+          'salsify:id' => '123',
+          'salsify:version' => 'version',
+          'salsify:system_id' => 'system_id',
+          'salsify:created_at' => time(),
+          'salsify:updated_at' => time(),
+          'salsify:digital_assets' => [],
+        ],
+      ],
+    ]);
+
+    $response = $this->productHelper->filterProductFields($products);
+    $this->assertNotEmpty($response);
+    $this->assertIsString($response);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldAddProducts() {
+    $products = Json::encode([
+      'data' => [
+        [
+          'Bazaarvoice Family ID' => 'Family ID',
+          'GTIN' => 'value_2',
+          'Case Net Weight' => 'value',
+          'CMS: Variety' => 'no',
+          'Send to Brand Site?' => FALSE,
+          'salsify:id' => '123',
+          'salsify:version' => 'version',
+          'salsify:system_id' => 'system_id',
+          'salsify:created_at' => time(),
+          'salsify:updated_at' => time(),
+          'salsify:digital_assets' => [],
+          'CMS: Product Variant Family ID' => 'family id',
+          'CMS: Product Family Groups ID' => 'group id',
+        ],
+      ],
+    ]);
+
+    $response = $this->productHelper->addProducts($products);
+    $this->assertNotEmpty($response);
+    $this->assertIsString($response);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldAddProductMultipack() {
+    $products = Json::encode([
+      'data' => [
+        [
+          'Bazaarvoice Family ID' => 'Family ID',
+          'GTIN' => 'value_2',
+          'Case Net Weight' => 'value',
+          'CMS: Variety' => 'yes',
+          'CMS: content type' => ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE,
+          'Send to Brand Site?' => FALSE,
+          'salsify:id' => '123',
+          'salsify:version' => 'version',
+          'salsify:system_id' => 'system_id',
+          'salsify:created_at' => time(),
+          'salsify:updated_at' => time(),
+          'salsify:digital_assets' => [],
+          'CMS: Product Variant Family ID' => 'family id',
+          'CMS: Product Family Groups ID' => 'group id',
+        ],
+      ],
+    ]);
+
+    $response = $this->productHelper->addProductMultipacks($products);
+    $this->assertNotEmpty($response);
+    $this->assertIsString($response);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldGetPrimaryMapping() {
+
+    $response = $this->productHelper->getPrimaryMapping();
+    $this->assertEmpty($response);
+    $this->assertIsArray($response);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldCreateProductFromProductVariant() {
+    $product = [
+      'Bazaarvoice Family ID' => 'Family ID',
+      'GTIN' => 'value_2',
+      'Case Net Weight' => 'value',
+      'CMS: Variety' => 'no',
+      'Send to Brand Site?' => FALSE,
+      'salsify:id' => '123',
+      'salsify:version' => 'version',
+      'salsify:system_id' => 'system_id',
+      'salsify:created_at' => time(),
+      'salsify:updated_at' => time(),
+      'salsify:digital_assets' => [],
+      'CMS: Product Variant Family ID' => 'family id',
+      'CMS: Product Family Groups ID' => 'group id',
+    ];
+
+    $product = $this->productHelper->createProductFromProductVariant(
+      ProductHelper::PRODUCT_CONTENT_TYPE,
+      SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT,
+      $product
+    );
+    $this->assertNotEmpty($product);
+    $this->assertIsArray($product);
   }
 
   /**
