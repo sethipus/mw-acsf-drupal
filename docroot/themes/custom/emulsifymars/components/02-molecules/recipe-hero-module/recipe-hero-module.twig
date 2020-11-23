@@ -5,7 +5,10 @@
 {% set icon_makes = icon_makes|default('/' ~ base_path ~ directory ~'/images/icons/makes.svg') %}
 {% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
 
-<div class="recipe-header" data-theme="{{ theme_styles }}">
+<div class="recipe-header" data-theme="{{ theme_styles }}"
+  {% if use_custom_color %}
+    style="background-color:{{ '#' ~ custom_background_color }}"
+  {% endif %}>
   <div class="recipe-header__title">{{ "Recipe" | t }}</div>
   <div class="recipe-header__text">{{ recipe_header_text }}</div>
 </div>
