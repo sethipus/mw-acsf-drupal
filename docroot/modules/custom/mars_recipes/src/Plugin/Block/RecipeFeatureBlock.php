@@ -180,7 +180,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
 
     $build += [
       '#block_title' => $config['block_title'] ?? '',
-      '#eyebrow' => $config['eyebrow'] ?? '',
+      '#eyebrow' => $config['eyebrow'] ?? $this->t('Recipe'),
       '#title' => $title,
       '#recipe_media' => $recipe_media_set,
       '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
@@ -260,7 +260,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 15,
       '#required' => TRUE,
-      '#default_value' => $config['eyebrow'] ?? '',
+      '#default_value' => $config['eyebrow'] ?? $this->t('Recipe'),
     ];
 
     $form['recipe_title'] = [

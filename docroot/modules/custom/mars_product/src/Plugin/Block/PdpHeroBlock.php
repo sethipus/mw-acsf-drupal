@@ -213,7 +213,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Nutrition section label'),
       '#default_value' => $this->configuration['nutrition']['label'],
       '#maxlength' => 18,
-      '#required' => TRUE,
     ];
     $form['nutrition']['serving_label'] = [
       '#type' => 'textfield',
@@ -238,7 +237,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Diet & Allergens part label'),
       '#default_value' => $this->configuration['allergen_label'],
       '#maxlength' => 18,
-      '#required' => TRUE,
     ];
     $form['more_information'] = [
       '#type' => 'details',
