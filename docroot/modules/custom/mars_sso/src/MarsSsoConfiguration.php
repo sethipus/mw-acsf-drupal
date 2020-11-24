@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_sso\MarsSsoSubscriber;
+namespace Drupal\mars_sso\MarsSsoConfiguration;
 
 /**
  * Modifies the acsf_sso default config import.
