@@ -8,6 +8,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\MediaHelper;
+use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -53,6 +55,13 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $entityTypeManager;
 
   /**
+   * The Media helper.
+   *
+   * @var \Drupal\mars_common\MediaHelper
+   */
+  private $mediaHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -61,12 +70,14 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $plugin_definition,
     ConfigFactoryInterface $config_factory,
     LanguageManagerInterface $language_manager,
-    EntityTypeManagerInterface $entity_manager
+    EntityTypeManagerInterface $entity_manager,
+    MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->config = $config_factory;
     $this->languageManager = $language_manager;
     $this->entityTypeManager = $entity_manager;
+    $this->mediaHelper = $media_helper;
   }
 
   /**
@@ -79,7 +90,8 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $plugin_definition,
       $container->get('config.factory'),
       $container->get('language_manager'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('mars_common.media_helper')
     );
   }
 
@@ -247,12 +259,72 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
         'type' => 'product',
       ]);
     $products_for_render = [];
+    $default_product = [];
     foreach ($products as $product) {
-      $products_for_render[$product->id()] = $product->label();
+      $products_for_render[] = [
+        'id' => $product->id(),
+        'title' => $product->label(),
+      ];
+      if (empty($default_product)) {
+        $variants_info = $this->addProductVariantsInfo($product);
+        if (empty($variants_info) || empty($variants_info[0]['size'])) {
+          continue;
+        }
+
+        $default_product['id'] = $product->id();
+        $default_product['title'] = $product->label();
+        $default_product['variants'] = $variants_info;
+      }
     }
     $build['#products'] = $products_for_render;
+    $build['#default_product'] = $default_product;
 
     return $build;
+  }
+
+  /**
+   * Collect product variant related info.
+   *
+   * @param \Drupal\node\NodeInterface $product
+   *   Product.
+   *
+   * @return array
+   *   Info related to product variant.
+   */
+  private function addProductVariantsInfo(NodeInterface $product) {
+    $variants_info = [];
+    $variants = $product->get('field_product_variants')
+      ->referencedEntities();
+
+    foreach ($variants as $variant) {
+
+      /* @var \Drupal\node\NodeInterface $variant */
+      $media_override_id = $variant->get('field_product_key_image_override')
+        ->target_id;
+      $media_params = $this->mediaHelper->getMediaParametersById($media_override_id);
+
+      // Override media missing or has error try the normal version.
+      if ($media_params['error'] ?? FALSE) {
+        $media_id = $variant->get('field_product_key_image')->target_id;
+        $media_params = $this->mediaHelper->getMediaParametersById($media_id);
+      }
+
+      $image_src = $image_alt = NULL;
+      // Override media and the normal version both failed, we should skip this.
+      if (isset($media_params['src'])) {
+        $image_src = $media_params['src'];
+        $image_alt = $media_params['alt'];
+      }
+
+      $variants_info[] = [
+        'size' => $variant->get('field_product_size')->value,
+        'image_src' => $image_src,
+        'image_alt' => $image_alt,
+        'gtin' => $variant->get('field_product_sku')->value,
+      ];
+    }
+
+    return $variants_info;
   }
 
   /**
