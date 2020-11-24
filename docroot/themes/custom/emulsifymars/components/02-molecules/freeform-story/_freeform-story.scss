@@ -146,8 +146,8 @@
         padding-top: 0;
       }
 
-      .freeform-story__content{
-        flex-direction: row-reverse;
+      .freeform-story__content {
+        flex-direction: row;
       }
     }
 
@@ -181,6 +181,10 @@
       .freeform-story__img,
       .freeform-story__texts {
         flex: 1;
+      }
+
+      .freeform-story__content {
+        flex-direction: row-reverse;
       }
 
       .freeform-story__brand-shape {

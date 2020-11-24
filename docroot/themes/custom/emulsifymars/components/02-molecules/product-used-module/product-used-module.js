@@ -2,7 +2,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
 Drupal.behaviors.productUsedCarousel = {
   attach(context) {
-    let productUsed = document.querySelector('.product-used .swiper-wrapper');
+    let productUsed = document.querySelector('.product-used-items .swiper-wrapper');
     if (productUsed.children.length < 2) {
       return;
     }
