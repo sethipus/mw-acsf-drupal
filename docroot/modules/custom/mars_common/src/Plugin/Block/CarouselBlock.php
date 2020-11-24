@@ -118,7 +118,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
         $item = [
           'src' => $media_params['src'],
-          'content' => $item_value['description'],
+          'content' => $this->languageHelper->translate($item_value['description']),
           'video' => ($item_value['item_type'] == self::KEY_OPTION_VIDEO),
           'image' => ($item_value['item_type'] == self::KEY_OPTION_IMAGE),
           'alt' => NULL,
