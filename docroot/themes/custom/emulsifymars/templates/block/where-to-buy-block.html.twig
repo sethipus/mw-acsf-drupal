@@ -20,7 +20,7 @@
 {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
 {% set where_to_buy_modifiers = ['wtb-page'] %}
 
-<div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
+<div id="wtb-container"{{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
     {% if commerce_vendor == 'price_spider' %}
             <div class="ps-widget"></div>
     {% elseif commerce_vendor == 'commerce_connector' %}
