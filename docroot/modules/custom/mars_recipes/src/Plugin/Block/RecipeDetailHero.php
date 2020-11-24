@@ -148,8 +148,8 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     if (!array_key_exists('social_links_toggle', $block_config)) {
       $build['#social_links'] = $this->socialLinks();
     }
-    $build['#custom_background_color'] = $this->configuration['custom_background_color'];
-    $build['#use_custom_color'] = (bool) $this->configuration['use_custom_color'];
+    $build['#custom_background_color'] = $this->configuration['custom_background_color'] ?? NULL;
+    $build['#use_custom_color'] = (bool) ($this->configuration['use_custom_color'] ?? 0);
 
     return $build;
   }
