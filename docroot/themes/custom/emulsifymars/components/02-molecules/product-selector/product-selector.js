@@ -1,6 +1,6 @@
 (function($){
   Drupal.behaviors.productSelector = {
-    attach: function (context/*, settings*/) {
+    attach: function (context, settings) {
       const _this = this;
       _this.context = context;
 
