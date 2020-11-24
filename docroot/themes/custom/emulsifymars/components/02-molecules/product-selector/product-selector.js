@@ -61,10 +61,10 @@
 
       $.each(data.productVariants, function(i, val) {
         $productVariantSelector.append('<option ' +
-          + ' data-id="' + val.gtin + '"' +
-          + ' data-image-src="' + val.image_src + '"' +
-          + ' data-image-alt="' + val.image_alt + '"' +
-          + ' value="' + val.size + '">' + ( val.size ? val.size + 'oz' : 'not indicated') + '</option>')
+          ' data-id="' + val.gtin + '"' +
+          ' data-image-src="' + val.image_src + '"' +
+          ' data-image-alt="' + val.image_alt + '"' +
+          ' value="' + val.size + '">' + ( val.size ? val.size + 'oz' : 'not indicated') + '</option>')
       });
     },
 
@@ -90,16 +90,16 @@
         });
 
         let script = '<script id="wtb-container"' +
-          + 'type="text/javascript"' +
-          + 'src=""' +
-          + 'id="wtb-widget"' +
-          + 'data-token="{{ data_token }}"' +
-          + 'data-locale="' + _this.settings.data_locale + '"' +
-          + 'data-displaylanguage="' + _this.settings.data_displaylanguage + '"' +
-          + 'data-widgetid="' + _this.settings.widget_id + '"' +
-          + 'data-ean="{{ products[0].id }}"' +
-          + 'data-subid="' + _this.settings.data_subid + '"' +
-          + '></script>';
+          'type="text/javascript"' +
+          'src=""' +
+          'id="wtb-widget"' +
+          'data-token="{{ data_token }}"' +
+          'data-locale="' + _this.settings.data_locale + '"' +
+          'data-displaylanguage="' + _this.settings.data_displaylanguage + '"' +
+          'data-widgetid="' + _this.settings.widget_id + '"' +
+          'data-ean="{{ products[0].id }}"' +
+          'data-subid="' + _this.settings.data_subid + '"' +
+          '></script>';
 
         $('#wtb-container').remove();
         $('.product-selector').append(script);
