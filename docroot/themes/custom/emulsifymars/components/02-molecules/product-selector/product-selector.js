@@ -1,16 +1,14 @@
 (function($){
   Drupal.behaviors.productSelector = {
-    attach: function (context /*, settings */) {
+    attach: function (context/*, settings*/) {
       const _this = this;
       _this.context = context;
 
-      /* Get Script data attributes from drupalSettings */
-      // _this.settings = settings;
-
       _this.settings = {
-        widgetid: '001',
-        ean: '002',
-        subid: '003'
+        widget_id: settings.wtb_block['widget_id'],
+        data_subid: settings.wtb_block['data_subid'],
+        data_locale: settings.wtb_block['data_locale'],
+        data_displaylanguage: settings.wtb_block['data_displaylanguage']
       }
 
       _this.initEvents(context);
@@ -19,12 +17,26 @@
     updateData: function (settings, productId, productTitle) {
       const _this = this;
       let data = {};
-      let url = 'http://mars.ddev.site:8080/wtb/get_product_info/' + productId;
+      let url = '/wtb/get_product_info/' + productId;
 
       data.title = productTitle;
       data.scriptDataAttributes = settings.scriptDataAttributes;
 
-      // data.productVariants
+      // Response example
+      // data.productVariants = [
+      //   {
+      //     "size": null,
+      //     "image_src": "https://via.placeholder.com/450",
+      //     "image_alt": null,
+      //     "gtin": "00047677482760"
+      //   },
+      //   {
+      //     "size": "8.67",
+      //     "image_src": "https://via.placeholder.com/550",
+      //     "image_alt": null,
+      //     "gtin": "00047677391284"
+      //   }
+      // ];
 
       $.ajax({
         url: url,
@@ -32,25 +44,6 @@
         dataType: 'json',
         success: function success(results) {
           data.productVariants = results;
-
-          _this.render(_this.context, data);
-        },
-        error: function(){
-          data.productVariants = [
-            {
-              "size": null,
-              "image_src": "https://via.placeholder.com/450",
-              "image_alt": null,
-              "gtin": "00047677482760"
-            },
-            {
-              "size": "8.67",
-              "image_src": "https://via.placeholder.com/550",
-              "image_alt": null,
-              "gtin": "00047677391284"
-            }
-          ];
-
           _this.render(_this.context, data);
         }
       });
@@ -67,12 +60,11 @@
       $productVariantSelector.empty();
 
       $.each(data.productVariants, function(i, val) {
-        debugger;
         $productVariantSelector.append('<option ' +
-          + 'data-id="' + val.gtin + '"' +
-          + 'data-image-src="' + val.image_src + '"' +
-          + 'data-image-alt="' + val.image_alt + '"' +
-          + 'value="' + val.size + '">' + val.size + '</option>')
+          + ' data-id="' + val.gtin + '"' +
+          + ' data-image-src="' + val.image_src + '"' +
+          + ' data-image-alt="' + val.image_alt + '"' +
+          + ' value="' + val.size + '">' + ( val.size ? val.size + 'oz' : 'not indicated') + '</option>')
       });
     },
 
@@ -80,11 +72,37 @@
       // $('.product-selector__item-selector').chosen();
       const _this = this;
       let $itemSelector = $(context).find('.product-selector__item-selector');
+      let $productVariantSelector = $(context).find('.product-selector__product-variant-selector');
 
       $itemSelector.on('change', function() {
         let productId = $(this).find('option:selected').data("id");
         let productTitle = $(this).val();
-        let data = _this.updateData(context, productId, productTitle);
+        _this.updateData(context, productId, productTitle);
+      });
+
+      $productVariantSelector.on('change', function() {
+        let $selectedVariant = $(this).find('option:selected');
+        let $image = $('.product-selector__image img');
+
+        $image.attr({
+          alt: $selectedVariant.data('image-alt'),
+          src: $selectedVariant.data('image-src')
+        });
+
+        let script = '<script id="wtb-container"' +
+          + 'type="text/javascript"' +
+          + 'src=""' +
+          + 'id="wtb-widget"' +
+          + 'data-token="{{ data_token }}"' +
+          + 'data-locale="' + _this.settings.data_locale + '"' +
+          + 'data-displaylanguage="' + _this.settings.data_displaylanguage + '"' +
+          + 'data-widgetid="' + _this.settings.widget_id + '"' +
+          + 'data-ean="{{ products[0].id }}"' +
+          + 'data-subid="' + _this.settings.data_subid + '"' +
+          + '></script>';
+
+        $('#wtb-container').remove();
+        $('.product-selector').append(script);
       });
     },
   };

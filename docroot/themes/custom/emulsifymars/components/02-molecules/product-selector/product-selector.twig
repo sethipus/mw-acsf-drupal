@@ -1,19 +1,30 @@
 {% set product_selector_class = product_selector_class|default('product-selector') %}
 
 <section {{bem(product_selector_class)}} data-theme={{theme_styles}}>
+  <script id="wtb-container"
+    type="text/javascript"
+    src=""
+    id="wtb-widget"
+    data-token="{{ data_token }}"
+    data-locale="{{ data_locale }}"
+    data-displaylanguage="{{ data_displaylanguage }}"
+    data-widgetid="{{ widget_id }}"
+    data-ean="{{ products[0].id }}"
+    data-subid="{{ data_subid }}"
+  ></script>
   <div {{bem('information', [], product_selector_class)}}>
     <div {{bem('image', [], product_selector_class)}}>
       {% include "@atoms/images/image/_image.twig" with {
-        image_alt: '',
-        image_src: image_src,
+        image_alt: default_product.variants[0].image_alt,
+        image_src: default_product.variants[0].image_src,
       } %}
     </div>
     <div {{bem('title', [], product_selector_class)}}>
-      {{ title }}
+      {{ default_product.title }}
     </div>
   </div>
   <div {{bem('form-container', [], product_selector_class)}}>
-    <from {{bem('form', [], product_selector_class)}}>
+    <form {{bem('form', [], product_selector_class)}}>
       <div {{bem('select-wrapper', [], product_selector_class)}}>
         <select {{bem('item-selector', [], product_selector_class)}}>
           {% for product in products %}
@@ -23,13 +34,14 @@
       </div>
       <div {{bem('select-wrapper', [], product_selector_class)}}>
         <select {{bem('product-variant-selector', [], product_selector_class)}}>
-          <option>3.3oz</option>
-          <option>13.3oz</option>
-          <option>23.3oz</option>
-          <option>33.3oz</option>
-          <option>43.3oz</option>
+          {% for variant in default_product.variants %}
+            <option data-id="{{ variant.gtin }}"
+                    data-image-src="{{ variant.image_src }}"
+                    data-image-alt="{{ variant.image_alt }}"
+                    value="variant.size">{{ variant.size }}{{ "oz" | t }}</option>
+          {% endfor %}
         </select>
       </div>
-    </from>
+    </form>
   </div>
 </section>
