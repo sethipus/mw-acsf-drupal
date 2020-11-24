@@ -8,8 +8,7 @@
 <section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }}
          data-theme="{{ theme_styles }}"
          data-site-search-clicked="{{ item.paragraph_content }}"
-         data-card-type="product-card"
-         onclick="window.location='{{ item.card_url }}'">
+         data-card-type="product-card">
 
     {% if is_new %}
       {% include "@atoms/badge/badge.twig" %}

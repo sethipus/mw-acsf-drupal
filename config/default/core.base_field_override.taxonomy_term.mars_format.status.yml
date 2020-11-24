@@ -1,0 +1,22 @@
+uuid: 1d386419-601f-4839-bd46-dabb72875f6f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_format
+id: taxonomy_term.mars_format.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_format
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

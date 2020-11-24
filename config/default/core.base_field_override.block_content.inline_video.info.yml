@@ -1,0 +1,18 @@
+uuid: d2f10814-c29f-4322-9ae0-3e6772a48b24
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.inline_video
+id: block_content.inline_video.info
+field_name: info
+entity_type: block_content
+bundle: inline_video
+label: 'Block description'
+description: 'A brief description of your block.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\FlexibleFramerBlock;
 use Drupal\mars_common\SVG\SVG;
@@ -60,6 +61,13 @@ class FlexibleFramerBlockTest extends UnitTestCase {
   private $configuration;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -90,6 +98,7 @@ class FlexibleFramerBlockTest extends UnitTestCase {
       'flexible_framer_block',
       $definitions,
       $this->mediaHelperMock,
+      $this->languageHelperMock,
       $this->themeConfiguratorParserMock
     );
   }
@@ -99,7 +108,7 @@ class FlexibleFramerBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(3))
       ->method('get')
       ->willReturnMap(
         [
@@ -107,6 +116,11 @@ class FlexibleFramerBlockTest extends UnitTestCase {
             'mars_common.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
+          ],
+          [
+            'mars_common.language_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageHelperMock,
           ],
           [
             'mars_common.theme_configurator_parser',
@@ -271,6 +285,7 @@ class FlexibleFramerBlockTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 

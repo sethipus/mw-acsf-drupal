@@ -9,24 +9,24 @@
  * - cta_title -
  * - button_type -
  * - widget_id -
+ * - data_token -
+ * - data_subid -
+ * - data_locale -
+ * - data_displaylanguage -
+ * - products -
+ * - default_product -
  */
 #}
-
 {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
 {% set where_to_buy_modifiers = ['wtb-page'] %}
-
-{% if commerce_vendor == 'price_spider' %}
-    <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
-        <div class="ps-widget"></div>
-    </div>
-{% elseif commerce_vendor == 'commerce_connector' %}
-    {% if button_type == 'my_own' %}
-        <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
-            <a class="cc-fi-button text_link" data-ccwid="{{ widget_id }}" data-ean="{{ product_id }}">{{ cta_title }}</a>
-        </div>
-    {% else %}
-        <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
-            <div data-ccid="wtb-target" data-ccwid="{{ widget_id }}" data-ean="{{ product_id }}"></div>
-        </div>
+<div id="wtb-container"{{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
+    {% if commerce_vendor == 'price_spider' %}
+            <div class="ps-widget"></div>
+    {% elseif commerce_vendor == 'commerce_connector' %}
+        {% include "@molecules/product-selector/product-selector.twig" with {
+            theme_styles: 'drupal',
+            products: products,
+            default_product: default_product,
+        } %}
     {% endif %}
-{% endif %}
+</div>

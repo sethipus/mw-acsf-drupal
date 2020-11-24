@@ -1,0 +1,20 @@
+uuid: 86e1e22a-cd5f-43d0-bc6e-8f289feca65f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_format
+  module:
+    - path
+id: taxonomy_term.mars_format.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_format
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

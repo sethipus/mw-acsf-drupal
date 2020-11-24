@@ -4,11 +4,16 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\WhereToBuyBlock;
+use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -94,6 +99,41 @@ class WhereToBuyBlockTest extends UnitTestCase {
   private $immutableConfigMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   */
+  private $mediaHelperMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  private $entityTypeManagerMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityStorageInterface
+   */
+  private $entityStorageMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\node\NodeInterface
+   */
+  private $nodeMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Field\EntityReferenceFieldItemListInterface
+   */
+  private $fieldItemListMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -105,7 +145,9 @@ class WhereToBuyBlockTest extends UnitTestCase {
       self::PLUGIN_ID,
       self::DEFINITION,
       $this->configMock,
-      $this->languageManagerMock
+      $this->languageManagerMock,
+      $this->entityTypeManagerMock,
+      $this->mediaHelperMock
     );
   }
 
@@ -114,7 +156,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(4))
       ->method('get')
       ->willReturnMap(
         [
@@ -127,6 +169,16 @@ class WhereToBuyBlockTest extends UnitTestCase {
             'language_manager',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->languageManagerMock,
+          ],
+          [
+            'entity_type.manager',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->entityTypeManagerMock,
+          ],
+          [
+            'mars_common.media_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->mediaHelperMock,
           ],
         ]
       );
@@ -216,6 +268,50 @@ class WhereToBuyBlockTest extends UnitTestCase {
       ->method('getId')
       ->willReturn('en');
 
+    $this->entityTypeManagerMock
+      ->expects($this->once())
+      ->method('getStorage')
+      ->willReturn($this->entityStorageMock);
+
+    $this->entityStorageMock
+      ->expects($this->once())
+      ->method('loadByProperties')
+      ->willReturn([$this->nodeMock]);
+
+    $this->nodeMock
+      ->expects($this->any())
+      ->method('id')
+      ->willReturn('id');
+
+    $this->nodeMock
+      ->expects($this->once())
+      ->method('label')
+      ->willReturn('label');
+
+    $this->nodeMock->target_id = '123';
+    $this->nodeMock->value = 'value';
+
+    $this->nodeMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->fieldItemListMock);
+
+    $this->fieldItemListMock
+      ->expects($this->once())
+      ->method('referencedEntities')
+      ->willReturn([
+        $this->nodeMock,
+      ]);
+
+    $this->mediaHelperMock
+      ->expects($this->exactly(2))
+      ->method('getMediaParametersById')
+      ->willReturn([
+        'error' => TRUE,
+        'src' => 'src',
+        'alt' => 'alt',
+      ]);
+
     $build = $this->block->build();
     $this->assertIsArray(
       $build['#attached']['html_head']
@@ -235,6 +331,50 @@ class WhereToBuyBlockTest extends UnitTestCase {
       'context_mapping' => [],
       'commerce_vendor' => WhereToBuyBlock::VENDOR_COMMERCE_CONNECTOR,
     ]);
+
+    $this->entityTypeManagerMock
+      ->expects($this->once())
+      ->method('getStorage')
+      ->willReturn($this->entityStorageMock);
+
+    $this->entityStorageMock
+      ->expects($this->once())
+      ->method('loadByProperties')
+      ->willReturn([$this->nodeMock]);
+
+    $this->nodeMock
+      ->expects($this->any())
+      ->method('id')
+      ->willReturn('id');
+
+    $this->nodeMock
+      ->expects($this->once())
+      ->method('label')
+      ->willReturn('label');
+
+    $this->nodeMock->target_id = '123';
+    $this->nodeMock->value = 'value';
+
+    $this->nodeMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->fieldItemListMock);
+
+    $this->fieldItemListMock
+      ->expects($this->once())
+      ->method('referencedEntities')
+      ->willReturn([
+        $this->nodeMock,
+      ]);
+
+    $this->mediaHelperMock
+      ->expects($this->exactly(2))
+      ->method('getMediaParametersById')
+      ->willReturn([
+        'error' => TRUE,
+        'src' => 'src',
+        'alt' => 'alt',
+      ]);
 
     $this->languageManagerMock
       ->expects($this->once())
@@ -260,6 +400,11 @@ class WhereToBuyBlockTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->languageMock = $this->createMock(LanguageInterface::class);
+    $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this->entityStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->nodeMock = $this->createMock(NodeInterface::class);
+    $this->fieldItemListMock = $this->createMock(EntityReferenceFieldItemListInterface::class);
   }
 
 }

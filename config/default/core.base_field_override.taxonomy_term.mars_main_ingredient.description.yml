@@ -1,0 +1,20 @@
+uuid: 38432b3d-cbda-4328-8ce5-6286ee514627
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_main_ingredient
+  module:
+    - text
+id: taxonomy_term.mars_main_ingredient.description
+field_name: description
+entity_type: taxonomy_term
+bundle: mars_main_ingredient
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
