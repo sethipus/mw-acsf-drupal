@@ -13,26 +13,27 @@
  * - data_subid -
  * - data_locale -
  * - data_displaylanguage -
+ * - products -
  */
 #}
 
 {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
 {% set where_to_buy_modifiers = ['wtb-page'] %}
 
-{% if commerce_vendor == 'price_spider' %}
-    <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
-        <div class="ps-widget"></div>
-    </div>
-{% elseif commerce_vendor == 'commerce_connector' %}
-    <script
-        type="text/javascript"
-        src="https://fi-v2.global.commerce-connector.com/cc.js"
-        id="cci-widget"
-        data-token="{{ data_token }}"
-        data-locale="{{ data_locale }}"
-        data-displaylanguage="{{ data_displaylanguage }}"
-        data-widgetid="{{ widget_id }}"
-        data-ean="{{ product_id }}"
-        data-subid="{{ data_subid }}"
-    ></script>
-{% endif %}
+<div {{ bem(where_to_buy_base_class, where_to_buy_modifiers) }}>
+    {% if commerce_vendor == 'price_spider' %}
+            <div class="ps-widget"></div>
+    {% elseif commerce_vendor == 'commerce_connector' %}
+        <script
+            type="text/javascript"
+            src="https://fi-v2.global.commerce-connector.com/cc.js"
+            id="cci-widget"
+            data-token="{{ data_token }}"
+            data-locale="{{ data_locale }}"
+            data-displaylanguage="{{ data_displaylanguage }}"
+            data-widgetid="{{ widget_id }}"
+            data-ean="{{ product_id }}"
+            data-subid="{{ data_subid }}"
+        ></script>
+    {% endif %}
+</div>

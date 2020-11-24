@@ -5,3 +5,13 @@ mars_product.where_to_buy.configuration:
     _title: 'Where to buy global settigns'
   requirements:
     _permission: 'administer site configuration'
+mars_product.wtb_product_info:
+  path: '/wtb/get_product_info/{node}'
+  defaults:
+    _controller: '\Drupal\mars_product\Controller\WtbProductController::productInfo'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      node:
+        type: entity:node

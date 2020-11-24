@@ -4,6 +4,7 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -45,6 +46,13 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $languageManager;
 
   /**
+   * The entity manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -52,11 +60,13 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $plugin_id,
     $plugin_definition,
     ConfigFactoryInterface $config_factory,
-    LanguageManagerInterface $language_manager
+    LanguageManagerInterface $language_manager,
+    EntityTypeManagerInterface $entity_manager
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->config = $config_factory;
     $this->languageManager = $language_manager;
+    $this->entityTypeManager = $entity_manager;
   }
 
   /**
@@ -68,7 +78,8 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $plugin_id,
       $plugin_definition,
       $container->get('config.factory'),
-      $container->get('language_manager')
+      $container->get('language_manager'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -222,6 +233,16 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     $locale = $this->languageManager->getCurrentLanguage()->getId();
     $build['#data_displaylanguage'] = $locale;
+
+    $products = $this->entityTypeManager->getStorage('node')
+      ->loadByProperties([
+        'type' => 'product',
+      ]);
+    $products_for_render = [];
+    foreach ($products as $product) {
+      $products_for_render[$product->id()] = $product->label();
+    }
+    $build['#products'] = $products_for_render;
 
     return $build;
   }
