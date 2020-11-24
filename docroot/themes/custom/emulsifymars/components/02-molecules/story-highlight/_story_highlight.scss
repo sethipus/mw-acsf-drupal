@@ -123,15 +123,12 @@
     position: relative;
     z-index: 2;
     border-bottom: 1px solid lightgrey;
+    width: 50%;
+    margin: 5rem 2rem 0 auto;
 
     img {
       width: auto;
       max-width: 100%;
-    }
-
-    @include small {
-      width: 50%;
-      margin: 5rem 2rem 0 auto;
     }
 
     @include large {
@@ -150,15 +147,11 @@
     position: relative;
     z-index: 2;
     border-bottom: 1px solid lightgrey;
-    margin-bottom: 0;
+    margin: 12rem 12rem 12rem 2rem;
 
     & img {
       width: auto;
       max-width: 100%;
-    }
-
-    @include small {
-      margin: 12rem 12rem 12rem 2rem;
     }
 
     @include large {
@@ -206,15 +199,11 @@
     min-width: 12.4rem;
     min-height: 11.8rem;
     z-index: 1;
-    top: 45%;
+    top: 90rem;
     display: flex;
 
     & img {
       margin: auto;
-    }
-
-    @include small {
-      top: 90rem;
     }
 
     @include medium {
@@ -245,15 +234,12 @@
     width: 15.3rem;
     height: 15.3rem;
     display: flex;
+    top: 80rem;
+    right: 0;
+    z-index: 1;
 
     & img {
       margin: auto;
-    }
-
-    @include small {
-      top: 80rem;
-      right: 0;
-      z-index: 1;
     }
 
     @include medium {
@@ -291,7 +277,7 @@
       margin: auto;
     }
 
-    @include small {
+    @include xs {
       z-index: 0;
       right: 0;
       bottom: 20rem;
@@ -311,10 +297,7 @@
   & .cta_wrapper {
     padding: 8.3rem 0;
     text-align: center;
-
-    @include small {
-      padding: 3.3rem 0 12.6rem 0;
-    }
+    padding: 3.3rem 0 12.6rem 0;
 
     @include medium {
       padding: 0 0 12.6rem 0;
