@@ -1,0 +1,18 @@
+uuid: a1f469d8-90bd-49fb-8590-3cc156dbff36
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.where_to_buy
+id: node.where_to_buy.moderation_state
+field_name: moderation_state
+entity_type: node
+bundle: where_to_buy
+label: 'Moderation state'
+description: 'The moderation state of this piece of content.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

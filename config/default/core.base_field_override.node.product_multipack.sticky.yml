@@ -1,0 +1,22 @@
+uuid: 2aa75708-dd90-4a25-86c0-5d6c10f807b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_multipack
+id: node.product_multipack.sticky
+field_name: sticky
+entity_type: node
+bundle: product_multipack
+label: 'Sticky at top of lists'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

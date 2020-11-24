@@ -9,8 +9,8 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_product\ProductHelper;
@@ -52,11 +52,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $entityRepository;
 
   /**
-   * The language manager.
+   * Language helper service.
    *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
+   * @var \Drupal\mars_common\LanguageHelper
    */
-  protected $languageManager;
+  private $languageHelper;
 
   /**
    * ThemeConfiguratorParser.
@@ -118,7 +118,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityRepositoryInterface $entity_repository,
     EntityFormBuilderInterface $entity_form_builder,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    LanguageManagerInterface $language_manager,
+    LanguageHelper $language_helper,
     ProductHelper $product_helper,
     MediaHelper $media_helper
   ) {
@@ -128,7 +128,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->entityRepository = $entity_repository;
     $this->entityFormBuilder = $entity_form_builder;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
-    $this->languageManager = $language_manager;
+    $this->languageHelper = $language_helper;
     $this->productHelper = $product_helper;
     $this->mediaHelper = $media_helper;
   }
@@ -146,7 +146,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity.repository'),
       $container->get('entity.form_builder'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('language_manager'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_product.product_helper'),
       $container->get('mars_common.media_helper')
     );
@@ -323,7 +323,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function build() {
     // Product node.
     $node = $this->getContextValue('node');
-
     // Get values from first Product Variant.
     $product_sku = '';
     $ingredients_label = '';
@@ -331,15 +330,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
       $product_sku = $product_variant->get('field_product_sku')->value;
-      $ingredients_label = $product_variant->get('field_product_ingredients')->getFieldDefinition()->getLabel() . ':';
-      $warnings_label = $product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel() . ':';
+      $ingredients_label = $this->languageHelper->translate($product_variant->get('field_product_ingredients')->getFieldDefinition()->getLabel()) . ':';
+      $warnings_label = $this->languageHelper->translate($product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel()) . ':';
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
     $pdp_common_data = [
       'hero_data' => [
-        'product_label' => $this->configuration['eyebrow'] ?? '',
-        'size_label' => $this->configuration['available_sizes'] ?? '',
+        'product_label' => $this->languageHelper->translate($this->configuration['eyebrow'] ?? ''),
+        'size_label' => $this->languageHelper->translate($this->configuration['available_sizes'] ?? ''),
         'brand_shape' => $this->themeConfiguratorParser->getBrandShape(),
         'background_color' => $background_color,
         'product_name' => $node->title->value,
@@ -349,18 +348,18 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'data_widget_id' => $this->configuration['wtb']['data_widget_id'] ?? '',
       ],
       'nutrition_data' => [
-        'nutritional_label' => $this->configuration['nutrition']['label'] ?? '',
-        'nutritional_info_serving_label' => $this->configuration['nutrition']['serving_label'] ?? '',
-        'nutritional_info_daily_label' => $this->configuration['nutrition']['daily_label'] ?? '',
-        'vitamins_info_label' => $this->configuration['nutrition']['vitamins_label'] . ':' ?? '',
+        'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
+        'nutritional_info_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['serving_label']) ?? '',
+        'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
+        'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
         'ingredients_label' => $ingredients_label,
         'warnings_label' => $warnings_label,
       ],
       'allergen_data' => [
-        'allergen_label' => $this->configuration['allergen_label'],
+        'allergen_label' => $this->languageHelper->translate($this->configuration['allergen_label']),
       ],
       'more_information_data' => [
-        'more_information_label' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
+        'more_information_label' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label']) ?? $this->t('More information'),
         'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
       ],
     ];
@@ -401,7 +400,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
+      $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
@@ -438,7 +437,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected function getPdpMultiPackProductData(EntityInterface $node) {
     $products_data = [];
     foreach ($node->field_product_pack_items as $product_reference) {
-      $product = $product_reference->entity;
+      $product = $this->languageHelper->getTranslation($product_reference->entity);
       $product_variant_first = $this->productHelper->mainVariant($product);
       if (empty($product_variant_first)) {
         continue;
@@ -461,7 +460,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
+      $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
@@ -568,7 +567,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     $field_size = 'field_product_size';
     foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
+      $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size = $product_variant->get($field_size)->value;
       $size_id = $product_variant->id();
       $items[] = [
@@ -595,11 +594,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'ingredients_value' => strip_tags(html_entity_decode($node->get('field_product_ingredients')->value)),
       'warnings_value' => strip_tags(html_entity_decode($node->get('field_product_allergen_warnings')->value)),
       'serving_size' => [
-        'label' => $node->get('field_product_serving_size')->getFieldDefinition()->getLabel() . ':',
+        'label' => $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':',
         'value' => $node->get('field_product_serving_size')->value,
       ],
       'serving_per_container' => [
-        'label' => $node->get('field_product_servings_per')->getFieldDefinition()->getLabel() . ':',
+        'label' => $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':',
         'value' => $node->get('field_product_servings_per')->value,
       ],
     ];
@@ -609,9 +608,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       foreach ($fields as $field => $field_daily) {
         $bold_modifier = array_key_exists($field, self::FIELDS_WITH_BOLD_LABELS) ? TRUE : FALSE;
         $item = [
-          'label' => $node->get($field)
-            ->getFieldDefinition()
-            ->getLabel(),
+          'label' => $this->languageHelper->translate(
+            $node->get($field)
+              ->getFieldDefinition()
+              ->getLabel()
+          ),
           'value' => $node->get($field)->value,
           'bold_modifier' => $bold_modifier,
         ];
@@ -747,7 +748,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function getAllergenItems($node) {
     $items = [];
     foreach ($node->field_product_diet_allergens as $reference) {
-      $allergen_term = $reference->entity;
+      $allergen_term = $this->languageHelper->getTranslation($reference->entity);
+
       $media_id = $this->mediaHelper->getEntityMainMediaId($allergen_term);
       $media_params = $this->mediaHelper->getMediaParametersById($media_id);
       if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
@@ -776,7 +778,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $size_id = $node->id();
     $items = [];
     $items[] = [
-      'title' => $this->configuration['nutrition']['label'],
+      'title' => $this->languageHelper->translate($this->configuration['nutrition']['label']),
       'link_attributes' => [
         'class' => 'pdp-hero__nutrition-menu',
         'href' => '#section-nutrition-' . $size_id,
@@ -789,7 +791,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       !$node->field_product_diet_allergens->isEmpty()
     ) {
       $items[] = [
-        'title' => $this->configuration['allergen_label'],
+        'title' => $this->languageHelper->translate($this->configuration['allergen_label']),
         'link_attributes' => [
           'class' => 'pdp-hero__allergen-menu',
           'href' => '#section-allergen-' . $size_id,
@@ -799,7 +801,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
       $items[] = [
-        'title' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
+        'title' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? NULL) ?? $this->t('More information'),
         'link_attributes' => [
           'class' => 'pdp-hero__more-info-menu',
           'href' => '#section-more-information',
@@ -852,7 +854,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-language',
-            'content' => strtolower($this->languageManager->getCurrentLanguage()->getId()),
+            'content' => strtolower($this->languageHelper->getCurrentLanguageId()),
           ],
         ],
         'price-spider' => [
