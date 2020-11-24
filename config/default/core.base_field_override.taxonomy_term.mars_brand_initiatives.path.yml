@@ -1,0 +1,20 @@
+uuid: 39a128fe-c710-4940-8e60-534dd4d1e7be
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_brand_initiatives
+  module:
+    - path
+id: taxonomy_term.mars_brand_initiatives.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_brand_initiatives
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path
