@@ -104,6 +104,11 @@
     &--hidden {
       display: none;
     }
+
+    &--disabled {
+      opacity: .6;
+      cursor: default;
+    }
   }
 }
 

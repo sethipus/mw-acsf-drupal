@@ -195,7 +195,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       '#title' => $this->t('Social Links label'),
       '#maxlength' => 35,
       '#default_value' => $this->configuration['social_links_label'] ?? '',
-      '#required' => FALSE,
+      '#required' => TRUE,
     ];
 
     return $form;
