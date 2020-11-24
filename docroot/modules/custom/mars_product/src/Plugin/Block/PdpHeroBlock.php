@@ -197,10 +197,70 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#required' => TRUE,
     ];
 
+    $form['wtb']['data_token'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Token'),
+      '#default_value' => $this->configuration['wtb']['data_token'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
+    $form['wtb']['data_subid'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('SubId'),
+      '#default_value' => $this->configuration['wtb']['data_subid'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
     $form['wtb']['product_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product ID'),
       '#default_value' => $this->configuration['wtb']['product_id'],
+    ];
+
+    $form['wtb']['cta_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('CTA title'),
+      '#default_value' => $this->configuration['wtb']['cta_title'],
+    ];
+
+    $form['wtb']['button_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Connector: button type'),
+      '#default_value' => $this->configuration['wtb']['button_type'],
+      '#options' => [
+        'my_own' => $this->t('My own button'),
+        'commerce_connector' => $this->t('Commerce Connector button'),
+      ],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
+    $form['wtb']['data_locale'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Commerce Connector: data locale'),
+      '#default_value' => $this->configuration['wtb']['data_locale'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
     ];
 
     $form['nutrition'] = [
@@ -311,7 +371,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'wtb' => [
         'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
         'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
+        'data_token' => $config['wtb']['data_token'] ?? '',
+        'data_subid' => $config['wtb']['data_subid'] ?? '',
+        'cta_title' => $config['wtb']['cta_title'] ?? '',
         'product_id' => $config['wtb']['product_id'] ?? '',
+        'button_type' => $config['wtb']['button_type'] ?? '',
+        'data_locale' => $config['wtb']['data_locale'] ?? '',
       ],
 
     ];
@@ -346,6 +411,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'product_sku' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku,
         'commerce_vendor' => $this->configuration['wtb']['commerce_vendor'],
         'data_widget_id' => $this->configuration['wtb']['data_widget_id'] ?? '',
+        'data_token' => $this->configuration['wtb']['data_token'] ?? '',
+        'data_subid' => $this->configuration['wtb']['data_subid'] ?? '',
+        'product_CTA_title' => $this->configuration['wtb']['cta_title'] ?? '',
+        'button_type' => $this->configuration['wtb']['button_type'] ?? '',
+        'data_locale' => $this->configuration['wtb']['data_locale'] ?? '',
       ],
       'nutrition_data' => [
         'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
@@ -404,7 +474,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
+      $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
+        'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
@@ -464,7 +536,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
+      $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
+        'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
@@ -869,6 +943,18 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $build['#attached']['html_head'][] = [$metatag, $key];
       }
     }
+    elseif ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
+      $locale = $this->languageManager->getCurrentLanguage()->getId();
+      $build['#attached']['drupalSettings']['cc'] = [
+        'data-token' => $this->configuration['wtb']['data_token'],
+        'data-locale' => $this->configuration['wtb']['data_locale'],
+        'data-displaylanguage' => $locale,
+        'data-widgetid' => $this->configuration['wtb']['data_widget_id'],
+        'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
+      ];
+      $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+    }
+
     return $build;
   }
 
