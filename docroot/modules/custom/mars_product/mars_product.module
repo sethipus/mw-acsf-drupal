@@ -112,4 +112,14 @@ function mars_common_preprocess_node__product__card(array &$variables) {
   $variables['wtb_commerce_vendor'] = $wtb_confg->get('commerce_vendor') ?? NULL;
   $variables['wtb_button_type'] = $wtb_confg->get('button_type') ?? NULL;
   $variables['wtb_widget_id'] = $wtb_confg->get('widget_id') ?? NULL;
+
+  $variants = $variables['node']
+    ->get('field_product_variants')
+    ->referencedEntities();
+  $variant = reset($variants);
+  if ($variant !== FALSE) {
+    $product_sku = $variant->get('field_product_sku')->value;
+  }
+
+  $variables['wtb_product_sku'] = $product_sku ?? NULL;
 }
