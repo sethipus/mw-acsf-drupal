@@ -4,14 +4,13 @@ namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Link;
 use Drupal\mars_search\Form\SearchForm;
-use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
+use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 
 /**
  * Provides a search page header block.
@@ -32,13 +31,6 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $themeConfiguratorParser;
 
   /**
-   * Search helper.
-   *
-   * @var \Drupal\mars_search\SearchHelperInterface
-   */
-  protected $searchHelper;
-
-  /**
    * The form builder.
    *
    * @var \Drupal\Core\Form\FormBuilderInterface
@@ -46,11 +38,32 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $formBuilder;
 
   /**
+   * Search processing factory.
+   *
+   * @var \Drupal\mars_search\SearchProcessFactoryInterface
+   */
+  protected $searchProcessor;
+
+  /**
+   * Search helper.
+   *
+   * @var \Drupal\mars_search\Processors\SearchHelperInterface
+   */
+  protected $searchHelper;
+
+  /**
    * Search query parser.
    *
-   * @var \Drupal\mars_search\SearchQueryParserInterface
+   * @var \Drupal\mars_search\Processors\SearchQueryParserInterface
    */
   protected $searchQueryParser;
+
+  /**
+   * Taxonomy facet process service.
+   *
+   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
+   */
+  protected $searchTermFacetProcess;
 
   /**
    * {@inheritdoc}
@@ -61,9 +74,8 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('mars_search.search_helper'),
       $container->get('form_builder'),
-      $container->get('mars_search.search_query_parser')
+      $container->get('mars_search.search_factory')
     );
   }
 
@@ -75,15 +87,16 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_id,
     $plugin_definition,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    SearchHelperInterface $search_helper,
     FormBuilderInterface $form_builder,
-    SearchQueryParserInterface $search_query_parser
+    SearchProcessFactoryInterface $searchProcessor
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
-    $this->searchHelper = $search_helper;
     $this->formBuilder = $form_builder;
-    $this->searchQueryParser = $search_query_parser;
+    $this->searchProcessor = $searchProcessor;
+    $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
+    $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
+    $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
   }
 
   /**
@@ -102,42 +115,9 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
 
     // Getting search results from SOLR.
     $options = $this->searchQueryParser->parseQuery();
-
     $query_search_results = $this->searchHelper->getSearchResults($options, 'main_search_facets');
 
-    // Preparing content type facet filter.
-    $type_facet_key = 'type';
-    $search_filters = [];
-
-    $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID;
-    if (!empty($query_search_results['facets'][$type_facet_key])) {
-      foreach ($query_search_results['facets'][$type_facet_key] as $type_facet) {
-        $url = $this->searchHelper->getCurrentUrl();
-        $url_options = $url->getOptions();
-        // That means facet is active.
-        $state = '';
-        $facet_query_value = $this->searchHelper->request->query->get($type_facet_key);
-
-        if (!empty($facet_query_value[$search_id]) &&  $facet_query_value[$search_id] == $type_facet['filter']) {
-          // Removing facet query from active filter to allow deselect it.
-          unset($url_options['query'][$type_facet_key]);
-          $state = 'active';
-        }
-        else {
-          // Adding facet filter to the query.
-          $url_options['query'][$type_facet_key][$search_id] = $type_facet['filter'];
-        }
-        $url->setOptions($url_options);
-
-        $search_filters[] = [
-          'title' => Link::fromTextAndUrl($type_facet['filter'], $url),
-          'count' => $type_facet['count'],
-          'search_results_item_modifier' => $state,
-        ];
-      }
-    }
-
-    $build['#search_filters'] = $search_filters;
+    $build['#search_filters'] = $this->searchTermFacetProcess->prepareFacetsLinksWithCount($query_search_results['facets'], 'type', SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
     $build['#search_header_heading'] = $conf['search_header_heading'] ?? $this->t('What are you looking for?');
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#theme'] = 'mars_search_header';

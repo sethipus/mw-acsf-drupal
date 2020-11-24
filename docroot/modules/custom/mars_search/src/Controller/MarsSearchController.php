@@ -7,20 +7,35 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
-use Drupal\mars_search\SearchHelperInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
+use Drupal\mars_search\SearchProcessFactoryInterface;
+use Drupal\mars_search\Processors\SearchHelperInterface;
+use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\Core\Menu\MenuTreeParameters;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides a controllers for search functionality.
  */
 class MarsSearchController extends ControllerBase implements ContainerInjectionInterface {
+
+  /**
+   * Search key which is using in URL.
+   */
+  const MARS_SEARCH_AJAX_PAGER = 'pager';
+
+  /**
+   * Search key which is using in URL.
+   */
+  const MARS_SEARCH_AJAX_FACET = 'facet';
+
+  /**
+   * Search key which is using in URL.
+   */
+  const MARS_SEARCH_AJAX_QUERY = 'query';
 
   /**
    * The renderer.
@@ -37,18 +52,39 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $menuLinkTree;
 
   /**
+   * Search processing factory.
+   *
+   * @var \Drupal\mars_search\SearchProcessFactoryInterface
+   */
+  protected $searchProcessor;
+
+  /**
    * Search helper.
    *
-   * @var \Drupal\mars_search\SearchHelperInterface
+   * @var \Drupal\mars_search\Processors\SearchHelperInterface
    */
   protected $searchHelper;
 
   /**
    * Search query parser.
    *
-   * @var \Drupal\mars_search\SearchQueryParserInterface
+   * @var \Drupal\mars_search\Processors\SearchQueryParserInterface
    */
   protected $searchQueryParser;
+
+  /**
+   * Taxonomy facet process service.
+   *
+   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
+   */
+  protected $searchTermFacetProcess;
+
+  /**
+   * Templates builder service .
+   *
+   * @var \Drupal\mars_search\Processors\SearchBuilder
+   */
+  protected $searchBuilder;
 
   /**
    * A view builder instance.
@@ -76,10 +112,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer.
-   * @param \Drupal\mars_search\SearchHelperInterface $search_helper
-   *   Search helper.
-   * @param \Drupal\mars_search\SearchQueryParserInterface $search_query_parser
-   *   Search helper.
+   * @param \Drupal\mars_search\SearchProcessFactoryInterface $searchProcessor
+   *   Search processor factory.
    * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
    *   Menu Link tree.
    * @param \Drupal\Core\Entity\EntityViewBuilderInterface $node_view_builder
@@ -89,19 +123,21 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    */
   public function __construct(
     RendererInterface $renderer,
-    SearchHelperInterface $search_helper,
-    SearchQueryParserInterface $search_query_parser,
+    SearchProcessFactoryInterface $searchProcessor,
     MenuLinkTreeInterface $menu_link_tree,
     EntityViewBuilderInterface $node_view_builder,
     RequestStack $request_stack
   ) {
     $this->renderer = $renderer;
-    $this->searchHelper = $search_helper;
-    $this->searchQueryParser = $search_query_parser;
     $this->viewBuilder = $this->entityTypeManager()->getViewBuilder('node');
     $this->menuLinkTree = $menu_link_tree;
     $this->nodeViewBuilder = $node_view_builder;
     $this->requestStack = $request_stack;
+    $this->searchProcessor = $searchProcessor;
+    $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
+    $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
+    $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
+    $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
   }
 
   /**
@@ -110,8 +146,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('renderer'),
-      $container->get('mars_search.search_helper'),
-      $container->get('mars_search.search_query_parser'),
+      $container->get('mars_search.search_factory'),
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager')->getViewBuilder('node'),
       $container->get('request_stack')
@@ -175,75 +210,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       '#show_all' => $show_all,
       '#empty_text' => str_replace('@keys', $options['keys'], $empty_text_heading),
       '#empty_text_description' => $empty_text_description ?? $this->t('Please try entering different search'),
-      '#no_results' => $this->getSearchNoResult(
-        str_replace('@keys', $options['keys'], $empty_text_heading),
-        $empty_text_description ?? $this->t('Please try entering different search')
-      ),
+      '#no_results' => $this->searchBuilder->getSearchNoResult($options['keys'], 'search_page'),
     ];
     if ($options['cards_view']) {
-      $build['#no_results'] = $this->getSearchNoResult($build['#empty_text'], $build['#empty_text_description']);
+      $build['#no_results'] = $this->searchBuilder->getSearchNoResult($options['keys'], 'search_page');
     }
 
     return new JsonResponse($this->renderer->render($build));
-  }
-
-  /**
-   * Render search no result block.
-   */
-  private function getSearchNoResult($heading, $description) {
-    $linksMenu = $this->buildMenu('error-page-menu');
-    $links = [];
-    foreach ($linksMenu as $linkMenu) {
-      $links[] = [
-        'content' => $linkMenu['title'],
-        'attributes' => [
-          'target' => '_self',
-          'href' => $linkMenu['url'],
-        ],
-      ];
-    }
-
-    return [
-      '#no_results_heading' => $heading,
-      '#no_results_text' => $description,
-      '#no_results_links' => $links,
-      '#theme' => 'mars_search_no_results',
-    ];
-  }
-
-  /**
-   * Render menu by its name.
-   *
-   * @param string $menu_name
-   *   Menu name.
-   *
-   * @return array
-   *   Rendered menu.
-   */
-  protected function buildMenu($menu_name) {
-    $menu_parameters = new MenuTreeParameters();
-    $menu_parameters->setMaxDepth(1);
-
-    // Get the tree.
-    $tree = $this->menuLinkTree->load($menu_name, $menu_parameters);
-
-    // Apply some manipulators (checking the access, sorting).
-    $manipulators = [
-      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
-      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
-      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-    ];
-    $tree = $this->menuLinkTree->transform($tree, $manipulators);
-
-    // And the last step is to actually build the tree.
-    $menu = $this->menuLinkTree->build($tree);
-    $menu_links = [];
-    if (!empty($menu['#items'])) {
-      foreach ($menu['#items'] as $item) {
-        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
-      }
-    }
-    return $menu_links;
   }
 
   /**
@@ -256,6 +229,37 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   The autocompletion response.
    */
   public function searchCallback(Request $request) {
+    $query_parameters = $request->query->all();
+    switch ($query_parameters['action_type']) {
+      case self::MARS_SEARCH_AJAX_PAGER:
+
+        /** @var \Drupal\node\Entity\Node $node */
+        $node = $this->entityTypeManager()->getStorage('node')->load($query_parameters['page_id']);
+        /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layoutBuilderField */
+        $layoutBuilderField = $node->get('layout_builder__layout');
+        /** @var \Drupal\layout_builder\Section[] $sections */
+        $sections = $layoutBuilderField->getSections();
+
+        foreach ($sections as $section) {
+          foreach ($section->getComponents() as $component) {
+            $config = $component->get('configuration');
+            if (!empty($config['grid_id']) && $config['grid_id'] == $query_parameters['grid_id']) {
+              $results = $this->searchBuilder->buildSearchResults('grid', $config, $query_parameters['grid_id']);
+              foreach ($results[2]['#items'] as $key => $item) {
+                $results[2]['#items'][$key] = $this->renderer->render($item);
+              }
+              return new JsonResponse($results[2]);
+            }
+          }
+        }
+        break;
+
+      case self::MARS_SEARCH_AJAX_FACET:
+        break;
+
+      case self::MARS_SEARCH_AJAX_QUERY:
+        break;
+    }
     $json_output = [];
 
     $options = $this->searchQueryParser->parseQuery();

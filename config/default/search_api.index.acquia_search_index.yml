@@ -234,7 +234,6 @@ datasource_settings:
         - faq
         - landing_page
         - product
-        - product_multipack
         - recipe
     languages:
       default: true

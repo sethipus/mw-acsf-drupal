@@ -9,9 +9,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\mars_search\Form\SearchForm;
-use Drupal\mars_search\SearchHelperInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
-use Psr\Log\LoggerInterface;
+use Drupal\mars_search\Processors\SearchHelperInterface;
+use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
@@ -50,13 +49,6 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $searchQueryParser;
 
   /**
-   * Mars Search logger channel.
-   *
-   * @var \Psr\Log\LoggerInterface
-   */
-  protected $logger;
-
-  /**
    * Config factory.
    *
    * @var \Drupal\Core\Config\ConfigFactory
@@ -81,7 +73,6 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $container->get('mars_search.search_helper'),
       $container->get('form_builder'),
       $container->get('mars_search.search_query_parser'),
-      $container->get('logger.factory')->get('mars_search'),
       $container->get('config.factory'),
       $container->get('current_route_match')
     );
@@ -97,16 +88,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     SearchHelperInterface $search_helper,
     FormBuilderInterface $form_builder,
     SearchQueryParserInterface $search_query_parser,
-    LoggerInterface $logger,
     ConfigFactoryInterface $configFactory,
     RouteMatchInterface $route_match
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-
     $this->searchHelper = $search_helper;
     $this->formBuilder = $form_builder;
     $this->searchQueryParser = $search_query_parser;
-    $this->logger = $logger;
     $this->configFactory = $configFactory;
     $this->routeMatch = $route_match;
   }
@@ -168,20 +156,17 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     if ($search_results['results']) {
       /** @var \Drupal\node\NodeInterface $search_result */
       foreach ($search_results['results'] as $row_key => $search_result) {
-        // Do not fail page load if search index is not in sync with database.
-        if ($search_result->bundle() != 'faq') {
+        if ($search_result->hasField('field_qa_item_question')) {
           $search_results['resultsCount']--;
-
-          $this->logger->warning('Node ID %title (ID: %id) is not a FAQ node.', [
-            '%id' => $search_result->id(),
-            '%title' => $search_result->getTitle(),
-          ]);
-
           continue;
         }
 
-        $question_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0]) ? $search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0] : $search_result->get('field_qa_item_question')->value;
-        $answer_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0]) ? $search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0] : $search_result->get('field_qa_item_answer')->value;
+        $question_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0])
+          ? $search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0]
+          : $search_result->get('field_qa_item_question')->value;
+        $answer_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0])
+          ? $search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0]
+          : $search_result->get('field_qa_item_answer')->value;
 
         $faq_items[$row_key]['content'] = [
           'question' => $question_value,

@@ -5,15 +5,13 @@ namespace Drupal\mars_search\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
-use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\mars_search\Form\SearchForm;
-use Drupal\mars_search\SearchHelperInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 
 /**
  * Class SearchGridBlock.
@@ -21,12 +19,15 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  * @Block(
  *   id = "search_grid_block",
  *   admin_label = @Translation("MARS: Search Grid block"),
- *   category = @Translation("Mars Search")
+ *   category = @Translation("Mars Search"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Current Node"))
+ *   }
  * )
  *
  * @package Drupal\mars_search\Plugin\Block
  */
-class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
 
   /**
    * List of vocabularies which are included in indexing.
@@ -83,11 +84,39 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $entityTypeManager;
 
   /**
+   * Search processing factory.
+   *
+   * @var \Drupal\mars_search\SearchProcessFactoryInterface
+   */
+  protected $searchProcessor;
+
+  /**
    * Search helper.
    *
-   * @var \Drupal\mars_search\SearchHelperInterface
+   * @var \Drupal\mars_search\Processors\SearchHelperInterface
    */
   protected $searchHelper;
+
+  /**
+   * Search query parser.
+   *
+   * @var \Drupal\mars_search\Processors\SearchQueryParserInterface
+   */
+  protected $searchQueryParser;
+
+  /**
+   * Taxonomy facet process service.
+   *
+   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
+   */
+  protected $searchTermFacetProcess;
+
+  /**
+   * Templates builder service .
+   *
+   * @var \Drupal\mars_search\Processors\SearchBuilder
+   */
+  protected $searchBuilder;
 
   /**
    * ThemeConfiguratorParser.
@@ -104,40 +133,11 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $nodeViewBuilder;
 
   /**
-   * The form builder.
-   *
-   * @var \Drupal\Core\Form\FormBuilderInterface
-   */
-  protected $formBuilder;
-
-  /**
-   * Search query parser.
-   *
-   * @var \Drupal\mars_search\SearchQueryParserInterface
-   */
-  protected $searchQueryParser;
-
-  /**
    * Config factory.
    *
    * @var \Drupal\Core\Config\ConfigFactory
    */
   protected $configFactory;
-
-
-  /**
-   * Current grid ID.
-   *
-   * @var int
-   */
-  private $gridId;
-
-  /**
-   * Default (common) dataLayer attributes.
-   *
-   * @var array
-   */
-  protected $dataLayerDefaults = [];
 
   /**
    * {@inheritdoc}
@@ -148,12 +148,10 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('mars_search.search_helper'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('entity_type.manager')->getViewBuilder('node'),
-      $container->get('form_builder'),
-      $container->get('mars_search.search_query_parser'),
       $container->get('config.factory'),
+      $container->get('mars_search.search_factory')
     );
   }
 
@@ -165,123 +163,62 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    SearchHelperInterface $search_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
     EntityViewBuilderInterface $node_view_builder,
-    FormBuilderInterface $form_builder,
-    SearchQueryParserInterface $search_query_parser,
-    ConfigFactoryInterface $configFactory
+    ConfigFactoryInterface $configFactory,
+    SearchProcessFactoryInterface $searchProcessor
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
-    $this->searchHelper = $search_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeViewBuilder = $node_view_builder;
-    $this->formBuilder = $form_builder;
-    $this->searchQueryParser = $search_query_parser;
     $this->configFactory = $configFactory;
-    // Getting unique grid id for the page.
-    // This will be used later when several grids on a single page will be
-    // approved. In that case URL will be like
-    // /grid?search[1]=key&mars_format[1]=bla&search[2]=key2&mars_format[2]=bla
-    // where [1] and [2] are grid ids generated by the following static logic.
-    $this->gridId = &drupal_static('mars_search_grid_id');
-    $this->gridId = $this->gridId ? ++$this->gridId : 1;
+    $this->searchProcessor = $searchProcessor;
+    $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
+    $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
+    $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
+    $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    // Getting all GET parameters in array.
-    $query_parameters = $this->searchHelper->request->query->all();
-
-    // Initializing grid options array.
-    // It is needed to pass preset filters to autocomplete.
-    $grid_options = [
-      'grid_id' => $this->gridId,
-      'filters' => [],
-    ];
-
     $config = $this->getConfiguration();
-    $build['#items'] = [];
-
-    // Getting default search options.
-    $searchOptions = $this->searchQueryParser->parseQuery($this->gridId);
-
-    if (empty($query_parameters['see-all'])) {
-      // We need only 8 items to show initially.
-      // Parse query will trim limit in case of see all.
-      // But initial results count needs to be 8 instead of configured default.
-      $searchOptions['limit'] = 4;
+    if (!$config['grid_id']) {
+      $grid_id = uniqid(substr(md5(serialize($config)), 0, 12));
+      $config['grid_id'] = $grid_id;
+      $this->setConfiguration($config);
     }
-
-    // Adjusting them with grid specific configuration.
-    // Content type filter.
-    if (!empty($config['content_type'])) {
-      $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
-      $grid_options['filters']['type'][$this->gridId] = $config['content_type'];
-      $grid_options['filters']['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
+    else {
+      $grid_id = $config['grid_id'];
     }
+    [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('grid', $config, $grid_id);
 
-    // Populate top results items before other results.
-    if (!empty($config['top_results_wrapper']['top_results'])) {
-      $top_result_ids = [];
-      foreach ($config['top_results_wrapper']['top_results'] as $top_result) {
-        $top_result_ids[] = $top_result['target_id'];
-      }
-      $build['#attached']['drupalSettings']['cards'][$this->gridId]['topResults'] = $top_result_ids;
-      foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
-        $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
-      }
-      // Adjusting query options to consider top results.
-      // Adjusting limit.
-      $searchOptions['limit'] = $searchOptions['limit'] - count($top_result_ids);
-      // Excluding top results ids from query.
-      $searchOptions['conditions'][] = ['nid', $top_result_ids, 'NOT IN'];
+    // Populating search form.
+    if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
+      // Preparing search form.
+      $build['#input_form'] = [
+        '#type' => 'textfield',
+        '#attributes' => [
+          'placeholder' => $this->t('Search'),
+          'class' => ['search-input__field', 'mars-autocomplete-field'],
+          'data-grid-id' => $grid_id,
+          'autocomplete' => 'off',
+        ],
+        '#value' => $searchOptions['keys'],
+      ];
     }
 
     // After this line $facetOptions and $searchOptions become different.
     $facetOptions = $searchOptions;
     unset($facetOptions['limit']);
-
-    // Taxonomy preset filter(s).
-    // Adding them only if facets are disabled.
-    if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-      foreach ($config['general_filters'] as $filter_key => $filter_value) {
-        if (!empty($filter_value['select'])) {
-          $grid_options['filters'][$filter_key][$this->gridId] = implode(',', $filter_value['select']);
-
-          $searchOptions['conditions'][] = [
-            $filter_key,
-            $filter_value['select'],
-            'IN',
-          ];
-        }
-      }
-      $searchOptions['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
-    }
-
-    // Getting and building search results.
-    $query_search_results = $this->searchHelper->getSearchResults($searchOptions, "grid_{$this->gridId}");
-    if ($query_search_results['resultsCount'] == 0) {
-      $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys']);
-    }
-    foreach ($query_search_results['results'] as $node) {
-      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
-    }
-
-    // Populating search form.
-    if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
-      // Preparing search form.
-      $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class, TRUE, $grid_options);
-    }
     // Populating filters.
     // Save results for query before facets load.
     $query_results_count = $query_search_results['resultsCount'];
     if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-      $query_search_results = $this->searchHelper->getSearchResults($facetOptions, "grid_{$this->gridId}_facets");
-      [$build['#applied_filters_list'], $build['#filters']] = $this->searchHelper->processTermFacets($query_search_results['facets'], self::TAXONOMY_VOCABULARIES, $this->gridId);
+      $query_search_results = $this->searchHelper->getSearchResults($facetOptions, "grid_{$grid_id}_facets");
+      [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($query_search_results['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
     }
 
     // Output See all only if we have enough results.
@@ -296,33 +233,22 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     $build['#ajax_card_grid_heading'] = $config['title'];
     $build['#data_layer'] = [
-      'grid_id' => $this->gridId,
+      'page_id' => $this->getContextValue('node')->id(),
+      'grid_id' => $grid_id,
       'grid_name' => $config['title'],
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_results_count,
     ];
-    $build['#attached']['drupalSettings']['cards'][$this->gridId]['contentType'] = $config['content_type'];
+    $build['#attached']['drupalSettings']['cards'][$grid_id]['contentType'] = $config['content_type'];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
     $build['#attached']['library'][] = 'mars_search/see_all_cards';
+    $build['#attached']['library'][] = 'mars_search/autocomplete';
 
     return $build;
-  }
-
-  /**
-   * Render search no result block.
-   */
-  private function getSearchNoResult($key) {
-    $config = $this->configFactory->get('mars_search.search_no_results');
-    return [
-      '#no_results_heading' => str_replace('@keys', $key, $config->get('no_results_heading')),
-      '#no_results_text' => $config->get('no_results_text'),
-      '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
-      '#theme' => 'mars_search_no_results',
-    ];
   }
 
   /**
@@ -362,6 +288,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Disable default label to display.
     $values['label_display'] = FALSE;
+    $values['grid_id'] = uniqid(substr(md5(serialize($values)), 0, 12));
 
     $this->setConfiguration($values);
   }

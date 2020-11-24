@@ -2,10 +2,12 @@
 
 namespace Drupal\mars_search;
 
+use Drupal\mars_search\Processors\SearchProcessManagerInterface;
+
 /**
  * Class SearchProcessFactory.
  */
-class SearchProcessFactory {
+class SearchProcessFactory implements SearchProcessFactoryInterface {
 
   /**
    * The managers for search processing.
@@ -17,8 +19,21 @@ class SearchProcessFactory {
   /**
    * Adds manager to internal storage.
    */
-  public function addProcessManager(SearchPeocessManagerInterface $service) {
-    $this->managers[] = $service;
+  public function addProcessManager(SearchProcessManagerInterface $service) {
+    $this->managers[$service->getManagerId()] = $service;
+  }
+
+  /**
+   * Get search manager by id.
+   *
+   * @param string $manager_id
+   *   Search manager identifier.
+   *
+   * @return \Drupal\mars_search\Processors\SearchProcessManagerInterface
+   *   Search manager.
+   */
+  public function getProcessManager(string $manager_id) {
+    return $this->managers[$manager_id];
   }
 
   /**

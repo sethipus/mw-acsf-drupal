@@ -5,13 +5,12 @@ namespace Drupal\mars_search\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
-use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 
 /**
  * Provides a search page results block.
@@ -61,7 +60,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * Search helper.
    *
-   * @var \Drupal\mars_search\SearchHelperInterface
+   * @var \Drupal\mars_search\Processors\SearchHelperInterface
    */
   protected $searchHelper;
 
@@ -89,9 +88,16 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * Search query parser.
    *
-   * @var \Drupal\mars_search\SearchQueryParserInterface
+   * @var \Drupal\mars_search\Processors\SearchQueryParserInterface
    */
   protected $searchQueryParser;
+
+  /**
+   * Taxonomy facet process service.
+   *
+   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
+   */
+  protected $searchTermFacetProcess;
 
   /**
    * Config factory.
@@ -108,11 +114,10 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_search.search_helper'),
+      $container->get('mars_search.search_factory'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('entity_type.manager')->getViewBuilder('node'),
       $container->get('menu.link_tree'),
-      $container->get('mars_search.search_query_parser'),
       $container->get('config.factory')
     );
   }
@@ -124,20 +129,21 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    SearchHelperInterface $search_helper,
+    SearchProcessFactoryInterface $searchProcessor,
     ThemeConfiguratorParser $themeConfiguratorParser,
     EntityViewBuilderInterface $node_view_builder,
     MenuLinkTreeInterface $menu_link_tree,
-    SearchQueryParserInterface $search_query_parser,
     ConfigFactoryInterface $configFactory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->searchHelper = $search_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeViewBuilder = $node_view_builder;
     $this->menuLinkTree = $menu_link_tree;
-    $this->searchQueryParser = $search_query_parser;
     $this->configFactory = $configFactory;
+    $this->searchProcessor = $searchProcessor;
+    $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
+    $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
+    $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
   }
 
   /**
@@ -150,34 +156,14 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
 
     // Results should be obtained from static cache.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, 'main_search');
-    // After this line $facetOptions and $searchOptions become different.
-    $facetOptions = $searchOptions;
-    unset($facetOptions['limit']);
-
-    $facets_query = $this->searchHelper->getSearchResults($facetOptions, 'main_search_facet');
-
     // Preparing search results.
     $build['#items'] = [];
     foreach ($query_search_results['results'] as $node) {
       $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
     if (count($build['#items']) == 0) {
-      $build['#no_results'] = $this->getSearchNoResult();
+      $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys']);
     }
-
-    // Build dataLayer attributes if search results are displayed for keys.
-    $build['#attached']['drupalSettings']['dataLayer'] = [
-      'searchPage' => 'search_page',
-      'siteSearchResults' => [
-        'siteSearchTerm' => $searchOptions['keys'],
-        'siteSearchResults' => $query_search_results['resultsCount'],
-      ],
-    ];
-
-    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
-
-    $build['#theme_styles'] = 'drupal';
-    $build['#graphic_divider'] = $file_divider_content ?? '';
 
     // "See all" link should be visible only if it makes sense.
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
@@ -189,8 +175,30 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
+    // After this line $facetOptions and $searchOptions become different.
+    $facetOptions = $searchOptions;
+    unset($facetOptions['limit']);
+
+    $facets_query = $this->searchHelper->getSearchResults($facetOptions, 'main_search_facet');
+
+    // Build dataLayer attributes if search results are displayed for keys.
+    $build['#attached']['drupalSettings']['dataLayer'] = [
+      'searchPage' => 'search_page',
+      'siteSearchResults' => [
+        'siteSearchTerm' => $searchOptions['keys'],
+        'siteSearchResults' => $query_search_results['resultsCount'],
+      ],
+    ];
+    $build['#data_layer'] = [
+      'search_term' => $searchOptions['keys'],
+      'search_results' => $query_search_results['resultsCount'],
+    ];
+
+    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
+    $build['#theme_styles'] = 'drupal';
+    $build['#graphic_divider'] = $file_divider_content ?? '';
     $build['#ajax_card_grid_heading'] = $this->t('All results');
-    [$build['#applied_filters_list'], $build['#filters']] = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
+    [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.search';
     $build['#attached']['library'][] = 'mars_search/see_all_cards';
@@ -200,12 +208,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * Render search no result block.
    */
-  private function getSearchNoResult() {
+  private function getSearchNoResult($key) {
     $config = $this->configFactory->get('mars_search.search_no_results');
-    $url = $this->searchHelper->getCurrentUrl();
-    $url_options = $url->getOptions();
-    $search_text = array_key_exists('search', $url_options['query']) ? reset($url_options['query']['search']) : '';
-
     $linksMenu = $this->buildMenu('error-page-menu');
     $links = [];
     foreach ($linksMenu as $linkMenu) {
@@ -219,7 +223,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     return [
-      '#no_results_heading' => str_replace('@keys', $search_text, $config->get('no_results_heading')),
+      '#no_results_heading' => str_replace('@keys', $key, $config->get('no_results_heading')),
       '#no_results_text' => $config->get('no_results_text'),
       '#no_results_links' => $links,
       '#theme' => 'mars_search_no_results',

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_search;
+namespace Drupal\mars_search\Processors;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Class SearchHelper.
  */
-class SearchHelper implements SearchHelperInterface {
+class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterface {
   use StringTranslationTrait;
 
   /**
@@ -33,14 +33,14 @@ class SearchHelper implements SearchHelperInterface {
   /**
    * Request stack that controls the lifecycle of requests.
    *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
+   * @var \Symfony\Component\HttpFoundation\Request
    */
   public $request;
 
   /**
    * Taxonomy facet process service.
    *
-   * @var \Drupal\mars_search\SearchTermFacetProcess
+   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
    */
   protected $searchTermFacetProcess;
 
@@ -69,21 +69,30 @@ class SearchHelper implements SearchHelperInterface {
   /**
    * {@inheritdoc}
    */
-  public function getSearchResults($options = [], $searcher_key = 'searcher_1') {
+  public function getManagerId() {
+    return 'search_helper';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSearchResults(array $options = [], string $searcher_key = 'searcher_1') {
     if (isset($this->searches[$searcher_key])) {
       return $this->searches[$searcher_key];
     }
 
-    // Populating default query options if they are not explicitly specified.
-    if (!$options) {
-      $options = $this->getSearchQueryDefaultOptions();
-    }
-
+    /** @var \Drupal\search_api\IndexInterface $index */
     $index = $this->entityTypeManager->getStorage('search_api_index')->load('acquia_search_index');
 
     $query_options = [];
     if (!empty($options['limit'])) {
       $query_options = ['limit' => $options['limit']];
+    }
+    else {
+      $query_options = ['limit' => 4];
+    }
+    if (!empty($options['offset'])) {
+      $query_options['offset'] = $options['offset'];
     }
 
     $query = $index->query($query_options);
@@ -195,20 +204,6 @@ class SearchHelper implements SearchHelperInterface {
   }
 
   /**
-   * Process taxonomy facet links.
-   *
-   * @param array $facets
-   *   The facet result from search query.
-   * @param array $vocabularies
-   *   List of vocabularies to process.
-   * @param int $grid_id
-   *   Id of grid for search.
-   */
-  public function processTermFacets(array $facets, array $vocabularies, int $grid_id) {
-    return $this->searchTermFacetProcess->processFilter($facets, $vocabularies, $grid_id);
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function prepareFacetsLinks($facets, $facet_key, $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
@@ -245,23 +240,6 @@ class SearchHelper implements SearchHelperInterface {
       }
     }
     return $facets_links;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSearchQueryDefaultOptions() {
-    return [
-      'conditions' => [
-        // We don't need FAQ nodes in most cases.
-        ['type', 'faq', '<>'],
-        ['type', 'product_multipack', '<>'],
-      ],
-      'limit' => 8,
-      'sort' => [
-        'created' => 'DESC',
-      ],
-    ];
   }
 
 }

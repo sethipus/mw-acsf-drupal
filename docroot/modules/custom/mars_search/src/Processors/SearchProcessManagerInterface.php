@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\mars_search;
+namespace Drupal\mars_search\Processors;
 
 /**
  * SearchPeocessManagerInterface.
  */
-interface SearchPeocessManagerInterface {
+interface SearchProcessManagerInterface {
 
   /**
    * Return manager identifier name.

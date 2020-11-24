@@ -1,6 +1,7 @@
 Drupal.behaviors.searchFilterBehaviour = {
   attach(context) {
     const searchFilterContainer = context.querySelector('.search-filter-container');
+    const inputElement = searchFilterContainer.querySelector('input');
     const searchFilterOpenButton = context.querySelector('.search-filter-open-button');
     const clearAllButtons = context.querySelectorAll('.search-filter-block__button--clear-all');
     const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
@@ -74,6 +75,13 @@ Drupal.behaviors.searchFilterBehaviour = {
       });
     });
 
+    inputElement.addEventListener('keypress', (e) => {
+      e.target.dataset.gridQuery = getFilterQuery();
+      if (e.keyCode === 13) {
+        document.location.search = updateKeys(e.target.value);
+      }
+    });
+
     const processFilters = () => {
       let queryElements = [];
       let appliedFilters = [];
@@ -116,6 +124,33 @@ Drupal.behaviors.searchFilterBehaviour = {
         }
       }
       return resultQuery;
+    }
+
+    const updateKeys = (keys) => {
+      const query = window.location.search.substring(1);
+      const vars = query.split('&');
+      let resultQuery = '';
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (pair[0].includes('search')) {
+          pair[1] = keys;
+          vars[i] = pair.join('=');
+        }
+      }
+      return vars.join('&');
+    }
+
+    const getFilterQuery = () => {
+      const query = window.location.search.substring(1);
+      const vars = query.split('&');
+      let resultQuery = [];
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (!pair[0].includes('search')) {
+          resultQuery.push(pair.join('='));
+        }
+      }
+      return resultQuery.join('&');
     }
 
     const updateCounters = () => {

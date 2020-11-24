@@ -57,7 +57,7 @@
         else {
           $('.faq-filters__filters a').removeClass('active');
           $(this).addClass('active');
-          currentQuery.faq_filter_topic = link[1];
+          currentQuery.faq_filter_topic = link;
         }
         currentQuery.isFilterAjax = true;
         $.ajax({

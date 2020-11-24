@@ -1,15 +1,16 @@
 <?php
 
-namespace Drupal\mars_search;
+namespace Drupal\mars_search\Processors;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Url;
+use Drupal\Core\Link;
 
 /**
  * Class SearchTermFacetProcess.
  */
-class SearchTermFacetProcess {
+class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchProcessManagerInterface {
 
   /**
    * The entity type manager.
@@ -21,7 +22,7 @@ class SearchTermFacetProcess {
   /**
    * Request stack that controls the lifecycle of requests.
    *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
+   * @var \Symfony\Component\HttpFoundation\Request
    */
   protected $request;
 
@@ -34,6 +35,13 @@ class SearchTermFacetProcess {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getManagerId() {
+    return 'search_facet_process';
+  }
+
+  /**
    * Prepare filter variables.
    *
    * @param array $facets
@@ -43,7 +51,7 @@ class SearchTermFacetProcess {
    * @param int $grid_id
    *   Id of grid for search.
    */
-  public function processFilter(array $facets, array $vocabularies, int $grid_id) {
+  public function processFilter(array $facets, array $vocabularies, $grid_id) {
     $filters = [];
     $terms = $this->getTaxonomies($facets, $vocabularies);
     $appliedFilters = [];
@@ -147,7 +155,7 @@ class SearchTermFacetProcess {
   /**
    * {@inheritdoc}
    */
-  public function prepareFacetsLinks($facets, $facet_key, $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+  public function prepareFacetsLinks(array $facets, string $facet_key, string $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     $facets_links = [];
     if (!$facets) {
       return $facets_links;
@@ -181,6 +189,44 @@ class SearchTermFacetProcess {
       }
     }
     return $facets_links;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareFacetsLinksWithCount(array $facets, string $facet_key, string $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+    // Preparing content type facet filter.
+    $type_facet_key = 'type';
+    $search_filters = [];
+
+    $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID;
+    if (!empty($facets[$facet_key])) {
+      foreach ($facets[$facet_key] as $type_facet) {
+        $url = $this->getCurrentUrl();
+        $url_options = $url->getOptions();
+        // That means facet is active.
+        $state = '';
+        $facet_query_value = $this->request->query->get($type_facet_key);
+
+        if (!empty($facet_query_value[$search_id]) &&  $facet_query_value[$search_id] == $type_facet['filter']) {
+          // Removing facet query from active filter to allow deselect it.
+          unset($url_options['query'][$type_facet_key]);
+          $state = 'active';
+        }
+        else {
+          // Adding facet filter to the query.
+          $url_options['query'][$type_facet_key][$search_id] = $type_facet['filter'];
+        }
+        $url->setOptions($url_options);
+
+        $search_filters[] = [
+          'title' => Link::fromTextAndUrl($type_facet['filter'], $url),
+          'count' => $type_facet['count'],
+          'search_results_item_modifier' => $state,
+        ];
+      }
+    }
+    return $search_filters;
   }
 
 }
