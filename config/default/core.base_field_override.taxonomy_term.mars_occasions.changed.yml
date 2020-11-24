@@ -1,0 +1,18 @@
+uuid: eb0b4c4d-bac1-4471-a41f-5adcdc8439e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_occasions
+id: taxonomy_term.mars_occasions.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: mars_occasions
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

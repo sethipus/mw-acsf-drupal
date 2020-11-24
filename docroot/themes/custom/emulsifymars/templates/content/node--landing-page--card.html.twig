@@ -6,7 +6,7 @@
 #}
 
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
-{% set button_text = 'See Details' | t %}
+{% set button_text = 'See Details' | mt %}
 {% set heading_link_attributes = { href: url, target: '_blank', 'data-click-name': node.label } | merge(attributes) %}
 {% set button_link_attributes = { href: url, target: '_blank', 'data-click-name': button_text } | merge(attributes) %}
 

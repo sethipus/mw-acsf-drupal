@@ -83,6 +83,6 @@
   {% endblock %}
 
   {% block card__info %}
-    {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+    {{ 'Submitted by @author on @date' | mt({'@author': author_name, '@date': date}) }}
   {% endblock %}
 {% endembed %}

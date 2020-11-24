@@ -1,0 +1,18 @@
+uuid: 1f994b01-d334-49d8-97e5-e984f1c60df8
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_regions
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: taxonomy_term.mars_regions
+target_entity_type_id: taxonomy_term
+target_bundle: mars_regions
+default_langcode: site_default
+language_alterable: true
