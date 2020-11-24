@@ -475,8 +475,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
+      $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
-        'gtin' => $product_variant->get('field_product_sku')->value,
+        'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
@@ -536,8 +537,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
+      $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
-        'gtin' => $product_variant->get('field_product_sku')->value,
+        'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
