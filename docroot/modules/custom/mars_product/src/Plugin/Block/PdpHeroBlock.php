@@ -359,7 +359,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'allergen_label' => $this->languageHelper->translate($this->configuration['allergen_label']),
       ],
       'more_information_data' => [
-        'more_information_label' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label']) ?? $this->t('More information'),
+        'more_information_label' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
         'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
       ],
     ];
@@ -801,7 +801,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
       $items[] = [
-        'title' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? NULL) ?? $this->t('More information'),
+        'title' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
         'link_attributes' => [
           'class' => 'pdp-hero__more-info-menu',
           'href' => '#section-more-information',
