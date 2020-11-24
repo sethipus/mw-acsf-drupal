@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\mars_sso\MarsSsoConfiguration;
+namespace Drupal\mars_sso\MarsSsoRequestSubscriber;
 
 /**
  * Modifies the acsf_sso default config import.
  */
-class MarsSsoConfiguration extends SamlauthRequestSubscriber {
+class MarsSsoRequestSubscriber extends SamlauthRequestSubscriber {
 
   /**
    * {@inheritdoc}
