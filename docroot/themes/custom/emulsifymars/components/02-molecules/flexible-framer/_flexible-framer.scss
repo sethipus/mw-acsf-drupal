@@ -147,6 +147,10 @@
         align-items: stretch;
       }
 
+      @include large {
+        align-items: stretch;
+      }
+
       & .image-background {
         margin: auto;
       }
