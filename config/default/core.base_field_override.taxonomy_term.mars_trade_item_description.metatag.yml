@@ -1,0 +1,18 @@
+uuid: e9c0b926-390a-45b4-ad8a-5505115ab295
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_trade_item_description
+id: taxonomy_term.mars_trade_item_description.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_trade_item_description
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

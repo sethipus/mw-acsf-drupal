@@ -1257,6 +1257,17 @@ function mars_common_theme_suggestions_block_alter(array &$suggestions, array $v
 }
 
 /**
+ * Implements hook_entity_type_alter().
+ */
+function mars_common_entity_type_alter(array &$entity_types) {
+  foreach ($entity_types as $entity_type) {
+    $constraints = $entity_type->getConstraints();
+    unset($constraints['EntityUntranslatableFields']);
+    $entity_type->setConstraints($constraints);
+  }
+}
+
+/**
  * Implements hook_element_info_alter().
  */
 function mars_common_element_info_alter(array &$info) {

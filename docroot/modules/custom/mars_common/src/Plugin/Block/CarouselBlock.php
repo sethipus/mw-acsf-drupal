@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -55,6 +56,13 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Theme configurator parser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -68,10 +76,12 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
@@ -84,6 +94,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
@@ -119,7 +130,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
 
     $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
 
-    $build['#title'] = $config['carousel_label'] ?? '';
+    $build['#title'] = $this->languageHelper->translate($config['carousel_label'] ?? '');
     $build['#items'] = $items;
     $build['#theme'] = 'carousel_component';
     return $build;

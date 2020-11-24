@@ -10,6 +10,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -79,6 +80,13 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
   protected $themeConfiguratorParser;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -96,6 +104,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -110,6 +119,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     ConfigFactoryInterface $config_factory,
     EntityTypeManager $entity_type_manager,
     ThemeConfiguratorParser $theme_configurator_parser,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -119,6 +129,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -127,7 +138,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function build() {
     $conf = $this->getConfiguration();
-
     /** @var \Drupal\node\Entity\Node $main_entity */
     /** @var \Drupal\node\Entity\Node $supporting_entity */
     switch ($conf['entity_priority']) {
@@ -141,30 +151,25 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
         $main_entity = !empty($conf['article_recipe']) ? $this->nodeStorage->load($conf['article_recipe']) : NULL;
         $supporting_entity = !empty($conf['product']) ? $this->nodeStorage->load($conf['product']) : NULL;
     }
-
     $build['#theme'] = 'product_content_pair_up_block';
-    $build['#title'] = $conf['title'];
+    $build['#title'] = $this->languageHelper->translate($conf['title']);
     $build['#graphic_divider'] = $this
       ->themeConfiguratorParser
       ->getGraphicDivider();
-
     if ($main_entity) {
       $build['#lead_card_entity'] = $main_entity;
-      $build['#lead_card_eyebrow'] = ($conf['lead_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
-      $build['#lead_card_title'] = ($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
+      $build['#lead_card_eyebrow'] = $this->languageHelper->translate($conf['lead_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
+      $build['#lead_card_title'] = $this->languageHelper->translate($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
       $build['#cta_link_url'] = $main_entity->toUrl()->toString();
-      $build['#cta_link_text'] = ($conf['cta_link_text'] ?? NULL) ?: $this->t('Explore');
+      $build['#cta_link_text'] = $this->languageHelper->translate($conf['cta_link_text'] ?? NULL) ?: $this->languageHelper->translate('Explore');
     }
-
     if ($supporting_entity) {
       $build['#supporting_card_entity'] = $supporting_entity;
       $build['#supporting_card_entity_view'] = $this->createSupportCardRenderArray(
         $supporting_entity
       );
     }
-
     $build['#background'] = $this->getBgImage($main_entity);
-
     return $build;
   }
 

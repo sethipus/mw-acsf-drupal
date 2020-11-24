@@ -1,0 +1,18 @@
+uuid: 1e3b0b61-480c-4f44-88a8-8a95eddd0ba7
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq_contact
+id: node.faq_contact.changed
+field_name: changed
+entity_type: node
+bundle: faq_contact
+label: Changed
+description: 'The time that the node was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

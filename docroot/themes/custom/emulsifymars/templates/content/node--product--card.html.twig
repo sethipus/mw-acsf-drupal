@@ -19,7 +19,7 @@
   {% set hover_image = null %}
 {% endif %}
 
-{% set default_link_content_text = 'SEE DETAILS' | t %}
+{% set default_link_content_text = 'SEE DETAILS' | mt %}
 {% set product_card_link_attributes = {href: url, 'data-click-name': node.title.value} | merge(attributes) %}
 {% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} | merge(attributes) %}
 {% include "@molecules/card/product-card/product-card.twig" with {
@@ -31,7 +31,7 @@
   paragraph_modifiers: ['large'],
   default_link_content: default_link_content_text,
   default_link_base_class: 'default-link',
-  link_content: 'BUY NOW' | t,
+  link_content: 'BUY NOW' | mt,
   is_new: node.field_product_new.value,
   link_base_class: 'text_link',
   item: {

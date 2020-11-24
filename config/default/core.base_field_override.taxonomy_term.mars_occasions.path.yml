@@ -1,0 +1,20 @@
+uuid: 76a515ed-f058-4e0d-b306-3251ef3927ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_occasions
+  module:
+    - path
+id: taxonomy_term.mars_occasions.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_occasions
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path
