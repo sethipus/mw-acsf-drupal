@@ -87,7 +87,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
             dataLayer.push({
               event: 'videoView',
               pageName: document.title,
-              videoStart: 0,
+              videoStart: 1,
               videoTitle: videoTitle,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: componentName
@@ -101,7 +101,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
               dataLayer.push({
                 event: 'videoView',
                 pageName: document.title,
-                videoStart: 0,
+                videoStart: 1,
                 videoComplete: 1,
                 videoTitle: videoTitle,
                 videoFlag: videoContainer.dataset.videoFlag,
