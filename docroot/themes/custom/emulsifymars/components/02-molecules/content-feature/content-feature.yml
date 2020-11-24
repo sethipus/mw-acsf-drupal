@@ -16,6 +16,6 @@ paragraph_modifiers: ['large']
 
 default_link_content: 'Explore'
 default_link_base_class: 'default-link'
-default_link_attributes: 
+default_link_attributes:
   'target': '_self'
   'href': 'https://storybook.js.org/'
