@@ -157,6 +157,8 @@ iframe:
     dist/js/01-atoms/iframe/iframe.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 product-used-module:
   js:
