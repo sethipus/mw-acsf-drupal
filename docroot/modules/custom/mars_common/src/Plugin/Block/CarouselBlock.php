@@ -10,6 +10,7 @@ use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Class CarouselBlock.
@@ -254,6 +255,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
 
     $form['carousel']['add_item'] = [
       '#type'  => 'submit',
+      '#name'  => 'carousel_add_item',
       '#value' => $this->t('Add new carousel item'),
       '#ajax'  => [
         'callback' => [$this, 'ajaxAddCarouselItemCallback'],
@@ -309,6 +311,32 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
     array_push($storage, 1);
     $form_state->set('carousel_storage', $storage);
     $form_state->setRebuild(TRUE);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    parent::blockValidate($form, $form_state);
+
+    $triggered = $form_state->getTriggeringElement();
+    if (
+      $triggered['#value'] instanceof TranslatableMarkup &&
+      (
+        $triggered['#value']->getUntranslatedString() == 'Add block' ||
+        $triggered['#value']->getUntranslatedString() == 'Update'
+      )
+    ) {
+      $carousel = $form_state->getValue('carousel');
+      unset($carousel['add_item']);
+      foreach ($carousel as $key => $item) {
+        $media = $item['item_type'] == 'image' ? $item['image'] : $item['video'];
+        if (!is_array($media['selected'])) {
+          $message = $this->t('Each carousel item should have media (image or video).');
+          $form_state->setError($form['carousel'][$key]['item_type'], $message);
+        }
+      }
+    }
   }
 
   /**
