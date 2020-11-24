@@ -43,6 +43,8 @@ social-feed-slide:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-1
+    - core/jquery
+    - core/jquery.once
 
 pdp-body:
   js:
