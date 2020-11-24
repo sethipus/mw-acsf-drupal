@@ -98,6 +98,8 @@ Feature: Product And Recipe Test
     And I should see "product_title"
     And I should see "See details"
     And I should see "Buy now"
+    # And I should see "Follow Us On"
+    # https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/207097/
 
     # Add recipe
     When I am on "/node/add/recipe"
