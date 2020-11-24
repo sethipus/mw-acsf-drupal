@@ -476,6 +476,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $i++;
       $state = $i == 1 ? 'true' : 'false';
       $items[] = [
+        'gtin' => $product_variant->get('field_product_sku')->value,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
@@ -536,6 +537,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $i++;
       $state = $i == 1 ? 'true' : 'false';
       $items[] = [
+        'gtin' => $product_variant->get('field_product_sku')->value,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
