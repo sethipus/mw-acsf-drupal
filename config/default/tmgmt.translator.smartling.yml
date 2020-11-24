@@ -1,0 +1,37 @@
+uuid: ed86bd13-6362-407a-8a01-e55a6587f6d7
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_smartling
+_core:
+  default_config_hash: rCWPzUyTdaX-h39H_oUia1QNF8TX7H2fqwVN0vnynXg
+name: smartling
+label: 'Smartling translator'
+description: 'Smartling Translator service.'
+auto_accept: true
+weight: -100
+plugin: smartling
+settings:
+  project_id: ''
+  user_id: ''
+  token_secret: ''
+  contextUsername: ''
+  context_silent_user_switching: false
+  context_skip_host_verifying: false
+  retrieval_type: published
+  auto_authorize_locales: true
+  callback_url_use: false
+  callback_url_host: ''
+  scheme: public
+  custom_regexp_placeholder: '(@|%|!)[\w-]+'
+  translatable_attributes: 'title, alt'
+  enable_smartling_logging: true
+  enable_notifications: true
+  async_mode: false
+  enable_basic_auth: false
+  basic_auth:
+    login: ''
+    password: ''
+  download_by_job_items: false
+remote_languages_mappings: {  }

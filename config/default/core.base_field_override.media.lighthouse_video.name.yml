@@ -1,0 +1,20 @@
+uuid: de9ab1f6-6779-4635-a2cd-811ae72366d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_video
+id: media.lighthouse_video.name
+field_name: name
+entity_type: media
+bundle: lighthouse_video
+label: Name
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,20 @@
+uuid: eb03e300-af04-464e-8968-80e60a41ccd5
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_format
+  module:
+    - text
+id: taxonomy_term.mars_format.description
+field_name: description
+entity_type: taxonomy_term
+bundle: mars_format
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

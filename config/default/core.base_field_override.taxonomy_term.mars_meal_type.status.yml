@@ -1,0 +1,22 @@
+uuid: ad62ce52-a66e-4488-9b7a-ca6b2cd69606
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_meal_type
+id: taxonomy_term.mars_meal_type.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_meal_type
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

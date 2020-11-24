@@ -56,8 +56,8 @@ Drupal.behaviors.ambientVideoPlayer = {
 
           let videoEndedHandler = () => {
             var tr = video.played;
-            var hasLoopedOnce = (tr.end(tr.length-1)==video.duration);
-            if(hasLoopedOnce) {
+            var hasLoopedOnce = (tr.end(tr.length-1) == video.duration);
+            if (hasLoopedOnce) {
               dataLayer.push({
                 event: 'videoView',
                 pageName: document.title,
@@ -85,11 +85,10 @@ Drupal.behaviors.ambientVideoPlayer = {
           if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
             video.pause();
             videoVisible = false;
-          } else {
-            if(!manuallyPaused && !videoVisible) {
-              video.play();
-              videoVisible = true;
-            }
+          } 
+          else if (!manuallyPaused && !videoVisible) {
+            video.play();
+            videoVisible = true;
           }
         });
         
@@ -97,6 +96,7 @@ Drupal.behaviors.ambientVideoPlayer = {
         playpause.addEventListener('click', function(e) {
           if (video.paused || video.ended) {
             video.play();
+            video.muted = false;
             manuallyPaused = false;
           } else {
             video.pause();
