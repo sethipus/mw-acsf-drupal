@@ -210,3 +210,9 @@ social-menu:
     dist/js/02-molecules/menus/social/social-menu.js: {}
   dependencies:
     - core/drupal
+
+product-selector:
+  js:
+    dist/js/02-molecules/product-selector/product-selector.js: {}
+  dependencies:
+    - core/drupal

@@ -8,7 +8,8 @@
         widget_id: settings.wtb_block['widget_id'],
         data_subid: settings.wtb_block['data_subid'],
         data_locale: settings.wtb_block['data_locale'],
-        data_displaylanguage: settings.wtb_block['data_displaylanguage']
+        data_displaylanguage: settings.wtb_block['data_displaylanguage'],
+        data_token: settings.wtb_block['data_token'],
       }
 
       _this.initEvents(context);
@@ -89,19 +90,20 @@
           src: $selectedVariant.data('image-src')
         });
 
-        let script = '<script id="wtb-container"' +
+        let script = '<script ' +
           'type="text/javascript"' +
-          'src=""' +
-          'id="wtb-widget"' +
-          'data-token="{{ data_token }}"' +
+          'src="//fi-v2.global.commerce-connector.com/cc.js"' +
+          'id="cci-widget"' +
+          'data-token="' + _this.settings.data_token + '"' +
           'data-locale="' + _this.settings.data_locale + '"' +
           'data-displaylanguage="' + _this.settings.data_displaylanguage + '"' +
           'data-widgetid="' + _this.settings.widget_id + '"' +
-          'data-ean="{{ products[0].id }}"' +
+          'data-ean="' + $selectedVariant.data('id') + '"' +
           'data-subid="' + _this.settings.data_subid + '"' +
           '></script>';
 
-        $('#wtb-container').remove();
+        $('.product-selector script').remove();
+        $('.product-selector #cci-inline-root').remove();
         $('.product-selector').append(script);
       });
     },
