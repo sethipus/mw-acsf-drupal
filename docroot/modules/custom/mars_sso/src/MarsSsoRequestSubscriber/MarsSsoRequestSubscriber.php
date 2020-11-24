@@ -2,6 +2,8 @@
 
 namespace Drupal\mars_sso\MarsSsoRequestSubscriber;
 
+use Drupal\acsf_sso\EventSubscriber\SamlauthRequestSubscriber;
+
 /**
  * Modifies the acsf_sso default config import.
  */
