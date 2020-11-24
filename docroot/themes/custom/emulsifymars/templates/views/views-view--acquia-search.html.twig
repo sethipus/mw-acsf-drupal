@@ -40,29 +40,29 @@
 
 {% if rows -%}
   <section {{ bem(card_grid_base_class) }} data-theme="{{ theme_styles }}">
-    <div class="ajax-card-grid__brand-border">
+    <div class="ajax-card-grid__border">
       {{ brand_border | raw }}
     </div>
-  
+
     <div class="ajax-card-grid__content">
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: ajax_card_grid_heading,
         heading_level: ajax_card_grid_heading_level,
         heading_base_class: ajax_card_grid_heading_base_class
       } %}
-  
+
       <div class="ajax-card-grid__graphic-divider">
         {{ graphic_divider | raw }}
       </div>
-  
+
       <div class="ajax-card-grid__items" data-drupal-views-infinite-scroll-content-wrapper="">
         {% for item in rows[0]['#rows'] %}
           {{ item }}
         {% endfor %}
       </div>
-  
+
       {{ pager }}
-  
+
     </div>
   </section>
 {% elseif empty -%}

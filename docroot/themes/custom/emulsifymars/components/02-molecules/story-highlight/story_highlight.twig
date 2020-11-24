@@ -3,9 +3,11 @@
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 
 <section id="story-highlight" {{ bem(story_highlight_base_class) }} data-theme="{{ theme_styles }}">
-  <div class="{{ brand_shape_class }}">
-    {{ brand_borders | raw }}
-  </div>
+  {% block brand_border %}
+    <div {{  bem('border', [], story_highlight_base_class)  }}>
+      {{ brand_borders | raw }}
+    </div>
+  {% endblock %}
 
   <div class="story-highlight__content {{default_link_modifier}}">
     <div class="story-highlight__contentbg">

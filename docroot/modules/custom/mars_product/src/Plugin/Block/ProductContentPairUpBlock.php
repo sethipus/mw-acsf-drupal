@@ -146,7 +146,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $build['#title'] = $conf['title'];
     $build['#graphic_divider'] = $this
       ->themeConfiguratorParser
-      ->getFileContentFromTheme('graphic_divider');
+      ->getGraphicDivider();
 
     if ($main_entity) {
       $build['#lead_card_entity'] = $main_entity;
@@ -327,7 +327,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $render_array['#eyebrow'] = $eyebrow_text;
 
     if ($is_product_card) {
-      $brand_shape = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
+      $brand_shape = $this->themeConfiguratorParser->getBrandShape();
       $render_array['#brand_shape'] = $brand_shape;
     }
 
