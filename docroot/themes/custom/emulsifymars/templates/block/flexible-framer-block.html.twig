@@ -11,11 +11,11 @@
  */
 #}
 {% set flexible_framer__base_class = 'flexible-framer' %}
-{% set grid_label = grid_label|default('More of your favorites') %}
+{% set grid_label = grid_label|default('More of your favorites' | mt) %}
 
 {% include "@molecules/flexible-framer/flexible-framer.twig" with {
   theme_styles: "drupal",
-  grid_label: grid_label | t,
+  grid_label: grid_label | mt,
   grid_type: grid_type,
   divider: divider,
   brand_borders: brand_borders,

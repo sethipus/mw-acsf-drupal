@@ -1,0 +1,18 @@
+uuid: 261d187c-9601-4474-b688-b615903c99eb
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_video
+id: media.lighthouse_video.metatag
+field_name: metatag
+entity_type: media
+bundle: lighthouse_video
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

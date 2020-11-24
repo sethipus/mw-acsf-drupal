@@ -9,6 +9,13 @@ ignored_config_entities:
   - 'juicer_io.feed.*'
   - 'language.negotiation:url'
   - 'language.entity.*'
+  - 'tmgmt.translator.smartling:settings.project_id'
+  - 'tmgmt.translator.smartling:settings.user_id'
+  - 'tmgmt.translator.smartling:settings.token_secret'
+  - 'tmgmt.translator.smartling:settings.contextUsername'
+  - 'tmgmt.translator.smartling:settings.basic_auth.*'
+  - 'tmgmt.translator.smartling:remote_languages_mappings'
+  - 'core.menu.static_menu_link_overrides:definitions'
   - emulsifymars.settings
   - mars_lighthouse.settings
   - block.block.footerblock
@@ -22,4 +29,6 @@ ignored_config_entities:
   - mars_product.wtb.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
-enable_export_filtering: '1'
+enable_export_filtering: true
+ignored_config_collections:
+  - 'language.*'

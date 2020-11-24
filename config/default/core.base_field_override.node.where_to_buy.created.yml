@@ -1,0 +1,18 @@
+uuid: 8f16b85f-59d9-47f1-a76e-3e0099cb42f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.where_to_buy
+id: node.where_to_buy.created
+field_name: created
+entity_type: node
+bundle: where_to_buy
+label: 'Authored on'
+description: 'The time that the node was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

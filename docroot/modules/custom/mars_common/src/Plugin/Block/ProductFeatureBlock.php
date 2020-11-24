@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -35,6 +36,13 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -42,6 +50,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -53,9 +62,11 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -65,8 +76,8 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#title'] = $conf['title'] ?? '';
+    $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
+    $build['#title'] = $this->languageHelper->translate($conf['title'] ?? '');
     $build['#background_color'] = $conf['background_color'] ?? '';
     if (!empty($conf['image'])) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['image']);
@@ -76,7 +87,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
         $build['#image_alt'] = $media_params['alt'];
       }
     }
-    $build['#explore_cta'] = $conf['explore_cta'] ?? '';
+    $build['#explore_cta'] = $this->languageHelper->translate($conf['explore_cta'] ?? '');
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
 
     $build['#theme'] = 'product_feature_block';
