@@ -5,6 +5,7 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.3",
+        "ext-dom": "*",
         "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
         "acquia/blt": "^11.1.0",
@@ -21,11 +22,13 @@
         "drupal/acsf": "^2.47.0",
         "drupal/admin_toolbar": "^2.0",
         "drupal/adminimal_admin_toolbar": "^1.10",
+        "drupal/advagg": "^4.1",
         "drupal/bootstrap_barrio": "^4.28",
         "drupal/cog": "^1.0.0",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
         "drupal/core-recommended": "^8.9",
+        "drupal/csp": "^1.13",
         "drupal/datalayer": "^1.0@beta",
         "drupal/devel": "^2.0.0",
         "drupal/editor_advanced_link": "^1.8",
@@ -42,6 +45,7 @@
         "drupal/jquery_colorpicker": "^1.4",
         "drupal/layout_builder_lock": "^1.0@RC",
         "drupal/layout_builder_modal": "^1.1",
+        "drupal/maxlength": "^1.0@RC",
         "drupal/media_entity_image": "^1.3",
         "drupal/menu_item_extras": "^2.11",
         "drupal/migrate_plus": "^5.1",
@@ -154,11 +158,17 @@
             "drupal/poll": {
                 "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
             },
+            "drupal/lightning_workflow": {
+                "Update scheduled status change": "https://www.drupal.org/files/issues/2020-11-12/take-workflow-transitions-into-account-3182093-1.patch"
+            },
             "drupal/pdf_api": {
                 "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2020-10-21/tmp-directory-3016161-9.patch"
             },
             "drupal/field_group": {
                 "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
+            },
+            "drupal/maxlength": {
+                "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch"
             }
         }
     },

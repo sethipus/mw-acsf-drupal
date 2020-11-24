@@ -26,8 +26,8 @@ function mars_search_theme($existing, $type, $theme, $path) {
     'mars_search_header' => [
       'variables' => [
         'search_header_heading' => NULL,
+        'brand_border' => NULL,
         'brand_shape' => NULL,
-        'brand_shape_class' => NULL,
         'input_form' => NULL,
         'search_filters' => NULL,
       ],
@@ -38,6 +38,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'no_results_links' => NULL,
         'no_results_text' => NULL,
         'no_results_heading' => NULL,
+        'brand_border' => NULL,
       ],
       'template' => 'mars-search-no-results',
     ],
@@ -77,12 +78,18 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'input_form' => [],
         'theme_styles' => '',
         'graphic_divider' => NULL,
+        'brand_border' => NULL,
         'ajax_card_grid_heading' => NULL,
         'ajax_card_grid_link_text' => NULL,
         'ajax_card_grid_link_attributes' => [],
         'ajax_card_grid_border_radius' => NULL,
         'data_layer' => NULL,
         'no_results' => NULL,
+      ],
+    ],
+    'mars_search_see_all_faq' => [
+      'variables' => [
+        'qa_items' => [],
       ],
     ],
   ];

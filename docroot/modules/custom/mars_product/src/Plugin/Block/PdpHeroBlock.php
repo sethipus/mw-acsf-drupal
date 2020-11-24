@@ -405,7 +405,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'hero_data' => [
         'product_label' => $this->configuration['eyebrow'] ?? '',
         'size_label' => $this->configuration['available_sizes'] ?? '',
-        'brand_shape' => $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape'),
+        'brand_shape' => $this->themeConfiguratorParser->getBrandShape(),
         'background_color' => $background_color,
         'product_name' => $node->title->value,
         'product_description' => $node->field_product_description->value,

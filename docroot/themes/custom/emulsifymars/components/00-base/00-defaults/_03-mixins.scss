@@ -122,3 +122,20 @@ $outer-container-break: $small;
     margin: auto;
   }
 }
+
+@mixin brand-border-overflow {
+  &__border{
+    position: absolute;
+    width: 100%;
+    transform: translateY(-100%) translateY($brand-border2-offset);
+    z-index: $brand-border-overflow-zindex;
+
+    svg {
+      display: block;
+      top: $brand-border2-offset;
+      width: 100%;
+      height: auto;
+      fill: clr(subcolor-2);
+    }
+  }
+}

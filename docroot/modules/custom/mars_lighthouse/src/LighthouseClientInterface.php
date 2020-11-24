@@ -107,6 +107,23 @@ interface LighthouseClientInterface {
   public function getAssetsByIds(array $ids, string $date, array $params = []): array;
 
   /**
+   * Sent inventory report.
+   *
+   * @param array $asset_list
+   *   List of asset information.
+   * @param array $params
+   *   Headers and access token.
+   *
+   * @return array
+   *   Response data.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   */
+  public function sentInventoryReport(array $asset_list, array $params = []): array;
+
+  /**
    * Brands list.
    *
    * @param array $params

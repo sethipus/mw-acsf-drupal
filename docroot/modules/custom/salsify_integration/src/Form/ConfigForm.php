@@ -529,6 +529,8 @@ class ConfigForm extends ConfigFormBase {
 
   /**
    * Return the configuration names.
+   *
+   * @codeCoverageIgnore
    */
   protected function getEditableConfigNames() {
     return [
@@ -664,7 +666,7 @@ class ConfigForm extends ConfigFormBase {
     }
 
     $message = t('The Salsify data import is complete.');
-    \Drupal::messenger()
+    \Drupal::service('messenger')
       ->addStatus($message);
   }
 

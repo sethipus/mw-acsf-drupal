@@ -103,7 +103,7 @@ third_party_settings:
       -
         layout_id: about_page_newsletter
         layout_settings:
-          label: Newsletter
+          label: Community
         components: {  }
         third_party_settings:
           layout_builder_lock:
