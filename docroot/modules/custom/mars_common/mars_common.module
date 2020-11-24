@@ -301,6 +301,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'data_locale' => NULL,
         'data_displaylanguage' => NULL,
         'products' => NULL,
+        'default_product' => NULL,
       ],
     ],
     'text_block' => [
