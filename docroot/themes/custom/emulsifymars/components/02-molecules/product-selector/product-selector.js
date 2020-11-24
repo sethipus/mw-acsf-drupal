@@ -56,7 +56,10 @@
       let $productVariantSelector = $(context).find('.product-selector__product-variant-selector');
 
       $title.html(data.title);
-      $image.attr("src", data.image);
+      $image.attr({
+        src: data.productVariants[0].image_src,
+        alt: data.productVariants[0].image_alt
+      });
 
       $productVariantSelector.empty();
 

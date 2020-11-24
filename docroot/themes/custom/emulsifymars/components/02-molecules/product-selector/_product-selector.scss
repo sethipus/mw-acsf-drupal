@@ -141,4 +141,9 @@
       transform: rotate(45deg);
     }
   }
+
+  /* Prevent multiple widget block displaying */
+  #cci-inline-root + #cci-inline-root {
+    display: none;
+  }
 }
