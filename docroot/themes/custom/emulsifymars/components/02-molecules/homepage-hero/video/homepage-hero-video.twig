@@ -26,12 +26,10 @@
         heading_url: title_href
       } %}
 
-      {% if cta_title %}
-        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-          default_link_content: cta_title,
-          default_link_attributes: cta_link_attributes
-        } %}
-      {% endif %}
+      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+        default_link_content: cta_title,
+        default_link_attributes: cta_link_attributes
+      } %}
     </div>
   </div>
 </section>
