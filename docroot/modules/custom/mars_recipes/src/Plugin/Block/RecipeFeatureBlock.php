@@ -273,7 +273,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 15,
       '#required' => TRUE,
-      '#default_value' => $config['eyebrow'] ?? '',
+      '#default_value' => $config['eyebrow'] ?? $this->t('Recipe'),
     ];
 
     $form['recipe_title'] = [
