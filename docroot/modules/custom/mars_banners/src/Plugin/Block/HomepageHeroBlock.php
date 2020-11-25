@@ -5,6 +5,7 @@ namespace Drupal\mars_banners\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -66,6 +67,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Service for dealing with theme configs.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -80,10 +88,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_id,
     $plugin_definition,
     MediaHelper $media_helper,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_config_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaHelper = $media_helper;
+    $this->languageHelper = $language_helper;
     $this->themeConfigParser = $theme_config_parser;
   }
 
@@ -96,6 +106,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.media_helper'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -106,12 +117,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   public function build() {
     $config = $this->getConfiguration();
 
-    $build['#label'] = $config['label'];
-    $build['#eyebrow'] = $config['eyebrow'];
+    $build['#label'] = $this->languageHelper->translate($config['label']);
+    $build['#eyebrow'] = $this->languageHelper->translate($config['eyebrow']);
     $build['#title_url'] = $config['title']['url'];
-    $build['#title_label'] = $config['title']['label'];
+    $build['#title_label'] = $this->languageHelper->translate($config['title']['label']);
     $build['#cta_url'] = ['href' => $config['cta']['url']];
-    $build['#cta_title'] = $config['cta']['title'];
+    $build['#cta_title'] = $this->languageHelper->translate($config['cta']['title']);
     $build['#block_type'] = $config['block_type'];
     $build['#background_asset'] = $this->getBgAsset();
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
@@ -120,8 +131,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
-        $build['#blocks'][$key]['eyebrow'] = $card['eyebrow'];
-        $build['#blocks'][$key]['title_label'] = $card['title']['label'];
+        $build['#blocks'][$key]['eyebrow'] = $this->languageHelper->translate($card['eyebrow']);
+        $build['#blocks'][$key]['title_label'] = $this->languageHelper->translate($card['title']['label']);
         $build['#blocks'][$key]['title_href'] = $card['title']['url'];
         $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($card['foreground_image']);
         $media_data = $this->mediaHelper->getMediaParametersById($media_id);
@@ -130,13 +141,16 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           $file_url = $media_data['src'];
         }
         $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
+        $default_alt = $this->languageHelper->translate('homepage hero 3up image');
         $build['#blocks'][$key]['image'][] = [
           'srcset' => sprintf($format, $file_url, $file_url, $file_url, $file_url),
           'src' => $file_url,
           'class' => 'block1-small',
+          'alt' => !empty($media_data['alt']) ? $media_data['alt'] : $default_alt,
+          'title' => !empty($media_data['title']) ? $media_data['title'] : $default_alt,
         ];
         $build['#blocks'][$key]['cta'][] = [
-          'title' => $card['cta']['title'],
+          'title' => $this->languageHelper->translate($card['cta']['title']),
           'link_attributes' => [
             [
               'href' => $card['cta']['url'],
@@ -351,7 +365,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
       '#states' => [
         'invisible' => [
-          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
         ],
       ],
     ];
@@ -513,18 +531,20 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   /**
    * Returns the bg image URL or NULL.
    *
-   * @return string|null
+   * @return array|null
    *   The bg image url or null of there is none.
    */
-  private function getBgAsset(): ?string {
+  private function getBgAsset(): ?array {
     $config = $this->getConfiguration();
     $bg_image_media_id = NULL;
     $bg_image_url = NULL;
+    $title = 'homepage hero background image';
+    $alt = 'homepage hero background image';
 
     if (in_array($config['block_type'], [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]) && !empty($config['background_image'])) {
       $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_image']);
     }
-    elseif ($config['block_type'] == self::KEY_OPTION_VIDEO && !empty($config['background_video'])) {
+    elseif (in_array($config['block_type'], [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP]) && !empty($config['background_video'])) {
       $bg_image_media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($config['background_video']);
     }
 
@@ -532,6 +552,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $media_params = $this->mediaHelper->getMediaParametersById($bg_image_media_id);
       if (!isset($media_params['error'])) {
         $bg_image_url = file_create_url($media_params['src']);
+        $title = !empty($media_params['title']) ? $media_params['title'] : $title;
+        $alt = !empty($media_params['alt']) ? $media_params['alt'] : $alt;
       }
     }
 
@@ -541,7 +563,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         $bg_image_url = $bg_url_object->toUriString();
       }
     }
-    return $bg_image_url;
+
+    return [
+      'src' => $bg_image_url,
+      'alt' => $alt,
+      'title' => $title,
+    ];
   }
 
 }

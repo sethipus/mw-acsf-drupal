@@ -1,0 +1,18 @@
+uuid: 4e03ad85-8f9a-4646-8839-47bfec625b3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_brand_initiatives
+id: taxonomy_term.mars_brand_initiatives.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: mars_brand_initiatives
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

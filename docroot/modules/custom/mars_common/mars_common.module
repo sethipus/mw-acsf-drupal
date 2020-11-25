@@ -290,6 +290,19 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'where_to_buy_block' => [
       'template' => 'where-to-buy-block',
+      'variables' => [
+        'commerce_vendor' => NULL,
+        'product_id' => NULL,
+        'cta_title' => NULL,
+        'button_type' => NULL,
+        'widget_id' => NULL,
+        'data_token' => NULL,
+        'data_subid' => NULL,
+        'data_locale' => NULL,
+        'data_displaylanguage' => NULL,
+        'products' => NULL,
+        'default_product' => NULL,
+      ],
     ],
     'text_block' => [
       'variables' => [
@@ -1253,6 +1266,17 @@ function mars_common_theme_suggestions_block_alter(array &$suggestions, array $v
     else {
       $suggestions[] = $block_type_suggestion;
     }
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function mars_common_entity_type_alter(array &$entity_types) {
+  foreach ($entity_types as $entity_type) {
+    $constraints = $entity_type->getConstraints();
+    unset($constraints['EntityUntranslatableFields']);
+    $entity_type->setConstraints($constraints);
   }
 }
 

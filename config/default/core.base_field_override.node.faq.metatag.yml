@@ -1,0 +1,18 @@
+uuid: dae523cb-b7e4-439a-acc7-513f3ea6785d
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq
+id: node.faq.metatag
+field_name: metatag
+entity_type: node
+bundle: faq
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

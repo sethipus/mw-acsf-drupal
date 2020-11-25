@@ -5,6 +5,7 @@ namespace Drupal\mars_search\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -33,13 +34,26 @@ class SearchOverlayForm extends FormBase {
   protected $requestStack;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Constructs a new SearchOverlayForm.
    *
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack object.
+   * @param \Drupal\mars_common\LanguageHelper $language_helper
+   *   The language helper service.
    */
-  public function __construct(RequestStack $request_stack) {
+  public function __construct(
+    RequestStack $request_stack,
+    LanguageHelper $language_helper
+  ) {
     $this->requestStack = $request_stack;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -47,7 +61,8 @@ class SearchOverlayForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('request_stack')
+      $container->get('request_stack'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -64,7 +79,7 @@ class SearchOverlayForm extends FormBase {
           'data-layer-search-form-input',
         ],
         'autocomplete' => 'off',
-        'aria-label' => $this->t('Search input field'),
+        'aria-label' => $this->languageHelper->translate('Search input field'),
         // This is needed for correct work of SearchQueryParser.
         'data-grid-id' => SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID,
       ],
@@ -74,7 +89,7 @@ class SearchOverlayForm extends FormBase {
     ];
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Submit'),
+      '#value' => $this->languageHelper->translate('Submit'),
     ];
 
     $form['#attached']['library'][] = 'mars_search/autocomplete';
