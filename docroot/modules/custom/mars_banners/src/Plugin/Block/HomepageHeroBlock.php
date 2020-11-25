@@ -115,7 +115,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#block_type'] = $config['block_type'];
     $build['#background_asset'] = $this->getBgAsset();
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
-      '#' . $this->configuration['background_color'] : '';
+      $this->configuration['background_color'] : '';
     $build['#background_color'] = $background_color;
 
     if (!empty($config['card'])) {
