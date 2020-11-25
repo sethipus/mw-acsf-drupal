@@ -1,0 +1,22 @@
+uuid: 7fa1f08a-7416-49a6-9a32-51a3efe023e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_video
+id: media.lighthouse_video.status
+field_name: status
+entity_type: media
+bundle: lighthouse_video
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
