@@ -129,28 +129,29 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
         $build['#blocks'][$key]['eyebrow'] = $this->languageHelper->translate($card['eyebrow']);
-        $build['#blocks'][$key]['title_label'] = $this->languageHelper->translate($card['title_label']);
-        $build['#blocks'][$key]['title_href'] = $card['title_url'];
+        $build['#blocks'][$key]['title_label'] = $this->languageHelper->translate($card['title']['label']);
+        $build['#blocks'][$key]['title_href'] = $card['title']['url'];
         $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($card['foreground_image']);
         $media_data = $this->mediaHelper->getMediaParametersById($media_id);
-        $file_url = NULL;
-        if (!isset($media_data['error'])) {
+        if (!isset($media_data['error']) || $media_data['error'] !== TRUE) {
           $file_url = $media_data['src'];
+          $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
+          $default_alt = $this->languageHelper->translate('Homepage hero 3up image');
+          $build['#blocks'][$key]['image'][] = [
+            'srcset' => sprintf($format, $file_url, $file_url, $file_url,
+              $file_url),
+            'src' => $file_url,
+            'class' => 'block1-small',
+            'alt' => !empty($media_data['alt']) ? $media_data['alt'] : $default_alt,
+            'title' => !empty($media_data['title']) ? $media_data['title'] : $default_alt,
+          ];
         }
-        $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
-        $default_alt = $this->languageHelper->translate('homepage hero 3up image');
-        $build['#blocks'][$key]['image'][] = [
-          'srcset' => sprintf($format, $file_url, $file_url, $file_url, $file_url),
-          'src' => $file_url,
-          'class' => 'block1-small',
-          'alt' => !empty($media_data['alt']) ? $media_data['alt'] : $default_alt,
-          'title' => !empty($media_data['title']) ? $media_data['title'] : $default_alt,
-        ];
+
         $build['#blocks'][$key]['cta'][] = [
-          'title' => $this->languageHelper->translate($card['cta_title']),
+          'title' => $this->languageHelper->translate($card['cta']['title']),
           'link_attributes' => [
             [
-              'href' => $card['cta_url'],
+              'href' => $card['cta']['url'],
             ],
           ],
         ];
@@ -168,6 +169,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
     $block_type_value = $config['block_type'] ?? self::KEY_OPTION_DEFAULT;
+    $submitted_input = $form_state->getUserInput()['settings'] ?? [];
+    $type_for_validation = $submitted_input['block_type'] ?? $block_type_value;
+
     $form['block_type'] = [
       '#title' => $this->t('Choose block type'),
       '#type' => 'select',
@@ -185,11 +189,23 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 15,
       '#default_value' => $config['eyebrow'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+      ]),
       '#states' => [
         'invisible' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
           'or',
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+        ],
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
         ],
       ],
     ];
@@ -208,9 +224,21 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('Title Link URL'),
       '#maxlength' => 2048,
       '#default_value' => $config['title']['url'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+      ]),
       '#states' => [
         'invisible' => [
           ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
+        ],
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
         ],
       ],
     ];
@@ -219,6 +247,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('Title label'),
       '#maxlength' => 55,
       '#default_value' => $config['title']['label'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+        self::KEY_OPTION_IMAGE_AND_TEXT,
+      ]),
       '#states' => [
         'required' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
@@ -249,19 +283,48 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('CTA Link URL'),
       '#maxlength' => 2048,
       '#default_value' => $config['cta']['url'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+      ]),
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
+      ],
     ];
     $form['cta']['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link Title'),
       '#maxlength' => 15,
       '#default_value' => $config['cta']['title'] ?? 'Explore',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+      ]),
+      '#states' => [
+        'required' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
+      ],
     ];
 
     $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
     // Entity Browser element for background image.
     $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
       $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
-          return in_array($form_state->getValue(['settings', 'block_type']), [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]);
+        return in_array($form_state->getValue(['settings', 'block_type']),
+          [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]);
       }
     );
     // Convert the wrapping container to a details element.
@@ -280,6 +343,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
       ],
     ];
+
     $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
     // Entity Browser element for video.
     $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
@@ -320,27 +384,21 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
 
-    $card_settings = !empty($config['card']) ? $config['card'] : '';
-    $card_storage = $form_state->get('card_storage');
-    if (!isset($card_storage)) {
-      if (!empty($card_settings)) {
-        $card_storage = array_keys($card_settings);
+    $saved_cards = !empty($config['card']) ? $config['card'] : [];
+    $submitted_cards = $submitted_input['card'] ?? [];
+    $current_card_state = $form_state->get('card_storage');
+
+    if (empty($current_card_state)) {
+      if (!empty($submitted_cards)) {
+        $current_card_state = $submitted_cards;
       }
       else {
-        $card_storage = [];
+        $current_card_state = $saved_cards;
       }
-      $form_state->set('card_storage', $card_storage);
     }
+    $form_state->set('card_storage', $current_card_state);
 
-    $triggered = $form_state->getTriggeringElement();
-    if (isset($triggered['#parents'][3]) && $triggered['#parents'][3] == 'remove_card') {
-      $card_storage = $form_state->get('card_storage');
-      $id = $triggered['#parents'][2];
-      unset($card_storage[$id]);
-      $form_state->set('card_storage', $card_storage);
-    }
-
-    foreach ($card_storage as $key => $value) {
+    foreach ($current_card_state as $key => $value) {
       $form['card'][$key] = [
         '#type' => 'details',
         '#title' => $this->t('Product card'),
@@ -351,50 +409,65 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#title' => $this->t('Card Eyebrow'),
         '#maxlength' => 15,
         '#default_value' => $config['card'][$key]['eyebrow'] ?? '',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
           ],
         ],
       ];
-      $form['card'][$key]['title_label'] = [
+      $form['card'][$key]['title']['label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Card Title label'),
         '#maxlength' => 55,
-        '#default_value' => $config['card'][$key]['title_label'] ?? '',
+        '#default_value' => $config['card'][$key]['title']['label'] ?? '',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
           ],
         ],
       ];
-      $form['card'][$key]['title_url'] = [
+      $form['card'][$key]['title']['url'] = [
         '#type' => 'url',
         '#title' => $this->t('Card Title Link URL'),
         '#maxlength' => 2048,
-        '#default_value' => $config['card'][$key]['title_url'] ?? '',
+        '#default_value' => $config['card'][$key]['title']['url'] ?? '',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
           ],
         ],
       ];
-      $form['card'][$key]['cta_title'] = [
+      $form['card'][$key]['cta']['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link Title'),
         '#maxlength' => 15,
-        '#default_value' => $config['card'][$key]['cta_title'] ?? 'Explore',
+        '#default_value' => $config['card'][$key]['cta']['title'] ?? 'Explore',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
           ],
         ],
       ];
-      $form['card'][$key]['cta_url'] = [
+      $form['card'][$key]['cta']['url'] = [
         '#type' => 'url',
         '#title' => $this->t('CTA Link URL'),
         '#maxlength' => 2048,
-        '#default_value' => $config['card'][$key]['cta_url'] ?? '',
+        '#default_value' => $config['card'][$key]['cta']['url'] ?? '',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
         '#states' => [
           'required' => [
             ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
@@ -411,16 +484,17 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $form['card'][$key]['foreground_image']['#open'] = TRUE;
 
       $form['card'][$key]['remove_card'] = [
-        '#type'  => 'button',
+        '#type' => 'submit',
         '#name' => 'card_' . $key,
         '#value' => $this->t('Remove card'),
-        '#ajax'  => [
+        '#ajax' => [
           'callback' => [$this, 'ajaxRemoveCardCallback'],
           'wrapper' => 'cards-wrapper',
         ],
+        '#submit' => [[$this, 'removeCardSubmitted']],
       ];
     }
-    if (count($card_storage) < 2) {
+    if (count($current_card_state) < 2) {
       $form['card']['add_card'] = [
         '#type' => 'submit',
         '#value' => $this->t('Add card'),
@@ -429,7 +503,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           'wrapper' => 'cards-wrapper',
         ],
         '#limit_validation_errors' => [],
-        '#submit' => [[$this, 'addCardSubmited']],
+        '#submit' => [[$this, 'addCardSubmitted']],
       ];
     }
 
@@ -474,55 +548,35 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Theme settings form state.
    */
-  public function addCardSubmited(array $form, FormStateInterface $form_state) {
-    $storage = $form_state->get('card_storage');
+  public function addCardSubmitted(
+    array $form,
+    FormStateInterface $form_state
+  ) {
+    $storage = $form_state->get('card_storage') ?? [];
     array_push($storage, 1);
     $form_state->set('card_storage', $storage);
     $form_state->setRebuild(TRUE);
   }
 
   /**
-   * {@inheritdoc}
+   * Custom submit card configuration settings form.
+   *
+   * @param array $form
+   *   Theme settings form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Theme settings form state.
    */
-  public function blockValidate($form, FormStateInterface $form_state) {
-    parent::blockValidate($form, $form_state);
-
+  public function removeCardSubmitted(
+    array $form,
+    FormStateInterface $form_state
+  ) {
     $triggered = $form_state->getTriggeringElement();
-    if ($triggered['#name'] === 'op') {
-      $values = $form_state->getValues();
-      switch ($values['block_type']) {
-        case self::KEY_OPTION_IMAGE:
-          $required_card_fields = [
-            'eyebrow'     => $this->t('Card Eyebrow'),
-            'title_label' => $this->t('Card Title label'),
-            'title_url'   => $this->t('Card Title Link URL'),
-            'cta_title'   => $this->t('CTA Link Title'),
-            'cta_url'     => $this->t('CTA Link URL'),
-          ];
-          foreach ($values['card'] as $card_key => $card) {
-            if ($card_key === 'add_card') {
-              continue;
-            }
-            foreach ($required_card_fields as $field_key => $field_label) {
-              if (empty($card[$field_key])) {
-                $form_state->setError(
-                  $form['card'][$card_key][$field_key],
-                  $this->t('@name field is required.', ['@name' => $field_label])
-                );
-              }
-            }
-          }
-        case self::KEY_OPTION_DEFAULT:
-        case self::KEY_OPTION_IMAGE_AND_TEXT:
-        case self::KEY_OPTION_VIDEO:
-          if (!$values['title']['label']) {
-            $form_state->setError(
-              $form['title']['label'],
-              $this->t('@name field is required.', ['@name' => $this->t('Title label')])
-            );
-          }
-          break;
-      }
+    if (isset($triggered['#parents'][3]) && $triggered['#parents'][3] == 'remove_card') {
+      $card_storage = $form_state->get('card_storage');
+      $id = $triggered['#parents'][2];
+      unset($card_storage[$id]);
+      $form_state->set('card_storage', $card_storage);
+      $form_state->setRebuild(TRUE);
     }
   }
 

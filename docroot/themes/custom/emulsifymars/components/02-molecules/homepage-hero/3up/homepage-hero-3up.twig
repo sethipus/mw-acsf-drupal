@@ -1,6 +1,6 @@
 {% set homepage_hero__base_class = 'homepage-hero-3up' %}
 
-<section {{ bem(homepage_hero__base_class) }} id="homepage-hero-3up" data-theme="{{ theme_styles }}">
+<section {{ bem(homepage_hero__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('inner', [], homepage_hero__base_class) }}>
     <div {{ bem('left', [], homepage_hero__base_class) }} >
       <div class="wrapper">
@@ -30,12 +30,10 @@
        }
        %}
 
-       {% if cta_title %}
-         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-           default_link_content: cta_title,
-           default_link_attributes: cta_link_attributes
-         } %}
-       {% endif %}
+       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+         default_link_content: cta_title,
+         default_link_attributes: cta_link_attributes
+       } %}
       </div>
     </div>
    </div>
