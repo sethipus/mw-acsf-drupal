@@ -1,0 +1,18 @@
+uuid: eb85b41b-fb9e-4f3b-862d-9ee6d4aa1c84
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_prep_time
+id: taxonomy_term.mars_prep_time.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_prep_time
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

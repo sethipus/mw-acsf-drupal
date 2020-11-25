@@ -1,0 +1,18 @@
+uuid: a806c402-0390-44db-9a88-90d9f31a1f5f
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.content_hub_page
+id: node.content_hub_page.changed
+field_name: changed
+entity_type: node
+bundle: content_hub_page
+label: Changed
+description: 'The time that the node was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

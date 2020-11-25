@@ -1,0 +1,20 @@
+uuid: d70da9a0-a0d3-48a4-a0ff-75c8a01288c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_product_line
+  module:
+    - path
+id: taxonomy_term.mars_product_line.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_product_line
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

@@ -13,7 +13,7 @@
 #}
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
-{% set logo_title = 'Logo' | t %}
+{% set logo_title = 'Logo' | mt %}
 {% embed "@organisms/site/site-header/site-header.twig" with {
   theme_styles: 'drupal',
   menu_items: primary_menu,
@@ -43,9 +43,9 @@
     } %}
     {% include "@molecules/search/inline-search/inline-search.twig" with {
       inline_search__modifiers: ['searchbtn'],
-      inline_search_title: 'Search',
+      inline_search_title: 'Search' | mt ,
       inline_search_url: '#',
-      inline_search_icon: 'search',
+      inline_search_icon: 'search' | mt ,
     } %}
   {% endblock %}
 

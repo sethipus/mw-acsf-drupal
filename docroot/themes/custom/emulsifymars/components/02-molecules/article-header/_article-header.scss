@@ -10,19 +10,44 @@
       @include large {
         width: 70%;
         padding-top: 0;
-        padding-bottom: 96px;
+      }
+
+      @include xl {
+        max-width: 780px;
+        margin: 0 27% 0 19%;
       }
 
       & .heading {
         font-style: normal;
         font-weight: 500;
-        font-size: 28px;
-        line-height: 100%;
-        letter-spacing: 0.05em;
         text-transform: uppercase;
+        font-family: variable(primary-font);
+
+        @include xs {
+          font-size: 2.8rem;
+          line-height: 2.8rem;
+          letter-spacing: 0.14rem;
+        }
+
+        @include medium {
+          font-size: 4rem;
+          line-height: 4rem;
+          letter-spacing: 0.2rem;
+        }
+
+        @include small {
+          letter-spacing: 0.14rem;
+        }
+
+        @include medium {
+          letter-spacing: 0.2rem;
+          font-size: 40px;
+        }
 
         @include large {
-          font-size: 48px;
+          font-size: 4.8rem;
+          line-height: 4.8rem;
+          letter-spacing: 0.24rem;
         }
       }
 
@@ -30,20 +55,41 @@
       & .eyebrow {
         font-style: normal;
         font-weight: 500;
-        font-size: 16px;
-        line-height: 16px;
-        letter-spacing: 0.1em;
         text-transform: uppercase;
         color: clr(primary);
+        font-family: variable(primary-font);
+
+        @include xs {
+          font-size: 1.4rem;
+          line-height: 1.4rem;
+          letter-spacing: 0.14rem;
+        }
+
+        @include medium {
+          font-size: 1.6rem;
+          line-height: 1.6rem;
+          letter-spacing: 0.16rem;
+        }
       }
 
       & .published {
         font-style: normal;
         font-weight: normal;
-        font-size: 16px;
-        line-height: 140%;
         margin-bottom: 40px;
         display: block;
+        font-family: variable(secondary-font);
+
+        @include xs {
+          font-size: 1.4rem;
+          line-height: 1.96rem;
+          letter-spacing: 0.07rem;
+        }
+
+        @include medium {
+          font-size: 1.6rem;
+          line-height: 2.24rem;
+          letter-spacing: 0.064rem;
+        }
       }
 
       & .share-block {
@@ -56,20 +102,38 @@
         & .share-text {
           font-style: normal;
           font-weight: 500;
-          font-size: 16px;
-          line-height: 18px;
-          letter-spacing: 0.1em;
           text-transform: uppercase;
+          font-family: variable(primary-font);
+
+          @include xs {
+            font-size: 1.6rem;
+            line-height: 1.76rem;
+            letter-spacing: 0.16rem;
+          }
+
+          @include medium {
+            font-size: 1.8rem;
+            line-height: 1.8rem;
+            letter-spacing: 0.18rem;
+          }
+
+          @include medium {
+            font-size: 18px;
+          }
 
           @include large {
-            font-size: 20px;
-            line-height: 22px;
+            font-size: 2rem;
+            line-height: 2.2rem;
+            letter-spacing: 0.2rem;
           }
         }
 
         & .social-menu {
           margin: 0;
           margin-left: 30px;
+          display: flex;
+          flex-flow: row nowrap;
+          align-items: center;
 
           .social-menu__icon {
             fill: clr(subcolor-1);

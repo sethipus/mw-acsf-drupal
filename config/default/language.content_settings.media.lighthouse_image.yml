@@ -1,0 +1,18 @@
+uuid: 27efbb81-d931-4ff6-bf4b-2c1f0ea48add
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_image
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: media.lighthouse_image
+target_entity_type_id: media
+target_bundle: lighthouse_image
+default_langcode: site_default
+language_alterable: false
