@@ -158,7 +158,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ->getGraphicDivider();
     if ($main_entity) {
       $build['#lead_card_entity'] = $main_entity;
-      $build['#lead_card_eyebrow'] = $this->languageHelper->translate($conf['lead_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
+      $build['#lead_card_eyebrow'] = $this->languageHelper->translate($conf['lead_card_eyebrow'] ?? $main_entity->type->entity->label());
       $build['#lead_card_title'] = $this->languageHelper->translate($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
       $build['#cta_link_url'] = $main_entity->toUrl()->toString();
       $build['#cta_link_text'] = $this->languageHelper->translate($conf['cta_link_text'] ?? NULL) ?: $this->languageHelper->translate('Explore');
@@ -326,7 +326,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       'card'
     );
 
-    $default_eyebrow_text = $is_product_card ? $this->t('Made With') : $this->t('Seen In');
+    $default_eyebrow_text = $is_product_card ? $this->languageHelper->translate('Made With') : $this->languageHelper->translate('Seen In');
     $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
     $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
     $render_array['#eyebrow'] = $eyebrow_text;

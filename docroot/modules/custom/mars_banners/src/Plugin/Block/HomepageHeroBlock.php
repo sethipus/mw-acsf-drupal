@@ -138,12 +138,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           $file_url = $media_data['src'];
         }
         $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
+        $default_alt = $this->languageHelper->translate('homepage hero 3up image');
         $build['#blocks'][$key]['image'][] = [
           'srcset' => sprintf($format, $file_url, $file_url, $file_url, $file_url),
           'src' => $file_url,
           'class' => 'block1-small',
-          'alt' => !empty($media_data['alt']) ? $media_data['alt'] : 'homepage hero 3up image',
-          'title' => !empty($media_data['title']) ? $media_data['title'] : 'homepage hero 3up image',
+          'alt' => !empty($media_data['alt']) ? $media_data['alt'] : $default_alt,
+          'title' => !empty($media_data['title']) ? $media_data['title'] : $default_alt,
         ];
         $build['#blocks'][$key]['cta'][] = [
           'title' => $this->languageHelper->translate($card['cta']['title']),
