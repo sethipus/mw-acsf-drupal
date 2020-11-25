@@ -167,12 +167,14 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 30,
+      '#required' => TRUE,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
     ];
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 55,
+      '#required' => TRUE,
       '#default_value' => $this->configuration['title'] ?? '',
     ];
     $form['background_options'] = [
@@ -197,6 +199,9 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       'visible' => [
         ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
       ],
+      'required' => [
+        ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+      ],
     ];
 
     $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
@@ -214,11 +219,15 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       'visible' => [
         ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_VIDEO],
       ],
+      'required' => [
+        ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_VIDEO],
+      ],
     ];
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#maxlength' => 255,
+      '#required' => TRUE,
       '#default_value' => $this->configuration['description'] ?? '',
     ];
 
