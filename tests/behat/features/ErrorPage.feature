@@ -12,7 +12,7 @@ Feature: Error Page Test
 
     When I fill in "Title" with "Oops"
     And I wait until the "//input[@value='Select entities']" xpath element appears
-    And I press "Select entities"
+    And I click on a "//input[@value='Select entities']" xpath element
     And I wait for the ajax response
 
     When I switch to the iframe "entity_browser_iframe_lighthouse_browser"
