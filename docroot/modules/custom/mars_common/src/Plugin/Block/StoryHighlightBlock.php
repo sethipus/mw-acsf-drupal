@@ -154,7 +154,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
 
     if (!empty($conf['view_more']['url'])) {
       $build['#view_more_cta_url'] = $conf['view_more']['url'];
-      $build['#view_more_cta_label'] = !empty($conf['view_more']['label']) ? $this->languageHelper->translate($conf['view_more']['label']) : $this->t('View More');
+      $build['#view_more_cta_label'] = !empty($conf['view_more']['label']) ? $this->languageHelper->translate($conf['view_more']['label']) : $this->languageHelper->translate('View More');
     }
 
     return $build;

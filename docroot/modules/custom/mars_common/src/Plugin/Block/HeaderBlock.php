@@ -244,14 +244,14 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#alert_banner_url'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_url']);
     if ($config['search_block']) {
       $host = $this->request->getSchemeAndHttpHost();
-      $build['#search_menu'] = [['title' => 'Search', 'url' => $host]];
+      $build['#search_menu'] = [['title' => $this->languageHelper->translate('Search'), 'url' => $host]];
     }
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
 
     $current_language_id = $this->languageHelper->getCurrentLanguageId();
     $build['#language_selector_current'] = mb_strtoupper($current_language_id);
-    $build['#language_selector_label'] = $this->t('Select language');
+    $build['#language_selector_label'] = $this->languageHelper->translate('Select language');
     $language_selector_items = [];
     try {
       $language_selector_items = $this->getLanguageLinks();

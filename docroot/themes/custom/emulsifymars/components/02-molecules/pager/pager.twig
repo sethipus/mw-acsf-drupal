@@ -33,14 +33,14 @@
 
 {% if items %}
   <nav {{ bem(pager__base_class) }} role="navigation" aria-labelledby="pagination-heading{{ pager__uid }}">
-    <h4 id="pagination-heading{{ pager__uid }}" {{ bem('visually-hidden') }}>{{ 'Pagination'|t }}</h4>
+    <h4 id="pagination-heading{{ pager__uid }}" {{ bem('visually-hidden') }}>{{ 'Pagination'|mt }}</h4>
     <ul {{ bem('items', [], pager__base_class, ['js-pager__items']) }}>
       {# Print previous item if we are not on the first page. #}
       {% if items.previous %}
         <li {{ bem('item', ['prev'], pager__base_class) }}>
-          <a {{ bem('link', ['prev'], pager__base_class) }} href="{{ items.previous.href }}" title="{{ 'Go to previous page'|t }}" rel="prev"{{ items.previous.attributes|without('href', 'title', 'rel') }}>
-            <span {{ bem('visually-hidden') }}>{{ 'Previous page'|t }}</span>
-            <span aria-hidden="true">{{ items.previous.text|default('‹ Previous'|t) }}</span>
+          <a {{ bem('link', ['prev'], pager__base_class) }} href="{{ items.previous.href }}" title="{{ 'Go to previous page'|mt }}" rel="prev"{{ items.previous.attributes|without('href', 'title', 'rel') }}>
+            <span {{ bem('visually-hidden') }}>{{ 'Previous page'|mt }}</span>
+            <span aria-hidden="true">{{ items.previous.text|default('‹ Previous'|mt) }}</span>
           </a>
         </li>
       {% endif %}
@@ -52,10 +52,10 @@
       {% for key, item in items.pages %}
         {% set current_class = current == key ? ' is-active' : '' %}
         <li {{ bem('item', [], pager__base_class, [current_class]) }}>
-          {% set title = current == key ? 'Current page'|t : 'Go to page @key'|t({'@key': key}) %}
+          {% set title = current == key ? 'Current page'|mt : 'Go to page @key'|mt({'@key': key}) %}
           <a {{ bem('link', [], pager__base_class, [current_class]) }} href="{{ item.href }}" title="{{ title }}"{{ item.attributes|without('href', 'title') }}>
             <span {{ bem('visually-hidden') }}>
-              {{ current == key ? 'Current page'|t : 'Page '|t }}
+              {{ current == key ? 'Current page'|mt : 'Page '|mt }}
             </span>
             {{- key -}}
           </a>
@@ -68,9 +68,9 @@
       {# Print next item if we are not on the last page. #}
       {% if items.next %}
         <li {{ bem('item', ['next'], pager__base_class) }}>
-          <a {{ bem('link', ['next'], pager__base_class) }} href="{{ items.next.href }}" title="{{ 'Go to next page'|t }}" rel="next"{{ items.next.attributes|without('href', 'title', 'rel') }}>
-            <span {{ bem('visually-hidden') }}>{{ 'Next page'|t }}</span>
-            <span aria-hidden="true">{{ items.next.text|default('Next ›'|t) }}</span>
+          <a {{ bem('link', ['next'], pager__base_class) }} href="{{ items.next.href }}" title="{{ 'Go to next page'|mt }}" rel="next"{{ items.next.attributes|without('href', 'title', 'rel') }}>
+            <span {{ bem('visually-hidden') }}>{{ 'Next page'|mt }}</span>
+            <span aria-hidden="true">{{ items.next.text|default('Next ›'|mt) }}</span>
           </a>
         </li>
       {% endif %}
