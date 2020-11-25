@@ -17,6 +17,7 @@ Feature: Parent Page Header Test
     And I fill in "Title" with "title_2"
     And I fill in "Description" with "description_2"
     And I click on a "//*[@id='edit-settings-background-options-image']" xpath element
+    And I wait until the "//input[@value='Select entities']" xpath element appears
     And I press "Select entities"
     And I wait for the ajax response
     And I switch to the iframe "entity_browser_iframe_lighthouse_browser"

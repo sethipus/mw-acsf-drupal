@@ -7,6 +7,7 @@ Feature: Product And Recipe Test
     And I fill in "SKU" with "product_variant_sku"
     And I fill in "Size" with "product_variant_size"
     And I click on a "//a[contains(@class, 'form-required') and contains(text(), 'Media')]" xpath element
+    And I wait until the "//input[@value='Select entities']" xpath element appears
     And I press "Select entities"
     And I wait for the ajax response
     And I switch to the iframe "entity_browser_iframe_lighthouse_browser"
@@ -83,6 +84,7 @@ Feature: Product And Recipe Test
     And I fill in "Cooking time" with "10"
     And I fill in "Ingredients number" with "3"
     And I fill in "Number of servings" with "5"
+    And I wait until the "//input[@value='Select entities']" xpath element appears
     And I press "Select entities"
     And I wait for the ajax response
     And I switch to the iframe "entity_browser_iframe_lighthouse_browser"
