@@ -1,0 +1,22 @@
+uuid: d2d1afde-ba2d-461c-aa53-8c3b4cfdd3e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+id: node.newsletter_sign_up.sticky
+field_name: sticky
+entity_type: node
+bundle: newsletter_sign_up
+label: 'Sticky at top of lists'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

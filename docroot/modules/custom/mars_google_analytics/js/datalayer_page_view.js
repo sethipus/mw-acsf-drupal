@@ -188,7 +188,8 @@
               dataLayer.push({
                 event: 'clickOutbound',
                 clickName: item.innerText.trim(),
-                componentName: componentName
+                componentName: componentName,
+                clickDetails: link.href
               })
             }, 100);
           });

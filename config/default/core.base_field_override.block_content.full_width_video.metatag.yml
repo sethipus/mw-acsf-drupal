@@ -1,0 +1,18 @@
+uuid: ee83c879-0923-40a3-ae40-42cf34f7c379
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.full_width_video
+id: block_content.full_width_video.metatag
+field_name: metatag
+entity_type: block_content
+bundle: full_width_video
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

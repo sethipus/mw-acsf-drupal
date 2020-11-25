@@ -1,0 +1,13 @@
+uuid: d575567f-8b4b-49d1-93c7-d010153fbbf1
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_extension_suit
+_core:
+  default_config_hash: U9XVFbNlu1Nje_e8INmGzJUnfXTpdJILBxAOQ8ClnoQ
+id: tmgmt_extension_suit_clear_job_items_data_action
+label: 'Clear JobItem cache (data property)'
+type: tmgmt_job
+plugin: tmgmt_extension_suit_clear_job_items_data_action
+configuration: {  }

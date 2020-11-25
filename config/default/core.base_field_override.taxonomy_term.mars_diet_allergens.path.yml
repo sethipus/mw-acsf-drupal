@@ -1,0 +1,20 @@
+uuid: 22d61572-766c-42f1-8467-83fd0d32571c
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_diet_allergens
+  module:
+    - path
+id: taxonomy_term.mars_diet_allergens.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_diet_allergens
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

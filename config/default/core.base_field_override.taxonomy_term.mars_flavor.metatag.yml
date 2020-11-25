@@ -1,0 +1,18 @@
+uuid: 87fc82f6-5086-416c-a59e-3e32952337a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_flavor
+id: taxonomy_term.mars_flavor.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_flavor
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map
