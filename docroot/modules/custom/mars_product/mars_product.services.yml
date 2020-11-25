@@ -16,3 +16,9 @@ services:
     arguments: ['@entity_type.manager']
     tags:
       - { name: event_subscriber }
+
+  mars_product.load_local_entity.product:
+    class: Drupal\mars_product\EventSubscriber\LoadLocalEntity\ProductMatch
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

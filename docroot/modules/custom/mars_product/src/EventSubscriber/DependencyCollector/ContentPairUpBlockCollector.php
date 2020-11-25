@@ -20,7 +20,7 @@ class ContentPairUpBlockCollector extends BaseDependencyCollector {
   protected $entityTypeManager;
 
   /**
-   * TermParentCollector constructor.
+   * ContentPaitUpBlockkCollector constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
@@ -53,6 +53,11 @@ class ContentPairUpBlockCollector extends BaseDependencyCollector {
       if (!empty($config['article_recipe'])) {
         /** @var \Drupal\core\Entity\EntityInterface $node */
         $node = $this->entityTypeManager->getStorage('node')->load($config['article_recipe']);
+        $event->addEntityDependency($node);
+      }
+      if (!empty($config['product'])) {
+        /** @var \Drupal\core\Entity\EntityInterface $node */
+        $node = $this->entityTypeManager->getStorage('node')->load($config['product']);
         $event->addEntityDependency($node);
       }
     }
