@@ -40,11 +40,15 @@
     color: clr(primary);
     margin-top: 0;
     margin-bottom: 1rem;
-    font-size: 4rem;
-    line-height: 1;
+
+    @include xs {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
 
     @include large {
       font-size: 4.8rem;
+      line-height: 4.8rem;
     }
   }
 
@@ -52,8 +56,11 @@
     font-family: variable(heading-font);
     color: clr(secondary);
     margin: 0;
-    font-size: 4rem;
-    line-height: 1;
+
+    @include xs {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
 
     @include medium {
       margin-top: -0.4rem;
@@ -62,18 +69,22 @@
     @include large {
       font-size: 4.8rem;
       margin-top: -0.6rem;
+      line-height: 4.8rem;
     }
   }
 
   &__paragraph {
     font-family: variable(secondary-font);
     color: clr(primary);
-    font-size: 1.8rem;
-    line-height: 1.6;
+
+    @include xs {
+      font-size: 1.8rem;
+      line-height: 2.88rem;
+    }
 
     @include large {
       font-size: 2rem;
-      line-height: 1.8;
+      line-height: 3.6rem;
     }
   }
 
