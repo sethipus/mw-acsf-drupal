@@ -1,0 +1,20 @@
+uuid: 1c9494f4-5baa-405a-855a-c03bbb3501cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.recipe
+  module:
+    - publication_date
+id: node.recipe.published_at
+field_name: published_at
+entity_type: node
+bundle: recipe
+label: 'Published on'
+description: 'Keep the publication timestamp for each node.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: published_at

@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Utility\Token;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_articles\Plugin\Block\ArticleHeader;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\node\Entity\Node;
@@ -81,6 +82,13 @@ class ArticleHeaderTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Form\FormStateInterface
    */
   private $formStateMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
 
   /**
    * Mock.
@@ -186,6 +194,7 @@ class ArticleHeaderTest extends UnitTestCase {
       $this->tokenMock,
       $this->themeConfiguratorParserMock,
       $this->configFactoryMock,
+      $this->languageHelperMock,
       $this->mediaHelperMock
     );
   }
@@ -195,7 +204,7 @@ class ArticleHeaderTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(6))
+      ->expects($this->exactly(7))
       ->method('get')
       ->willReturnMap(
         [
@@ -224,7 +233,11 @@ class ArticleHeaderTest extends UnitTestCase {
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->configFactoryMock,
           ],
-
+          [
+            'mars_common.language_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageHelperMock,
+          ],
           [
             'mars_common.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -364,6 +377,7 @@ class ArticleHeaderTest extends UnitTestCase {
     $this->tokenMock = $this->createMock(Token::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->viewBuilderMock = $this->createMock(EntityViewBuilderInterface::class);
     $this->entityStorageMock = $this->createMock(EntityStorageInterface::class);
