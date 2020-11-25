@@ -12,6 +12,9 @@ import inlineMediaData from './inline/inline-media.yml';
 import articleWYSIWYG from './wysiwyg/article-wysiwyg.twig';
 import articleWYSIWYGData from './wysiwyg/article-wysiwyg.yml';
 
+import articleList from './list/article-list.twig';
+import articleListData from './list/article-list.yml';
+
 /**
  * Storybook Definition.
  */
@@ -28,4 +31,8 @@ export const inlineMediaBlock = () => {
 
 export const articleWYSIWYGBlock = () => {
   return <div dangerouslySetInnerHTML={{ __html: articleWYSIWYG(articleWYSIWYGData) }} />;
+};
+
+export const articleListBlock = () => {
+  return <div dangerouslySetInnerHTML={{ __html: articleList(articleListData) }} />;
 };

@@ -1,0 +1,18 @@
+uuid: 06977645-4653-4edd-832e-e8a3fba60001
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_format
+id: taxonomy_term.mars_format.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_format
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

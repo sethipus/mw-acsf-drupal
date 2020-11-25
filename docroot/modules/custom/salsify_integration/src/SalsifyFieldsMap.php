@@ -11,7 +11,7 @@ class SalsifyFieldsMap {
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT = [
     'field_product_sku' => ['salsify:id' => 'GTIN', 'salsify:data_type' => 'string'],
-    'field_product_size' => ['salsify:id' => 'Case Net Weight', 'salsify:data_type' => 'string'],
+    'field_product_size' => ['salsify:id' => 'Net Content', 'salsify:data_type' => 'string'],
     'field_product_allergen_statement' => ['salsify:id' => 'Allergen Statement', 'salsify:data_type' => 'string'],
     // 'field_product_allergen_warnings' => 'Allergen Statement',
     'field_product_ingredients' => ['salsify:id' => 'Complete Ingredient Statement', 'salsify:data_type' => 'string'],
@@ -49,7 +49,7 @@ class SalsifyFieldsMap {
     'field_product_potassium_daily' => ['salsify:id' => 'Potassium pct', 'salsify:data_type' => 'string'],
     'field_product_iron' => ['salsify:id' => 'Iron', 'salsify:data_type' => 'string'],
     'field_product_iron_daily' => ['salsify:id' => 'Iron Pct Daily Value', 'salsify:data_type' => 'string'],
-    'field_product_key_image' => ['salsify:id' => 'CMS: image 1', 'salsify:data_type' => 'digital_asset'],
+    'field_product_key_image' => ['salsify:id' => 'CMS: Image 1', 'salsify:data_type' => 'digital_asset'],
     'field_product_image_1' => ['salsify:id' => 'ATF Image 2', 'salsify:data_type' => 'digital_asset'],
     'field_product_image_2' => ['salsify:id' => 'ATF Image 3', 'salsify:data_type' => 'digital_asset'],
     'field_product_image_3' => ['salsify:id' => 'ATF Image 4', 'salsify:data_type' => 'digital_asset'],
