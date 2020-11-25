@@ -53,6 +53,7 @@ Feature: Social Feed Test
     And I should see a ".swiper-scrollbar-drag" element
 
     When I am on "/admin/config/services/juicer_io/feed/feed/edit?destination=/admin/config/services/juicer_io/feed"
+    And I wait until the "//*[@id='edit-delete']" xpath element appears
     And I follow "edit-delete"
     Then I should see "Are you sure you want to delete"
 
