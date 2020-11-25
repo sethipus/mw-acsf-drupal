@@ -1,0 +1,18 @@
+uuid: 5f06b5aa-4f87-4887-b4b8-ad51e7e870f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_culture
+id: taxonomy_term.mars_culture.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: mars_culture
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

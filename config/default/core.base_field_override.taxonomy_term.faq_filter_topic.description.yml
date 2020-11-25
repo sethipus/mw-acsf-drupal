@@ -1,0 +1,20 @@
+uuid: c042a500-e13a-428c-a9ed-993fd72680c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.faq_filter_topic
+  module:
+    - text
+id: taxonomy_term.faq_filter_topic.description
+field_name: description
+entity_type: taxonomy_term
+bundle: faq_filter_topic
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

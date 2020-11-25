@@ -1,0 +1,18 @@
+uuid: 88ef3232-77ab-42ef-b3a4-0c937455be09
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+id: node.newsletter_sign_up.scheduled_transition_state
+field_name: scheduled_transition_state
+entity_type: node
+bundle: newsletter_sign_up
+label: 'Scheduled transition state'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

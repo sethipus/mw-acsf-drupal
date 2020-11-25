@@ -6,10 +6,12 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Class CarouselBlock.
@@ -54,6 +56,13 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Theme configurator parser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -67,10 +76,12 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
@@ -83,6 +94,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
@@ -106,7 +118,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
         $item = [
           'src' => $media_params['src'],
-          'content' => $item_value['description'],
+          'content' => $this->languageHelper->translate($item_value['description']),
           'video' => ($item_value['item_type'] == self::KEY_OPTION_VIDEO),
           'image' => ($item_value['item_type'] == self::KEY_OPTION_IMAGE),
           'alt' => NULL,
@@ -118,7 +130,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
 
     $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
 
-    $build['#title'] = $config['carousel_label'] ?? '';
+    $build['#title'] = $this->languageHelper->translate($config['carousel_label'] ?? '');
     $build['#items'] = $items;
     $build['#theme'] = 'carousel_component';
     return $build;
@@ -254,6 +266,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
 
     $form['carousel']['add_item'] = [
       '#type'  => 'submit',
+      '#name'  => 'carousel_add_item',
       '#value' => $this->t('Add new carousel item'),
       '#ajax'  => [
         'callback' => [$this, 'ajaxAddCarouselItemCallback'],
@@ -309,6 +322,32 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
     array_push($storage, 1);
     $form_state->set('carousel_storage', $storage);
     $form_state->setRebuild(TRUE);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    parent::blockValidate($form, $form_state);
+
+    $triggered = $form_state->getTriggeringElement();
+    if (
+      $triggered['#value'] instanceof TranslatableMarkup &&
+      (
+        $triggered['#value']->getUntranslatedString() == 'Add block' ||
+        $triggered['#value']->getUntranslatedString() == 'Update'
+      )
+    ) {
+      $carousel = $form_state->getValue('carousel');
+      unset($carousel['add_item']);
+      foreach ($carousel as $key => $item) {
+        $media = $item['item_type'] == 'image' ? $item['image'] : $item['video'];
+        if (!is_array($media['selected'])) {
+          $message = $this->t('Each carousel item should have media (image or video).');
+          $form_state->setError($form['carousel'][$key]['item_type'], $message);
+        }
+      }
+    }
   }
 
   /**
