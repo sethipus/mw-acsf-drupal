@@ -1,0 +1,20 @@
+uuid: ef38c50c-f7ce-49a8-bca6-51d7489b87a2
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.content_hub_page
+  module:
+    - path
+id: node.content_hub_page.path
+field_name: path
+entity_type: node
+bundle: content_hub_page
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

@@ -1,8 +1,6 @@
 .ajax-card-grid {
   position: relative;
 
-  @include brand-border-overflow;
-
   &__content {
     display: flex;
     flex-direction: column;

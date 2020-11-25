@@ -1,0 +1,20 @@
+uuid: efd62dc4-6845-40ce-841e-dbb6369d79ad
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_image
+  module:
+    - datetime
+id: media.lighthouse_image.scheduled_transition_date
+field_name: scheduled_transition_date
+entity_type: media
+bundle: lighthouse_image
+label: 'Scheduled transition date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

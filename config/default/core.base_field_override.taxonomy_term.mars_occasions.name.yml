@@ -1,0 +1,18 @@
+uuid: 8a2f96a4-1a57-4004-b0b5-c528ef46a02a
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_occasions
+id: taxonomy_term.mars_occasions.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_occasions
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

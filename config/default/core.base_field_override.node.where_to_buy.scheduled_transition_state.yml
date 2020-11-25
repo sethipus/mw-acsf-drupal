@@ -1,0 +1,18 @@
+uuid: 04b4c8b5-338e-47ee-aa3a-7d08771a3a5e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.where_to_buy
+id: node.where_to_buy.scheduled_transition_state
+field_name: scheduled_transition_state
+entity_type: node
+bundle: where_to_buy
+label: 'Scheduled transition state'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,6 @@
+.card-grid {
+  position: relative;
+  background-color: clr(subcolor-2);
+
+  @include brand-border-overflow;
+}

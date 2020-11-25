@@ -1,0 +1,18 @@
+uuid: 04c36362-5b01-4eea-8c68-0c3652c6d916
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_main_ingredient
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: taxonomy_term.mars_main_ingredient
+target_entity_type_id: taxonomy_term
+target_bundle: mars_main_ingredient
+default_langcode: site_default
+language_alterable: true
