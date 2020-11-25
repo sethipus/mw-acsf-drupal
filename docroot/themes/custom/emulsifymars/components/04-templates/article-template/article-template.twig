@@ -1,26 +1,6 @@
 {% set article_template__base_class = 'article-detail' %}
 <div {{ bem(article_template__base_class) }} data-theme="{{ theme_styles }}">
-    <!-- Article Header Image -->
-    {% include "@molecules/article-header/article-header-image.twig" %}
-
-    <!-- Section 1 -->
-    {% include "@atoms/text/headings/_heading.twig" with {
-        heading_level: '2',
-        heading: section_subheader1
-    } %}
-    
-    {% include "@atoms/lists/ul.twig" with {
-        ul_items: takeaways_list
-    }%}
-
-    <!-- Media block 1-->
-    {% include "@molecules/article-media/inline/inline-media.twig" %}
-
-    <!-- Section 2 -->
-    {% include "@molecules/article-media/wysiwyg/article-wysiwyg.twig" with {
-        content: article_text
-    } %}
-
-    <!-- Media block 2-->
-    {% include "@molecules/article-media/full-width/full-width-media.twig" %}
+    {% for component in components %}
+      {{component | raw}}
+    {% endfor %}
 </div>

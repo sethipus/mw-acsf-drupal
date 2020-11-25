@@ -1,0 +1,18 @@
+uuid: c4c6b80e-0655-403d-bc10-ef534b3633d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.homepage
+id: node.homepage.scheduled_transition_state
+field_name: scheduled_transition_state
+entity_type: node
+bundle: homepage
+label: 'Scheduled transition state'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

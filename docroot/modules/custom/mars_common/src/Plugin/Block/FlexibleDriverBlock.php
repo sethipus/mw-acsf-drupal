@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -36,6 +37,13 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Theme Configurator service.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -58,6 +66,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
       $plugin_id,
       $plugin_definition,
       $media_helper,
+      $container->get('mars_common.language_helper'),
       $theme_configurator
     );
   }
@@ -70,10 +79,12 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_id,
     $plugin_definition,
     MediaHelper $media_helper,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $themeConfigurator
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaHelper = $media_helper;
+    $this->languageHelper = $language_helper;
     $this->themeConfigurator = $themeConfigurator;
   }
 
@@ -85,9 +96,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $mediaId2 = $this->getMediaId('asset_2');
     return [
       '#theme' => 'flexible_driver_block',
-      '#title' => $this->configuration['title'] ?? '',
-      '#description' => $this->configuration['description'] ?? '',
-      '#cta_label' => $this->configuration['cta_label'] ?? '',
+      '#title' => $this->languageHelper->translate($this->configuration['title'] ?? ''),
+      '#description' => $this->languageHelper->translate($this->configuration['description'] ?? ''),
+      '#cta_label' => $this->languageHelper->translate($this->configuration['cta_label'] ?? ''),
       '#cta_link' => $this->configuration['cta_link'] ?? '',
       '#asset_1' => $this->mediaHelper->getMediaParametersById($mediaId1),
       '#asset_2' => $this->mediaHelper->getMediaParametersById($mediaId2),

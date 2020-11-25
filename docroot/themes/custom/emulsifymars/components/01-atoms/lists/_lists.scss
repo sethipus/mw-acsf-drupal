@@ -14,6 +14,15 @@ ul {
 ol {
   list-style: none;
 
+  li {
+    margin-left: 0;
+    margin-right: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+
   .list-item {
     position: relative;
     margin: 10px;
@@ -23,12 +32,18 @@ ol {
     background-color: clr(text-inverse);
     padding: 40px 20px 20px 20px;
 
+    @include small {
+      padding: 30px 20px 20px 20px;
+      margin: 10px 0;
+    }
+
     @include medium {
       padding: 20px 20px 20px 80px;
+      margin-bottom: 20px;
     }
 
     &__content {
-      font-family: variable(primary-font);
+      font-family: variable(secondary-font);
       font-size: 18px;
       font-weight: normal;
       font-stretch: normal;
@@ -177,27 +192,10 @@ ol {
     color: clr(primary);
     padding: 2rem 0 4rem;
     width: 90%;
-    margin: 0 auto;
-
-    @include medium {
-      width: 70%;
-    }
-
-    @include xl {
-      font-size: 20px;
-      line-height: 36px;
-      max-width: 1125px;
-    }
   }
 
   .list-item {
     position: relative;
-    text-indent: 18px;
-    padding: 0;
-
-    @include xl {
-      text-indent: 20px;
-    }
 
     &::before {
       content: "";

@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,6 +32,13 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Mars Theme Configurator Parserr service.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -45,10 +53,12 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_id,
     $plugin_definition,
     MediaHelper $media_helper,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaHelper = $media_helper;
+    $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
@@ -61,6 +71,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.media_helper'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -137,6 +148,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#title' => $this->t('Item title'),
         '#maxlength' => 60,
         '#default_value' => $config['items'][$key]['title'] ?? '',
+        '#required' => TRUE,
       ];
       $form['items'][$key]['cta']['title'] = [
         '#type' => 'textfield',
@@ -275,10 +287,10 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
     foreach ($config['items'] as $key => $item) {
       $ff_item = [
-        'card__heading' => $config['items'][$key]['title'] ?? NULL,
+        'card__heading' => $this->languageHelper->translate($config['items'][$key]['title']) ?? NULL,
         'card__link__url' => ($with_cta_flag) ? $config['items'][$key]['cta']['url'] : NULL,
-        'card__link__text' => ($with_cta_flag) ? $config['items'][$key]['cta']['title'] : NULL,
-        'card__body' => ($with_desc_flag) ? $config['items'][$key]['description'] : NULL,
+        'card__link__text' => ($with_cta_flag) ? $this->languageHelper->translate($config['items'][$key]['cta']['title']) : NULL,
+        'card__body' => ($with_desc_flag) ? $this->languageHelper->translate($config['items'][$key]['description']) : NULL,
       ];
 
       if (!empty($config['items'][$key]['item_image']) && $with_image_flag) {
@@ -306,7 +318,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#items'] = $ff_items;
     $build['#grid_type'] = 'card';
     $build['#item_type'] = 'card';
-    $build['#grid_label'] = $config['title'] ?? NULL;
+    $build['#grid_label'] = $this->languageHelper->translate($config['title'] ?? NULL);
     $build['#divider'] = $file_divider_content ?? NULL;
     $build['#brand_borders'] = $file_border_content ?? NULL;
     $build['#theme'] = 'flexible_framer_block';

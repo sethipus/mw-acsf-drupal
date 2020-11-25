@@ -16,6 +16,8 @@
     line-height: 1.4em;
     text-align: left;
     margin: 20px 0 0;
+    position: relative;
+    z-index: 2;
 
     @include medium {
       margin-top: 30px;
@@ -25,6 +27,11 @@
   .results {
     display: flex;
     flex-direction: column;
+
+    &__item {
+      position: relative;
+      z-index: 2;
+    }
 
     @include medium {
       flex-direction: row;

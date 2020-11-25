@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -37,6 +38,13 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   protected $themeConfiguratorParser;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -52,6 +60,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -64,10 +73,12 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $plugin_id,
     $plugin_definition,
     ThemeConfiguratorParser $themeConfiguratorParser,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -77,8 +88,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#title'] = $conf['title'] ?? '';
+    $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
+    $build['#title'] = $this->languageHelper->translate($conf['title'] ?? '');
 
     if (!empty($conf['background'])) {
       $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
@@ -88,8 +99,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       }
     }
 
-    $build['#description'] = $conf['description'] ?? '';
-    $build['#explore_cta'] = $conf['explore_cta'] ?? '';
+    $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
+    $build['#explore_cta'] = $this->languageHelper->translate($conf['explore_cta'] ?? '');
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
     $build['#border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();

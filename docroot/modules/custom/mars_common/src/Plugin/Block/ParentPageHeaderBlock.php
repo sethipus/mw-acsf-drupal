@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -28,6 +29,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $mediaStorage;
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
 
   /**
    * Lighthouse entity browser image id.
@@ -80,6 +88,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -91,9 +100,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -103,8 +114,8 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#label'] = $conf['title'] ?? '';
+    $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
+    $build['#label'] = $this->languageHelper->translate($conf['title'] ?? '');
     $media_id = NULL;
 
     if (!empty($conf['background_options'])) {
@@ -130,7 +141,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       }
     }
 
-    $build['#description'] = $conf['description'] ?? '';
+    $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
     $build['#theme'] = 'parent_page_header_block';
 
     return $build;
