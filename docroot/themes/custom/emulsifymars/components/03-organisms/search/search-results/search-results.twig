@@ -1,0 +1,16 @@
+<div class="search-results-page" data-theme="{{ theme_styles }}">
+  {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
+    theme_styles: theme_styles,
+    search_form: '',
+    applied_filters_list: applied_filters_list,
+    filters: filters,
+  } %}
+
+  {% if no_results %}
+    {{ no_results }}
+  {% else %}
+    {% include "@organisms/grid/ajax-card-grid.twig" with {
+      theme_styles: theme_styles,
+    } %}
+  {% endif %}
+</div>
