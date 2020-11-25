@@ -22,3 +22,9 @@ services:
     arguments: ['@entity_type.manager']
     tags:
       - { name: event_subscriber }
+
+  mars_product.unserialize_content_field.layout_builder_field:
+    class: Drupal\mars_product\EventSubscriber\UnserializeContentField\LayoutBuilderFieldBlocksUnserializer
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

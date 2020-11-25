@@ -1,19 +1,20 @@
 <?php
 
-namespace Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField;
+namespace Drupal\mars_product\EventSubscriber\UnserializeContentField;
 
 use Drupal\acquia_contenthub\AcquiaContentHubEvents;
 use Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent;
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\layout_builder\Plugin\Block\InlineBlock;
 use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionComponent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField\FieldEntityDependencyTrait;
 
 /**
  * Layout builder field unserializer fallback subscriber.
  */
-class LayoutBuilderFieldUnserializer implements EventSubscriberInterface {
+class LayoutBuilderFieldBlocksUnserializer implements EventSubscriberInterface {
+  use FieldEntityDependencyTrait;
 
   /**
    * Layout section field type definition.
@@ -63,7 +64,7 @@ class LayoutBuilderFieldUnserializer implements EventSubscriberInterface {
     $values = [];
     if (!empty($field['value'])) {
       foreach ($field['value'] as $langcode => $sections) {
-        $values[$langcode][$event->getFieldName()] = $this->handleSections($sections);
+        $values[$langcode][$event->getFieldName()] = $this->handleSections($sections, $event);
       }
       $event->setValue($values);
     }
@@ -75,15 +76,17 @@ class LayoutBuilderFieldUnserializer implements EventSubscriberInterface {
    *
    * @param array $sections
    *   The Layout Builder sections to unserialize.
+   * @param \Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent $event
+   *   The subscribed event.
    *
    * @return array
    *   The prepared sections.
    */
-  protected function handleSections(array $sections) {
+  protected function handleSections(array $sections, UnserializeCdfEntityFieldEvent $event) {
     $values = [];
     foreach ($sections as $sectionArray) {
       $section = Section::fromArray($sectionArray['section']);
-      $this->handleComponents($section->getComponents());
+      $this->handleComponents($section->getComponents(), $event);
       $values[] = ['section' => $section];
     }
     return $values;
@@ -94,18 +97,15 @@ class LayoutBuilderFieldUnserializer implements EventSubscriberInterface {
    *
    * @param \Drupal\layout_builder\SectionComponent[] $components
    *   The components to unserialize.
+   * @param \Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent $event
+   *   The subscribed event.
    */
-  protected function handleComponents(array $components) {
+  protected function handleComponents(array $components, UnserializeCdfEntityFieldEvent $event) {
+    // @TODO Add dependency restore for recommendation module manual logic and content pair up and recipe feature.
     foreach ($components as $component) {
-      $plugin = $component->getPlugin();
-      // @todo Decide if it's worth to handle this as an event.
-      if ($plugin instanceof InlineBlock) {
-        $block_uuid = $component->get('block_uuid');
-        $entity = array_shift($this->entityTypeManager->getStorage('block_content')->loadByProperties(['uuid' => $block_uuid]));
-        $componentConfiguration = $this->getComponentConfiguration($component);
-        $componentConfiguration['block_revision_id'] = $entity->getRevisionId();
-        $component->setConfiguration($componentConfiguration);
-      }
+      $componentConfiguration = $this->getComponentConfiguration($component);
+      $this->iterateConfig($componentConfiguration, $event);
+      $component->setConfiguration($componentConfiguration);
     }
   }
 
@@ -127,6 +127,27 @@ class LayoutBuilderFieldUnserializer implements EventSubscriberInterface {
     $method->setAccessible(TRUE);
 
     return $method->invoke($component);
+  }
+
+  /**
+   * Collect all media ids from block configuration.
+   *
+   * @param array $config
+   *   Block configuration array.
+   * @param \Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent $event
+   *   The subscribed event.
+   */
+  private function iterateConfig(array &$config, UnserializeCdfEntityFieldEvent $event) {
+    foreach ($config as $element) {
+      if (is_string($element) && strpos($element, 'media:') !== FALSE) {
+        $media_id = explode(':', $element)[1];
+        $entity = $this->getEntity($media_id, $event);
+        $element = 'media:' . $entity->id();
+      }
+      if (is_array($element)) {
+        $this->iterateConfig($element, $event);
+      }
+    }
   }
 
 }
