@@ -1156,7 +1156,7 @@ function mars_common_form_poll_form_alter(
     ];
 
   $form['question']['widget'][0]['value']['#title'] = 'Title';
-  $form['question']['widget'][0]['value']['#maxlength'] = 50;
+  $form['question']['widget'][0]['value']['#maxlength'] = 55;
   $form['choice']['widget']['#title'] = 'Responses';
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
 
