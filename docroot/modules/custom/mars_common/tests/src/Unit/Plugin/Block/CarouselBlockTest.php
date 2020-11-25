@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\CarouselBlock;
 use Drupal\mars_common\SVG\SVG;
@@ -48,6 +49,13 @@ class CarouselBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
+   * Mock.
+   *
    * @var \Drupal\mars_common\ThemeConfiguratorParser|\PHPUnit\Framework\MockObject\MockObject
    */
   private $themeConfiguratorParserMock;
@@ -78,6 +86,7 @@ class CarouselBlockTest extends UnitTestCase {
       $this->configuration,
       'list_block',
       $definitions,
+      $this->languageHelperMock,
       $this->mediaHelperMock,
       $this->themeConfiguratorParserMock
     );
@@ -88,10 +97,15 @@ class CarouselBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(3))
       ->method('get')
       ->willReturnMap(
         [
+          [
+            'mars_common.language_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageHelperMock,
+          ],
           [
             'mars_common.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -186,6 +200,7 @@ class CarouselBlockTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 

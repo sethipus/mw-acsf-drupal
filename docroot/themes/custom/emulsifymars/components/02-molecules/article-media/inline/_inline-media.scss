@@ -1,6 +1,5 @@
 .article-inline {
-  background-color: clr(subcolor-2);
-  padding: 2rem 0 4rem 0;
+  padding: 2rem 0 2rem 0;
   overflow-x: hidden;
   max-width: 780px;
   margin: 0 auto 60px auto;
@@ -9,24 +8,56 @@
   line-height: 1.8;
   color: clr(primary);
 
+  @include small {
+    max-width: 335px;
+    margin: 0 auto;
+  }
+
+  @include medium {
+    max-width: 688px;
+    margin: 0 40px;
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+
+  @include xl {
+    max-width: 780px;
+    margin: 0 27% 0 19%;
+  }
+
   img {
     width: 100%;
-    margin-bottom: 60px
   }
 
   &__content {
     padding: 0 1rem;
+
+    @include small {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
+    @include medium {
+      margin-top: 20px;
+      font-size: 1.4rem;
+    }
+
+    @include large {
+      margin-top: 30px;
+      font-size: 2.6rem;
+    }
+
   }
 
   .inline-video {
-    
+
     &__control[data-state="play"] {
       width: 6.6rem;
       height: 7rem;
       top: calc(50% - 7rem / 2);;
       left: calc(50% - 6.6rem / 2);;
     }
-  
+
     &__control[data-state="pause"] {
       width: 6.6rem;
       height: 7rem;

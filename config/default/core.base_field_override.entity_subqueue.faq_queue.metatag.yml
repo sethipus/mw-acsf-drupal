@@ -1,0 +1,18 @@
+uuid: 1589ef2d-03ef-4cb8-9954-51e20a4b73ed
+langcode: en
+status: true
+dependencies:
+  config:
+    - entityqueue.entity_queue.faq_queue
+id: entity_subqueue.faq_queue.metatag
+field_name: metatag
+entity_type: entity_subqueue
+bundle: faq_queue
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

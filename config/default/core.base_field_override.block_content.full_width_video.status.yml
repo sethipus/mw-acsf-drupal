@@ -1,0 +1,22 @@
+uuid: 6f0fa64d-6525-4b21-9374-a5bb3f0df23e
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.full_width_video
+id: block_content.full_width_video.status
+field_name: status
+entity_type: block_content
+bundle: full_width_video
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

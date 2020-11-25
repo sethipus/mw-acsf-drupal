@@ -1,0 +1,5 @@
+mars_product.where_to_buy.configuration:
+  title: 'Where to buy configuration'
+  description: 'Global settings for the Where to buy widgets.'
+  route_name: mars_product.where_to_buy.configuration
+  parent: 'system.admin_config_services'
