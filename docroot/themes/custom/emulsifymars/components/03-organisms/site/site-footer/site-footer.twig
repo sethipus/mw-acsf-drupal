@@ -38,14 +38,16 @@
   </div>
   <div {{ bem('section', ['secondary'], footer__base_class) }}>
     <div {{ bem('section-content', [], footer__base_class) }}>
-      <div {{ bem('social', [], footer__base_class) }}>
-        {% block footer__social %}
-          <div {{ bem('section-header', [], footer__base_class) }}>{{ social_text }}</div>
-          {% include "@molecules/menus/social/social-menu.twig" with {
-            social_menu_items: social_menu_items,
-          } %}
-        {% endblock %}
-      </div>
+      {% if social_menu_items|length > 0 %}
+        <div {{ bem('social', [], footer__base_class) }}>
+          {% block footer__social %}
+            <div {{ bem('section-header', [], footer__base_class) }}>{{ social_text }}</div>
+            {% include "@molecules/menus/social/social-menu.twig" with {
+              social_menu_items: social_menu_items,
+            } %}
+          {% endblock %}
+        </div>
+      {% endif %}
       <div {{ bem('legal-links', [modifier], footer__base_class) }}>
         {% block footer__legal_links %}
           {% include "@molecules/menus/legal-links/legal-links-menu.twig" %}
