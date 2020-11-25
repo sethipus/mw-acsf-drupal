@@ -295,7 +295,7 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     // Populating search form.
     if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
       // Preparing search form.
-      $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class, TRUE, $grid_options);
+      $build['#search_form'] = $this->formBuilder->getForm(SearchForm::class, TRUE, $grid_options);
     }
     // Populating filters.
     // Save results for query before facets load.

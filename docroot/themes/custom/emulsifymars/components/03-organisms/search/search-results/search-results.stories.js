@@ -1,9 +1,11 @@
 import React from 'react';
 
-import allResultsTwig from './all-results.twig';
-import allResultsData from './all-results.yml';
+import searchResult from './search-results.twig';
+import searchResultData from './search-results.yml';
+
 import ajaxCardGridData from '../../grid/ajax-card-grid.yml';
-import searchResultsData from '../../../02-molecules/search/search-results/search-results.yml';
+import searchFilterData from '../../../02-molecules/product-hub-search-filter/product-hub-search-filter.yml'
+
 import productCard from './../../../02-molecules/card/product-card/product-card.twig';
 import productCardData from './../../../02-molecules/card/product-card/product-card.yml';
 import recipeCard from './../../../02-molecules/card/recipe-card/recipe-card.twig';
@@ -17,9 +19,9 @@ import '../../../01-atoms/search-results-item/search-results-item';
 /**
  * Storybook Definition.
  */
-export default { title: 'Organisms/Search Results/View all results' };
+export default { title: 'Organisms/Search' };
 
-export const allResultsTemplate = () => {
+export const searchResultsModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   ajaxCardGridData.items = [
     productCard(productCardData),
@@ -31,10 +33,10 @@ export const allResultsTemplate = () => {
     articleCard(articleCardData),
     productCard(productCardData)
   ];
-  return <div dangerouslySetInnerHTML={{ __html: allResultsTwig({
-      ...allResultsData,
+  return <div dangerouslySetInnerHTML={{ __html: searchResult({
       ...ajaxCardGridData,
-      ...searchResultsData
+      ...searchFilterData,
+      ...searchResultData,
     })
   }} />
 };
