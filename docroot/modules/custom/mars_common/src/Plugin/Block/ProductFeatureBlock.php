@@ -138,7 +138,8 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $image_default = isset($config['image']) ? $config['image'] : NULL;
     // Entity Browser element for background image.
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail');
     // Convert the wrapping container to a details element.
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Image');
@@ -152,13 +153,13 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
         '#title' => $this->t('Button Label'),
         '#maxlength' => 15,
         '#default_value' => $this->configuration['explore_cta'],
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
       'explore_cta_link' => [
         '#type' => 'textfield',
         '#title' => $this->t('URL'),
         '#default_value' => $this->configuration['explore_cta_link'] ?? '',
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
     ];
 

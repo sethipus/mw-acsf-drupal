@@ -147,7 +147,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
 
     $image_default = isset($config['background']) ? $config['background'] : NULL;
     // Entity Browser element for background image.
-    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail');
     // Convert the wrapping container to a details element.
     $form['background']['#type'] = 'details';
     $form['background']['#title'] = $this->t('Background');
