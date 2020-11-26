@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "social_feed",
- *   admin_label = @Translation("Social feed"),
+ *   admin_label = @Translation("MARS: Social feed"),
  *   category = @Translation("Social feed"),
  * )
  */

@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "flexible_driver",
- *   admin_label = @Translation("Flexible driver"),
+ *   admin_label = @Translation("MARS: Flexible driver"),
  *   category = @Translation("Flexible driver"),
  * )
  */
