@@ -942,7 +942,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
     }
     elseif ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
-      $locale = $this->languageManager->getCurrentLanguage()->getId();
+      $locale = $this->languageHelper->getCurrentLanguageId();
       $build['#attached']['drupalSettings']['cc'] = [
         'data-token' => $this->configuration['wtb']['data_token'],
         'data-locale' => $this->configuration['wtb']['data_locale'],
