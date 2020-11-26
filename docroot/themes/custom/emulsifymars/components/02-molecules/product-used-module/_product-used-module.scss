@@ -3,13 +3,13 @@
   overflow: visible;
 
   .product-used-nav {
-    @include medium {
+    @include xl {
       display: none;
     }
   }
 
   .swiper-scrollbar {
-    bottom: -30px;
+    bottom: 0;
   }
 
   .product-card {
@@ -23,12 +23,16 @@
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .product-used-swiper-container {
     width: 100%;
-    height: 570px;
     overflow: hidden;
 
-    @include xl {
+    @include large {
       height: auto;
+
+      .swiper-slide-next {
+        margin-top: 10px;
+      }
     }
+
   }
 
   // increasing specificity to avoid using !important
@@ -42,7 +46,7 @@
   }
 
   .swiper-slide {
-    width: 315px;
+    width: 320px;
   }
 
   .swiper-button-prev, .swiper-button-next {
@@ -50,6 +54,10 @@
     border-radius: 50%;
     width: 7rem;
     height: 7rem;
+
+    @include large {
+      display: none;
+    }
 
     @media (max-width: 768px) {
       width: 6rem;

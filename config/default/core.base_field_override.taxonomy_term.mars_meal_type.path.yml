@@ -1,0 +1,20 @@
+uuid: c8d743dc-7609-4b50-9bbb-d94ed14a27b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_meal_type
+  module:
+    - path
+id: taxonomy_term.mars_meal_type.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_meal_type
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

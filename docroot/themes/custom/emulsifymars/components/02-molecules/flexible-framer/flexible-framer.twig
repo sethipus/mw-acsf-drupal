@@ -1,7 +1,8 @@
 {% set related_recipes__base_class = 'flexible-framer' %}
+{% set related_recipes__additional_class = related_recipes__additional_class|default('') %}
 
 {% set divider = '<div class=divider>'~divider~'</div>' %}
-<section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(related_recipes__base_class, [related_recipes__additional_class]) }} data-theme="{{ theme_styles }}">
   {% block brand_border %}
     <div {{  bem('border', [], related_recipes__base_class)  }}>
       {{ brand_borders | raw }}

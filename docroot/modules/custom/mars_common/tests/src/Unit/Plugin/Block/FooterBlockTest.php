@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -86,6 +87,13 @@ class FooterBlockTest extends UnitTestCase {
   private $configuration;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -127,6 +135,7 @@ class FooterBlockTest extends UnitTestCase {
       $definitions,
       $this->menuLinkTreeMock,
       $this->entityTypeManagerMock,
+      $this->languageHelperMock,
       $this->themeConfiguratorParserMock
     );
   }
@@ -136,6 +145,7 @@ class FooterBlockTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->menuLinkTreeMock = $this->createMock(MenuLinkTreeInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
@@ -152,14 +162,20 @@ class FooterBlockTest extends UnitTestCase {
    */
   public function testBlockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(4))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('menu.link_tree')],
         [$this->equalTo('entity_type.manager')],
+        [$this->equalTo('mars_common.language_helper')],
         [$this->equalTo('mars_common.theme_configurator_parser')]
       )
-      ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->entityTypeManagerMock, $this->themeConfiguratorParserMock));
+      ->will($this->onConsecutiveCalls(
+        $this->menuLinkTreeMock,
+        $this->entityTypeManagerMock,
+        $this->languageHelperMock,
+        $this->themeConfiguratorParserMock
+      ));
 
     $this->entityTypeManagerMock
       ->expects($this->any())

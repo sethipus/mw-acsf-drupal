@@ -1,0 +1,13 @@
+uuid: 9a273d1a-588e-412c-ac37-8429d1510433
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_extension_suit
+_core:
+  default_config_hash: xi0SAicwlA69MNA_pQ7BgHcXlbXswuFpmMvuRXmE2Lc
+id: tmgmt_extension_suit_cancel_job_action
+label: 'Cancel Job'
+type: tmgmt_job
+plugin: tmgmt_extension_suit_cancel_job_action
+configuration: {  }
