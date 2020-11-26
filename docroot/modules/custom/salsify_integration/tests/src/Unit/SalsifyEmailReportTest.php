@@ -295,7 +295,43 @@ class SalsifyEmailReportTest extends UnitTestCase {
   /**
    * Test.
    */
-  public function testShouldSaveValidationErrors() {
+  public function testShouldSaveValidationErrorsWhenNoSavedErrors() {
+    $this->sharedTempStoreMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn(NULL);
+
+    $this->sharedTempStoreMock
+      ->expects($this->once())
+      ->method('set');
+
+    $this->salsifyEmailReport->saveValidationErrors(
+      ['error']
+    );
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldSaveValidationErrorsWhenSavedErrors() {
+    $this->sharedTempStoreMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn(['error 2']);
+
+    $this->sharedTempStoreMock
+      ->expects($this->once())
+      ->method('set');
+
+    $this->salsifyEmailReport->saveValidationErrors(
+      ['error']
+    );
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldSendReportByCron() {
     $this->containerMock
       ->expects($this->any())
       ->method('get')
@@ -348,16 +384,22 @@ class SalsifyEmailReportTest extends UnitTestCase {
     $this->mailManagerMock
       ->expects($this->once())
       ->method('mail')
-      ->willThrowException(new \Exception('message'));
+      ->willReturn(['result' => TRUE]);
 
     $this->loggerChannelMock
       ->expects($this->once())
-      ->method('error');
+      ->method('notice');
 
-    $this->salsifyEmailReport->sendReport(
-      ['error'],
-      [1, 2, 3]
-    );
+    $this->sharedTempStoreMock
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn(['error 2']);
+
+    $this->sharedTempStoreMock
+      ->expects($this->once())
+      ->method('set');
+
+    $this->salsifyEmailReport->sendReportByCron();
   }
 
   /**
