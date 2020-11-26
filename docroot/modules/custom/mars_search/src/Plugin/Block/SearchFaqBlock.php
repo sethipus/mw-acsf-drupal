@@ -253,4 +253,11 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     ];
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheMaxAge() {
+    return 0;
+  }
+
 }

@@ -202,7 +202,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       ];
 
       $media_default = isset($config['items'][$i]['media']) ? $config['items'][$i]['media'] : NULL;
-      $form['items'][$i]['media'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $media_default, 1, 'thumbnail');
+      $form['items'][$i]['media'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $media_default, $form_state, 1, 'thumbnail');
       // Convert the wrapping container to a details element.
       $form['items'][$i]['media']['#type'] = 'details';
       $form['items'][$i]['media']['#title'] = $this->t('Media');
@@ -216,7 +217,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $asset_key = 'svg_asset_' . ($i + 1);
 
       $svg_assets_default = isset($config['svg_assets'][$asset_key]) ? $config['svg_assets'][$asset_key] : NULL;
-      $form['svg_assets'][$asset_key] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $svg_assets_default, 1, 'thumbnail');
+      $form['svg_assets'][$asset_key] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $svg_assets_default, $form_state, 1, 'thumbnail');
       // Convert the wrapping container to a details element.
       $form['svg_assets'][$asset_key]['#type'] = 'details';
       $form['svg_assets'][$asset_key]['#title'] = $this->t('SVG asset @index', ['@index' => $i + 1]);
