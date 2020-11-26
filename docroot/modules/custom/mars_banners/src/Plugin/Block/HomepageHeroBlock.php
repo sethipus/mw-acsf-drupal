@@ -136,19 +136,20 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         $build['#blocks'][$key]['title_href'] = $card['title']['url'];
         $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($card['foreground_image']);
         $media_data = $this->mediaHelper->getMediaParametersById($media_id);
-        $file_url = NULL;
-        if (!isset($media_data['error'])) {
+        if (!isset($media_data['error']) || $media_data['error'] !== TRUE) {
           $file_url = $media_data['src'];
+          $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
+          $default_alt = $this->languageHelper->translate('Homepage hero 3up image');
+          $build['#blocks'][$key]['image'][] = [
+            'srcset' => sprintf($format, $file_url, $file_url, $file_url,
+              $file_url),
+            'src' => $file_url,
+            'class' => 'block1-small',
+            'alt' => !empty($media_data['alt']) ? $media_data['alt'] : $default_alt,
+            'title' => !empty($media_data['title']) ? $media_data['title'] : $default_alt,
+          ];
         }
-        $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
-        $default_alt = $this->languageHelper->translate('homepage hero 3up image');
-        $build['#blocks'][$key]['image'][] = [
-          'srcset' => sprintf($format, $file_url, $file_url, $file_url, $file_url),
-          'src' => $file_url,
-          'class' => 'block1-small',
-          'alt' => !empty($media_data['alt']) ? $media_data['alt'] : $default_alt,
-          'title' => !empty($media_data['title']) ? $media_data['title'] : $default_alt,
-        ];
+
         $build['#blocks'][$key]['cta'][] = [
           'title' => $this->languageHelper->translate($card['cta']['title']),
           'link_attributes' => [
@@ -171,6 +172,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
     $block_type_value = $config['block_type'] ?? self::KEY_OPTION_DEFAULT;
+    $submitted_input = $form_state->getUserInput()['settings'] ?? [];
+    $type_for_validation = $submitted_input['block_type'] ?? $block_type_value;
+
     $form['block_type'] = [
       '#title' => $this->t('Choose block type'),
       '#type' => 'select',
@@ -188,6 +192,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 15,
       '#default_value' => $config['eyebrow'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+      ]),
       '#states' => [
         'invisible' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
@@ -218,6 +227,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('Title Link URL'),
       '#maxlength' => 2048,
       '#default_value' => $config['title']['url'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+      ]),
       '#states' => [
         'invisible' => [
           ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT],
@@ -236,6 +250,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('Title label'),
       '#maxlength' => 55,
       '#default_value' => $config['title']['label'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+        self::KEY_OPTION_IMAGE_AND_TEXT,
+      ]),
       '#states' => [
         'required' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
@@ -266,6 +286,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('CTA Link URL'),
       '#maxlength' => 2048,
       '#default_value' => $config['cta']['url'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+      ]),
       '#states' => [
         'required' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
@@ -281,6 +306,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       '#title' => $this->t('CTA Link Title'),
       '#maxlength' => 15,
       '#default_value' => $config['cta']['title'] ?? 'Explore',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+        self::KEY_OPTION_VIDEO,
+      ]),
       '#states' => [
         'required' => [
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
@@ -294,7 +324,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
 
     $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
     // Entity Browser element for background image.
-    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
+        return in_array($form_state->getValue(['settings', 'block_type']),
+          [self::KEY_OPTION_IMAGE, self::KEY_OPTION_IMAGE_AND_TEXT]);
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['background_image']['#type'] = 'details';
     $form['background_image']['#title'] = $this->t('Background Image');
@@ -314,7 +349,11 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
 
     $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
     // Entity Browser element for video.
-    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID, $video_default, 1);
+    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+      $video_default, $form_state, 1, 'default', function ($form_state) {
+        return in_array($form_state->getValue(['settings', 'block_type']), [self::KEY_OPTION_VIDEO, self::KEY_OPTION_VIDEO_LOOP]);
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['background_video']['#type'] = 'details';
     $form['background_video']['#title'] = $this->t('Background Video');
@@ -364,36 +403,27 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         'class' => 'js-form-wrapper',
       ],
       '#states' => [
-        'invisible' => [
-          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
-          'or',
-          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
-          'or',
-          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
+        'visible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
         ],
       ],
     ];
 
-    $card_settings = !empty($config['card']) ? $config['card'] : '';
-    $card_storage = $form_state->get('card_storage');
-    if (!isset($card_storage)) {
-      if (!empty($card_settings)) {
-        $card_storage = array_keys($card_settings);
+    $saved_cards = !empty($config['card']) ? $config['card'] : [];
+    $submitted_cards = $submitted_input['card'] ?? [];
+    $current_card_state = $form_state->get('card_storage');
+
+    if (empty($current_card_state)) {
+      if (!empty($submitted_cards)) {
+        $current_card_state = $submitted_cards;
       }
       else {
-        $card_storage = [];
+        $current_card_state = $saved_cards;
       }
-      $form_state->set('card_storage', $card_storage);
     }
+    $form_state->set('card_storage', $current_card_state);
 
-    $triggered = $form_state->getTriggeringElement();
-    if (isset($triggered['#parents'][3]) && $triggered['#parents'][3] == 'remove_card') {
-      $card_storage = $form_state->get('card_storage');
-      $id = $triggered['#parents'][2];
-      unset($card_storage[$id]);
-    }
-
-    foreach ($card_storage as $key => $value) {
+    foreach ($current_card_state as $key => $value) {
       $form['card'][$key] = [
         '#type' => 'details',
         '#title' => $this->t('Product card'),
@@ -404,50 +434,92 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         '#title' => $this->t('Card Eyebrow'),
         '#maxlength' => 15,
         '#default_value' => $config['card'][$key]['eyebrow'] ?? '',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
+        '#states' => [
+          'required' => [
+            ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
       ];
       $form['card'][$key]['title']['label'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Card Title label'),
         '#maxlength' => 55,
         '#default_value' => $config['card'][$key]['title']['label'] ?? '',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
+        '#states' => [
+          'required' => [
+            ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
       ];
       $form['card'][$key]['title']['url'] = [
         '#type' => 'url',
         '#title' => $this->t('Card Title Link URL'),
         '#maxlength' => 2048,
         '#default_value' => $config['card'][$key]['title']['url'] ?? '',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
+        '#states' => [
+          'required' => [
+            ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
       ];
       $form['card'][$key]['cta']['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link Title'),
         '#maxlength' => 15,
         '#default_value' => $config['card'][$key]['cta']['title'] ?? 'Explore',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
+        '#states' => [
+          'required' => [
+            ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
       ];
       $form['card'][$key]['cta']['url'] = [
         '#type' => 'url',
         '#title' => $this->t('CTA Link URL'),
         '#maxlength' => 2048,
         '#default_value' => $config['card'][$key]['cta']['url'] ?? '',
+        '#required' => in_array($type_for_validation, [
+          self::KEY_OPTION_IMAGE,
+        ]),
+        '#states' => [
+          'required' => [
+            ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
       ];
 
       $foreground_default = isset($config['card'][$key]['foreground_image']) ? $config['card'][$key]['foreground_image'] : NULL;
-      $form['card'][$key]['foreground_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $foreground_default, 1, 'thumbnail');
+      $form['card'][$key]['foreground_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $foreground_default, $form_state, 1, 'thumbnail', FALSE);
       // Convert the wrapping container to a details element.
       $form['card'][$key]['foreground_image']['#type'] = 'details';
       $form['card'][$key]['foreground_image']['#title'] = $this->t('Foreground Image');
       $form['card'][$key]['foreground_image']['#open'] = TRUE;
 
       $form['card'][$key]['remove_card'] = [
-        '#type'  => 'button',
+        '#type' => 'submit',
         '#name' => 'card_' . $key,
         '#value' => $this->t('Remove card'),
-        '#ajax'  => [
+        '#ajax' => [
           'callback' => [$this, 'ajaxRemoveCardCallback'],
           'wrapper' => 'cards-wrapper',
         ],
+        '#submit' => [[$this, 'removeCardSubmitted']],
       ];
     }
-    if (count($card_storage) < 2) {
+    if (count($current_card_state) < 2) {
       $form['card']['add_card'] = [
         '#type' => 'submit',
         '#value' => $this->t('Add card'),
@@ -456,7 +528,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           'wrapper' => 'cards-wrapper',
         ],
         '#limit_validation_errors' => [],
-        '#submit' => [[$this, 'addCardSubmited']],
+        '#submit' => [[$this, 'addCardSubmitted']],
       ];
     }
 
@@ -501,11 +573,36 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Theme settings form state.
    */
-  public function addCardSubmited(array $form, FormStateInterface $form_state) {
-    $storage = $form_state->get('card_storage');
+  public function addCardSubmitted(
+    array $form,
+    FormStateInterface $form_state
+  ) {
+    $storage = $form_state->get('card_storage') ?? [];
     array_push($storage, 1);
     $form_state->set('card_storage', $storage);
     $form_state->setRebuild(TRUE);
+  }
+
+  /**
+   * Custom submit card configuration settings form.
+   *
+   * @param array $form
+   *   Theme settings form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Theme settings form state.
+   */
+  public function removeCardSubmitted(
+    array $form,
+    FormStateInterface $form_state
+  ) {
+    $triggered = $form_state->getTriggeringElement();
+    if (isset($triggered['#parents'][3]) && $triggered['#parents'][3] == 'remove_card') {
+      $card_storage = $form_state->get('card_storage');
+      $id = $triggered['#parents'][2];
+      unset($card_storage[$id]);
+      $form_state->set('card_storage', $card_storage);
+      $form_state->setRebuild(TRUE);
+    }
   }
 
   /**
