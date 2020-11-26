@@ -34,6 +34,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
           break;
         case target.classList.contains('checkbox-item__input'):
+          enableApplyButtons();
           updateCounters();
         case target.classList.contains('search-filter-info__applied-clear'):
           const currentFilter = context.getElementById(target.getAttribute('data-id'));
@@ -70,6 +71,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         if (e.keyCode === 13) {
           let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
+          enableApplyButtons();
         }
       });
     });
@@ -156,6 +158,13 @@ Drupal.behaviors.searchFilterBehaviour = {
 
       appliedFiltersCount.innerHTML = appliedFiltersCounter;
       appliedFiltersList.innerHTML = appliedFilters;
+    }
+    const enableApplyButtons = () => {
+      const applyButtons = context.querySelectorAll('.search-filter-block__button--apply');
+
+      applyButtons.forEach(function(button) {
+        button.classList.remove('search-filter-block__button--disabled');
+      });
     }
   },
 };

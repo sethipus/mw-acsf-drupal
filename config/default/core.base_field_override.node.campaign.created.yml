@@ -1,0 +1,18 @@
+uuid: ca6d56f9-1809-4003-8dfe-432147d1ed9c
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.campaign
+id: node.campaign.created
+field_name: created
+entity_type: node
+bundle: campaign
+label: 'Authored on'
+description: 'The time that the node was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

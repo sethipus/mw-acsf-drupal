@@ -1,0 +1,18 @@
+uuid: b2c0752b-8572-45ac-ba23-ef6aad1efcb0
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_image
+id: media.lighthouse_image.changed
+field_name: changed
+entity_type: media
+bundle: lighthouse_image
+label: Changed
+description: 'The time the media item was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

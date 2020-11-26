@@ -3,7 +3,7 @@ import React from 'react';
 import aboutUsTemplateTwig from './about-us-template.twig';
 import aboutUsTemplateData from './about-us-template.yml';
 import aboutUsHeaderData from '../../02-molecules/parent-page-header/parent-page-header.yml';
-import freeformStoryData from '../../02-molecules/freeform-story/freeform-story.yml';
+import freeformStoryData from '../../02-molecules/freeform-story/freeform-story-left.yml';
 import pollsData from '../../02-molecules/polls/poll.yml';
 import ContactModuleData from '../../02-molecules/contact-module/contact-module.yml';
 

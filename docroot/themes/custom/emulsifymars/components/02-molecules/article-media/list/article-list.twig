@@ -1,0 +1,14 @@
+{% set full_width__base_class = 'article-list list-container-block' %}
+
+<section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}">
+  <div {{ bem('content', [], full_width__base_class) }}>
+    {% if title %}
+      <h2>{{ title }}</h2>
+    {% endif %}
+    <div class="list-container">
+      {% include "@atoms/lists/ol.twig" with {
+          ol_items: takeaways_list
+      }%}
+    </div>
+  </div>
+</section>
