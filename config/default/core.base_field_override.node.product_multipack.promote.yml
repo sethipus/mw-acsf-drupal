@@ -1,0 +1,22 @@
+uuid: ef5482d7-be1e-4433-abdb-76553e230c18
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_multipack
+id: node.product_multipack.promote
+field_name: promote
+entity_type: node
+bundle: product_multipack
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

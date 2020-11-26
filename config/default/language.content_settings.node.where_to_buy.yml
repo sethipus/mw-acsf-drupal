@@ -1,0 +1,18 @@
+uuid: 69cde54e-a967-4df6-90c0-959836949b21
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.where_to_buy
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: node.where_to_buy
+target_entity_type_id: node
+target_bundle: where_to_buy
+default_langcode: site_default
+language_alterable: true

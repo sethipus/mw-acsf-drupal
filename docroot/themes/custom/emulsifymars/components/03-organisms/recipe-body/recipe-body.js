@@ -20,7 +20,7 @@ Drupal.behaviors.recipeBody = {
     } else if (!smallScreen && !productUsedPinned) {
       let adjacentElement = document.querySelector('.recipe-info');
       let productUsed = document.querySelector('.product-used');
-      productUsed.setAttribute('style', 'margin-top: -' + ( adjacentElement.offsetHeight + 30 ) + 'px;');
+      productUsed.setAttribute('style', 'margin-top: -' + ( adjacentElement.offsetHeight ) + 'px;');
       return true;
     }
 

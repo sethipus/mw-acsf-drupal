@@ -5,6 +5,7 @@ namespace Drupal\mars_search\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_search\SearchQueryParserInterface;
@@ -101,6 +102,13 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $configFactory;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -113,7 +121,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $container->get('entity_type.manager')->getViewBuilder('node'),
       $container->get('menu.link_tree'),
       $container->get('mars_search.search_query_parser'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -129,7 +138,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     EntityViewBuilderInterface $node_view_builder,
     MenuLinkTreeInterface $menu_link_tree,
     SearchQueryParserInterface $search_query_parser,
-    ConfigFactoryInterface $configFactory
+    ConfigFactoryInterface $configFactory,
+    LanguageHelper $language_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->searchHelper = $search_helper;
@@ -138,6 +148,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $this->menuLinkTree = $menu_link_tree;
     $this->searchQueryParser = $search_query_parser;
     $this->configFactory = $configFactory;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -174,7 +185,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       ],
     ];
 
-    $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
 
     $build['#theme_styles'] = 'drupal';
     $build['#graphic_divider'] = $file_divider_content ?? '';
@@ -185,14 +196,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $url_options = $url->getOptions();
       $url_options['query']['see-all'] = 1;
       $url->setOptions($url_options);
-      $build['#ajax_card_grid_link_text'] = $this->t('See all');
+      $build['#ajax_card_grid_link_text'] = $this->languageHelper->translate('See all');
       $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
     }
 
-    $build['#ajax_card_grid_heading'] = $this->t('All results');
+    $build['#ajax_card_grid_heading'] = $this->languageHelper->translate('All results');
     [$build['#applied_filters_list'], $build['#filters']] = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.search';
+    $build['#attached']['library'][] = 'mars_search/see_all_cards';
     return $build;
   }
 
@@ -218,7 +230,10 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     return [
-      '#no_results_heading' => str_replace('@keys', $search_text, $config->get('no_results_heading')),
+      '#no_results_heading' => $this->languageHelper->translate(
+        $config->get('no_results_heading'),
+        ['@keys' => $search_text]
+      ),
       '#no_results_text' => $config->get('no_results_text'),
       '#no_results_links' => $links,
       '#theme' => 'mars_search_no_results',

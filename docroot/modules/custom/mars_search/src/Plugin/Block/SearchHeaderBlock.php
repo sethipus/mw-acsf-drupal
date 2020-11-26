@@ -5,6 +5,7 @@ namespace Drupal\mars_search\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Link;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\Form\SearchForm;
 use Drupal\mars_search\SearchHelperInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -53,6 +54,13 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $searchQueryParser;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -63,7 +71,8 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_search.search_helper'),
       $container->get('form_builder'),
-      $container->get('mars_search.search_query_parser')
+      $container->get('mars_search.search_query_parser'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -77,13 +86,15 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     ThemeConfiguratorParser $themeConfiguratorParser,
     SearchHelperInterface $search_helper,
     FormBuilderInterface $form_builder,
-    SearchQueryParserInterface $search_query_parser
+    SearchQueryParserInterface $search_query_parser,
+    LanguageHelper $language_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->searchHelper = $search_helper;
     $this->formBuilder = $form_builder;
     $this->searchQueryParser = $search_query_parser;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -98,7 +109,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class);
     $build['#input_form']['search']['#attributes']['class'][] = 'search-input__field';
     $build['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
-    $build['#input_form']['search']['#attributes']['placeholder'] = $conf['search_header_placeholder'] ?? $this->t('Search products, recipes, articles...');
+    $build['#input_form']['search']['#attributes']['placeholder'] = $conf['search_header_placeholder'] ?? $this->languageHelper->translate('Search products, recipes, articles...');
 
     // Getting search results from SOLR.
     $options = $this->searchQueryParser->parseQuery();
@@ -138,9 +149,9 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     }
 
     $build['#search_filters'] = $search_filters;
-    $build['#search_header_heading'] = $conf['search_header_heading'] ?? $this->t('What are you looking for?');
-    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'search-header-border');
-    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
+    $build['#search_header_heading'] = $conf['search_header_heading'] ?? $this->languageHelper->translate('What are you looking for?');
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShape();
     $build['#theme'] = 'mars_search_header';
 
     return $build;
@@ -163,7 +174,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $form['search_header_heading'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Search heading title'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#required' => TRUE,
       '#default_value' => $config['search_header_heading'] ?? $this->t('What are you looking for?'),
     ];

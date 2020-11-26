@@ -1,0 +1,18 @@
+uuid: cf1bac34-bf40-4b91-b50b-96285b1e588e
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.text_component
+id: block_content.text_component.scheduled_transition_state
+field_name: scheduled_transition_state
+entity_type: block_content
+bundle: text_component
+label: 'Scheduled transition state'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

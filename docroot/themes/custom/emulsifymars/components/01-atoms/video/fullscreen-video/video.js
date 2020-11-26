@@ -72,7 +72,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           const componentBlock = videoElements('video').closest('[data-block-plugin-id]');
           const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
           const parentTitleBlock = videoElements('video').closest('[data-component-title]');
-          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
+          const videoTitle = parentTitleBlock ? parentTitleBlock.dataset.componentTitle : '';
 
           dataLayer.push({
             event: 'videoPageView',
@@ -87,7 +87,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
             dataLayer.push({
               event: 'videoView',
               pageName: document.title,
-              videoStart: 0,
+              videoStart: 1,
               videoTitle: videoTitle,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: componentName
@@ -96,12 +96,12 @@ Drupal.behaviors.fullscreenVideoPlayer = {
 
           let videoEndedHandler = () => {
             var tr = videoElements('video').played;
-            var hasLoopedOnce = (tr.end(tr.length-1)==videoElements('video').duration);
-            if(hasLoopedOnce) {
+            var hasLoopedOnce = (tr.end(tr.length-1) == videoElements('video').duration);
+            if (hasLoopedOnce) {
               dataLayer.push({
                 event: 'videoView',
                 pageName: document.title,
-                videoStart: 0,
+                videoStart: 1,
                 videoComplete: 1,
                 videoTitle: videoTitle,
                 videoFlag: videoContainer.dataset.videoFlag,

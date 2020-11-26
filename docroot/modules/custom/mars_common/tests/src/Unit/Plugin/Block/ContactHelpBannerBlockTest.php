@@ -3,7 +3,9 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\Plugin\Block\ContactHelpBannerBlock;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -60,7 +62,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
    *
    * @var string
    */
-  private $brandShapeSvg = '<svg width="100" height="100"><circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" /></svg>';
+  private $svgContent = '<svg width="100" height="100"><circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" /></svg>';
 
   /**
    * Social links from theme configurator.
@@ -74,6 +76,13 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
       'icon' => 'facebook.png',
     ],
   ];
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
 
   /**
    * {@inheritdoc}
@@ -92,6 +101,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
       $this->configuration,
       'contact_help_banner_block',
       $definitions,
+      $this->languageHelperMock,
       $this->themeConfiguratorParserMock
     );
   }
@@ -101,7 +111,26 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
+    $this->languageHelperMock = $this->createLanguageHelperMock();
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+  }
+
+  /**
+   * Returns Language helper mock.
+   *
+   * @return \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   *   Theme Configuration Parser service mock.
+   */
+  private function createLanguageHelperMock() {
+    $mock = $this->createMock(LanguageHelper::class);
+    $mock->method('translate')
+      ->will(
+        $this->returnCallback(function ($arg) {
+          return $arg;
+        })
+      );
+
+    return $mock;
   }
 
   /**
@@ -112,9 +141,8 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
   public function buildBlockRenderArrayProperly() {
     $this->themeConfiguratorParserMock
       ->expects($this->any())
-      ->method('getFileContentFromTheme')
-      ->withConsecutive(['brand_shape'])
-      ->willReturn($this->brandShapeSvg);
+      ->method('getBrandShape')
+      ->willReturn(new SVG($this->svgContent, 'id'));
 
     $this->themeConfiguratorParserMock
       ->expects($this->any())
@@ -134,7 +162,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
     $this->assertEquals($this->configuration['help_and_contact_cta_label'], $build['#help_and_contact_cta_label']);
     $this->assertEquals($this->configuration['help_and_contact_cta_url'], $build['#help_and_contact_cta_url']);
     $this->assertEquals($this->socialLinks, $build['#social_menu_items']);
-    $this->assertEquals($this->brandShapeSvg, $build['#brand_shape']);
+    $this->assertEquals($this->svgContent, $build['#brand_shape']);
     $this->assertEquals($this->configuration['theme'], $build['#theme']);
   }
 

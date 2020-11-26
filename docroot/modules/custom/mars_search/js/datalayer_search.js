@@ -24,8 +24,8 @@
             // SITE SEARCH RESULT CLICK
             dataLayer.push({
               'event': [eventPrefix, 'ResultClick'].join('_'),
-              'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-              'siteSearchClicked': card.dataset.siteSearchClicked
+              [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
+              [eventPrefix + 'Clicked']: card.dataset.siteSearchClicked
             });
           }
         });
@@ -47,15 +47,15 @@
         // SITE SEARCH NO RESULT
         dataLayer.push({
           'event': [eventPrefix, 'ResultNo'].join('_'),
-          'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResults': ''
+          [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
+          [eventPrefix + 'ResultsNum']: '0'
         });
       } else {
         // SITE SEARCH RESULT SHOWN
         dataLayer.push({
           'event': [eventPrefix, 'ResultShown'].join('_'),
-          'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResultsNum': settings.dataLayer.siteSearchResults.siteSearchResults
+          [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
+          [eventPrefix + 'ResultsNum']: settings.dataLayer.siteSearchResults.siteSearchResults
         });
       }
     }

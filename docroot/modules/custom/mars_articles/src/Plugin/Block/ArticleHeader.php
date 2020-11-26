@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -67,6 +68,13 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $configFactory;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -92,6 +100,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     Token $token,
     ThemeConfiguratorParser $themeConfiguratorParser,
     ConfigFactoryInterface $config_factory,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -101,6 +110,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $this->token = $token;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->configFactory = $config_factory;
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -117,6 +127,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $container->get('token'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('config.factory'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -133,8 +144,8 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
     $build = [
       '#label' => $node->label(),
-      '#eyebrow' => $this->configuration['eyebrow'],
-      '#publication_date' => $node->isPublished() ? $this->t('Published') . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
+      '#eyebrow' => $this->languageHelper->translate($this->configuration['eyebrow']),
+      '#publication_date' => $node->isPublished() ? $this->languageHelper->translate('Published') . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 
     $media_id = $this->mediaHelper->getEntityMainMediaId($node);
@@ -151,8 +162,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     }
 
     // Get brand border path.
-    $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'article-hero-border');
-    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
+    $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#social_links'] = $this->socialLinks();
 
     return $build;

@@ -3,10 +3,6 @@
 {% set ajax_card_grid_modifiers = ajax_card_grid_modifiers|default(['centered']) %}
 
 <section {{ bem(card_grid_base_class, grid_modifiers, grid_blockname) }} data-theme="{{ theme_styles }}">
-  <div class="ajax-card-grid__brand-border">
-    {{ brand_border | raw }}
-  </div>
-
   <div class="ajax-card-grid__content">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: ajax_card_grid_heading,

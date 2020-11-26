@@ -21,7 +21,6 @@
     width: 90px;
     background-repeat: no-repeat;
     background-size: contain;
-    // background-image: variable(brand-shape);
 
     circle {
       fill: rgba(255, 255, 255, .15);
@@ -55,7 +54,6 @@
     width: 292px;
     background-repeat: no-repeat;
     background-size: contain;
-    // background-image: variable(brand-shape);
 
     circle {
       fill: rgba(255, 255, 255, .15);
@@ -82,15 +80,13 @@
   }
 
   &__bubble_3 {
-    display: none;
     position: absolute;
-    top: 83%;
+    top: 120%;
     left: 31.5%;
     height: 214px;
     width: 214px;
     background-repeat: no-repeat;
     background-size: contain;
-    // background-image: variable(brand-shape);
 
     circle {
       fill: rgba(255, 255, 255, .15);
@@ -264,7 +260,7 @@
   }
 
   &__description {
-    min-height: 70vh;
+    min-height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -303,7 +299,6 @@
     color: clr(primary);
 
     @include medium {
-      flex: 1 0 auto;
       font-size: 1.4rem;
     }
 
@@ -314,7 +309,11 @@
   }
 
   &__list-container {
-    flex: 1 0 auto;
+    flex: 1 0 58%;
+
+    @include large {
+      flex: 1 0 63%;
+    }
   }
 
   &__size-list {
@@ -324,15 +323,6 @@
     display: flex;
     justify-content: flex-start;
     flex-flow: row wrap;
-
-    @include medium {
-      flex: 1 0 58%;
-      justify-content: flex-start;
-    }
-
-    @include large {
-      flex: 1 0 63%;
-    }
   }
 
   &__list-item {
@@ -411,7 +401,7 @@
     }
 
     &-item {
-      min-height: 100vh;
+      min-height: 50vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -717,6 +707,23 @@
     @include large {
       display: inline-block;
       width: auto;
+    }
+
+    .cc-fi-button {
+      color: clr(text-inverse);
+      background-color: clr(secondary);
+      font-family: variable(primary-font);
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      letter-spacing: 0.16rem;
+      text-decoration: none;
+      line-height: 6rem;
+      padding: 0 5.7rem;
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      border-radius: variable(button-border-radius);
+      cursor: pointer;
     }
   }
 

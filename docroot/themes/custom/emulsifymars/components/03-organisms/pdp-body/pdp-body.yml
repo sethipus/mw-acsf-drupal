@@ -36,6 +36,7 @@ pdp_size_data:
     link_url: '#'
 pdp_data:
   - size_id: '1oz'
+    gtin: '01231243341231'
     active: true
     hero_data:
       image_items:
@@ -137,6 +138,7 @@ pdp_data:
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
   - size_id: '4oz'
+    gtin: '01231243341232'
     active: false
     hero_data:
       image_items:
@@ -238,6 +240,7 @@ pdp_data:
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
   - size_id: '6oz'
+    gtin: '01231243341233'
     active: false
     hero_data:
       image_items:

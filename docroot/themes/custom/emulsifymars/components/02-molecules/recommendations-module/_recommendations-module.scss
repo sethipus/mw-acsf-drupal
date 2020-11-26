@@ -1,7 +1,9 @@
 .recommendations {
+  position: relative;
   background-color: clr(subcolor-2);
-  padding: 2rem 0 4rem 0;
-  overflow-x: hidden;
+  padding-bottom: 4rem;
+
+  @include brand-border-overflow;
 
   .graphic-divider {
     text-align: center;
@@ -13,6 +15,7 @@
   }
 
   &__heading {
+    padding-top: 2rem;
     &--main-heading {
       text-align: center;
       color: clr(primary);

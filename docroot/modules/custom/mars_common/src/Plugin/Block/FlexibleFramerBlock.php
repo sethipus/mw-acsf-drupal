@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,6 +32,13 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Mars Theme Configurator Parserr service.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -45,10 +53,12 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_id,
     $plugin_definition,
     MediaHelper $media_helper,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaHelper = $media_helper;
+    $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
@@ -61,6 +71,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.media_helper'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -75,7 +86,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#default_value' => $config['title'] ?? '',
     ];
 
@@ -137,6 +148,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#title' => $this->t('Item title'),
         '#maxlength' => 60,
         '#default_value' => $config['items'][$key]['title'] ?? '',
+        '#required' => TRUE,
       ];
       $form['items'][$key]['cta']['title'] = [
         '#type' => 'textfield',
@@ -154,16 +166,16 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#type' => 'textarea',
         '#title' => $this->t('Item description'),
         '#default_value' => $config['items'][$key]['description'] ?? '',
-        '#maxlength' => 120,
+        '#maxlength' => 160,
       ];
 
       $item_image = isset($config['items'][$key]['item_image']) ? $config['items'][$key]['item_image'] : NULL;
-      $form['items'][$key]['item_image'] = $this->getEntityBrowserForm(ImageVideoBlockBase::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $item_image, 1, 'thumbnail');
+      $form['items'][$key]['item_image'] = $this->getEntityBrowserForm(ImageVideoBlockBase::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $item_image, $form_state, 1, 'thumbnail', FALSE);
       // Convert the wrapping container to a details element.
       $form['items'][$key]['item_image']['#type'] = 'details';
       $form['items'][$key]['item_image']['#title'] = $this->t('Item Image');
       $form['items'][$key]['item_image']['#open'] = TRUE;
-      $form['items'][$key]['item_image']['#required'] = TRUE;
 
       $form['items'][$key]['remove_item'] = [
         '#type'  => 'button',
@@ -275,10 +287,10 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
     foreach ($config['items'] as $key => $item) {
       $ff_item = [
-        'card__heading' => $config['items'][$key]['title'] ?? NULL,
+        'card__heading' => $this->languageHelper->translate($config['items'][$key]['title']) ?? NULL,
         'card__link__url' => ($with_cta_flag) ? $config['items'][$key]['cta']['url'] : NULL,
-        'card__link__text' => ($with_cta_flag) ? $config['items'][$key]['cta']['title'] : NULL,
-        'card__body' => ($with_desc_flag) ? $config['items'][$key]['description'] : NULL,
+        'card__link__text' => ($with_cta_flag) ? $this->languageHelper->translate($config['items'][$key]['cta']['title']) : NULL,
+        'card__body' => ($with_desc_flag) ? $this->languageHelper->translate($config['items'][$key]['description']) : NULL,
       ];
 
       if (!empty($config['items'][$key]['item_image']) && $with_image_flag) {
@@ -300,20 +312,15 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $ff_items[] = $ff_item;
     }
 
-    $file_divider_content = $this->themeConfiguratorParser
-      ->getFileContentFromTheme('graphic_divider');
-    $file_border_content = $this->themeConfiguratorParser
-      ->getFileWithId('brand_borders_2', 'recipe-hero-border');
+    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
+    $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
 
     $build['#items'] = $ff_items;
     $build['#grid_type'] = 'card';
     $build['#item_type'] = 'card';
-    $build['#grid_label'] = $config['title'] ?? NULL;
+    $build['#grid_label'] = $this->languageHelper->translate($config['title'] ?? NULL);
     $build['#divider'] = $file_divider_content ?? NULL;
     $build['#brand_borders'] = $file_border_content ?? NULL;
-    $build['#brand_shape_class'] = $this->themeConfiguratorParser
-      ->getSettingValue('brand_border_style', 'stretch');
-
     $build['#theme'] = 'flexible_framer_block';
 
     return $build;
