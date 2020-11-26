@@ -118,7 +118,6 @@ Feature: Product And Recipe Test
     And I should see a ".recipe-media__image-wrapper" element
     And I should see a ".recipe-details" element
 
-    # Delete product and recipe
     When I follow "Content"
     And I check content with title "product_title"
     And I press "Apply to selected items"
@@ -130,7 +129,6 @@ Feature: Product And Recipe Test
     Then the url should match "content/node/delete"
     And I press "Delete"
 
-    # Delete format
     When I am on "admin/structure/taxonomy/manage/mars_format/overview"
     And I click link which contains "edit?destination=/admin/structure/taxonomy/manage/mars_format/overview"
     Then I should see "Edit term"
@@ -141,7 +139,6 @@ Feature: Product And Recipe Test
     Then I should see "Deleted term"
     And I should see "Format1"
 
-    # Delete flavor
     When I am on "admin/structure/taxonomy/manage/mars_flavor/overview"
     And I click link which contains "edit?destination=/admin/structure/taxonomy/manage/mars_flavor/overview"
     Then I should see "Edit term"
@@ -152,7 +149,6 @@ Feature: Product And Recipe Test
     Then I should see "Deleted term"
     Then I should see "Flavor1"
 
-    # Delete product variant
     When I follow "Content"
     And I check content with title "product_variant_title"
     And I press "Apply to selected items"

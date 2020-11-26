@@ -11,29 +11,7 @@ Feature: Error Page Test
     Then I should see "Create Error page"
 
     When I fill in "Title" with "Oops"
-    And I sleep "1" seconds
-    And I wait until the "//input[@value='Select entities']" xpath element appears
-    And I click on a "//input[@value='Select entities']" xpath element
-    And I wait for the ajax response
-
-    When I switch to the iframe "entity_browser_iframe_lighthouse_browser"
-    And I wait for the ajax response
-
-    And I press "Upload"
-    And I attach the file "icon.png" to "File"
-    And I wait until the "//a[@type='image/png; length=1174']" xpath element appears
-    And I should see "(1.15 KB)"
-
-    And I select "Image" from "Bundle"
-    And I wait until the "//details[contains(@class, 'claro-details')]" xpath element appears
-
-    And I fill in "Alternative text" with "Alternative text1"
-    And I fill in "Name" with "Name1"
-    And I fill in "URL alias" with "/error1"
-    And I press "Select"
-    And I wait for the ajax response
-
-    And I switch to the main window
+    
     And I press "Save"
     And I should see "Error page Oops has been created."
     And I should see "Unfortunately, this page does not exist. Here are some helpful links instead:"
