@@ -157,6 +157,8 @@ product-used-module:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
 
 recipe-body:
   js:

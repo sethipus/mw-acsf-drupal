@@ -22,7 +22,7 @@ class ProductHelper {
    * ProductHelper constructor.
    *
    * @param \Drupal\mars_common\LanguageHelper $language_helper
-   *   The media helper service.
+   *   The Language helper service.
    */
   public function __construct(LanguageHelper $language_helper) {
     $this->languageHelper = $language_helper;
