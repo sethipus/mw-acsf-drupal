@@ -2,6 +2,8 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Provides a Inline image/video component block.
  *
@@ -58,6 +60,18 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
     $build['#theme'] = 'inline_image_video_block';
 
     return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+
+    $form['description']['#type'] = 'textarea';
+    $form['description']['#maxlength'] = 300;
+
+    return $form;
   }
 
 }
