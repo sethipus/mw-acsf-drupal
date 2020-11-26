@@ -11,6 +11,7 @@ Feature: Error Page Test
     Then I should see "Create Error page"
 
     When I fill in "Title" with "Oops"
+    And I sleep "1" seconds
     And I wait until the "//input[@value='Select entities']" xpath element appears
     And I click on a "//input[@value='Select entities']" xpath element
     And I wait for the ajax response

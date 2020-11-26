@@ -17,6 +17,7 @@ Feature: Parent Page Header Test
     And I fill in "Title" with "title_2"
     And I fill in "Description" with "description_2"
     And I click on a "//*[@id='edit-settings-background-options-image']" xpath element
+    And I sleep "1" seconds
     And I wait until the "//input[@value='Select entities']" xpath element appears
     And I click on a "//input[@value='Select entities']" xpath element
     And I wait for the ajax response

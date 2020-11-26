@@ -18,6 +18,7 @@ Feature: Flexible Driver Test
     When I fill in "Title" with "MyTitle"
     And I fill in "CTA Link" with "http://link.com"
 
+    And I sleep "1" seconds
     And I wait until the "//input[@value='Select entities']" xpath element appears
     And I click on a "(//input[@value='Select entities'])[1]" xpath element
     And I wait for the ajax response
