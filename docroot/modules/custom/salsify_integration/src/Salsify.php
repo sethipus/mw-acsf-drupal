@@ -568,7 +568,7 @@ class Salsify {
       foreach ($salsify_data['values'] as $value) {
         // Filter out everything but alphanumeric characters, dashes, and spaces
         // to prevent errors when setting the field options.
-        $salsify_id = preg_replace('/[^\w-\s]/', '', $value['salsify:id']);
+        $salsify_id = preg_replace('/[^[A-Za-z0-9_]-\s]/', '', $value['salsify:id']);
         $options[$salsify_id] = $value['salsify:name'];
       }
       $config->set($salsify_data['salsify:system_id'], $options);
