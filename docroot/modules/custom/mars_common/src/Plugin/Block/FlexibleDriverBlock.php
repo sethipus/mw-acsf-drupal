@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "flexible_driver",
- *   admin_label = @Translation("Flexible driver"),
+ *   admin_label = @Translation("MARS: Flexible driver"),
  *   category = @Translation("Flexible driver"),
  * )
  */
@@ -141,35 +141,18 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     $form['asset_1'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
-      $this->configuration['asset_1'], 1, 'thumbnail');
+      $this->configuration['asset_1'], $form_state, 1, 'thumbnail');
     $form['asset_1']['#type'] = 'details';
     $form['asset_1']['#title'] = $this->t('Asset #1');
     $form['asset_1']['#open'] = TRUE;
-    $form['asset_1']['#required'] = TRUE;
 
     $form['asset_2'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
-      $this->configuration['asset_2'], 1, 'thumbnail');
+      $this->configuration['asset_2'], $form_state, 1, 'thumbnail');
     $form['asset_2']['#type'] = 'details';
     $form['asset_2']['#title'] = $this->t('Asset #2');
-    $form['asset_2']['#open'] = TRUE;;
-    $form['asset_2']['#required'] = TRUE;
+    $form['asset_2']['#open'] = TRUE;
 
     return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function blockValidate($form, FormStateInterface $form_state) {
-    parent::blockValidate($form, $form_state);
-
-    $message = $this->t("Assets shouldn't be empty");
-    if (empty($this->getEntityBrowserValue($form_state, 'asset_1'))) {
-      $form_state->setError($form['asset_1'], $message);
-    }
-    if (empty($this->getEntityBrowserValue($form_state, 'asset_2'))) {
-      $form_state->setError($form['asset_2'], $message);
-    }
   }
 
   /**
