@@ -1,0 +1,22 @@
+uuid: dff8ee06-b533-443b-9a0f-f53a4b714eca
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.faq_filter_topic
+id: taxonomy_term.faq_filter_topic.status
+field_name: status
+entity_type: taxonomy_term
+bundle: faq_filter_topic
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

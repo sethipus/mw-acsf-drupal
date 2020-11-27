@@ -1,0 +1,22 @@
+uuid: 6d5103ff-eb59-45d5-87b3-3af3ce30cfb6
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_image
+id: media.lighthouse_image.status
+field_name: status
+entity_type: media
+bundle: lighthouse_image
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

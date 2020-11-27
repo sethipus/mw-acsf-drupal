@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01f574477d336fc058aa318dfcac39f4",
+    "content-hash": "894730b405f9780de013d5b15a7095a2",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -3372,6 +3372,9 @@
                 },
                 "branch-alias": {
                     "dev-8.x-2.x": "2.x-dev"
+                },
+                "patches_applied": {
+                    "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2020-05-27/acquia_contenthub-8.x-2.13-3143039-3.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -4090,9 +4093,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.1",
                     "datestamp": "1579005183",
@@ -4543,9 +4543,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-2.x": "2.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-2.2",
                     "datestamp": "1576528386",
@@ -4555,7 +4552,8 @@
                     }
                 },
                 "patches_applied": {
-                    "correct drush filtering": "https://www.drupal.org/files/issues/2018-10-14/support-for-export-2857247-24.patch"
+                    "Correct drush filtering": "https://www.drupal.org/files/issues/2020-08-18/support-for-export-2857247-54.patch",
+                    "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -4835,16 +4833,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "8.9.9",
+            "version": "8.9.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "724ada1a6c497a663797c40e4ee3d0c7c618371d"
+                "reference": "e725c01cdf6fb6d8b330a27fa75caab91034805a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/724ada1a6c497a663797c40e4ee3d0c7c618371d",
-                "reference": "724ada1a6c497a663797c40e4ee3d0c7c618371d",
+                "url": "https://api.github.com/repos/drupal/core/zipball/e725c01cdf6fb6d8b330a27fa75caab91034805a",
+                "reference": "e725c01cdf6fb6d8b330a27fa75caab91034805a",
                 "shasum": ""
             },
             "require": {
@@ -4871,7 +4869,7 @@
                 "laminas/laminas-diactoros": "^1.8",
                 "laminas/laminas-feed": "^2.12",
                 "masterminds/html5": "^2.1",
-                "pear/archive_tar": "^1.4.9",
+                "pear/archive_tar": "^1.4.11",
                 "php": ">=7.0.8",
                 "psr/log": "^1.0",
                 "stack/builder": "^1.0",
@@ -5041,6 +5039,7 @@
                     }
                 },
                 "patches_applied": {
+                    "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch",
                     "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch",
                     "1356276 - Allow profiles to define a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2019-11-05/1356276-531-8.8.x-4.patch",
                     "2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2018-07-09/2914389-8-do-not-test.patch",
@@ -5068,11 +5067,11 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2020-11-17T22:05:46+00:00"
+            "time": "2020-11-26T01:49:15+00:00"
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "8.9.9",
+            "version": "8.9.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
@@ -5119,16 +5118,16 @@
         },
         {
             "name": "drupal/core-recommended",
-            "version": "8.9.9",
+            "version": "8.9.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-recommended.git",
-                "reference": "875f16a071119e0b26cb8a2b6f44314107110f28"
+                "reference": "106e2a3e6f00f8867d1867e9d7b1376961a264f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/875f16a071119e0b26cb8a2b6f44314107110f28",
-                "reference": "875f16a071119e0b26cb8a2b6f44314107110f28",
+                "url": "https://api.github.com/repos/drupal/core-recommended/zipball/106e2a3e6f00f8867d1867e9d7b1376961a264f7",
+                "reference": "106e2a3e6f00f8867d1867e9d7b1376961a264f7",
                 "shasum": ""
             },
             "require": {
@@ -5140,7 +5139,7 @@
                 "doctrine/common": "v2.7.3",
                 "doctrine/inflector": "v1.2.0",
                 "doctrine/lexer": "1.0.2",
-                "drupal/core": "8.9.9",
+                "drupal/core": "8.9.10",
                 "easyrdf/easyrdf": "0.9.1",
                 "egulias/email-validator": "2.1.17",
                 "guzzlehttp/guzzle": "6.5.4",
@@ -5153,7 +5152,7 @@
                 "laminas/laminas-zendframework-bridge": "1.0.4",
                 "masterminds/html5": "2.3.0",
                 "paragonie/random_compat": "v9.99.99",
-                "pear/archive_tar": "1.4.9",
+                "pear/archive_tar": "1.4.11",
                 "pear/console_getopt": "v1.4.3",
                 "pear/pear-core-minimal": "v1.10.10",
                 "pear/pear_exception": "v1.0.1",
@@ -5197,7 +5196,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Locked core dependencies; require this project INSTEAD OF drupal/core.",
-            "time": "2020-11-17T22:05:46+00:00"
+            "time": "2020-11-26T01:49:15+00:00"
         },
         {
             "name": "drupal/crop",
@@ -7335,20 +7334,8 @@
                     "homepage": "https://www.drupal.org/user/324696"
                 },
                 {
-                    "name": "Neslee Canil Pinto",
-                    "homepage": "https://www.drupal.org/user/3580850"
-                },
-                {
-                    "name": "gisle",
-                    "homepage": "https://www.drupal.org/user/409554"
-                },
-                {
                     "name": "plopesc",
                     "homepage": "https://www.drupal.org/user/282415"
-                },
-                {
-                    "name": "podarok",
-                    "homepage": "https://www.drupal.org/user/116002"
                 }
             ],
             "description": "Creates a jQuery colorpicker field and form element",
@@ -8678,7 +8665,7 @@
                 "shasum": "c0ab77156c0e431f958d615f043e0255486db155"
             },
             "require": {
-                "drupal/core": "*",
+                "drupal/core": "^8",
                 "drupal/entity": "*"
             },
             "require-dev": {
@@ -8783,9 +8770,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.3",
                     "datestamp": "1525218780",
@@ -9998,9 +9982,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
@@ -10071,14 +10052,11 @@
             "name": "drupal/panels_ipe",
             "version": "4.4.0",
             "require": {
-                "drupal/core": "*",
-                "drupal/panels": "self.version"
+                "drupal/core": "^8",
+                "drupal/panels": "*"
             },
             "type": "metapackage",
             "extra": {
-                "branch-alias": {
-                    "dev-4.x": "4.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-4.4",
                     "datestamp": "1553565784",
@@ -10663,9 +10641,6 @@
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
                     "version": "8.x-1.2",
                     "datestamp": "1559752088",
@@ -10779,6 +10754,9 @@
                 },
                 "branch-alias": {
                     "dev-8.x-3.x": "3.x-dev"
+                },
+                "patches_applied": {
+                    "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -11006,7 +10984,7 @@
             "extra": {
                 "drupal": {
                     "version": "8.x-1.17",
-                    "datestamp": "1591128369",
+                    "datestamp": "1594482952",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -11697,6 +11675,10 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-10-30/tmgmt-2690201-19.patch",
+                    "Source list limit setting": "https://www.drupal.org/files/issues/2020-11-11/tmgmt-settings-limit.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -11745,17 +11727,17 @@
         },
         {
             "name": "drupal/tmgmt_extension_suit",
-            "version": "3.3.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/tmgmt_extension_suit.git",
-                "reference": "8.x-3.3"
+                "reference": "8.x-3.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/tmgmt_extension_suit-8.x-3.3.zip",
-                "reference": "8.x-3.3",
-                "shasum": "041c84a40e9e516acf2f62d0f29e97c83040e21d"
+                "url": "https://ftp.drupal.org/files/projects/tmgmt_extension_suit-8.x-3.4.zip",
+                "reference": "8.x-3.4",
+                "shasum": "53be0a2b17feb862edba2ebecb3cd4d8f6309e88"
             },
             "require": {
                 "drupal/core": "^8.8 || ^9",
@@ -11763,13 +11745,14 @@
                 "drupal/tmgmt_file": "*"
             },
             "require-dev": {
-                "drupal/tmgmt": "~1.0"
+                "drupal/tmgmt": "~1.0",
+                "drupal/tmgmt_local": "*"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-3.3",
-                    "datestamp": "1596447219",
+                    "version": "8.x-3.4",
+                    "datestamp": "1598347784",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -11873,33 +11856,36 @@
         },
         {
             "name": "drupal/tmgmt_smartling",
-            "version": "4.10.0",
+            "version": "4.12.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/tmgmt_smartling.git",
-                "reference": "8.x-4.10"
+                "reference": "8.x-4.12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/tmgmt_smartling-8.x-4.10.zip",
-                "reference": "8.x-4.10",
-                "shasum": "170dd1f481db90ddca30c8a6152f0aaaa1eec671"
+                "url": "https://ftp.drupal.org/files/projects/tmgmt_smartling-8.x-4.12.zip",
+                "reference": "8.x-4.12",
+                "shasum": "2f39f521f0faa5b7c59f979fe53e8d4c1fb11007"
             },
             "require": {
                 "drupal/core": "^8.8 || ^9",
                 "drupal/tmgmt": "~1.11",
-                "drupal/tmgmt_extension_suit": "~3.3",
+                "drupal/tmgmt_extension_suit": "~3.4",
                 "drupal/tmgmt_file": "*"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-4.10",
-                    "datestamp": "1597666240",
+                    "version": "8.x-4.12",
+                    "datestamp": "1603373311",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-11-06/tmgmt-smartling-the-job-has-no-provider-assigned.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
@@ -15303,16 +15289,16 @@
         },
         {
             "name": "pear/archive_tar",
-            "version": "1.4.9",
+            "version": "1.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/Archive_Tar.git",
-                "reference": "c5b00053770e1d72128252c62c2c1a12c26639f0"
+                "reference": "17d355cb7d3c4ff08e5729f29cd7660145208d9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/c5b00053770e1d72128252c62c2c1a12c26639f0",
-                "reference": "c5b00053770e1d72128252c62c2c1a12c26639f0",
+                "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/17d355cb7d3c4ff08e5729f29cd7660145208d9d",
+                "reference": "17d355cb7d3c4ff08e5729f29cd7660145208d9d",
                 "shasum": ""
             },
             "require": {
@@ -15365,7 +15351,7 @@
                 "archive",
                 "tar"
             ],
-            "time": "2019-12-04T10:17:28+00:00"
+            "time": "2020-11-19T22:10:24+00:00"
         },
         {
             "name": "pear/console_getopt",

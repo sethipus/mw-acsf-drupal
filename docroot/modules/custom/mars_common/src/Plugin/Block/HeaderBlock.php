@@ -11,7 +11,6 @@ use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Path\PathMatcherInterface;
@@ -19,6 +18,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
+use Drupal\mars_common\LanguageHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -31,13 +31,6 @@ use Symfony\Component\HttpFoundation\Request;
  * )
  */
 class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
-  /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
 
   /**
    * Drupal\Core\Routing\CurrentRouteMatch definition.
@@ -92,6 +85,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $formBuilder;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * The renderer.
    *
    * @var \Drupal\Core\Render\RendererInterface
@@ -105,7 +105,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    LanguageManagerInterface $language_manager,
     CurrentRouteMatch $current_route_match,
     PathMatcherInterface $path_matcher,
     MenuLinkTreeInterface $menu_link_tree,
@@ -113,10 +112,10 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ConfigFactoryInterface $config_factory,
     Request $request,
     FormBuilderInterface $form_builder,
+    LanguageHelper $language_helper,
     RendererInterface $renderer
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->languageManager = $language_manager;
     $this->currentRouteMatch = $current_route_match;
     $this->pathMatcher = $path_matcher;
     $this->menuLinkTree = $menu_link_tree;
@@ -125,6 +124,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->config = $config_factory;
     $this->request = $request;
     $this->formBuilder = $form_builder;
+    $this->languageHelper = $language_helper;
     $this->renderer = $renderer;
   }
 
@@ -136,7 +136,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('language_manager'),
       $container->get('current_route_match'),
       $container->get('path.matcher'),
       $container->get('menu.link_tree'),
@@ -144,6 +143,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('config.factory'),
       $container->get('request_stack')->getCurrentRequest(),
       $container->get('form_builder'),
+      $container->get('mars_common.language_helper'),
       $container->get('renderer')
     );
   }
@@ -239,17 +239,19 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $theme_settings = $this->config->get('emulsifymars.settings')->get();
 
     $build['#logo'] = $theme_settings['logo']['path'] ?? '';
-    $build['#alert_banner_text'] = $config['alert_banner']['alert_banner_text']['value'];
-    $build['#alert_banner_url'] = $config['alert_banner']['alert_banner_url'];
+
+    $build['#alert_banner_text'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_text']['value']);
+    $build['#alert_banner_url'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_url']);
     if ($config['search_block']) {
       $host = $this->request->getSchemeAndHttpHost();
-      $build['#search_menu'] = [['title' => 'Search', 'url' => $host]];
+      $build['#search_menu'] = [['title' => $this->languageHelper->translate('Search'), 'url' => $host]];
     }
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
-    $current_language_id = $this->languageManager->getCurrentLanguage()->getId();
+
+    $current_language_id = $this->languageHelper->getCurrentLanguageId();
     $build['#language_selector_current'] = mb_strtoupper($current_language_id);
-    $build['#language_selector_label'] = $this->t('Select language');
+    $build['#language_selector_label'] = $this->languageHelper->translate('Select language');
     $language_selector_items = [];
     try {
       $language_selector_items = $this->getLanguageLinks();
@@ -275,16 +277,18 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @throws \Drupal\Core\Entity\EntityMalformedException
    */
   protected function getLanguageLinks() {
-    $languages = $this->languageManager->getLanguages();
+    $languageManager = $this->languageHelper->getLanguageManager();
+    $languages = $languageManager->getLanguages();
     $render_links = [];
 
     if (count($languages) > 1) {
       $derivative_id = LanguageInterface::TYPE_URL;
       $page_entity = $this->getPageEntity();
       $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
-      $current_language = $this->languageManager->getCurrentLanguage($derivative_id)->getId();
-      $default_language = $this->languageManager->getDefaultLanguage()->getId();
-      $links = $this->languageManager->getLanguageSwitchLinks($derivative_id, Url::fromRoute($route))->links;
+
+      $current_language = $languageManager->getCurrentLanguage($derivative_id)->getId();
+      $default_language = $languageManager->getDefaultLanguage()->getId();
+      $links = $languageManager->getLanguageSwitchLinks($derivative_id, Url::fromRoute($route))->links;
 
       ksort($links);
       if (isset($links[$current_language])) {

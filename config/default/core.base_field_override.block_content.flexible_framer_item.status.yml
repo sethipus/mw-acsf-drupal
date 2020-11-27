@@ -1,0 +1,22 @@
+uuid: 96ab4e40-5ebf-4739-b7a2-1d1b14f355ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer_item
+id: block_content.flexible_framer_item.status
+field_name: status
+entity_type: block_content
+bundle: flexible_framer_item
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

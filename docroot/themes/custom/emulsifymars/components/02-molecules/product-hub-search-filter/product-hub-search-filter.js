@@ -71,6 +71,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         if (e.keyCode === 13) {
           let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
+          enableApplyButtons();
         }
       });
     });
