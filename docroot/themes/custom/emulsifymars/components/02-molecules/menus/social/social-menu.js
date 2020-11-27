@@ -28,6 +28,12 @@ Drupal.behaviors.socialMenu = {
             }
           } 
           else {
+            if (componentName === 'recipe_detail_hero') {
+              result.clickDetails = context.querySelector('.recipe-header__text').innerText.trim();
+            } 
+            if (componentName === 'article_header') {
+              result.clickDetails = context.querySelector('.heading').innerText.trim();
+            }
             result.event = 'click_Share';
             result.clickName = clickName;
           }

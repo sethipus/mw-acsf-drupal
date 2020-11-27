@@ -1,0 +1,18 @@
+uuid: 920f136c-fed5-4e66-9496-b0e8a36e172f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_product_line
+id: taxonomy_term.mars_product_line.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: mars_product_line
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

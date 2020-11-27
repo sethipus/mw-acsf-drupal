@@ -1,0 +1,18 @@
+uuid: 8d818a74-0738-4656-9fd5-3208ed312f44
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.campaign
+id: node.campaign.metatag
+field_name: metatag
+entity_type: node
+bundle: campaign
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

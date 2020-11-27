@@ -59,6 +59,10 @@ function emulsifymars_preprocess_html(&$variables) {
     ],
     'custom-css',
   ];
+
+  if (isset($variables['node_type'])) {
+    $variables['attributes']['class'][] = 'node--' . $variables['node_type'];
+  }
 }
 
 /**
