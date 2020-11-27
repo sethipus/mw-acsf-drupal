@@ -34,7 +34,7 @@ Feature: Social Feed Test
     Then I should see "Choose a block"
     And I should see "Create custom block"
 
-    When I load page by link with text "Social feed"
+    When I load page by link with text "MARS: Social feed"
     Then print current URL
     And I should see "Block description"
     And I should see "Social feed"

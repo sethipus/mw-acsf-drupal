@@ -11,7 +11,7 @@ Feature: Content Test
     And I wait for the ajax response
     Then I should see "Choose a block"
 
-    When I load page by link with text "Content Feature Module"
+    When I load page by link with text "MARS: Content Feature Module"
     And I should see "Block description"
     And I should see "Content Feature Module"
     And I should see "Eyebrow"
@@ -21,8 +21,28 @@ Feature: Content Test
 
     When I fill in "Eyebrow" with "MyEyebrow"
     And I fill in "Title" with "MyTitle"
+    And I click on a "//input[@value='Select entities']" xpath element
+    And I wait for the ajax response
+
+    When I switch to the iframe "entity_browser_iframe_lighthouse_browser"
+    And I wait for the ajax response
+
+    And I press "Upload"
+    And I attach the file "icon.png" to "File"
+    And I wait until the "//a[@type='image/png; length=1174']" xpath element appears
+    And I should see "(1.15 KB)"
+
+    And I select "Image" from "Bundle"
+    And I wait until the "//details[contains(@class, 'claro-details')]" xpath element appears
+
+    And I fill in "Alternative text" with "Alternative text1"
+    And I fill in "Name" with "Name1"
+    And I fill in "URL alias" with "/error1"
+    And I press "Select"
+    And I wait for the ajax response
+
+    And I switch to the main window
     And I fill in "Description" with "MyDescription"
-    And I fill in "Button Label" with "Explore"
     And I fill in "URL" with "http://link.com"
     And I press "Add block"
     Then I should see "You are editing the layout for this Basic page content item."
