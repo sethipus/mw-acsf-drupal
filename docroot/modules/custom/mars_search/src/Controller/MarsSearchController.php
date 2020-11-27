@@ -4,7 +4,6 @@ namespace Drupal\mars_search\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -14,7 +13,6 @@ use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\mars_common\Utils\NodeLBComponentIterator;
 
@@ -46,13 +44,6 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $renderer;
 
   /**
-   * Menu link tree.
-   *
-   * @var \Drupal\Core\Menu\MenuLinkTreeInterface
-   */
-  protected $menuLinkTree;
-
-  /**
    * Search processing factory.
    *
    * @var \Drupal\mars_search\SearchProcessFactoryInterface
@@ -74,13 +65,6 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $searchQueryParser;
 
   /**
-   * Taxonomy facet process service.
-   *
-   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
-   */
-  protected $searchTermFacetProcess;
-
-  /**
    * Templates builder service .
    *
    * @var \Drupal\mars_search\Processors\SearchBuilder
@@ -95,49 +79,26 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $viewBuilder;
 
   /**
-   * The node view builder.
-   *
-   * @var \Drupal\node\NodeViewBuilder
-   */
-  protected $nodeViewBuilder;
-
-  /**
-   * The request stack.
-   *
-   * @var Symfony\Component\HttpFoundation\RequestStack
-   */
-  private $requestStack;
-
-  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer.
    * @param \Drupal\mars_search\SearchProcessFactoryInterface $searchProcessor
    *   Search processor factory.
-   * @param \Drupal\Core\Menu\MenuLinkTreeInterface $menu_link_tree
-   *   Menu Link tree.
-   * @param \Drupal\Core\Entity\EntityViewBuilderInterface $node_view_builder
-   *   Node view builder.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   Request stack.
    */
   public function __construct(
     RendererInterface $renderer,
     SearchProcessFactoryInterface $searchProcessor,
-    MenuLinkTreeInterface $menu_link_tree,
-    EntityViewBuilderInterface $node_view_builder,
     RequestStack $request_stack
   ) {
     $this->renderer = $renderer;
     $this->viewBuilder = $this->entityTypeManager()->getViewBuilder('node');
-    $this->menuLinkTree = $menu_link_tree;
-    $this->nodeViewBuilder = $node_view_builder;
     $this->requestStack = $request_stack;
     $this->searchProcessor = $searchProcessor;
     $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
-    $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
   }
 
@@ -148,8 +109,6 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     return new static(
       $container->get('renderer'),
       $container->get('mars_search.search_factory'),
-      $container->get('menu.link_tree'),
-      $container->get('entity_type.manager')->getViewBuilder('node'),
       $container->get('request_stack')
     );
   }
