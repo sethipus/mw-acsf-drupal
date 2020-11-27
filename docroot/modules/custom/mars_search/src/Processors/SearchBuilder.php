@@ -128,9 +128,12 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
           $top_result_ids = array_map(function ($value) {
             return $value['target_id'];
           }, $config['top_results_wrapper']['top_results']);
+          // Shift result by number of top results.
+          $top_result_ids = array_slice($top_result_ids, $searchOptions['offset'], $searchOptions['limit']);
           foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
             $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
           }
+          $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
         }
         $searcher_key = "grid_{$grid_id}";
         break;

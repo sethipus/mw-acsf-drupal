@@ -73,12 +73,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
 
     // "See all" link should be visible only if it makes sense.
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
-      $url = $this->searchHelper->getCurrentUrl();
-      $url_options = $url->getOptions();
-      $url_options['query']['see-all'] = 1;
-      $url->setOptions($url_options);
-      $build['#ajax_card_grid_link_text'] = $this->t('See all');
-      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
+      $build['#ajax_card_grid_link_text'] = $this->t('See more');
+      $build['#ajax_card_grid_link_attributes']['href'] = '/';
     }
 
     // Build dataLayer attributes if search results are displayed for keys.
@@ -99,8 +95,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build['#graphic_divider'] = $file_divider_content ?? '';
     $build['#ajax_card_grid_heading'] = $this->t('All results');
     $build['#theme'] = 'mars_search_search_results_block';
-    $build['#attached']['library'][] = 'mars_search/datalayer.search';
-    $build['#attached']['library'][] = 'mars_search/see_all_cards';
+    $build['#attached']['library'][] = 'mars_search/datalayer_search';
+    $build['#attached']['library'][] = 'mars_search/search_pager';
     return $build;
   }
 

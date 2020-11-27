@@ -127,12 +127,8 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
 
     // Output See all only if we have enough results.
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
-      $url = $this->searchHelper->getCurrentUrl();
-      $url_options = $url->getOptions();
-      $url_options['query']['see-all'] = 1;
-      $url->setOptions($url_options);
-      $build['#ajax_card_grid_link_text'] = $this->t('See all');
-      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
+      $build['#ajax_card_grid_link_text'] = $this->t('See more');
+      $build['#ajax_card_grid_link_attributes']['href'] = '/';
     }
 
     $build['#ajax_card_grid_heading'] = $config['title'];
@@ -148,7 +144,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
-    $build['#attached']['library'][] = 'mars_search/see_all_cards';
+    $build['#attached']['library'][] = 'mars_search/search_pager';
     $build['#attached']['library'][] = 'mars_search/autocomplete';
 
     return $build;

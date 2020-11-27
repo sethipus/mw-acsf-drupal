@@ -3,9 +3,8 @@
  * Javascript for the ajax pager of search grid block.
  */
 
-
 (function ($, Drupal, drupalSettings) {
-  Drupal.behaviors.seeAllAjax = {
+  Drupal.behaviors.loadMorePager = {
     attach: function (context, settings) {
       var selectorCardGrid = '.ajax-card-grid__more-link a';
       var selectorFaq = '.faq__see_all a';
@@ -16,32 +15,51 @@
 
       $(selectorCardGrid, context).on('click', function (e) {
         e.preventDefault();
-        var id = $(this).closest('.card-grid-results').attr('data-layer-grid-id');
+        currentQuery.grid_type = $(this).closest('[data-layer-grid-type]').attr('data-layer-grid-type');
+        currentQuery.action_type = 'pager';
+        if (currentQuery.grid_type === 'grid') {
+          currentQuery.grid_id = $(this).closest('.card-grid-results').attr('data-layer-grid-id');
+          currentQuery.page_id = $(this).closest('.card-grid-results').attr('data-layer-page-id');
+        }
         var selectorContext = $(this);
-        currentQuery.id = id;
-        currentQuery.topResults = id ? drupalSettings.cards[id].topResults : '';
-        currentQuery.contentType = id ? drupalSettings.cards[id].contentType : '';
-          $.ajax({
-            url: '/see-all-callback',
-            data: currentQuery,
-            success: function (data, textStatus) {
-              id ? $('.card-grid-results[data-layer-grid-id=' + id + ']')
-                .find('.ajax-card-grid__items').html(data.build) :
-                $('.ajax-card-grid__items').html(data.build);
-              selectorContext.closest('.ajax-card-grid__content')
+        var searchItems = selectorContext.closest('.ajax-card-grid__content').find('.ajax-card-grid__items');
+        currentQuery.offset = searchItems.children().length;
+        $.ajax({
+          url: '/search-callback',
+          data: currentQuery,
+          success: function (data) {
+            if (data.results !== null) {
+              data.results.forEach(function(element) {
+                var elementWrapper = document.createElement('div');
+                elementWrapper.className = 'ajax-card-grid__item_wrapper';
+                elementWrapper.innerHTML = element;
+                searchItems.append(elementWrapper);
+              });
+              if (!data.pager) {
+                selectorContext.closest('.ajax-card-grid__content')
                 .find('.ajax-card-grid__more-link').hide();
+              }
             }
+          }
         });
       });
 
       $(selectorFaq, context).on('click', function (e) {
         e.preventDefault();
+        currentQuery.grid_type = 'faq';
+        currentQuery.action_type = 'pager';
         $.ajax({
-          url: '/see-all-faq-callback',
+          url: '/search-callback',
           data: currentQuery,
           success: function (data, textStatus) {
-            $('.faq').find('.faq_list').html(data.build);
-            $('.faq__see_all').hide();
+            if (data.results !== null) {
+              data.results.forEach(function(element) {
+                $('.faq').find('.faq_list').append(element);
+              });
+              if (!data.pager) {
+                $('.faq__see_all').hide();
+              }
+            }
           }
         });
       });

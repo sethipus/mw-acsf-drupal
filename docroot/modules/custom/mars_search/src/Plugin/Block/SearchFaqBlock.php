@@ -112,12 +112,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $build = array_merge($build, $this->searchBuilder->buildFaqFilters());
 
     if ($query_search_results['resultsCount'] > count($build['#qa_items'])) {
-      $cta_button_label = $this->t('See all');
-      $url = $this->searchHelper->getCurrentUrl();
-      $url_options = $url->getOptions();
-      $url_options['query']['see-all'] = 1;
-      $url->setOptions($url_options);
-      $cta_button_link = $url->toString();
+      $cta_button_label = $this->t('See more');
+      $cta_button_link = '/';
     }
 
     $render_default = [
@@ -144,8 +140,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
           ],
         ],
         'library' => [
-          'mars_search/datalayer.search',
-          'mars_search/see_all_cards',
+          'mars_search/datalayer_search',
+          'mars_search/search_pager',
         ],
       ],
     ];

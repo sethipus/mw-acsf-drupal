@@ -45,20 +45,15 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
     }
 
     $options = $query_parameters;
+    // Set default filter options.
+    $filter = $this->getDefaultOptions($query_parameters);
     // Filter options array for current grid.
     array_walk($options, [$this, 'filterByGridId'], $search_id);
     $options = array_filter($options);
-    // Set default filter options.
-    $filter = $this->getDefaultOptions($query_parameters);
     // Getting search keywords.
     if (array_key_exists(SearchQueryParserInterface::MARS_SEARCH_SEARCH_KEY, $options)) {
       $filter['keys'] = $options[SearchQueryParserInterface::MARS_SEARCH_SEARCH_KEY];
       unset($options[SearchQueryParserInterface::MARS_SEARCH_SEARCH_KEY]);
-    }
-    // Getting search offset.
-    if (array_key_exists(SearchQueryParserInterface::MARS_SEARCH_SEARCH_OFFSET, $options)) {
-      $filter[SearchQueryParserInterface::MARS_SEARCH_SEARCH_OFFSET] = $options[SearchQueryParserInterface::MARS_SEARCH_SEARCH_OFFSET];
-      unset($options[SearchQueryParserInterface::MARS_SEARCH_SEARCH_OFFSET]);
     }
     // Prepare filter conditions.
     $filter['conditions'] = array_merge($filter['conditions'], array_map([$this, 'mapGridConditions'], array_keys($options), $options));
@@ -122,10 +117,16 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
    */
   protected function getDefaultOptions(array $query_parameters = []) {
     $faq_operator = empty($query_parameters['faq']) ? '<>' : '=';
+    $offset = 0;
+    // Getting search offset.
+    if (array_key_exists(SearchQueryParserInterface::MARS_SEARCH_SEARCH_OFFSET, $query_parameters)) {
+      $offset = $query_parameters[SearchQueryParserInterface::MARS_SEARCH_SEARCH_OFFSET];
+    }
     return [
       'conditions' => [
         ['type', 'faq', $faq_operator, TRUE],
       ],
+      'offset' => intval($offset),
       'limit' => 8,
       // Just to not have this empty.
       'options_logic' => 'AND',
@@ -153,7 +154,6 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
       }, $config['top_results_wrapper']['top_results']);
       // Adjusting query options to consider top results.
       // Adjusting limit.
-      $searchOptions['limit'] = $searchOptions['limit'] - count($top_result_ids);
       // Excluding top results ids from query.
       $searchOptions['conditions'][] = ['nid', $top_result_ids, 'NOT IN'];
     }

@@ -83,18 +83,13 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     /** @var \Drupal\search_api\IndexInterface $index */
     $index = $this->entityTypeManager->getStorage('search_api_index')->load('acquia_search_index');
 
-    $query_options = [];
-    if (!empty($options['limit'])) {
-      $query_options = ['limit' => $options['limit']];
+    $query = $index->query([]);
+    if (isset($options['offset']) && isset($options['limit'])) {
+      $query->range($options['offset'], $options['limit']);
     }
     else {
-      $query_options = ['limit' => 4];
+      $query->range(0, 4);
     }
-    if (!empty($options['offset'])) {
-      $query_options['offset'] = $options['offset'];
-    }
-
-    $query = $index->query($query_options);
 
     $facet_options = [];
     // Setting facets query options.
