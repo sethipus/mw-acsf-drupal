@@ -237,6 +237,7 @@ class Salsify {
       // Access the channel URL to fetch the newest product feed URL.
       $generate_product_feed = $this->client->get($endpoint, [
         'headers' => $this->getAuthHeaders(),
+        'timeout' => 60000,
       ]);
 
       /* @var \GuzzleHttp\Psr7\Response $generate_product_feed */

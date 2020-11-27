@@ -18,12 +18,42 @@
       if (body === null || body.getAttribute('datalayer-page-view')) {
         return;
       }
+
+      var productElements = context.querySelectorAll('[data-datalayer-gtin]');
+      var gtins = (settings.dataLayer.products) ? settings.dataLayer.products.split(', ') : [];
+      productElements.forEach(function (product) {
+        let gtin = product.getAttribute('data-datalayer-gtin');
+
+        if (!gtins.includes(gtin)) {
+          gtins.push(gtin);
+        }
+      });
+      settings.dataLayer.products = gtins.join(', ');
+
+      var dataElements = context.querySelectorAll('[data-datalayer-taxonomy]');
+      var taxonomy = (settings.dataLayer.taxonomy) ? JSON.parse(settings.dataLayer.taxonomy) : {};
+      dataElements.forEach(function (product) {
+        let taxonomy_info = JSON.parse(product.getAttribute('data-datalayer-taxonomy'));
+
+        if (typeof taxonomy_info === 'object') {
+          for (const [key, value] of Object.entries(taxonomy_info)) {
+            if (taxonomy.hasOwnProperty(key)) {
+              let dif = value.filter(x => !taxonomy[key].includes(x));
+              taxonomy[key] = taxonomy[key].concat(dif);
+            }
+            else {
+              taxonomy[key] = value;
+            }
+          }
+        }
+      });
+      settings.dataLayer.taxonomy = JSON.stringify(taxonomy);
       dataLayer.push(settings.dataLayer);
 
       // SEARCH START EVENT
       var searchInputs = document.querySelectorAll('.data-layer-search-form-input');
       searchInputs.forEach(function (input) {
-        input.addEventListener('focus', function() {
+        input.addEventListener('focus', function () {
           // SITE SEARCH START
           dataLayer.push({
             'event': 'siteSearch_Start',
@@ -35,7 +65,7 @@
       body.setAttribute('datalayer-page-view', true);
 
       // COMPONENT NAME
-      var getComponentName = function(element) {
+      var getComponentName = function (element) {
         const componentBlock = element.closest('[data-block-plugin-id]');
         var componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
 
@@ -44,9 +74,9 @@
 
       // CARDS CLICK EVENTS
       var cardContainers = context.querySelectorAll('.card-item');
-      cardContainers.forEach(function(card) {
-        card.addEventListener('click', function(event) {
-          setTimeout(function() {
+      cardContainers.forEach(function (card) {
+        card.addEventListener('click', function (event) {
+          setTimeout(function () {
             var item = event.target.closest('a');
             var clickName = card.dataset.siteSearchClicked;
             if (item !== null) {
@@ -68,8 +98,8 @@
 
       // TOP NAV EVENTS
       var header = context.querySelector('header');
-      header.addEventListener('click', function(event) {
-        setTimeout(function() {
+      header.addEventListener('click', function (event) {
+        setTimeout(function () {
           var componentName = getComponentName(event.target);
           let link = event.target.closest('a');
           if (link) {
@@ -123,8 +153,8 @@
 
       // BOTTOM NAV EVENTS
       var header = context.querySelector('footer');
-      header.addEventListener('click', function(event) {
-        setTimeout(function() {
+      header.addEventListener('click', function (event) {
+        setTimeout(function () {
           var componentName = getComponentName(event.target);
           var link = event.target.closest('a');
           if (link) {
@@ -182,7 +212,7 @@
         //Check if link is external and add listener
         if (link.href.indexOf(window.location.hostname) < 0) {
           link.addEventListener('click', (event) => {
-            setTimeout(function() {
+            setTimeout(function () {
               const item = event.target.closest('a');
               const componentName = getComponentName(event.target);
               dataLayer.push({

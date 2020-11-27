@@ -5,7 +5,9 @@
  * MARS Product module main file.
  */
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\field\FieldConfigInterface;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 
@@ -122,4 +124,29 @@ function mars_common_preprocess_node__product__card(array &$variables) {
   }
 
   $variables['wtb_product_sku'] = $product_sku ?? NULL;
+
+  $node = $variables['node'];
+  $terms = [];
+  $field_defs = $node->getFieldDefinitions();
+  foreach ($field_defs as $field_name => $field_def) {
+    if ($field_def instanceof FieldConfigInterface &&
+      $field_def->getType() == 'entity_reference' &&
+      $field_def->getSetting('target_type') == 'taxonomy_term'
+    ) {
+
+      $term_entites = $node->get($field_name)->referencedEntities();
+      foreach ($term_entites as $term_entity) {
+        /* @var \Drupal\taxonomy\Entity\Term $term_entity */
+        $terms[$term_entity->referencedEntities()[0]->label()][$term_entity->label()] = $term_entity->label();
+      }
+    }
+  }
+
+  $ga_taxonomy_data = NULL;
+  if (!empty($terms)) {
+    foreach ($terms as $vid => $term_labels) {
+      $ga_taxonomy_data[$vid] = array_values($term_labels);
+    }
+  }
+  $variables['datalayer_taxonomy'] = Json::encode($ga_taxonomy_data);
 }
