@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "homepage_hero_block",
- *   admin_label = @Translation("Homepage Hero block"),
+ *   admin_label = @Translation("MARS: Homepage Hero block"),
  *   category = @Translation("Global elements"),
  * )
  */
