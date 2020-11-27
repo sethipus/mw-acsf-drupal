@@ -2,7 +2,6 @@ import React from 'react';
 import parentPageHeader from './parent-page-header.twig';
 import parentPageHeaderData from './parent-page-header.yml';
 import { useEffect } from '@storybook/client-api';
-import './parent-page-header.js';
 
 export default { title: 'Molecules/Parent page header' };
 

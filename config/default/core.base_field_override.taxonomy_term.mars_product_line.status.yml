@@ -1,0 +1,22 @@
+uuid: 89c8415f-af55-482b-88ed-78525d02f476
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_product_line
+id: taxonomy_term.mars_product_line.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_product_line
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

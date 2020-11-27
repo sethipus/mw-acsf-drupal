@@ -28,7 +28,7 @@
             'cardGridID': cardGridId,
             'cardGridName': cardGridName,
             'cardGridSearchTerm': cardGridSearchTerm,
-            'cardGridSearchResultsNum': ''
+            'cardGridSearchResultsNum': '0'
           });
         } else {
           // CARD GRID COMPONENT SEARCH RESULT SHOWN

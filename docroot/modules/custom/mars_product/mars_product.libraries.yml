@@ -1,0 +1,8 @@
+mars_product.commerce_connector:
+  version: 1.x
+  js:
+    js/commerce_connector.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery

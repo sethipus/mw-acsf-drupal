@@ -104,7 +104,7 @@ Drupal.behaviors.entryGate = {
       }
 
       // over the age limit, set cookie and hide entry gate
-      context.cookie = `dateOfBirth=${givenDate.format('YYYY-MM-DD')}`;
+      context.cookie = `dateOfBirth=${givenDate.format('YYYY-MM-DD')}; path=/`;
       entryGate.style.display = 'none';
     })
   },
