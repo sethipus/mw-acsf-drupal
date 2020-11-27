@@ -57,7 +57,6 @@
           span_base_class: 'size-label',
           span_blockname: pdp_hero_base_class,
         } %}
-        <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
         <div {{ bem('list-container', [], pdp_hero_base_class)}}>
           <ul {{ bem('size-list', [], pdp_hero_base_class)}}>
             {% for size_item in pdp_size_items_data %}
@@ -76,6 +75,7 @@
           </ul>
         </div>
       </div>
+      <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
         <div id='pdp-hero-main-image-{{size_id}}' {{ bem('main-image-container', [], pdp_hero_base_class) }}>
           {% include "@atoms/images/image/responsive-image.twig" with {
