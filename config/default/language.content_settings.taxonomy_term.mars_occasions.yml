@@ -1,0 +1,18 @@
+uuid: 44a753af-c46e-44ab-8ff0-c4bb483477e9
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_occasions
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: taxonomy_term.mars_occasions
+target_entity_type_id: taxonomy_term
+target_bundle: mars_occasions
+default_langcode: site_default
+language_alterable: true

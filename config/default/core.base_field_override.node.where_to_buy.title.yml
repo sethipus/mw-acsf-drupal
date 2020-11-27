@@ -1,0 +1,18 @@
+uuid: 713d3abd-aab5-44d9-b3a8-f91b73366b20
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.where_to_buy
+id: node.where_to_buy.title
+field_name: title
+entity_type: node
+bundle: where_to_buy
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

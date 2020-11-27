@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\mars_common\LanguageHelper;
 use Drupal\Tests\UnitTestCase;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\MediaHelper;
@@ -55,6 +56,13 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   ];
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -71,6 +79,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
       'flexible_driver',
       $definitions,
       $this->mediaHelperMock,
+      $this->languageHelperMock,
       $this->themeConfiguratorParserMock
     );
   }
@@ -80,7 +89,26 @@ class FlexibleDriverBlockTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->languageHelperMock = $this->createLanguageHelperMock();
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+  }
+
+  /**
+   * Returns Language helper mock.
+   *
+   * @return \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   *   Theme Configuration Parser service mock.
+   */
+  private function createLanguageHelperMock() {
+    $mock = $this->createMock(LanguageHelper::class);
+    $mock->method('translate')
+      ->will(
+        $this->returnCallback(function ($arg) {
+          return $arg;
+        })
+      );
+
+    return $mock;
   }
 
   /**

@@ -12,9 +12,9 @@
 #}
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
-{% set logo_title = 'Logo' | t %}
-{% set corporate_tout_button = 'See all' | t %}
-{% set region_title = 'Select Region' | t %}
+{% set logo_title = 'Logo' | mt %}
+{% set corporate_tout_button = 'See all' | mt %}
+{% set region_title = 'Select Region' | mt %}
 
 {% embed "@organisms/site/site-footer/site-footer.twig" with {
   theme_styles: 'drupal',
@@ -24,12 +24,15 @@
   social_menu_items: social_links,
   region_title: region_title,
   regions: region_selector,
-  corporate_tout_text: corporate_tout,
+  corporate_tout_text: corporate_tout_text,
+  corporate_tout_link_attributes: corporate_tout_url,
   card__button__content: corporate_tout_button,
   brand_border: brand_border,
+  footer_logo_link: url('<front>'),
 } %}
 
   {% block footer__logo %}
+    <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }}>
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
       image_alt: logo_title,
@@ -41,6 +44,7 @@
       image_src: logo_src,
       responsive_image_blockname: 'logo',
     } %}
+    </a>
   {% endblock %}
 
   {% block footer__brand_border %}
@@ -50,7 +54,7 @@
   {% endblock %}
 
   {% block footer__social %}
-    <div {{ bem('section-header', [], footer__base_class) }}>{{ 'Follow Us On' | t }}</div>
+    <div {{ bem('section-header', [], footer__base_class) }}>{{ 'Follow Us On' | mt }}</div>
     {% include "@molecules/menus/social/social-menu.twig" with {
       social_menu_items: social_menu_items,
     }%}

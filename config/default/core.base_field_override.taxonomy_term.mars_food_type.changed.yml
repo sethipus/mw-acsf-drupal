@@ -1,0 +1,18 @@
+uuid: 2a5a3c52-be4e-4c37-9afe-1fe70b675566
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_food_type
+id: taxonomy_term.mars_food_type.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: mars_food_type
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -54,6 +55,13 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Theme configurator parser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -70,6 +78,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $plugin_definition,
       $container->get('entity_type.manager')->getStorage('media'),
       $container->get('mars_common.media_helper'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -83,11 +92,13 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_definition,
     EntityStorageInterface $entity_storage,
     MediaHelper $media_helper,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->mediaStorage = $entity_storage;
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
@@ -109,10 +120,10 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $build['#theme'] = 'story_highlight_block';
 
-    $build['#title'] = $conf['story_block_title'];
+    $build['#title'] = $this->languageHelper->translate($conf['story_block_title']);
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
-    $build['#story_description'] = $conf['story_block_description'];
+    $build['#story_description'] = $this->languageHelper->translate($conf['story_block_description']);
 
     $build['#story_items'] = array_map(function ($value) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($value['media']);
@@ -122,7 +133,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
         return [];
       }
 
-      $item['content'] = $value['title'];
+      $item['content'] = $this->languageHelper->translate($value['title']);
 
       return $item;
     }, $conf['items']);
@@ -143,7 +154,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
 
     if (!empty($conf['view_more']['url'])) {
       $build['#view_more_cta_url'] = $conf['view_more']['url'];
-      $build['#view_more_cta_label'] = !empty($conf['view_more']['label']) ? $conf['view_more']['label'] : $this->t('View More');
+      $build['#view_more_cta_label'] = !empty($conf['view_more']['label']) ? $this->languageHelper->translate($conf['view_more']['label']) : $this->languageHelper->translate('View More');
     }
 
     return $build;
@@ -191,7 +202,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       ];
 
       $media_default = isset($config['items'][$i]['media']) ? $config['items'][$i]['media'] : NULL;
-      $form['items'][$i]['media'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $media_default, 1, 'thumbnail');
+      $form['items'][$i]['media'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $media_default, $form_state, 1, 'thumbnail');
       // Convert the wrapping container to a details element.
       $form['items'][$i]['media']['#type'] = 'details';
       $form['items'][$i]['media']['#title'] = $this->t('Media');
@@ -205,7 +217,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $asset_key = 'svg_asset_' . ($i + 1);
 
       $svg_assets_default = isset($config['svg_assets'][$asset_key]) ? $config['svg_assets'][$asset_key] : NULL;
-      $form['svg_assets'][$asset_key] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $svg_assets_default, 1, 'thumbnail');
+      $form['svg_assets'][$asset_key] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $svg_assets_default, $form_state, 1, 'thumbnail');
       // Convert the wrapping container to a details element.
       $form['svg_assets'][$asset_key]['#type'] = 'details';
       $form['svg_assets'][$asset_key]['#title'] = $this->t('SVG asset @index', ['@index' => $i + 1]);

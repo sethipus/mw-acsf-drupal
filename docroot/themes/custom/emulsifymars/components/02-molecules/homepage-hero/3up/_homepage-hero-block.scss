@@ -6,7 +6,6 @@
   &--block-1 {
     & .wrapper {
       border-bottom: 1px solid rgba(196, 196, 196, .6);
-      margin-bottom: 20px;
     }
   }
 
@@ -16,6 +15,7 @@
     flex-flow: row nowrap;
     margin-left: 20px;
     margin-right: 20px;
+    margin-bottom: 20px;
   }
 
   &__left {

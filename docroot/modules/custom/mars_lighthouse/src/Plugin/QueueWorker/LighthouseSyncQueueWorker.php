@@ -319,10 +319,10 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     $request_data = [];
     /* @var \Drupal\media\Entity\Media $media */
     foreach ($media_objects as $media) {
-      if (!empty($media->field_original_external_id->value)) {
+      if (!empty($media->field_external_id->value) && !empty($media->field_original_external_id->value)) {
         $request_data[$media->field_external_id->value] = $media->field_original_external_id->value;
       }
-      else {
+      elseif (!empty($media->field_external_id->value)) {
         $request_data[$media->field_external_id->value] = $media->field_external_id->value;
       }
     }

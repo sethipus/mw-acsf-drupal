@@ -1,0 +1,22 @@
+uuid: 2a532385-10fd-437a-a337-4221dfc62797
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_diet_allergens
+id: taxonomy_term.mars_diet_allergens.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_diet_allergens
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -13,7 +13,7 @@ entity_type: media
 bundle: lighthouse_video
 label: 'Last modified date'
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''

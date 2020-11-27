@@ -7,7 +7,7 @@
 
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
 {% set recipe_is_new = node.field_recipe_new.value == 1 ? true : false %}
-{% set recipe_card_button_text = 'see details' | t %}
+{% set recipe_card_button_text = 'see details' | mt %}
 {% set   recipe_card_heading_link_attributes = { href: url, target: '_blank',
   'data-click-name': node.label } | merge(attributes) %}
 {% set   recipe_card_button_link_attributes = { href: url, target: '_blank',

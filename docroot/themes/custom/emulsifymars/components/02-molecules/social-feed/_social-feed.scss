@@ -14,9 +14,22 @@
       text-align: center;
       color: clr(primary);
       text-transform: uppercase;
-      font-size: 6.4rem;
-      line-height: 6.4rem;
       font-family: variable(heading-font);
+
+      @include xs {
+        font-size: 4rem;
+        line-height: 4rem;
+      }
+
+      @include medium {
+        font-size: 5.6rem;
+        line-height: 5.6rem;
+      }
+
+      @include large {
+        font-size: 6.4rem;
+        line-height: 6.4rem;
+      }
     }
   }
 
