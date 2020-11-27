@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Template for card grid filters.
+ */
+#}
+
+<div class="card-grid-filter">
+  {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
+    theme_styles: theme_styles,
+    search_form: input_form,
+    applied_filters_list: applied_filters_list,
+    items: filters,
+    title: 'Filter by:'|t,
+  } %}
+</div>

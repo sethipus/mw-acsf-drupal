@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
-use Drupal\mars_search\Plugin\Block\SearchGridBlock;
 use Drupal\search_api\SearchApiException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -76,7 +75,7 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
   /**
    * {@inheritdoc}
    */
-  public function getSearchResults(array $options = [], string $searcher_key = 'searcher_1') {
+  public function getSearchResults(array $options = [], string $searcher_key = 'searcher_default') {
     if (isset($this->searches[$searcher_key])) {
       return $this->searches[$searcher_key];
     }
@@ -118,12 +117,8 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     if (!empty($options['conditions'])) {
       $conditionsGroup = $query->createConditionGroup($options['options_logic']);
       foreach ($options['conditions'] as $condition) {
-        // Disable all filters in case corresponding flag is set.
-        if (!empty($options['disable_filters']) && empty($condition[3])) {
-          continue;
-        }
         // Taxonomy filters go as a separate condition group with OR/AND logic.
-        if (in_array($condition[0], array_keys(SearchGridBlock::TAXONOMY_VOCABULARIES))) {
+        if (in_array($condition[0], array_keys(SearchBuilderInterface::TAXONOMY_VOCABULARIES))) {
           $conditionsGroup->addCondition($condition[0], $condition[1], $condition[2]);
         }
         else {
@@ -134,7 +129,7 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     }
 
     // Applying search keys.
-    if ($options['keys'] && empty($options['disable_filters'])) {
+    if (!empty($options['keys'])) {
       $query->keys($options['keys']);
     }
 
@@ -201,45 +196,6 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     // Adding GET parameters.
     $url->setOption('query', $this->request->query->all());
     return $url;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function prepareFacetsLinks($facets, $facet_key, $search_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
-    $facets_links = [];
-    if (!$facets) {
-      return $facets_links;
-    }
-    $url = $this->getCurrentUrl();
-    $options = $url->getOptions();
-    foreach ($facets as $facet) {
-      // "!" means all items without facets so ignore this "facet".
-      if ($facet['filter'] != '!') {
-        // HTML class for facet link.
-        $facet_link_class = '';
-
-        // That means facet is active.
-        $facet_query_value = $this->request->query->get($facet_key);
-        if (isset($facet_query_value[$search_id]) && $facet_query_value[$search_id] == $facet['filter']) {
-          $facet_link_class = 'active';
-          // Removing facet query from active filter to allow deselect it.
-          unset($options['query'][$facet_key]);
-        }
-        else {
-          // Adding facet filter to the query.
-          $options['query'][$facet_key][$search_id] = $facet['filter'];
-        }
-
-        $url->setOptions($options);
-        $facets_links[] = [
-          'class' => $facet_link_class,
-          'text' => $facet['filter'],
-          'attr' => ['href' => $url->toString()],
-        ];
-      }
-    }
-    return $facets_links;
   }
 
 }

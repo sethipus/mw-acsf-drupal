@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\mars_common\Utils\NodeLBComponentIterator;
 
 /**
  * Provides a controllers for search functionality.
@@ -230,49 +231,61 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    */
   public function searchCallback(Request $request) {
     $query_parameters = $request->query->all();
+    $json_output = [];
+    $config = [];
+    if (empty($query_parameters['page_id']) || empty($query_parameters['grid_id'])) {
+      return new JsonResponse($json_output);
+    }
+    if (!empty($query_parameters['grid_type']) && $query_parameters['grid_type'] == 'grid') {
+      $config = $this->getComponentConfig($query_parameters['page_id'], $query_parameters['grid_id']);
+    }
+
     switch ($query_parameters['action_type']) {
       case self::MARS_SEARCH_AJAX_PAGER:
-
-        /** @var \Drupal\node\Entity\Node $node */
-        $node = $this->entityTypeManager()->getStorage('node')->load($query_parameters['page_id']);
-        /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layoutBuilderField */
-        $layoutBuilderField = $node->get('layout_builder__layout');
-        /** @var \Drupal\layout_builder\Section[] $sections */
-        $sections = $layoutBuilderField->getSections();
-
-        foreach ($sections as $section) {
-          foreach ($section->getComponents() as $component) {
-            $config = $component->get('configuration');
-            if (!empty($config['grid_id']) && $config['grid_id'] == $query_parameters['grid_id']) {
-              $results = $this->searchBuilder->buildSearchResults('grid', $config, $query_parameters['grid_id']);
-              foreach ($results[2]['#items'] as $key => $item) {
-                $results[2]['#items'][$key] = $this->renderer->render($item);
-              }
-              return new JsonResponse($results[2]);
-            }
-          }
+        $results = $this->searchBuilder->buildSearchResults($query_parameters['grid_type'], $config, $query_parameters['grid_id']);
+        foreach ($results[2]['#items'] as $key => $item) {
+          $results[2]['#items'][$key] = $this->renderer->render($item);
         }
+        $json_output['results'] = $results[2];
+
         break;
 
       case self::MARS_SEARCH_AJAX_FACET:
+        $build = $this->searchBuilder->buildSearchFacets($config, $query_parameters['grid_id']);
+        $build['#theme'] = 'mars_search_filter';
+        $json_output['filter'] = $this->renderer->render($build);
+
         break;
 
       case self::MARS_SEARCH_AJAX_QUERY:
         break;
     }
-    $json_output = [];
 
-    $options = $this->searchQueryParser->parseQuery();
+    return new JsonResponse($json_output);
+  }
 
-    $results = $this->searchHelper->getSearchResults($options);
-
-    if (!empty($results['results'])) {
-      foreach ($results['results'] as $entity) {
-        $entity_build = $this->viewBuilder->view($entity, 'card');
-        $json_output['search_results'][] = $this->renderer->render($entity_build);
+  /**
+   * Get block configuration from node ID and grid ID.
+   *
+   * @param string $nid
+   *   Node ID.
+   * @param string $grid_id
+   *   Grid ID of the component.
+   *
+   * @return mixed
+   *   Returns block configuration or FALSE.
+   */
+  protected function getComponentConfig(string $nid, string $grid_id) {
+    /** @var \Drupal\node\Entity\Node $node */
+    $node = $this->entityTypeManager()->getStorage('node')->load($nid);
+    $nodeIterator = new NodeLBComponentIterator($node);
+    foreach ($nodeIterator as $component) {
+      $config = $component->get('configuration');
+      if (!empty($config['grid_id']) && $config['grid_id'] == $grid_id) {
+        return $config;
       }
     }
-    return new JsonResponse($json_output);
+    return FALSE;
   }
 
   /**

@@ -6,12 +6,16 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
+use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Class SearchBuilder.
  */
 class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInterface {
+
+  use StringTranslationTrait;
 
   /**
    * The entity type manager service.
@@ -19,6 +23,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
+  /**
+   * Menu link tree.
+   *
+   * @var \Drupal\Core\Menu\MenuLinkTreeInterface
+   */
+  protected $menuLinkTree;
 
   /**
    * Search processing factory.
@@ -40,6 +51,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    * @var \Drupal\mars_search\Processors\SearchQueryParserInterface
    */
   protected $searchQueryParser;
+
+  /**
+   * Taxonomy facet process service.
+   *
+   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
+   */
+  protected $searchTermFacetProcess;
 
   /**
    * ThemeConfiguratorParser.
@@ -67,17 +85,20 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
+    MenuLinkTreeInterface $menuLinkTree,
     ThemeConfiguratorParser $themeConfiguratorParser,
     ConfigFactoryInterface $configFactory,
     SearchProcessFactoryInterface $searchProcessor
   ) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->menuLinkTree = $menuLinkTree;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->nodeViewBuilder = $this->entityTypeManager->getViewBuilder('node');
     $this->configFactory = $configFactory;
     $this->searchProcessor = $searchProcessor;
     $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
+    $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
   }
 
   /**
@@ -92,9 +113,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    */
   public function buildSearchResults(string $grid_type, array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     $build = [];
+    $build['#items'] = [];
 
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
+    $searcher_key = self::SEARCH_PAGE_QUERY_ID;
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
@@ -112,22 +135,194 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         $searcher_key = "grid_{$grid_id}";
         break;
 
-      case 'search_page':
-        $searcher_key = "main_search";
+      case 'faq':
+        // Overriding some default options with FAQ specific values.
+        // Overriding first condition from getDefaultOptions().
+        $searchOptions['conditions'][0] = ['type', 'faq', '=', TRUE];
+        $searchOptions['limit'] = 4;
+        $searchOptions['sort'] = [
+          'faq_item_queue_weight' => 'ASC',
+          'created' => 'DESC',
+        ];
+
+        // That means filter topic filter is active.
+        if ($this->searchHelper->request->get('faq_filter_topic')) {
+          // Disabling entityqueue sorting when topic filter is active.
+          unset($searchOptions['sort']['faq_item_queue_weight']);
+        }
+
         break;
     }
 
     // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, $searcher_key);
-    $build['#items'] = [];
+    $query_search_results['resultsCount'] += count($build['#items']);
     if ($query_search_results['resultsCount'] == 0) {
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys'], $grid_type);
+    }
+    // FAQ items has different render.
+    if ($grid_type == 'faq') {
+      $build['#items'] = $this->prepareFaqRenderArray($query_search_results);
+      return [$searchOptions, $query_search_results, $build];
     }
     foreach ($query_search_results['results'] as $node) {
       $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
     }
 
     return [$searchOptions, $query_search_results, $build];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildSearchFacets(array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+    $build = [];
+    // Getting default search options.
+    $facetOptions = $this->searchQueryParser->parseQuery($grid_id);
+    unset($facetOptions['limit']);
+
+    if (!empty($config)) {
+      // Populating search form.
+      if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
+        // Preparing search form.
+        $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $this->t('Search'), $grid_id);
+      }
+      if (!empty($config) && !empty($config['exposed_filters_wrapper']['toggle_filters'])) {
+        $facet_id = "grid_{$grid_id}_facets";
+      }
+    }
+    else {
+      $facet_id = self::SEARCH_FACET_QUERY_ID;
+    }
+    if (!empty($facet_id)) {
+      $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
+      [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
+    }
+
+    return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildSearchHeader(array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+    $build = [];
+    // Getting search results from SOLR.
+    $facetOptions = $this->searchQueryParser->parseQuery();
+    // Preparing search form.
+    $placeholder = $config['search_header_placeholder'] ?? $this->t('Search products, recipes, articles...');
+    $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $placeholder, $grid_id);
+
+    $query_search_results = $this->searchHelper->getSearchResults($facetOptions, self::SEARCH_LINKS_QUERY_ID);
+
+    $build['#search_filters'] = $this->searchTermFacetProcess->prepareFacetsLinksWithCount($query_search_results['facets'], 'type', SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
+
+    return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildFaqFilters() {
+    $build = [];
+    // Getting search results from SOLR.
+    $searchOptions = $this->searchQueryParser->parseQuery();
+    $build['#input_form'] = $this->getSearhForm($searchOptions['keys'], $this->t('Search'));
+    $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-faq';
+    unset($searchOptions['conditions']);
+    unset($searchOptions['keys']);
+    // Facets query.
+    $facets_search_results = $this->searchHelper->getSearchResults($searchOptions, 'faq_facets');
+    $build['#facets'] = $this->searchTermFacetProcess->prepareFacetsLinks($facets_search_results['facets']['faq_filter_topic'], 'faq_filter_topic');
+    return $build;
+  }
+
+  /**
+   * Search input form.
+   *
+   * @param string $keys
+   *   Search query.
+   * @param string $placeholder
+   *   Search input placeholder.
+   * @param string $grid_id
+   *   Searcher identifier.
+   *
+   * @return array
+   *   Array with search options.
+   */
+  protected function getSearhForm(string $keys, string $placeholder, string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+    return [
+      '#type' => 'textfield',
+      '#attributes' => [
+        'placeholder' => $placeholder,
+        'class' => [
+          'search-input__field',
+          'mars-autocomplete-field',
+          'data-layer-search-form-input',
+        ],
+        'data-grid-id' => $grid_id,
+        'autocomplete' => 'off',
+      ],
+      '#value' => $keys,
+    ];
+  }
+
+  /**
+   * Parse query filters.
+   *
+   * @param array $config
+   *   Search config.
+   * @param string $grid_id
+   *   Searcher identifier.
+   *
+   * @return array
+   *   Array with search options.
+   */
+  protected function parseQuery(array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+    // Getting default search options.
+    $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
+    if (!empty($config)) {
+      $searchOptions['limit'] = 4;
+      $searchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
+    }
+    return $searchOptions;
+  }
+
+  /**
+   * Prepare FAQ render array.
+   *
+   * @param array $search_results
+   *   Search config.
+   *
+   * @return array
+   *   Array with search options.
+   */
+  protected function prepareFaqRenderArray(array $search_results) {
+    $build = [];
+    /** @var \Drupal\node\NodeInterface $search_result */
+    foreach ($search_results['results'] as $row_key => $search_result) {
+      if ($search_result->hasField('field_qa_item_question')) {
+        continue;
+      }
+      $question_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0])
+        ? $search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0]
+        : $search_result->get('field_qa_item_question')->value;
+      $answer_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0])
+        ? $search_results['highlighted_fields'][$row_key]['field_qa_item_answer'][0]
+        : $search_result->get('field_qa_item_answer')->value;
+      $build[$row_key] = [
+        'items' => [
+          'question' => $question_value,
+          'answer' => $answer_value,
+        ],
+        '#theme' => 'mars_search_faq_item',
+        '#content' => [
+          'question' => $question_value,
+          'answer' => $answer_value,
+        ],
+      ];
+    }
+    return $build;
   }
 
   /**

@@ -3,8 +3,6 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -12,6 +10,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
+use Drupal\mars_search\Processors\SearchBuilderInterface;
 
 /**
  * Class SearchGridBlock.
@@ -28,40 +27,6 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
  * @package Drupal\mars_search\Plugin\Block
  */
 class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
-
-  /**
-   * List of vocabularies which are included in indexing.
-   *
-   * @var array
-   */
-  const TAXONOMY_VOCABULARIES = [
-    'mars_brand_initiatives' => [
-      'label' => 'Brand initiatives',
-      'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],
-    ],
-    'mars_occasions' => [
-      'label' => 'Occasions',
-      'content_types' => [
-        'article', 'recipe', 'product', 'landing_page', 'campaign',
-      ],
-    ],
-    'mars_flavor' => [
-      'label' => 'Flavor',
-      'content_types' => ['product'],
-    ],
-    'mars_format' => [
-      'label' => 'Format',
-      'content_types' => ['product'],
-    ],
-    'mars_diet_allergens' => [
-      'label' => 'Diet & Allergens',
-      'content_types' => ['product'],
-    ],
-    'mars_trade_item_description' => [
-      'label' => 'Trade item description',
-      'content_types' => ['product'],
-    ],
-  ];
 
   /**
    * List of content types which are included in indexing.
@@ -98,20 +63,6 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
   protected $searchHelper;
 
   /**
-   * Search query parser.
-   *
-   * @var \Drupal\mars_search\Processors\SearchQueryParserInterface
-   */
-  protected $searchQueryParser;
-
-  /**
-   * Taxonomy facet process service.
-   *
-   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
-   */
-  protected $searchTermFacetProcess;
-
-  /**
    * Templates builder service .
    *
    * @var \Drupal\mars_search\Processors\SearchBuilder
@@ -126,20 +77,6 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
   protected $themeConfiguratorParser;
 
   /**
-   * The node view builder.
-   *
-   * @var \Drupal\node\NodeViewBuilder
-   */
-  protected $nodeViewBuilder;
-
-  /**
-   * Config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactory
-   */
-  protected $configFactory;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -149,8 +86,6 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('entity_type.manager')->getViewBuilder('node'),
-      $container->get('config.factory'),
       $container->get('mars_search.search_factory')
     );
   }
@@ -164,19 +99,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    EntityViewBuilderInterface $node_view_builder,
-    ConfigFactoryInterface $configFactory,
     SearchProcessFactoryInterface $searchProcessor
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
-    $this->nodeViewBuilder = $node_view_builder;
-    $this->configFactory = $configFactory;
     $this->searchProcessor = $searchProcessor;
-    $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
-    $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
   }
 
@@ -194,32 +123,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       $grid_id = $config['grid_id'];
     }
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('grid', $config, $grid_id);
-
-    // Populating search form.
-    if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
-      // Preparing search form.
-      $build['#input_form'] = [
-        '#type' => 'textfield',
-        '#attributes' => [
-          'placeholder' => $this->t('Search'),
-          'class' => ['search-input__field', 'mars-autocomplete-field'],
-          'data-grid-id' => $grid_id,
-          'autocomplete' => 'off',
-        ],
-        '#value' => $searchOptions['keys'],
-      ];
-    }
-
-    // After this line $facetOptions and $searchOptions become different.
-    $facetOptions = $searchOptions;
-    unset($facetOptions['limit']);
-    // Populating filters.
-    // Save results for query before facets load.
-    $query_results_count = $query_search_results['resultsCount'];
-    if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-      $query_search_results = $this->searchHelper->getSearchResults($facetOptions, "grid_{$grid_id}_facets");
-      [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($query_search_results['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
-    }
+    $build = array_merge($build, $this->searchBuilder->buildSearchFacets($config, $grid_id));
 
     // Output See all only if we have enough results.
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
@@ -237,9 +141,8 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       'grid_id' => $grid_id,
       'grid_name' => $config['title'],
       'search_term' => $searchOptions['keys'],
-      'search_results' => $query_results_count,
+      'search_results' => $query_search_results['resultsCount'],
     ];
-    $build['#attached']['drupalSettings']['cards'][$grid_id]['contentType'] = $config['content_type'];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
     $build['#theme_styles'] = 'drupal';
@@ -317,11 +220,12 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       ],
     ];
 
-    foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
       $label = $vocabulary_data['label'];
+      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+      $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
       /** @var \Drupal\taxonomy\TermInterface[] $terms */
-      $terms = $this->entityTypeManager->getStorage('taxonomy_term')
-        ->loadTree($vocabulary, 0, NULL, TRUE);
+      $terms = $term_storage->loadTree($vocabulary, 0, NULL, TRUE);
       if (!$terms) {
         continue;
       }

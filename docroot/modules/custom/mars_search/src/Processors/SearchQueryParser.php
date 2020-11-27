@@ -2,7 +2,6 @@
 
 namespace Drupal\mars_search\Processors;
 
-use Drupal\mars_search\Plugin\Block\SearchGridBlock;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -102,7 +101,7 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
    *   Result mapped value.
    */
   protected function mapGridConditions($filter, $parameter_value) {
-    if (in_array($filter, array_keys(SearchGridBlock::TAXONOMY_VOCABULARIES))) {
+    if (in_array($filter, array_keys(SearchBuilderInterface::TAXONOMY_VOCABULARIES))) {
       return [
         $filter,
         explode(',', $parameter_value),

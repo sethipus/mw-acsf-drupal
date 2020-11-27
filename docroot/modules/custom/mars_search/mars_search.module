@@ -44,15 +44,24 @@ function mars_search_theme($existing, $type, $theme, $path) {
     'mars_search_faq_block' => [
       'variables' => [
         'faq_title' => NULL,
-        'qa_items' => [],
+        'input_form' => NULL,
+        'facets' => NULL,
+        'items' => [],
         'cta_button_label' => NULL,
         'cta_button_link' => NULL,
-        'search_form' => NULL,
         'search_result_counter' => NULL,
         'search_result_text' => NULL,
-        'facets' => NULL,
+        'data_layer' => NULL,
         'no_results_heading' => NULL,
         'no_results_text' => NULL,
+      ],
+    ],
+    'mars_search_faq_item' => [
+      'variables' => [
+        'content' => NULL,
+        'li_base_class' => NULL,
+        'li_modifiers' => NULL,
+        'li_blockname' => NULL,
       ],
     ],
     'mars_search_search_results_block' => [
@@ -66,6 +75,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'ajax_card_grid_link_text' => NULL,
         'ajax_card_grid_link_attributes' => [],
         'ajax_card_grid_border_radius' => NULL,
+        'data_layer' => NULL,
         'no_results' => NULL,
       ],
     ],
@@ -84,6 +94,13 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'ajax_card_grid_border_radius' => NULL,
         'data_layer' => NULL,
         'no_results' => NULL,
+      ],
+    ],
+    'mars_search_filter' => [
+      'variables' => [
+        'filters' => [],
+        'applied_filters_list' => [],
+        'input_form' => [],
       ],
     ],
     'mars_search_see_all_faq' => [
