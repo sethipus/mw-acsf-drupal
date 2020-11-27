@@ -60,6 +60,35 @@ SVG;
   /**
    * @test
    */
+  public function shouldHandleMissingWidthAndHeightInRepeat() {
+    $original = <<<'SVG'
+      <svg xmlns:default="http://www.w3.org/2000/svg" fill="none" >
+        <ellipse cx="240" cy="50" rx="220" ry="30" fill="yellow" style="fill:yellow;fill-opacity:1" />
+        <ellipse cx="220" cy="50" rx="190" ry="20" fill="white" style="fill:white" />
+      </svg>
+SVG;
+
+    $expected = <<<'SVG'
+      <svg xmlns:default="http://www.w3.org/2000/svg" fill="none">
+        <defs>
+            <pattern id="id-repeat-pattern" patternUnits="userSpaceOnUse" >
+        <ellipse cx="240" cy="50" rx="220" ry="30" fill="yellow" style="fill:yellow;fill-opacity:1" />
+        <ellipse cx="220" cy="50" rx="190" ry="20" fill="white" style="fill:white" />
+            </pattern>
+        </defs>
+            <rect width="100%" fill="url(#id-repeat-pattern)"/>
+      </svg>
+SVG;
+    $svg = $this->createNewSVG($original);
+
+    $svg = $svg->repeated();
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+  /**
+   * @test
+   */
   public function shouldStretch() {
     $expected = <<<'SVG'
       <svg xmlns:default="http://www.w3.org/2000/svg" width="500" height="200" viewBox="0 0 500 200" preserveAspectRatio="none" fill="none">
@@ -111,11 +140,14 @@ SVG;
   /**
    * Creates a new SVG object.
    *
+   * @param string $content
+   *   The content of the svg.
+   *
    * @return \Drupal\mars_common\SVG\SVG
    *   The new SVG object.
    */
-  private function createNewSVG(): SVG {
-    return new SVG(self::SAMPLE_SVG, 'id');
+  private function createNewSVG($content = self::SAMPLE_SVG): SVG {
+    return new SVG($content, 'id');
   }
 
 }

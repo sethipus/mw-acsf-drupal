@@ -3,6 +3,7 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\Plugin\Block\ContactHelpBannerBlock;
 use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -77,6 +78,13 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
   ];
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -93,6 +101,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
       $this->configuration,
       'contact_help_banner_block',
       $definitions,
+      $this->languageHelperMock,
       $this->themeConfiguratorParserMock
     );
   }
@@ -102,7 +111,26 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
+    $this->languageHelperMock = $this->createLanguageHelperMock();
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+  }
+
+  /**
+   * Returns Language helper mock.
+   *
+   * @return \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   *   Theme Configuration Parser service mock.
+   */
+  private function createLanguageHelperMock() {
+    $mock = $this->createMock(LanguageHelper::class);
+    $mock->method('translate')
+      ->will(
+        $this->returnCallback(function ($arg) {
+          return $arg;
+        })
+      );
+
+    return $mock;
   }
 
   /**

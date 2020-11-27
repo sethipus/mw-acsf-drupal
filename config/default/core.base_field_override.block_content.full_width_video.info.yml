@@ -1,0 +1,18 @@
+uuid: 3e4fe656-a9a1-46c6-a7f6-efcacd7db0ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.full_width_video
+id: block_content.full_width_video.info
+field_name: info
+entity_type: block_content
+bundle: full_width_video
+label: 'Block description'
+description: 'A brief description of your block.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

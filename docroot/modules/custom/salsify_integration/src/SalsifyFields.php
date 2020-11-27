@@ -16,6 +16,7 @@ use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use GuzzleHttp\ClientInterface;
 
 /**
  * Class Salsify.
@@ -113,6 +114,8 @@ class SalsifyFields extends Salsify {
    *   The Module handler service.
    * @param \Drupal\salsify_integration\MulesoftConnector $mulesoft_connector
    *   The Mulesoft connector.
+   * @param \GuzzleHttp\ClientInterface $client
+   *   The HTTP client.
    * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
    *   Salsify product repository service.
    * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
@@ -141,6 +144,7 @@ class SalsifyFields extends Salsify {
     QueueFactory $queue_factory,
     ModuleHandlerInterface $module_handler,
     MulesoftConnector $mulesoft_connector,
+    ClientInterface $client,
     SalsifyProductRepository $salsify_product_repository,
     MailManagerInterface $mail_manager,
     LanguageManagerInterface $language_manager,
@@ -159,7 +163,8 @@ class SalsifyFields extends Salsify {
       $cache_salsify,
       $queue_factory,
       $module_handler,
-      $mulesoft_connector
+      $mulesoft_connector,
+      $client
     );
     $this->salsifyProductRepository = $salsify_product_repository;
     $this->mailManager = $mail_manager;
@@ -370,8 +375,17 @@ class SalsifyFields extends Salsify {
 
       // Import the actual product data.
       if (!empty($product_data['products'])) {
-        $this->addItemsToQueue($product_data, $force_update);
-        $message = $this->t('The Salsify data import queue was created.');
+
+        $message = $this->t('The Salsify data import was initialized.');
+        // Add items only to empty query in order to avoid
+        // infinite queue.
+        $number_of_items = $this->queueFactory
+          ->get('salsify_integration_content_import')
+          ->numberOfItems();
+        if ($number_of_items == 0) {
+          $this->addItemsToQueue($product_data, $force_update);
+          $message = $this->t('The Salsify data import queue was created.');
+        }
 
         $deleted_items = $this->salsifyProductRepository
           ->unpublishProducts(array_column($product_data['products'], 'salsify:id'));
@@ -484,6 +498,7 @@ class SalsifyFields extends Salsify {
         $field_name = $field_mapping['field_name'];
         if (isset($field_configs[$field_name])) {
           $field_config = $field_configs[$field_name];
+          /* @var \Drupal\field\Entity\FieldConfig $field_config */
           if ($field_config->getType() == 'entity_reference' && isset($salsify_fields[$salsify_field_name]['values'])) {
             $salsify_values = $salsify_fields[$salsify_field_name]['values'];
             $field_handler = $field_config->getSetting('handler');
