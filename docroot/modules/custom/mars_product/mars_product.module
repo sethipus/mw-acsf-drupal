@@ -110,10 +110,29 @@ function mars_product_node_view(array &$build, EntityInterface $entity, EntityVi
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_node__product__card(array &$variables) {
-  $wtb_confg = \Drupal::config('mars_product.wtb.settings');
-  $variables['wtb_commerce_vendor'] = $wtb_confg->get('commerce_vendor') ?? NULL;
-  $variables['wtb_button_type'] = $wtb_confg->get('button_type') ?? NULL;
-  $variables['wtb_widget_id'] = $wtb_confg->get('widget_id') ?? NULL;
+  product_card_add_wtb_vars($variables);
+  product_card_add_datalayer_vars($variables);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__product_multipack__card(array &$variables) {
+  product_card_add_wtb_vars($variables);
+  product_card_add_datalayer_vars($variables);
+}
+
+/**
+ * Add Where to buy related vars.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_wtb_vars(array &$variables) {
+  $wtb_config = \Drupal::config('mars_product.wtb.settings');
+  $variables['wtb_commerce_vendor'] = $wtb_config->get('commerce_vendor') ?? NULL;
+  $variables['wtb_button_type'] = $wtb_config->get('button_type') ?? NULL;
+  $variables['wtb_widget_id'] = $wtb_config->get('widget_id') ?? NULL;
 
   $variants = $variables['node']
     ->get('field_product_variants')
@@ -124,6 +143,15 @@ function mars_common_preprocess_node__product__card(array &$variables) {
   }
 
   $variables['wtb_product_sku'] = $product_sku ?? NULL;
+}
+
+/**
+ * Add datalayer related vars.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_datalayer_vars(array &$variables) {
 
   $node = $variables['node'];
   $terms = [];
