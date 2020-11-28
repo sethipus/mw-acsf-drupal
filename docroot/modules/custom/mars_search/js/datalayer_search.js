@@ -18,17 +18,19 @@
       if (settings.dataLayer.searchPage === 'search_page') {
         eventPrefix = 'siteSearch';
         var searchResults = document.querySelector('.ajax-card-grid__items');
-        searchResults.addEventListener('click', function(e) {
-          var card = e.target.closest('section');
-          if (e.target && card) {
-            // SITE SEARCH RESULT CLICK
-            dataLayer.push({
-              'event': [eventPrefix, 'ResultClick'].join('_'),
-              [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
-              [eventPrefix + 'Clicked']: card.dataset.siteSearchClicked
-            });
-          }
-        });
+        if (searchResults) {
+          searchResults.addEventListener('click', function(e) {
+            var card = e.target.closest('section');
+            if (e.target && card) {
+              // SITE SEARCH RESULT CLICK
+              dataLayer.push({
+                'event': [eventPrefix, 'ResultClick'].join('_'),
+                [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
+                [eventPrefix + 'Clicked']: card.dataset.siteSearchClicked
+              });
+            }
+          });
+        }
       }
 
       // SITE SEARCH dataLayer events.
