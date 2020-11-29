@@ -1,16 +1,16 @@
 <?php
 
-namespace Drupal\platform_core;
+namespace Drupal\mars_common;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
-use Drupal\platform_core\DependencyInjection\DisableDrushConfigImportTransformCompilerPass;
+use Drupal\mars_common\DependencyInjection\DisableDrushConfigImportTransformCompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 
 /**
  * Platform core module service provider class.
  */
-class PlatformCoreServiceProvider extends ServiceProviderBase {
+class MarsCommonServiceProvider extends ServiceProviderBase {
 
   /**
    * {@inheritdoc}

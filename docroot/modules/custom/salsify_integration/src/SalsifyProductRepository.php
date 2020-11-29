@@ -13,7 +13,6 @@ use Drupal\node\Entity\Node;
  */
 class SalsifyProductRepository {
 
-
   /**
    * The entity type manager service.
    *
@@ -25,7 +24,7 @@ class SalsifyProductRepository {
    * SalsifyProductRepository constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The config factory.
+   *   The entity type manager.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager) {
     $this->entityTypeManager = $entity_type_manager;
@@ -56,7 +55,7 @@ class SalsifyProductRepository {
         'salsify_id',
         $parent_gtin,
         'IN'
-      )
+        )
         ->execute();
 
       $parent_entities = $this->entityTypeManager

@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "mars_common_content_feature_module",
- *   admin_label = @Translation("Content Feature Module"),
+ *   admin_label = @Translation("MARS: Content Feature Module"),
  *   category = @Translation("Custom")
  * )
  */
