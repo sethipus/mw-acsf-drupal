@@ -71,10 +71,11 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('search_page');
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets());
 
-    // "See all" link should be visible only if it makes sense.
+    // "See more" link should be visible only if it makes sense.
+    $build['#ajax_card_grid_link_text'] = $this->t('See more');
+    $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
-      $build['#ajax_card_grid_link_text'] = $this->t('See more');
-      $build['#ajax_card_grid_link_attributes']['href'] = '/';
+      $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
 
     // Build dataLayer attributes if search results are displayed for keys.

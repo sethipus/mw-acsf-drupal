@@ -121,7 +121,6 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
-        $searchOptions['limit'] = 4;
         $searchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
 
         if (!empty($config['top_results_wrapper']['top_results'])) {
@@ -166,6 +165,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     // FAQ items has different render.
     if ($grid_type == 'faq') {
       $build['#items'] = $this->prepareFaqRenderArray($query_search_results);
+      $build['#search_result_text'] = (!empty($searchOptions['keys']) && $query_search_results['resultsCount'] > 0)
+        ? $this->formatPlural($query_search_results['resultsCount'], 'Result for "@keys"', 'Results for "@keys"', ['@keys' => $searchOptions['keys']])
+        : '';
       return [$searchOptions, $query_search_results, $build];
     }
     foreach ($query_search_results['results'] as $node) {
@@ -232,6 +234,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $searchOptions = $this->searchQueryParser->parseQuery();
     $build['#input_form'] = $this->getSearhForm($searchOptions['keys'], $this->t('Search'));
     $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-faq';
+    $build['#input_form']['#attributes']['data-grid-query'] = 'faq=1';
     unset($searchOptions['conditions']);
     unset($searchOptions['keys']);
     // Facets query.
@@ -285,7 +288,6 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
     if (!empty($config)) {
-      $searchOptions['limit'] = 4;
       $searchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
     }
     return $searchOptions;
@@ -304,7 +306,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $build = [];
     /** @var \Drupal\node\NodeInterface $search_result */
     foreach ($search_results['results'] as $row_key => $search_result) {
-      if ($search_result->hasField('field_qa_item_question')) {
+      if (!$search_result->hasField('field_qa_item_question')) {
         continue;
       }
       $question_value = !empty($search_results['highlighted_fields'][$row_key]['field_qa_item_question'][0])

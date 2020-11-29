@@ -26,7 +26,7 @@
       {% endfor %}
     </div>
 
-    <div class="ajax-card-grid__more-link">
+    <div {{ bem('more-link', [], 'ajax-card-grid', [ajax_card_grid_link_attributes.class]) }}>
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
         default_link_content: ajax_card_grid_link_text,
         default_link_border_radius: ajax_card_grid_border_radius,

@@ -32,12 +32,17 @@
     font-size: 1.6rem;
     color: clr(primary);
 
+    &.active {
+      display: block;
+    }
+
     @include medium {
       margin: 20px 40px 0 40px;
     }
 
     @include xl {
       margin: 20px 40px 0 0;
+      display: none;
     }
   }
 

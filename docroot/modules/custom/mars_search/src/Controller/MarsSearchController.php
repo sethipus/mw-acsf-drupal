@@ -24,7 +24,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   /**
    * Search key which is using in URL.
    */
-  const MARS_SEARCH_AJAX_PAGER = 'pager';
+  const MARS_SEARCH_AJAX_RESULTS = 'results';
 
   /**
    * Search key which is using in URL.
@@ -198,13 +198,17 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     }
 
     switch ($query_parameters['action_type']) {
-      case self::MARS_SEARCH_AJAX_PAGER:
+      case self::MARS_SEARCH_AJAX_RESULTS:
         $results = $this->searchBuilder->buildSearchResults($query_parameters['grid_type'], $config, $query_parameters['grid_id']);
         foreach ($results[2]['#items'] as $key => $item) {
           $results[2]['#items'][$key] = $this->renderer->render($item);
         }
         $json_output['pager'] = ($results[0]['limit'] > count($results[2]['#items'])) ? 0 : 1;
         $json_output['results'] = $results[2]['#items'];
+        $json_output['results_count'] = $results[1]['resultsCount'];
+        if ($query_parameters['grid_type'] == 'faq') {
+          $json_output['search_result_text'] = $results[2]['#search_result_text'];
+        }
 
         break;
 

@@ -7,6 +7,9 @@ Drupal.behaviors.searchFilterBehaviour = {
     const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
     const filters = context.querySelectorAll('.filter-block');
     const filterCheckboxes = context.querySelectorAll('.checkbox-item');
+    const searchResults = context.querySelector('.ajax-card-grid__items');
+    const pagerButton = context.querySelector('.ajax-card-grid__more-link');
+    const gridType = context.querySelector('[data-layer-grid-type]').dataset.layerGridType;
 
     filters.forEach(filter => {
       filter.addEventListener('click', () => {
@@ -38,7 +41,9 @@ Drupal.behaviors.searchFilterBehaviour = {
           updateCounters();
         case target.classList.contains('search-filter-info__applied-clear'):
           const currentFilter = context.getElementById(target.getAttribute('data-id'));
-          currentFilter.checked = false;
+          if (currentFilter !== null) {
+            currentFilter.checked = false;
+          }
           updateCounters();
           processFilters();
           break;
@@ -50,12 +55,10 @@ Drupal.behaviors.searchFilterBehaviour = {
         searchFilterContainer.querySelectorAll('.checkbox-item__input:checked').forEach(function (input) {
           input.checked = false;
         });
-
         event.preventDefault();
         updateCounters();
-
-        const searchQuery = context.querySelector('.search-input__field').value;
-        document.location.search = getClearQuery();
+        updateResults(getClearQuery());
+        window.history.pushState({}, '', document.location.pathname + '?' + getClearQuery());
       });
     });
 
@@ -78,7 +81,8 @@ Drupal.behaviors.searchFilterBehaviour = {
     inputElement.addEventListener('keypress', (e) => {
       e.target.dataset.gridQuery = getFilterQuery();
       if (e.keyCode === 13) {
-        document.location.search = updateKeys(e.target.value);
+        updateResults(updateKeys(e.target.value));
+        window.history.pushState({}, '', document.location.pathname + '?' + updateKeys(e.target.value));
       }
     });
 
@@ -105,7 +109,8 @@ Drupal.behaviors.searchFilterBehaviour = {
           appliedIds = [];
         }
       });
-      document.location.search = queryElements.join('&');
+      updateResults(queryElements.join('&'));
+      window.history.pushState({}, '', document.location.pathname + '?' + queryElements.join('&'));
     };
 
     const getClearQuery = () => {
@@ -129,7 +134,6 @@ Drupal.behaviors.searchFilterBehaviour = {
     const updateKeys = (keys) => {
       const query = window.location.search.substring(1);
       const vars = query.split('&');
-      let resultQuery = '';
       for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split('=');
         if (pair[0].includes('search')) {
@@ -191,6 +195,37 @@ Drupal.behaviors.searchFilterBehaviour = {
 
       appliedFiltersCount.innerHTML = appliedFiltersCounter;
       appliedFiltersList.innerHTML = appliedFilters;
+    }
+
+    const updateResults = (query) => {
+      query += '&action_type=results';
+      query += '&grid_type=' + gridType;
+      if (gridType == 'grid') {
+        query += '&grid_id=' + context.querySelector('[data-layer-grid-id]').dataset.layerGridId;
+        query += '&page_id=' + context.querySelector('[data-layer-page-id]').dataset.layerPageId;
+      }
+  
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', '/search-callback?' + query);
+      xhr.responseType = 'json';
+      xhr.send();
+      xhr.onload = function() {
+        if (xhr.status == 200) {
+          searchResults.innerHTML = '';
+          xhr.response.results.forEach(function(element) {
+            var elementWrapper = document.createElement('div');
+            elementWrapper.className = 'ajax-card-grid__item_wrapper';
+            elementWrapper.innerHTML = element;
+            searchResults.append(elementWrapper);
+          });
+          if (!xhr.response.pager) {
+            pagerButton.classList.remove('active');
+          }
+          else {
+            pagerButton.classList.add('active');
+          }
+        }
+      };
     }
   },
 };

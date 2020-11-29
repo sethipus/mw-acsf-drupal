@@ -1,4 +1,5 @@
 {% set faq_filters_base_class = faq_base_class|default('faq-filters') %}
+{% set filter_results_state = search_result_text is not empty ? 'active' : '' %}
 
 <div {{bem(faq_filters_base_class)}} data-theme={{theme_styles}}>
 
@@ -20,11 +21,9 @@
     </div>
   </div>
 
-    {% if search_result_text is not empty %}
-        <div {{ bem('search-results', [], faq_filters_base_class) }}>
-          {{ search_result_counter }} {{search_result_text}}
-        </div>
-    {% endif %}
+  <div {{ bem('search-results', [], faq_filters_base_class, [filter_results_state]) }} >
+    {{ search_result_counter }} {{search_result_text}}
+  </div>
     
   {% endblock %}
 

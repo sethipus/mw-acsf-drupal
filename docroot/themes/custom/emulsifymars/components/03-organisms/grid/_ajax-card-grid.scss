@@ -75,6 +75,11 @@
 
   &__more-link {
     text-align: center;
+    display: none;
+
+    &.active {
+      display: block;
+    }
 
     & .default-link {
       background-color: clr(secondary);

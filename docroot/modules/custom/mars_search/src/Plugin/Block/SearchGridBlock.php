@@ -125,10 +125,11 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('grid', $config, $grid_id);
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets($config, $grid_id));
 
-    // Output See all only if we have enough results.
+    // "See more" link should be visible only if it makes sense.
+    $build['#ajax_card_grid_link_text'] = $this->t('See more');
+    $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
-      $build['#ajax_card_grid_link_text'] = $this->t('See more');
-      $build['#ajax_card_grid_link_attributes']['href'] = '/';
+      $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
 
     $build['#ajax_card_grid_heading'] = $config['title'];

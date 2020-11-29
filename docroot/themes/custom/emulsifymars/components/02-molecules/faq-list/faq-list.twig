@@ -8,7 +8,7 @@
 #}
 
 {% set faq_base_class = faq_base_class|default('faq') %}
-
+{% set pager_state = search_result_counter > 4 ? 'active' : '' %}
 
 <div {{bem(faq_base_class)}}
   data-theme={{theme_styles}}>
@@ -35,7 +35,7 @@
 
   {% include "@atoms/lists/faq.twig" %}
 
-  <div {{bem('faq__see_all')}}>
+  <div {{bem('see_all', [], 'faq', [pager_state])}}>
     {% include "@atoms/links/defaultLink/defaultLink.twig" with {
       default_link_content: button_name,
       default_link_modifiers: ['faq_see_all'],

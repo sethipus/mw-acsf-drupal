@@ -46,6 +46,11 @@
 
 .faq__see_all {
   text-align: center;
+  display: none;
+
+  &.active {
+    display: block;
+  }
 }
 
 .default-link--faq_see_all {

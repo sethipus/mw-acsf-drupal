@@ -106,15 +106,12 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   public function build() {
     $config = $this->getConfiguration();
     $config_no_results = $this->configFactory->get('mars_search.search_no_results');
-    $cta_button_label = $cta_button_link = '';
 
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('faq');
     $build = array_merge($build, $this->searchBuilder->buildFaqFilters());
 
-    if ($query_search_results['resultsCount'] > count($build['#qa_items'])) {
-      $cta_button_label = $this->t('See more');
-      $cta_button_link = '/';
-    }
+    $cta_button_label = $this->t('See more');
+    $cta_button_link = '/';
 
     $render_default = [
       '#theme' => 'mars_search_faq_block',
@@ -122,7 +119,6 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#cta_button_label' => $cta_button_label,
       '#cta_button_link' => $cta_button_link,
       '#search_result_counter' => $query_search_results['resultsCount'],
-      '#search_result_text' => (!empty($searchOptions['keys']) && $query_search_results['resultsCount'] > 0) ? $this->formatPlural($query_search_results['resultsCount'], 'Result for "@keys"', 'Results for "@keys"', ['@keys' => $searchOptions['keys']]) : '',
       '#no_results_heading' => str_replace('@keys', $searchOptions['keys'], $config_no_results->get('no_results_heading')),
       '#no_results_text' => $config_no_results->get('no_results_text'),
       '#data_layer' => [
@@ -141,6 +137,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
         ],
         'library' => [
           'mars_search/datalayer_search',
+          'mars_search/search_filter_faq',
           'mars_search/search_pager',
         ],
       ],

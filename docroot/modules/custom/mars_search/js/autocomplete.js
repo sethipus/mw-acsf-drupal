@@ -24,7 +24,7 @@
           var target_container = $(this).parents('.search-input-wrapper').parent();
           if (cardsView && window.innerWidth > 768) {
             url = url + '&cards_view=1';
-          target_container = $(this).parents('.search-autocomplete-wrapper').parent();
+            target_container = $(this).parents('.search-autocomplete-wrapper').parent();
           }
 
           setTimeout(function() {

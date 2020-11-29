@@ -138,7 +138,11 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
    *   Id of grid for search.
    */
   public function getQueryValue($key, $grid_id) {
-    return $this->request->query->get($key)[$grid_id];
+    $filterValue = $this->request->query->get($key);
+    if (array_key_exists($grid_id, $filterValue)) {
+      return $this->request->query->get($key)[$grid_id];
+    }
+    return '';
   }
 
   /**
@@ -184,7 +188,10 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
         $facets_links[] = [
           'class' => $facet_link_class,
           'text' => $facet['filter'],
-          'attr' => ['href' => $url->toString()],
+          'attr' => [
+            'href' => $url->toString(),
+            'data-filter-value' => $facet['filter'],
+          ],
         ];
       }
     }

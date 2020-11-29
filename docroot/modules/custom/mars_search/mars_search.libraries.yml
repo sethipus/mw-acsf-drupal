@@ -24,6 +24,14 @@ datalayer.card_grid:
     - core/drupalSettings
     - core/jquery
 
+search_filter_faq:
+  js:
+    js/search_filter_faq.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+
 search_pager:
   js:
     js/search_pager.js: {}
