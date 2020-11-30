@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "parent_page_header",
- *   admin_label = @Translation("Parent Page Header"),
+ *   admin_label = @Translation("MARS: Parent Page Header"),
  *   category = @Translation("Custom")
  * )
  */

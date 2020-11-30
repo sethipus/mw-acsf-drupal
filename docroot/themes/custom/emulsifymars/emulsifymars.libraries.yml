@@ -150,6 +150,8 @@ iframe:
     dist/js/01-atoms/iframe/iframe.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 product-used-module:
   js:
@@ -157,6 +159,8 @@ product-used-module:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
 
 recipe-body:
   js:

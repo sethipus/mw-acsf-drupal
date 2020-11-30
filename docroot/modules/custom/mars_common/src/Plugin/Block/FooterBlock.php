@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "footer_block",
- *   admin_label = @Translation("Footer block"),
+ *   admin_label = @Translation("MARS: Footer block"),
  *   category = @Translation("Global elements"),
  * )
  */
