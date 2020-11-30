@@ -103,6 +103,11 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'input_form' => [],
       ],
     ],
+    'mars_search_type_filter' => [
+      'variables' => [
+        'search_results' => [],
+      ],
+    ],
   ];
 }
 

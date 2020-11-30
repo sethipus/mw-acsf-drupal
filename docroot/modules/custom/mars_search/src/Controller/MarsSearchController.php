@@ -214,12 +214,14 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
 
       case self::MARS_SEARCH_AJAX_FACET:
         $build = $this->searchBuilder->buildSearchFacets($config, $query_parameters['grid_id']);
+        unset($build['#input_form']);
         $build['#theme'] = 'mars_search_filter';
-        $json_output['filter'] = $this->renderer->render($build);
+        $json_output['filters'] = $this->renderer->render($build);
+        $build = $this->searchBuilder->buildSearchHeader($config, $query_parameters['grid_id']);
+        $build['#search_results'] = $build['#search_filters'];
+        $build['#theme'] = 'mars_search_type_filter';
+        $json_output['types'] = $this->renderer->render($build);
 
-        break;
-
-      case self::MARS_SEARCH_AJAX_QUERY:
         break;
     }
 

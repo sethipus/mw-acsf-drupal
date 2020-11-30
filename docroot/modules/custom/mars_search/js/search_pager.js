@@ -21,7 +21,7 @@
         return resultQuery;
       }
 
-      $(selectorCardGrid, context).on('click', function (e) {
+      $(selectorCardGrid, context).one('click', function (e) {
         e.preventDefault();
         var query = currentQuery();
         query.grid_type = $(this).closest('[data-layer-grid-type]').attr('data-layer-grid-type');
@@ -46,14 +46,14 @@
               });
               if (!data.pager) {
                 selectorContext.closest('.ajax-card-grid__content')
-                .find('.ajax-card-grid__more-link').visibility = "hidden";
+                .find('.ajax-card-grid__more-link').removeClass('active');
               }
             }
           }
         });
       });
 
-      $(selectorFaq, context).on('click', function (e) {
+      $(selectorFaq, context).one('click', function (e) {
         e.preventDefault();
         var query = currentQuery();
         query.grid_type = 'faq';

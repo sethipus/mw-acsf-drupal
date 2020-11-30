@@ -1,0 +1,195 @@
+/**
+ * @file
+ * Javascript for the ajax filter of search components.
+ */
+
+(function ($, Drupal, drupalSettings) {
+  Drupal.behaviors.searchFilterSearchPage = {
+    attach: function (context, settings) {
+      var gridType = context.querySelector('[data-layer-grid-type]').dataset.layerGridType;
+      if (gridType === 'search_page') {
+        var selectorInput = '.search-page-header input';
+        var selectorTypeFilter = '.search-page-header .search-results-container .results a';
+        var selectorResults = '.ajax-card-grid .ajax-card-grid__items';
+        var selectorSearchPager = '.ajax-card-grid .ajax-card-grid__more-link'
+        var selectorTypeFilterWrapper = '.search-page-header .search-results-container';
+        var selectorFilterWrapper = '.search-results-filter .search-filter-container';
+        var selectorFilter = '.search-results-filter';
+      }
+
+      // Prepare query object from browser search.
+      var currentQuery = function() {
+        var search = location.search;
+        var hashes = search.slice(search.indexOf('?') + 1).split('&');
+        return hashes.reduce((params, hash) => {
+          if (hash === '') {
+            return params;
+          }
+          var [key, val] = hash.split('=');
+          // @TODO Find better to parse id Url not supported for IE.
+          var id = decodeURIComponent(key).split('[')[1];
+          var id = id.replace(']','');
+          var key = decodeURIComponent(key).split('[')[0];
+          return Object.assign(params, {[key]: {[id]: decodeURIComponent(val)}})
+        }, {});
+      }
+
+      // Update path state in browser without page reload.
+      var pushQuery = function(query) {
+        var queryString = '?';
+        Object.keys(query).forEach(function (key) {
+          if (typeof query[key] === 'object') {
+            Object.keys(query[key]).forEach(function (id) {
+              queryString += `&${key}[${id}]=${query[key][id]}`;
+            });
+          }
+          else {
+            queryString += `&${key}=${query[key]}`;
+          }
+        });
+        window.history.pushState({}, '', location.pathname + queryString);
+      }
+
+      // Update search results.
+      var updateSearchResults = function(results) {
+        var searchItems = $(selectorResults);
+        searchItems.empty();
+        results.forEach(function(element) {
+          var elementWrapper = document.createElement('div');
+          elementWrapper.className = 'ajax-card-grid__item_wrapper';
+          elementWrapper.innerHTML = element;
+          searchItems.append(elementWrapper);
+        });
+      }
+
+      // Toggle pager.
+      var togglePager = function(pager) {
+        if (!pager) {
+          $(selectorSearchPager).removeClass('active');
+        }
+        else {
+          $(selectorSearchPager).addClass('active');
+        }
+      }
+
+      $(selectorInput, context).one('keypress', function (e) {
+        if (e.which == 13) {
+          // Prepare request query.
+          var query = currentQuery();
+          var searchKey = $(this).val();
+          if (searchKey === '') {
+            delete query.search;
+          }
+          else {
+            query['search'] = { '1': searchKey };
+          }
+          pushQuery(query);
+          query.grid_type = gridType;
+          query.offset = 0;
+          query.action_type = 'results';
+          $.ajax({
+            url: '/search-callback',
+            data: query,
+            success: function (data, textStatus) {
+              if (data.results !== null) {
+                updateSearchResults(data.results);
+                togglePager(data.pager);
+              }
+            }
+          });
+          query.action_type = 'facet';
+          $.ajax({
+            url: '/search-callback',
+            data: query,
+            success: function (data, textStatus) {
+              $(selectorTypeFilterWrapper).replaceWith(data.types);
+              $(selectorFilterWrapper).replaceWith(data.filters);
+              filterEventSubscriber(context);
+              Drupal.behaviors.searchFilterBehaviour.attach(document, drupalSettings);
+            }
+          });
+        }
+      });
+
+      var clearTypeFilterListener = function() {
+        $('.search-results-item--active .search-results-item__clear').one('click', function (e) {
+          var target = e.delegateTarget;
+          var activeType = target.closest('.search-results-item--active');
+          if (activeType !== null) {
+            activeType.classList.remove('search-results-item--active');
+          }
+          var query = currentQuery();
+          delete query.type;
+          pushQuery(query);
+          query.grid_type = 'search_page';
+          query.action_type = 'results';
+          $.ajax({
+            url: '/search-callback',
+            data: query,
+            success: function (data, textStatus) {
+              if (data.results !== null) {
+                updateSearchResults(data.results);
+                togglePager(data.pager);
+              }
+            }
+          });
+          query.action_type = 'facet';
+          $.ajax({
+            url: '/search-callback',
+            data: query,
+            success: function (data, textStatus) {
+              $(selectorFilterWrapper).replaceWith(data.filters);
+              Drupal.behaviors.searchFilterBehaviour.attach(document, drupalSettings);
+            }
+          });
+        });
+      }
+
+      var filterEventSubscriber = function(context) {
+        $(selectorTypeFilter, context).each(function(index) {
+          $(this).one('click', function (e) {
+            e.preventDefault();
+            var target = e.delegateTarget;
+            var activeFilter = target.closest('.results').querySelector('.search-results-item--active');
+            if (activeFilter !== null) {
+              activeFilter.classList.remove('search-results-item--active');
+            }
+            target.closest('.search-results-item').classList.add('search-results-item--active');
+            clearTypeFilterListener();
+            var filter = $(target).text();
+            var query = currentQuery();
+            query['type'] = { '1': filter };
+            pushQuery(query);
+            query.grid_type = 'search_page';
+            query.action_type = 'results';
+            $.ajax({
+              url: '/search-callback',
+              data: query,
+              success: function (data, textStatus) {
+                if (data.results !== null) {
+                  updateSearchResults(data.results);
+                  togglePager(data.pager);
+                }
+              }
+            });
+            query.action_type = 'facet';
+            $.ajax({
+              url: '/search-callback',
+              data: query,
+              success: function (data, textStatus) {
+                $(selectorFilterWrapper).replaceWith(data.filters);
+                Drupal.behaviors.searchFilterBehaviour.attach(document, drupalSettings);
+              }
+            });
+          });  
+        });
+      }
+
+      filterEventSubscriber(context);
+      var activeTypeFilter = $('.search-results-item--active');
+      if (activeTypeFilter !== null) {
+        clearTypeFilterListener();
+      }
+    }
+  };
+})(jQuery, Drupal, drupalSettings);

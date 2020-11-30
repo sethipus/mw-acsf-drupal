@@ -39,3 +39,11 @@ search_pager:
     - core/drupal
     - core/drupalSettings
     - core/jquery
+
+search_filter_search_page:
+  js:
+    js/search_filter_search_page.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
