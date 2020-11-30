@@ -37,26 +37,29 @@
 
   & .h2 {
     font-family: variable(heading-font);
-    font-size: 40px;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: 40px;
     letter-spacing: normal;
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
     padding-top: 2rem;
 
+    @include xs {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
+
     @include medium {
       padding-top: 5rem;
-      letter-spacing: 2px;
+      letter-spacing: 0.2rem;
     }
 
     @include large {
-      font-size: 64px;
-      line-height: 64px;
-      letter-spacing: 2.4px;
+      font-size: 4.8rem;
+      line-height: 4.8rem;
+      letter-spacing: 0.24rem;
     }
   }
 
@@ -76,11 +79,24 @@
     font-family: variable(secondary-font);
     text-align: center;
     color: clr(primary);
-    font-size: 2rem;
     font-weight: normal;
     letter-spacing: normal;
     font-style: normal;
     width: 70%;
+
+    @include xs {
+      font-size: 1.8rem;
+      line-height: 1.8rem;
+    }
+
+    @include medium {
+      line-height: 2.88rem;
+    }
+
+    @include large {
+      font-size: 2rem;
+      line-height: 3.6rem;
+    }
   }
 
   & .media_items {
@@ -96,7 +112,21 @@
       text-align: left;
       font-family: variable(secondary-font);
       color: clr(primary);
-      font-size: 1.6rem;
+
+      @include xs {
+        font-size: 1.2rem;
+        line-height: 1.56rem;
+      }
+
+      @include medium {
+        font-size: 1.4rem;
+        line-height: 1.82rem;
+      }
+
+      @include large {
+        font-size: 1.6rem;
+        line-height: 2.08rem;
+      }
     }
   }
 

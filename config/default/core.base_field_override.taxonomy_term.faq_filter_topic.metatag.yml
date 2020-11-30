@@ -1,0 +1,18 @@
+uuid: 52625a26-57e7-4800-90d3-2ddf38ce3d37
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.faq_filter_topic
+id: taxonomy_term.faq_filter_topic.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: faq_filter_topic
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

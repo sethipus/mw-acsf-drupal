@@ -31,32 +31,6 @@
  */
 #}
 
-{% if input_form or filters %}
-  <div class="card-grid-filter">
-    {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
-      theme_styles: theme_styles,
-      search_form: input_form,
-      applied_filters_list: applied_filters_list,
-      items: filters,
-      title: 'Filter by:'|t,
-    } %}
-  </div>
-{% endif %}
-
-<div class="card-grid-results" 
-     data-theme="drupal" 
-     data-layer-grid-id="{{ data_layer.grid_id }}" 
-     data-layer-grid-name="{{ data_layer.grid_name }}"
-     data-layer-search-term="{{ data_layer.search_term }}"
-     data-layer-search-results="{{ data_layer.search_results }}">
-  {% if no_results %}
-    {{ no_results }}
-  {% else %}
-    {% include "@organisms/grid/ajax-card-grid.twig" with {
-      theme_styles: theme_styles,
-      items: items,
-      ajax_card_grid_heading: ajax_card_grid_heading,
-      graphic_divider: graphic_divider,
-    } %}
-  {% endif %}
-</div>
+  {% include "@organisms/card-grid/card-grid.twig" with {
+    theme_styles: 'drupal',
+  } %}
