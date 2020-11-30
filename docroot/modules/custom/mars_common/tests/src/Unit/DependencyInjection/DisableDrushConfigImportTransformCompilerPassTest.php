@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\Tests\platform_core\Unit\DependencyInjection;
+namespace Drupal\Tests\mars_common\Unit\DependencyInjection;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\platform_core\DependencyInjection\DisableDrushConfigImportTransformCompilerPass;
+use Drupal\mars_common\DependencyInjection\DisableDrushConfigImportTransformCompilerPass;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\Definition;
 

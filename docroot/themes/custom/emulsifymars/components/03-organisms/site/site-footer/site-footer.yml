@@ -6,6 +6,8 @@ marketing_text_title: 'This is a marketing site'
 marketing_text: 'This site includes information, games, advertisements and promotional offers featuring our products. Children should get a parent’s permission before visiting any website or giving personal information. You must be 18 or older to shop online.'
 copyright_text: '®/ TM Trademarks © Mars, Incorporated 2020. Other trademarks are property of their respective owners.'
 corporate_tout_text: 'LOVE TWIX? Check out more brands from Mars.'
+corporate_tout_link_attributes:
+  href: '#'
 region_title: 'Select Region'
 current_region_title: 'East America: USA'
 regions:
