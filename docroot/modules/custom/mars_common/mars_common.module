@@ -1105,10 +1105,12 @@ function mars_common_form_poll_form_alter(
 
     if (empty($form['choice']['widget'][0]['choice']['#default_value'])) {
       $form['choice']['widget'][0]['choice']['#default_value'] = 'YES';
+      $form['choice']['widget'][0]['choice']['#required'] = TRUE;
     }
 
     if (empty($form['choice']['widget'][1]['choice']['#default_value'])) {
       $form['choice']['widget'][1]['choice']['#default_value'] = 'NO';
+      $form['choice']['widget'][1]['choice']['#required'] = TRUE;
     }
 
     foreach ($form['choice']['widget'] as $choiceIndex => $choice) {
