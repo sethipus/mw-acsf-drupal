@@ -61,6 +61,24 @@
         }
       }
 
+      // Data layer push event.
+      var dataLayerPush = function(results_count, search_text) {
+        var eventPrefix = 'faqSearch',
+            eventName = '';
+        if (results_count === 0) {
+          // SITE SEARCH NO RESULT
+          eventName = [eventPrefix, 'ResultNo'].join('_');
+        } else {
+          // SITE SEARCH RESULT SHOWN
+          eventName = [eventPrefix, 'ResultShown'].join('_');
+        }
+        dataLayer.push({
+          'event': eventName,
+          'siteSearchTerm': search_text,
+          'siteSearchResultsNum': results_count
+        });
+      }
+
       // Update search results heading.
       var toggleResultsHeading = function(results_count, search_result_text) {
         $('.faq-filters__search-results').removeClass('active');
@@ -93,6 +111,7 @@
                 toggleResultsHeading(data.results_count, data.search_result_text);
                 updateSearchResults(data.results);
                 togglePager(data.pager);
+                dataLayerPush(data.results_count, data.search_key);
               }
             }
           });
@@ -126,6 +145,7 @@
               toggleResultsHeading(data.results_count, data.search_result_text);
               updateSearchResults(data.results);
               togglePager(data.pager);
+              dataLayerPush(data.results_count, data.search_key);
             }
           }
         });

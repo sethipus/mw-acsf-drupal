@@ -206,6 +206,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         $json_output['pager'] = ($results[0]['limit'] > count($results[2]['#items'])) ? 0 : 1;
         $json_output['results'] = $results[2]['#items'];
         $json_output['results_count'] = $results[1]['resultsCount'];
+        $json_output['search_key'] = $results[0]['keys'];
         if ($query_parameters['grid_type'] == 'faq') {
           $json_output['search_result_text'] = $results[2]['#search_result_text'];
         }

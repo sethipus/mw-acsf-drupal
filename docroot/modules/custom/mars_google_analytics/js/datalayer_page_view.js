@@ -22,7 +22,7 @@
       dataLayer.push(settings.dataLayer);
 
       // SEARCH START EVENT
-      var searchInputs = document.querySelectorAll('.data-layer-search-form-input');
+      var searchInputs = document.querySelectorAll(".data-layer-search-form-input:not(.mars-autocomplete-field-faq)");
       searchInputs.forEach(function (input) {
         input.addEventListener('focus', function() {
           // SITE SEARCH START

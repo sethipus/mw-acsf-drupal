@@ -129,10 +129,6 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
         'drupalSettings' => [
           'dataLayer' => [
             'searchPage' => 'faq',
-            'siteSearchResults' => [
-              'siteSearchTerm' => $searchOptions['keys'],
-              'siteSearchResults' => $query_search_results['resultsCount'],
-            ],
           ],
         ],
         'library' => [
