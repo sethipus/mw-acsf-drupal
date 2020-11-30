@@ -72,7 +72,25 @@
         }
       }
 
-      $(selectorInput, context).one('keypress', function (e) {
+      // Data layer push event.
+      var dataLayerPush = function(results_count, search_text) {
+        var eventPrefix = 'siteSearch',
+          eventName = '';
+        if (results_count === 0) {
+          // SITE SEARCH NO RESULT
+          eventName = [eventPrefix, 'ResultNo'].join('_');
+        } else {
+          // SITE SEARCH RESULT SHOWN
+          eventName = [eventPrefix, 'ResultShown'].join('_');
+        }
+        dataLayer.push({
+          'event': eventName,
+          'siteSearchTerm': search_text,
+          'siteSearchResultsNum': results_count
+        });
+      }
+
+      $(selectorInput, context).on('keypress', function (e) {
         if (e.which == 13) {
           // Prepare request query.
           var query = currentQuery();
@@ -94,6 +112,7 @@
               if (data.results !== null) {
                 updateSearchResults(data.results);
                 togglePager(data.pager);
+                dataLayerPush(data.results_count, data.search_key);
               }
             }
           });
@@ -105,6 +124,7 @@
               $(selectorTypeFilterWrapper).replaceWith(data.types);
               $(selectorFilterWrapper).replaceWith(data.filters);
               filterEventSubscriber(context);
+              dataLayerPush(data.results_count, data.search_key);
               Drupal.behaviors.searchFilterBehaviour.attach(document, drupalSettings);
             }
           });
@@ -181,7 +201,7 @@
                 Drupal.behaviors.searchFilterBehaviour.attach(document, drupalSettings);
               }
             });
-          });  
+          });
         });
       }
 

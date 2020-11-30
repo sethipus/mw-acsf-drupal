@@ -17,7 +17,8 @@
 %}
 <div {{ attributes.addClass(classes) }}
      data-layer-search-term="{{ data_layer.search_term }}"
-     data-layer-search-results="{{ data_layer.search_results }}">
+     data-layer-search-results="{{ data_layer.search_results }}"
+     data-layer-grid-type="faq">
 
   {% include "@molecules/faq-list/faq-list.twig" with {
     theme_styles: 'drupal',

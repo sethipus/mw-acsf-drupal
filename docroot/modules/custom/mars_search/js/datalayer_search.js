@@ -43,24 +43,27 @@
           });
         });
       }
-      var attributesWrapper = searchInput.closest('[data-layer-search-results]');
-      if (attributesWrapper) {
-        if (attributesWrapper.dataset.layerSearchResults === '0') {
+      var attributesWrapper = document.querySelectorAll('[data-layer-grid-type]');
+      attributesWrapper.forEach(function (gridItem) {
+        if (gridItem.dataset.layerGridType == 'search_page') {
+          eventPrefix = 'siteSearch';
+        }
+        if (gridItem.dataset.layerSearchResults === '0') {
           // SITE SEARCH NO RESULT
           dataLayer.push({
             'event': [eventPrefix, 'ResultNo'].join('_'),
-            'siteSearchTerm': attributesWrapper.dataset.layerSearchTerm,
+            'siteSearchTerm': gridItem.dataset.layerSearchTerm,
             'siteSearchResultsNum': '0'
           });
         } else {
           // SITE SEARCH RESULT SHOWN
           dataLayer.push({
             'event': [eventPrefix, 'ResultShown'].join('_'),
-            'siteSearchTerm': attributesWrapper.dataset.layerSearchTerm,
-            'siteSearchResultsNum': attributesWrapper.dataset.layerSearchResults
+            'siteSearchTerm': gridItem.dataset.layerSearchTerm,
+            'siteSearchResultsNum': gridItem.dataset.layerSearchResults
           });
         }
-      }
+      });
     }
   };
 })(jQuery, Drupal, drupalSettings);
