@@ -34,7 +34,7 @@ Feature: Social Feed Test
     Then I should see "Choose a block"
     And I should see "Create custom block"
 
-    When I load page by link with text "Social feed"
+    When I load page by link with text "MARS: Social feed"
     Then print current URL
     And I should see "Block description"
     And I should see "Social feed"
@@ -53,17 +53,10 @@ Feature: Social Feed Test
     And I should see a ".swiper-scrollbar-drag" element
 
     When I am on "/admin/config/services/juicer_io/feed/feed/edit?destination=/admin/config/services/juicer_io/feed"
+    And I wait until the "//*[@id='edit-delete']" xpath element appears
     And I follow "edit-delete"
     Then I should see "Are you sure you want to delete"
 
     When I press "Delete"
     Then I should see "Juicer.io feed configuration deleted: Feed."
     And I should see "There are no juicer.io feed entities yet."
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    And I press "Delete"
-    Then the url should match "admin/content"
-    And I should see "Status message"
-    And I should see "Deleted 1 content item."

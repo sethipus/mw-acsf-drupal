@@ -26,7 +26,6 @@
   }
 
   .default-link {
-    outline: none;
     span {
       position: relative;
       z-index: 3;
@@ -148,10 +147,6 @@
   &__btn-group {
     height: 6.2rem;
 
-    &:focus-within {
-      outline: 1px solid Highlight;
-    }
-
     .default-link {
       min-width: 15.7rem;
       margin: .1rem 1rem;
@@ -169,6 +164,7 @@
     @include large {
       margin-bottom: 6rem;
     }
+
   }
 
   &__bottom-link {
