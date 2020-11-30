@@ -170,7 +170,8 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       ];
 
       $item_image = isset($config['items'][$key]['item_image']) ? $config['items'][$key]['item_image'] : NULL;
-      $form['items'][$key]['item_image'] = $this->getEntityBrowserForm(ImageVideoBlockBase::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $item_image, 1, 'thumbnail');
+      $form['items'][$key]['item_image'] = $this->getEntityBrowserForm(ImageVideoBlockBase::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $item_image, $form_state, 1, 'thumbnail', FALSE);
       // Convert the wrapping container to a details element.
       $form['items'][$key]['item_image']['#type'] = 'details';
       $form['items'][$key]['item_image']['#title'] = $this->t('Item Image');

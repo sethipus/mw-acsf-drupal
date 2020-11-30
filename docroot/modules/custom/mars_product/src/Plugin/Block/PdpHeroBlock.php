@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "pdp_hero_block",
- *   admin_label = @Translation("PDP Hero"),
+ *   admin_label = @Translation("MARS: PDP Hero"),
  *   category = @Translation("Product"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label = @Translation("Product"))
@@ -273,7 +273,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Nutrition section label'),
       '#default_value' => $this->configuration['nutrition']['label'],
       '#maxlength' => 18,
-      '#required' => TRUE,
     ];
     $form['nutrition']['serving_label'] = [
       '#type' => 'textfield',
@@ -298,7 +297,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Diet & Allergens part label'),
       '#default_value' => $this->configuration['allergen_label'],
       '#maxlength' => 18,
-      '#required' => TRUE,
     ];
     $form['more_information'] = [
       '#type' => 'details',
@@ -944,7 +942,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
     }
     elseif ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
-      $locale = $this->languageManager->getCurrentLanguage()->getId();
+      $locale = $this->languageHelper->getCurrentLanguageId();
       $build['#attached']['drupalSettings']['cc'] = [
         'data-token' => $this->configuration['wtb']['data_token'],
         'data-locale' => $this->configuration['wtb']['data_locale'],

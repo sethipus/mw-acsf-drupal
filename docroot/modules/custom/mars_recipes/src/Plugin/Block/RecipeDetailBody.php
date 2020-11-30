@@ -15,7 +15,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  *
  * @Block(
  *   id = "recipe_detail_body",
- *   admin_label = @Translation("Recipe detail body"),
+ *   admin_label = @Translation("MARS: Recipe detail body"),
  *   category = @Translation("Recipe"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label = @Translation("Recipe"))
