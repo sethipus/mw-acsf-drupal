@@ -49,7 +49,7 @@ ___________________________________________
 
         blt tests:behat:run -D behat.paths=Content.feature --no-interaction --environment ci
 
-        blt tests:behat:run -D behat.paths=Base.feature --no-interaction --environment ci
+        blt tests:behat:run -D behat.paths=NewsletterSignup.feature --no-interaction --environment ci
 
         (RUN ALL TESTS) blt tests:behat:run --no-interaction --environment ci
 
