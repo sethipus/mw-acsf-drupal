@@ -16,6 +16,11 @@
     }
   }
 
+  &__content {
+    position: relative;
+    overflow: hidden;
+  }
+
   .white-background {
     background-color: #fff;
     position: absolute;
@@ -297,7 +302,10 @@
   & .cta_wrapper {
     padding: 8.3rem 0;
     text-align: center;
-    padding: 3.3rem 0 12.6rem 0;
+
+    @include small {
+      padding: 3.3rem 0 12.6rem 0;
+    }
 
     @include medium {
       padding: 0 0 12.6rem 0;
