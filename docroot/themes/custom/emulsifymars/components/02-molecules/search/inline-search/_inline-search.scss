@@ -19,6 +19,10 @@
     font-weight: normal;
     text-decoration: none;
 
+    path {
+      fill: currentColor;
+    }
+
     &:hover {
       color: clr(subcolor-3);
     }

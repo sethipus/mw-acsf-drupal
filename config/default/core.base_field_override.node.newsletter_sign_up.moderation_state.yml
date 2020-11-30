@@ -1,0 +1,18 @@
+uuid: aa2210b7-e134-45a8-8fff-b58ea58f6fad
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+id: node.newsletter_sign_up.moderation_state
+field_name: moderation_state
+entity_type: node
+bundle: newsletter_sign_up
+label: 'Moderation state'
+description: 'The moderation state of this piece of content.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,18 @@
+uuid: e66112a1-07fe-4fff-bb91-f453ac1f98af
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer_item
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: block_content.flexible_framer_item
+target_entity_type_id: block_content
+target_bundle: flexible_framer_item
+default_langcode: site_default
+language_alterable: false

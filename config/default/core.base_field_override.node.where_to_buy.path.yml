@@ -1,0 +1,20 @@
+uuid: 559b4fca-f08e-4aad-857a-2498bd44404d
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.where_to_buy
+  module:
+    - path
+id: node.where_to_buy.path
+field_name: path
+entity_type: node
+bundle: where_to_buy
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path
