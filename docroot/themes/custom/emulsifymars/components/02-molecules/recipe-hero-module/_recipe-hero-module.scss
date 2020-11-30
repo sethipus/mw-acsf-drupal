@@ -25,6 +25,7 @@ $xl-left-margin: 11.583rem;
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 1px;
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include small {
       line-height: 1;
@@ -42,6 +43,7 @@ $xl-left-margin: 11.583rem;
     color: clr(primary);
     text-align: center;
     margin-top: 26px;
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include small {
       letter-spacing: 2px;
@@ -364,5 +366,14 @@ $xl-left-margin: 11.583rem;
 
   .social-menu__icon {
     fill: clr(secondary);
+  }
+}
+
+@keyframes recipe-hero-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

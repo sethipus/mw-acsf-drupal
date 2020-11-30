@@ -125,7 +125,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'top_footer_menu'      => NULL,
         'legal_links'          => NULL,
         'marketing'            => NULL,
-        'corporate_tout'       => NULL,
+        'corporate_tout_text'  => NULL,
+        'corporate_tout_url'    => NULL,
         'region_selector'      => NULL,
         'current_region_title' => NULL,
       ],
@@ -1156,6 +1157,11 @@ function mars_common_form_poll_form_alter(
     ];
 
   $form['question']['widget'][0]['value']['#title'] = 'Title';
+  if (empty($form['question']['widget'][0]['value']['#default_value'])) {
+    $mars_config = \Drupal::configFactory()
+      ->getEditable('mars_common.system.site');
+    $form['question']['widget'][0]['value']['#default_value'] = t('Thank you for visiting @brand!', ['@brand' => $mars_config->get('brand')]);
+  }
   $form['question']['widget'][0]['value']['#maxlength'] = 50;
   $form['choice']['widget']['#title'] = 'Responses';
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;

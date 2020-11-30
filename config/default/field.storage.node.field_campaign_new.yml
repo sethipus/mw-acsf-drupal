@@ -1,0 +1,18 @@
+uuid: 758f9ddc-9efd-4b9a-a52f-8466e53ac66a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_campaign_new
+field_name: field_campaign_new
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
