@@ -121,6 +121,12 @@ Drupal.behaviors.overlayVideoPlayer = {
           document.querySelector('.overlay-video-modal').remove();
         });
 
+        document.addEventListener('keyup',function (event){
+          if (event.keyCode == 27) {
+            document.querySelector('.overlay-video-modal').remove();
+          }
+        });
+
         // As the video is playing, update the progress bar
         videoElements('video').addEventListener('timeupdate', function() {
           // For mobile browsers, ensure that the progress element's max attribute is set
