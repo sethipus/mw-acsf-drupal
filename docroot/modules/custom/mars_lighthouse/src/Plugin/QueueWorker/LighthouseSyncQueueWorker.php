@@ -25,7 +25,7 @@ use Drupal\media\MediaInterface;
  * @QueueWorker(
  *   id = "lighthouse_sync_queue",
  *   title = @Translation("Lighthouse sync queue worker"),
- *   cron = {"time" = 60}
+ *   cron = {"time" = 3600}
  * )
  */
 class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {

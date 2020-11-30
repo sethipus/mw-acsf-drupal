@@ -25,6 +25,7 @@ $xl-left-margin: 11.583rem;
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 1px;
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include small {
       line-height: 1;
@@ -42,6 +43,7 @@ $xl-left-margin: 11.583rem;
     color: clr(primary);
     text-align: center;
     margin-top: 26px;
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include small {
       letter-spacing: 2px;
@@ -119,8 +121,8 @@ $xl-left-margin: 11.583rem;
   padding-top: 5px;
 
   @include medium {
-    display: inline-flex;
-    padding: 25px 0 0;
+    display: flex;
+    padding: 25px 30px 0;
   }
 
   @include xl {
@@ -137,10 +139,13 @@ $xl-left-margin: 11.583rem;
     padding: 25px 30px;
     border-bottom: none;
     border-right: 1px solid rgba(196, 196, 196, 0.6);
+    display: flex;
+    flex-flow: row nowrap;
+    flex-basis: 100%;
+  }
 
-    &:first-child {
-      margin-left: -30px;
-    }
+  @include xl {
+    flex-basis: auto;
   }
 
   &__icon-container {
@@ -150,10 +155,14 @@ $xl-left-margin: 11.583rem;
 
     @include medium {
       width: 50px;
+      display: inline-flex;
+      flex-grow: 1;
+      justify-content: center;
     }
 
     @include xl {
       width: 55px;
+      justify-content: left;
     }
   }
 
@@ -204,6 +213,8 @@ $xl-left-margin: 11.583rem;
       width: auto;
       display: block;
       margin-left: 18px;
+      flex-flow: column nowrap;
+      flex-grow: 2;
     }
 
     @include xl {
@@ -355,5 +366,14 @@ $xl-left-margin: 11.583rem;
 
   .social-menu__icon {
     fill: clr(secondary);
+  }
+}
+
+@keyframes recipe-hero-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

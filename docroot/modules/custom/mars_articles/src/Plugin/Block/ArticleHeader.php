@@ -20,7 +20,7 @@ use Drupal\Core\Utility\Token;
  *
  * @Block(
  *   id = "article_header",
- *   admin_label = @Translation("Article header"),
+ *   admin_label = @Translation("MARS: Article header"),
  *   category = @Translation("Article"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label =
