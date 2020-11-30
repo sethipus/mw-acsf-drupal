@@ -150,7 +150,7 @@ function _emulsifymars_load_images_from_theme(string &$properties) {
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $assets = [
     'graphic-divider' => $themeParser->getGraphicDivider(),
-    'brand-shape' => $themeParser->getBrandShape(),
+    'brand-shape' => $themeParser->getBrandShapeWithFill(),
   ];
 
   /** @var \Drupal\mars_common\SVG\SVG|null $asset */

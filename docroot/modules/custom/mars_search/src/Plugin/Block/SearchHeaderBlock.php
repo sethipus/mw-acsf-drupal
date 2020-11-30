@@ -151,7 +151,7 @@ class SearchHeaderBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#search_filters'] = $search_filters;
     $build['#search_header_heading'] = $conf['search_header_heading'] ?? $this->languageHelper->translate('What are you looking for?');
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
-    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShape();
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'mars_search_header';
 
     return $build;
