@@ -56,7 +56,7 @@ Drupal.behaviors.inlineVideoPlayer = {
         videoElements('video').addEventListener('volumechange', function() {
           checkVolume(videoElements);
         }, false);
-        
+
         // Add event listeners to provide info to Data layer
         if (typeof dataLayer !== 'undefined') {
           const componentBlock = videoElements('video').closest('[data-block-plugin-id]');
@@ -102,11 +102,12 @@ Drupal.behaviors.inlineVideoPlayer = {
 
           videoElements('video').addEventListener("timeupdate", videoEndedHandler);
         }
-        
+
         // Add events for all buttons
         videoElements('playpause').addEventListener('click', function(e) {
           if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
           else videoElements('video').pause();
+          console.log('1');
         });
         videoElements('video').addEventListener('click', function(e) {
           if (videoElements('video').paused || videoElements('video').ended) {
@@ -115,14 +116,21 @@ Drupal.behaviors.inlineVideoPlayer = {
             videoElements('video').pause();
           }
           changeButtonState(videoElements, 'control');
+          console.log('2');
         });
-        
+
         videoElements('mute').addEventListener('click', function(e) {
           videoElements('video').muted = !videoElements('video').muted;
           changeButtonState(videoElements, 'mute');
+          console.log('3');
         });
         videoElements('control').addEventListener('click', function(e) {
+
           handleFullcontrol(videoContainer, videoElements);
+          videoElements('video').muted = !videoElements('video').muted;
+          changeButtonState(videoElements, 'mute');
+          videoElements('video').play();
+          console.log('5');
         });
         videoElements('close').addEventListener('click', function(e) {
           handleFullcontrol(videoContainer, videoElements);
@@ -141,6 +149,25 @@ Drupal.behaviors.inlineVideoPlayer = {
         videoElements('progress-time--inner').addEventListener('click', function(e) {
           var pos = e.offsetX / this.offsetWidth;
           videoElements('video').currentTime = pos * videoElements('video').duration;
+          console.log('4');
+        });
+
+        // Listen to scroll event to pause video when out of viewport
+        let videoVisible = false;
+        let manuallyPaused = false;
+        document.addEventListener('scroll', function() {
+          let videoPosition = videoElements('video').getBoundingClientRect().top;
+          let videoHeight = videoElements('video').getBoundingClientRect().height;
+          let windowHeight = window.innerHeight;
+
+          if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
+            videoElements('video').pause();
+            videoVisible = false;
+          }
+          else if (!manuallyPaused && !videoVisible) {
+            videoElements('video').play();
+            videoVisible = true;
+          }
         });
       }
 
