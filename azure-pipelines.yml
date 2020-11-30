@@ -108,16 +108,6 @@ steps:
     inputs:
       filePath: '$(scriptDir)/setup_app.sh'
   - task: Bash@3
-    displayName: 'Run Tests'
-    inputs:
-      filePath: '$(scriptDir)/test.sh'
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: 'reports/phpunit/*.xml'
-      mergeTestResults: true
-      testRunTitle: 'Unit tests'
-  - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
     inputs:
