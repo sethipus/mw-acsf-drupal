@@ -8,18 +8,8 @@
         {% block footer__logo %}
         <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }}>
           {% include "@atoms/images/image/_image.twig" with {
-            output_image_tag: true,
-            image_alt: 'Logo',
-            image_srcset: 'twix-logo-102-x2.png 200w,
-              twix-logo-302-x2.png 200w,
-              twix-logo-414-x2.png 200w,
-              twix-logo-414-x2.png 200w',
-            image_sizes: '(max-width: 375px) 101px,
-              (max-width: 768px) 151px,
-              (max-width: 1024px) 212px,
-              232px',
+            image_base_class: 'logo__image',
             image_src: 'twix-logo.png',
-            responsive_image_blockname: 'logo',
           } %}
         </a>
         {% endblock %}
