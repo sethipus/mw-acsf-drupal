@@ -1,0 +1,18 @@
+uuid: d3568099-bb78-4bbb-a85d-e3696b754e38
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.media_carousel
+id: block_content.media_carousel.info
+field_name: info
+entity_type: block_content
+bundle: media_carousel
+label: 'Block description'
+description: 'A brief description of your block.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

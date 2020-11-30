@@ -3,13 +3,13 @@
 
 <section {{ bem(recipe_template__base_class) }} data-theme="drupal">
   <div class="recipe-body-content recipe-body-content__top" data-theme="drupal">
-    <h1 class="recipe-body-content-header">{{ "Ingredients" | t }}</h1>
+    <h1 class="recipe-body-content-header">{{ 'Ingredients' | mt }}</h1>
     {% include "@atoms/lists/ul.twig" with {
       ul_items: ingredients_list,
       ul_base_class: 'recipe-body-ingredients-list'
     }%}
     <div class="product-used" data-theme="drupal">
-      <div class="product-used__title">{{ "Products used" | t }}</div>
+      <div class="product-used__title">{{ 'Products used' | mt }}</div>
       {% include "@molecules/product-used-module/product-used-module.twig" with {
         items: product_used_items
       } %}

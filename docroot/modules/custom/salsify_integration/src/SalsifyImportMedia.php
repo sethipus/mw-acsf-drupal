@@ -147,6 +147,7 @@ class SalsifyImportMedia extends SalsifyImport {
 
           if ($results) {
             $media_id = array_pop($results);
+            /* @var \Drupal\media\Entity\Media $media */
             $media = $media_storage->load($media_id);
             $updated = strtotime($asset_data['salsify:updated_at']);
             // If the file hasn't been changed in Salsify, then stop processing.

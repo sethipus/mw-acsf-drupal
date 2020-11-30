@@ -1,0 +1,22 @@
+uuid: 8217efbc-ba15-4c27-b730-74b5822312bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - entityqueue.entity_queue.faq_queue
+id: entity_subqueue.faq_queue.status
+field_name: status
+entity_type: entity_subqueue
+bundle: faq_queue
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
