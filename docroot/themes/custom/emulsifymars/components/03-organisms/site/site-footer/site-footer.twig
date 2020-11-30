@@ -81,10 +81,11 @@
       <div {{ bem('separator', [], footer__base_class) }}></div>
       <div {{ bem('corporate-tout', [], footer__base_class) }}>
         <div {{ bem('corporate-tout__text', []) }}>{{ corporate_tout_text }}</div>
-        {% include "@atoms/buttons/twig/button.twig" with {
-          button_base_class: 'corporate-tout__button',
-          button_content: 'See All',
-          button_url: '/',
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: 'See All',
+          default_link_attributes: corporate_tout_link_attributes,
+          default_link_base_class: 'default-link',
+          default_link_modifiers: ['light']
         } %}
       </div>
     </div>
