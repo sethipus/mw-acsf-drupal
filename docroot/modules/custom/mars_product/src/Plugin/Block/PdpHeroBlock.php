@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "pdp_hero_block",
- *   admin_label = @Translation("PDP Hero"),
+ *   admin_label = @Translation("MARS: PDP Hero"),
  *   category = @Translation("Product"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label = @Translation("Product"))

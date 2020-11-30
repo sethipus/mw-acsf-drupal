@@ -63,12 +63,3 @@ Feature: Contact Module Email Test
     And I should see "MyDescription"
     And I should see a "//a[contains(@href,'mailto:test@gmail.com')]/span[contains(text(), 'Email Us')]" xpath element
     And I should see "MySocialLinks"
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    Then the url should match "content/node/delete"
-
-    When I press "Delete"
-    Then the url should match "admin/content"
-
