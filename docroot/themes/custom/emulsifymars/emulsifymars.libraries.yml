@@ -167,6 +167,9 @@ recipe-body:
     dist/js/03-organisms/recipe-body/recipe-body.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 ajaxcardgrid:
   js:
