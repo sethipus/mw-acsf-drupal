@@ -4,7 +4,7 @@
 <div class="search-results-container{{ results_exist_class }}">
   {% if search_results %}
     {% include "@atoms/text/text/01-paragraph.twig" with {
-      paragraph_content: 'Results'|t ~ ':',
+      paragraph_content: 'Results'|mt ~ ':',
       paragraph_base_class: 'results-text'
     } %}
     <div class="results">

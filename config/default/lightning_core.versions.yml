@@ -22,11 +22,13 @@ ckeditor: 8.8.1
 color: 8.8.1
 components: 1.1.0
 config: 8.8.1
+config_translation: 8.9.6
 conflict: 2.0.0-alpha1
 consumers: 1.9.0
 contact: 8.8.1
 contact_storage: 1.0.0
 content_moderation: 8.8.1
+content_translation: 8.9.6
 contextual: 8.8.1
 crop: 2.0.0
 ctools: 3.2.0
@@ -97,6 +99,7 @@ lightning_scheduler: 3.14.0
 lightning_search: 5.0.0
 lightning_workflow: 3.14.0
 link: 8.8.1
+locale: 8.9.6
 mars_articles: 0.0.0
 mars_banners: 0.0.0
 mars_common: 0.0.0
@@ -159,6 +162,14 @@ slick_entityreference: 2.0.0-rc1
 system: 8.8.1
 taxonomy: 8.8.1
 text: 8.8.1
+tmgmt: 1.11.0
+tmgmt_config: 1.11.0
+tmgmt_content: 1.11.0
+tmgmt_extension_suit: 3.3.0
+tmgmt_file: 1.11.0
+tmgmt_language_combination: 1.11.0
+tmgmt_locale: 1.11.0
+tmgmt_smartling: 4.10.0
 token: 1.6.0
 toolbar: 8.8.1
 update: 8.8.1

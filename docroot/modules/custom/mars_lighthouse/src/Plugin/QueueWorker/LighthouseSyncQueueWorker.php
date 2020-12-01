@@ -25,7 +25,7 @@ use Drupal\media\MediaInterface;
  * @QueueWorker(
  *   id = "lighthouse_sync_queue",
  *   title = @Translation("Lighthouse sync queue worker"),
- *   cron = {"time" = 60}
+ *   cron = {"time" = 3600}
  * )
  */
 class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
@@ -218,6 +218,12 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
       return NULL;
     }
 
+    // Condition to prevent wrong image extensions like (*.psd, *.iso)
+    // from lighthouse side.
+    if ($media->bundle() === 'lighthouse_image') {
+      $this->lighthouseAdapter->prepareImageExtension($data);
+    }
+
     $file_mapping = $this->mapping->get('media');
     $field_config = $this->mediaConfig[$media->bundle()];
     $field_file = $field_config['field'];
@@ -284,17 +290,24 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    * Get latest modified date.
    */
   public function getLatestModifiedDate(array $media_objects) {
+    $date = date('m/d/Y');
     if ($this->state->get('system.sync_lighthouse_last')) {
       $date = $this->state->get('system.sync_lighthouse_last');
     }
     else {
       $array_last_modified = [];
       foreach ($media_objects as $media) {
-        $array_last_modified[] = $media->field_last_mod_date->value;
+        $last_mod_date = $media->field_last_mod_date->value;
+        $date_object = \DateTime::createFromFormat(self::DATE_FORMAT, $last_mod_date);
+        if ($date_object instanceof \DateTimeInterface) {
+          $array_last_modified[] = $last_mod_date;
+        }
       }
-      $latest_modified_date = min($array_last_modified);
-      $date = \DateTime::createFromFormat(self::DATE_FORMAT, $latest_modified_date);
-      $date = $date->format('m/d/Y');
+      if (!empty($array_last_modified)) {
+        $latest_modified_date = min($array_last_modified);
+        $date = \DateTime::createFromFormat(self::DATE_FORMAT, $latest_modified_date);
+        $date = $date->format('m/d/Y');
+      }
     }
     return $date;
   }
@@ -306,10 +319,10 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     $request_data = [];
     /* @var \Drupal\media\Entity\Media $media */
     foreach ($media_objects as $media) {
-      if (!empty($media->field_original_external_id->value)) {
+      if (!empty($media->field_external_id->value) && !empty($media->field_original_external_id->value)) {
         $request_data[$media->field_external_id->value] = $media->field_original_external_id->value;
       }
-      else {
+      elseif (!empty($media->field_external_id->value)) {
         $request_data[$media->field_external_id->value] = $media->field_external_id->value;
       }
     }
@@ -361,6 +374,12 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    */
   public function processMediaSync(MediaInterface $media) {
     $external_id = $media->field_external_id->value;
+    if (empty($external_id)) {
+      $this->logger->info($this->t('Media with id: @media_id has empty field_external_id', [
+        '@media_id' => $media->id(),
+      ]));
+      return [];
+    }
     $params = $this->lighthouseAdapter->getToken();
     try {
       $data = $this->lighthouseClient->getAssetById($external_id, $params);

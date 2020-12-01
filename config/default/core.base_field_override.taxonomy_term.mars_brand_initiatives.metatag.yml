@@ -1,0 +1,18 @@
+uuid: 5a7ec1cc-4828-44eb-8ada-0f7ae824a275
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_brand_initiatives
+id: taxonomy_term.mars_brand_initiatives.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_brand_initiatives
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

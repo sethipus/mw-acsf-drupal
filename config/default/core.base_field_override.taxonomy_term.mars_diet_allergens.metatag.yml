@@ -1,0 +1,18 @@
+uuid: 350327fb-fa00-485d-a18e-c860b8666f6d
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_diet_allergens
+id: taxonomy_term.mars_diet_allergens.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_diet_allergens
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

@@ -1,0 +1,18 @@
+uuid: 095c721f-26cd-4633-ba72-32bcea19ec2e
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_prep_time
+id: taxonomy_term.mars_prep_time.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: mars_prep_time
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

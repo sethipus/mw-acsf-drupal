@@ -1,37 +1,36 @@
 .flexible-framer {
+  @include brand-border-overflow;
+
   position: relative;
   font-family: variable(primary-font);
   background-color: clr(subcolor-2);
   color: clr(primary);
 
-  @include brand-border-overflow;
-
   & .h2 {
     position: relative;
     font-family: variable(heading-font);
-    font-size: 40px;
+    font-size: 4rem;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: 40px;
+    line-height: 1;
     letter-spacing: 1.4px;
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
-    padding-top: 50px;
-    z-index: calc(#{$brand-border-overflow-zindex} + 100);
+    padding-top: 8rem;
   }
 
   & .divider {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 2rem;
     fill: clr(subcolor-1);
   }
 
   & .image-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 
     & img:hover {
       transform: scale(1.1);
@@ -40,7 +39,7 @@
   }
 
   & .grid--card {
-    margin: 40px 20px 0 20px;
+    margin: 4rem 2rem 0 2rem;
 
     @include medium {
       flex-flow: row wrap;
@@ -55,13 +54,15 @@
 
     & .image-background {
       display: inline-block;
-      margin: auto;
+      margin: 0 auto;
+      max-width: 80%;
     }
 
     & .card {
       text-align: center;
       &__heading {
         margin-bottom: 0.7rem;
+        margin-top: 3rem;
         text-align: center;
         color: clr(primary);
         font-family: variable(primary-font);
@@ -79,8 +80,13 @@
         }
 
         @include large {
+          margin-top: 6rem;
           font-size: 2.4rem;
           letter-spacing: 0.96px;
+        }
+
+        &:last-child {
+          margin-bottom: 2rem;
         }
       }
 
@@ -97,11 +103,11 @@
       }
 
       & a.default-link {
-        height: 50px;
-        line-height: 50px;
-        padding: 0 20px;
+        height: 5rem;
+        line-height: 5rem;
+        padding: 0 2rem;
         background-color: clr(secondary);
-        font-size: 14px;
+        font-size: 1.4rem;
         border:none;
 
         &:hover {
@@ -125,53 +131,80 @@
 
     & .cta-wrapper {
       margin-top: auto;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;
+    }
+  }
+
+  &--related-recipes {
+
+    & .image-wrapper {
+      align-items: center;
     }
 
-    &:nth-child(2n-1) {
+    & .grid--card {
+      @include medium {
+        align-items: stretch;
+      }
+
+      @include large {
+        align-items: stretch;
+      }
+
       & .image-background {
-        background-image: variable(brand-shape);
-        background-size: 70% 70%;
-        background-repeat: no-repeat;
-        background-position: center center;
+        margin: auto;
+      }
 
-        &:hover {
-          transform: scale(1.1);
-          transition: transform 0.8s ease;
-        }
+      & .card__heading {
+        margin-top: 1rem;
+      }
+    }
 
-        & svg {
-          circle {
-            fill: clr(subcolor-2);
+    & .grid__item {
+      &:nth-child(2n-1) {
+        & .image-background {
+          background-image: variable(brand-shape);
+          background-size: 70%;
+          background-repeat: no-repeat;
+          background-position: center center;
+
+          &:hover {
+            background-size: 77%;
+            transition: background-size 0.8s ease;
+          }
+
+          & svg {
+            circle {
+              fill: clr(subcolor-2);
+            }
           }
         }
       }
     }
-  }
 
-  .grid-items-2 {
-    .image-wrapper {
-      @include large {
-        min-height: calc((100vw/2) * 0.5625);
-        flex: 0 0 auto;
+    .grid-items-2 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/2) * 0.5625);
+          flex: 0 0 auto;
+        }
       }
     }
-  }
 
-  .grid-items-3 {
-    .image-wrapper {
-      @include large {
-        min-height: calc((100vw/3) * 0.5625);
-        flex: 0 0 auto;
+    .grid-items-3 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/3) * 0.5625);
+          flex: 0 0 auto;
+        }
       }
     }
-  }
 
-  .grid-items-4 {
-    .image-wrapper {
-      @include large {
-        min-height: calc((100vw/4) * 0.5625);
-        flex: 0 0 auto;
+    .grid-items-4 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/4) * 0.5625);
+          flex: 0 0 auto;
+        }
       }
     }
   }
