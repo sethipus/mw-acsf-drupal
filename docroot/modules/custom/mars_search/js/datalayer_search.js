@@ -18,17 +18,19 @@
       if (settings.dataLayer.searchPage === 'search_page') {
         eventPrefix = 'siteSearch';
         var searchResults = document.querySelector('.ajax-card-grid__items');
-        searchResults.addEventListener('click', function(e) {
-          var card = e.target.closest('section');
-          if (e.target && card) {
-            // SITE SEARCH RESULT CLICK
-            dataLayer.push({
-              'event': [eventPrefix, 'ResultClick'].join('_'),
-              'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-              'siteSearchClicked': card.dataset.siteSearchClicked
-            });
-          }
-        });
+        if (searchResults) {
+          searchResults.addEventListener('click', function(e) {
+            var card = e.target.closest('section');
+            if (e.target && card) {
+              // SITE SEARCH RESULT CLICK
+              dataLayer.push({
+                'event': [eventPrefix, 'ResultClick'].join('_'),
+                [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
+                [eventPrefix + 'Clicked']: card.dataset.siteSearchClicked
+              });
+            }
+          });
+        }
       }
 
       // SITE SEARCH dataLayer events.
@@ -47,15 +49,15 @@
         // SITE SEARCH NO RESULT
         dataLayer.push({
           'event': [eventPrefix, 'ResultNo'].join('_'),
-          'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResultsNum': '0'
+          [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
+          [eventPrefix + 'ResultsNum']: '0'
         });
       } else {
         // SITE SEARCH RESULT SHOWN
         dataLayer.push({
           'event': [eventPrefix, 'ResultShown'].join('_'),
-          'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResultsNum': settings.dataLayer.siteSearchResults.siteSearchResults
+          [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
+          [eventPrefix + 'ResultsNum']: settings.dataLayer.siteSearchResults.siteSearchResults
         });
       }
     }

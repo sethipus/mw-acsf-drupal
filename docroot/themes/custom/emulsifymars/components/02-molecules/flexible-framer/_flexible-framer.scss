@@ -17,7 +17,6 @@
     text-transform: uppercase;
     text-align: center;
     padding-top: 8rem;
-    z-index: calc(#{$brand-border-overflow-zindex} + 100);
 
     @include xs {
       font-size: 5.6rem;
@@ -153,6 +152,10 @@
 
     & .grid--card {
       @include medium {
+        align-items: stretch;
+      }
+
+      @include large {
         align-items: stretch;
       }
 

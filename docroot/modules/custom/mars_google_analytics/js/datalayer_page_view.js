@@ -188,12 +188,84 @@
               dataLayer.push({
                 event: 'clickOutbound',
                 clickName: item.innerText.trim(),
-                componentName: componentName
+                componentName: componentName,
+                clickDetails: link.href
               })
             }, 100);
           });
         }
       });
+
+      // POLL INPUTS CLICK EVENT
+      const pollContainer = context.querySelector('.polling');
+      if(pollContainer) {
+        const pollForm = pollContainer.closest('form');
+        const pollInputs = pollContainer.querySelectorAll('input');
+        const pollSubmit = pollContainer.querySelector('.button-vote'); 
+  
+        // Add event listeners to provide info to Data layer
+          setTimeout(function() {
+            pollSubmit.addEventListener('click', () => {
+              let clientId = '';
+              // find what radio button was selected
+              const selectedInput = [...pollInputs].filter(input => input.checked)[0];
+              if(selectedInput) {
+                const cookies = document.cookie.split(';');
+                cookies.forEach(cookie => {
+                  if(cookie.indexOf('_ga=') !== -1) {
+                    clientId = cookie.trim().substring(4, cookie.length);
+                  }
+                });
+    
+                dataLayer.push({
+                  pageName: document.title,
+                  componentName: getComponentName(pollContainer),
+                  formSubmitFlag: 1,
+                  clientId: clientId,
+                  formName: 'poll',
+                  formID: pollForm.id || '',
+                  formfieldId: selectedInput.value || ''
+                });
+              }
+  
+            });
+          }, 100);
+      }
+
+      // CONTACT US CLICK EVENT
+      const contactUsContainer = context.querySelector('.ff-form-main');
+      if(contactUsContainer) {
+        const contactUsForm = contactUsContainer.closest('form');
+        const contactUsSubmit = contactUsForm.querySelector('#btnsubmit');
+  
+        setTimeout(function() {
+          contactUsSubmit.addEventListener('click', () => {
+            let clientId = '';
+            // find what fields of the form has value button was selected
+            const populatedFields = [...contactUsForm.elements].filter(field => field.dataset.ishidden === 'false' && field.value !== '');
+            const populatedFieldIds = populatedFields.map(el => el.id);
+            if(selectedInput) {
+              const cookies = document.cookie.split(';');
+              cookies.forEach(cookie => {
+                if(cookie.indexOf('_ga=') !== -1) {
+                  clientId = cookie.trim().substring(4, cookie.length);
+                }
+              });
+  
+              dataLayer.push({
+                pageName: document.title,
+                componentName: getComponentName(pollContainer),
+                formSubmitFlag: 1,
+                clientId: clientId,
+                formName: 'Contact & Help',
+                formID: contactUsForm.id || '',
+                formfieldId: populatedFieldIds
+              });
+            }
+  
+          });
+        }, 100);
+      }
     }
   };
 })(jQuery, Drupal, drupalSettings);

@@ -41,6 +41,7 @@
   {% endif %}
 
   {% if parent_page_media_url and parent_page_media_type == 'video' %}
+    {{ attach_library('emulsifymars/ambient-video') }}
     <div class="bg-video">
       {% include "@atoms/video/ambient-video/video.twig" with {
         video__src__url: parent_page_media_url,
