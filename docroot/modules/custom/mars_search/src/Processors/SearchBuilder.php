@@ -191,6 +191,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
         // Preparing search form.
         $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $this->t('Search'), $grid_id);
+        $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-card-grid';
       }
       if (!empty($config) && !empty($config['exposed_filters_wrapper']['toggle_filters'])) {
         $facet_id = "grid_{$grid_id}_facets";
