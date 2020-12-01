@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.campaign.field_body
     - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_image
+    - field.field.node.campaign.field_campaign_new
     - field.field.node.campaign.field_campaign_related_products
     - field.field.node.campaign.field_meta_tags
     - field.field.node.campaign.field_product_occasions
@@ -65,6 +66,13 @@ content:
       field_widget_replace: false
     region: content
     third_party_settings: {  }
+  field_campaign_new:
+    weight: 128
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   field_campaign_related_products:
     weight: 124
     settings:
@@ -139,6 +147,11 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 5

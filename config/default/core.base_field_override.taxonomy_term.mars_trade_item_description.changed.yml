@@ -1,0 +1,18 @@
+uuid: 9c3fbaef-54c9-4a05-832d-c1831ceaa0fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_trade_item_description
+id: taxonomy_term.mars_trade_item_description.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: mars_trade_item_description
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

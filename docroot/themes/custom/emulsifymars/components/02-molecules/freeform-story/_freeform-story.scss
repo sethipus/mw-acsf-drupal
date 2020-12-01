@@ -40,11 +40,15 @@
     color: clr(primary);
     margin-top: 0;
     margin-bottom: 1rem;
-    font-size: 4rem;
-    line-height: 1;
+
+    @include xs {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
 
     @include large {
       font-size: 4.8rem;
+      line-height: 4.8rem;
     }
   }
 
@@ -52,8 +56,11 @@
     font-family: variable(heading-font);
     color: clr(secondary);
     margin: 0;
-    font-size: 4rem;
-    line-height: 1;
+
+    @include xs {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
 
     @include medium {
       margin-top: -0.4rem;
@@ -62,18 +69,22 @@
     @include large {
       font-size: 4.8rem;
       margin-top: -0.6rem;
+      line-height: 4.8rem;
     }
   }
 
   &__paragraph {
     font-family: variable(secondary-font);
     color: clr(primary);
-    font-size: 1.8rem;
-    line-height: 1.6;
+
+    @include xs {
+      font-size: 1.8rem;
+      line-height: 2.88rem;
+    }
 
     @include large {
       font-size: 2rem;
-      line-height: 1.8;
+      line-height: 3.6rem;
     }
   }
 
@@ -85,11 +96,11 @@
     @include xs {
       img {
         max-width: 90%;
-        margin: 0 auto;
+        margin: 2rem auto 0;
       }
 
       .freeform-story__texts {
-        padding: 2rem;
+        padding: 2rem 2rem 0;
         text-align: center;
       }
 
@@ -98,10 +109,6 @@
         height: 50rem;
         left: calc(50% - 25rem);
         top: 20rem;
-      }
-
-      .freeform-story__content {
-        padding-top: 9rem;
       }
     }
 
@@ -116,20 +123,24 @@
       }
     }
 
+    @include large {
+      .freeform-story__content{
+        padding-top: 6rem;
+      }
+    }
+
   }
 
   &--right {
     @include xs {
-      .freeform-story__content {
-        padding-top: 9rem;
-      }
       img {
         max-width: calc(100% - 4rem);
         margin-left: auto;
+        margin-top: 2rem;
       }
 
       .freeform-story__texts {
-        padding: 4rem;
+        padding: 2rem 2rem 0;
       }
 
       .freeform-story__brand-shape {
@@ -143,7 +154,6 @@
       .freeform-story__img,
       .freeform-story__texts {
         flex: 1;
-        padding-top: 0;
       }
 
       .freeform-story__content {
@@ -154,6 +164,7 @@
     @include large {
       .freeform-story__content{
         width: 90%;
+        padding-top: 6rem;
         margin-left: auto;
       }
     }
@@ -173,7 +184,7 @@
       }
 
       .freeform-story__texts {
-        padding: 2rem;
+        padding: 2rem 2rem 0;
       }
     }
 
@@ -199,7 +210,7 @@
     @include large {
       .freeform-story__content{
         width: 90%;
-        padding-top: 9rem;
+        padding-top: 6rem;
       }
     }
   }

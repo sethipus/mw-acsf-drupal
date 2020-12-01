@@ -44,6 +44,11 @@
       display: block;
       height: 100%;
     }
+
+  }
+
+  &__media:focus-within {
+    outline: 2px solid black;
   }
 
   .recipe-card-heading {
