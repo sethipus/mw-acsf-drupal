@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
@@ -951,6 +952,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
       ];
       $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+    }
+
+    if (EnvironmentDetector::isProdEnv()) {
+      $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
+    }
+    else {
+      $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
     }
 
     return $build;
