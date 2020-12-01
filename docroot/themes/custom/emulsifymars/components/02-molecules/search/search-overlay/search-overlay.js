@@ -56,7 +56,7 @@
 
     },
     searchAdapt: function () {
-      const smallScreen = window.innerWidth < 768;
+      const smallScreen = window.innerWidth < 1024;
       if (smallScreen) {
         // Mobile view
         // Move container to .header__menu--secondary-mobile
