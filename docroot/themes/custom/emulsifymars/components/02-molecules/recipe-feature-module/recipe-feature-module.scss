@@ -5,12 +5,23 @@
 
   &__title {
     text-align: center;
-    font-size: 56px;
     font-family: variable(heading-font);
     color: clr(primary);
+    text-transform: uppercase;
+
+    @include xs {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
+
+    @include medium {
+      font-size: 5.6rem;
+      line-height: 5.6rem;
+    }
 
     @include large {
-      font-size: 64px;
+      font-size: 6.4rem;
+      line-height: 6.4rem;
     }
   }
 
@@ -43,6 +54,7 @@
       width: 100%;
       height: auto;
       fill: clr(subcolor-2);
+      -webkit-backface-visibility: hidden;
     }
   }
 
