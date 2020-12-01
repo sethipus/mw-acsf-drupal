@@ -43,6 +43,19 @@
       padding-right: $space-quintuple;
     }
   }
+
+  &--trigger {
+    position: absolute;
+    top:0;
+    right:0;
+    width: 68px;
+    height: 68px;
+
+    @include large {
+      width: 0;
+      height: 48px;
+    }
+  }
 }
 
 .menu_chevron__icon {
