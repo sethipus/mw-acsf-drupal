@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -45,6 +46,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $searchBuilder;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -53,7 +61,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_id,
       $plugin_definition,
       $container->get('mars_search.search_factory'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -65,13 +74,15 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $plugin_id,
     $plugin_definition,
     SearchProcessFactoryInterface $searchProcessor,
-    ConfigFactoryInterface $configFactory
+    ConfigFactoryInterface $configFactory,
+    LanguageHelper $language_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configFactory = $configFactory;
     $this->searchProcessor = $searchProcessor;
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -84,7 +95,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
 
     $form['faq_title'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('FAQ block title'),
+      '#title' => $this->languageHelper->translate('FAQ block title'),
       '#maxlength' => 10,
       '#required' => TRUE,
       '#default_value' => $config['faq_title'] ?? 'FAQs',
@@ -110,7 +121,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('faq');
     $build = array_merge($build, $this->searchBuilder->buildFaqFilters());
 
-    $cta_button_label = $this->t('See more');
+    $cta_button_label = $this->languageHelper->translate('See more');
     $cta_button_link = '/';
 
     $render_default = [
@@ -140,6 +151,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     ];
 
     return array_merge($render_default, $build);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheMaxAge() {
+    return 0;
   }
 
 }

@@ -131,7 +131,6 @@ class SalsifyEntityTypeUpdate extends QueueWorkerBase implements ContainerFactor
         /* @var \Drupal\field\Entity\FieldConfig $field */
         $field = $fields[$field_name];
         $field_storage = $fields_storage[$field_name];
-        $field_storage_settings = [];
 
         // If the entity type has changed, then setup a new storage value for
         // the field if needed.

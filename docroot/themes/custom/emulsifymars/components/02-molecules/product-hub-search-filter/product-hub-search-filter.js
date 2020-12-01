@@ -91,6 +91,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         if (e.keyCode === 13) {
           let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
+          enableApplyButtons();
         }
       });
     });
@@ -131,7 +132,7 @@ Drupal.behaviors.searchFilterBehaviour = {
       let queryMap = currentQuery();
 
       Object.keys(queryMap).filter(function (item, key) {
-        if ((item !== 'search' || item !== 'type') && queryMap[item].hasOwnProperty(gridId)) {
+        if (!(item === 'search' || item === 'type') && queryMap[item].hasOwnProperty(gridId)) {
           delete queryMap[item][gridId];
           if (Object.keys(queryMap[item]).length == 0) {
             delete queryMap[item];
@@ -310,6 +311,14 @@ Drupal.behaviors.searchFilterBehaviour = {
           Drupal.behaviors.searchFilterBehaviour.attach(grid, drupalSettings);
         }
       };
+    }
+
+    const enableApplyButtons = () => {
+      const applyButtons = context.querySelectorAll('.search-filter-block__button--apply');
+
+      applyButtons.forEach(function(button) {
+        button.classList.remove('search-filter-block__button--disabled');
+      });
     }
   },
 };

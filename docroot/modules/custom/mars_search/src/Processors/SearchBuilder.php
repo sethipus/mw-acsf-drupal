@@ -220,7 +220,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
     // Remove filter by type.
     $facetOptions['conditions'] = array_filter($facetOptions['conditions'], function ($condition, $k) {
-      return !array_key_exists($condition[1], self::CONTENT_TYPES);
+      return $condition[1] === 'faq';
     }, ARRAY_FILTER_USE_BOTH);
     $query_search_results = $this->searchHelper->getSearchResults($facetOptions, self::SEARCH_LINKS_QUERY_ID);
 

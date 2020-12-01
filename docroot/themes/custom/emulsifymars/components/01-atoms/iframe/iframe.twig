@@ -1,5 +1,5 @@
 {% set iframe_base_class = iframe_base_class|default('iframe-container') %}
 
 <div {{ bem(iframe_base_class) }} data-theme="{{ theme_styles }}">
-  <iframe {{ bem('inner', [], iframe_base_class) }} src="{{ iframe_src }}" title="{{ iframe_description }}" id="iframe-component"></iframe>
+  <iframe {{ bem('inner', [], iframe_base_class) }} src="{{ iframe_src }}" title="{{ iframe_description }}" scrolling="no"></iframe>
 </div>

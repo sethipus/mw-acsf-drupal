@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -34,6 +35,13 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $searchBuilder;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -42,7 +50,8 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $plugin_id,
       $plugin_definition,
       $container->get('mars_search.search_factory'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -54,13 +63,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $plugin_id,
     $plugin_definition,
     SearchProcessFactoryInterface $searchProcessor,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    LanguageHelper $language_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->searchProcessor = $searchProcessor;
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
+    $this->languageHelper = $language_helper;
   }
 
   /**

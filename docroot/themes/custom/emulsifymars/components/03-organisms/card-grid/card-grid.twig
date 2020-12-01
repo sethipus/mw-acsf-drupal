@@ -1,0 +1,37 @@
+<div class="card-grid" data-theme="{{ theme_styles }}">
+  <div class="card-grid__border">
+    {{ brand_border | raw }}
+  </div>
+
+  {% if search_form or filters %}
+    <div class="card-grid-filter">
+      {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
+        theme_styles: theme_styles,
+        search_form: input_form,
+        applied_filters_list: applied_filters_list,
+        items: filters,
+        title: 'Filter by:'|mt,
+      } %}
+    </div>
+  {% endif %}
+
+  <div class="card-grid-results"
+       data-theme="{{ theme_styles }}"
+       data-layer-grid-type="grid"
+       data-layer-page-id="{{ data_layer.page_id }}"
+       data-layer-grid-id="{{ data_layer.grid_id }}"
+       data-layer-grid-name="{{ data_layer.grid_name }}"
+       data-layer-search-term="{{ data_layer.search_term }}"
+       data-layer-search-results="{{ data_layer.search_results }}">
+    {% if no_results %}
+      {{ no_results }}
+    {% else %}
+      {% include "@organisms/grid/ajax-card-grid.twig" with {
+        theme_styles: theme_styles,
+        items: items,
+        ajax_card_grid_heading: ajax_card_grid_heading,
+        graphic_divider: graphic_divider,
+      } %}
+    {% endif %}
+  </div>
+</div>

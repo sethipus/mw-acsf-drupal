@@ -4,6 +4,7 @@ namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -64,6 +65,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
   protected $themeConfiguratorParser;
 
   /**
+   * The language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -73,7 +81,8 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('mars_search.search_factory')
+      $container->get('mars_search.search_factory'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -86,7 +95,8 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    SearchProcessFactoryInterface $searchProcessor
+    SearchProcessFactoryInterface $searchProcessor,
+    LanguageHelper $language_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
@@ -94,6 +104,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $this->searchProcessor = $searchProcessor;
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -113,13 +124,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets($config, $grid_id));
 
     // "See more" link should be visible only if it makes sense.
-    $build['#ajax_card_grid_link_text'] = $this->t('See more');
+    $build['#ajax_card_grid_link_text'] = $this->languageHelper->translate('See more');
     $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
       $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
 
-    $build['#ajax_card_grid_heading'] = $config['title'];
+    $build['#ajax_card_grid_heading'] = $this->languageHelper->translate($config['title']);
     $build['#data_layer'] = [
       'page_id' => $this->getContextValue('node')->id(),
       'grid_id' => $grid_id,
@@ -145,16 +156,16 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $config = $this->getConfiguration();
 
     $form['title'] = [
-      '#title' => $this->t('Title'),
+      '#title' => $this->languageHelper->translate('Title'),
       '#type' => 'textfield',
       '#size' => 55,
       '#required' => TRUE,
-      '#default_value' => $config['title'] ?? $this->t('All products'),
+      '#default_value' => $config['title'] ?? $this->languageHelper->translate('All products'),
     ];
 
     $form['content_type'] = [
       '#type' => 'radios',
-      '#title' => $this->t('Content type'),
+      '#title' => $this->languageHelper->translate('Content type'),
       '#options' => SearchBuilderInterface::CONTENT_TYPES,
       '#default_value' => $config['content_type'] ?? NULL,
       '#required' => TRUE,
@@ -195,7 +206,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
 
     $form['general_filters'] = [
       '#type' => 'details',
-      '#title' => $this->t('Predefined filters'),
+      '#title' => $this->languageHelper->translate('Predefined filters'),
       '#open' => FALSE,
       '#states' => [
         'visible' => [
@@ -242,11 +253,11 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     }
     $form['general_filters']['options_logic'] = [
       '#type' => 'select',
-      '#title' => $this->t('Logic operator'),
-      '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
+      '#title' => $this->languageHelper->translate('Logic operator'),
+      '#description' => $this->languageHelper->translate('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
       '#options' => [
-        'and' => $this->t('AND'),
-        'or' => $this->t('OR'),
+        'and' => $this->languageHelper->translate('AND'),
+        'or' => $this->languageHelper->translate('OR'),
       ],
       '#default_value' => $config['general_filters']['options_logic'] ?? 'and',
     ];
@@ -275,13 +286,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form = [];
     $form['top_results_wrapper'] = [
       '#type' => 'details',
-      '#title' => $this->t('Top results'),
+      '#title' => $this->languageHelper->translate('Top results'),
       '#open' => FALSE,
     ];
     $form['top_results_wrapper']['top_results'] = [
       '#type' => 'entity_autocomplete',
       '#target_type' => 'node',
-      '#title' => $this->t('Top results'),
+      '#title' => $this->languageHelper->translate('Top results'),
       '#selection_settings' => [
         'target_bundles' => array_keys(SearchBuilderInterface::CONTENT_TYPES),
       ],
@@ -306,20 +317,20 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
 
     $form['exposed_filters_wrapper'] = [
       '#type' => 'details',
-      '#title' => $this->t('Exposed filters'),
+      '#title' => $this->languageHelper->translate('Exposed filters'),
       '#open' => TRUE,
     ];
 
     $form['exposed_filters_wrapper']['toggle_search'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Enable text search bar'),
-      '#description' => $this->t('If enabled a text search bar appears on the grid.'),
+      '#title' => $this->languageHelper->translate('Enable text search bar'),
+      '#description' => $this->languageHelper->translate('If enabled a text search bar appears on the grid.'),
       '#default_value' => $config['exposed_filters_wrapper']['toggle_search'] ?? FALSE,
     ];
     $form['exposed_filters_wrapper']['toggle_filters'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Enable exposed search filters'),
-      '#description' => $this->t('If enabled search filters by taxonomy fields appear on the grid.'),
+      '#title' => $this->languageHelper->translate('Enable exposed search filters'),
+      '#description' => $this->languageHelper->translate('If enabled search filters by taxonomy fields appear on the grid.'),
       '#default_value' => $config['exposed_filters_wrapper']['toggle_filters'] ?? FALSE,
     ];
     return $form;

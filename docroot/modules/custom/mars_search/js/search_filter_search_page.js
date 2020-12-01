@@ -17,19 +17,20 @@
       }
 
       // Prepare query object from browser search.
-      var currentQuery = function() {
+      const currentQuery = () => {
         var search = location.search;
         var hashes = search.slice(search.indexOf('?') + 1).split('&');
         return hashes.reduce(function(params, hash) {
           if (hash === '') {
             return params;
           }
-          var [key, val] = hash.split('=');
+          let [key, val] = hash.split('=');
           // @TODO Find better to parse id Url not supported for IE.
-          var id = decodeURIComponent(key).split('[')[1];
+          let id = decodeURIComponent(key).split('[')[1];
           id = id.replace(']','');
-          var key = decodeURIComponent(key).split('[')[0];
-          return Object.assign(params, {[key]: {[id]: decodeURIComponent(val)}})
+          key = decodeURIComponent(key).split('[')[0];
+          params[key] = {[id]: decodeURIComponent(val)};
+          return params;
         }, {});
       }
 

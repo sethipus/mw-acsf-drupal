@@ -8,7 +8,7 @@ applied_filters_list:
     key: 'cocoa_for_generations'
   - title: 'Bars/Countlines'
     key: 'bars_countlines'
-items:
+filters:
   - filter_title: 'Diet & Allergens'
     filter_id: 'mars_diet_allergens'
     active_filters_count: 1
