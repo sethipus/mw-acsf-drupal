@@ -84,42 +84,6 @@ third_party_settings:
                 type: metatag_empty_formatter
             additional: {  }
             weight: 1
-          bd38ea05-b5ec-4853-9fde-e99228d12154:
-            uuid: bd38ea05-b5ec-4853-9fde-e99228d12154
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:product:field_rating_and_reviews'
-              formatter:
-                label: above
-                settings:
-                  format: default
-                  format_custom_false: ''
-                  format_custom_true: ''
-                third_party_settings: {  }
-                type: boolean
-            additional: {  }
-            weight: 2
-          3a0fedb4-7087-40cc-a93f-888472a15753:
-            uuid: 3a0fedb4-7087-40cc-a93f-888472a15753
-            region: content
-            configuration:
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              id: 'field_block:node:product:field_override_global_rating'
-              formatter:
-                label: above
-                settings:
-                  format: default
-                  format_custom_false: ''
-                  format_custom_true: ''
-                third_party_settings: {  }
-                type: boolean
-            additional: {  }
-            weight: 3
         third_party_settings:
           layout_builder_lock:
             lock:
