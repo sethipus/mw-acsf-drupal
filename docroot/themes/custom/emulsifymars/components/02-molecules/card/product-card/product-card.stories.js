@@ -3,6 +3,7 @@ import card from './product-card.twig';
 import { useEffect } from '@storybook/client-api';
 import cardData from './product-card.yml';
 import contentPairUpData from './product-in-pair-up.yml'
+import maxLengthItemData from './product-card-max-length.yml'
 
 import './product-card';
 
@@ -31,7 +32,30 @@ export const productCardContentPairUp = () => {
 
 export const productCardImageOverride = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
-  cardData.item.card__image__src = 'image9@3x.png';
-  cardData.item.card__image__hover__src = 'image-4@3x.png';
-  return <div dangerouslySetInnerHTML={{ __html: card(cardData) }}/>;
+
+  const modifiedItem = Object.assign({}, cardData.item, {
+    card__image__src: 'image9@3x.png',
+    card__image__hover__src: 'image-4@3x.png'
+  });
+  const modifiedData = Object.assign(
+    {},
+    cardData,
+    {item: modifiedItem}
+  )
+
+  return <div dangerouslySetInnerHTML={{__html: card(modifiedData)}}/>;
 };
+
+export const productCardMaxLength = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+
+  const modifiedItem = Object.assign({}, cardData.item, maxLengthItemData);
+  const modifiedData = Object.assign(
+    {},
+    cardData,
+    {item: modifiedItem}
+  )
+
+  return <div
+    dangerouslySetInnerHTML={{__html: card(Object.assign({}, modifiedData))}}/>
+}
