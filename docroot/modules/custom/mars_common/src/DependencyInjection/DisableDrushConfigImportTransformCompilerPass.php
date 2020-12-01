@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\platform_core\DependencyInjection;
+namespace Drupal\mars_common\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

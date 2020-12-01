@@ -166,7 +166,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       var optionsMandatory = {
         proximity: 300,
       };
-      if (!window.snapScroller && context.querySelector('.pdp-body') !== null && window.innerWidth < 1024 ) {
+      if (!window.snapScroller && context.querySelector('.pdp-body') !== null && window.innerWidth < 768 ) {
         window.snapScroller = SnapScroll('.scroll-mandatory', optionsMandatory);
         setTimeout(() => {
           window.snapScroller.recalculateLayout();

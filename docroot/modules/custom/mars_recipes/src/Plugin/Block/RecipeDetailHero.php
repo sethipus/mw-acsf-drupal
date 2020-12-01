@@ -19,7 +19,7 @@ use Drupal\Core\Utility\Token;
  *
  * @Block(
  *   id = "recipe_detail_hero",
- *   admin_label = @Translation("Recipe detail hero"),
+ *   admin_label = @Translation("MARS: Recipe detail hero"),
  *   category = @Translation("Recipe"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label =
