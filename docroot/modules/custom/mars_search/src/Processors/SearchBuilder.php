@@ -218,6 +218,10 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $placeholder = $config['search_header_placeholder'] ?? $this->t('Search products, recipes, articles...');
     $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $placeholder, $grid_id);
 
+    // Remove filter by type.
+    $facetOptions['conditions'] = array_filter($facetOptions['conditions'], function ($condition, $k) {
+      return !array_key_exists($condition[1], self::CONTENT_TYPES);
+    }, ARRAY_FILTER_USE_BOTH);
     $query_search_results = $this->searchHelper->getSearchResults($facetOptions, self::SEARCH_LINKS_QUERY_ID);
 
     $build['#search_filters'] = $this->searchTermFacetProcess->prepareFacetsLinksWithCount($query_search_results['facets'], 'type', SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);

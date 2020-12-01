@@ -60,14 +60,14 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
       if (array_key_exists($vocabulary, $facets) && count($facets[$vocabulary]) > 0) {
         $facetValues = [];
         $countSelected = 0;
-        $queryFilter = urlencode($vocabulary . '[' . $grid_id . ']');
+        $queryFilter = $vocabulary;
         foreach ($facets[$vocabulary] as $facet) {
           if ($facet['filter'] == '!' || !array_key_exists($facet['filter'], $terms)) {
             continue;
           }
           $facetValues[] = [
             'title' => $terms[$facet['filter']]->label(),
-            'key' => $facet['filter'],
+            'key' => $grid_id . $facet['filter'],
           ];
           if (
             $this->hasQueryKey($vocabulary) &&

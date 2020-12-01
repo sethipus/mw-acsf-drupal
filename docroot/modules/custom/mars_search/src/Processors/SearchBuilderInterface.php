@@ -42,6 +42,19 @@ interface SearchBuilderInterface {
   ];
 
   /**
+   * List of content types which are included in indexing.
+   *
+   * @var array
+   */
+  const CONTENT_TYPES = [
+    'product' => 'Product',
+    'article' => 'Article',
+    'recipe' => 'Recipe',
+    'campaign' => 'Campaign',
+    'landing_page' => 'Landing page',
+  ];
+
+  /**
    * Facet search query id.
    *
    * @var string

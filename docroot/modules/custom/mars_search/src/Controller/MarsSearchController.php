@@ -203,6 +203,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         foreach ($results[2]['#items'] as $key => $item) {
           $results[2]['#items'][$key] = $this->renderer->render($item);
         }
+        $json_output['no_results'] = !empty($results[2]['#no_results']) ? $this->renderer->render($results[2]['#no_results']) : '';
         $json_output['pager'] = ($results[0]['limit'] > count($results[2]['#items'])) ? 0 : 1;
         $json_output['results'] = $results[2]['#items'];
         $json_output['results_count'] = $results[1]['resultsCount'];
@@ -214,13 +215,15 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
 
       case self::MARS_SEARCH_AJAX_FACET:
         $build = $this->searchBuilder->buildSearchFacets($config, $query_parameters['grid_id']);
-        unset($build['#input_form']);
         $build['#theme'] = 'mars_search_filter';
         $json_output['filters'] = $this->renderer->render($build);
-        $build = $this->searchBuilder->buildSearchHeader($config, $query_parameters['grid_id']);
-        $build['#search_results'] = $build['#search_filters'];
-        $build['#theme'] = 'mars_search_type_filter';
-        $json_output['types'] = $this->renderer->render($build);
+        if ($query_parameters['grid_type'] === 'search_page') {
+          unset($build['#input_form']);
+          $build = $this->searchBuilder->buildSearchHeader($config, $query_parameters['grid_id']);
+          $build['#search_results'] = $build['#search_filters'];
+          $build['#theme'] = 'mars_search_type_filter';
+          $json_output['types'] = $this->renderer->render($build);
+        }
 
         break;
     }

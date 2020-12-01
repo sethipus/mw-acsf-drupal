@@ -29,19 +29,6 @@ use Drupal\mars_search\Processors\SearchBuilderInterface;
 class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
 
   /**
-   * List of content types which are included in indexing.
-   *
-   * @var array
-   */
-  const CONTENT_TYPES = [
-    'product' => 'Product',
-    'article' => 'Article',
-    'recipe' => 'Recipe',
-    'campaign' => 'Campaign',
-    'landing_page' => 'Landing page',
-  ];
-
-  /**
    * The entity type manager service.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -168,7 +155,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form['content_type'] = [
       '#type' => 'radios',
       '#title' => $this->t('Content type'),
-      '#options' => self::CONTENT_TYPES,
+      '#options' => SearchBuilderInterface::CONTENT_TYPES,
       '#default_value' => $config['content_type'] ?? NULL,
       '#required' => TRUE,
     ];
@@ -296,7 +283,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       '#target_type' => 'node',
       '#title' => $this->t('Top results'),
       '#selection_settings' => [
-        'target_bundles' => array_keys(self::CONTENT_TYPES),
+        'target_bundles' => array_keys(SearchBuilderInterface::CONTENT_TYPES),
       ],
       '#tags' => TRUE,
       '#cardinality' => 8,

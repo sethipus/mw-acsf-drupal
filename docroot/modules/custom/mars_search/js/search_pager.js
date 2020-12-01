@@ -21,7 +21,7 @@
         return resultQuery;
       }
 
-      $(selectorCardGrid, context).one('click', function (e) {
+      $(selectorCardGrid, context).on('click', function (e) {
         e.preventDefault();
         var query = currentQuery();
         query.grid_type = $(this).closest('[data-layer-grid-type]').attr('data-layer-grid-type');
@@ -53,7 +53,7 @@
         });
       });
 
-      $(selectorFaq, context).one('click', function (e) {
+      $(selectorFaq, context).on('click', function (e) {
         e.preventDefault();
         var query = currentQuery();
         query.grid_type = 'faq';
