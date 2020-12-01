@@ -104,9 +104,9 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
     ];
 
     $form['description'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 35,
+      '#maxlength' => 300,
       '#default_value' => $config['description'] ?? '',
     ];
 

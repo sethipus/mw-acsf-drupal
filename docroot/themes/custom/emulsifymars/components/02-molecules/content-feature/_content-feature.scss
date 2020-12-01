@@ -69,10 +69,15 @@
     line-height: 2.88rem;
     margin-bottom: 3rem;
 
+    @include medium {
+      max-width: 70%;
+      margin: 0 auto 3rem;
+    }
+
     @include large {
         font-size: 2.2rem;
         line-height: 3.52rem;
-        margin-bottom: 6rem;
+        margin: 0 auto 6rem;
     }
   }
 
@@ -84,4 +89,10 @@
       color: clr(secondary);
     }
   }
+}
+
+/* https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/209464 */
+.block[data-block-plugin-id='mars_common_content_feature_module'] +
+.block[data-block-plugin-id='mars_common_content_feature_module'] {
+  margin-top: 50px;
 }

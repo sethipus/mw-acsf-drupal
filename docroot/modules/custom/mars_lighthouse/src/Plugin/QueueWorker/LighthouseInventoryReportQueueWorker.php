@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * @QueueWorker(
  *   id = "lighthouse_inventory_report_queue",
  *   title = @Translation("Lighthouse inventory report queue worker"),
- *   cron = {"time" = 60}
+ *   cron = {"time" = 360}
  * )
  */
 class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
