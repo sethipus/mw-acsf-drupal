@@ -27,9 +27,3 @@ Feature: Contact Module Phone Test
     And I should see a "//a[contains(@href,'tel:222-5555-1616')]/span[contains(text(), 'MyLabel')]" xpath element
     And I should see "MySocialLinks"
 
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    Then the url should match "content/node/delete"
-    When I press "Delete"
-    Then the url should match "admin/content"

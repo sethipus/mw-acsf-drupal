@@ -125,7 +125,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'top_footer_menu'      => NULL,
         'legal_links'          => NULL,
         'marketing'            => NULL,
-        'corporate_tout'       => NULL,
+        'corporate_tout_text'  => NULL,
+        'corporate_tout_url'    => NULL,
         'region_selector'      => NULL,
         'current_region_title' => NULL,
       ],
@@ -1105,10 +1106,12 @@ function mars_common_form_poll_form_alter(
 
     if (empty($form['choice']['widget'][0]['choice']['#default_value'])) {
       $form['choice']['widget'][0]['choice']['#default_value'] = 'YES';
+      $form['choice']['widget'][0]['choice']['#required'] = TRUE;
     }
 
     if (empty($form['choice']['widget'][1]['choice']['#default_value'])) {
       $form['choice']['widget'][1]['choice']['#default_value'] = 'NO';
+      $form['choice']['widget'][1]['choice']['#required'] = TRUE;
     }
 
     foreach ($form['choice']['widget'] as $choiceIndex => $choice) {
@@ -1162,7 +1165,7 @@ function mars_common_form_poll_form_alter(
       ->getEditable('mars_common.system.site');
     $form['question']['widget'][0]['value']['#default_value'] = t('Thank you for visiting @brand!', ['@brand' => $mars_config->get('brand')]);
   }
-  $form['question']['widget'][0]['value']['#maxlength'] = 50;
+  $form['question']['widget'][0]['value']['#maxlength'] = 55;
   $form['choice']['widget']['#title'] = 'Responses';
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
 
