@@ -43,6 +43,19 @@
       padding-right: $space-quintuple;
     }
   }
+
+  &--trigger {
+    position: absolute;
+    top:0;
+    right:0;
+    width: 68px;
+    height: 68px;
+
+    @include large {
+      width: 0;
+      height: 48px;
+    }
+  }
 }
 
 .menu_chevron__icon {
@@ -94,6 +107,7 @@
     &.active,
     &:active,
     &:hover {
+      font-family: variable(primary-font);
       color: clr(secondary);
       font-weight: 500;
 
