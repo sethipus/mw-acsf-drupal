@@ -45,21 +45,27 @@
           });
         });
       }
-      if (settings.dataLayer.siteSearchResults.siteSearchResults == '0') {
-        // SITE SEARCH NO RESULT
-        dataLayer.push({
-          'event': [eventPrefix, 'ResultNo'].join('_'),
-          [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
-          [eventPrefix + 'ResultsNum']: '0'
-        });
-      } else {
-        // SITE SEARCH RESULT SHOWN
-        dataLayer.push({
-          'event': [eventPrefix, 'ResultShown'].join('_'),
-          [eventPrefix + 'Term']: settings.dataLayer.siteSearchResults.siteSearchTerm,
-          [eventPrefix + 'ResultsNum']: settings.dataLayer.siteSearchResults.siteSearchResults
-        });
-      }
+      var attributesWrapper = document.querySelectorAll('[data-layer-grid-type]');
+      attributesWrapper.forEach(function (gridItem) {
+        if (gridItem.dataset.layerGridType === 'search_page') {
+          eventPrefix = 'siteSearch';
+        }
+        if (gridItem.dataset.layerSearchResults === '0') {
+          // SITE SEARCH NO RESULT
+          dataLayer.push({
+            'event': [eventPrefix, 'ResultNo'].join('_'),
+            [eventPrefix + 'Term']: gridItem.dataset.layerSearchTerm,
+            [eventPrefix + 'ResultsNum']: '0'
+          });
+        } else {
+          // SITE SEARCH RESULT SHOWN
+          dataLayer.push({
+            'event': [eventPrefix, 'ResultShown'].join('_'),
+            [eventPrefix + 'Term']: gridItem.dataset.layerSearchTerm,
+            [eventPrefix + 'ResultsNum']: gridItem.dataset.layerSearchResults
+          });
+        }
+      });
     }
   };
 })(jQuery, Drupal, drupalSettings);
