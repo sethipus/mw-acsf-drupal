@@ -61,6 +61,24 @@
         }
       }
 
+      // Data layer push event.
+      var dataLayerPush = function(results_count, search_text) {
+        var eventPrefix = 'faqSearch',
+            eventName = '';
+        if (results_count === 0) {
+          // SITE SEARCH NO RESULT
+          eventName = [eventPrefix, 'ResultNo'].join('_');
+        } else {
+          // SITE SEARCH RESULT SHOWN
+          eventName = [eventPrefix, 'ResultShown'].join('_');
+        }
+        dataLayer.push({
+          'event': eventName,
+          [eventPrefix, 'Term']: search_text,
+          [eventPrefix, 'ResultsNum']: results_count
+        });
+      }
+
       // Update search results heading.
       var toggleResultsHeading = function(results_count, search_result_text) {
         $('.faq-filters__search-results').removeClass('active');
@@ -93,6 +111,7 @@
                 toggleResultsHeading(data.results_count, data.search_result_text);
                 updateSearchResults(data.results);
                 togglePager(data.pager);
+                dataLayerPush(data.results_count, data.search_key);
               }
             }
           });
@@ -103,7 +122,6 @@
         e.preventDefault();
         var target = e.delegateTarget;
         var filter = target.dataset.filterValue;
-        var searchItems = $('.faq').find('ol.faq_list');
         var query = currentQuery();
         // Unselect current filter if active.
         if (!$(target).hasClass('active')) {
@@ -126,6 +144,7 @@
               toggleResultsHeading(data.results_count, data.search_result_text);
               updateSearchResults(data.results);
               togglePager(data.pager);
+              dataLayerPush(data.results_count, data.search_key);
             }
           }
         });

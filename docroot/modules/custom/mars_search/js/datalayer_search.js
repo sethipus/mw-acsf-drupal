@@ -14,11 +14,11 @@
       }
 
       var eventPrefix = 'faqSearch',
-          eventSelector = '.mars-autocomplete-field-faq';
+        eventSelector = '.mars-autocomplete-field-faq';
       if (settings.dataLayer.searchPage === 'search_page') {
         eventPrefix = 'siteSearch';
         var searchResults = document.querySelector('.ajax-card-grid__items');
-        searchResults.addEventListener('click', function(e) {
+        searchResults.addEventListener('click', function (e) {
           var card = e.target.closest('section');
           if (e.target && card) {
             // SITE SEARCH RESULT CLICK
@@ -34,7 +34,7 @@
       // SITE SEARCH dataLayer events.
       var searchInput = document.querySelector(eventSelector);
       if (searchInput) {
-        searchInput.addEventListener('focus', function() {
+        searchInput.addEventListener('focus', function () {
           // Data Layer search START.
           dataLayer.push({
             'event': [eventPrefix, 'Start'].join('_'),
@@ -43,21 +43,27 @@
           });
         });
       }
-      if (settings.dataLayer.siteSearchResults.siteSearchResults == '0') {
-        // SITE SEARCH NO RESULT
-        dataLayer.push({
-          'event': [eventPrefix, 'ResultNo'].join('_'),
-          'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResultsNum': '0'
-        });
-      } else {
-        // SITE SEARCH RESULT SHOWN
-        dataLayer.push({
-          'event': [eventPrefix, 'ResultShown'].join('_'),
-          'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResultsNum': settings.dataLayer.siteSearchResults.siteSearchResults
-        });
-      }
+      var attributesWrapper = document.querySelectorAll('[data-layer-grid-type]');
+      attributesWrapper.forEach(function (gridItem) {
+        if (gridItem.dataset.layerGridType == 'search_page') {
+          eventPrefix = 'siteSearch';
+        }
+        if (gridItem.dataset.layerSearchResults === '0') {
+          // SITE SEARCH NO RESULT
+          dataLayer.push({
+            'event': [eventPrefix, 'ResultNo'].join('_'),
+            'siteSearchTerm': gridItem.dataset.layerSearchTerm,
+            'siteSearchResultsNum': '0'
+          });
+        } else {
+          // SITE SEARCH RESULT SHOWN
+          dataLayer.push({
+            'event': [eventPrefix, 'ResultShown'].join('_'),
+            'siteSearchTerm': gridItem.dataset.layerSearchTerm,
+            'siteSearchResultsNum': gridItem.dataset.layerSearchResults
+          });
+        }
+      });
     }
   };
 })(jQuery, Drupal, drupalSettings);
