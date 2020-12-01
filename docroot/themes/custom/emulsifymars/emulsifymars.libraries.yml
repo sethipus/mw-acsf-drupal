@@ -169,6 +169,7 @@ product-feature:
     - core/drupal
     - core/jquery
     - core/jquery.once
+    - core/underscore
 
 recipe-body:
   js:
