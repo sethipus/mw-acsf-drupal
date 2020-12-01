@@ -74,8 +74,8 @@
         }
         dataLayer.push({
           'event': eventName,
-          [eventPrefix, 'Term']: search_text,
-          [eventPrefix, 'ResultsNum']: results_count
+          [eventPrefix + 'Term']: search_text,
+          [eventPrefix + 'ResultsNum']: results_count
         });
       }
 

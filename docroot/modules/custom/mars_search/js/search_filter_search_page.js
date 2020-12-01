@@ -84,8 +84,8 @@
         }
         dataLayer.push({
           'event': eventName,
-          [eventPrefix, 'Term']: search_text,
-          [eventPrefix, 'ResultsNum']: results_count
+          [eventPrefix + 'Term']: search_text,
+          [eventPrefix + 'ResultsNum']: results_count
         });
       }
 
@@ -148,6 +148,7 @@
               if (data.results !== null) {
                 updateSearchResults(data.results);
                 togglePager(data.pager);
+                dataLayerPush(data.results_count, data.search_key);
               }
             }
           });
@@ -186,6 +187,7 @@
                 if (data.results !== null) {
                   updateSearchResults(data.results);
                   togglePager(data.pager);
+                  dataLayerPush(data.results_count, data.search_key);
                 }
               }
             });
