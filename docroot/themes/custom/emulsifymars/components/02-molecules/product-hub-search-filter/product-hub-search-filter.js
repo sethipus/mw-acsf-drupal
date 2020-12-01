@@ -31,7 +31,7 @@ Drupal.behaviors.searchFilterBehaviour = {
     searchFilterContainer.forEach(filterContainer => {
       filterContainer.addEventListener('click', function(event) {
         const grid = getGridBlock(event);
-  
+
         switch (true) {
           case event.target.classList.contains('search-filter-header__close'):
             target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
@@ -63,7 +63,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           pushQuery(query);
         }
       });
-    }); 
+    });
 
     clearAllButtons.forEach(function (button) {
       button.addEventListener('click', function(event) {
@@ -126,7 +126,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         return params;
       }, {});
     }
-    
+
     // Current query without taxonomy filters.
     const currentQueryWithoutFilters = (gridId) => {
       let queryMap = currentQuery();
@@ -185,7 +185,7 @@ Drupal.behaviors.searchFilterBehaviour = {
     const pushQuery = (query) => {
       window.history.pushState({}, '', location.pathname + prepareQuery(query));
     }
-    
+
     const processFilters = (grid) => {
       const gridId = getGridId(grid);
       let queryElements = currentQueryWithoutFilters(gridId);
@@ -268,7 +268,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
       }
-  
+
       let xhr = new XMLHttpRequest();
       xhr.open('GET', '/search-callback' + query);
       xhr.responseType = 'json';
@@ -288,6 +288,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           else {
             pagerButton.classList.add('active');
           }
+          dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid);
         }
       };
     }
@@ -300,7 +301,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
       }
-  
+
       let xhr = new XMLHttpRequest();
       xhr.open('GET', '/search-callback' + query);
       xhr.responseType = 'json';
@@ -311,6 +312,24 @@ Drupal.behaviors.searchFilterBehaviour = {
           Drupal.behaviors.searchFilterBehaviour.attach(grid, drupalSettings);
         }
       };
+    }
+
+    const dataLayerPush = (results_count, search_key, grid) => {
+      var eventPrefix = 'cardGrid',
+          eventName = '';
+      if (results_count === 0) {
+        eventName = eventPrefix + 'Search_ResultNo';
+      }
+      else {
+        eventName = eventPrefix + 'Search_ResultShown';
+      }
+      dataLayer.push({
+        'event': eventName,
+        [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
+        [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
+        [eventPrefix + 'SearchTerm']: search_key,
+        [eventPrefix + 'SearchResultsNum']: results_count
+      });
     }
 
     const enableApplyButtons = () => {
