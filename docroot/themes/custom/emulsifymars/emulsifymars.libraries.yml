@@ -167,6 +167,15 @@ product-used-module:
     - core/jquery
     - core/jquery.once
 
+product-feature:
+  js:
+    dist/js/02-molecules/product-feature/product-feature.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
+
 recipe-body:
   js:
     dist/js/03-organisms/recipe-body/recipe-body.js: {}
