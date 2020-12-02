@@ -1,4 +1,6 @@
 {% set faq_filters_base_class = faq_base_class|default('faq-filters') %}
+{% set filter_results_state = search_result_text is not empty ? 'active' : '' %}
+{% set faq_filters_state = search_result_counter > 0 ? 'active' : '' %}
 
 <div {{bem(faq_filters_base_class)}} data-theme={{theme_styles}}>
 
@@ -6,7 +8,7 @@
   {% block faq_filters__search %}
   <div class="search-input-wrapper">
     <div {{ bem('search', [], faq_filters_base_class) }}>
-      <div class="search-input">
+      <div class="search-input mars-search-form">
         {{ search_form }}
       </div>
     </div>
@@ -20,25 +22,21 @@
     </div>
   </div>
 
-    {% if search_result_text is not empty %}
-        <div {{ bem('search-results', [], faq_filters_base_class) }}>
-          {{ search_result_counter }} {{search_result_text}}
-        </div>
-    {% endif %}
+  <div {{ bem('search-results', [], faq_filters_base_class, [filter_results_state]) }} >
+    {{ search_result_counter }} {{search_result_text}}
+  </div>
     
   {% endblock %}
 
-  {% if search_result_counter > 0 %}
-    {% block faq_filters__filters %}
-      <div {{ bem('filters', [], faq_filters_base_class) }}>
-        {% for link in facetLinks %}
-          {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-            default_link_base_class: link.class,
-            default_link_content: link.text,
-            default_link_attributes: link.attr
-          } %}
-        {% endfor %}
-      </div>
-    {% endblock %}
-  {% endif %}
+  {% block faq_filters__filters %}
+    <div {{ bem('filters', [], faq_filters_base_class, [faq_filters_state]) }}>
+      {% for link in facetLinks %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_base_class: link.class,
+          default_link_content: link.text,
+          default_link_attributes: link.attr
+        } %}
+      {% endfor %}
+    </div>
+  {% endblock %}
 </div>
