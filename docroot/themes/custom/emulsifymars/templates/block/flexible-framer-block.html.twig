@@ -15,7 +15,7 @@
 
 {% include "@molecules/flexible-framer/flexible-framer.twig" with {
   theme_styles: "drupal",
-  grid_label: grid_label,
+  grid_label: grid_label | mt,
   grid_type: grid_type,
   divider: divider,
   brand_borders: brand_borders,
