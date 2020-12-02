@@ -6,3 +6,5 @@ graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="101" height="12
 </svg>'
 ajax_card_grid_link_text: 'See more'
 ajax_card_grid_border_radius: 40
+ajax_card_grid_link_attributes:
+  class: 'active'
