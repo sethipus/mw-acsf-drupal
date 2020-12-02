@@ -291,6 +291,7 @@ class SalsifyImportField extends SalsifyImport {
             }
           }
           elseif ($field_config->getType() == 'metatag' && $field['salsify_data_type'] == 'complex') {
+            /* @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
             $meta_tags = $entity->get($field['field_name'])->value;
             $meta_tags_value = [];
             if (isset($meta_tags)) {

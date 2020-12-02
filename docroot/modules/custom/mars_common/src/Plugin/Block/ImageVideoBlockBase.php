@@ -104,9 +104,9 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
     ];
 
     $form['description'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 35,
+      '#maxlength' => 300,
       '#default_value' => $config['description'] ?? '',
     ];
 
@@ -118,7 +118,11 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
 
     $image_default = isset($config['image']) ? $config['image'] : NULL;
     // Entity Browser element for background image.
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
+        return $form_state->getValue(['settings', 'block_content_type']) === self::CONTENT_TYPE_IMAGE;
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Image');
@@ -134,7 +138,11 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
 
     $video_default = isset($config['video']) ? $config['video'] : NULL;
     // Entity Browser element for video.
-    $form['video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID, $video_default, 1);
+    $form['video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+      $video_default, $form_state, 1, 'default', function ($form_state) {
+        return $form_state->getValue(['settings', 'block_content_type']) === self::CONTENT_TYPE_VIDEO;
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['video']['#type'] = 'details';
     $form['video']['#title'] = $this->t('Video');

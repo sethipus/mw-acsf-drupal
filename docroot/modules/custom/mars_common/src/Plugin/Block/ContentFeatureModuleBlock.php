@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "mars_common_content_feature_module",
- *   admin_label = @Translation("Content Feature Module"),
+ *   admin_label = @Translation("MARS: Content Feature Module"),
  *   category = @Translation("Custom")
  * )
  */
@@ -147,7 +147,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
 
     $image_default = isset($config['background']) ? $config['background'] : NULL;
     // Entity Browser element for background image.
-    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail');
     // Convert the wrapping container to a details element.
     $form['background']['#type'] = 'details';
     $form['background']['#title'] = $this->t('Background');
@@ -156,7 +157,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 255,
+      '#maxlength' => 300,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => TRUE,
     ];
