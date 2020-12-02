@@ -19,6 +19,8 @@ body {
   height: 718px;
 
   &__header {
+    position: relative;
+    z-index: 2;
     font-size: 50px;
     text-transform: uppercase;
     color: #490e00;
@@ -27,11 +29,15 @@ body {
   }
 
   &__separator {
+    position: relative;
+    z-index: 2;
     width: 125px;
     margin: auto auto 50px;
   }
 
   &__info {
+    position: relative;
+    z-index: 2;
     margin: 0 auto;
     font-size: 18px;
 
@@ -93,7 +99,7 @@ body {
   &__input,
   &__button {
     padding: 20px;
-    border: 2px solid white;
+    border: 1px solid white;
     font-size: 18px;
     color: #490e00;
     margin: 20px 15px 0;
