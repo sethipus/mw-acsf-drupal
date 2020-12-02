@@ -62,7 +62,7 @@ class SearchForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('mars_search.search_helper'),
-      $container->get('mars_common.language_helper'),
+      $container->get('mars_common.language_helper')
     );
   }
 
