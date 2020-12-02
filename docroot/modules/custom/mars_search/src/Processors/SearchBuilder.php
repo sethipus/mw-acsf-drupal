@@ -161,6 +161,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $query_search_results['resultsCount'] += count($build['#items']);
     if ($query_search_results['resultsCount'] == 0) {
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys'], $grid_type);
+      $build['#grid_modifiers'] = 'no-results';
     }
     // FAQ items has different render.
     if ($grid_type == 'faq') {
@@ -271,6 +272,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
           'mars-autocomplete-field',
           'data-layer-search-form-input',
         ],
+        'title' => $this->t('Search'),
+        'aria-label' => $this->t('Search'),
         'data-grid-id' => $grid_id,
         'autocomplete' => 'off',
       ],

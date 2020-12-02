@@ -11,6 +11,8 @@
         var selectorInput = '.search-page-header input';
         var selectorTypeFilter = '.search-page-header .search-results-container .results a';
         var selectorResults = '.ajax-card-grid .ajax-card-grid__items';
+        var searchNoResults = '.search-results-page .no-results-container';
+        var searchBlock = '.search-results-page .ajax-card-grid';
         var selectorSearchPager = '.ajax-card-grid .ajax-card-grid__more-link'
         var selectorTypeFilterWrapper = '.search-page-header .search-results-container';
         var selectorFilterWrapper = '.search-results-filter .search-filter-container';
@@ -72,6 +74,16 @@
         }
       }
 
+      var setNoResults = function(noResults) {
+        $(searchNoResults).html(noResults);
+        if (noResults !== '') {
+          $(searchBlock).addClass('ajax-card-grid--no-results')
+        }
+        else {
+          $(searchBlock).removeClass('ajax-card-grid--no-results')
+        }
+      }
+
       // Data layer push event.
       var dataLayerPush = function(results_count, search_text) {
         var eventPrefix = 'siteSearch',
@@ -113,6 +125,7 @@
                 updateSearchResults(data.results);
                 togglePager(data.pager);
                 dataLayerPush(data.results_count, data.search_key);
+                setNoResults(data.no_results);
               }
             }
           });

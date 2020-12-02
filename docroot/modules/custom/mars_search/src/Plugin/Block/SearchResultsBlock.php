@@ -90,13 +90,6 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     // Build dataLayer attributes if search results are displayed for keys.
-    $build['#attached']['drupalSettings']['dataLayer'] = [
-      'searchPage' => 'search_page',
-      'siteSearchResults' => [
-        'siteSearchTerm' => $searchOptions['keys'],
-        'siteSearchResults' => $query_search_results['resultsCount'],
-      ],
-    ];
     $build['#data_layer'] = [
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_search_results['resultsCount'],

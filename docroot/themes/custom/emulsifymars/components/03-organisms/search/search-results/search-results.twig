@@ -1,13 +1,11 @@
-{% if input_form or filters %}
-  <div class="search-results-filter">
-    {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
-      theme_styles: theme_styles,
-      search_form: '',
-      applied_filters_list: applied_filters_list,
-      items: filters,
-    } %}
-  </div>
-{% endif %}
+<div class="search-results-filter">
+  {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
+    theme_styles: theme_styles,
+    search_form: '',
+    applied_filters_list: applied_filters_list,
+    items: filters,
+  } %}
+</div>
 
 <div class="search-results-page"
      data-layer-search-term="{{ data_layer.search_term }}"
@@ -15,11 +13,12 @@
      data-layer-grid-type="search_page"
      data-theme="{{ theme_styles }}">
 
-  {% if no_results %}
-    {{ no_results }}
-  {% else %}
-    {% include "@organisms/grid/ajax-card-grid.twig" with {
-      theme_styles: theme_styles,
-    } %}
-  {% endif %}
+  <div class="no-results-container">
+    {% if no_results %}
+      {{ no_results }}
+    {% endif %}
+  </div>
+  {% include "@organisms/grid/ajax-card-grid.twig" with {
+    theme_styles: theme_styles,
+  } %}
 </div>

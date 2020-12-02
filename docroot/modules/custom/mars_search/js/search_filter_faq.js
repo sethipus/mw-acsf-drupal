@@ -8,6 +8,7 @@
     attach: function (context, settings) {
       var selectorFaqInput = '.faq-filters__search input';
       var selectorFaqFilter = '.faq-filters__filters a';
+      var faqNoResults = '.faq .no-results-container'
 
       // Prepare query object from browser search.
       var currentQuery = function() {
@@ -88,6 +89,10 @@
         }
       }
 
+      var setNoResults = function(noResults) {
+        $(faqNoResults).html(noResults);
+      }
+
       $(selectorFaqInput, context).on('keypress', function (e) {
         if (e.which == 13) {
           // Prepare request query.
@@ -112,6 +117,7 @@
                 updateSearchResults(data.results);
                 togglePager(data.pager);
                 dataLayerPush(data.results_count, data.search_key);
+                setNoResults(data.no_results);
               }
             }
           });

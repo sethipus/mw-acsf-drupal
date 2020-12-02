@@ -37,14 +37,15 @@ Drupal.behaviors.searchFilterBehaviour = {
             target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
             break;
           case event.target.classList.contains('checkbox-item__input'):
+            enableApplyButtons();
             updateCounters(grid);
           case event.target.classList.contains('search-filter-info__applied-clear'):
             const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
             if (currentFilter !== null) {
               currentFilter.checked = false;
+              processFilters(grid);
             }
             updateCounters(grid);
-            processFilters(grid);
             break;
         }
       });
@@ -132,7 +133,7 @@ Drupal.behaviors.searchFilterBehaviour = {
       let queryMap = currentQuery();
 
       Object.keys(queryMap).filter(function (item, key) {
-        if (!(item === 'search' || item === 'type') && queryMap[item].hasOwnProperty(gridId)) {
+        if (item !== 'search' && item !== 'type' && queryMap[item].hasOwnProperty(gridId)) {
           delete queryMap[item][gridId];
           if (Object.keys(queryMap[item]).length == 0) {
             delete queryMap[item];
@@ -260,6 +261,8 @@ Drupal.behaviors.searchFilterBehaviour = {
 
     const updateResults = (query, grid) => {
       const searchResults = grid.querySelector('.ajax-card-grid__items');
+      const searchNoResults = grid.querySelector('.card-grid-results .no-results-container');
+      const searchBlock = grid.querySelector('.card-grid-results .ajax-card-grid');
       const pagerButton = grid.querySelector('.ajax-card-grid__more-link');
       const gridType = grid.querySelector('[data-layer-grid-type]').dataset.layerGridType;
       query += '&action_type=results';
@@ -287,6 +290,13 @@ Drupal.behaviors.searchFilterBehaviour = {
           }
           else {
             pagerButton.classList.add('active');
+          }
+          searchNoResults.innerHTML = xhr.response.no_results;
+          if (xhr.response.no_results !== '') {
+            searchBlock.classList.add('ajax-card-grid--no-results')
+          }
+          else {
+            searchBlock.classList.remove('ajax-card-grid--no-results')
           }
           dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid);
         }

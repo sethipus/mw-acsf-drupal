@@ -27,17 +27,15 @@
     
   {% endblock %}
 
-  {% if search_result_counter > 0 %}
-    {% block faq_filters__filters %}
-      <div {{ bem('filters', [], faq_filters_base_class) }}>
-        {% for link in facetLinks %}
-          {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-            default_link_base_class: link.class,
-            default_link_content: link.text,
-            default_link_attributes: link.attr
-          } %}
-        {% endfor %}
-      </div>
-    {% endblock %}
-  {% endif %}
+  {% block faq_filters__filters %}
+    <div {{ bem('filters', [], faq_filters_base_class) }}>
+      {% for link in facetLinks %}
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_base_class: link.class,
+          default_link_content: link.text,
+          default_link_attributes: link.attr
+        } %}
+      {% endfor %}
+    </div>
+  {% endblock %}
 </div>
