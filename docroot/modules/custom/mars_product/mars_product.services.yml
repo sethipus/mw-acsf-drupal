@@ -23,6 +23,12 @@ services:
     tags:
       - { name: event_subscriber }
 
+  mars_product.enqueue_entity.product:
+    class: Drupal\mars_product\EventSubscriber\EnqueueEntity\EnqueueProducts
+    arguments: ['@acquia_contenthub.settings']
+    tags:
+      - { name: event_subscriber }
+
   mars_product.unserialize_content_field.layout_builder_field:
     class: Drupal\mars_product\EventSubscriber\UnserializeContentField\LayoutBuilderFieldBlocksUnserializer
     arguments: ['@entity_type.manager']
