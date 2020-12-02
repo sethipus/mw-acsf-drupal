@@ -1,0 +1,18 @@
+uuid: 08ff6d1b-394b-42c0-aa73-b6c7ee93e014
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_image
+id: media.lighthouse_image.metatag
+field_name: metatag
+entity_type: media
+bundle: lighthouse_image
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

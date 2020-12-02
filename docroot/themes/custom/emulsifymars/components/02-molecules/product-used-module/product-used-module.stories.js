@@ -19,6 +19,7 @@ export const productUsedModule = () => {
     theme_styles: 'twix',
     product_used_items: [
       productCard(productCardData),
+      productCard(productCardData),
       productCard(productCardData)
     ]
   };

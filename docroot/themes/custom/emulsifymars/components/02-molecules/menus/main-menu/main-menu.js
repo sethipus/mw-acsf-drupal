@@ -8,7 +8,7 @@
             $('#header-menu-trigger').toggleClass('header__primary--open');
             e.preventDefault();
           });
-          header.find('.main-menu__link--with-sub').on('click', e => {
+          header.find('.main-menu__link--trigger').on('click', e => {
             if ($(window).width() < 1024) {
               e.preventDefault();
             }

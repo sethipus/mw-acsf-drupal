@@ -1,5 +1,4 @@
 .carousel {
-  background-color: clr(subcolor-2);
   padding: 2rem 0 4rem 0;
   overflow-x: hidden;
   max-width: 1128px;
@@ -7,13 +6,22 @@
 
   &__heading {
     &--main-heading {
-      text-align: center;
+      text-align: left;
       color: clr(primary);
       text-transform: uppercase;
       font-size: 2.8rem;
-      line-height: 1.1rem;
+      line-height: 1.1;
       font-weight: 500;
       font-family: variable(heading-font);
+      margin-left: 8%;
+    }
+
+    @include small {
+      font-size: 2rem;
+    }
+
+    @include medium {
+      font-size: 2.6rem;
     }
   }
 
@@ -72,6 +80,7 @@
     padding: 2rem 3rem;
 
     @include medium {
+      font-size: 1.4rem;
       padding: 2rem 4rem;
     }
 
@@ -156,7 +165,7 @@
     }
   }
 
-  #swiper-button {
+  .swiper-button-prev, .swiper-button-next  {
     background-color: clr(subcolor-3);
     border-radius: 50%;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);

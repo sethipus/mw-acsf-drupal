@@ -1,0 +1,22 @@
+uuid: 13ea8f20-c753-4300-8061-beb8c43271ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer
+id: block_content.flexible_framer.status
+field_name: status
+entity_type: block_content
+bundle: flexible_framer
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

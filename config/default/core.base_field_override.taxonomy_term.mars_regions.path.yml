@@ -1,0 +1,20 @@
+uuid: 9992347e-074d-4946-aac6-d6327f094cbc
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_regions
+  module:
+    - path
+id: taxonomy_term.mars_regions.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_regions
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

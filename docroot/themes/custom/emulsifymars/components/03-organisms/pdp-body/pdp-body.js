@@ -96,7 +96,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           var _window = window,
               scrollY = _window.scrollY;
           var currentTime = 0;
-          var time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / defaults.duration, 0.8));
+          var time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / defaults.duration, 0.4));
     
           var tick = function tick() {
             currentTime += 1 / 60;
@@ -164,9 +164,9 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
 
       // scroll snapping
       var optionsMandatory = {
-        proximity: 200,
+        proximity: 300,
       };
-      if (!window.snapScroller && context.querySelector('.pdp-body') !== null && window.innerWidth < 1024 ) {
+      if (!window.snapScroller && context.querySelector('.pdp-body') !== null && window.innerWidth < 768 ) {
         window.snapScroller = SnapScroll('.scroll-mandatory', optionsMandatory);
         setTimeout(() => {
           window.snapScroller.recalculateLayout();

@@ -157,7 +157,7 @@ class SalsifyImportField extends SalsifyImport {
       }
     }
     else {
-      $title = $product_data['salsify:id'];
+      $title = $product_data['Trade Item Description'] ?? $product_data['salsify:id'];
       // Allow users to alter the title set when a node is created by invoking
       // hook_salsify_process_node_title_alter().
       \Drupal::service('module_handler')
@@ -291,6 +291,7 @@ class SalsifyImportField extends SalsifyImport {
             }
           }
           elseif ($field_config->getType() == 'metatag' && $field['salsify_data_type'] == 'complex') {
+            /* @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
             $meta_tags = $entity->get($field['field_name'])->value;
             $meta_tags_value = [];
             if (isset($meta_tags)) {

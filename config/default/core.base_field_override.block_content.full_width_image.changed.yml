@@ -1,0 +1,18 @@
+uuid: 26e78f73-1ce3-4c01-b236-a7bb10ba4952
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.full_width_image
+id: block_content.full_width_image.changed
+field_name: changed
+entity_type: block_content
+bundle: full_width_image
+label: Changed
+description: 'The time that the custom block was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed
