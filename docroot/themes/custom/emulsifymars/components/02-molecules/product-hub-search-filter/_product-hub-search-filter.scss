@@ -260,6 +260,7 @@
     overflow: hidden;
     border: none;
     border-radius: 10px;
+    font-size: 0; /* needed to set minimal iOS Safari button size */
     background-color: clr(secondary);
     position: relative;
     cursor: pointer;
@@ -304,7 +305,7 @@
   }
 }
 
-.search-results-page {
+.search-results-filter {
   .search-filter-container {
     background-color: clr(subcolor-3);
   }

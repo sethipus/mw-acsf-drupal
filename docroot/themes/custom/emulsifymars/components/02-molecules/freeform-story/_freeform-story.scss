@@ -93,11 +93,11 @@
     @include xs {
       img {
         max-width: 90%;
-        margin: 0 auto;
+        margin: 2rem auto 0;
       }
 
       .freeform-story__texts {
-        padding: 2rem;
+        padding: 2rem 2rem 0;
         text-align: center;
       }
 
@@ -106,10 +106,6 @@
         height: 50rem;
         left: calc(50% - 25rem);
         top: 20rem;
-      }
-
-      .freeform-story__content {
-        padding-top: 9rem;
       }
     }
 
@@ -124,20 +120,24 @@
       }
     }
 
+    @include large {
+      .freeform-story__content{
+        padding-top: 6rem;
+      }
+    }
+
   }
 
   &--right {
     @include xs {
-      .freeform-story__content {
-        padding-top: 9rem;
-      }
       img {
         max-width: calc(100% - 4rem);
         margin-left: auto;
+        margin-top: 2rem;
       }
 
       .freeform-story__texts {
-        padding: 4rem;
+        padding: 2rem 2rem 0;
       }
 
       .freeform-story__brand-shape {
@@ -151,7 +151,6 @@
       .freeform-story__img,
       .freeform-story__texts {
         flex: 1;
-        padding-top: 0;
       }
 
       .freeform-story__content {
@@ -162,6 +161,7 @@
     @include large {
       .freeform-story__content{
         width: 90%;
+        padding-top: 6rem;
         margin-left: auto;
       }
     }
@@ -180,7 +180,7 @@
         height: 50rem;
       }
       .freeform-story__texts {
-        padding: 2rem;
+        padding: 2rem 2rem 0;
       }
     }
 
@@ -206,7 +206,7 @@
     @include large {
       .freeform-story__content{
         width: 90%;
-        padding-top: 9rem;
+        padding-top: 6rem;
       }
     }
   }
