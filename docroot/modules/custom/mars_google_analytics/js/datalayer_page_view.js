@@ -51,7 +51,7 @@
       dataLayer.push(settings.dataLayer);
 
       // SEARCH START EVENT
-      var searchInputs = document.querySelectorAll('.data-layer-search-form-input');
+      var searchInputs = document.querySelectorAll(".data-layer-search-form-input:not(.mars-autocomplete-field-faq):not(.mars-autocomplete-field-card-grid)");
       searchInputs.forEach(function (input) {
         input.addEventListener('focus', function () {
           // SITE SEARCH START
@@ -225,6 +225,78 @@
           });
         }
       });
+
+      // POLL MOUSEDOWN EVENT
+      const pollContainer = context.querySelector('.polling');
+      if (pollContainer) {
+        const pollInputs = pollContainer.querySelectorAll('input');
+        const pollSubmit = pollContainer.querySelector('.button-vote');
+        // Add event listeners to provide info to Data layer
+          setTimeout(function() {
+            pollSubmit.addEventListener('mousedown', () => {
+              // find what radio button was selected
+              const selectedInput = [...pollInputs].filter(input => input.checked)[0];
+              if (selectedInput) {
+                dataLayer.push({
+                  pageName: document.title,
+                  componentName: getComponentName(pollContainer),
+                  formSubmitFlag: 1,
+                  formName: 'Poll',
+                  formSelected: selectedInput.parentElement.innerText.trim()
+                });
+              }
+
+            });
+          }, 100);
+      }
+
+      // CONTACT US CLICK EVENT
+      const contactUsContainer = context.querySelector('.ff-form-main');
+      if (contactUsContainer) {
+        const contactUsForm = contactUsContainer.closest('form');
+        const contactUsSubmit = contactUsForm.querySelector('#btnsubmit');
+        setTimeout(function() {
+          contactUsSubmit.addEventListener('click', () => {
+            // find what fields of the form has value button was selected
+            const populatedFields = [...contactUsForm.elements].filter(field => field.dataset.ishidden === 'false' && field.value !== '');
+            let selectedValues = [];
+            for (let i=0; i < populatedFields.length; i++) {
+              const currentField = populatedFields[i];
+              selectedValues[currentField.name] = populatedFields.value;
+            }
+            dataLayer.push({
+              pageName: document.title,
+              componentName: getComponentName(pollContainer),
+              formSubmitFlag: 1,
+              formName: 'Contact & Help',
+              formSelected: selectedValues
+            });
+          });
+        }, 100);
+      }
+
+
+      // ENTRY GATE CLICK EVENT
+      const entryGateContainer = context.querySelector('.entry-gate__inner');
+      if (entryGateContainer) {
+        const entryGateSubmit = entryGateContainer.querySelector('.entry-gate-form__submit-btn');
+        // Add event listeners to provide info to Data layer
+        setTimeout(function() {
+          entryGateSubmit.addEventListener('click', () => {
+            const birthInputs = Array.from(entryGateContainer.querySelectorAll('input'));
+            const birthInputValues = birthInputs.map(el => el.value);
+            if (birthInputValues) {
+              dataLayer.push({
+                pageName: document.title,
+                componentName: getComponentName(entryGateContainer),
+                formSubmitFlag: 1,
+                formName: 'Entry gate',
+                formSelected: birthInputValues
+              });
+            }
+          });
+        }, 100);
+      }
     }
   };
 })(jQuery, Drupal, drupalSettings);

@@ -1,8 +1,6 @@
 .ajax-card-grid {
   position: relative;
 
-  @include brand-border-overflow;
-
   &__content {
     display: flex;
     flex-direction: column;
@@ -75,6 +73,11 @@
 
   &__more-link {
     text-align: center;
+    display: none;
+
+    &.active {
+      display: block;
+    }
 
     & .default-link {
       background-color: clr(secondary);
