@@ -93,6 +93,9 @@ recommendations-module:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
@@ -113,13 +116,6 @@ dropdown:
     - core/drupal
     - core/jquery
     - core/jquery.once
-
-parent-page-header:
-  js:
-    dist/js/02-molecules/parent-page-header/parent-page-header.js: {}
-    dist/js/01-atoms/video/ambient-video/video.js: {}
-  dependencies:
-    - core/drupal
 
 media-carousel:
   js:
@@ -159,6 +155,8 @@ iframe:
     dist/js/01-atoms/iframe/iframe.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 product-used-module:
   js:
@@ -166,6 +164,8 @@ product-used-module:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
 
 recipe-body:
   js:
@@ -217,5 +217,11 @@ card-grid-filter:
 social-menu:
   js:
     dist/js/02-molecules/menus/social/social-menu.js: {}
+  dependencies:
+    - core/drupal
+
+product-selector:
+  js:
+    dist/js/02-molecules/product-selector/product-selector.js: {}
   dependencies:
     - core/drupal

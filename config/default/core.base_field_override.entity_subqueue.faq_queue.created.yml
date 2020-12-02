@@ -1,0 +1,18 @@
+uuid: fc7d3477-f9bb-45f5-b326-5c251b7a2fb0
+langcode: en
+status: true
+dependencies:
+  config:
+    - entityqueue.entity_queue.faq_queue
+id: entity_subqueue.faq_queue.created
+field_name: created
+entity_type: entity_subqueue
+bundle: faq_queue
+label: 'Authored on'
+description: 'The time that the subqueue was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

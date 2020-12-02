@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\views\Views;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -28,6 +29,13 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
   protected $entityStorage;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -38,6 +46,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.language_helper'),
       $entity_storage
     );
   }
@@ -49,10 +58,12 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageHelper $language_helper,
     EntityStorageInterface $entity_storage
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityStorage = $entity_storage;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -68,7 +79,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $myView->setDisplay($conf['display']);
     $myView->preExecute();
     $myView->setArguments([
-      $conf['title'] ?? '',
+      $this->languageHelper->translate($conf['title']) ?? '',
     ]);
 
     return $myView->render($conf['display']);

@@ -4,8 +4,8 @@
 #}
 {{ attach_library('emulsifymars/search-overlay') }}
 {% set search__base_class = search__base_class|default('search-autocomplete-wrapper') %}
-{% set search__placeholder = search__placeholder|default('Search' | t) %}
-{% set inline_search__close_btn = 'Close' | t %}
+{% set search__placeholder = search__placeholder|default('Search' | mt) %}
+{% set inline_search__close_btn = 'Close' | mt %}
 
 <div {{ bem(search__base_class, [], '') }}>
   <div class="wrapper-overlay">
