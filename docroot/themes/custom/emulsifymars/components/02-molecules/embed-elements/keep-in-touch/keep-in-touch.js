@@ -1,4 +1,4 @@
-Drupal.behaviors.keepInTouch = {
+Drupal.behaviors.keepInTouchForm = {
   attach(context) {
     /* Embed Code */
     $(document).ready(function() {
@@ -21,7 +21,7 @@ Drupal.behaviors.keepInTouch = {
           'event': 'formfieldComplete',
           'formName': 'keep-in-touch',
           'formFieldName': e.target.id,
-          'componentName': ''
+          'componentName': 'keep-in-touch'
         });
         $(this).off(e);
       });

@@ -6,6 +6,7 @@ import newsletterSignupForm from './newsletter-signup-form/newsletter-signup-for
 import newsletterSignupFormSuccess from './newsletter-signup-form-success/newsletter-signup-form-success.twig';
 
 import './keep-in-touch/keep-in-touch';
+import './newsletter-signup-form/newsletter-signup-form';
 
 /**
  * Storybook Definition.
