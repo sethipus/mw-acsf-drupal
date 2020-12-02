@@ -1,5 +1,6 @@
 {% set faq_filters_base_class = faq_base_class|default('faq-filters') %}
 {% set filter_results_state = search_result_text is not empty ? 'active' : '' %}
+{% set faq_filters_state = search_result_counter > 0 ? 'active' : '' %}
 
 <div {{bem(faq_filters_base_class)}} data-theme={{theme_styles}}>
 
@@ -28,7 +29,7 @@
   {% endblock %}
 
   {% block faq_filters__filters %}
-    <div {{ bem('filters', [], faq_filters_base_class) }}>
+    <div {{ bem('filters', [], faq_filters_base_class, [faq_filters_state]) }}>
       {% for link in facetLinks %}
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
           default_link_base_class: link.class,

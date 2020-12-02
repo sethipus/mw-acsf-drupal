@@ -16,6 +16,7 @@
         var selectorSearchPager = '.ajax-card-grid .ajax-card-grid__more-link'
         var selectorTypeFilterWrapper = '.search-page-header .search-results-container';
         var selectorFilterWrapper = '.search-results-filter .search-filter-container';
+        var selectorSearchHeaderKeys = '.results-key-header-container';
       }
 
       // Prepare query object from browser search.
@@ -84,6 +85,17 @@
         }
       }
 
+      var setSearchKeyHeader = function(key, noResults) {
+        if (key !== '' && noResults === '') {
+          $(selectorSearchHeaderKeys).text(Drupal.t('Results for: ') + key);
+          $(selectorSearchHeaderKeys).addClass('active');
+        }
+        else {
+          $(selectorSearchHeaderKeys).text('');
+          $(selectorSearchHeaderKeys).removeClass('active');
+        }
+      }
+
       // Data layer push event.
       var dataLayerPush = function(results_count, search_text) {
         var eventPrefix = 'siteSearch',
@@ -125,6 +137,7 @@
                 updateSearchResults(data.results);
                 togglePager(data.pager);
                 dataLayerPush(data.results_count, data.search_key);
+                setSearchKeyHeader(data.search_key);
                 setNoResults(data.no_results);
               }
             }

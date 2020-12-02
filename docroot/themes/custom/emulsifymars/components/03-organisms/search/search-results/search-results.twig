@@ -1,3 +1,11 @@
+{% set header_key_state = results_key_header ? 'active' : '' %}
+
+<div class="results-key-header-container {{ header_key_state }}" data-theme={{ theme_styles }}>
+  {% if results_key_header %}
+    {{ results_key_header }}
+  {% endif %}
+</div>
+
 <div class="search-results-filter">
   {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
     theme_styles: theme_styles,

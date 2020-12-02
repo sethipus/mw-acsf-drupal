@@ -7,8 +7,9 @@
   Drupal.behaviors.searchFilterFaq = {
     attach: function (context, settings) {
       var selectorFaqInput = '.faq-filters__search input';
+      var selectorFaqFilterContainer = '.faq-filters__filters';
       var selectorFaqFilter = '.faq-filters__filters a';
-      var faqNoResults = '.faq .no-results-container'
+      var selectorFaqNoResults = '.faq .no-results-container'
 
       // Prepare query object from browser search.
       var currentQuery = function() {
@@ -90,7 +91,13 @@
       }
 
       var setNoResults = function(noResults) {
-        $(faqNoResults).html(noResults);
+        $(selectorFaqNoResults).html(noResults);
+        if (noResults !== '') {
+          $(selectorFaqFilterContainer).removeClass('active');
+        }
+        else {
+          $(selectorFaqFilterContainer).addClass('active');
+        }
       }
 
       $(selectorFaqInput, context).on('keypress', function (e) {

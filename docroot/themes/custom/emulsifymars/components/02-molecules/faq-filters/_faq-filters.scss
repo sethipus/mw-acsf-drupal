@@ -51,10 +51,14 @@
     font-size: 0;
     margin: 40px 20px 49px;
     max-width: none;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     justify-content: flex-start;
     padding-bottom: 30px;
+
+    &.active {
+      display: flex;
+    }
 
     @include medium {
       margin: 40px 40px 59px;
