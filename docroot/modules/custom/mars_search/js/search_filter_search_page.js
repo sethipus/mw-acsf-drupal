@@ -162,6 +162,7 @@
           var activeType = target.closest('.search-results-item--active');
           if (activeType !== null) {
             activeType.classList.remove('search-results-item--active');
+            activeType.closest('.results--filter-selected').classList.remove('results--filter-selected');
           }
           var query = currentQuery();
           delete query.type;
@@ -199,8 +200,10 @@
             var activeFilter = target.closest('.results').querySelector('.search-results-item--active');
             if (activeFilter !== null) {
               activeFilter.classList.remove('search-results-item--active');
+              activeFilter.closest('.results--filter-selected').classList.remove('results--filter-selected');
             }
             target.closest('.search-results-item').classList.add('search-results-item--active');
+            target.closest('.results').classList.add('results--filter-selected');
             var filter = $(target).text();
             var query = currentQuery();
             query['type'] = { '1': filter };

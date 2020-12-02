@@ -7,6 +7,7 @@ Drupal.behaviors.searchResultsSelectBehaviour = {
       clrButton.addEventListener('click', function(event) {
         var activeLink = clrButton.closest('.search-results-item');
         activeLink.classList.remove('search-results-item--active');
+        activeLink.closest('.results--filter-selected').classList.remove('results--filter-selected');
         activeLink.querySelector('a').click();
         event.stopPropagation();
       });

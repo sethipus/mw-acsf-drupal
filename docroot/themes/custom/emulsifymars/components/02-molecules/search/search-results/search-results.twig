@@ -1,13 +1,16 @@
 {% if search_results %}
   {% set results_exist_class = ' search-results-container--active' %}
 {% endif %}
+{% if search_filters_selected %}
+  {% set filters_selected_class = ' results--filter-selected' %}
+{% endif %}
 <div class="search-results-container{{ results_exist_class }}">
   {% if search_results %}
     {% include "@atoms/text/text/01-paragraph.twig" with {
       paragraph_content: 'Results'|mt ~ ':',
       paragraph_base_class: 'results-text'
     } %}
-    <div class="results">
+    <div class="results{{ filters_selected_class }}">
       {% block results_items %}
         {% for item in search_results %}
           <div class="results__item">
