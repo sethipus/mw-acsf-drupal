@@ -5,7 +5,7 @@
   line-height: 100%;
   color: clr(subcolor-3);
 
-  @include medium {
+  @include large {
     display: none;
     position: absolute;
     width: 100%;
