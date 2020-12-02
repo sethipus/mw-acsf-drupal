@@ -96,7 +96,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $form['faq_title'] = [
       '#type' => 'textfield',
       '#title' => $this->languageHelper->translate('FAQ block title'),
-      '#maxlength' => 10,
+      '#maxlength' => 55,
       '#required' => TRUE,
       '#default_value' => $config['faq_title'] ?? 'FAQs',
     ];
