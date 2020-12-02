@@ -123,6 +123,8 @@ media-carousel:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
 
 ambient-video:
   js:
