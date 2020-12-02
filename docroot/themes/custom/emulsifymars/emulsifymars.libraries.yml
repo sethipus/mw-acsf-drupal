@@ -123,6 +123,8 @@ media-carousel:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
 
 ambient-video:
   js:
@@ -164,6 +166,15 @@ product-used-module:
     - emulsifymars/vendor-chunk-2
     - core/jquery
     - core/jquery.once
+
+product-feature:
+  js:
+    dist/js/02-molecules/product-feature/product-feature.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 recipe-body:
   js:
