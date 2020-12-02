@@ -4,3 +4,7 @@
 
   @include brand-border-overflow;
 }
+
+.ajax-card-grid--no-results {
+  display: none;
+}
