@@ -35,7 +35,7 @@
       dataElements.forEach(function (product) {
         let taxonomy_info = JSON.parse(product.getAttribute('data-datalayer-taxonomy'));
 
-        if (typeof taxonomy_info === 'object') {
+        if (typeof taxonomy_info === 'object' && taxonomy_info != null) {
           for (const [key, value] of Object.entries(taxonomy_info)) {
             if (taxonomy.hasOwnProperty(key)) {
               let dif = value.filter(x => !taxonomy[key].includes(x));
@@ -47,7 +47,13 @@
           }
         }
       });
-      settings.dataLayer.taxonomy = JSON.stringify(taxonomy);
+
+      var taxonomy_output = '';
+      for (const [key, value] of Object.entries(taxonomy)) {
+        taxonomy_output += key + ': ' + value.join(', ') + '; ';
+      }
+
+      settings.dataLayer.taxonomy = taxonomy_output.trim();
       dataLayer.push(settings.dataLayer);
 
       // SEARCH START EVENT
