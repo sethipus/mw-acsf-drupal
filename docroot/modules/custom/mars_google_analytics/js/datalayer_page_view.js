@@ -31,7 +31,7 @@
       settings.dataLayer.products = gtins.join(', ');
 
       var dataElements = context.querySelectorAll('[data-datalayer-taxonomy]');
-      var taxonomy = (settings.dataLayer.taxonomy) ? JSON.parse(settings.dataLayer.taxonomy) : {};
+      var taxonomy = (settings.dataLayer.taxonomy !== null) ? JSON.parse(settings.dataLayer.taxonomy) : {};
       dataElements.forEach(function (product) {
         let taxonomy_info = JSON.parse(product.getAttribute('data-datalayer-taxonomy'));
 
@@ -49,8 +49,10 @@
       });
 
       var taxonomy_output = '';
-      for (const [key, value] of Object.entries(taxonomy)) {
-        taxonomy_output += key + ': ' + value.join(', ') + '; ';
+      if (taxonomy !== null) {
+        for (const [key, value] of Object.entries(taxonomy)) {
+          taxonomy_output += key + ': ' + value.join(', ') + '; ';
+        }
       }
 
       settings.dataLayer.taxonomy = taxonomy_output.trim();
@@ -232,7 +234,7 @@
         }
       });
 
-      var bindFormEvents = function(formContainer) {
+      var bindFormEvents = function(formContainer, formName) {
         var contactForm = formContainer.querySelector('form');
         // find what fields of the form has value button was selected
         Array.from(contactForm.elements).forEach((input) => {
@@ -242,7 +244,7 @@
                 event: 'formSubmit',
                 pageName: document.title,
                 componentName: getComponentName(formContainer),
-                formName: 'Contact & Help',
+                formName: formName,
                 formSubmitFlag: 1,
               });
             });
@@ -253,7 +255,7 @@
                 event: 'formFieldComplete',
                 pageName: document.title,
                 componentName: getComponentName(formContainer),
-                formName: 'Contact & Help',
+                formName: formName,
                 formFieldName: e.target.name,
                 formFieldValue: e.target.value,
               });
@@ -272,7 +274,7 @@
           // Use traditional 'for loops' for IE 11
           for(const mutation of mutationsList) {
             if (mutation.type === 'childList') {
-              bindFormEvents(formContainer);
+              bindFormEvents(formContainer, 'Contact & Help');
               observer.disconnect();
               break;
             }
@@ -287,13 +289,13 @@
       // POLL MOUSEDOWN EVENT
       const pollContainer = context.querySelector('.poll-view');
       if (pollContainer) {
-        bindFormEvents(pollContainer);
+        bindFormEvents(pollContainer, 'Poll Form');
       }
 
       // ENTRY GATE CLICK EVENT
       const entryGateContainer = context.querySelector('.entry-gate__inner');
       if (entryGateContainer) {
-        bindFormEvents(entryGateContainer);
+        bindFormEvents(entryGateContainer, 'Entry Gate Form');
       }
 
     }
