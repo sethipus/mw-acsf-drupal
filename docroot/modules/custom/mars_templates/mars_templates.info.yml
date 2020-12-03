@@ -1,0 +1,23 @@
+name: Mars LB Templates
+type: module
+description: 'Module for initial setup LB templates, should be disabled after templates applied.'
+package: 'Mars'
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - layout_builder
+  - layout_builder_restrictions
+  - layout_builder_lock
+  - layout_discovery
+  - layout_library
+  - mars_common
+  - mars_product
+  - mars_recipes
+  - mars_articles
+  - content_moderation
+  - entity_browser
+  - field_groups
+  - metatag
+  - path
+  - publication_date
+  - text
