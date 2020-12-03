@@ -5,9 +5,9 @@ namespace Drupal\mars_search\Form;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_search\Processors\SearchHelperInterface;
+use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_search\SearchHelperInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -41,7 +41,7 @@ class SearchForm extends FormBase {
   }
 
   /**
-   * Constructs a new SearchOverlayForm.
+   * Constructs a new SearchForm.
    *
    * @param \Drupal\mars_search\SearchHelperInterface $search_helper
    *   Search helper.
@@ -62,7 +62,7 @@ class SearchForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('mars_search.search_helper'),
-      $container->get('mars_common.language_helper'),
+      $container->get('mars_common.language_helper')
     );
   }
 
