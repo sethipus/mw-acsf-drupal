@@ -16,15 +16,20 @@
         var gridId = $(this).attr('data-grid-id');
         var gridQuery = $(this).attr('data-grid-query');
         var cardsView = $(this).hasClass('mars-cards-view');
+        var target_container = $(this).parents('.search-input-wrapper').parent();
+        if (searchString.length < 3) {
+          $('.mars-search-autocomplete-suggestions-wrapper').hide();
+          $('.search-input-wrapper').removeClass('suggested');
+          $(target_container).find('.mars-suggestions').html('');
+        }
         if (searchString.length > 2) {
           var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString + '&search_id=' + gridId;
           if (gridQuery) {
             url = url + '&' + gridQuery;
           }
-          var target_container = $(this).parents('.search-input-wrapper').parent();
           if (cardsView && window.innerWidth > 768) {
             url = url + '&cards_view=1';
-          target_container = $(this).parents('.search-autocomplete-wrapper').parent();
+            target_container = $(this).parents('.search-autocomplete-wrapper').parent();
           }
 
           setTimeout(function() {

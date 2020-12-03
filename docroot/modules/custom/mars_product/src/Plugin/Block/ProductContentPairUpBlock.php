@@ -182,7 +182,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#required' => TRUE,
       '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? NULL,
     ];
@@ -214,7 +213,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#target_type' => 'node',
       '#default_value' => ($node_id = $this->configuration['product'] ?? NULL) ? $this->nodeStorage->load($node_id) : NULL,
       '#selection_settings' => [
-        'target_bundles' => ['product'],
+        'target_bundles' => ['product', 'product_multipack'],
       ],
     ];
 
@@ -320,7 +319,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     EntityInterface $supporting_entity
   ): array {
     $conf = $this->getConfiguration();
-    $is_product_card = $supporting_entity->bundle() === 'product';
+    $is_product_card = in_array($supporting_entity->bundle(), ['product', 'product_multipack']);
 
     $render_array = $this->viewBuilder->view(
       $supporting_entity,
