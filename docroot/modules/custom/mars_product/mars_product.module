@@ -38,6 +38,12 @@ function mars_product_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'product-content-pair-up-block',
     ],
+    'pdp_rating_block' => [
+      'variables' => [
+        'items' => [],
+      ],
+      'template' => 'pdp-rating-block',
+    ],
   ];
 }
 
