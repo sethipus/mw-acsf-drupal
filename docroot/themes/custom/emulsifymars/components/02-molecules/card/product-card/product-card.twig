@@ -8,6 +8,8 @@
 <section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }}
          data-theme="{{ theme_styles }}"
          data-site-search-clicked="{{ item.paragraph_content }}"
+         data-datalayer-gtin="{{ product_sku }}"
+         data-datalayer-taxonomy="{{ datalayer_taxonomy }}"
          data-card-type="product-card">
 
     {% if is_new %}
