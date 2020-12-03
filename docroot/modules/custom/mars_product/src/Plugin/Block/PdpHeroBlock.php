@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
@@ -122,7 +123,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ProductHelper $product_helper,
     MediaHelper $media_helper
   ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->entityRepository = $entity_repository;
@@ -131,6 +131,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->languageHelper = $language_helper;
     $this->productHelper = $product_helper;
     $this->mediaHelper = $media_helper;
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
   /**
@@ -351,6 +352,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function defaultConfiguration(): array {
     $config = $this->getConfiguration();
+    $wtb_global = $this->config->get('mars_product.wtb.settings');
 
     return [
       'label_display' => FALSE,
@@ -367,14 +369,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More information'),
       'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? TRUE,
       'wtb' => [
-        'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
-        'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
-        'data_token' => $config['wtb']['data_token'] ?? '',
-        'data_subid' => $config['wtb']['data_subid'] ?? '',
-        'cta_title' => $config['wtb']['cta_title'] ?? '',
-        'product_id' => $config['wtb']['product_id'] ?? '',
-        'button_type' => $config['wtb']['button_type'] ?? '',
-        'data_locale' => $config['wtb']['data_locale'] ?? '',
+        'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? $wtb_global->get('commerce_vendor') ?? self::VENDOR_COMMERCE_CONNECTOR,
+        'data_widget_id' => $config['wtb']['data_widget_id'] ?? $wtb_global->get('widget_id') ?? NULL,
+        'data_token' => $config['wtb']['data_token'] ?? $wtb_global->get('data_token') ?? NULL,
+        'data_subid' => $config['wtb']['data_subid'] ?? $wtb_global->get('data_subid') ?? NULL,
+        'cta_title' => $config['wtb']['cta_title'] ?? $wtb_global->get('cta_title') ?? NULL,
+        'product_id' => $config['wtb']['product_id'] ?? NULL,
+        'button_type' => $config['wtb']['button_type'] ?? $wtb_global->get('button_type') ?? NULL,
+        'data_locale' => $config['wtb']['data_locale'] ?? $wtb_global->get('data_locale') ?? NULL,
       ],
 
     ];
@@ -951,6 +953,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
       ];
       $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+    }
+
+    if (EnvironmentDetector::isProdEnv()) {
+      $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
+    }
+    else {
+      $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
     }
 
     return $build;
