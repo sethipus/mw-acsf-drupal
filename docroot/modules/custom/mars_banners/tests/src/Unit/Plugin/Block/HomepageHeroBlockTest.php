@@ -6,6 +6,7 @@ use Drupal;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\mars_banners\Plugin\Block\HomepageHeroBlock;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
@@ -82,6 +83,13 @@ class HomepageHeroBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
+   * Mock.
+   *
    * @var \Drupal\mars_common\ThemeConfiguratorParser|\PHPUnit\Framework\MockObject\MockObject
    */
   private $themeConfiguratorParserMock;
@@ -99,6 +107,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
       'homepage_hero_block',
       self::TEST_DEFENITION,
       $this->mediaHelperMock,
+      $this->languageHelperMock,
       $this->themeConfiguratorParserMock
     );
   }
@@ -170,7 +179,26 @@ class HomepageHeroBlockTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->languageHelperMock = $this->createLanguageHelperMock();
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+  }
+
+  /**
+   * Returns Language helper mock.
+   *
+   * @return \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   *   Theme Configuration Parser service mock.
+   */
+  private function createLanguageHelperMock() {
+    $mock = $this->createMock(LanguageHelper::class);
+    $mock->method('translate')
+      ->will(
+        $this->returnCallback(function ($arg) {
+          return $arg;
+        })
+      );
+
+    return $mock;
   }
 
 }

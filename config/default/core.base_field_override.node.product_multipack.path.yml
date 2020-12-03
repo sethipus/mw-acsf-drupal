@@ -1,0 +1,20 @@
+uuid: 665d3c48-0a23-4058-a807-9d5600916d78
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_multipack
+  module:
+    - path
+id: node.product_multipack.path
+field_name: path
+entity_type: node
+bundle: product_multipack
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

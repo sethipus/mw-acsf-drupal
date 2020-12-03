@@ -125,7 +125,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'top_footer_menu'      => NULL,
         'legal_links'          => NULL,
         'marketing'            => NULL,
-        'corporate_tout'       => NULL,
+        'corporate_tout_text'  => NULL,
+        'corporate_tout_url'    => NULL,
         'region_selector'      => NULL,
         'current_region_title' => NULL,
       ],
@@ -290,6 +291,19 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'where_to_buy_block' => [
       'template' => 'where-to-buy-block',
+      'variables' => [
+        'commerce_vendor' => NULL,
+        'product_id' => NULL,
+        'cta_title' => NULL,
+        'button_type' => NULL,
+        'widget_id' => NULL,
+        'data_token' => NULL,
+        'data_subid' => NULL,
+        'data_locale' => NULL,
+        'data_displaylanguage' => NULL,
+        'products' => NULL,
+        'default_product' => NULL,
+      ],
     ],
     'text_block' => [
       'variables' => [
@@ -975,6 +989,7 @@ function mars_common_form_menu_link_content_menu_link_content_form_alter(array &
   $menu_parent = $form_input['menu_parent'] ?? $form['menu_parent']['#default_value'];
   if (substr($menu_parent, 0, -1) === MenuConstants::MAIN_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::MAIN_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+    $form['title']['widget'][0]['value']['#description'] .= ' Be sure the items you add do not cause the navigation to extend past one line.';
   }
   elseif (substr($menu_parent, 0, -1) === MenuConstants::LEGAL_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::LEGAL_MENU_ITEM_CHARACTER_COUNT_LIMIT;
@@ -1091,10 +1106,12 @@ function mars_common_form_poll_form_alter(
 
     if (empty($form['choice']['widget'][0]['choice']['#default_value'])) {
       $form['choice']['widget'][0]['choice']['#default_value'] = 'YES';
+      $form['choice']['widget'][0]['choice']['#required'] = TRUE;
     }
 
     if (empty($form['choice']['widget'][1]['choice']['#default_value'])) {
       $form['choice']['widget'][1]['choice']['#default_value'] = 'NO';
+      $form['choice']['widget'][1]['choice']['#required'] = TRUE;
     }
 
     foreach ($form['choice']['widget'] as $choiceIndex => $choice) {
@@ -1143,7 +1160,12 @@ function mars_common_form_poll_form_alter(
     ];
 
   $form['question']['widget'][0]['value']['#title'] = 'Title';
-  $form['question']['widget'][0]['value']['#maxlength'] = 50;
+  if (empty($form['question']['widget'][0]['value']['#default_value'])) {
+    $mars_config = \Drupal::configFactory()
+      ->getEditable('mars_common.system.site');
+    $form['question']['widget'][0]['value']['#default_value'] = t('Thank you for visiting @brand!', ['@brand' => $mars_config->get('brand')]);
+  }
+  $form['question']['widget'][0]['value']['#maxlength'] = 55;
   $form['choice']['widget']['#title'] = 'Responses';
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
 
@@ -1253,6 +1275,17 @@ function mars_common_theme_suggestions_block_alter(array &$suggestions, array $v
     else {
       $suggestions[] = $block_type_suggestion;
     }
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function mars_common_entity_type_alter(array &$entity_types) {
+  foreach ($entity_types as $entity_type) {
+    $constraints = $entity_type->getConstraints();
+    unset($constraints['EntityUntranslatableFields']);
+    $entity_type->setConstraints($constraints);
   }
 }
 

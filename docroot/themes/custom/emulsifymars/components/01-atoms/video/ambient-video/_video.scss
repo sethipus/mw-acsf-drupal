@@ -19,15 +19,15 @@
     width: 50px;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     background-color: rgba(255, 255, 255, 0.2);
-  
+
     &:hover {
       cursor: pointer;
     }
-  
+
     &:focus {
       outline: 0;
     }
-  
+
     >div {
       width: 0;
       height: 0;
@@ -47,10 +47,10 @@
 
     @include xl {
       top: 40px;
-      right: 40px;
+      right: calc(2% + 40px);
     }
   }
-  
+
   .ambient-video__control[data-state="pause"] {
     position: absolute;
     z-index: 1;
@@ -62,15 +62,15 @@
     border-radius: 50%;
     border: hidden;
     background-color: clr(background-button);
-  
+
     &:hover {
       cursor: pointer;
     }
-  
+
     &:focus {
       outline: 0;
     }
-  
+
     >div {
       width: 14px;
       height: 18px;
@@ -88,19 +88,7 @@
 
     @include xl {
       top: 40px;
-      right: 40px;
+      right: calc(2% + 40px);
     }
-  }
-}
-
-.homepage-hero-video__container {
-  .ambient-video__control[data-state="play"] {
-    left: calc(100% - 120px);
-    top: 15px;
-  }
-  
-  .ambient-video__control[data-state="pause"] {
-    left: calc(100% - 120px);
-    top: 15px;
   }
 }

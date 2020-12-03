@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * FAQ views page componnent.
+ *
+ * FAQ component variables:
+ * 'content' => NULL,
+ * 'li_base_class' => NULL,
+ * 'li_modifiers' => NULL,
+ * 'li_blockname' => NULL,
+ */
+#}
+
+{% include "@atoms/lists/_list-item-faq.twig" with {
+  list_item_content: content,
+  li_base_class: li_base_class,
+  li_modifiers: li_modifiers,
+  li_blockname: li_blockname,
+} %}

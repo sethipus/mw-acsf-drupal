@@ -5,6 +5,12 @@
  * MARS Product module main file.
  */
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\field\FieldConfigInterface;
+use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+
 /**
  * Implements hook_theme().
  */
@@ -35,4 +41,140 @@ function mars_product_theme($existing, $type, $theme, $path) {
       'template' => 'product-content-pair-up-block',
     ],
   ];
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function mars_product_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  if ($view_mode == 'card' && $entity->bundle() == 'product') {
+    $wtb_confg = \Drupal::config('mars_product.wtb.settings');
+    $vendor = $wtb_confg->get('commerce_vendor');
+
+    if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_PRICE_SPIDER) {
+      $metatags = [
+        'ps-key' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-key',
+            'content' => $wtb_confg->get('widget_id'),
+          ],
+        ],
+        'ps-country' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-country',
+            'content' => \Drupal::configFactory()
+              ->get('system.date')
+              ->get('country.default'),
+          ],
+        ],
+        'ps-language' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-language',
+            'content' => strtolower(\Drupal::languageManager()
+              ->getCurrentLanguage()
+              ->getId()),
+          ],
+        ],
+        'price-spider' => [
+          '#tag' => 'script',
+          '#attributes' => [
+            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+            'async' => TRUE,
+          ],
+        ],
+      ];
+      foreach ($metatags as $key => $metatag) {
+        $build['#attached']['html_head'][] = [$metatag, $key];
+      }
+    }
+    elseif (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
+      $locale = \Drupal::languageManager()
+        ->getCurrentLanguage()->getId();
+
+      $build['#attached']['drupalSettings']['cc'] = [
+        'data-token' => $wtb_confg->get('data_token'),
+        'data-locale' => $wtb_confg->get('data_locale'),
+        'data-displaylanguage' => $locale,
+        'data-widgetid' => $wtb_confg->get('widget_id'),
+        'data-subid' => $wtb_confg->get('data_subid'),
+      ];
+      $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__product__card(array &$variables) {
+  product_card_add_wtb_vars($variables);
+  product_card_add_datalayer_vars($variables);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__product_multipack__card(array &$variables) {
+  product_card_add_wtb_vars($variables);
+  product_card_add_datalayer_vars($variables);
+}
+
+/**
+ * Add Where to buy related vars.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_wtb_vars(array &$variables) {
+  $wtb_config = \Drupal::config('mars_product.wtb.settings');
+  $variables['wtb_commerce_vendor'] = $wtb_config->get('commerce_vendor') ?? NULL;
+  $variables['wtb_button_type'] = $wtb_config->get('button_type') ?? NULL;
+  $variables['wtb_widget_id'] = $wtb_config->get('widget_id') ?? NULL;
+
+  $variants = $variables['node']
+    ->get('field_product_variants')
+    ->referencedEntities();
+  $variant = reset($variants);
+  if ($variant !== FALSE) {
+    $product_sku = $variant->get('field_product_sku')->value;
+  }
+
+  $variables['wtb_product_sku'] = $product_sku ?? NULL;
+}
+
+/**
+ * Add datalayer related vars.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_datalayer_vars(array &$variables) {
+
+  $node = $variables['node'];
+  $terms = [];
+  $field_defs = $node->getFieldDefinitions();
+  foreach ($field_defs as $field_name => $field_def) {
+    if ($field_def instanceof FieldConfigInterface &&
+      $field_def->getType() == 'entity_reference' &&
+      $field_def->getSetting('target_type') == 'taxonomy_term'
+    ) {
+
+      $term_entites = $node->get($field_name)->referencedEntities();
+      foreach ($term_entites as $term_entity) {
+        /* @var \Drupal\taxonomy\Entity\Term $term_entity */
+        $terms[$term_entity->referencedEntities()[0]->label()][$term_entity->label()] = $term_entity->label();
+      }
+    }
+  }
+
+  $ga_taxonomy_data = NULL;
+  if (!empty($terms)) {
+    foreach ($terms as $vid => $term_labels) {
+      $ga_taxonomy_data[$vid] = array_values($term_labels);
+    }
+  }
+  $variables['datalayer_taxonomy'] = Json::encode($ga_taxonomy_data);
 }

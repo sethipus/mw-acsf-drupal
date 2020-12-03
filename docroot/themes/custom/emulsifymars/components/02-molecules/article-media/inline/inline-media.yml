@@ -1,9 +1,11 @@
 theme_styles: 'twix'
 media_type: 'image'
 video_src: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
+video__control: true
 image_src: 'inline_media.jpg'
 image_alt: ''
 image_title: ''
+title: 'This is my title'
 shape_motif: true
 shape_motif_src: ''
 content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
