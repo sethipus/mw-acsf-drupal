@@ -43,7 +43,7 @@
 
     .lead-card {
       background-color: clr(subcolor-2);
-      background-size: auto 110%;
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
       padding-top: 50px;
@@ -52,11 +52,6 @@
       @include medium {
         height: 1003px;
         padding-top: 60px;
-        background-size: auto 150%;
-      }
-
-      @include large {
-        background-size: auto 120%;
       }
 
       @include xl {
