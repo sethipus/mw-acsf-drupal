@@ -290,7 +290,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           offset > pdp_section_bottom ? pdp_wtb.addClass('where-to-buy--hide') : pdp_wtb.removeClass('where-to-buy--hide');
         }
 
-        $(window).on('scroll', _.throttle(scrollEventListener, 100));
+        $(window).on('scroll', _.throttle(scrollEventListener, 30));
       };
 
       onScrollEffects();
