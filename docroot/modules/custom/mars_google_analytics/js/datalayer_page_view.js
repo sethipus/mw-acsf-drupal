@@ -244,6 +244,7 @@
               const selectedInput = [...pollInputs].filter(input => input.checked)[0];
               if (selectedInput) {
                 dataLayer.push({
+                  event: 'formfieldComplete',
                   pageName: document.title,
                   componentName: getComponentName(pollContainer),
                   formSubmitFlag: 1,
@@ -257,28 +258,36 @@
       }
 
       // CONTACT US CLICK EVENT
-      const contactUsContainer = context.querySelector('.ff-form-main');
-      if (contactUsContainer) {
-        const contactUsForm = contactUsContainer.closest('form');
-        const contactUsSubmit = contactUsForm.querySelector('#btnsubmit');
-        setTimeout(function() {
-          contactUsSubmit.addEventListener('click', () => {
-            // find what fields of the form has value button was selected
-            const populatedFields = [...contactUsForm.elements].filter(field => field.dataset.ishidden === 'false' && field.value !== '');
-            let selectedValues = [];
-            for (let i=0; i < populatedFields.length; i++) {
-              const currentField = populatedFields[i];
-              selectedValues[currentField.name] = populatedFields.value;
-            }
-            dataLayer.push({
-              pageName: document.title,
-              componentName: getComponentName(pollContainer),
-              formSubmitFlag: 1,
-              formName: 'Contact & Help',
-              formSelected: selectedValues
-            });
+      const formContainer = context.querySelector('.form-integration');
+      if (formContainer) {
+        var loading = false;
+        while (loading) {
+          var contactForm = formContainer.querySelector('form');
+          if (form !== null) {
+            var formSubmit = contactForm.querySelector('input[type=submit]');
+            loading = true;
+          }
+        }
+        var submit = document.querySelector('input[type=submit]');
+        submit.addEventListener('click', function(e) {
+          // find what fields of the form has value button was selected
+          const populatedFields = [document.form.elements].filter(function(field) {
+            return field.value !== '';
           });
-        }, 100);
+          let selectedValues = [];
+          for (let i=0; i < populatedFields.length; i++) {
+            const currentField = populatedFields[i];
+            selectedValues[currentField.name] = populatedFields.value;
+          }
+          dataLayer.push({
+            event: 'formFieldComplete',
+            pageName: document.title,
+            componentName: getComponentName(pollContainer),
+            formSubmitFlag: 1,
+            formName: 'Contact & Help',
+            formSelected: selectedValues
+          });
+        });
       }
 
 
@@ -293,6 +302,7 @@
             const birthInputValues = birthInputs.map(el => el.value);
             if (birthInputValues) {
               dataLayer.push({
+                event: 'formfieldComplete',
                 pageName: document.title,
                 componentName: getComponentName(entryGateContainer),
                 formSubmitFlag: 1,
