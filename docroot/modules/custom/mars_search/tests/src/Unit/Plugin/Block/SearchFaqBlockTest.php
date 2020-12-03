@@ -4,20 +4,14 @@ namespace Drupal\Tests\mars_search\Unit\Plugin\Block;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
-use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\Core\Logger\LoggerChannelInterface;
-use Drupal\Core\Render\RendererInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\Plugin\Block\SearchFaqBlock;
-use Drupal\mars_search\SearchHelperInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
-use Drupal\node\NodeInterface;
+use Drupal\mars_search\Processors\SearchBuilder;
+use Drupal\mars_search\Processors\SearchHelperInterface;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @coversDefaultClass \Drupal\mars_search\Plugin\Block\SearchFaqBlock
@@ -50,37 +44,16 @@ class SearchFaqBlockTest extends UnitTestCase {
   /**
    * Search helper.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchHelperInterface
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchHelperInterface
    */
   private $searchHelperMock;
 
   /**
-   * The form builder.
+   * Search builder mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Form\FormBuilderInterface
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchBuilderInterface
    */
-  private $formBuilderMock;
-
-  /**
-   * Search query parser.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchQueryParserInterface
-   */
-  private $searchQueryParserMock;
-
-  /**
-   * Mars Search logger channel.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Psr\Log\LoggerInterface
-   */
-  private $loggerMock;
-
-  /**
-   * Mars Search logger channel.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Logger\LoggerChannelFactoryInterface
-   */
-  private $loggerFactoryMock;
+  private $searchBuilderMock;
 
   /**
    * Config factory.
@@ -90,39 +63,11 @@ class SearchFaqBlockTest extends UnitTestCase {
   private $configFactoryMock;
 
   /**
-   * Request.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\Request
-   */
-  private $requestMock;
-
-  /**
-   * Renderer mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Render\RendererInterface
-   */
-  private $rendererMock;
-
-  /**
    * Immutable config mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ImmutableConfig
    */
   private $immutableConfig;
-
-  /**
-   * Node mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\node\NodeInterface
-   */
-  private $nodeMock;
-
-  /**
-   * Url mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Url
-   */
-  private $urlMock;
 
   /**
    * Test block configuration.
@@ -132,11 +77,18 @@ class SearchFaqBlockTest extends UnitTestCase {
   private $configuration;
 
   /**
-   * Route match mock.
+   * Search process factory mock.
    *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
+   * @var \Drupal\mars_search\SearchProcessFactoryInterface
    */
-  private $routeMatchMock;
+  private $searchProcessFactoryMock;
+
+  /**
+   * Language helper mock.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
 
   /**
    * {@inheritdoc}
@@ -153,17 +105,27 @@ class SearchFaqBlockTest extends UnitTestCase {
       'admin_label' => 'test',
     ];
 
+    $this->searchProcessFactoryMock
+      ->expects($this->any())
+      ->method('getProcessManager')
+      ->willReturnMap([
+        [
+          'search_helper',
+          $this->searchHelperMock,
+        ],
+        [
+          'search_builder',
+          $this->searchBuilderMock,
+        ],
+      ]);
+
     $this->block = new SearchFaqBlock(
       $this->configuration,
       'list_block',
       $definitions,
-      $this->searchHelperMock,
-      $this->formBuilderMock,
-      $this->searchQueryParserMock,
-      $this->loggerMock,
+      $this->searchProcessFactoryMock,
       $this->configFactoryMock,
-      $this->routeMatchMock,
-      $this->rendererMock
+      $this->languageHelperMock
     );
   }
 
@@ -171,34 +133,15 @@ class SearchFaqBlockTest extends UnitTestCase {
    * Test.
    */
   public function testShouldInstantiateProperly() {
-    $this->loggerFactoryMock
-      ->expects($this->exactly(1))
-      ->method('get')
-      ->willReturn($this->loggerMock);
     $this->containerMock
-      ->expects($this->exactly(7))
+      ->expects($this->exactly(3))
       ->method('get')
       ->willReturnMap(
         [
           [
-            'mars_search.search_helper',
+            'mars_search.search_factory',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->searchHelperMock,
-          ],
-          [
-            'form_builder',
-            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->formBuilderMock,
-          ],
-          [
-            'mars_search.search_query_parser',
-            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->searchQueryParserMock,
-          ],
-          [
-            'logger.factory',
-            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->loggerFactoryMock,
+            $this->searchProcessFactoryMock,
           ],
           [
             'config.factory',
@@ -206,14 +149,9 @@ class SearchFaqBlockTest extends UnitTestCase {
             $this->configFactoryMock,
           ],
           [
-            'current_route_match',
+            'mars_common.language_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->routeMatchMock,
-          ],
-          [
-            'renderer',
-            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->rendererMock,
+            $this->languageHelperMock,
           ],
         ]
       );
@@ -265,6 +203,7 @@ class SearchFaqBlockTest extends UnitTestCase {
     $this->configFactoryMock
       ->expects($this->once())
       ->method('get')
+      ->with('mars_search.search_no_results')
       ->willReturn($this->immutableConfig);
 
     $this->immutableConfig
@@ -281,85 +220,55 @@ class SearchFaqBlockTest extends UnitTestCase {
         ],
       ]);
 
-    $this->searchQueryParserMock
+    $this->searchBuilderMock
       ->expects($this->once())
-      ->method('parseQuery')
+      ->method('buildSearchResults')
       ->willReturn([
-        'keys' => 'test_key',
-      ]);
-
-    $this->requestMock
-      ->expects($this->once())
-      ->method('get');
-
-    // Return 2 nodes, but only 1 as FAQ.
-    $this->searchHelperMock
-      ->expects($this->exactly(2))
-      ->method('getSearchResults')
-      ->willReturn(
         [
-          'results' => [
-            $this->nodeMock,
-            $this->nodeMock,
-          ],
-          'facets' => [
-            'faq_filter_topic' => [],
-          ],
-          'resultsCount' => 3,
-          'highlighted_fields' => [
-            0 => [
-              'field_qa_item_question' => [
-                'Test question',
-              ],
-              'field_qa_item_answer' => [
-                'Test answer',
-              ],
-            ],
-          ],
-        ]
-      );
-
-    $this->nodeMock
-      ->expects($this->exactly(2))
-      ->method('bundle')
-      ->willReturn('faq', 'test');
-
-    $this->searchHelperMock
+          'limit' => 1,
+          'keys' => 'test_search_key',
+        ],
+        [
+          'resultsCount' => 1,
+        ],
+        [],
+      ]);
+    $this->searchBuilderMock
       ->expects($this->once())
-      ->method('getCurrentUrl')
-      ->willReturn($this->urlMock);
+      ->method('buildFaqFilters')
+      ->willReturn([]);
 
-    $this->urlMock
+    $this->languageHelperMock
       ->expects($this->once())
-      ->method('getOptions');
+      ->method('translate');
 
     $build = $this->block->build();
     $this->assertEquals('mars_search_faq_block', $build['#theme']);
     $this->assertEquals('Test FAQ title', $build['#faq_title']);
-    $this->assertEquals(2, $build['#search_result_counter']);
-    $this->assertEquals('test_heading with "test_key"', $build['#no_results_heading']);
+    $this->assertEquals(1, $build['#search_result_counter']);
+    $this->assertEquals('test_heading with "test_search_key"', $build['#no_results_heading']);
     $this->assertEquals('test_text', $build['#no_results_text']);
+  }
+
+  /**
+   * Test max age.
+   */
+  public function testMaxAge() {
+    $this->assertEquals(0, $this->block->getCacheMaxAge());
   }
 
   /**
    * Create all mocks for tests.
    */
   private function createMocks(): void {
-    $this->requestMock = $this->createMock(Request::class);
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
-    $this->searchHelperMock->request = $this->requestMock;
-    $this->formBuilderMock = $this->createMock(FormBuilderInterface::class);
-    $this->searchQueryParserMock = $this->createMock(SearchQueryParserInterface::class);
-    $this->loggerMock = $this->createMock(LoggerChannelInterface::class);
-    $this->loggerFactoryMock = $this->createMock(LoggerChannelFactoryInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
-    $this->rendererMock = $this->createMock(RendererInterface::class);
     $this->immutableConfig = $this->createMock(ImmutableConfig::class);
-    $this->nodeMock = $this->createMock(NodeInterface::class);
-    $this->urlMock = $this->createMock(Url::class);
-    $this->routeMatchMock = $this->createMock(RouteMatchInterface::class);
+    $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this->searchBuilderMock = $this->createMock(SearchBuilder::class);
   }
 
 }

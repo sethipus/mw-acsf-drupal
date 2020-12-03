@@ -3,8 +3,10 @@
 namespace Drupal\Tests\mars_search\Unit\Form;
 
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\Form\SearchForm;
-use Drupal\mars_search\SearchHelperInterface;
+use Drupal\mars_search\Processors\SearchHelperInterface;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -57,9 +59,16 @@ class SearchFormTest extends UnitTestCase {
   /**
    * Search helper mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchHelperInterface
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchHelperInterface
    */
   private $searchHelperMock;
+
+  /**
+   * Search process factory mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchProcessFactoryInterface
+   */
+  private $searchProcessFactoryMock;
 
   /**
    * String translation mock.
@@ -76,6 +85,13 @@ class SearchFormTest extends UnitTestCase {
   private $parameterBagMock;
 
   /**
+   * Language helper mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -83,8 +99,15 @@ class SearchFormTest extends UnitTestCase {
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
 
+    $this->searchProcessFactoryMock
+      ->expects($this->any())
+      ->method('getProcessManager')
+      ->with('search_helper')
+      ->willReturn($this->searchHelperMock);
+
     $this->form = new SearchForm(
-      $this->searchHelperMock
+      $this->searchProcessFactoryMock,
+      $this->languageHelper
     );
   }
 
@@ -93,14 +116,19 @@ class SearchFormTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->once())
+      ->expects($this->exactly(2))
       ->method('get')
       ->willReturnMap(
         [
           [
-            'mars_search.search_helper',
+            'mars_search.search_factory',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->searchHelperMock,
+            $this->searchProcessFactoryMock,
+          ],
+          [
+            'mars_common.language_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageHelper,
           ],
         ]
       );
@@ -126,6 +154,7 @@ class SearchFormTest extends UnitTestCase {
     $grid_options = [
       'filters' => [
         'test' => 'test',
+        'faq' => TRUE,
       ],
     ];
 
@@ -212,6 +241,8 @@ class SearchFormTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
+    $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
+    $this->languageHelper = $this->createMock(LanguageHelper::class);
     $this->parameterBagMock = $this->createMock(ParameterBag::class);
     $this->urlMock = $this->createMock(Url::class);
     $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);

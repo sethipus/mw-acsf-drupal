@@ -4,6 +4,7 @@ namespace Drupal\Tests\mars_search\Unit\Form;
 
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_search\Form\SearchOverlayForm;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -68,6 +69,13 @@ class SearchOverlayFormTest extends UnitTestCase {
   private $pathValidatorMock;
 
   /**
+   * Language helper mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -76,7 +84,8 @@ class SearchOverlayFormTest extends UnitTestCase {
     \Drupal::setContainer($this->containerMock);
 
     $this->form = new SearchOverlayForm(
-      $this->requestStackMock
+      $this->requestStackMock,
+      $this->languageHelper
     );
   }
 
@@ -85,7 +94,7 @@ class SearchOverlayFormTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->once())
+      ->expects($this->exactly(2))
       ->method('get')
       ->willReturnMap(
         [
@@ -93,6 +102,11 @@ class SearchOverlayFormTest extends UnitTestCase {
             'request_stack',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->requestStackMock,
+          ],
+          [
+            'mars_common.language_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageHelper,
           ],
         ]
       );
@@ -128,6 +142,10 @@ class SearchOverlayFormTest extends UnitTestCase {
           ],
         ]
       );
+
+    $this->languageHelper
+      ->expects($this->exactly(2))
+      ->method('translate');
 
     $form = $this->form->buildForm(
       $form,
@@ -191,6 +209,8 @@ class SearchOverlayFormTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
     $this->pathValidatorMock = $this->createMock(PathValidatorInterface::class);
+    $this->languageHelper = $this->createMock(LanguageHelper::class);
+
   }
 
 }
