@@ -31,7 +31,7 @@
       settings.dataLayer.products = gtins.join(', ');
 
       var dataElements = context.querySelectorAll('[data-datalayer-taxonomy]');
-      var taxonomy = (settings.dataLayer.taxonomy !== null) ? JSON.parse(settings.dataLayer.taxonomy) : {};
+      var taxonomy = (settings.dataLayer.taxonomy) ? JSON.parse(settings.dataLayer.taxonomy) : {};
       dataElements.forEach(function (product) {
         let taxonomy_info = JSON.parse(product.getAttribute('data-datalayer-taxonomy'));
 
@@ -49,10 +49,8 @@
       });
 
       var taxonomy_output = '';
-      if (taxonomy !== null) {
-        for (const [key, value] of Object.entries(taxonomy)) {
-          taxonomy_output += key + ': ' + value.join(', ') + '; ';
-        }
+      for (const [key, value] of Object.entries(taxonomy)) {
+        taxonomy_output += key + ': ' + value.join(', ') + '; ';
       }
 
       settings.dataLayer.taxonomy = taxonomy_output.trim();
@@ -234,36 +232,9 @@
         }
       });
 
-
-      // ENTRY GATE CLICK EVENT
-      //const entryGateContainer = context.querySelector('.entry-gate__inner');
-      //if (entryGateContainer) {
-      //  const entryGateSubmit = entryGateContainer.querySelector('.entry-gate-form__submit-btn');
-      //  // Add event listeners to provide info to Data layer
-      //  setTimeout(function() {
-      //    entryGateSubmit.addEventListener('click', () => {
-      //      const birthInputs = Array.from(entryGateContainer.querySelectorAll('input'));
-      //      const birthInputValues = birthInputs.map(el => el.value);
-      //      if (birthInputValues) {
-      //        dataLayer.push({
-      //          event: 'formfieldComplete',
-      //          pageName: document.title,
-      //          componentName: getComponentName(entryGateContainer),
-      //          formSubmitFlag: 1,
-      //          formName: 'Entry gate',
-      //          formSelected: birthInputValues
-      //        });
-      //      }
-      //    });
-      //  }, 100);
-      //}
-
-      var bindContactFormEvents = function(formContainer) {
+      var bindFormEvents = function(formContainer) {
         var contactForm = formContainer.querySelector('form');
         // find what fields of the form has value button was selected
-        const populatedFields = [contactForm.elements].filter(function(field) {
-          return field.value !== '';
-        });
         Array.from(contactForm.elements).forEach((input) => {
           if (input.type === 'button' || input.type === 'submit') {
             input.addEventListener('mousedown', function(e) {
@@ -291,17 +262,40 @@
         });
       }
 
+      // CONTACT US CLICK EVENT
+      const formContainer = context.querySelector('.form-integration');
+      if (formContainer) {
+        // Options for the observer (which mutations to observe)
+        const config = { attributes: false, childList: true, subtree: false };
+        // Callback function to execute when mutations are observed
+        const contactFormCallback = function(mutationsList, observer) {
+          // Use traditional 'for loops' for IE 11
+          for(const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+              bindFormEvents(formContainer);
+              observer.disconnect();
+              break;
+            }
+          }
+        };
+        // Create an observer instance linked to the callback function
+        const observer = new MutationObserver(contactFormCallback);
+        // Start observing the target node for configured mutations
+        observer.observe(formContainer.querySelector('#dvFastForms'), config);
+      }
+
       // POLL MOUSEDOWN EVENT
       const pollContainer = context.querySelector('.poll-view');
       if (pollContainer) {
-        bindContactFormEvents(pollContainer);
+        bindFormEvents(pollContainer);
       }
 
       // ENTRY GATE CLICK EVENT
       const entryGateContainer = context.querySelector('.entry-gate__inner');
       if (entryGateContainer) {
-        bindContactFormEvents(entryGateContainer);
+        bindFormEvents(entryGateContainer);
       }
+
     }
   };
 })(jQuery, Drupal, drupalSettings);
