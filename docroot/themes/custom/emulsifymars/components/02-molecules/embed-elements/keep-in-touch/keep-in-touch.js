@@ -16,14 +16,15 @@ Drupal.behaviors.keepInTouchForm = {
       }
 
       // Send event data.
-      $('.keep-in-touch-page-form input').on('focusout', function(e) {
+      $('.keep-in-touch-page-form input').one('focusout', function(e) {
         dataLayer.push({
-          'event': 'formfieldComplete',
+          'event': 'formFieldComplete',
+          'pageName': '',
+          'componentName': 'keep-in-touch-form',
           'formName': 'keep-in-touch',
-          'formFieldName': e.target.id,
-          'componentName': 'keep-in-touch'
+          'formFieldName': e.target.name,
+          'formFieldValue': e.target.value,
         });
-        $(this).off(e);
       });
 
       // Try to submit form.
@@ -35,6 +36,13 @@ Drupal.behaviors.keepInTouchForm = {
 
       // Form submit.
       $('.keep-in-touch-page-form').on('submit', function() {
+        dataLayer.push({
+          'event': 'formSubmit',
+          'pageName': '',
+          'componentName': 'keep-in-touch-form',
+          'formName': 'keep-in-touch',
+          'formSubmitFlag': '1',
+        });
         return false;
       });
     });

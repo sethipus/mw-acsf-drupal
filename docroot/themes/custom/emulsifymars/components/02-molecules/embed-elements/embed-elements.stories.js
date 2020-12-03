@@ -27,3 +27,4 @@ export const newsletterSignupFormSuccessModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: newsletterSignupFormSuccess() }} />
 };
+
