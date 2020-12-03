@@ -16,7 +16,6 @@ dependencies:
   - mars_articles
   - content_moderation
   - entity_browser
-  - field_groups
   - metatag
   - path
   - publication_date
