@@ -287,10 +287,9 @@
       }
 
       // POLL MOUSEDOWN EVENT
-      const pollContainer = context.querySelector('.poll-view');
-      if (pollContainer) {
-        bindFormEvents(pollContainer, 'Poll Form');
-      }
+      context.querySelectorAll('.poll-view').forEach(function (poll) {
+        bindFormEvents(poll, 'Poll Form');
+      });
 
       // ENTRY GATE CLICK EVENT
       const entryGateContainer = context.querySelector('.entry-gate__inner');
