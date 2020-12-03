@@ -211,14 +211,6 @@ search-facet-type:
   dependencies:
     - core/drupal
 
-feedback:
-  js:
-    dist/js/02-molecules/feedback-module/feedback.js: { }
-  dependencies:
-    - core/drupal
-    - core/jquery
-    - core/jquery.once
-
 card-grid-filter:
   js:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}

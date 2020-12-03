@@ -7,7 +7,7 @@ Drupal.behaviors.ambientVideoPlayer = {
     }
     var videoInitState = function(videoContainer) {
       var video = videoContainer.querySelector('.ambient-video__main');
-      if (video === null || videoContainer.getAttribute('data-video-init')) {
+      if (video === null || video.getAttribute('data-video-init')) {
         return;
       }
       video.muted = true;
