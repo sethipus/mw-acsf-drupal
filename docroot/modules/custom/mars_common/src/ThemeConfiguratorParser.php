@@ -160,15 +160,29 @@ class ThemeConfiguratorParser {
   }
 
   /**
-   * Returns the current brand shape if there are any.
+   * Returns the current brand shape with fill info if there are any.
    *
    * @return \Drupal\mars_common\SVG\SVG|null
    *   The brand shape or null.
    */
-  public function getBrandShape(): ?SVG {
+  public function getBrandShapeWithFill(): ?SVG {
     $svg = $this->getSvgFor('brand_shape');
     if ($svg !== NULL) {
       $svg = $svg->withoutSizeInfo();
+    }
+    return $svg;
+  }
+
+  /**
+   * Returns the current brand shape without fill info if there are any.
+   *
+   * @return \Drupal\mars_common\SVG\SVG|null
+   *   The brand shape or null.
+   */
+  public function getBrandShapeWithoutFill(): ?SVG {
+    $svg = $this->getBrandShapeWithFill();
+    if ($svg !== NULL) {
+      $svg = $svg->withoutFillInfo();
     }
     return $svg;
   }
