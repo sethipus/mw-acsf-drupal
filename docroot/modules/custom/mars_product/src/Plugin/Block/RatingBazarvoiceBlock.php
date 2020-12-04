@@ -96,6 +96,7 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
    * {@inheritdoc}
    */
   public function defaultConfiguration(): array {
+    $config = $this->getConfiguration();
     return [
       'product' => $config['product'] ?? '',
     ];
