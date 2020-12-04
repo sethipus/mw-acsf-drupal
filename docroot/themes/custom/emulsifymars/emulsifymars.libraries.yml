@@ -93,6 +93,9 @@ recommendations-module:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
@@ -150,6 +153,8 @@ iframe:
     dist/js/01-atoms/iframe/iframe.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 product-used-module:
   js:

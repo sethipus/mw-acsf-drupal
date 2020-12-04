@@ -9,16 +9,24 @@
   & .h2 {
     position: relative;
     font-family: variable(heading-font);
-    font-size: 4rem;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1;
     letter-spacing: 1.4px;
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
     padding-top: 8rem;
+
+    @include xs {
+      font-size: 5.6rem;
+      line-height: 5.6rem;
+    }
+
+    @include xs {
+      font-size: 6.4rem;
+      line-height: 6.4rem;
+    }
   }
 
   & .divider {
@@ -67,7 +75,7 @@
         color: clr(primary);
         font-family: variable(primary-font);
         font-size: 2rem;
-        line-height: 1.1;
+        line-height: 2.2rem;
         letter-spacing: 0.8px;
 
         &-link {
@@ -82,6 +90,7 @@
         @include large {
           margin-top: 6rem;
           font-size: 2.4rem;
+          line-height: 2.64rem;
           letter-spacing: 0.96px;
         }
 
@@ -143,6 +152,10 @@
 
     & .grid--card {
       @include medium {
+        align-items: stretch;
+      }
+
+      @include large {
         align-items: stretch;
       }
 

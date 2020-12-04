@@ -498,6 +498,7 @@ class SalsifyFields extends Salsify {
         $field_name = $field_mapping['field_name'];
         if (isset($field_configs[$field_name])) {
           $field_config = $field_configs[$field_name];
+          /* @var \Drupal\field\Entity\FieldConfig $field_config */
           if ($field_config->getType() == 'entity_reference' && isset($salsify_fields[$salsify_field_name]['values'])) {
             $salsify_values = $salsify_fields[$salsify_field_name]['values'];
             $field_handler = $field_config->getSetting('handler');

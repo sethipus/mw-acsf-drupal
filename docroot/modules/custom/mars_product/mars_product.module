@@ -8,6 +8,7 @@
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_theme().
@@ -137,4 +138,17 @@ function mars_common_preprocess_node__product__card(array &$variables) {
   }
   $variables['show_rating_and_reviews'] = $show_rating_and_reviews ?? NULL;
   $variables['wtb_product_sku'] = $product_sku ?? NULL;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function mars_product_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'node_product_form' || $form_id == 'node_product_edit_form') {
+    $form['field_rating_and_reviews']['#states'] = [
+      'visible' => [
+        ':input[name="field_override_global_rating[value]"]' => ['checked' => TRUE],
+      ],
+    ];
+  }
 }

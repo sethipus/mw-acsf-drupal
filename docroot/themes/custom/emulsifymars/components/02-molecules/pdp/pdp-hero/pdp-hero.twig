@@ -75,6 +75,9 @@
           </ul>
         </div>
       </div>
+      {% if show_rating_and_reviews == true %}
+        <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+      {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
         <div id='pdp-hero-main-image-{{size_id}}' {{ bem('main-image-container', [], pdp_hero_base_class) }}>
           {% include "@atoms/images/image/responsive-image.twig" with {

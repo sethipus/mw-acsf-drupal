@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
@@ -14,6 +15,7 @@ use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_product\ProductHelper;
+use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "pdp_hero_block",
- *   admin_label = @Translation("PDP Hero"),
+ *   admin_label = @Translation("MARS: PDP Hero"),
  *   category = @Translation("Product"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label = @Translation("Product"))
@@ -448,7 +450,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     $build['#theme'] = 'pdp_hero_block';
-    $this->pageAttachments($build);
+    $this->pageAttachments($build, $node);
 
     return $build;
   }
@@ -487,6 +489,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'allergen_data' => [
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
+        'show_rating_and_reviews' => $this->isRatingEnable($node),
       ];
     }
 
@@ -901,11 +904,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @param array $build
    *   Build array.
+   * @param \Drupal\node\NodeInterface|null $node
+   *   Product or null.
    *
    * @return array
    *   Return build.
    */
-  public function pageAttachments(array &$build) {
+  public function pageAttachments(array &$build, NodeInterface $node = NULL) {
     if ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
       $metatags = [
         'ps-key' => [
@@ -953,7 +958,40 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
     }
 
+    if ($this->isRatingEnable($node)) {
+      if (EnvironmentDetector::isProdEnv()) {
+        $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
+      }
+      else {
+        $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
+      }
+    }
+
     return $build;
+  }
+
+  /**
+   * Check is rating enable.
+   *
+   * @param \Drupal\node\NodeInterface|null $node
+   *   Product or null.
+   *
+   * @return bool
+   *   Return state of rating.
+   */
+  protected function isRatingEnable(NodeInterface $node = NULL) {
+    if ($node instanceof NodeInterface &&
+      $node->hasField('field_rating_and_reviews') &&
+      $node->hasField('field_override_global_rating') &&
+      $node->get('field_override_global_rating')->value == TRUE
+    ) {
+      $result = $node->get('field_rating_and_reviews')->value;
+    }
+    else {
+      $result = $this->config->get('emulsifymars.settings')->get('show_rating_and_reviews');
+    }
+
+    return $result;
   }
 
 }

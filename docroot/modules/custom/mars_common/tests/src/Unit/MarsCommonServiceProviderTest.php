@@ -1,17 +1,17 @@
 <?php
 
-namespace Drupal\Tests\platform_core\Unit;
+namespace Drupal\Tests\mars_common\Unit;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\platform_core\DependencyInjection\DisableDrushConfigImportTransformCompilerPass;
-use Drupal\platform_core\PlatformCoreServiceProvider;
+use Drupal\mars_common\DependencyInjection\DisableDrushConfigImportTransformCompilerPass;
+use Drupal\mars_common\MarsCommonServiceProvider;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 
 /**
  * Unit tests for PlatformCoreServiceProviderTest class.
  */
-class PlatformCoreServiceProviderTest extends UnitTestCase {
+class MarsCommonServiceProviderTest extends UnitTestCase {
 
   /**
    * Tests if the compiler pass is added to the container.
@@ -19,7 +19,7 @@ class PlatformCoreServiceProviderTest extends UnitTestCase {
    * @test
    */
   public function shouldAddDisableImportTransformerPass() {
-    $service_provider = new PlatformCoreServiceProvider();
+    $service_provider = new MarsCommonServiceProvider();
     $container_builder = $this->createMock(ContainerBuilder::class);
 
     $container_builder
