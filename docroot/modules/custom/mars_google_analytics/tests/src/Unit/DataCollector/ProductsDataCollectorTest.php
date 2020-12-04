@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\mars_google_analytics\Unit\DataCollector;
 
-use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\mars_google_analytics\DataCollector\ProductsDataCollector;
 use Drupal\mars_google_analytics\Entity\EntityDecorator;
 use Drupal\mars_google_analytics\Entity\EntityManagerWrapper;
@@ -55,7 +55,7 @@ class ProductsDataCollectorTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Field\FieldItemListInterface
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Field\EntityReferenceFieldItemListInterface
    */
   private $fieldItemListMock;
 
@@ -104,12 +104,17 @@ class ProductsDataCollectorTest extends UnitTestCase {
       ->willReturn(TRUE);
 
     $this->fieldItemListMock
-      ->expects($this->atLeast(1))
+      ->expects($this->once())
+      ->method('referencedEntities')
+      ->willReturn([$this->nodeMock]);
+
+    $this->fieldItemListMock
+      ->expects($this->any())
       ->method('__get')
       ->willReturn('123123');
 
     $this->nodeMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('get')
       ->willReturn($this->fieldItemListMock);
 
@@ -141,12 +146,17 @@ class ProductsDataCollectorTest extends UnitTestCase {
       ->willReturn(TRUE);
 
     $this->fieldItemListMock
-      ->expects($this->atLeast(1))
+      ->expects($this->once())
+      ->method('referencedEntities')
+      ->willReturn([$this->nodeMock]);
+
+    $this->fieldItemListMock
+      ->expects($this->any())
       ->method('__get')
       ->willReturn('123123');
 
     $this->nodeMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('get')
       ->willReturn($this->fieldItemListMock);
 
@@ -173,7 +183,7 @@ class ProductsDataCollectorTest extends UnitTestCase {
     $this->entityManagerMock = $this->createMock(EntityManagerWrapper::class);
     $this->nodeMock = $this->createMock(NodeInterface::class);
     $this->entityDecoratorMock = $this->createMock(EntityDecorator::class);
-    $this->fieldItemListMock = $this->createMock(FieldItemListInterface::class);
+    $this->fieldItemListMock = $this->createMock(EntityReferenceFieldItemListInterface::class);
   }
 
 }

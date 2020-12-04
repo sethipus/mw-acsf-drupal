@@ -1,0 +1,7 @@
+items:
+  - product:
+      gtin: '040000519126'
+      show_rating_and_reviews: true
+  - product:
+      gtin : '040000529361'
+      show_rating_and_reviews : true
