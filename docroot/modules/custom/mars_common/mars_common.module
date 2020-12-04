@@ -76,14 +76,12 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
 
-  $is_node_hook = $hook === 'node';
-
   $view_mode_is_card =
     isset($variables['view_mode']) &&
     $variables['view_mode'] === 'card';
 
   $is_article_card =
-    $is_node_hook &&
+    $hook === 'node' &&
     $view_mode_is_card &&
     isset($variables['node']) &&
     $variables['node'] instanceof Node &&
