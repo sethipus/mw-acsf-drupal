@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_product_reference
     - node.type.product
+    - node.type.product_multipack
     - node.type.recipe
 id: node.recipe.field_product_reference
 field_name: field_product_reference
@@ -21,6 +22,7 @@ settings:
   handler_settings:
     target_bundles:
       product: product
+      product_multipack: product_multipack
     sort:
       field: _none
     auto_create: false
