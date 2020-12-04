@@ -150,14 +150,18 @@
 
   & .default-link {
     background-color: clr(secondary);
-    font-size: 1.6rem;
 
     @include xs {
-      margin-right: .5rem;
+      margin-right: 1rem;
+      line-height: 5rem;
+      font-size: 1.4rem;
+      padding: 0 1.5rem;
     }
 
     @include medium {
+      font-size: 1.6rem;
       margin-right: 3.2rem;
+      line-height: 6rem;
     }
 
     &__label {
