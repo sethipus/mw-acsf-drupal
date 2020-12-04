@@ -180,6 +180,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       sliderContainers.forEach((sliderContainer, index) => {
         sliderContainer.dataset.swiperIndex = index;
         swiperInstances[index] = new Swiper(`[data-swiper-index="${index}"]`, {
+          init: sliderContainer.querySelectorAll('.swiper-slide').length == 1 ? false:true,
           autoplay: {
             delay: 3000,
           },
