@@ -125,7 +125,16 @@ function mars_common_preprocess_node__product__card(array &$variables) {
   $variant = reset($variants);
   if ($variant !== FALSE) {
     $product_sku = $variant->get('field_product_sku')->value;
+    if ($variables['node']->hasField('field_rating_and_reviews') &&
+      $variables['node']->hasField('field_override_global_rating') &&
+      $variables['node']->get('field_override_global_rating')->value == TRUE
+    ) {
+      $show_rating_and_reviews = $variables['node']->get('field_rating_and_reviews')->value;
+    }
+    else {
+      $show_rating_and_reviews = \Drupal::config('emulsifymars.settings')->get('show_rating_and_reviews');
+    }
   }
-
+  $variables['show_rating_and_reviews'] = $show_rating_and_reviews ?? NULL;
   $variables['wtb_product_sku'] = $product_sku ?? NULL;
 }

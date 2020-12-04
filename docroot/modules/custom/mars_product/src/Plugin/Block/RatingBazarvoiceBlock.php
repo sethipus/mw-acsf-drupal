@@ -72,6 +72,15 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $form['product'] = [
+      '#type' => 'entity_autocomplete',
+      '#title' => $this->t('Product'),
+      '#target_type' => 'node',
+      '#default_value' => ($node_id = $this->configuration['product'] ?? NULL) ? $this->nodeStorage->load($node_id) : NULL,
+      '#selection_settings' => [
+        'target_bundles' => ['product'],
+      ],
+    ];
     return $form;
   }
 
@@ -79,14 +88,17 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
-    $this->setConfiguration($form_state->getValues());
+    parent::blockSubmit($form, $form_state);
+    $this->configuration['product'] = $form_state->getValue('product');
   }
 
   /**
    * {@inheritdoc}
    */
   public function defaultConfiguration(): array {
-    return [];
+    return [
+      'product' => $config['product'] ?? '',
+    ];
   }
 
   /**
@@ -96,7 +108,12 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
     $build = [];
     // Product node.
     $node = $this->getContextValue('node');
-    if ($node->bundle() == 'product') {
+
+    if (!empty($this->configuration['product'])) {
+      $node = $this->entityTypeManager->getStorage('node')->load($this->configuration['product']);
+    }
+
+    if ($node instanceof NodeInterface && $node->bundle() == 'product') {
       foreach ($node->field_product_variants as $reference) {
         $product_variant = $reference->entity;
         $gtin = $product_variant->get('field_product_sku')->value;
