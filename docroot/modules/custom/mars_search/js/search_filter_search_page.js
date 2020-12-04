@@ -86,7 +86,7 @@
       }
 
       var setSearchKeyHeader = function(key, noResults) {
-        if (key !== '' && noResults === '') {
+        if (key !== '' && (noResults === '' || noResults === null || typeof noResults === 'undefined')) {
           $(selectorSearchHeaderKeys).text(Drupal.t('Results for: ') + key);
           $(selectorSearchHeaderKeys).addClass('active');
         }
@@ -137,7 +137,7 @@
                 updateSearchResults(data.results);
                 togglePager(data.pager);
                 dataLayerPush(data.results_count, data.search_key);
-                setSearchKeyHeader(data.search_key);
+                setSearchKeyHeader(data.search_key, data.no_results);
                 setNoResults(data.no_results);
               }
             }
@@ -150,7 +150,9 @@
               $(selectorTypeFilterWrapper).replaceWith(data.types);
               $(selectorFilterWrapper).replaceWith(data.filters);
               filterEventSubscriber(context);
+              clearTypeFilterListener();
               Drupal.behaviors.searchFilterBehaviour.attach(document, drupalSettings);
+              Drupal.behaviors.searchResultsSelectBehaviour.attach(document, drupalSettings);
             }
           });
         }
@@ -158,12 +160,6 @@
 
       var clearTypeFilterListener = function() {
         $('.search-results-item--active .search-results-item__clear').one('click', function (e) {
-          var target = e.target;
-          var activeType = target.closest('.search-results-item--active');
-          if (activeType !== null) {
-            activeType.classList.remove('search-results-item--active');
-            activeType.closest('.results--filter-selected').classList.remove('results--filter-selected');
-          }
           var query = currentQuery();
           delete query.type;
           pushQuery(query);
@@ -196,15 +192,7 @@
         $(selectorTypeFilter, context).each(function(index) {
           $(this).on('click', function (e) {
             e.preventDefault();
-            var target = e.target;
-            var activeFilter = target.closest('.results__container').querySelector('.search-results-item--active');
-            if (activeFilter !== null) {
-              activeFilter.classList.remove('search-results-item--active');
-              activeFilter.closest('.results--filter-selected').classList.remove('results--filter-selected');
-            }
-            target.closest('.search-results-item').classList.add('search-results-item--active');
-            target.closest('.results').classList.add('results--filter-selected');
-            var filter = $(target).text();
+            var filter = $(e.target).text();
             var query = currentQuery();
             query['type'] = { '1': filter };
             pushQuery(query);
