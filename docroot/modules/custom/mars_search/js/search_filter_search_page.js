@@ -9,7 +9,7 @@
       var gridType = context.querySelector('[data-layer-grid-type]').dataset.layerGridType;
       if (gridType === 'search_page') {
         var selectorInput = '.search-page-header input';
-        var selectorTypeFilter = '.search-page-header .search-results-container .results a';
+        var selectorTypeFilter = '.search-page-header .search-results-container .results__container a';
         var selectorResults = '.ajax-card-grid .ajax-card-grid__items';
         var searchNoResults = '.search-results-page .no-results-container';
         var searchBlock = '.search-results-page .ajax-card-grid';
@@ -197,7 +197,7 @@
           $(this).on('click', function (e) {
             e.preventDefault();
             var target = e.target;
-            var activeFilter = target.closest('.results').querySelector('.search-results-item--active');
+            var activeFilter = target.closest('.results__container').querySelector('.search-results-item--active');
             if (activeFilter !== null) {
               activeFilter.classList.remove('search-results-item--active');
               activeFilter.closest('.results--filter-selected').classList.remove('results--filter-selected');
