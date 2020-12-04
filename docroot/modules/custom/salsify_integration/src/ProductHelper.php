@@ -680,4 +680,31 @@ class ProductHelper {
     return array_values($assets);
   }
 
+  /**
+   * Sort products by type: product_variant, then product, then multipack.
+   *
+   * @param array $products
+   *   Products.
+   */
+  public function sortProducts(array &$products) {
+    usort($products, function ($product_one, $product_two) {
+      if ($product_one['CMS: content type'] == $product_two['CMS: content type']) {
+        return 0;
+      }
+      if ($product_one['CMS: content type'] == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE &&
+        $product_two['CMS: content type'] == ProductHelper::PRODUCT_CONTENT_TYPE) {
+        return -1;
+      }
+      if ($product_one['CMS: content type'] == ProductHelper::PRODUCT_CONTENT_TYPE &&
+        $product_two['CMS: content type'] == ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE) {
+        return -1;
+      }
+      if ($product_one['CMS: content type'] == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE &&
+        $product_two['CMS: content type'] == ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE) {
+        return -1;
+      }
+      return 1;
+    });
+  }
+
 }

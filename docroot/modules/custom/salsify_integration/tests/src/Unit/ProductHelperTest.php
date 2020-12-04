@@ -549,4 +549,57 @@ class ProductHelperTest extends UnitTestCase {
     $this->assertNotEmpty($assets);
   }
 
+  /**
+   * Test.
+   */
+  public function testShouldSortProducts() {
+    $products = [
+      [
+        'Bazaarvoice Family ID' => 'Family ID',
+        'GTIN' => 'value_1',
+        'Send to Brand Site?' => TRUE,
+        'Dietary Fiber' => 'value',
+        'Generic Product Description' => 'description',
+        'Brand Name' => 'name1',
+        'CMS: content type' => 'product',
+        'salsify:digital_assets' => [
+          ['salsify:id' => '123'],
+        ],
+      ],
+      [
+        'Bazaarvoice Family ID' => 'Family ID',
+        'GTIN' => 'value_2',
+        'Case Net Weight' => 'value',
+        'CMS: Variety' => 'no',
+        'Send to Brand Site?' => FALSE,
+        'Dietary Fiber' => 'value',
+        'Generic Product Description' => 'description',
+        'Brand Name' => 'name2',
+        'CMS: content type' => 'product_variant',
+        'salsify:digital_assets' => [
+          ['salsify:id' => '345'],
+        ],
+      ],
+      [
+        'Bazaarvoice Family ID' => 'Family ID',
+        'GTIN' => 'value_3',
+        'CMS: Variety' => 'yes',
+        'Send to Brand Site?' => TRUE,
+        'Dietary Fiber' => 'value',
+        'Generic Product Description' => 'description',
+        'Brand Name' => 'name3',
+        'CMS: content type' => 'product_multipack',
+        'salsify:digital_assets' => [
+          ['salsify:id' => '456'],
+        ],
+      ],
+    ];
+
+    $this->productHelper->sortProducts($products);
+    $this->assertSame(
+      'value_2',
+      reset($products)['GTIN']
+    );
+  }
+
 }

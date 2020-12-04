@@ -373,6 +373,11 @@ class SalsifyFields extends Salsify {
       // entity reference fields that point to taxonomy fields.
       $this->prepareTermData($product_data);
 
+      // Sort product array in order to process product variant firstly,
+      // then product and finally product multipack.
+      $this->productHelper
+        ->sortProducts($product_data['products']);
+
       // Import the actual product data.
       if (!empty($product_data['products'])) {
 
