@@ -40,17 +40,21 @@
   }
 
   &__branding {
-    flex: 0 0 101px;
+    flex: 0 0 104px;
     margin: 1.5rem;
 
     @include medium {
-      flex: 0 0 150px;
+      flex-basis: 148px;
       margin: 2.5rem;
     }
 
     @include large {
-      flex-basis: 212px;
+      flex-basis: 160px;
       margin: 3.2rem $space-triple;
+    }
+
+    @include xl {
+      flex-basis: 200px;
     }
   }
 

@@ -251,11 +251,27 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       sizeElements.forEach((item) => {
         item.addEventListener('click', e => {
           updateSizeSlider(e, item.dataset.sizeId);
+          updateReview(e, item.dataset.sizeId);
           if (window.snapScroller) {
             window.snapScroller.recalculateLayout();
           }
         }, false);
       });
+
+      function updateReview(event, sizeId) {
+        event.preventDefault();
+        let reviews = context.querySelectorAll(`div[data-bv-show="reviews"]`);
+        if (reviews.length > 0) {
+          reviews.forEach((item) => {
+            if (item.hasChildNodes()) {
+              item.removeChild(item.firstChild);
+            }
+          });
+          let review = context.querySelector(`[data-review-size-id="${sizeId}"] div[data-bv-show="reviews"]`);
+          let productId = review.getAttribute('data-bv-product-id');
+          review.setAttribute('data-bv-product-id', productId);
+        }
+      }
 
       //scroll effects: bubbles, section-select and WTB
       function onScrollEffects() {
