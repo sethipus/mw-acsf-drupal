@@ -76,10 +76,20 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
 
-  if ((isset($variables['view_mode']) && $variables['view_mode'] === 'article_card')
-    || $hook === 'poll_results') {
+  $view_mode_is_card =
+    isset($variables['view_mode']) &&
+    $variables['view_mode'] === 'card';
+
+  $is_article_card =
+    $hook === 'node' &&
+    $view_mode_is_card &&
+    isset($variables['node']) &&
+    $variables['node'] instanceof Node &&
+    $variables['node']->bundle() === 'article';
+
+  if ($is_article_card || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $brand_shape_content = $themeParser->getBrandShape();
+    $brand_shape_content = $themeParser->getBrandShapeWithoutFill();
     $variables['brand_shape'] = $brand_shape_content ?? '';
   }
 

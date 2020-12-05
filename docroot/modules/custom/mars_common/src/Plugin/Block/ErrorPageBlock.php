@@ -124,7 +124,7 @@ class ErrorPageBlock extends BlockBase implements ContextAwarePluginInterface, C
 
     $build['#links'] = $links;
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
-    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShape();
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'error_page_block';
 
     return $build;
