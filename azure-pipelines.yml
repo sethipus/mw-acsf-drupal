@@ -117,13 +117,13 @@ steps:
       testResultsFiles: 'reports/phpunit/*.xml'
       mergeTestResults: true
       testRunTitle: 'Unit tests'
-  - task: PublishCodeCoverageResults@1
-    inputs:
-      codeCoverageTool: 'JaCoCo'
-      #pathToSources: # Optional
-      reportDirectory: 'coverage/*.xml'
-      #additionalCodeCoverageFiles: # Optional
-      #failIfCoverageEmpty: false # Optional
+  #- task: PublishCodeCoverageResults@1
+  #  inputs:
+  #    codeCoverageTool: 'JaCoCo'
+  #    #pathToSources: # Optional
+  #    reportDirectory: 'reports/phpunit/coverage.xml'
+  #    #additionalCodeCoverageFiles: # Optional
+  #    #failIfCoverageEmpty: false # Optional
   - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
