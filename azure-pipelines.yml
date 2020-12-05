@@ -57,18 +57,6 @@ steps:
     displayName: 'Install Node JS'
     inputs:
       versionSpec: '10.x'
-  - task: SonarQubePrepare@4
-    displayName: 'SonarQube Prepare'
-    inputs:
-      SonarQube: 'sonarqubetest'
-      scannerMode: 'CLI'
-      configMode: 'file'
-  - task: SonarQubeAnalyze@4
-    displayName: 'SonarQube Validation'
-  - task: SonarQubePublish@4
-    displayName: 'SonarQube Publish'
-    inputs:
-      pollingTimeoutSec: '300'
   - task: Cache@2
     displayName: 'Cache Composer Packages'
     inputs:
@@ -129,6 +117,13 @@ steps:
       testResultsFiles: 'reports/phpunit/*.xml'
       mergeTestResults: true
       testRunTitle: 'Unit tests'
+  #- task: PublishCodeCoverageResults@1
+    #inputs:
+      #codeCoverageTool: 'JaCoCo'
+      #pathToSources: # Optional
+      #reportDirectory: 'reports/coverage/*.xml'
+      #additionalCodeCoverageFiles: # Optional
+      #failIfCoverageEmpty: false # Optional
   - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
