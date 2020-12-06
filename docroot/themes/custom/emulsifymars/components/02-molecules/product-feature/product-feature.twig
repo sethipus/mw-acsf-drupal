@@ -4,10 +4,13 @@
 <section {{ bem(product_feature_base_class) }} data-theme="{{ theme_styles }}" style="background-color: {{ background_color }};">
   <div {{ bem('inner', [], product_feature_base_class) }}>
   <div {{ bem('bubble_1', [], product_feature_base_class) }}>
+    {{ brand_shape | raw }}
   </div>
   <div {{ bem('bubble_2', [], product_feature_base_class) }}>
+    {{ brand_shape | raw }}
   </div>
   <div {{ bem('bubble_3', [], product_feature_base_class) }}>
+    {{ brand_shape | raw }}
   </div>
     <div {{ bem('product_image', [], product_feature_base_class) }}>
       {% include "@atoms/images/image/responsive-image.twig" with {

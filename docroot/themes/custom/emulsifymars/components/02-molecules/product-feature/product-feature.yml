@@ -1,5 +1,7 @@
 theme_styles: 'twix'
 
+brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200"><circle cx="100" cy="100" r="100"/></svg>'
+
 eyebrow_text: 'PRODUCTS'
 background_color: 'blue'
 
