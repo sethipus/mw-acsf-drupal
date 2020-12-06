@@ -19,14 +19,14 @@
   {% block list_item_content_question %}
     <div {{bem('question', [], li_base_class)}}>
       <div {{bem('faq-mark', [], li_base_class)}}>Q:</div>
-      {{ list_item_content.question | raw }}
+      {{ list_item_content.question | raw }} Lorem ipsum dolor sit amet???
     </div>
   {% endblock %}
   <div>
   {% block list_item_content_answer %}
       <div {{bem('answer', [], li_base_class)}}>
         <div {{bem('faq-mark', [], li_base_class)}}>A:</div>
-        {{ list_item_content.answer | raw }}
+        {{ list_item_content.answer | raw }} Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet
       </div>
     {% endblock %}
 </li>
