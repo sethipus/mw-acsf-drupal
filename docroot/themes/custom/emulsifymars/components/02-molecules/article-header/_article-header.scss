@@ -168,6 +168,8 @@
 
 .article-header-noimage {
   font-family: variable(primary-font);
+  position: relative;
+  overflow: hidden;
 
   &__border {
     position: relative;
@@ -184,10 +186,7 @@
 
   &__inner {
     position: relative;
-    background-position: 125% 30%;
-    background-repeat: no-repeat;
-    background-size: 60% auto;
-    background-image: variable(brand-shape);
+    z-index: 2;
 
     @include medium {
       background-size: 40% auto;
@@ -195,6 +194,23 @@
 
     @include large {
       background-size: 48% auto;
+    }
+  }
+
+  &__brand_shape {
+    z-index: 1;
+    position: absolute;
+    display: block;
+    top: -14rem;
+    right: -30rem;
+    width: 82rem;
+    height: 82rem;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: clr(subcolor-1);
+      opacity: 0.2;
     }
   }
 
