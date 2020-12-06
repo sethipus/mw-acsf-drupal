@@ -180,23 +180,36 @@
     }
 
     & .grid__item {
+      .brand-shape {
+        display: none;
+      }
       &:nth-child(2n-1) {
         & .image-background {
-          background-image: variable(brand-shape);
-          background-size: 70%;
-          background-repeat: no-repeat;
-          background-position: center center;
+          position: relative;
+
+          .image {
+            position: relative;
+          }
+
+          .brand-shape {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+
+            svg {
+              width: 65%;
+              height: 66%;
+              margin-top: 15%;
+              margin-left: 0%;
+            }
+          }
 
           &:hover {
             background-size: 77%;
             transition: background-size 0.8s ease;
           }
 
-          & svg {
-            circle {
-              fill: clr(subcolor-2);
-            }
-          }
         }
       }
     }

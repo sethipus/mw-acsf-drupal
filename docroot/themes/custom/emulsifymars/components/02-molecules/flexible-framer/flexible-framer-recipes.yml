@@ -3,6 +3,7 @@ related_recipes__additional_class: 'related-recipes'
 grid_label: 'More of our favorites'
 grid_type: 'card'
 item_type: 'card'
+brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200"><circle cx="100" cy="100" r="100" fill="rgba(234, 170, 0, 0.2)"/></svg>'
 items:
   - card__image__src: 'Bitmap.png'
     card__image__alt: 'People'
