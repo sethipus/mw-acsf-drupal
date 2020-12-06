@@ -117,9 +117,9 @@ steps:
       testResultsFiles: 'reports/phpunit/*.xml'
       mergeTestResults: true
       testRunTitle: 'Unit tests'
-  - task: PublishCodeCoverageResults@1
-    inputs:
-      summaryFileLocation: 'reports/phpunit/coverage.xml'
+  #- task: PublishCodeCoverageResults@1
+  #  inputs:
+  #    summaryFileLocation: 'reports/phpunit/coverage.xml'
   - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
