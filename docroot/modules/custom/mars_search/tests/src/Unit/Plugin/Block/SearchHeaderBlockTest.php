@@ -2,28 +2,31 @@
 
 namespace Drupal\Tests\mars_search\Unit\Plugin\Block;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_search\Plugin\Block\SearchFaqBlock;
+use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_search\Plugin\Block\SearchHeaderBlock;
 use Drupal\mars_search\Processors\SearchBuilder;
-use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @coversDefaultClass \Drupal\mars_search\Plugin\Block\SearchFaqBlock
+ * @coversDefaultClass \Drupal\mars_search\Plugin\Block\SearchHeaderBlock
  * @group mars
  * @group mars_search
  */
-class SearchFaqBlockTest extends UnitTestCase {
+class SearchHeaderBlockTest extends UnitTestCase {
+
+  const BLOCK_CONFIGURATION = [
+    'search_header_heading' => 'Test header title',
+    'search_header_placeholder' => 'Test header placeholder',
+  ];
 
   /**
    * System under test.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Plugin\Block\SearchFaqBlock
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Plugin\Block\SearchHeaderBlock
    */
   private $block;
 
@@ -42,32 +45,11 @@ class SearchFaqBlockTest extends UnitTestCase {
   private $formStateMock;
 
   /**
-   * Search helper.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchHelperInterface
-   */
-  private $searchHelperMock;
-
-  /**
    * Search builder mock.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchBuilderInterface
    */
   private $searchBuilderMock;
-
-  /**
-   * Config factory.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactory
-   */
-  private $configFactoryMock;
-
-  /**
-   * Immutable config mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ImmutableConfig
-   */
-  private $immutableConfig;
 
   /**
    * Test block configuration.
@@ -91,15 +73,20 @@ class SearchFaqBlockTest extends UnitTestCase {
   private $languageHelperMock;
 
   /**
+   * Theme configurator mock.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
-    $this->configuration = [
-      'faq_title' => 'FAQ block title',
-    ];
+    $this->configuration = self::BLOCK_CONFIGURATION;
     $definitions = [
       'provider'    => 'test',
       'admin_label' => 'test',
@@ -110,21 +97,17 @@ class SearchFaqBlockTest extends UnitTestCase {
       ->method('getProcessManager')
       ->willReturnMap([
         [
-          'search_helper',
-          $this->searchHelperMock,
-        ],
-        [
           'search_builder',
           $this->searchBuilderMock,
         ],
       ]);
 
-    $this->block = new SearchFaqBlock(
+    $this->block = new SearchHeaderBlock(
       $this->configuration,
-      'list_block',
+      'search_header_block',
       $definitions,
+      $this->themeConfiguratorMock,
       $this->searchProcessFactoryMock,
-      $this->configFactoryMock,
       $this->languageHelperMock
     );
   }
@@ -139,14 +122,14 @@ class SearchFaqBlockTest extends UnitTestCase {
       ->willReturnMap(
         [
           [
+            'mars_common.theme_configurator_parser',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->themeConfiguratorMock,
+          ],
+          [
             'mars_search.search_factory',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->searchProcessFactoryMock,
-          ],
-          [
-            'config.factory',
-            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->configFactoryMock,
           ],
           [
             'mars_common.language_helper',
@@ -159,7 +142,7 @@ class SearchFaqBlockTest extends UnitTestCase {
     $this->block::create(
       $this->containerMock,
       $this->configuration,
-      'search_faq_block',
+      'search_header_block',
       [
         'provider'    => 'test',
         'admin_label' => 'test',
@@ -172,7 +155,8 @@ class SearchFaqBlockTest extends UnitTestCase {
    */
   public function testShouldBuildConfigurationForm() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertArrayHasKey('faq_title', $config_form);
+    $this->assertArrayHasKey('search_header_heading', $config_form);
+    $this->assertArrayHasKey('search_header_placeholder', $config_form);
   }
 
   /**
@@ -196,58 +180,18 @@ class SearchFaqBlockTest extends UnitTestCase {
    * Test block build.
    */
   public function testBuild() {
-    $this->block->setConfiguration([
-      'faq_title' => 'Test FAQ title',
-    ]);
-
-    $this->configFactoryMock
-      ->expects($this->once())
-      ->method('get')
-      ->with('mars_search.search_no_results')
-      ->willReturn($this->immutableConfig);
-
-    $this->immutableConfig
-      ->expects($this->exactly(2))
-      ->method('get')
-      ->willReturnMap([
-        [
-          'no_results_heading',
-          'test_heading with "@keys"',
-        ],
-        [
-          'no_results_text',
-          'test_text',
-        ],
-      ]);
-
     $this->searchBuilderMock
       ->expects($this->once())
-      ->method('buildSearchResults')
-      ->willReturn([
-        [
-          'limit' => 1,
-          'keys' => 'test_search_key',
-        ],
-        [
-          'resultsCount' => 1,
-        ],
-        [],
-      ]);
-    $this->searchBuilderMock
-      ->expects($this->once())
-      ->method('buildFaqFilters')
-      ->willReturn([]);
+      ->method('buildSearchHeader')
+      ->with($this->block->getConfiguration());
 
-    $this->languageHelperMock
+    $this->themeConfiguratorMock
       ->expects($this->once())
-      ->method('translate');
+      ->method('getBrandBorder');
 
     $build = $this->block->build();
-    $this->assertEquals('mars_search_faq_block', $build['#theme']);
-    $this->assertEquals('Test FAQ title', $build['#faq_title']);
-    $this->assertEquals(1, $build['#search_result_counter']);
-    $this->assertEquals('test_heading with "test_search_key"', $build['#no_results_heading']);
-    $this->assertEquals('test_text', $build['#no_results_text']);
+    $this->assertEquals('mars_search_header', $build['#theme']);
+    $this->assertEquals('Test header title', $build['#search_header_heading']);
   }
 
   /**
@@ -263,12 +207,10 @@ class SearchFaqBlockTest extends UnitTestCase {
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
-    $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
-    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
-    $this->immutableConfig = $this->createMock(ImmutableConfig::class);
     $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->searchBuilderMock = $this->createMock(SearchBuilder::class);
+    $this->themeConfiguratorMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 
 }
