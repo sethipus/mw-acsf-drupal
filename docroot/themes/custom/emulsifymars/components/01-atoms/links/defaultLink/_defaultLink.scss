@@ -34,15 +34,12 @@
     }
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    // don't use hover effect on touch devices
-    &:hover {
-      color: clr(secondary);
-      background-color: transparent !important;
+  &:hover {
+    color: clr(secondary);
+    background-color: transparent !important;
 
-      &::after {
-        height: 800%;
-      }
+    &::after {
+      height: 800%;
     }
   }
 
@@ -58,10 +55,8 @@
       background-color: clr(secondary);
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        color: clr(subcolor-3);
-      }
+    &:hover {
+      color: clr(subcolor-3);
     }
   }
 
