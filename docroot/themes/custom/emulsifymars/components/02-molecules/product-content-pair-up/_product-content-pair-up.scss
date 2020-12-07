@@ -110,17 +110,29 @@
         .heading {
           color: clr(subcolor-3);
           font-family: variable(primary-font);
-          font-size: 4rem;
           font-weight: 500;
-          line-height: 1;
           letter-spacing: 0.2rem;
           margin-top: 0;
           margin-bottom: 3rem;
           text-decoration: none;
           word-break: break-word;
 
-          @include xl {
+          @include xs {
+            font-size: 4rem;
+            line-height: 4rem;
+          }
+
+          @include medium {
+            font-size: 5.6rem;
+            line-height: 5.6rem;
+          }
+
+          @include large {
             font-size: 6.4rem;
+            line-height: 6.4rem;
+          }
+
+          @include xl {
             letter-spacing: 1.6px;
             margin-top: auto;
             margin-bottom: 6rem;
@@ -175,6 +187,23 @@
         top: 115px;
         left: auto;
         right: 115px;
+      }
+
+      .recipe-card-heading__link {
+        @include xs {
+          font-size: 2rem;
+          line-height: 2.2rem;
+        }
+
+        @include medium {
+          font-size: 2.6rem;
+          line-height: 2.86rem;
+        }
+        
+        @include large {
+          font-size: 2.8rem;
+          line-height: 3.08rem;
+        }
       }
 
       .wrapper > section {
