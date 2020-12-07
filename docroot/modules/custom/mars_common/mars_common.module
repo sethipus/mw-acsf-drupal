@@ -980,6 +980,20 @@ function _mars_common_form_menu_link_content_menu_link_content_form_validate(arr
       );
     }
   }
+  elseif ($form_values_parent_menu === MenuConstants::LEGAL_MENU_ID) {
+    if (!_mars_common_menu_link_count_validation($entity, $form_values_parent_menu, MenuConstants::LEGAL_MENU_ITEM_COUNT_LIMIT)) {
+      $form_state->setErrorByName(
+        'menu_parent',
+        t(
+          'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+          [
+            '@menu' => '<Legal links menu>',
+            '@max_count' => MenuConstants::LEGAL_MENU_ITEM_COUNT_LIMIT,
+          ]
+        )
+      );
+    }
+  }
 }
 
 /**
