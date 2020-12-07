@@ -1,12 +1,15 @@
 import React from 'react';
+import ReactDOMServer from "react-dom/server";
 
 import recipeBodyTwig from './recipe-body.twig';
 import recipeBodyData from './recipe-body.yml';
 import { useEffect } from '@storybook/client-api';
 import './recipe-body';
 
-import productCard from "../../02-molecules/card/product-card/product-card.twig";
-import productCardData from "../../02-molecules/card/product-card/product-card.yml";
+import {
+  productCardNewProduct,
+  productCardMaxLength
+} from "../../02-molecules/card/product-card/product-card.stories";
 
 
 /**
@@ -19,8 +22,8 @@ export const recipeBodyTemplate = () => {
   const product_used_items = {
     theme_styles: 'twix',
     product_used_items: [
-      productCard(productCardData),
-      productCard(productCardData)
+      ReactDOMServer.renderToStaticMarkup(productCardNewProduct()),
+      ReactDOMServer.renderToStaticMarkup(productCardMaxLength()),
     ]
   };
   return <div dangerouslySetInnerHTML={{ __html: recipeBodyTwig({ ...recipeBodyData, ...product_used_items }) }} />;

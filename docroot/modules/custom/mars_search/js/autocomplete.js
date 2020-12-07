@@ -39,7 +39,9 @@
               dataType: 'json',
               success: function success(results) {
                 if (!$(results).hasClass('no-results')) {
-                  $(target_container).find('.mars-suggestions').html(results);
+                  const suggestions = $(target_container).find('.mars-suggestions');
+                  suggestions.html(results);
+                  Drupal.attachBehaviors(suggestions)
                   $(target_container).find('.search-input-wrapper').addClass('suggested');
                   $('.mars-search-autocomplete-suggestions-wrapper').show();
                 }
