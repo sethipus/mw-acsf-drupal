@@ -1021,6 +1021,9 @@ function mars_common_form_menu_link_content_menu_link_content_form_alter(array &
   elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_FOOTER_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_FOOTER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
   }
+  elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_HEADER_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_HEADER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
   $form['menu_parent']['#ajax'] = [
     'disable-refocus' => FALSE,
     'event' => 'change',
