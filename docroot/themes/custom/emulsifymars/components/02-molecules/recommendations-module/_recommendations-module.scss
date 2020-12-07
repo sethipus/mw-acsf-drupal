@@ -20,16 +20,22 @@
       text-align: center;
       color: clr(primary);
       text-transform: uppercase;
-      font-size: 40px;
       line-height: 1.1em;
       font-family: variable(heading-font);
 
-      @include medium {
-        font-size: 56px;
+      @include xs {
+        font-size: 4rem;
+        line-height: 4rem;
       }
 
-      @include xl {
-        font-size: 64px;
+      @include medium {
+        font-size: 5.6rem;
+        line-height: 5.6rem;
+      }
+
+      @include large {
+        font-size: 6.4rem;
+        line-height: 6.4rem;
       }
     }
   }

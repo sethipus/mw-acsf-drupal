@@ -7,6 +7,8 @@
 <section {{ bem(card__base_class, [], card__blockname, card__extra_classes) }}
          data-theme="{{ theme_styles }}"
          data-site-search-clicked="{{ item.paragraph_content }}"
+         data-datalayer-gtin="{{ product_sku }}"
+         data-datalayer-taxonomy="{{ datalayer_taxonomy }}"
          data-card-type="product-card">
 
     {% if is_new %}
@@ -63,6 +65,12 @@
         paragraph_modifiers: ['large']
       } %}
     </div>
+
+    {% if show_rating_and_reviews == true %}
+      <div {{ bem('rating', [], card__base_class) }}>
+        <div data-bv-show="inline_rating" data-bv-product-id="{{ product_sku }}" data-bv-redirect-url="{{ default_link_content }}"></div>
+      </div>
+    {% endif %}
 
     <div {{ bem('link_section', [], card__base_class) }}>
       <div {{ bem('button', [], card__base_class) }}>
