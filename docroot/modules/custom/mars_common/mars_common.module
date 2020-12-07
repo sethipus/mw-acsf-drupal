@@ -1460,3 +1460,10 @@ function mars_common_include_ief_entities(array $entity_form, FormStateInterface
 
   return $entity_form;
 }
+
+/**
+ * Implements hook_pathauto_punctuation_chars_alter().
+ */
+function mars_common_pathauto_punctuation_chars_alter(array &$punctuation) {
+  $punctuation['registered_trademark'] = ['value' => '®', 'name' => t('Registered trademark symbol')];
+}
