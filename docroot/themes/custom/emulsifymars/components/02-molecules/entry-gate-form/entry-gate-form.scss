@@ -4,8 +4,9 @@
   justify-content: space-between;
   margin-bottom: 1rem;
 
-  @include medium {
+  @include xl {
     flex-direction: row;
+    max-height: 5.5rem;
   }
 
   &__fieldset {
@@ -16,7 +17,7 @@
     font-size: 0;
     border: none;
 
-    @include medium {
+    @include xl {
       margin-bottom: 0;
     }
 
@@ -59,15 +60,15 @@
     outline: none;
 
     @include xs {
-      max-width: 6rem;
-    }
-
-    @include small {
       max-width: 8rem;
     }
 
+    @include small {
+      max-width: 9rem;
+    }
+
     @include medium {
-      max-width: 13rem;
+      max-width: 15rem;
     }
 
     &--rounded-left {
@@ -130,9 +131,14 @@
     transition: color .3s;
     padding: 0 7rem;
     max-width: 20rem;
+    min-width: 100%;
     margin: 0 auto;
 
     @include medium {
+      min-width: 0;
+    }
+
+    @include xl {
       margin: 0;
     }
 
