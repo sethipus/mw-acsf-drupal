@@ -65,8 +65,8 @@ class ProductMatch implements EventSubscriberInterface {
       return;
     }
 
-    $title = $this->getNodeTitle($object);
-    $product = $this->findProduct($title);
+    $gtin = $this->getNodeGtin($object);
+    $product = $this->findProduct($gtin);
     if (!empty($product)) {
       $this->addDependency($event, $object, $product);
       $event->setEntity($product);
@@ -84,56 +84,58 @@ class ProductMatch implements EventSubscriberInterface {
    *   TRUE if CDF object is taxonomy term.
    */
   protected function isSupported(CDFObject $cdf_object): bool {
-    $type = $cdf_object->getAttribute('entity_type');
+    $type = $cdf_object->getAttribute('bundle');
     $local_entities = [
       'product',
       'product_variant',
       'product_multipack',
     ];
 
-    return in_array($type->getValue()[CDFObject::LANGUAGE_UNDETERMINED], $local_entities);
+    return isset($type) ?? in_array($type->getValue()[CDFObject::LANGUAGE_UNDETERMINED], $local_entities);
   }
 
   /**
-   * Get node title from CDF object.
+   * Get node gtin from CDF object.
    *
    * @param \Acquia\ContentHubClient\CDF\CDFObject $cdf_object
    *   CDF object.
    *
    * @return string|null
-   *   Term label.
+   *   Product gtin.
    */
-  protected function getNodeTitle(CDFObject $cdf_object): ?string {
+  protected function getNodeGtin(CDFObject $cdf_object): ?string {
     $product_language = $cdf_object->getMetadata()['default_language'];
-    $title = $cdf_object->getAttribute('title')->getValue();
+    $metadata = $cdf_object->getMetadata()['data'];
 
-    return $title[$product_language] ?? $title[CDFObject::LANGUAGE_UNDETERMINED] ?? NULL;
+    if (!empty($metadata)) {
+      $data_decoded = json_decode(base64_decode($metadata));
+
+      try {
+        $gtin = $data_decoded->salsify_id->value->{$product_language}[0];
+      } catch (\Exception $e) {}
+    }
+
+    return $gtin ?? NULL;
   }
 
   /**
-   * Find local taxonomy term.
+   * Find product by gtin.
    *
-   * @param string|null $label
-   *   Term label.
-   * @param string|null $vocabulary
-   *   Vocabulary machine name.
-   * @param string $parent
-   *   Term's parent UUID.
-   * @param \Drupal\depcalc\DependencyStack $stack
-   *   The Dependency Stack.
+   * @param string|null $gtin
+   *   Product gtin.
    *
    * @return \Drupal\core\Entity\EntityInterface|null
    *   Node if exists, NULL otherwise.
    *
    * @throws \Exception
    */
-  protected function findProduct(?string $title) {
-    if (!$title) {
+  protected function findProduct(?string $gtin) {
+    if (!$gtin) {
       return NULL;
     }
 
     $nodes = $this->getNodeStorage()->loadByProperties([
-      'title' => $title,
+      'salsify_id' => $gtin,
     ]);
 
     return array_shift($nodes);
