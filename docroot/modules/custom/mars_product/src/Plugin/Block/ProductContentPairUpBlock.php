@@ -332,7 +332,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $render_array['#eyebrow'] = $eyebrow_text;
 
     if ($is_product_card) {
-      $brand_shape = $this->themeConfiguratorParser->getBrandShape();
+      $brand_shape = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
       $render_array['#brand_shape'] = $brand_shape;
     }
 

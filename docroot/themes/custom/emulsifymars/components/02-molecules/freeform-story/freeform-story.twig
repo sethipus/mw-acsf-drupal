@@ -1,8 +1,5 @@
 {% set freeform_story_base_class = freeform_story_base_class|default('freeform-story') %}
 {% set freeform_story_modifiers = [freeform_story_align | default('left') ] %}
-{% if not use_custom_color %}
-  {% set freeform_story_modifiers = freeform_story_modifiers | merge(['bg-enabled']) %}
-{% endif %}
 {% set freeform_story_header_2_base_class = freeform_story_header_2_base_class|default('freeform-story__heading') %}
 {% set freeform_story_header_1_base_class = freeform_story_header_1_base_class|default('freeform-story__subheading') %}
 {% set freeform_story_paragraph_base_class = freeform_story_paragraph_base_class|default('freeform-story__paragraph') %}
