@@ -4,7 +4,7 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  margin: 15px 0 23px -5px;
+  margin: 15px 0 23px;
 
   &__item {
     flex-basis: 20px;
@@ -19,7 +19,7 @@
     & svg {
       display: inline;
       height: 22px;
-      width: 22px;
+      width: auto;
     }
 
     & svg path {
