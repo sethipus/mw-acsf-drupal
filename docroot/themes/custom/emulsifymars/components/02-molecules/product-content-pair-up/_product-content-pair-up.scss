@@ -70,6 +70,10 @@
         background: rgba($black, 0.4);
       }
 
+      .supportive-card .wrapper {
+        text-align: left;
+      }
+
       .wrapper {
         max-width: 335px;
         margin: 0 auto;
@@ -88,6 +92,10 @@
         @include xl {
           margin: 0;
           max-width: 900px;
+        }
+
+        .product-card .product-card__title {
+          text-align: center;
         }
 
         .recipe-card {
