@@ -980,6 +980,20 @@ function _mars_common_form_menu_link_content_menu_link_content_form_validate(arr
       );
     }
   }
+  elseif ($form_values_parent_menu === MenuConstants::LEGAL_MENU_ID) {
+    if (!_mars_common_menu_link_count_validation($entity, $form_values_parent_menu, MenuConstants::LEGAL_MENU_ITEM_COUNT_LIMIT)) {
+      $form_state->setErrorByName(
+        'menu_parent',
+        t(
+          'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+          [
+            '@menu' => '<Legal links menu>',
+            '@max_count' => MenuConstants::LEGAL_MENU_ITEM_COUNT_LIMIT,
+          ]
+        )
+      );
+    }
+  }
 }
 
 /**
@@ -1459,4 +1473,11 @@ function mars_common_include_ief_entities(array $entity_form, FormStateInterface
   }
 
   return $entity_form;
+}
+
+/**
+ * Implements hook_pathauto_punctuation_chars_alter().
+ */
+function mars_common_pathauto_punctuation_chars_alter(array &$punctuation) {
+  $punctuation['registered_trademark'] = ['value' => '®', 'name' => t('Registered trademark symbol')];
 }
