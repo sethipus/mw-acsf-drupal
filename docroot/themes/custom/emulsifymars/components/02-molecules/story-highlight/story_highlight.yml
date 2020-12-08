@@ -32,4 +32,3 @@ asset_3_alt: 'twix chocolate'
 story_highlight_button_text: 'Learn more'
 story_highlight_button_link_attributes:
   href: 'https://storybook.js.org/'
-  target: '_blank'

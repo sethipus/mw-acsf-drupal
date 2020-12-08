@@ -36,6 +36,8 @@ entry-gate:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-1
+    - core/jquery
+    - core/jquery.once
 
 social-feed-slide:
   js:
@@ -93,6 +95,9 @@ recommendations-module:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
@@ -120,6 +125,8 @@ media-carousel:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
 
 ambient-video:
   js:
@@ -162,6 +169,15 @@ product-used-module:
     - core/jquery
     - core/jquery.once
 
+product-feature:
+  js:
+    dist/js/02-molecules/product-feature/product-feature.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
+
 recipe-body:
   js:
     dist/js/03-organisms/recipe-body/recipe-body.js: {}
@@ -197,14 +213,6 @@ search-facet-type:
     dist/js/01-atoms/search-results-item/search-results-item.js: {}
   dependencies:
     - core/drupal
-
-feedback:
-  js:
-    dist/js/02-molecules/feedback-module/feedback.js: { }
-  dependencies:
-    - core/drupal
-    - core/jquery
-    - core/jquery.once
 
 card-grid-filter:
   js:

@@ -43,7 +43,7 @@
 
     .lead-card {
       background-color: clr(subcolor-2);
-      background-size: auto 110%;
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
       padding-top: 50px;
@@ -52,11 +52,6 @@
       @include medium {
         height: 1003px;
         padding-top: 60px;
-        background-size: auto 150%;
-      }
-
-      @include large {
-        background-size: auto 120%;
       }
 
       @include xl {
@@ -73,6 +68,10 @@
         left: 0;
         top: 0;
         background: rgba($black, 0.4);
+      }
+
+      .supportive-card .wrapper {
+        text-align: left;
       }
 
       .wrapper {
@@ -95,6 +94,10 @@
           max-width: 900px;
         }
 
+        .product-card .product-card__title {
+          text-align: center;
+        }
+
         .recipe-card {
           margin-bottom: 0;
         }
@@ -115,17 +118,29 @@
         .heading {
           color: clr(subcolor-3);
           font-family: variable(primary-font);
-          font-size: 4rem;
           font-weight: 500;
-          line-height: 1;
           letter-spacing: 0.2rem;
           margin-top: 0;
           margin-bottom: 3rem;
           text-decoration: none;
           word-break: break-word;
 
-          @include xl {
+          @include xs {
+            font-size: 4rem;
+            line-height: 4rem;
+          }
+
+          @include medium {
+            font-size: 5.6rem;
+            line-height: 5.6rem;
+          }
+
+          @include large {
             font-size: 6.4rem;
+            line-height: 6.4rem;
+          }
+
+          @include xl {
             letter-spacing: 1.6px;
             margin-top: auto;
             margin-bottom: 6rem;
@@ -180,6 +195,23 @@
         top: 115px;
         left: auto;
         right: 115px;
+      }
+
+      .recipe-card-heading__link {
+        @include xs {
+          font-size: 2rem;
+          line-height: 2.2rem;
+        }
+
+        @include medium {
+          font-size: 2.6rem;
+          line-height: 2.86rem;
+        }
+        
+        @include large {
+          font-size: 2.8rem;
+          line-height: 3.08rem;
+        }
       }
 
       .wrapper > section {

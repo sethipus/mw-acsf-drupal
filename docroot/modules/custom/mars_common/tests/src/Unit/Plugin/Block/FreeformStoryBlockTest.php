@@ -15,7 +15,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * Class FreeformStoryBlockTest.
  *
  * @package Drupal\Tests\mars_common\Unit
- * @covers \Drupal\mars_common\Plugin\Block\FreeformStoryBlockTest
+ * @covers \Drupal\mars_common\Plugin\Block\FreeformStoryBlock
  */
 class FreeformStoryBlockTest extends UnitTestCase {
 

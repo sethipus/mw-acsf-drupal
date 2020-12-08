@@ -67,12 +67,17 @@
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.88rem;
-    margin-bottom: 3rem;
+    margin: 0 auto 3rem;
+
+    @include medium {
+      max-width: 570px;
+    }
 
     @include large {
         font-size: 2.2rem;
         line-height: 3.52rem;
-        margin-bottom: 6rem;
+        margin: 0 auto 6rem;
+        max-width: 817px;
     }
   }
 
