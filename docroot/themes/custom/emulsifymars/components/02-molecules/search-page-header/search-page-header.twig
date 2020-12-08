@@ -35,7 +35,8 @@
   </div>
 
   {% include "@molecules/search/search-results/search-results.twig" with {
-    search_results: search_results
+    search_results: search_results,
+    filters_selected_modifier: filters_selected_modifier
   }%}
 
   {% block search_page_header_divider %}
