@@ -112,7 +112,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
    */
   public function build() {
     $config = $this->getConfiguration();
-    if (!$config['grid_id']) {
+    if (!isset($config['grid_id']) || !$config['grid_id']) {
       $grid_id = uniqid(substr(md5(serialize($config)), 0, 12));
       $config['grid_id'] = $grid_id;
       $this->setConfiguration($config);
@@ -341,6 +341,15 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContextMapping() {
+    $mapping = parent::getContextMapping();
+    $mapping['node'] = $mapping['node'] ?? 'layout_builder.entity';
+    return $mapping;
   }
 
 }

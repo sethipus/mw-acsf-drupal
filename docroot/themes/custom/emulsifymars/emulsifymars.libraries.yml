@@ -183,6 +183,9 @@ recipe-body:
     dist/js/03-organisms/recipe-body/recipe-body.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 ajaxcardgrid:
   js:
@@ -210,14 +213,6 @@ search-facet-type:
     dist/js/01-atoms/search-results-item/search-results-item.js: {}
   dependencies:
     - core/drupal
-
-feedback:
-  js:
-    dist/js/02-molecules/feedback-module/feedback.js: { }
-  dependencies:
-    - core/drupal
-    - core/jquery
-    - core/jquery.once
 
 card-grid-filter:
   js:
