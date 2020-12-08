@@ -1,9 +1,9 @@
 .product-content-pair-up {
-  .product-content-pair-up__heading {
+  &__heading {
     width: 100%;
     text-align: center;
     font-family: variable(heading-font);
-    font-size: 4rem;
+    font-size: 2.8rem;
     font-weight: 500;
     line-height: 1;
     letter-spacing: 0.14rem;
@@ -15,21 +15,20 @@
     text-transform: uppercase;
 
     @include medium {
-      letter-spacing: 2.8px;
-      font-size: 5.6rem;
       max-width: 688px;
+      font-size: 4rem;
+      letter-spacing: 0.2rem;
     }
 
     @include xl {
       max-width: none;
-      font-size: 6.4rem;
+      font-size: 4.8rem;
       margin-bottom: 6rem;
-      line-height: 6.4rem;
-      letter-spacing: 1.6px;
+      letter-spacing: 0.24rem;
     }
   }
 
-  .product-content-pair-up__graphic-divider {
+  &__graphic-divider {
     text-align: center;
     margin-bottom: 4rem;
 
@@ -38,7 +37,7 @@
     }
   }
 
-  .product-content-pair-up__container {
+  &__container {
     position: relative;
 
     .lead-card {
