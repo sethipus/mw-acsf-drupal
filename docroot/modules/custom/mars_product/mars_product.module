@@ -5,6 +5,7 @@
  * MARS Product module main file.
  */
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\field\FieldConfigInterface;
@@ -136,6 +137,7 @@ function mars_common_preprocess_node__product_multipack__card(array &$variables)
  *   Variables.
  */
 function product_card_add_wtb_vars(array &$variables) {
+  $show_rating_and_reviews = NULL;
   $wtb_config = \Drupal::config('mars_product.wtb.settings');
   $variables['wtb_commerce_vendor'] = $wtb_config->get('commerce_vendor') ?? NULL;
   $variables['wtb_button_type'] = $wtb_config->get('button_type') ?? NULL;
@@ -157,7 +159,16 @@ function product_card_add_wtb_vars(array &$variables) {
       $show_rating_and_reviews = \Drupal::config('emulsifymars.settings')->get('show_rating_and_reviews');
     }
   }
-  $variables['show_rating_and_reviews'] = $show_rating_and_reviews ?? NULL;
+
+  if ($show_rating_and_reviews) {
+    if (EnvironmentDetector::isProdEnv()) {
+      $variables['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
+    }
+    else {
+      $variables['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
+    }
+  }
+  $variables['show_rating_and_reviews'] = $show_rating_and_reviews;
   $variables['wtb_product_sku'] = $product_sku ?? NULL;
 }
 

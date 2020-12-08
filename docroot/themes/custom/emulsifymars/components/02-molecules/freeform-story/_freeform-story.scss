@@ -12,8 +12,16 @@
     z-index: 1;
     display: block;
     top: 0;
-    width: 10rem;
-    height: 10rem;
+    width: 120%;
+    height: auto;
+
+    @include medium {
+      width: 30rem;
+    }
+
+    @include large {
+      width: 45.5rem;
+    }
 
     svg {
       fill: rgba(clr(subcolor-1-rgb), 0.2);
@@ -102,14 +110,19 @@
       }
 
       .freeform-story__brand-shape {
-        width: 50rem;
-        height: 50rem;
-        left: calc(50% - 25rem);
-        top: 20rem;
+        top: 1.3rem;
+        left: 50%;
+        transform: translateX(-50%);
       }
     }
 
     @include medium {
+      .freeform-story__brand-shape {
+        top: -2.6rem;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
       .freeform-story__img,
       .freeform-story__texts {
         flex: 1;
@@ -121,6 +134,12 @@
     }
 
     @include large {
+      .freeform-story__brand-shape {
+        top: 1.7rem;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
       .freeform-story__content{
         padding-top: 6rem;
       }
@@ -136,18 +155,26 @@
         margin-top: 2rem;
       }
 
-      .freeform-story__texts {
-        padding: 2rem 2rem 0;
+      .freeform-story__brand-shape {
+        top: 2rem;
+        left: 0;
+        right: auto;
+        transform: translateX(-35%);
       }
 
-      .freeform-story__brand-shape {
-        right: -25rem;
-        width: 50rem;
-        height: 50rem;
+      .freeform-story__texts {
+        padding: 2rem 2rem 0;
       }
     }
 
     @include medium {
+      .freeform-story__brand-shape {
+        top: -2.6rem;
+        left: auto;
+        right: 0;
+        transform: translateX(23%);
+      }
+
       .freeform-story__img,
       .freeform-story__texts {
         flex: 1;
@@ -159,6 +186,11 @@
     }
 
     @include large {
+      .freeform-story__brand-shape {
+        top: 4.4rem;
+        transform: translateX(38%);
+      }
+
       .freeform-story__content{
         width: 90%;
         padding-top: 6rem;
@@ -175,9 +207,10 @@
       }
 
       .freeform-story__brand-shape {
-        left: -25rem;
-        width: 50rem;
-        height: 50rem;
+        top: 2rem;
+        left: auto;
+        right: 0;
+        transform: translateX(35%);
       }
       .freeform-story__texts {
         padding: 2rem 2rem 0;
@@ -185,6 +218,13 @@
     }
 
     @include medium {
+      .freeform-story__brand-shape {
+        top: -2.3rem;
+        left: 0;
+        right: auto;
+        transform: translateX(-37%);
+      }
+
       .freeform-story__img,
       .freeform-story__texts {
         flex: 1;
@@ -194,16 +234,17 @@
         flex-direction: row-reverse;
       }
 
-      .freeform-story__brand-shape {
-        top: -8rem;
-      }
-
       img {
         max-width: 100%;
       }
     }
 
     @include large {
+      .freeform-story__brand-shape {
+        top: 6.6rem;
+        transform: translateX(-38%);
+      }
+
       .freeform-story__content{
         width: 90%;
         padding-top: 6rem;
