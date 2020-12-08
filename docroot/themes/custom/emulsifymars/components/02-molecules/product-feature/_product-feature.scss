@@ -107,6 +107,8 @@
   &__product_text {
     flex: 0 0 auto;
     max-width: 50%;
+    position: relative;
+    z-index: 2;
 
     & .h1__link {
       font-family: variable(primary-font);
