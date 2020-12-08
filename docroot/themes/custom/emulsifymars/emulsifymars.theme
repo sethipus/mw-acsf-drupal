@@ -237,6 +237,7 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
   $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
   $variables['divider'] = $themeParser->getGraphicDivider();
   $variables['brand_borders'] = $themeParser->getBrandBorder2();
+  $variables['brand_shape'] = $themeParser->getBrandShapeWithoutFill();
 
   $variables['theme_styles'] = 'drupal';
   $variables['grid_type'] = 'card';
