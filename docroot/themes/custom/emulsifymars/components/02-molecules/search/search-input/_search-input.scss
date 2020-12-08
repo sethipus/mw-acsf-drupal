@@ -77,6 +77,15 @@
     .search-input__field {
       border-bottom-left-radius: unset;
       border-bottom-right-radius: unset;
+      width: 335px;
+
+      @include medium {
+        width: 688px;
+      }
+
+      @include xl {
+        width: 896px;
+      }
     }
 
     .autocomplete-border {
