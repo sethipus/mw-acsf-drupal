@@ -358,6 +358,10 @@
     height: 100%;
     top: 0;
     left: 0;
+
+    svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
+    }
   }
 
   &__tick {

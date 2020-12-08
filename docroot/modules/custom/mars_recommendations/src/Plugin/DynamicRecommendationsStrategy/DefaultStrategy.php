@@ -20,7 +20,7 @@ class DefaultStrategy extends DynamicRecommendationsStrategyPluginBase {
    */
   public function generate() {
     $query = $this->nodeStorage->getQuery();
-    $query->condition('type', 'product');
+    $query->condition('type', ['product', 'product_multipack'], 'IN');
     $query->sort('created', 'DESC');
     $query->range(0, 4);
     $result = $query->execute();

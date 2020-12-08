@@ -76,10 +76,20 @@ function mars_common_preprocess(&$variables, $hook) {
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
 
-  if ((isset($variables['view_mode']) && $variables['view_mode'] === 'article_card')
-    || $hook === 'poll_results') {
+  $view_mode_is_card =
+    isset($variables['view_mode']) &&
+    $variables['view_mode'] === 'card';
+
+  $is_article_card =
+    $hook === 'node' &&
+    $view_mode_is_card &&
+    isset($variables['node']) &&
+    $variables['node'] instanceof Node &&
+    $variables['node']->bundle() === 'article';
+
+  if ($is_article_card || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $brand_shape_content = $themeParser->getBrandShape();
+    $brand_shape_content = $themeParser->getBrandShapeWithoutFill();
     $variables['brand_shape'] = $brand_shape_content ?? '';
   }
 
@@ -970,6 +980,20 @@ function _mars_common_form_menu_link_content_menu_link_content_form_validate(arr
       );
     }
   }
+  elseif ($form_values_parent_menu === MenuConstants::LEGAL_MENU_ID) {
+    if (!_mars_common_menu_link_count_validation($entity, $form_values_parent_menu, MenuConstants::LEGAL_MENU_ITEM_COUNT_LIMIT)) {
+      $form_state->setErrorByName(
+        'menu_parent',
+        t(
+          'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+          [
+            '@menu' => '<Legal links menu>',
+            '@max_count' => MenuConstants::LEGAL_MENU_ITEM_COUNT_LIMIT,
+          ]
+        )
+      );
+    }
+  }
 }
 
 /**
@@ -989,12 +1013,16 @@ function mars_common_form_menu_link_content_menu_link_content_form_alter(array &
   $menu_parent = $form_input['menu_parent'] ?? $form['menu_parent']['#default_value'];
   if (substr($menu_parent, 0, -1) === MenuConstants::MAIN_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::MAIN_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+    $form['title']['widget'][0]['value']['#description'] .= ' Be sure the items you add do not cause the navigation to extend past one line.';
   }
   elseif (substr($menu_parent, 0, -1) === MenuConstants::LEGAL_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::LEGAL_MENU_ITEM_CHARACTER_COUNT_LIMIT;
   }
   elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_FOOTER_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_FOOTER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
+  elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_HEADER_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_HEADER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
   }
   $form['menu_parent']['#ajax'] = [
     'disable-refocus' => FALSE,
@@ -1448,4 +1476,11 @@ function mars_common_include_ief_entities(array $entity_form, FormStateInterface
   }
 
   return $entity_form;
+}
+
+/**
+ * Implements hook_pathauto_punctuation_chars_alter().
+ */
+function mars_common_pathauto_punctuation_chars_alter(array &$punctuation) {
+  $punctuation['registered_trademark'] = ['value' => '®', 'name' => t('Registered trademark symbol')];
 }
