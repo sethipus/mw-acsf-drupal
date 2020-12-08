@@ -1,5 +1,4 @@
 theme_styles: 'twix'
-products_used: 'products used'
 
 product_used_items:
   - card__image__output_image_tag: true

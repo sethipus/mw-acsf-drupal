@@ -2,16 +2,18 @@
 
 <section class="{{ product_content_pair_up_base_class }}" data-theme="{{ theme_styles }}">
 
-  {% include "@atoms/text/headings/_heading.twig" with {
-    heading_level: 2,
-    heading: title,
-    heading_base_class: product_content_pair_up_base_class ~ '__heading'
-  }
-  %}
+  {% if title %}
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 2,
+      heading: title,
+      heading_base_class: product_content_pair_up_base_class ~ '__heading'
+    }
+    %}
 
-  <div {{ bem('graphic-divider', [], product_content_pair_up_base_class) }}>
-    {{ graphic_divider | raw }}
-  </div>
+    <div {{ bem('graphic-divider', [], product_content_pair_up_base_class) }}>
+      {{ graphic_divider | raw }}
+    </div>
+  {% endif %}
 
   <div {{ bem('container', [], product_content_pair_up_base_class) }}>
     <div class="lead-card" style="background-image: url('{{ background }}')">

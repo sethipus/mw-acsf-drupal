@@ -94,6 +94,7 @@
     &.active,
     &:active,
     &:hover {
+      font-family: variable(primary-font);
       color: clr(secondary);
       font-weight: 500;
 
