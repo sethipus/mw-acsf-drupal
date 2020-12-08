@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_google_analytics\DataCollector;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\mars_google_analytics\Entity\EntityDecorator;
@@ -117,13 +118,11 @@ class TermsDataCollector implements DataCollectorInterface, DataLayerCollectorIn
 
     if (!empty($this->data['terms']['loaded'])) {
       foreach ($this->data['terms']['loaded'] as $vid => $term_labels) {
-        $ga_data .= $vid . ': ';
-        $ga_data .= implode(', ', $term_labels) . '; ';
+        $ga_data[$vid] = array_values($term_labels);
       }
-      $ga_data = trim($ga_data);
     }
 
-    return $ga_data;
+    return Json::encode($ga_data);
   }
 
   /**

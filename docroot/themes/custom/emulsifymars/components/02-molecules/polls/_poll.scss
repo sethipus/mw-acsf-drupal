@@ -182,6 +182,10 @@
     @include medium {
       max-width: 49%;
     }
+
+    &:focus-within {
+      border: 2px solid black;
+    }
   }
 
   &__label-text {
@@ -354,6 +358,10 @@
     height: 100%;
     top: 0;
     left: 0;
+
+    svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
+    }
   }
 
   &__tick {

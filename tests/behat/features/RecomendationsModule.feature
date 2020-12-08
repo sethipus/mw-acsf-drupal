@@ -39,11 +39,3 @@ Feature: Recomendations Module Test
     And I should see a ".recommendations" element
     And I should see a ".recommendations__heading" element
     And I should see "MyTitle"
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    Then the url should match "content/node/delete"
-
-    When I press "Delete"
-    Then the url should match "admin/content"
