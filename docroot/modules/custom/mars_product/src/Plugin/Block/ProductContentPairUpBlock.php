@@ -158,7 +158,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ->getGraphicDivider();
     if ($main_entity) {
       $build['#lead_card_entity'] = $main_entity;
-      $build['#lead_card_eyebrow'] = $this->languageHelper->translate($conf['lead_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
+      $build['#lead_card_eyebrow'] = $this->languageHelper->translate($conf['lead_card_eyebrow'] ?? $main_entity->type->entity->label());
       $build['#lead_card_title'] = $this->languageHelper->translate($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
       $build['#cta_link_url'] = $main_entity->toUrl()->toString();
       $build['#cta_link_text'] = $this->languageHelper->translate($conf['cta_link_text'] ?? NULL) ?: $this->languageHelper->translate('Explore');
@@ -182,7 +182,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#required' => TRUE,
       '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? NULL,
     ];
@@ -214,7 +213,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#target_type' => 'node',
       '#default_value' => ($node_id = $this->configuration['product'] ?? NULL) ? $this->nodeStorage->load($node_id) : NULL,
       '#selection_settings' => [
-        'target_bundles' => ['product'],
+        'target_bundles' => ['product', 'product_multipack'],
       ],
     ];
 
@@ -252,7 +251,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     ];
 
     // Entity Browser element for background image.
-    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $this->configuration['background'], 1, 'thumbnail');
+    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+      $this->configuration['background'], $form_state, 1, 'thumbnail', FALSE);
     // Convert the wrapping container to a details element.
     $form['background']['#type'] = 'details';
     $form['background']['#title'] = $this->t('Background');
@@ -319,20 +319,20 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     EntityInterface $supporting_entity
   ): array {
     $conf = $this->getConfiguration();
-    $is_product_card = $supporting_entity->bundle() === 'product';
+    $is_product_card = in_array($supporting_entity->bundle(), ['product', 'product_multipack']);
 
     $render_array = $this->viewBuilder->view(
       $supporting_entity,
       'card'
     );
 
-    $default_eyebrow_text = $is_product_card ? $this->t('Made With') : $this->t('Seen In');
+    $default_eyebrow_text = $is_product_card ? $this->languageHelper->translate('Made With') : $this->languageHelper->translate('Seen In');
     $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
     $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
     $render_array['#eyebrow'] = $eyebrow_text;
 
     if ($is_product_card) {
-      $brand_shape = $this->themeConfiguratorParser->getBrandShape();
+      $brand_shape = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
       $render_array['#brand_shape'] = $brand_shape;
     }
 

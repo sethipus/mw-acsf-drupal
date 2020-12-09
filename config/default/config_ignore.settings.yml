@@ -26,6 +26,9 @@ ignored_config_entities:
   - mars_common.system.site
   - gtm.settings
   - salsify_integration.settings
+  - system.performance
+  - mars_product.wtb.settings
+  - 'core.entity_view_display.node.*'
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true

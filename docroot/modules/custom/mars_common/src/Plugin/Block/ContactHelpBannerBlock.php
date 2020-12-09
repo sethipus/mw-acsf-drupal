@@ -105,7 +105,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
 
     $build['#social_menu_items'] = $this->themeConfiguratorParser->socialLinks();
-    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShape();
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'contact_help_banner_block';
 
     return $build;

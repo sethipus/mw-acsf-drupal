@@ -142,7 +142,8 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#required' => TRUE,
     ];
     // Entity Browser element for background image.
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $this->configuration['image'], 1, 'thumbnail');
+    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+      $this->configuration['image'], $form_state, 1, 'thumbnail', FALSE);
     // Convert the wrapping container to a details element.
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Image');
@@ -193,7 +194,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     if ($this->configuration['background_shape'] == 1) {
-      $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShape();
+      $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'];
     $build['#use_custom_color'] = (bool) $this->configuration['use_custom_color'];

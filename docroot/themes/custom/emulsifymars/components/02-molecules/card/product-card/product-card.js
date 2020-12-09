@@ -10,7 +10,14 @@
           });
           $productCard.on('mouseleave', () => {
             $cardCta.removeClass('default-link--light')
-          })
+          });
+          $productCard.on('click', (e) => {
+            if (
+              !e.target.parentNode.classList.contains('where-to-buy')
+            ) {
+              window.location.href = $cardCta.attr('href');
+            }
+          });
         })
       }
     }

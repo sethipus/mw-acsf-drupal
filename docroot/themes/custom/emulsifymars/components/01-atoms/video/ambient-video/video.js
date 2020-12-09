@@ -7,7 +7,7 @@ Drupal.behaviors.ambientVideoPlayer = {
     }
     var videoInitState = function(videoContainer) {
       var video = videoContainer.querySelector('.ambient-video__main');
-      if (video === null || videoContainer.getAttribute('data-video-init')) {
+      if (video === null || video.getAttribute('data-video-init')) {
         return;
       }
       video.muted = true;
@@ -47,7 +47,7 @@ Drupal.behaviors.ambientVideoPlayer = {
             dataLayer.push({
               event: 'videoView',
               pageName: document.title,
-              videoStart: 0,
+              videoStart: 1,
               videoTitle: videoTitle,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: componentName
@@ -61,7 +61,7 @@ Drupal.behaviors.ambientVideoPlayer = {
               dataLayer.push({
                 event: 'videoView',
                 pageName: document.title,
-                videoStart: 0,
+                videoStart: 1,
                 videoComplete: 1,
                 videoTitle: videoTitle,
                 videoFlag: videoContainer.dataset.videoFlag,

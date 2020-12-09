@@ -1,5 +1,4 @@
 .carousel {
-  background-color: clr(subcolor-2);
   padding: 2rem 0 4rem 0;
   overflow-x: hidden;
   max-width: 1128px;
@@ -166,7 +165,7 @@
     }
   }
 
-  #swiper-button {
+  .swiper-button-prev, .swiper-button-next  {
     background-color: clr(subcolor-3);
     border-radius: 50%;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);

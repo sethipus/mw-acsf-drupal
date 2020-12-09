@@ -11,7 +11,6 @@ use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Class CarouselBlock.
@@ -118,7 +117,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
         $item = [
           'src' => $media_params['src'],
-          'content' => $item_value['description'],
+          'content' => $this->languageHelper->translate($item_value['description']),
           'video' => ($item_value['item_type'] == self::KEY_OPTION_VIDEO),
           'image' => ($item_value['item_type'] == self::KEY_OPTION_IMAGE),
           'alt' => NULL,
@@ -157,30 +156,27 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       '#suffix' => '</div>',
     ];
 
-    $carousel_settings = !empty($config['carousel']) ? $config['carousel'] : '';
-    $carousel_storage = $form_state->get('carousel_storage');
-    if (!isset($carousel_storage)) {
-      if (!empty($carousel_settings)) {
-        $carousel_storage = array_keys($carousel_settings);
+    $submitted_input = $form_state->getUserInput()['settings'] ?? [];
+    $saved_items = !empty($config['carousel']) ? $config['carousel'] : [];
+    $submitted_items = $submitted_input['carousel'] ?? [];
+    $current_items_state = $form_state->get('carousel_storage');
+
+    if (empty($current_items_state)) {
+      if (!empty($submitted_items)) {
+        $current_items_state = $submitted_items;
       }
       else {
-        $carousel_storage = [];
+        $current_items_state = $saved_items;
       }
-      $form_state->set('carousel_storage', $carousel_storage);
     }
 
-    $triggered = $form_state->getTriggeringElement();
-    if (isset($triggered['#parents'][3]) && $triggered['#parents'][3] == 'remove_item') {
-      $carousel_storage = $form_state->get('carousel_storage');
-      $id = $triggered['#parents'][2];
-      unset($carousel_storage[$id]);
-    }
+    $form_state->set('carousel_storage', $current_items_state);
 
-    foreach ($carousel_storage as $key => $value) {
+    foreach ($current_items_state as $key => $value) {
       $form['carousel'][$key] = [
-        '#type'  => 'details',
+        '#type' => 'details',
         '#title' => $this->t('Carousel items'),
-        '#open'  => TRUE,
+        '#open' => TRUE,
       ];
 
       $form['carousel'][$key]['item_type'] = [
@@ -212,8 +208,18 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       $form['carousel'][$key]['image'] = $this->getEntityBrowserForm(
         self::LIGHTHOUSE_ENTITY_BROWSER_ID,
         $current_image_selection,
+        $form_state,
         1,
-        'thumbnail'
+        'thumbnail',
+        function ($form_state) use ($key) {
+          $type = $form_state->getValue([
+            'settings',
+            'carousel',
+            $key,
+            'item_type',
+          ]);
+          return $type === self::KEY_OPTION_IMAGE;
+        }
       );
       $form['carousel'][$key]['image']['#type'] = 'details';
       $form['carousel'][$key]['image']['#title'] = $this->t('List item image');
@@ -239,7 +245,18 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       $form['carousel'][$key]['video'] = $this->getEntityBrowserForm(
         self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
         $current_video_selection,
-        1
+        $form_state,
+        1,
+        'default',
+        function ($form_state) use ($key) {
+          $type = $form_state->getValue([
+            'settings',
+            'carousel',
+            $key,
+            'item_type',
+          ]);
+          return $type === self::KEY_OPTION_VIDEO;
+        }
       );
       $form['carousel'][$key]['video']['#type'] = 'details';
       $form['carousel'][$key]['video']['#title'] = $this->t('List item video');
@@ -248,19 +265,18 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
         'visible' => [
           [':input[name="settings[carousel][' . $key . '][item_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
         ],
-        'required' => [
-          [':input[name="settings[carousel][' . $key . '][item_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
-        ],
       ];
 
       $form['carousel'][$key]['remove_item'] = [
-        '#type'  => 'button',
-        '#name'  => 'carousel_' . $key,
+        '#type' => 'submit',
+        '#name' => 'carousel_' . $key,
         '#value' => $this->t('Remove carousel item'),
-        '#ajax'  => [
+        '#ajax' => [
           'callback' => [$this, 'ajaxRemoveCarouselItemCallback'],
-          'wrapper'  => 'carousel-wrapper',
+          'wrapper' => 'carousel-wrapper',
         ],
+        '#limit_validation_errors' => [],
+        '#submit' => [[$this, 'removeCarouselItemSubmitted']],
       ];
     }
 
@@ -317,7 +333,10 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Theme settings form state.
    */
-  public function addCarouselItemSubmitted(array $form, FormStateInterface $form_state) {
+  public function addCarouselItemSubmitted(
+    array $form,
+    FormStateInterface $form_state
+  ) {
     $storage = $form_state->get('carousel_storage');
     array_push($storage, 1);
     $form_state->set('carousel_storage', $storage);
@@ -325,28 +344,24 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
   }
 
   /**
-   * {@inheritdoc}
+   * Custom submit carousel configuration settings form.
+   *
+   * @param array $form
+   *   Theme settings form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   Theme settings form state.
    */
-  public function blockValidate($form, FormStateInterface $form_state) {
-    parent::blockValidate($form, $form_state);
-
+  public function removeCarouselItemSubmitted(
+    array $form,
+    FormStateInterface $form_state
+  ) {
     $triggered = $form_state->getTriggeringElement();
-    if (
-      $triggered['#value'] instanceof TranslatableMarkup &&
-      (
-        $triggered['#value']->getUntranslatedString() == 'Add block' ||
-        $triggered['#value']->getUntranslatedString() == 'Update'
-      )
-    ) {
-      $carousel = $form_state->getValue('carousel');
-      unset($carousel['add_item']);
-      foreach ($carousel as $key => $item) {
-        $media = $item['item_type'] == 'image' ? $item['image'] : $item['video'];
-        if (!is_array($media['selected'])) {
-          $message = $this->t('Each carousel item should have media (image or video).');
-          $form_state->setError($form['carousel'][$key]['item_type'], $message);
-        }
-      }
+    if (isset($triggered['#parents'][3]) && $triggered['#parents'][3] == 'remove_item') {
+      $carousel_storage = $form_state->get('carousel_storage');
+      $id = $triggered['#parents'][2];
+      unset($carousel_storage[$id]);
+      $form_state->set('carousel_storage', $carousel_storage);
+      $form_state->setRebuild(TRUE);
     }
   }
 
