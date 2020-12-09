@@ -19,6 +19,7 @@ use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -92,6 +93,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $renderer;
 
   /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -105,7 +113,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ConfigFactoryInterface $config_factory,
     FormBuilderInterface $form_builder,
     LanguageHelper $language_helper,
-    RendererInterface $renderer
+    RendererInterface $renderer,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentRouteMatch = $current_route_match;
@@ -117,6 +126,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->formBuilder = $form_builder;
     $this->languageHelper = $language_helper;
     $this->renderer = $renderer;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -134,7 +144,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('config.factory'),
       $container->get('form_builder'),
       $container->get('mars_common.language_helper'),
-      $container->get('renderer')
+      $container->get('renderer'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -251,6 +262,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#search_form'] = $this->buildSearchForm();
     $build['#search_enabled'] = $config['search_block'] ?? TRUE;
+
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
 
     return $build;
   }
