@@ -9,12 +9,11 @@ use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionComponent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField\FieldEntityDependencyTrait;
-use Drupal\layout_builder\Plugin\Block\InlineBlock;
 
 /**
  * Layout builder field unserializer fallback subscriber.
  */
-class MediaFieldUnserializer implements EventSubscriberInterface {
+class RecipeFieldUnserializer implements EventSubscriberInterface {
 
   use FieldEntityDependencyTrait;
 
@@ -46,7 +45,7 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[AcquiaContentHubEvents::UNSERIALIZE_CONTENT_ENTITY_FIELD] = ['onUnserializeContentField', 200];
+    $events[AcquiaContentHubEvents::UNSERIALIZE_CONTENT_ENTITY_FIELD] = ['onUnserializeContentField', 210];
     return $events;
   }
 
@@ -70,7 +69,6 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
       }
       $event->setValue($values);
     }
-    $event->stopPropagation();
   }
 
   /**
@@ -103,24 +101,23 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
    *   The subscribed event.
    */
   protected function handleComponents(array &$components, UnserializeCdfEntityFieldEvent $event) {
-    // @TODO Add dependency restore for recommendation module manual logic and content pair up and recipe feature.
     foreach ($components as &$component) {
       $componentConfiguration = $this->getComponentConfiguration($component);
-      $plugin = $component->getPlugin();
-      // @todo Decide if it's worth to handle this as an event.
-      if ($plugin instanceof InlineBlock) {
-        $block_uuid = $component->get('block_uuid');
-        $entity = array_shift($this->entityTypeManager->getStorage('block_content')->loadByProperties(['uuid' => $block_uuid]));
-        $componentConfiguration['block_revision_id'] = $entity->getRevisionId();
-      }
-      elseif ($component->getPluginId() == 'recipe_feature_block') {
-        $entity = $this->getEntity($componentConfiguration['recipe_id'], $event);
-        if (!empty($entity)) {
-          $componentConfiguration['recipe_id'] = $entity->id();
+      if ($component->getPluginId() == 'recipe_feature_block') {
+        if (!empty($componentConfiguration['recipe_id'])) {
+          $entity = $this->getEntity($componentConfiguration['recipe_id'], $event);
+          if (!empty($entity)) {
+            $componentConfiguration['recipe_id'] = $entity->id();
+          }
         }
       }
-      else {
-        $this->iterateConfig($componentConfiguration, $event);
+      elseif ($component->getPluginId() == 'product_content_pair_up_block') {
+        if (!empty($componentConfiguration['article_recipe'])) {
+          $entity = $this->getEntity($componentConfiguration['article_recipe'], $event);
+          if (!empty($entity)) {
+            $componentConfiguration['article_recipe'] = $entity->id();
+          }
+        }
       }
       $component->setConfiguration($componentConfiguration);
     }
@@ -144,27 +141,6 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
     $method->setAccessible(TRUE);
 
     return $method->invoke($component);
-  }
-
-  /**
-   * Collect all media ids from block configuration.
-   *
-   * @param array $config
-   *   Block configuration array.
-   * @param \Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent $event
-   *   The subscribed event.
-   */
-  private function iterateConfig(array &$config, UnserializeCdfEntityFieldEvent $event) {
-    foreach ($config as &$element) {
-      if (is_string($element) && strpos($element, 'media:') !== FALSE) {
-        $media_uuid = explode(':', $element)[1];
-        $entity = $this->getEntity($media_uuid, $event);
-        $element = 'media:' . $entity->id();
-      }
-      if (is_array($element)) {
-        $this->iterateConfig($element, $event);
-      }
-    }
   }
 
 }

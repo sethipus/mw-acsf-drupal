@@ -6,7 +6,6 @@ use Drupal\acquia_contenthub\AcquiaContentHubEvents;
 use Drupal\acquia_contenthub\Event\SerializeCdfEntityFieldEvent;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\layout_builder\Plugin\Block\InlineBlock;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\acquia_contenthub\EventSubscriber\SerializeContentField\ContentFieldMetadataTrait;
 use Drupal\layout_builder\SectionComponent;
@@ -14,7 +13,7 @@ use Drupal\layout_builder\SectionComponent;
 /**
  * Subscribes to entity field serialization to handle layout builder fields.
  */
-class MediaFieldSerializer implements EventSubscriberInterface {
+class RecipeFieldSerializer implements EventSubscriberInterface {
 
   use ContentFieldMetadataTrait;
 
@@ -41,7 +40,7 @@ class MediaFieldSerializer implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[AcquiaContentHubEvents::SERIALIZE_CONTENT_ENTITY_FIELD][] = ['onSerializeContentField', 200];
+    $events[AcquiaContentHubEvents::SERIALIZE_CONTENT_ENTITY_FIELD][] = ['onSerializeContentField', 210];
     return $events;
   }
 
@@ -72,7 +71,6 @@ class MediaFieldSerializer implements EventSubscriberInterface {
       $data['value'][$langcode] = $this->handleSections($field);
     }
     $event->setFieldData($data);
-    $event->stopPropagation();
   }
 
   /**
@@ -102,16 +100,22 @@ class MediaFieldSerializer implements EventSubscriberInterface {
    */
   protected function handleComponents(array &$components) {
     foreach ($components as &$component) {
-      $plugin = $component->getPlugin();
       $componentConfiguration = $this->getComponentConfiguration($component);
-      // @todo Decide if it's worth to handle this as an event.
-      if ($plugin instanceof InlineBlock) {
-        $revision_id = $plugin->getConfiguration()['block_revision_id'];
-        $entity = $this->entityTypeManager->getStorage('block_content')->loadRevision($revision_id);
-        $component->set('block_uuid', $entity->uuid());
+      if ($component->getPluginId() == 'recipe_feature_block') {
+        if (!empty($componentConfiguration['recipe_id'])) {
+          $entity = $this->entityTypeManager->getStorage('node')->load($componentConfiguration['recipe_id']);
+          if (!empty($entity)) {
+            $componentConfiguration['recipe_id'] = $entity->uuid();
+          }
+        }
       }
-      else {
-        $this->iterateConfig($componentConfiguration);
+      elseif ($component->getPluginId() == 'product_content_pair_up_block') {
+        if (!empty($componentConfiguration['article_recipe'])) {
+          $entity = $this->entityTypeManager->getStorage('node')->load($componentConfiguration['article_recipe']);
+          if (!empty($entity)) {
+            $componentConfiguration['article_recipe'] = $entity->uuid();
+          }
+        }
       }
       $component->setConfiguration($componentConfiguration);
     }
@@ -135,27 +139,6 @@ class MediaFieldSerializer implements EventSubscriberInterface {
     $method->setAccessible(TRUE);
 
     return $method->invoke($component);
-  }
-
-  /**
-   * Collect all media ids from block configuration.
-   *
-   * @param array $config
-   *   Block configuration array.
-   */
-  private function iterateConfig(array &$config) {
-    foreach ($config as &$element) {
-      if (is_string($element) && strpos($element, 'media:') !== FALSE) {
-        $media_id = explode(':', $element)[1];
-        $entity = $this->entityTypeManager->getStorage('media')->load($media_id);
-        if (!empty($entity)) {
-          $element = 'media:' . $entity->uuid();
-        }
-      }
-      if (is_array($element)) {
-        $this->iterateConfig($element);
-      }
-    }
   }
 
 }
