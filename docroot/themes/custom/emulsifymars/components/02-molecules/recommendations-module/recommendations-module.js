@@ -13,6 +13,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             slidesPerView: "auto",
             spaceBetween: 20,
             slidesOffsetBefore: 50,
+            noSwipingClass: "swiper-no-swiping",
             navigation: {
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
@@ -29,22 +30,22 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
           const isInViewport = (element) => {
             const rect = element.getBoundingClientRect();
-      
+
             const windowHeight =
               window.innerHeight || document.documentElement.clientHeight;
             const windowWidth =
               window.innerWidth || document.documentElement.clientWidth;
-      
+
             const vertInView =
               rect.top <= windowHeight && rect.top + rect.height >= 0;
             const horInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
-      
+
             return vertInView && horInView;
           };
-      
+
           const productCardListener = () => {
             const productCardList = context.querySelectorAll(".product-card");
-      
+
             productCardList.forEach((productCard) => {
               if (isInViewport(productCard)) {
                 productCard.className += " is-in-viewport";
@@ -53,29 +54,31 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
               }
             });
           };
-      
+
           const checkSlides = () => {
-            if (window.innerWidth > 1440) {
-              if (swiper.slides.length <= 4) {
-                swiper.navigation.nextEl.className += " hide-arrow";
-                context.querySelector(".swiper-wrapper").className += " no-carousel"
-              } else {
-                swiper.navigation.nextEl.classList.remove("hide-arrow");
-              }
-            } else if (window.innerWidth > 768 && window.innerWidth < 1440) {
-                if (swiper.slides.length <= 2) {
-                  swiper.navigation.nextEl.className += " hide-arrow";
-                } else {
-                  swiper.navigation.nextEl.classList.remove("hide-arrow");
-                }
+            let screenWidth = window.innerWidth;
+            let slidesCount = swiper.slides.length;
+
+            if (  ((screenWidth > 1440) && (slidesCount <= 4)) || // Wide Screen View && equal or less then 4 slides
+                  ((screenWidth > 768 && screenWidth < 1440) && (slidesCount <= 2)) || // Tablet View && equal or less then 2 slides
+                  (slidesCount <= 1)) { // Slides count equal or less then 1
+              lockCarousel();
             } else {
-                if (swiper.slides.length <= 1) {
-                  swiper.navigation.nextEl.className += " hide-arrow";
-                } else {
-                  swiper.navigation.nextEl.classList.remove("hide-arrow");
-                }
+              unlockCarousel();
             }
           };
+
+          const lockCarousel = () => {
+            swiper.navigation.nextEl.className += " hide-arrow";
+            swiper.navigation.prevEl.className += " hide-arrow";
+            context.querySelector(".swiper-wrapper").className += " no-carousel swiper-no-swiping"
+          }
+
+          const unlockCarousel = () => {
+            swiper.navigation.nextEl.classList.remove("hide-arrow");
+            swiper.navigation.prevEl.classList.remove("hide-arrow");
+            context.querySelector(".swiper-wrapper").removeClass("no-carousel swiper-no-swiping");
+          }
 
           $(window).on("resize", _.debounce(() => {checkSlides()}, 200 ));
           $(window).on("load", checkSlides);

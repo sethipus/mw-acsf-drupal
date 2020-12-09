@@ -146,18 +146,6 @@ pdp_data:
             srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
             src: 'image-23x.png'
             alt: 'Twix'
-        - image:
-            srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-            src: 'Front3x.png'
-            alt: 'Twix'
-        - image:
-            srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-            src: 'image-23x.png'
-            alt: 'Twix'
-        - image:
-            srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-            src: 'image-23x.png'
-            alt: 'Twix'
       mobile_sections_items:
         - title: 'NUTRITION & INGREDIENTS'
           border_radius: 20
