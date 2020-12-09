@@ -36,10 +36,12 @@
         <div {{ bem('menu', ['secondary'], header__base_class) }}>
           {% block header__menu_secondary %}
             {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
-            {% include "@molecules/search/inline-search/inline-search.twig" with {
-              inline_search__modifiers: ['searchbtn'],
-              inline_search_title: 'Search'
-            } %}
+            {% if search_enabled %}
+              {% include "@molecules/search/inline-search/inline-search.twig" with {
+                inline_search__modifiers: ['searchbtn'],
+                inline_search_title: 'Search'
+              } %}
+            {% endif %}
           {% endblock %}
         </div>
       </div>
@@ -52,13 +54,14 @@
         }%}
       {% endblock %}
     </div>
-    {% block search_results %}
-      {% include "@molecules/search/search-overlay/search-overlay.twig" with {
-        search_results: search_form,
-        logo_src: logo_src,
-        logo_srcset: logo_srcset
-      }%}
-    {% endblock %}
-
+    {% if search_enabled %}
+      {% block search_results %}
+        {% include "@molecules/search/search-overlay/search-overlay.twig" with {
+          search_results: search_form,
+          logo_src: logo_src,
+          logo_srcset: logo_srcset
+        }%}
+      {% endblock %}
+    {% endif %}
   </div>
 </header>
