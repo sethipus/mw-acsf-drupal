@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_product\EventSubscriber\UnserializeContentField;
+namespace Drupal\mars_content_hub\EventSubscriber\UnserializeContentField;
 
 use Drupal\acquia_contenthub\AcquiaContentHubEvents;
 use Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent;
@@ -9,11 +9,13 @@ use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionComponent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField\FieldEntityDependencyTrait;
+use Drupal\layout_builder\Plugin\Block\InlineBlock;
 
 /**
  * Layout builder field unserializer fallback subscriber.
  */
-class LayoutBuilderFieldBlocksUnserializer implements EventSubscriberInterface {
+class MediaFieldUnserializer implements EventSubscriberInterface {
+
   use FieldEntityDependencyTrait;
 
   /**
@@ -44,7 +46,7 @@ class LayoutBuilderFieldBlocksUnserializer implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[AcquiaContentHubEvents::UNSERIALIZE_CONTENT_ENTITY_FIELD] = ['onUnserializeContentField'];
+    $events[AcquiaContentHubEvents::UNSERIALIZE_CONTENT_ENTITY_FIELD] = ['onUnserializeContentField', 200];
     return $events;
   }
 
@@ -100,11 +102,20 @@ class LayoutBuilderFieldBlocksUnserializer implements EventSubscriberInterface {
    * @param \Drupal\acquia_contenthub\Event\UnserializeCdfEntityFieldEvent $event
    *   The subscribed event.
    */
-  protected function handleComponents(array $components, UnserializeCdfEntityFieldEvent $event) {
+  protected function handleComponents(array &$components, UnserializeCdfEntityFieldEvent $event) {
     // @TODO Add dependency restore for recommendation module manual logic and content pair up and recipe feature.
-    foreach ($components as $component) {
+    foreach ($components as &$component) {
       $componentConfiguration = $this->getComponentConfiguration($component);
-      $this->iterateConfig($componentConfiguration, $event);
+      $plugin = $component->getPlugin();
+      // @todo Decide if it's worth to handle this as an event.
+      if ($plugin instanceof InlineBlock) {
+        $block_uuid = $component->get('block_uuid');
+        $entity = array_shift($this->entityTypeManager->getStorage('block_content')->loadByProperties(['uuid' => $block_uuid]));
+        $componentConfiguration['block_revision_id'] = $entity->getRevisionId();
+      }
+      else {
+        $this->iterateConfig($componentConfiguration, $event);
+      }
       $component->setConfiguration($componentConfiguration);
     }
   }
@@ -138,10 +149,10 @@ class LayoutBuilderFieldBlocksUnserializer implements EventSubscriberInterface {
    *   The subscribed event.
    */
   private function iterateConfig(array &$config, UnserializeCdfEntityFieldEvent $event) {
-    foreach ($config as $element) {
+    foreach ($config as &$element) {
       if (is_string($element) && strpos($element, 'media:') !== FALSE) {
-        $media_id = explode(':', $element)[1];
-        $entity = $this->getEntity($media_id, $event);
+        $media_uuid = explode(':', $element)[1];
+        $entity = $this->getEntity($media_uuid, $event);
         $element = 'media:' . $entity->id();
       }
       if (is_array($element)) {
