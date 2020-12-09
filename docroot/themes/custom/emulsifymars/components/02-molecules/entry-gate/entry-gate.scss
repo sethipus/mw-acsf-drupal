@@ -112,6 +112,8 @@
     font-family: variable(secondary-font);
     color: clr(primary);
     margin-bottom: 3.5rem;
+    padding-bottom: 3.8rem;
+    border-bottom: 1px solid #c4c4c4;
 
     @include medium {
       font-size: 1.6rem;
@@ -122,11 +124,6 @@
       font-size: 1.8rem;
       line-height: 2.5rem;
     }
-  }
-
-  &__separator-line {
-    border: 1px solid clr(primary);
-    margin-bottom: 3.5rem;
   }
 
   &__eyebrow {
