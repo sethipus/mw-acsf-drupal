@@ -16,7 +16,8 @@
     svg {
       width: 100%;
       height: auto;
-      fill: rgba(clr(subcolor-3-rgb), 0.15);
+      fill: clr(subcolor-1);
+      opacity: 0.2;
     }
 
     &--1 {
