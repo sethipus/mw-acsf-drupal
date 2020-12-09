@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "footer_block",
- *   admin_label = @Translation("Footer block"),
+ *   admin_label = @Translation("MARS: Footer block"),
  *   category = @Translation("Global elements"),
  * )
  */
@@ -122,7 +122,11 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
     $build['#marketing'] = $this->languageHelper->translate($conf['marketing']['value']);
-    $build['#corporate_tout'] = $this->languageHelper->translate($conf['corporate_tout']['title']);
+    $build['#corporate_tout_text'] = $this->languageHelper->translate($conf['corporate_tout']['title']);
+    $build['#corporate_tout_url'] = [
+      'href' => $conf['corporate_tout']['url'],
+      'name' => $build['#corporate_tout_text'],
+    ];
 
     $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {

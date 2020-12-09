@@ -5,6 +5,7 @@
       _this.context = context;
 
       _this.settings = {
+        commerce_vendor: settings.wtb_block['commerce_vendor'],
         widget_id: settings.wtb_block['widget_id'],
         data_subid: settings.wtb_block['data_subid'],
         data_locale: settings.wtb_block['data_locale'],
@@ -93,21 +94,27 @@
           src: $selectedVariant.data('image-src')
         });
 
-        let script = '<script ' +
-          'type="text/javascript"' +
-          'src="//fi-v2.global.commerce-connector.com/cc.js"' +
-          'id="cci-widget"' +
-          'data-token="' + _this.settings.data_token + '"' +
-          'data-locale="' + _this.settings.data_locale + '"' +
-          'data-displaylanguage="' + _this.settings.data_displaylanguage + '"' +
-          'data-widgetid="' + _this.settings.widget_id + '"' +
-          'data-ean="' + $selectedVariant.data('id') + '"' +
-          'data-subid="' + _this.settings.data_subid + '"' +
-          '></script>';
+        if (_this.settings.commerce_vendor === 'commerce_connector') {
+          let script = '<script ' +
+            'type="text/javascript"' +
+            'src="//fi-v2.global.commerce-connector.com/cc.js"' +
+            'id="cci-widget"' +
+            'data-token="' + _this.settings.data_token + '"' +
+            'data-locale="' + _this.settings.data_locale + '"' +
+            'data-displaylanguage="' + _this.settings.data_displaylanguage + '"' +
+            'data-widgetid="' + _this.settings.widget_id + '"' +
+            'data-ean="' + $selectedVariant.data('id') + '"' +
+            'data-subid="' + _this.settings.data_subid + '"' +
+            '></script>';
 
-        $('.product-selector script').remove();
-        $('.product-selector #cci-inline-root').remove();
-        $('.product-selector').append(script);
+          $('.product-selector script').remove();
+          $('.product-selector #cci-inline-root').remove();
+          $('.product-selector__form-container').append(script);
+        } else if (_this.settings.commerce_vendor === 'price_spider') {
+          $('.ps-widget').attr('ps-sku', $selectedVariant.data('id'));
+          PriceSpider.rebind();
+        }
+
       });
     },
   };

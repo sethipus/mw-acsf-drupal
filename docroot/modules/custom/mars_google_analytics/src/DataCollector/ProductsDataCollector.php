@@ -100,8 +100,14 @@ class ProductsDataCollector implements DataCollectorInterface, DataLayerCollecto
         $node->bundle() == self::PRODUCT_CONTENT_TYPE &&
         $node->hasField('salsify_id')
       ) {
-        $gtin = $node->get('salsify_id')->value;
-        $products[$gtin] = $gtin;
+        $variants = $node
+          ->get('field_product_variants')
+          ->referencedEntities();
+        $variant = reset($variants);
+        if ($variant !== FALSE) {
+          $product_sku = $variant->get('field_product_sku')->value;
+          $products[$product_sku] = $product_sku;
+        }
       }
     }
 

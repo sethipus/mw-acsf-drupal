@@ -7,6 +7,9 @@
 >
   {% if media_type == 'image' %}
     <div {{ bem('media', [], inline_width__base_class) }}>
+      {% if title %}
+      <h2>{{title}}</h2>
+      {% endif %}
       {% include "@atoms/images/image/_image.twig" with {
         image_base_class: base_class,
         image_modifiers: image_modifiers,

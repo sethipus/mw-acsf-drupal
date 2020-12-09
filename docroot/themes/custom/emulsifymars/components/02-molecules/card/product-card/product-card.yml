@@ -14,6 +14,8 @@ item:
 
   link_url: ''
 product_sku: 123456
+show_rating_and_reviews: true
 wtb_commerce_vendor: 'commerce_connector'
 wtb_button_type: 'my_own'
 wtb_widget_id: 123321
+datalayer_taxonomy: 'taxonomy vocabylary: term;'
