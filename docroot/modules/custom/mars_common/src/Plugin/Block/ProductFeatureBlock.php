@@ -78,6 +78,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
     $build['#title'] = $this->languageHelper->translate($conf['title'] ?? '');
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#background_color'] = $conf['background_color'] ?? '';
     if (!empty($conf['image'])) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['image']);
