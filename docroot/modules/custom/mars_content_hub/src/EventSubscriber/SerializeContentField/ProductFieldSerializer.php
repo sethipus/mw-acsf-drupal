@@ -9,6 +9,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\acquia_contenthub\EventSubscriber\SerializeContentField\ContentFieldMetadataTrait;
 use Drupal\layout_builder\SectionComponent;
+use Drupal\core\Entity\EntityInterface;
 
 /**
  * Subscribes to entity field serialization to handle layout builder fields.
@@ -105,7 +106,7 @@ class ProductFieldSerializer implements EventSubscriberInterface {
         if (!empty($componentConfiguration['product'])) {
           $entity = $this->entityTypeManager->getStorage('node')->load($componentConfiguration['product']);
           if (!empty($entity)) {
-            $componentConfiguration['product'] = $entity->uuid();
+            $componentConfiguration['product'] = $this->getProductGtin($entity);
           }
         }
       }
@@ -113,11 +114,28 @@ class ProductFieldSerializer implements EventSubscriberInterface {
         foreach ($componentConfiguration['population_plugin_configuration']['nodes'] as $key => $nid) {
           /** @var \Drupal\core\Entity\EntityInterface $node */
           $node = $this->entityTypeManager->getStorage('node')->load($nid);
-          $componentConfiguration['population_plugin_configuration']['nodes'][$key] = $node->uuid();
+          $componentConfiguration['population_plugin_configuration']['nodes'][$key] = $this->getProductGtin($node);
         }
       }
       $component->setConfiguration($componentConfiguration);
     }
+  }
+
+  /**
+   * Retrieve product GTIN from product entity.
+   *
+   * @param Drupal\core\Entity\EntityInterface $entity
+   *   Product Node.
+   */
+  private function getProductGtin(EntityInterface $entity) {
+    foreach ($entity->field_product_variants as $reference) {
+      $product_variant = $reference->entity;
+      $gtin = $product_variant->get('field_product_sku')->value;
+      if (!empty($gtin)) {
+        return $gtin;
+      }
+    }
+    return '';
   }
 
   /**

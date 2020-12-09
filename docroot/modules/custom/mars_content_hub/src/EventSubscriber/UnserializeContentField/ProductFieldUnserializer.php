@@ -105,23 +105,34 @@ class ProductFieldUnserializer implements EventSubscriberInterface {
       $componentConfiguration = $this->getComponentConfiguration($component);
       if ($component->getPluginId() == 'product_content_pair_up_block') {
         if (!empty($componentConfiguration['product'])) {
-          $entity = $this->getEntity($componentConfiguration['product'], $event);
-          if (!empty($entity)) {
-            $componentConfiguration['product'] = $entity->id();
-          }
+          $componentConfiguration['product'] = $this->getProductByGtin($componentConfiguration['product']);
         }
       }
       if ($component->getPluginId() == 'recommendations_module' && $componentConfiguration['population_plugin_id'] == 'manual') {
-        foreach ($componentConfiguration['population_plugin_configuration']['nodes'] as $key => $uuid) {
-          /** @var \Drupal\core\Entity\EntityInterface $node */
-          $node = $this->getEntity($uuid, $event);
-          if (!empty($node)) {
-            $componentConfiguration['population_plugin_configuration']['nodes'][$key] = $node->id();
-          }
+        foreach ($componentConfiguration['population_plugin_configuration']['nodes'] as $key => $gtin) {
+          $componentConfiguration['population_plugin_configuration']['nodes'][$key] = $componentConfiguration['product'] = $this->getProductByGtin($gtin);
         }
       }
       $component->setConfiguration($componentConfiguration);
     }
+  }
+
+  /**
+   * Retrieve product by GTIN from Local DB.
+   *
+   * @param string $gtin
+   *   Product GTIN.
+   */
+  private function getProductByGtin(string $gtin) {
+    $nodeStorage = $this->entityTypeManager->getStorage('node');
+    $productVariants = $nodeStorage->loadByProperties(['field_product_sku' => $gtin]);
+    foreach ($productVariants as $variant) {
+      $products = $nodeStorage->loadByProperties(['field_product_variants' => $variant->id()]);
+      foreach ($products as $product) {
+        return $product->id();
+      }
+    }
+    return '';
   }
 
   /**
