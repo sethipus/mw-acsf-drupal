@@ -33,7 +33,7 @@
             {% include "@molecules/menus/main-menu/main-menu.twig" %}
           {% endblock %}
         </div>
-        <div {{ bem('menu', ['secondary'], header__base_class) }}>
+        <nav {{ bem('menu', ['secondary'], header__base_class) }} role="navigation">
           {% block header__menu_secondary %}
             {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
             {% include "@molecules/search/inline-search/inline-search.twig" with {
@@ -41,7 +41,7 @@
               inline_search_title: 'Search'
             } %}
           {% endblock %}
-        </div>
+        </nav>
       </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>
