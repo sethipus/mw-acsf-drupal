@@ -150,7 +150,6 @@ function _emulsifymars_load_images_from_theme(string &$properties) {
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
   $assets = [
     'graphic-divider' => $themeParser->getGraphicDivider(),
-    'brand-shape' => $themeParser->getBrandShapeWithFill(),
   ];
 
   /** @var \Drupal\mars_common\SVG\SVG|null $asset */
@@ -237,6 +236,7 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
   $themeParser = \Drupal::service('mars_common.theme_configurator_parser');
   $variables['divider'] = $themeParser->getGraphicDivider();
   $variables['brand_borders'] = $themeParser->getBrandBorder2();
+  $variables['brand_shape'] = $themeParser->getBrandShapeWithoutFill();
 
   $variables['theme_styles'] = 'drupal';
   $variables['grid_type'] = 'card';
