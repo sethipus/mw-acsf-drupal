@@ -201,10 +201,27 @@
     z-index: 1;
     position: absolute;
     display: block;
-    top: -14rem;
-    right: -30rem;
-    width: 82rem;
-    height: 82rem;
+    
+    @include xs {
+      top: 0;
+      right: -13rem;
+      width: 36rem;
+      height: 36rem;
+    }
+
+    @include medium {
+      top: -5rem;
+      right: -15rem;
+      width: 50rem;
+      height: 50rem;
+    }
+
+    @include large {
+      top: -7rem;
+      right: -20rem;
+      width: 70rem;
+      height: 70rem;
+    }
 
     svg {
       width: 100%;

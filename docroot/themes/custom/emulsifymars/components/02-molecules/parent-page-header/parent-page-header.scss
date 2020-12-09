@@ -93,11 +93,26 @@
       position: absolute;
       display: block;
       z-index: 1;
-      width: 80rem;
-      height: 80rem;
-      top: -56rem;
       left: 50%;
       transform: translateX(-50%);
+
+      @include xs {
+        width: 35rem;
+        height: 35rem;
+        top: -12rem;    
+      }
+
+      @include medium {
+        width: 60rem;
+        height: 60rem;
+        top: -26rem;
+      }
+
+      @include large {
+        width: 68rem;
+        height: 68rem;
+        top: -30rem;
+      }
       
       svg {
         width: 100%;
