@@ -36,29 +36,34 @@
         <div {{ bem('menu', ['secondary'], header__base_class) }}>
           {% block header__menu_secondary %}
             {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
-            {% include "@molecules/search/inline-search/inline-search.twig" with {
-              inline_search__modifiers: ['searchbtn'],
-              inline_search_title: 'Search'
-            } %}
+            {% if search_enabled %}
+              {% include "@molecules/search/inline-search/inline-search.twig" with {
+                inline_search__modifiers: ['searchbtn'],
+                inline_search_title: 'Search'
+              } %}
+            {% endif %}
           {% endblock %}
         </div>
       </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>
       {% block header__secondary %}
-        {% include "@molecules/status/status.twig" with {
-          message_list: { alert: { message: alert_banner} },
-          message_url: alert_banner_url,
-        }%}
+        {% if alert_banner is not empty %}
+          {% include "@molecules/status/status.twig" with {
+            message_list: { alert: { message: alert_banner} },
+            message_url: alert_banner_url,
+          }%}
+        {% endif %}
       {% endblock %}
     </div>
-    {% block search_results %}
-      {% include "@molecules/search/search-overlay/search-overlay.twig" with {
-        search_results: search_form,
-        logo_src: logo_src,
-        logo_srcset: logo_srcset
-      }%}
-    {% endblock %}
-
+    {% if search_enabled %}
+      {% block search_results %}
+        {% include "@molecules/search/search-overlay/search-overlay.twig" with {
+          search_results: search_form,
+          logo_src: logo_src,
+          logo_srcset: logo_srcset
+        }%}
+      {% endblock %}
+    {% endif %}
   </div>
 </header>
