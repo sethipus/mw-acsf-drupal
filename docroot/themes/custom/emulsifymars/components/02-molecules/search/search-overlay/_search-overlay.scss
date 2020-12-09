@@ -164,6 +164,7 @@
       margin-left: auto;
       width: 100%;
       border-bottom: 1px solid clr(subcolor-3);
+      font-family: variable(secondary-font);
 
       @include medium {
         border-bottom: none;
