@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "homepage_hero_block",
- *   admin_label = @Translation("Homepage Hero block"),
+ *   admin_label = @Translation("MARS: Homepage Hero block"),
  *   category = @Translation("Global elements"),
  * )
  */
@@ -125,6 +125,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $build['#cta_title'] = $this->languageHelper->translate($config['cta']['title']);
     $build['#block_type'] = $config['block_type'];
     $build['#background_asset'] = $this->getBgAsset();
+    $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
+      $this->configuration['background_color'] : '';
+    $build['#background_color'] = $background_color;
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
@@ -365,6 +368,28 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
         'or',
         [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO_LOOP]],
+      ],
+    ];
+    $form['use_background_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use Background Color Override'),
+      '#default_value' => $this->configuration['use_background_color'] ?? FALSE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+        ],
+      ],
+    ];
+    $form['background_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Background Color Override'),
+      '#default_value' => $this->configuration['background_color'] ?? '',
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'and',
+          [':input[name="settings[use_background_color]"]' => ['checked' => TRUE]],
+        ],
       ],
     ];
     $form['card'] = [

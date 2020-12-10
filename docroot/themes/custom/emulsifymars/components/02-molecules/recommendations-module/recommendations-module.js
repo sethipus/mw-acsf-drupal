@@ -1,75 +1,92 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
-Drupal.behaviors.recommendationsCarousel = {
-  attach(context) {
-    // init swiper
-    Swiper.use([Navigation, Pagination, Scrollbar]);
-    const swiper = new Swiper(".recommendations-swiper-container", {
-      slidesPerView: "auto",
-      spaceBetween: 20,
-      slidesOffsetBefore: 50,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      scrollbar: {
-        el: ".swiper-scrollbar",
-      },
-      breakpoints: {
-        768: {
-          spaceBetween: 30,
-        },
-      },
-    });
+(function ($, _, Drupal){
+  Drupal.behaviors.recommendationsCarousel = {
+    attach(context) {
 
-    const isInViewport = (element) => {
-      const rect = element.getBoundingClientRect();
+      $(context).find('.recommendations').once('recommendationsCarousel').each(function(){
+         // init swiper
+        Swiper.use([Navigation, Pagination, Scrollbar]);
 
-      const windowHeight =
-        window.innerHeight || document.documentElement.clientHeight;
-      const windowWidth =
-        window.innerWidth || document.documentElement.clientWidth;
+        $('.recommendations-swiper-container', this).each(function(){
+          const swiper = new Swiper(this, {
+            slidesPerView: "auto",
+            spaceBetween: 20,
+            slidesOffsetBefore: 50,
+            noSwipingClass: "swiper-no-swiping",
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+            scrollbar: {
+              el: ".swiper-scrollbar",
+            },
+            breakpoints: {
+              768: {
+                spaceBetween: 30,
+              },
+            },
+          });
 
-      const vertInView =
-        rect.top <= windowHeight && rect.top + rect.height >= 0;
-      const horInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
+          const isInViewport = (element) => {
+            const rect = element.getBoundingClientRect();
 
-      return vertInView && horInView;
-    };
+            const windowHeight =
+              window.innerHeight || document.documentElement.clientHeight;
+            const windowWidth =
+              window.innerWidth || document.documentElement.clientWidth;
 
-    const productCardListener = () => {
-      const productCardList = context.querySelectorAll(".product-card");
+            const vertInView =
+              rect.top <= windowHeight && rect.top + rect.height >= 0;
+            const horInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
 
-      productCardList.forEach((productCard) => {
-        if (isInViewport(productCard)) {
-          productCard.className += " is-in-viewport";
-        } else {
-          productCard.classList.remove("is-in-viewport");
-        }
-      });
-    };
+            return vertInView && horInView;
+          };
 
-    const checkSlides = () => {
-      if (window.innerWidth > 1440) {
-        if (swiper.slides.length <= 4) {
-          swiper.navigation.nextEl.className += " hide-arrow";
-          context.querySelector(".swiper-wrapper").className += " no-carousel"
-        }
-      } else if (window.innerWidth > 768 && window.innerWidth < 1440) {
-        if (swiper.slides.length <= 2) {
-          swiper.navigation.nextEl.className += " hide-arrow";
-        }
-      } else {
-        if (swiper.slides.length <= 1) {
-          swiper.navigation.nextEl.className += " hide-arrow";
-        }
-      }
-    };
+          const productCardListener = () => {
+            const productCardList = context.querySelectorAll(".product-card");
 
-    window.addEventListener("resize", checkSlides);
-    window.addEventListener("load", checkSlides);
-    window.addEventListener("load", productCardListener);
-    swiper.navigation.nextEl.addEventListener("click", productCardListener);
-    swiper.navigation.prevEl.addEventListener("click", productCardListener);
-  },
-};
+            productCardList.forEach((productCard) => {
+              if (isInViewport(productCard)) {
+                productCard.className += " is-in-viewport";
+              } else {
+                productCard.classList.remove("is-in-viewport");
+              }
+            });
+          };
+
+          const checkSlides = () => {
+            let screenWidth = window.innerWidth;
+            let slidesCount = swiper.slides.length;
+
+            if (  ((screenWidth > 1440) && (slidesCount <= 4)) || // Wide Screen View && equal or less then 4 slides
+                  ((screenWidth > 768 && screenWidth < 1440) && (slidesCount <= 2)) || // Tablet View && equal or less then 2 slides
+                  (slidesCount <= 1)) { // Slides count equal or less then 1
+              lockCarousel();
+            } else {
+              unlockCarousel();
+            }
+          };
+
+          const lockCarousel = () => {
+            swiper.navigation.nextEl.className += " hide-arrow";
+            swiper.navigation.prevEl.className += " hide-arrow";
+            context.querySelector(".swiper-wrapper").className += " no-carousel swiper-no-swiping"
+          }
+
+          const unlockCarousel = () => {
+            swiper.navigation.nextEl.classList.remove("hide-arrow");
+            swiper.navigation.prevEl.classList.remove("hide-arrow");
+            context.querySelector(".swiper-wrapper").removeClass("no-carousel swiper-no-swiping");
+          }
+
+          $(window).on("resize", _.debounce(() => {checkSlides()}, 200 ));
+          $(window).on("load", checkSlides);
+          $(window).on("load", productCardListener);
+          $(".swiper-button-next", this).once('recommendationsCarousel').on("click", productCardListener);
+          $(".swiper-button-prev", this).once('recommendationsCarousel').on("click", productCardListener);
+        });
+      })
+    },
+  };
+})(jQuery, _, Drupal)

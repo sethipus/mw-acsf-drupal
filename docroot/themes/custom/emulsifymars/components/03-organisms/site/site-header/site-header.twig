@@ -33,7 +33,7 @@
             {% include "@molecules/menus/main-menu/main-menu.twig" %}
           {% endblock %}
         </div>
-        <div {{ bem('menu', ['secondary'], header__base_class) }}>
+        <nav {{ bem('menu', ['secondary'], header__base_class) }} role="navigation">
           {% block header__menu_secondary %}
             {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
             {% if search_enabled %}
@@ -43,7 +43,7 @@
               } %}
             {% endif %}
           {% endblock %}
-        </div>
+        </nav>
       </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>

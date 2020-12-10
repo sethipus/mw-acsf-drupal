@@ -9,7 +9,7 @@ Feature: Article Header Test
     And I press the "Layout" section of added content
     And I follow "Add block "
     And I wait for the ajax response
-    And I load page by link with text "Article header"
+    And I load page by link with text "MARS: Article header"
     Then I should see "Article header"
 
     When I fill in "Eyebrow" with "my_eyebrow"

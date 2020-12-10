@@ -1,6 +1,6 @@
 {{ attach_library('emulsifymars/main-menu') }}
 
-<nav class="main-nav__desktop">
+<nav class="main-nav__desktop" role="navigation">
   {% include "@molecules/menus/_menu.twig" with {
     menu_class: "main-menu",
     items: menu_items,
@@ -23,7 +23,7 @@
   } %}
   <span class="toggle-expand__text">Menu</span>
 </a>
-<nav class="main-nav__mobile">
+<nav class="main-nav__mobile" role="navigation" role="navigation">
   {% include "@molecules/menus/_menu.twig" with {
     menu_class: "main-menu",
     items: menu_items,
