@@ -183,6 +183,9 @@ recipe-body:
     dist/js/03-organisms/recipe-body/recipe-body.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 ajaxcardgrid:
   js:
@@ -228,3 +231,10 @@ product-selector:
     dist/js/02-molecules/product-selector/product-selector.js: {}
   dependencies:
     - core/drupal
+
+flexible-framer:
+  js:
+    dist/js/02-molecules/flexible-framer/flexible-framer.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
