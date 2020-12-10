@@ -13,11 +13,19 @@
       $('.search-autocomplete-wrapper .inline-search--closebtn').click(function (event){
         $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
           $(this).removeClass('opened').find('.search-field-wrapper').removeClass('suggested');
-          $('.mars-autocomplete-field').val('');
           $('.mars-suggestions').empty();
         });
         event.preventDefault();
         event.stopPropagation();
+      });
+
+      $(document).keyup(function(e) {
+        if (e.keyCode === 27) {
+          $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
+            $(this).removeClass('opened').find('.search-field-wrapper').removeClass('suggested');
+            $('.mars-suggestions').empty();
+          });
+        }
       });
 
       // Show overlay when Search button clicked.
@@ -43,20 +51,14 @@
         if (parent == 'header__inner' && $(event.target).parents('.search-autocomplete-wrapper').length == 0) {
           $('.header__inner .search-autocomplete-wrapper').slideUp(250, function () {
             $(this).removeClass('opened').find('.search-field-wrapper').removeClass('suggested');
-            $('.mars-autocomplete-field').val('');
           });
         }
 
         event.stopPropagation();
       });
-
-      $('.toggle-expand__icon--close').click(function (event){
-        $('.mars-autocomplete-field').val('');
-      });
-
     },
     searchAdapt: function () {
-      const smallScreen = window.innerWidth < 768;
+      const smallScreen = window.innerWidth < 1024;
       if (smallScreen) {
         // Mobile view
         // Move container to .header__menu--secondary-mobile

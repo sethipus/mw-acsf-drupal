@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "mars_common_content_feature_module",
- *   admin_label = @Translation("Content Feature Module"),
+ *   admin_label = @Translation("MARS: Content Feature Module"),
  *   category = @Translation("Custom")
  * )
  */
@@ -157,7 +157,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 255,
+      '#maxlength' => 300,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => TRUE,
     ];

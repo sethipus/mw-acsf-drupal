@@ -146,4 +146,10 @@
   #cci-inline-root + #cci-inline-root {
     display: none;
   }
+
+  .ps-widget[ps-sku] {
+    display: inline-block !important;
+    margin-top: 20px;
+    float: none;
+  }
 }
