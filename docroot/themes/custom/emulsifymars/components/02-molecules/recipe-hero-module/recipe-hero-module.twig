@@ -10,7 +10,7 @@
     <div class="recipe-header__background"></div>
   {% elseif background_color_override and not brand_shape_enabled %}
     <div class="recipe-header__background"
-      style="background-color: {{ background_color }}"
+      style="background-color: {{ '#' ~ background_color }}"
     ></div>
   {% elseif brand_shape_enabled and not background_color_override %}
     <div class="recipe-header__brand-shape">
