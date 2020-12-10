@@ -78,6 +78,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
