@@ -10,7 +10,7 @@
           const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
           const windowWidth = (window.innerWidth || document.documentElement.clientWidth);
 
-          const vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) >= 0);
+          const vertInView = ((rect.top + (rect.height * 0.7)) <= windowHeight) && ((rect.top + rect.height) >= 0);
           const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
 
           return (vertInView && horInView);
@@ -18,7 +18,8 @@
 
         const updateElementsPositions = (element) => {
           const rect = element.getBoundingClientRect();
-          const offset = (window.innerHeight || document.documentElement.clientHeight) - rect.top;
+          const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+          let offset = windowHeight - (rect.top + (rect.height * 0.7));
           let parallaxCoef;
 
           switch (true) {
