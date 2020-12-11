@@ -9,7 +9,6 @@ use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionComponent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\acquia_contenthub\EventSubscriber\UnserializeContentField\FieldEntityDependencyTrait;
-use Drupal\layout_builder\Plugin\Block\InlineBlock;
 
 /**
  * Layout builder field unserializer fallback subscriber.
@@ -70,7 +69,6 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
       }
       $event->setValue($values);
     }
-    $event->stopPropagation();
   }
 
   /**
@@ -106,22 +104,7 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
     // @TODO Add dependency restore for recommendation module manual logic and content pair up and recipe feature.
     foreach ($components as &$component) {
       $componentConfiguration = $this->getComponentConfiguration($component);
-      $plugin = $component->getPlugin();
-      // @todo Decide if it's worth to handle this as an event.
-      if ($plugin instanceof InlineBlock) {
-        $block_uuid = $component->get('block_uuid');
-        $entity = array_shift($this->entityTypeManager->getStorage('block_content')->loadByProperties(['uuid' => $block_uuid]));
-        $componentConfiguration['block_revision_id'] = $entity->getRevisionId();
-      }
-      elseif ($component->getPluginId() == 'recipe_feature_block') {
-        $entity = $this->getEntity($componentConfiguration['recipe_id'], $event);
-        if (!empty($entity)) {
-          $componentConfiguration['recipe_id'] = $entity->id();
-        }
-      }
-      else {
-        $this->iterateConfig($componentConfiguration, $event);
-      }
+      $this->iterateConfig($componentConfiguration, $event);
       $component->setConfiguration($componentConfiguration);
     }
   }
