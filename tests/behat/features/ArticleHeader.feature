@@ -9,7 +9,7 @@ Feature: Article Header Test
     And I press the "Layout" section of added content
     And I follow "Add block "
     And I wait for the ajax response
-    And I load page by link with text "Article header"
+    And I load page by link with text "MARS: Article header"
     Then I should see "Article header"
 
     When I fill in "Eyebrow" with "my_eyebrow"
@@ -22,10 +22,3 @@ Feature: Article Header Test
     And I should see "my_eyebrow"
     And I should see "TestBasicPageTitle"
     And I should see "SHARE"
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    Then the url should match "content/node/delete"
-    When I press "Delete"
-    Then the url should match "admin/content"

@@ -29,7 +29,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * Default image extension.
    */
-  const DEFAULT_IMAGE_EXTENSION = 'jpeg';
+  const DEFAULT_IMAGE_EXTENSION = '.jpeg';
 
   /**
    * Lighthouse client.
@@ -397,7 +397,11 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     if (empty($data)) {
       return NULL;
     }
-    return substr_replace($data, self::DEFAULT_IMAGE_EXTENSION, strrpos($data, '.') + 1);
+    if (preg_match('/' . self::DEFAULT_IMAGE_EXTENSION . '$/', $data)) {
+      return $data;
+    }
+    $data .= self::DEFAULT_IMAGE_EXTENSION;
+    return $data;
   }
 
 }

@@ -31,7 +31,7 @@ class NodeLBComponentIterator implements \IteratorAggregate {
    */
   public function getIterator() {
     if (!$this->node->hasField('layout_builder__layout')) {
-      return yield from [];
+      yield from [];
     }
 
     /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layoutBuilderField */

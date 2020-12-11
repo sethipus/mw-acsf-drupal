@@ -18,7 +18,7 @@ Feature: Contact Module Email Test
     And print current URL
 
     When I edit added content
-    And I should see "Edit Basic page"
+    Then I should see "Edit Basic page"
     And I should see "TestBasicPageTitle"
     And I should see "View"
     And I should see "Edit"
@@ -71,4 +71,3 @@ Feature: Contact Module Email Test
 
     When I press "Delete"
     Then the url should match "admin/content"
-
