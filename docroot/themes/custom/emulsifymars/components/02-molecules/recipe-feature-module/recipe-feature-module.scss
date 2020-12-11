@@ -54,6 +54,7 @@
       width: 100%;
       height: auto;
       fill: clr(subcolor-2);
+      -webkit-backface-visibility: hidden;
     }
   }
 
@@ -74,8 +75,7 @@
 
       @include large {
         min-height: 100%;
-        min-width: 60%;
-        width: auto;
+        width: 62%;
       }
     }
 

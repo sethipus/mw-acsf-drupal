@@ -254,12 +254,13 @@ class FooterBlockTest extends UnitTestCase {
 
     $build = $this->footerBlock->build();
 
-    $this->assertCount(10, $build);
+    $this->assertCount(11, $build);
     $this->assertArrayHasKey('#cache', $build);
     $this->assertArrayHasKey('#top_footer_menu', $build);
     $this->assertArrayHasKey('#legal_links', $build);
     $this->assertArrayHasKey('#marketing', $build);
-    $this->assertArrayHasKey('#corporate_tout', $build);
+    $this->assertArrayHasKey('#corporate_tout_text', $build);
+    $this->assertArrayHasKey('#corporate_tout_url', $build);
     $this->assertCount(0, $build['#social_links']);
     $this->assertArrayHasKey('#region_selector', $build);
     $this->assertEquals('footer_block', $build['#theme']);

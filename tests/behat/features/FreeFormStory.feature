@@ -21,10 +21,3 @@ Feature: Free Form Story Test
     And I should see "Background shape"
     And I should see "Use custom color"
     And I should see "Background Color Override"
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    Then the url should match "content/node/delete"
-    When I press "Delete"
-    Then the url should match "admin/content"

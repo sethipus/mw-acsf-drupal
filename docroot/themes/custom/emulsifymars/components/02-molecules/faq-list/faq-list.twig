@@ -8,9 +8,11 @@
 #}
 
 {% set faq_base_class = faq_base_class|default('faq') %}
+{% set pager_state = search_result_counter > 4 ? 'active' : '' %}
 
+<div {{bem(faq_base_class)}}
+  data-theme={{theme_styles}}>
 
-<div {{bem(faq_base_class)}} data-theme={{theme_styles}}>
   {% include "@atoms/text/headings/_heading.twig" with {
     heading_level: 1,
     heading_base_class: 'faq-heading',
@@ -24,16 +26,18 @@
     facetLinks: facetLinks,
   }%}
 
-  {% if search_result_counter == 0 %}
-    {% include "@molecules/search/search-no-results/search-no-results.twig" with {
-      no_results_heading: no_results_heading,
-      no_results_text: no_results_text,
-    }%}
-  {% endif %}
+  <div class="no-results-container">
+    {% if search_result_counter == 0 %}
+      {% include "@molecules/search/search-no-results/search-no-results.twig" with {
+        no_results_heading: no_results_heading,
+        no_results_text: no_results_text,
+      }%}
+    {% endif %}
+  </div>
 
   {% include "@atoms/lists/faq.twig" %}
 
-  <div {{bem('faq__see_all')}}>
+  <div {{bem('see_all', [], 'faq', [pager_state])}}>
     {% include "@atoms/links/defaultLink/defaultLink.twig" with {
       default_link_content: button_name,
       default_link_modifiers: ['faq_see_all'],

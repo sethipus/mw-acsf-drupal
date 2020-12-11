@@ -163,10 +163,9 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
       ];
       $form['list'][$key]['description'] = [
         '#title'         => $this->t('List item description'),
-        '#type'          => 'textfield',
+        '#type'          => 'textarea',
         '#required'      => TRUE,
         '#default_value' => $config['list'][$key]['description'],
-        '#maxlength'     => 55,
       ];
 
       $form['list'][$key]['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,

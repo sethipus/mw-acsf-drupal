@@ -5,7 +5,7 @@
   text-align: center;
 
   @include xs {
-    padding: 5rem 2rem;
+    padding: 5rem 0;
     border-top: 5px solid clr(secondary);
   }
 
@@ -26,7 +26,6 @@
   }
 
   .default-link {
-    outline: none;
     span {
       position: relative;
       z-index: 3;
@@ -83,7 +82,7 @@
 
 
     @include xs {
-      margin-bottom: 9rem;
+      margin-bottom: 3rem;
     }
 
     @include medium {
@@ -92,7 +91,6 @@
 
     .default-link {
       min-width: 15.7rem;
-      margin: .1rem 1rem;
       cursor: pointer;
 
       &::after {
@@ -148,14 +146,19 @@
   &__btn-group {
     height: 6.2rem;
 
-    &:focus-within {
-      outline: 1px solid Highlight;
-    }
-
     .default-link {
       min-width: 15.7rem;
-      margin: .1rem 1rem;
       cursor: pointer;
+
+      @include xs {
+        margin: .1rem .5rem;
+        line-height: 5rem;
+      }
+
+      @include medium {
+        margin: .1rem 1rem;
+        line-height: 6rem;
+      }
     }
 
     @include xs {
@@ -169,6 +172,7 @@
     @include large {
       margin-bottom: 6rem;
     }
+
   }
 
   &__bottom-link {
