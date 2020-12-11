@@ -49,21 +49,24 @@ Drupal.behaviors.searchFilterBehaviour = {
             break;
         }
       });
-      filterContainer.querySelector('input').addEventListener('keypress', (event) => {
-        if (event.keyCode === 13) {
-          const grid = getGridBlock(event);
-          const gridId = getGridId(grid);
-          event.target.dataset.gridQuery = prepareQuery(currentQueryFilters(gridId));
-          var query = currentQuery();
-          if (!query.hasOwnProperty('search')) {
-            query.search = {};
+      var filterInput = filterContainer.querySelector('input');
+      if (filterInput !== null) {
+        filterInput.addEventListener('keypress', (event) => {
+          if (event.keyCode === 13) {
+            const grid = getGridBlock(event);
+            const gridId = getGridId(grid);
+            event.target.dataset.gridQuery = prepareQuery(currentQueryFilters(gridId));
+            var query = currentQuery();
+            if (!query.hasOwnProperty('search')) {
+              query.search = {};
+            }
+            query.search[gridId] = event.target.value;
+            updateResults(prepareQuery(query), grid);
+            updateFilters(prepareQuery(query), grid);
+            pushQuery(query);
           }
-          query.search[gridId] = event.target.value;
-          updateResults(prepareQuery(query), grid);
-          updateFilters(prepareQuery(query), grid);
-          pushQuery(query);
-        }
-      });
+        });
+      }
     });
 
     clearAllButtons.forEach(function (button) {

@@ -7,7 +7,7 @@
  * Attach commerce connector script.
  */
 (function ($, Drupal, drupalSettings) {
-  Drupal.behaviors.dataLayerPageView = {
+  Drupal.behaviors.commerceConnector = {
     attach: function (context, settings) {
 
       var s = document.createElement("script");

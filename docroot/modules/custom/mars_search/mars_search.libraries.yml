@@ -1,5 +1,4 @@
 autocomplete:
-  version: 1.x
   js:
     js/autocomplete.js: {}
   dependencies:
@@ -7,6 +6,7 @@ autocomplete:
     - core/jquery
     - core/drupalSettings
     - core/drupal.autocomplete
+    - emulsifymars/product-card
 
 datalayer_search:
   js:

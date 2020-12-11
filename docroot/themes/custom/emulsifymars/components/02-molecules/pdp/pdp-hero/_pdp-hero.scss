@@ -13,103 +13,77 @@
     padding-bottom: 0;
   }
 
-  &__bubble_1 {
+  &__bubble {
     position: absolute;
-    top: 5.5%;
-    right: 5%;
-    height: 90px;
-    width: 90px;
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    circle {
-      fill: rgba(255, 255, 255, .15);
-    }
 
     svg {
       width: 100%;
       height: auto;
+      fill: rgba(clr(subcolor-3-rgb), 0.15);
     }
 
-    @include medium {
-      top: 3%;
-      right: 6.5%;
-      height: 117px;
-      width: 117px;
+    &--1 {
+      top: 5.5%;
+      right: 5%;
+      height: 90px;
+      width: 90px;
+
+      @include medium {
+        top: 3%;
+        right: 6.5%;
+        height: 117px;
+        width: 117px;
+      }
+
+      @include large {
+        top: -6%;
+        right: -6%;
+        height: 420px;
+        width: 420px;
+      }
     }
 
-    @include large {
-      top: -6%;
-      right: -6%;
-      height: 420px;
-      width: 420px;
-    }
-  }
+    &--2 {
+      top: 26.5%;
+      left: 47%;
+      height: 292px;
+      width: 292px;
 
-  &__bubble_2 {
-    position: absolute;
-    top: 26.5%;
-    left: 47%;
-    height: 292px;
-    width: 292px;
-    background-repeat: no-repeat;
-    background-size: contain;
+      @include medium {
+        top: 14%;
+        left: -21%;
+        height: 302px;
+        width: 302px;
+      }
 
-    circle {
-      fill: rgba(255, 255, 255, .15);
-    }
-
-    svg {
-      width: 100%;
-      height: auto;
+      @include large {
+        top: 11%;
+        left: 25%;
+        height: 115px;
+        width: 115px;
+      }
     }
 
-    @include medium {
-      top: 14%;
-      left: -21%;
-      height: 302px;
-      width: 302px;
-    }
-
-    @include large {
-      top: 11%;
-      left: 25%;
-      height: 115px;
-      width: 115px;
-    }
-  }
-
-  &__bubble_3 {
-    position: absolute;
-    top: 120%;
-    left: 31.5%;
-    height: 214px;
-    width: 214px;
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    circle {
-      fill: rgba(255, 255, 255, .15);
-    }
-
-    svg {
-      width: 100%;
-      height: auto;
-    }
-
-    @include medium {
-      display: block;
-      top: 19%;
-      left: 41%;
-      height: 505px;
-      width: 505px;
-    }
-
-    @include large {
-      top: 83%;
+    &--3 {
+      top: 120%;
       left: 31.5%;
       height: 214px;
       width: 214px;
+
+      @include medium {
+        display: block;
+        top: 19%;
+        left: 41%;
+        height: 505px;
+        width: 505px;
+      }
+
+      @include large {
+        top: 83%;
+        left: 31.5%;
+        height: 214px;
+        width: 214px;
+      }
     }
   }
 
@@ -366,7 +340,7 @@
 
     &-container {
       padding: 1.8rem 0 .2rem 0;
-      
+
       @include medium {
         padding: 1rem 0 2rem;
       }
@@ -479,6 +453,7 @@
     }
 
     .swiper-control {
+      display: none;
       position: absolute;
       top: 2.3rem;
       right: 3.1rem;
@@ -543,6 +518,10 @@
           display: none;
         }
       }
+    }
+
+    .swiper-container-initialized ~ .swiper-control {
+      display: block;
     }
   }
 

@@ -514,6 +514,18 @@ class ThemeConfiguratorService {
         '#title' => $this->t('Show allergen info'),
         '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
       ];
+
+      $form['product_rating_and_reviews'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('Product rating and reviews'),
+        '#description' => $this->t("MARS theme settings for rating and reviews"),
+      ];
+      $form['product_rating_and_reviews']['show_rating_and_reviews'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Turn off/on rating and reviews per site for all products'),
+        '#default_value' => !empty($config) ? $config['product_rating_and_reviews']['show_rating_and_reviews'] : theme_get_setting('show_rating_and_reviews'),
+      ];
     }
 
     if (!$this->isPluginBlock($form)) {

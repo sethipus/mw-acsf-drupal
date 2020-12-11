@@ -25,7 +25,7 @@ Drupal.behaviors.inlineVideoPlayer = {
         return f;
       })();
 
-      if (videoElements('video') === null || videoContainer.getAttribute('data-video-init')) {
+      if (videoElements('video') === null || videoElements('video').getAttribute('data-video-init')) {
         return;
       }
       videoElements('video').controls = false;

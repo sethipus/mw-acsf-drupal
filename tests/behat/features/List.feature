@@ -2,7 +2,6 @@ Feature: List Test
   @javascript
   Scenario: List Test
     When I login into Drupal
-
     And I am on "/node/add/page"
     And I fill in "Title" with "TestBasicPageTitle"
     And I press "Save"

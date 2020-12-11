@@ -14,7 +14,6 @@
     font-style: normal;
     letter-spacing: 1.4px;
     color: clr(primary);
-    text-transform: uppercase;
     text-align: center;
     padding-top: 8rem;
 
@@ -48,16 +47,19 @@
 
   & .grid--card {
     margin: 4rem 2rem 0 2rem;
+    padding-bottom: 3rem;
 
     @include medium {
+      margin: 4rem 4rem 0 4rem;
+      padding-bottom: 4rem;
       flex-flow: row wrap;
       flex-grow: 1;
       align-items: stretch;
     }
 
     @include large {
+      padding-bottom: 6rem;
       flex-flow: row nowrap;
-      align-items: flex-start;
     }
 
     & .image-background {
@@ -69,7 +71,6 @@
     & .card {
       text-align: center;
       &__heading {
-        margin-bottom: 0.7rem;
         margin-top: 3rem;
         text-align: center;
         color: clr(primary);
@@ -100,7 +101,8 @@
       }
 
       &__body {
-        margin-top: 0;
+        margin-top: 1.6rem;
+        margin-bottom: 0;
         font-family: variable(secondary-font);
         font-size: 1.6rem;
         line-height: 1.4;
@@ -114,10 +116,19 @@
       & a.default-link {
         height: 5rem;
         line-height: 5rem;
-        padding: 0 2rem;
+        padding: 0 3.3rem;
         background-color: clr(secondary);
         font-size: 1.4rem;
         border:none;
+
+        @include medium {
+          font-size: 1.6rem;
+          padding: 0 4.5rem;
+        }
+
+        @include large {
+          padding: 0 6.75rem;
+        }
 
         &:hover {
           color: clr(secondary);
@@ -139,8 +150,16 @@
     }
 
     & .cta-wrapper {
-      margin-top: auto;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: 3rem;
       margin-bottom: 2rem;
+
+      @include large {
+        margin-top: 4rem;
+      }
     }
   }
 
@@ -164,7 +183,7 @@
       }
 
       & .card__heading {
-        margin-top: 1rem;
+        margin-top: 4rem;
       }
     }
 
