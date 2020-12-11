@@ -2,7 +2,6 @@ Feature: Newsletter Signup Test
   @javascript
   Scenario: Newsletter Signup Test
     When I login into Drupal
-
     And I am on "/node/add/page"
     And I fill in "Title" with "TestBasicPageTitle"
     And I press "Save"

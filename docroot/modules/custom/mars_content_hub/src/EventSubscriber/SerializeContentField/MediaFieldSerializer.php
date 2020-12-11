@@ -6,7 +6,6 @@ use Drupal\acquia_contenthub\AcquiaContentHubEvents;
 use Drupal\acquia_contenthub\Event\SerializeCdfEntityFieldEvent;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\layout_builder\Plugin\Block\InlineBlock;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\acquia_contenthub\EventSubscriber\SerializeContentField\ContentFieldMetadataTrait;
 use Drupal\layout_builder\SectionComponent;
@@ -72,7 +71,6 @@ class MediaFieldSerializer implements EventSubscriberInterface {
       $data['value'][$langcode] = $this->handleSections($field);
     }
     $event->setFieldData($data);
-    $event->stopPropagation();
   }
 
   /**
@@ -102,17 +100,8 @@ class MediaFieldSerializer implements EventSubscriberInterface {
    */
   protected function handleComponents(array &$components) {
     foreach ($components as &$component) {
-      $plugin = $component->getPlugin();
       $componentConfiguration = $this->getComponentConfiguration($component);
-      // @todo Decide if it's worth to handle this as an event.
-      if ($plugin instanceof InlineBlock) {
-        $revision_id = $plugin->getConfiguration()['block_revision_id'];
-        $entity = $this->entityTypeManager->getStorage('block_content')->loadRevision($revision_id);
-        $component->set('block_uuid', $entity->uuid());
-      }
-      else {
-        $this->iterateConfig($componentConfiguration);
-      }
+      $this->iterateConfig($componentConfiguration);
       $component->setConfiguration($componentConfiguration);
     }
   }

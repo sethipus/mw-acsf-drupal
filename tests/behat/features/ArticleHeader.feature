@@ -22,10 +22,3 @@ Feature: Article Header Test
     And I should see "my_eyebrow"
     And I should see "TestBasicPageTitle"
     And I should see "SHARE"
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    Then the url should match "content/node/delete"
-    When I press "Delete"
-    Then the url should match "admin/content"
