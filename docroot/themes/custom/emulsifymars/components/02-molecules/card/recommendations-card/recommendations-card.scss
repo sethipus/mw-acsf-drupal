@@ -38,11 +38,16 @@
   }
 
   .recommendations-card-heading {
-    padding-top: 4rem;
-    padding-bottom: 2.8rem;
-    margin: 0;
+    padding-top: 2rem;
+    margin-bottom: 2.8rem;
     flex-grow: unset;
     text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    min-height: 9rem;
   }
 
   .details-button {

@@ -57,18 +57,6 @@ steps:
     displayName: 'Install Node JS'
     inputs:
       versionSpec: '10.x'
-  - task: SonarQubePrepare@4
-    displayName: 'SonarQube Prepare'
-    inputs:
-      SonarQube: 'sonarqubetest'
-      scannerMode: 'CLI'
-      configMode: 'file'
-  - task: SonarQubeAnalyze@4
-    displayName: 'SonarQube Validation'
-  - task: SonarQubePublish@4
-    displayName: 'SonarQube Publish'
-    inputs:
-      pollingTimeoutSec: '300'
   - task: Cache@2
     displayName: 'Cache Composer Packages'
     inputs:
@@ -86,7 +74,7 @@ steps:
         composer validate --no-check-all --ansi &&
         composer install &&
         npm install npm@latest -g
-  - task: Npm@1 
+  - task: Npm@1
     inputs:
       command: 'ci'
       workingDir: 'docroot/themes/custom/emulsifymars'
@@ -107,6 +95,31 @@ steps:
     displayName: 'Setup App'
     inputs:
       filePath: '$(scriptDir)/setup_app.sh'
+  - task: Bash@3
+    displayName: 'Run Php Unit Tests'
+    inputs:
+      filePath: './scripts/phpunit_test.sh'
+  - task: SonarQubePrepare@4
+    displayName: 'SonarQube Prepare'
+    inputs:
+      SonarQube: 'sonarqubetest'
+      scannerMode: 'CLI'
+      configMode: 'file'
+  - task: SonarQubeAnalyze@4
+    displayName: 'SonarQube Validation'
+  #- task: SonarQubePublish@4
+  #  displayName: 'SonarQube Publish'
+  #  inputs:
+  #    pollingTimeoutSec: '300'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'reports/phpunit/*.xml'
+      mergeTestResults: true
+      testRunTitle: 'Unit tests'
+  #- task: PublishCodeCoverageResults@1
+  #  inputs:
+  #    summaryFileLocation: 'reports/phpunit/coverage.xml'
   - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
