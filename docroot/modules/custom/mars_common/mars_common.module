@@ -227,6 +227,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'eyebrow' => NULL,
         'title' => NULL,
         'background_color' => NULL,
+        'brand_shape' => NULL,
         'image_src' => NULL,
         'image_alt' => NULL,
         'explore_cta' => NULL,

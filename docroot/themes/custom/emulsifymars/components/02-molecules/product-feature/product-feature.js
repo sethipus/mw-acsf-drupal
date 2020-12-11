@@ -2,38 +2,67 @@
   Drupal.behaviors.productFeature = {
     attach(context) {
       $(context).find('.product-feature').once('productFeature').each(function(){
-        const $productFeature = $(this);
-        const $bubble_1_top = $('.product-feature__bubble_1', this).offset().top;
-        const $bubble_2_top = $('.product-feature__bubble_2', this).offset().top;
-        const $bubble_3_top = $('.product-feature__bubble_3', this).offset().top;
-
-        $(window).on('scroll', _.throttle(() => {
-          if (isInViewport($productFeature[0])){
-            const $bubble_1 = $('.product-feature__bubble_1', this);
-            const $bubble_2 = $('.product-feature__bubble_2', this);
-            const $bubble_3 = $('.product-feature__bubble_3', this);
-            const offset = $(window).scrollTop();
-
-            $bubble_1.css('top', `${($bubble_1_top - offset) * 0.75}px`);
-            $bubble_2.css('top', `${($bubble_2_top - offset) * 0.75}px`);
-            $bubble_3.css('top', `${($bubble_3_top - offset) * 0.75}px`);
-          }
-        }, 33))
+        const productFeature = this;
+        var bubble_1_top = productFeature.querySelector('.product-feature__bubble--1').offsetTop;
+        var bubble_2_top = productFeature.querySelector('.product-feature__bubble--2').offsetTop;
+        var bubble_3_top = productFeature.querySelector('.product-feature__bubble--3').offsetTop;
 
         const isInViewport = element => {
-          const scroll = window.scrollY || window.pageYOffset
-          const boundsTop = element.getBoundingClientRect().top + scroll
-          const viewport = {
-            top: scroll,
-            bottom: scroll + window.innerHeight,
-          }
-          const bounds = {
-            top: boundsTop,
-            bottom: boundsTop + element.clientHeight,
-          }
-          return (bounds.bottom >= viewport.top && bounds.bottom <= viewport.bottom) ||
-            (bounds.top <= viewport.bottom && bounds.top >= viewport.top);
+          const rect = element.getBoundingClientRect();
+
+          const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+          const windowWidth = (window.innerWidth || document.documentElement.clientWidth);
+
+          const vertInView = ((rect.top + (rect.height * 0.7)) <= windowHeight) && ((rect.top + rect.height) >= 0);
+          const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
+
+          return (vertInView && horInView);
         }
+        
+        const updateElementsPositions = (element) => {
+          const rect = element.getBoundingClientRect();
+          const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+          let parallaxCoef;
+
+          switch (true) {
+            case rect.width >= 1360:
+              parallaxCoef = 0.75;
+              break;
+
+            case rect.width >= 688:
+              parallaxCoef = 0.5;
+              break;
+
+            default:
+              parallaxCoef = 0.5;
+          }
+          let offset = windowHeight - (rect.top + (rect.height * 0.7));
+          element.querySelector('.product-feature__bubble--1').style.top = `${(bubble_1_top) - (offset * parallaxCoef)}px`;
+          element.querySelector('.product-feature__bubble--2').style.top = `${(bubble_2_top) - (offset * parallaxCoef)}px`;
+          element.querySelector('.product-feature__bubble--3').style.top = `${(bubble_3_top) - (offset * parallaxCoef)}px`;
+
+        };
+
+        const restoreElementsPositions = (element) => {
+          element.querySelector('.product-feature__bubble--1').style.removeProperty("top");
+          element.querySelector('.product-feature__bubble--2').style.removeProperty("top");
+          element.querySelector('.product-feature__bubble--3').style.removeProperty("top");
+
+        }
+
+        const listener = () => {
+          if (isInViewport(productFeature)) {
+            updateElementsPositions(productFeature);
+          }
+          else {
+            restoreElementsPositions(productFeature);
+          }
+        };
+
+        window.addEventListener('DOMContentLoaded', listener);
+        window.addEventListener('scroll', listener);
+        window.addEventListener('resize', listener);
+
       })
     }
   }
