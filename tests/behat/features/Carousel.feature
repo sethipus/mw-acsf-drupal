@@ -1,6 +1,6 @@
-Feature: Iframe Test
+Feature: Carousel Test
   @javascript
-  Scenario: Iframe Test
+  Scenario: Carousel Test
     When I login into Drupal
     And I am on "/node/add/page"
     And I fill in "Title" with "TestBasicPageTitle"
@@ -9,16 +9,19 @@ Feature: Iframe Test
     And I press the "Layout" section of added content
     And I follow "Add block "
     And I wait for the ajax response
-    And I load page by link with text "MARS: iFrame"
+    And I load page by link with text "MARS: Carousel component"
     Then I should see "Configure block"
     And I should see "Block description"
-    And I should see "MARS: iFrame"
-    And I fill in "Accessibility Title" with "my_iframe_title"
-    And I fill in "URL" with "http://iframe.com"
 
-    When I press "Add block"
+    When I fill in "Carousel title" with "my_carousel"
+    And I press "Add block"
     Then I should see "You are editing the layout for this Basic page content item."
 
     When I press "Save layout"
     Then I should see "The layout override has been saved."
-    And I should see a "//div[@data-block-plugin-id='iframe_block' and @class='block']/div[@class='iframe-container']/iframe[@class='iframe-container__inner' and @title='my_iframe_title']" xpath element
+    And I should see a "//div[@data-block-plugin-id='carousel_block' and @class='block']" xpath element
+    And I should see a ".carousel" element
+    And I should see a ".carousel__heading" element
+    And I should see a ".swiper-container" element
+    And I should see a ".swiper-wrapper" element
+    And I should see a ".carousel__content" element
