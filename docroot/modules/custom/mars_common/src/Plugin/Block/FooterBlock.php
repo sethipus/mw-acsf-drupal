@@ -123,7 +123,10 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
     $build['#marketing'] = $this->languageHelper->translate($conf['marketing']['value']);
     $build['#corporate_tout_text'] = $this->languageHelper->translate($conf['corporate_tout']['title']);
-    $build['#corporate_tout_url'] = ['href' => $conf['corporate_tout']['url']];
+    $build['#corporate_tout_url'] = [
+      'href' => $conf['corporate_tout']['url'],
+      'name' => $build['#corporate_tout_text'],
+    ];
 
     $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_product\EventSubscriber\DependencyCollector;
+namespace Drupal\mars_content_hub\EventSubscriber\DependencyCollector;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\depcalc\DependencyCalculatorEvents;
@@ -8,9 +8,9 @@ use Drupal\depcalc\Event\SectionComponentDependenciesEvent;
 use Drupal\depcalc\EventSubscriber\DependencyCollector\BaseDependencyCollector;
 
 /**
- * Class ContentPaitUpBlockkCollector.
+ * Class RecipeFeatureBlockkCollector.
  */
-class ContentPairUpBlockCollector extends BaseDependencyCollector {
+class RecipeFeatureBlockCollector extends BaseDependencyCollector {
 
   /**
    * The entity type manager.
@@ -49,10 +49,10 @@ class ContentPairUpBlockCollector extends BaseDependencyCollector {
   public function onCalculateSectionComponentDependencies(SectionComponentDependenciesEvent $event) {
     $component = $event->getComponent();
     $config = $component->get('configuration');
-    if ($component->getPluginId() == 'product_content_pair_up_block') {
-      if (!empty($config['article_recipe'])) {
+    if ($component->getPluginId() == 'recipe_feature_block') {
+      if (!empty($config['recipe_id'])) {
         /** @var \Drupal\core\Entity\EntityInterface $node */
-        $node = $this->entityTypeManager->getStorage('node')->load($config['article_recipe']);
+        $node = $this->entityTypeManager->getStorage('node')->load($config['recipe_id']);
         $event->addEntityDependency($node);
       }
     }

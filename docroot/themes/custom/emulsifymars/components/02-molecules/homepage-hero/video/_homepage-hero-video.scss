@@ -99,6 +99,16 @@
     color: clr(subcolor-3);
     text-decoration: none;
     letter-spacing: 1.4px;
+
+    @include xs {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+    }
+
+    @include medium {
+      font-size: 1.6rem;
+      line-height: 1.6rem;
+    }
   }
 
   .heading {
@@ -111,12 +121,20 @@
       text-decoration: none;
       font-weight: 300;
       word-wrap: break-spaces;
-      font-size: 48px;
-      line-height: 43.2px;
+
+      @include xs {
+        font-size: 4rem;
+        line-height: 4rem;
+      }
+
+      @include medium {
+        font-size: 5.6rem;
+        line-height: 5.6rem;
+      }
 
       @include large {
-        font-size: 84px;
-        line-height: 75.6px;
+        font-size: 6.4rem;
+        line-height: 6.4rem;
       }
     }
   }
