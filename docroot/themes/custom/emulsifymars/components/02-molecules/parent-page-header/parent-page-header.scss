@@ -142,7 +142,6 @@
     &::after {
       content: '';
       position: absolute;
-      display: block;
       width: 100%;
       height: 100%;
       top: 0;
@@ -179,6 +178,18 @@
       font-size: 1.6rem;
       line-height: 1.6rem;
       letter-spacing: 0.16rem;
+    }
+  }
+
+  &--tint-enabled {
+    &::after {
+      display: block;
+    }
+  }
+
+  &--tint-disabled {
+    &::after {
+      display: none;
     }
   }
 }
