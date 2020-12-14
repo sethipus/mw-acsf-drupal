@@ -15,3 +15,6 @@ pp_header_paragraph_base_class: 'parent-page-paragraph'
 
 pp_header_video_src: 'http://media.w3.org/2010/05/sintel/trailer.mp4'
 pp_header_video_type: 'video/mp4'
+
+# TODO: later we will need the capability to turn on and off the tint on the image, it will require a new prop from BE.
+# tint_enabled: false
