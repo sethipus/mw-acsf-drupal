@@ -12,7 +12,7 @@ import moment from 'moment';
         const yearInput = $('.entry-gate--year', this);
         const submitBtn = $('.entry-gate-form__submit-btn', this);
         const errorMessage = $('.entry-gate-form__error-message', this);
-        const link = $('.entry-gate__bottom-paragraph a', this)[0];
+        const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
     
         dayInput.onkeydown = function(e) {
           if (e.code === 'Tab' && e.shiftKey) {
