@@ -86,7 +86,8 @@ class MediaFieldUnserializer implements EventSubscriberInterface {
     $values = [];
     foreach ($sections as $sectionArray) {
       $section = Section::fromArray($sectionArray['section']);
-      $this->handleComponents($section->getComponents(), $event);
+      $components = $section->getComponents();
+      $this->handleComponents($components, $event);
       $values[] = ['section' => $section];
     }
     return $values;
