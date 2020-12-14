@@ -61,7 +61,7 @@ class SalsifyFieldsMap {
     'field_product_brand' => ['salsify:id' => 'Brand Name', 'salsify:data_type' => 'enumerated'],
     'field_product_sub_brand' => ['salsify:id' => 'Sub Brand', 'salsify:data_type' => 'string'],
     'field_product_segment' => ['salsify:id' => 'Amazon Segment', 'salsify:data_type' => 'string'],
-    'field_product_name' => ['salsify:id' => 'CMS: product name', 'salsify:data_type' => 'string'],
+    'field_product_name' => ['salsify:id' => 'CMS: Product Name', 'salsify:data_type' => 'string'],
     'field_product_description' => ['salsify:id' => 'CMS: Description', 'salsify:data_type' => 'string'],
     // Enumirated.
     'field_product_format' => ['salsify:id' => 'CMS: Format', 'salsify:data_type' => 'enumerated'],
