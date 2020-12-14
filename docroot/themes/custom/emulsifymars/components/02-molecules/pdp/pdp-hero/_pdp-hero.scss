@@ -623,6 +623,11 @@
       }
     }
   }
+
+  .bv_main_container {
+    font-size: 1.6rem;
+    color: clr(primary);
+  }
 }
 
 // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
