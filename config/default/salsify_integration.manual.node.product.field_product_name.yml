@@ -1,5 +1,5 @@
-field_id: 'CMS: product name'
-salsify_id: 'CMS: product name'
+field_id: 'CMS: Product Name'
+salsify_id: 'CMS: Product Name'
 salsify_data_type: string
 entity_type: node
 bundle: product
