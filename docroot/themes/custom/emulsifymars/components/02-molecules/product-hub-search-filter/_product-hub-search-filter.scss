@@ -50,6 +50,7 @@
   width: 100%;
   border-radius: 20px 20px 0 0;
   display: none;
+  z-index: 5;
 
   @include xl {
     display: block;
@@ -81,13 +82,15 @@
     padding: 16px 40px;
     border-radius: variable(button-border-radius);
     font-family: variable(primary-font);
-    font-size: 14px;
-    line-height: 14px;
-    letter-spacing: .75px;
     text-transform: uppercase;
     color: clr(secondary);
     margin: 0 6px;
     text-decoration: none;
+
+    @include xs {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+    }
 
     &--highlighted {
       background-color: clr(secondary);
@@ -235,9 +238,13 @@
   max-width: 688px;
 
   &__applied-label {
-    font: 16px/1.4em variable(primary-font);
     color: clr(primary);
-    letter-spacing: 0.65px;
+    font-family: variable(primary-font);
+
+    @include xs {
+      font-size: 1.6rem;
+      line-height: 2.24rem;
+    }
   }
 
   &__applied-text {
@@ -257,6 +264,7 @@
     width: 20px;
     height: 20px;
     margin-left: 8px;
+    margin-top: 5px;
     overflow: hidden;
     border: none;
     border-radius: 10px;

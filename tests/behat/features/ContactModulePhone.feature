@@ -26,4 +26,3 @@ Feature: Contact Module Phone Test
     And I should see "MyDescription"
     And I should see a "//a[contains(@href,'tel:222-5555-1616')]/span[contains(text(), 'MyLabel')]" xpath element
     And I should see "MySocialLinks"
-

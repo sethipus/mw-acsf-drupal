@@ -34,7 +34,7 @@ Drupal.behaviors.searchFilterBehaviour = {
 
         switch (true) {
           case event.target.classList.contains('search-filter-header__close'):
-            target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+            event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();

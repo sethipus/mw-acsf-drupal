@@ -34,12 +34,6 @@ services:
     tags:
       - { name: event_subscriber }
 
-  mars_common.media_dependency_calculator:
-    class: Drupal\mars_common\EventSubscriber\DependencyCollector\MediaEntityBlockCollector
-    arguments: [ '@entity_type.manager' ]
-    tags:
-      - { name: event_subscriber }
-
   mars_common.svg_factory:
     arguments: [ '@entity_type.manager' , '@mars_common.svg_unique_id_generator' ]
     class: Drupal\mars_common\SVG\SVGFactory
