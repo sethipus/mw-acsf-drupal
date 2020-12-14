@@ -1,4 +1,7 @@
 {% set header_key_state = results_key_header ? 'active' : '' %}
+{% set search_container_base_class = 'search-results-page' %}
+{% set search_filter_base_class = 'search-results-filter' %}
+{% set grid_base_class = 'card-grid-results' %}
 
 <div class="results-key-header-container {{ header_key_state }}" data-theme={{ theme_styles }}>
   {% if results_key_header %}
@@ -6,7 +9,7 @@
   {% endif %}
 </div>
 
-<div class="search-results-filter">
+<div {{ bem(search_filter_base_class, [], '') }}>
   {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
     theme_styles: theme_styles,
     search_form: '',
@@ -15,7 +18,7 @@
   } %}
 </div>
 
-<div class="search-results-page"
+<div {{ bem(search_container_base_class, [], '', [grid_base_class]) }}
      data-layer-search-term="{{ data_layer.search_term }}"
      data-layer-search-results="{{ data_layer.search_results }}"
      data-layer-grid-type="search_page"

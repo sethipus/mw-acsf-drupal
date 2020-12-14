@@ -11,7 +11,10 @@
   Drupal.behaviors.marsAutocomplete = {
     attach: function (context, settings) {
       var selector = '.header__inner input.mars-autocomplete-field, .mars-search-form .mars-autocomplete-field';
-      $(selector, context).on('keyup', function () {
+      $(selector, context).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+          return;
+        }
         var searchString = $(this).val();
         var gridId = $(this).attr('data-grid-id');
         var gridQuery = $(this).attr('data-grid-query');
@@ -41,7 +44,12 @@
                 if (!$(results).hasClass('no-results')) {
                   const suggestions = $(target_container).find('.mars-suggestions');
                   suggestions.html(results);
-                  Drupal.attachBehaviors(suggestions)
+                  Drupal.behaviors.productCard.attach(suggestions);
+                  suggestions.each((index, element) => {
+                    if (element.nodeType === Node.ELEMENT_NODE) {
+                      Drupal.attachBehaviors(element, drupalSettings);
+                    }
+                  });
                   $(target_container).find('.search-input-wrapper').addClass('suggested');
                   $('.mars-search-autocomplete-suggestions-wrapper').show();
                 }
@@ -56,4 +64,4 @@
       });
     }
   };
-})(jQuery, Drupal);
+})(jQuery, Drupal, drupalSettings);
