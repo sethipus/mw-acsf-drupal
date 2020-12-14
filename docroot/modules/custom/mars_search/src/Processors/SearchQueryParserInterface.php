@@ -21,7 +21,7 @@ interface SearchQueryParserInterface {
   /**
    * Search page path.
    */
-  const MARS_SEARCH_DEFAULT_SEARCH_ID = 1;
+  const MARS_SEARCH_DEFAULT_SEARCH_ID = '1';
 
   /**
    * Converts current GET parameters into SOLR friendly array.
