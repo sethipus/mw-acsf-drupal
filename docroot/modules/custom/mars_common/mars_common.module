@@ -36,6 +36,7 @@ use Drupal\taxonomy\TermInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\mars_common\Constants\MenuConstants;
+use Drupal\mars_common\Constants\SocialMediaConstants;
 
 /**
  * Implements hook_menu_insert().
@@ -124,6 +125,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'alert_banner_text' => NULL,
         'alert_banner_url'  => NULL,
         'search_form'       => NULL,
+        'search_enabled' => NULL,
+        'brand_border' => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],
@@ -1021,6 +1024,9 @@ function mars_common_form_menu_link_content_menu_link_content_form_alter(array &
   elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_FOOTER_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_FOOTER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
   }
+  elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_HEADER_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_HEADER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
   $form['menu_parent']['#ajax'] = [
     'disable-refocus' => FALSE,
     'event' => 'change',
@@ -1480,4 +1486,73 @@ function mars_common_include_ief_entities(array $entity_form, FormStateInterface
  */
 function mars_common_pathauto_punctuation_chars_alter(array &$punctuation) {
   $punctuation['registered_trademark'] = ['value' => '®', 'name' => t('Registered trademark symbol')];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterface $form_state) {
+  $social_medias = SocialMediaConstants::SOCIAL_MEDIAS;
+  $limitation_tooltip_text = t('You must disable one of the enabled social medias to enable a new one!');
+
+  $form['#prefix'] = '<div id="social-media-wrapper">';
+  $form['#suffix'] = '</div>';
+
+  $values = $form_state->getValues();
+  $social_media_enabled_count = 0;
+  foreach ($social_medias as $social_media) {
+    $form[$social_media][$social_media . '_enable']['#ajax'] = [
+      'callback' => '_mars_common_social_media_enabled_ajax_callback',
+      'wrapper' => 'social-media-wrapper',
+      'event' => 'change',
+    ];
+    $value = isset($values[$social_media . '_enable'])
+      ? $values[$social_media . '_enable']
+      : $form[$social_media][$social_media . '_enable']['#default_value'];
+    if ($value) {
+      $social_media_enabled_count++;
+    }
+    else {
+      $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+    }
+  }
+
+  $i = 0;
+  foreach ($social_medias as $social_media) {
+    $value = isset($values[$social_media . '_enable'])
+      ? $values[$social_media . '_enable']
+      : $form[$social_media][$social_media . '_enable']['#default_value'];
+    if ($social_media_enabled_count > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM - 1) {
+      if ($value) {
+        $i++;
+        if ($i > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM) {
+          $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+          $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+          $form_state->setValue($social_media . '_enable', FALSE);
+          $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+        }
+      }
+      else {
+        $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+        $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+        $form_state->setValue($social_media . '_enable', FALSE);
+      }
+    }
+  }
+}
+
+/**
+ * Ajax callback for social media enabled checkbox change events.
+ *
+ * @param array $form
+ *   The current form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current form state.
+ *
+ * @return array
+ *   The updated form.
+ */
+function _mars_common_social_media_enabled_ajax_callback(array &$form, FormStateInterface $form_state) {
+  $form_state->setRebuild();
+  return $form;
 }

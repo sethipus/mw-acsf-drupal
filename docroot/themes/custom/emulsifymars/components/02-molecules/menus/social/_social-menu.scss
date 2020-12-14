@@ -18,8 +18,8 @@
 
     & svg {
       display: inline;
-      height: 22px;
-      width: auto;
+      max-height: 22px;
+      max-width: 22px;
     }
 
     & svg path {

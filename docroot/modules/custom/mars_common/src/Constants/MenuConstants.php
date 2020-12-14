@@ -18,5 +18,7 @@ class MenuConstants {
   const TOP_FOOTER_MENU_ID = 'top-footer';
   const TOP_FOOTER_MENU_ITEM_COUNT_LIMIT = 5;
   const TOP_FOOTER_MENU_ITEM_CHARACTER_COUNT_LIMIT = 25;
+  const TOP_HEADER_MENU_ID = 'top-header';
+  const TOP_HEADER_MENU_ITEM_CHARACTER_COUNT_LIMIT = 25;
 
 }
