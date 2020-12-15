@@ -245,12 +245,15 @@
                 pageName: document.title,
                 componentName: getComponentName(formContainer),
                 formName: formName,
-                formSubmitFlag: 1,
               });
             });
           }
           else {
             input.addEventListener('blur', function (e) {
+              var fieldValue = e.target.value;
+              if (/\S+@\S+\.\S+/.test(e.target.value)) {
+                fieldValue = '';
+              }
               dataLayer.push({
                 event: 'formFieldComplete',
                 pageName: document.title,
