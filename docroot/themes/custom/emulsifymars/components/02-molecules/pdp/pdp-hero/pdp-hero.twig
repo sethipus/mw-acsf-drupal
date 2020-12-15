@@ -76,7 +76,11 @@
         </div>
       </div>
       {% if show_rating_and_reviews == true %}
-        <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+        {% if pdp_seo_enabled %}
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+        {% else %}
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}" data-bv-seo="false"></div>
+        {% endif %}
       {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
         <div id='pdp-hero-main-image-{{size_id}}' {{ bem('main-image-container', [], pdp_hero_base_class) }}>
