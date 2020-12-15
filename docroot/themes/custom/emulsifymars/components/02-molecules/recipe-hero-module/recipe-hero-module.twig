@@ -8,7 +8,7 @@
 <div class="recipe-header" data-theme="{{ theme_styles }}">
     <div class="recipe-header__background"
       {% if background_color_override %}
-        style="background-color: {{ background_color }}"
+        style="background-color: {{ '#' ~ background_color }}"
       {% endif %}
     >
       {% if brand_shape_enabled %}
