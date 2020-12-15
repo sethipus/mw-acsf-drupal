@@ -86,7 +86,8 @@ class MediaFieldSerializer implements EventSubscriberInterface {
     $sections = [];
     foreach ($field as $item) {
       $section = $item->getValue()['section'];
-      $this->handleComponents($section->getComponents());
+      $components = $section->getComponents();
+      $this->handleComponents($components);
       $sections[] = ['section' => $section->toArray()];
     }
     return $sections;
