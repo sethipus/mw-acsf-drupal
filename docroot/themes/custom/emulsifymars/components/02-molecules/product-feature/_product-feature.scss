@@ -126,7 +126,9 @@
   }
 
   &__product_text {
+    position: relative;
     padding: 6rem 2rem 2rem;
+    z-index: 2;
 
     .eyebrow {
       margin-bottom: 1.6rem;
