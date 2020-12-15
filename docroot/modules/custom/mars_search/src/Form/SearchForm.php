@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,7 +20,7 @@ class SearchForm extends FormBase {
   /**
    * Search helper.
    *
-   * @var \Drupal\mars_search\SearchHelperInterface
+   * @var \Drupal\mars_search\Processors\SearchHelperInterface
    */
   protected $searchHelper;
 
@@ -43,16 +44,16 @@ class SearchForm extends FormBase {
   /**
    * Constructs a new SearchForm.
    *
-   * @param \Drupal\mars_search\SearchHelperInterface $search_helper
-   *   Search helper.
+   * @param \Drupal\mars_search\SearchProcessFactoryInterface $searchProcessor
+   *   Search process factory.
    * @param \Drupal\mars_common\LanguageHelper $language_helper
    *   Language helper service.
    */
   public function __construct(
-    SearchHelperInterface $search_helper,
+    SearchProcessFactoryInterface $searchProcessor,
     LanguageHelper $language_helper
   ) {
-    $this->searchHelper = $search_helper;
+    $this->searchHelper = $searchProcessor->getProcessManager('search_helper');;
     $this->languageHelper = $language_helper;
   }
 
@@ -61,7 +62,7 @@ class SearchForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('mars_search.search_helper'),
+      $container->get('mars_search.search_factory'),
       $container->get('mars_common.language_helper')
     );
   }

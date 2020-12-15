@@ -2,7 +2,6 @@ Feature: Recipe Detail Hero Test
   @javascript
   Scenario: Recipe Detail Hero Test
     When I login into Drupal
-
     And I am on "/node/add/page"
     And I fill in "Title" with "TestBasicPageTitle"
     And I press "Save"

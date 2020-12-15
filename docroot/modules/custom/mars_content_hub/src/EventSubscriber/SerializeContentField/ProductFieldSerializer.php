@@ -41,7 +41,7 @@ class ProductFieldSerializer implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[AcquiaContentHubEvents::SERIALIZE_CONTENT_ENTITY_FIELD][] = ['onSerializeContentField', 210];
+    $events[AcquiaContentHubEvents::SERIALIZE_CONTENT_ENTITY_FIELD][] = ['onSerializeContentField', 200];
     return $events;
   }
 
@@ -87,7 +87,8 @@ class ProductFieldSerializer implements EventSubscriberInterface {
     $sections = [];
     foreach ($field as $item) {
       $section = $item->getValue()['section'];
-      $this->handleComponents($section->getComponents());
+      $components = $section->getComponents();
+      $this->handleComponents($components);
       $sections[] = ['section' => $section->toArray()];
     }
     return $sections;
@@ -129,6 +130,7 @@ class ProductFieldSerializer implements EventSubscriberInterface {
    */
   private function getProductGtin(EntityInterface $entity) {
     foreach ($entity->field_product_variants as $reference) {
+      /* @var \Drupal\node\NodeInterface $product_variant */
       $product_variant = $reference->entity;
       $gtin = $product_variant->get('field_product_sku')->value;
       if (!empty($gtin)) {
