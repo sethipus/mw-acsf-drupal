@@ -86,7 +86,8 @@ class RecipeFieldSerializer implements EventSubscriberInterface {
     $sections = [];
     foreach ($field as $item) {
       $section = $item->getValue()['section'];
-      $this->handleComponents($section->getComponents());
+      $component = $section->getComponents();
+      $this->handleComponents($component);
       $sections[] = ['section' => $section->toArray()];
     }
     return $sections;
