@@ -25,6 +25,11 @@
     }
 
     @include medium {
+      font-size: 5.6rem;
+      line-height: 5.6rem;
+    }
+
+    @include large {
       font-size: 6.4rem;
       line-height: 6.4rem;
       letter-spacing: 0.2rem;
