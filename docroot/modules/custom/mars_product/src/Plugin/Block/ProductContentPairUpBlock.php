@@ -253,7 +253,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#description' => $this->t('Defaults to Made With or Seen In'),
       '#placeholder' => $this->t('Made With / Seen In'),
       '#maxlength' => 15,
-      '#required' => TRUE,
       '#default_value' => $this->configuration['supporting_card_eyebrow'] ?? NULL,
     ];
 
