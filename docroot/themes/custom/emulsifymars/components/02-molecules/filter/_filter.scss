@@ -28,6 +28,7 @@
     }
 
     .filter-title {
+      width: 100%;
       padding: 5px 45px 15px 15px;
       border-bottom: 1px solid clr(subcolor-4);
       border-right: 1px solid clr(subcolor-4);
@@ -91,6 +92,9 @@
   font: 16px/1.4em variable(primary-font);
   color: clr(primary);
   letter-spacing: 0.65px;
+  background: transparent;
+  border: none;
+  text-align: left;
 
   &__counter {
     &::before {

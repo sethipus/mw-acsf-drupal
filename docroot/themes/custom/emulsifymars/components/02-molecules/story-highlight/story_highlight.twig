@@ -3,11 +3,13 @@
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 
 <section id="story-highlight" {{ bem(story_highlight_base_class) }} data-theme="{{ theme_styles }}">
-  <div class="{{ brand_shape_class }}">
-    {{ brand_borders | raw }}
-  </div>
+  {% block brand_border %}
+    <div {{  bem('border', [], story_highlight_base_class)  }}>
+      {{ brand_borders | raw }}
+    </div>
+  {% endblock %}
 
-  <div class="story-highlight__content">
+  <div class="story-highlight__content {{default_link_modifier}}">
     <div class="story-highlight__contentbg">
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: heading,
@@ -22,8 +24,9 @@
         paragraph_content: story_highlight_paragraph_content,
         paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph')
       } %}
-    </div>
-    <div class="story-highlight_whitebg">
+
+      <div class="white-background"></div>
+
       <div class="media_items">
       {% for item in items %}
         <div class="media_item_{{loop.index}}"
@@ -92,6 +95,6 @@
           } %}
         </div>
       {% endif %}
-    </div>
+    </div>  
   </div>
 </section>

@@ -5,7 +5,7 @@
   line-height: 100%;
   color: clr(subcolor-3);
 
-  @include medium {
+  @include large {
     display: none;
     position: absolute;
     width: 100%;
@@ -78,15 +78,20 @@
           line-height: 100%;
         }
 
-        .suggestions-links li {
-          margin-bottom: 10px;
-
-          & a {
-            color: clr(subcolor-3);
-            text-decoration: none;
-
-            @include medium {
-              color: clr(primary);
+        .suggestions-links {
+          position: relative;
+          z-index: 10;
+          
+          li {
+            margin-bottom: 10px;
+  
+            & a {
+              color: clr(subcolor-3);
+              text-decoration: none;
+  
+              @include medium {
+                color: clr(primary);
+              }
             }
           }
         }
@@ -159,6 +164,7 @@
       margin-left: auto;
       width: 100%;
       border-bottom: 1px solid clr(subcolor-3);
+      font-family: variable(secondary-font);
 
       @include medium {
         border-bottom: none;
@@ -177,6 +183,7 @@
 
           @include medium {
             width: 100%;
+            max-width: 840px;
             height: 60px;
             color: clr(primary);
             border: 1px solid clr(subcolor-4);

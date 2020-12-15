@@ -7,6 +7,10 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
+use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_common\SVG\SVGException;
+use Drupal\mars_common\SVG\SVGFactory;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ThemeConfiguratorParser.
@@ -37,23 +41,45 @@ class ThemeConfiguratorParser {
   private $config;
 
   /**
+   * The svg factory service.
+   *
+   * @var \Drupal\mars_common\SVG\SVGFactory
+   */
+  private $svgFactory;
+
+  /**
+   * The logger service.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  private $logger;
+
+  /**
    * Default constructor for ThemeConfiguratorParser.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
+   * @param \Drupal\mars_common\SVG\SVGFactory $svg_factory
+   *   The svg factory service.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The logger service.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    SVGFactory $svg_factory,
+    LoggerInterface $logger
   ) {
     $this->config = $config_factory->get('emulsifymars.settings');
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->themeSettings = $this->config->get();
+    $this->svgFactory = $svg_factory;
+    $this->logger = $logger;
   }
 
   /**
@@ -81,35 +107,109 @@ class ThemeConfiguratorParser {
   }
 
   /**
-   * Returns file entity content.
+   * Returns the brand border svg if there are any.
    *
-   * @param string $field
-   *   Config field name.
-   *
-   * @return string
-   *   File contents.
+   * @return \Drupal\mars_common\SVG\SVG|null
+   *   The brand border or null.
    */
-  public function getFileContentFromTheme(string $field): string {
-    $file = $this->getFileFromTheme($field);
-    return $this->readContentFromFile($file);
+  public function getBrandBorder(): ?SVG {
+    $svg = $this->getSVGFor('brand_borders');
+
+    if ($svg !== NULL) {
+      $svg = $svg->withoutFillInfo();
+      $style = $this->getSettingValue(
+        'brand_border_style',
+        ThemeConfiguratorService::BORDER_STYLE_REPEAT
+      );
+
+      if ($style === ThemeConfiguratorService::BORDER_STYLE_REPEAT) {
+        $svg = $svg->repeated();
+      }
+      else {
+        $svg = $svg->scaleWhileKeepingAspectRatio();
+      }
+    }
+
+    return $svg;
   }
 
   /**
-   * Returns file entity content with selected color.
+   * Returns the brand border 2 svg if there are any.
    *
-   * @param string $field
-   *   Config field name.
-   * @param string $id
-   *   Element id.
-   *
-   * @return string
-   *   File contents.
+   * @return \Drupal\mars_common\SVG\SVG|null
+   *   The brand border 2 or null.
    */
-  public function getFileWithId(string $field, string $id): string {
-    $fileContent = $this->getFileContentFromTheme($field);
-    $fileContent = preg_replace('/\S*(fill=[\'"]url\(#\S*\)[\'"])/', 'fill="url(#' . $id . ')"', $fileContent);
-    $fileContent = preg_replace('/\S*(id=[\'"]\S*[\'"])\S*/', 'id="' . $id . '"', $fileContent);
-    return $fileContent;
+  public function getBrandBorder2(): ?SVG {
+    $svg = $this->getSvgFor('brand_borders_2');
+    if ($svg !== NULL) {
+      $svg = $svg
+        ->withoutFillInfo()
+        ->scaleWhileKeepingAspectRatio();
+    }
+    return $svg;
+  }
+
+  /**
+   * Returns the graphic divider if there are any.
+   *
+   * @return \Drupal\mars_common\SVG\SVG|null
+   *   The graphic divider or null.
+   */
+  public function getGraphicDivider(): ?SVG {
+    return $this->getSvgFor('graphic_divider');
+  }
+
+  /**
+   * Returns the current brand shape with fill info if there are any.
+   *
+   * @return \Drupal\mars_common\SVG\SVG|null
+   *   The brand shape or null.
+   */
+  public function getBrandShapeWithFill(): ?SVG {
+    $svg = $this->getSvgFor('brand_shape');
+    if ($svg !== NULL) {
+      $svg = $svg->withoutSizeInfo();
+    }
+    return $svg;
+  }
+
+  /**
+   * Returns the current brand shape without fill info if there are any.
+   *
+   * @return \Drupal\mars_common\SVG\SVG|null
+   *   The brand shape or null.
+   */
+  public function getBrandShapeWithoutFill(): ?SVG {
+    $svg = $this->getBrandShapeWithFill();
+    if ($svg !== NULL) {
+      $svg = $svg->withoutFillInfo();
+    }
+    return $svg;
+  }
+
+  /**
+   * Creates an SVG object for the given file field.
+   *
+   * @param string $field_name
+   *   The field name.
+   *
+   * @return \Drupal\mars_common\SVG\SVG|null
+   *   The svg or null if something went wrong or missing.
+   */
+  private function getSvgFor(string $field_name): ?SVG {
+    $file_id = $this->getFileId($field_name);
+    if (!$file_id) {
+      return NULL;
+    }
+
+    try {
+      $svg = $this->svgFactory->createSvgFromFileId($file_id);
+    }
+    catch (SVGException $e) {
+      $this->logger->error($e->getMessage());
+      return NULL;
+    }
+    return $svg;
   }
 
   /**
@@ -120,6 +220,7 @@ class ThemeConfiguratorParser {
    */
   public function socialLinks(): array {
     $social_menu_items = [];
+
     foreach ($this->themeSettings['social'] as $key => $social_settings) {
       if (!$social_settings['name'] ||
         !$social_settings['icon'] ||
@@ -127,14 +228,20 @@ class ThemeConfiguratorParser {
         !$social_settings['link']) {
         continue;
       }
+
       $fid = reset($social_settings['icon']);
-      $file = $this->fileStorage->load($fid);
-      if (!empty($file)) {
+
+      try {
         $social_menu_items[$key]['title'] = $social_settings['name'];
         $social_menu_items[$key]['url'] = $social_settings['link'];
-        $social_menu_items[$key]['icon'] = $this->readContentFromFile($file);
+        $social_menu_items[$key]['icon'] = $this->svgFactory->createSvgFromFileId($fid);
+      }
+      catch (SVGException $e) {
+        $this->logger->error($e->getMessage());
+        unset($social_menu_items[$key]);
       }
     }
+
     return $social_menu_items;
   }
 
@@ -162,13 +269,8 @@ class ThemeConfiguratorParser {
    * @return \Drupal\file\Entity\File|null
    *   File entity.
    */
-  private function getFileFromTheme(string $field): ?File {
-    if (!isset($this->themeSettings[$field][0])) {
-      return NULL;
-    }
-
-    $configField = $this->themeSettings[$field][0];
-    return $this->fileStorage->load($configField);
+  private function getFileId(string $field): ?string {
+    return $this->themeSettings[$field][0] ?? NULL;
   }
 
   /**
@@ -181,30 +283,13 @@ class ThemeConfiguratorParser {
    *   The url for the file, or NULL if it's not a file or not set.
    */
   public function getUrlForFile(string $field): ?Url {
-    $pngAssetFile = $this->getFileFromTheme($field);
-    if ($pngAssetFile instanceof File) {
-      $pngAssetUri = $pngAssetFile->getFileUri();
+    $file_id = $this->getFileId($field);
+    $file = $this->fileStorage->load($file_id);
+    if ($file instanceof File) {
+      $pngAssetUri = $file->getFileUri();
       return Url::fromUri(file_create_url($pngAssetUri));
     }
     return NULL;
-  }
-
-  /**
-   * Reads the content of a file entity.
-   *
-   * @param \Drupal\file\Entity\File|null $file
-   *   File entity.
-   *
-   * @return string
-   *   The content of the file or empty on error.
-   */
-  private function readContentFromFile(?File $file) {
-    $content = '';
-    if ($file !== NULL) {
-      $filePath = $file->getFileUri();
-      $content = !empty($filePath) && file_exists($filePath) ? file_get_contents($filePath) : '';
-    }
-    return (string) $content;
   }
 
 }

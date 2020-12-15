@@ -12,6 +12,7 @@ use Drupal\juicer_io\Entity\FeedConfiguration;
 use Drupal\juicer_io\Model\Feed;
 use Drupal\juicer_io\Model\FeedFactory;
 use Drupal\juicer_io\Model\FeedItem;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -21,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "social_feed",
- *   admin_label = @Translation("Social feed"),
+ *   admin_label = @Translation("MARS: Social feed"),
  *   category = @Translation("Social feed"),
  * )
  */
@@ -58,6 +59,13 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   private $cacheBackend;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Theme Configurator service.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -88,6 +96,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $feed_factory,
       $time_service,
       $cache_backend,
+      $container->get('mars_common.language_helper'),
       $theme_configurator
     );
   }
@@ -103,6 +112,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     FeedFactory $feed_factory,
     TimeInterface $time_service,
     CacheBackendInterface $cache_backend,
+    LanguageHelper $language_helper,
   ThemeConfiguratorParser $themeConfigurator
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -110,6 +120,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->feedFactory = $feed_factory;
     $this->timeService = $time_service;
     $this->cacheBackend = $cache_backend;
+    $this->languageHelper = $language_helper;
     $this->themeConfigurator = $themeConfigurator;
   }
 
@@ -118,13 +129,13 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function build() {
     $configEntity = $this->getFeedConfig();
-    $label = $this->configuration['label'] ?? '';
+    $label = $this->languageHelper->translate($this->configuration['label'] ?? '');
     return [
       '#theme' => 'social_feed_block',
       '#label' => $label,
       '#items' => $this->getFeedItems(),
-      '#graphic_divider' => $this->themeConfigurator->getFileContentFromTheme('graphic_divider'),
-      '#brand_border' => $this->themeConfigurator->getFileContentFromTheme('brand_borders'),
+      '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
+      '#brand_border' => $this->themeConfigurator->getBrandBorder2(),
       '#cache' => [
         'tags' => $configEntity->getCacheTags(),
         'max-age' => self::MAX_AGE_1_DAY,
@@ -141,6 +152,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#title' => $this->t('Title'),
       '#maxlength' => 55,
       '#default_value' => $this->configuration['label'] ?? '',
+      '#required' => TRUE,
     ];
 
     $form['feed'] = [

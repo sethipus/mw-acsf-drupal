@@ -32,12 +32,17 @@
     font-size: 1.6rem;
     color: clr(primary);
 
+    &.active {
+      display: block;
+    }
+
     @include medium {
       margin: 20px 40px 0 40px;
     }
 
     @include xl {
       margin: 20px 40px 0 0;
+      display: none;
     }
   }
 
@@ -46,10 +51,14 @@
     font-size: 0;
     margin: 40px 20px 49px;
     max-width: none;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     justify-content: flex-start;
     padding-bottom: 30px;
+
+    &.active {
+      display: flex;
+    }
 
     @include medium {
       margin: 40px 40px 59px;
@@ -148,12 +157,12 @@
         border-bottom: none;
       }
       .mars-search-autocomplete-suggestions-wrapper {
-        margin-top: -25px;
+        margin: -25px 20px 0;
         padding-top: 25px;
         border: 1px solid clr(subcolor-4);
         border-top: none;
 
-        @include large {
+        @include medium {
           margin-left: 40px;
           margin-right: 40px;
         }

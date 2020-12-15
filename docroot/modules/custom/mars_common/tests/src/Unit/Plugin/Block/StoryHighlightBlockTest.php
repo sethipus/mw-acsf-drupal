@@ -6,8 +6,10 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\file\Entity\File;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\StoryHighlightBlock;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\UnitTestCase;
@@ -110,6 +112,13 @@ class StoryHighlightBlockTest extends UnitTestCase {
   private $internalMediaStorage = [];
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -123,6 +132,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $container->set('entity_type.repository', $this->entityTypeRepositoryMock);
     $container->set('mars_common.media_helper', $this->mediaHelperMock);
     $container->set('mars_common.theme_configurator_parser', $this->themeConfigurationParserMock);
+    $container->set('mars_common.language_helper', $this->languageHelperMock);
     \Drupal::setContainer($container);
 
     $this->defaultDefinitions = [
@@ -348,20 +358,23 @@ class StoryHighlightBlockTest extends UnitTestCase {
         return $this->internalMediaStorage[$id];
       });
 
-    $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this
-      ->themeConfigurationParserMock
-      ->method('getFileContentFromTheme')
-      ->willReturnCallback(function ($field) {
-        switch ($field) {
-          case 'brand_borders_2':
-          case 'graphic_divider':
-            return sprintf('Mocked %s content', $field);
+      ->languageHelperMock->method('translate')
+      ->will(
+        $this->returnCallback(
+          function ($arg) {
+            return $arg;
+          })
+      );
 
-          default:
-            return '';
-        }
-      });
+    $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->themeConfigurationParserMock
+      ->method('getGraphicDivider')
+      ->willReturn(new SVG('Mocked graphic_divider content', 'id'));
+    $this->themeConfigurationParserMock
+      ->method('getBrandBorder2')
+      ->willReturn(new SVG('Mocked brand_borders_2 content', 'id'));
 
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this

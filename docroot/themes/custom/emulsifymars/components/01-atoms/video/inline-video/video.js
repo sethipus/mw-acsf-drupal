@@ -25,7 +25,7 @@ Drupal.behaviors.inlineVideoPlayer = {
         return f;
       })();
 
-      if (videoElements('video') === null || videoContainer.getAttribute('data-video-init')) {
+      if (videoElements('video') === null || videoElements('video').getAttribute('data-video-init')) {
         return;
       }
       videoElements('video').controls = false;
@@ -62,7 +62,7 @@ Drupal.behaviors.inlineVideoPlayer = {
           const componentBlock = videoElements('video').closest('[data-block-plugin-id]');
           const componentName = componentBlock ? componentBlock.dataset.blockPluginId : '';
           const parentTitleBlock = videoElements('video').closest('[data-component-title]');
-          const videoTitle = parentTitleBlock ? componentBlock.dataset.componentTitle : '';
+          const videoTitle = parentTitleBlock ? parentTitleBlock.dataset.componentTitle : '';
 
           dataLayer.push({
             event: 'videoPageView',

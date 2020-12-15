@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
@@ -9,11 +10,12 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_product\ProductHelper;
+use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "pdp_hero_block",
- *   admin_label = @Translation("PDP Hero"),
+ *   admin_label = @Translation("MARS: PDP Hero"),
  *   category = @Translation("Product"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label = @Translation("Product"))
@@ -52,11 +54,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected $entityRepository;
 
   /**
-   * The language manager.
+   * Language helper service.
    *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
+   * @var \Drupal\mars_common\LanguageHelper
    */
-  protected $languageManager;
+  private $languageHelper;
 
   /**
    * ThemeConfiguratorParser.
@@ -118,19 +120,19 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     EntityRepositoryInterface $entity_repository,
     EntityFormBuilderInterface $entity_form_builder,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    LanguageManagerInterface $language_manager,
+    LanguageHelper $language_helper,
     ProductHelper $product_helper,
     MediaHelper $media_helper
   ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
     $this->entityRepository = $entity_repository;
     $this->entityFormBuilder = $entity_form_builder;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
-    $this->languageManager = $language_manager;
+    $this->languageHelper = $language_helper;
     $this->productHelper = $product_helper;
     $this->mediaHelper = $media_helper;
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
   /**
@@ -146,7 +148,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('entity.repository'),
       $container->get('entity.form_builder'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('language_manager'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_product.product_helper'),
       $container->get('mars_common.media_helper')
     );
@@ -197,10 +199,70 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#required' => TRUE,
     ];
 
+    $form['wtb']['data_token'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Token'),
+      '#default_value' => $this->configuration['wtb']['data_token'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
+    $form['wtb']['data_subid'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('SubId'),
+      '#default_value' => $this->configuration['wtb']['data_subid'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
     $form['wtb']['product_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product ID'),
       '#default_value' => $this->configuration['wtb']['product_id'],
+    ];
+
+    $form['wtb']['cta_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('CTA title'),
+      '#default_value' => $this->configuration['wtb']['cta_title'],
+    ];
+
+    $form['wtb']['button_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Commerce Connector: button type'),
+      '#default_value' => $this->configuration['wtb']['button_type'],
+      '#options' => [
+        'my_own' => $this->t('My own button'),
+        'commerce_connector' => $this->t('Commerce Connector button'),
+      ],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
+    ];
+
+    $form['wtb']['data_locale'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Commerce Connector: data locale'),
+      '#default_value' => $this->configuration['wtb']['data_locale'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+        'required' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
     ];
 
     $form['nutrition'] = [
@@ -213,7 +275,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Nutrition section label'),
       '#default_value' => $this->configuration['nutrition']['label'],
       '#maxlength' => 18,
-      '#required' => TRUE,
     ];
     $form['nutrition']['serving_label'] = [
       '#type' => 'textfield',
@@ -238,7 +299,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Diet & Allergens part label'),
       '#default_value' => $this->configuration['allergen_label'],
       '#maxlength' => 18,
-      '#required' => TRUE,
     ];
     $form['more_information'] = [
       '#type' => 'details',
@@ -293,6 +353,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function defaultConfiguration(): array {
     $config = $this->getConfiguration();
+    $wtb_global = $this->config->get('mars_product.wtb.settings');
 
     return [
       'label_display' => FALSE,
@@ -309,9 +370,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More information'),
       'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? TRUE,
       'wtb' => [
-        'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? '',
-        'data_widget_id' => $config['wtb']['data_widget_id'] ?? '',
-        'product_id' => $config['wtb']['product_id'] ?? '',
+        'commerce_vendor' => $config['wtb']['commerce_vendor'] ?? $wtb_global->get('commerce_vendor') ?? self::VENDOR_COMMERCE_CONNECTOR,
+        'data_widget_id' => $config['wtb']['data_widget_id'] ?? $wtb_global->get('widget_id') ?? NULL,
+        'data_token' => $config['wtb']['data_token'] ?? $wtb_global->get('data_token') ?? NULL,
+        'data_subid' => $config['wtb']['data_subid'] ?? $wtb_global->get('data_subid') ?? NULL,
+        'cta_title' => $config['wtb']['cta_title'] ?? $wtb_global->get('cta_title') ?? NULL,
+        'product_id' => $config['wtb']['product_id'] ?? NULL,
+        'button_type' => $config['wtb']['button_type'] ?? $wtb_global->get('button_type') ?? NULL,
+        'data_locale' => $config['wtb']['data_locale'] ?? $wtb_global->get('data_locale') ?? NULL,
       ],
 
     ];
@@ -323,7 +389,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function build() {
     // Product node.
     $node = $this->getContextValue('node');
-
     // Get values from first Product Variant.
     $product_sku = '';
     $ingredients_label = '';
@@ -331,36 +396,41 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
       $product_sku = $product_variant->get('field_product_sku')->value;
-      $ingredients_label = $product_variant->get('field_product_ingredients')->getFieldDefinition()->getLabel() . ':';
-      $warnings_label = $product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel() . ':';
+      $ingredients_label = $this->languageHelper->translate($product_variant->get('field_product_ingredients')->getFieldDefinition()->getLabel()) . ':';
+      $warnings_label = $this->languageHelper->translate($product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel()) . ':';
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
     $pdp_common_data = [
       'hero_data' => [
-        'product_label' => $this->configuration['eyebrow'] ?? '',
-        'size_label' => $this->configuration['available_sizes'] ?? '',
-        'brand_shape' => $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape'),
+        'product_label' => $this->languageHelper->translate($this->configuration['eyebrow'] ?? ''),
+        'size_label' => $this->languageHelper->translate($this->configuration['available_sizes'] ?? ''),
+        'brand_shape' => $this->themeConfiguratorParser->getBrandShapeWithoutFill(),
         'background_color' => $background_color,
         'product_name' => $node->title->value,
         'product_description' => $node->field_product_description->value,
         'product_sku' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku,
         'commerce_vendor' => $this->configuration['wtb']['commerce_vendor'],
         'data_widget_id' => $this->configuration['wtb']['data_widget_id'] ?? '',
+        'data_token' => $this->configuration['wtb']['data_token'] ?? '',
+        'data_subid' => $this->configuration['wtb']['data_subid'] ?? '',
+        'product_CTA_title' => $this->configuration['wtb']['cta_title'] ?? '',
+        'button_type' => $this->configuration['wtb']['button_type'] ?? '',
+        'data_locale' => $this->configuration['wtb']['data_locale'] ?? '',
       ],
       'nutrition_data' => [
-        'nutritional_label' => $this->configuration['nutrition']['label'] ?? '',
-        'nutritional_info_serving_label' => $this->configuration['nutrition']['serving_label'] ?? '',
-        'nutritional_info_daily_label' => $this->configuration['nutrition']['daily_label'] ?? '',
-        'vitamins_info_label' => $this->configuration['nutrition']['vitamins_label'] . ':' ?? '',
+        'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
+        'nutritional_info_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['serving_label']) ?? '',
+        'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
+        'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
         'ingredients_label' => $ingredients_label,
         'warnings_label' => $warnings_label,
       ],
       'allergen_data' => [
-        'allergen_label' => $this->configuration['allergen_label'],
+        'allergen_label' => $this->languageHelper->translate($this->configuration['allergen_label']),
       ],
       'more_information_data' => [
-        'more_information_label' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
+        'more_information_label' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
         'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
       ],
     ];
@@ -381,7 +451,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     $build['#theme'] = 'pdp_hero_block';
-    $this->pageAttachments($build);
+    $this->pageAttachments($build, $node);
 
     return $build;
   }
@@ -401,11 +471,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
+      $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
+      $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
+        'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
@@ -418,6 +490,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'allergen_data' => [
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
+        'show_rating_and_reviews' => $this->isRatingEnable($node),
       ];
     }
 
@@ -438,7 +511,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   protected function getPdpMultiPackProductData(EntityInterface $node) {
     $products_data = [];
     foreach ($node->field_product_pack_items as $product_reference) {
-      $product = $product_reference->entity;
+      $product = $this->languageHelper->getTranslation($product_reference->entity);
       $product_variant_first = $this->productHelper->mainVariant($product);
       if (empty($product_variant_first)) {
         continue;
@@ -461,11 +534,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     $i = 0;
     foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
+      $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size_id = $product_variant->id();
       $i++;
       $state = $i == 1 ? 'true' : 'false';
+      $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
+        'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
@@ -568,7 +643,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $items = [];
     $field_size = 'field_product_size';
     foreach ($node->field_product_variants as $reference) {
-      $product_variant = $reference->entity;
+      $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size = $product_variant->get($field_size)->value;
       $size_id = $product_variant->id();
       $items[] = [
@@ -595,11 +670,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'ingredients_value' => strip_tags(html_entity_decode($node->get('field_product_ingredients')->value)),
       'warnings_value' => strip_tags(html_entity_decode($node->get('field_product_allergen_warnings')->value)),
       'serving_size' => [
-        'label' => $node->get('field_product_serving_size')->getFieldDefinition()->getLabel() . ':',
+        'label' => $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':',
         'value' => $node->get('field_product_serving_size')->value,
       ],
       'serving_per_container' => [
-        'label' => $node->get('field_product_servings_per')->getFieldDefinition()->getLabel() . ':',
+        'label' => $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':',
         'value' => $node->get('field_product_servings_per')->value,
       ],
     ];
@@ -609,9 +684,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       foreach ($fields as $field => $field_daily) {
         $bold_modifier = array_key_exists($field, self::FIELDS_WITH_BOLD_LABELS) ? TRUE : FALSE;
         $item = [
-          'label' => $node->get($field)
-            ->getFieldDefinition()
-            ->getLabel(),
+          'label' => $this->languageHelper->translate(
+            $node->get($field)
+              ->getFieldDefinition()
+              ->getLabel()
+          ),
           'value' => $node->get($field)->value,
           'bold_modifier' => $bold_modifier,
         ];
@@ -747,7 +824,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function getAllergenItems($node) {
     $items = [];
     foreach ($node->field_product_diet_allergens as $reference) {
-      $allergen_term = $reference->entity;
+      $allergen_term = $this->languageHelper->getTranslation($reference->entity);
+
       $media_id = $this->mediaHelper->getEntityMainMediaId($allergen_term);
       $media_params = $this->mediaHelper->getMediaParametersById($media_id);
       if (!($media_params['error'] ?? FALSE) && ($media_params['src'] ?? FALSE)) {
@@ -776,7 +854,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $size_id = $node->id();
     $items = [];
     $items[] = [
-      'title' => $this->configuration['nutrition']['label'],
+      'title' => $this->languageHelper->translate($this->configuration['nutrition']['label']),
       'link_attributes' => [
         'class' => 'pdp-hero__nutrition-menu',
         'href' => '#section-nutrition-' . $size_id,
@@ -789,7 +867,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       !$node->field_product_diet_allergens->isEmpty()
     ) {
       $items[] = [
-        'title' => $this->configuration['allergen_label'],
+        'title' => $this->languageHelper->translate($this->configuration['allergen_label']),
         'link_attributes' => [
           'class' => 'pdp-hero__allergen-menu',
           'href' => '#section-allergen-' . $size_id,
@@ -799,7 +877,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     if ($this->configuration['more_information']['show_more_information_label'] ?? TRUE) {
       $items[] = [
-        'title' => $this->configuration['more_information']['more_information_label'] ?? $this->t('More information'),
+        'title' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
         'link_attributes' => [
           'class' => 'pdp-hero__more-info-menu',
           'href' => '#section-more-information',
@@ -827,11 +905,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @param array $build
    *   Build array.
+   * @param \Drupal\node\NodeInterface|null $node
+   *   Product or null.
    *
    * @return array
    *   Return build.
    */
-  public function pageAttachments(array &$build) {
+  public function pageAttachments(array &$build, NodeInterface $node = NULL) {
     if ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
       $metatags = [
         'ps-key' => [
@@ -852,7 +932,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-language',
-            'content' => strtolower($this->languageManager->getCurrentLanguage()->getId()),
+            'content' => strtolower($this->languageHelper->getCurrentLanguageId()),
           ],
         ],
         'price-spider' => [
@@ -867,7 +947,52 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $build['#attached']['html_head'][] = [$metatag, $key];
       }
     }
+    elseif ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
+      $locale = $this->languageHelper->getCurrentLanguageId();
+      $build['#attached']['drupalSettings']['cc'] = [
+        'data-token' => $this->configuration['wtb']['data_token'],
+        'data-locale' => $this->configuration['wtb']['data_locale'],
+        'data-displaylanguage' => $locale,
+        'data-widgetid' => $this->configuration['wtb']['data_widget_id'],
+        'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
+      ];
+      $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+    }
+
+    if ($this->isRatingEnable($node)) {
+      if (EnvironmentDetector::isProdEnv()) {
+        $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
+      }
+      else {
+        $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
+      }
+    }
+
     return $build;
+  }
+
+  /**
+   * Check is rating enable.
+   *
+   * @param \Drupal\node\NodeInterface|null $node
+   *   Product or null.
+   *
+   * @return bool
+   *   Return state of rating.
+   */
+  protected function isRatingEnable(NodeInterface $node = NULL) {
+    if ($node instanceof NodeInterface &&
+      $node->hasField('field_rating_and_reviews') &&
+      $node->hasField('field_override_global_rating') &&
+      $node->get('field_override_global_rating')->value == TRUE
+    ) {
+      $result = $node->get('field_rating_and_reviews')->value;
+    }
+    else {
+      $result = $this->config->get('emulsifymars.settings')->get('show_rating_and_reviews');
+    }
+
+    return $result;
   }
 
 }

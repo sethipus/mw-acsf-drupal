@@ -27,6 +27,11 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   const CONFIG_NAME = 'mars_lighthouse.mapping';
 
   /**
+   * Default image extension.
+   */
+  const DEFAULT_IMAGE_EXTENSION = '.jpeg';
+
+  /**
    * Lighthouse client.
    *
    * @var \Drupal\mars_lighthouse\LighthouseClientInterface
@@ -310,7 +315,11 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     if (!$data) {
       return NULL;
     }
-
+    // Condition to prevent wrong image extensions like (*.psd, *.iso)
+    // from lighthouse side.
+    if ($this->mediaType === 'image') {
+      $this->prepareImageExtension($data);
+    }
     $file_mapping = $this->mapping->get('media');
     $file_id = $this->createFileEntity($data);
 
@@ -358,6 +367,41 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     $file = $this->fileStorage->create($fields_values);
     $file->save();
     return $file->id();
+  }
+
+  /**
+   * Prepare image extension.
+   *
+   * @param array $data
+   *   Response data with one entity.
+   */
+  public function prepareImageExtension(array &$data) {
+    if (isset($data['assetName'])) {
+      $data['assetName'] = $this->changeExtension($data['assetName']);
+    }
+    if (isset($data['urls']) && isset($data['urls']['001orig'])) {
+      $data['urls']['001orig'] = $this->changeExtension($data['urls']['001orig']);
+    }
+  }
+
+  /**
+   * Change image extension.
+   *
+   * @param string $data
+   *   Image name or url.
+   *
+   * @return string|null
+   *   Image url or null.
+   */
+  protected function changeExtension(string $data) {
+    if (empty($data)) {
+      return NULL;
+    }
+    if (preg_match('/' . self::DEFAULT_IMAGE_EXTENSION . '$/', $data)) {
+      return $data;
+    }
+    $data .= self::DEFAULT_IMAGE_EXTENSION;
+    return $data;
   }
 
 }

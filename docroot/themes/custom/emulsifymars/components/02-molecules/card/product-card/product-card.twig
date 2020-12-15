@@ -1,13 +1,15 @@
 {% set card__base_class = 'product-card' %}
-{% set default_link_content = 'See details'|t %}
-{% set link_content = 'Buy now'|t %}
+{% set default_link_content = 'See details'|mt %}
+{% set link_content = 'Buy now'|mt %}
 {% set card__extra_classes = ['card-item'] %}
+{{ attach_library('emulsifymars/product-card') }}
 
-<section {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} 
+<section {{ bem(card__base_class, [], card__blockname, card__extra_classes) }}
          data-theme="{{ theme_styles }}"
          data-site-search-clicked="{{ item.paragraph_content }}"
-         data-card-type="product-card"
-         onclick="window.location='{{ item.card_url }}'">
+         data-datalayer-gtin="{{ product_sku }}"
+         data-datalayer-taxonomy="{{ datalayer_taxonomy }}"
+         data-card-type="product-card">
 
     {% if is_new %}
       {% include "@atoms/badge/badge.twig" %}
@@ -18,6 +20,12 @@
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: card__eyebrow
       } %}
+    {% endif %}
+
+    {% if brand__shape %}
+      <div class="product-card__brand-shape">
+        {{ brand__shape | raw }}
+      </div>
     {% endif %}
 
     {% if item.card__image__hover__src %}
@@ -58,6 +66,12 @@
       } %}
     </div>
 
+    {% if show_rating_and_reviews == true %}
+      <div {{ bem('rating', [], card__base_class) }}>
+        <div data-bv-show="inline_rating" data-bv-product-id="{{ product_sku }}" data-bv-redirect-url="{{ default_link_content }}"></div>
+      </div>
+    {% endif %}
+
     <div {{ bem('link_section', [], card__base_class) }}>
       <div {{ bem('button', [], card__base_class) }}>
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
@@ -68,10 +82,12 @@
       </div>
 
       <div {{ bem('link', [], card__base_class) }}>
-        {% include "@atoms/links/link/link.twig" with {
-          link_content: link_content,
-          link_url: item.link_url,
-          link_base_class: 'text_link',
+        {% include '@atoms/buttons/where-to-buy/where-to-buy.twig' with {
+            product_sku: product_sku,
+            commerce_vendor: wtb_commerce_vendor,
+            cta_title: link_content,
+            button_type: wtb_button_type,
+            data_widget_id: wtb_widget_id,
         } %}
       </div>
     </div>

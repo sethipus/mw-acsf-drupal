@@ -8,6 +8,7 @@ use Drupal\Core\Form\SubformState;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\layout_builder\Form\ConfigureBlockFormBase;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_recommendations\RecommendationsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,6 +35,13 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
   protected $recommendationsService;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Theme configurator parser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -49,6 +57,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $plugin_id,
       $plugin_definition,
       $container->get('mars_recommendations.recommendations_service'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -61,11 +70,13 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $plugin_id,
     $plugin_definition,
     RecommendationsService $recommendations_service,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->recommendationsService = $recommendations_service;
+    $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
@@ -96,11 +107,14 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     }
 
     $node = $this->getContextValue('node');
-
+    $title = empty($this->configuration['title'])
+      ? $this->languageHelper->translate('More @types Like This', ['@type' => $node->type->entity->label()])
+      : $this->languageHelper->translate($this->configuration['title']);
     return [
       '#theme' => 'recommendations_module_block',
-      '#title' => !empty($this->configuration['title']) ? $this->configuration['title'] : $this->t('More @types Like This', ['@type' => $node->type->entity->label()]),
-      '#graphic_divider' => $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider'),
+      '#title' => $title,
+      '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
+      '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
       '#recommended_items' => $plugin->getRenderedRecommendations(),
     ];
   }
@@ -130,7 +144,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#title' => $this->t('Title'),
       '#description' => $this->t('Defaults to <em>More <strong>&lt;Content Type&gt;</strong>s Like This</em>'),
       '#placeholder' => $this->t('More &lt;Content Type&gt;s Like This'),
-      '#maxwidth' => 55,
+      '#maxlength' => 55,
       '#default_value' => $conf['title'] ?? NULL,
     ];
 

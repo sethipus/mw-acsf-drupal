@@ -43,18 +43,23 @@
     font-family: variable(primary-font);
     color: clr(primary);
     text-align: center;
-    line-height: 6.4rem;
 
     @include small {
       font-size: 4rem;
+      line-height: 4rem;
+      letter-spacing: 0.2rem;
     }
 
     @include medium {
       font-size: 5.6rem;
+      line-height: 5.6rem;
+      letter-spacing: 0.28rem;
     }
 
     @include large {
       font-size: 6.4rem;
+      line-height: 6.4rem;
+      letter-spacing: 0.32rem;
     }
   }
 
@@ -66,15 +71,18 @@
 
     @include small {
       font-size: 1.8rem;
+      line-height: 2.88rem;
     }
 
     @include medium {
       font-size: 2rem;
       max-width: 70%;
+      line-height: 3.2rem;
     }
 
     @include large {
       font-size: 2.2rem;
+      line-height: 3.52rem
     }
   }
 
@@ -130,18 +138,6 @@
         text-decoration: none;
       }
     }
-
-    &::after {
-      content: '';
-      position: absolute;
-      display: block;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, .5);
-      z-index: 2
-    }
   }
 
   &--with-bg-video {
@@ -157,6 +153,34 @@
         color: clr(subcolor-3);
         text-decoration: none;
       }
+    }
+  }
+
+  .eyebrow {
+    @include xs {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+      letter-spacing: 0.14rem;
+    }
+
+    @include medium {
+      font-size: 1.6rem;
+      line-height: 1.6rem;
+      letter-spacing: 0.16rem;
+    }
+  }
+
+  &--tint-enabled {
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, .5);
+      z-index: 2
     }
   }
 }

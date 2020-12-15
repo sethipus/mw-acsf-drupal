@@ -5,34 +5,14 @@ Feature: Content Test
     And I am on "/node/add/page"
     And I fill in "Title" with "TestBasicPageTitle"
     And I press "Save"
-    Then the url should match "testbasicpagetitle"
-    And I should see "Basic page TestBasicPageTitle has been created."
-    And print current URL
-
-    When I edit added content
-    Then I should see "Edit Basic page"
-    And I should see "TestBasicPageTitle"
-    And I should see "View"
-    And I should see "Edit"
-    And I should see "Delete"
-    And I should see "History"
-    And I should see "Layout"
-    And I should see "Revisions"
-
-    When I press the "Layout" section of added content
-    Then print current URL
-    And the url should match "layout"
-
-    When I follow "Add block "
-    Then print current URL
-
-    When I wait for the ajax response
+    And I edit added content
+    And I press the "Layout" section of added content
+    And I follow "Add block "
+    And I wait for the ajax response
     Then I should see "Choose a block"
-    And I should see "Create custom block"
 
-    When I load page by link with text "Content Feature Module"
-    Then print current URL
-    And I should see "Block description"
+    When I load page by link with text "MARS: Content Feature Module"
+    Then I should see "Block description"
     And I should see "Content Feature Module"
     And I should see "Eyebrow"
     And I should see "Title"
@@ -41,8 +21,24 @@ Feature: Content Test
 
     When I fill in "Eyebrow" with "MyEyebrow"
     And I fill in "Title" with "MyTitle"
+    And I click on a "//input[@data-drupal-selector='edit-settings-background-browser-entity-browser-open-modal']" xpath element
+    And I wait for the ajax response
+    And I switch to the iframe "entity_browser_iframe_lighthouse_browser"
+    And I wait for the ajax response
+    And I press "Upload"
+    And I attach the file "icon.png" to "File"
+    And I wait until the "//a[@type='image/png; length=1174']" xpath element appears
+    Then I should see "(1.15 KB)"
+
+    When I select "Image" from "Bundle"
+    And I wait until the "//details[contains(@class, 'claro-details')]" xpath element appears
+    And I fill in "Alternative text" with "Alternative text1"
+    And I fill in "Name" with "Name1"
+    And I fill in "URL alias" with "/error1"
+    And I press "Select"
+    And I wait for the ajax response
+    And I switch to the main window
     And I fill in "Description" with "MyDescription"
-    And I fill in "Button Label" with "Explore"
     And I fill in "URL" with "http://link.com"
     And I press "Add block"
     Then I should see "You are editing the layout for this Basic page content item."
@@ -55,11 +51,3 @@ Feature: Content Test
     And I should see "MyTitle"
     And I should see "MyDescription"
     And I should see a "//a[contains(@href,'http://link.com')]/span[contains(text(), 'Explore')]" xpath element
-
-    When I follow "Content"
-    And I check content with title "TestBasicPageTitle"
-    And I press "Apply to selected items"
-    Then the url should match "content/node/delete"
-
-    When I press "Delete"
-    Then the url should match "admin/content"

@@ -1,0 +1,155 @@
+.product-selector {
+  padding: 20px;
+
+  &__information,
+  &__form-container {
+    width: 100%;
+
+    @include medium {
+      width: 688px;
+      margin: auto;
+    }
+
+    @include xl {
+      width: 900px;
+    }
+  }
+
+  &__information {
+    margin-bottom: 30px;
+
+    @include medium {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__image {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    @include medium {
+      width: 217px;
+      margin-right: 20px;
+    }
+
+    @include xl {
+      height: 277px;
+      width: 320px;
+      margin-right: 30px;
+      justify-content: flex-end;
+    }
+
+    img {
+      height: 100%;
+    }
+  }
+
+  &__title {
+    font-family: variable(primary-font);
+    font-size: 20px;
+    line-height: 22px;
+    color: clr(primary);
+    text-transform: uppercase;
+    text-align: center;
+
+    @include medium {
+      width: 451px;
+    }
+
+    @include xl {
+      width: 550px;
+    }
+  }
+
+  &__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    @include medium {
+      flex-direction: row;
+    }
+  }
+
+  &__item-selector,
+  &__product-variant-selector {
+    appearance: none;
+    outline: none;
+    background-color: transparent;
+    padding: 14px 40px 14px 20px;
+    margin: 0;
+    width: 100%;
+    border-radius: variable(button-border-radius);
+    border: 1px solid clr(subcolor-4);
+    color: clr(primary);
+    font-family: variable(secondary-font);
+    font-size: 16px;
+    line-height: 22px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  &__item-selector {
+    margin-bottom: 15px;
+
+    @include medium {
+      margin-bottom: 0;
+      width: 393px;
+    }
+
+    @include xl {
+      width: 550px;
+    }
+  }
+
+  &__product-variant-selector {
+    @include medium {
+      width: 275px;
+    }
+
+    @include xl {
+      width: 320px;
+    }
+  }
+
+  &__select-wrapper {
+    position: relative;
+
+    &:first-child {
+      @include medium {
+        margin-right: 20px;
+      }
+
+      @include xl {
+        margin-right: 30px;
+      }
+    }
+
+    &::before {
+      content: "";
+      height: 9px;
+      width: 9px;
+      top: 19px;
+      right: 20px;
+      border-right: 1px solid clr(secondary);
+      border-bottom: 1px solid clr(secondary);
+      position: absolute;
+      transform: rotate(45deg);
+    }
+  }
+
+  /* Prevent multiple widget block displaying */
+  #cci-inline-root + #cci-inline-root {
+    display: none;
+  }
+
+  .ps-widget[ps-sku] {
+    display: inline-block !important;
+    margin-top: 20px;
+    float: none;
+  }
+}

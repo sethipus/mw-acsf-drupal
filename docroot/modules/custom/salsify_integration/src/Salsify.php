@@ -12,8 +12,8 @@ use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
-use GuzzleHttp\Client;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 
 /**
@@ -108,6 +108,13 @@ class Salsify {
   protected $mulesoftConnector;
 
   /**
+   * The HTTP client service.
+   *
+   * @var \GuzzleHttp\ClientInterface
+   */
+  protected $client;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
@@ -126,6 +133,8 @@ class Salsify {
    *   The Queue factory service.
    * @param \Drupal\salsify_integration\MulesoftConnector $mulesoft_connector
    *   The Mulesoft connector.
+   * @param \GuzzleHttp\ClientInterface $client
+   *   The HTTP client.
    */
   public function __construct(
     LoggerChannelFactoryInterface $logger,
@@ -135,7 +144,8 @@ class Salsify {
     CacheBackendInterface $cache_salsify,
     QueueFactory $queue_factory,
     ModuleHandlerInterface $module_handler,
-    MulesoftConnector $mulesoft_connector
+    MulesoftConnector $mulesoft_connector,
+    ClientInterface $client
   ) {
     $this->logger = $logger->get('salsify_integration');
     $this->configFactory = $config_factory;
@@ -146,6 +156,7 @@ class Salsify {
     $this->queueFactory = $queue_factory;
     $this->moduleHandler = $module_handler;
     $this->mulesoftConnector = $mulesoft_connector;
+    $this->client = $client;
   }
 
   /**
@@ -221,14 +232,15 @@ class Salsify {
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   protected function getRawData() {
-    $client = new Client();
     $endpoint = $this->getUrl();
     try {
       // Access the channel URL to fetch the newest product feed URL.
-      $generate_product_feed = $client->get($endpoint, [
+      $generate_product_feed = $this->client->get($endpoint, [
         'headers' => $this->getAuthHeaders(),
+        'timeout' => 60000,
       ]);
 
+      /* @var \GuzzleHttp\Psr7\Response $generate_product_feed */
       $response = $generate_product_feed->getBody()->__toString();
       return $this->mulesoftConnector->transformData($response);
     }
@@ -557,7 +569,7 @@ class Salsify {
       foreach ($salsify_data['values'] as $value) {
         // Filter out everything but alphanumeric characters, dashes, and spaces
         // to prevent errors when setting the field options.
-        $salsify_id = preg_replace('/[^\w-\s]/', '', $value['salsify:id']);
+        $salsify_id = preg_replace('/[^[A-Za-z0-9_]-\s]/', '', $value['salsify:id']);
         $options[$salsify_id] = $value['salsify:name'];
       }
       $config->set($salsify_data['salsify:system_id'], $options);

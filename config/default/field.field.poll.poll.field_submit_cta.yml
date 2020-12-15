@@ -13,7 +13,7 @@ bundle: poll
 label: 'Submit CTA'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value:
   -
     value: Submit

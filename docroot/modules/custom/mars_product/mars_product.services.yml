@@ -1,6 +1,8 @@
 services:
   mars_product.product_helper:
     class: Drupal\mars_product\ProductHelper
+    arguments:
+      [ '@mars_common.language_helper' ]
 
   mars_product.product_twig_filters:
     class: Drupal\mars_product\Twig\ProductFilters
@@ -8,9 +10,3 @@ services:
       [ '@mars_product.product_helper' ]
     tags:
       - { name: twig.extension }
-
-  mars_product.content_pair_dependency_calculator:
-    class: Drupal\mars_product\EventSubscriber\DependencyCollector\ContentPairUpBlockCollector
-    arguments: ['@entity_type.manager']
-    tags:
-      - { name: event_subscriber }

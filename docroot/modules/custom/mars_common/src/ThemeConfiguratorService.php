@@ -31,6 +31,10 @@ class ThemeConfiguratorService {
     'secondary_font',
   ];
 
+  const BORDER_STYLE_REPEAT = 'repeat';
+
+  const BORDER_STYLE_STRETCH = 'stretch';
+
   /**
    * The image factory service.
    *
@@ -379,8 +383,8 @@ class ThemeConfiguratorService {
       '#description'   => $this->t('Designates stretched border or repeated border shape.'),
       '#default_value' => !empty($config) ? $config['icons_settings']['brand_border_style'] : theme_get_setting('brand_border_style'),
       '#options' => [
-        'repeat' => $this->t('Repeat'),
-        'stretch' => $this->t('Stretch'),
+        self::BORDER_STYLE_REPEAT => $this->t('Repeat'),
+        self::BORDER_STYLE_STRETCH => $this->t('Stretch'),
       ],
     ];
 
@@ -509,6 +513,18 @@ class ThemeConfiguratorService {
         '#type' => 'checkbox',
         '#title' => $this->t('Show allergen info'),
         '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
+      ];
+
+      $form['product_rating_and_reviews'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('Product rating and reviews'),
+        '#description' => $this->t("MARS theme settings for rating and reviews"),
+      ];
+      $form['product_rating_and_reviews']['show_rating_and_reviews'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Turn off/on rating and reviews per site for all products'),
+        '#default_value' => !empty($config) ? $config['product_rating_and_reviews']['show_rating_and_reviews'] : theme_get_setting('show_rating_and_reviews'),
       ];
     }
 

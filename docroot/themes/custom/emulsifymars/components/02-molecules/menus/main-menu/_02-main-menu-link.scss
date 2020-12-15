@@ -7,15 +7,20 @@
   font-size: 3.2rem;
   font-weight: normal;
   line-height: 1.5;
+  letter-spacing: 3.2px;
   padding: $space $space-quadruple;
   text-decoration: none;
+
+  @include medium {
+    letter-spacing: 3.6px;
+  }
 
   @include large {
     border-bottom: none;
     display: inline-block;
     font-size: 1.8rem;
     line-height: 1;
-    letter-spacing: 0.72px;
+    letter-spacing: 1.8px;
     padding: $space-one-and-half $space-triple;
     text-transform: none;
     position: relative;
@@ -47,6 +52,7 @@
   transform: translateY(-50%);
   width: 12px;
   height: 7px;
+  fill: clr(secondary);
 
   @include xs {
     pointer-events: none;
@@ -88,6 +94,7 @@
     &.active,
     &:active,
     &:hover {
+      font-family: variable(primary-font);
       color: clr(secondary);
       font-weight: 500;
 

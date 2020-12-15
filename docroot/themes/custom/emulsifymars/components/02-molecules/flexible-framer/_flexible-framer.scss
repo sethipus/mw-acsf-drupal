@@ -1,87 +1,43 @@
 .flexible-framer {
+  @include brand-border-overflow;
+
+  position: relative;
   font-family: variable(primary-font);
   background-color: clr(subcolor-2);
   color: clr(primary);
-  margin-top: 23px;
-  padding-top: 50px;
-  position: relative;
-
-  @include medium {
-    margin-top: 40px;
-  }
-
-  @include large {
-    margin-top: 75px;
-  }
-
-  & .stretch {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    z-index: -1;
-    top: -65px;
-
-    > svg {
-      width: 100%;
-      > path {
-        fill: clr(subcolor-2);
-        width: 100%;
-      }
-      > rect {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  & .repeat {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    top: -20px;
-
-    svg {
-      width: 100%;
-      max-height: 30px;
-
-      path {
-        fill: clr(secondary);
-      }
-      rect {
-        width: 100%;
-        height: 3rem;
-      }
-    }
-  }
 
   & .h2 {
+    position: relative;
     font-family: variable(heading-font);
-    font-size: 40px;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: 40px;
     letter-spacing: 1.4px;
     color: clr(primary);
-    text-transform: uppercase;
     text-align: center;
+    padding-top: 8rem;
+
+    @include xs {
+      font-size: 5.6rem;
+      line-height: 5.6rem;
+    }
+
+    @include xs {
+      font-size: 6.4rem;
+      line-height: 6.4rem;
+    }
   }
 
   & .divider {
     text-align: center;
-    margin-top: 20px;
-    svg {
-      path {
-        fill: clr(subcolor-1);
-      }
-    }
+    margin-top: 2rem;
+    fill: clr(subcolor-1);
   }
 
   & .image-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 
     & img:hover {
       transform: scale(1.1);
@@ -90,33 +46,37 @@
   }
 
   & .grid--card {
-    margin: 40px 20px 0 20px;
-
-  & .image-background {
-    display: inline-block;
-    margin: auto;
-  }
+    margin: 4rem 2rem 0 2rem;
+    padding-bottom: 3rem;
 
     @include medium {
+      margin: 4rem 4rem 0 4rem;
+      padding-bottom: 4rem;
       flex-flow: row wrap;
       flex-grow: 1;
       align-items: stretch;
     }
 
     @include large {
+      padding-bottom: 6rem;
       flex-flow: row nowrap;
-      flex-grow: 1;
+    }
+
+    & .image-background {
+      display: inline-block;
+      margin: 0 auto;
+      max-width: 80%;
     }
 
     & .card {
       text-align: center;
       &__heading {
-        margin-bottom: 0.7rem;
+        margin-top: 3rem;
         text-align: center;
         color: clr(primary);
         font-family: variable(primary-font);
         font-size: 2rem;
-        line-height: 1.1;
+        line-height: 2.2rem;
         letter-spacing: 0.8px;
 
         &-link {
@@ -129,13 +89,20 @@
         }
 
         @include large {
+          margin-top: 6rem;
           font-size: 2.4rem;
+          line-height: 2.64rem;
           letter-spacing: 0.96px;
+        }
+
+        &:last-child {
+          margin-bottom: 2rem;
         }
       }
 
       &__body {
-        margin-top: 0;
+        margin-top: 1.6rem;
+        margin-bottom: 0;
         font-family: variable(secondary-font);
         font-size: 1.6rem;
         line-height: 1.4;
@@ -147,12 +114,21 @@
       }
 
       & a.default-link {
-        height: 50px;
-        line-height: 50px;
-        padding: 0 20px;
+        height: 5rem;
+        line-height: 5rem;
+        padding: 0 3.3rem;
         background-color: clr(secondary);
-        font-size: 14px;
+        font-size: 1.4rem;
         border:none;
+
+        @include medium {
+          font-size: 1.6rem;
+          padding: 0 4.5rem;
+        }
+
+        @include large {
+          padding: 0 6.75rem;
+        }
 
         &:hover {
           color: clr(secondary);
@@ -174,54 +150,89 @@
     }
 
     & .cta-wrapper {
-      margin-top: auto;
-      margin-bottom: 20px;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+
+      @include large {
+        margin-top: 4rem;
+      }
+    }
+  }
+
+  &--related-recipes {
+
+    & .image-wrapper {
+      align-items: center;
     }
 
-    &:nth-child(2n-1) {
+    & .grid--card {
+      @include medium {
+        align-items: stretch;
+      }
+
+      @include large {
+        align-items: stretch;
+      }
+
       & .image-background {
-        background-image: variable(brand-shape);
-        background-size: 70% 70%;
-        background-repeat: no-repeat;
-        background-position: center center;
+        margin: auto;
+      }
 
-        &:hover {
-          transform: scale(1.1);
-          transition: transform 0.8s ease;
-        }
+      & .card__heading {
+        margin-top: 4rem;
+      }
+    }
 
-        & svg {
-          circle {
-            fill: clr(subcolor-2);
+    & .grid__item {
+      &:nth-child(2n-1) {
+        & .image-background {
+          background-image: variable(brand-shape);
+          background-size: 70%;
+          background-repeat: no-repeat;
+          background-position: center center;
+
+          &:hover {
+            background-size: 77%;
+            transition: background-size 0.8s ease;
+          }
+
+          & svg {
+            circle {
+              fill: clr(subcolor-2);
+            }
           }
         }
       }
     }
-  }
 
-  .grid-items-2 {
-    .image-wrapper {
-      @include large {
-        min-height: calc((100vw/2) * 0.5625);
-        flex: 0 0 auto;
+    .grid-items-2 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/2) * 0.5625);
+          flex: 0 0 auto;
+        }
       }
     }
-  }
 
-  .grid-items-3 {
-    .image-wrapper {
-      @include large {
-        min-height: calc((100vw/3) * 0.5625);
-        flex: 0 0 auto;
+    .grid-items-3 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/3) * 0.5625);
+          flex: 0 0 auto;
+        }
       }
     }
-  }
 
-  .grid-items-4 {
-    .image-wrapper {
-      @include large {
-        min-height: calc((100vw/4) * 0.5625);
-        flex: 0 0 auto;
+    .grid-items-4 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/4) * 0.5625);
+          flex: 0 0 auto;
+        }
       }
     }
   }

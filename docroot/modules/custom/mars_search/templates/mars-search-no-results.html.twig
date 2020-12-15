@@ -1,8 +1,5 @@
-{% embed "@organisms/search-results/search-results-no-results/no-results.twig" with {
+{% include "@organisms/search/search-results-no-results/no-results.twig" with {
   theme_styles: 'drupal',
   no_results_text: no_results_text,
   no_results_links: no_results_links,
 } %}
-  {% block search_header %}
-  {% endblock %}
-{% endembed %}

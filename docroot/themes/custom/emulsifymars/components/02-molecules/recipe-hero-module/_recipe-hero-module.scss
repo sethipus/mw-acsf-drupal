@@ -1,5 +1,7 @@
 $xl-column-width: ((1360px - 330px) / 12);
 $xl-gap-width: 30px;
+$xl-left-margin: 11.583rem;
+
 
 .recipe-header {
   background-color: var(--c-subcolor-2);
@@ -23,9 +25,16 @@ $xl-gap-width: 30px;
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 1px;
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+
+    @include small {
+      line-height: 1;
+      letter-spacing: 1.4px;
+    }
 
     @include medium {
       font-size: 16px;
+      letter-spacing: 1.6px;
     }
   }
 
@@ -34,10 +43,16 @@ $xl-gap-width: 30px;
     color: clr(primary);
     text-align: center;
     margin-top: 26px;
+    animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+
+    @include small {
+      letter-spacing: 2px;
+    }
 
     @include medium {
       font-size: 56px;
-      line-height: 64px;
+      line-height: 1;
+      letter-spacing: 2.8px;
       margin-top: 22px;
     }
 
@@ -87,44 +102,16 @@ $xl-gap-width: 30px;
     }
   }
 
-  .stretch {
+  &__border {
     position: absolute;
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    top: -40px;
+    width:100%;
+    transform: translateY(-100%) translateY($brand-border-offset);
 
     svg {
-      path {
-        fill: clr(subcolor-3);
-        width: 100%;
-      }
-      rect {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  .repeat {
-    position: absolute;
-    z-index: 2;
-    height: 1px;
-    width: 100%;
-
-    svg {
+      display: block;
       width: 100%;
-      position: absolute;
-      top: -2rem;
-
-      path {
-        fill: clr(subcolor-3);
-      }
-
-      rect {
-        width: inherit;
-        height: 2rem;
-      }
+      height: auto;
+      fill: clr(subcolor-3);
     }
   }
 }
@@ -134,8 +121,8 @@ $xl-gap-width: 30px;
   padding-top: 5px;
 
   @include medium {
-    display: inline-flex;
-    padding: 25px 0 0;
+    display: flex;
+    padding: 25px 30px 0;
   }
 
   @include xl {
@@ -152,6 +139,13 @@ $xl-gap-width: 30px;
     padding: 25px 30px;
     border-bottom: none;
     border-right: 1px solid rgba(196, 196, 196, 0.6);
+    display: flex;
+    flex-flow: row nowrap;
+    flex-basis: 100%;
+  }
+
+  @include xl {
+    flex-basis: auto;
   }
 
   &__icon-container {
@@ -161,10 +155,14 @@ $xl-gap-width: 30px;
 
     @include medium {
       width: 50px;
+      display: inline-flex;
+      flex-grow: 1;
+      justify-content: center;
     }
 
     @include xl {
       width: 55px;
+      justify-content: left;
     }
   }
 
@@ -207,10 +205,16 @@ $xl-gap-width: 30px;
     align-items: center;
     justify-content: space-between;
 
+    @include small {
+      letter-spacing: 0.72px;
+    }
+
     @include medium {
       width: auto;
       display: block;
       margin-left: 18px;
+      flex-flow: column nowrap;
+      flex-grow: 2;
     }
 
     @include xl {
@@ -221,20 +225,28 @@ $xl-gap-width: 30px;
   &__label {
     font: 18px/25px variable(primary-font);
     color: clr(primary);
-    letter-spacing: 0.8px;
+    letter-spacing: 1;
+
+    @include medium {
+      letter-spacing: 0.9px;
+    }
 
     @include xl {
       width: auto;
       display: block;
       font-size: 20px;
-      line-height: 20px;
+      line-height: 1.4;
     }
   }
 
   &__value {
     font: 18px/25px variable(primary-font);
     color: clr(secondary);
-    letter-spacing: 0.8px;
+    letter-spacing: 1;
+
+    @include medium {
+      letter-spacing: 0.9px;
+    }
 
     @include xl {
       margin-top: 12px;
@@ -283,12 +295,22 @@ $xl-gap-width: 30px;
   &__text {
     font: 18px/1.65em variable(secondary-font);
     color: clr(primary);
-    letter-spacing: -1.1px;
+
+    @include small {
+      margin: 0 auto;
+      max-width: 335;
+      line-height: 1.6;
+    }
+
+    @include medium {
+      margin: 0;
+    }
 
     @include xl {
       font-size: 20px;
       line-height: 1.8em;
-      margin-right: 30px;
+      margin-left: $xl-left-margin;
+      max-width: 665px;
     }
   }
 
@@ -308,10 +330,14 @@ $xl-gap-width: 30px;
     @include xl {
       margin-top: 52px;
       margin-bottom: 28px;
+      margin-left: $xl-left-margin;
     }
 
     .social-menu {
       margin: 0;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
     }
   }
 
@@ -322,9 +348,14 @@ $xl-gap-width: 30px;
     letter-spacing: 1.6px;
     margin-right: 30px;
 
+    @include small {
+      letter-spacing: 1.28px;
+    }
+
     @include medium {
       font-size: 18px;
-      line-height: 1.1em;
+      line-height: 1;
+      letter-spacing: 1.8px;
     }
 
     @include xl {
@@ -335,5 +366,14 @@ $xl-gap-width: 30px;
 
   .social-menu__icon {
     fill: clr(secondary);
+  }
+}
+
+@keyframes recipe-hero-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

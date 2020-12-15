@@ -10,15 +10,17 @@
  * 'content_type_facet' => NULL,
  */
 #}
+{% set filters_selected_modifier = (search_filters|filter(item => item.search_results_item_modifier is same as('active'))|length > 0) ? 'filter-selected' : '' %}
 
 {% embed "@molecules/search-page-header/search-page-header.twig" with {
   theme_styles: 'drupal',
   search_page_header_heading: search_header_heading,
   search_page_header_heading_level: 1,
   search_page_header_heading_base_class: 'search-page-heading',
-  brand_shape_class: brand_shape_class,
-  shape: brand_shape,
-  search_results: search_filters
+  brand_border: brand_border,
+  brand_shape: brand_shape,
+  search_results: search_filters,
+  filters_selected_modifier: filters_selected_modifier
 } %}
 
   {% block search_header__input %}
