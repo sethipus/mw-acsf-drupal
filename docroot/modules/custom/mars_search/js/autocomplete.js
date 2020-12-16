@@ -6,7 +6,7 @@
 /**
  * Search overlay.
  */
-(function ($, Drupal) {
+(function ($, Drupal, drupalSettings) {
   'use strict';
   Drupal.behaviors.marsAutocomplete = {
     attach: function (context, settings) {
@@ -44,12 +44,13 @@
                 if (!$(results).hasClass('no-results')) {
                   const suggestions = $(target_container).find('.mars-suggestions');
                   suggestions.html(results);
-                  Drupal.behaviors.productCard.attach(suggestions);
+
                   suggestions.each((index, element) => {
                     if (element.nodeType === Node.ELEMENT_NODE) {
                       Drupal.attachBehaviors(element, drupalSettings);
                     }
                   });
+
                   $(target_container).find('.search-input-wrapper').addClass('suggested');
                   $('.mars-search-autocomplete-suggestions-wrapper').show();
                 }

@@ -12,9 +12,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
             $('#header-menu-trigger').hasClass('header__primary--open') ? disableBodyScroll(document.querySelector('#header-menu-trigger')) : enableBodyScroll(document.querySelector('#header-menu-trigger'));
           });
           header.find('.main-menu__link--with-sub').on('click', e => {
-            if ($(window).width() < 1024) {
-              e.preventDefault();
-            }
+            e.preventDefault();
             const menuItem = e.currentTarget;
             const subMenu = menuItem.nextElementSibling;
             subMenu.classList.toggle('main-menu--sub-open');
