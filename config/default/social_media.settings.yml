@@ -11,7 +11,7 @@ social_media:
     library: ''
     img: themes/custom/emulsifymars/images/facebook.svg
   facebook_msg:
-    enable: false
+    enable: 0
     api_url: 'FB.ui({method: ''send'',link: ''[current-page:url]''})'
     api_event: onclick
     drupalSettings: 'application_id|Your Application ID'
@@ -22,7 +22,7 @@ social_media:
     attributes: "target|_blank\r\nclass|facebook-msg\r\nrel|nooopener noreffer"
     img: ''
   linkedin:
-    enable: false
+    enable: 0
     api_url: 'http://www.linkedin.com/shareArticle?mini=true&url=[current-page:url]&title=[current-page:title]&source=[current-page:url]'
     api_event: href
     text: Linkedin
@@ -55,7 +55,7 @@ social_media:
     library: ''
     img: themes/custom/emulsifymars/images/pinterest.svg
   whatsapp:
-    enable: false
+    enable: 1
     api_url: '[site:url]/node/[node:nid]/printable/pdf'
     api_event: onclick
     default_img: 0
