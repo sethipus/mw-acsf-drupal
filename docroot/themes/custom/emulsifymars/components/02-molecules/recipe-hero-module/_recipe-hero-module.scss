@@ -4,7 +4,7 @@ $xl-left-margin: 11.583rem;
 
 
 .recipe-header {
-  background-color: var(--c-subcolor-2);
+  position: relative;
   padding: 40px 0 137px;
   margin-bottom: -117px;
 
@@ -17,6 +17,50 @@ $xl-left-margin: 11.583rem;
     padding-top: 60px;
     height: 397px;
     margin-bottom: -187px;
+  }
+
+  &__background {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: clr(subcolor-2);
+  }
+
+  &__brand-shape {
+    position: absolute;
+    display: block;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28.9rem;
+    height: 28.9rem;
+    top: -2rem;
+
+    @include medium {
+      left: initial;
+      width: 46.5rem;
+      height: 46.5rem;
+      top: -4rem;
+      right: 1rem;
+      transform: unset;
+    }
+
+    @include large {
+      right: 22rem;
+    }
+
+    svg {
+      fill: clr(subcolor-2);
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 10;
   }
 
   &__title {

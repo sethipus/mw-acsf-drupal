@@ -9,7 +9,7 @@
 {% set entry_gate_error_paragraph_base_class = entry_gate_paragraph_base_class|default('entry-gate__paragraph') %}
 {% set entry_gate_error_link_base_class = entry_gate_error_link_base_class|default('entry-gate__error-link') %}
 
-<div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme="{{ theme_styles }}">
+<div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme="{{ theme_styles }}" aria-hidden="true" role="dialog">
   <section class="entry-gate__inner">
     <div class="entry-gate__brand-shape">
       {{ brand_shape | raw }}
