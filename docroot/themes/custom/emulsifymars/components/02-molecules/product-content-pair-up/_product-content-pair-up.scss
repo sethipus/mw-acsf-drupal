@@ -71,6 +71,14 @@
 
       .supportive-card .wrapper {
         text-align: left;
+
+        @include xs {
+          padding-top: 0;
+        }
+
+        @include medium {
+          padding-top: 3rem;
+        }
       }
 
       .wrapper {
@@ -206,7 +214,7 @@
           font-size: 2.6rem;
           line-height: 2.86rem;
         }
-        
+
         @include large {
           font-size: 2.8rem;
           line-height: 3.08rem;
