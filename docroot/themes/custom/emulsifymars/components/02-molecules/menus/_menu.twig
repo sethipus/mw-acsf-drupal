@@ -35,12 +35,14 @@
     {% if menu_level > 0 %}
       {% set menu_modifiers = menu_modifiers|merge(['sub', 'sub-' ~ menu_level]) %}
     {% endif %}
+    {% set ul_attributes = {'role': 'menubar'} %}
 
     {# List #}
     {% embed "@atoms/lists/ul.twig" with {
       ul_base_class: menu_class,
       ul_modifiers: menu_modifiers,
-      ul_blockname: menu_blockname
+      ul_blockname: menu_blockname,
+      ul_attributes: ul_attributes
     } %}
       {% block list_content %}
         {% for item in items %}
