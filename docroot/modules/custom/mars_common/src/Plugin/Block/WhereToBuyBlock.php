@@ -119,6 +119,18 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#required' => TRUE,
     ];
 
+    $form['product_gtin'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product Gtin'),
+      '#description' => $this->t('Optional, if empty, get from first product (variation) from site.'),
+      '#default_value' => $this->configuration['product_gtin'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_PRICE_SPIDER]],
+        ],
+      ],
+    ];
+
     $form['data_token'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Token'),
@@ -224,6 +236,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'product_id' => $config['product_id'] ?? '',
       'button_type' => $config['button_type'] ?? '',
       'data_locale' => $config['data_locale'] ?? '',
+      'product_gtin' => $config['product_gtin'] ?? '',
     ];
   }
 
@@ -242,6 +255,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#data_subid'] = $this->configuration['data_subid'];
     $build['#data_token'] = $this->configuration['data_token'];
     $build['#data_locale'] = $this->configuration['data_locale'];
+    $build['#product_gtin'] = $this->configuration['product_gtin'];
 
     $locale = $this->languageManager->getCurrentLanguage()->getId();
     $build['#data_displaylanguage'] = $locale;
