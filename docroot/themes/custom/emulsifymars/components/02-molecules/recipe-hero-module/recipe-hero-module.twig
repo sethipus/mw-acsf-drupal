@@ -5,13 +5,24 @@
 {% set icon_makes = icon_makes|default('/' ~ base_path ~ directory ~'/images/icons/makes.svg') %}
 {% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
 
-<div class="recipe-header" data-theme="{{ theme_styles }}"
-  {% if use_custom_color %}
-    style="background-color:{{ '#' ~ custom_background_color }}"
-  {% endif %}>
-  <div class="recipe-header__title">{{ "Recipe" | mt }}</div>
-  <div class="recipe-header__text">{{ recipe_header_text }}</div>
+<div class="recipe-header" data-theme="{{ theme_styles }}">
+    <div class="recipe-header__background"
+      {% if background_color_override %}
+        style="background-color: {{ '#' ~ background_color }}"
+      {% endif %}
+    >
+      {% if brand_shape_enabled %}
+        <div class="recipe-header__brand-shape">
+          {{ brand_shape | raw }}
+        </div>
+      {% endif %}
+    </div>
+  <div class="recipe-header__content">
+    <div class="recipe-header__title">{{ "Recipe" | mt }}</div>
+    <div class="recipe-header__text">{{ recipe_header_text }}</div>
+  </div>
 </div>
+
 <div class="recipe-media" data-theme="{{ theme_styles }}"
   {% if recipe_header_text and video_src %}
     data-component-title="{{ recipe_header_text }}"
