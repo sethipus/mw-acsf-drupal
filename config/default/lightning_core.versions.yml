@@ -19,6 +19,7 @@ block: 8.8.1
 block_content: 8.8.1
 breakpoint: 8.8.1
 ckeditor: 8.8.1
+ckeditor_config: 3.0.0
 color: 8.8.1
 components: 1.1.0
 config: 8.8.1

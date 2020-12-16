@@ -237,6 +237,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link text'),
       '#maxlength' => 15,
+      '#required' => TRUE,
       '#placeholder' => $this->t('Explore'),
       '#default_value' => $this->configuration['cta_link_text'] ?? NULL,
     ];
