@@ -138,7 +138,7 @@ pdp_data:
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
   - size_id: '4oz'
-    gtin: '040000529361'
+    gtin: '01231243341232'
     active: false
     hero_data:
       image_items:
