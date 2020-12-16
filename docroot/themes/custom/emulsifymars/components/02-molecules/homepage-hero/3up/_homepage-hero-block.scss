@@ -5,7 +5,7 @@
   padding-top: 2.9rem;
 
   @include medium {
-    padding-top: 3.9em;
+    padding-top: 4em;
   }
 
   &--block-1 {
@@ -19,7 +19,7 @@
     padding: 0 0 2.8rem;
 
     @include medium {
-      padding-bottom: 3.9rem;
+      padding-bottom: 4rem;
     }
   }
 
@@ -43,7 +43,7 @@
     h3 {
       flex: 1 0 auto;
       color: clr(primary);
-      margin-top: 2.6rem;
+      margin-top: 3rem;
       margin-bottom: 5.5rem;
 
       @include medium {
