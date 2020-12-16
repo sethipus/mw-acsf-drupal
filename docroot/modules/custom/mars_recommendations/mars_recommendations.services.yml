@@ -20,9 +20,3 @@ services:
     class: Drupal\mars_recommendations\EventSubscriber\ManualPagesSubscriber
     tags:
       - { name: event_subscriber }
-
-  mars_recommendations.component_dependency_calculator:
-    class: Drupal\mars_recommendations\EventSubscriber\DependencyCollector\ManualRecommendationBlockCollector
-    arguments: ['@entity_type.manager']
-    tags:
-      - { name: event_subscriber }

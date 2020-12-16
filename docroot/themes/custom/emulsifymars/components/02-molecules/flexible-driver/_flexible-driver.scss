@@ -10,7 +10,8 @@
   }
 
   @include large {
-    margin: 8rem;
+    margin: 8rem auto;
+    max-width: 1125px;
   }
 
   &__content {

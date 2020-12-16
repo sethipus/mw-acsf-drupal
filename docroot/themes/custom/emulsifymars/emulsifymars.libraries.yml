@@ -5,7 +5,7 @@ global:
 
 main-menu:
   js:
-    dist/js/02-molecules/menus/main-menu/main-menu.js: {}
+    dist/js/main_menu.js: {}
   dependencies:
     - core/drupal
     - core/jquery
@@ -231,3 +231,10 @@ product-selector:
     dist/js/02-molecules/product-selector/product-selector.js: {}
   dependencies:
     - core/drupal
+
+flexible-framer:
+  js:
+    dist/js/02-molecules/flexible-framer/flexible-framer.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
