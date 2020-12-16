@@ -213,7 +213,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#target_type' => 'node',
       '#default_value' => ($node_id = $this->configuration['product'] ?? NULL) ? $this->nodeStorage->load($node_id) : NULL,
       '#selection_settings' => [
-        'target_bundles' => ['product'],
+        'target_bundles' => ['product', 'product_multipack'],
       ],
     ];
 
@@ -237,6 +237,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link text'),
       '#maxlength' => 15,
+      '#required' => TRUE,
       '#placeholder' => $this->t('Explore'),
       '#default_value' => $this->configuration['cta_link_text'] ?? NULL,
     ];
@@ -319,7 +320,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     EntityInterface $supporting_entity
   ): array {
     $conf = $this->getConfiguration();
-    $is_product_card = $supporting_entity->bundle() === 'product';
+    $is_product_card = in_array($supporting_entity->bundle(), ['product', 'product_multipack']);
 
     $render_array = $this->viewBuilder->view(
       $supporting_entity,
@@ -332,7 +333,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $render_array['#eyebrow'] = $eyebrow_text;
 
     if ($is_product_card) {
-      $brand_shape = $this->themeConfiguratorParser->getBrandShape();
+      $brand_shape = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
       $render_array['#brand_shape'] = $brand_shape;
     }
 

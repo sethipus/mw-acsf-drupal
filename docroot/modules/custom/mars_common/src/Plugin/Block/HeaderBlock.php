@@ -19,8 +19,8 @@ use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Provides a Header block.
@@ -70,12 +70,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $config;
-  /**
-   * Request.
-   *
-   * @var \Symfony\Component\HttpFoundation\Request
-   */
-  protected $request;
 
   /**
    * The form builder.
@@ -99,6 +93,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $renderer;
 
   /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -110,10 +111,10 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
     ConfigFactoryInterface $config_factory,
-    Request $request,
     FormBuilderInterface $form_builder,
     LanguageHelper $language_helper,
-    RendererInterface $renderer
+    RendererInterface $renderer,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentRouteMatch = $current_route_match;
@@ -122,10 +123,10 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
-    $this->request = $request;
     $this->formBuilder = $form_builder;
     $this->languageHelper = $language_helper;
     $this->renderer = $renderer;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -141,10 +142,10 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
       $container->get('config.factory'),
-      $container->get('request_stack')->getCurrentRequest(),
       $container->get('form_builder'),
       $container->get('mars_common.language_helper'),
-      $container->get('renderer')
+      $container->get('renderer'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -242,10 +243,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#alert_banner_text'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_text']['value']);
     $build['#alert_banner_url'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_url']);
-    if ($config['search_block']) {
-      $host = $this->request->getSchemeAndHttpHost();
-      $build['#search_menu'] = [['title' => $this->languageHelper->translate('Search'), 'url' => $host]];
-    }
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
     $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
 
@@ -264,6 +261,9 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#theme'] = 'header_block';
 
     $build['#search_form'] = $this->buildSearchForm();
+    $build['#search_enabled'] = $config['search_block'] ?? TRUE;
+
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
 
     return $build;
   }

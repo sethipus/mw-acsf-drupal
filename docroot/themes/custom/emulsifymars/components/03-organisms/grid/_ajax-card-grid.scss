@@ -25,8 +25,9 @@
     }
 
     @include medium {
-      font-size: 6.4rem;
-      line-height: 6.4rem;
+      font-size: 4.8rem;
+      line-height: 4.8rem;
+      letter-spacing: 0.2rem;
       margin-bottom: 6rem;
     }
   }
@@ -73,6 +74,11 @@
 
   &__more-link {
     text-align: center;
+    display: none;
+
+    &.active {
+      display: block;
+    }
 
     & .default-link {
       background-color: clr(secondary);

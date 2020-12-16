@@ -247,6 +247,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#data_displaylanguage'] = $locale;
 
     $build['#attached']['drupalSettings']['wtb_block'] = [
+      'commerce_vendor' => $this->configuration['commerce_vendor'],
       'widget_id' => $this->configuration['widget_id'],
       'data_subid' => $this->configuration['data_subid'],
       'data_token' => $this->configuration['data_token'],

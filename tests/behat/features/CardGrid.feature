@@ -10,33 +10,9 @@ Feature: Card Grid Test
     And I follow "Add block "
     And I wait for the ajax response
     And I load page by link with text "MARS: Grid Card"
-    And I select "Content" from "View"
-    Then I should see "Please wait..."
-    When I wait for the ajax response
-    And I press "Add block"
-    Then I should see "You are editing the layout for this Basic page content item."
-
-    When I press "Save layout"
-    Then I should see "The layout override has been saved."
-    And I should see a "//div[@data-block-plugin-id='grid_card']" xpath element
-    And I should see "Title"
-    And I should see "Content type"
-    And I should see "Language"
-    And I should see "Moderation state"
-    And I should see "Action"
-    And I should see "Moderation state"
-    And I should see a ".form-item__dropdown" element
-
-    When I am on "/node/add/page"
-    And I fill in "Title" with "TestBasicPageTitle"
-    And I press "Save"
-    And I edit added content
-    And I press the "Layout" section of added content
-    And I follow "Add block "
-    And I wait for the ajax response
-    And I load page by link with text "MARS: Grid Card"
     And I select "Contact messages" from "View"
     Then I should see "Please wait..."
+
     When I wait for the ajax response
     And I press "Add block"
     Then I should see "You are editing the layout for this Basic page content item."
@@ -56,5 +32,3 @@ Feature: Card Grid Test
     And I press "Apply"
     Then the url should match "/admin/structure/contact/messages"
     And I should see a "//label[@class='form-item__label' and text()='Contact form']" xpath element
-
-

@@ -6,8 +6,6 @@ import feedbackPositive from './feedback-positive.twig'
 import feedbackNegative from './feedback-negative.twig'
 import feedbackData from './feedback.yml';
 
-import './feedback';
-
 export default { title: 'Molecules/Feedback module' };
 
 export const feedbackInitialState = () => {

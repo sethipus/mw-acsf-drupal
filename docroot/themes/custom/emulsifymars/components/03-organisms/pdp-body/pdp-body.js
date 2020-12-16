@@ -180,6 +180,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       sliderContainers.forEach((sliderContainer, index) => {
         sliderContainer.dataset.swiperIndex = index;
         swiperInstances[index] = new Swiper(`[data-swiper-index="${index}"]`, {
+          init: sliderContainer.querySelectorAll('.swiper-slide').length == 1 ? false:true,
           autoplay: {
             delay: 3000,
           },
@@ -251,22 +252,38 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       sizeElements.forEach((item) => {
         item.addEventListener('click', e => {
           updateSizeSlider(e, item.dataset.sizeId);
+          updateReview(e, item.dataset.sizeId);
           if (window.snapScroller) {
             window.snapScroller.recalculateLayout();
           }
         }, false);
       });
 
+      function updateReview(event, sizeId) {
+        event.preventDefault();
+        let reviews = context.querySelectorAll(`div[data-bv-show="reviews"]`);
+        if (reviews.length > 0) {
+          reviews.forEach((item) => {
+            if (item.hasChildNodes()) {
+              item.removeChild(item.firstChild);
+            }
+          });
+          let review = context.querySelector(`[data-review-size-id="${sizeId}"] div[data-bv-show="reviews"]`);
+          let productId = review.getAttribute('data-bv-product-id');
+          review.setAttribute('data-bv-product-id', productId);
+        }
+      }
+
       //scroll effects: bubbles, section-select and WTB
       function onScrollEffects() {
         const pdp_size_id = $('[data-pdp-size-active="true"]', this).attr('data-pdp-size-id');
 
-        const pdp_bubble_1 = $(`.pdp-hero__bubble_1--${pdp_size_id}`, this);
-        const pdp_bubble_2 = $(`.pdp-hero__bubble_2--${pdp_size_id}`, this);
-        const pdp_bubble_3 = $(`.pdp-hero__bubble_3--${pdp_size_id}`, this);
-        const pdp_bubble_1_top = $(`.pdp-hero__bubble_1--${pdp_size_id}`, this).offset().top;
-        const pdp_bubble_2_top = $(`.pdp-hero__bubble_2--${pdp_size_id}`, this).offset().top;
-        const pdp_bubble_3_top = $(`.pdp-hero__bubble_3--${pdp_size_id}`, this).offset().top;
+        const pdp_bubble_1 = $('.pdp-hero__bubble--1', this);
+        const pdp_bubble_2 = $('.pdp-hero__bubble--2', this);
+        const pdp_bubble_3 = $('.pdp-hero__bubble--3', this);
+        const pdp_bubble_1_top = pdp_bubble_1.offset().top;
+        const pdp_bubble_2_top = pdp_bubble_2.offset().top;
+        const pdp_bubble_3_top = pdp_bubble_3.offset().top;
 
         const pdp_section = $(`[data-pdp-size-id="${pdp_size_id}"]`, this);
         const pdp_hero = $(`.pdp-hero--${pdp_size_id}`, this);

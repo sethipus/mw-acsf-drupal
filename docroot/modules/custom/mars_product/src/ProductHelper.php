@@ -40,17 +40,19 @@ class ProductHelper {
   public function mainVariant(
     ?ContentEntityInterface $contentEntity
   ): ?ContentEntityInterface {
-    if ($contentEntity === NULL || $contentEntity->bundle() !== 'product') {
+    if ($contentEntity === NULL ||
+      !in_array($contentEntity->bundle(), ['product', 'product_multipack'])
+    ) {
       return NULL;
     }
 
     try {
       /** @var \Drupal\Core\Entity\ContentEntityInterface $firstVariant */
-      $firstVariant = $contentEntity
+      $variant = $contentEntity
         ->get('field_product_variants')
-        ->first()
-        ->entity;
+        ->first();
 
+      $firstVariant = ($variant) ? $variant->entity : NULL;
       $firstVariant = $this->languageHelper->getTranslation($firstVariant);
     }
     catch (MissingDataException $e) {

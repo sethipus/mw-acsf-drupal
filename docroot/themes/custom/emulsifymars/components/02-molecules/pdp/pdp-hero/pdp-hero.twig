@@ -12,13 +12,13 @@
   {% endif %}
 >
 
-  <div {{ bem('bubble_1', [size_id], pdp_hero_base_class) }} >
+  <div {{ bem('bubble', ['1'], pdp_hero_base_class) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
-  <div {{ bem('bubble_2', [size_id], pdp_hero_base_class) }} >
+  <div {{ bem('bubble', ['2'], pdp_hero_base_class) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
-  <div {{ bem('bubble_3', [size_id], pdp_hero_base_class) }}>
+  <div {{ bem('bubble', ['3'], pdp_hero_base_class) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
   <div {{ bem('container', [], pdp_hero_base_class) }}>
@@ -75,7 +75,9 @@
           </ul>
         </div>
       </div>
-      <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+      {% if show_rating_and_reviews == true %}
+        <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+      {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
         <div class='pdp-hero-main-image--{{size_id}} pdp-hero__main-image-container'>
           {% include "@atoms/images/image/responsive-image.twig" with {

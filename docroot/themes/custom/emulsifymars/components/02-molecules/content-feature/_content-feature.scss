@@ -27,18 +27,18 @@
     word-break: break-word;
 
     @include xs {
-      font-size: 4.8rem;
-      line-height: 4.32rem;
+      font-size: 4rem;
+      line-height: 4rem;
     }
 
     @include medium {
-      font-size: 7.2rem;
-      line-height: 6.48rem;
+      font-size: 5.6rem;
+      line-height: 5.6rem;
     }
 
     @include large {
-      font-size: 8.4rem;
-      line-height: 7.56rem;
+      font-size: 6.4rem;
+      line-height: 6.4rem;
     }
 
     a {
@@ -67,17 +67,17 @@
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.88rem;
-    margin-bottom: 3rem;
+    margin: 0 auto 3rem;
 
     @include medium {
-      max-width: 70%;
-      margin: 0 auto 3rem;
+      max-width: 570px;
     }
 
     @include large {
         font-size: 2.2rem;
         line-height: 3.52rem;
         margin: 0 auto 6rem;
+        max-width: 817px;
     }
   }
 
