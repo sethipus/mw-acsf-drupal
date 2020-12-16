@@ -98,22 +98,20 @@
   }
 
   &--center {
-    @include xs {
-      img {
-        max-width: 90%;
-        margin: 2rem auto 0;
-      }
+    img {
+      max-width: 90%;
+      margin: 2rem auto 0;
+    }
 
-      .freeform-story__texts {
-        padding: 2rem 2rem 0;
-        text-align: center;
-      }
+    .freeform-story__texts {
+      padding: 2rem 2rem 0;
+      text-align: center;
+    }
 
-      .freeform-story__brand-shape {
-        top: 1.3rem;
-        left: 50%;
-        transform: translateX(-50%);
-      }
+    .freeform-story__brand-shape {
+      top: 1.3rem;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     @include medium {
@@ -123,13 +121,18 @@
         transform: translateX(-50%);
       }
 
-      .freeform-story__img,
-      .freeform-story__texts {
-        flex: 1;
+      .freeform-story__content{
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        flex-direction: column;
+
+        &--column {
+          flex: 1 0 0;
+        }
       }
 
-      .freeform-story__content{
-        flex-direction: column;
+      .freeform-story__texts {
+        padding: 2rem 10rem 0;
       }
     }
 
@@ -141,30 +144,32 @@
       }
 
       .freeform-story__content{
-        padding-top: 6rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+
+      .freeform-story__texts {
+        padding: 2rem 15.6rem 0;
       }
     }
 
   }
 
   &--right {
-    @include xs {
-      img {
-        max-width: calc(100% - 4rem);
-        margin-left: auto;
-        margin-top: 2rem;
-      }
+    img {
+      max-width: 90%;
+      margin-top: 2rem;
+    }
 
-      .freeform-story__brand-shape {
-        top: 2rem;
-        left: 0;
-        right: auto;
-        transform: translateX(-35%);
-      }
+    .freeform-story__brand-shape {
+      top: 2rem;
+      left: 0;
+      right: auto;
+      transform: translateX(-35%);
+    }
 
-      .freeform-story__texts {
-        padding: 2rem 2rem 0;
-      }
+    .freeform-story__texts {
+      padding: 2rem 2rem 0;
     }
 
     @include medium {
@@ -175,13 +180,27 @@
         transform: translateX(23%);
       }
 
-      .freeform-story__img,
-      .freeform-story__texts {
-        flex: 1;
+      .freeform-story__content {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        flex-direction: row;
+
+        &--column {
+          flex: 1 0 0;
+        }
       }
 
-      .freeform-story__content {
-        flex-direction: row;
+      .freeform-story__img {
+        padding-right: 1rem;
+      }
+
+      .freeform-story__texts {
+        padding: 2rem 4rem 0 3rem;
+      }
+
+      img {
+        max-width: 100%;
+        width: 100%;
       }
     }
 
@@ -192,29 +211,35 @@
       }
 
       .freeform-story__content{
-        width: 90%;
-        padding-top: 6rem;
-        margin-left: auto;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+
+      .freeform-story__img {
+        padding-right: 1.5rem;
+      }
+
+      .freeform-story__texts {
+        padding: 2rem 12.6rem 0 4.5rem;
       }
     }
   }
 
   &--left {
-    @include xs {
-      img {
-        max-width: 90%;
-        margin-top: 2rem;
-      }
+    img {
+      max-width: 90%;
+      margin-top: 2rem;
+    }
 
-      .freeform-story__brand-shape {
-        top: 2rem;
-        left: auto;
-        right: 0;
-        transform: translateX(35%);
-      }
-      .freeform-story__texts {
-        padding: 2rem 2rem 0;
-      }
+    .freeform-story__brand-shape {
+      top: 2rem;
+      left: auto;
+      right: 0;
+      transform: translateX(35%);
+    }
+
+    .freeform-story__texts {
+      padding: 2rem 2rem 0;
     }
 
     @include medium {
@@ -225,17 +250,27 @@
         transform: translateX(-37%);
       }
 
-      .freeform-story__img,
-      .freeform-story__texts {
-        flex: 1;
+      .freeform-story__content {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        flex-direction: row-reverse;
+        
+        &--column {
+          flex: 1 0 0;
+        }
       }
 
-      .freeform-story__content {
-        flex-direction: row-reverse;
+      .freeform-story__img {
+        padding-left: 1rem;
+      }
+
+      .freeform-story__texts {
+        padding: 2rem 3rem 0 4rem;
       }
 
       img {
         max-width: 100%;
+        width: 100%;
       }
     }
 
@@ -246,8 +281,16 @@
       }
 
       .freeform-story__content{
-        width: 90%;
-        padding-top: 6rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+
+      .freeform-story__img {
+        padding-left: 1.5rem;
+      }
+
+      .freeform-story__texts {
+        padding: 2rem 4.5rem 0 12.6rem;
       }
     }
   }
