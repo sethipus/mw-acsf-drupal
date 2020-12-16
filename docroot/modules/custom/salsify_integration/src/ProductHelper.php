@@ -49,7 +49,7 @@ class ProductHelper {
     $is_product_variant = FALSE;
 
     if (isset($product['CMS: content type']) &&
-      $product['CMS: content type'] == self::PRODUCT_VARIANT_CONTENT_TYPE) {
+      $product['CMS: content type'] == static::PRODUCT_VARIANT_CONTENT_TYPE) {
       $is_product_variant = TRUE;
     }
 
@@ -69,7 +69,7 @@ class ProductHelper {
     $is_product_multipack = FALSE;
 
     if (isset($product['CMS: content type']) &&
-      $product['CMS: content type'] == self::PRODUCT_MULTIPACK_CONTENT_TYPE) {
+      $product['CMS: content type'] == static::PRODUCT_MULTIPACK_CONTENT_TYPE) {
 
       $is_product_multipack = TRUE;
     }
@@ -90,7 +90,7 @@ class ProductHelper {
     $is_product = FALSE;
 
     if (isset($product['CMS: content type']) &&
-      $product['CMS: content type'] == self::PRODUCT_CONTENT_TYPE) {
+      $product['CMS: content type'] == static::PRODUCT_CONTENT_TYPE) {
 
       $is_product = TRUE;
     }
@@ -111,13 +111,13 @@ class ProductHelper {
     $product_type = 'undefined';
 
     if (static::isProduct($product)) {
-      $product_type = self::PRODUCT_CONTENT_TYPE;
+      $product_type = static::PRODUCT_CONTENT_TYPE;
     }
     elseif (static::isProductMultipack($product)) {
-      $product_type = self::PRODUCT_MULTIPACK_CONTENT_TYPE;
+      $product_type = static::PRODUCT_MULTIPACK_CONTENT_TYPE;
     }
     elseif (static::isProductVariant($product)) {
-      $product_type = self::PRODUCT_VARIANT_CONTENT_TYPE;
+      $product_type = static::PRODUCT_VARIANT_CONTENT_TYPE;
     }
 
     return $product_type;
@@ -140,10 +140,10 @@ class ProductHelper {
     // Validate only string fields. If record doesn't have field value it
     // returns true.
     if (
-      ($field_mapping['salsify_data_type'] == self::SALSIFY_DATA_FORMAT_STRING &&
+      ($field_mapping['salsify_data_type'] == static::SALSIFY_DATA_FORMAT_STRING &&
       isset($record[$field_mapping['salsify_id']]) &&
       (is_string($record[$field_mapping['salsify_id']]) || is_array($record[$field_mapping['salsify_id']]))) ||
-      $field_mapping['salsify_data_type'] != self::SALSIFY_DATA_FORMAT_STRING ||
+      $field_mapping['salsify_data_type'] != static::SALSIFY_DATA_FORMAT_STRING ||
       !isset($record[$field_mapping['salsify_id']])
     ) {
       $result = TRUE;
@@ -233,7 +233,7 @@ class ProductHelper {
       $product['salsify:system_id'] = $product_variant['salsify:system_id'];
       $product['salsify:created_at'] = $product_variant['salsify:created_at'];
       $product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
-      $product['CMS: content type'] = self::PRODUCT_VARIANT_CONTENT_TYPE;
+      $product['CMS: content type'] = static::PRODUCT_VARIANT_CONTENT_TYPE;
       $product['CMS: Meta Description'] = $product_variant['CMS: Meta Description'] ?? NULL;
       $product['CMS: Keywords'] = $product_variant['CMS: Keywords'] ?? NULL;
       $product['CMS: Product Variant Family ID'] = $product_variant['CMS: Product Variant Family ID'] ?? NULL;
@@ -336,16 +336,16 @@ class ProductHelper {
           !isset($products[$product['CMS: Product Variant Family ID']])
         ) {
           $new_product = $this->createProductFromProductVariant(
-            self::PRODUCT_CONTENT_TYPE,
+            static::PRODUCT_CONTENT_TYPE,
             SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT,
             $product
           );
           $products[$product['CMS: Product Variant Family ID']] = $new_product;
-          $this->mapping['primary'][$new_product['salsify:id']][$product['salsify:id']] = self::PRODUCT_VARIANT_CONTENT_TYPE;
+          $this->mapping['primary'][$new_product['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
         }
         elseif (isset($products[$product['CMS: Product Variant Family ID']])) {
           $product_id = $products[$product['CMS: Product Variant Family ID']]['salsify:id'];
-          $this->mapping['primary'][$product_id][$product['salsify:id']] = self::PRODUCT_VARIANT_CONTENT_TYPE;
+          $this->mapping['primary'][$product_id][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
         }
 
         // Add mapping by Product Family Groups ID in format
@@ -444,7 +444,7 @@ class ProductHelper {
 
       $empty_product = [];
       $salsify_id = $product_variant['salsify:id'] . '_' . $product_key . '_' . static::PRODUCT_CONTENT_TYPE;
-      $product['Trade Item Description'] = $product_variant['Trade Item Description'] . '_' . $product_key;
+      $empty_product['Trade Item Description'] = $product_variant['Trade Item Description'] . '_' . $product_key;
       $empty_product['salsify:id'] = $salsify_id;
       $empty_product['GTIN'] = $salsify_id;
       $empty_product['salsify:created_at'] = $product_variant['salsify:created_at'];
@@ -499,13 +499,13 @@ class ProductHelper {
     foreach ($this->getProductsData($response) as $product) {
       if (isset($product['CMS: Variety']) &&
         strtolower($product['CMS: Variety']) == 'yes' &&
-        self::isProductVariant($product)) {
+        static::isProductVariant($product)) {
 
         if (isset($product['CMS: Product Family Groups ID']) &&
           !isset($products[$product['CMS: Product Family Groups ID']])
         ) {
           $product_multipack = $this->createProductFromProductVariant(
-            self::PRODUCT_MULTIPACK_CONTENT_TYPE,
+            static::PRODUCT_MULTIPACK_CONTENT_TYPE,
             SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK,
             $product
           );
@@ -513,7 +513,7 @@ class ProductHelper {
             $product
           );
           $products[$product['CMS: Product Family Groups ID']] = $product_multipack;
-          $this->mapping['primary'][$product_multipack['salsify:id']][$product['salsify:id']] = self::PRODUCT_VARIANT_CONTENT_TYPE;
+          $this->mapping['primary'][$product_multipack['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
 
           $this->fillMappingByGeneratedProducts($generated_products, $product_multipack['salsify:id']);
           $products = array_merge($products, $generated_products);
@@ -522,7 +522,7 @@ class ProductHelper {
         }
         elseif (isset($products[$product['CMS: Product Family Groups ID']])) {
           $product_mult_id = $products[$product['CMS: Product Family Groups ID']]['salsify:id'];
-          $this->mapping['primary'][$product_mult_id][$product['salsify:id']] = self::PRODUCT_VARIANT_CONTENT_TYPE;
+          $this->mapping['primary'][$product_mult_id][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
         }
       }
       $products[] = $product;
@@ -559,8 +559,8 @@ class ProductHelper {
   private function populateMappingByFamilyGroupsId(array $product, array $product_multipack) {
     if (isset($this->mapping['by_group_id'][$product['CMS: Product Family Groups ID']])) {
       foreach ($this->mapping['by_group_id'][$product['CMS: Product Family Groups ID']] as $product_variant_id => $product_id) {
-        $this->mapping['primary'][$product_multipack['salsify:id']][$product_variant_id] = self::PRODUCT_VARIANT_CONTENT_TYPE;
-        $this->mapping['primary'][$product_multipack['salsify:id']][$product_id] = self::PRODUCT_CONTENT_TYPE;
+        $this->mapping['primary'][$product_multipack['salsify:id']][$product_variant_id] = static::PRODUCT_VARIANT_CONTENT_TYPE;
+        $this->mapping['primary'][$product_multipack['salsify:id']][$product_id] = static::PRODUCT_CONTENT_TYPE;
       }
     }
   }
