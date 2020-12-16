@@ -219,6 +219,12 @@ class ProductHelper {
         if (isset($product_variant[$product_field_name])) {
           $product[$product_field_name] = $product_variant[$product_field_name];
         }
+
+        // Filter nutrion fields and add to the record.
+        $nutrition_fields = $this->getNuntritionFiledsByName($product_field_name, $product_variant);
+        if (!empty($nutrition_fields)) {
+          $this->addNutritionFieldsData($nutrition_fields, $product, $product_variant);
+        }
       }
 
       $product['salsify:id'] = $product_variant['salsify:id'];
@@ -242,6 +248,45 @@ class ProductHelper {
     $response['data'] = $products;
 
     return Json::encode($response);
+  }
+
+  /**
+   * Get nutrion fields by basic field name.
+   *
+   * @param string $field_name
+   *   Field name.
+   * @param array $product_variant
+   *   Product variant record.
+   *
+   * @return array
+   *   Nutrion fields.
+   */
+  public function getNuntritionFiledsByName(string $field_name, array $product_variant) {
+    $fields = [];
+
+    foreach (array_keys($product_variant) as $variant_field_name) {
+      if (preg_match('/^' . $field_name . ' [0-9]+$/', $variant_field_name)) {
+        $fields[] = $variant_field_name;
+      }
+    }
+
+    return $fields;
+  }
+
+  /**
+   * Add nutrion related fields to the result data.
+   *
+   * @param array $nutrition_fields
+   *   Nutrion fields.
+   * @param array $product
+   *   Product data.
+   * @param array $product_variant
+   *   Product variant record.
+   */
+  public function addNutritionFieldsData(array $nutrition_fields, array &$product, array $product_variant) {
+    foreach ($nutrition_fields as $field_name) {
+      $product[$field_name] = $product_variant[$field_name];
+    }
   }
 
   /**
@@ -355,6 +400,90 @@ class ProductHelper {
   }
 
   /**
+   * Create nutrition product entity based on product variant data.
+   *
+   * @param array $product_variant
+   *   Products data.
+   *
+   * @return array
+   *   Product data.
+   */
+  public function createNutritionProductsFromProductVariant(
+    array $product_variant
+  ) {
+    $mapping = SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT;
+    $product_fields = array_column($mapping, 'salsify:id');
+    $products = [];
+    foreach ($product_fields as $product_field_name) {
+      $nutrion_fields = $this->getNuntritionFiledsByName(
+        $product_field_name,
+        $product_variant
+      );
+
+      if (!empty($nutrion_fields)) {
+        $this->fillNutrionRecordsByData(
+          $nutrion_fields,
+          $product_field_name,
+          $product_variant,
+          $products
+        );
+      }
+    }
+
+    $products_result = [];
+    foreach ($products as $product_key => $product) {
+      $salsify_id = $product_variant['salsify:id'] . '_' . $product_key . '_' . static::PRODUCT_VARIANT_CONTENT_TYPE;
+      $product['Trade Item Description'] = $product_variant['Trade Item Description'] . '_' . $product_key;
+      $product['salsify:id'] = $salsify_id;
+      $product['GTIN'] = $salsify_id;
+      $product['salsify:created_at'] = $product_variant['salsify:created_at'];
+      $product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
+      $product['CMS: content type'] = static::PRODUCT_VARIANT_CONTENT_TYPE;
+
+      $products_result[] = $product;
+
+      $empty_product = [];
+      $salsify_id = $product_variant['salsify:id'] . '_' . $product_key . '_' . static::PRODUCT_CONTENT_TYPE;
+      $product['Trade Item Description'] = $product_variant['Trade Item Description'] . '_' . $product_key;
+      $empty_product['salsify:id'] = $salsify_id;
+      $empty_product['GTIN'] = $salsify_id;
+      $empty_product['salsify:created_at'] = $product_variant['salsify:created_at'];
+      $empty_product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
+      $empty_product['CMS: content type'] = static::PRODUCT_CONTENT_TYPE;
+      $products_result[] = $empty_product;
+
+      $this->mapping['primary'][$empty_product['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
+    }
+
+    return $products_result;
+  }
+
+  /**
+   * Fill nutrition records by data.
+   *
+   * @param array $nutrion_fields
+   *   Nutrition fields.
+   * @param string $product_field_name
+   *   Product field name.
+   * @param array $product_variant
+   *   Product variant record.
+   * @param array $products
+   *   Result product array.
+   */
+  private function fillNutrionRecordsByData(
+    array $nutrion_fields,
+    string $product_field_name,
+    array $product_variant,
+    array &$products
+  ) {
+    foreach ($nutrion_fields as $nutrion_field) {
+      $matches = [];
+      preg_match('/^' . $product_field_name . ' ([0-9])+$/', $nutrion_field, $matches);
+      $products[$matches[1]][$product_field_name] = $product_variant[$nutrion_field];
+    }
+  }
+
+  /**
    * Add product entities into response based on data.
    *
    * @param string $response
@@ -380,8 +509,14 @@ class ProductHelper {
             SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK,
             $product
           );
+          $generated_products = $this->createNutritionProductsFromProductVariant(
+            $product
+          );
           $products[$product['CMS: Product Family Groups ID']] = $product_multipack;
           $this->mapping['primary'][$product_multipack['salsify:id']][$product['salsify:id']] = self::PRODUCT_VARIANT_CONTENT_TYPE;
+
+          $this->fillMappingByGeneratedProducts($generated_products, $product_multipack['salsify:id']);
+          $products = array_merge($products, $generated_products);
 
           $this->populateMappingByFamilyGroupsId($product, $product_multipack);
         }
@@ -397,6 +532,20 @@ class ProductHelper {
     $response['data'] = array_values($products);
 
     return Json::encode($response);
+  }
+
+  /**
+   * Add generated product ids to the mapping list.
+   *
+   * @param array $generated_products
+   *   Generated product records.
+   * @param string $multipack_id
+   *   Multipack salsify id.
+   */
+  public function fillMappingByGeneratedProducts(array $generated_products, string $multipack_id) {
+    foreach ($generated_products as $product) {
+      $this->mapping['primary'][$multipack_id][$product['salsify:id']] = $product['CMS: content type'];
+    }
   }
 
   /**
