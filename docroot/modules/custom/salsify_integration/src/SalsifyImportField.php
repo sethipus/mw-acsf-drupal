@@ -241,6 +241,8 @@ class SalsifyImportField extends SalsifyImport {
           if ($field_config->getType() == 'string') {
             $field_storage = $field_config->getFieldStorageDefinition();
             $max_length = $field_storage->getSetting('max_length');
+            $options = (is_array($options)) ? reset($options) : $options;
+
             if (strlen($options) > $max_length) {
               $options = substr($options, 0, $max_length);
             }

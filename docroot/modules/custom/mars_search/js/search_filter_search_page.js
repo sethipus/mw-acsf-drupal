@@ -6,7 +6,11 @@
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.searchFilterSearchPage = {
     attach: function (context, settings) {
-      var gridType = context.querySelector('[data-layer-grid-type]').dataset.layerGridType;
+      var gridBlock = context.querySelector('[data-layer-grid-type]');
+      if (gridBlock === null || gridBlock.getAttribute('data-filter-init')) {
+        return;
+      }
+      var gridType = gridBlock.dataset.layerGridType;
       if (gridType === 'search_page') {
         var selectorInput = '.search-page-header input';
         var selectorTypeFilter = '.search-page-header .search-results-container .results__container a';
@@ -62,6 +66,7 @@
           elementWrapper.className = 'ajax-card-grid__item_wrapper';
           elementWrapper.innerHTML = element;
           searchItems.append(elementWrapper);
+          Drupal.behaviors.productCard.attach(searchItems, settings);
         });
       }
 
@@ -228,6 +233,7 @@
       if (activeTypeFilter !== null) {
         clearTypeFilterListener();
       }
+      gridBlock.setAttribute('data-filter-init', true);
     }
   };
 })(jQuery, Drupal, drupalSettings);
