@@ -18,6 +18,7 @@ module:
   block_content: 0
   breakpoint: 0
   ckeditor: 0
+  ckeditor_config: 0
   color: 0
   components: 0
   config: 0
@@ -101,6 +102,7 @@ module:
   mars_articles: 0
   mars_banners: 0
   mars_common: 0
+  mars_content_hub: 0
   mars_entry_gate: 0
   mars_google_analytics: 0
   mars_lighthouse: 0

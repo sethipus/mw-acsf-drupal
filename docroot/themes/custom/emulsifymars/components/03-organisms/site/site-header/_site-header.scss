@@ -22,7 +22,7 @@
     }
 
     &--open {
-      overflow-y: scroll;
+      overflow-y: auto;
       position: fixed;
       top: 0;
       right: 0;
@@ -79,6 +79,18 @@
         justify-content: flex-end;
         width: 100%;
         text-align: right;
+      }
+    }
+
+    & .main-menu__link {
+      font-size: 1.8rem;
+      line-height: 1.8rem;
+    }
+
+    & .header-inline-menu__link {
+      @include large {
+        font-size: 1.4rem;
+        line-height: 1.4rem;
       }
     }
 
