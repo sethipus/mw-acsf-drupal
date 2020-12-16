@@ -15,11 +15,21 @@
     display: none;
     text-align: center;
     border-radius: variable(card-border-radius);
-    padding: 0 11rem 6rem 11rem;
-    max-width: 89.6rem;
+    padding: 0 3rem 3rem 3rem;
+    max-width: 90%;
     background-color: clr(subcolor-2);
     position: relative;
     overflow: hidden;
+
+    @include medium {
+      max-width: 75%;
+      padding: 0 5rem 6rem 5rem;
+    }
+
+    @include xl {
+      padding: 0 11rem 6rem 11rem;
+      max-width: 89.6rem;
+    }
   }
 
   &.age-error {
@@ -76,12 +86,17 @@
     position: relative;
     overflow: hidden;
 
-    @include small {
-      padding: 0 5rem 3rem 5rem;
+    @include xs {
+      padding: 0 3rem 3rem 3rem;
+      margin-left: 5%;
+      margin-right: 5%;
+      width: 90%;
     }
 
     @include medium {
       padding: 0 6rem 6rem 6rem;
+      width: 75%;
+      margin: 0;
     }
 
     @include large {
@@ -92,8 +107,9 @@
   &__heading {
     font-family: variable(heading-font);
     color: clr(primary);
+    font-weight: 500;
 
-    @include small {
+    @include xs {
       font-size: 4rem;
       line-height: 4rem;
     }
@@ -163,6 +179,7 @@
     @include large {
       font-size: 1.6rem;
       line-height: 2rem;
+      text-align: left;
     }
   }
 }
