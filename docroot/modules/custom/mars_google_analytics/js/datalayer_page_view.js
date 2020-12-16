@@ -240,27 +240,49 @@
         Array.from(contactForm.elements).forEach((input) => {
           if (input.type === 'button' || input.type === 'submit') {
             input.addEventListener('mousedown', function(e) {
-              dataLayer.push({
-                event: 'formSubmit',
-                pageName: document.title,
-                componentName: getComponentName(formContainer),
-                formName: formName,
-              });
+              if (formName === 'Entry Gate Form') {
+                return;
+              } 
+              else if (
+                formName === 'Contact & Help' && 
+                document.querySelector('.ff-ui-dialog-content') !== null &&
+                document.querySelector('.ff-ui-dialog-content').innerHTML.includes('Thank you for getting in touch')
+              ) {
+                dataLayer.push({
+                  event: 'formSubmit',
+                  pageName: document.title,
+                  componentName: getComponentName(formContainer),
+                  formName: formName,
+                });
+              } 
+              else if (formName === 'Poll Form') {
+                dataLayer.push({
+                  event: 'formSubmit',
+                  pageName: document.title,
+                  componentName: getComponentName(formContainer),
+                  formName: formName,
+                });
+              }
             });
           }
           else {
             input.addEventListener('blur', function (e) {
+              var fieldName = e.target.name;
               var fieldValue = e.target.value;
               if (/\S+@\S+\.\S+/.test(e.target.value)) {
                 fieldValue = '';
+              }
+              if (formName === 'Poll Form') {
+                fieldName = e.target.closest('div').querySelector('.polling__label-text').innerHTML;
+                fieldValue = 'chacked';
               }
               dataLayer.push({
                 event: 'formFieldComplete',
                 pageName: document.title,
                 componentName: getComponentName(formContainer),
                 formName: formName,
-                formFieldName: e.target.name,
-                formFieldValue: e.target.value,
+                formFieldName: fieldName,
+                formFieldValue: fieldValue,
               });
             });
           }
