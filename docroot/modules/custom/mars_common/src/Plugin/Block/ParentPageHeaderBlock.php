@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -81,6 +82,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   protected $mediaHelper;
 
   /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -89,7 +97,8 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -101,11 +110,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $plugin_id,
     $plugin_definition,
     LanguageHelper $language_helper,
-    MediaHelper $media_helper
+    MediaHelper $media_helper,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -142,6 +153,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     }
 
     $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'parent_page_header_block';
 
     return $build;

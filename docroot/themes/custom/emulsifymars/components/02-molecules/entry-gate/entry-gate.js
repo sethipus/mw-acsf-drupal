@@ -12,7 +12,7 @@ import moment from 'moment';
         const yearInput = $('.entry-gate--year', this);
         const submitBtn = $('.entry-gate-form__submit-btn', this);
         const errorMessage = $('.entry-gate-form__error-message', this);
-        const link = $('.entry-gate__bottom-paragraph a', this);
+        const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
     
         dayInput.onkeydown = function(e) {
           if (e.code === 'Tab' && e.shiftKey) {
@@ -64,7 +64,15 @@ import moment from 'moment';
     
         // display entry gate if cookie is not set or the value of cookie is not
         // enough
-        isOldEnough(getCookieDate('dateOfBirth')) ? entryGate.css({display: 'none'}) : entryGate.css({display: 'flex'});
+        if (isOldEnough(getCookieDate('dateOfBirth'))) {
+          entryGate.css({display: 'none'});
+          entryGate.attr("aria-hidden", "true");
+          $(".layout-container").attr("aria-hidden", "false");
+        } else {
+          entryGate.css({display: 'flex'});
+          entryGate.attr("aria-hidden", "false");
+          $(".layout-container").attr("aria-hidden", "true");
+        }
     
         dayInput.focus();
     
@@ -108,6 +116,8 @@ import moment from 'moment';
           // over the age limit, set cookie and hide entry gate
           document.cookie = `dateOfBirth=${givenDate.format('YYYY-MM-DD')}; path=/`;
           entryGate.css({display: 'none'});
+          $(".layout-container").attr("aria-hidden", "false");
+          entryGate.attr("aria-hidden", "true");
         })
       })
     },

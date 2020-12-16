@@ -26,6 +26,7 @@ variables:
   scriptDir: $(Build.Repository.LocalPath)/vendor/mikemadison13/blt-azure-pipelines/scripts/azure
   COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
   deployment_user: 'digie'
+  stack_id: 1
 
 steps:
   - task: InstallSSHKey@0
@@ -127,7 +128,7 @@ steps:
       targetType: 'inline'
       script: |
         ./scripts/deploy_branch.sh &&
-        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
+        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
   - task: Bash@3
     displayName: 'Deploy dev Branch and Trigger Application Deployment to QA env'
     condition: and(succeeded(), in(variables['Build.Reason'], 'Schedule'), eq(variables['build.sourceBranchName'], 'dev'))
