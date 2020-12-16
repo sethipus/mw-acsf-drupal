@@ -76,7 +76,7 @@
         </div>
       </div>
       {% if show_rating_and_reviews == true %}
-        {% if pdp_seo_enabled %}
+        {% if pdp_is_main_variant %}
           <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
         {% else %}
           <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}" data-bv-seo="false"></div>
