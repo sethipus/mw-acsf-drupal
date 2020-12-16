@@ -4,6 +4,7 @@ namespace Drupal\mars_search\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -87,14 +88,17 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Search processor factory.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   Request stack.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   Entity type manager.
    */
   public function __construct(
     RendererInterface $renderer,
     SearchProcessFactoryInterface $searchProcessor,
-    RequestStack $request_stack
+    RequestStack $request_stack,
+    EntityTypeManagerInterface $entityTypeManager
   ) {
     $this->renderer = $renderer;
-    $this->viewBuilder = $this->entityTypeManager()->getViewBuilder('node');
+    $this->viewBuilder = $entityTypeManager->getViewBuilder('node');
     $this->requestStack = $request_stack;
     $this->searchProcessor = $searchProcessor;
     $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
@@ -109,20 +113,18 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     return new static(
       $container->get('renderer'),
       $container->get('mars_search.search_factory'),
-      $container->get('request_stack')
+      $container->get('request_stack'),
+      $container->get('entity_type.manager')
     );
   }
 
   /**
    * Page callback: Retrieves autocomplete suggestions.
    *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The request.
-   *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   The autocompletion response.
    */
-  public function autocomplete(Request $request) {
+  public function autocomplete() {
     $options = $this->searchQueryParser->parseQuery();
     // We need only 4 results in autocomplete.
     $options['limit'] = 4;
@@ -161,8 +163,9 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         ],
       ] : [];
     }
-    $empty_text_heading = $this->config('mars_search.search_no_results')->get('no_results_heading');
-    $empty_text_description = $this->config('mars_search.search_no_results')->get('no_results_text');
+    $config_no_results = $this->config('mars_search.search_no_results');
+    $empty_text_heading = $config_no_results->get('no_results_heading');
+    $empty_text_description = $config_no_results->get('no_results_text');
     $build = [
       '#theme' => 'mars_search_suggestions',
       '#suggestions' => $suggestions,

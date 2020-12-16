@@ -18,21 +18,19 @@
     content: '';
     position: absolute;
     display: block;
-    left: -120px;
-    width: 1000px;
+    margin-top: -20%;
+    left: -450%;
+    top: 0;
+    width: 1000%;
     transform: rotate(18deg);
     height: 0;
     background-color: clr(subcolor-3);
     transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
 
-    @include xs {
-      width: 1000px;
-
-    }
-
     @include medium {
-      width: 750px;
-      bottom: -100px;
+      margin-bottom: -20%;
+      top: auto;
+      bottom: 0;
     }
   }
 
@@ -41,7 +39,7 @@
     background-color: transparent !important;
 
     &::after {
-      height: 300px;
+      height: 800%;
     }
   }
 
