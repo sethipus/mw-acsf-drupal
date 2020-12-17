@@ -260,10 +260,10 @@
                         componentName: 'contact_form',
                         formName: 'Contact & Help',
                       });
-                      contactValidationObserver.disconnect();
                       break;
                     }
                   }
+                  contactValidationObserver.disconnect();
                 };
                 const contactValidationObserver = new MutationObserver(contactFormSubmitCallback);
                 contactValidationObserver.observe(document, config);
