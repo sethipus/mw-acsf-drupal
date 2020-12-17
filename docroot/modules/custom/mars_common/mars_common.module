@@ -306,9 +306,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'template' => 'where-to-buy-block',
       'variables' => [
         'commerce_vendor' => NULL,
-        'product_id' => NULL,
-        'cta_title' => NULL,
-        'button_type' => NULL,
         'widget_id' => NULL,
         'data_token' => NULL,
         'data_subid' => NULL,
@@ -316,7 +313,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'data_displaylanguage' => NULL,
         'products' => NULL,
         'default_product' => NULL,
-        'product_gtin' => NULL,
+        'product_sku' => NULL,
       ],
     ],
     'text_block' => [

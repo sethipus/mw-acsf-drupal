@@ -119,11 +119,11 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#required' => TRUE,
     ];
 
-    $form['product_gtin'] = [
+    $form['product_sku'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product Gtin'),
       '#description' => $this->t('Optional, if empty, get from first product (variation) from site.'),
-      '#default_value' => $this->configuration['product_gtin'],
+      '#default_value' => $this->configuration['product_sku'],
       '#states' => [
         'visible' => [
           [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_PRICE_SPIDER]],
@@ -149,43 +149,6 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#type' => 'textfield',
       '#title' => $this->t('SubId'),
       '#default_value' => $this->configuration['data_subid'],
-      '#states' => [
-        'visible' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['product_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Product ID'),
-      '#default_value' => $this->configuration['product_id'],
-      '#states' => [
-        'visible' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['cta_title'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('CTA title'),
-      '#default_value' => $this->configuration['cta_title'],
-      '#states' => [
-        'visible' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['button_type'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Commerce Connector: button type'),
-      '#default_value' => $this->configuration['button_type'],
-      '#options' => [
-        'my_own' => $this->t('My own button'),
-        'commerce_connector' => $this->t('Commerce Connector button'),
-      ],
       '#states' => [
         'visible' => [
           [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
@@ -232,11 +195,8 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       'widget_id' => $config['widget_id'] ?? '',
       'data_token' => $config['data_token'] ?? '',
       'data_subid' => $config['data_subid'] ?? '',
-      'cta_title' => $config['cta_title'] ?? '',
-      'product_id' => $config['product_id'] ?? '',
-      'button_type' => $config['button_type'] ?? '',
       'data_locale' => $config['data_locale'] ?? '',
-      'product_gtin' => $config['product_gtin'] ?? '',
+      'product_sku' => $config['product_sku'] ?? '',
     ];
   }
 
@@ -247,52 +207,55 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $build['#theme'] = 'where_to_buy_block';
     $this->pageAttachments($build);
 
-    $build['#commerce_vendor'] = $this->configuration['commerce_vendor'];
-    $build['#product_id'] = $this->configuration['product_id'];
-    $build['#cta_title'] = $this->configuration['cta_title'];
-    $build['#button_type'] = $this->configuration['button_type'];
+    $commerceVendor = $this->configuration['commerce_vendor'];
     $build['#widget_id'] = $this->configuration['widget_id'];
-    $build['#data_subid'] = $this->configuration['data_subid'];
-    $build['#data_token'] = $this->configuration['data_token'];
-    $build['#data_locale'] = $this->configuration['data_locale'];
-    $build['#product_gtin'] = $this->configuration['product_gtin'];
+    $build['#commerce_vendor'] = $commerceVendor;
 
-    $locale = $this->languageManager->getCurrentLanguage()->getId();
-    $build['#data_displaylanguage'] = $locale;
+    if ($commerceVendor === self::VENDOR_COMMERCE_CONNECTOR) {
+      $build['#data_subid'] = $this->configuration['data_subid'];
+      $build['#data_token'] = $this->configuration['data_token'];
+      $build['#data_locale'] = $this->configuration['data_locale'];
 
-    $build['#attached']['drupalSettings']['wtb_block'] = [
-      'commerce_vendor' => $this->configuration['commerce_vendor'],
-      'widget_id' => $this->configuration['widget_id'],
-      'data_subid' => $this->configuration['data_subid'],
-      'data_token' => $this->configuration['data_token'],
-      'data_locale' => $this->configuration['data_locale'],
-      'data_displaylanguage' => $locale,
-    ];
+      $locale = $this->languageManager->getCurrentLanguage()->getId();
+      $build['#data_displaylanguage'] = $locale;
 
-    $products = $this->entityTypeManager->getStorage('node')
-      ->loadByProperties([
-        'type' => 'product',
-      ]);
-    $products_for_render = [];
-    $default_product = [];
-    foreach ($products as $product) {
-      $products_for_render[] = [
-        'id' => $product->id(),
-        'title' => $product->label(),
+      $build['#attached']['drupalSettings']['wtb_block'] = [
+        'widget_id' => $this->configuration['widget_id'],
+        'data_subid' => $this->configuration['data_subid'],
+        'data_token' => $this->configuration['data_token'],
+        'data_locale' => $this->configuration['data_locale'],
+        'data_displaylanguage' => $locale,
       ];
-      if (empty($default_product)) {
-        $variants_info = $this->addProductVariantsInfo($product);
-        if (empty($variants_info) || empty($variants_info[0]['size'])) {
-          continue;
-        }
 
-        $default_product['id'] = $product->id();
-        $default_product['title'] = $product->label();
-        $default_product['variants'] = $variants_info;
+      /** @var \Drupal\node\Entity\Node[] $products */
+      $products = $this->entityTypeManager->getStorage('node')
+        ->loadByProperties([
+          'type' => ['product', 'product_multipack'],
+        ]);
+      $products_for_render = [];
+      $default_product = [];
+      foreach ($products as $product) {
+        $products_for_render[] = [
+          'id' => $product->id(),
+          'title' => $product->label(),
+        ];
+        if (empty($default_product)) {
+          $variants_info = $this->addProductVariantsInfo($product);
+          if (empty($variants_info) || empty($variants_info[0]['size'])) {
+            continue;
+          }
+
+          $default_product['id'] = $product->id();
+          $default_product['title'] = $product->label();
+          $default_product['variants'] = $variants_info;
+        }
       }
+      $build['#products'] = $products_for_render;
+      $build['#default_product'] = $default_product;
     }
-    $build['#products'] = $products_for_render;
-    $build['#default_product'] = $default_product;
+    else {
+      $build['#product_sku'] = $this->configuration['product_sku'];
+    }
 
     return $build;
   }
@@ -312,20 +275,10 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       ->referencedEntities();
 
     foreach ($variants as $variant) {
-
-      /* @var \Drupal\node\NodeInterface $variant */
-      $media_override_id = $variant->get('field_product_key_image_override')
-        ->target_id;
-      $media_params = $this->mediaHelper->getMediaParametersById($media_override_id);
-
-      // Override media missing or has error try the normal version.
-      if ($media_params['error'] ?? FALSE) {
-        $media_id = $variant->get('field_product_key_image')->target_id;
-        $media_params = $this->mediaHelper->getMediaParametersById($media_id);
-      }
-
+      $media_params = $this->mediaHelper->getMediaParametersById(
+        $this->mediaHelper->getEntityMainMediaId($variant)
+      );
       $image_src = $image_alt = NULL;
-      // Override media and the normal version both failed, we should skip this.
       if (isset($media_params['src'])) {
         $image_src = $media_params['src'];
         $image_alt = $media_params['alt'];
