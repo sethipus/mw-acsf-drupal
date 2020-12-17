@@ -544,7 +544,9 @@ class ProductHelper {
    */
   public function fillMappingByGeneratedProducts(array $generated_products, string $multipack_id) {
     foreach ($generated_products as $product) {
-      $this->mapping['primary'][$multipack_id][$product['salsify:id']] = $product['CMS: content type'];
+      if ($product['CMS: content type'] == static::PRODUCT_CONTENT_TYPE) {
+        $this->mapping['primary'][$multipack_id][$product['salsify:id']] = $product['CMS: content type'];
+      }
     }
   }
 
