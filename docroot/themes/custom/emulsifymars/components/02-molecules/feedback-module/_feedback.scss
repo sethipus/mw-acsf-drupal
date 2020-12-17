@@ -92,10 +92,6 @@
     .default-link {
       min-width: 15.7rem;
       cursor: pointer;
-
-      &::after {
-        bottom: -130px;
-      }
     }
   }
 
