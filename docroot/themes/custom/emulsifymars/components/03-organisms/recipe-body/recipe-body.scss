@@ -34,12 +34,10 @@ $xl-left-margin: 11.583rem;
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
     text-transform: capitalize;
-    letter-spacing: 1px;
 
     @include medium {
       font-size: 26px;
       line-height: 1.1;
-      letter-spacing: 1.3px;
     }
   }
 
@@ -86,7 +84,6 @@ $xl-left-margin: 11.583rem;
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
     text-transform: capitalize;
-    letter-spacing: 1.1px;
     padding: 0;
     font-weight: 500;
 
@@ -95,7 +92,6 @@ $xl-left-margin: 11.583rem;
       font-size: 26px;
       line-height: 29px;
       padding: 0;
-      letter-spacing: 1.04px;
     }
 
     @include xl {
@@ -103,7 +99,6 @@ $xl-left-margin: 11.583rem;
       line-height: 31px;
       max-width: 1125px;
       padding: 0 460px 0 0;
-      letter-spacing: 1.4px;
     }
   }
 
