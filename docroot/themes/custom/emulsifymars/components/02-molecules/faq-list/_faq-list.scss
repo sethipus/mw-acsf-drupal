@@ -74,9 +74,4 @@
   @include xl {
     line-height: 6rem;
   }
-
-  &::after {
-    bottom: -45px;
-    width: 600px;
-  }
 }
