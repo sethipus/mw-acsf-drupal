@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_common\EventSubscriber\DependencyCollector;
+namespace Drupal\mars_content_hub\EventSubscriber\DependencyCollector;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\depcalc\DependencyCalculatorEvents;
@@ -8,9 +8,9 @@ use Drupal\depcalc\Event\SectionComponentDependenciesEvent;
 use Drupal\depcalc\EventSubscriber\DependencyCollector\BaseDependencyCollector;
 
 /**
- * Class MediaEntityBlockCollector.
+ * Class ContentPaitUpBlockkCollector.
  */
-class MediaEntityBlockCollector extends BaseDependencyCollector {
+class ContentPairUpBlockCollector extends BaseDependencyCollector {
 
   /**
    * The entity type manager.
@@ -20,7 +20,7 @@ class MediaEntityBlockCollector extends BaseDependencyCollector {
   protected $entityTypeManager;
 
   /**
-   * TermParentCollector constructor.
+   * ContentPaitUpBlockkCollector constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
@@ -49,32 +49,18 @@ class MediaEntityBlockCollector extends BaseDependencyCollector {
   public function onCalculateSectionComponentDependencies(SectionComponentDependenciesEvent $event) {
     $component = $event->getComponent();
     $config = $component->get('configuration');
-    if (is_array($config)) {
-      $media_ids = $this->iterateConfig($config);
-      $medias = $this->entityTypeManager->getStorage('media')->loadMultiple($media_ids);
-      foreach ($medias as $media) {
-        $event->addEntityDependency($media);
+    if ($component->getPluginId() == 'product_content_pair_up_block') {
+      if (!empty($config['article_recipe'])) {
+        /** @var \Drupal\core\Entity\EntityInterface $node */
+        $node = $this->entityTypeManager->getStorage('node')->load($config['article_recipe']);
+        $event->addEntityDependency($node);
+      }
+      if (!empty($config['product'])) {
+        /** @var \Drupal\core\Entity\EntityInterface $node */
+        $node = $this->entityTypeManager->getStorage('node')->load($config['product']);
+        $event->addEntityDependency($node);
       }
     }
-  }
-
-  /**
-   * Collect all media ids from block configuration.
-   *
-   * @param array $config
-   *   Block configuration array.
-   */
-  private function iterateConfig(array $config) {
-    $media_ids = [];
-    foreach ($config as $element) {
-      if (is_string($element) && strpos($element, 'media:') !== FALSE) {
-        $media_ids[] = explode(':', $element)[1];
-      }
-      if (is_array($element)) {
-        $media_ids = array_merge($media_ids, $this->iterateConfig($element));
-      }
-    }
-    return $media_ids;
   }
 
 }

@@ -453,6 +453,7 @@
     }
 
     .swiper-control {
+      display: none;
       position: absolute;
       top: 2.3rem;
       right: 3.1rem;
@@ -517,6 +518,10 @@
           display: none;
         }
       }
+    }
+
+    .swiper-container-initialized ~ .swiper-control {
+      display: block;
     }
   }
 

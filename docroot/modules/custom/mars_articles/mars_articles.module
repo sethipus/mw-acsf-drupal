@@ -31,6 +31,7 @@ function mars_articles_theme($existing, $type, $theme, $path) {
         'publication_date' => NULL,
         'social_links' => NULL,
         'brand_borders' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'block--mars-articles--header-no-image',
     ],

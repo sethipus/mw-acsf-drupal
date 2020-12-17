@@ -21,16 +21,3 @@ Feature: Free Form Story Test
     And I should see "Background shape"
     And I should see "Use custom color"
     And I should see "Background Color Override"
-    And I fill in "Header 2" with "header_2"
-    And I click on a "//a[@title='Insert Horizontal Line']" xpath element
-
-    When I press "Add block"
-    Then I should see "You are editing the layout for this Basic page content item."
-
-    When I press "Save layout"
-    Then I should see "The layout override has been saved."
-    And I should see "header_2"
-    And I should see a ".freeform-story" element
-    And I should see a ".freeform-story__content" element
-    And I should see a ".freeform-story__texts" element
-    And I should see a ".freeform-story__paragraph" element

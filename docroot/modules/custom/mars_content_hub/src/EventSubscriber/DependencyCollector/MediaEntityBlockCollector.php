@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_recommendations\EventSubscriber\DependencyCollector;
+namespace Drupal\mars_content_hub\EventSubscriber\DependencyCollector;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\depcalc\DependencyCalculatorEvents;
@@ -8,9 +8,9 @@ use Drupal\depcalc\Event\SectionComponentDependenciesEvent;
 use Drupal\depcalc\EventSubscriber\DependencyCollector\BaseDependencyCollector;
 
 /**
- * Class ManualRecommendationBlockCollector.
+ * Class MediaEntityBlockCollector.
  */
-class ManualRecommendationBlockCollector extends BaseDependencyCollector {
+class MediaEntityBlockCollector extends BaseDependencyCollector {
 
   /**
    * The entity type manager.
@@ -49,16 +49,32 @@ class ManualRecommendationBlockCollector extends BaseDependencyCollector {
   public function onCalculateSectionComponentDependencies(SectionComponentDependenciesEvent $event) {
     $component = $event->getComponent();
     $config = $component->get('configuration');
-    $productCT = ['product', 'product_variant', 'product_multipack'];
-    if ($component->getPluginId() == 'recommendations_module' && $config['population_plugin_id'] == 'manual') {
-      foreach ($config['population_plugin_configuration']['nodes'] as $nid) {
-        /** @var \Drupal\core\Entity\EntityInterface $node */
-        $node = $this->entityTypeManager->getStorage('node')->load($nid);
-        if (!in_array($node->bundle(), $productCT)) {
-          $event->addEntityDependency($node);
-        }
+    if (is_array($config)) {
+      $media_ids = $this->iterateConfig($config);
+      $medias = $this->entityTypeManager->getStorage('media')->loadMultiple($media_ids);
+      foreach ($medias as $media) {
+        $event->addEntityDependency($media);
       }
     }
+  }
+
+  /**
+   * Collect all media ids from block configuration.
+   *
+   * @param array $config
+   *   Block configuration array.
+   */
+  private function iterateConfig(array $config) {
+    $media_ids = [];
+    foreach ($config as $element) {
+      if (is_string($element) && strpos($element, 'media:') !== FALSE) {
+        $media_ids[] = explode(':', $element)[1];
+      }
+      if (is_array($element)) {
+        $media_ids = array_merge($media_ids, $this->iterateConfig($element));
+      }
+    }
+    return $media_ids;
   }
 
 }

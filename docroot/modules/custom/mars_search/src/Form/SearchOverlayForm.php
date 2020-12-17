@@ -86,10 +86,16 @@ class SearchOverlayForm extends FormBase {
     ];
     $form['actions'] = [
       '#type' => 'actions',
+      '#attributes' => [
+        'aria-hidden' => 'true',
+      ],
     ];
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->languageHelper->translate('Submit'),
+      '#attributes' => [
+        'aria-hidden' => 'true',
+      ],
     ];
 
     $form['#attached']['library'][] = 'mars_search/autocomplete';

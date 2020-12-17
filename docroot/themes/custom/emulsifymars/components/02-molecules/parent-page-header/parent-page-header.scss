@@ -1,9 +1,5 @@
 .parent-page-header {
   background-color: clr(subcolor-2);
-  background-image: variable(brand-shape);
-  background-repeat: no-repeat;
-  background-position: center -50rem;
-  background-size: 84rem;
   padding: 12rem 4rem 8rem 4rem;
   position: relative;
   overflow: hidden;
@@ -93,6 +89,39 @@
     flex-direction: column;
     justify-content: flex-start;
 
+    .brand-shape {
+      position: absolute;
+      display: block;
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+
+      @include xs {
+        width: 35rem;
+        height: 35rem;
+        top: -12rem;    
+      }
+
+      @include medium {
+        width: 60rem;
+        height: 60rem;
+        top: -26rem;
+      }
+
+      @include large {
+        width: 68rem;
+        height: 68rem;
+        top: -30rem;
+      }
+      
+      svg {
+        width: 100%;
+        height: 100%;
+        fill: clr(subcolor-1);
+        opacity: 0.2;
+      }
+    }
+
     .eyebrow {
       margin-top: 2rem;
     }
@@ -128,6 +157,10 @@
     background-position: top center;
     background-size: cover;
 
+    .brand-shape {
+      display: none;
+    }
+
     .parent-page-heading,
     .eyebrow,
     .parent-page-paragraph {
@@ -138,24 +171,16 @@
         text-decoration: none;
       }
     }
-
-    &::after {
-      content: '';
-      position: absolute;
-      display: block;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, .5);
-      z-index: 2
-    }
   }
 
   &--with-bg-video {
     background-position: top center;
     background-size: cover;
     padding: 0;
+    .brand-shape {
+      display: none;
+    }
+
     .parent-page-heading,
     .eyebrow,
     .parent-page-paragraph {
@@ -179,6 +204,20 @@
       font-size: 1.6rem;
       line-height: 1.6rem;
       letter-spacing: 0.16rem;
+    }
+  }
+
+  &--tint-enabled {
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, .5);
+      z-index: 2
     }
   }
 }
