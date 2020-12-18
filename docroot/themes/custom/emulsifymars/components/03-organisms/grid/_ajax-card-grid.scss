@@ -12,7 +12,6 @@
 
   &__heading {
     font-family: variable(heading-font);
-    letter-spacing: .14rem;
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
@@ -27,7 +26,6 @@
     @include medium {
       font-size: 4.8rem;
       line-height: 4.8rem;
-      letter-spacing: 0.2rem;
       margin-bottom: 6rem;
     }
   }
