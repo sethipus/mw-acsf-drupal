@@ -491,6 +491,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
         'show_rating_and_reviews' => $this->isRatingEnable($node),
+        'is_main_variant' => $i === 1,
       ];
     }
 
@@ -599,12 +600,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
 
     foreach ($map as $image_field => $image_field_override) {
-      $media_override_id = $node->{$image_field_override}->target_id;
+      $media_override_id = $node->get($image_field_override)->target_id;
       $media_params = $this->mediaHelper->getMediaParametersById($media_override_id);
 
       // Override media missing or has error try the normal version.
       if ($media_params['error'] ?? FALSE) {
-        $media_id = $node->{$image_field}->target_id;
+        $media_id = $node->get($image_field)->target_id;
         $media_params = $this->mediaHelper->getMediaParametersById($media_id);
       }
 
@@ -823,7 +824,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getAllergenItems($node) {
     $items = [];
-    foreach ($node->field_product_diet_allergens as $reference) {
+    foreach ($node->get('field_product_diet_allergens') as $reference) {
       $allergen_term = $this->languageHelper->getTranslation($reference->entity);
 
       $media_id = $this->mediaHelper->getEntityMainMediaId($allergen_term);
@@ -864,7 +865,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     if (
       $bundle !== 'product_multipack' &&
       $this->isAllergenVisible() &&
-      !$node->field_product_diet_allergens->isEmpty()
+      !$node->get('field_product_diet_allergens')->isEmpty()
     ) {
       $items[] = [
         'title' => $this->languageHelper->translate($this->configuration['allergen_label']),

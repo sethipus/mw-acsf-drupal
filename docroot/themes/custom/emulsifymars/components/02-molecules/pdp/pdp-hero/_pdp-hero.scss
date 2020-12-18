@@ -184,7 +184,6 @@
     font-family: variable(primary-font);
     font-size: 1.4rem;
     font-weight: normal;
-    letter-spacing: 1.6px;
     text-transform: uppercase;
     color: clr(primary);
 
@@ -197,7 +196,6 @@
       padding-right: 3.2rem;
       color: clr(primary);
       line-height: 1;
-      letter-spacing: 1.4px;
     }
   }
 
@@ -228,7 +226,6 @@
 
       @include medium {
         font-size: 1.8rem;
-        letter-spacing: 1.4px;
       }
     }
   }
@@ -534,7 +531,6 @@
     padding: 2.3rem 2.3rem 0;
     font-size: 2rem;
     line-height: 2.2rem;
-    letter-spacing: 0.08px;
     text-transform: uppercase;
     text-align: center;
     background: $white;
@@ -547,7 +543,6 @@
     @include large {
       font-size: 2.4rem;
       line-height: 2.64rem;
-      letter-spacing: 0.12rem;
     }
   }
 
@@ -745,7 +740,6 @@
       font-family: variable(primary-font);
       text-transform: uppercase;
       font-size: 1.6rem;
-      letter-spacing: 0.16rem;
       text-decoration: none;
       line-height: 6rem;
       padding: 0 5.7rem;
@@ -766,7 +760,6 @@
     font-family: variable(primary-font);
     font-size: 1.2rem;
     line-height: 1.1;
-    letter-spacing: normal;
     text-align: center;
     background-color: clr(subcolor-3);
     color: clr(secondary);
