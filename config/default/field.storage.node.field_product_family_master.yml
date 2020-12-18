@@ -1,0 +1,18 @@
+uuid: 6b505414-c812-44c1-a426-5ad673d995c2
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_product_family_master
+field_name: field_product_family_master
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

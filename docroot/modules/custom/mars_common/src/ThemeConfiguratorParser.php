@@ -126,7 +126,7 @@ class ThemeConfiguratorParser {
         $svg = $svg->repeated();
       }
       else {
-        $svg = $svg->scaleWhileKeepingAspectRatio();
+        $svg = $svg->stretched();
       }
     }
 

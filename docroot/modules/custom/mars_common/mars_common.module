@@ -1012,6 +1012,7 @@ function _mars_common_form_menu_link_content_menu_link_content_form_validate(arr
  *   Form state.
  */
 function mars_common_form_menu_link_content_menu_link_content_form_alter(array &$form, FormStateInterface $form_state) {
+  $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::DEFAULT_CHARACTER_COUNT_LIMIT;
   $form['#validate'][] = '_mars_common_form_menu_link_content_menu_link_content_form_validate';
   $form['#prefix'] = '<div id="menu-link-form-content-wrapper">';
   $form['#suffix'] = '</div>';
