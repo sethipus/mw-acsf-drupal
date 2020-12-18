@@ -495,6 +495,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
         'show_rating_and_reviews' => $this->isRatingEnable($node),
+        'is_main_variant' => $i === 1,
       ];
     }
 
