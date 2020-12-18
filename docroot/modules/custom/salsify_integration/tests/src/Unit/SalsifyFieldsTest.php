@@ -460,6 +460,10 @@ class SalsifyFieldsTest extends UnitTestCase {
       ->method('getBody')
       ->willReturn($this->streamMock);
 
+    $this->productHelperMock
+      ->expects($this->once())
+      ->method('sortProducts');
+
     $this->streamMock
       ->expects($this->once())
       ->method('__toString')
@@ -641,6 +645,10 @@ class SalsifyFieldsTest extends UnitTestCase {
       ->expects($this->once())
       ->method('__call')
       ->willReturn($this->responseMock);
+
+    $this->productHelperMock
+      ->expects($this->once())
+      ->method('sortProducts');
 
     $this->responseMock
       ->expects($this->once())
