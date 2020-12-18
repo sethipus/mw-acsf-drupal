@@ -2,6 +2,7 @@ theme_styles: 'twix'
 size_id: '1oz'
 gtin: '01231243341232'
 show_rating_and_reviews: true
+pdp_is_main_variant: false
 pdp_common_hero_data:
   background_color: 'rgba(87, 189, 244, 0.7)'
   brand_shape: "<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='50' fill='rgba(234, 170, 0, 0.2)'></svg>"
