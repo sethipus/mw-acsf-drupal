@@ -47,19 +47,52 @@ class ProductHelper {
     }
 
     try {
-      /** @var \Drupal\Core\Entity\ContentEntityInterface $firstVariant */
-      $variant = $contentEntity
+      $variants = $contentEntity
         ->get('field_product_variants')
-        ->first();
+        ->referencedEntities();
 
-      $firstVariant = ($variant) ? $variant->entity : NULL;
-      $firstVariant = $this->languageHelper->getTranslation($firstVariant);
+      /** @var \Drupal\Core\Entity\ContentEntityInterface $main_variant */
+      $main_variant = NULL;
+      $main_variant_size = NULL;
+
+      foreach ($variants as $variant) {
+        $is_master = $variant->get('field_product_family_master')->value;
+        $size = $variant->get('field_product_size')->value;
+        $size = (is_numeric($size)) ? (float) $size : (is_string($size) ?
+          explode(' ', $size)[0] : NULL);
+
+        if ($is_master) {
+          $main_variant = $variant;
+          break;
+        }
+        elseif ($main_variant && !is_numeric($main_variant_size) &&
+          is_numeric($size)) {
+
+          $main_variant = $variant;
+          $main_variant_size = $size;
+        }
+        elseif ($main_variant && is_numeric($main_variant_size) &&
+           is_numeric($size) && ($size < $main_variant_size)) {
+
+          $main_variant = $variant;
+          $main_variant_size = $size;
+        }
+        elseif (!$main_variant) {
+          $main_variant = $variant;
+          $main_variant_size = $size;
+        }
+
+      }
+
+      if ($main_variant instanceof ContentEntityInterface) {
+        $main_variant = $this->languageHelper->getTranslation($main_variant);
+      }
     }
     catch (MissingDataException $e) {
-      $firstVariant = NULL;
+      $main_variant = NULL;
     }
 
-    return $firstVariant;
+    return $main_variant;
   }
 
 }

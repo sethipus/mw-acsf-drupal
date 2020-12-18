@@ -43,19 +43,16 @@
     @include small {
       font-size: 4rem;
       line-height: 4rem;
-      letter-spacing: 0.2rem;
     }
 
     @include medium {
       font-size: 5.6rem;
       line-height: 5.6rem;
-      letter-spacing: 0.28rem;
     }
 
     @include large {
       font-size: 6.4rem;
       line-height: 6.4rem;
-      letter-spacing: 0.32rem;
     }
   }
 
@@ -197,13 +194,11 @@
     @include xs {
       font-size: 1.4rem;
       line-height: 1.4rem;
-      letter-spacing: 0.14rem;
     }
 
     @include medium {
       font-size: 1.6rem;
       line-height: 1.6rem;
-      letter-spacing: 0.16rem;
     }
   }
 
