@@ -12,6 +12,6 @@
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   {% if video__control == true %}
-    <button {{ bem('control', [], video__base_class) }} type="button" data-state="pause"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+    <button {{ bem('control', [], video__base_class) }} type="button" title="{{ 'Pause' | mt }}" aria-label="{{ 'Pause' | mt }}" data-state="pause"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
   {% endif %}
 </figure>
