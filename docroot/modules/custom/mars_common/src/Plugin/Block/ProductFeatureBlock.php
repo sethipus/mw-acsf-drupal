@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -43,6 +44,13 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   private $languageHelper;
 
   /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -51,7 +59,8 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -63,11 +72,13 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_id,
     $plugin_definition,
     LanguageHelper $language_helper,
-    MediaHelper $media_helper
+    MediaHelper $media_helper,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -89,6 +100,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     }
     $build['#explore_cta'] = $this->languageHelper->translate($conf['explore_cta'] ?? '');
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
 
     $build['#theme'] = 'product_feature_block';
 
