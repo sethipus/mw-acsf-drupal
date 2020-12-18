@@ -28,9 +28,9 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
               }
             }
           });
-        });
 
-        $(window).once('socialFeed').on('resize', _.debounce(() => {swiper.scrollbar.updateSize()}, 200));
+          $(window).on('resize', _.debounce(() => {swiper.scrollbar.updateSize()}, 200));
+        });
       })
     },
   };
