@@ -38,10 +38,6 @@
       margin: auto 35%
     }
 
-    & .sronly--pause {
-      display: none;
-    }
-
     @include medium {
       top: 20px;
       right: 20px;
@@ -81,10 +77,6 @@
       border-right: 4px solid clr(text-inverse);
       border-left: 4px solid clr(text-inverse);
       margin: auto;
-    }
-
-    & .sronly--play {
-      display: none;
     }
 
     @include medium {
