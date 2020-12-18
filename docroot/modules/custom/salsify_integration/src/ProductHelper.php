@@ -142,7 +142,7 @@ class ProductHelper {
     if (
       ($field_mapping['salsify_data_type'] == self::SALSIFY_DATA_FORMAT_STRING &&
       isset($record[$field_mapping['salsify_id']]) &&
-      is_string($record[$field_mapping['salsify_id']])) ||
+      (is_string($record[$field_mapping['salsify_id']]) || is_array($record[$field_mapping['salsify_id']]))) ||
       $field_mapping['salsify_data_type'] != self::SALSIFY_DATA_FORMAT_STRING ||
       !isset($record[$field_mapping['salsify_id']])
     ) {

@@ -60,6 +60,7 @@
     -webkit-line-clamp: 3;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    min-height: 9rem;
   }
 
   &-heading__link {
@@ -68,12 +69,12 @@
     text-decoration: none;
     font-size: 2.2rem;
     line-height: 2.42rem;
-    min-height: 8rem;
+    min-height: 9rem;
     min-width: 31.8rem;
     display: block;
     padding: 0 3rem 0 3rem;
     font-weight: bold;
-    letter-spacing: 0.11rem;
+    overflow: hidden;
   }
 
   &__labels_section {
@@ -103,7 +104,6 @@
     font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;
-    letter-spacing: 0.064px;
   }
 
   &__details-button {

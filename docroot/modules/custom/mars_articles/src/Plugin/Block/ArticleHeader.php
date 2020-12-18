@@ -159,6 +159,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     }
     else {
       $build['#theme'] = 'article_header_block_no_image';
+      $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     }
 
     // Get brand border path.
