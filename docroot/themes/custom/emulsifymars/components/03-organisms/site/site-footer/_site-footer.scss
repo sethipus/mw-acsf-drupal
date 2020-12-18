@@ -118,19 +118,16 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 1.6rem;
     line-height: 1.6rem;
-    letter-spacing: 0.08rem;
   }
 
   @include medium {
     flex: 0 1 50%;
     font-size: 1.6rem;
-    letter-spacing: 0.16rem;
   }
 
   @include large {
     font-size: 1.8rem;
     line-height: 1.8rem;
-    letter-spacing: 0.09rem;
   }
 }
 
@@ -188,7 +185,6 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.12rem;
   }
 
   @include medium {
@@ -199,7 +195,6 @@ $fence-part-size: 1440px*2/101;
   @include large {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.12rem;
   }
 }
 
@@ -210,7 +205,6 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.06rem;
   }
 
   @include medium {
@@ -221,7 +215,6 @@ $fence-part-size: 1440px*2/101;
   @include large {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.06rem;
   }
 }
 
@@ -232,7 +225,6 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.06rem;
   }
 
   @include medium {
@@ -243,7 +235,6 @@ $fence-part-size: 1440px*2/101;
   @include large {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.06rem;
   }
 }
 
@@ -267,21 +258,18 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 2rem;
     line-height: 2.2rem;
-    letter-spacing: 0.1rem;
   }
 
   @include medium {
     margin: 30px 0 10px;
     font-size: 2.6rem;
     line-height: 2.86rem;
-    letter-spacing: 0.13rem;
   }
 
   @include large {
     margin: 30px 0 10px;
     font-size: 2.8rem;
     line-height: 3.08rem;
-    letter-spacing: 0.14rem;
   }
 
   @include xl {
