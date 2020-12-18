@@ -19,7 +19,7 @@
     font-weight: normal;
     text-decoration: none;
 
-    path {
+    svg {
       fill: currentColor;
     }
 
@@ -39,6 +39,7 @@
       color: clr(primary);
       font-size: 1.4rem;
       line-height: 1.4rem;
+
       &:hover {
         color: clr(secondary);
       }

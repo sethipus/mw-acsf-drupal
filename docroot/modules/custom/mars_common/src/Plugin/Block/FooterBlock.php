@@ -10,8 +10,10 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Template\Attribute;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -123,7 +125,10 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
     $build['#marketing'] = $this->languageHelper->translate($conf['marketing']['value']);
     $build['#corporate_tout_text'] = $this->languageHelper->translate($conf['corporate_tout']['title']);
-    $build['#corporate_tout_url'] = ['href' => $conf['corporate_tout']['url']];
+    $build['#corporate_tout_url'] = [
+      'href' => $conf['corporate_tout']['url'],
+      'name' => $build['#corporate_tout_text'],
+    ];
 
     $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {
@@ -197,7 +202,23 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $menu_links = [];
     if (!empty($menu['#items'])) {
       foreach ($menu['#items'] as $item) {
-        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
+        /* TODO: Reafactor this part.
+         * Processing menu_link_attributes module options. This is a quick fix
+         * for making our footer work with that contrib module. This should be
+         * investigated and done properly in more general way.
+         */
+        $attributes = $item['attributes'] ?? new Attribute();
+        $menu_link_content = $item['original_link'] ?? NULL;
+        if ($menu_link_content instanceof MenuLinkContent) {
+          $options = $menu_link_content->getOptions();
+          $menu_link_attributes = $options['attributes'] ?? [];
+          $attributes->merge(new Attribute($menu_link_attributes));
+        }
+        $menu_links[] = [
+          'title' => $item['title'],
+          'url' => $item['url']->setAbsolute()->toString(),
+          'item_attributes' => $attributes,
+        ];
       }
     }
     return $menu_links;

@@ -67,20 +67,17 @@
     @include xs {
       font-size: 2rem;
       line-height: 3.2rem;
-      letter-spacing: 0.08rem;
       margin-bottom: 2rem;
     }
 
     @include medium {
       font-size: 2.6rem;
-      letter-spacing: 0.104rem;
       margin-bottom: 3rem;
     }
 
     @include large {
       font-size: 2.8rem;
       line-height: 3.08rem;
-      letter-spacing: 0.14rem;
     }
   }
 
@@ -164,7 +161,6 @@
     font-family: variable(primary-font);
     color: clr(secondary);
     font-size: 1.6rem;
-    letter-spacing: 0.128rem;
     text-transform: uppercase;
     border: 1px solid clr(secondary);
     border-radius: variable(button-border-radius);
@@ -311,18 +307,15 @@
     @include xs {
       font-size: 2rem;
       line-height: 3.2rem;
-      letter-spacing: 0.08rem;
     }
 
     @include medium {
       font-size: 2.6rem;
-      letter-spacing: 0.104rem;
     }
 
     @include large {
       font-size: 2.8rem;
       line-height: 3.08rem;
-      letter-spacing: 0.112rem;
     }
   }
 

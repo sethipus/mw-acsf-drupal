@@ -1,5 +1,6 @@
 .recipe-card {
   min-height: 520px;
+  max-height: 520px;
   background-image: radial-gradient(
     circle at 50% 40%,
     clr(card-background) 10%,
@@ -43,6 +44,7 @@
     a {
       display: block;
       height: 100%;
+      width: 100%;
     }
 
   }
@@ -53,6 +55,12 @@
 
   .recipe-card-heading {
     flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    min-height: 9rem;
   }
 
   &-heading__link {
@@ -61,19 +69,19 @@
     text-decoration: none;
     font-size: 2.2rem;
     line-height: 2.42rem;
-    min-height: 5rem;
+    min-height: 9rem;
     min-width: 31.8rem;
     display: block;
     padding: 0 3rem 0 3rem;
     font-weight: bold;
-    letter-spacing: 0.11rem;
+    overflow: hidden;
   }
 
   &__labels_section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 3rem 3rem 3rem;
+    padding: 0 3rem 10rem 3rem;
     flex-grow: 1;
 
     .ingredients-block {
@@ -96,7 +104,6 @@
     font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;
-    letter-spacing: 0.064px;
   }
 
   &__details-button {

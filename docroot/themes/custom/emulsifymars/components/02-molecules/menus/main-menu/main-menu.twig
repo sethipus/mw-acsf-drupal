@@ -1,6 +1,6 @@
 {{ attach_library('emulsifymars/main-menu') }}
 
-<nav class="main-nav__desktop">
+<nav class="main-nav__desktop" role="navigation">
   {% include "@molecules/menus/_menu.twig" with {
     menu_class: "main-menu",
     items: menu_items,
@@ -23,19 +23,13 @@
   } %}
   <span class="toggle-expand__text">Menu</span>
 </a>
-<nav class="main-nav__mobile">
+<nav class="main-nav__mobile" role="navigation" role="navigation">
   {% include "@molecules/menus/_menu.twig" with {
     menu_class: "main-menu",
     items: menu_items,
   } %}
-  <div {{ bem('brand-border', [], header__base_class) }}>
-    {% block footer__brand_border %}
-      {% include "@atoms/images/image/background-image.twig" with {
-        image_src: 'twix-border.svg',
-        background_repeat: 'repeat',
-        height: '15px',
-      } %}
-    {% endblock %}
+  <div {{ bem('mobile__border', [], 'main-nav') }}>
+      {{ brand_border | raw }}
   </div>
   <div {{ bem('menu', ['secondary-mobile'], header__base_class) }}>
     {% block header__menu_secondary %}

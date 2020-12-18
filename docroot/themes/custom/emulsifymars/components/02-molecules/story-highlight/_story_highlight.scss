@@ -40,7 +40,6 @@
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    letter-spacing: normal;
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
@@ -53,13 +52,11 @@
 
     @include medium {
       padding-top: 5rem;
-      letter-spacing: 0.2rem;
     }
 
     @include large {
       font-size: 4.8rem;
       line-height: 4.8rem;
-      letter-spacing: 0.24rem;
     }
   }
 
@@ -80,7 +77,6 @@
     text-align: center;
     color: clr(primary);
     font-weight: normal;
-    letter-spacing: normal;
     font-style: normal;
     width: 70%;
 

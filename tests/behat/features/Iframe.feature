@@ -21,5 +21,4 @@ Feature: Iframe Test
 
     When I press "Save layout"
     Then I should see "The layout override has been saved."
-
     And I should see a "//div[@data-block-plugin-id='iframe_block' and @class='block']/div[@class='iframe-container']/iframe[@class='iframe-container__inner' and @title='my_iframe_title']" xpath element
