@@ -181,4 +181,16 @@
   .ps-disabled {
     display: none !important;
   }
+
+  .inline-rating {
+    max-width: 75%;
+    margin: 0 auto;
+  }
+
+  .score {
+    color: clr(primary);
+    font-family: variable(secondary-font);
+    font-size: 1.4rem;
+  }
 }
+
