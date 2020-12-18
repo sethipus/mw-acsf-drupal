@@ -7,13 +7,18 @@ Drupal.behaviors.newsletterSignupForm = {
       /* <!-- End Google Tag Manager --> */
       // Send event data.
       $('.newsletter-form input').one('focusout', function(e) {
+        var fieldName = e.target.name;
+        var fieldValue = e.target.value;
+        if (/\S+@\S+\.\S+/.test(e.target.value)) {
+          fieldValue = '';
+        }
         dataLayer.push({
           'event': 'formFieldComplete',
           'pageName': '',
           'componentName': 'newsletter-signup-form',
           'formName': 'newsletter-signup',
-          'formFieldName': e.target.name,
-          'formFieldValue': e.target.value,
+          'formFieldName': fieldName,
+          'formFieldValue': fieldValue,
         });
       });
 
