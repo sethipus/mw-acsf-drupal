@@ -227,6 +227,12 @@ class ProductHelper {
         }
       }
 
+      $family_master = (isset($product_variant['CMS: Product Variant Family Master']) &&
+        strtolower($product_variant['CMS: Product Variant Family Master']) == 'yes')
+        ? TRUE
+        : FALSE;
+
+      $product['CMS: Product Variant Family Master'] = $family_master;
       $product['salsify:id'] = $product_variant['salsify:id'];
       $product['GTIN'] = $product_variant['salsify:id'];
       $product['salsify:version'] = $product_variant['salsify:version'];

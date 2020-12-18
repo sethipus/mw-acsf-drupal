@@ -11,6 +11,7 @@ class SalsifyFieldsMap {
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT = [
     'field_product_sku' => ['salsify:id' => 'GTIN', 'salsify:data_type' => 'string'],
+    'field_product_family_master' => ['salsify:id' => 'CMS: Product Variant Family Master', 'salsify:data_type' => 'boolean'],
     'field_product_size' => ['salsify:id' => 'Net Content', 'salsify:data_type' => 'string'],
     'field_product_allergen_statement' => ['salsify:id' => 'Allergen Statement', 'salsify:data_type' => 'string'],
     // 'field_product_allergen_warnings' => 'Allergen Statement',
