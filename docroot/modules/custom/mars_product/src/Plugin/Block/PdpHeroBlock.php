@@ -15,6 +15,7 @@ use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_product\ProductHelper;
+use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -404,7 +405,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'hero_data' => [
         'product_label' => $this->languageHelper->translate($this->configuration['eyebrow'] ?? ''),
         'size_label' => $this->languageHelper->translate($this->configuration['available_sizes'] ?? ''),
-        'brand_shape' => $this->themeConfiguratorParser->getBrandShape(),
+        'brand_shape' => $this->themeConfiguratorParser->getBrandShapeWithoutFill(),
         'background_color' => $background_color,
         'product_name' => $node->title->value,
         'product_description' => $node->field_product_description->value,
@@ -450,7 +451,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     $build['#theme'] = 'pdp_hero_block';
-    $this->pageAttachments($build);
+    $this->pageAttachments($build, $node);
 
     return $build;
   }
@@ -489,6 +490,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'allergen_data' => [
           'allergens_list' => $this->getVisibleAllergenItems($product_variant),
         ],
+        'show_rating_and_reviews' => $this->isRatingEnable($node),
+        'is_main_variant' => $i === 1,
       ];
     }
 
@@ -597,12 +600,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
 
     foreach ($map as $image_field => $image_field_override) {
-      $media_override_id = $node->{$image_field_override}->target_id;
+      $media_override_id = $node->get($image_field_override)->target_id;
       $media_params = $this->mediaHelper->getMediaParametersById($media_override_id);
 
       // Override media missing or has error try the normal version.
       if ($media_params['error'] ?? FALSE) {
-        $media_id = $node->{$image_field}->target_id;
+        $media_id = $node->get($image_field)->target_id;
         $media_params = $this->mediaHelper->getMediaParametersById($media_id);
       }
 
@@ -821,7 +824,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getAllergenItems($node) {
     $items = [];
-    foreach ($node->field_product_diet_allergens as $reference) {
+    foreach ($node->get('field_product_diet_allergens') as $reference) {
       $allergen_term = $this->languageHelper->getTranslation($reference->entity);
 
       $media_id = $this->mediaHelper->getEntityMainMediaId($allergen_term);
@@ -862,7 +865,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     if (
       $bundle !== 'product_multipack' &&
       $this->isAllergenVisible() &&
-      !$node->field_product_diet_allergens->isEmpty()
+      !$node->get('field_product_diet_allergens')->isEmpty()
     ) {
       $items[] = [
         'title' => $this->languageHelper->translate($this->configuration['allergen_label']),
@@ -903,11 +906,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @param array $build
    *   Build array.
+   * @param \Drupal\node\NodeInterface|null $node
+   *   Product or null.
    *
    * @return array
    *   Return build.
    */
-  public function pageAttachments(array &$build) {
+  public function pageAttachments(array &$build, NodeInterface $node = NULL) {
     if ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
       $metatags = [
         'ps-key' => [
@@ -955,14 +960,40 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
     }
 
-    if (EnvironmentDetector::isProdEnv()) {
-      $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
-    }
-    else {
-      $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
+    if ($this->isRatingEnable($node)) {
+      if (EnvironmentDetector::isProdEnv()) {
+        $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
+      }
+      else {
+        $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
+      }
     }
 
     return $build;
+  }
+
+  /**
+   * Check is rating enable.
+   *
+   * @param \Drupal\node\NodeInterface|null $node
+   *   Product or null.
+   *
+   * @return bool
+   *   Return state of rating.
+   */
+  protected function isRatingEnable(NodeInterface $node = NULL) {
+    if ($node instanceof NodeInterface &&
+      $node->hasField('field_rating_and_reviews') &&
+      $node->hasField('field_override_global_rating') &&
+      $node->get('field_override_global_rating')->value == TRUE
+    ) {
+      $result = $node->get('field_rating_and_reviews')->value;
+    }
+    else {
+      $result = $this->config->get('emulsifymars.settings')->get('show_rating_and_reviews');
+    }
+
+    return $result;
   }
 
 }

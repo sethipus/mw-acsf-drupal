@@ -36,7 +36,6 @@
 
   @include medium {
     font-size: 1.8rem;
-    letter-spacing: 1.8px;
   }
 }
 
@@ -48,6 +47,10 @@
   height: 2rem;
   width: 2rem;
   margin: 0 auto;
+
+  path {
+    fill: clr(secondary);
+  }
 
   @include medium {
     left: -22px;

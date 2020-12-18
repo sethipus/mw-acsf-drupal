@@ -194,7 +194,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     if ($this->configuration['background_shape'] == 1) {
-      $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShape();
+      $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'];
     $build['#use_custom_color'] = (bool) $this->configuration['use_custom_color'];

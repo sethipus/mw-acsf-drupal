@@ -31,7 +31,7 @@
       settings.dataLayer.products = gtins.join(', ');
 
       var dataElements = context.querySelectorAll('[data-datalayer-taxonomy]');
-      var taxonomy = (settings.dataLayer.taxonomy) ? JSON.parse(settings.dataLayer.taxonomy) : {};
+      var taxonomy = (settings.dataLayer.taxonomy !== null) ? JSON.parse(settings.dataLayer.taxonomy) : {};
       dataElements.forEach(function (product) {
         let taxonomy_info = JSON.parse(product.getAttribute('data-datalayer-taxonomy'));
 
@@ -49,8 +49,10 @@
       });
 
       var taxonomy_output = '';
-      for (const [key, value] of Object.entries(taxonomy)) {
-        taxonomy_output += key + ': ' + value.join(', ') + '; ';
+      if (taxonomy !== null) {
+        for (const [key, value] of Object.entries(taxonomy)) {
+          taxonomy_output += key + ': ' + value.join(', ') + '; ';
+        }
       }
 
       settings.dataLayer.taxonomy = taxonomy_output.trim();
@@ -232,87 +234,107 @@
         }
       });
 
-      // POLL MOUSEDOWN EVENT
-      const pollContainer = context.querySelector('.polling');
-      if (pollContainer) {
-        const pollInputs = pollContainer.querySelectorAll('input');
-        const pollSubmit = pollContainer.querySelector('.button-vote');
-        // Add event listeners to provide info to Data layer
-          setTimeout(function() {
-            pollSubmit.addEventListener('mousedown', () => {
-              // find what radio button was selected
-              const selectedInput = [...pollInputs].filter(input => input.checked)[0];
-              if (selectedInput) {
+      var bindFormEvents = function(formContainer, formName) {
+        var contactForm = formContainer.querySelector('form');
+        // find what fields of the form has value button was selected
+        Array.from(contactForm.elements).forEach((input) => {
+          if (input.type === 'button' || input.type === 'submit') {
+            input.addEventListener('mousedown', function(e) {
+              if (formName === 'Entry Gate Form') {
+                return;
+              } 
+              else if (
+               formName === 'Contact & Help'
+              ) {
+                const config = { attributes: false, childList: true, subtree: false };
+                const contactFormSubmitCallback = function(mutationsList, contactValidationObserver) {
+                  for(const mutation of mutationsList) {
+                    if (
+                      mutation.type === 'childList' &&
+                      document.querySelector('.ff-ui-dialog-content') !== null &&
+                      document.querySelector('.ff-ui-dialog-content').innerHTML.includes('Thank you for getting in touch')
+                    ) {
+                      dataLayer.push({
+                        event: 'formSubmit',
+                        pageName: document.title,
+                        componentName: 'contact_form',
+                        formName: 'Contact & Help',
+                      });
+                      break;
+                    }
+                  }
+                  contactValidationObserver.disconnect();
+                };
+                const contactValidationObserver = new MutationObserver(contactFormSubmitCallback);
+                contactValidationObserver.observe(document, config);
+              } 
+              else if (formName === 'Poll Form') {
                 dataLayer.push({
-                  event: 'formfieldComplete',
+                  event: 'formSubmit',
                   pageName: document.title,
-                  componentName: getComponentName(pollContainer),
-                  formSubmitFlag: 1,
-                  formName: 'Poll',
-                  formSelected: selectedInput.parentElement.innerText.trim()
+                  componentName: getComponentName(formContainer),
+                  formName: formName,
                 });
               }
-
             });
-          }, 100);
+          }
+          else {
+            input.addEventListener('blur', function (e) {
+              var fieldName = e.target.name;
+              var fieldValue = e.target.value;
+              if (/\S+@\S+\.\S+/.test(e.target.value)) {
+                fieldValue = '';
+              }
+              if (formName === 'Poll Form') {
+                fieldName = e.target.closest('div').querySelector('.polling__label-text').innerHTML;
+                fieldValue = 'chacked';
+              }
+              dataLayer.push({
+                event: 'formFieldComplete',
+                pageName: document.title,
+                componentName: getComponentName(formContainer),
+                formName: formName,
+                formFieldName: fieldName,
+                formFieldValue: fieldValue,
+              });
+            });
+          }
+        });
       }
 
       // CONTACT US CLICK EVENT
       const formContainer = context.querySelector('.form-integration');
       if (formContainer) {
-        var loading = false;
-        while (loading) {
-          var contactForm = formContainer.querySelector('form');
-          if (form !== null) {
-            var formSubmit = contactForm.querySelector('input[type=submit]');
-            loading = true;
+        // Options for the observer (which mutations to observe)
+        const config = { attributes: false, childList: true, subtree: false };
+        // Callback function to execute when mutations are observed
+        const contactFormCallback = function(mutationsList, observer) {
+          // Use traditional 'for loops' for IE 11
+          for(const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+              bindFormEvents(formContainer, 'Contact & Help');
+              observer.disconnect();
+              break;
+            }
           }
-        }
-        var submit = document.querySelector('input[type=submit]');
-        submit.addEventListener('click', function(e) {
-          // find what fields of the form has value button was selected
-          const populatedFields = [document.form.elements].filter(function(field) {
-            return field.value !== '';
-          });
-          let selectedValues = [];
-          for (let i=0; i < populatedFields.length; i++) {
-            const currentField = populatedFields[i];
-            selectedValues[currentField.name] = populatedFields.value;
-          }
-          dataLayer.push({
-            event: 'formFieldComplete',
-            pageName: document.title,
-            componentName: getComponentName(pollContainer),
-            formSubmitFlag: 1,
-            formName: 'Contact & Help',
-            formSelected: selectedValues
-          });
-        });
+        };
+        // Create an observer instance linked to the callback function
+        const observer = new MutationObserver(contactFormCallback);
+        // Start observing the target node for configured mutations
+        observer.observe(formContainer.querySelector('#dvFastForms'), config);
       }
 
+      // POLL MOUSEDOWN EVENT
+      context.querySelectorAll('.poll-view').forEach(function (poll) {
+        bindFormEvents(poll, 'Poll Form');
+      });
 
       // ENTRY GATE CLICK EVENT
       const entryGateContainer = context.querySelector('.entry-gate__inner');
       if (entryGateContainer) {
-        const entryGateSubmit = entryGateContainer.querySelector('.entry-gate-form__submit-btn');
-        // Add event listeners to provide info to Data layer
-        setTimeout(function() {
-          entryGateSubmit.addEventListener('click', () => {
-            const birthInputs = Array.from(entryGateContainer.querySelectorAll('input'));
-            const birthInputValues = birthInputs.map(el => el.value);
-            if (birthInputValues) {
-              dataLayer.push({
-                event: 'formfieldComplete',
-                pageName: document.title,
-                componentName: getComponentName(entryGateContainer),
-                formSubmitFlag: 1,
-                formName: 'Entry gate',
-                formSelected: birthInputValues
-              });
-            }
-          });
-        }, 100);
+        bindFormEvents(entryGateContainer, 'Entry Gate Form');
       }
+
     }
   };
 })(jQuery, Drupal, drupalSettings);

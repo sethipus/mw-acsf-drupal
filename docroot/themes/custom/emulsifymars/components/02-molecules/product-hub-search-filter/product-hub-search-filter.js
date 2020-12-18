@@ -8,6 +8,51 @@ Drupal.behaviors.searchFilterBehaviour = {
     const filters = context.querySelectorAll('.filter-block');
     const filterCheckboxes = context.querySelectorAll('.checkbox-item');
 
+    searchFilterContainer.forEach(filterContainer => {
+      if (filterContainer === null || filterContainer.getAttribute('data-filter-init')) {
+        return;
+      }
+      filterContainer.addEventListener('click', function(event) {
+        const grid = getGridBlock(event);
+
+        switch (true) {
+          case event.target.classList.contains('search-filter-header__close'):
+            event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+            break;
+          case event.target.classList.contains('checkbox-item__input'):
+            enableApplyButtons();
+            updateCounters(grid);
+          case event.target.classList.contains('search-filter-info__applied-clear'):
+            const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
+            if (currentFilter !== null) {
+              currentFilter.checked = false;
+              processFilters(grid);
+            }
+            updateCounters(grid);
+            break;
+        }
+      });
+      var filterInput = filterContainer.querySelector('input');
+      if (filterInput !== null) {
+        filterInput.addEventListener('keypress', (event) => {
+          if (event.keyCode === 13) {
+            const grid = getGridBlock(event);
+            const gridId = getGridId(grid);
+            event.target.dataset.gridQuery = prepareQuery(currentQueryFilters(gridId));
+            var query = currentQuery();
+            if (!query.hasOwnProperty('search')) {
+              query.search = {};
+            }
+            query.search[gridId] = event.target.value;
+            updateResults(prepareQuery(query), grid);
+            updateFilters(prepareQuery(query), grid);
+            pushQuery(query);
+          }
+        });
+      }
+      filterContainer.setAttribute('data-filter-init', true);
+    });
+
     filters.forEach(filter => {
       filter.addEventListener('click', () => {
         let open = false;
@@ -25,44 +70,6 @@ Drupal.behaviors.searchFilterBehaviour = {
       filterOpenButton.addEventListener('click', function(event) {
         const searchFilterBlock = getGridBlock(event).querySelector('.search-filter-block');
         searchFilterBlock.classList.add('search-filter-block--opened');
-      });
-    });
-
-    searchFilterContainer.forEach(filterContainer => {
-      filterContainer.addEventListener('click', function(event) {
-        const grid = getGridBlock(event);
-
-        switch (true) {
-          case event.target.classList.contains('search-filter-header__close'):
-            target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
-            break;
-          case event.target.classList.contains('checkbox-item__input'):
-            enableApplyButtons();
-            updateCounters(grid);
-          case event.target.classList.contains('search-filter-info__applied-clear'):
-            const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
-            if (currentFilter !== null) {
-              currentFilter.checked = false;
-              processFilters(grid);
-            }
-            updateCounters(grid);
-            break;
-        }
-      });
-      filterContainer.querySelector('input').addEventListener('keypress', (event) => {
-        if (event.keyCode === 13) {
-          const grid = getGridBlock(event);
-          const gridId = getGridId(grid);
-          event.target.dataset.gridQuery = prepareQuery(currentQueryFilters(gridId));
-          var query = currentQuery();
-          if (!query.hasOwnProperty('search')) {
-            query.search = {};
-          }
-          query.search[gridId] = event.target.value;
-          updateResults(prepareQuery(query), grid);
-          updateFilters(prepareQuery(query), grid);
-          pushQuery(query);
-        }
       });
     });
 
@@ -284,6 +291,7 @@ Drupal.behaviors.searchFilterBehaviour = {
             elementWrapper.className = 'ajax-card-grid__item_wrapper';
             elementWrapper.innerHTML = element;
             searchResults.append(elementWrapper);
+            Drupal.behaviors.productCard.attach(searchResults);
           });
           if (!xhr.response.pager) {
             pagerButton.classList.remove('active');
@@ -298,7 +306,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           else {
             searchBlock.classList.remove('ajax-card-grid--no-results')
           }
-          dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid);
+          dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid, gridType);
         }
       };
     }
@@ -324,22 +332,34 @@ Drupal.behaviors.searchFilterBehaviour = {
       };
     }
 
-    const dataLayerPush = (results_count, search_key, grid) => {
-      var eventPrefix = 'cardGrid',
+    const dataLayerPush = (results_count, search_key, grid, gridType) => {
+      var eventPrefix = 'siteSearch',
           eventName = '';
+      if (gridType == 'grid') {
+        eventPrefix = 'cardGrid';
+      }
       if (results_count === 0) {
         eventName = eventPrefix + 'Search_ResultNo';
       }
       else {
         eventName = eventPrefix + 'Search_ResultShown';
       }
-      dataLayer.push({
-        'event': eventName,
-        [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
-        [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
-        [eventPrefix + 'SearchTerm']: search_key,
-        [eventPrefix + 'SearchResultsNum']: results_count
-      });
+      if (gridType == 'grid') {
+        dataLayer.push({
+          'event': eventName,
+          [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
+          [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
+          [eventPrefix + 'SearchTerm']: search_key,
+          [eventPrefix + 'SearchResultsNum']: results_count
+        });
+      }
+      else {
+        dataLayer.push({
+          'event': eventName,
+          [eventPrefix + 'Term']: search_key,
+          [eventPrefix + 'ResultsNum']: results_count
+        });    
+      }
     }
 
     const enableApplyButtons = () => {
