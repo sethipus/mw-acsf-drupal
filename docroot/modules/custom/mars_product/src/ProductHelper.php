@@ -58,8 +58,8 @@ class ProductHelper {
       foreach ($variants as $variant) {
         $is_master = $variant->get('field_product_family_master')->value;
         $size = $variant->get('field_product_size')->value;
-        $size = (is_numeric($size)) ? (float) $size : is_string($size) ?
-          explode(' ', $size)[0] : NULL;
+        $size = (is_numeric($size)) ? (float) $size : (is_string($size) ?
+          explode(' ', $size)[0] : NULL);
 
         if ($is_master) {
           $main_variant = $variant;
