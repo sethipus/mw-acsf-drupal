@@ -136,7 +136,7 @@ steps:
       targetType: 'inline'
       script: |
         ./scripts/deploy_branch.sh &&
-        ./scripts/deploy_db.sh 01qa $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
+        ./scripts/deploy_db.sh 01qa $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
   - task: Bash@3
     displayName: 'Deploy Tag'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))

@@ -4,6 +4,7 @@ import { useEffect } from '@storybook/client-api';
 import cardData from './product-card.yml';
 import contentPairUpData from './product-in-pair-up.yml'
 import maxLengthItemData from './product-card-max-length.yml'
+import contentRating from './product-rating.yml'
 
 import './product-card';
 
@@ -18,6 +19,11 @@ export default {
 export const productCardDefault = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: card(cardData) }}/>
+};
+
+export const productCardRatings = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return <div dangerouslySetInnerHTML={{ __html: card(Object.assign({}, cardData, contentRating)) }}/>
 };
 
 export const productCardNewProduct = () => {
