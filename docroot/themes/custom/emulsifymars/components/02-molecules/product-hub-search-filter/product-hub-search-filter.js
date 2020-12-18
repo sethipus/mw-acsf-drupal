@@ -8,33 +8,16 @@ Drupal.behaviors.searchFilterBehaviour = {
     const filters = context.querySelectorAll('.filter-block');
     const filterCheckboxes = context.querySelectorAll('.checkbox-item');
 
-    filters.forEach(filter => {
-      filter.addEventListener('click', () => {
-        let open = false;
-        if (!filter.classList.contains('filter-block--open'))
-          open = true;
-        document.querySelectorAll('.filter-block--open').forEach(function (filter) {
-          filter.classList.remove('filter-block--open');
-        });
-        if (open)
-          filter.classList.toggle('filter-block--open');
-      });
-    });
-
-    searchFilterOpenButton.forEach(filterOpenButton => {
-      filterOpenButton.addEventListener('click', function(event) {
-        const searchFilterBlock = getGridBlock(event).querySelector('.search-filter-block');
-        searchFilterBlock.classList.add('search-filter-block--opened');
-      });
-    });
-
     searchFilterContainer.forEach(filterContainer => {
+      if (filterContainer === null || filterContainer.getAttribute('data-filter-init')) {
+        return;
+      }
       filterContainer.addEventListener('click', function(event) {
         const grid = getGridBlock(event);
 
         switch (true) {
           case event.target.classList.contains('search-filter-header__close'):
-            target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+            event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
@@ -67,6 +50,27 @@ Drupal.behaviors.searchFilterBehaviour = {
           }
         });
       }
+      filterContainer.setAttribute('data-filter-init', true);
+    });
+
+    filters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        let open = false;
+        if (!filter.classList.contains('filter-block--open'))
+          open = true;
+        document.querySelectorAll('.filter-block--open').forEach(function (filter) {
+          filter.classList.remove('filter-block--open');
+        });
+        if (open)
+          filter.classList.toggle('filter-block--open');
+      });
+    });
+
+    searchFilterOpenButton.forEach(filterOpenButton => {
+      filterOpenButton.addEventListener('click', function(event) {
+        const searchFilterBlock = getGridBlock(event).querySelector('.search-filter-block');
+        searchFilterBlock.classList.add('search-filter-block--opened');
+      });
     });
 
     clearAllButtons.forEach(function (button) {
@@ -287,6 +291,7 @@ Drupal.behaviors.searchFilterBehaviour = {
             elementWrapper.className = 'ajax-card-grid__item_wrapper';
             elementWrapper.innerHTML = element;
             searchResults.append(elementWrapper);
+            Drupal.behaviors.productCard.attach(searchResults);
           });
           if (!xhr.response.pager) {
             pagerButton.classList.remove('active');
@@ -301,7 +306,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           else {
             searchBlock.classList.remove('ajax-card-grid--no-results')
           }
-          dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid);
+          dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid, gridType);
         }
       };
     }
@@ -327,22 +332,34 @@ Drupal.behaviors.searchFilterBehaviour = {
       };
     }
 
-    const dataLayerPush = (results_count, search_key, grid) => {
-      var eventPrefix = 'cardGrid',
+    const dataLayerPush = (results_count, search_key, grid, gridType) => {
+      var eventPrefix = 'siteSearch',
           eventName = '';
+      if (gridType == 'grid') {
+        eventPrefix = 'cardGrid';
+      }
       if (results_count === 0) {
         eventName = eventPrefix + 'Search_ResultNo';
       }
       else {
         eventName = eventPrefix + 'Search_ResultShown';
       }
-      dataLayer.push({
-        'event': eventName,
-        [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
-        [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
-        [eventPrefix + 'SearchTerm']: search_key,
-        [eventPrefix + 'SearchResultsNum']: results_count
-      });
+      if (gridType == 'grid') {
+        dataLayer.push({
+          'event': eventName,
+          [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
+          [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
+          [eventPrefix + 'SearchTerm']: search_key,
+          [eventPrefix + 'SearchResultsNum']: results_count
+        });
+      }
+      else {
+        dataLayer.push({
+          'event': eventName,
+          [eventPrefix + 'Term']: search_key,
+          [eventPrefix + 'ResultsNum']: results_count
+        });    
+      }
     }
 
     const enableApplyButtons = () => {
