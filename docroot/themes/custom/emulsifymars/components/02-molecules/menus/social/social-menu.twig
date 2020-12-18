@@ -23,7 +23,11 @@
               link_base_class: 'link',
               link_modifiers: item_modifiers,
               link_blockname: menu_class,
-              link_attributes: {'target': '_blank', 'aria-label': 'Social link'}
+              link_attributes: {
+                'target': '_blank',
+                'aria-label': 'Social link',
+                'name': item.title
+              }
             } %}
               {% block link_content %}
                 {{ item.icon | raw }}

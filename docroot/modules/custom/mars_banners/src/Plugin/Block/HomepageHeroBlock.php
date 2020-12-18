@@ -128,6 +128,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       $this->configuration['background_color'] : '';
     $build['#background_color'] = $background_color;
+    $build['#brand_shape'] = $this->themeConfigParser->getBrandShapeWithoutFill();
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {

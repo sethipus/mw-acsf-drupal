@@ -92,10 +92,6 @@
     .default-link {
       min-width: 15.7rem;
       cursor: pointer;
-
-      &::after {
-        bottom: -130px;
-      }
     }
   }
 
@@ -188,13 +184,11 @@
     @include xs {
       font-size: 1.4rem;
       line-height: 1.4rem;
-      letter-spacing: 0.112rem;
     }
 
     @include medium {
       font-size: 1.8rem;
       line-height: 1.98rem;
-      letter-spacing: 0.144rem;
     }
   }
 
