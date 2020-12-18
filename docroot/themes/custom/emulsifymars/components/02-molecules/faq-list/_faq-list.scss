@@ -20,7 +20,6 @@
 .faq-heading {
   font-family: variable(primary-font);
   font-weight: normal;
-  letter-spacing: 1.12px;
   color: clr(primary);
   text-align: center;
 
@@ -77,10 +76,5 @@
 
   @include xl {
     line-height: 6rem;
-  }
-
-  &::after {
-    bottom: -45px;
-    width: 600px;
   }
 }
