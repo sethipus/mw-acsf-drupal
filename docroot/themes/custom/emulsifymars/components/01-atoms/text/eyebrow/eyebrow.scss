@@ -2,7 +2,6 @@
   text-transform: uppercase;
   font-size: 1.6rem;
   line-height: 1.6rem;
-  letter-spacing: .1rem;
   color: clr(subcolor-3);
   font-family: variable(secondary-font);
   display: block;
@@ -11,7 +10,7 @@
   &--parent-page {
     font-size: 1.4rem;
     font-family: variable(primary-font);
-    color: clr(subcolor-1);
+    color: clr(primary);
     text-align: center;
   }
 

@@ -40,7 +40,7 @@ class RecipeFieldSerializer implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[AcquiaContentHubEvents::SERIALIZE_CONTENT_ENTITY_FIELD][] = ['onSerializeContentField', 210];
+    $events[AcquiaContentHubEvents::SERIALIZE_CONTENT_ENTITY_FIELD][] = ['onSerializeContentField', 200];
     return $events;
   }
 
@@ -86,7 +86,8 @@ class RecipeFieldSerializer implements EventSubscriberInterface {
     $sections = [];
     foreach ($field as $item) {
       $section = $item->getValue()['section'];
-      $this->handleComponents($section->getComponents());
+      $component = $section->getComponents();
+      $this->handleComponents($component);
       $sections[] = ['section' => $section->toArray()];
     }
     return $sections;
