@@ -83,7 +83,12 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(
+    ContainerInterface $container,
+    array $configuration,
+    $plugin_id,
+    $plugin_definition
+  ) {
     return new static(
       $configuration,
       $plugin_id,
@@ -98,8 +103,15 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   /**
    * {@inheritdoc}
    */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+  public function buildConfigurationForm(
+    array $form,
+    FormStateInterface $form_state
+  ) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $config = $this->getConfiguration();
+    $saved_vendor = $config['commerce_vendor'] ?? NULL;
+    $submitted_vendor = $form_state->getUserInput()['settings']['commerce_vendor'] ?? NULL;
+    $selected_vendor = $submitted_vendor ?? $saved_vendor ?? self::VENDOR_PRICE_SPIDER;
 
     $form['commerce_vendor'] = [
       '#type' => 'select',
@@ -121,11 +133,15 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     $form['product_sku'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Product Gtin'),
-      '#description' => $this->t('Optional, if empty, get from first product (variation) from site.'),
+      '#title' => $this->t('Product sku'),
+      '#description' => $this->t('Valid product sku that will be the initially selected product.'),
       '#default_value' => $this->configuration['product_sku'],
+      '#required' => $selected_vendor === self::VENDOR_PRICE_SPIDER,
       '#states' => [
         'visible' => [
+          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_PRICE_SPIDER]],
+        ],
+        'required' => [
           [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_PRICE_SPIDER]],
         ],
       ],
@@ -135,6 +151,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#type' => 'textfield',
       '#title' => $this->t('Token'),
       '#default_value' => $this->configuration['data_token'],
+      '#required' => $selected_vendor === self::VENDOR_COMMERCE_CONNECTOR,
       '#states' => [
         'visible' => [
           [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
@@ -160,6 +177,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#type' => 'textfield',
       '#title' => $this->t('Commerce connector data locale'),
       '#default_value' => $this->configuration['data_locale'],
+      '#required' => $selected_vendor === self::VENDOR_COMMERCE_CONNECTOR,
       '#states' => [
         'visible' => [
           [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
@@ -191,7 +209,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function defaultConfiguration(): array {
     $config = $this->getConfiguration();
     return [
-      'commerce_vendor' => $config['commerce_vendor'] ?? '',
+      'commerce_vendor' => $config['commerce_vendor'] ?? self::VENDOR_PRICE_SPIDER,
       'widget_id' => $config['widget_id'] ?? '',
       'data_token' => $config['data_token'] ?? '',
       'data_subid' => $config['data_subid'] ?? '',
