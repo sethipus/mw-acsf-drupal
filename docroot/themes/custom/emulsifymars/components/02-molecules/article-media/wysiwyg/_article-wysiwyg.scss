@@ -1,6 +1,6 @@
 .article-wysiwyg {
   background-color: clr(subcolor-3);
-  padding: 2rem 0;
+  padding: 2rem;
   overflow-x: hidden;
   margin: 0 2rem;
   font-family: variable(secondary-font);
@@ -10,6 +10,7 @@
 
   @include medium {
     margin: 0 4rem;
+    padding: 2rem 0;
   }
 
   &__content {
