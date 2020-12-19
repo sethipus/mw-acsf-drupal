@@ -58,8 +58,6 @@
     .fullscreen-video__control[data-state="play"] {
       @include playbutton;
 
-      @include playbutton;
-
       >div {
         width: 0;
         height: 0;
