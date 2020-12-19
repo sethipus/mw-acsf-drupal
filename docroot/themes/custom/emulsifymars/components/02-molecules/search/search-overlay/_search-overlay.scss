@@ -229,6 +229,9 @@
 
    &.opened {
     display: flex !important;
+    position: fixed;
+    height: 20rem;
+    z-index: 20;
      .mars-search-autocomplete-suggestions-wrapper {
        @include large {
          position: absolute;

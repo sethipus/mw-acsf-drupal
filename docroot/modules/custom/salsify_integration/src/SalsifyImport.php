@@ -113,7 +113,7 @@ class SalsifyImport {
     $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
   ) {
     return [
-      'import_result' => self::PROCESS_RESULT_NOT_UPDATED,
+      'import_result' => static::PROCESS_RESULT_NOT_UPDATED,
       'validation_errors' => [],
     ];
   }
