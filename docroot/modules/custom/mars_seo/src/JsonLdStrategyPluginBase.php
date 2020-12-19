@@ -5,6 +5,7 @@ namespace Drupal\mars_seo;
 use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
+use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\mars_common\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -28,6 +29,13 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
   protected $mediaHelper;
 
   /**
+   * Url generator service.
+   *
+   * @var \Drupal\Core\Routing\UrlGeneratorInterface
+   */
+  protected $urlGenerator;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -35,7 +43,8 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper'),
+      $container->get('url_generator')
     );
   }
 
@@ -46,11 +55,13 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MediaHelper $media_helper
+    MediaHelper $media_helper,
+    UrlGeneratorInterface $url_generator
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->mediaHelper = $media_helper;
+    $this->urlGenerator = $url_generator;
   }
 
   /**
