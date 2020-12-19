@@ -27,7 +27,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   /**
    * Search helper.
    *
-   * @var \Drupal\mars_search\SearchHelperInterface
+   * @var \Drupal\mars_search\Processors\SearchHelperInterface
    */
   protected $searchHelper;
 

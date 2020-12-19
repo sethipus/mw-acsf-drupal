@@ -43,6 +43,7 @@
                 elementWrapper.className = 'ajax-card-grid__item_wrapper';
                 elementWrapper.innerHTML = element;
                 searchItems.append(elementWrapper);
+                Drupal.behaviors.productCard.attach(searchItems);
               });
               if (!data.pager) {
                 selectorContext.closest('.ajax-card-grid__content')

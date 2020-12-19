@@ -29,13 +29,13 @@ $fence-part-size: 1440px*2/101;
       background-color: clr(bottom-nav);
 
       .footer__section-content {
-        padding: 48px 20px 20px;
+        padding: 48px 20px 220px;
         display: flex;
         flex-flow: column nowrap;
 
         @include medium {
           flex-flow: row wrap;
-          padding: 20px 40px;
+          padding: 20px 40px 55px;
         }
       }
     }
@@ -61,10 +61,6 @@ $fence-part-size: 1440px*2/101;
   @include large {
     flex: 1 1 100%;
   }
-}
-
-.footer__logoLink {
-  display: inline-block;
 }
 
 .footer__social {
@@ -122,19 +118,16 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 1.6rem;
     line-height: 1.6rem;
-    letter-spacing: 0.08rem;
   }
 
   @include medium {
     flex: 0 1 50%;
     font-size: 1.6rem;
-    letter-spacing: 0.16rem;
   }
 
   @include large {
     font-size: 1.8rem;
     line-height: 1.8rem;
-    letter-spacing: 0.09rem;
   }
 }
 
@@ -165,18 +158,23 @@ $fence-part-size: 1440px*2/101;
 }
 
 .footer__logo {
+  flex: 0 0 101px;
+  max-width: 10.4rem;
+  max-height: 3.9rem;
   margin: 10px 0 26px -10px;
 
   @include medium {
+    flex: 0 0 150px;
+    max-width: 14.1rem;
+    max-height: 5.3rem;
     margin: 20px 0 26px -15px;
   }
 
   @include xl {
+    max-width: 100%;
+    max-height: 100%;
+    flex-basis: 212px;
     margin: 20px 0 12px -12px;
-  }
-
-  .logo__image {
-    width: auto;
   }
 }
 
@@ -187,7 +185,6 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.12rem;
   }
 
   @include medium {
@@ -198,7 +195,6 @@ $fence-part-size: 1440px*2/101;
   @include large {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.12rem;
   }
 }
 
@@ -209,7 +205,6 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.06rem;
   }
 
   @include medium {
@@ -220,7 +215,6 @@ $fence-part-size: 1440px*2/101;
   @include large {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.06rem;
   }
 }
 
@@ -231,7 +225,6 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.06rem;
   }
 
   @include medium {
@@ -242,7 +235,6 @@ $fence-part-size: 1440px*2/101;
   @include large {
     font-size: 1.2rem;
     line-height: 1.92rem;
-    letter-spacing: 0.06rem;
   }
 }
 
@@ -266,21 +258,18 @@ $fence-part-size: 1440px*2/101;
   @include xs {
     font-size: 2rem;
     line-height: 2.2rem;
-    letter-spacing: 0.1rem;
   }
 
   @include medium {
     margin: 30px 0 10px;
     font-size: 2.6rem;
     line-height: 2.86rem;
-    letter-spacing: 0.13rem;
   }
 
   @include large {
     margin: 30px 0 10px;
     font-size: 2.8rem;
     line-height: 3.08rem;
-    letter-spacing: 0.14rem;
   }
 
   @include xl {

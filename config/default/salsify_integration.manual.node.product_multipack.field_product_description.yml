@@ -1,5 +1,5 @@
-field_id: 'Generic Product Description'
-salsify_id: 'Generic Product Description'
+field_id: 'CMS: Description'
+salsify_id: 'CMS: Description'
 salsify_data_type: string
 entity_type: node
 bundle: product_multipack

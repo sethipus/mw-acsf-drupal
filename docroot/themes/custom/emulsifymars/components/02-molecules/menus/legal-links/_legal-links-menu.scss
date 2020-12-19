@@ -26,17 +26,14 @@
   @include xs {
     font-size: 1.2rem;
     line-height: 1.32rem;
-    letter-spacing: 0.048rem;
   }
 
   @include medium {
     font-size: 1.4rem;
-    letter-spacing: 0.07rem;
   }
 
   @include large {
     line-height: 1.54rem;
-    letter-spacing: 0.14rem;
   }
 
   &:hover {

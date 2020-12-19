@@ -203,7 +203,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
-      [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
+      $build['#applied_filters_list'] = [];
+      $build['#filters'] = [];
+      if ($facets_query['resultsCount'] > 3) {
+        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
+      }
     }
 
     return $build;
@@ -226,7 +230,10 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }, ARRAY_FILTER_USE_BOTH);
     $query_search_results = $this->searchHelper->getSearchResults($facetOptions, self::SEARCH_LINKS_QUERY_ID);
 
-    $build['#search_filters'] = $this->searchTermFacetProcess->prepareFacetsLinksWithCount($query_search_results['facets'], 'type', SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
+    $build['#search_filters'] = [];
+    if ($query_search_results['resultsCount'] > 3) {
+      $build['#search_filters'] = $this->searchTermFacetProcess->prepareFacetsLinksWithCount($query_search_results['facets'], 'type', SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
+    }
 
     return $build;
   }
@@ -245,7 +252,10 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     unset($searchOptions['keys']);
     // Facets query.
     $facets_search_results = $this->searchHelper->getSearchResults($searchOptions, 'faq_facets');
-    $build['#facets'] = $this->searchTermFacetProcess->prepareFacetsLinks($facets_search_results['facets']['faq_filter_topic'], 'faq_filter_topic');
+    $build['#facets'] = [];
+    if ($facets_search_results['resultsCount'] > 3) {
+      $build['#facets'] = $this->searchTermFacetProcess->prepareFacetsLinks($facets_search_results['facets']['faq_filter_topic'], 'faq_filter_topic');
+    }
     return $build;
   }
 
