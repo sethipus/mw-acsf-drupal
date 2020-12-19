@@ -14,7 +14,7 @@
       {{ graphic_divider | raw }}
     </div>
 
-    <div class="ajax-card-grid__items">
+    <div class="ajax-card-grid__items" aria-live="polite">
       {% for item in items %}
         <div {{ bem('item_wrapper', [], card_grid_base_class) }}>
           {{ item }}

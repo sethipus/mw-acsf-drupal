@@ -16,7 +16,6 @@
       font-family: variable(primary-font);
       font-size: 2rem;
       line-height: 1.1;
-      letter-spacing: 0.8px;
       text-transform: uppercase;
       color: clr(secondary);
       text-align: center;
@@ -24,7 +23,6 @@
       
       @include large {
         font-size: 2.4rem;
-        letter-spacing: 0.96px;
       }
     }
 
@@ -39,7 +37,6 @@
       font-family: variable(primary-font);
       font-size: 2rem;
       line-height: 1;
-      letter-spacing: 0.96px;
       text-transform: uppercase;
       text-align: center;
       background: $white;
@@ -120,7 +117,6 @@
     font-family: variable(secondary-font);
     font-size: 1.2rem;
     line-height: 1.3;
-    letter-spacing: normal;
     text-transform: uppercase;
     color: $nero;
   
