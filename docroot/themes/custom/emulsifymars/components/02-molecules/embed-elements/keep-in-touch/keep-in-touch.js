@@ -17,13 +17,18 @@ Drupal.behaviors.keepInTouchForm = {
 
       // Send event data.
       $('.keep-in-touch-page-form input').one('focusout', function(e) {
+        var fieldName = e.target.name;
+        var fieldValue = e.target.value;
+        if (/\S+@\S+\.\S+/.test(e.target.value)) {
+          fieldValue = '';
+        }
         dataLayer.push({
           'event': 'formFieldComplete',
           'pageName': '',
           'componentName': 'keep-in-touch-form',
           'formName': 'keep-in-touch',
-          'formFieldName': e.target.name,
-          'formFieldValue': e.target.value,
+          'formFieldName': fieldName,
+          'formFieldValue': fieldValue,
         });
       });
 

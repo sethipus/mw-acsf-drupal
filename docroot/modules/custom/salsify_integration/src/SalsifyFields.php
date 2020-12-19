@@ -258,7 +258,7 @@ class SalsifyFields extends Salsify {
         // Create any fields that don't yet exist in the system.
         $salsify_diff = array_diff_key($salsify_fields, $field_mapping);
         foreach ($salsify_diff as $salsify_field) {
-          $field_name = self::createFieldMachineName($salsify_field['salsify:id'], $field_machine_names);
+          $field_name = static::createFieldMachineName($salsify_field['salsify:id'], $field_machine_names);
 
           // If the field exists on the system, but isn't in the map, just add
           // it to the map instead of trying to create a new field. This
@@ -372,6 +372,11 @@ class SalsifyFields extends Salsify {
       // Import the taxonomy term data if needed and if any mappings are using
       // entity reference fields that point to taxonomy fields.
       $this->prepareTermData($product_data);
+
+      // Sort product array in order to process product variant firstly,
+      // then product and finally product multipack.
+      $this->productHelper
+        ->sortProducts($product_data['products']);
 
       // Import the actual product data.
       if (!empty($product_data['products'])) {
@@ -603,7 +608,7 @@ class SalsifyFields extends Salsify {
       $entity_bundle = $config->get('bundle');
     }
     $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
-    $field_settings = self::getFieldSettingsByType($salsify_data, $entity_type, $entity_bundle, $field_name);
+    $field_settings = static::getFieldSettingsByType($salsify_data, $entity_type, $entity_bundle, $field_name);
     $field = FieldConfig::loadByName($entity_type, $entity_bundle, $field_name);
     $created = strtotime($salsify_data['salsify:created_at']);
     $changed = $salsify_data['date_updated'];
@@ -623,13 +628,13 @@ class SalsifyFields extends Salsify {
       if (strpos($field_name, 'salsifysync_') !== FALSE) {
         // Add the field to the default displays.
         /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_storage */
-        self::createFieldViewDisplay($entity_type, $entity_bundle, $field_name, 'default');
-        self::createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_data['salsify:data_type']);
+        static::createFieldViewDisplay($entity_type, $entity_bundle, $field_name, 'default');
+        static::createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_data['salsify:data_type']);
       }
     }
 
     // Add a record to track the Salsify field and the new Drupal field map.
-    self::createFieldMapping([
+    static::createFieldMapping([
       'field_id' => $salsify_data['salsify:system_id'],
       'salsify_id' => $salsify_data['salsify:id'],
       'salsify_data_type' => $salsify_data['salsify:data_type'],
@@ -714,7 +719,7 @@ class SalsifyFields extends Salsify {
         $field_settings['field_storage']['type'] = 'list_string';
         $field_settings['field_storage']['cardinality'] = -1;
         $field_settings['field_storage']['settings']['allowed_values_function'] = 'salsify_integration_allowed_values_callback';
-        self::setFieldOptions($salsify_data);
+        static::setFieldOptions($salsify_data);
         break;
 
       case 'date':
