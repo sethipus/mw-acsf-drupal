@@ -26,7 +26,7 @@
     line-height: 50px;
     color: clr(primary);
     border-radius: variable(button-border-radius);
-    padding-left: 50px;
+    padding: 0 10px 0 50px;
 
     @include medium {
       width: 688px;
