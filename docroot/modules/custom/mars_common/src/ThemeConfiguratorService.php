@@ -162,7 +162,8 @@ class ThemeConfiguratorService {
         '#type' => 'file',
         '#title' => $this->t('Upload logo image'),
         '#maxlength' => 40,
-        '#description' => $this->t("If you don't have direct file access to the server, use this field to upload your logo."),
+        '#description' => $this->t("If you don't have direct file access to the server, 
+        use this field to upload your logo."),
         '#upload_validators' => [
           'file_validate_is_image' => [],
         ],
@@ -183,70 +184,83 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color A'),
       '#default_value' => !empty($config) ? $config['color_settings']['color_a'] : theme_get_setting('color_a'),
-      '#description'   => $this->t('Primary Color. Will be used as a main color throughout the site. Must be AA compliant.'),
+      '#description'   => $this->t('Primary Color. Will be used as a main color 
+      throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['color_b'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color B'),
       '#default_value' => !empty($config) ? $config['color_settings']['color_b'] : theme_get_setting('color_b'),
-      '#description'   => $this->t('Secondary Color. Will be used as a main color throughout the site. Must be AA compliant.'),
+      '#description'   => $this->t('Secondary Color. Will be used as a main color 
+      throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['color_c'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color C'),
       '#default_value' => !empty($config) ? $config['color_settings']['color_c'] : theme_get_setting('color_c'),
-      '#description'   => $this->t('Includes the option to select a radial gradient variation (white in the center, assigned color on the outside) or keep the default flat color. Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+      '#description'   => $this->t('Includes the option to select a radial 
+      gradient variation (white in the center, assigned color on the outside)
+       or keep the default flat color. Accent Color. Will be used for visual accents 
+       throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['color_d'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color D'),
       '#default_value' => !empty($config) ? $config['color_settings']['color_d'] : theme_get_setting('color_d'),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents 
+      throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['color_e'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color E'),
       '#default_value' => !empty($config) ? $config['color_settings']['color_e'] : theme_get_setting('color_e'),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
+       throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['color_f'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color F'),
       '#default_value' => !empty($config) ? $config['color_settings']['color_f'] : theme_get_setting('color_f'),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents 
+      throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['top_nav'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Top part of the header/footer'),
       '#default_value' => !empty($config) ? $config['color_settings']['top_nav'] : theme_get_setting('top_nav'),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents 
+      throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['top_nav_gradient'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Top part of the header/footer gradient color'),
-      '#default_value' => !empty($config) ? $config['color_settings']['top_nav_gradient'] : theme_get_setting('top_nav_gradient'),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+      '#default_value' => !empty($config) ?
+        $config['color_settings']['top_nav_gradient'] : theme_get_setting('top_nav_gradient'),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents 
+      throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['bottom_nav'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Bottom part of the footer'),
       '#default_value' => !empty($config) ? $config['color_settings']['bottom_nav'] : theme_get_setting('bottom_nav'),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents throughout the site. Must be AA compliant.'),
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
+       throughout the site. Must be AA compliant.'),
     ];
 
     $form['color_settings']['card_background'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Card Background'),
       '#default_value' => !empty($config) ? $config['color_settings']['card_background'] : theme_get_setting('card_background'),
-      '#description'   => $this->t('If gradient check box is checked, use HEX color with white to create radial gradient.'),
+      '#description'   => $this->t('If gradient check box is checked, use HEX 
+      color with white to create radial gradient.'),
     ];
 
     $form['font_settings'] = [
@@ -256,7 +270,8 @@ class ThemeConfiguratorService {
       '#description' => $this->t("MARS theme settings for font upload."),
     ];
 
-    $headline_font_path = !empty($config) ? $config['font_settings']['headline_font_path'] : theme_get_setting('headline_font_path');
+    $headline_font_path = !empty($config) ?
+      $config['font_settings']['headline_font_path'] : theme_get_setting('headline_font_path');
 
     $form['font_settings']['headline_font_path'] = [
       '#type'  => 'textfield',
@@ -276,7 +291,8 @@ class ThemeConfiguratorService {
       ],
     ];
 
-    $primary_font_path = !empty($config) ? $config['font_settings']['primary_font_path'] : theme_get_setting('primary_font_path');
+    $primary_font_path = !empty($config) ?
+      $config['font_settings']['primary_font_path'] : theme_get_setting('primary_font_path');
 
     $form['font_settings']['primary_font_path'] = [
       '#type'  => 'textfield',
@@ -296,7 +312,8 @@ class ThemeConfiguratorService {
       ],
     ];
 
-    $secondary_font_path = !empty($config) ? $config['font_settings']['secondary_font_path'] : theme_get_setting('secondary_font_path');
+    $secondary_font_path = !empty($config) ?
+      $config['font_settings']['secondary_font_path'] : theme_get_setting('secondary_font_path');
 
     $form['font_settings']['secondary_font_path'] = [
       '#type'  => 'textfield',
@@ -326,7 +343,8 @@ class ThemeConfiguratorService {
     $form['icons_settings']['graphic_divider'] = [
       '#title'           => $this->t('Graphic Divider'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+      '#description'     => $this->t('Will be designed by each brand team. 
+      Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
@@ -338,13 +356,15 @@ class ThemeConfiguratorService {
       ],
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
-      '#default_value'       => !empty($config) ? $config['icons_settings']['graphic_divider'] : theme_get_setting('graphic_divider'),
+      '#default_value'       => !empty($config) ?
+        $config['icons_settings']['graphic_divider'] : theme_get_setting('graphic_divider'),
     ];
 
     $form['icons_settings']['brand_shape'] = [
       '#title'           => $this->t('Path to Brand Shape'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+      '#description'     => $this->t('Will be designed by each brand team. 
+      Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
@@ -356,13 +376,15 @@ class ThemeConfiguratorService {
       ],
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
-      '#default_value'       => !empty($config) ? $config['icons_settings']['brand_shape'] : theme_get_setting('brand_shape'),
+      '#default_value'       => !empty($config) ?
+        $config['icons_settings']['brand_shape'] : theme_get_setting('brand_shape'),
     ];
 
     $form['icons_settings']['brand_borders'] = [
       '#title'           => $this->t('Brand Borders'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+      '#description'     => $this->t('Will be designed by each brand team.
+       Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
@@ -374,14 +396,16 @@ class ThemeConfiguratorService {
       ],
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
-      '#default_value'       => !empty($config) ? $config['icons_settings']['brand_borders'] : theme_get_setting('brand_borders'),
+      '#default_value'       => !empty($config) ?
+        $config['icons_settings']['brand_borders'] : theme_get_setting('brand_borders'),
     ];
 
     $form['icons_settings']['brand_border_style'] = [
       '#type'          => 'radios',
       '#title'         => $this->t('Brand border style'),
       '#description'   => $this->t('Designates stretched border or repeated border shape.'),
-      '#default_value' => !empty($config) ? $config['icons_settings']['brand_border_style'] : theme_get_setting('brand_border_style'),
+      '#default_value' => !empty($config) ?
+        $config['icons_settings']['brand_border_style'] : theme_get_setting('brand_border_style'),
       '#options' => [
         self::BORDER_STYLE_REPEAT => $this->t('Repeat'),
         self::BORDER_STYLE_STRETCH => $this->t('Stretch'),
@@ -391,7 +415,8 @@ class ThemeConfiguratorService {
     $form['icons_settings']['brand_borders_2'] = [
       '#title'           => $this->t('Brand Borders for Cards'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+      '#description'     => $this->t('Will be designed by each brand team. 
+      Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
@@ -403,13 +428,15 @@ class ThemeConfiguratorService {
       ],
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
-      '#default_value'       => !empty($config) ? $config['icons_settings']['brand_borders_2'] : theme_get_setting('brand_borders_2'),
+      '#default_value'       => !empty($config) ?
+        $config['icons_settings']['brand_borders_2'] : theme_get_setting('brand_borders_2'),
     ];
 
     $form['icons_settings']['png_asset'] = [
       '#title'           => $this->t('PNG Asset'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. Size and format requirements detailed out in the Style Guide.'),
+      '#description'     => $this->t('Will be designed by each brand team. 
+      Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
       '#process'         => [
@@ -421,14 +448,16 @@ class ThemeConfiguratorService {
       ],
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
-      '#default_value'       => !empty($config) ? $config['icons_settings']['png_asset'] : theme_get_setting('png_asset'),
+      '#default_value'       => !empty($config) ?
+        $config['icons_settings']['png_asset'] : theme_get_setting('png_asset'),
     ];
 
     $form['icons_settings']['button_style'] = [
       '#type'          => 'radios',
       '#title'         => $this->t('Button/Card Style'),
       '#description'   => $this->t('Designates rounded buttons or sharp corner buttons and card corner.'),
-      '#default_value' => !empty($config) ? $config['icons_settings']['button_style'] : theme_get_setting('button_style'),
+      '#default_value' => !empty($config) ?
+        $config['icons_settings']['button_style'] : theme_get_setting('button_style'),
       '#options' => [
         0 => $this->t('Round'),
         1 => $this->t('Sharp'),
@@ -512,7 +541,8 @@ class ThemeConfiguratorService {
       $form['product_layout']['show_allergen_info'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Show allergen info'),
-        '#default_value' => !empty($config) ? $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
+        '#default_value' => !empty($config) ?
+          $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
       ];
 
       $form['product_rating_and_reviews'] = [
@@ -524,7 +554,9 @@ class ThemeConfiguratorService {
       $form['product_rating_and_reviews']['show_rating_and_reviews'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Turn off/on rating and reviews per site for all products'),
-        '#default_value' => !empty($config) ? $config['product_rating_and_reviews']['show_rating_and_reviews'] : theme_get_setting('show_rating_and_reviews'),
+        '#default_value' => !empty($config) ?
+          $config['product_rating_and_reviews']['show_rating_and_reviews'] :
+          theme_get_setting('show_rating_and_reviews'),
       ];
     }
 
