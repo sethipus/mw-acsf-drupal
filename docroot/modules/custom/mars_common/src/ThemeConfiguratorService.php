@@ -101,21 +101,21 @@ class ThemeConfiguratorService {
   /**
    * Get color data.
    */
-  protected function getColorData(string $key, array $config) {
+  protected function getColorData(string $key, array $config = NULL) {
     return $this->getData('color_settings', $key, $config);
   }
 
   /**
    * Get font data.
    */
-  protected function getFontData(string $key, array $config) {
+  protected function getFontData(string $key, array $config = NULL) {
     return $this->getData('font_settings', $key, $config);
   }
 
   /**
    * Get icon settings data.
    */
-  protected function getIconSettingsData(string $key, array $config) {
+  protected function getIconSettingsData(string $key, array $config = NULL) {
     return $this->getData('icons_settings', $key, $config);
   }
 
