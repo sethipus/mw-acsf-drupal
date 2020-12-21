@@ -2,23 +2,12 @@ Feature: Product And Recipe Test
   @javascript
   Scenario: Product And Recipe Test
     When I login into Drupal
-
-    # Add icon
-    When I am on "media/add/image"
-    And I attach the file "icon.png" to "Add a new file"
-    And I wait until the "//a[@type='image/png; length=1174']" xpath element appears
-    And I fill in "Name" with "icon"
-    And I fill in "Alternative text" with "icon_alternative_text"
-    And I press "Save"
-    Then I should see "Image icon has been created."
-
-    # Add product variant
-    When I am on "/node/add/product_variant"
+    And I am on "/node/add/product_variant"
     And I fill in "Title" with "product_variant_title"
     And I fill in "SKU" with "product_variant_sku"
     And I fill in "Size" with "product_variant_size"
     And I click on a "//a[contains(@class, 'form-required') and contains(text(), 'Media')]" xpath element
-    And I press "Select entities"
+    And I click on a "//input[@data-drupal-selector='edit-field-product-key-image-entity-browser-entity-browser-open-modal']" xpath element
     And I wait for the ajax response
     And I switch to the iframe "entity_browser_iframe_lighthouse_browser"
     And I wait for the ajax response
@@ -42,7 +31,6 @@ Feature: Product And Recipe Test
     And I should see "Key Product Pack Image"
     And I should see a "//img[@alt='alternative_icon_text']" xpath element
 
-    # Add format
     When I am on "admin/structure/taxonomy/manage/mars_format/add"
     And I fill in "Name" with "Format1"
     And I expand "Relations" area
@@ -51,7 +39,6 @@ Feature: Product And Recipe Test
     Then I should see "Status message"
     And I should see "Created new term Format1."
 
-    # Add flavor
     When I am on "admin/structure/taxonomy/manage/mars_flavor/add"
     And I fill in "Name" with "Flavor1"
     And I expand "Relations" area
@@ -60,7 +47,6 @@ Feature: Product And Recipe Test
     Then I should see "Status message"
     And I should see "Created new term Flavor1."
 
-    # Add product
     When I follow "Content"
     And I follow "Add content"
     And I follow "Product"
@@ -96,17 +82,13 @@ Feature: Product And Recipe Test
     And I should see "More Products Like This"
     And I should see a ".recommended-item" element
     And I should see "product_title"
-    And I should see "See details"
-    And I should see "Buy now"
-    And I should see "Follow Us On"
 
-    # Add recipe
     When I am on "/node/add/recipe"
     And I fill in "Title" with "recipe_title"
     And I fill in "Cooking time" with "10"
     And I fill in "Ingredients number" with "3"
     And I fill in "Number of servings" with "5"
-    And I press "Select entities"
+    And I click on a "//input[@data-drupal-selector='edit-field-recipe-image-entity-browser-entity-browser-open-modal']" xpath element
     And I wait for the ajax response
     And I switch to the iframe "entity_browser_iframe_lighthouse_browser"
     And I wait for the ajax response
@@ -138,7 +120,6 @@ Feature: Product And Recipe Test
     And I should see a ".recipe-media__image-wrapper" element
     And I should see a ".recipe-details" element
 
-    # Delete product and recipe
     When I follow "Content"
     And I check content with title "product_title"
     And I press "Apply to selected items"
@@ -150,32 +131,26 @@ Feature: Product And Recipe Test
     Then the url should match "content/node/delete"
     And I press "Delete"
 
-    # Delete format
     When I am on "admin/structure/taxonomy/manage/mars_format/overview"
     And I click link which contains "edit?destination=/admin/structure/taxonomy/manage/mars_format/overview"
     Then I should see "Edit term"
+    And I wait until the "//*[@id='edit-delete']" xpath element appears
 
     When I follow "edit-delete"
     And I press "Delete"
-    Then I should see "Deleted term Format1."
+    Then I should see "Deleted term"
+    And I should see "Format1"
 
-    # Delete flavor
     When I am on "admin/structure/taxonomy/manage/mars_flavor/overview"
     And I click link which contains "edit?destination=/admin/structure/taxonomy/manage/mars_flavor/overview"
     Then I should see "Edit term"
+    And I wait until the "//*[@id='edit-delete']" xpath element appears
 
     When I follow "edit-delete"
     And I press "Delete"
-    Then I should see "Deleted term Flavor1."
+    Then I should see "Deleted term"
+    Then I should see "Flavor1"
 
-    # Delete icon
-    When I am on "admin/content/media"
-    And I click on a "//button[contains(@class, 'dropbutton__toggle')]" xpath element
-    And I click on a "//li[contains(@class, 'delete')]/a" xpath element
-    Then I should see "Are you sure you want to delete the media item"
-    And I press "Delete"
-
-    # Delete product variant
     When I follow "Content"
     And I check content with title "product_variant_title"
     And I press "Apply to selected items"

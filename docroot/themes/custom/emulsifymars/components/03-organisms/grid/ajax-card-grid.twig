@@ -3,10 +3,6 @@
 {% set ajax_card_grid_modifiers = ajax_card_grid_modifiers|default(['centered']) %}
 
 <section {{ bem(card_grid_base_class, grid_modifiers, grid_blockname) }} data-theme="{{ theme_styles }}">
-  <div class="ajax-card-grid__border">
-    {{ brand_border | raw }}
-  </div>
-
   <div class="ajax-card-grid__content">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: ajax_card_grid_heading,
@@ -18,7 +14,7 @@
       {{ graphic_divider | raw }}
     </div>
 
-    <div class="ajax-card-grid__items">
+    <div class="ajax-card-grid__items" aria-live="polite">
       {% for item in items %}
         <div {{ bem('item_wrapper', [], card_grid_base_class) }}>
           {{ item }}
@@ -26,7 +22,7 @@
       {% endfor %}
     </div>
 
-    <div class="ajax-card-grid__more-link">
+    <div {{ bem('more-link', [], 'ajax-card-grid', [ajax_card_grid_link_attributes.class]) }}>
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
         default_link_content: ajax_card_grid_link_text,
         default_link_border_radius: ajax_card_grid_border_radius,

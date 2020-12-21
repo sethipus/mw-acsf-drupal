@@ -52,19 +52,16 @@
     font-family: variable(primary-font);
     font-size: 2rem;
     line-height: 1.1;
-    letter-spacing: 0.8px;
     color: clr(accent-high);
   
     @include medium {
       font-size: 2.6rem;
       line-height: normal;
-      letter-spacing: 1.04px;
     }
     
     @include large {
       font-size: 2.8rem;
       line-height: 1.1;
-      letter-spacing: 1.12px;
     }
 
     &--label {

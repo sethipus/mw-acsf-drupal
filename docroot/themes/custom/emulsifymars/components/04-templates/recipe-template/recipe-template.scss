@@ -31,7 +31,6 @@
       text-transform: capitalize;
       color: clr(primary);
       margin-left: $xl-left-margin;
-      letter-spacing: 1.12px;
     }
 
     ol {
@@ -51,7 +50,7 @@
 
   .article-wysiwyg {
     max-width: 1365px;
-    margin: auto;
+    margin: 0 auto;
 
     &__content {
       max-width: 665px;

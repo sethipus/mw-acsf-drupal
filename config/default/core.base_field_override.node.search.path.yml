@@ -1,0 +1,20 @@
+uuid: f1e20278-34fb-4b05-af0b-95fd521c22bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.search
+  module:
+    - path
+id: node.search.path
+field_name: path
+entity_type: node
+bundle: search
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

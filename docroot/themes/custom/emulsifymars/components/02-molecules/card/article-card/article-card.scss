@@ -20,6 +20,7 @@
     border-radius: 3rem;
 
     svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
       width: 50rem;
       height: 50rem;
       position: absolute;
@@ -30,6 +31,7 @@
 
   &__content {
     position: relative;
+    box-sizing: border-box;
     z-index: 2;
     min-height: 52rem;
     padding: 6rem 0 3rem 0;
@@ -48,9 +50,9 @@
     font-size: 4rem;
     line-height: 4.4rem;
     margin-bottom: 3rem;
+    padding-bottom: 0.6rem;
     display: block;
-    letter-spacing: 0.11rem;
-    max-height: 176px;
+    max-height: 182px;
   }
 
   &-paragraph--xs {
@@ -85,6 +87,7 @@
     color: clr(primary);
     font-family: variable(primary-font);
     text-align: center;
+    margin-bottom: 1rem;
   }
 
   &--with-bg-img {
@@ -104,6 +107,7 @@
     padding: 0 2.95rem;
     align-self: flex-start;
     position: absolute;
-    bottom: 2.5rem;
+    bottom: 3rem;
+    left: 0;
   }
 }

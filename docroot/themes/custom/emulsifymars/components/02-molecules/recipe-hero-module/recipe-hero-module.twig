@@ -6,9 +6,23 @@
 {% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
 
 <div class="recipe-header" data-theme="{{ theme_styles }}">
-  <div class="recipe-header__title">{{ "Recipe" | t }}</div>
-  <div class="recipe-header__text">{{ recipe_header_text }}</div>
+    <div class="recipe-header__background"
+      {% if background_color_override %}
+        style="background-color: {{ '#' ~ background_color }}"
+      {% endif %}
+    >
+      {% if brand_shape_enabled %}
+        <div class="recipe-header__brand-shape">
+          {{ brand_shape | raw }}
+        </div>
+      {% endif %}
+    </div>
+  <div class="recipe-header__content">
+    <div class="recipe-header__title">{{ "Recipe" | mt }}</div>
+    <div class="recipe-header__text">{{ recipe_header_text }}</div>
+  </div>
 </div>
+
 <div class="recipe-media" data-theme="{{ theme_styles }}"
   {% if recipe_header_text and video_src %}
     data-component-title="{{ recipe_header_text }}"
@@ -42,8 +56,8 @@
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Time'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_cooking_time ~ ' mins'|t}}</div>
+          <div class="recipe-details-item__label">{{ 'Time'|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_cooking_time ~ ' mins'|mt}}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -55,8 +69,8 @@
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Ingredients'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_ingredients_number ~ ' items'|t}}</div>
+          <div class="recipe-details-item__label">{{ 'Ingredients'|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_ingredients_number ~ ' items'|mt}}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -68,8 +82,8 @@
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Makes'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_number_of_servings ~ ' servings'|t}}</div>
+          <div class="recipe-details-item__label">{{ 'Makes'|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_number_of_servings ~ ' servings'|mt}}</div>
         </div>
       </div>
     </div>

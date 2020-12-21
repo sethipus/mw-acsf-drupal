@@ -115,7 +115,7 @@ class SalsifyImportField extends SalsifyImport {
     $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
   ) {
     $process_result = [
-      'import_result' => self::PROCESS_RESULT_NOT_UPDATED,
+      'import_result' => static::PROCESS_RESULT_NOT_UPDATED,
       'validation_errors' => [],
     ];
     $entity_type = \Drupal::config('salsify_integration.settings')
@@ -150,7 +150,7 @@ class SalsifyImportField extends SalsifyImport {
       $salsify_updated = strtotime($product_data['salsify:updated_at']);
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
         $entity->set('salsify_updated', $salsify_updated);
-        $process_result['import_result'] = self::PROCESS_RESULT_UPDATED;
+        $process_result['import_result'] = static::PROCESS_RESULT_UPDATED;
       }
       else {
         return $process_result;
@@ -182,7 +182,7 @@ class SalsifyImportField extends SalsifyImport {
       $entity = $entityTypeManager->getStorage($entity_type)->create($entity_values);
       $entity->getTypedData();
       $entity->save();
-      $process_result['import_result'] = self::PROCESS_RESULT_CREATED;
+      $process_result['import_result'] = static::PROCESS_RESULT_CREATED;
     }
 
     // Load the configurable fields for this content type.
@@ -241,6 +241,8 @@ class SalsifyImportField extends SalsifyImport {
           if ($field_config->getType() == 'string') {
             $field_storage = $field_config->getFieldStorageDefinition();
             $max_length = $field_storage->getSetting('max_length');
+            $options = (is_array($options)) ? reset($options) : $options;
+
             if (strlen($options) > $max_length) {
               $options = substr($options, 0, $max_length);
             }
@@ -291,6 +293,7 @@ class SalsifyImportField extends SalsifyImport {
             }
           }
           elseif ($field_config->getType() == 'metatag' && $field['salsify_data_type'] == 'complex') {
+            /* @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
             $meta_tags = $entity->get($field['field_name'])->value;
             $meta_tags_value = [];
             if (isset($meta_tags)) {

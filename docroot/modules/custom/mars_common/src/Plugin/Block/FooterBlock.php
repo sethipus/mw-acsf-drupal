@@ -10,7 +10,10 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -18,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "footer_block",
- *   admin_label = @Translation("Footer block"),
+ *   admin_label = @Translation("MARS: Footer block"),
  *   category = @Translation("Global elements"),
  * )
  */
@@ -44,6 +47,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
    * @var \Drupal\mars_common\ThemeConfiguratorParser
    */
   protected $themeConfiguratorParser;
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
 
   /**
    * Term storage.
@@ -75,12 +85,14 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_definition,
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->languageHelper = $language_helper;
     $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
   }
 
@@ -94,6 +106,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_definition,
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -110,8 +123,12 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
     $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
-    $build['#marketing'] = $conf['marketing']['value'];
-    $build['#corporate_tout'] = $conf['corporate_tout']['title'];
+    $build['#marketing'] = $this->languageHelper->translate($conf['marketing']['value']);
+    $build['#corporate_tout_text'] = $this->languageHelper->translate($conf['corporate_tout']['title']);
+    $build['#corporate_tout_url'] = [
+      'href' => $conf['corporate_tout']['url'],
+      'name' => $build['#corporate_tout_text'],
+    ];
 
     $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {
@@ -122,6 +139,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $build['#region_selector'] = [];
       if (!empty($terms)) {
         foreach ($terms as $term) {
+          $term = $this->languageHelper->getTranslation($term);
           $region_url = '#';
           $url = $term->get('field_mars_url')->first();
           if (!is_null($url)) {
@@ -139,6 +157,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
         if ($terms_objects) {
           /** @var \Drupal\taxonomy\TermInterface $default_region */
           $default_region = reset($terms_objects);
+          $default_region = $this->languageHelper->getTranslation($default_region);
           $build['#current_region_title'] = $default_region->getName();
         }
       }
@@ -183,7 +202,23 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $menu_links = [];
     if (!empty($menu['#items'])) {
       foreach ($menu['#items'] as $item) {
-        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
+        /* TODO: Reafactor this part.
+         * Processing menu_link_attributes module options. This is a quick fix
+         * for making our footer work with that contrib module. This should be
+         * investigated and done properly in more general way.
+         */
+        $attributes = $item['attributes'] ?? new Attribute();
+        $menu_link_content = $item['original_link'] ?? NULL;
+        if ($menu_link_content instanceof MenuLinkContent) {
+          $options = $menu_link_content->getOptions();
+          $menu_link_attributes = $options['attributes'] ?? [];
+          $attributes->merge(new Attribute($menu_link_attributes));
+        }
+        $menu_links[] = [
+          'title' => $item['title'],
+          'url' => $item['url']->setAbsolute()->toString(),
+          'item_attributes' => $attributes,
+        ];
       }
     }
     return $menu_links;

@@ -5,7 +5,9 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -14,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "parent_page_header",
- *   admin_label = @Translation("Parent Page Header"),
+ *   admin_label = @Translation("MARS: Parent Page Header"),
  *   category = @Translation("Custom")
  * )
  */
@@ -28,6 +30,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $mediaStorage;
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
 
   /**
    * Lighthouse entity browser image id.
@@ -73,6 +82,13 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   protected $mediaHelper;
 
   /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -80,7 +96,9 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.language_helper'),
+      $container->get('mars_common.media_helper'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -91,10 +109,14 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MediaHelper $media_helper
+    LanguageHelper $language_helper,
+    MediaHelper $media_helper,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -103,8 +125,8 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#label'] = $conf['title'] ?? '';
+    $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
+    $build['#label'] = $this->languageHelper->translate($conf['title'] ?? '');
     $media_id = NULL;
 
     if (!empty($conf['background_options'])) {
@@ -130,7 +152,8 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       }
     }
 
-    $build['#description'] = $conf['description'] ?? '';
+    $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'parent_page_header_block';
 
     return $build;
@@ -156,12 +179,14 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 30,
+      '#required' => TRUE,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
     ];
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 55,
+      '#required' => TRUE,
       '#default_value' => $this->configuration['title'] ?? '',
     ];
     $form['background_options'] = [
@@ -173,7 +198,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
 
     $image_default = isset($config['background_image']) ? $config['background_image'] : NULL;
     // Entity Browser element for background image.
-    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['background_image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail', function ($form_state) {
+        return $form_state->getValue(['settings', 'background_options']) === self::KEY_OPTION_IMAGE;
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['background_image']['#type'] = 'details';
     $form['background_image']['#title'] = $this->t('Image');
@@ -182,11 +211,18 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       'visible' => [
         ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
       ],
+      'required' => [
+        ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+      ],
     ];
 
     $video_default = isset($config['background_video']) ? $config['background_video'] : NULL;
     // Entity Browser element for video.
-    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID, $video_default, 1);
+    $form['background_video'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+      $video_default, $form_state, 1, 'default', function ($form_state) {
+        return $form_state->getValue(['settings', 'background_options']) === self::KEY_OPTION_VIDEO;
+      }
+    );
     // Convert the wrapping container to a details element.
     $form['background_video']['#type'] = 'details';
     $form['background_video']['#title'] = $this->t('Video');
@@ -195,11 +231,15 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       'visible' => [
         ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_VIDEO],
       ],
+      'required' => [
+        ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_VIDEO],
+      ],
     ];
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#maxlength' => 255,
+      '#required' => TRUE,
       '#default_value' => $this->configuration['description'] ?? '',
     ];
 

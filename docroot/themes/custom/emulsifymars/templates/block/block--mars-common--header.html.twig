@@ -13,12 +13,11 @@
 #}
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
-{% set logo_title = 'Logo' | t %}
+{% set logo_title = 'Logo' | mt %}
 {% embed "@organisms/site/site-header/site-header.twig" with {
   theme_styles: 'drupal',
   menu_items: primary_menu,
   header_inline_menu_items: secondary_menu,
-  header_inline_menu_search_item: search_menu,
   dropdown_title: language_selector_current,
   dropdown_label: language_selector_label,
   dropdown_items: language_selector_items,
@@ -41,12 +40,14 @@
     {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" with {
       menu_class: 'header-secondary-menu',
     } %}
-    {% include "@molecules/search/inline-search/inline-search.twig" with {
-      inline_search__modifiers: ['searchbtn'],
-      inline_search_title: 'Search',
-      inline_search_url: '#',
-      inline_search_icon: 'search',
-    } %}
+    {% if search_enabled %}
+      {% include "@molecules/search/inline-search/inline-search.twig" with {
+        inline_search__modifiers: ['searchbtn'],
+        inline_search_title: 'Search' | mt ,
+        inline_search_url: '#',
+        inline_search_icon: 'search',
+      } %}
+    {% endif %}
   {% endblock %}
 
   {% block alert_banner %}
@@ -69,7 +70,6 @@
             output_image_tag: true,
             image_alt: logo_title,
             image_srcset: logo_srcset,
-            image_sizes: '21px',
             image_src: logo_src,
             responsive_image_blockname: 'logo',
           } %}

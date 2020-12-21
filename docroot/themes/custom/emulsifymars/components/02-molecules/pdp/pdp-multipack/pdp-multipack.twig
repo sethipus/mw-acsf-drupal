@@ -9,7 +9,7 @@
     heading_blockname: pdp_multipack_base_class,
     heading_base_class: 'header',
   } %}
-  <div class="swiper-container pdp-multipack-swiper-container" id="pdp-multipack-swiper-container">
+  <div class="swiper-container pdp-multipack-swiper-container">
     <div class="swiper-wrapper">
       {% for item in multipack_items %}
         <div class="swiper-slide pdp-multipack-item">
@@ -30,8 +30,8 @@
         </div>
       {% endfor %}
     </div>
-    <div class="swiper-button-prev" id="swiper-button"></div>
-    <div class="swiper-button-next" id="swiper-button"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
     <div class="swiper-scrollbar"></div>
   </div>
   <div {{ bem('see-all-container', [], pdp_multipack_base_class) }}>

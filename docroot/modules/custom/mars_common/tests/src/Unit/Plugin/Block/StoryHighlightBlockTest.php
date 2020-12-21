@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\file\Entity\File;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\StoryHighlightBlock;
 use Drupal\mars_common\SVG\SVG;
@@ -111,6 +112,13 @@ class StoryHighlightBlockTest extends UnitTestCase {
   private $internalMediaStorage = [];
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -124,6 +132,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $container->set('entity_type.repository', $this->entityTypeRepositoryMock);
     $container->set('mars_common.media_helper', $this->mediaHelperMock);
     $container->set('mars_common.theme_configurator_parser', $this->themeConfigurationParserMock);
+    $container->set('mars_common.language_helper', $this->languageHelperMock);
     \Drupal::setContainer($container);
 
     $this->defaultDefinitions = [
@@ -348,6 +357,16 @@ class StoryHighlightBlockTest extends UnitTestCase {
       ->willReturnCallback(function ($id) {
         return $this->internalMediaStorage[$id];
       });
+
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this
+      ->languageHelperMock->method('translate')
+      ->will(
+        $this->returnCallback(
+          function ($arg) {
+            return $arg;
+          })
+      );
 
     $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->themeConfigurationParserMock

@@ -13,28 +13,35 @@
         return;
       }
 
-      var eventPrefix = 'faqSearch',
-          eventSelector = '.mars-autocomplete-field-faq';
-      if (settings.dataLayer.searchPage === 'search_page') {
+      var eventPrefix = 'faqSearch';
+      var eventSelector = '.mars-autocomplete-field-faq';
+      var searchResults = document.querySelector('[data-layer-grid-type]');
+      var searchType = searchResults.dataset.layerGridType;
+      var siteSearchTerm = searchResults.dataset.layerSearchTerm;
+      var siteSearchResults = searchResults.dataset.layerSearchResults;
+
+      if (searchType === 'search_page') {
         eventPrefix = 'siteSearch';
         var searchResults = document.querySelector('.ajax-card-grid__items');
-        searchResults.addEventListener('click', function(e) {
-          var card = e.target.closest('section');
-          if (e.target && card) {
-            // SITE SEARCH RESULT CLICK
-            dataLayer.push({
-              'event': [eventPrefix, 'ResultClick'].join('_'),
-              'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-              'siteSearchClicked': card.dataset.siteSearchClicked
-            });
-          }
-        });
+        if (searchResults) {
+          searchResults.addEventListener('click', function(e) {
+            var card = e.target.closest('section');
+            if (e.target && card) {
+              // SITE SEARCH RESULT CLICK
+              dataLayer.push({
+                'event': [eventPrefix, 'ResultClick'].join('_'),
+                [eventPrefix + 'Term']: siteSearchTerm,
+                [eventPrefix + 'Clicked']: card.dataset.siteSearchClicked
+              });
+            }
+          });
+        }
       }
 
       // SITE SEARCH dataLayer events.
       var searchInput = document.querySelector(eventSelector);
       if (searchInput) {
-        searchInput.addEventListener('focus', function() {
+        searchInput.addEventListener('focus', function () {
           // Data Layer search START.
           dataLayer.push({
             'event': [eventPrefix, 'Start'].join('_'),
@@ -43,19 +50,19 @@
           });
         });
       }
-      if (settings.dataLayer.siteSearchResults.siteSearchResults == '0') {
+      if (siteSearchResults == '0') {
         // SITE SEARCH NO RESULT
         dataLayer.push({
           'event': [eventPrefix, 'ResultNo'].join('_'),
-          'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResultsNum': '0'
+          [eventPrefix + 'Term']: siteSearchTerm,
+          [eventPrefix + 'ResultsNum']: '0'
         });
       } else {
         // SITE SEARCH RESULT SHOWN
         dataLayer.push({
           'event': [eventPrefix, 'ResultShown'].join('_'),
-          'siteSearchTerm': settings.dataLayer.siteSearchResults.siteSearchTerm,
-          'siteSearchResultsNum': settings.dataLayer.siteSearchResults.siteSearchResults
+          [eventPrefix + 'Term']: siteSearchTerm,
+          [eventPrefix + 'ResultsNum']: siteSearchResults
         });
       }
     }

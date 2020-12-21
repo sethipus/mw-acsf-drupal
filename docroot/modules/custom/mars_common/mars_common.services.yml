@@ -1,4 +1,15 @@
 services:
+  mars_common.language_helper:
+    class: Drupal\mars_common\LanguageHelper
+    arguments: ['@language_manager', '@string_translation']
+
+  mars_common.language_helper_twig_filters:
+    class: Drupal\mars_common\Twig\LanguageTwigFilter
+    arguments:
+      [ '@mars_common.language_helper' ]
+    tags:
+      - {name: twig.extension}
+
   logger.channel.mars_common:
     parent: logger.channel_base
     arguments: [ 'mars_common' ]
@@ -23,12 +34,6 @@ services:
     tags:
       - { name: event_subscriber }
 
-  mars_common.media_dependency_calculator:
-    class: Drupal\mars_common\EventSubscriber\DependencyCollector\MediaEntityBlockCollector
-    arguments: [ '@entity_type.manager' ]
-    tags:
-      - { name: event_subscriber }
-
   mars_common.svg_factory:
     arguments: [ '@entity_type.manager' , '@mars_common.svg_unique_id_generator' ]
     class: Drupal\mars_common\SVG\SVGFactory
@@ -37,7 +42,7 @@ services:
     class: Drupal\mars_common\SVG\SVGUniqueIdGenerator
 
   mars_common.theme_configurator_service:
-    arguments: [ '@image.factory', '@module_handler', '@file_system', '@config.factory' , '@entity_type.manager' ]
+    arguments: [ '@image.factory', '@module_handler', '@file_system', '@config.factory', '@entity_type.manager' ]
     class: Drupal\mars_common\ThemeConfiguratorService
 
   mars_common.theme_config_factory_override:

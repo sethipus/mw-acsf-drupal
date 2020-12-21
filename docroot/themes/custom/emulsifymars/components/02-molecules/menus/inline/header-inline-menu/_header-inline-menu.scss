@@ -73,7 +73,7 @@
       width: 1px;
       height: 3.9rem;
       opacity: 0.6;
-      background: clr(subcolor-1);
+      background: clr(primary);
     }
   }
 
@@ -128,7 +128,6 @@
   .dropdown__link {
     padding: 1rem 3rem 1rem 2rem;
     font-size: 1.4rem;
-    letter-spacing: 0.7px;
   }
 
   .dropdown__link:hover,

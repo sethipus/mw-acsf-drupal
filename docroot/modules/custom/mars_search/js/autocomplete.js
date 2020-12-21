@@ -6,25 +6,33 @@
 /**
  * Search overlay.
  */
-(function ($, Drupal) {
+(function ($, Drupal, drupalSettings) {
   'use strict';
   Drupal.behaviors.marsAutocomplete = {
     attach: function (context, settings) {
       var selector = '.header__inner input.mars-autocomplete-field, .mars-search-form .mars-autocomplete-field';
-      $(selector, context).on('keyup', function () {
+      $(selector, context).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+          return;
+        }
         var searchString = $(this).val();
         var gridId = $(this).attr('data-grid-id');
         var gridQuery = $(this).attr('data-grid-query');
         var cardsView = $(this).hasClass('mars-cards-view');
+        var target_container = $(this).parents('.search-input-wrapper').parent();
+        if (searchString.length < 3) {
+          $('.mars-search-autocomplete-suggestions-wrapper').hide();
+          $('.search-input-wrapper').removeClass('suggested');
+          $(target_container).find('.mars-suggestions').html('');
+        }
         if (searchString.length > 2) {
           var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString + '&search_id=' + gridId;
           if (gridQuery) {
             url = url + '&' + gridQuery;
           }
-          var target_container = $(this).parents('.search-input-wrapper').parent();
           if (cardsView && window.innerWidth > 768) {
             url = url + '&cards_view=1';
-          target_container = $(this).parents('.search-autocomplete-wrapper').parent();
+            target_container = $(this).parents('.search-autocomplete-wrapper').parent();
           }
 
           setTimeout(function() {
@@ -34,7 +42,15 @@
               dataType: 'json',
               success: function success(results) {
                 if (!$(results).hasClass('no-results')) {
-                  $(target_container).find('.mars-suggestions').html(results);
+                  const suggestions = $(target_container).find('.mars-suggestions');
+                  suggestions.html(results);
+
+                  suggestions.each((index, element) => {
+                    if (element.nodeType === Node.ELEMENT_NODE) {
+                      Drupal.attachBehaviors(element, drupalSettings);
+                    }
+                  });
+
                   $(target_container).find('.search-input-wrapper').addClass('suggested');
                   $('.mars-search-autocomplete-suggestions-wrapper').show();
                 }
@@ -49,4 +65,4 @@
       });
     }
   };
-})(jQuery, Drupal);
+})(jQuery, Drupal, drupalSettings);

@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_recommendations\Plugin\Block\RecommendationsModuleBlock;
@@ -70,6 +71,7 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $container->set('string_translation', $this->getStringTranslationStub());
     $container->set('mars_recommendations.recommendations_service', $this->createRecommendationsServiceMock());
     $container->set('mars_common.theme_configurator_parser', $this->createThemeConfigurationParserMock());
+    $container->set('mars_common.language_helper', $this->createLanguageHelperMock());
     Drupal::setContainer($container);
 
     $this->formObjectStub = new class extends FormBase {
@@ -269,6 +271,24 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
     $mock
       ->method('getGraphicDivider')
       ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg"/>', 'id'));
+
+    return $mock;
+  }
+
+  /**
+   * Returns Language helper mock.
+   *
+   * @return \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   *   Theme Configuration Parser service mock.
+   */
+  private function createLanguageHelperMock() {
+    $mock = $this->createMock(LanguageHelper::class);
+    $mock->method('translate')
+      ->will(
+        $this->returnCallback(function ($arg) {
+          return $arg;
+        })
+      );
 
     return $mock;
   }

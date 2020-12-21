@@ -1,0 +1,18 @@
+uuid: 3cb89645-76af-4200-845b-32f866f0e3ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_multipack
+id: node.product_multipack.created
+field_name: created
+entity_type: node
+bundle: product_multipack
+label: 'Authored on'
+description: 'The time that the node was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

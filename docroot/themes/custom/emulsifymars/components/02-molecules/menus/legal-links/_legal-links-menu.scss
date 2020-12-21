@@ -20,21 +20,20 @@
   @include link;
 
   font-family: variable(secondary-font);
-  font-size: 12px;
-  letter-spacing: -0.85px;
   color: clr(subcolor-3);
   text-decoration: none;
 
+  @include xs {
+    font-size: 1.2rem;
+    line-height: 1.32rem;
+  }
+
   @include medium {
-    font-size: 14px;
+    font-size: 1.4rem;
   }
 
   @include large {
-    font-size: 14px;
-  }
-
-  @include xl {
-    font-size: 16px;
+    line-height: 1.54rem;
   }
 
   &:hover {

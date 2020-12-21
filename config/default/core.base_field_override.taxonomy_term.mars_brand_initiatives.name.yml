@@ -1,0 +1,18 @@
+uuid: 072d47fe-06e3-4335-a7ad-508e8245d7fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_brand_initiatives
+id: taxonomy_term.mars_brand_initiatives.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_brand_initiatives
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

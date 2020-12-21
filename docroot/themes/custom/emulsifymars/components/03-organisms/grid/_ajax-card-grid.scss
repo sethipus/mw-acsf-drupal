@@ -1,8 +1,6 @@
 .ajax-card-grid {
   position: relative;
 
-  @include brand-border-overflow;
-
   &__content {
     display: flex;
     flex-direction: column;
@@ -14,7 +12,6 @@
 
   &__heading {
     font-family: variable(heading-font);
-    letter-spacing: .14rem;
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
@@ -27,8 +24,8 @@
     }
 
     @include medium {
-      font-size: 6.4rem;
-      line-height: 6.4rem;
+      font-size: 4.8rem;
+      line-height: 4.8rem;
       margin-bottom: 6rem;
     }
   }
@@ -75,6 +72,11 @@
 
   &__more-link {
     text-align: center;
+    display: none;
+
+    &.active {
+      display: block;
+    }
 
     & .default-link {
       background-color: clr(secondary);

@@ -9,7 +9,7 @@
     </div>
   {% endblock %}
 
-  <div class="story-highlight__content">
+  <div class="story-highlight__content {{default_link_modifier}}">
     <div class="story-highlight__contentbg">
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: heading,
@@ -24,8 +24,9 @@
         paragraph_content: story_highlight_paragraph_content,
         paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph')
       } %}
-    </div>
-    <div class="story-highlight_whitebg">
+
+      <div class="white-background"></div>
+
       <div class="media_items">
       {% for item in items %}
         <div class="media_item_{{loop.index}}"
@@ -48,7 +49,7 @@
             {% include "@atoms/video/overlay-video/video.twig" with {
               video__src__url: item.src,
             } %}
-            <button {{ bem('control', [], 'video') }} id="fullscreen-play" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
+            <button {{ bem('control', [], 'video') }} id="fullscreen-play" title="{{ 'Fullscreen play' | mt }}" aria-label="{{ 'Fullscreen play' | mt }}" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
           {% endif %}
 
           {% include "@atoms/text/text/01-paragraph.twig" with {

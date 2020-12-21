@@ -1,0 +1,12 @@
+{#
+/**
+ * @file
+ * Template for content type filters.
+ */
+#}
+{% set filters_selected_modifier = (search_results|filter(item => item.search_results_item_modifier is same as('active'))|length > 0) ? 'filter-selected' : '' %}
+
+{% include "@molecules/search/search-results/search-results.twig" with {
+  search_results: search_results,
+  filters_selected_modifier: filters_selected_modifier
+}%}

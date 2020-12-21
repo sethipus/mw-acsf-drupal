@@ -15,7 +15,6 @@
     display: inline-block;
     font-size: 1.8rem;
     line-height: 1;
-    letter-spacing: 0.72px;
     padding: $space-one-and-half $space-triple;
     text-transform: none;
     position: relative;
@@ -84,11 +83,11 @@
     padding: 1.2rem $space-double;
     font-size: 1.4rem;
     font-weight: normal;
-    letter-spacing: 0.7px;
 
     &.active,
     &:active,
     &:hover {
+      font-family: variable(primary-font);
       color: clr(secondary);
       font-weight: 500;
 

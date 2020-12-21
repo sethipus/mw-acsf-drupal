@@ -34,15 +34,26 @@ trait EntityBrowserFormTrait {
    *   The ID of the entity browser to use.
    * @param string $default_value
    *   The default value for the entity browser.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current form state.
    * @param int $cardinality
    *   The cardinality of the entity browser.
    * @param string $view_mode
    *   The view mode to use when displaying the selected entity in the table.
+   * @param bool|callable $required
+   *   Decides whether the selection is required or not.
    *
    * @return array
    *   The form element containing the entity browser.
    */
-  public function getEntityBrowserForm($entity_browser_id, $default_value, $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED, $view_mode = 'default') {
+  public function getEntityBrowserForm(
+    $entity_browser_id,
+    $default_value,
+    FormStateInterface $form_state,
+    $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED,
+    $view_mode = 'default',
+    $required = TRUE
+  ) {
     // We need a wrapping container for AJAX operations.
     $element = [
       '#type' => 'container',
@@ -50,6 +61,19 @@ trait EntityBrowserFormTrait {
         'id' => Html::getUniqueId('entity-browser-' . $entity_browser_id . '-wrapper'),
       ],
     ];
+
+    if ($required) {
+      $form_state->disableCache();
+      $element['#element_validate'] = [
+        function ($element, $form_state) use ($required) {
+          if (!is_callable($required) || $required($form_state)) {
+            self::validateRequiredElement($element, $form_state);
+          }
+        },
+      ];
+
+      $element['#required'] = TRUE;
+    }
 
     $element['browser'] = [
       '#type' => 'entity_browser',
@@ -281,6 +305,24 @@ trait EntityBrowserFormTrait {
       $selection = NestedArray::getValue($form, $parents);
     }
     return $selection;
+  }
+
+  /**
+   * Validate the empty value of the selected element if its required.
+   *
+   * @param array $element
+   *   The current element of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public static function validateRequiredElement(array $element, FormStateInterface $form_state) {
+    $trigger = $form_state->getTriggeringElement();
+    if ($trigger['#type'] === 'submit' && empty($element['browser']['#value']['entities'])) {
+      $form_state->setError(
+        $element,
+        'File selection is required!'
+      );
+    }
   }
 
 }

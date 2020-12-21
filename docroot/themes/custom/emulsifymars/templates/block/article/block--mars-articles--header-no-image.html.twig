@@ -1,9 +1,10 @@
 {% include "@molecules/article-header/article-header-noimage.twig" with {
   theme_styles: 'drupal',
   shape: brand_borders,
+  brand_shape : brand_shape,
   eyebrow: eyebrow,
   heading: label,
   date_published: publication_date,
-  share_text: 'Share'|t,
+  share_text: 'Share' | mt,
   social_menu_items: social_links,
 } %}

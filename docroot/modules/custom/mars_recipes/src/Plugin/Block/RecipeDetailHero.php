@@ -3,6 +3,7 @@
 namespace Drupal\mars_recipes\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -19,7 +20,7 @@ use Drupal\Core\Utility\Token;
  *
  * @Block(
  *   id = "recipe_detail_hero",
- *   admin_label = @Translation("Recipe detail hero"),
+ *   admin_label = @Translation("MARS: Recipe detail hero"),
  *   category = @Translation("Recipe"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label =
@@ -130,6 +131,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
 
     // Get brand border path.
     $build['#border'] = $this->themeConfiguratorParser->getBrandBorder();
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
 
     if (
       $node->hasField('field_recipe_video') &&
@@ -147,6 +149,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     if (!array_key_exists('social_links_toggle', $block_config)) {
       $build['#social_links'] = $this->socialLinks();
     }
+    $build['#custom_background_color'] = $this->configuration['custom_background_color'] ?? NULL;
+    $build['#use_custom_color'] = (bool) ($this->configuration['use_custom_color'] ?? 0);
+    $build['#brand_shape_enabled'] = (bool) ($this->configuration['brand_shape_enabled'] ?? 0);
 
     return $build;
   }
@@ -199,6 +204,42 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     }
 
     return $social_menu_items;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+    $form['use_custom_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use custom color'),
+      '#default_value' => $this->configuration['use_custom_color'] ?? FALSE,
+    ];
+    $form['custom_background_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Background Color Override'),
+      '#default_value' => $this->configuration['custom_background_color'] ?? '',
+    ];
+    $form['brand_shape_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Brand shape enabled'),
+      '#default_value' => $this->configuration['brand_shape_enabled'] ?? FALSE,
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * This method processes the blockForm() form fields when the block
+   * configuration form is submitted.
+   *
+   * The blockValidate() method can be used to validate the form submission.
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->setConfiguration($form_state->getValues());
   }
 
 }

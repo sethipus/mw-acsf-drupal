@@ -25,7 +25,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         return f;
       })();
 
-      if (videoElements('video') === null || videoContainer.getAttribute('data-video-init')) {
+      if (videoElements('video') === null || videoElements('video').getAttribute('data-video-init')) {
         return;
       }
       videoElements('video').controls = false;
@@ -87,7 +87,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
             dataLayer.push({
               event: 'videoView',
               pageName: document.title,
-              videoStart: 0,
+              videoStart: 1,
               videoTitle: videoTitle,
               videoFlag: videoContainer.dataset.videoFlag,
               componentName: componentName
@@ -96,12 +96,12 @@ Drupal.behaviors.fullscreenVideoPlayer = {
 
           let videoEndedHandler = () => {
             var tr = videoElements('video').played;
-            var hasLoopedOnce = (tr.end(tr.length-1)==videoElements('video').duration);
-            if(hasLoopedOnce) {
+            var hasLoopedOnce = (tr.end(tr.length-1) == videoElements('video').duration);
+            if (hasLoopedOnce) {
               dataLayer.push({
                 event: 'videoView',
                 pageName: document.title,
-                videoStart: 0,
+                videoStart: 1,
                 videoComplete: 1,
                 videoTitle: videoTitle,
                 videoFlag: videoContainer.dataset.videoFlag,

@@ -25,6 +25,9 @@
 
   {% if media_type == 'image' %}
     <div {{ bem('media', [], inline_width__base_class) }}>
+      {% if title %}
+      <h2>{{title}}</h2>
+      {% endif %}
       {% include "@atoms/images/image/_image.twig" with {
         image_base_class: base_class,
         image_modifiers: image_modifiers,
@@ -35,6 +38,7 @@
       } %}
     </div>
   {% elseif media_type == 'video' %}
+    {{ attach_library('emulsifymars/inline-video') }}
     {% include "@atoms/video/inline-video/video.twig" with {
       video__src__url: video_src,
       video__control: video__control | default(false),

@@ -25,7 +25,7 @@ Drupal.behaviors.overlayVideoPlayer = {
         return f;
       })();
 
-      if (videoElements('video') === null || videoContainer.getAttribute('data-video-init')) {
+      if (videoElements('video') === null || videoElements('video').getAttribute('data-video-init')) {
         return;
       }
       videoElements('video').controls = false;
@@ -119,6 +119,12 @@ Drupal.behaviors.overlayVideoPlayer = {
         });
         videoElements('close').addEventListener('click', function(e) {
           document.querySelector('.overlay-video-modal').remove();
+        });
+
+        document.addEventListener('keyup',function (event){
+          if (event.keyCode == 27) {
+            document.querySelector('.overlay-video-modal').remove();
+          }
         });
 
         // As the video is playing, update the progress bar

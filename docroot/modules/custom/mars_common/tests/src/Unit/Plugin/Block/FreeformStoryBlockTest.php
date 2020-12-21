@@ -3,6 +3,7 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -14,7 +15,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * Class FreeformStoryBlockTest.
  *
  * @package Drupal\Tests\mars_common\Unit
- * @covers \Drupal\mars_common\Plugin\Block\FreeformStoryBlockTest
+ * @covers \Drupal\mars_common\Plugin\Block\FreeformStoryBlock
  */
 class FreeformStoryBlockTest extends UnitTestCase {
 
@@ -61,6 +62,13 @@ class FreeformStoryBlockTest extends UnitTestCase {
   protected $themeConfiguratorParserMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * Media Helper service Mock.
    *
    * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
@@ -102,6 +110,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
       $definitions,
       $this->entityTypeManagerMock,
       $this->themeConfiguratorParserMock,
+      $this->languageHelperMock,
       $this->mediaHelperMock
     );
   }
@@ -114,6 +123,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
   }
 

@@ -1,29 +1,30 @@
-Drupal.behaviors.recipeBody = {
-  attach: function (context) {
-    const _this = this;
-    let productUsedPinned = false;
+(function($, _, Drupal){
+  Drupal.behaviors.recipeBody = {
+    attach: function (context) {
+      $(context).find('.recipe-body-content').once('recipeBody').each(() => {
+        let productUsedPinned = false;
+        productUsedPinned = adaptProductUsedBlock(productUsedPinned);
+  
+        $(window).on('resize', _.debounce(() => {
+          productUsedPinned = adaptProductUsedBlock(productUsedPinned);
+        }, 200));
 
-    productUsedPinned = this.adaptProductUsedBlock(productUsedPinned);
-
-    window.onresize = function(event) {
-      productUsedPinned = _this.adaptProductUsedBlock(productUsedPinned);
-    };
-  },
-
-  adaptProductUsedBlock: function (productUsedPinned) {
-    const smallScreen = window.innerWidth < 1440;
-
-    if (smallScreen && productUsedPinned) {
-      let productUsed = document.querySelector('.product-used');
-      productUsed.setAttribute('style', 'margin-top: 0;');
-      return false;
-    } else if (!smallScreen && !productUsedPinned) {
-      let adjacentElement = document.querySelector('.recipe-info');
-      let productUsed = document.querySelector('.product-used');
-      productUsed.setAttribute('style', 'margin-top: -' + ( adjacentElement.offsetHeight ) + 'px;');
-      return true;
+        function adaptProductUsedBlock(productUsedPinned) {
+          const smallScreen = window.innerWidth < 1440;
+          let $productUsed = $('.product-used', this);
+    
+          if (smallScreen && productUsedPinned) {
+            $productUsed.css('margin-top', 0);
+            return false;
+          } else if (!smallScreen && !productUsedPinned) {
+            let $adjacentElement = $('.recipe-info', this).outerHeight(true);
+            $productUsed.css('margin-top', '-' + $adjacentElement + 'px');
+            return true;
+          }
+    
+          return productUsedPinned;
+        }
+      })
     }
-
-    return productUsedPinned;
-  },
-};
+  };
+})(jQuery, _, Drupal)
