@@ -4,6 +4,4 @@ homepage_hero_basic_content: 'Choose pleasure Choose pleasure'
 homepage_hero_basic_img_url: '/homepage-hero-basic.png'
 
 homepage_hero_basic_img:
-  alt: 'image alt'
-  title: 'image title'
   src: '/homepage-hero-basic.png'

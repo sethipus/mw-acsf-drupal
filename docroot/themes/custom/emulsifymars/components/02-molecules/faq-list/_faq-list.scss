@@ -40,6 +40,10 @@
 .list-item__question,
 .list-item__answer {
   color: clr(primary);
+
+  & p {
+    margin: 0;
+  }
 }
 
 .faq__see_all {
