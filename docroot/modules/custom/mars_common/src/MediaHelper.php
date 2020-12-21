@@ -221,6 +221,7 @@ class MediaHelper {
         break;
 
       case 'product':
+      case 'product_multipack':
         $main_variant = $this->productHelper->mainVariant($contentEntity);
 
         if ($main_variant) {
