@@ -1,7 +1,12 @@
 .content-feature {
   text-align: center;
   padding: 8rem 4rem 7.2rem 4rem;
-  background-size: cover;
+  background-size: auto 120%;
+  background-position: center center;
+
+  @include xl {
+    background-size: auto 150%;
+  }
 
   & .eyebrow {
     font-family: variable(primary-font);
@@ -9,13 +14,11 @@
     @include xs {
       font-size: 1.4rem;
       line-height: 1.4rem;
-      letter-spacing: 0.14rem;
     }
 
     @include large {
       font-size: 1.6rem;
       line-height: 1.6rem;
-      letter-spacing: 0.16rem;
     }
   }
 

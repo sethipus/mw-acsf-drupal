@@ -248,74 +248,33 @@ class WhereToBuyBlockTest extends UnitTestCase {
    * Test.
    */
   public function testShouldBuildWhenPriceSpider() {
+    $this->block->setConfiguration([
+      'widget_id' => 'test_widget_id',
+      'commerce_vendor' => WhereToBuyBlock::VENDOR_PRICE_SPIDER,
+    ]);
+
     $this->configMock
-      ->expects($this->any())
+      ->expects($this->atLeastOnce())
       ->method('get')
       ->willReturn($this->immutableConfigMock);
 
     $this->immutableConfigMock
-      ->expects($this->any())
+      ->expects($this->atLeastOnce())
       ->method('get')
       ->willReturn('US');
 
     $this->languageManagerMock
-      ->expects($this->any())
+      ->expects($this->atLeastOnce())
       ->method('getCurrentLanguage')
       ->willReturn($this->languageMock);
 
-    $this->languageMock
-      ->expects($this->any())
-      ->method('getId')
-      ->willReturn('en');
-
-    $this->entityTypeManagerMock
-      ->expects($this->once())
-      ->method('getStorage')
-      ->willReturn($this->entityStorageMock);
-
-    $this->entityStorageMock
-      ->expects($this->once())
-      ->method('loadByProperties')
-      ->willReturn([$this->nodeMock]);
-
-    $this->nodeMock
-      ->expects($this->any())
-      ->method('id')
-      ->willReturn('id');
-
-    $this->nodeMock
-      ->expects($this->once())
-      ->method('label')
-      ->willReturn('label');
-
-    $this->nodeMock->target_id = '123';
-    $this->nodeMock->value = 'value';
-
-    $this->nodeMock
-      ->expects($this->any())
-      ->method('get')
-      ->willReturn($this->fieldItemListMock);
-
-    $this->fieldItemListMock
-      ->expects($this->once())
-      ->method('referencedEntities')
-      ->willReturn([
-        $this->nodeMock,
-      ]);
-
-    $this->mediaHelperMock
-      ->expects($this->exactly(2))
-      ->method('getMediaParametersById')
-      ->willReturn([
-        'error' => TRUE,
-        'src' => 'src',
-        'alt' => 'alt',
-      ]);
-
     $build = $this->block->build();
-    $this->assertIsArray(
-      $build['#attached']['html_head']
-    );
+    $this->assertArrayHasKey('#theme', $build);
+    $this->assertArrayHasKey('#widget_id', $build);
+    $this->assertArrayHasKey('#commerce_vendor', $build);
+    $this->assertArrayHasKey('#product_sku', $build);
+    $this->assertArrayHasKey('#attached', $build);
+    $this->assertArrayHasKey('html_head', $build['#attached']);
   }
 
   /**
@@ -368,7 +327,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
       ]);
 
     $this->mediaHelperMock
-      ->expects($this->exactly(2))
+      ->expects($this->once())
       ->method('getMediaParametersById')
       ->willReturn([
         'error' => TRUE,
