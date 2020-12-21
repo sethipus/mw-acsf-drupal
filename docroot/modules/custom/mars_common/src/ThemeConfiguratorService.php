@@ -558,8 +558,7 @@ class ThemeConfiguratorService {
       $form['product_layout']['show_allergen_info'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Show allergen info'),
-        '#default_value' => !empty($config) ?
-        $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
+        '#default_value' => $this->getData('product_layout', 'show_allergen_info', $config),
       ];
 
       $form['product_rating_and_reviews'] = [
@@ -571,9 +570,7 @@ class ThemeConfiguratorService {
       $form['product_rating_and_reviews']['show_rating_and_reviews'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Turn off/on rating and reviews per site for all products'),
-        '#default_value' => !empty($config) ?
-        $config['product_rating_and_reviews']['show_rating_and_reviews'] :
-        theme_get_setting('show_rating_and_reviews'),
+        '#default_value' => $this->getData('product_rating_and_reviews', 'show_rating_and_reviews', $config),
       ];
     }
 
