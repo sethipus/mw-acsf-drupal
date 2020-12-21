@@ -1,15 +1,7 @@
 {% set homepage_hero_basic_base_class = 'homepage-hero-basic' %}
 
 <section {{ bem(homepage_hero_basic_base_class) }} data-theme="{{ theme_styles }}">
-  <div {{ bem('background', [], homepage_hero_basic_base_class) }} >
-    {% include "@atoms/images/image/responsive-image.twig" with {
-      output_image_tag: true,
-      image_alt: homepage_hero_basic_img.alt,
-      image_title: homepage_hero_basic_img.title,
-      image_src: homepage_hero_basic_img.src,
-      responsive_image_blockname: 'homepage-hero-basic',
-    } %}
-  </div>
+  <div {{ bem('background', [], homepage_hero_basic_base_class) }} style="background-image:url('{{ homepage_hero_basic_img.src }}');"></div>
 
   <div {{ bem('content', [], homepage_hero_basic_base_class) }} >
     {% include "@atoms/text/headings/_heading.twig" with {
