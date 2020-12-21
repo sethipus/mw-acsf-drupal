@@ -14,11 +14,11 @@
   {% if video__control == true %}
     <button {{ bem('control', [], video__base_class) }} type="button" data-state="pause" aria-live="polite">
       <div {{ bem('control', ['inner'], video__base_class) }}>
-        {% include "@atoms\accessibility\SROnly\SROnly.twig" with {
+        {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
           sronly_content: 'Play',
           sronly_modifiers: ['play'],
         } %}
-        {% include "@atoms\accessibility\SROnly\SROnly.twig" with {
+        {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
           sronly_content: 'Pause',
           sronly_modifiers: ['pause'],
         } %}
