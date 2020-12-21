@@ -2,23 +2,23 @@
 {% set pdp_main_image = pdp_hero_data.image_items|first %}
 {% set pdp_side_images = pdp_hero_data.image_items[1:] %}
 {% set scroll_mandatory_base_class = 'scroll-mandatory' %}
+{% set pdp_size_id_modifier = size_id %}
 
 <section
-  id="pdp-hero-{{size_id}}"
-  {{ bem(pdp_hero_base_class) }}
+  class="pdp-hero pdp-hero--{{size_id}}"
   data-theme="{{ theme_styles }}"
   {% if pdp_common_hero_data.background_color %}
     style="background-color: {{ pdp_common_hero_data.background_color }};"
   {% endif %}
 >
 
-  <div {{ bem('bubble', ['1'], pdp_hero_base_class) }} id="pdp-hero__bubble_1-{{size_id}}">
+  <div {{ bem('bubble', ['1'], pdp_hero_base_class) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
-  <div {{ bem('bubble', ['2'], pdp_hero_base_class) }} id="pdp-hero__bubble_2-{{size_id}}">
+  <div {{ bem('bubble', ['2'], pdp_hero_base_class) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
-  <div {{ bem('bubble', ['3'], pdp_hero_base_class) }} id="pdp-hero__bubble_3-{{size_id}}">
+  <div {{ bem('bubble', ['3'], pdp_hero_base_class) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
   <div {{ bem('container', [], pdp_hero_base_class) }}>
@@ -35,7 +35,7 @@
         heading_blockname: pdp_hero_base_class,
         heading_base_class: 'product-name',
       } %}
-      <div id='sticky-nav-top-{{size_id}}' {{ bem('sticky-nav-top', [], pdp_hero_base_class) }}>
+      <div {{ bem('sticky-nav-top', [size_id], pdp_hero_base_class) }}>
         {% include "@atoms/text/headings/_heading.twig" with {
           heading_level: 5,
           heading: pdp_common_hero_data.product_label,
@@ -76,10 +76,14 @@
         </div>
       </div>
       {% if show_rating_and_reviews == true %}
-        <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+        {% if pdp_is_main_variant %}
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+        {% else %}
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}" data-bv-seo="false"></div>
+        {% endif %}
       {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
-        <div id='pdp-hero-main-image-{{size_id}}' {{ bem('main-image-container', [], pdp_hero_base_class) }}>
+        <div class='pdp-hero-main-image--{{size_id}} pdp-hero__main-image-container'>
           {% include "@atoms/images/image/responsive-image.twig" with {
             image_alt: pdp_main_image.image.alt,
             image_srcset: pdp_main_image.image.srcset,
@@ -92,7 +96,7 @@
             responsive_image_blockname: pdp_hero_base_class,
           } %}
         </div>
-        <div id='sticky-nav-bottom-{{size_id}}' {{ bem('sticky-nav-bottom', [], pdp_hero_base_class) }}>
+        <div {{ bem('sticky-nav-bottom', [size_id], pdp_hero_base_class) }}>
           <div {{ bem('sections-container', [], pdp_hero_base_class) }}>
             <ul {{ bem('sections-list', [], pdp_hero_base_class)}}>
               {% for section_item in pdp_hero_data.mobile_sections_items %}
@@ -131,7 +135,7 @@
           paragraph_content: pdp_common_hero_data.product_description,
         } %}
       </div>
-      <div id='where-to-buy-{{size_id}}' class="where-to-buy--container">
+      <div class="where-to-buy--container where-to-buy--{{size_id}}">
         {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
           where_to_buy_modifiers: ['pdp-hero'],
           product_sku: gtin,
@@ -143,8 +147,8 @@
         } %}
       </div>
 
-      <div class='menu-container' {{ bem('slider-container', [], pdp_hero_base_class) }}>
-        <div {{ bem('pdp-hero-menu-container', '', '', [scroll_mandatory_base_class]) }} id='section-nutrition-{{size_id}}'>
+      <div class='menu-container'>
+        <div {{ bem('pdp-hero-menu-container', '', '', [scroll_mandatory_base_class]) }} id='section-nutrition--{{size_id}}'>
           {% include "@atoms/text/headings/_heading.twig" with {
             heading_level: 5,
             heading: pdp_label_nutrition,
@@ -180,7 +184,18 @@
         </div>
       </div>
       <div class="swiper-pagination"></div>
-      <div class="swiper-control" tabindex="0"><a href="#" class="playpause-icon"></a></div>
+      <div class="swiper-control" tabindex="0">
+        <a href="#" class="playpause-icon" role="button" aria-live="polite">
+          {% include "@atoms\accessibility\SROnly\SROnly.twig" with {
+            sronly_content: 'Play',
+            sronly_modifiers: ['play'],
+          } %}
+          {% include "@atoms\accessibility\SROnly\SROnly.twig" with {
+            sronly_content: 'Pause',
+            sronly_modifiers: ['pause'],
+          } %}
+        </a>
+      </div>
     </div>
   </div>
 </section>

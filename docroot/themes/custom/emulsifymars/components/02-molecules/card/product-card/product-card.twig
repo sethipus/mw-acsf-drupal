@@ -17,8 +17,10 @@
 
     {# Eyebrow #}
     {% if card__eyebrow %}
-      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-        eyebrow_text: card__eyebrow
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading: card__eyebrow,
+        heading_level: 3,
+        heading_base_class: 'eyebrow'
       } %}
     {% endif %}
 
@@ -68,7 +70,17 @@
 
     {% if show_rating_and_reviews == true %}
       <div {{ bem('rating', [], card__base_class) }}>
-        <div data-bv-show="inline_rating" data-bv-product-id="{{ product_sku }}" data-bv-redirect-url="{{ default_link_content }}"></div>
+        <div class="inline-rating" data-bv-show="inline_rating" data-bv-product-id="{{ product_sku }}" data-bv-redirect-url="{{ default_link_content }}">
+          {{ star | raw }}
+          {{ star | raw }}
+          {{ star | raw }}
+          {{ star | raw }}
+          {{ star_half | raw }}
+          {% include '@atoms/text/text/07-span.twig' with {
+            span_base_class: "score",
+            span_content: score
+          } %}
+          </div>
       </div>
     {% endif %}
 

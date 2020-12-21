@@ -1,3 +1,5 @@
+{{ attach_library('emulsifymars/flexible-framer') }}
+
 {% set related_recipes__base_class = 'flexible-framer' %}
 {% set related_recipes__additional_class = related_recipes__additional_class|default('') %}
 
@@ -14,6 +16,7 @@
     grid_type: grid_type,
     divider: divider,
     item_type: item_type,
-    items: items
+    items: items,
+    brand_shape: brand_shape
   } %}
 </section>

@@ -131,6 +131,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
 
     // Get brand border path.
     $build['#border'] = $this->themeConfiguratorParser->getBrandBorder();
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
 
     if (
       $node->hasField('field_recipe_video') &&
@@ -150,6 +151,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'] ?? NULL;
     $build['#use_custom_color'] = (bool) ($this->configuration['use_custom_color'] ?? 0);
+    $build['#brand_shape_enabled'] = (bool) ($this->configuration['brand_shape_enabled'] ?? 0);
 
     return $build;
   }
@@ -218,6 +220,11 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Background Color Override'),
       '#default_value' => $this->configuration['custom_background_color'] ?? '',
+    ];
+    $form['brand_shape_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Brand shape enabled'),
+      '#default_value' => $this->configuration['brand_shape_enabled'] ?? FALSE,
     ];
 
     return $form;

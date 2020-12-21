@@ -14,29 +14,29 @@ interface SearchBuilderInterface {
    */
   const TAXONOMY_VOCABULARIES = [
     'mars_brand_initiatives' => [
-      'label' => 'Brand initiatives',
+      'label' => 'BRAND INITIATIVES',
       'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],
     ],
     'mars_occasions' => [
-      'label' => 'Occasions',
+      'label' => 'OCCASIONS',
       'content_types' => [
         'article', 'recipe', 'product', 'landing_page', 'campaign',
       ],
     ],
     'mars_flavor' => [
-      'label' => 'Flavor',
+      'label' => 'FLAVOR',
       'content_types' => ['product'],
     ],
     'mars_format' => [
-      'label' => 'Format',
+      'label' => 'FORMAT',
       'content_types' => ['product'],
     ],
     'mars_diet_allergens' => [
-      'label' => 'Diet & Allergens',
+      'label' => 'DIET & ALLERGENS',
       'content_types' => ['product'],
     ],
     'mars_trade_item_description' => [
-      'label' => 'Trade item description',
+      'label' => 'TRADE ITEM DESCRIPTION',
       'content_types' => ['product'],
     ],
   ];

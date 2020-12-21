@@ -78,15 +78,20 @@
           line-height: 100%;
         }
 
-        .suggestions-links li {
-          margin-bottom: 10px;
-
-          & a {
-            color: clr(subcolor-3);
-            text-decoration: none;
-
-            @include medium {
-              color: clr(primary);
+        .suggestions-links {
+          position: relative;
+          z-index: 10;
+          
+          li {
+            margin-bottom: 10px;
+  
+            & a {
+              color: clr(subcolor-3);
+              text-decoration: none;
+  
+              @include medium {
+                color: clr(primary);
+              }
             }
           }
         }
@@ -224,6 +229,9 @@
 
    &.opened {
     display: flex !important;
+    position: fixed;
+    height: 20rem;
+    z-index: 20;
      .mars-search-autocomplete-suggestions-wrapper {
        @include large {
          position: absolute;

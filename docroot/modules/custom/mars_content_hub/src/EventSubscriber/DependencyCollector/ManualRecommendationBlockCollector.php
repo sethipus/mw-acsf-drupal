@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_recipes\EventSubscriber\DependencyCollector;
+namespace Drupal\mars_content_hub\EventSubscriber\DependencyCollector;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\depcalc\DependencyCalculatorEvents;
@@ -8,9 +8,9 @@ use Drupal\depcalc\Event\SectionComponentDependenciesEvent;
 use Drupal\depcalc\EventSubscriber\DependencyCollector\BaseDependencyCollector;
 
 /**
- * Class RecipeFeatureBlockkCollector.
+ * Class ManualRecommendationBlockCollector.
  */
-class RecipeFeatureBlockCollector extends BaseDependencyCollector {
+class ManualRecommendationBlockCollector extends BaseDependencyCollector {
 
   /**
    * The entity type manager.
@@ -49,11 +49,14 @@ class RecipeFeatureBlockCollector extends BaseDependencyCollector {
   public function onCalculateSectionComponentDependencies(SectionComponentDependenciesEvent $event) {
     $component = $event->getComponent();
     $config = $component->get('configuration');
-    if ($component->getPluginId() == 'recipe_feature_block') {
-      if (!empty($config['recipe_id'])) {
+    $productCT = ['product', 'product_variant', 'product_multipack'];
+    if ($component->getPluginId() == 'recommendations_module' && $config['population_plugin_id'] == 'manual') {
+      foreach ($config['population_plugin_configuration']['nodes'] as $nid) {
         /** @var \Drupal\core\Entity\EntityInterface $node */
-        $node = $this->entityTypeManager->getStorage('node')->load($config['recipe_id']);
-        $event->addEntityDependency($node);
+        $node = $this->entityTypeManager->getStorage('node')->load($nid);
+        if (!in_array($node->bundle(), $productCT)) {
+          $event->addEntityDependency($node);
+        }
       }
     }
   }
