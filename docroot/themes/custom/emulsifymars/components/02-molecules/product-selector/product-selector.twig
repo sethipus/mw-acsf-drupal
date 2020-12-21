@@ -29,25 +29,22 @@
             <option data-id="{{ variant.gtin }}"
                     data-image-src="{{ variant.image_src }}"
                     data-image-alt="{{ variant.image_alt }}"
-                    value="{{ variant.size }}">{{ variant.size }}{{ "oz" | t }}</option>
+                    value="{{ variant.size }}">{{ variant.size }}</option>
           {% endfor %}
         </select>
       </div>
     </form>
 
-    {% if commerce_vendor == 'price_spider' %}
-      <div class="ps-widget" ps-sku="{{ default_product.variants[0].gtin }}"></div>
-    {% elseif commerce_vendor == 'commerce_connector' %}
-      <script id="cci-widget"
-              type="text/javascript"
-              src="//fi-v2.global.commerce-connector.com/cc.js"
-              data-token="{{ data_token }}"
-              data-locale="{{ data_locale }}"
-              data-displaylanguage="{{ data_displaylanguage }}"
-              data-widgetid="{{ widget_id }}"
-              data-ean="{{ default_product.variants[0].gtin }}"
-              data-subid="{{ data_subid }}"
-      ></script>
-    {% endif %}
+    <script id="cci-widget"
+            type="text/javascript"
+            src="//fi-v2.global.commerce-connector.com/cc.js"
+            data-token="{{ data_token }}"
+            data-locale="{{ data_locale }}"
+            data-displaylanguage="{{ data_displaylanguage }}"
+            data-widgetid="{{ widget_id }}"
+            data-ean="{{ default_product.variants[0].gtin }}"
+            data-subid="{{ data_subid }}"
+    ></script>
+
   </div>
 </section>

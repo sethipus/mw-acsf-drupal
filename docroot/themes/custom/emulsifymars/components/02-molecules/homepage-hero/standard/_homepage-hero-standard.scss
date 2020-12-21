@@ -18,6 +18,18 @@
     }
 
     & .wrapper {
+      position: relative;
+      height: 100%;
+      min-height: 435px;
+
+      @include medium {
+        min-height: 600px;
+      }
+
+      @include large {
+        min-height: 580px;
+      }
+
       & .eyebrow {
         font-family: variable(primary-font);
         color: clr(subcolor-3);
@@ -58,11 +70,18 @@
       }
 
       & .default-link {
-        margin: 30px 0;
-        height: 50px;
-        line-height: 50px;
-        background-color: clr(subcolor-2);
-        color: clr(secondary);
+        margin: 3.4rem 0 3.5rem;
+        height: 5rem;
+        line-height: 5rem;
+
+        @include medium {
+          margin: 6rem 0;
+        }
+
+        @include large {
+          height: 6rem;
+          line-height: 6rem;
+        }
       }
     }
   }
@@ -102,12 +121,23 @@
   }
 
   &__container--hero-text {
-    padding: 50px 0 0 20px;
-    position: relative;
+    padding: 30px 20px 0 20px;
+    position: absolute;
+    bottom: 0;
     z-index: 1;
+    animation: hero-standard-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include large {
-      padding: 150px 0 0 20px;
+      padding-left: 40px;
     }
+  }
+}
+
+@keyframes hero-standard-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
