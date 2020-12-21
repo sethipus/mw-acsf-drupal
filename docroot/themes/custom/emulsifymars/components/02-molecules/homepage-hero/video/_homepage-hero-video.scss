@@ -58,8 +58,6 @@
     .fullscreen-video__control[data-state="play"] {
       @include playbutton;
 
-      @include playbutton;
-
       >div {
         width: 0;
         height: 0;
@@ -84,13 +82,20 @@
   }
 
   &__container--title {
-    background-size: auto 100%;
-    background-position: right;
-    background-repeat: no-repeat;
-    margin-left: 40px;
+    width: 100%;
+    padding: 0 2rem;
     position: absolute;
     z-index: 2;
-    bottom: 4px;
+    bottom: 0;
+
+    @include medium {
+      width: 75%;
+      padding: 0 4rem;
+    }
+
+    @include large {
+      width: 62%;
+    }
   }
 
   .eyebrow {
@@ -112,7 +117,6 @@
 
   .heading {
     margin: 0;
-    max-width: 70%;
 
     &__link {
       font-family: variable(heading-font);
@@ -138,11 +142,18 @@
     }
   }
   .default-link {
-    margin: 35px 0 30px 0;
-    height: 50px;
-    line-height: 50px;
-    background-color: clr(subcolor-2);
-    color: clr(secondary);
+    margin: 3.5rem 0 3rem 0;
+    height: 5rem;
+    line-height: 5rem;
+
+    @include medium {
+      margin: 6rem 0;
+    }
+
+    @include large {
+      height: 6rem;
+      line-height: 6rem;
+    }
   }
 
   .fullscreen-video__control[data-state="play"] {

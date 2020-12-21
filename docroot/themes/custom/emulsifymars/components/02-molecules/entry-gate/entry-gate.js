@@ -109,15 +109,22 @@ import moment from 'moment';
                 $('.entry-gate__error-link', this)[0].focus();
               }
             }
-    
             return;
           }
-    
+  
           // over the age limit, set cookie and hide entry gate
           document.cookie = `dateOfBirth=${givenDate.format('YYYY-MM-DD')}; path=/`;
           entryGate.css({display: 'none'});
           $(".layout-container").attr("aria-hidden", "false");
           entryGate.attr("aria-hidden", "true");
+          if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+              event: 'formSubmit',
+              pageName: document.title,
+              componentName: 'entry-gate',
+              formName: 'Entry Gate Form',
+            });
+          }
         })
       })
     },

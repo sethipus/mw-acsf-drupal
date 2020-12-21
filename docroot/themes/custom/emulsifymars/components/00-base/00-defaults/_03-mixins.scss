@@ -98,6 +98,10 @@ $outer-container-break: $small;
     height: 0;
     margin: auto 35%
   }
+
+  & .sronly--pause {
+    display: none;
+  }
 }
 
 @mixin pausebutton {
@@ -120,6 +124,10 @@ $outer-container-break: $small;
     width: 14px;
     height: 18px;
     margin: auto;
+  }
+    
+  & .sronly--play {
+    display: none;
   }
 }
 

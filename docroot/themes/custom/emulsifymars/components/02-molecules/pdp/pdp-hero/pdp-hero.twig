@@ -76,7 +76,11 @@
         </div>
       </div>
       {% if show_rating_and_reviews == true %}
-        <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+        {% if pdp_is_main_variant %}
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+        {% else %}
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}" data-bv-seo="false"></div>
+        {% endif %}
       {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
         <div class='pdp-hero-main-image--{{size_id}} pdp-hero__main-image-container'>
@@ -180,7 +184,18 @@
         </div>
       </div>
       <div class="swiper-pagination"></div>
-      <div class="swiper-control" tabindex="0"><a href="#" class="playpause-icon"></a></div>
+      <div class="swiper-control" tabindex="0">
+        <a href="#" class="playpause-icon" role="button" aria-live="polite">
+          {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+            sronly_content: 'Play',
+            sronly_modifiers: ['play'],
+          } %}
+          {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+            sronly_content: 'Pause',
+            sronly_modifiers: ['pause'],
+          } %}
+        </a>
+      </div>
     </div>
   </div>
 </section>
