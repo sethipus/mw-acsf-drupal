@@ -1,121 +1,109 @@
-(function($){
+(function ($, Drupal) {
   Drupal.behaviors.productSelector = {
-    attach: function (context, settings) {
-      const _this = this;
-      _this.context = context;
+    attach: function (context, DrupalSettings) {
+      $(context).find('.product-selector').once('product-selector').each(function () {
+        const $productSelector = $(this);
+        const $itemSelector = $productSelector.find('.product-selector__item-selector');
+        const $variantSelector = $productSelector.find('.product-selector__product-variant-selector');
+        const $productImage = $productSelector.find('.product-selector__image img');
+        const $productTitle = $productSelector.find('.product-selector__title');
+        const settings = DrupalSettings.wtb_block;
 
-      _this.settings = {
-        commerce_vendor: settings.wtb_block['commerce_vendor'],
-        widget_id: settings.wtb_block['widget_id'],
-        data_subid: settings.wtb_block['data_subid'],
-        data_locale: settings.wtb_block['data_locale'],
-        data_displaylanguage: settings.wtb_block['data_displaylanguage'],
-        data_token: settings.wtb_block['data_token'],
-      }
+        const updateData = function (productId, productTitle) {
+          let data = {};
+          let timestamp = Date.now();
+          let url = '/wtb/get_product_info/' + productId + '?v=' + timestamp;
 
-      _this.initEvents(context);
-    },
+          data.title = productTitle;
+          data.scriptDataAttributes = settings.scriptDataAttributes;
 
-    updateData: function (settings, productId, productTitle) {
-      const _this = this;
-      let data = {};
-      let url = '/wtb/get_product_info/' + productId;
+          // Response example
+          // data.productVariants = [
+          //   {
+          //     "size": null,
+          //     "image_src": "https://via.placeholder.com/450",
+          //     "image_alt": null,
+          //     "gtin": "00047677482760"
+          //   },
+          //   {
+          //     "size": "8.67",
+          //     "image_src": "https://via.placeholder.com/550",
+          //     "image_alt": null,
+          //     "gtin": "00047677391284"
+          //   }
+          // ];
 
-      data.title = productTitle;
-      data.scriptDataAttributes = settings.scriptDataAttributes;
-
-      // Response example
-      // data.productVariants = [
-      //   {
-      //     "size": null,
-      //     "image_src": "https://via.placeholder.com/450",
-      //     "image_alt": null,
-      //     "gtin": "00047677482760"
-      //   },
-      //   {
-      //     "size": "8.67",
-      //     "image_src": "https://via.placeholder.com/550",
-      //     "image_alt": null,
-      //     "gtin": "00047677391284"
-      //   }
-      // ];
-
-      $.ajax({
-        url: url,
-        type: 'GET',
-        dataType: 'json',
-        success: function success(results) {
-          data.productVariants = results;
-          _this.render(_this.context, data);
+          $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function success(results) {
+              data.productVariants = results;
+              render(data);
+            }
+          });
         }
-      });
-    },
 
-    render: function (context, data) {
-      let $title = $(context).find('.product-selector__title');
-      let $image = $(context).find('.product-selector__image img');
-      let $productVariantSelector = $(context).find('.product-selector__product-variant-selector');
+        const render = function (data) {
+          $productTitle.html(data.title);
+          $productImage.attr({
+            src: data.productVariants[0].image_src,
+            alt: data.productVariants[0].image_alt
+          });
 
-      $title.html(data.title);
-      $image.attr({
-        src: data.productVariants[0].image_src,
-        alt: data.productVariants[0].image_alt
-      });
+          $variantSelector.empty();
 
-      $productVariantSelector.empty();
+          $.each(data.productVariants, function (i, val) {
+            $variantSelector.append('<option ' +
+              ' data-id="' + val.gtin + '"' +
+              ' data-image-src="' + val.image_src + '"' +
+              ' data-image-alt="' + val.image_alt + '"' +
+              ' value="' + val.size + '">' + (val.size ? val.size : Drupal.t('not indicated', null, 'MARS')) + '</option>')
+          });
+          let firstOption = $variantSelector.find('option:first');
+          updateScript(firstOption);
+        }
 
-      $.each(data.productVariants, function(i, val) {
-        $productVariantSelector.append('<option ' +
-          ' data-id="' + val.gtin + '"' +
-          ' data-image-src="' + val.image_src + '"' +
-          ' data-image-alt="' + val.image_alt + '"' +
-          ' value="' + val.size + '">' + ( val.size ? val.size + 'oz' : 'not indicated') + '</option>')
-      });
-    },
+        const initEvents = function () {
 
-    initEvents: function (context) {
-      // $('.product-selector__item-selector').chosen();
-      const _this = this;
-      let $itemSelector = $(context).find('.product-selector__item-selector');
-      let $productVariantSelector = $(context).find('.product-selector__product-variant-selector');
+          $itemSelector.on('change', function () {
+            let productId = $(this).find('option:selected').data("id");
+            let productTitle = $(this).val();
+            updateData(productId, productTitle);
+          });
 
-      $itemSelector.on('change', function() {
-        let productId = $(this).find('option:selected').data("id");
-        let productTitle = $(this).val();
-        _this.updateData(context, productId, productTitle);
-      });
+          $variantSelector.on('change', function () {
+            let $selectedVariant = $(this).find('option:selected');
 
-      $productVariantSelector.on('change', function() {
-        let $selectedVariant = $(this).find('option:selected');
-        let $image = $('.product-selector__image img');
+            $productImage.attr({
+              alt: $selectedVariant.data('image-alt'),
+              src: $selectedVariant.data('image-src')
+            });
 
-        $image.attr({
-          alt: $selectedVariant.data('image-alt'),
-          src: $selectedVariant.data('image-src')
-        });
+            updateScript($selectedVariant);
+          }).change();
+        }
 
-        if (_this.settings.commerce_vendor === 'commerce_connector') {
+        const updateScript = function (selectedVariant) {
           let script = '<script ' +
-            'type="text/javascript"' +
-            'src="//fi-v2.global.commerce-connector.com/cc.js"' +
-            'id="cci-widget"' +
-            'data-token="' + _this.settings.data_token + '"' +
-            'data-locale="' + _this.settings.data_locale + '"' +
-            'data-displaylanguage="' + _this.settings.data_displaylanguage + '"' +
-            'data-widgetid="' + _this.settings.widget_id + '"' +
-            'data-ean="' + $selectedVariant.data('id') + '"' +
-            'data-subid="' + _this.settings.data_subid + '"' +
+            'type="text/javascript" ' +
+            'src="//fi-v2.global.commerce-connector.com/cc.js" ' +
+            'id="cci-widget" ' +
+            'data-token="' + settings.data_token + '" ' +
+            'data-locale="' + settings.data_locale + '" ' +
+            'data-displaylanguage="' + settings.data_displaylanguage + '" ' +
+            'data-widgetid="' + settings.widget_id + '" ' +
+            'data-ean="' + selectedVariant.data('id') + '" ' +
+            'data-subid="' + settings.data_subid + '" ' +
             '></script>';
-
-          $('.product-selector script').remove();
           $('.product-selector #cci-inline-root').remove();
+          $('script#cci-widget').remove();
           $('.product-selector__form-container').append(script);
-        } else if (_this.settings.commerce_vendor === 'price_spider') {
-          $('.ps-widget').attr('ps-sku', $selectedVariant.data('id'));
-          PriceSpider.rebind();
         }
 
+        initEvents();
+
       });
-    },
-  };
-})(jQuery);
+    }
+  }
+})(jQuery, Drupal);
