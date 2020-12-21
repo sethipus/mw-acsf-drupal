@@ -125,9 +125,19 @@
     position: absolute;
     bottom: 0;
     z-index: 1;
+    animation: hero-standard-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include large {
       padding-left: 40px;
     }
+  }
+}
+
+@keyframes hero-standard-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
