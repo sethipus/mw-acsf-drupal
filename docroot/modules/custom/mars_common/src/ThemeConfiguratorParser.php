@@ -126,7 +126,7 @@ class ThemeConfiguratorParser {
         $svg = $svg->repeated();
       }
       else {
-        $svg = $svg->scaleWhileKeepingAspectRatio();
+        $svg = $svg->stretched();
       }
     }
 
@@ -160,29 +160,17 @@ class ThemeConfiguratorParser {
   }
 
   /**
-   * Returns the current brand shape with fill info if there are any.
-   *
-   * @return \Drupal\mars_common\SVG\SVG|null
-   *   The brand shape or null.
-   */
-  public function getBrandShapeWithFill(): ?SVG {
-    $svg = $this->getSvgFor('brand_shape');
-    if ($svg !== NULL) {
-      $svg = $svg->withoutSizeInfo();
-    }
-    return $svg;
-  }
-
-  /**
    * Returns the current brand shape without fill info if there are any.
    *
    * @return \Drupal\mars_common\SVG\SVG|null
    *   The brand shape or null.
    */
   public function getBrandShapeWithoutFill(): ?SVG {
-    $svg = $this->getBrandShapeWithFill();
+    $svg = $this->getSvgFor('brand_shape');
     if ($svg !== NULL) {
-      $svg = $svg->withoutFillInfo();
+      $svg = $svg
+        ->withoutFillInfo()
+        ->withoutSizeInfo();
     }
     return $svg;
   }

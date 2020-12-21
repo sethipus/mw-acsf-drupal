@@ -10,7 +10,9 @@
   }
 
   @include large {
-    margin: 8rem;
+    margin: 8rem auto;
+    max-width: 1125px;
+    max-height: 422px;
   }
 
   &__content {
@@ -73,7 +75,6 @@
     font-stretch: normal;
     font-style: normal;
     line-height: 4.8rem;
-    letter-spacing: 0.24rem;
     margin: 0 2rem;
     padding-top: 8.5rem;
     text-transform: uppercase;

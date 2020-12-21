@@ -112,7 +112,6 @@
     font-size: 2.2rem;
     font-family: variable(primary-font);
     max-width: 75%;
-    min-height: 100px;
     margin: 2rem auto 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -125,7 +124,6 @@
       max-width: 255px;
       color: clr(primary);
       margin-bottom: 0;
-      letter-spacing: 0.11rem;
       line-height: 2.42rem;
     }
 
@@ -183,4 +181,16 @@
   .ps-disabled {
     display: none !important;
   }
+
+  .inline-rating {
+    max-width: 75%;
+    margin: 0 auto;
+  }
+
+  .score {
+    color: clr(primary);
+    font-family: variable(secondary-font);
+    font-size: 1.4rem;
+  }
 }
+

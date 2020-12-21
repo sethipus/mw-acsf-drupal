@@ -263,7 +263,6 @@
     font-size: 1.4rem;
     margin-right: 5%;
     font-family: variable(secondary-font);
-    letter-spacing: 0.1rem;
 
     @include large {
       font-size: 1.6rem;
@@ -408,9 +407,7 @@
     border: none;
     font-size: 1.4rem;
     font-family: variable(secondary-font);
-    letter-spacing: 0.1rem;
     border-radius: variable(button-border-radius);
-    padding-bottom: 2rem;
 
     @include large {
       font-size: 1.6rem;
