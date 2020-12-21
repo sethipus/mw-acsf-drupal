@@ -53,7 +53,7 @@ class LanguageTwigFilter extends AbstractExtension {
    *   An object that, when cast to a string, returns the translated string.
    */
   public function translateMarsContext($string, array $args = [], array $options = []): ?string {
-    return $this->languageHelper->translate($string, $args, $options);
+    return is_string($string) ? $this->languageHelper->translate($string, $args, $options) : $string;
   }
 
 }
