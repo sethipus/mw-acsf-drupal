@@ -58,7 +58,7 @@ class ThemeOverride implements CacheableDependencyInterface {
         return new ThemeOverride($cache_tag, $override_values, [$cache_tag]);
       }
     }
-    return self::createEmpty();
+    return static::createEmpty();
   }
 
   /**
