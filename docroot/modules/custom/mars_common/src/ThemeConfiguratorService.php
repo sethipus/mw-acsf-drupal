@@ -242,7 +242,7 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Top part of the header/footer gradient color'),
       '#default_value' => !empty($config) ?
-        $config['color_settings']['top_nav_gradient'] : theme_get_setting('top_nav_gradient'),
+      $config['color_settings']['top_nav_gradient'] : theme_get_setting('top_nav_gradient'),
       '#description'   => $this->t('Accent Color. Will be used for visual accents 
       throughout the site. Must be AA compliant.'),
     ];
@@ -258,7 +258,8 @@ class ThemeConfiguratorService {
     $form['color_settings']['card_background'] = [
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Card Background'),
-      '#default_value' => !empty($config) ? $config['color_settings']['card_background'] : theme_get_setting('card_background'),
+      '#default_value' => !empty($config) ?
+      $config['color_settings']['card_background'] : theme_get_setting('card_background'),
       '#description'   => $this->t('If gradient check box is checked, use HEX 
       color with white to create radial gradient.'),
     ];
@@ -357,7 +358,7 @@ class ThemeConfiguratorService {
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
       '#default_value'       => !empty($config) ?
-        $config['icons_settings']['graphic_divider'] : theme_get_setting('graphic_divider'),
+      $config['icons_settings']['graphic_divider'] : theme_get_setting('graphic_divider'),
     ];
 
     $form['icons_settings']['brand_shape'] = [
@@ -377,7 +378,7 @@ class ThemeConfiguratorService {
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
       '#default_value'       => !empty($config) ?
-        $config['icons_settings']['brand_shape'] : theme_get_setting('brand_shape'),
+      $config['icons_settings']['brand_shape'] : theme_get_setting('brand_shape'),
     ];
 
     $form['icons_settings']['brand_borders'] = [
@@ -397,7 +398,7 @@ class ThemeConfiguratorService {
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
       '#default_value'       => !empty($config) ?
-        $config['icons_settings']['brand_borders'] : theme_get_setting('brand_borders'),
+      $config['icons_settings']['brand_borders'] : theme_get_setting('brand_borders'),
     ];
 
     $form['icons_settings']['brand_border_style'] = [
@@ -405,7 +406,7 @@ class ThemeConfiguratorService {
       '#title'         => $this->t('Brand border style'),
       '#description'   => $this->t('Designates stretched border or repeated border shape.'),
       '#default_value' => !empty($config) ?
-        $config['icons_settings']['brand_border_style'] : theme_get_setting('brand_border_style'),
+      $config['icons_settings']['brand_border_style'] : theme_get_setting('brand_border_style'),
       '#options' => [
         self::BORDER_STYLE_REPEAT => $this->t('Repeat'),
         self::BORDER_STYLE_STRETCH => $this->t('Stretch'),
@@ -429,7 +430,7 @@ class ThemeConfiguratorService {
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
       '#default_value'       => !empty($config) ?
-        $config['icons_settings']['brand_borders_2'] : theme_get_setting('brand_borders_2'),
+      $config['icons_settings']['brand_borders_2'] : theme_get_setting('brand_borders_2'),
     ];
 
     $form['icons_settings']['png_asset'] = [
@@ -449,7 +450,7 @@ class ThemeConfiguratorService {
       '#theme'               => 'image_widget',
       '#preview_image_style' => 'medium',
       '#default_value'       => !empty($config) ?
-        $config['icons_settings']['png_asset'] : theme_get_setting('png_asset'),
+      $config['icons_settings']['png_asset'] : theme_get_setting('png_asset'),
     ];
 
     $form['icons_settings']['button_style'] = [
@@ -457,7 +458,7 @@ class ThemeConfiguratorService {
       '#title'         => $this->t('Button/Card Style'),
       '#description'   => $this->t('Designates rounded buttons or sharp corner buttons and card corner.'),
       '#default_value' => !empty($config) ?
-        $config['icons_settings']['button_style'] : theme_get_setting('button_style'),
+      $config['icons_settings']['button_style'] : theme_get_setting('button_style'),
       '#options' => [
         0 => $this->t('Round'),
         1 => $this->t('Sharp'),
@@ -542,7 +543,7 @@ class ThemeConfiguratorService {
         '#type' => 'checkbox',
         '#title' => $this->t('Show allergen info'),
         '#default_value' => !empty($config) ?
-          $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
+        $config['product_layout']['show_allergen_info'] : theme_get_setting('show_allergen_info'),
       ];
 
       $form['product_rating_and_reviews'] = [
@@ -555,8 +556,8 @@ class ThemeConfiguratorService {
         '#type' => 'checkbox',
         '#title' => $this->t('Turn off/on rating and reviews per site for all products'),
         '#default_value' => !empty($config) ?
-          $config['product_rating_and_reviews']['show_rating_and_reviews'] :
-          theme_get_setting('show_rating_and_reviews'),
+        $config['product_rating_and_reviews']['show_rating_and_reviews'] :
+        theme_get_setting('show_rating_and_reviews'),
       ];
     }
 
