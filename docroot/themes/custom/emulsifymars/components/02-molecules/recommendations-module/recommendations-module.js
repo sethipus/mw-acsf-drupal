@@ -77,8 +77,11 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           const unlockCarousel = () => {
             swiper.navigation.nextEl.classList.remove("hide-arrow");
             swiper.navigation.prevEl.classList.remove("hide-arrow");
-            context.querySelector(".swiper-wrapper").removeClass("no-carousel swiper-no-swiping");
-          }
+            const swiperWrapper = $(".swiper-wrapper", context);
+            if (swiperWrapper && swiperWrapper.hasClass("no-carousel swiper-no-swiping")) {
+              swiperWrapper.removeClass("no-carousel swiper-no-swiping");
+            }
+          };
 
           $(window).on("resize", _.debounce(() => {checkSlides()}, 200 ));
           $(window).on("load", checkSlides);
