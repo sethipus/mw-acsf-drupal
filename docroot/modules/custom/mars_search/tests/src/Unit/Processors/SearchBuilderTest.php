@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_search\Processors;
+namespace Drupal\Tests\mars_search\Unit\Processors;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
@@ -13,6 +13,9 @@ use Drupal\node\Entity\Node;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ImmutableConfig;
+use Drupal\mars_search\Processors\SearchQueryParserInterface;
+use Drupal\mars_search\Processors\SearchHelperInterface;
+use Drupal\mars_search\Processors\SearchBuilder;
 
 /**
  * Class SearchBuilderTest.
