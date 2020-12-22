@@ -26,13 +26,12 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
           const hideSubMenu = function ($subMenuItem) {
             $subMenuItem.removeClass('main-menu__item--opened');
           };
-  
+
           const showSubMenu = function ($subMenuItem) {
             $subMenuItem.addClass('main-menu__item--opened');
           };
-          
+
           const listenForKeyboard = function () {
-            console.log($headerDesktop.find('.main-menu__item--with-sub'))
             $headerDesktop.find('.main-menu__item--with-sub').each(function() {
               var $subMenuItem = $(this);
               $subMenuItem
@@ -51,14 +50,12 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                 })
                 .on('keyup', '.main-menu__link--with-sub', function (event) {
                   if (event.keyCode == 40) {
-                    console.log(`event.keyCode ${event.keyCode}`)
                     showSubMenu($subMenuItem);
                     $subMenuItem.find('.main-menu--sub .main-menu__item--sub:first-child .main-menu__link--sub').focus();
                   }
                 })
                 .on('keyup', '.main-menu__item--sub', function (event) {
                   if (event.keyCode == 40) {
-                    console.log(`event.keyCode ${event.keyCode}`)
                     if ($(event.target).parents('.main-menu__item--sub').is('.main-menu__item--sub:last-child')) {
                       $subMenuItem.find('.main-menu__item--sub:first').children('.main-menu__link--sub').focus();
                     } else {
@@ -66,7 +63,6 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                     }
                   }
                   if (event.keyCode == 38) {
-                    console.log(`event.keyCode ${event.keyCode}`)
                     if ($(event.target).parents('.main-menu__item--sub').is('.main-menu__item--sub:first-child')) {
                       $subMenuItem.find('.main-menu__item--sub:last-child').children('.main-menu__link--sub').focus();
                     } else {
@@ -76,7 +72,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                 });
 
             });
-              
+
           };
 
           listenForKeyboard();
