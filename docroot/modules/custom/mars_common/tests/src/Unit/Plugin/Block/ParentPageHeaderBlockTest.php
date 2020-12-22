@@ -52,7 +52,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
   /**
    * System under test.
    *
-   * @var \Drupal\mars_product\Plugin\Block\ProductContentPairUpBlock
+   * @var \Drupal\mars_common\Plugin\Block\ParentPageHeaderBlock
    */
   private $block;
 
