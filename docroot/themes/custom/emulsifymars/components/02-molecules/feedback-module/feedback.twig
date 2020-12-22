@@ -4,6 +4,8 @@
 {% set feedback_paragraph_base_class = 'feedback-module__paragraph' %}
 {% set feedback_link_base_class = 'feedback-module__bottom-link' %}
 
+{{ attach_library('emulsifymars/feedback-module') }}
+
 <section {{ bem(feedback_base_class) }} data-theme="{{ theme_styles }}">
   <div class="feedback-module__brand-shape">
     {{ brand_shape | raw }}

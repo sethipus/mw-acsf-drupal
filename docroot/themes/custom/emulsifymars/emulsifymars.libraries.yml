@@ -238,3 +238,10 @@ flexible-framer:
   dependencies:
     - core/drupal
     - core/jquery
+
+feedback-module:
+  js:
+    dist/js/02-molecules/feedback-module/feedback.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

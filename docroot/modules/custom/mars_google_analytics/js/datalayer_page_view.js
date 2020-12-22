@@ -31,7 +31,10 @@
       settings.dataLayer.products = gtins.join(', ');
 
       var dataElements = context.querySelectorAll('[data-datalayer-taxonomy]');
-      var taxonomy = (settings.dataLayer.taxonomy !== null) ? JSON.parse(settings.dataLayer.taxonomy) : {};
+      var taxonomy = (settings.dataLayer.taxonomy !== null && settings.dataLayer.taxonomy !== 'null')
+        ? JSON.parse(settings.dataLayer.taxonomy)
+        : {};
+
       dataElements.forEach(function (product) {
         let taxonomy_info = JSON.parse(product.getAttribute('data-datalayer-taxonomy'));
 
