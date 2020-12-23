@@ -2,12 +2,24 @@
 
   .list-container-block {
     h2 {
+      font: 20px/1.1em variable(primary-font);
+      font-weight: 500;
+      color: clr(primary);
+      text-transform: capitalize;
+
       @include small {
         margin: 30px 20px 20px 20px;
       }
 
       @include medium {
         margin: 40px 40px 30px 40px;
+        font-size: 26px;
+        line-height: 29px;
+      }
+
+      @include xl {
+        font-size: 28px;
+        line-height: 31px;
       }
     }
 
@@ -17,60 +29,57 @@
   }
 
   @include large {
-  .recipe-body-content-header {
-    margin-left: $xl-left-margin;
-    text-transform: capitalize;
-    color: clr(primary);
-  }
-
-  .list-container-block {
-    max-width: 1360px;
-    margin: auto;
-
-    h2 {
+    .recipe-body-content-header {
+      margin-left: $xl-left-margin;
       text-transform: capitalize;
       color: clr(primary);
-      margin-left: $xl-left-margin;
     }
+  
+    .list-container-block {
+      max-width: 1360px;
+      margin: auto;
 
-    ol {
-      margin-left: $xl-left-margin;
-      max-width: 665px;
-
-      .list-item__content {
-        max-width: 509px;
+      h2 {
+        margin-left: $xl-left-margin;
       }
 
-      img {
-        max-width: 509px;
+      ol {
+        margin-left: $xl-left-margin;
+        max-width: 665px;
+
+        .list-item__content {
+          max-width: 509px;
+        }
+
+        img {
+          max-width: 509px;
+        }
       }
     }
 
-  }
+    .article-wysiwyg {
+      max-width: 1365px;
+      margin: 0 auto;
 
-  .article-wysiwyg {
-    max-width: 1365px;
-    margin: 0 auto;
-
-    &__content {
-      max-width: 665px;
-      margin-left: $xl-left-margin;
+      &__content {
+        max-width: 665px;
+        margin-left: $xl-left-margin;
+      }
     }
-  }
 
-  .article-inline {
-    max-width: 1365px;
-    margin: auto;
+    .article-inline {
+      max-width: 1365px;
+      margin: auto;
 
-    &__media, .inline-video, .article-inline__content {
-      max-width: 665px;
-      margin-left: $xl-left-margin;
+      &__media, .inline-video, .article-inline__content {
+        max-width: 665px;
+        margin-left: $xl-left-margin;
+      }
     }
-  }
 
-  .article-full-width__media {
-    max-width: 1128px;
-    margin: auto;
-  }
+    .article-full-width__media {
+      max-width: 1128px;
+      margin: auto;
+    }
   }
 }
