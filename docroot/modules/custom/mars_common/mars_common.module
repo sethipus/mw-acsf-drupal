@@ -332,7 +332,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'video_src' => NULL,
         'image_src' => NULL,
         'image_alt' => NULL,
-        'image_title' => NULL,
         'shape_motif' => NULL,
         'content' => NULL,
         'title' => NULL,
@@ -343,7 +342,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'block_type' => NULL,
         'media' => NULL,
-        'shape_motif' => NULL,
         'content' => NULL,
         'heading' => NULL,
       ],
