@@ -129,7 +129,7 @@ class PollControllerTest extends UnitTestCase {
             $entityManagerMock,
           ],
           [
-            'language.manager',
+            'language_manager',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->languageManagerMock,
           ],

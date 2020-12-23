@@ -82,7 +82,7 @@ class PollController extends ControllerBase {
       $container->get('database'),
       $container->get('current_route_match'),
       $container->get('entity.manager')->getStorage('user'),
-      $container->get('language.manager')
+      $container->get('language_manager')
     );
   }
 
