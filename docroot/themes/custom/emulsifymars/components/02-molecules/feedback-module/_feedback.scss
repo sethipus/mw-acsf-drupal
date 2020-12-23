@@ -40,7 +40,7 @@
     }
 
     &:focus-within {
-      outline: 1px solid Highlight;
+      outline: royalblue auto 1px;
     }
   }
 
@@ -178,7 +178,7 @@
     text-transform: uppercase;
 
     &:focus {
-      outline: 1px solid Highlight;
+      outline: royalblue auto 1px;
     }
 
     @include xs {
