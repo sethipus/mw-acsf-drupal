@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\mars_product\Unit\Controller;
+namespace Drupal\Tests\mars_common\Unit\Controller;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\PagerSelectExtender;
