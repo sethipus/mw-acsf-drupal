@@ -19,7 +19,7 @@
     </div>
   <div class="recipe-header__content">
     <div class="recipe-header__title">{{ "Recipe" | mt }}</div>
-    <div class="recipe-header__text">{{ recipe_header_text }}</div>
+    <h1 class="recipe-header__text">{{ recipe_header_text }}</h1>
   </div>
 </div>
 
@@ -92,7 +92,7 @@
 <div class="recipe-info" data-theme="{{ theme_styles }}">
   <div class="recipe-info__text">{{ recipe_description_text }}</div>
   <div class="recipe-info__social">
-    <div class="recipe-info__social-text">Share</div>
+    <div class="recipe-info__social-text">{{ 'Share' | mt }}</div>
     {% block recipe_social_menu %}
       {% include "@molecules/menus/social/social-menu.twig" with {
         social_menu_items: social_menu_items,

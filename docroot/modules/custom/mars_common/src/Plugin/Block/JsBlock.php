@@ -27,6 +27,7 @@ class JsBlock extends BlockBase {
       '#type' => 'textarea',
       '#title' => $this->t('Javascript code'),
       '#default_value' => $config['js_code'] ?? '',
+      '#description' => $this->t('Enter js code without "script" tags. Example: el.addSmth(s).'),
     ];
 
     return $form;
@@ -50,7 +51,7 @@ class JsBlock extends BlockBase {
   public function build() {
     $config = $this->getConfiguration();
 
-    $build['#js_code'] = $config['js_code'];
+    $build['#js_code'] = '<script>' . $config['js_code'] . '</script>';
     $build['#theme'] = 'js_block';
 
     return $build;

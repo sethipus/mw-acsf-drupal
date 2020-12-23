@@ -117,7 +117,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
-    $searcher_key = self::SEARCH_PAGE_QUERY_ID;
+    $searcher_key = static::SEARCH_PAGE_QUERY_ID;
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
@@ -199,14 +199,14 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       }
     }
     else {
-      $facet_id = self::SEARCH_FACET_QUERY_ID;
+      $facet_id = static::SEARCH_FACET_QUERY_ID;
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
       $build['#applied_filters_list'] = [];
       $build['#filters'] = [];
       if ($facets_query['resultsCount'] > 3) {
-        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
+        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], static::TAXONOMY_VOCABULARIES, $grid_id);
       }
     }
 
@@ -228,7 +228,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $facetOptions['conditions'] = array_filter($facetOptions['conditions'], function ($condition, $k) {
       return $condition[1] === 'faq';
     }, ARRAY_FILTER_USE_BOTH);
-    $query_search_results = $this->searchHelper->getSearchResults($facetOptions, self::SEARCH_LINKS_QUERY_ID);
+    $query_search_results = $this->searchHelper->getSearchResults($facetOptions, static::SEARCH_LINKS_QUERY_ID);
 
     $build['#search_filters'] = [];
     if ($query_search_results['resultsCount'] > 3) {
