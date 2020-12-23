@@ -118,6 +118,11 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $conf = $this->getConfiguration();
     $build['#logo'] = $this->themeConfiguratorParser->getLogoFromTheme();
 
+    $theme_logo_alt = $this->themeConfiguratorParser->getLogoAltFromTheme();
+    $build['#logo_alt'] = ($theme_logo_alt)
+      ? $this->languageHelper->translate($theme_logo_alt)
+      : $theme_logo_alt;
+
     // Get brand border path.
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
 
