@@ -182,6 +182,7 @@ class SalsifyImportField extends SalsifyImport {
       $entity = $entityTypeManager->getStorage($entity_type)->create($entity_values);
       $entity->getTypedData();
       $entity->save();
+      $entity->set('moderation_state', 'published');
       $process_result['import_result'] = static::PROCESS_RESULT_CREATED;
     }
 
@@ -322,6 +323,10 @@ class SalsifyImportField extends SalsifyImport {
     \Drupal::service('module_handler')
       ->alter(['salsify_entity_presave'], $entity, $original_product_data);
 
+    // Set status to draft for generated product based on nutrition fields.
+    if (isset($product_data['CMS: not publish']) && $product_data['CMS: not publish']) {
+      $entity->set('moderation_state', 'draft');
+    }
     $entity->save();
 
     return $process_result;
