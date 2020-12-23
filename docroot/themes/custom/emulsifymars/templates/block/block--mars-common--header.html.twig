@@ -3,6 +3,7 @@
  * @file
  * Header block.
  *   'logo' => NULL,
+ *   'logo_alt' => NULL,
  *   'primary_menu' => NULL,
  *   'secondary_menu' => NULL,
  *   'language_selector' => NULL,
@@ -13,7 +14,6 @@
 #}
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
-{% set logo_title = 'Logo' | mt %}
 {% embed "@organisms/site/site-header/site-header.twig" with {
   theme_styles: 'drupal',
   menu_items: primary_menu,
@@ -68,7 +68,7 @@
         {% block link_content %}
           {% include "@atoms/images/image/responsive-image.twig" with {
             output_image_tag: true,
-            image_alt: logo_title,
+            image_alt: logo_alt,
             image_srcset: logo_srcset,
             image_sizes: '212px',
             image_src: logo_src,
