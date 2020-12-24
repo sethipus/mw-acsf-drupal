@@ -1,12 +1,48 @@
 .article-inline {
+  position: relative;
   padding: 2rem 0 2rem 0;
-  overflow-x: hidden;
   max-width: 780px;
   margin: 0 auto 6rem auto;
   font-family: variable(secondary-font);
   font-size: 2rem;
   line-height: 1.8;
   color: clr(primary);
+
+  &__brand-shape {
+    position: absolute;
+    display: block;
+    left: 50%;
+    z-index: 0;
+
+    @include xs {
+      width: 30rem;
+      height: 26rem;
+      top: -10rem;
+    }
+
+    @include medium {
+      width: 40rem;
+      height: 35rem;
+      top: -15rem;
+    }
+  
+    @include xl {
+      width: 56rem;
+      height: 48.5rem;
+      top: -21rem;
+      left: 40%;
+    }
+
+    svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
+    }
+  }
+
+  &__media {
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+  }
 
   @include small {
     max-width: 335px;

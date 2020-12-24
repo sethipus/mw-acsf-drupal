@@ -8,6 +8,7 @@ use Drupal\mars_common\Plugin\Block\FullwidthImageVideoBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 
 /**
  * @coversDefaultClass \Drupal\mars_common\Plugin\Block\FullwidthImageVideoBlock
@@ -59,6 +60,13 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
   private $languageHelperMock;
 
   /**
+   * ThemeConfiguratorParserMock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParserMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -78,7 +86,8 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
       'fullwidth_image_video_block',
       $definitions,
       $this->languageHelperMock,
-      $this->mediaHelperMock
+      $this->mediaHelperMock,
+      $this->themeConfiguratorParserMock
     );
   }
 
@@ -87,7 +96,7 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(3))
       ->method('get')
       ->willReturnMap(
         [
@@ -100,6 +109,11 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
             'mars_common.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
+          ],
+          [
+            'mars_common.theme_configurator_parser',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->themeConfiguratorParserMock,
           ],
         ]
       );
@@ -131,7 +145,6 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
       'image' => 'image_id',
       'title' => 'title',
       'description' => 'description',
-      'svg_asset' => 1,
       'block_content_type' => 'image',
     ]);
 
@@ -161,7 +174,6 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
       'video' => 'video_id',
       'title' => 'title',
       'description' => 'description',
-      'svg_asset' => 1,
       'block_content_type' => 'video',
     ]);
 
@@ -206,6 +218,7 @@ class FullwidthImageVideoBlockTest extends UnitTestCase {
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 
 }

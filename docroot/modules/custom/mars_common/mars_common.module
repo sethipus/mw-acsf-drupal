@@ -334,7 +334,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'video_src' => NULL,
         'image_src' => NULL,
         'image_alt' => NULL,
-        'image_title' => NULL,
         'shape_motif' => NULL,
         'content' => NULL,
         'title' => NULL,
@@ -345,7 +344,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'block_type' => NULL,
         'media' => NULL,
-        'shape_motif' => NULL,
         'content' => NULL,
         'heading' => NULL,
       ],
@@ -542,10 +540,10 @@ function mars_common_preprocess_block__inline_block__inline_image(array &$variab
   }
 
   if (!$block->get('field_inline_image_svg_asset')->isEmpty()) {
-    $variables['shape_motif'] = (bool) $block
-      ->get('field_inline_image_svg_asset')
-      ->first()
-      ->value;
+
+    /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $variables['shape_motif'] = $themeParser->getBrandShape();
   }
 
   if (!$block->get('field_inline_image_description')->isEmpty()) {
@@ -586,10 +584,10 @@ function mars_common_preprocess_block__inline_block__inline_video(array &$variab
   }
 
   if (!$block->get('field_inline_video_svg_asset')->isEmpty()) {
-    $variables['shape_motif'] = (bool) $block
-      ->get('field_inline_video_svg_asset')
-      ->first()
-      ->value;
+
+    /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $variables['shape_motif'] = $themeParser->getBrandShape();
   }
 
   if (!$block->get('field_inline_video_description')->isEmpty()) {
