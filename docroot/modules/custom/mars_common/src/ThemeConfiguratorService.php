@@ -113,6 +113,13 @@ class ThemeConfiguratorService {
   }
 
   /**
+   * Get font data.
+   */
+  protected function getLogoAltData(string $key, array $config = NULL) {
+    return $this->getData('logo', $key, $config);
+  }
+
+  /**
    * Get icon settings data.
    */
   protected function getIconSettingsData(string $key, array $config = NULL) {
@@ -200,6 +207,12 @@ class ThemeConfiguratorService {
         ],
       ];
     }
+
+    $form['logo']['settings']['logo_alt'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Alternative image text'),
+      '#default_value' => $this->getLogoAltData('logo_alt'),
+    ];
 
     $form['color_settings'] = [
       '#type'        => 'details',
