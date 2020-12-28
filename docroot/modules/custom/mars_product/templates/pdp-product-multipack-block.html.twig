@@ -13,7 +13,7 @@
   'href': '#',
 } %}
 
-<section id="section-products" {{ bem(pdp_multipack_base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(pdp_multipack_base_class) }} data-theme="{{ theme_styles }}">
   {% include "@atoms/text/headings/_heading.twig" with {
     heading_level: 5,
     heading: multipack_label,
