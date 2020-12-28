@@ -1,0 +1,12 @@
+services:
+  mars_print.route_subscriber:
+    class: Drupal\mars_print\Routing\RouteSubscriber
+    arguments: ['@printable.entity_manager']
+    tags:
+      - { name: event_subscriber }
+
+  mars_print.content_alter_subscriber:
+    class: Drupal\mars_print\EventSubscriber\ContentAlterSubscriber
+    arguments: ['@entity_display.repository']
+    tags:
+      - { name: event_subscriber }

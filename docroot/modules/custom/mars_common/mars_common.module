@@ -796,6 +796,9 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['#validate'][] = [$form_alter_class, 'validate'];
     }
   }
+  if ($form_id == 'printable_configuration_pdf') {
+    $form['settings']['print_pdf_pdf_tool']['#options'] += ['mars_mpdf' => 'Mars mPDF'];
+  }
 }
 
 /**

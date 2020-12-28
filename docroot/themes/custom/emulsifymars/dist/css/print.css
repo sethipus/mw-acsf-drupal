@@ -4,7 +4,8 @@ div[data-block-plugin-id="recipe_detail_hero"] .social-menu {
   display: none;
 }
 
-.recipe-info__social {
+.recipe-info__social,
+.share-block {
   display: none;
 }
 
@@ -13,7 +14,7 @@ div[data-block-plugin-id="recipe_detail_hero"] .social-menu {
 }
 
 img {
-	max-width: 100%;
+  max-width: 100%;
 }
 
 .recommendations {
@@ -60,4 +61,13 @@ img {
   float: left;
   margin-left: 25px;
   margin-top: auto;
+}
+
+.recipe-media__border,
+.article-header-image__border {
+  display: none;
+}
+
+.product-used {
+  display: none;
 }
