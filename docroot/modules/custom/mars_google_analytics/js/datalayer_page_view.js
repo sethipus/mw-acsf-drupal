@@ -253,27 +253,12 @@
               else if (
                formName === 'Contact & Help'
               ) {
-                const config = { attributes: false, childList: true, subtree: false };
-                const contactFormSubmitCallback = function(mutationsList, contactValidationObserver) {
-                  for(const mutation of mutationsList) {
-                    if (
-                      mutation.type === 'childList' &&
-                      document.querySelector('.ff-ui-dialog-content') !== null &&
-                      document.querySelector('.ff-ui-dialog-content').innerHTML.includes('Thank you for getting in touch')
-                    ) {
-                      dataLayer.push({
-                        event: 'formSubmit',
-                        pageName: document.title,
-                        componentName: 'contact_form',
-                        formName: 'Contact & Help',
-                      });
-                      break;
-                    }
-                  }
-                  contactValidationObserver.disconnect();
-                };
-                const contactValidationObserver = new MutationObserver(contactFormSubmitCallback);
-                contactValidationObserver.observe(document, config);
+                dataLayer.push({
+                  event: 'formSubmit',
+                  pageName: document.title,
+                  componentName: 'contact_form',
+                  formName: 'Contact & Help',
+                });
               } 
               else if (formName === 'Poll Form') {
                 dataLayer.push({
