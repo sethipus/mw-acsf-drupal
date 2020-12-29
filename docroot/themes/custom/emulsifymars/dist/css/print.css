@@ -71,3 +71,7 @@ img {
 .product-used {
   display: none;
 }
+
+.inline-video {
+  display: none;
+}
