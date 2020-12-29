@@ -8,12 +8,15 @@
     height: 100%;
     overflow: hidden;
     z-index: 1;
-  }
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 
-  &__image {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
+    @include medium {
+      background-size: 120% auto;
+      background-position: center center;
+      animation: hero-basic-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    }
   }
 
   &__content {
@@ -24,6 +27,7 @@
     height: 100%;
     width: 100%;
     z-index: 2;
+    animation: hero-basic-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
   }
 
   &__heading {
@@ -42,5 +46,23 @@
       font-size: 8.4rem;
       line-height: 7.56rem;
     }
+  }
+}
+
+@keyframes hero-basic-image-animates-in {
+  0% {
+    background-size: 100% auto;
+  }
+  100% {
+    background-size: 120% auto;
+  }
+}
+
+@keyframes hero-basic-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

@@ -68,6 +68,14 @@
 
       .supportive-card .wrapper {
         text-align: left;
+
+        @include xs {
+          padding-top: 0;
+        }
+
+        @include medium {
+          padding-top: 3rem;
+        }
       }
 
       .wrapper {

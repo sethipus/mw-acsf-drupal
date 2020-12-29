@@ -18,6 +18,7 @@ dependencies:
     - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
     - field.field.node.product_variant.field_product_dietary_fiber
+    - field.field.node.product_variant.field_product_family_master
     - field.field.node.product_variant.field_product_image_1
     - field.field.node.product_variant.field_product_image_1_override
     - field.field.node.product_variant.field_product_image_2
@@ -396,6 +397,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_product_family_master:
+    weight: 49
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   field_product_image_1:
     type: entity_browser_entity_reference

@@ -226,6 +226,7 @@ class ProductHelperTest extends UnitTestCase {
       'data' => [
         [
           'Bazaarvoice Family ID' => 'Family ID',
+          'Trade Item Description' => 'title',
           'GTIN' => 'value_2',
           'Case Net Weight' => 'value',
           'CMS: Variety' => 'yes',
@@ -239,6 +240,12 @@ class ProductHelperTest extends UnitTestCase {
           'salsify:digital_assets' => [],
           'CMS: Product Variant Family ID' => 'family id',
           'CMS: Product Family Groups ID' => 'group id',
+          'Calcium 2' => 2,
+          'Calcium 3' => 4,
+          'Calcium 4' => 5,
+          'Iron 2' => 2,
+          'Ironv 3' => 4,
+          'Iron 4' => 5,
         ],
       ],
     ]);
@@ -285,6 +292,132 @@ class ProductHelperTest extends UnitTestCase {
     );
     $this->assertNotEmpty($product);
     $this->assertIsArray($product);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldGetNuntritionFiledsByName() {
+    $product = [
+      'Bazaarvoice Family ID' => 'Family ID',
+      'GTIN' => 'value_2',
+      'Case Net Weight' => 'value',
+      'CMS: Variety' => 'no',
+      'Send to Brand Site?' => FALSE,
+      'salsify:id' => '123',
+      'salsify:version' => 'version',
+      'salsify:system_id' => 'system_id',
+      'salsify:created_at' => time(),
+      'salsify:updated_at' => time(),
+      'salsify:digital_assets' => [],
+      'CMS: Product Variant Family ID' => 'family id',
+      'CMS: Product Family Groups ID' => 'group id',
+      'Nutrition field 2' => 2,
+      'Nutrition field 3' => 4,
+      'Nutrition field 4' => 5,
+    ];
+
+    $product = $this->productHelper->getNuntritionFiledsByName(
+      'Nutrition field',
+      $product
+    );
+    $this->assertNotEmpty($product);
+    $this->assertIsArray($product);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldAddNutritionFieldsData() {
+    $product_variant = [
+      'Bazaarvoice Family ID' => 'Family ID',
+      'GTIN' => 'value_2',
+      'Case Net Weight' => 'value',
+      'CMS: Variety' => 'no',
+      'Send to Brand Site?' => FALSE,
+      'salsify:id' => '123',
+      'salsify:version' => 'version',
+      'salsify:system_id' => 'system_id',
+      'salsify:created_at' => time(),
+      'salsify:updated_at' => time(),
+      'salsify:digital_assets' => [],
+      'CMS: Product Variant Family ID' => 'family id',
+      'CMS: Product Family Groups ID' => 'group id',
+      'Nutrition field 2' => 2,
+      'Nutrition field 3' => 4,
+      'Nutrition field 4' => 5,
+    ];
+    $product = [];
+
+    $this->productHelper->addNutritionFieldsData(
+      [
+        'Nutrition field 2',
+        'Nutrition field 3',
+        'Nutrition field 4',
+      ],
+      $product,
+      $product_variant
+    );
+    $this->assertNotEmpty($product);
+    $this->assertIsArray($product);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldCreateNutritionProductsFromProductVariant() {
+    $product_variant = [
+      'Bazaarvoice Family ID' => 'Family ID',
+      'Trade Item Description' => 'title',
+      'GTIN' => 'value_2',
+      'Case Net Weight' => 'value',
+      'CMS: Variety' => 'no',
+      'Send to Brand Site?' => FALSE,
+      'salsify:id' => '123',
+      'salsify:version' => 'version',
+      'salsify:system_id' => 'system_id',
+      'salsify:created_at' => time(),
+      'salsify:updated_at' => time(),
+      'salsify:digital_assets' => [],
+      'CMS: Product Variant Family ID' => 'family id',
+      'CMS: Product Family Groups ID' => 'group id',
+      'Calcium 2' => 2,
+      'Calcium 3' => 4,
+      'Calcium 4' => 5,
+      'Iron 2' => 2,
+      'Ironv 3' => 4,
+      'Iron 4' => 5,
+    ];
+
+    $result = $this->productHelper->createNutritionProductsFromProductVariant(
+      $product_variant
+    );
+    $this->assertNotEmpty($result);
+    $this->assertIsArray($result);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldFillMappingByGeneratedProducts() {
+    $generated_products = [
+      [
+        'salsify:id' => '123',
+        'CMS: content type' => ProductHelper::PRODUCT_CONTENT_TYPE,
+      ],
+      [
+        'salsify:id' => '1234',
+        'CMS: content type' => ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE,
+      ],
+    ];
+
+    $this->productHelper->fillMappingByGeneratedProducts(
+      $generated_products,
+      'multipack_id'
+    );
+    $mapping = $this->productHelper->getPrimaryMapping();
+    $this->assertNotEmpty($mapping);
+    $this->assertIsArray($mapping);
   }
 
   /**
@@ -414,6 +547,59 @@ class ProductHelperTest extends UnitTestCase {
     $assets = $this->productHelper->getDigitalAssetsByProducts($products);
     $this->assertIsArray($assets);
     $this->assertNotEmpty($assets);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldSortProducts() {
+    $products = [
+      [
+        'Bazaarvoice Family ID' => 'Family ID',
+        'GTIN' => 'value_1',
+        'Send to Brand Site?' => TRUE,
+        'Dietary Fiber' => 'value',
+        'Generic Product Description' => 'description',
+        'Brand Name' => 'name1',
+        'CMS: content type' => 'product',
+        'salsify:digital_assets' => [
+          ['salsify:id' => '123'],
+        ],
+      ],
+      [
+        'Bazaarvoice Family ID' => 'Family ID',
+        'GTIN' => 'value_2',
+        'Case Net Weight' => 'value',
+        'CMS: Variety' => 'no',
+        'Send to Brand Site?' => FALSE,
+        'Dietary Fiber' => 'value',
+        'Generic Product Description' => 'description',
+        'Brand Name' => 'name2',
+        'CMS: content type' => 'product_variant',
+        'salsify:digital_assets' => [
+          ['salsify:id' => '345'],
+        ],
+      ],
+      [
+        'Bazaarvoice Family ID' => 'Family ID',
+        'GTIN' => 'value_3',
+        'CMS: Variety' => 'yes',
+        'Send to Brand Site?' => TRUE,
+        'Dietary Fiber' => 'value',
+        'Generic Product Description' => 'description',
+        'Brand Name' => 'name3',
+        'CMS: content type' => 'product_multipack',
+        'salsify:digital_assets' => [
+          ['salsify:id' => '456'],
+        ],
+      ],
+    ];
+
+    $this->productHelper->sortProducts($products);
+    $this->assertSame(
+      'value_2',
+      reset($products)['GTIN']
+    );
   }
 
 }

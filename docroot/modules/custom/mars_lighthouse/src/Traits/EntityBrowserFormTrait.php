@@ -67,7 +67,7 @@ trait EntityBrowserFormTrait {
       $element['#element_validate'] = [
         function ($element, $form_state) use ($required) {
           if (!is_callable($required) || $required($form_state)) {
-            self::validateRequiredElement($element, $form_state);
+            static::validateRequiredElement($element, $form_state);
           }
         },
       ];
@@ -79,7 +79,7 @@ trait EntityBrowserFormTrait {
       '#type' => 'entity_browser',
       '#entity_browser' => $entity_browser_id,
       '#process' => [
-        [self::class, 'processEntityBrowser'],
+        [static::class, 'processEntityBrowser'],
       ],
       '#cardinality' => $cardinality,
       '#selection_mode' => $cardinality === 1 ? EntityBrowserElement::SELECTION_MODE_PREPEND : EntityBrowserElement::SELECTION_MODE_APPEND,
@@ -97,7 +97,7 @@ trait EntityBrowserFormTrait {
       ],
       '#empty' => $this->t('No items selected yet'),
       '#process' => [
-        [self::class, 'processEntityBrowserSelected'],
+        [static::class, 'processEntityBrowserSelected'],
       ],
       '#view_mode' => $view_mode,
       '#wrapper_id' => &$element['#attributes']['id'],
@@ -196,7 +196,7 @@ trait EntityBrowserFormTrait {
       $value = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']));
     }
 
-    if (strpos($value, self::$file) !== FALSE) {
+    if (strpos($value, static::$file) !== FALSE) {
       $file_id = str_replace('file:', '', $value);
       $file = File::load($file_id);
       $list_of_usage = \Drupal::service('file.usage')->listUsage($file);
@@ -220,7 +220,7 @@ trait EntityBrowserFormTrait {
     }
     $element = EntityBrowserElement::processEntityBrowser($element, $form_state, $complete_form);
     $element['entity_ids']['#ajax'] = [
-      'callback' => [self::class, 'updateEntityBrowserSelected'],
+      'callback' => [static::class, 'updateEntityBrowserSelected'],
       'wrapper' => $element['#wrapper_id'],
       'event' => 'entity_browser_value_updated',
     ];
@@ -245,13 +245,13 @@ trait EntityBrowserFormTrait {
       $entity_ids = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']), '');
     }
 
-    $entities = empty($entity_ids) ? [] : self::loadEntityBrowserEntitiesByIds($entity_ids);
+    $entities = empty($entity_ids) ? [] : static::loadEntityBrowserEntitiesByIds($entity_ids);
     $entity_type_manager = \Drupal::entityTypeManager();
 
     foreach ($entities as $id => $entity) {
       $entity_type_id = $entity->getEntityTypeId();
       if ($entity_type_manager->hasHandler($entity_type_id, 'view_builder')) {
-        if ($entity_type_id == self::$file) {
+        if ($entity_type_id == static::$file) {
           $list_of_usage = \Drupal::service('file.usage')->listUsage($entity);
           $mid = key($list_of_usage['file']['media']);
           $media = Media::load($mid);
@@ -277,7 +277,7 @@ trait EntityBrowserFormTrait {
             '#op' => 'remove',
             '#name' => 'remove_' . $id,
             '#ajax' => [
-              'callback' => [self::class, 'updateEntityBrowserSelected'],
+              'callback' => [static::class, 'updateEntityBrowserSelected'],
               'wrapper' => $element['#wrapper_id'],
             ],
           ],

@@ -2,7 +2,7 @@
   <button class="filter-title" tabindex="0">
     {{ filter_title }} <span class="filter-title__counter">{% if active_filters_count != 0 %}{{ active_filters_count }}{% endif %}</span>
   </button>
-  <div class="filter-checkboxes">
+  <div class="filter-checkboxes" aria-role="listbox">
     {% include "@atoms/forms/checkbox/checkbox.twig" with {
       checkboxes: checkboxes,
     } %}

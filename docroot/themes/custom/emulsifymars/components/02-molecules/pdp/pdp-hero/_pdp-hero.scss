@@ -19,7 +19,7 @@
     svg {
       width: 100%;
       height: auto;
-      fill: rgba(clr(subcolor-3-rgb), 0.15);
+      fill: rgba(clr(subcolor-3-rgb), 0.2);
     }
 
     &--1 {
@@ -128,7 +128,7 @@
     @include medium {
       flex-direction: column;
       padding: 4rem;
-    }
+   }
 
     @include large {
       display: none;
@@ -251,8 +251,8 @@
       min-height: auto;
       margin: 2.2rem 17rem 3.6rem 0;
       text-align: left;
-      line-height: 2.24rem;
-      font-size: 1.6rem;
+      line-height: 3.6rem;
+      font-size: 2rem;
     }
   }
 
@@ -501,20 +501,34 @@
         }
       }
 
-      &-play .playpause-icon {
-        &::before {
-          width: 0;
-          height: 0;
-          background: transparent;
-          border-top: 12px solid transparent;
-          border-bottom: 12px solid transparent;
-          border-left: 20px solid clr(secondary);
+      & .sronly--play {
+        display: none;
+      }
+
+      &-play {
+        & .playpause-icon {
+          &::before {
+            width: 0;
+            height: 0;
+            background: transparent;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 20px solid clr(secondary);
+          }
+  
+          &::after {
+            display: none;
+          }
+        }
+        
+        & .sronly--play {
+          display: inline-block;
         }
 
-        &::after {
+        & .sronly--pause {
           display: none;
         }
-      }
+      } 
     }
 
     .swiper-container-initialized ~ .swiper-control {
@@ -623,6 +637,57 @@
       }
     }
   }
+
+
+
+  [data-bv-show="rating_summary"] .bv_main_container {
+    width: 100% !important;
+    justify-content: space-between !important;
+
+    @include xs {
+      max-width: 100% !important;
+    }
+
+    @include medium {
+      max-width: 75% !important;
+      margin-bottom: 2rem !important;
+    }
+
+    @include large {
+      margin-bottom: 0 !important;
+    }
+
+  }
+
+
+
+  [data-bv-show="rating_summary"] .bv_main_container .bv_avgRating_component_container,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_avgRating_component_container:hover,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_numReviews_component_container,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_numReviews_component_container:hover,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist:hover  {
+    color: clr(primary) !important;
+    font-family: variable(secondary-font) !important;
+    line-height: 1.3;
+
+    @include xs {
+      font-size: 1.2rem !important;
+    }
+
+    @include medium {
+      font-size: 1.4rem !important;
+    }
+
+    @include xl {
+      font-size: 1.6rem !important;
+    }
+  }
+  [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist,
+  [data-bv-show="rating_summary"] .bv_main_container .bv_button_buttonMinimalist:hover {
+    border-bottom: 1px solid clr(primary) !important;
+  }
+
 }
 
 // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
@@ -647,19 +712,24 @@
 .where-to-buy {
   &--container {
     position: fixed;
-    left: 2rem;
-    right: 2rem;
-    bottom: 2rem;
+    left: 2.5rem;
+    right: 1.5rem;
+    bottom: -12rem;
     text-align: center;
     z-index: 10;
     transition: visibility 0.5s, opacity 0.5s ease-out;
     visibility: visible;
     opacity: 1;
+    margin: 0 0 14.7rem 0;
+
+    @include small {
+      right: 2.5rem;
+    }
 
     @include medium {
-      left: 4rem;
-      right: 4rem;
-      bottom: 4rem;
+      left: 4.5rem;
+      right: 4.5rem;
+      bottom: -10rem;
     }
 
     @include large {
@@ -697,6 +767,7 @@
       display: inline-block;
       border-radius: variable(button-border-radius);
       cursor: pointer;
+      width: 100%;
     }
   }
 
@@ -726,4 +797,275 @@
   0%   { transform: translateY(-16px); }
   50%  { transform: translateY(16px); }
   100%  { transform: translateY(-16px); }
+}
+
+[data-block-plugin-id="rating_bazarvoice_block"] .bv-cv2-cleanslate {
+
+  @include xs {
+    max-width: 100% !important;
+    padding: 2rem !important;
+ }
+
+  @include medium {
+    max-width: 100% !important;
+    padding: 4rem !important;
+ }
+
+ @include large {
+    max-width: 78% !important;
+    margin: 0 auto !important;
+ }
+}
+
+.bv-cv2-cleanslate .bv-content-data-label-container .bv-content-data-icon {
+  color:green !important;
+
+  @include xs{
+    font-size: 24px !important;
+  }
+
+  @include large {
+    font-size: 24px !important;
+  }
+}
+
+.bv-cv2-cleanslate .bv-content-data-label-container .bv-content-data-label,
+.bv-content-data .bv-content-data-recommend-yes .bv-content-data-value{
+  color: clr(primary) !important;
+  font-family: variable(secondary-font) !important;
+
+  @include xs {
+    font-size: 16px !important;
+  }
+
+  @include large {
+    font-size: 18px !important;
+  }
+}
+
+.bv-content-feedback-vote-active .bv-content-feedback-btn-container .bv-content-btn-feedback-yes span,
+.bv-content-feedback-vote-active .bv-content-feedback-btn-container .bv-content-btn-feedback-no span
+ {
+  line-height: 1.4 !important;
+  display: inline-block !important;
+  font-family: variable(secondary-font) !important;
+
+  @include xs {
+    padding: 1px 4px !important;
+    font-size: 12px !important;
+  }
+
+  @include large {
+    padding: 2px 5px !important;
+    font-size: 14px !important;
+  }
+}
+
+.bv-content-item-avatar-offset .bv-content-actions-container .bv-feedback-container .bv-content-feedback-vote-active .bv-content-feedback-vote-active .bv-content-report-btn  {
+  display: inline-block !important;
+  font-size: 14px !important;
+  font-family: variable(secondary-font) !important;
+
+  @include xs {
+    padding: 3px 10px !important;
+    font-size: 12px !important;
+  }
+
+  @include large {
+    padding: 6px 12px !important;
+    font-size: 14px !important;
+  }
+}
+
+.bv-content-list-container .bv-header .bv-action-bar .bv-action-bar-header {
+  text-align: center !important;
+  display: block !important;
+  float: none !important;
+  font-family: variable(primary-font) !important;
+  font-size: 64px !important;
+}
+
+.bv-content-list-container .bv-header .bv-action-bar .bv-write-review-container {
+  position: relative !important;
+  top: 70px !important;
+}
+
+.bv-section-summary .bv-section-summary-inline .bv-inline-histogram .bv-inline-histogram-ratings {
+  display: none !important;
+}
+
+.bv-section-summary .bv-section-summary-table .bv-section-summary-inline .bv-inline-histogram {
+  width: 0 !important;
+}
+
+.bv-cv2-cleanslate .bv-content-item .bv-content-feedback-vote-request p{
+  padding-right: 5rem !important;
+  font-family: variable(secondary-font) !important;
+  color: rgba(34, 34, 34, 0.5) !important;
+  line-height: 1.4 !important;
+
+  @include xs {
+    font-size: 16px !important;
+  }
+
+  @include large {
+    font-size: 18px !important;
+  }
+}
+
+.bv-cv2-cleanslate .bv-avatar-popup-target span,
+.bv-cv2-cleanslate .bv-core-container-38 .bv-content-author-name .bv-author {
+  font-family: variable(secondary-font) !important;
+  color: clr(primary) !important;
+  font-weight: normal !important;
+  line-height: 1.4 !important;
+
+  @include xs {
+    font-size: 16px !important;
+  }
+
+  @include large {
+    padding-left: 2rem !important;
+    font-size: 18px !important;
+  }
+}
+
+.bv-cv2-cleanslate .bv-content-datetime .bv-content-datetime-dot,
+.bv-cv2-cleanslate .bv-content-datetime .bv-content-datetime-stamp{
+  font-family: variable(secondary-font) !important;
+  font-weight: normal !important;
+
+  @include xs {
+    font-size: 16px !important;
+  }
+
+  @include large {
+    font-size: 18px !important;
+  }
+}
+
+.bv-content-header-meta .bv-rating-ratio .bv-rating-stars-container .bv-rating-stars-off {
+  @include xs {
+    font-size: 22px !important;
+  }
+
+  @include large {
+    font-size: 27px !important;
+  }
+}
+
+.bv-content-header-meta .bv-rating-ratio .bv-rating-stars-container .bv-rating-stars-on {
+
+  @include xs {
+    font-size: 22px !important;
+  }
+
+  @include large {
+    font-size: 27px !important;
+  }
+}
+
+.bv-cv2-cleanslate .bv-core-container-35 .bv-content-title-container .bv-content-title {
+ color: clr(primary) !important;
+ line-height: 1.4 !important;
+ font-weight: 500 !important;
+ letter-spacing: 0.9px !important;
+
+  @include xs {
+    font-size: 1.6rem !important;
+  }
+
+  @include large {
+    font-size: 1.8rem !important;
+  }
+}
+
+.bv-content-summary .bv-content-summary-body .bv-content-summary-body-text p {
+  color: clr(primary) !important;
+  line-height: 1.4 !important;
+  font-weight: normal !important;
+
+  @include xs {
+    font-size: 1.6rem !important;
+  }
+
+  @include large {
+    font-size: 1.8rem !important;
+  }
+}
+
+.bv-cv2-cleanslate .bv-core-container-38 .bv-secondary-content-list .bv-content-list-clientresponses .bv-content-item {
+  background-color: transparent !important;
+}
+
+.bv-compat .bv-content-list-container .bv-header .bv-control-bar {
+  padding: 10px 0 !important;
+}
+
+.bv-content-list-container .bv-header .bv-control-bar .bv-control-bar-count {
+  display: none !important;
+  margin-right: 0 !important;
+}
+
+.bv-content-list-container .bv-header .bv-control-bar .bv-relevancy-link-target {
+  display: none !important;
+}
+
+.bv-content-list-container .bv-header .bv-control-bar .bv-control-bar-sort {
+  margin-right: auto !important;
+}
+
+.bv-cv2-cleanslate .bv-header .bv-control-bar .bv-expand-filter-button .bv-filter-control-icon {
+  color: clr(secondary) !important;
+}
+
+.bv-control-bar-sort .bv-dropdown .bv-dropdown-target .bv-dropdown-label {
+  color: clr(primary) !important;
+}
+
+.bv-control-bar .bv-control-bar-sort .bv-dropdown .bv-dropdown-target .bv-dropdown-title,
+.bv-control-bar .bv-control-bar-sort .bv-dropdown .bv-dropdown-target .bv-select-cleanslate {
+  color: clr(primary) !important;
+}
+
+.bv-mbox-wrapper .bv-mbox {
+  @include medium {
+    border-radius: 15px !important;
+  }
+}
+
+.bv-mbox-wrapper .bv-mbox .bv-mbox-content-container {
+  @include medium {
+  border-top-right-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
+  }
+}
+
+.bv-mbox-content-container .bv-mbox-breadcrumb .bv-mbox-breadcrumb-item span {
+  font-family: variable(primary-font) !important;
+  color: clr(primary) !important;
+  font-size: 28px !important;
+  font-weight: normal !important;
+}
+
+.bv-mbox-current .bv-submission .bv-compat .bv-form span.bv-fieldset-label-text
+.bv-mbox-current .bv-submission .bv-compat .bv-form span.bv-rating-helper,
+.bv-mbox-current .bv-submission .bv-compat .bv-form span.bv-fieldset-label-text,
+.bv-mbox-current .bv-submission .bv-compat .bv-form p,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-title .bv-fieldset-inner input.bv-text,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-reviewtext .bv-fieldset-inner textarea.bv-text,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-title .bv-fieldset-inner input.bv-text::placeholder,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-reviewtext .bv-fieldset-inner textarea.bv-text::placeholder,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-usernickname .bv-fieldset-inner input.bv-text,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-usernickname .bv-fieldset-inner input.bv-text::placeholder,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-userlocation .bv-fieldset-inner input.bv-text,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-userlocation .bv-fieldset-inner input.bv-text::placeholder,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-hostedauthentication_authenticationemail .bv-fieldset-inner input.bv-text,
+.bv-submission .bv-compat .bv-form .bv-submission-section .bv-fieldsets .bv-fieldset-hostedauthentication_authenticationemail .bv-fieldset-inner input.bv-text::placeholder {
+  color: clr(primary) !important;
+  font-family: variable(secondary) !important;
+}
+
+.bv-cv2-cleanslate .bv-core-container-38 .bv-mbox .bv-mbox-sidebar .bv-submission-sidebar .bv-subject-info-section .bv-subject-info span.bv-subject-name-header {
+  font-family: variable(secondary) !important;
 }

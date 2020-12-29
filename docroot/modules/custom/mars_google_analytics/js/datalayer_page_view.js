@@ -31,7 +31,10 @@
       settings.dataLayer.products = gtins.join(', ');
 
       var dataElements = context.querySelectorAll('[data-datalayer-taxonomy]');
-      var taxonomy = (settings.dataLayer.taxonomy !== null) ? JSON.parse(settings.dataLayer.taxonomy) : {};
+      var taxonomy = (settings.dataLayer.taxonomy !== null && settings.dataLayer.taxonomy !== 'null')
+        ? JSON.parse(settings.dataLayer.taxonomy)
+        : {};
+
       dataElements.forEach(function (product) {
         let taxonomy_info = JSON.parse(product.getAttribute('data-datalayer-taxonomy'));
 
@@ -106,113 +109,117 @@
 
       // TOP NAV EVENTS
       var header = context.querySelector('header');
-      header.addEventListener('click', function (event) {
-        setTimeout(function () {
-          var componentName = getComponentName(event.target);
-          let link = event.target.closest('a');
-          if (link) {
-            var item = link.parentElement.className.trim().split(' ')[0];
-            switch (item) {
-              case 'header__logo':
-                dataLayer.push({
-                  event: 'clickHeader',
-                  componentName: componentName,
-                  clickType: 'Brand Logo',
-                  clickName: 'Brand Logo',
-                });
-                break;
-              case 'header-inline-menu__item':
-                dataLayer.push({
-                  event: 'clickHeader',
-                  componentName: componentName,
-                  clickType: 'Upper menu items',
-                  clickName: event.target.innerText.trim(),
-                });
-                break;
-              case 'main-menu__item':
-                dataLayer.push({
-                  event: 'clickHeader',
-                  componentName: componentName,
-                  clickType: 'Lower menu items',
-                  clickName: event.target.innerText.trim(),
-                });
-                break;
-              case 'dropdown__item':
-                dataLayer.push({
-                  event: 'clickHeader',
-                  componentName: componentName,
-                  clickType: 'Language selectors',
-                  clickName: 'Language selectors',
-                  clickDetails: event.target.innerText.trim()
-                });
-                break;
-              case 'status__container':
-                dataLayer.push({
-                  event: 'clickHeader',
-                  componentName: componentName,
-                  clickType: 'Banner',
-                  clickName: 'Banner',
-                });
-                break;
+      if (header) {
+        header.addEventListener('click', function (event) {
+          setTimeout(function () {
+            var componentName = getComponentName(event.target);
+            let link = event.target.closest('a');
+            if (link) {
+              var item = link.parentElement.className.trim().split(' ')[0];
+              switch (item) {
+                case 'header__logo':
+                  dataLayer.push({
+                    event: 'clickHeader',
+                    componentName: componentName,
+                    clickType: 'Brand Logo',
+                    clickName: 'Brand Logo',
+                  });
+                  break;
+                case 'header-inline-menu__item':
+                  dataLayer.push({
+                    event: 'clickHeader',
+                    componentName: componentName,
+                    clickType: 'Upper menu items',
+                    clickName: event.target.innerText.trim(),
+                  });
+                  break;
+                case 'main-menu__item':
+                  dataLayer.push({
+                    event: 'clickHeader',
+                    componentName: componentName,
+                    clickType: 'Lower menu items',
+                    clickName: event.target.innerText.trim(),
+                  });
+                  break;
+                case 'dropdown__item':
+                  dataLayer.push({
+                    event: 'clickHeader',
+                    componentName: componentName,
+                    clickType: 'Language selectors',
+                    clickName: 'Language selectors',
+                    clickDetails: event.target.innerText.trim()
+                  });
+                  break;
+                case 'status__container':
+                  dataLayer.push({
+                    event: 'clickHeader',
+                    componentName: componentName,
+                    clickType: 'Banner',
+                    clickName: 'Banner',
+                  });
+                  break;
+              }
             }
-          }
-        }, 100);
-      });
+          }, 100);
+        });
+      }
 
       // BOTTOM NAV EVENTS
-      var header = context.querySelector('footer');
-      header.addEventListener('click', function (event) {
-        setTimeout(function () {
-          var componentName = getComponentName(event.target);
-          var link = event.target.closest('a');
-          if (link) {
-            var item = link.parentElement.className.trim().split(' ')[0];
-            switch (item) {
-              case 'footer__logo':
-                dataLayer.push({
-                  event: 'clickFooter',
-                  componentName: componentName,
-                  clickType: 'Brand Logo',
-                  clickName: 'Brand Logo',
-                });
-                break;
-              case 'footer-menu__item':
-                dataLayer.push({
-                  event: 'clickFooter',
-                  componentName: componentName,
-                  clickType: 'Upper menu items',
-                  clickName: 'Upper menu items',
-                });
-                break;
-              case 'legal-links-menu__item':
-                dataLayer.push({
-                  event: 'clickFooter',
-                  componentName: componentName,
-                  clickType: 'Lower menu items',
-                  clickName: 'Lower menu items',
-                });
-                break;
-              case 'social-menu__item':
-                dataLayer.push({
-                  event: 'clickFooter',
-                  componentName: componentName,
-                  clickType: 'Social icons',
-                  clickName: 'Social icons',
-                });
-                break;
-              case 'dropdown__item':
-                dataLayer.push({
-                  event: 'clickFooter',
-                  componentName: componentName,
-                  clickType: 'Region selectors',
-                  clickName: 'Region selectors',
-                  clickDetails: event.target.innerText.trim()
-                });
-                break;
+      var footer = context.querySelector('footer');
+      if (footer) {
+        footer.addEventListener('click', function (event) {
+          setTimeout(function () {
+            var componentName = getComponentName(event.target);
+            var link = event.target.closest('a');
+            if (link) {
+              var item = link.parentElement.className.trim().split(' ')[0];
+              switch (item) {
+                case 'footer__logo':
+                  dataLayer.push({
+                    event: 'clickFooter',
+                    componentName: componentName,
+                    clickType: 'Brand Logo',
+                    clickName: 'Brand Logo',
+                  });
+                  break;
+                case 'footer-menu__item':
+                  dataLayer.push({
+                    event: 'clickFooter',
+                    componentName: componentName,
+                    clickType: 'Upper menu items',
+                    clickName: 'Upper menu items',
+                  });
+                  break;
+                case 'legal-links-menu__item':
+                  dataLayer.push({
+                    event: 'clickFooter',
+                    componentName: componentName,
+                    clickType: 'Lower menu items',
+                    clickName: 'Lower menu items',
+                  });
+                  break;
+                case 'social-menu__item':
+                  dataLayer.push({
+                    event: 'clickFooter',
+                    componentName: componentName,
+                    clickType: 'Social icons',
+                    clickName: 'Social icons',
+                  });
+                  break;
+                case 'dropdown__item':
+                  dataLayer.push({
+                    event: 'clickFooter',
+                    componentName: componentName,
+                    clickType: 'Region selectors',
+                    clickName: 'Region selectors',
+                    clickDetails: event.target.innerText.trim()
+                  });
+                  break;
+              }
             }
-          }
-        }, 100);
-      });
+          }, 100);
+        });
+      }
 
       // EXTERNAL(outbound) LINKS CLICK EVENT
       const links = document.querySelectorAll('a');
@@ -240,24 +247,47 @@
         Array.from(contactForm.elements).forEach((input) => {
           if (input.type === 'button' || input.type === 'submit') {
             input.addEventListener('mousedown', function(e) {
-              dataLayer.push({
-                event: 'formSubmit',
-                pageName: document.title,
-                componentName: getComponentName(formContainer),
-                formName: formName,
-                formSubmitFlag: 1,
-              });
+              if (formName === 'Entry Gate Form') {
+                return;
+              } 
+              else if (
+               formName === 'Contact & Help'
+              ) {
+                dataLayer.push({
+                  event: 'formSubmit',
+                  pageName: document.title,
+                  componentName: 'contact_form',
+                  formName: 'Contact & Help',
+                });
+              } 
+              else if (formName === 'Poll Form') {
+                dataLayer.push({
+                  event: 'formSubmit',
+                  pageName: document.title,
+                  componentName: getComponentName(formContainer),
+                  formName: formName,
+                });
+              }
             });
           }
           else {
             input.addEventListener('blur', function (e) {
+              var fieldName = e.target.name;
+              var fieldValue = e.target.value;
+              if (/\S+@\S+\.\S+/.test(e.target.value)) {
+                fieldValue = '';
+              }
+              if (formName === 'Poll Form') {
+                fieldName = e.target.closest('div').querySelector('.polling__label-text').innerHTML;
+                fieldValue = 'chacked';
+              }
               dataLayer.push({
                 event: 'formFieldComplete',
                 pageName: document.title,
                 componentName: getComponentName(formContainer),
                 formName: formName,
-                formFieldName: e.target.name,
-                formFieldValue: e.target.value,
+                formFieldName: fieldName,
+                formFieldValue: fieldValue,
               });
             });
           }
