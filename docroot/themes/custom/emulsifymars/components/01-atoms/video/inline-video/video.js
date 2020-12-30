@@ -159,10 +159,6 @@ Drupal.behaviors.inlineVideoPlayer = {
             videoElements('video').pause();
             videoVisible = false;
           }
-          else if (!manuallyPaused && !videoVisible) {
-            videoElements('video').play();
-            videoVisible = true;
-          }
         });
       }
 
