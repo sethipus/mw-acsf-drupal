@@ -1,6 +1,17 @@
 div[data-block-plugin-id="article_header"] .share-block,
 div[data-block-plugin-id="recipe_detail_hero"] .recipe-info__social,
-div[data-block-plugin-id="recipe_detail_hero"] .social-menu {
+div[data-block-plugin-id="recipe_detail_hero"] .social-menu,
+div[data-block-plugin-id="feedback_block"],
+div[data-block-plugin-id="carousel_block"],
+div[data-block-plugin-id="flexible_framer_block"],
+div[data-block-plugin-id="social_feed"],
+div[data-block-plugin-id="mars_common_content_feature_module"],
+div[data-block-plugin-id="flexible_driver"],
+div[data-block-plugin-id="newsletter_signup_form"],
+div[data-block-plugin-id="poll_block"],
+div[data-block-plugin-id="story_highlight"],
+div[data-block-plugin-id="iframe_block"],
+div[data-block-plugin-id="contact_help_banner_block"] {
   display: none;
 }
 
@@ -64,7 +75,10 @@ img {
 }
 
 .recipe-media__border,
-.article-header-image__border {
+.recipe-header__brand-shape,
+.article-header-image__border,
+.article-header-noimage__border,
+.article-header-noimage__brand_shape {
   display: none;
 }
 
@@ -73,5 +87,20 @@ img {
 }
 
 .inline-video {
+  display: none;
+}
+
+.content-feature,
+.flexible-driver,
+.newsletter-iframe,
+.polling,
+.story-highlight,
+.iframe-container,
+.contact-module,
+.poll-view,
+.carousel,
+.flexible-framer,
+.social-feed,
+.recipe-media .ambient-video {
   display: none;
 }
