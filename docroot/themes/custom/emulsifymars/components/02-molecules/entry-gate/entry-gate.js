@@ -7,14 +7,14 @@ import moment from 'moment';
         const entryGate = $(this);
         const ageLimit = entryGate.data('age');
         const fieldset = $('.entry-gate-form__fieldset', this);
-        const dayInput = $('.entry-gate--day', this)[0];
+        const dayInput = $('.entry-gate--day', this);
         const monthInput = $('.entry-gate--month', this);
         const yearInput = $('.entry-gate--year', this);
         const submitBtn = $('.entry-gate-form__submit-btn', this);
         const errorMessage = $('.entry-gate-form__error-message', this);
         const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
 
-        dayInput.onkeydown = function(e) {
+        dayInput[0].onkeydown = function(e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
               e.preventDefault();
               link.focus();
