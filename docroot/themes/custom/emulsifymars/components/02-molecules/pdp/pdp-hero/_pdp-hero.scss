@@ -712,19 +712,24 @@
 .where-to-buy {
   &--container {
     position: fixed;
-    left: 2rem;
-    right: 2rem;
-    bottom: 2rem;
+    left: 2.5rem;
+    right: 1.5rem;
+    bottom: -12rem;
     text-align: center;
     z-index: 10;
     transition: visibility 0.5s, opacity 0.5s ease-out;
     visibility: visible;
     opacity: 1;
+    margin: 0 0 14.7rem 0;
+
+    @include small {
+      right: 2.5rem;
+    }
 
     @include medium {
-      left: 4rem;
-      right: 4rem;
-      bottom: 4rem;
+      left: 4.5rem;
+      right: 4.5rem;
+      bottom: -10rem;
     }
 
     @include large {
@@ -762,6 +767,7 @@
       display: inline-block;
       border-radius: variable(button-border-radius);
       cursor: pointer;
+      width: 100%;
     }
   }
 

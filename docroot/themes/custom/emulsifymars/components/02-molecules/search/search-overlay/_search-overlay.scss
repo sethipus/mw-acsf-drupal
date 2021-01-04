@@ -229,18 +229,18 @@
 
    &.opened {
     display: flex !important;
-    position: fixed;
+    position: absolute;
     height: 20rem;
     z-index: 20;
-     .mars-search-autocomplete-suggestions-wrapper {
-       @include large {
-         position: absolute;
-         top: 100%;
-         width: 100%;
-         z-index: 10;
-       }
-     }
-   }
+    .mars-search-autocomplete-suggestions-wrapper {
+      @include large {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        z-index: 10;
+      }
+    }
+  }
 }
 
 input.mars-autocomplete-field:-webkit-autofill,

@@ -29,22 +29,33 @@ class MediaHelper {
   private $productHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * MediaHelper constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
    * @param \Drupal\mars_product\ProductHelper $product_helper
    *   The product helper service.
+   * @param \Drupal\mars_common\LanguageHelper $language_helper
+   *   The language helper service.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    ProductHelper $product_helper
+    ProductHelper $product_helper,
+    LanguageHelper $language_helper
   ) {
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->productHelper = $product_helper;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -93,7 +104,7 @@ class MediaHelper {
         return [
           'image' => TRUE,
           'src' => $entity->image->entity->createFileUrl(!$absolute_urls),
-          'alt' => $entity->image->alt,
+          'alt' => $this->languageHelper->translate($entity->image->alt),
           'title' => $entity->image->title,
         ];
 
@@ -105,7 +116,7 @@ class MediaHelper {
         return [
           'image' => TRUE,
           'src' => $entity->field_media_image->entity->createFileUrl(!$absolute_urls),
-          'alt' => $entity->field_media_image->alt,
+          'alt' => $this->languageHelper->translate($entity->field_media_image->alt),
           'title' => $entity->field_media_image->title,
         ];
 
