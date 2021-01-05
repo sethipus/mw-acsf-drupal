@@ -28,9 +28,7 @@
         const updateBGSize = element => {
           const containerWidth = element.clientWidth;
           const containerHeight = element.clientHeight;
-
           const image = document.createElement('img');
-          image.src = bgUrl;
           image.onload = () => {
             console.log({
               'containerWidth': containerWidth,
@@ -39,6 +37,7 @@
               'imageHeight': image.naturalHeight
             })
           };
+          image.src = bgUrl;
         }
 
         const scrollResizeListener = () => {
