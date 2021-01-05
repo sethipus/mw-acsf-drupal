@@ -103,9 +103,16 @@ class SearchQueryParserTest extends UnitTestCase {
       'title' => 'Test grid title',
       'grid_id' => 'test_grid_id',
       'exposed_filters_wrapper' => [
-        'toggle_filters' => [
-          'test',
+        'toggle_filters' => [],
+      ],
+      'general_filters' => [
+        'vocabulary1' => [
+          'select' => 'term1',
         ],
+        'vocabulary2' => [
+          'select' => 'term2',
+        ],
+        'options_logic' => 'OR',
       ],
     ];
     $resultSearchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
@@ -119,11 +126,21 @@ class SearchQueryParserTest extends UnitTestCase {
           2 => '<>',
           3 => TRUE,
         ],
+        1 => [
+          0 => 'vocabulary1',
+          1 => 'term1',
+          2 => 'IN',
+        ],
+        2 => [
+          0 => 'vocabulary2',
+          1 => 'term2',
+          2 => 'IN',
+        ],
       ],
       'keys' => '',
       'limit' => 8,
       'offset' => 0,
-      'options_logic' => 'AND',
+      'options_logic' => 'OR',
       'sort' => [
         'created' => 'DESC',
       ],
