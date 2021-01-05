@@ -3,6 +3,8 @@
     attach(context) {
       $(context).find('.content-feature').once('contentFeature').each(function() {
         const contentFeatureModule = this;
+        const bgUrl = contentFeatureModule.getAttribute('data-bgurl');
+        const parallaxCoef = 0.2;
 
         const isInViewport = element => {
           const rect = element.getBoundingClientRect();
@@ -20,34 +22,38 @@
           const rect = element.getBoundingClientRect();
           const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
           let offset = windowHeight - (rect.top + (rect.height * 0.7));
-          let parallaxCoef;
-
-          switch (true) {
-            case rect.width >= 1360:
-              parallaxCoef = 0.06;
-              break;
-
-            case rect.width >= 688:
-              parallaxCoef = 0.02;
-              break;
-
-            default:
-              parallaxCoef = 0.01;
-          }
-
           element.style.backgroundPosition = `center calc(50% - ${offset * parallaxCoef}px`;
-
         };
 
-        const listener = () => {
+        const updateBGSize = element => {
+          const containerWidth = element.clientWidth;
+          const containerHeight = element.clientHeight;
+
+          const image = document.createElement('img');
+          image.src = bgUrl;
+          image.onload = () => {
+            console.log({
+              'containerWidth': containerWidth,
+              'containerHeight': containerHeight,
+              'imageWidth': image.naturalWidth,
+              'imageHeight': image.naturalHeight
+            })
+          };
+        }
+
+        const scrollResizeListener = () => {
           if (isInViewport(contentFeatureModule)) {
             updateElementsPositions(contentFeatureModule);
           }
         };
 
-        window.addEventListener('DOMContentLoaded', listener);
-        window.addEventListener('scroll', listener);
-        window.addEventListener('resize', listener);
+        const documentReadyListener = () => {
+          updateBGSize(contentFeatureModule);
+        }
+
+        window.addEventListener('DOMContentLoaded', documentReadyListener);
+        window.addEventListener('scroll', scrollResizeListener);
+        window.addEventListener('resize', scrollResizeListener);
       })
     }
   }
