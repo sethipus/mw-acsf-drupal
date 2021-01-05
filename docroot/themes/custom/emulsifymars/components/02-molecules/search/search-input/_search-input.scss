@@ -99,6 +99,15 @@
       background: clr(subcolor-3);
       border-bottom-right-radius: variable(card-border-radius);
       border-bottom-left-radius: variable(card-border-radius);
+      width: 335px;
+
+      @include medium {
+        width: 688px;
+      }
+
+      @include xl {
+        width: 896px;
+      }
 
       ul {
         margin: 0;

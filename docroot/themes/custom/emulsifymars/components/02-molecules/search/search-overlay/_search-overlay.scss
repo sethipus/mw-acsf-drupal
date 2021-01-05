@@ -21,7 +21,7 @@
     .header__branding {
       display: none;
 
-      @include medium {
+      @include large {
         display: block;
       }
     }
@@ -29,7 +29,7 @@
 
   & .search-input-wrapper {
 
-    @include medium {
+    @include large {
       display: flex;
       flex-flow: column nowrap;
       width: 69%;
@@ -46,7 +46,7 @@
         width: 100%;
         background-color: transparent;
 
-        @include medium {
+        @include large {
           position: absolute;
           top: 60px;
           z-index: 4;
@@ -54,11 +54,13 @@
         }
 
         .empty-text, .empty-text-description {
-         margin: 10px 0;
+          margin: 10px 0;
         }
 
-        @include medium {
-          .autocomplete-border {
+        .autocomplete-border {
+          border-bottom: none;
+
+          @include large {
             border-bottom: 1px solid clr(subcolor-4);
             margin: 0 20px;
           }
@@ -70,7 +72,7 @@
         font-size: 14px;
         line-height: 100%;
 
-        @include medium {
+        @include large {
           margin-left: 60px;
           margin-top: 10px;
           color: clr(primary);
@@ -89,7 +91,7 @@
               color: clr(subcolor-3);
               text-decoration: none;
   
-              @include medium {
+              @include large {
                 color: clr(primary);
               }
             }
@@ -103,7 +105,7 @@
             color: clr(subcolor-3);
             text-transform: uppercase;
 
-            @include medium {
+            @include large {
               color: clr(primary);
             }
           }
@@ -112,7 +114,7 @@
     }
 
     & input.mars-autocomplete-field {
-      @include medium {
+      @include large {
         border-radius: variable(card-border-radius);
       }
     }
@@ -123,7 +125,7 @@
       display: none;
       line-height: 100%;
 
-      @include medium {
+      @include large {
         background-color: clr(subcolor-3);
         color: clr(primary);
         border-bottom-left-radius: variable(card-border-radius);
@@ -166,7 +168,7 @@
       border-bottom: 1px solid clr(subcolor-3);
       font-family: variable(secondary-font);
 
-      @include medium {
+      @include large {
         border-bottom: none;
       }
 
@@ -181,7 +183,7 @@
           margin-left: 25px;
           outline: none;
 
-          @include medium {
+          @include large {
             width: 100%;
             max-width: 840px;
             height: 60px;
@@ -206,7 +208,7 @@
           top: 5px;
           background-color: clr(subcolor-3);
 
-          @include medium {
+          @include large {
             left: 20px;
             top: 20px;
             background-color: clr(primary);
@@ -219,7 +221,7 @@
   & .inline-search--closebtn {
     display: none;
 
-    @include medium {
+    @include large {
       display: block;
       margin-left: auto;
       margin-right: 40px;
@@ -250,7 +252,7 @@ input.mars-autocomplete-field:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
   -webkit-text-fill-color: clr(subcolor-3);
 
-  @include medium {
+  @include large {
     -webkit-text-fill-color: clr(primary);
     font-size: 18px;
     margin-left: 60px;
