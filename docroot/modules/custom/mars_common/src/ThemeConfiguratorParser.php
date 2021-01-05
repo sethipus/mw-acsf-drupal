@@ -183,6 +183,7 @@ class ThemeConfiguratorParser {
     if ($svg !== NULL) {
       $svg = $svg
         ->withoutFillInfo()
+        ->withoutOpacityInfo()
         ->withoutSizeInfo();
     }
     return $svg;
