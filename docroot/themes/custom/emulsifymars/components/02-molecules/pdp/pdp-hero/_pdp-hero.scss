@@ -96,6 +96,7 @@
   &__content-container {
     flex: 1 0 50%;
     padding-top: 1.2rem;
+    max-width: 100%;
 
     @include large {
       padding-top: 4.2rem;
@@ -515,12 +516,12 @@
             border-bottom: 12px solid transparent;
             border-left: 20px solid clr(secondary);
           }
-  
+
           &::after {
             display: none;
           }
         }
-        
+
         & .sronly--play {
           display: inline-block;
         }
@@ -528,7 +529,7 @@
         & .sronly--pause {
           display: none;
         }
-      } 
+      }
     }
 
     .swiper-container-initialized ~ .swiper-control {
