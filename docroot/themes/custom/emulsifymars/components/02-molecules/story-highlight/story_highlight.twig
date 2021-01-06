@@ -48,8 +48,8 @@
           {% elseif item.video %}
             {% include "@atoms/video/overlay-video/video.twig" with {
               video__src__url: item.src,
+              video__control: true,
             } %}
-            <button {{ bem('control', [], 'video') }} id="fullscreen-play" title="{{ 'Fullscreen play' | mt }}" aria-label="{{ 'Fullscreen play' | mt }}" type="button" data-state="play"><div {{ bem('control', ['inner'], 'video') }}/></button>
           {% endif %}
 
           {% include "@atoms/text/text/01-paragraph.twig" with {

@@ -12,6 +12,8 @@ body {
 
  */
 
+.twix {
+
 .newsletter-form {
   display: flex;
   flex-direction: column;
@@ -218,4 +220,6 @@ body {
 
 input.error {
   border-bottom: 1px solid red;
+}
+
 }
