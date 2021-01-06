@@ -5,6 +5,7 @@
 
 <section {{ bem(content_feature_base_class) }}
   style="background-image: url('{{ background_image }}');"
+  data-bgurl="{{background_image}}"
   data-theme="{{theme_styles}}">
   <div class="content-feature__content">
     {% include "@atoms/text/eyebrow/eyebrow.twig" with {
