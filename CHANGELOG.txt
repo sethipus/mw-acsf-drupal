@@ -193,3 +193,33 @@ e0d18fd9 AB#183063: Fixed scss styles for the overlay video.
 f500eac1 (origin/task/209463-content-feature-parallax) AB#209463: [Content Feature] Image is not displayed correctly
 a2b8852b AB#205470: [Inline Media] Inline image display issues.
 7b90e1a9 (origin/bug/206948-Product-Content-pairup-required-fields) AB#206948: Fix required fields except background image field.
+
+release-2021-01-06
+
+0d1715a0 AB#000000: Add Newsletter Signup Forms for Dove brand.
+f985cdf4 AB#183063: update link to https for newsletters form.
+72a7f382 AB#209460: empty fields are also considered connection for recommendation. Strategies will only take into consideration published content.
+ea4fdcf9 AB#216308: search autocomplete visibility fix
+3fcae96a AB#187045: fixed flexible driver height
+d83bdc26 AB#211811: adding aria-live to filter section
+2fbcbff7 AB#183063: brand shape styles for poll.
+b5adc153 AB#216305: small changes to freeform story block mobile version.
+5408eb76 AB#209650: Added aria-label to images with the same text as img alt
+ff7a6da5 AB#217835: fixing js issue preventing cookie placing
+f0d84029 AB#214709: fixing svg brand border
+92add969 AB#210931: Change flexible framer CTA button wrong sizing.
+290140c2 AB#209436: fixing width issues
+8167e83f AB#214709: fixing height issues with bg
+9fef741e AB#211811: adding aria-polite to search
+35a0ac09 AB#212741: fixing CTA button position
+db70a73e AB#207289: Print PDF - fix article and recipe print - fix visibility.
+f1cf225c AB#211627: fixing tabulating issues
+565ce130 AB#207289: Print PDF - fix article and recipe print - image fix.
+3803359d AB#215117: multiple issues fix #215117,#210986,#215516.
+2f634697 AB#207289: Print PDF - fix article and recipe print - refactor.
+a33bbddd AB#207289: Print PDF - fix article and recipe print.
+8001f46f AB#209691: remove not used id that could be duplicated on the page.
+d0c65820 AB#000000: changelog for last deployment at 2020-12-24.
+7585f6c6 AB#210617: [Homepage Hero] : [3Up-Small Card] - Background is  incorrect
+d45ce3db AB#210623: [Homepage Hero] - [3Up-Small Card] - Element padding is incorrect
+852e888b AB#215700: freeform story alignment fix.
