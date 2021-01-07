@@ -68,6 +68,7 @@
   font-size: 18px;
   line-height: 140%;
   color: clr(primary);
+  z-index: 10;
 
   .mars-search-autocomplete-suggestions-wrapper {
     display: none;
@@ -98,6 +99,15 @@
       background: clr(subcolor-3);
       border-bottom-right-radius: variable(card-border-radius);
       border-bottom-left-radius: variable(card-border-radius);
+      width: 335px;
+
+      @include medium {
+        width: 688px;
+      }
+
+      @include xl {
+        width: 896px;
+      }
 
       ul {
         margin: 0;
