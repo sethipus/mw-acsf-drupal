@@ -63,7 +63,7 @@
 
   &--opened {
     display: block;
-    z-index: 10;
+    z-index: 100;
     background-color: clr(subcolor-3);
 
     @include xl {
