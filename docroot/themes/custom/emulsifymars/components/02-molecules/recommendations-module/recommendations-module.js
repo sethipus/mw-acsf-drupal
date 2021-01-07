@@ -60,7 +60,8 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             let slidesCount = swiper.slides.length;
 
             if (  ((screenWidth > 1440) && (slidesCount <= 4)) || // Wide Screen View && equal or less then 4 slides
-                  ((screenWidth > 768 && screenWidth < 1440) && (slidesCount <= 2)) || // Tablet View && equal or less then 2 slides
+                  ((screenWidth > 1150 && screenWidth <= 1440) && (slidesCount <= 3)) || // Desktop View && equal or less then 3 slides
+                  ((screenWidth > 768 && screenWidth <= 1150) && (slidesCount <= 2)) || // Tablet View && equal or less then 2 slides
                   (slidesCount <= 1)) { // Slides count equal or less then 1
               lockCarousel();
             } else {

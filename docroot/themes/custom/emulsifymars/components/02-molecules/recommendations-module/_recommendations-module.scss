@@ -65,7 +65,7 @@
   }
 
   .no-carousel {
-    @include xl {
+    @include medium {
       display: flex;
       justify-content: center;
       margin-left: -2%;
