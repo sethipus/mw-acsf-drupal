@@ -7,6 +7,7 @@
 {% set modifier = applied_filters_list|length ? '' : 'hidden' %}
 {{ attach_library('emulsifymars/card-grid-filter') }}
 
+{% if filters is not empty %}
 <div {{ bem(search_filter_container_base_class) }} data-theme="{{ theme_styles }}">
   {% if search_form is not empty %}
     <div {{ bem('search', [], search_filter_container_base_class, ['search-input-wrapper', 'mars-search-form']) }}>
@@ -63,3 +64,4 @@
     </div>
   </div>
 </div>
+{% endif %}
