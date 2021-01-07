@@ -83,14 +83,14 @@
         .suggestions-links {
           position: relative;
           z-index: 10;
-          
+
           li {
             margin-bottom: 10px;
-  
+
             & a {
               color: clr(subcolor-3);
               text-decoration: none;
-  
+
               @include large {
                 color: clr(primary);
               }
@@ -190,7 +190,6 @@
             color: clr(primary);
             border: 1px solid clr(subcolor-4);
             background-color: clr(subcolor-3);
-            border-bottom: none;
             outline: none;
             font-size: 18px;
             line-height: 140%;
