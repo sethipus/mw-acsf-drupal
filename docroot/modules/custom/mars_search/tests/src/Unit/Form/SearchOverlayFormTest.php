@@ -144,7 +144,7 @@ class SearchOverlayFormTest extends UnitTestCase {
       );
 
     $this->languageHelper
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(3))
       ->method('translate');
 
     $form = $this->form->buildForm(
