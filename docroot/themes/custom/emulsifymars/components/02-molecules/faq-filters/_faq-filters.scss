@@ -31,6 +31,7 @@
     margin: 20px 40px 0 0;
     font-size: 1.6rem;
     color: clr(primary);
+    display: none;
 
     &.active {
       display: block;
@@ -42,7 +43,6 @@
 
     @include xl {
       margin: 20px 40px 0 0;
-      display: none;
     }
   }
 
@@ -160,15 +160,18 @@
         padding-top: 25px;
         border: 1px solid clr(subcolor-4);
         border-top: none;
+        width: calc(335px + 22px);
 
         @include medium {
           margin-left: 40px;
           margin-right: 40px;
+          width: calc(688px + 22px);
         }
 
         @include xl {
           margin-left: 0;
           margin-right: 0;
+          width: calc(896px + 22px);
         }
       }
     }
