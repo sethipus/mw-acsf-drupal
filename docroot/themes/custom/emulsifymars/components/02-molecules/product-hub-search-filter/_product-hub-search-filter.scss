@@ -13,15 +13,6 @@
       flex-grow: 1;
       width: 100%;
       background-color: clr(subcolor-3);
-
-      &__field {
-        width: calc(100% - 20px);
-        margin: 0 20px;
-
-        @include medium {
-          width: calc(100% - 20px);
-        }
-      }
     }
   }
 
@@ -31,6 +22,15 @@
         border-bottom-right-radius: unset;
         border-bottom-left-radius: unset;
         border-bottom: none;
+
+        &__field {
+          width: calc(100% - 20px);
+          margin: 0 20px;
+
+          @include xl {
+            width: calc(100% - 20px);
+          }
+        }
       }
       .mars-search-autocomplete-suggestions-wrapper {
         margin-top: -25px;
