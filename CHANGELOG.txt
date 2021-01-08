@@ -223,3 +223,27 @@ d0c65820 AB#000000: changelog for last deployment at 2020-12-24.
 7585f6c6 AB#210617: [Homepage Hero] : [3Up-Small Card] - Background is  incorrect
 d45ce3db AB#210623: [Homepage Hero] - [3Up-Small Card] - Element padding is incorrect
 852e888b AB#215700: freeform story alignment fix.
+
+release 2021-01-08
+
+1bc08c64 (tothbcsa/BUG_209567_Placeholder_in_search, BUG_209567_Placeholder_in_search) AB#209567: search overlay fixes.
+57c62721 AB#209567: styles for search overlay placeholder.
+4a65f4db AB#209567: adding search input field class to search input
+a39bc7bb AB#209567: fixing unit tests.
+66b04c48 AB#214750: fixing word break
+625014b9 AB#215272: filter overlay z-index fix
+c44eef39 AB#209567: adding placeholder text and fixing height issue
+18af0a02 AB#214266: font family fix for suggestions list in header search
+2a195a69 (shutova/task/211809-listbox, task/211809-listbox) AB#211809: VO listbox role for cardgrid filters.
+250c975c AB#192028:Cover mars_search module with unit tests. Class SearchTermFacetProcess.
+f410d121 AB#214785: product feature block - text cropping is fixed
+6b345ffc AB#215694: fixing the paralax effect and the relate bg image sizing.
+52d2d881 AB#216110: contact banner spacing fix
+aceb3db6 (shutova/task/208539-progress-bar, task/208539-progress-bar) AB#208539: set duration scroll stable.
+5d6678d0 AB#192028:Cover mars_search module with unit tests. Add bash command.
+39aa622e AB#192028:Cover mars_search module with unit tests. Add bash command.
+8859806a AB#215694: defined image load event listener earlier to avoid race condition
+a98f0fc1 AB#215694: content feature parallax image resize work in progress
+c71a380b AB#192028:Cover mars_search module with unit tests. Class SearchQueryParser.
+0723154e AB#192028:Cover mars_search module with unit tests. Class SearchQueryParser.
+e969b1c5 AB#192028:Cover mars_search module with unit tests.
