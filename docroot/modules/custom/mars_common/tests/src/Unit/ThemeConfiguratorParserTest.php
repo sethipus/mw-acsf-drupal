@@ -13,6 +13,8 @@ use Drupal\Tests\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\mars_common\SVG\SVG;
+use Drupal\Core\Url;
 
 /**
  * Class ThemeConfiguratorParserTest.
@@ -73,9 +75,19 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     'brand_shape' => '<svg xmlns="http://www.w3.org/2000/svg" width="125" height="15" fill="none" viewBox="0 0 125 15">
     <path fill="#EAAA00" fill-rule="evenodd" d="M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542z" clip-rule="evenodd"/>
 </svg>',
+    'brand_borders' => [
+      0 => 'test',
+    ],
+    'brand_borders_2' => [
+      0 => 'test',
+    ],
+    'graphic_divider' => [
+      0 => 'test',
+    ],
     'logo' => [
       'path' => 'logo-path',
     ],
+    'logo_alt' => 'test logo alt',
     'social' => [
       [
         'name' => 'facebook',
@@ -104,6 +116,11 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
       ->method('getFileUri')
       ->willReturn($vfsFile->url());
 
+    $fileMock
+      ->expects($this->any())
+      ->method('id')
+      ->willReturn('test');
+
     $this->fileStorageMock
       ->expects($this->any())
       ->method('load')
@@ -131,6 +148,11 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
       ->expects($this->once())
       ->method('get')
       ->willReturn($this->configuration);
+
+    $this->svgFactoryMock
+      ->expects($this->any())
+      ->method('createSvgFromFileId')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
 
     $this->themeConfiguratorParser = new ThemeConfiguratorParser(
       $this->entityTypeManagerMock,
@@ -175,4 +197,86 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     $this->assertEquals($this->configuration['brand_shape'], $getSettingValueBrandShape);
   }
 
+  /**
+   * Test testGetUrlForFile.
+   */
+  public function testGetUrlForFile() {
+    $url_for_file = $this->themeConfiguratorParser->getUrlForFile('test');
+    $url = Url::fromUri('http://example.com/root/mock.file');
+    $this->assertEquals($url->getUri(), $url_for_file->getUri());
+  }
+
+  /**
+   * Test getLogoAltFromTheme.
+   */
+  public function testGetLogoAltFromTheme() {
+    $logo_alt = $this->themeConfiguratorParser->getLogoAltFromTheme();
+    $expected = 'test logo alt';
+    $this->assertEquals($expected, $logo_alt);
+  }
+
+  /**
+   * Test getBrandBorder.
+   */
+  public function testGetBrandBorder() {
+    $svg = $this->themeConfiguratorParser->getBrandBorder();
+
+    $expected = '<svg xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="id-repeat-pattern" patternUnits="userSpaceOnUse"/>
+      </defs>
+      <rect fill="url(#id-repeat-pattern)" width="100%"/>
+    </svg>';
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+  /**
+   * Test getBrandBorder2.
+   */
+  public function testGetBrandBorder2() {
+    $svg = $this->themeConfiguratorParser->getBrandBorder2();
+
+    $expected = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"/>';
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+  /**
+   * Test getGraphicDivider.
+   */
+  public function testGetGraphicDivider() {
+    $svg = $this->themeConfiguratorParser->getGraphicDivider();
+
+    $expected = '<svg xmlns="http://www.w3.org/2000/svg"/>';
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+  /**
+   * Test getBrandShapeWithoutFill.
+   */
+  public function testGetBrandShapeWithoutFill() {
+    $svg = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
+
+    $expected = '<svg xmlns="http://www.w3.org/2000/svg"/>';
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
 }
+
+// @codingStandardsIgnoreStart
+/**
+ * ThemeConfiguratorParserTest uses file_create_url()
+ * which *are* available when using the Simpletest test runner, but not when
+ * using the PHPUnit test runner; hence this hack.
+ */
+  namespace Drupal\mars_common;
+
+  if (!function_exists('Drupal\mars_common\file_create_url')) {
+    function file_create_url($uri) {
+      return 'http://example.com/root/mock.file';
+    }
+  }
+// @codingStandardsIgnoreEnd
