@@ -266,17 +266,25 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
 
 }
 
-// @codingStandardsIgnoreStart
 /**
- * ThemeConfiguratorParserTest uses file_create_url()
- * which *are* available when using the Simpletest test runner, but not when
- * using the PHPUnit test runner; hence this hack.
+ * ThemeConfiguratorParser uses file_create_url().
  */
-  namespace Drupal\mars_common;
+namespace Drupal\mars_common;
 
-  if (!function_exists('Drupal\mars_common\file_create_url')) {
-    function file_create_url($uri) {
-      return 'http://example.com/root/mock.file';
-    }
+if (!function_exists('Drupal\mars_common\file_create_url')) {
+
+  /**
+   * Stub for drupal file_create_url function.
+   *
+   * @param string $uri
+   *   The URI to a file for which we need an external URL, or the path to a
+   *   shipped file.
+   *
+   * @return string
+   *   Result.
+   */
+  function file_create_url($uri) {
+    return 'http://example.com/root/mock.file';
   }
-// @codingStandardsIgnoreEnd
+
+}
