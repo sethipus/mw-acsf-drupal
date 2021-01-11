@@ -107,6 +107,19 @@ class ThemeConfiguratorParser {
   }
 
   /**
+   * Returns logo alt text.
+   *
+   * @return string
+   *   Alt text path.
+   */
+  public function getLogoAltFromTheme(): string {
+    if (!empty($this->themeSettings['logo_alt'])) {
+      return $this->themeSettings['logo_alt'];
+    }
+    return '';
+  }
+
+  /**
    * Returns the brand border svg if there are any.
    *
    * @return \Drupal\mars_common\SVG\SVG|null
@@ -126,7 +139,7 @@ class ThemeConfiguratorParser {
         $svg = $svg->repeated();
       }
       else {
-        $svg = $svg->scaleWhileKeepingAspectRatio();
+        $svg = $svg->stretched();
       }
     }
 
@@ -170,6 +183,7 @@ class ThemeConfiguratorParser {
     if ($svg !== NULL) {
       $svg = $svg
         ->withoutFillInfo()
+        ->withoutOpacityInfo()
         ->withoutSizeInfo();
     }
     return $svg;

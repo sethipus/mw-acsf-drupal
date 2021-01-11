@@ -1,7 +1,13 @@
 .content-feature {
+  position: relative;
   text-align: center;
   padding: 8rem 4rem 7.2rem 4rem;
+  background-position: center center;
   background-size: cover;
+
+  &__content {
+    position: relative;
+  }
 
   & .eyebrow {
     font-family: variable(primary-font);
@@ -86,6 +92,17 @@
     &:hover {
       color: clr(secondary);
     }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-color: black;
+    opacity: .4;
   }
 }
 

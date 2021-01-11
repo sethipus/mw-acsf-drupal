@@ -4,6 +4,9 @@
 {% set icon_ingredients = icon_ingredients|default('/' ~ base_path ~ directory ~ '/images/icons/ingredients.svg') %}
 {% set icon_makes = icon_makes|default('/' ~ base_path ~ directory ~'/images/icons/makes.svg') %}
 {% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
+{% set clock_alt = 'clock' | mt %}
+{% set ingredients_alt = 'ingredients' | mt %}
+{% set makes_alt = 'makes' | mt %}
 
 <div class="recipe-header" data-theme="{{ theme_styles }}">
     <div class="recipe-header__background"
@@ -19,7 +22,7 @@
     </div>
   <div class="recipe-header__content">
     <div class="recipe-header__title">{{ "Recipe" | mt }}</div>
-    <div class="recipe-header__text">{{ recipe_header_text }}</div>
+    <h1 class="recipe-header__text">{{ recipe_header_text }}</h1>
   </div>
 </div>
 
@@ -52,6 +55,7 @@
           {% include "@atoms/images/image/_image.twig" with {
             image_base_class: 'recipe-details-item__icon',
             image_modifiers: ['clock'],
+            image_alt: clock_alt,
             image_src: icon_clock,
           } %}
         </div>
@@ -65,6 +69,7 @@
           {% include "@atoms/images/image/_image.twig" with {
             image_base_class: 'recipe-details-item__icon',
             image_modifiers: ['ingredients'],
+            image_alt: ingredients_alt,
             image_src: icon_ingredients,
           } %}
         </div>
@@ -78,6 +83,7 @@
           {% include "@atoms/images/image/_image.twig" with {
             image_base_class: 'recipe-details-item__icon',
             image_modifiers: ['makes'],
+            image_alt: makes_alt,
             image_src: icon_makes,
           } %}
         </div>
@@ -92,7 +98,7 @@
 <div class="recipe-info" data-theme="{{ theme_styles }}">
   <div class="recipe-info__text">{{ recipe_description_text }}</div>
   <div class="recipe-info__social">
-    <div class="recipe-info__social-text">Share</div>
+    <div class="recipe-info__social-text">{{ 'Share' | mt }}</div>
     {% block recipe_social_menu %}
       {% include "@molecules/menus/social/social-menu.twig" with {
         social_menu_items: social_menu_items,

@@ -13,21 +13,21 @@ import moment from 'moment';
         const submitBtn = $('.entry-gate-form__submit-btn', this);
         const errorMessage = $('.entry-gate-form__error-message', this);
         const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
-    
-        dayInput.onkeydown = function(e) {
-          if (e.code === 'Tab' && e.shiftKey) {
+
+        dayInput[0].onkeydown = function(e) {
+          if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
               e.preventDefault();
               link.focus();
           }
         }
-    
+
         link.onkeydown = function(e) {
-          if (e.code === 'Tab'  && !e.shiftKey) {
+          if ((e.code === 'Tab'  && !e.shiftKey) || (e.code === 'ArrowRight' && e.ctrlKey)) {
             e.preventDefault();
             dayInput.focus();
           }
         }
-    
+
         // helper for getting cooke with specified name
         const getCookieDate = name => {
           const cookieArr = document.cookie.split(";");
@@ -39,7 +39,7 @@ import moment from 'moment';
           }
           return null;
         }
-    
+
         // compare cookie value against age limit
         const isOldEnough = (date) => {
           if (moment.isMoment(date)) {
@@ -47,7 +47,7 @@ import moment from 'moment';
           }
           return false;
         }
-    
+
         // allow only numbers and max 2 characters length
         const checkValueLength = (event, field, limit) => {
           fieldset.removeClass('entry-gate-form__fieldset--error');
@@ -61,7 +61,7 @@ import moment from 'moment';
             event.preventDefault();
           }
         }
-    
+
         // display entry gate if cookie is not set or the value of cookie is not
         // enough
         if (isOldEnough(getCookieDate('dateOfBirth'))) {
@@ -73,51 +73,58 @@ import moment from 'moment';
           entryGate.attr("aria-hidden", "false");
           $(".layout-container").attr("aria-hidden", "true");
         }
-    
+
         dayInput.focus();
-    
+
         dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
         monthInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
         yearInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 4));
-    
+
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
           const givenDate = moment(`${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`);
-    
+
           if (!givenDate.isValid()) {
             // invalid date is entered
             fieldset.addClass('entry-gate-form__fieldset--error');
             errorMessage.css({display: 'block'})
             return;
           }
-    
+
           if (!isOldEnough(givenDate)) {
             // under the age limit, show error overlay instead of entry gate
             entryGate.addClass('age-error');
             $('.entry-gate__error-link', this)[0].focus();
-    
+
             $('.entry-gate__error-link', this)[0].onkeydown = function(e) {
               if (e.code === 'Tab' && e.shiftKey) {
                   e.preventDefault();
                   $('.entry-gate__error-link', this)[1].focus();
               }
             }
-    
+
             $('.entry-gate__error-link', this)[1].onkeydown = function(e) {
               if (e.code === 'Tab'  && !e.shiftKey) {
                 e.preventDefault();
                 $('.entry-gate__error-link', this)[0].focus();
               }
             }
-    
             return;
           }
-    
+
           // over the age limit, set cookie and hide entry gate
           document.cookie = `dateOfBirth=${givenDate.format('YYYY-MM-DD')}; path=/`;
           entryGate.css({display: 'none'});
           $(".layout-container").attr("aria-hidden", "false");
           entryGate.attr("aria-hidden", "true");
+          if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+              event: 'formSubmit',
+              pageName: document.title,
+              componentName: 'entry-gate',
+              formName: 'Entry Gate Form',
+            });
+          }
         })
       })
     },

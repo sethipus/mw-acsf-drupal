@@ -135,6 +135,22 @@
       position: relative;
       margin-bottom: 10px;
       width: 100%;
+      overflow: hidden;
+      height: 37.5rem;
+
+      @include medium {
+        height: 46.6rem;
+      }
+
+      @include xl {
+        height: 61.7rem;
+      }
+
+      img {
+        position: absolute;
+        z-index: 0;
+        height: auto;
+      }
     }
 
     &__border {

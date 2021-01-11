@@ -475,13 +475,13 @@ class ConfigForm extends ConfigFormBase {
         }
         else {
           $message = $this->t('Could not complete Salsify data import. No product data is available')->render();
-          $this->logger(self::SALSIFY_LOGGER_CHANNEL)->error($message);
+          $this->logger(static::SALSIFY_LOGGER_CHANNEL)->error($message);
           $this->messenger()->addError($message);
         }
       }
       catch (MissingDataException $e) {
         $message = $this->t('A error occurred while making the request to Salsify. Check the API settings and try again.')->render();
-        $this->logger(self::SALSIFY_LOGGER_CHANNEL)->error($message);
+        $this->logger(static::SALSIFY_LOGGER_CHANNEL)->error($message);
         $this->messenger()->addError($message);
       }
       return;
@@ -649,7 +649,7 @@ class ConfigForm extends ConfigFormBase {
    * Finished callback for batch.
    */
   public static function finished($success, $results, $operations) {
-    \Drupal::logger(self::SALSIFY_LOGGER_CHANNEL)
+    \Drupal::logger(static::SALSIFY_LOGGER_CHANNEL)
       ->info(t(
       'The Salsify data import is complete. @created @updated', [
         '@created' => 'Created products: ' . implode(', ', $results['created_products'] ?? []) . '.',

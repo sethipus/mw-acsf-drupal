@@ -1,5 +1,5 @@
-field_id: 'ATF Image 3'
-salsify_id: 'ATF Image 3'
+field_id: 'CMS: Image 3'
+salsify_id: 'CMS: Image 3'
 salsify_data_type: digital_asset
 entity_type: node
 bundle: product_variant

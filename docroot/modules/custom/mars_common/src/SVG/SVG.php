@@ -224,4 +224,26 @@ class SVG {
     }
   }
 
+  /**
+   * Returns an SVG object without size information.
+   *
+   * @return \Drupal\mars_common\SVG\SVG
+   *   The new SVG object.
+   */
+  public function withoutOpacityInfo(): self {
+    $dom = new \DOMDocument();
+    $dom->loadXML($this->content);
+    $xpath = new \DOMXPath($dom);
+    /** @var \DOMNodeList $elements */
+    $elements = $xpath->query('//*');
+
+    /** @var \DOMNode $element */
+    foreach ($elements as $element) {
+      $element->removeAttribute('opacity');;
+    }
+
+    $content = $dom->saveXML();
+    return new self($content, $this->id);
+  }
+
 }

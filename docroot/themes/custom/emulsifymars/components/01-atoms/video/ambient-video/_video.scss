@@ -8,10 +8,8 @@
   }
 
   .ambient-video__control[data-state="play"] {
-    position: absolute;
-    z-index: 1;
-    border-radius: 50%;
-    border: hidden;
+    @include playbutton;
+
     top: 15px;
     right: 15px;
     left: auto;
@@ -20,22 +18,11 @@
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     background-color: rgba(255, 255, 255, 0.2);
 
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:focus {
-      outline: 0;
-    }
-
     >div {
-      width: 0;
-      height: 0;
       border-top: 12px solid transparent;
       border-bottom: 12px solid transparent;
       border-left: 20px solid clr(player);
       border-left-color: white;
-      margin: auto 35%
     }
 
     @include medium {
@@ -47,29 +34,19 @@
 
     @include xl {
       top: 40px;
-      right: calc(2% + 40px);
+      right: calc(5% + 40px);
     }
   }
 
   .ambient-video__control[data-state="pause"] {
-    position: absolute;
-    z-index: 1;
+    @include pausebutton;
+
     width: 50px;
     height: 50px;
     top: 15px;
     right: 15px;
     left: auto;
-    border-radius: 50%;
-    border: hidden;
     background-color: clr(background-button);
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:focus {
-      outline: 0;
-    }
 
     >div {
       width: 14px;
@@ -88,7 +65,7 @@
 
     @include xl {
       top: 40px;
-      right: calc(2% + 40px);
+      right: calc(5% + 40px);
     }
   }
 }

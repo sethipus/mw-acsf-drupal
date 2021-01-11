@@ -27,8 +27,10 @@
 
   {# Eyebrow #}
   {% if recipe_card_eyebrow %}
-    {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-      eyebrow_text: recipe_card_eyebrow
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: recipe_card_eyebrow,
+      heading_level: 3,
+      heading_base_class: 'eyebrow'
     } %}
   {% endif %}
 

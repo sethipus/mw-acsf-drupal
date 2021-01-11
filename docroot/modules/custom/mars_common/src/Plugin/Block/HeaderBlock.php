@@ -241,6 +241,11 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#logo'] = $theme_settings['logo']['path'] ?? '';
 
+    $theme_logo_alt = $this->themeConfiguratorParser->getLogoAltFromTheme();
+    $build['#logo_alt'] = ($theme_logo_alt)
+      ? $this->languageHelper->translate($theme_logo_alt)
+      : $theme_logo_alt;
+
     $build['#alert_banner_text'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_text']['value']);
     $build['#alert_banner_url'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_url']);
     $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);

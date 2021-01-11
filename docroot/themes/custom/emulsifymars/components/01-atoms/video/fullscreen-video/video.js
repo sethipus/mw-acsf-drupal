@@ -176,7 +176,7 @@ Drupal.behaviors.fullscreenVideoPlayer = {
           if (!videoElements('progress-time--inner').getAttribute('max')) videoElements('progress-time--inner').setAttribute('max', videoElements('video').duration);
           videoElements('progress-time--inner').value = videoElements('video').currentTime;
           videoElements('progress-time--progress-bar').style.width = Math.floor((videoElements('video').currentTime / videoElements('video').duration) * 100) + '%';
-          videoElements('progress-time--duration').innerHTML = handleDuration(videoElements('video').currentTime) + '/'+ handleDuration(videoElements('video').duration);
+          videoElements('progress-time--duration').innerHTML = parseFloat(videoElements('video').currentTime).toFixed(2) + '/' + videoElements('video').duration.toFixed(2);
         });
 
         // React to the user clicking within the progress bar
@@ -291,10 +291,6 @@ Drupal.behaviors.fullscreenVideoPlayer = {
         } else if (videoContainer.msRequestFullscreen) videoContainer.msRequestFullscreen();
         setFullscreenData(videoContainer, videoElements, true);
       }
-    }
-
-    var handleDuration = function(time) {
-      return `${Math.floor(time/60)}:${time%60 > 10 ? Math.floor(time%60) : '0' + Math.floor(time%60)}`
     }
 
     // Obtain handles to main elements
