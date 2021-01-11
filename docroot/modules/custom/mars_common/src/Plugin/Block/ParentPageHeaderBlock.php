@@ -175,14 +175,29 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $form = parent::buildConfigurationForm($form, $form_state);
     $config = $this->getConfiguration();
 
+    $block_type_value = $config['background_options'] ?? self::KEY_OPTION_DEFAULT;
+    $submitted_input = $form_state->getUserInput()['settings'] ?? [];
+    $type_for_validation = $submitted_input['background_options'] ?? $block_type_value;
+
     $form['eyebrow'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Eyebrow'),
       '#maxlength' => 30,
-      '#required' => TRUE,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+      ]),
       '#states' => [
         'visible' => [
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
+          ],
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
+        'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
           ],
@@ -196,10 +211,21 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 55,
-      '#required' => TRUE,
       '#default_value' => $this->configuration['title'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+      ]),
       '#states' => [
         'visible' => [
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
+          ],
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
+        'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
           ],
@@ -259,10 +285,21 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
       '#maxlength' => 255,
-      '#required' => TRUE,
       '#default_value' => $this->configuration['description'] ?? '',
+      '#required' => in_array($type_for_validation, [
+        self::KEY_OPTION_DEFAULT,
+        self::KEY_OPTION_IMAGE,
+      ]),
       '#states' => [
         'visible' => [
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
+          ],
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
+        'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
           ],
