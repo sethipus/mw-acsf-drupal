@@ -73,6 +73,10 @@
     border-radius: 1rem;
     max-height: 31.7rem;
     overflow: hidden;
+
+    &:focus-within {
+      border: 2px solid black;
+    }
   }
 
   .social-feed-swiper-container .swiper-button-prev, .social-feed-swiper-container .swiper-button-next  {
