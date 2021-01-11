@@ -18,6 +18,11 @@
   &__content {
     position: relative;
     overflow: hidden;
+
+    @include large {
+      padding-bottom: 5rem;
+    }
+
   }
 
   .white-background {
