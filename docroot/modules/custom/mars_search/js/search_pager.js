@@ -19,7 +19,7 @@
           }
         }
         return resultQuery;
-      }
+      };
 
       $(selectorCardGrid, context).on('click', function (e) {
         e.preventDefault();
@@ -76,6 +76,49 @@
           }
         });
       });
+
+      const isMobileDevice = function () {
+        return (window.innerWidth <= 768);
+      };
+
+      const initState = function () {
+
+        $('.card-grid-results').each(function () {
+
+          var query = currentQuery();
+          query.grid_type = $(this).attr('data-layer-grid-type');
+          query.action_type = 'results';
+          if (query.grid_type === 'grid') {
+            query.grid_id = $(this).attr('data-layer-grid-id');
+            query.page_id = $(this).attr('data-layer-page-id');
+          }
+          query.mobile_device = isMobileDevice();
+          var selectorContext = $(this);
+          var searchItems = selectorContext.find('.ajax-card-grid__content').find('.ajax-card-grid__items');
+          query.offset = searchItems.children().length;
+          $.ajax({
+            url: '/search-callback',
+            data: query,
+            success: function (data) {
+              if (data.results !== null) {
+                data.results.forEach(function(element) {
+                  var elementWrapper = document.createElement('div');
+                  elementWrapper.className = 'ajax-card-grid__item_wrapper';
+                  elementWrapper.innerHTML = element;
+                  searchItems.append(elementWrapper);
+                  Drupal.behaviors.productCard.attach(searchItems);
+                });
+                if (!data.pager) {
+                  selectorContext.find('.ajax-card-grid__content')
+                    .find('.ajax-card-grid__more-link').removeClass('active');
+                }
+              }
+            }
+          });
+        });
+      };
+
+      initState();
     }
   };
 })(jQuery, Drupal, drupalSettings);

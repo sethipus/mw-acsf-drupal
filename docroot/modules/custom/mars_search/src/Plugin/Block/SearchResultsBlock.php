@@ -80,6 +80,12 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   public function build() {
     $build = [];
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('search_page');
+
+    // Results will be populated after ajax request. It's not possible to
+    // know right desktop type without page inner width.
+    $build['#items'] = [];
+    $query_search_results['results'] = [];
+
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets());
 
     // "See more" link should be visible only if it makes sense.

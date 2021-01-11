@@ -207,7 +207,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
           $results[2]['#items'][$key] = $this->renderer->render($item);
         }
         $json_output['no_results'] = !empty($results[2]['#no_results']) ? $this->renderer->render($results[2]['#no_results']) : '';
-        $json_output['pager'] = ($results[0]['limit'] > count($results[2]['#items'])) ? 0 : 1;
+        $json_output['pager'] = ($results[0]['limit'] >= $results[1]['resultsCount']) ? 0 : 1;
         $json_output['results'] = $results[2]['#items'];
         $json_output['results_count'] = $results[1]['resultsCount'];
         $json_output['search_key'] = $results[0]['keys'];

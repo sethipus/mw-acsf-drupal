@@ -9,6 +9,7 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class SearchBuilder.
@@ -81,6 +82,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   protected $configFactory;
 
   /**
+   * Current request.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  protected $request;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -88,7 +96,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     MenuLinkTreeInterface $menuLinkTree,
     ThemeConfiguratorParser $themeConfiguratorParser,
     ConfigFactoryInterface $configFactory,
-    SearchProcessFactoryInterface $searchProcessor
+    SearchProcessFactoryInterface $searchProcessor,
+    RequestStack $request
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->menuLinkTree = $menuLinkTree;
@@ -99,6 +108,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
+    $this->request = $request->getMasterRequest();
   }
 
   /**
@@ -118,11 +128,19 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
     $searcher_key = static::SEARCH_PAGE_QUERY_ID;
+
+    $mobile_device = $this->request->query->get('mobile_device');
+    $is_mobile = (isset($mobile_device) && $mobile_device == 'true') ? TRUE : FALSE;
+
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
         $searchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
 
+        $searchOptions['limit'] = 8;
+        if ($is_mobile) {
+          $searchOptions['limit'] = 4;
+        }
         if (!empty($config['top_results_wrapper']['top_results'])) {
           $top_result_ids = array_map(function ($value) {
             return $value['target_id'];
@@ -135,6 +153,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
           $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
         }
         $searcher_key = "grid_{$grid_id}";
+        break;
+
+      case 'search_page':
+        $searchOptions['limit'] = 12;
+        if ($is_mobile) {
+          $searchOptions['limit'] = 8;
+        }
         break;
 
       case 'faq':
