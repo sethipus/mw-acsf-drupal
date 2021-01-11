@@ -181,6 +181,16 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#maxlength' => 30,
       '#required' => TRUE,
       '#default_value' => $this->configuration['eyebrow'] ?? '',
+      '#states' => [
+        'visible' => [
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
+          ],
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
+      ],
     ];
     $form['title'] = [
       '#type' => 'textfield',
@@ -188,6 +198,16 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#maxlength' => 55,
       '#required' => TRUE,
       '#default_value' => $this->configuration['title'] ?? '',
+      '#states' => [
+        'visible' => [
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
+          ],
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
+      ],
     ];
     $form['background_options'] = [
       '#type' => 'radios',
@@ -241,6 +261,16 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#maxlength' => 255,
       '#required' => TRUE,
       '#default_value' => $this->configuration['description'] ?? '',
+      '#states' => [
+        'visible' => [
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
+          ],
+          [
+            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
+          ],
+        ],
+      ],
     ];
 
     return $form;
