@@ -5,6 +5,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
     attach(context) {
 
       $(context).find('.recommendations').once('recommendationsCarousel').each(function(){
+        const $recommendationContainer = $(this);
          // init swiper
         Swiper.use([Navigation, Pagination, Scrollbar]);
 
@@ -75,13 +76,16 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           const lockCarousel = () => {
             swiper.navigation.nextEl.className += " hide-arrow";
             swiper.navigation.prevEl.className += " hide-arrow";
-            context.querySelector(".swiper-wrapper").className += " no-carousel swiper-no-swiping"
+            swiper.setTranslate(0);
+            $(".swiper-wrapper", $recommendationContainer).addClass("no-carousel swiper-no-swiping");
+            swiper.update();
           }
 
           const unlockCarousel = () => {
             swiper.navigation.nextEl.classList.remove("hide-arrow");
             swiper.navigation.prevEl.classList.remove("hide-arrow");
-            $(".swiper-wrapper", context).removeClass("no-carousel swiper-no-swiping");
+            $(".swiper-wrapper", $recommendationContainer).removeClass("no-carousel swiper-no-swiping");
+            swiper.update();
           };
 
           $(window).on("resize", _.debounce(checkSlides, 200));
