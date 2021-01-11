@@ -186,7 +186,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#default_value' => $this->configuration['eyebrow'] ?? '',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
-        self::KEY_OPTION_IMAGE,
       ]),
       '#states' => [
         'visible' => [
@@ -200,9 +199,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
         'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
-          ],
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
           ],
         ],
       ],
@@ -214,7 +210,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#default_value' => $this->configuration['title'] ?? '',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
-        self::KEY_OPTION_IMAGE,
       ]),
       '#states' => [
         'visible' => [
@@ -228,9 +223,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
         'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
-          ],
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
           ],
         ],
       ],
@@ -288,7 +280,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => in_array($type_for_validation, [
         self::KEY_OPTION_DEFAULT,
-        self::KEY_OPTION_IMAGE,
       ]),
       '#states' => [
         'visible' => [
@@ -302,9 +293,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
         'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
-          ],
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
           ],
         ],
       ],
