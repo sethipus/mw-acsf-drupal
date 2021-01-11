@@ -27,6 +27,25 @@
     }
   }
 
+  ::placeholder {
+    font-family: variable(secondary-font);
+    color: clr(subcolor-3);
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 1.4px;
+
+    @include medium {
+      font-size: 18px;
+      line-height: 25.2px;
+    }
+
+    @include large {
+      color: clr(primary);
+      font-size: 18px;
+      line-height: 25.2px;
+    }
+  }
+
   & .search-input-wrapper {
 
     @include large {
@@ -83,14 +102,15 @@
         .suggestions-links {
           position: relative;
           z-index: 10;
-          
+          margin-top: 10px;
+
           li {
             margin-bottom: 10px;
-  
+
             & a {
               color: clr(subcolor-3);
               text-decoration: none;
-  
+
               @include large {
                 color: clr(primary);
               }
@@ -180,8 +200,16 @@
           color: clr(subcolor-3);
           width: 90%;
           background-color: transparent;
-          margin-left: 25px;
           outline: none;
+          padding: 0 10px 20px 35px;
+          font-size: 14px;
+          line-height: 14px;
+          letter-spacing: 1.4px;
+
+          @include medium {
+            font-size: 18px;
+            line-height: 25.2px;
+          }
 
           @include large {
             width: 100%;
@@ -190,12 +218,10 @@
             color: clr(primary);
             border: 1px solid clr(subcolor-4);
             background-color: clr(subcolor-3);
-            border-bottom: none;
             outline: none;
             font-size: 18px;
-            line-height: 140%;
-            padding-left: 50px;
-            margin-left: 0;
+            line-height: 25.2px;
+            padding: 0 10px 0px 50px;
           }
         }
 
