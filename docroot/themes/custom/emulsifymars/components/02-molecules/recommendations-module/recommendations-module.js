@@ -12,7 +12,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           const swiper = new Swiper(this, {
             slidesPerView: "auto",
             spaceBetween: 20,
-            slidesOffsetBefore: 50,
+            slidesOffsetBefore: 20,
             noSwipingClass: "swiper-no-swiping",
             navigation: {
               nextEl: ".swiper-button-next",
@@ -23,7 +23,11 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             },
             breakpoints: {
               768: {
+                slidesOffsetBefore: 40,
+              },
+              1440: {
                 spaceBetween: 30,
+                slidesOffsetBefore: 39,
               },
             },
           });
@@ -59,8 +63,8 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             let screenWidth = window.innerWidth;
             let slidesCount = swiper.slides.length;
 
-            if (  ((screenWidth > 1440) && (slidesCount <= 4)) || // Wide Screen View && equal or less then 4 slides
-                  ((screenWidth > 768 && screenWidth < 1440) && (slidesCount <= 2)) || // Tablet View && equal or less then 2 slides
+            if (  ((screenWidth >= 1440) && (slidesCount <= 4)) || // Wide Screen View && equal or less then 4 slides
+                  ((screenWidth >= 768) && (slidesCount <= 2)) || // Tablet View && equal or less then 2 slides
                   (slidesCount <= 1)) { // Slides count equal or less then 1
               lockCarousel();
             } else {
@@ -80,7 +84,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             $(".swiper-wrapper", context).removeClass("no-carousel swiper-no-swiping");
           };
 
-          $(window).on("resize", _.debounce(() => {checkSlides()}, 200 ));
+          $(window).on("resize", _.debounce(checkSlides, 200));
           $(window).on("load", checkSlides);
           $(window).on("load", productCardListener);
           $(".swiper-button-next", this).once('recommendationsCarousel').on("click", productCardListener);
