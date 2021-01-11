@@ -72,12 +72,6 @@
     }
   }
 
-  .swiper-wrapper{
-    @media (max-width: 600px) {
-      margin-left: -8%;
-    }
-  }
-
   // increasing specificity to avoid using !important
   .recommendations-swiper-container.swiper-container-horizontal
     > .swiper-scrollbar {
