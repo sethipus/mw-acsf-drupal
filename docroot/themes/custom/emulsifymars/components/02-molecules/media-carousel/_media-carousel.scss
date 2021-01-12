@@ -120,6 +120,18 @@
       height: 100%;
     }
 
+    video {
+      height: 25rem;
+
+      @include medium {
+        height: 43.4rem;
+      }
+  
+      @include xl {
+        height: 63.5rem;
+      }
+    }
+
     #fullscreen-play[data-state="play"] {
       top: calc(50% - 7rem / 2);;
       left: calc(50% - 6.6rem / 2);;

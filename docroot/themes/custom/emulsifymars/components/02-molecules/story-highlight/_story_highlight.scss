@@ -18,6 +18,11 @@
   &__content {
     position: relative;
     overflow: hidden;
+
+    @include large {
+      padding-bottom: 5rem;
+    }
+
   }
 
   .white-background {
@@ -29,7 +34,7 @@
     height: 70%;
 
     @include large {
-      height: 65%;
+      height: 63%;
     }
   }
 
@@ -143,6 +148,7 @@
 
     @include large {
       width: 55%;
+      max-width: 78rem;
     }
   }
 
@@ -164,7 +170,14 @@
     @include large {
       left: 0;
       width: 33%;
+      max-width: 43rem;
+      margin-right: 0;
     }
+
+    @include xl {
+      margin-right: 6.7rem;
+    }
+
   }
 
   & .fullscreen-video {

@@ -90,6 +90,7 @@ Drupal.behaviors.searchFilterBehaviour = {
     applyFiltersButtons.forEach(function (button) {
       button.addEventListener('click', function(event) {
         event.preventDefault();
+        event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
         processFilters(getGridBlock(event));
       });
     });
@@ -97,8 +98,10 @@ Drupal.behaviors.searchFilterBehaviour = {
     filterCheckboxes.forEach(checkbox => {
       checkbox.addEventListener('keypress', (e) => {
         if (e.keyCode === 13) {
+          const grid = getGridBlock(e);
           let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
+          updateCounters(grid);
           enableApplyButtons();
         }
       });
@@ -106,6 +109,7 @@ Drupal.behaviors.searchFilterBehaviour = {
 
     const getGridBlock = (event) => {
       const target = event.target;
+      // Add ', .search-filter-container' to closest parameter for storybook
       return target.closest('[data-block-plugin-id]');
     }
 
@@ -358,7 +362,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           'event': eventName,
           [eventPrefix + 'Term']: search_key,
           [eventPrefix + 'ResultsNum']: results_count
-        });    
+        });
       }
     }
 

@@ -20,9 +20,11 @@
   <div class="article-card__content">
     {# Eyebrow #}
     {% if article_card_eyebrow %}
-      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-        eyebrow_text: article_card_eyebrow
-      } %}
+      {% include "@atoms/text/headings/_heading.twig" with {
+      heading: article_card_eyebrow,
+      heading_level: 3,
+      heading_base_class: 'eyebrow'
+    } %}
     {% endif %}
 
     {% include "@atoms/text/headings/_heading.twig" with {

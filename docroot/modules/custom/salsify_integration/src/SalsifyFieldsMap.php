@@ -11,6 +11,7 @@ class SalsifyFieldsMap {
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT = [
     'field_product_sku' => ['salsify:id' => 'GTIN', 'salsify:data_type' => 'string'],
+    'field_product_family_master' => ['salsify:id' => 'CMS: Product Variant Family Master', 'salsify:data_type' => 'boolean'],
     'field_product_size' => ['salsify:id' => 'Net Content', 'salsify:data_type' => 'string'],
     'field_product_allergen_statement' => ['salsify:id' => 'Allergen Statement', 'salsify:data_type' => 'string'],
     // 'field_product_allergen_warnings' => 'Allergen Statement',
@@ -50,10 +51,10 @@ class SalsifyFieldsMap {
     'field_product_iron' => ['salsify:id' => 'Iron', 'salsify:data_type' => 'string'],
     'field_product_iron_daily' => ['salsify:id' => 'Iron Pct Daily Value', 'salsify:data_type' => 'string'],
     'field_product_key_image' => ['salsify:id' => 'CMS: Image 1', 'salsify:data_type' => 'digital_asset'],
-    'field_product_image_1' => ['salsify:id' => 'ATF Image 2', 'salsify:data_type' => 'digital_asset'],
-    'field_product_image_2' => ['salsify:id' => 'ATF Image 3', 'salsify:data_type' => 'digital_asset'],
-    'field_product_image_3' => ['salsify:id' => 'ATF Image 4', 'salsify:data_type' => 'digital_asset'],
-    'field_product_image_4' => ['salsify:id' => 'ATF Image 5', 'salsify:data_type' => 'digital_asset'],
+    'field_product_image_1' => ['salsify:id' => 'CMS: Image 2', 'salsify:data_type' => 'digital_asset'],
+    'field_product_image_2' => ['salsify:id' => 'CMS: Image 3', 'salsify:data_type' => 'digital_asset'],
+    'field_product_image_3' => ['salsify:id' => 'CMS: Image 4', 'salsify:data_type' => 'digital_asset'],
+    'field_product_image_4' => ['salsify:id' => 'CMS: Image 5', 'salsify:data_type' => 'digital_asset'],
   ];
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT = [
@@ -61,10 +62,10 @@ class SalsifyFieldsMap {
     'field_product_brand' => ['salsify:id' => 'Brand Name', 'salsify:data_type' => 'enumerated'],
     'field_product_sub_brand' => ['salsify:id' => 'Sub Brand', 'salsify:data_type' => 'string'],
     'field_product_segment' => ['salsify:id' => 'Amazon Segment', 'salsify:data_type' => 'string'],
-    'field_product_name' => ['salsify:id' => 'Generic Product Name', 'salsify:data_type' => 'string'],
-    'field_product_description' => ['salsify:id' => 'Generic Product Description', 'salsify:data_type' => 'string'],
+    'field_product_name' => ['salsify:id' => 'CMS: Product Name', 'salsify:data_type' => 'string'],
+    'field_product_description' => ['salsify:id' => 'CMS: Description', 'salsify:data_type' => 'string'],
     // Enumirated.
-    'field_product_format' => ['salsify:id' => 'Pack Type', 'salsify:data_type' => 'enumerated'],
+    'field_product_format' => ['salsify:id' => 'CMS: Format', 'salsify:data_type' => 'enumerated'],
     'field_product_market' => ['salsify:id' => 'CMS: Market', 'salsify:data_type' => 'string'],
     // Enumirated.
     'field_product_trade_description' => ['salsify:id' => 'Trade Item Description', 'salsify:data_type' => 'enumerated'],

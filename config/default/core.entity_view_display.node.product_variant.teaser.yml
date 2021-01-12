@@ -18,6 +18,7 @@ dependencies:
     - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
     - field.field.node.product_variant.field_product_dietary_fiber
+    - field.field.node.product_variant.field_product_family_master
     - field.field.node.product_variant.field_product_image_1
     - field.field.node.product_variant.field_product_image_1_override
     - field.field.node.product_variant.field_product_image_2
@@ -106,6 +107,7 @@ hidden:
   field_product_diet_allergens: true
   field_product_dietary_daily: true
   field_product_dietary_fiber: true
+  field_product_family_master: true
   field_product_image_1: true
   field_product_image_1_override: true
   field_product_image_2: true

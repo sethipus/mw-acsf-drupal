@@ -107,6 +107,7 @@ module:
   mars_google_analytics: 0
   mars_lighthouse: 0
   mars_onetrust: 0
+  mars_print: 0
   mars_product: 0
   mars_recipes: 0
   mars_recommendations: 0

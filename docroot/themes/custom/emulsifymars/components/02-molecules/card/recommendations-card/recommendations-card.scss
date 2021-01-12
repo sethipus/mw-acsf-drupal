@@ -17,7 +17,10 @@
     overflow: hidden;
     display: flex;
     align-items: center;
+    position: absolute;
+    bottom: 0;
     max-height: 31.8rem;
+    max-width: 31.8rem;
     height: 100%;
     width: auto;
     box-sizing: border-box;
@@ -39,7 +42,7 @@
 
   .recommendations-card-heading {
     padding-top: 2rem;
-    margin-bottom: 2.8rem;
+    margin: 0 0 2.8rem 0;
     flex-grow: unset;
     text-transform: uppercase;
     overflow: hidden;

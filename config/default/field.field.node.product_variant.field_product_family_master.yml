@@ -1,0 +1,28 @@
+uuid: 4adda09c-66f0-4e97-b5c7-de9b685ef040
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_family_master
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_family_master
+field_name: field_product_family_master
+entity_type: node
+bundle: product_variant
+label: 'Family master'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'yes'
+  off_label: 'no'
+field_type: boolean

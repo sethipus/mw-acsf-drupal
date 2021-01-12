@@ -230,6 +230,7 @@
     font-size: 14px;
     color: clr(text-inverse);
     margin-right: 10px;
+    min-width: 11rem;
 
     @include medium {
       margin-right: 20px;

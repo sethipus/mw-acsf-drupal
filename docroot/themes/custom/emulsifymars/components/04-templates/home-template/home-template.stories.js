@@ -10,6 +10,8 @@ import homeCarouselData from '../../02-molecules/media-carousel/media-carousel.y
 
 import { useEffect } from '@storybook/client-api';
 
+import '../../02-molecules/content-feature/content-feature';
+
 export default { title: 'Templates/Home Template'};
 
 export const home = () => {

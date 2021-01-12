@@ -23,6 +23,12 @@
     }
   }
 
+  &:last-child .wrapper {
+    @include medium {
+      padding-bottom: 5.8rem;
+    }
+  }
+
   &__left {
     font-weight: 150;
     flex: 2 0 58%;
