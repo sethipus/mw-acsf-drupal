@@ -39,6 +39,7 @@
           $('.search-autocomplete-wrapper:hidden').slideDown(250, function(){
             $(this).addClass('opened');
             $(this).find('.mars-search-autocomplete-suggestions-wrapper').appendTo(this);
+            $(this).find('.mars-search-overlay-form .mars-autocomplete-field').focus();
           });
         });
   

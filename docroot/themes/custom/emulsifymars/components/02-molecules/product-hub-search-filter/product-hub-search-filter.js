@@ -90,6 +90,7 @@ Drupal.behaviors.searchFilterBehaviour = {
     applyFiltersButtons.forEach(function (button) {
       button.addEventListener('click', function(event) {
         event.preventDefault();
+        event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
         processFilters(getGridBlock(event));
       });
     });
