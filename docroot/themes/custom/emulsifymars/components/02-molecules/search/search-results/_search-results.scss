@@ -29,7 +29,7 @@
       font-family: variable(secondary-font);
       color: clr(subcolor-3);
       font-size: 14px;
-      line-height: 1.4em;
+      line-height: 19.6px;
       text-align: left;
       margin: 20px 0 0;
       position: relative;
@@ -37,6 +37,13 @@
   
       @include medium {
         margin-top: 30px;
+        font-size: 12px;
+        line-height: 13.2px;
+      }
+
+      @include xl {
+        font-size: 14px;
+        line-height: 15.4px;
       }
     }
   }
