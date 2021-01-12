@@ -197,7 +197,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $config = [];
     $query_parameters['grid_id'] = empty($query_parameters['grid_id']) ? 1 : $query_parameters['grid_id'];
     if (!empty($query_parameters['grid_type']) && $query_parameters['grid_type'] == 'grid') {
-      $config = $this->getComponentConfig($query_parameters['page_id'], $query_parameters['grid_id']);
+      $config = $this->getComponentConfig($query_parameters['page_id'], $query_parameters['grid_id']) ?: [];
     }
 
     switch ($query_parameters['action_type']) {
