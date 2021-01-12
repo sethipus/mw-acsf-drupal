@@ -378,7 +378,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
 }
 
 /**
- * ThemeConfiguratorParser uses file_create_url().
+ * HomepageHeroBlock uses file_create_url().
  */
 namespace Drupal\mars_banners\Plugin\Block;
 
