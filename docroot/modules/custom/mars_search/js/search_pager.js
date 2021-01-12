@@ -33,6 +33,11 @@
         var selectorContext = $(this);
         var searchItems = selectorContext.closest('.ajax-card-grid__content').find('.ajax-card-grid__items');
         query.offset = searchItems.children().length;
+
+        if (query.grid_type === 'grid' || query.grid_type === 'search_page') {
+          query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(query.grid_type);
+        }
+
         $.ajax({
           url: '/search-callback',
           data: query,
@@ -77,10 +82,6 @@
         });
       });
 
-      const isMobileDevice = function () {
-        return (window.innerWidth <= 768);
-      };
-
       const initState = function () {
 
         $('.card-grid-results').each(function () {
@@ -92,7 +93,7 @@
             query.grid_id = $(this).attr('data-layer-grid-id');
             query.page_id = $(this).attr('data-layer-page-id');
           }
-          query.mobile_device = isMobileDevice();
+          query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(query.grid_type);
           var selectorContext = $(this);
           var searchItems = selectorContext.find('.ajax-card-grid__content').find('.ajax-card-grid__items');
           query.offset = searchItems.children().length;
@@ -118,7 +119,26 @@
         });
       };
 
-      initState();
+      if (context === document) {
+        initState();
+      }
+    },
+
+    getLimitByGridType: function (grid_type) {
+
+      let width = window.innerWidth;
+      let limit = 8;
+
+      // For mobile and grid type.
+      if (grid_type == 'grid' && width <= 768) {
+        limit = 4;
+      }
+
+      // For mobile and search_page type.
+      if (grid_type == 'search_page' && width > 768) {
+        limit = 12;
+      }
+      return limit;
     }
   };
 })(jQuery, Drupal, drupalSettings);

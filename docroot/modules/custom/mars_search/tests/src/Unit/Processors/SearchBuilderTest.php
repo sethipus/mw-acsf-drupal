@@ -16,9 +16,6 @@ use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\Processors\SearchBuilder;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class SearchBuilderTest.
@@ -104,27 +101,6 @@ class SearchBuilderTest extends UnitTestCase {
   private $searchHelperMock;
 
   /**
-   * The Request stack mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\RequestStack
-   */
-  private $requestStackMock;
-
-  /**
-   * The Request mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\Request
-   */
-  private $requestMock;
-
-  /**
-   * The Request mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\ParameterBag
-   */
-  private $parameterBagMock;
-
-  /**
    * The mocked node view builder.
    *
    * @var \Drupal\Core\Entity\EntityViewBuilderInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -138,11 +114,6 @@ class SearchBuilderTest extends UnitTestCase {
     parent::setUp();
     $this->createMocks();
     \Drupal::setContainer($this->containerMock);
-
-    $this->requestStackMock
-      ->expects($this->any())
-      ->method('getMasterRequest')
-      ->willReturn($this->requestMock);
 
     $this->configFactoryMock
       ->expects($this->any())
@@ -191,8 +162,7 @@ class SearchBuilderTest extends UnitTestCase {
       $this->menuLinkTreeMock,
       $this->themeConfiguratorMock,
       $this->configFactoryMock,
-      $this->searchProcessFactoryMock,
-      $this->requestStackMock
+      $this->searchProcessFactoryMock
     );
   }
 
@@ -210,9 +180,6 @@ class SearchBuilderTest extends UnitTestCase {
     $this->searchQueryParserMock = $this->createMock(SearchQueryParserInterface::class);
     $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
     $this->nodeViewBuilder = $this->createMock(EntityViewBuilderInterface::class);
-    $this->requestStackMock = $this->createMock(RequestStack::class);
-    $this->requestMock = $this->createMock(Request::class);
-    $this->parameterBagMock = $this->createMock(ParameterBag::class);
   }
 
   /**
@@ -229,13 +196,7 @@ class SearchBuilderTest extends UnitTestCase {
   /**
    * Build search results.
    */
-  public function testBuildSearchResultsWhenMobile() {
-    $this->requestMock->query = $this->parameterBagMock;
-
-    $this->parameterBagMock
-      ->expects($this->any())
-      ->method('get')
-      ->willReturn('true');
+  public function testBuildSearchResults() {
 
     $this->searchQueryParserMock
       ->expects($this->any())
@@ -293,7 +254,6 @@ class SearchBuilderTest extends UnitTestCase {
           ],
         ],
         'cards_view' => FALSE,
-        'limit' => 4,
       ],
       [
         'resultsCount' => 1,
