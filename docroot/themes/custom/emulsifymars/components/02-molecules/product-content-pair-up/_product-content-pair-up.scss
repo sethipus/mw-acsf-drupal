@@ -68,6 +68,14 @@
 
       .supportive-card .wrapper {
         text-align: left;
+
+        @include xs {
+          padding-top: 0;
+        }
+
+        @include medium {
+          padding-top: 3rem;
+        }
       }
 
       .wrapper {
@@ -154,6 +162,14 @@
           color: clr(secondary);
           line-height: 5rem;
 
+          @include xs {
+            bottom: -5px;
+          }
+
+          @include medium {
+            bottom: 0;
+          }
+
           @include xl {
             line-height: 6rem;
           }
@@ -178,12 +194,12 @@
       z-index: $content-pair-supportive-card;
 
       @include medium {
-        top: 410px;
+        top: 450px;
         position: absolute;
       }
 
       @include xl {
-        top: 115px;
+        top: 85px;
         left: auto;
         right: 115px;
       }

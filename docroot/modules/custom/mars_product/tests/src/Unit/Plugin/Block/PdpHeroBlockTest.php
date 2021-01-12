@@ -212,6 +212,7 @@ class PdpHeroBlockTest extends UnitTestCase {
    */
   public function testValidBlockBuildProduct() {
     $product_node = $this->createProductMock('product');
+    $product_variant = $this->createProductMock('product_variant');
 
     $nodeContext = $this->createMock(Context::class);
     $nodeContext
@@ -234,6 +235,11 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('get')
       ->willReturn('0');
+
+    $this->productHelperMock
+      ->expects($this->any())
+      ->method('mainVariant')
+      ->willReturn($product_variant);
 
     $this->languageHelperMock
       ->method('getTranslation')

@@ -8,6 +8,7 @@ use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Database\Query\TableSortExtender;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\user\UserStorage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -43,6 +44,13 @@ class PollController extends ControllerBase {
   private $userStorage;
 
   /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * Constructs a new PollController.
    *
    * @param \Drupal\Core\Database\Connection $connection
@@ -51,11 +59,19 @@ class PollController extends ControllerBase {
    *   Route match interface.
    * @param \Drupal\user\UserStorage $user_storage
    *   User storage.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   Language manager.
    */
-  public function __construct(Connection $connection, RouteMatchInterface $route_match, UserStorage $user_storage) {
+  public function __construct(
+    Connection $connection,
+    RouteMatchInterface $route_match,
+    UserStorage $user_storage,
+    LanguageManagerInterface $language_manager
+  ) {
     $this->connection = $connection;
     $this->routeMatch = $route_match;
     $this->userStorage = $user_storage;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -65,7 +81,8 @@ class PollController extends ControllerBase {
     return new static(
       $container->get('database'),
       $container->get('current_route_match'),
-      $container->get('entity.manager')->getStorage('user')
+      $container->get('entity.manager')->getStorage('user'),
+      $container->get('language_manager')
     );
   }
 
@@ -138,7 +155,7 @@ class PollController extends ControllerBase {
       if ($row->uid) {
         $user = $this->userStorage->load($row->uid);
         if ($user) {
-          $username = $user->getUsername();
+          $username = $user->getAccountName();
         }
         else {
           $username = $this->t('Deleted user');
@@ -148,7 +165,9 @@ class PollController extends ControllerBase {
 
       $submissions_rows[] = [
         'data' => [
-          'date' => DrupalDateTime::createFromTimestamp($row->timestamp, date_default_timezone_get()),
+          'date' => DrupalDateTime::createFromTimestamp($row->timestamp, date_default_timezone_get(), [
+            'langcode' => $this->languageManager->getCurrentLanguage()->getId(),
+          ]),
           'hostname' => $row->hostname,
           'username' => $username,
           'choice' => $choice_options[$row->chid] ?? '',

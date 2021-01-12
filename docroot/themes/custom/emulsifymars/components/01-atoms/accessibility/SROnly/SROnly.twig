@@ -1,7 +1,7 @@
 {#
 /**
  * Available variables:
- * - sronly_content - the content of the link (typically text)
+ * - sronly_content - the content of the screen reader (text)
  * - sronly_base_class - the base class name
  * - sronly_modifiers - array of modifiers to add to the base classname
  * - sronly_blockname - blockname prepended to the base classname
@@ -13,8 +13,8 @@
 #}
 {% set sronly_base_class = sronly_base_class|default('sronly') %}
 
-<div {{ bem(sronly_base_class, sronly_modifiers, sronly_blockname) }}>
+<span {{ bem(sronly_base_class, sronly_modifiers, sronly_blockname) }}>
   {% block sronly_content %}
-    {{ sronly_content }}
+    {{ sronly_content | mt }}
   {% endblock %}
-</div>
+</span>

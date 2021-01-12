@@ -1,5 +1,6 @@
 {% set footer__base_class = 'footer' %}
-{% set modifier = legal_links_menu_items|length > 10 ? 'large' : 'small' %}
+{% set legal_links_modifier = legal_links_menu_items|length > 10 ? 'large' : 'small' %}
+{% set legal_full_width_modifier = social_menu_items|length == 0 ? 'full-width' : '' %}
 
 <footer {{ bem(footer__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('section', ['primary'], footer__base_class) }}>
@@ -7,9 +8,13 @@
       <div {{ bem('logo', [], footer__base_class) }}>
         {% block footer__logo %}
         <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }}>
-          {% include "@atoms/images/image/_image.twig" with {
-            image_base_class: 'logo__image',
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            output_image_tag: true,
+            image_alt: 'Logo',
+            image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
+            image_sizes: '212px',
             image_src: 'twix-logo.png',
+            responsive_image_blockname: 'logo',
           } %}
         </a>
         {% endblock %}
@@ -38,26 +43,28 @@
           {% endblock %}
         </div>
       {% endif %}
-      <div {{ bem('legal-links', [modifier], footer__base_class) }}>
+      <div {{ bem('legal-links', [legal_links_modifier, legal_full_width_modifier], footer__base_class) }}>
         {% block footer__legal_links %}
           {% include "@molecules/menus/legal-links/legal-links-menu.twig" %}
         {% endblock %}
       </div>
-      <div {{ bem('region-selector', [], footer__base_class) }}>
-        {% if regions|length > 0 %}
-          {% block footer__region_selector %}
-            {% include "@atoms/text/text/07-span.twig" with {
-              span_base_class: footer__base_class ~ '__section-header',
-              span_content: region_title,
-            } %}
-            {% include "@molecules/dropdown/dropdown.twig" with {
-              dropdown_selected_title: current_region_title,
-              dropdown_title: region_title,
-              dropdown_items: regions,
-            } %}
-          {% endblock %}
-        {% endif %}
-      </div>
+      {% if social_menu_items|length > 0 or regions|length > 0 %}
+        <div {{ bem('region-selector', [], footer__base_class) }}>
+          {% if regions|length > 0 %}
+            {% block footer__region_selector %}
+              {% include "@atoms/text/text/07-span.twig" with {
+                span_base_class: footer__base_class ~ '__section-header',
+                span_content: region_title,
+              } %}
+              {% include "@molecules/dropdown/dropdown.twig" with {
+                dropdown_selected_title: current_region_title,
+                dropdown_title: region_title,
+                dropdown_items: regions,
+              } %}
+            {% endblock %}
+          {% endif %}
+        </div>
+      {% endif %}
       <div {{ bem('info', [], footer__base_class) }}>
         {% block footer__info %}
           {% include "@atoms/text/text/01-paragraph.twig" with {
@@ -82,7 +89,7 @@
       <div {{ bem('corporate-tout', [], footer__base_class) }}>
         <div {{ bem('corporate-tout__text', []) }}>{{ corporate_tout_text }}</div>
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-          default_link_content: 'See All',
+          default_link_content: 'See All' | mt,
           default_link_attributes: corporate_tout_link_attributes,
           default_link_base_class: 'default-link',
           default_link_modifiers: ['light']

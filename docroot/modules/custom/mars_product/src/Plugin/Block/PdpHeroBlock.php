@@ -470,11 +470,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function getPdpSingleProductData($node) {
     $items = [];
     $i = 0;
+
+    /* @var \Drupal\node\NodeInterface $node */
+    $main_variant = $this->productHelper->mainVariant($node);
+
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size_id = $product_variant->id();
       $i++;
-      $state = $i == 1 ? 'true' : 'false';
+      $state = ($main_variant->id() == $product_variant->id()) ? 'true' : 'false';
       $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
         'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,

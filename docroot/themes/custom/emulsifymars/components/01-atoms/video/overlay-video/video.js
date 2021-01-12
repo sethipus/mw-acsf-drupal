@@ -121,13 +121,19 @@ Drupal.behaviors.overlayVideoPlayer = {
           document.querySelector('.overlay-video-modal').remove();
         });
 
+        document.addEventListener('keyup',function (event){
+          if (event.keyCode == 27) {
+            document.querySelector('.overlay-video-modal').remove();
+          }
+        });
+
         // As the video is playing, update the progress bar
         videoElements('video').addEventListener('timeupdate', function() {
           // For mobile browsers, ensure that the progress element's max attribute is set
           if (!videoElements('progress-time--inner').getAttribute('max')) videoElements('progress-time--inner').setAttribute('max', videoElements('video').duration);
           videoElements('progress-time--inner').value = videoElements('video').currentTime;
           videoElements('progress-time--progress-bar').style.width = Math.floor((videoElements('video').currentTime / videoElements('video').duration) * 100) + '%';
-          videoElements('progress-time--duration').innerHTML = parseFloat(videoElements('video').currentTime.toFixed(2)) + '/' + videoElements('video').duration;
+          videoElements('progress-time--duration').innerHTML = parseFloat(videoElements('video').currentTime).toFixed(2) + '/' + videoElements('video').duration.toFixed(2);
         });
 
         // React to the user clicking within the progress bar

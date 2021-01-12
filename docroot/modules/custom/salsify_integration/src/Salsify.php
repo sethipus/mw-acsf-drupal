@@ -209,12 +209,12 @@ class Salsify {
     $auth_method = $this->config->get('auth_method');
     $headers = [];
 
-    if ($auth_method == self::AUTH_METHOD_TOKEN) {
+    if ($auth_method == static::AUTH_METHOD_TOKEN) {
       $headers = [
         'Authorization' => 'Bearer ' . $this->getAccessToken(),
       ];
     }
-    if ($auth_method == self::AUTH_METHOD_SECRET) {
+    if ($auth_method == static::AUTH_METHOD_SECRET) {
       $headers = [
         'client_id' => $this->getClientId(),
         'client_secret' => $this->getClientSecret(),
@@ -394,7 +394,7 @@ class Salsify {
     $configs = [];
     foreach ($methods as $method) {
       $keys['method'] = $method;
-      $config_prefix = self::getConfigName($keys);
+      $config_prefix = static::getConfigName($keys);
       $configs += \Drupal::configFactory()->listAll($config_prefix);
     }
     $results = [];
@@ -425,7 +425,7 @@ class Salsify {
     \Drupal::moduleHandler()->alter('salsify_field_mapping_create', $values);
 
     if ($values) {
-      self::setConfig($values);
+      static::setConfig($values);
     }
   }
 
@@ -441,7 +441,7 @@ class Salsify {
     \Drupal::moduleHandler()->alter('salsify_field_mapping_update', $values);
 
     if ($values) {
-      self::setConfig($values);
+      static::setConfig($values);
     }
   }
 
@@ -452,7 +452,7 @@ class Salsify {
    *   The array of column name => value settings to use when matching the row.
    */
   public static function deleteFieldMapping(array $keys) {
-    self::deleteConfig($keys);
+    static::deleteConfig($keys);
   }
 
   /**
@@ -479,7 +479,7 @@ class Salsify {
    *   The values to write into the configuration element.
    */
   public static function setConfig(array $values) {
-    $config_name = self::getConfigName($values);
+    $config_name = static::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
     $config = \Drupal::service('config.factory')->getEditable($config_name);
     foreach ($values as $label => $value) {
@@ -495,7 +495,7 @@ class Salsify {
    *   The values used to lookup the  configuration element.
    */
   public static function deleteConfig(array $values) {
-    $config_name = self::getConfigName($values);
+    $config_name = static::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
     $config = \Drupal::service('config.factory')->getEditable($config_name);
     $config->delete();

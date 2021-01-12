@@ -184,7 +184,18 @@
         </div>
       </div>
       <div class="swiper-pagination"></div>
-      <div class="swiper-control" tabindex="0"><a href="#" class="playpause-icon"></a></div>
+      <div class="swiper-control" tabindex="0">
+        <a href="#" class="playpause-icon" role="button" aria-live="polite">
+          {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+            sronly_content: 'Play',
+            sronly_modifiers: ['play'],
+          } %}
+          {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+            sronly_content: 'Pause',
+            sronly_modifiers: ['pause'],
+          } %}
+        </a>
+      </div>
     </div>
   </div>
 </section>

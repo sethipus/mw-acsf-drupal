@@ -22,7 +22,9 @@
      data-layer-search-term="{{ data_layer.search_term }}"
      data-layer-search-results="{{ data_layer.search_results }}"
      data-layer-grid-type="search_page"
-     data-theme="{{ theme_styles }}">
+     data-theme="{{ theme_styles }}"
+     id="search-result-grid"
+     aria-live="polite">
 
   <div class="no-results-container">
     {% if no_results %}

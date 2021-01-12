@@ -3,12 +3,13 @@
 namespace Drupal\mars_recommendations\Plugin\DynamicRecommendationsStrategy;
 
 use Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginBase;
+use Drupal\node\NodeInterface;
 
 /**
  * Default Dynamic recommendations strategy plugin implementation.
  *
  * @DynamicRecommendationsStrategy(
- *   id = "landing",
+ *   id = "landing_page",
  *   label = @Translation("Landing"),
  *   description = @Translation("Campaign Dynamic recommendations strategy that returns nodes with the same Initiatives, Occasions or ones from Related Product."),
  *   fallback_plugin = "default",
@@ -44,19 +45,26 @@ class Landing extends DynamicRecommendationsStrategyPluginBase {
         return $value->id();
       }, $node->{$fieldname}->referencedEntities());
 
-      if ($entity_ids) {
-        $query = $this->nodeStorage->getQuery();
-        $query->condition('type', 'landing_page');
-        $query->condition($fieldname . '.target_id', $entity_ids ?: [], 'IN');
-        $query->condition('nid', $node->id(), '<>');
-        $query->range(0, $limit - count($nodes));
-        $results = $query->execute();
+      $query = $this->nodeStorage->getQuery();
+      $query->condition('type', 'landing_page');
 
-        if ($results) {
-          $nodes = array_unique(array_merge($nodes, array_values($results)));
-          if (count($nodes) >= $limit) {
-            return $this->nodeStorage->loadMultiple($nodes);
-          }
+      $queryFieldName = $fieldname . '.target_id';
+      if (!empty($entity_ids)) {
+        $query->condition($queryFieldName, $entity_ids, 'IN');
+      }
+      else {
+        $query->notExists($queryFieldName);
+      }
+
+      $query->condition('status', NodeInterface::PUBLISHED);
+      $query->condition('nid', $node->id(), '<>');
+      $query->range(0, $limit - count($nodes));
+      $results = $query->execute();
+
+      if ($results) {
+        $nodes = array_unique(array_merge($nodes, array_values($results)));
+        if (count($nodes) >= $limit) {
+          return $this->nodeStorage->loadMultiple($nodes);
         }
       }
     }

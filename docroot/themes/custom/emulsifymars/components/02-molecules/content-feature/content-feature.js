@@ -1,30 +1,95 @@
 (function($, Drupal, _){
   Drupal.behaviors.contentFeature = {
-    attach(context) {
-      $(context).find('.content-feature').once('contentFeature').each(function(){
-        const $contentFeature = $(this);
+    attach: function (context) {
+      $(context).find('.content-feature').once('contentFeature').each(function () {
+        const contentFeatureModule = this;
+        const bgUrl = contentFeatureModule.getAttribute('data-bgurl');
+        const parallaxCoef = 1;
 
-        $(window).on('scroll', _.throttle(() => {
-          if (isInViewport($contentFeature[0])){
-            const offset = window.pageYOffset;
-            $contentFeature.css('background-position', `50% ${- (offset * .3)}px`);
-          }
-        }, 50));
-        
         const isInViewport = element => {
-          const scroll = window.scrollY || window.pageYOffset
-          const boundsTop = element.getBoundingClientRect().top + scroll
-          const viewport = {
-            top: scroll,
-            bottom: scroll + window.innerHeight,
-          }
-          const bounds = {
-            top: boundsTop,
-            bottom: boundsTop + element.clientHeight,
-          }
-          return (bounds.bottom >= viewport.top && bounds.bottom <= viewport.bottom) ||
-            (bounds.top <= viewport.bottom && bounds.top >= viewport.top);
+          const boundingRect = element.getBoundingClientRect();
+
+          const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+          const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+
+          const vertInView = boundingRect.top <= windowHeight && (boundingRect.top + boundingRect.height) >= 0;
+          const horInView = boundingRect.left <= windowWidth && (boundingRect.left + boundingRect.width) >= 0;
+
+          return vertInView && horInView;
         }
+
+        const updateElementsPositions = (element) => {
+          const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+          const windowMiddle = windowHeight / 2;
+
+          const boundingRect = element.getBoundingClientRect();
+          const containerHeight = boundingRect.height;
+          const containerMiddle = boundingRect.top + containerHeight / 2;
+
+          const currentOffset = windowMiddle - containerMiddle;
+          const maxOffset = (windowHeight + containerHeight) / 2;
+          const parallaxEffectPercentage = currentOffset / maxOffset;
+
+          const parallaxOverflow = containerHeight * parallaxCoef;
+          const bgPositionOffset = parallaxOverflow / 2 * parallaxEffectPercentage;
+
+          element.style.backgroundPosition = `50% calc(50% - ${bgPositionOffset}px`;
+        };
+
+        const updateBGSize = element => {
+          const image = document.createElement('img');
+          image.onload = () => {
+            const imageWidth = image.naturalWidth;
+            const imageHeight = image.naturalHeight;
+            const imageAspect = imageWidth / imageHeight;
+
+            const containerHeight = element.clientHeight;
+            const containerWidth = element.clientWidth;
+
+            // The target dimensions what we should cover with the bg image.
+            const parallaxCorrection = containerHeight * parallaxCoef;
+            const targetHeight = containerHeight + parallaxCorrection;
+            const targetWidth = containerWidth;
+            const targetAspect = targetWidth / targetHeight;
+
+            let resizedHeight;
+            let resizePercentage;
+
+            if (targetAspect < imageAspect) {
+              //Resize based on height.
+              resizePercentage = targetHeight / imageHeight;
+            }
+            else {
+              //Resize based on width.
+              resizePercentage = targetWidth / imageWidth;
+            }
+
+            resizedHeight = imageHeight * resizePercentage;
+
+            element.style.backgroundSize = `auto ${resizedHeight}px`;
+          };
+          image.src = bgUrl;
+        }
+
+        const scrollListener = () => {
+          if (isInViewport(contentFeatureModule)) {
+            updateElementsPositions(contentFeatureModule);
+          }
+        };
+
+        const resizeListener = () => {
+          if (isInViewport(contentFeatureModule)) {
+            updateBGSize(contentFeatureModule);
+          }
+        };
+
+        const documentReadyListener = () => {
+          updateBGSize(contentFeatureModule);
+        }
+
+        window.addEventListener('DOMContentLoaded', documentReadyListener);
+        window.addEventListener('scroll', _.throttle(scrollListener, 33));
+        window.addEventListener('resize', _.throttle(resizeListener, 33));
       })
     }
   }

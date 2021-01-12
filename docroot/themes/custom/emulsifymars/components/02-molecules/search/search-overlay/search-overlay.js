@@ -39,6 +39,7 @@
           $('.search-autocomplete-wrapper:hidden').slideDown(250, function(){
             $(this).addClass('opened');
             $(this).find('.mars-search-autocomplete-suggestions-wrapper').appendTo(this);
+            $(this).find('.mars-search-overlay-form .mars-autocomplete-field').focus();
           });
         });
   
@@ -48,7 +49,7 @@
             $('.mars-suggestions').empty();
           }
   
-         var parent =  $('.search-autocomplete-wrapper:visible').parent().attr('class');
+          var parent =  $('.search-autocomplete-wrapper:visible').parent().attr('class');
           if (parent == 'header__inner' && $(event.target).parents('.search-autocomplete-wrapper').length == 0) {
             $('.header__inner .search-autocomplete-wrapper').slideUp(250, function () {
               $(this).removeClass('opened').find('.search-field-wrapper').removeClass('suggested');

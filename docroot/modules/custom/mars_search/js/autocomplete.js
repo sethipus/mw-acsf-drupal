@@ -30,7 +30,7 @@
           if (gridQuery) {
             url = url + '&' + gridQuery;
           }
-          if (cardsView && window.innerWidth > 768) {
+          if (cardsView && window.innerWidth > 1024) {
             url = url + '&cards_view=1';
             target_container = $(this).parents('.search-autocomplete-wrapper').parent();
           }
