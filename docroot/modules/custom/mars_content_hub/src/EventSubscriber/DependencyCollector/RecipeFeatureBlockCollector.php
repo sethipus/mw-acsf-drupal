@@ -53,7 +53,9 @@ class RecipeFeatureBlockCollector extends BaseDependencyCollector {
       if (!empty($config['recipe_id'])) {
         /** @var \Drupal\core\Entity\EntityInterface $node */
         $node = $this->entityTypeManager->getStorage('node')->load($config['recipe_id']);
-        $event->addEntityDependency($node);
+        if ($node !== NULL) {
+          $event->addEntityDependency($node);
+        }
       }
     }
   }
