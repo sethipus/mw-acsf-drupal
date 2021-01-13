@@ -220,6 +220,14 @@ class ProductHelper {
           $product[$product_field_name] = $product_variant[$product_field_name];
         }
 
+        // Add unit for the value.
+        if (isset($product_variant[$product_field_name]) &&
+          isset($product_variant[$product_field_name . ' UOM'])) {
+
+          $product[$product_field_name] = $product_variant[$product_field_name] .
+            ' ' . $product_variant[$product_field_name . ' UOM'];
+        }
+
         // Filter nutrion fields and add to the record.
         $nutrition_fields = $this->getNuntritionFiledsByName($product_field_name, $product_variant);
         if (!empty($nutrition_fields)) {
