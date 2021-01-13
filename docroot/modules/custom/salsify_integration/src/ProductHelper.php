@@ -228,7 +228,8 @@ class ProductHelper {
       }
 
       $family_master = (isset($product_variant['CMS: Product Variant Family Master']) &&
-        strtolower($product_variant['CMS: Product Variant Family Master']) == 'yes')
+        (strtolower($product_variant['CMS: Product Variant Family Master']) == 'yes' ||
+        $product_variant['CMS: Product Variant Family Master'] == TRUE))
         ? TRUE
         : FALSE;
 

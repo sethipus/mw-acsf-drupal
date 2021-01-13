@@ -148,7 +148,7 @@ function product_card_add_wtb_vars(array &$variables) {
     ->referencedEntities();
   $variant = reset($variants);
   if ($variant !== FALSE) {
-    $product_sku = $variant->get('field_product_sku')->value;
+    $product_sku = trim($variant->get('field_product_sku')->value);
     if ($variables['node']->hasField('field_rating_and_reviews') &&
       $variables['node']->hasField('field_override_global_rating') &&
       $variables['node']->get('field_override_global_rating')->value == TRUE
