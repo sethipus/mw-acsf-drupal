@@ -158,7 +158,7 @@ class SalsifyImportField extends SalsifyImport {
       }
     }
     else {
-      $title = $product_data['Trade Item Description'] ?? $product_data['salsify:id'];
+      $title = $product_data['CMS: Product Name'] ?? $product_data['salsify:id'];
       // Allow users to alter the title set when a node is created by invoking
       // hook_salsify_process_node_title_alter().
       \Drupal::service('module_handler')

@@ -289,7 +289,7 @@ class SalsifyFields extends Salsify {
         // import method has been changed from dynamic to manual. They need to
         // be deleted on the Drupal side.
         if ($filtered_fields) {
-          $field_diff = $this->rekeyArray($field_diff, 'field_name');
+          $field_diff = $this->rekeyArray($field_diff ?? [], 'field_name');
           $remove_fields = array_intersect_key($filtered_fields, $field_diff);
           foreach ($remove_fields as $key => $field) {
             if (strpos($key, 'salsify') == 0) {
