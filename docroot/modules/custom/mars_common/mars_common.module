@@ -97,6 +97,8 @@ function mars_common_preprocess(&$variables, $hook) {
   if ($hook === 'poll_vote' || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
     $variables['polling_png_asset'] = $themeParser->getUrlForFile('png_asset');
+    $brand_shape_content = $themeParser->getBrandShapeWithoutFill();
+    $variables['brand_shape'] = $brand_shape_content ?? '';
   }
 
   if ($hook === 'views_infinite_scroll_pager__grid_card') {

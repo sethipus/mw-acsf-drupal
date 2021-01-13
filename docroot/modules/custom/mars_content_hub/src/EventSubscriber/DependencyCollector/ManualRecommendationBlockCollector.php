@@ -54,7 +54,7 @@ class ManualRecommendationBlockCollector extends BaseDependencyCollector {
       foreach ($config['population_plugin_configuration']['nodes'] as $nid) {
         /** @var \Drupal\core\Entity\EntityInterface $node */
         $node = $this->entityTypeManager->getStorage('node')->load($nid);
-        if (!in_array($node->bundle(), $productCT)) {
+        if ($node !== NULL && !in_array($node->bundle(), $productCT)) {
           $event->addEntityDependency($node);
         }
       }

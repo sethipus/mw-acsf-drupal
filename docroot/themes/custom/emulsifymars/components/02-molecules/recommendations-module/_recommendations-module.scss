@@ -70,11 +70,9 @@
       justify-content: center;
       margin-left: -2%;
     }
-  }
 
-  .swiper-wrapper{
-    @media (max-width: 600px) {
-      margin-left: -8%;
+    @include xl {
+      margin-left: 15px;
     }
   }
 
