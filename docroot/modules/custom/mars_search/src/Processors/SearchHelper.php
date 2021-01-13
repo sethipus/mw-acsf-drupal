@@ -160,6 +160,7 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     $this->searches[$searcher_key] = [
       'results' => $results,
       'facets' => $facets_data,
+      'itemsCount' => count($query_results->getResultItems()),
       'resultsCount' => $query_results->getResultCount(),
       'highlighted_fields' => $highlighted_fields,
     ];
