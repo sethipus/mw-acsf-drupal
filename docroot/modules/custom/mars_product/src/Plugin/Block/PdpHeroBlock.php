@@ -481,7 +481,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $state = ($main_variant->id() == $product_variant->id()) ? 'true' : 'false';
       $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
-        'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
+        'gtin' => !empty($this->configuration['wtb']['product_id']) ? trim($this->configuration['wtb']['product_id']) : trim($gtin),
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
