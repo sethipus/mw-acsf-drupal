@@ -282,6 +282,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
       }
+      query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 
       let xhr = new XMLHttpRequest();
       xhr.open('GET', '/search-callback' + query);
@@ -323,6 +324,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
       }
+      query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 
       let xhr = new XMLHttpRequest();
       xhr.open('GET', '/search-callback' + query);
