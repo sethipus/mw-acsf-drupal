@@ -151,6 +151,7 @@ class SalsifyImportField extends SalsifyImport {
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
         $entity->set('salsify_updated', $salsify_updated);
         $process_result['import_result'] = static::PROCESS_RESULT_UPDATED;
+        $entity->set('moderation_state', 'published');
       }
       else {
         return $process_result;
@@ -210,8 +211,8 @@ class SalsifyImportField extends SalsifyImport {
             /* @var \Drupal\media_entity\Entity\Media $media */
             $media_entities = \Drupal::service('salsify_integration.salsify_import_media')
               ->processSalsifyMediaItem($field, $product_data);
+            $options = [];
             if ($media_entities) {
-              $options = [];
               foreach ($media_entities as $media) {
                 $options[] = [
                   'target_id' => $media->id(),

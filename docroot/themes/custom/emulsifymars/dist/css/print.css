@@ -78,7 +78,8 @@ img {
 .recipe-header__brand-shape,
 .article-header-image__border,
 .article-header-noimage__border,
-.article-header-noimage__brand_shape {
+.article-header-noimage__brand_shape,
+.article-inline__brand-shape {
   display: none;
 }
 
