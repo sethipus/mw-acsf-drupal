@@ -7,13 +7,18 @@ dependencies:
     - media.type.image
     - media.type.lighthouse_image
     - node.type.content_hub_page
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 id: node.content_hub_page.field_content_hub_image
 field_name: field_content_hub_image
 entity_type: node
 bundle: content_hub_page
 label: Image
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

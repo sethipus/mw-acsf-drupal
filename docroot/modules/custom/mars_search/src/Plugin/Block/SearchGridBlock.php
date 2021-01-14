@@ -121,6 +121,11 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       $grid_id = $config['grid_id'];
     }
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('grid', $config, $grid_id);
+
+    // Results will be populated after ajax request. It's not possible to
+    // know right desktop type without page inner width.
+    $build['#items'] = [];
+    $query_search_results['results'] = [];
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets($config, $grid_id));
 
     // "See more" link should be visible only if it makes sense.

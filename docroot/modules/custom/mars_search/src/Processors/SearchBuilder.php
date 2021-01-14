@@ -118,6 +118,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
     $searcher_key = static::SEARCH_PAGE_QUERY_ID;
+
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':

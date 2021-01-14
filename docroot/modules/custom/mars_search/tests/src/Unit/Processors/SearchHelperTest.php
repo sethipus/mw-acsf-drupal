@@ -204,6 +204,7 @@ class SearchHelperTest extends UnitTestCase {
       'highlighted_fields' => [],
       'results' => [],
       'resultsCount' => NULL,
+      'itemsCount' => 1,
     ], $search_results);
   }
 
