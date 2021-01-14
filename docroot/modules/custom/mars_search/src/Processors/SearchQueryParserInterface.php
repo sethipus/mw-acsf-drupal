@@ -19,6 +19,11 @@ interface SearchQueryParserInterface {
   const MARS_SEARCH_SEARCH_OFFSET = 'offset';
 
   /**
+   * Search limit which is using in pager callback.
+   */
+  const MARS_SEARCH_SEARCH_LIMIT = 'limit';
+
+  /**
    * Search page path.
    */
   const MARS_SEARCH_DEFAULT_SEARCH_ID = '1';
