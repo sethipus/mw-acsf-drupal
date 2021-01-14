@@ -307,7 +307,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
         ],
         '#tags' => TRUE,
         '#cardinality' => 1,
-        '#default_value' => array_shift($default_top),
+        '#default_value' => is_array($default_top) && count($default_top) > 0 ? array_shift($default_top) : [],
       ];
       if ($i > 1) {
         $prev = $i - 1;
