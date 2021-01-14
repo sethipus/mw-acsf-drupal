@@ -118,16 +118,22 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
   protected function getDefaultOptions(array $query_parameters = []) {
     $faq_operator = empty($query_parameters['faq']) ? '<>' : '=';
     $offset = 0;
+    // Default limit.
+    $limit = 8;
     // Getting search offset.
     if (array_key_exists(SearchQueryParserInterface::MARS_SEARCH_SEARCH_OFFSET, $query_parameters)) {
       $offset = $query_parameters[SearchQueryParserInterface::MARS_SEARCH_SEARCH_OFFSET];
+    }
+    // Getting search limit.
+    if (array_key_exists(SearchQueryParserInterface::MARS_SEARCH_SEARCH_LIMIT, $query_parameters)) {
+      $limit = $query_parameters[SearchQueryParserInterface::MARS_SEARCH_SEARCH_LIMIT];
     }
     return [
       'conditions' => [
         ['type', 'faq', $faq_operator, TRUE],
       ],
       'offset' => intval($offset),
-      'limit' => 8,
+      'limit' => intval($limit),
       // Just to not have this empty.
       'options_logic' => 'AND',
       'keys' => '',

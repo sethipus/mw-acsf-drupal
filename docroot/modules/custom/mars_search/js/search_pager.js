@@ -19,7 +19,7 @@
           }
         }
         return resultQuery;
-      }
+      };
 
       $(selectorCardGrid, context).on('click', function (e) {
         e.preventDefault();
@@ -33,6 +33,11 @@
         var selectorContext = $(this);
         var searchItems = selectorContext.closest('.ajax-card-grid__content').find('.ajax-card-grid__items');
         query.offset = searchItems.children().length;
+
+        if (query.grid_type === 'grid' || query.grid_type === 'search_page') {
+          query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(query.grid_type);
+        }
+
         $.ajax({
           url: '/search-callback',
           data: query,
@@ -76,6 +81,64 @@
           }
         });
       });
+
+      const initState = function () {
+
+        $('.card-grid-results').each(function () {
+
+          var query = currentQuery();
+          query.grid_type = $(this).attr('data-layer-grid-type');
+          query.action_type = 'results';
+          if (query.grid_type === 'grid') {
+            query.grid_id = $(this).attr('data-layer-grid-id');
+            query.page_id = $(this).attr('data-layer-page-id');
+          }
+          query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(query.grid_type);
+          var selectorContext = $(this);
+          var searchItems = selectorContext.find('.ajax-card-grid__content').find('.ajax-card-grid__items');
+          query.offset = searchItems.children().length;
+          $.ajax({
+            url: '/search-callback',
+            data: query,
+            success: function (data) {
+              if (data.results !== null) {
+                data.results.forEach(function(element) {
+                  var elementWrapper = document.createElement('div');
+                  elementWrapper.className = 'ajax-card-grid__item_wrapper';
+                  elementWrapper.innerHTML = element;
+                  searchItems.append(elementWrapper);
+                  Drupal.behaviors.productCard.attach(searchItems);
+                });
+                if (!data.pager) {
+                  selectorContext.find('.ajax-card-grid__content')
+                    .find('.ajax-card-grid__more-link').removeClass('active');
+                }
+              }
+            }
+          });
+        });
+      };
+
+      if (context === document) {
+        initState();
+      }
+    },
+
+    getLimitByGridType: function (grid_type) {
+
+      let width = window.innerWidth;
+      let limit = 8;
+
+      // For mobile and grid type.
+      if (grid_type == 'grid' && width <= 768) {
+        limit = 4;
+      }
+
+      // For mobile and search_page type.
+      if (grid_type == 'search_page' && width > 768) {
+        limit = 12;
+      }
+      return limit;
     }
   };
 })(jQuery, Drupal, drupalSettings);
