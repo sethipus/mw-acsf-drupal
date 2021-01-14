@@ -567,60 +567,37 @@ class ConfigForm extends ConfigFormBase {
    */
   public static function batchProcessItem($items, $force_update, $content_type, array &$context) {
 
-    // Elements per operation.
-    $limit = 20;
+    static::setDefaultContextValues($context, $items);
 
-    // Set default progress values.
-    if (empty($context['sandbox']['progress'])) {
-      $context['sandbox']['progress'] = 0;
-      $context['sandbox']['max'] = count($items);
-    }
-
-    // Save items to array which will be changed during processing.
-    if (empty($context['sandbox']['items'])) {
-      $context['sandbox']['items'] = $items;
-    }
-
-    $counter = 0;
     if (!empty($context['sandbox']['items'])) {
-      // Remove already processed items.
-      if ($context['sandbox']['progress'] != 0) {
-        array_splice($context['sandbox']['items'], 0, $limit);
-      }
+      $product = array_shift($context['sandbox']['items']);
 
-      foreach ($context['sandbox']['items'] as $product) {
+      if (ProductHelper::getProductType($product) == $content_type) {
+        $result = SalsifyImportField::processSalsifyItem(
+          $product,
+          $force_update,
+          $content_type
+        );
 
-        if ($counter != $limit) {
-
-          if (ProductHelper::getProductType($product) == $content_type) {
-            $result = SalsifyImportField::processSalsifyItem(
-              $product,
-              $force_update,
-              $content_type
-            );
-
-            if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
-              $context['results']['updated_products'] = array_merge(
-                $context['results']['updated_products'] ?? [],
-                [$product['GTIN']]
-              );
-            }
-            elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
-              $context['results']['created_products'] = array_merge(
-                $context['results']['created_products'] ?? [],
-                [$product['GTIN']]
-              );
-            }
-            $context['results']['validation_errors'] = array_merge(
-              $context['results']['validation_errors'] ?? [],
-              $result['validation_errors']
-            );
-          }
-
-          $counter++;
-          $context['sandbox']['progress']++;
+        if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
+          $context['results']['updated_products'] = array_merge(
+            $context['results']['updated_products'] ?? [],
+            [$product['GTIN']]
+          );
         }
+        elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
+          $context['results']['created_products'] = array_merge(
+            $context['results']['created_products'] ?? [],
+            [$product['GTIN']]
+          );
+        }
+        $context['results']['validation_errors'] = array_merge(
+          $context['results']['validation_errors'] ?? [],
+          $result['validation_errors']
+        );
       }
+
+      $context['sandbox']['progress']++;
     }
 
     // If not finished all tasks, we count percentage of process. 1 = 100%.
@@ -668,6 +645,28 @@ class ConfigForm extends ConfigFormBase {
     $message = t('The Salsify data import is complete.');
     \Drupal::service('messenger')
       ->addStatus($message);
+  }
+
+  /**
+   * Set default context values for the batch.
+   *
+   * @param array $context
+   *   Batch context.
+   * @param array $items
+   *   Product data.
+   */
+  private static function setDefaultContextValues(array &$context, array &$items) {
+
+    // Set default progress values.
+    if (empty($context['sandbox']['progress'])) {
+      $context['sandbox']['progress'] = 0;
+      $context['sandbox']['max'] = count($items);
+    }
+
+    // Save items to array which will be changed during processing.
+    if (empty($context['sandbox']['items'])) {
+      $context['sandbox']['items'] = $items;
+    }
   }
 
 }
