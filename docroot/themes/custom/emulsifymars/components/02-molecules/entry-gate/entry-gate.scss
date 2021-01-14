@@ -95,13 +95,15 @@
     }
 
     @include medium {
-      padding: 0 6rem 6rem 6rem;
+      padding: 0 5.9rem 6rem 5.9rem;
       width: 75%;
+      max-width: 57rem;
       margin: 0;
     }
 
     @include large {
       padding: 0 11rem 6rem 11rem;
+      max-width: 89.6rem;
     }
   }
 
@@ -116,8 +118,8 @@
     }
 
     @include medium {
-      font-size: 5.6rem;
-      line-height: 5.6rem;
+      font-size: 4rem;
+      line-height: 4rem;
     }
 
     @include large {
