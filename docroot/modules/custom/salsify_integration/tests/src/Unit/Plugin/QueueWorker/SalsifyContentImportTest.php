@@ -267,6 +267,7 @@ class SalsifyContentImportTest extends UnitTestCase {
       'Case Net Weight' => 'value',
       'CMS: Variety' => 'no',
       'force_update' => TRUE,
+      'CMS: content type' => 'product_variant',
     ];
 
     $this->containerMock
@@ -326,6 +327,11 @@ class SalsifyContentImportTest extends UnitTestCase {
       ->expects($this->any())
       ->method('get')
       ->willReturn('salsify_id');
+
+    $this->immutableConfigMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn('node');
 
     $this->configMock
       ->expects($this->any())
@@ -392,6 +398,16 @@ class SalsifyContentImportTest extends UnitTestCase {
     $this->loggerChannelMock
       ->expects($this->once())
       ->method('info');
+
+    $this->fieldableEntityMock
+      ->expects($this->any())
+      ->method('getEntityType')
+      ->willReturn($this->entityTypeMock);
+
+    $this->entityTypeMock
+      ->expects($this->any())
+      ->method('id')
+      ->willReturn('node');
 
     $this->salsifyContentImport->processItem($data);
   }
