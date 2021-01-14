@@ -31,7 +31,6 @@ class ProductHelper {
    */
   public function __construct() {
     $this->mapping = [
-      'by_group_id' => [],
       'primary' => [],
     ];
   }
@@ -182,8 +181,8 @@ class ProductHelper {
     $products = [];
 
     foreach ($this->getProductsData($response) as $product) {
-      if (isset($product['Send to Brand Site?']) &&
-        $product['Send to Brand Site?']) {
+      if (isset($product['mapping']['Send to Brand Site?']) &&
+        $product['mapping']['Send to Brand Site?']) {
 
         $product = $this->addFamilyId($product);
         $products[] = $product;
@@ -210,6 +209,8 @@ class ProductHelper {
     $products = [];
 
     foreach ($this->getProductsData($response) as $product_variant) {
+      $product_variant = $this->extractMappingFields($product_variant);
+
       $product = [];
       $product_variant_fields = array_column(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT, 'salsify:id');
       $product_fields = array_column(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT, 'salsify:id');
@@ -252,7 +253,6 @@ class ProductHelper {
       $product['CMS: Meta Description'] = $product_variant['CMS: Meta Description'] ?? NULL;
       $product['CMS: Keywords'] = $product_variant['CMS: Keywords'] ?? NULL;
       $product['CMS: Product Variant Family ID'] = $product_variant['CMS: Product Variant Family ID'] ?? NULL;
-      $product['CMS: Product Family Groups ID'] = $product_variant['CMS: Product Family Groups ID'] ?? NULL;
       $product['CMS: Variety'] = $product_variant['CMS: Variety'] ?? NULL;
       $product['salsify:digital_assets'] = $product_variant['salsify:digital_assets'] ?? NULL;
 
@@ -263,6 +263,23 @@ class ProductHelper {
     $response['data'] = $products;
 
     return Json::encode($response);
+  }
+
+  /**
+   * Extract data in mapping array to the parent lavel.
+   *
+   * @param array $product_variant
+   *   Product variant data.
+   *
+   * @return array
+   *   Updated product variant.
+   */
+  public function extractMappingFields(array $product_variant) {
+    if (isset($product_variant['mapping'])) {
+      $product_variant = array_merge($product_variant, $product_variant['mapping']);
+      unset($product_variant['mapping']);
+    }
+    return $product_variant;
   }
 
   /**
@@ -314,16 +331,12 @@ class ProductHelper {
    *   Product.
    */
   private function addFamilyId(array $product) {
-    if (((isset($product['CMS: Variety']) &&
-      strtolower($product['CMS: Variety']) == 'no') ||
-      !isset($product['CMS: Variety'])) &&
-      !isset($product['CMS: Product Variant Family ID'])) {
+    if (((isset($product['mapping']['CMS: Variety']) &&
+      strtolower($product['mapping']['CMS: Variety']) == 'no') ||
+      !isset($product['mapping']['CMS: Variety'])) &&
+      !isset($product['mapping']['CMS: Product Variant Family ID'])) {
 
       $product['CMS: Product Variant Family ID'] = $product['salsify:id'];
-    }
-
-    if (!isset($product['CMS: Product Family Groups ID'])) {
-      $product['CMS: Product Family Groups ID'] = $product['salsify:id'];
     }
 
     return $product;
@@ -363,10 +376,6 @@ class ProductHelper {
           $this->mapping['primary'][$product_id][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
         }
 
-        // Add mapping by Product Family Groups ID in format
-        // product_variant_id => product_id.
-        $product_id = $products[$product['CMS: Product Variant Family ID']]['salsify:id'];
-        $this->mapping['by_group_id'][$product['CMS: Product Family Groups ID']][$product['salsify:id']] = $product_id;
       }
       $products[] = $product;
     }
@@ -524,7 +533,7 @@ class ProductHelper {
         $generated_products = $this->createNutritionProductsFromProductVariant(
           $product
         );
-        $products[$product['CMS: Product Family Groups ID']] = $product_multipack;
+        $products[] = $product_multipack;
         $this->mapping['primary'][$product_multipack['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
 
         $this->fillMappingByGeneratedProducts($generated_products, $product_multipack['salsify:id']);
