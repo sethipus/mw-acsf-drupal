@@ -11,14 +11,16 @@ body {
      And update all font-family declarations.
      Current data is for Dove Site only
   */
-  letter-spacing: 0.048rem;
+  &, & button {
+    letter-spacing: 0.048rem;
 
-  @include medium {
-    letter-spacing: 0.07rem;
-  }
+    @include medium {
+      letter-spacing: 0.07rem;
+    }
 
-  @include large {
-    letter-spacing: 0.16rem;
+    @include large {
+      letter-spacing: 0.16rem;
+    }
   }
 
   #layout-builder-modal {
@@ -26,22 +28,6 @@ body {
   }
 
   @include body-copy;
-}
-/*
-  This block is a necessity to override the user agent letter spacing. The block above is not specific enough to handle buttons, only handles elements which do not have
-  letter spacing user agent rule.
-*/
-
-button {
-  letter-spacing: 0.048rem;
-
-  @include medium {
-    letter-spacing: 0.07rem;
-  }
-
-  @include large {
-    letter-spacing: 0.16rem;
-  }
 }
 
 *,
