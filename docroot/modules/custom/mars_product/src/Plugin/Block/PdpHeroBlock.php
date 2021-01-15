@@ -481,7 +481,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $state = ($main_variant->id() == $product_variant->id()) ? 'true' : 'false';
       $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
-        'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
+        'gtin' => !empty($this->configuration['wtb']['product_id']) ? trim($this->configuration['wtb']['product_id']) : trim($gtin),
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
@@ -917,51 +917,53 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Return build.
    */
   public function pageAttachments(array &$build, NodeInterface $node = NULL) {
-    if ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
-      $metatags = [
-        'ps-key' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-key',
-            'content' => $this->configuration['wtb']['data_widget_id'],
+    if (!empty($this->configuration['wtb']['data_widget_id'])) {
+      if ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
+        $metatags = [
+          'ps-key' => [
+            '#tag' => 'meta',
+            '#attributes' => [
+              'name' => 'ps-key',
+              'content' => $this->configuration['wtb']['data_widget_id'],
+            ],
           ],
-        ],
-        'ps-country' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-country',
-            'content' => $this->config->get('system.date')->get('country.default'),
+          'ps-country' => [
+            '#tag' => 'meta',
+            '#attributes' => [
+              'name' => 'ps-country',
+              'content' => $this->config->get('system.date')->get('country.default'),
+            ],
           ],
-        ],
-        'ps-language' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-language',
-            'content' => strtolower($this->languageHelper->getCurrentLanguageId()),
+          'ps-language' => [
+            '#tag' => 'meta',
+            '#attributes' => [
+              'name' => 'ps-language',
+              'content' => strtolower($this->languageHelper->getCurrentLanguageId()),
+            ],
           ],
-        ],
-        'price-spider' => [
-          '#tag' => 'script',
-          '#attributes' => [
-            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
-            'async' => TRUE,
+          'price-spider' => [
+            '#tag' => 'script',
+            '#attributes' => [
+              'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+              'async' => TRUE,
+            ],
           ],
-        ],
-      ];
-      foreach ($metatags as $key => $metatag) {
-        $build['#attached']['html_head'][] = [$metatag, $key];
+        ];
+        foreach ($metatags as $key => $metatag) {
+          $build['#attached']['html_head'][] = [$metatag, $key];
+        }
       }
-    }
-    elseif ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
-      $locale = $this->languageHelper->getCurrentLanguageId();
-      $build['#attached']['drupalSettings']['cc'] = [
-        'data-token' => $this->configuration['wtb']['data_token'],
-        'data-locale' => $this->configuration['wtb']['data_locale'],
-        'data-displaylanguage' => $locale,
-        'data-widgetid' => $this->configuration['wtb']['data_widget_id'],
-        'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
-      ];
-      $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+      elseif ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_COMMERCE_CONNECTOR) {
+        $locale = $this->languageHelper->getCurrentLanguageId();
+        $build['#attached']['drupalSettings']['cc'] = [
+          'data-token' => $this->configuration['wtb']['data_token'],
+          'data-locale' => $this->configuration['wtb']['data_locale'],
+          'data-displaylanguage' => $locale,
+          'data-widgetid' => $this->configuration['wtb']['data_widget_id'],
+          'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
+        ];
+        $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+      }
     }
 
     if ($this->isRatingEnable($node)) {
