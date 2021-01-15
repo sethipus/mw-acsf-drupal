@@ -108,7 +108,8 @@
         line-height: 5rem;
         background-color: clr(secondary);
         font-size: 1.4rem;
-        border:none;
+        border: none;
+        padding: 0;
 
         @include medium {
           font-size: 1.6rem;
