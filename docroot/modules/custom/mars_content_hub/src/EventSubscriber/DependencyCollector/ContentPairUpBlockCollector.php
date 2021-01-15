@@ -53,7 +53,9 @@ class ContentPairUpBlockCollector extends BaseDependencyCollector {
       if (!empty($config['article_recipe'])) {
         /** @var \Drupal\core\Entity\EntityInterface $node */
         $node = $this->entityTypeManager->getStorage('node')->load($config['article_recipe']);
-        $event->addEntityDependency($node);
+        if ($node !== NULL) {
+          $event->addEntityDependency($node);
+        }
       }
       if (!empty($config['product'])) {
         /** @var \Drupal\core\Entity\EntityInterface $node */
