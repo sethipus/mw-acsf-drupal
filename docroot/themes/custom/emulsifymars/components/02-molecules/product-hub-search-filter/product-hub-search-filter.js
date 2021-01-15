@@ -22,6 +22,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
             updateCounters(grid);
+            updateAriaChecked(event.target);
           case event.target.classList.contains('search-filter-info__applied-clear'):
             const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
             if (currentFilter !== null) {
@@ -103,9 +104,21 @@ Drupal.behaviors.searchFilterBehaviour = {
           check.checked = !check.checked;
           updateCounters(grid);
           enableApplyButtons();
+          updateAriaChecked(e.target);
         }
       });
     });
+
+    const updateAriaChecked = (checkboxElement) => {
+      const checkboxLabel = checkboxElement.closest('li').querySelector('label');
+      if (checkboxElement.getAttribute('aria-selected') == 'true') {
+        checkboxLabel.setAttribute('aria-checked', false);
+        checkboxElement.setAttribute('aria-selected', false);
+      } else {
+        checkboxLabel.setAttribute('aria-checked', true);
+        checkboxElement.setAttribute('aria-selected', true);
+      }
+    }
 
     const getGridBlock = (event) => {
       const target = event.target;
