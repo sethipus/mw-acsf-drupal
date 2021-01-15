@@ -157,7 +157,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#default_value' => $config['items'][$key]['cta']['title'] ?? $this->t('Explore'),
       ];
       $form['items'][$key]['cta']['url'] = [
-        '#type' => 'url',
+        '#type' => 'textfield',
         '#title' => $this->t('CTA Link URL'),
         '#maxlength' => 2048,
         '#default_value' => $config['items'][$key]['cta']['url'] ?? '',
