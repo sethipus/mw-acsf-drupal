@@ -134,6 +134,7 @@
           query.grid_type = gridType;
           query.offset = 0;
           query.action_type = 'results';
+          query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
           $.ajax({
             url: '/search-callback',
             data: query,
@@ -170,6 +171,7 @@
           pushQuery(query);
           query.grid_type = 'search_page';
           query.action_type = 'results';
+          query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
           $.ajax({
             url: '/search-callback',
             data: query,
@@ -203,6 +205,7 @@
             pushQuery(query);
             query.grid_type = 'search_page';
             query.action_type = 'results';
+            query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
             $.ajax({
               url: '/search-callback',
               data: query,
