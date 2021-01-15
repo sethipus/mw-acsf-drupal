@@ -95,13 +95,15 @@
     }
 
     @include medium {
-      padding: 0 6rem 6rem 6rem;
+      padding: 0 5.9rem 6rem 5.9rem;
       width: 75%;
+      max-width: 57rem;
       margin: 0;
     }
 
     @include large {
       padding: 0 11rem 6rem 11rem;
+      max-width: 89.6rem;
     }
   }
 
@@ -116,8 +118,9 @@
     }
 
     @include medium {
-      font-size: 5.6rem;
-      line-height: 5.6rem;
+      margin: 6.2rem 0 2rem;
+      font-size: 4rem;
+      line-height: 4rem;
     }
 
     @include large {
@@ -129,18 +132,16 @@
   &__paragraph {
     font-family: variable(secondary-font);
     color: clr(primary);
-    margin-bottom: 3.5rem;
-    padding-bottom: 3.8rem;
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
     border-bottom: 1px solid #c4c4c4;
 
     @include medium {
       font-size: 1.6rem;
-      line-height: 2.2rem;
     }
 
     @include large {
       font-size: 1.8rem;
-      line-height: 2.5rem;
     }
   }
 
@@ -155,7 +156,7 @@
 
     @include medium {
       font-size: 1.6rem;
-      line-height: 2.2rem;
+      line-height: 1.4rem;
     }
 
     @include large {
