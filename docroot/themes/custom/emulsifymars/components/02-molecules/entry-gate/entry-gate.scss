@@ -98,12 +98,14 @@
       padding: 0 5.9rem 6rem 5.9rem;
       width: 75%;
       max-width: 57rem;
+      max-height: 516px;
       margin: 0;
     }
 
     @include large {
       padding: 0 11rem 6rem 11rem;
       max-width: 89.6rem;
+      max-height: auto;
     }
   }
 
@@ -118,23 +120,27 @@
     }
 
     @include medium {
-      margin: 6.2rem 0 2rem;
+      margin: 6rem 0 2rem;
       font-size: 4rem;
       line-height: 4rem;
+      height: 3rem;
     }
 
     @include large {
+      margin-bottom: 3rem;
       font-size: 6.4rem;
       line-height: 6.4rem;
+      height: auto;
     }
   }
 
   &__paragraph {
     font-family: variable(secondary-font);
     color: clr(primary);
-    margin-bottom: 4rem;
+    margin: 0 0 4rem 0;
     padding-bottom: 4rem;
     border-bottom: 1px solid #c4c4c4;
+    line-height: 1.4;
 
     @include medium {
       font-size: 1.6rem;
@@ -152,7 +158,7 @@
     font-size: 1.8rem;
     line-height: 2.5rem;
     font-weight: 600;
-    margin-bottom: 3.5rem;
+    margin-bottom: 4rem;
 
     @include medium {
       font-size: 1.6rem;
@@ -175,13 +181,19 @@
 
     @include medium {
       font-size: 1.4rem;
-      line-height: 1.8rem;
+      line-height: 1.4rem;
     }
 
     @include large {
       font-size: 1.6rem;
       line-height: 2rem;
       text-align: left;
+    }
+  }
+
+  &__bottom-paragraph p {
+    @include medium {
+      margin-bottom: 6rem;
     }
   }
 }
