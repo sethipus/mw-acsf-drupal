@@ -198,6 +198,8 @@ class SalsifyImportField extends SalsifyImport {
       ->execute();
 
     // Load the existing entity or generate a new one.
+    $title = $product_data['CMS: Product Name'] ?? $product_data['salsify:id'];
+    $moderation_state = static::getModerationState($entity_bundle);
     if ($results) {
       $entity_id = array_values($results)[0];
       $entity = $entityTypeManager->getStorage($entity_type)->load($entity_id);
@@ -208,14 +210,14 @@ class SalsifyImportField extends SalsifyImport {
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
         $entity->set('salsify_updated', $salsify_updated);
         $process_result['import_result'] = static::PROCESS_RESULT_UPDATED;
-        $entity->set('moderation_state', 'published');
+        $entity->set('title', $title);
+        $entity->set('moderation_state', $moderation_state);
       }
       else {
         return FALSE;
       }
     }
     else {
-      $title = $product_data['CMS: Product Name'] ?? $product_data['salsify:id'];
       // Allow users to alter the title set when a node is created by invoking
       // hook_salsify_process_node_title_alter().
       \Drupal::service('module_handler')
@@ -240,11 +242,25 @@ class SalsifyImportField extends SalsifyImport {
       $entity = $entityTypeManager->getStorage($entity_type)->create($entity_values);
       $entity->getTypedData();
       $entity->save();
-      $entity->set('moderation_state', 'published');
+      $entity->set('moderation_state', $moderation_state);
       $process_result['import_result'] = static::PROCESS_RESULT_CREATED;
     }
 
     return $entity;
+  }
+
+  /**
+   * Get moderation state by content type.
+   *
+   * @param string $entity_bundle
+   *   The entity bundle.
+   *
+   * @return string
+   *   State.
+   */
+  public static function getModerationState(string $entity_bundle) {
+    return ($entity_bundle == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) ?
+      'draft' : 'published';
   }
 
   /**

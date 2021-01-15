@@ -1,9 +1,0 @@
-field_id: 'Brand Name'
-salsify_id: 'Brand Name'
-salsify_data_type: enumerated
-entity_type: node
-bundle: product_multipack
-field_name: field_product_brand
-method: manual
-created: 1546300800
-changed: 1546300801

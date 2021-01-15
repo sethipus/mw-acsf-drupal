@@ -250,6 +250,7 @@ class ProductHelperTest extends UnitTestCase {
           'Iron 2' => 2,
           'Ironv 3' => 4,
           'Iron 4' => 5,
+          'CMS: Product Name' => 'product_name',
         ],
       ],
     ]);
@@ -387,6 +388,7 @@ class ProductHelperTest extends UnitTestCase {
       'Iron 2' => 2,
       'Ironv 3' => 4,
       'Iron 4' => 5,
+      'CMS: Product Name' => 'product_name',
     ];
 
     $result = $this->productHelper->createNutritionProductsFromProductVariant(
@@ -470,7 +472,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => TRUE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'Brand Name' => 'name1',
+          'CMS: Category Computed' => 'category1',
         ],
         [
           'Bazaarvoice Family ID' => 'Family ID',
@@ -480,7 +482,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => FALSE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'Brand Name' => 'name2',
+          'CMS: Category Computed' => 'category1',
         ],
         [
           'Bazaarvoice Family ID' => 'Family ID',
@@ -489,7 +491,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => TRUE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'Brand Name' => 'name3',
+          'CMS: Category Computed' => 'category1',
         ],
       ],
     ]);

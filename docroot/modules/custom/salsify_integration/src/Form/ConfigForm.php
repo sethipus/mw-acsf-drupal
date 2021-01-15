@@ -12,6 +12,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\salsify_integration\Event\SalsifyGetEntityTypesEvent;
 use Drupal\salsify_integration\ProductHelper;
@@ -64,6 +65,13 @@ class ConfigForm extends ConfigFormBase {
   protected $batchBuilder;
 
   /**
+   * The Queue.
+   *
+   * @var \Drupal\Core\Queue\QueueInterface
+   */
+  protected $importQueue;
+
+  /**
    * ConfigForm constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -76,13 +84,16 @@ class ConfigForm extends ConfigFormBase {
    *   The module handler service.
    * @param \Drupal\salsify_integration\SalsifyFields $salsify_fields
    *   The Salsify fields module.
+   * @param \Drupal\Core\Queue\QueueFactory $queue_factory
+   *   The Queue factory.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     ContainerAwareEventDispatcher $event_dispatcher,
     ModuleHandlerInterface $module_handler,
-    SalsifyFields $salsify_fields
+    SalsifyFields $salsify_fields,
+    QueueFactory $queue_factory
   ) {
     parent::__construct($config_factory);
     $this->entityTypeManager = $entity_type_manager;
@@ -90,6 +101,7 @@ class ConfigForm extends ConfigFormBase {
     $this->moduleHandler = $module_handler;
     $this->salsifyFields = $salsify_fields;
     $this->batchBuilder = new BatchBuilder();
+    $this->importQueue = $queue_factory->get('salsify_integration_content_import');
   }
 
   /**
@@ -101,7 +113,8 @@ class ConfigForm extends ConfigFormBase {
       $container->get('entity_type.manager'),
       $container->get('event_dispatcher'),
       $container->get('module_handler'),
-      $container->get('salsify_integration.salsify_fields')
+      $container->get('salsify_integration.salsify_fields'),
+      $container->get('queue')
     );
   }
 
@@ -278,6 +291,13 @@ class ConfigForm extends ConfigFormBase {
       $form['salsify_operations']['salsify_start_import'] = [
         '#type' => 'submit',
         '#value' => $this->t('Sync with Salsify'),
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      ];
+      $form['salsify_operations']['salsify_purge_queue'] = [
+        '#type' => 'submit',
+        '#name' => 'purge_import_queue',
+        '#value' => $this->t('Purge import queue'),
         '#prefix' => '<p>',
         '#suffix' => '</p>',
       ];
@@ -484,6 +504,11 @@ class ConfigForm extends ConfigFormBase {
         $this->logger(static::SALSIFY_LOGGER_CHANNEL)->error($message);
         $this->messenger()->addError($message);
       }
+      return;
+    }
+    elseif ($trigger['#id'] == 'edit-salsify-purge-queue') {
+      $this->importQueue->deleteQueue();
+      $this->messenger()->addMessage($this->t('All items in the Salsify import queue are purged.'));
       return;
     }
 

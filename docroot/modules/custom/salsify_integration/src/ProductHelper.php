@@ -318,6 +318,16 @@ class ProductHelper {
   public function addNutritionFieldsData(array $nutrition_fields, array &$product, array $product_variant) {
     foreach ($nutrition_fields as $field_name) {
       $product[$field_name] = $product_variant[$field_name];
+
+      $matches = [];
+      preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
+      // Add unit for the value.
+      if (isset($product_variant[$field_name]) &&
+        isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
+
+        $product[$field_name] = $product_variant[$field_name] .
+          ' ' . $product_variant[$matches[1] . ' UOM ' . $matches[2]];
+      }
     }
   }
 
@@ -336,7 +346,7 @@ class ProductHelper {
       !isset($product['mapping']['CMS: Variety'])) &&
       !isset($product['mapping']['CMS: Product Variant Family ID'])) {
 
-      $product['CMS: Product Variant Family ID'] = $product['salsify:id'];
+      $product['mapping']['CMS: Product Variant Family ID'] = $product['salsify:id'];
     }
 
     return $product;
@@ -414,6 +424,8 @@ class ProductHelper {
     }
 
     $salsify_id = base64_encode($product_variant['salsify:id']);
+    $product['CMS: Meta Description'] = $product_variant['CMS: Meta Description'] ?? NULL;
+    $product['CMS: Keywords'] = $product_variant['CMS: Keywords'] ?? NULL;
     $product['salsify:id'] = $salsify_id;
     $product['GTIN'] = $salsify_id;
     $product['salsify:created_at'] = $product_variant['salsify:created_at'];
@@ -457,7 +469,7 @@ class ProductHelper {
     $products_result = [];
     foreach ($products as $product_key => $product) {
       $salsify_id = $product_variant['salsify:id'] . '_' . $product_key . '_' . static::PRODUCT_VARIANT_CONTENT_TYPE;
-      $product['Trade Item Description'] = $product_variant['Trade Item Description'] . '_' . $product_key;
+      $product['CMS: Product Name'] = $product_variant['CMS: Product Name'] . '_' . $product_key;
       $product['salsify:id'] = $salsify_id;
       $product['GTIN'] = $salsify_id;
       $product['salsify:created_at'] = $product_variant['salsify:created_at'];
@@ -468,7 +480,7 @@ class ProductHelper {
 
       $empty_product = [];
       $salsify_id = $product_variant['salsify:id'] . '_' . $product_key . '_' . static::PRODUCT_CONTENT_TYPE;
-      $empty_product['Trade Item Description'] = $product_variant['Trade Item Description'] . '_' . $product_key;
+      $empty_product['CMS: Product Name'] = $product_variant['CMS: Product Name'] . '_' . $product_key;
       $empty_product['salsify:id'] = $salsify_id;
       $empty_product['GTIN'] = $salsify_id;
       $empty_product['salsify:created_at'] = $product_variant['salsify:created_at'];
@@ -503,7 +515,7 @@ class ProductHelper {
   ) {
     foreach ($nutrion_fields as $nutrion_field) {
       $matches = [];
-      preg_match('/^' . $product_field_name . ' ([0-9])+$/', $nutrion_field, $matches);
+      preg_match('/^' . $product_field_name . ' ([0-9]+)$/', $nutrion_field, $matches);
       $products[$matches[1]][$product_field_name] = $product_variant[$nutrion_field];
     }
   }
