@@ -46,7 +46,7 @@ class FeedbackBlockTest extends UnitTestCase {
   private $entityTypeManagerMock;
 
   /**
-   * Media entity storage.
+   * Theme configuration parser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser|\PHPUnit\Framework\MockObject\MockObject
    */
