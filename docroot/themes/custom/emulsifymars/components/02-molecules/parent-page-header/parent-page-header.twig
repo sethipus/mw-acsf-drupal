@@ -25,7 +25,7 @@
   {% endif %}
 >
   <div class="content">
-    {% if parent_page_media_type != 'video' and pp_header_heading %}
+    {% if pp_header_heading %}
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: pp_header_eyebrow_text,
         eyebrow_modifiers: pp_header_eyebrow_modifiers
