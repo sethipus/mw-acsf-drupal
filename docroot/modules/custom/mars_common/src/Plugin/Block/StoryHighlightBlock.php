@@ -168,17 +168,17 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $config = $this->getConfiguration();
 
     $form['story_block_title'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Title'),
       '#required' => TRUE,
-      '#maxlength' => 55,
+      '#maxlength' => 300,
       '#default_value' => $this->configuration['story_block_title'] ?? NULL,
     ];
 
     $form['story_block_description'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Story description'),
-      '#maxlength' => 150,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['story_block_description'] ?? NULL,
     ];
 
