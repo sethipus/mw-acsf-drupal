@@ -8,17 +8,19 @@ body {
   color: clr(text);
 
   /* ToDo: move functionality to separate font-family mixing to have possibility to add letter spacing per font from theme configurator.
-     And update all font-family declarations. 
+     And update all font-family declarations.
      Current data is for Dove Site only
   */
-  letter-spacing: 0.048rem;
+  &, & button {
+    letter-spacing: 0.048rem;
 
-  @include medium {
-    letter-spacing: 0.07rem;
-  }
+    @include medium {
+      letter-spacing: 0.07rem;
+    }
 
-  @include large {
-    letter-spacing: 0.16rem;
+    @include large {
+      letter-spacing: 0.16rem;
+    }
   }
 
   #layout-builder-modal {
