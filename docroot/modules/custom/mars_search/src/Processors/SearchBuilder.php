@@ -118,6 +118,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
     $searcher_key = static::SEARCH_PAGE_QUERY_ID;
+
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
@@ -194,7 +195,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $this->t('Search'), $grid_id);
         $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-card-grid';
       }
-      if (!empty($config) && !empty($config['exposed_filters_wrapper']['toggle_filters'])) {
+      if (!empty($config)) {
         $facet_id = "grid_{$grid_id}_facets";
       }
     }
