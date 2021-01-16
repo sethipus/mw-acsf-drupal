@@ -71,6 +71,7 @@
     @include small {
       margin-top: 1rem;
       font-size: 1.2rem;
+      line-height: 1.56rem;
     }
 
     @include medium {
@@ -80,7 +81,8 @@
 
     @include large {
       margin-top: 3rem;
-      font-size: 2.6rem;
+      font-size: 1.6rem;
+      line-height: 2.08rem;
     }
 
   }
