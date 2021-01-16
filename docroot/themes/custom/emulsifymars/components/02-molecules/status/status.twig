@@ -26,7 +26,8 @@
 {% set status_link__base_class = status_link__base_class|default('status-link') %}
 
 {% for type, messages in message_list %}
-  <div role="contentinfo" {{ bem('container', [], status__base_class)}} aria-label="{{ type }}"{{ attributes|without('role', 'aria-label') }}>
+  {% set has_no_content = messages|join|replace({' ': ''}) is empty %}
+  <div role="contentinfo" aria-hidden="{{ has_no_content }}" {{ bem('container', [], status__base_class)}} aria-label="{{ type }}"{{ attributes|without('role', 'aria-label') }}>
     {% if message_url %}
       <a {{ bem(status_link__base_class, status_link__modifiers, status_link__blockname) }} href="{{ message_url }}">
     {% endif %}
