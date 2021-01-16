@@ -26,29 +26,34 @@
   {% block list_item_content %}
     {# if drupal #}
     {% if directory %}
-      {% include "@atoms/links/link/link.twig" with {
-        link_content: item.title,
-        link_url: item.url,
-        link_base_class: item_base_class|default(menu_class ~ '__link'),
-        link_modifiers: item_modifiers,
-        attributes: item.item_attributes | default([]),
-      } %}
-
+      <div class="menu-item__heading">
+        {% include "@atoms/links/link/link.twig" with {
+          link_content: item.title,
+          link_url: item.url,
+          link_base_class: item_base_class|default(menu_class ~ '__link'),
+          link_modifiers: item_modifiers,
+          attributes: item.item_attributes | default([]),
+        } %}
+      </div>
     {% else %}
-      {% include "@atoms/links/link/link.twig" with {
-        link_content: item.title,
-        link_url: item.url,
-        link_base_class: item_base_class|default(menu_class ~ '__link'),
-        link_modifiers: item_modifiers,
-      } %}
-    {% endif %}
-    {% if item.below %}
-      {% include "@atoms/images/icons/_icon.twig" with {
-        icon_base_class: "icon",
-        icon_blockname: "menu_chevron",
-        icon_name: "chevron",
-      } %}
-      {{ menus.menu_links(item.below, attributes, menu_level + 1, menu_class, menu_modifiers, menu_blockname, item_base_class, original_item_modifiers, item_blockname, directory) }}
+      <div {{ bem('heading', item_modifiers, 'menu-item') }}>
+        {% include "@atoms/links/link/link.twig" with {
+          link_content: item.title,
+          link_url: item.url,
+          link_base_class: item_base_class|default(menu_class ~ '__link'),
+          link_modifiers: item_modifiers,
+        } %}
+        {% if item.below %}
+          {% include "@atoms/images/icons/_icon.twig" with {
+            icon_base_class: "icon",
+            icon_blockname: "menu_chevron",
+            icon_name: "chevron",
+          } %}
+        {% endif %}
+      </div>
+      {% if item.below %}
+        {{ menus.menu_links(item.below, attributes, menu_level + 1, menu_class, menu_modifiers, menu_blockname, item_base_class, original_item_modifiers, item_blockname, directory) }}
+      {% endif %}
     {% endif %}
   {% endblock %}
 {% endembed %}
