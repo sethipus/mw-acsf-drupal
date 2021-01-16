@@ -30,6 +30,7 @@
     margin: 20px 40px 0 0;
     font-size: 1.6rem;
     color: clr(primary);
+    display: none;
 
     &.active {
       display: block;
@@ -41,7 +42,6 @@
 
     @include xl {
       margin: 20px 40px 0 0;
-      display: none;
     }
   }
 
@@ -153,36 +153,24 @@
         border-bottom-right-radius: unset;
         border-bottom-left-radius: unset;
         border-bottom: none;
-
-        &__field {
-          width: calc(335px - 22px);
-
-          @include medium {
-            width: calc(688px - 22px);
-          }
-
-          @include xl {
-            width: calc(100% - 20px);
-          }
-        }
       }
       .mars-search-autocomplete-suggestions-wrapper {
         margin: -25px 20px 0;
         padding-top: 25px;
         border: 1px solid clr(subcolor-4);
         border-top: none;
-        width: 335px;
+        width: calc(335px + 22px);
 
         @include medium {
           margin-left: 40px;
           margin-right: 40px;
-          width: 688px;
+          width: calc(688px + 22px);
         }
 
         @include xl {
           margin-left: 0;
           margin-right: 0;
-          width: 896px;
+          width: calc(896px + 22px);
         }
       }
     }

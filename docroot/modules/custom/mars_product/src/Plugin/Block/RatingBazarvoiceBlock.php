@@ -120,7 +120,7 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
         $gtin = $product_variant->get('field_product_sku')->value;
         $size_id = $product_variant->id();
         $build['#items'][] = [
-          'gtin' => $gtin,
+          'gtin' => trim($gtin),
           'show_rating_and_reviews' => $this->isRatingEnable($node),
           'size_id' => $size_id,
         ];
