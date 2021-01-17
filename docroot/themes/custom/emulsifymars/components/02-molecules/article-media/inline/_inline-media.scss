@@ -87,6 +87,13 @@
 
   }
 
+  .paragraph {
+    padding-bottom: 2rem;
+    margin: 0 0 2rem;
+    border-bottom: 1px solid clr(subcolor-4);
+    width: 100%;
+  }
+
   .inline-video {
 
     &__control[data-state="play"] {
