@@ -22,6 +22,7 @@ Drupal.behaviors.searchFilterBehaviour = {
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
             updateCounters(grid);
+            updateAriaChecked(event.target);
           case event.target.classList.contains('search-filter-info__applied-clear'):
             const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
             if (currentFilter !== null) {
@@ -90,6 +91,7 @@ Drupal.behaviors.searchFilterBehaviour = {
     applyFiltersButtons.forEach(function (button) {
       button.addEventListener('click', function(event) {
         event.preventDefault();
+        event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
         processFilters(getGridBlock(event));
       });
     });
@@ -102,9 +104,21 @@ Drupal.behaviors.searchFilterBehaviour = {
           check.checked = !check.checked;
           updateCounters(grid);
           enableApplyButtons();
+          updateAriaChecked(e.target);
         }
       });
     });
+
+    const updateAriaChecked = (checkboxElement) => {
+      const checkboxLabel = checkboxElement.closest('li').querySelector('label');
+      if (checkboxElement.getAttribute('aria-selected') == 'true') {
+        checkboxLabel.setAttribute('aria-checked', false);
+        checkboxElement.setAttribute('aria-selected', false);
+      } else {
+        checkboxLabel.setAttribute('aria-checked', true);
+        checkboxElement.setAttribute('aria-selected', true);
+      }
+    }
 
     const getGridBlock = (event) => {
       const target = event.target;
@@ -281,6 +295,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
       }
+      query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 
       let xhr = new XMLHttpRequest();
       xhr.open('GET', '/search-callback' + query);
@@ -322,6 +337,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
       }
+      query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 
       let xhr = new XMLHttpRequest();
       xhr.open('GET', '/search-callback' + query);

@@ -65,8 +65,11 @@
   }
 
   .no-carousel {
-    justify-content: center;
-    margin-left: 10px;
+    @include medium {
+      display: flex;
+      justify-content: center;
+      margin-left: -2%;
+    }
 
     @include xl {
       margin-left: 15px;

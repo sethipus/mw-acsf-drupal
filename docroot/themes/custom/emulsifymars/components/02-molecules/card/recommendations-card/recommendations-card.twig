@@ -25,9 +25,10 @@
   {% if card_image_src %}
     <div {{ bem('media', [], card_base_class) }}>
       <a href={{ media_url }}
-       {% for attribute, value in heading_link_attributes %}
+        {% for attribute, value in heading_link_attributes %}
          {{ attribute }}="{{ value }}"
         {% endfor %}
+        aria-label="{{ heading | mt }}"
       >
         {% include "@atoms/images/image/_image.twig" with {
           output_image_tag: true,
