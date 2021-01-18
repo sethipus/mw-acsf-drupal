@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -159,6 +160,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $form['items'][$key]['cta']['url'] = [
         '#type' => 'textfield',
         '#title' => $this->t('CTA Link URL'),
+        '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
         '#maxlength' => 2048,
         '#default_value' => $config['items'][$key]['cta']['url'] ?? '',
       ];
@@ -324,6 +326,21 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#theme'] = 'flexible_framer_block';
 
     return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    if (!empty($form_state->get('items_storage')) && is_array($form_state->get('items_storage'))) {
+      $keys = array_keys($form_state->get('items_storage'));
+      foreach ($keys as $key) {
+        $url = $form_state->getValue('items')[$key]['cta']['url'];
+        if (!(UrlHelper::isValid($url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $url))) {
+          $form_state->setErrorByName('items][' . $key . '][cta][url', $this->t('The URL is not valid.'));
+        }
+      }
+    }
   }
 
 }
