@@ -22,8 +22,8 @@
     height: 50px;
     border: none;
     font-family: variable(secondary-font);
-    font-size: 16px;
-    line-height: 50px;
+    font-size: 1.6rem;
+    line-height: 2.24rem;
     color: clr(primary);
     border-radius: variable(button-border-radius);
     padding: 0 10px 0 50px;
@@ -35,8 +35,8 @@
     @include xl {
       width: 896px;
       height: 60px;
-      font-size: 18px;
-      line-height: 60px;
+      font-size: 1.8rem;
+      line-height: 2.52rem;
     }
 
     &:focus {
@@ -44,14 +44,14 @@
     }
 
     &::placeholder {
-      font-size: 16px;
-      line-height: 50px;
+      font-size: 1.6rem;
+      line-height: 2.24rem;
       color: clr(primary);
       opacity: .6;
 
       @include xl {
-        font-size: 18px;
-        line-height: 60px;
+        font-size: 1.8rem;
+        line-height: 2.52rem;
       }
     }
   }
