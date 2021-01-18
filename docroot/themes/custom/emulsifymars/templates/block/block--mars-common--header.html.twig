@@ -64,6 +64,7 @@
         link_modifiers: ['logo'],
         link_url: logo_link__url|default('/'),
         link_attributes: data_attributes['logo'],
+        link_content: "Logo image" | mt,
       } %}
         {% block link_content %}
           {% include "@atoms/images/image/responsive-image.twig" with {

@@ -7,7 +7,7 @@
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('logo', [], footer__base_class) }}>
         {% block footer__logo %}
-        <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }}>
+        <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }} aria-label="{{ "Logo image" | mt }}">
           {% include "@atoms/images/image/responsive-image.twig" with {
             output_image_tag: true,
             image_alt: 'Logo',
