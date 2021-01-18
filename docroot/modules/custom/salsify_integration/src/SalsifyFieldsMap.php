@@ -58,8 +58,6 @@ class SalsifyFieldsMap {
   ];
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT = [
-    // Enumirated.
-    'field_product_brand' => ['salsify:id' => 'Brand Name', 'salsify:data_type' => 'enumerated'],
     'field_product_sub_brand' => ['salsify:id' => 'Sub Brand', 'salsify:data_type' => 'string'],
     'field_product_segment' => ['salsify:id' => 'Amazon Segment', 'salsify:data_type' => 'string'],
     'field_product_name' => ['salsify:id' => 'CMS: Product Name', 'salsify:data_type' => 'string'],

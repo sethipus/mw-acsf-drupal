@@ -47,10 +47,7 @@
   height: 2rem;
   width: 2rem;
   margin: 0 auto;
-
-  path {
-    fill: clr(secondary);
-  }
+  fill: clr(secondary);
 
   @include medium {
     left: -22px;
