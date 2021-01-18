@@ -18,36 +18,40 @@
   &__control[data-state="play"] {
     @include playbutton;
 
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     left: 10px;
     bottom: 25px;
 
-    >div {
-      width: 0;
-      height: 0;
-      border-top: 12px solid transparent;
-      border-bottom: 12px solid transparent;
-      border-left: 20px solid clr(player);
-      margin: auto 35%
+    .play-icon {
+      width: 30.2px;
+      height: 36px;
+      fill: clr(secondary);
+      margin: auto 35%;
     }
+
+    
   }
 
   &__control[data-state="pause"] {
     @include pausebutton;
 
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     left: 10px;
     bottom: 30px;
 
     >div {
-      width: 14px;
-      height: 18px;
-      border-right: 4px solid clr(text-inverse);
-      border-left: 4px solid clr(text-inverse);
+      width: 30.2px;
+      height: 36px;
+      border-right: 8px solid clr(text-inverse);
+      border-left: 8px solid clr(text-inverse);
       margin: auto;
     }
+  }
+
+  &__control[data-state="pause"] .play-icon{
+    display: none;
   }
 
   &__controls {
@@ -134,13 +138,11 @@
       margin-right: 30px;
     }
 
-    >div {
-      width: 0;
-      height: 0;
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-      border-left: 10px solid clr(player);
-      margin: auto 35%
+    .play-icon {
+      width: 30.2px;
+      height: 36px;
+      fill: clr(secondary);
+      margin: auto 35%;
     }
   }
 

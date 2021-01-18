@@ -20,13 +20,11 @@
     right: 15px;
     left: auto;
 
-    >div {
-      width: 0;
-      height: 0;
-      border-top: 12px solid transparent;
-      border-bottom: 12px solid transparent;
-      border-left: 20px solid clr(player);
-      margin: auto 35%
+    .play-icon {
+      width: 20px;
+      height: 24px;
+      fill: clr(secondary);
+      margin: auto 35%;
     }
   }
 
@@ -46,6 +44,10 @@
       border-left: 4px solid clr(text-inverse);
       margin: auto;
     }
+  }
+
+  &__control[data-state="pause"] .play-icon{
+    display: none;
   }
 
   &__controls {
