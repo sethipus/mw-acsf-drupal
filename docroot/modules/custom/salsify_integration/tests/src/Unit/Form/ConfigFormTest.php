@@ -19,6 +19,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\salsify_integration\Form\ConfigForm;
@@ -205,6 +207,20 @@ class ConfigFormTest extends UnitTestCase {
   private $salsifyEmailReportMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Queue\QueueFactory
+   */
+  private $queueFactoryMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Queue\QueueInterface
+   */
+  private $queueMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -216,7 +232,8 @@ class ConfigFormTest extends UnitTestCase {
       $this->entityTypeManagerMock,
       $this->eventDispatcherMock,
       $this->moduleHandlerMock,
-      $this->salsifyFieldsMock
+      $this->salsifyFieldsMock,
+      $this->queueFactoryMock
     );
   }
 
@@ -225,7 +242,7 @@ class ConfigFormTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(5))
+      ->expects($this->exactly(6))
       ->method('get')
       ->willReturnMap(
         [
@@ -253,6 +270,11 @@ class ConfigFormTest extends UnitTestCase {
             'salsify_integration.salsify_fields',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->salsifyFieldsMock,
+          ],
+          [
+            'queue',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->queueFactoryMock,
           ],
         ]
       );
@@ -783,6 +805,13 @@ class ConfigFormTest extends UnitTestCase {
     $this->loggerFactoryMock = $this->createMock(LoggerChannelFactoryInterface::class);
     $this->loggerChannelMock = $this->createMock(LoggerChannelInterface::class);
     $this->salsifyEmailReportMock = $this->createMock(SalsifyEmailReport::class);
+    $this->queueFactoryMock = $this->createMock(QueueFactory::class);
+    $this->queueMock = $this->createMock(QueueInterface::class);
+
+    $this->queueFactoryMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->queueMock);
   }
 
 }
