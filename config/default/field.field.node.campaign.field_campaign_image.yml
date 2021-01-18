@@ -7,13 +7,18 @@ dependencies:
     - media.type.image
     - media.type.lighthouse_image
     - node.type.campaign
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 id: node.campaign.field_campaign_image
 field_name: field_campaign_image
 entity_type: node
 bundle: campaign
 label: Image
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
