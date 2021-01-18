@@ -338,7 +338,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'image_alt' => NULL,
         'shape_motif' => NULL,
         'content' => NULL,
-        'title' => NULL,
+        'heading' => NULL,
       ],
       'template' => 'inline-image-video-block',
     ],
