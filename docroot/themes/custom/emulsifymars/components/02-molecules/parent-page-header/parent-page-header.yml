@@ -1,14 +1,15 @@
 theme_styles: 'dove'
 
-pp_header_eyebrow_text: 'faq'
+pp_header_eyebrow_text: 'HELP'
 pp_header_eyebrow_modifiers: ['parent-page']
 
-pp_header_heading: 'Contact & Help'
+pp_header_heading: 'FAQS & CONTACT'
 pp_header_heading_level: 1
 pp_header_heading_base_class: 'parent-page-heading'
 
 pp_header_paragraph_size: 'large'
-pp_header_paragraph_content: 'A while back I needed to count the amount of letters that a piece of text in an email template had (to avoid passing any character limits). Unfortunately, I could not think of a quick way to do so on my macbook and I therefore turned to the Internet. There'
+pp_header_paragraph_content: 'Plus, I’m all in whenever DOVE are involved. Except, can we just chat a quick minute? 
+This is a PSA to the makers of the DOVE bar.'
 pp_header_paragraph_base_class: 'parent-page-paragraph'
 
 # parent_page_img_url: ''
