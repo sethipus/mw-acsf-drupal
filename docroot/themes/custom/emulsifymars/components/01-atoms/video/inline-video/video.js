@@ -138,7 +138,7 @@ Drupal.behaviors.inlineVideoPlayer = {
           if (!videoElements('progress-time--inner').getAttribute('max')) videoElements('progress-time--inner').setAttribute('max', videoElements('video').duration);
           videoElements('progress-time--inner').value = videoElements('video').currentTime;
           videoElements('progress-time--progress-bar').style.width = Math.floor((videoElements('video').currentTime / videoElements('video').duration) * 100) + '%';
-          videoElements('progress-time--duration').innerHTML = parseFloat(videoElements('video').currentTime.toFixed(2)) + '/' + videoElements('video').duration;
+          videoElements('progress-time--duration').innerHTML = parseFloat(videoElements('video').currentTime).toFixed(2) + '/' + videoElements('video').duration.toFixed(2);
         });
 
         // React to the user clicking within the progress bar

@@ -30,7 +30,7 @@
       <div {{ bem('title', [], search_filter_header_base_class) }}>{{ title }}</div>
       <div {{ bem('close', [], search_filter_header_base_class) }}></div>
     </div>
-    <div {{ bem(search_filter_content_base_class) }}>
+    <div {{ bem(search_filter_content_base_class) }} aria-live="polite">
       {% for filter in filters %}
         {% include "@molecules/filter/filter.twig" with {
           filter_title: filter.filter_title,

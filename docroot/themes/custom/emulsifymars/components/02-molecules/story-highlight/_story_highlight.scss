@@ -18,6 +18,11 @@
   &__content {
     position: relative;
     overflow: hidden;
+
+    @include large {
+      padding-bottom: 5rem;
+    }
+
   }
 
   .white-background {
@@ -142,7 +147,7 @@
     }
 
     @include large {
-      width: 55%;
+      min-width: 55%;
       max-width: 78rem;
     }
   }
@@ -164,7 +169,7 @@
 
     @include large {
       left: 0;
-      width: 33%;
+      min-width: 33%;
       max-width: 43rem;
       margin-right: 0;
     }
