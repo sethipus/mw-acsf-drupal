@@ -23,6 +23,7 @@
       </div>
     </div>
   {% endif %}
+  {% if filters is not empty %}
   <div class="search-filter-open-button">{{ 'Filter' | mt }}</div>
   <div {{ bem(search_filter_block_base_class) }}>
     <div {{ bem(search_filter_header_base_class) }}>
@@ -62,4 +63,6 @@
       <a href="#" {{ bem('button', ['simple', 'clear-all', modifier], search_filter_block_base_class) }}>{{ "Clear All" | mt }}</a>
     </div>
   </div>
+{% endif %}
 </div>
+
