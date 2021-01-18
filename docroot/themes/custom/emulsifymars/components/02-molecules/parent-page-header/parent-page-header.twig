@@ -45,18 +45,18 @@
         paragraph_base_class: pp_header_paragraph_base_class
       } %}
     {% endif %}
-
-    {% if parent_page_media_url and parent_page_media_type == 'video' %}
-      {{ attach_library('emulsifymars/ambient-video') }}
-      <div class="bg-video">
-        {% include "@atoms/video/ambient-video/video.twig" with {
-          video__src__url: parent_page_media_url,
-          video__control: true,
-          data_layer: data_layer,
-        } %}
-      </div>
-    {% endif %}
   </div>
+  
+  {% if parent_page_media_url and parent_page_media_type == 'video' %}
+    {{ attach_library('emulsifymars/ambient-video') }}
+    <div class="bg-video">
+      {% include "@atoms/video/ambient-video/video.twig" with {
+        video__src__url: parent_page_media_url,
+        video__control: true,
+        data_layer: data_layer,
+      } %}
+    </div>
+  {% endif %}
 
   <div class="brand-shape">
     {{ brand_shape | raw }}

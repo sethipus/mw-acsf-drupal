@@ -174,6 +174,29 @@
     background-position: top center;
     background-size: cover;
     padding: 0;
+
+    .content {
+      position: absolute;
+      z-index: 1;
+      padding: 0 2rem;
+      left: 0;
+      width: 100%;
+      top: calc(50% - 15rem);
+
+      @include small {
+        padding: 0 2rem;
+      }
+
+      @include large {
+        padding: 0 4rem;
+      }
+
+      @include xl {
+        left: calc(50% - 89.6rem/2);
+        width: 89.6rem;
+      }
+    }
+
     .brand-shape {
       display: none;
     }
