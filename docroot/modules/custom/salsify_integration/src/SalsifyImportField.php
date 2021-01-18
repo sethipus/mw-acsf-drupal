@@ -4,8 +4,10 @@ namespace Drupal\salsify_integration;
 
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\field\Entity\FieldConfig;
 
 /**
  * Class SalsifyImportField.
@@ -121,18 +123,73 @@ class SalsifyImportField extends SalsifyImport {
     $entity_type = \Drupal::config('salsify_integration.settings')
       ->get('entity_type');
     $entity_bundle = $content_type;
-    // E$entity_bundle = $this->config->get('bundle');.
+
     // Store this to send through to hook_salsify_node_presave_alter().
     $original_product_data = $product_data;
 
-    // Load field mappings keyed by Salsify ID.
-    $salsify_field_mapping = SalsifyFields::getFieldMappings(
-      [
-        'entity_type' => $entity_type,
-        'bundle' => $entity_bundle,
-      ],
-      'salsify_id'
+    $entity = static::getEntity(
+      $entity_type,
+      $entity_bundle,
+      $product_data,
+      $force_update,
+    $process_result
     );
+    if (!$entity) {
+      return $process_result;
+    }
+
+    static::populateEntityByData(
+      $entity,
+      $product_data,
+      $process_result
+    );
+
+    // Update parent entities if product or multipack was created earlier.
+    \Drupal::service('salsify_integration.salsify_product_repository')
+      ->updateParentEntities($product_data, $entity);
+
+    // Allow users to alter the node just before it's saved.
+    \Drupal::service('module_handler')
+      ->alter(['salsify_entity_presave'], $entity, $original_product_data);
+
+    // Set status to draft for generated product based on nutrition fields.
+    if (isset($product_data['CMS: not publish']) && $product_data['CMS: not publish']) {
+      $entity->set('moderation_state', 'draft');
+    }
+    $entity->save();
+
+    return $process_result;
+  }
+
+  /**
+   * Get product entity or generate new one.
+   *
+   * @param string $entity_type
+   *   Entity type.
+   * @param string $entity_bundle
+   *   Entity bundle.
+   * @param array $product_data
+   *   Product data.
+   * @param bool $force_update
+   *   Force update flag.
+   * @param array $process_result
+   *   Result array.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface|false
+   *   Entity or false.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public static function getEntity(
+    string $entity_type,
+    string $entity_bundle,
+    array $product_data,
+    bool $force_update,
+    array &$process_result
+  ) {
+
     $entityTypeManager = \Drupal::entityTypeManager();
     // Lookup any existing entities in order to overwrite their contents.
     $results = $entityTypeManager->getStorage($entity_type)
@@ -141,6 +198,8 @@ class SalsifyImportField extends SalsifyImport {
       ->execute();
 
     // Load the existing entity or generate a new one.
+    $title = $product_data['CMS: Product Name'] ?? $product_data['salsify:id'];
+    $moderation_state = static::getModerationState($entity_bundle);
     if ($results) {
       $entity_id = array_values($results)[0];
       $entity = $entityTypeManager->getStorage($entity_type)->load($entity_id);
@@ -151,14 +210,14 @@ class SalsifyImportField extends SalsifyImport {
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
         $entity->set('salsify_updated', $salsify_updated);
         $process_result['import_result'] = static::PROCESS_RESULT_UPDATED;
-        $entity->set('moderation_state', 'published');
+        $entity->set('title', $title);
+        $entity->set('moderation_state', $moderation_state);
       }
       else {
-        return $process_result;
+        return FALSE;
       }
     }
     else {
-      $title = $product_data['Trade Item Description'] ?? $product_data['salsify:id'];
       // Allow users to alter the title set when a node is created by invoking
       // hook_salsify_process_node_title_alter().
       \Drupal::service('module_handler')
@@ -183,9 +242,56 @@ class SalsifyImportField extends SalsifyImport {
       $entity = $entityTypeManager->getStorage($entity_type)->create($entity_values);
       $entity->getTypedData();
       $entity->save();
-      $entity->set('moderation_state', 'published');
+      $entity->set('moderation_state', $moderation_state);
       $process_result['import_result'] = static::PROCESS_RESULT_CREATED;
     }
+
+    return $entity;
+  }
+
+  /**
+   * Get moderation state by content type.
+   *
+   * @param string $entity_bundle
+   *   The entity bundle.
+   *
+   * @return string
+   *   State.
+   */
+  public static function getModerationState(string $entity_bundle) {
+    return ($entity_bundle == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) ?
+      'draft' : 'published';
+  }
+
+  /**
+   * Populate entity by salsify data.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   Entity object.
+   * @param array $product_data
+   *   Salsify data.
+   * @param array $process_result
+   *   Process result data.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public static function populateEntityByData(
+    EntityInterface &$entity,
+    array $product_data,
+    array &$process_result
+  ) {
+    $entity_type = $entity->getEntityType()->id();
+    $entity_bundle = $entity->bundle();
+    // Load field mappings keyed by Salsify ID.
+    $salsify_field_mapping = SalsifyFields::getFieldMappings(
+      [
+        'entity_type' => $entity_type,
+        'bundle' => $entity_bundle,
+      ],
+      'salsify_id'
+    );
 
     // Load the configurable fields for this content type.
     $filtered_fields = Salsify::getContentTypeFields($entity_type, $entity_bundle);
@@ -193,8 +299,6 @@ class SalsifyImportField extends SalsifyImport {
     unset($salsify_field_mapping['salsify_updated']);
     unset($salsify_field_mapping['salsify_id']);
 
-    // Set the field data against the Salsify node. Remove the data from the
-    // serialized list to prevent redundancy.
     foreach ($salsify_field_mapping as $field) {
       if (isset($product_data[$field['salsify_id']]) &&
         \Drupal::service('salsify_integration.product_data_helper')
@@ -206,108 +310,19 @@ class SalsifyImportField extends SalsifyImport {
 
         // Run all digital assets through additional processing as media
         // entities if the Media entity module is enabled.
-        if (\Drupal::service('module_handler')->moduleExists('media')) {
-          if ($field['salsify_data_type'] == 'digital_asset') {
-            /* @var \Drupal\media_entity\Entity\Media $media */
-            $media_entities = \Drupal::service('salsify_integration.salsify_import_media')
-              ->processSalsifyMediaItem($field, $product_data);
-            $options = [];
-            if ($media_entities) {
-              foreach ($media_entities as $media) {
-                $options[] = [
-                  'target_id' => $media->id(),
-                ];
-              }
-            }
-          }
-        }
+        static::populateMediaOption(
+          $field,
+          $product_data,
+          $options
+        );
 
-        if ($field_config) {
-          // Invoke hook_salsify_process_field_alter() and
-          // hook_salsify_process_field_FIELD_TYPE_alter() implementations.
-          $hooks = [
-            'salsify_process_field',
-            'salsify_process_field_' . $field_config->getType(),
-          ];
-          $context = [
-            'field_config' => $field_config,
-            'product_data' => $product_data,
-            'field_map' => $field,
-          ];
-
-          \Drupal::service('module_handler')
-            ->alter($hooks, $options, $context);
-
-          // Truncate strings if they are too long for the string field they
-          // are mapped against.
-          if ($field_config->getType() == 'string') {
-            $field_storage = $field_config->getFieldStorageDefinition();
-            $max_length = $field_storage->getSetting('max_length');
-            $options = (is_array($options)) ? reset($options) : $options;
-
-            if (strlen($options) > $max_length) {
-              $options = substr($options, 0, $max_length);
-            }
-          }
-          elseif ($field_config->getType() == 'list_string' && $field['salsify_data_type'] == 'string') {
-            $field_storage = $field_config->getFieldStorageDefinition();
-            $allowed_values = $field_storage->getSetting('allowed_values');
-            if (!isset($allowed_values[$options])) {
-              $allowed_values[$options] = $options;
-              $field_storage->setSetting('allowed_values', $allowed_values);
-              $field_storage->save();
-            }
-          }
-          // For taxonomy term mapping, add processing for the terms coming in
-          // from Salsify.
-          elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'enumerated') {
-            $salsify_values = is_array($product_data[$field['salsify_id']]) ? $product_data[$field['salsify_id']] : [$product_data[$field['salsify_id']]];
-            $term_entities = \Drupal::service('salsify_integration.salsify_import_taxonomy')
-              ->getTaxonomyTerms('salsify_id', $salsify_values);
-            if ($term_entities) {
-              $options = [];
-              /* @var \Drupal\taxonomy\Entity\Term $term_entity */
-              foreach ($term_entities as $term_entity) {
-                $options[] = ['target_id' => $term_entity->id()];
-              }
-            }
-          }
-          elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'entity_ref') {
-
-            $handler_settings = $field_config->getSetting('handler_settings');
-            $target_bundles = $handler_settings['target_bundles'] ?? [];
-
-            $entity_query = $entityTypeManager->getStorage('node')
-              ->getQuery();
-            $child_entities = $entity_query->condition(
-              'salsify_id',
-                $product_data[$field['salsify_id']],
-              'IN'
-              )
-              ->condition('type', $target_bundles, 'IN')
-              ->execute();
-
-            if ($child_entities) {
-              $options = [];
-              foreach ($child_entities as $child_entity) {
-                $options[] = ['target_id' => $child_entity];
-              }
-            }
-          }
-          elseif ($field_config->getType() == 'metatag' && $field['salsify_data_type'] == 'complex') {
-            /* @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
-            $meta_tags = $entity->get($field['field_name'])->value;
-            $meta_tags_value = [];
-            if (isset($meta_tags)) {
-              $meta_tags_value = unserialize($meta_tags);
-            }
-            $meta_tags_value['description'] = $product_data['CMS: Meta Description'] ?? NULL;
-            $meta_tags_value['keywords'] = $product_data['CMS: Keywords'] ?? NULL;
-            $options = serialize($meta_tags_value);
-          }
-
-          $entity->set($field['field_name'], $options);
-        }
+        static::populateDataOptions(
+          $field,
+          $product_data,
+          $field_config,
+          $options,
+          $entity
+        );
       }
       elseif (!\Drupal::service('salsify_integration.product_data_helper')
         ->validateDataRecord($product_data, $field)) {
@@ -315,22 +330,270 @@ class SalsifyImportField extends SalsifyImport {
           ', ' . $field['salsify_id'] . ', ' . $field['salsify_data_type'];
       }
     }
+  }
 
-    // Update parent entities if product or multipack was created earlier.
-    \Drupal::service('salsify_integration.salsify_product_repository')
-      ->updateParentEntities($product_data, $entity);
-
-    // Allow users to alter the node just before it's saved.
-    \Drupal::service('module_handler')
-      ->alter(['salsify_entity_presave'], $entity, $original_product_data);
-
-    // Set status to draft for generated product based on nutrition fields.
-    if (isset($product_data['CMS: not publish']) && $product_data['CMS: not publish']) {
-      $entity->set('moderation_state', 'draft');
+  /**
+   * Populate options for media fields.
+   *
+   * @param array $field
+   *   Mapping field data.
+   * @param array $product_data
+   *   Product data.
+   * @param mixed $options
+   *   Data of option.
+   */
+  public static function populateMediaOption(
+    array $field,
+    array $product_data,
+    &$options
+  ) {
+    if (\Drupal::service('module_handler')->moduleExists('media')) {
+      if ($field['salsify_data_type'] == 'digital_asset') {
+        /* @var \Drupal\media_entity\Entity\Media $media */
+        $media_entities = \Drupal::service('salsify_integration.salsify_import_media')
+          ->processSalsifyMediaItem($field, $product_data);
+        $options = [];
+        if ($media_entities) {
+          foreach ($media_entities as $media) {
+            $options[] = [
+              'target_id' => $media->id(),
+            ];
+          }
+        }
+      }
     }
-    $entity->save();
+  }
 
-    return $process_result;
+  /**
+   * Populate options by data.
+   *
+   * @param array $field
+   *   Field data array.
+   * @param array $product_data
+   *   Product data array.
+   * @param \Drupal\field\Entity\FieldConfig $field_config
+   *   Field config object.
+   * @param mixed $options
+   *   Option's data.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   Entity object.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public static function populateDataOptions(
+    array $field,
+    array $product_data,
+    FieldConfig $field_config,
+    &$options,
+    EntityInterface &$entity
+  ) {
+    if ($field_config) {
+      // Invoke hook_salsify_process_field_alter() and
+      // hook_salsify_process_field_FIELD_TYPE_alter() implementations.
+      $hooks = [
+        'salsify_process_field',
+        'salsify_process_field_' . $field_config->getType(),
+      ];
+      $context = [
+        'field_config' => $field_config,
+        'product_data' => $product_data,
+        'field_map' => $field,
+      ];
+
+      \Drupal::service('module_handler')
+        ->alter($hooks, $options, $context);
+
+      // Truncate strings if they are too long for the string field they
+      // are mapped against.
+      if ($field_config->getType() == 'string') {
+        static::populateStringOption(
+          $field_config,
+          $options
+        );
+      }
+      elseif ($field_config->getType() == 'list_string' && $field['salsify_data_type'] == 'string') {
+        static::populateListStringOption(
+          $field_config,
+          $options
+        );
+      }
+      // For taxonomy term mapping, add processing for the terms coming in
+      // from Salsify.
+      elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'enumerated') {
+        static::populateTermOption(
+          $product_data,
+          $field,
+          $options
+        );
+      }
+      elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'entity_ref') {
+        static::populateEntityRefOption(
+          $product_data,
+          $field,
+          $field_config,
+          $options
+        );
+      }
+      elseif ($field_config->getType() == 'metatag' && $field['salsify_data_type'] == 'complex') {
+        static::populateMetaDataOption(
+          $product_data,
+          $field,
+          $entity,
+          $options
+        );
+      }
+
+      $entity->set($field['field_name'], $options);
+    }
+  }
+
+  /**
+   * Populate option for string field.
+   *
+   * @param \Drupal\field\Entity\FieldConfig $field_config
+   *   Field config object.
+   * @param mixed $options
+   *   Option's array.
+   */
+  public static function populateStringOption(
+    FieldConfig $field_config,
+    &$options
+  ) {
+    $field_storage = $field_config->getFieldStorageDefinition();
+    $max_length = $field_storage->getSetting('max_length');
+    $options = (is_array($options)) ? reset($options) : $options;
+
+    if (strlen($options) > $max_length) {
+      $options = substr($options, 0, $max_length);
+    }
+  }
+
+  /**
+   * Populate option for list-string field.
+   *
+   * @param \Drupal\field\Entity\FieldConfig $field_config
+   *   Field config object.
+   * @param mixed $options
+   *   Option's array.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public static function populateListStringOption(
+    FieldConfig $field_config,
+    &$options
+  ) {
+    $field_storage = $field_config->getFieldStorageDefinition();
+    $allowed_values = $field_storage->getSetting('allowed_values');
+    if (!isset($allowed_values[$options])) {
+      $allowed_values[$options] = $options;
+      $field_storage->setSetting('allowed_values', $allowed_values);
+      $field_storage->save();
+    }
+  }
+
+  /**
+   * Populate option for term related fields.
+   *
+   * @param array $product_data
+   *   Product data array.
+   * @param array $field
+   *   Field data array.
+   * @param mixed $options
+   *   Option's array.
+   */
+  public static function populateTermOption(
+    array $product_data,
+    array $field,
+    &$options
+  ) {
+    $salsify_values = is_array($product_data[$field['salsify_id']]) ? $product_data[$field['salsify_id']] : [$product_data[$field['salsify_id']]];
+    $term_entities = \Drupal::service('salsify_integration.salsify_import_taxonomy')
+      ->getTaxonomyTerms('salsify_id', $salsify_values);
+    if ($term_entities) {
+      $options = [];
+      /* @var \Drupal\taxonomy\Entity\Term $term_entity */
+      foreach ($term_entities as $term_entity) {
+        $options[] = ['target_id' => $term_entity->id()];
+      }
+    }
+  }
+
+  /**
+   * Populate option for entity ref field.
+   *
+   * @param array $product_data
+   *   Product data array.
+   * @param array $field
+   *   Field data array.
+   * @param \Drupal\field\Entity\FieldConfig $field_config
+   *   Field config object.
+   * @param mixed $options
+   *   Option's data.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public static function populateEntityRefOption(
+    array $product_data,
+    array $field,
+    FieldConfig $field_config,
+    &$options
+  ) {
+    $handler_settings = $field_config->getSetting('handler_settings');
+    $target_bundles = $handler_settings['target_bundles'] ?? [];
+
+    $entityTypeManager = \Drupal::entityTypeManager();
+    $entity_query = $entityTypeManager->getStorage('node')
+      ->getQuery();
+    $child_entities = $entity_query->condition(
+      'salsify_id',
+      $product_data[$field['salsify_id']],
+      'IN'
+    )
+      ->condition('type', $target_bundles, 'IN')
+      ->execute();
+
+    if ($child_entities) {
+      $options = [];
+      foreach ($child_entities as $child_entity) {
+        $options[] = ['target_id' => $child_entity];
+      }
+    }
+  }
+
+  /**
+   * Populate option for meta data field.
+   *
+   * @param array $product_data
+   *   Product data array.
+   * @param array $field
+   *   Field data array.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   Field config object.
+   * @param mixed $options
+   *   Option's data.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public static function populateMetaDataOption(
+    array $product_data,
+    array $field,
+    EntityInterface $entity,
+    &$options
+  ) {
+
+    /* @var \Drupal\Core\Entity\FieldableEntityInterface $entity */
+    $meta_tags = $entity->get($field['field_name'])->value;
+    $meta_tags_value = [];
+    if (isset($meta_tags)) {
+      $meta_tags_value = unserialize($meta_tags);
+    }
+    $meta_tags_value['description'] = $product_data['CMS: Meta Description'] ?? NULL;
+    $meta_tags_value['keywords'] = $product_data['CMS: Keywords'] ?? NULL;
+    $options = serialize($meta_tags_value);
   }
 
 }
