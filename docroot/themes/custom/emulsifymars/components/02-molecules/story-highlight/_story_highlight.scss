@@ -57,17 +57,18 @@
 
     @include medium {
       padding-top: 5rem;
+      margin-bottom: 4rem;
     }
 
     @include large {
       font-size: 4.8rem;
       line-height: 4.8rem;
+      margin-bottom: 6rem;
     }
   }
 
   & .graphic_divider {
     text-align: center;
-    margin-top: 5rem;
 
     svg {
       path {
@@ -88,10 +89,12 @@
     @include xs {
       font-size: 1.8rem;
       line-height: 1.8rem;
+      margin: 2rem auto 4rem;
     }
 
     @include medium {
       line-height: 2.88rem;
+      margin: 4rem auto 6rem;
     }
 
     @include large {
@@ -109,7 +112,7 @@
 
     & .paragraph {
       align-self: flex-start;
-      margin-top: 3rem;
+      margin: 2rem 0;
       text-align: left;
       font-family: variable(secondary-font);
       color: clr(primary);
@@ -167,11 +170,16 @@
       max-width: 100%;
     }
 
+    @include medium {
+      margin-top: 3rem;
+    }
+
     @include large {
       left: 0;
       min-width: 33%;
       max-width: 43rem;
       margin-right: 0;
+      margin-top: 4rem;
     }
 
     @include xl {
@@ -195,6 +203,14 @@
     & img {
       width: auto;
       max-width: 100%;
+    }
+
+    @include xs {
+      margin-top: 3rem;
+    }
+
+    @include medium {
+      margin-top: 4rem;
     }
 
     @include large {
