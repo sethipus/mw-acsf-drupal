@@ -165,19 +165,16 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
     }
 
     // Taxonomy preset filter(s).
-    // Adding them only if facets are disabled.
-    if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-      foreach ($config['general_filters'] as $filter_key => $filter_value) {
-        if (!empty($filter_value['select'])) {
-          $searchOptions['conditions'][] = [
-            $filter_key,
-            $filter_value['select'],
-            'IN',
-          ];
-        }
+    foreach ($config['general_filters'] as $filter_key => $filter_value) {
+      if (!empty($filter_value['select'])) {
+        $searchOptions['conditions'][] = [
+          $filter_key,
+          $filter_value['select'],
+          'IN',
+        ];
       }
-      $searchOptions['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
     }
+    $searchOptions['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
 
     return $searchOptions;
   }
