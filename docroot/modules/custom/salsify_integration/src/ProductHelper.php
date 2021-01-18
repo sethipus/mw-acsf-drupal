@@ -222,12 +222,7 @@ class ProductHelper {
         }
 
         // Add unit for the value.
-        if (isset($product_variant[$product_field_name]) &&
-          isset($product_variant[$product_field_name . ' UOM'])) {
-
-          $product[$product_field_name] = $product_variant[$product_field_name] .
-            ' ' . $product_variant[$product_field_name . ' UOM'];
-        }
+        $this->addUom($product, $product_variant, $product_field_name);
 
         // Filter nutrion fields and add to the record.
         $nutrition_fields = $this->getNuntritionFiledsByName($product_field_name, $product_variant);
@@ -263,6 +258,29 @@ class ProductHelper {
     $response['data'] = $products;
 
     return Json::encode($response);
+  }
+
+  /**
+   * Add unit of measure for the value.
+   *
+   * @param array $product
+   *   Product data.
+   * @param array $product_variant
+   *   Product variant data.
+   * @param string $product_field_name
+   *   Product field name.
+   */
+  private function addUom(array &$product, array $product_variant, string $product_field_name) {
+    if (isset($product_variant[$product_field_name]) &&
+      isset($product_variant[$product_field_name . ' UOM'])) {
+
+      $field_value = is_array($product_variant[$product_field_name])
+        ? reset($product_variant[$product_field_name])
+        : $product_variant[$product_field_name];
+
+      $product[$product_field_name] = $field_value .
+        ' ' . $product_variant[$product_field_name . ' UOM'];
+    }
   }
 
   /**
@@ -317,16 +335,18 @@ class ProductHelper {
    */
   public function addNutritionFieldsData(array $nutrition_fields, array &$product, array $product_variant) {
     foreach ($nutrition_fields as $field_name) {
-      $product[$field_name] = $product_variant[$field_name];
+      if (isset($product_variant[$field_name])) {
+        $product[$field_name] = $product_variant[$field_name];
 
-      $matches = [];
-      preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
-      // Add unit for the value.
-      if (isset($product_variant[$field_name]) &&
-        isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
+        $matches = [];
+        preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
+        // Add unit for the value.
+        if (isset($product_variant[$field_name]) &&
+          isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
 
-        $product[$field_name] = $product_variant[$field_name] .
-          ' ' . $product_variant[$matches[1] . ' UOM ' . $matches[2]];
+          $product[$field_name] = $product_variant[$field_name] .
+            ' ' . $product_variant[$matches[1] . ' UOM ' . $matches[2]];
+        }
       }
     }
   }
