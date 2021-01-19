@@ -50,7 +50,7 @@
 
     @include large {
       flex-basis: 160px;
-      margin: 3.2rem $space-triple;
+      margin: 4.5rem $space-triple 3.2rem;
     }
 
     @include xl {
