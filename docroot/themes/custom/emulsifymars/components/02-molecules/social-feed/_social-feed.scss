@@ -63,9 +63,10 @@
     height: 0.8rem;
     width: 70%;
     left: 15%;
+    background-color: rgba(clr(secondary-rgb), 0.4);
 
     & .swiper-scrollbar-drag {
-      background: clr(primary);
+      background: clr(secondary);
     }
   }
 
