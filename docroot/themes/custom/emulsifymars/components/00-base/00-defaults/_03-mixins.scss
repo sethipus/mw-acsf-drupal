@@ -89,10 +89,6 @@ $outer-container-break: $small;
     cursor: pointer;
   }
 
-  &:focus {
-    outline: 0;
-  }
-
   >div {
     width: 0;
     height: 0;
@@ -116,16 +112,12 @@ $outer-container-break: $small;
     cursor: pointer;
   }
 
-  &:focus {
-    outline: 0;
-  }
-
   >div {
     width: 14px;
     height: 18px;
     margin: auto;
   }
-    
+
   & .sronly--play {
     display: none;
   }
