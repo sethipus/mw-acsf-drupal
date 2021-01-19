@@ -196,18 +196,6 @@ class SalsifyImportMediaTest extends UnitTestCase {
         ]
       );
 
-    $this->cacheBackendMock
-      ->expects($this->once())
-      ->method('get')
-      ->willReturn(NULL);
-
-    $this->salsifyMock
-      ->expects($this->once())
-      ->method('getProductData')
-      ->willReturn([
-        'product_data',
-      ]);
-
     $this->entityTypeManagerMock
       ->expects($this->any())
       ->method('getStorage')
@@ -312,7 +300,7 @@ class SalsifyImportMediaTest extends UnitTestCase {
       $field,
       $product_data
     );
-    $this->assertFalse($result);
+    $this->assertNotEmpty($result);
   }
 
   /**

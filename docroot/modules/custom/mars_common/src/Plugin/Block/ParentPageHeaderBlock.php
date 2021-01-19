@@ -188,14 +188,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
         self::KEY_OPTION_DEFAULT,
       ]),
       '#states' => [
-        'visible' => [
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
-          ],
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
-          ],
-        ],
         'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
@@ -212,14 +204,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
         self::KEY_OPTION_DEFAULT,
       ]),
       '#states' => [
-        'visible' => [
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
-          ],
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
-          ],
-        ],
         'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
@@ -282,14 +266,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
         self::KEY_OPTION_DEFAULT,
       ]),
       '#states' => [
-        'visible' => [
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
-          ],
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_IMAGE],
-          ],
-        ],
         'required' => [
           [
             ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
