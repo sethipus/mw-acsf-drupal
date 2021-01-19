@@ -48,6 +48,7 @@
 
   @include xs {
     pointer-events: none;
+    top: 5px;
 
     &.main-menu--sub-open {
       transform: translateY(-50%) rotate(180deg);
