@@ -503,6 +503,7 @@ class ConfigForm extends ConfigFormBase {
         $message = $this->t('A error occurred while making the request to Salsify. Check the API settings and try again.')->render();
         $this->logger(static::SALSIFY_LOGGER_CHANNEL)->error($message);
         $this->messenger()->addError($message);
+        $this->messenger()->addError($e->getMessage());
       }
       return;
     }

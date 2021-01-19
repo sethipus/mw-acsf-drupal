@@ -3,6 +3,8 @@
 namespace Drupal\salsify_integration;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\TypedData\Exception\MissingDataException;
 
 /**
  * Class MulesofConnector.
@@ -10,6 +12,8 @@ use Drupal\Component\Serialization\Json;
  * @package Drupal\salsify_integration
  */
 class MulesoftConnector {
+
+  use StringTranslationTrait;
 
   /**
    * The Product helper class.
@@ -60,6 +64,12 @@ class MulesoftConnector {
     ];
 
     $response_array = Json::decode($response);
+
+    if (empty($response_array['data'])) {
+      $message = $this->t('Empty data set for the Import.');
+      throw new MissingDataException($message);
+    }
+
     $data['products'] = $response_array['data'] ?? [];
     $data['market'] = $response_array['country'] ?? NULL;
 
