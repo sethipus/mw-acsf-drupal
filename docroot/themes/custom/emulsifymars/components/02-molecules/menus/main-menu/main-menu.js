@@ -14,9 +14,9 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
           headerMobile.find('.main-nav__mobile .main-menu__link--with-sub').on('click', e => {
             e.preventDefault();
             const menuItem = e.currentTarget;
-            const subMenu = menuItem.nextElementSibling;
+            const subMenu = menuItem.parentElement.nextElementSibling;
             subMenu.classList.toggle('main-menu--sub-open');
-            subMenu.nextElementSibling.classList.toggle('main-menu--sub-open');
+            menuItem.nextElementSibling.classList.toggle('main-menu--sub-open');
           });
         }
       })($('#header-menu-trigger').once('mobileMenuInited'));
