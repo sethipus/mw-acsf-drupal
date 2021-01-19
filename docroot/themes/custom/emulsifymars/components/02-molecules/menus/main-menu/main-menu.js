@@ -65,7 +65,9 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
               .on('keydown', function (event) {
                 if (event.key === 'Escape') {
                   hideSubMenu($subMenuItem);
-                  $subMenuItem.find('.main-menu__link--with-sub').focus();
+                  setTimeout(function () {
+                    $subMenuItem.find('.main-menu__link--with-sub').focus();
+                  });
                 }
               })
               .on('keydown', '.main-menu__link--with-sub', function (event) {

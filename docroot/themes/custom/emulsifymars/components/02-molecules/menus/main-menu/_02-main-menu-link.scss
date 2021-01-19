@@ -9,9 +9,11 @@
   line-height: 1.5;
   padding: $space $space-quadruple;
   text-decoration: none;
-
+  border: none;
+  background: none;
+  text-align: left;
+  
   @include large {
-    border-bottom: none;
     display: inline-block;
     font-size: 1.8rem;
     line-height: 1;

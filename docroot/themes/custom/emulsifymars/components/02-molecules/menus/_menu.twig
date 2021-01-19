@@ -35,7 +35,6 @@
     {% if menu_level > 0 %}
       {% set menu_modifiers = menu_modifiers|merge(['sub', 'sub-' ~ menu_level]) %}
     {% endif %}
-    {% set ul_attributes = {'role': 'menubar'} %}
 
     {# List #}
     {% embed "@atoms/lists/ul.twig" with {
