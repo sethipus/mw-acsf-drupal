@@ -104,19 +104,21 @@
 
       & a.default-link {
         height: 5rem;
+        width: 13.3rem;
         line-height: 5rem;
-        padding: 0 3.3rem;
         background-color: clr(secondary);
         font-size: 1.4rem;
         border:none;
 
         @include medium {
           font-size: 1.6rem;
-          padding: 0 4.5rem;
+          width: 15.7rem;
         }
 
         @include large {
-          padding: 0 6.75rem;
+          height: 6rem;
+          line-height: 6rem;
+          width: 20.2rem;
         }
 
         &:hover {

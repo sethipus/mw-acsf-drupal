@@ -97,6 +97,8 @@ function mars_common_preprocess(&$variables, $hook) {
   if ($hook === 'poll_vote' || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
     $variables['polling_png_asset'] = $themeParser->getUrlForFile('png_asset');
+    $brand_shape_content = $themeParser->getBrandShapeWithoutFill();
+    $variables['brand_shape'] = $brand_shape_content ?? '';
   }
 
   if ($hook === 'views_infinite_scroll_pager__grid_card') {
@@ -113,18 +115,19 @@ function mars_common_theme($existing, $type, $theme, $path) {
   return [
     'header_block' => [
       'variables' => [
-        'logo'              => NULL,
-        'primary_menu'      => NULL,
-        'secondary_menu'    => NULL,
-        'search_menu'       => NULL,
+        'logo' => NULL,
+        'logo_alt' => NULL,
+        'primary_menu' => NULL,
+        'secondary_menu' => NULL,
+        'search_menu' => NULL,
         'language_selector' => NULL,
         'language_selector_current' => NULL,
         'language_selector_label' => NULL,
         'language_selector_items' => NULL,
-        'search_block'      => NULL,
+        'search_block' => NULL,
         'alert_banner_text' => NULL,
-        'alert_banner_url'  => NULL,
-        'search_form'       => NULL,
+        'alert_banner_url' => NULL,
+        'search_form' => NULL,
         'search_enabled' => NULL,
         'brand_border' => NULL,
       ],
@@ -132,15 +135,16 @@ function mars_common_theme($existing, $type, $theme, $path) {
     ],
     'footer_block' => [
       'variables' => [
-        'logo'                 => NULL,
-        'brand_border'         => NULL,
-        'social_links'         => NULL,
-        'top_footer_menu'      => NULL,
-        'legal_links'          => NULL,
-        'marketing'            => NULL,
-        'corporate_tout_text'  => NULL,
-        'corporate_tout_url'    => NULL,
-        'region_selector'      => NULL,
+        'logo' => NULL,
+        'logo_alt' => NULL,
+        'brand_border' => NULL,
+        'social_links' => NULL,
+        'top_footer_menu' => NULL,
+        'legal_links' => NULL,
+        'marketing' => NULL,
+        'corporate_tout_text' => NULL,
+        'corporate_tout_url' => NULL,
+        'region_selector' => NULL,
         'current_region_title' => NULL,
       ],
       'template' => 'footer-block',
@@ -309,9 +313,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'template' => 'where-to-buy-block',
       'variables' => [
         'commerce_vendor' => NULL,
-        'product_id' => NULL,
-        'cta_title' => NULL,
-        'button_type' => NULL,
         'widget_id' => NULL,
         'data_token' => NULL,
         'data_subid' => NULL,
@@ -319,6 +320,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'data_displaylanguage' => NULL,
         'products' => NULL,
         'default_product' => NULL,
+        'product_sku' => NULL,
       ],
     ],
     'text_block' => [
@@ -334,10 +336,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'video_src' => NULL,
         'image_src' => NULL,
         'image_alt' => NULL,
-        'image_title' => NULL,
         'shape_motif' => NULL,
         'content' => NULL,
-        'title' => NULL,
+        'heading' => NULL,
       ],
       'template' => 'inline-image-video-block',
     ],
@@ -345,7 +346,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'block_type' => NULL,
         'media' => NULL,
-        'shape_motif' => NULL,
         'content' => NULL,
         'heading' => NULL,
       ],
@@ -542,10 +542,10 @@ function mars_common_preprocess_block__inline_block__inline_image(array &$variab
   }
 
   if (!$block->get('field_inline_image_svg_asset')->isEmpty()) {
-    $variables['shape_motif'] = (bool) $block
-      ->get('field_inline_image_svg_asset')
-      ->first()
-      ->value;
+
+    /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $variables['shape_motif'] = $themeParser->getBrandShape();
   }
 
   if (!$block->get('field_inline_image_description')->isEmpty()) {
@@ -586,10 +586,10 @@ function mars_common_preprocess_block__inline_block__inline_video(array &$variab
   }
 
   if (!$block->get('field_inline_video_svg_asset')->isEmpty()) {
-    $variables['shape_motif'] = (bool) $block
-      ->get('field_inline_video_svg_asset')
-      ->first()
-      ->value;
+
+    /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $variables['shape_motif'] = $themeParser->getBrandShape();
   }
 
   if (!$block->get('field_inline_video_description')->isEmpty()) {

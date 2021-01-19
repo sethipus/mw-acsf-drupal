@@ -10,13 +10,13 @@
 #}
 
 {% set button_base_class = button_base_class|default('button') %}
+{% set aria_label = aria_label|default(button_content) %}
 
 {% set additional_attributes = {
   class: bem(button_base_class, button_modifiers, button_blockname),
-  "aria-label": 'button',
 } %}
 
-<button {{ add_attributes(additional_attributes) }}>
+<button {{ add_attributes(additional_attributes) }} aria-label= "{{ aria_label }}">
   {% block button_content %}
     <span>{{ button_content }}</span>
   {% endblock %}

@@ -3,6 +3,7 @@
 namespace Drupal\mars_recommendations\Plugin\DynamicRecommendationsStrategy;
 
 use Drupal\mars_recommendations\DynamicRecommendationsStrategyPluginBase;
+use Drupal\node\NodeInterface;
 
 /**
  * Default Dynamic Recommendations strategy plugin implementation.
@@ -21,6 +22,7 @@ class DefaultStrategy extends DynamicRecommendationsStrategyPluginBase {
   public function generate() {
     $query = $this->nodeStorage->getQuery();
     $query->condition('type', ['product', 'product_multipack'], 'IN');
+    $query->condition('status', NodeInterface::PUBLISHED);
     $query->sort('created', 'DESC');
     $query->range(0, 4);
     $result = $query->execute();

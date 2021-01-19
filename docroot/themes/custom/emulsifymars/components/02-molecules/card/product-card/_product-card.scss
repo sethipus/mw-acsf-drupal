@@ -16,7 +16,7 @@
     padding-top: 3rem;
     font-family: variable(primary-font);
     text-align: center;
-    margin-bottom: 0;
+    margin: 0;
   }
 
   .product-card__image img {
@@ -115,7 +115,7 @@
     margin: 2rem auto 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 5;
     display: -webkit-box;
     -webkit-box-orient: vertical;
 
@@ -127,6 +127,10 @@
       line-height: 2.42rem;
     }
 
+  }
+
+  &__rating {
+    margin: 1rem 0 1rem 0;
   }
 
   &__link_section {
@@ -142,14 +146,14 @@
     position: relative;
     left: -1rem;
     a {
-      padding: 0 1.85rem;;
+      padding: 0 1.85rem;
       line-height: 5rem;
       font-size: 1.4rem;
-      transition: none;
+      transition: color 1.2s cubic-bezier(.75, 0, .25, 1), background-color 1.2s cubic-bezier(.75, 0, .25, 1);
 
       &:hover {
         color: clr(subcolor-3) !important;
-        transition: color 0.5s ease-in-out;
+        transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
         background-color: clr(subcolor-3) !important;
       }
     }

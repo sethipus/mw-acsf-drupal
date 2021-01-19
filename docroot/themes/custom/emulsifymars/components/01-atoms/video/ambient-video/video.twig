@@ -12,6 +12,17 @@
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   {% if video__control == true %}
-    <button {{ bem('control', [], video__base_class) }} type="button" title="{{ 'Pause' | mt }}" aria-label="{{ 'Pause' | mt }}" data-state="pause"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+    <button {{ bem('control', [], video__base_class) }} type="button" data-state="pause" aria-label="{{ 'Play' | mt }}" aria-live="polite">
+      <div {{ bem('control', ['inner'], video__base_class) }}>
+        {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+          sronly_content: 'Play',
+          sronly_modifiers: ['play'],
+        } %}
+        {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+          sronly_content: 'Pause',
+          sronly_modifiers: ['pause'],
+        } %}
+      </div>
+    </button>
   {% endif %}
 </figure>

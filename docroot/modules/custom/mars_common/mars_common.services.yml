@@ -16,7 +16,7 @@ services:
 
   mars_common.media_helper:
     class: Drupal\mars_common\MediaHelper
-    arguments: [ '@entity_type.manager', '@mars_product.product_helper' ]
+    arguments: [ '@entity_type.manager', '@mars_product.product_helper', '@mars_common.language_helper']
 
   mars_common.media_helper_twig_filters:
     class: Drupal\mars_common\Twig\MediaHelperFilters

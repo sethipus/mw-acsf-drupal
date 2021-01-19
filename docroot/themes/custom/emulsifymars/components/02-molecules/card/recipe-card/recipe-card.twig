@@ -12,9 +12,10 @@
 
   <div {{ bem('media', [], recipe_card_base_class) }}>
     <a href={{recipe_card_media_url}}
-     {% for attribute, value in recipe_card_heading_link_attributes %}
+      {% for attribute, value in recipe_card_heading_link_attributes %}
        {{ attribute }}="{{ value }}"
       {% endfor %}
+      aria-label="{{ recipe_card_heading | mt }}"
     >
       {% include "@atoms/images/image/_image.twig" with {
         output_image_tag: true,
@@ -27,8 +28,10 @@
 
   {# Eyebrow #}
   {% if recipe_card_eyebrow %}
-    {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-      eyebrow_text: recipe_card_eyebrow
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: recipe_card_eyebrow,
+      heading_level: 3,
+      heading_base_class: 'eyebrow'
     } %}
   {% endif %}
 

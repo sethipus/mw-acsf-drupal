@@ -19,7 +19,7 @@
     svg {
       width: 100%;
       height: auto;
-      fill: rgba(clr(subcolor-3-rgb), 0.15);
+      fill: rgba(clr(subcolor-3-rgb), 0.2);
     }
 
     &--1 {
@@ -96,6 +96,7 @@
   &__content-container {
     flex: 1 0 50%;
     padding-top: 1.2rem;
+    max-width: 100%;
 
     @include large {
       padding-top: 4.2rem;
@@ -251,8 +252,8 @@
       min-height: auto;
       margin: 2.2rem 17rem 3.6rem 0;
       text-align: left;
-      line-height: 2.24rem;
-      font-size: 1.6rem;
+      line-height: 3.6rem;
+      font-size: 2rem;
     }
   }
 
@@ -501,17 +502,31 @@
         }
       }
 
-      &-play .playpause-icon {
-        &::before {
-          width: 0;
-          height: 0;
-          background: transparent;
-          border-top: 12px solid transparent;
-          border-bottom: 12px solid transparent;
-          border-left: 20px solid clr(secondary);
+      & .sronly--play {
+        display: none;
+      }
+
+      &-play {
+        & .playpause-icon {
+          &::before {
+            width: 0;
+            height: 0;
+            background: transparent;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 20px solid clr(secondary);
+          }
+
+          &::after {
+            display: none;
+          }
         }
 
-        &::after {
+        & .sronly--play {
+          display: inline-block;
+        }
+
+        & .sronly--pause {
           display: none;
         }
       }
@@ -698,19 +713,24 @@
 .where-to-buy {
   &--container {
     position: fixed;
-    left: 2rem;
-    right: 2rem;
-    bottom: 2rem;
+    left: 2.5rem;
+    right: 1.5rem;
+    bottom: -12rem;
     text-align: center;
     z-index: 10;
     transition: visibility 0.5s, opacity 0.5s ease-out;
     visibility: visible;
     opacity: 1;
+    margin: 0 0 14.7rem 0;
+
+    @include small {
+      right: 2.5rem;
+    }
 
     @include medium {
-      left: 4rem;
-      right: 4rem;
-      bottom: 4rem;
+      left: 4.5rem;
+      right: 4.5rem;
+      bottom: -10rem;
     }
 
     @include large {
@@ -748,6 +768,7 @@
       display: inline-block;
       border-radius: variable(button-border-radius);
       cursor: pointer;
+      width: 100%;
     }
   }
 

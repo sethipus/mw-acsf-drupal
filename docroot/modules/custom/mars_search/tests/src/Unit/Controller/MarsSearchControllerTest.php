@@ -299,8 +299,10 @@ class MarsSearchControllerTest extends UnitTestCase {
         [
           'limit' => 1,
           'keys' => 'test_search_key',
+          'offset' => 0,
         ],
         [
+          'itemsCount' => 1,
           'resultsCount' => 1,
         ],
         [
@@ -332,7 +334,11 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->method('buildSearchFacets');
     $this->searchBuilderMock
       ->expects($this->once())
-      ->method('buildSearchHeader');
+      ->method('buildSearchHeader')
+      ->willReturn([
+        '#search_filters' => [],
+
+      ]);
     $this->rendererMock
       ->expects($this->exactly(2))
       ->method('render');

@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -52,6 +53,13 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
   protected $mediaHelper;
 
   /**
+   * Theme configurator parser.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -59,11 +67,13 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
     $plugin_id,
     $plugin_definition,
     LanguageHelper $language_helper,
-    MediaHelper $media_helper
+    MediaHelper $media_helper,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -75,7 +85,8 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -110,11 +121,13 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
       '#default_value' => $config['description'] ?? '',
     ];
 
-    $form['svg_asset'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Add decorative brand shape'),
-      '#default_value' => $config['svg_asset'] ?? FALSE,
-    ];
+    if ($this->getPluginId() == 'inline_image_video_block') {
+      $form['svg_asset'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Add decorative brand shape'),
+        '#default_value' => $config['svg_asset'] ?? FALSE,
+      ];
+    }
 
     $image_default = isset($config['image']) ? $config['image'] : NULL;
     // Entity Browser element for background image.

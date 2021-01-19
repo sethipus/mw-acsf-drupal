@@ -31,6 +31,10 @@
             } %}
               {% block link_content %}
                 {{ item.icon | raw }}
+                {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+                  sronly_content: item.title,
+                  sronly_modifiers: ['social_link'],
+                } %}
               {% endblock %}
             {% endembed %}
           {% endblock %}

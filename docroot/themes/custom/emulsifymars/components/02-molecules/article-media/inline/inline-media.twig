@@ -1,15 +1,27 @@
-{% set inline_width__base_class = 'article-inline' %}
+{% set inline__base_class = 'article-inline' %}
 
-<section {{ bem(inline_width__base_class) }} data-theme="{{ theme_styles }}"
-  {% if title and media_type == 'video' %}
-    data-component-title="{{ title }}"
+<section {{ bem(inline__base_class) }} data-theme="{{ theme_styles }}"
+  {% if heading and media_type == 'video' %}
+    data-component-title="{{ heading }}"
   {% endif %}
 >
+  <div {{ bem('heading', [], inline__base_class) }}>
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 3,
+      heading_base_class: 'article-inline__heading',
+      heading_modifiers: ['main-heading'],
+      heading: heading
+    } %}
+  </div>
+
+  {% if shape_motif %}
+    <div class="article-inline__brand-shape">
+      {{ shape_motif | raw }}
+    </div>
+  {% endif %}
+
   {% if media_type == 'image' %}
-    <div {{ bem('media', [], inline_width__base_class) }}>
-      {% if title %}
-      <h2>{{title}}</h2>
-      {% endif %}
+    <div {{ bem('media', [], inline__base_class) }}>
       {% include "@atoms/images/image/_image.twig" with {
         image_base_class: base_class,
         image_modifiers: image_modifiers,
@@ -28,8 +40,7 @@
     } %}
   {% endif %}
 
-
-  <div {{ bem('content', [], inline_width__base_class) }}>
+  <div {{ bem('content', [], inline__base_class) }}>
     {% include "@atoms/text/text/01-paragraph.twig" with {
       paragraph_size: paragraph_size,
       paragraph_content: content,

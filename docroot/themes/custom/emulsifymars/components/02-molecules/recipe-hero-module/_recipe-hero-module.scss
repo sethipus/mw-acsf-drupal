@@ -48,7 +48,7 @@ $xl-left-margin: 11.583rem;
     }
 
     @include large {
-      right: 22rem;
+      right: 5rem;
     }
 
     svg {
@@ -162,6 +162,7 @@ $xl-left-margin: 11.583rem;
   }
 
   @include xl {
+    min-width: 780px;
     padding: 30px 30px 0 calc(#{$xl-column-width + $xl-gap-width});
   }
 }

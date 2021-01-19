@@ -21,15 +21,34 @@
     .header__branding {
       display: none;
 
-      @include medium {
+      @include large {
         display: block;
       }
     }
   }
 
-  & .search-input-wrapper {
+  ::placeholder {
+    font-family: variable(secondary-font);
+    color: clr(subcolor-3);
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 1.4px;
 
     @include medium {
+      font-size: 18px;
+      line-height: 25.2px;
+    }
+
+    @include large {
+      color: clr(primary);
+      font-size: 18px;
+      line-height: 25.2px;
+    }
+  }
+
+  & .search-input-wrapper {
+
+    @include large {
       display: flex;
       flex-flow: column nowrap;
       width: 69%;
@@ -46,7 +65,7 @@
         width: 100%;
         background-color: transparent;
 
-        @include medium {
+        @include large {
           position: absolute;
           top: 60px;
           z-index: 4;
@@ -54,11 +73,13 @@
         }
 
         .empty-text, .empty-text-description {
-         margin: 10px 0;
+          margin: 10px 0;
         }
 
-        @include medium {
-          .autocomplete-border {
+        .autocomplete-border {
+          border-bottom: none;
+
+          @include large {
             border-bottom: 1px solid clr(subcolor-4);
             margin: 0 20px;
           }
@@ -70,7 +91,7 @@
         font-size: 14px;
         line-height: 100%;
 
-        @include medium {
+        @include large {
           margin-left: 60px;
           margin-top: 10px;
           color: clr(primary);
@@ -81,15 +102,16 @@
         .suggestions-links {
           position: relative;
           z-index: 10;
-          
+          margin-top: 10px;
+
           li {
             margin-bottom: 10px;
-  
+
             & a {
               color: clr(subcolor-3);
               text-decoration: none;
-  
-              @include medium {
+
+              @include large {
                 color: clr(primary);
               }
             }
@@ -103,7 +125,7 @@
             color: clr(subcolor-3);
             text-transform: uppercase;
 
-            @include medium {
+            @include large {
               color: clr(primary);
             }
           }
@@ -112,7 +134,7 @@
     }
 
     & input.mars-autocomplete-field {
-      @include medium {
+      @include large {
         border-radius: variable(card-border-radius);
       }
     }
@@ -123,7 +145,7 @@
       display: none;
       line-height: 100%;
 
-      @include medium {
+      @include large {
         background-color: clr(subcolor-3);
         color: clr(primary);
         border-bottom-left-radius: variable(card-border-radius);
@@ -166,7 +188,7 @@
       border-bottom: 1px solid clr(subcolor-3);
       font-family: variable(secondary-font);
 
-      @include medium {
+      @include large {
         border-bottom: none;
       }
 
@@ -178,22 +200,28 @@
           color: clr(subcolor-3);
           width: 90%;
           background-color: transparent;
-          margin-left: 25px;
           outline: none;
+          padding: 0 10px 20px 35px;
+          font-size: 1.4rem;
+          line-height: 1.4rem;
+          letter-spacing: 1.4px;
 
           @include medium {
+            font-size: 18px;
+            line-height: 2.52rem;
+          }
+
+          @include large {
             width: 100%;
             max-width: 840px;
             height: 60px;
             color: clr(primary);
             border: 1px solid clr(subcolor-4);
             background-color: clr(subcolor-3);
-            border-bottom: none;
             outline: none;
-            font-size: 18px;
-            line-height: 140%;
-            padding-left: 50px;
-            margin-left: 0;
+            font-size: 1.8rem;
+            line-height: 2.52rem;
+            padding: 0 10px 0 50px;
           }
         }
 
@@ -206,7 +234,7 @@
           top: 5px;
           background-color: clr(subcolor-3);
 
-          @include medium {
+          @include large {
             left: 20px;
             top: 20px;
             background-color: clr(primary);
@@ -219,7 +247,7 @@
   & .inline-search--closebtn {
     display: none;
 
-    @include medium {
+    @include large {
       display: block;
       margin-left: auto;
       margin-right: 40px;
@@ -229,15 +257,18 @@
 
    &.opened {
     display: flex !important;
-     .mars-search-autocomplete-suggestions-wrapper {
-       @include large {
-         position: absolute;
-         top: 100%;
-         width: 100%;
-         z-index: 10;
-       }
-     }
-   }
+    position: absolute;
+    height: 20rem;
+    z-index: 20;
+    .mars-search-autocomplete-suggestions-wrapper {
+      @include large {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        z-index: 10;
+      }
+    }
+  }
 }
 
 input.mars-autocomplete-field:-webkit-autofill,
@@ -247,7 +278,7 @@ input.mars-autocomplete-field:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
   -webkit-text-fill-color: clr(subcolor-3);
 
-  @include medium {
+  @include large {
     -webkit-text-fill-color: clr(primary);
     font-size: 18px;
     margin-left: 60px;

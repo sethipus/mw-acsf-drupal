@@ -17,8 +17,10 @@
 
     {# Eyebrow #}
     {% if card__eyebrow %}
-      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-        eyebrow_text: card__eyebrow
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading: card__eyebrow,
+        heading_level: 3,
+        heading_base_class: 'eyebrow'
       } %}
     {% endif %}
 
