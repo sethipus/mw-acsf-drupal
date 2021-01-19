@@ -13,9 +13,18 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
           });
           header.find('.menu-item__heading--with-sub').on('click', e => {
             e.preventDefault();
-            // opening and closing submenu, rotating chevron
-            e.currentTarget.nextElementSibling.classList.toggle('main-menu--sub-open');
-            $(e.currentTarget).find('.menu_chevron__icon').toggleClass('main-menu--sub-open');
+
+            let subMenuOpened = e.currentTarget.nextElementSibling.classList.contains('main-menu--sub-open');
+
+            // close all opened submenus
+            $('.main-menu--sub-open').removeClass('main-menu--sub-open');
+            $('.menu_chevron__icon').removeClass('main-menu--sub-open');
+
+            if (!subMenuOpened) {
+              // opening and closing submenu, rotating chevron
+              e.currentTarget.nextElementSibling.classList.toggle('main-menu--sub-open');
+              $(e.currentTarget).find('.menu_chevron__icon').toggleClass('main-menu--sub-open');
+            }
           });
         }
       })($('#header-menu-trigger').once('menuInited'));
