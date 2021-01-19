@@ -4,7 +4,19 @@
   <div {{ bem('inner', [], homepage_hero__base_class) }}>
     <div {{ bem('left', [], homepage_hero__base_class) }} >
       <div class="wrapper">
-        <div {{ bem('container', ['image'], homepage_hero__base_class) }} style="background-image:url('{{ hero_image.src }}');"></div>
+        <!-- style="background-image:url('{{ hero_image.src }}');" -->
+        <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            output_image_tag: true,
+            image_alt: '',
+            image_srcset: hero_image.srcset,
+            image_sizes: '(max-width: 375px) 375px,
+                (max-width: 768px) 768px,
+                1440px',
+            image_src: hero_image.src,
+            responsive_image_blockname: 'homepage-hero-3up'
+          } %}
+        </div>
         <div {{ bem('container', ['hero-text'], homepage_hero__base_class) }}>
        {% include "@atoms/text/eyebrow/eyebrow.twig" with {
          eyebrow_text: eyebrow

@@ -153,13 +153,15 @@
     width: 100%;
     height: 100%;
     display: flex;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+    flex-direction: column;
+  }
+
+  &__image {
+    object-fit: cover;
+    animation: hero-3up-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include large {
-      background-size: 120% auto;
-      background-position: center center;
+      transform: scale(1.05);
       animation: hero-3up-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
     }
   }
@@ -179,10 +181,10 @@
 
 @keyframes hero-3up-image-animates-in {
   0% {
-    background-size: 100% auto;
+    transform: scale(1);
   }
   100% {
-    background-size: 120% auto;
+    transform: scale(1.05);
   }
 }
 
