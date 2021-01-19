@@ -1,37 +1,40 @@
 .recipe-feature-block {
   $recipe-feature-desktop-max-height: 567px;
 
-  margin: 20px 0;
+  padding-bottom: 8rem;
 
   &__title {
     text-align: center;
     font-family: variable(heading-font);
     color: clr(primary);
     text-transform: uppercase;
+    margin-bottom: 4rem;
 
     @include xs {
       font-size: 2.8rem;
       line-height: 2.8rem;
+      padding-top: 5rem;
     }
 
     @include medium {
       font-size: 4rem;
       line-height: 4rem;
+      padding-top: 6rem;
     }
 
     @include large {
       font-size: 4.8rem;
       line-height: 4.8rem;
+      margin-bottom: 6rem;
+      padding-top: 8rem;
     }
   }
 
   &__graphic_divider {
     text-align: center;
-    margin-top: 10px;
     margin-bottom: 40px;
 
     @include large {
-      margin-top: 30px;
       margin-bottom: 60px;
     }
   }
