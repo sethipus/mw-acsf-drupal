@@ -83,6 +83,12 @@
     @include large {
       flex-direction: row;
     }
+
+    &-column {
+      @include large {
+        width: 50%;
+      }
+    }
   }
 
   &__product_image {
