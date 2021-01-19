@@ -39,6 +39,7 @@
     font-family: variable(primary-font);
     color: clr(primary);
     text-align: center;
+    font-weight: 500;
 
     @include small {
       font-size: 4rem;
