@@ -56,7 +56,8 @@
   }
 
   @include large {
-    top: 50%;
+    right: 45px;
+    top: 4px;
 
     &.main-menu--sub-open {
       transform: translateY(-50%);
