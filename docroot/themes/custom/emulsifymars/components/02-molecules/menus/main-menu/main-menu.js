@@ -19,12 +19,11 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
             // close all opened submenus
             $('.main-menu--sub-open').removeClass('main-menu--sub-open');
-            $('.menu_chevron__icon').removeClass('main-menu--sub-open');
 
             if (!subMenuOpened) {
-              // opening submenu, rotating chevron
-              subMenu.classList.toggle('main-menu--sub-open');
-              menuItem.nextElementSibling.classList.toggle('main-menu--sub-open');
+              // open submenu
+              subMenu.classList.add('main-menu--sub-open');
+              menuItem.nextElementSibling.classList.add('main-menu--sub-open');
             }
           });
         }
