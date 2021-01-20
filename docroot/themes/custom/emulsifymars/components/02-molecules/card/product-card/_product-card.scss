@@ -149,11 +149,11 @@
       padding: 0 1.85rem;
       line-height: 5rem;
       font-size: 1.4rem;
-      transition: color 1.2s cubic-bezier(.75, 0, .25, 1), background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+      transition: color 1.2s cubic-bezier(.75, 0, .25, .8), background-color 1.2s cubic-bezier(.75, 0, .25, .8);
 
       &:hover {
         color: clr(subcolor-3) !important;
-        transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+        transition: color 1.2s cubic-bezier(.75, 0, .25, .8);
         background-color: clr(subcolor-3) !important;
       }
     }
