@@ -20,7 +20,7 @@
   {% for attribute, value in link_attributes %}
     {{ attribute }}="{{ value }}"
   {% endfor %}
-  aria-label="{{ link_content | mt }}"
+  aria-label="{{ link_content | render | mt }}"
   href="{{ link_url }}"
 >
   {% block link_content %}

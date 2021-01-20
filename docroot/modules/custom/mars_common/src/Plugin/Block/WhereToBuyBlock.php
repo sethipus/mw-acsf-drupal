@@ -4,6 +4,7 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
@@ -62,6 +63,13 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   private $mediaHelper;
 
   /**
+   * Where to buy global configuration.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $wtbGlobalConfig;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -71,13 +79,15 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     ConfigFactoryInterface $config_factory,
     LanguageManagerInterface $language_manager,
     EntityTypeManagerInterface $entity_manager,
-    MediaHelper $media_helper
+    MediaHelper $media_helper,
+    ImmutableConfig $wtb_global_config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->config = $config_factory;
     $this->languageManager = $language_manager;
     $this->entityTypeManager = $entity_manager;
     $this->mediaHelper = $media_helper;
+    $this->wtbGlobalConfig = $wtb_global_config;
   }
 
   /**
@@ -89,6 +99,8 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $plugin_id,
     $plugin_definition
   ) {
+    $config_factory = $container->get('config.factory');
+    $config = $config_factory->get('mars_product.wtb.settings');
     return new static(
       $configuration,
       $plugin_id,
@@ -96,7 +108,8 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $container->get('config.factory'),
       $container->get('language_manager'),
       $container->get('entity_type.manager'),
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper'),
+      $config
     );
   }
 
@@ -325,11 +338,11 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function pageAttachments(array &$build) {
     if ($this->configuration['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
       $metatags = [
-        'ps-key' => [
+        'ps-account' => [
           '#tag' => 'meta',
           '#attributes' => [
-            'name' => 'ps-key',
-            'content' => $this->configuration['widget_id'],
+            'name' => 'ps-account',
+            'content' => $this->wtbGlobalConfig->get('account_id'),
           ],
         ],
         'ps-country' => [

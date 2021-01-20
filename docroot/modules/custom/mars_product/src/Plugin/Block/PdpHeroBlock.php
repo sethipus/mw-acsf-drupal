@@ -5,6 +5,7 @@ namespace Drupal\mars_product\Plugin\Block;
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
@@ -89,6 +90,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   private $productHelper;
 
   /**
+   * Where to buy global configuration.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $wtbGlobalConfig;
+
+  /**
    * Price spider id.
    */
   const VENDOR_PRICE_SPIDER = 'price_spider';
@@ -122,7 +130,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ThemeConfiguratorParser $themeConfiguratorParser,
     LanguageHelper $language_helper,
     ProductHelper $product_helper,
-    MediaHelper $media_helper
+    MediaHelper $media_helper,
+    ImmutableConfig $wtb_global_config
   ) {
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->config = $config_factory;
@@ -132,6 +141,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->languageHelper = $language_helper;
     $this->productHelper = $product_helper;
     $this->mediaHelper = $media_helper;
+    $this->wtbGlobalConfig = $wtb_global_config;
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
@@ -139,6 +149,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $config_factory = $container->get('config.factory');
+    $config = $config_factory->get('mars_product.wtb.settings');
     return new static(
       $configuration,
       $plugin_id,
@@ -150,7 +162,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_product.product_helper'),
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper'),
+      $config
     );
   }
 
@@ -226,14 +239,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
     $form['wtb']['product_id'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Product ID'),
+      '#title' => $this->t('Product SKU'),
       '#default_value' => $this->configuration['wtb']['product_id'],
+      '#description' => $this->t("If left empty then the product variant's SKU is used."),
     ];
 
     $form['wtb']['cta_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('CTA title'),
       '#default_value' => $this->configuration['wtb']['cta_title'],
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[wtb][commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
+        ],
+      ],
     ];
 
     $form['wtb']['button_type'] = [
@@ -920,11 +939,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     if (!empty($this->configuration['wtb']['data_widget_id'])) {
       if ($this->configuration['wtb']['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
         $metatags = [
-          'ps-key' => [
+          'ps-account' => [
             '#tag' => 'meta',
             '#attributes' => [
-              'name' => 'ps-key',
-              'content' => $this->configuration['wtb']['data_widget_id'],
+              'name' => 'ps-account',
+              'content' => $this->wtbGlobalConfig->get('account_id'),
             ],
           ],
           'ps-country' => [
