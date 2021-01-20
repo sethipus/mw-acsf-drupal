@@ -110,7 +110,10 @@
 
     .social-menu {
       .social-menu__item {
-        margin-right: 2rem;
+        margin-right: 4rem;
+      }
+      .social-menu__item:last-child {
+        margin-right: 0;
       }
     }
 
