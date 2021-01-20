@@ -42,6 +42,8 @@ class MulesoftConnector {
    *
    * @return array
    *   Data array.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function transformData(string $response) {
     // Filter products and product fields in order

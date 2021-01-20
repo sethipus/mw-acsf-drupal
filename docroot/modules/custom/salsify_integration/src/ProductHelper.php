@@ -495,6 +495,7 @@ class ProductHelper {
       $product['salsify:created_at'] = $product_variant['salsify:created_at'];
       $product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
       $product['CMS: content type'] = static::PRODUCT_VARIANT_CONTENT_TYPE;
+      $product['CMS: multipack generated'] = TRUE;
 
       $products_result[] = $product;
 
@@ -507,6 +508,7 @@ class ProductHelper {
       $empty_product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
       $empty_product['CMS: content type'] = static::PRODUCT_CONTENT_TYPE;
       $empty_product['CMS: not publish'] = TRUE;
+      $empty_product['CMS: multipack generated'] = TRUE;
       $products_result[] = $empty_product;
 
       $this->mapping['primary'][$empty_product['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
