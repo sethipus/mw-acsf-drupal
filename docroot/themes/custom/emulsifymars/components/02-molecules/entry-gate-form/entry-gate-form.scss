@@ -123,7 +123,7 @@
     border-radius: variable(button-border-radius);
     font-family: variable(secondary-font);
     font-size: 1.6rem;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     border: none;
     overflow: hidden;
@@ -140,6 +140,18 @@
 
     @include xl {
       margin: 0;
+    }
+
+    & > span {
+      @include xs {
+        line-height: 1.4rem;
+        font-size: 1.4rem;
+      }
+
+      @include large {
+        line-height: 1.6rem;
+        font-size: 1.6rem;
+      }
     }
 
     &:hover {
