@@ -29,6 +29,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'use_custom_color' => NULL,
         'brand_shape_enabled' => NULL,
         'brand_shape' => NULL,
+        'select_background_color' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
     ],

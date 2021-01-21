@@ -14,6 +14,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Utility\Token;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 
 /**
  * Class RecipeDetailHero.
@@ -31,6 +32,8 @@ use Drupal\Core\Utility\Token;
  * @package Drupal\mars_recipes\Plugin\Block
  */
 class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use SelectBackgroundColorTrait;
 
   /**
    * A view builder instance.
@@ -149,6 +152,16 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     if (!array_key_exists('social_links_toggle', $block_config)) {
       $build['#social_links'] = $this->socialLinks();
     }
+
+    $background_color = '';
+    if ($this->configuration['select_background_color'] != 'default' &&
+      !empty($this->configuration['select_background_color']) &&
+      array_key_exists($this->configuration['select_background_color'], $this->colorVariables)
+    ) {
+      $background_color = $this->colorVariables[$this->configuration['select_background_color']];
+    }
+
+    $build['#select_background_color'] = $background_color;
     $build['#custom_background_color'] = $this->configuration['custom_background_color'] ?? NULL;
     $build['#use_custom_color'] = (bool) ($this->configuration['use_custom_color'] ?? 0);
     $build['#brand_shape_enabled'] = (bool) ($this->configuration['brand_shape_enabled'] ?? 0);
@@ -221,6 +234,10 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       '#title' => $this->t('Background Color Override'),
       '#default_value' => $this->configuration['custom_background_color'] ?? '',
     ];
+
+    // Add select background color.
+    $this->buildSelectBackground($form);
+
     $form['brand_shape_enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Brand shape enabled'),
