@@ -75,12 +75,8 @@ import moment from 'moment';
           entryGate.attr("aria-hidden", "false");
           $(".layout-container").attr("aria-hidden", "true");
           
-          $('a[href="#main-content"], .layout-container a, .layout-container button, .layout-container input, .layout-container textarea, .layout-container select, .layout-container details')
-          .attr(a11yDataAttrName, "none")
-          .attr('tabindex', '-1');
-
-          $('.layout-container [tabindex]:not([tabindex="-1"])').each((i, e) => {
-            $(e).attr(a11yDataAttrName, $(e).attr("tabindex")).attr('tabindex', '-1');
+          $('.layout-container').find('a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])').each((i, e) => {
+            $(e).attr(a11yDataAttrName, $(e).attr("tabindex") !== undefined ? $(e).attr("tabindex") : "none").attr('tabindex', '-1');;
           });
 
           // Hack for key nav from OneTrust 
