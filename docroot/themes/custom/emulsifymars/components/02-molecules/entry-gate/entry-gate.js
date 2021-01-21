@@ -14,7 +14,7 @@ import moment from 'moment';
         const errorMessage = $('.entry-gate-form__error-message', this);
         const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
         const a11yDataAttrName = 'data-a11y-block-tabbable';
-        const a11yDateFakeLinkId = 'a11y-entry-gate-first-link'
+        const a11yDateFakeLinkId = 'a11y-entry-gate-first-link';
 
         dayInput[0].onkeydown = function(e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
@@ -71,13 +71,18 @@ import moment from 'moment';
           entryGate.attr("aria-hidden", "true");
           $(".layout-container").attr("aria-hidden", "false");
         } else {
+          let _tabElems = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]'];
+
           entryGate.css({display: 'flex'});
           entryGate.attr("aria-hidden", "false");
           $(".layout-container").attr("aria-hidden", "true");
           
-          $('.layout-container').find('a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])').each((i, e) => {
-            $(e).attr(a11yDataAttrName, $(e).attr("tabindex") !== undefined ? $(e).attr("tabindex") : "none").attr('tabindex', '-1');
-          });
+          $('.layout-container')
+            .find(_tabElems.map(e => e + ':not([tabindex="-1"])').join(','))
+            .each((i, e) => {
+              $(e).attr(a11yDataAttrName, $(e).attr('tabindex') !== undefined ? $(e).attr('tabindex') : 'none')
+                .attr('tabindex', '-1');
+            });
 
           // Hack for key nav from OneTrust 
           $('body').prepend(
