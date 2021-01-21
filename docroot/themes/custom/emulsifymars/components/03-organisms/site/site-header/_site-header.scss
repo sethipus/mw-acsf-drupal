@@ -50,7 +50,7 @@
 
     @include large {
       flex-basis: 160px;
-      margin: 3.2rem $space-triple;
+      margin: 4.5rem $space-triple 3.2rem;
     }
 
     @include xl {
@@ -80,11 +80,6 @@
         width: 100%;
         text-align: right;
       }
-    }
-
-    & .main-menu__link {
-      font-size: 1.8rem;
-      line-height: 1.8rem;
     }
 
     & .header-inline-menu__link {
