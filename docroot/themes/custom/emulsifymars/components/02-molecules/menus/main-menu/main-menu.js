@@ -15,8 +15,16 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
             e.preventDefault();
             const menuItem = e.currentTarget;
             const subMenu = menuItem.parentElement.nextElementSibling;
-            subMenu.classList.toggle('main-menu--sub-open');
-            menuItem.nextElementSibling.classList.toggle('main-menu--sub-open');
+            let subMenuOpened = subMenu.classList.contains('main-menu--sub-open');
+
+            // close all opened submenus
+            $('.main-menu--sub-open').removeClass('main-menu--sub-open');
+
+            if (!subMenuOpened) {
+              // open submenu
+              subMenu.classList.add('main-menu--sub-open');
+              menuItem.nextElementSibling.classList.add('main-menu--sub-open');
+            }
           });
         }
       })($('#header-menu-trigger').once('mobileMenuInited'));
