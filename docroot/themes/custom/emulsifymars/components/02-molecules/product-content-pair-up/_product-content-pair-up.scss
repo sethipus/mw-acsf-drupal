@@ -111,6 +111,11 @@
           font-size: 1.4rem;
           margin-bottom: 2rem;
 
+          .eyebrow {
+            margin-top: 0;
+            font-weight: normal;
+          }
+
           @include medium {
             font-size: 1.6rem;
             margin-bottom: 4rem;

@@ -107,14 +107,12 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
       ],
     ];
 
-    if ($this->getPluginId() == 'fullwidth_image_video_block') {
-      $form['title'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Title'),
-        '#maxlength' => 55,
-        '#default_value' => $config['title'] ?? '',
-      ];
-    }
+    $form['title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Title'),
+      '#maxlength' => 55,
+      '#default_value' => $config['title'] ?? '',
+    ];
 
     $form['description'] = [
       '#type' => 'textarea',

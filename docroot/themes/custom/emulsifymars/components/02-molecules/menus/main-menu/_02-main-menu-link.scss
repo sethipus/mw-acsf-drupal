@@ -2,16 +2,17 @@
 .main-menu__link {
   color: clr(primary);
   display: block;
-  width: 100%;
   font-family: variable(primary-font);
-  font-size: 3.2rem;
+  font-size: 3.6rem;
   font-weight: normal;
   line-height: 1.5;
-  padding: $space $space-quadruple;
+  padding: 1.6rem 0.8rem 1.6rem 3rem;
   text-decoration: none;
-
+  border: none;
+  background: none;
+  text-align: left;
+  
   @include large {
-    border-bottom: none;
     display: inline-block;
     font-size: 1.8rem;
     line-height: 1;
@@ -41,8 +42,7 @@
 
 .menu_chevron__icon {
   display: inline-block;
-  position: absolute;
-  right: 2.6rem;
+  position: relative;
   transform: translateY(-50%);
   width: 12px;
   height: 7px;
@@ -50,7 +50,7 @@
 
   @include xs {
     pointer-events: none;
-    top: 3rem;
+    top: 5px;
 
     &.main-menu--sub-open {
       transform: translateY(-50%) rotate(180deg);
@@ -58,7 +58,8 @@
   }
 
   @include large {
-    top: 50%;
+    right: 45px;
+    top: 4px;
 
     &.main-menu--sub-open {
       transform: translateY(-50%);
@@ -76,6 +77,11 @@
   padding-left: $space-triple;
   font-family: variable(secondary-font);
   font-weight: normal;
+  font-size: 1.8rem;
+
+  @include medium {
+    padding: 1rem 1rem 1rem 0;
+  }
 
   @include large {
     color: clr(primary);
@@ -83,6 +89,7 @@
     padding: 1.2rem $space-double;
     font-size: 1.4rem;
     font-weight: normal;
+    width: 100%;
 
     &.active,
     &:active,

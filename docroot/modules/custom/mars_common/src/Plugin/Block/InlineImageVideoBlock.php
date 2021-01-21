@@ -19,6 +19,7 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
   public function build() {
     $config = $this->getConfiguration();
 
+    $build['#heading'] = $this->languageHelper->translate($config['title']);
     $build['#content'] = $this->languageHelper->translate($config['description']);
     $build['#shape_motif'] = $config['svg_asset'] ? $this->themeConfiguratorParser->getBrandShapeWithoutFill() : FALSE;
     $build['#block_type'] = $config['block_content_type'];

@@ -4,6 +4,7 @@
   font-size: 14px;
   line-height: 100%;
   color: clr(subcolor-3);
+  max-height: 16.2rem;
 
   @include large {
     display: none;
@@ -42,7 +43,7 @@
     @include large {
       color: clr(primary);
       font-size: 18px;
-      line-height: 25.2px;
+      line-height: 6rem;
     }
   }
 
@@ -202,13 +203,13 @@
           background-color: transparent;
           outline: none;
           padding: 0 10px 20px 35px;
-          font-size: 14px;
-          line-height: 14px;
+          font-size: 1.4rem;
+          line-height: 1.4rem;
           letter-spacing: 1.4px;
 
           @include medium {
             font-size: 18px;
-            line-height: 25.2px;
+            line-height: 2.52rem;
           }
 
           @include large {
@@ -219,8 +220,8 @@
             border: 1px solid clr(subcolor-4);
             background-color: clr(subcolor-3);
             outline: none;
-            font-size: 18px;
-            line-height: 25.2px;
+            font-size: 1.8rem;
+            line-height: 2.52rem;
             padding: 0 10px 0 50px;
           }
         }
