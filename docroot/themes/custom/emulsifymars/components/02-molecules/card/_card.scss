@@ -33,3 +33,15 @@
   background-color: clr(highlight-high);
   padding: 1em;
 }
+
+@mixin card-width {
+  width: 31.5rem;
+
+  @include medium {
+    width: 33.4rem;
+  }
+
+  @include xl {
+    width: 31.8rem;
+  }
+}
