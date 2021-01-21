@@ -64,6 +64,16 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   const KEY_OPTION_DEFAULT = 'default';
 
   /**
+   * Default background style.
+   */
+  const KEY_OPTION_OTHER_COLOR = 'other';
+
+  /**
+   * Default background style.
+   */
+  const KEY_OPTION_TEXT_COLOR_DEFAULT = 'color_e';
+
+  /**
    * Background options.
    *
    * @var array
@@ -154,6 +164,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
 
     $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
+    $build['#text_color'] = $this->getTextColor();
     $build['#theme'] = 'parent_page_header_block';
 
     return $build;
@@ -165,6 +176,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   public function defaultConfiguration(): array {
     return [
       'label_display' => FALSE,
+      'text_color' => self::KEY_OPTION_TEXT_COLOR_DEFAULT,
     ];
   }
 
@@ -274,7 +286,62 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       ],
     ];
 
+    $form['text_color'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Text color'),
+      '#options' => $this->getTextColorOptions(),
+      '#default_value' => $this->configuration['text_color'] ?? NULL,
+    ];
+
+    $form['text_color_other'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Custom text color'),
+      '#default_value' => $this->configuration['text_color_other'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[text_color]"]' => ['value' => self::KEY_OPTION_OTHER_COLOR]],
+        ],
+      ],
+    ];
+
     return $form;
+  }
+
+  /**
+   * Get text color.
+   *
+   * @return string
+   *   Color hex value.
+   */
+  private function getTextColor() {
+    $color_option = $this->configuration['text_color'];
+    $color = NULL;
+    if ($color_option == self::KEY_OPTION_OTHER_COLOR) {
+      $color = $this->configuration['text_color_other'];
+    }
+    else {
+      $color = $this->themeConfiguratorParser
+        ->getSettingValue($color_option);
+    }
+    return '#' . $color;
+  }
+
+  /**
+   * Get text color options.
+   *
+   * @return array
+   *   Options.
+   */
+  private function getTextColorOptions() {
+    return [
+      'color_a' => 'Color A',
+      'color_b' => 'Color B',
+      'color_c' => 'Color C',
+      'color_d' => 'Color D',
+      'color_e' => 'Color E',
+      'color_f' => 'Color F',
+      self::KEY_OPTION_OTHER_COLOR => 'Other',
+    ];
   }
 
   /**
@@ -285,6 +352,8 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $this->configuration['eyebrow'] = $form_state->getValue('eyebrow');
     $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['description'] = $form_state->getValue('description');
+    $this->configuration['text_color'] = $form_state->getValue('text_color');
+    $this->configuration['text_color_other'] = $form_state->getValue('text_color_other');
     $this->configuration['background_options'] = $form_state->getValue('background_options');
     $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
