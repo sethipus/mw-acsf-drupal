@@ -15,6 +15,7 @@
 
   & .eyebrow {
     font-family: variable(primary-font);
+    margin-top: 0;
 
     @include xs {
       font-size: 1.4rem;

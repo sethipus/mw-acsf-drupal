@@ -53,11 +53,11 @@
     @include xs {
       font-size: 4rem;
       line-height: 4rem;
+      margin-bottom: 4rem;
     }
 
     @include medium {
       padding-top: 5rem;
-      margin-bottom: 4rem;
     }
 
     @include large {
@@ -110,6 +110,10 @@
     justify-content: space-between;
     margin-top: 5rem;
 
+    @include xs {
+      margin-top: 4rem;
+    }
+
     & .paragraph {
       align-self: flex-start;
       margin: 2rem 0;
@@ -156,30 +160,33 @@
   }
 
   & .media_item_2 {
-    min-height: 32.5rem;
     align-self: flex-end;
     flex: 0 auto;
     position: relative;
     z-index: 2;
     border-bottom: 1px solid lightgrey;
     width: 50%;
-    margin: 5rem 2rem 0 auto;
+    margin: 4rem 2rem 0 auto;
 
     img {
       width: auto;
       max-width: 100%;
     }
 
-    @include medium {
+    @include xs {
       margin-top: 3rem;
+    }
+
+    @include medium {
+      margin-top: 4rem;
     }
 
     @include large {
       left: 0;
       min-width: 33%;
       max-width: 43rem;
+      min-height: 32.5rem;
       margin-right: 0;
-      margin-top: 4rem;
     }
 
     @include xl {
@@ -207,16 +214,18 @@
 
     @include xs {
       margin-top: 3rem;
+      margin-bottom: 0;
     }
 
     @include medium {
       margin-top: 4rem;
+      margin-bottom: 0;
     }
 
     @include large {
       left: 0;
       width: 55.6rem;
-      margin: 12rem auto 0;
+      margin: 8rem auto 0;
     }
   }
 
@@ -359,14 +368,17 @@
 
     @include small {
       padding: 3.3rem 0 12.6rem 0;
+      margin-top: 5rem;
     }
 
     @include medium {
       padding: 0 0 12.6rem 0;
+      margin-top: 6rem;
     }
 
     @include large {
       padding: 6.3rem 0 6.3rem 0;
+      margin-top: 6rem;
     }
   }
 
