@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_banners\Plugin\Block;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -224,8 +225,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
     $form['title']['url'] = [
-      '#type' => 'url',
+      '#type' => 'textfield',
       '#title' => $this->t('Title Link URL'),
+      '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
       '#maxlength' => 2048,
       '#default_value' => $config['title']['url'] ?? '',
       '#required' => in_array($type_for_validation, [
@@ -283,8 +285,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
     $form['cta']['url'] = [
-      '#type' => 'url',
+      '#type' => 'textfield',
       '#title' => $this->t('CTA Link URL'),
+      '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
       '#maxlength' => 2048,
       '#default_value' => $config['cta']['url'] ?? '',
       '#required' => in_array($type_for_validation, [
@@ -459,8 +462,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
       ];
       $form['card'][$key]['title']['url'] = [
-        '#type' => 'url',
+        '#type' => 'textfield',
         '#title' => $this->t('Card Title Link URL'),
+        '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
         '#maxlength' => 2048,
         '#default_value' => $config['card'][$key]['title']['url'] ?? '',
         '#required' => in_array($type_for_validation, [
@@ -487,8 +491,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
       ];
       $form['card'][$key]['cta']['url'] = [
-        '#type' => 'url',
+        '#type' => 'textfield',
         '#title' => $this->t('CTA Link URL'),
+        '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
         '#maxlength' => 2048,
         '#default_value' => $config['card'][$key]['cta']['url'] ?? '',
         '#required' => in_array($type_for_validation, [
@@ -667,6 +672,40 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       'alt' => $alt,
       'title' => $title,
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    $title_url = $form_state->getValue('title')['url'];
+    $cta_url = $form_state->getValue('cta')['url'];
+
+    $product_cards = $form_state->get('card_storage');
+
+    if (!empty($product_cards)) {
+      foreach ($product_cards as $key => $product_card) {
+        $cards_title_url = $product_card['title']['url'];
+        $cards_cta_url = $product_card['cta']['url'];
+        if (!(UrlHelper::isValid($cards_title_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $cards_title_url))) {
+          $form_state->setErrorByName('card][' . $key . '][title][url', $this->t('The URL is not valid.'));
+        }
+        if (!(UrlHelper::isValid($cards_cta_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $cards_cta_url))) {
+          $form_state->setErrorByName('card][' . $key . '][cta][url', $this->t('The URL is not valid.'));
+        }
+      }
+    }
+
+    if (!empty($title_url)) {
+      if (!(UrlHelper::isValid($title_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $title_url))) {
+        $form_state->setErrorByName('title][url', $this->t('The URL is not valid.'));
+      }
+    }
+    if (!empty($cta_url)) {
+      if (!(UrlHelper::isValid($cta_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $cta_url))) {
+        $form_state->setErrorByName('cta][url', $this->t('The URL is not valid.'));
+      }
+    }
   }
 
 }

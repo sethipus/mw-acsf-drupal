@@ -2,7 +2,7 @@
   <button class="filter-title" tabindex="0" aria-haspopup="listbox">
     {{ filter_title }} <span class="filter-title__counter">{% if active_filters_count != 0 %}{{ active_filters_count }}{% endif %}</span>
   </button>
-  <div class="filter-checkboxes" aria-role="listbox" aria-controls="search-result-grid">
+  <div class="filter-checkboxes" role="listbox" aria-controls="search-result-grid">
     {% include "@atoms/forms/checkbox/checkbox.twig" with {
       checkboxes: checkboxes,
     } %}
