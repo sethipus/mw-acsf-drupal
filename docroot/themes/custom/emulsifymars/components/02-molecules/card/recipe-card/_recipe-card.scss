@@ -9,10 +9,10 @@
   border-radius: variable(card-border-radius);
   display: flex;
   flex-direction: column;
-  max-width: 31.8rem;
   position: relative;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 6rem;
+  @include card-width;
 
   .eyebrow {
     color: clr(primary);
@@ -27,7 +27,6 @@
     display: flex;
     align-items: center;
     height: 239px;
-    width: 318px;
     box-sizing: border-box;
     justify-content: center;
     border-top-left-radius: variable(card-border-radius);

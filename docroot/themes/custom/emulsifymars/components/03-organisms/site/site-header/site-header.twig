@@ -40,7 +40,8 @@
             {% if search_enabled %}
               {% include "@molecules/search/inline-search/inline-search.twig" with {
                 inline_search__modifiers: ['searchbtn'],
-                inline_search_title: 'Search'
+                inline_search_title: 'Search' | mt ,
+                inline_search_url: '#',
               } %}
             {% endif %}
           {% endblock %}
