@@ -2,11 +2,11 @@
   min-height: 52rem;
   border-radius: variable(card-border-radius);
   display: inline-block;
-  width: 31.8rem;
   padding: 0 3rem;
   margin-bottom: 6rem;
   position: relative;
   background-color: clr(subcolor-2);
+  @include card-width;
 
   &__brand-shape {
     position: absolute;
