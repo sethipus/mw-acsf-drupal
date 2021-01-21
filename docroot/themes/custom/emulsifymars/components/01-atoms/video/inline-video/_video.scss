@@ -143,6 +143,10 @@
     }
   }
 
+  &__playpause[data-state="pause"] .play-icon{
+    display: none;
+  }
+
   &__playpause[data-state="pause"] {
     @include pausebutton;
 
