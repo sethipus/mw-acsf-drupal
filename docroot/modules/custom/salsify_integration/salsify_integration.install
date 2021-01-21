@@ -71,7 +71,7 @@ function salsify_integration_update_8001() {
  *
  * Update salsify force update config to TRUE.
  */
-function salsify_integration_update_8003() {
+function salsify_integration_update_8002() {
   $config = \Drupal::configFactory()
     ->getEditable('salsify_integration.settings');
   $config->set('cron_force_update', 1);
