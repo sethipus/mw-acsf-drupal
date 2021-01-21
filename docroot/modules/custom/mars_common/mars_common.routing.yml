@@ -10,3 +10,12 @@ mars_common.poll.votes:
     parameters:
       poll:
         type: entity:poll
+mars_common.admin.site_labels:
+  path: '/admin/config/site-labels'
+  defaults:
+    _form: '\Drupal\mars_common\Form\MarsSiteLabelsForm'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE,
+    no_cache: 'TRUE'
