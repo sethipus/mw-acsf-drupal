@@ -19,7 +19,7 @@
           });
         });
 
-        $(document).keyup(function(e) {
+        $(document).keydown(function(e) {
           if (e.keyCode === 27) {
             e.stopPropagation();
             $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
