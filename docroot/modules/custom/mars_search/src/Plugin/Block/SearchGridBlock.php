@@ -121,6 +121,11 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       $grid_id = $config['grid_id'];
     }
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('grid', $config, $grid_id);
+
+    // Results will be populated after ajax request. It's not possible to
+    // know right desktop type without page inner width.
+    $build['#items'] = [];
+    $query_search_results['results'] = [];
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets($config, $grid_id));
 
     // "See more" link should be visible only if it makes sense.
@@ -187,6 +192,19 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     // Disable default label to display.
     $values['label_display'] = FALSE;
     $values['grid_id'] = uniqid(substr(md5(serialize($values)), 0, 12));
+    // Process Top Results.
+    $values['top_results_wrapper']['top_results'] = [];
+    foreach ($values['top_results_wrapper'] as $key => $results) {
+      if ($key == 'top_results') {
+        continue;
+      }
+      if ($results == NULL) {
+        unset($values['top_results_wrapper'][$key]);
+        continue;
+      }
+      $values['top_results_wrapper']['top_results'][] = reset($results);
+      unset($values['top_results_wrapper'][$key]);
+    }
 
     $this->setConfiguration($values);
   }
@@ -208,11 +226,6 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       '#type' => 'details',
       '#title' => $this->languageHelper->translate('Predefined filters'),
       '#open' => FALSE,
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[exposed_filters_wrapper][toggle_filters]"]' => ['checked' => FALSE],
-        ],
-      ],
     ];
 
     foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
@@ -289,17 +302,29 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       '#title' => $this->languageHelper->translate('Top results'),
       '#open' => FALSE,
     ];
-    $form['top_results_wrapper']['top_results'] = [
-      '#type' => 'entity_autocomplete',
-      '#target_type' => 'node',
-      '#title' => $this->languageHelper->translate('Top results'),
-      '#selection_settings' => [
-        'target_bundles' => array_keys(SearchBuilderInterface::CONTENT_TYPES),
-      ],
-      '#tags' => TRUE,
-      '#cardinality' => 8,
-      '#default_value' => $default_top,
-    ];
+    for ($i = 1; $i < 9; $i++) {
+      $form['top_results_wrapper']['top_results_' . $i] = [
+        '#type' => 'entity_autocomplete',
+        '#target_type' => 'node',
+        '#title' => $this->languageHelper->translate('Top results'),
+        '#selection_settings' => [
+          'target_bundles' => array_keys(SearchBuilderInterface::CONTENT_TYPES),
+        ],
+        '#tags' => TRUE,
+        '#cardinality' => 1,
+        '#default_value' => is_array($default_top) && count($default_top) > 0 ? array_shift($default_top) : [],
+      ];
+      if ($i > 1) {
+        $prev = $i - 1;
+        $form['top_results_wrapper']['top_results_' . $i]['#states'] = [
+          'visible' => [
+            ":input[name = 'settings[top_results_wrapper][top_results_$prev]']" => [
+              'filled' => TRUE,
+            ],
+          ],
+        ];
+      }
+    }
 
     return $form;
   }

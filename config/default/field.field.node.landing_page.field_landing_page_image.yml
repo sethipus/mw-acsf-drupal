@@ -7,13 +7,18 @@ dependencies:
     - media.type.image
     - media.type.lighthouse_image
     - node.type.landing_page
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 id: node.landing_page.field_landing_page_image
 field_name: field_landing_page_image
 entity_type: node
 bundle: landing_page
 label: Image
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

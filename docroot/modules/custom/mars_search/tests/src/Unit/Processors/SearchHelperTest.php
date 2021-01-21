@@ -204,6 +204,7 @@ class SearchHelperTest extends UnitTestCase {
       'highlighted_fields' => [],
       'results' => [],
       'resultsCount' => NULL,
+      'itemsCount' => 1,
     ], $search_results);
   }
 
@@ -214,7 +215,6 @@ class SearchHelperTest extends UnitTestCase {
     $router = $this->createMock('Drupal\Tests\Core\Routing\TestRouterInterface');
     $router->expects($this->any())
       ->method('matchRequest')
-      ->with(Request::create('/foo'))
       ->willReturn([
         '_raw_variables' => new ParameterBag([]),
         '_route' => 'test',
