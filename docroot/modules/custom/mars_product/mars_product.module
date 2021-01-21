@@ -52,6 +52,53 @@ function mars_product_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_page_attachments().
+ */
+function mars_product_page_attachments(&$page) {
+  $wtb_config = \Drupal::config('mars_product.wtb.settings');
+  $vendor = $wtb_config->get('commerce_vendor') ?? '';
+  if ($vendor == PdpHeroBlock::VENDOR_PRICE_SPIDER) {
+    $metatags = [
+      'ps-account' => [
+        '#tag' => 'meta',
+        '#attributes' => [
+          'name' => 'ps-account',
+          'content' => $wtb_config->get('account_id'),
+        ],
+      ],
+      'ps-country' => [
+        '#tag' => 'meta',
+        '#attributes' => [
+          'name' => 'ps-country',
+          'content' => \Drupal::configFactory()
+            ->get('system.date')
+            ->get('country.default'),
+        ],
+      ],
+      'ps-language' => [
+        '#tag' => 'meta',
+        '#attributes' => [
+          'name' => 'ps-language',
+          'content' => strtolower(\Drupal::languageManager()
+            ->getCurrentLanguage()
+            ->getId()),
+        ],
+      ],
+      'price-spider' => [
+        '#tag' => 'script',
+        '#attributes' => [
+          'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+          'async' => TRUE,
+        ],
+      ],
+    ];
+    foreach ($metatags as $key => $metatag) {
+      $page['#attached']['html_head'][] = [$metatag, $key];
+    }
+  }
+}
+
+/**
  * Implements hook_entity_view().
  */
 function mars_product_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
@@ -61,46 +108,7 @@ function mars_product_node_view(array &$build, EntityInterface $entity, EntityVi
     $wtb_confg = \Drupal::config('mars_product.wtb.settings');
     $vendor = $wtb_confg->get('commerce_vendor');
 
-    if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_PRICE_SPIDER) {
-      $metatags = [
-        'ps-account' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-account',
-            'content' => $wtb_confg->get('account_id'),
-          ],
-        ],
-        'ps-country' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-country',
-            'content' => \Drupal::configFactory()
-              ->get('system.date')
-              ->get('country.default'),
-          ],
-        ],
-        'ps-language' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-language',
-            'content' => strtolower(\Drupal::languageManager()
-              ->getCurrentLanguage()
-              ->getId()),
-          ],
-        ],
-        'price-spider' => [
-          '#tag' => 'script',
-          '#attributes' => [
-            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
-            'async' => TRUE,
-          ],
-        ],
-      ];
-      foreach ($metatags as $key => $metatag) {
-        $build['#attached']['html_head'][] = [$metatag, $key];
-      }
-    }
-    elseif (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
+    if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
       $locale = \Drupal::languageManager()
         ->getCurrentLanguage()->getId();
 

@@ -35,20 +35,7 @@ class WtbConfigForm extends ConfigFormBase {
       '#collapsed' => FALSE,
     ];
 
-    $form['general']['account_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Price Spider Account id'),
-      '#default_value' => $config->get('account_id'),
-    ];
-
-    $form['product_card'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Product card configuration'),
-      '#collapsible' => FALSE,
-      '#collapsed' => FALSE,
-    ];
-
-    $form['product_card']['commerce_vendor'] = [
+    $form['general']['commerce_vendor'] = [
       '#type' => 'select',
       '#title' => $this->t('Commerce Vendor'),
       '#default_value' => $selected_vendor ?? PdpHeroBlock::VENDOR_PRICE_SPIDER,
@@ -57,6 +44,28 @@ class WtbConfigForm extends ConfigFormBase {
         PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
       ],
       '#required' => TRUE,
+    ];
+
+    $form['general']['account_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Price Spider Account id'),
+      '#default_value' => $config->get('account_id'),
+      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_PRICE_SPIDER,
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+        ],
+        'required' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+        ],
+      ],
+    ];
+
+    $form['product_card'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Product card configuration'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
     ];
 
     $form['product_card']['widget_id'] = [

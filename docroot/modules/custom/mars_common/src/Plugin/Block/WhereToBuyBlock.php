@@ -3,13 +3,13 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -23,23 +23,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
-  /**
-   * Price spider id.
-   */
-  const VENDOR_PRICE_SPIDER = 'price_spider';
-
-  /**
-   * Commerce connector id.
-   */
-  const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
-
-  /**
-   * Config Factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $config;
 
   /**
    * The language manager.
@@ -76,14 +59,12 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    ConfigFactoryInterface $config_factory,
     LanguageManagerInterface $language_manager,
     EntityTypeManagerInterface $entity_manager,
     MediaHelper $media_helper,
     ImmutableConfig $wtb_global_config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->config = $config_factory;
     $this->languageManager = $language_manager;
     $this->entityTypeManager = $entity_manager;
     $this->mediaHelper = $media_helper;
@@ -105,7 +86,6 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('config.factory'),
       $container->get('language_manager'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.media_helper'),
@@ -121,21 +101,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
     FormStateInterface $form_state
   ) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    $config = $this->getConfiguration();
-    $saved_vendor = $config['commerce_vendor'] ?? NULL;
-    $submitted_vendor = $form_state->getUserInput()['settings']['commerce_vendor'] ?? NULL;
-    $selected_vendor = $submitted_vendor ?? $saved_vendor ?? self::VENDOR_PRICE_SPIDER;
-
-    $form['commerce_vendor'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Commerce Vendor'),
-      '#default_value' => $this->configuration['commerce_vendor'],
-      '#options' => [
-        self::VENDOR_PRICE_SPIDER => $this->t('Price Spider'),
-        self::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
-      ],
-      '#required' => TRUE,
-    ];
+    $selected_vendor = $this->getCommerceVendor();
 
     $form['widget_id'] = [
       '#type' => 'textfield',
@@ -143,63 +109,36 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#default_value' => $this->configuration['widget_id'],
       '#required' => TRUE,
     ];
+    if ($selected_vendor === PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
+      $form['data_token'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Token'),
+        '#default_value' => $this->configuration['data_token'],
+        '#required' => TRUE,
+      ];
 
-    $form['product_sku'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Product sku'),
-      '#description' => $this->t('Valid product sku that will be the initially selected product.'),
-      '#default_value' => $this->configuration['product_sku'],
-      '#required' => $selected_vendor === self::VENDOR_PRICE_SPIDER,
-      '#states' => [
-        'visible' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_PRICE_SPIDER]],
-        ],
-        'required' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_PRICE_SPIDER]],
-        ],
-      ],
-    ];
+      $form['data_subid'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('SubId'),
+        '#default_value' => $this->configuration['data_subid'],
+      ];
 
-    $form['data_token'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Token'),
-      '#default_value' => $this->configuration['data_token'],
-      '#required' => $selected_vendor === self::VENDOR_COMMERCE_CONNECTOR,
-      '#states' => [
-        'visible' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-        'required' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['data_subid'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('SubId'),
-      '#default_value' => $this->configuration['data_subid'],
-      '#states' => [
-        'visible' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['data_locale'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Commerce connector data locale'),
-      '#default_value' => $this->configuration['data_locale'],
-      '#required' => $selected_vendor === self::VENDOR_COMMERCE_CONNECTOR,
-      '#states' => [
-        'visible' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-        'required' => [
-          [':input[name="settings[commerce_vendor]"]' => ['value' => self::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
+      $form['data_locale'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Commerce connector data locale'),
+        '#default_value' => $this->configuration['data_locale'],
+        '#required' => TRUE,
+      ];
+    }
+    elseif ($selected_vendor === PdpHeroBlock::VENDOR_PRICE_SPIDER) {
+      $form['product_sku'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Product sku'),
+        '#description' => $this->t('Valid product sku that will be the initially selected product.'),
+        '#default_value' => $this->configuration['product_sku'],
+        '#required' => TRUE,
+      ];
+    }
 
     return $form;
   }
@@ -222,7 +161,6 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function defaultConfiguration(): array {
     $config = $this->getConfiguration();
     return [
-      'commerce_vendor' => $config['commerce_vendor'] ?? self::VENDOR_PRICE_SPIDER,
       'widget_id' => $config['widget_id'] ?? '',
       'data_token' => $config['data_token'] ?? '',
       'data_subid' => $config['data_subid'] ?? '',
@@ -236,13 +174,12 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function build() {
     $build['#theme'] = 'where_to_buy_block';
-    $this->pageAttachments($build);
 
     $commerceVendor = $this->configuration['commerce_vendor'];
     $build['#widget_id'] = $this->configuration['widget_id'];
     $build['#commerce_vendor'] = $commerceVendor;
 
-    if ($commerceVendor === self::VENDOR_COMMERCE_CONNECTOR) {
+    if ($commerceVendor === PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
       $build['#data_subid'] = $this->configuration['data_subid'];
       $build['#data_token'] = $this->configuration['data_token'];
       $build['#data_locale'] = $this->configuration['data_locale'];
@@ -327,53 +264,13 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   }
 
   /**
-   * Add page attachments.
+   * Returns the currently active commerce vendor.
    *
-   * @param array $build
-   *   Build array.
-   *
-   * @return array
-   *   Return build.
+   * @return string
+   *   The commerce vendor provider value.
    */
-  public function pageAttachments(array &$build) {
-    if ($this->configuration['commerce_vendor'] == self::VENDOR_PRICE_SPIDER) {
-      $metatags = [
-        'ps-account' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-account',
-            'content' => $this->wtbGlobalConfig->get('account_id'),
-          ],
-        ],
-        'ps-country' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-country',
-            'content' => $this->config->get('system.date')
-              ->get('country.default'),
-          ],
-        ],
-        'ps-language' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-language',
-            'content' => strtolower($this->languageManager->getCurrentLanguage()
-              ->getId()),
-          ],
-        ],
-        'price-spider' => [
-          '#tag' => 'script',
-          '#attributes' => [
-            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
-            'async' => TRUE,
-          ],
-        ],
-      ];
-      foreach ($metatags as $key => $metatag) {
-        $build['#attached']['html_head'][] = [$metatag, $key];
-      }
-    }
-    return $build;
+  private function getCommerceVendor(): string {
+    return $this->wtbGlobalConfig->get('commerce_vendor') ?? PdpHeroBlock::VENDOR_NONE;
   }
 
 }
