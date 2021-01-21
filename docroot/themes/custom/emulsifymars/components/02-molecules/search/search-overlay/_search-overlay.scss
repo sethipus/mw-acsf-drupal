@@ -4,6 +4,7 @@
   font-size: 14px;
   line-height: 100%;
   color: clr(subcolor-3);
+  max-height: 16.2rem;
 
   @include large {
     display: none;
@@ -47,7 +48,7 @@
     @include large {
       color: clr(primary);
       font-size: 18px;
-      line-height: 25.2px;
+      line-height: 6rem;
     }
   }
 
