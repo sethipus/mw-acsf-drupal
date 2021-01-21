@@ -160,7 +160,7 @@
           }
         }
 
-        .default-link {
+        & > .default-link {
           background-color: clr(subcolor-3);
           font-family: variable(primary-font);
           font-weight: 500;
