@@ -80,8 +80,6 @@ Feature: Product And Recipe Test
     And I should see "Warnings:"
     And I should see "More information"
     And I should see "More Products Like This"
-    And I should see a ".recommended-item" element
-    And I should see "product_title"
 
     When I am on "/node/add/recipe"
     And I fill in "Title" with "recipe_title"
