@@ -4,6 +4,15 @@
 {% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
 
 <header {{ bem(header__base_class) }} data-theme="{{ theme_styles }}">
+  {#
+    Keyboard navigation/accessibility link to main content section in
+    page.html.twig.
+  #}
+  <div id="skip-link" tabindex="-1">
+    <a href="#main-content" class="visually-hidden focusable">
+      {{ 'Skip to main content'|t }}
+    </a>
+  </div>
   <div {{ bem('inner', [], header__base_class) }}>
     <div {{ bem('primary', [], header__base_class) }} id="header-menu-trigger">
       <div {{ bem('primary-container', [], header__base_class) }}>
