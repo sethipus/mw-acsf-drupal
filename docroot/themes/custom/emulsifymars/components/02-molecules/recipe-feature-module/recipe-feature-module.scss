@@ -1,37 +1,40 @@
 .recipe-feature-block {
   $recipe-feature-desktop-max-height: 567px;
 
-  margin: 20px 0;
+  padding-bottom: 8rem;
 
   &__title {
     text-align: center;
     font-family: variable(heading-font);
     color: clr(primary);
     text-transform: uppercase;
+    margin-bottom: 4rem;
 
     @include xs {
       font-size: 2.8rem;
       line-height: 2.8rem;
+      padding-top: 5rem;
     }
 
     @include medium {
       font-size: 4rem;
       line-height: 4rem;
+      padding-top: 6rem;
     }
 
     @include large {
       font-size: 4.8rem;
       line-height: 4.8rem;
+      margin-bottom: 6rem;
+      padding-top: 8rem;
     }
   }
 
   &__graphic_divider {
     text-align: center;
-    margin-top: 10px;
     margin-bottom: 40px;
 
     @include large {
-      margin-top: 30px;
       margin-bottom: 60px;
     }
   }
@@ -66,16 +69,13 @@
       height: $recipe-feature-desktop-max-height;
     }
 
-    .ambient-video video {
-      display: block;
-    }
-
     img, figure {
       width: 100%;
 
       @include large {
-        min-height: 100%;
+        height: 100%;
         width: 62%;
+        object-fit: cover;
       }
     }
 
@@ -100,40 +100,79 @@
       }
 
       .eyebrow {
-        padding-top: 30px;
         font-family: variable(primary-font);
         font-size: 14px;
         line-height: 14px;
         color: clr(primary);
         text-transform: uppercase;
+        margin: 0;
+
+        @include xs {
+          padding-top: 3rem;
+        }
+
+        @include medium {
+          padding-top: 4rem;
+        }
+
+        @include large {
+          padding-top: 0;
+          margin: -8px auto 0;
+        }
       }
 
       .title {
         font-family: variable(primary-font);
-        font-size: 56px;
+        font-size: 5.6rem;
         line-height: 100%;
         text-transform: capitalize;
         font-weight: normal;
-        margin: 30px auto;
+        margin: 30px auto 20px;
+
+        @include xs {
+          padding: 0 12px;
+        }
+
+        @include medium {
+          margin-bottom: 40px;
+          padding: 0 40px;
+        }
 
         @include large {
-          font-size: 64px;
+          font-size: 6.4rem;
+          min-height: 18rem;
+          margin: 2.9rem auto 3.2rem;
         }
 
         a.link {
           color: clr(primary);
           text-decoration: none;
+
+          @include large {
+            display: block;
+            margin: -10px auto -5px auto;
+          }
         }
       }
 
+      .cta-btn {
+        // Removing additionalspacing which comes from space
+        line-height: 0;
+      }
+
       .default-link {
-        margin-top: 20px;
-        margin-bottom: 40px;
         background-color: clr(secondary);
 
-        @include large {
-          margin-top: 50px;
+        @include xs {
+          margin-bottom: 40px;
+        }
+
+        @include medium {
           margin-bottom: 60px;
+        }
+
+        @include large {
+          margin-bottom: 0;
         }
 
         &:hover {

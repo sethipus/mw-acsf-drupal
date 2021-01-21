@@ -178,6 +178,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
 
     $form = array_merge($form, $this->buildExposedFilters());
     $form = array_merge($form, $this->buildGeneralFilters());
+    $form = array_merge($form, $this->buildExcludedFilters());
     $form = array_merge($form, $this->buildTopResults());
 
     return $form;
@@ -274,6 +275,67 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       ],
       '#default_value' => $config['general_filters']['options_logic'] ?? 'and',
     ];
+
+    return $form;
+  }
+
+  /**
+   * Build fieldset for excluded filters.
+   *
+   * @return array
+   *   Selectors for filters.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  protected function buildExcludedFilters() {
+    $form = [];
+    $config = $this->getConfiguration();
+
+    $form['exclude_filters'] = [
+      '#type' => 'details',
+      '#title' => $this->languageHelper->translate('Exclude filters'),
+      '#open' => FALSE,
+    ];
+
+    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+      $label = $vocabulary_data['label'];
+      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+      $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+      /** @var \Drupal\taxonomy\TermInterface[] $terms */
+      $terms = $term_storage->loadTree($vocabulary, 0, NULL, TRUE);
+      if (!$terms) {
+        continue;
+      }
+
+      $terms_options = [
+        0 => '- Not restricted -',
+      ];
+      foreach ($terms as $term) {
+        $terms_options[$term->id()] = $term->label();
+      }
+
+      $conditions = [];
+      foreach ($vocabulary_data['content_types'] as $content_type) {
+        $conditions[] = [":input[name=\"settings[content_type]\"]" => ['value' => $content_type]];
+      }
+
+      $form['exclude_filters'][$vocabulary] = [
+        '#type' => 'details',
+        '#title' => $label,
+        '#open' => FALSE,
+        '#states' => [
+          'enabled' => $conditions,
+        ],
+      ];
+      $form['exclude_filters'][$vocabulary]['select'] = [
+        '#type' => 'select',
+        '#title' => $label,
+        '#multiple' => TRUE,
+        '#options' => $terms_options,
+        '#default_value' => $config['exclude_filters'][$vocabulary]['select'] ?? NULL,
+      ];
+    }
 
     return $form;
   }
