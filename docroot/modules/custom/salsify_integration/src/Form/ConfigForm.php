@@ -12,6 +12,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\salsify_integration\Event\SalsifyGetEntityTypesEvent;
 use Drupal\salsify_integration\ProductHelper;
@@ -64,6 +65,13 @@ class ConfigForm extends ConfigFormBase {
   protected $batchBuilder;
 
   /**
+   * The Queue.
+   *
+   * @var \Drupal\Core\Queue\QueueInterface
+   */
+  protected $importQueue;
+
+  /**
    * ConfigForm constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -76,13 +84,16 @@ class ConfigForm extends ConfigFormBase {
    *   The module handler service.
    * @param \Drupal\salsify_integration\SalsifyFields $salsify_fields
    *   The Salsify fields module.
+   * @param \Drupal\Core\Queue\QueueFactory $queue_factory
+   *   The Queue factory.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     ContainerAwareEventDispatcher $event_dispatcher,
     ModuleHandlerInterface $module_handler,
-    SalsifyFields $salsify_fields
+    SalsifyFields $salsify_fields,
+    QueueFactory $queue_factory
   ) {
     parent::__construct($config_factory);
     $this->entityTypeManager = $entity_type_manager;
@@ -90,6 +101,7 @@ class ConfigForm extends ConfigFormBase {
     $this->moduleHandler = $module_handler;
     $this->salsifyFields = $salsify_fields;
     $this->batchBuilder = new BatchBuilder();
+    $this->importQueue = $queue_factory->get('salsify_integration_content_import');
   }
 
   /**
@@ -101,7 +113,8 @@ class ConfigForm extends ConfigFormBase {
       $container->get('entity_type.manager'),
       $container->get('event_dispatcher'),
       $container->get('module_handler'),
-      $container->get('salsify_integration.salsify_fields')
+      $container->get('salsify_integration.salsify_fields'),
+      $container->get('queue')
     );
   }
 
@@ -278,6 +291,13 @@ class ConfigForm extends ConfigFormBase {
       $form['salsify_operations']['salsify_start_import'] = [
         '#type' => 'submit',
         '#value' => $this->t('Sync with Salsify'),
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      ];
+      $form['salsify_operations']['salsify_purge_queue'] = [
+        '#type' => 'submit',
+        '#name' => 'purge_import_queue',
+        '#value' => $this->t('Purge import queue'),
         '#prefix' => '<p>',
         '#suffix' => '</p>',
       ];
@@ -483,7 +503,13 @@ class ConfigForm extends ConfigFormBase {
         $message = $this->t('A error occurred while making the request to Salsify. Check the API settings and try again.')->render();
         $this->logger(static::SALSIFY_LOGGER_CHANNEL)->error($message);
         $this->messenger()->addError($message);
+        $this->messenger()->addError($e->getMessage());
       }
+      return;
+    }
+    elseif ($trigger['#id'] == 'edit-salsify-purge-queue') {
+      $this->importQueue->deleteQueue();
+      $this->messenger()->addMessage($this->t('All items in the Salsify import queue are purged.'));
       return;
     }
 
@@ -547,10 +573,6 @@ class ConfigForm extends ConfigFormBase {
       // Add child entity references.
       $this->salsifyFields->addChildLinks($items['mapping'], $product);
       $product['CMS: Market'] = $items['market'] ?? NULL;
-      if (isset($product['CMS: Meta Description']) ||
-        isset($product['CMS: Keywords'])) {
-        $product['CMS: Meta tags'] = TRUE;
-      }
 
       if (ProductHelper::getProductType($product) == $content_type) {
         $this->batchBuilder
@@ -567,60 +589,37 @@ class ConfigForm extends ConfigFormBase {
    */
   public static function batchProcessItem($items, $force_update, $content_type, array &$context) {
 
-    // Elements per operation.
-    $limit = 20;
+    static::setDefaultContextValues($context, $items);
 
-    // Set default progress values.
-    if (empty($context['sandbox']['progress'])) {
-      $context['sandbox']['progress'] = 0;
-      $context['sandbox']['max'] = count($items);
-    }
-
-    // Save items to array which will be changed during processing.
-    if (empty($context['sandbox']['items'])) {
-      $context['sandbox']['items'] = $items;
-    }
-
-    $counter = 0;
     if (!empty($context['sandbox']['items'])) {
-      // Remove already processed items.
-      if ($context['sandbox']['progress'] != 0) {
-        array_splice($context['sandbox']['items'], 0, $limit);
-      }
+      $product = array_shift($context['sandbox']['items']);
 
-      foreach ($context['sandbox']['items'] as $product) {
+      if (ProductHelper::getProductType($product) == $content_type) {
+        $result = SalsifyImportField::processSalsifyItem(
+          $product,
+          $force_update,
+          $content_type
+        );
 
-        if ($counter != $limit) {
-
-          if (ProductHelper::getProductType($product) == $content_type) {
-            $result = SalsifyImportField::processSalsifyItem(
-              $product,
-              $force_update,
-              $content_type
-            );
-
-            if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
-              $context['results']['updated_products'] = array_merge(
-                $context['results']['updated_products'] ?? [],
-                [$product['GTIN']]
-              );
-            }
-            elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
-              $context['results']['created_products'] = array_merge(
-                $context['results']['created_products'] ?? [],
-                [$product['GTIN']]
-              );
-            }
-            $context['results']['validation_errors'] = array_merge(
-              $context['results']['validation_errors'] ?? [],
-              $result['validation_errors']
-            );
-          }
-
-          $counter++;
-          $context['sandbox']['progress']++;
+        if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
+          $context['results']['updated_products'] = array_merge(
+            $context['results']['updated_products'] ?? [],
+            [$product['GTIN']]
+          );
         }
+        elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
+          $context['results']['created_products'] = array_merge(
+            $context['results']['created_products'] ?? [],
+            [$product['GTIN']]
+          );
+        }
+        $context['results']['validation_errors'] = array_merge(
+          $context['results']['validation_errors'] ?? [],
+          $result['validation_errors']
+        );
       }
+
+      $context['sandbox']['progress']++;
     }
 
     // If not finished all tasks, we count percentage of process. 1 = 100%.
@@ -668,6 +667,28 @@ class ConfigForm extends ConfigFormBase {
     $message = t('The Salsify data import is complete.');
     \Drupal::service('messenger')
       ->addStatus($message);
+  }
+
+  /**
+   * Set default context values for the batch.
+   *
+   * @param array $context
+   *   Batch context.
+   * @param array $items
+   *   Product data.
+   */
+  private static function setDefaultContextValues(array &$context, array &$items) {
+
+    // Set default progress values.
+    if (empty($context['sandbox']['progress'])) {
+      $context['sandbox']['progress'] = 0;
+      $context['sandbox']['max'] = count($items);
+    }
+
+    // Save items to array which will be changed during processing.
+    if (empty($context['sandbox']['items'])) {
+      $context['sandbox']['items'] = $items;
+    }
   }
 
 }

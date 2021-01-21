@@ -39,6 +39,7 @@
     font-family: variable(primary-font);
     color: clr(primary);
     text-align: center;
+    font-weight: 500;
 
     @include small {
       font-size: 4rem;
@@ -60,7 +61,7 @@
     font-family: variable(secondary-font);
     color: clr(primary);
     text-align: center;
-    margin: 0 auto;
+    margin: 5.5rem auto 0 auto;
 
     @include small {
       font-size: 1.8rem;
@@ -69,7 +70,7 @@
 
     @include medium {
       font-size: 2rem;
-      max-width: 70%;
+      max-width: 89.6rem;
       line-height: 3.2rem;
     }
 
@@ -136,7 +137,8 @@
       max-height: 54.3rem;
 
       .eyebrow {
-        margin-top: 6rem;
+        margin-top: 6.8rem;
+        margin-bottom: 2rem;
       }
     }
 
@@ -145,7 +147,7 @@
       max-height: 58.0rem;
 
       .horizontal-img__inner {
-        margin: 6rem auto;
+        margin: 5rem auto;
       }
     }
   }
@@ -174,6 +176,29 @@
     background-position: top center;
     background-size: cover;
     padding: 0;
+
+    .content {
+      position: absolute;
+      z-index: 1;
+      padding: 0 2rem;
+      left: 0;
+      width: 100%;
+      top: calc(50% - 15rem);
+
+      @include small {
+        padding: 0 2rem;
+      }
+
+      @include large {
+        padding: 0 4rem;
+      }
+
+      @include xl {
+        left: calc(50% - 89.6rem / 2);
+        width: 89.6rem;
+      }
+    }
+
     .brand-shape {
       display: none;
     }
