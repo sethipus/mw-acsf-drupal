@@ -8,10 +8,10 @@
   border-radius: variable(card-border-radius);
   display: flex;
   flex-direction: column;
-  max-width: 31.8rem;
   position: relative;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 6rem;
+  @include card-width;
 
   &__media {
     overflow: hidden;
@@ -20,13 +20,13 @@
     position: absolute;
     bottom: 0;
     max-height: 31.8rem;
-    max-width: 31.8rem;
     height: 100%;
     width: auto;
     box-sizing: border-box;
     justify-content: center;
     border-bottom-left-radius: variable(card-border-radius);
     border-bottom-right-radius: variable(card-border-radius);
+    @include card-width;
 
     img {
       min-width: 100%;
@@ -37,6 +37,7 @@
     a {
       display: block;
       height: 100%;
+      width: 100%;
     }
   }
 
