@@ -76,15 +76,16 @@ import moment from 'moment';
           $(".layout-container").attr("aria-hidden", "true");
           
           $('.layout-container').find('a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])').each((i, e) => {
-            $(e).attr(a11yDataAttrName, $(e).attr("tabindex") !== undefined ? $(e).attr("tabindex") : "none").attr('tabindex', '-1');;
+            $(e).attr(a11yDataAttrName, $(e).attr("tabindex") !== undefined ? $(e).attr("tabindex") : "none").attr('tabindex', '-1');
           });
 
           // Hack for key nav from OneTrust 
           $('body').prepend(
             `<a href="#" class="sronly" id="${a11yDateFakeLinkId}"></a>`
           );
+
           $(`#${a11yDateFakeLinkId}`).on('focus', event => {
-            entryGate.find(':focusable').eq(0).focus();
+            entryGate.find('a, button, input').eq(0).focus();
           });
         }
 
@@ -132,10 +133,15 @@ import moment from 'moment';
           $(".layout-container").attr("aria-hidden", "false");
           entryGate.attr("aria-hidden", "true");
 
-          $(`[${a11yDataAttrName}="none"]`).removeAttr(a11yDataAttrName).removeAttr('tabindex');
-          $(`[${a11yDataAttrName}]:not([${a11yDataAttrName}="none"])`).each((i, e) => {
-            $(e).attr("tabindex", $(e).attr(a11yDataAttrName));
+          $(`[${a11yDataAttrName}]`).each((i, e) => {
+            if ($(e).attr(a11yDataAttrName) === "none") {
+              $(e).removeAttr('tabindex');
+            } else {
+              $(e).attr("tabindex", $(e).attr(a11yDataAttrName));  
+            }            
+            $(e).removeAttr(a11yDataAttrName);
           });
+
           $(`#${a11yDateFakeLinkId}`).remove();
 
 
