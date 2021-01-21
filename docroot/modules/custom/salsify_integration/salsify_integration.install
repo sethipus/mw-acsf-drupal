@@ -77,3 +77,18 @@ function salsify_integration_update_8002() {
   $config->set('cron_force_update', 1);
   $config->save();
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Empty field_product_allergen_statement at product variants.
+ */
+function salsify_integration_update_8003() {
+  $storage_handler = \Drupal::entityTypeManager()->getStorage('node');
+  $variants = $storage_handler
+    ->loadByProperties(['type' => 'product_variant']);
+  foreach ($variants as $variant) {
+    $variant->set('field_product_allergen_statement', NULL);
+    $variant->save();
+  }
+}

@@ -3,7 +3,7 @@ salsify_id: 'Allergen Statement'
 salsify_data_type: string
 entity_type: node
 bundle: product_variant
-field_name: field_product_allergen_statement
+field_name: field_product_allergen_warnings
 method: manual
 created: 1546300800
 changed: 1546300801
