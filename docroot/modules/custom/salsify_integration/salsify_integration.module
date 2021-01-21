@@ -18,7 +18,15 @@ function salsify_integration_cron() {
   $product_feed = \Drupal::service('salsify_integration.salsify_fields');
   $force_update = (bool) \Drupal::config('salsify_integration.settings')
     ->get('cron_force_update');
-  $product_feed->importProductData($force_update);
+
+  // ImportProductData is quite a huge operation.
+  // Check number of items in order to avoid meaningless work.
+  $number_of_items = \Drupal::queue('salsify_integration_content_import')
+    ->numberOfItems();
+  if ($number_of_items == 0) {
+    $product_feed->importProductData($force_update);
+  }
+
   \Drupal::logger('salsify_integration')
     ->notice('The Salsify data is queued to be imported and will be processed on the next cron run.');
 
