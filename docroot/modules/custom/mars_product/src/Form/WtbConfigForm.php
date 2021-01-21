@@ -40,6 +40,7 @@ class WtbConfigForm extends ConfigFormBase {
       '#title' => $this->t('Commerce Vendor'),
       '#default_value' => $selected_vendor ?? PdpHeroBlock::VENDOR_PRICE_SPIDER,
       '#options' => [
+        PdpHeroBlock::VENDOR_NONE => $this->t('None'),
         PdpHeroBlock::VENDOR_PRICE_SPIDER => $this->t('Price Spider'),
         PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
       ],

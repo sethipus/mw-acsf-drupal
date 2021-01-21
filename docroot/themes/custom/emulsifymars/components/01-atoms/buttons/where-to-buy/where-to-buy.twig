@@ -20,7 +20,7 @@
   >
     {% if commerce_vendor == 'price_spider' %}
       <div class="ps-widget" ps-config="{{ data_widget_id }}" ps-sku="{{ product_sku }}"></div>
-    {% else %}
+    {% elseif commerce_vendor == 'commerce_connector' %}
       {% if button_type == 'my_own' %}
         <a class="cc-fi-button text_link" data-ccwid="{{ data_widget_id }}"
            data-ean="{{ product_sku }}">{{ cta_title }}</a>
