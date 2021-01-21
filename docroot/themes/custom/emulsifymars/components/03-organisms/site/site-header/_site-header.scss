@@ -115,3 +115,22 @@
 .logo__image {
   width: 100%;
 }
+
+#skip-link {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1500;
+
+  a {
+    background: clr(subcolor-4);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    color: clr(subcolor-3);
+    font-size: 1.4rem;
+    font-family: variable(primary-font);
+    padding: 3px 20px 8px;
+    text-decoration: none;
+    border-radius: 0px 0px 10px 10px;
+  }
+}
