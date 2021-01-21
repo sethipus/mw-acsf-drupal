@@ -573,10 +573,6 @@ class ConfigForm extends ConfigFormBase {
       // Add child entity references.
       $this->salsifyFields->addChildLinks($items['mapping'], $product);
       $product['CMS: Market'] = $items['market'] ?? NULL;
-      if (isset($product['CMS: Meta Description']) ||
-        isset($product['CMS: Keywords'])) {
-        $product['CMS: Meta tags'] = TRUE;
-      }
 
       if (ProductHelper::getProductType($product) == $content_type) {
         $this->batchBuilder

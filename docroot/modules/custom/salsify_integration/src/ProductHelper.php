@@ -446,6 +446,7 @@ class ProductHelper {
     $salsify_id = base64_encode($product_variant['salsify:id']);
     $product['CMS: Meta Description'] = $product_variant['CMS: Meta Description'] ?? NULL;
     $product['CMS: Keywords'] = $product_variant['CMS: Keywords'] ?? NULL;
+    $this->addMetaTagsFlag($product);
     $product['salsify:id'] = $salsify_id;
     $product['GTIN'] = $salsify_id;
     $product['salsify:created_at'] = $product_variant['salsify:created_at'];
@@ -453,6 +454,19 @@ class ProductHelper {
     $product['CMS: content type'] = $content_type;
 
     return $product;
+  }
+
+  /**
+   * Add meta tag flag.
+   *
+   * @param array $product
+   *   Product data.
+   */
+  private function addMetaTagsFlag(array &$product) {
+    if (isset($product['CMS: Meta Description']) ||
+      isset($product['CMS: Keywords'])) {
+      $product['CMS: Meta tags'] = TRUE;
+    }
   }
 
   /**
