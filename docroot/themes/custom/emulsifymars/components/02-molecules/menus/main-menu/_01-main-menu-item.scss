@@ -30,21 +30,30 @@
     }
   }
 
-  /* Only top level */
-  &:not(.main-menu__item--sub):hover {
-    transition: all 0.2s;
-
-    & > .main-menu--sub {
-      @include large {
+  &--opened {
+    @include large {
+      .main-menu--sub {
         display: block;
       }
     }
+  }
+
+  /* Only top level */
+  &:not(.main-menu__item--sub):hover {
+    transition: all 0.2s;
 
     &:hover {
       .main-menu__link::after {
         color: clr(text);
       }
     }
+  }
+
+  .menu-item__heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
   }
 }
 
