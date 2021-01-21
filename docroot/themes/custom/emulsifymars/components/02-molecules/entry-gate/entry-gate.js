@@ -13,6 +13,8 @@ import moment from 'moment';
         const submitBtn = $('.entry-gate-form__submit-btn', this);
         const errorMessage = $('.entry-gate-form__error-message', this);
         const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
+        const a11yDataAttrName = 'data-a11y-block-tabbable';
+        const a11yDateFakeLinkId = 'a11y-entry-gate-first-link'
 
         dayInput[0].onkeydown = function(e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
@@ -72,6 +74,22 @@ import moment from 'moment';
           entryGate.css({display: 'flex'});
           entryGate.attr("aria-hidden", "false");
           $(".layout-container").attr("aria-hidden", "true");
+          
+          $('a[href="#main-content"], .layout-container a, .layout-container button, .layout-container input, .layout-container textarea, .layout-container select, .layout-container details')
+          .attr(a11yDataAttrName, "none")
+          .attr('tabindex', '-1');
+
+          $('.layout-container [tabindex]:not([tabindex="-1"])').each((i, e) => {
+            $(e).attr(a11yDataAttrName, $(e).attr("tabindex")).attr('tabindex', '-1');
+          });
+
+          // Hack for key nav from OneTrust 
+          $('body').prepend(
+            `<a href="#" class="sronly" id="${a11yDateFakeLinkId}"></a>`
+          );
+          $(`#${a11yDateFakeLinkId}`).on('focus', event => {
+            entryGate.find(':focusable').eq(0).focus();
+          });
         }
 
         dayInput.focus();
@@ -117,6 +135,14 @@ import moment from 'moment';
           entryGate.css({display: 'none'});
           $(".layout-container").attr("aria-hidden", "false");
           entryGate.attr("aria-hidden", "true");
+
+          $(`[${a11yDataAttrName}="none"]`).removeAttr(a11yDataAttrName).removeAttr('tabindex');
+          $(`[${a11yDataAttrName}]:not([${a11yDataAttrName}="none"])`).each((i, e) => {
+            $(e).attr("tabindex", $(e).attr(a11yDataAttrName));
+          });
+          $(`#${a11yDateFakeLinkId}`).remove();
+
+
           if (typeof dataLayer !== 'undefined') {
             dataLayer.push({
               event: 'formSubmit',
