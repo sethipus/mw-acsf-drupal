@@ -6,7 +6,8 @@
 
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
   data-fullscreen="false"
-  data-video-flag="Fullscreen">
+  data-video-flag="Fullscreen"
+  data-theme={{ theme_styles }}>
   <video {{ bem('video', [], video__base_class) }}>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>

@@ -27,7 +27,7 @@
       width: 30.2px;
       height: 36px;
       fill: clr(secondary);
-      margin: auto 35%;
+      margin: auto 30%;
     }
   }
 
@@ -135,13 +135,11 @@
       margin-right: 30px;
     }
 
-    >div {
-      width: 0;
-      height: 0;
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-      border-left: 10px solid clr(player);
-      margin: auto 35%
+    .play-icon {
+      width: 10px;
+      height: 12px;
+      fill: clr(secondary);
+      margin: auto 35%;
     }
   }
 

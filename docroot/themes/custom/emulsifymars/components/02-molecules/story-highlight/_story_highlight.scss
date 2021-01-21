@@ -303,8 +303,13 @@
 
     @include xl {
       z-index: 1;
-      top: 95rem;
-      left: -8rem;
+      top: 80rem;
+      left: 0;
+    }
+
+    @include xs {
+      top: 45rem;
+      left: 0;
     }
   }
 

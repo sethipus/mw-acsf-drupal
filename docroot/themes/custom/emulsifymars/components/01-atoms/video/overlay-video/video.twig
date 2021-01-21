@@ -7,7 +7,8 @@
 <figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
   data-fullcontrol="false"
   data-overlay="false"
-  data-video-flag="Overlay">
+  data-video-flag="Overlay"
+  data-theme={{ theme_styles }}>
   <video {{ bem('video', [], video__base_class) }} data-theme={{ theme_styles }}>
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
