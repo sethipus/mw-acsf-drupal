@@ -31,15 +31,13 @@
         {{ pp_header_eyebrow_text }}
       </h3>
 
-      {% set heading_base_class = pp_header_heading_base_class|default('h' ~ pp_header_heading_level) %}
-      <h{{ pp_header_heading_level }} {{ bem(heading_base_class) }} style="color:{{ text_color }}">
+      <h{{ pp_header_heading_level }} {{ bem(pp_header_heading_base_class) }} style="color:{{ text_color }}">
         {{ pp_header_heading }}
       </h{{ pp_header_heading_level }}>
 
       {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
 
-      {% set paragraph_base_class = pp_header_paragraph_base_class|default('paragraph') %}
-      <p {{ bem(paragraph_base_class) }} style="color:{{ text_color }}">
+      <p {{ bem(pp_header_paragraph_base_class) }} style="color:{{ text_color }}">
         {{ pp_header_paragraph_content | raw }}
       </p>
     {% endif %}
