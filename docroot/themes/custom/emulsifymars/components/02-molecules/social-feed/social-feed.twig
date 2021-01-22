@@ -1,14 +1,22 @@
 {{ attach_library('emulsifymars/social-feed') }}
 {% set social_feed_base_class = social_feed_base_class|default('social-feed') %}
 
-<section id="social-feed" {{ bem(social_feed_base_class) }} data-theme="{{theme_styles}}" >
+<section id="social-feed" {{ bem(social_feed_base_class) }} data-theme="{{theme_styles}}"
+  {% if select_background_color|length > 0 %}
+    style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
+  {% endif %}
+>
   {% block brand_border %}
     <div {{  bem('border', [], social_feed_base_class)  }}>
       {{ brand_border | raw }}
     </div>
   {% endblock %}
 
-  <div class="social-feed__content">
+  <div class="social-feed__content"
+    {% if select_background_color|length > 0 %}
+      style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
+    {% endif %}
+  >
     <div class="social-feed__heading">
       {% include "@atoms/text/headings/_heading.twig" with {
         heading_level: 1,

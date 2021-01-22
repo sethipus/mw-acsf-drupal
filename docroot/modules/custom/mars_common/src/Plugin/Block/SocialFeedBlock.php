@@ -14,6 +14,7 @@ use Drupal\juicer_io\Model\FeedFactory;
 use Drupal\juicer_io\Model\FeedItem;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -27,6 +28,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use SelectBackgroundColorTrait;
 
   const MAX_AGE_1_DAY = 60 * 60 * 24;
 
@@ -130,8 +133,16 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function build() {
     $configEntity = $this->getFeedConfig();
     $label = $this->languageHelper->translate($this->configuration['label'] ?? '');
+    $background_color = '';
+    if ($this->configuration['select_background_color'] != 'default' &&
+      !empty($this->configuration['select_background_color']) &&
+      array_key_exists($this->configuration['select_background_color'], $this->colorVariables)
+    ) {
+      $background_color = $this->colorVariables[$this->configuration['select_background_color']];
+    }
     return [
       '#theme' => 'social_feed_block',
+      '#select_background_color' => $background_color,
       '#label' => $label,
       '#items' => $this->getFeedItems(),
       '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
@@ -170,6 +181,9 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       // Cannot set default value as feed config is missing.
     }
 
+    // Add select background color.
+    $this->buildSelectBackground($form);
+
     return $form;
   }
 
@@ -180,6 +194,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     parent::blockSubmit($form, $form_state);
     $this->configuration['feed'] = $form_state->getValue('feed');
     $this->configuration['label'] = $form_state->getValue('label_title');
+    $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
   }
 
   /**

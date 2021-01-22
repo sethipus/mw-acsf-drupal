@@ -168,6 +168,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'items' => [],
         'graphic_divider' => '',
         'brand_border' => '',
+        'select_background_color' => NULL,
       ],
     ],
     'flexible_driver_block' => [
@@ -178,6 +179,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'cta_link' => NULL,
         'asset_1' => NULL,
         'asset_2' => NULL,
+        'select_background_color' => NULL,
       ],
     ],
     'story_highlight_block' => [
