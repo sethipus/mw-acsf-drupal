@@ -291,8 +291,14 @@
     }
 
     @include xl {
-      top: 35rem;
+      top: 27rem;
     }
+
+    @include xs {
+      top: 35rem;
+      right: -5rem;
+    }
+    
   }
 
   &__brand-shape_2 {
@@ -311,8 +317,8 @@
     }
 
     @include medium {
-      top: 90rem;
-      left: -18rem;
+      top: 80rem;
+      left: -10rem;
       z-index: 1;
       min-width: 42.8rem;
       min-height: 41.3rem;
@@ -328,8 +334,13 @@
 
     @include xl {
       z-index: 1;
-      top: 95rem;
-      left: -8rem;
+      top: 80rem;
+      left: 0;
+    }
+
+    @include xs {
+      top: 45rem;
+      left: 0;
     }
   }
 
@@ -348,7 +359,7 @@
     @include xs {
       z-index: 0;
       right: 0;
-      bottom: 20rem;
+      bottom: 0;
       min-width: 18.2rem;
       min-height: 14.4rem;
       width: 18.2rem;

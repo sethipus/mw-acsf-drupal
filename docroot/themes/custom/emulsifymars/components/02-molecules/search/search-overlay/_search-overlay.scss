@@ -15,6 +15,23 @@
     top: 0;
   }
 
+  &.opened {
+    @include large {
+      display: block;
+      position: absolute;
+      height: 20rem;
+      z-index: 20;
+    }
+    .mars-search-autocomplete-suggestions-wrapper {
+      @include large {
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        z-index: 10;
+      }
+    }
+  }
+
   & .wrapper-overlay {
     display: flex;
     width: 100%;
@@ -262,21 +279,6 @@
       position: absolute;
       right: 0;
       top: 0;
-    }
-  }
-
-   &.opened {
-    display: flex !important;
-    position: absolute;
-    height: 16.2rem;
-    z-index: 20;
-    .mars-search-autocomplete-suggestions-wrapper {
-      @include large {
-        position: absolute;
-        top: 100%;
-        width: 90%;
-        z-index: 10;
-      }
     }
   }
 }
