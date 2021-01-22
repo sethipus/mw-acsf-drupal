@@ -29,8 +29,6 @@ ignored_config_entities:
   - gtm.settings
   - salsify_integration.settings
   - system.performance
-  - seckit.settings
-  - advagg.settings
   - mars_product.wtb.settings
   - 'core.entity_view_display.node.*'
 _core:

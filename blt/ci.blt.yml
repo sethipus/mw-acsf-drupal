@@ -10,10 +10,3 @@ tests.drupal.sudo-run-tests: false
 # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
 project.local.hostname: 127.0.0.1:8888
 drush.debug: false
-command-hooks:
-  post-config-import:
-    dir: ${deploy.dir}/docroot
-    command: vendor/bin/drush pm:enable fixture_import && vendor/bin/drush migrate:import mars_pages
-  frontend-test:
-    dir: ${docroot}/themes/custom/emulsifymars
-    command: 'npx pa11y-ci'
