@@ -1,10 +1,10 @@
 theme_styles: 'twix'
 heading: 'Empowering women today'
 media:
-  #video: true
-  #src: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
-  image: true
-  src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
-  alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
-  title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
+  video: true
+  src: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
+  #image: true
+  #src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
+  #alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
+  #title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
 content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
