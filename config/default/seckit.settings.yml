@@ -1,0 +1,56 @@
+seckit_xss:
+  csp:
+    checkbox: true
+    vendor-prefix:
+      x: true
+      webkit: true
+    report-only: false
+    default-src: '''self'''
+    script-src: '''self'' ''unsafe-inline'' cdn.cookielaw.org:* cdn.jsdelivr.net:* apps.bazaarvoice.com:* *.googletagmanager.com:* *.google-analytics.com:* *.pricespider.com:* sfapi-sandbox.formstack.io:* formsprod.azureedge.net:* *.google.com:* *.gstatic.com:*'
+    object-src: '''self'''
+    img-src: '''self'' data: lhcdn.mars.com:* img.juicer.io:* *.cdninstagram.com:* *.google-analytics.com:* formsprod.azureedge.net:*'
+    media-src: '''self'' ''unsafe-inline'' lhcdn.mars.com:*'
+    frame-src: '''self'' *.googletagmanager.com:* *.google.com:*'
+    frame-ancestors: '''self'''
+    child-src: '''self'''
+    font-src: '''self'' fonts.googleapis.com:* themes.googleusercontent.com:* *.gstatic.com:* data:'
+    connect-src: '''self'' cdn.cookielaw.org:* *.google-analytics.com:* sfapi-sandbox.formstack.io:*'
+    report-uri: ''
+    upgrade-req: true
+    policy-uri: ''
+    style-src: '''self'' ''unsafe-inline''  cdn.cookielaw.org:* cdn.jsdelivr.net:* apps.bazaarvoice.com:* fonts.googleapis.com:* unpkg.com:* *.pricespider.com:*  sfapi-sandbox.formstack.io:*  formsprod.azureedge.net:* *.google.com:* *.gstatic.com:*'
+  x_xss:
+    seckit_x_xss_option_disable: Disabled
+    seckit_x_xss_option_0: '0'
+    seckit_x_xss_option_1: 1;
+    seckit_x_xss_option_1_block: '1; mode=block'
+    select: 3
+seckit_csrf:
+  origin: true
+  origin_whitelist: ''
+seckit_clickjacking:
+  js_css_noscript: false
+  noscript_message: 'Sorry, you need to enable JavaScript to visit this website.'
+  x_frame: '1'
+  x_frame_allow_from: ''
+seckit_ssl:
+  hsts: true
+  hsts_subdomains: true
+  hsts_max_age: 1000
+  hsts_preload: false
+seckit_ct:
+  expect_ct: true
+  max_age: 86400
+  report_uri: ''
+  enforce: false
+seckit_fp:
+  feature_policy: false
+  feature_policy_policy: ''
+seckit_various:
+  from_origin: true
+  from_origin_destination: same
+  referrer_policy: true
+  referrer_policy_policy: no-referrer-when-downgrade
+  disable_autocomplete: true
+_core:
+  default_config_hash: x6bhN6WZwfVUI_LLMvRJIUW_2c26VTaBozbfXmJWmro
