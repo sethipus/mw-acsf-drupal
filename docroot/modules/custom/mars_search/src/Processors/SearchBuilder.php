@@ -204,6 +204,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
+      if (isset($config['exclude_filters'])) {
+        $this->hideExcludedFacetOptions($facets_query, $config['exclude_filters']);
+      }
       $build['#applied_filters_list'] = [];
       $build['#filters'] = [];
       if ($facets_query['resultsCount'] > 3) {
@@ -212,6 +215,26 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
 
     return $build;
+  }
+
+  /**
+   * Removes excluded facet options from the available facets list.
+   *
+   * @param array $facets_query
+   *   The facets query array.
+   * @param array $excluded_options
+   *   The excluded options configuration array.
+   */
+  private function hideExcludedFacetOptions(array &$facets_query, array $excluded_options) {
+    foreach ($facets_query['facets'] as $type => $values) {
+      if (strstr($type, 'mars')) {
+        foreach ($values as $key => $value) {
+          if (array_key_exists($value['filter'], $excluded_options[$type]['select'])) {
+            unset($facets_query['facets'][$type][$key]);
+          }
+        }
+      }
+    }
   }
 
   /**

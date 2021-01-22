@@ -122,8 +122,10 @@ Drupal.behaviors.ambientVideoPlayer = {
       if (type == 'playpause') {
         if (video.paused || video.ended) {
           playpause.setAttribute('data-state', 'play');
+          playpause.setAttribute('aria-label', Drupal.t('Play'));
         } else {
           playpause.setAttribute('data-state', 'pause');
+          playpause.setAttribute('aria-label', Drupal.t('Pause'));
         }
       }
     }

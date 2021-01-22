@@ -171,8 +171,10 @@ Drupal.behaviors.inlineVideoPlayer = {
       if (type == 'playpause' || type === 'control') {
         if (videoElements('video').paused || videoElements('video').ended) {
           videoElements(type).setAttribute('data-state', 'play');
+          videoElements(type).setAttribute('aria-label', Drupal.t('Play'));
         } else {
           videoElements(type).setAttribute('data-state', 'pause');
+          videoElements(type).setAttribute('aria-label', Drupal.t('Pause'));
         }
       }
       // Mute button

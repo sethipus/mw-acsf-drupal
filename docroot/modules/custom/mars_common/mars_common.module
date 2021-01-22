@@ -338,7 +338,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'image_alt' => NULL,
         'shape_motif' => NULL,
         'content' => NULL,
-        'title' => NULL,
+        'heading' => NULL,
       ],
       'template' => 'inline-image-video-block',
     ],
@@ -1560,4 +1560,14 @@ function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterfa
 function _mars_common_social_media_enabled_ajax_callback(array &$form, FormStateInterface $form_state) {
   $form_state->setRebuild();
   return $form;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__landing_page__card(&$variables) {
+  $variables['brand_shape'] = [
+    '#type' => 'inline_template',
+    '#template' => \Drupal::service('mars_common.theme_configurator_parser')->getBrandShapeWithoutFill(),
+  ];
 }
