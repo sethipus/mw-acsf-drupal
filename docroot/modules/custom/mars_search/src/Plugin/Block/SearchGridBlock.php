@@ -285,8 +285,6 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
    * @return array
    *   Selectors for filters.
    *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   protected function buildExcludedFilters() {
     $form = [];
@@ -298,44 +296,19 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       '#open' => FALSE,
     ];
 
+    $exclude_options = [];
     foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
       $label = $vocabulary_data['label'];
       /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
-      $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
-      /** @var \Drupal\taxonomy\TermInterface[] $terms */
-      $terms = $term_storage->loadTree($vocabulary, 0, NULL, TRUE);
-      if (!$terms) {
-        continue;
-      }
-
-      $terms_options = [
-        0 => '- Not restricted -',
-      ];
-      foreach ($terms as $term) {
-        $terms_options[$term->id()] = $term->label();
-      }
-
-      $conditions = [];
-      foreach ($vocabulary_data['content_types'] as $content_type) {
-        $conditions[] = [":input[name=\"settings[content_type]\"]" => ['value' => $content_type]];
-      }
-
-      $form['exclude_filters'][$vocabulary] = [
-        '#type' => 'details',
-        '#title' => $label,
-        '#open' => FALSE,
-        '#states' => [
-          'enabled' => $conditions,
-        ],
-      ];
-      $form['exclude_filters'][$vocabulary]['select'] = [
-        '#type' => 'select',
-        '#title' => $label,
-        '#multiple' => TRUE,
-        '#options' => $terms_options,
-        '#default_value' => $config['exclude_filters'][$vocabulary]['select'] ?? NULL,
-      ];
+      $exclude_options[$vocabulary] = $label;
     }
+
+    $form['exclude_filters']['filters'] = [
+      '#type' => 'checkboxes',
+      'label' => $this->t('Filters to exclude'),
+      '#options' => $exclude_options,
+      '#default_value' => $config['exclude_filters']['filters'] ?? NULL,
+      ];
 
     return $form;
   }

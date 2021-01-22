@@ -204,13 +204,14 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
+      $default_filters = static::TAXONOMY_VOCABULARIES;
       if (isset($config['exclude_filters'])) {
-        $this->hideExcludedFacetOptions($facets_query, $config['exclude_filters']);
+        $this->hideExcludedFacetOptions($default_filters, $config['exclude_filters']);
       }
       $build['#applied_filters_list'] = [];
       $build['#filters'] = [];
       if ($facets_query['resultsCount'] > 3) {
-        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], static::TAXONOMY_VOCABULARIES, $grid_id);
+        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], $default_filters, $grid_id);
       }
     }
 
@@ -220,18 +221,16 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   /**
    * Removes excluded facet options from the available facets list.
    *
-   * @param array $facets_query
-   *   The facets query array.
+   * @param array $default_filters
+   *   The default filters array.
    * @param array $excluded_options
    *   The excluded options configuration array.
    */
-  private function hideExcludedFacetOptions(array &$facets_query, array $excluded_options) {
-    foreach ($facets_query['facets'] as $type => $values) {
-      if (strstr($type, 'mars')) {
-        foreach ($values as $key => $value) {
-          if (array_key_exists($value['filter'], $excluded_options[$type]['select'])) {
-            unset($facets_query['facets'][$type][$key]);
-          }
+  private function hideExcludedFacetOptions(array &$default_filters, array $excluded_options) {
+    if (!empty($excluded_options['filters'])) {
+      foreach ($excluded_options['filters'] as $option) {
+        if ($option !== 0) {
+          unset($default_filters[$option]);
         }
       }
     }
