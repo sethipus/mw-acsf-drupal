@@ -13,6 +13,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\WhereToBuyBlock;
+use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,7 +32,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
     'label_display' => '1',
     'widget_id' => 'test_widget_id',
     'context_mapping' => [],
-    'commerce_vendor' => WhereToBuyBlock::VENDOR_PRICE_SPIDER,
+    'commerce_vendor' => PdpHeroBlock::VENDOR_PRICE_SPIDER,
   ];
 
   private const DEFINITION = [
@@ -54,7 +55,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactoryInterface
    */
-  private $configMock;
+  private $configFactoryMock;
 
   /**
    * Mock.
@@ -96,7 +97,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ImmutableConfig
    */
-  private $immutableConfigMock;
+  private $wtbGlobalConfig;
 
   /**
    * Mock.
@@ -144,10 +145,10 @@ class WhereToBuyBlockTest extends UnitTestCase {
       self::CONFIGURATION,
       self::PLUGIN_ID,
       self::DEFINITION,
-      $this->configMock,
       $this->languageManagerMock,
       $this->entityTypeManagerMock,
-      $this->mediaHelperMock
+      $this->mediaHelperMock,
+      $this->wtbGlobalConfig,
     );
   }
 
@@ -163,7 +164,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
           [
             'config.factory',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->configMock,
+            $this->configFactoryMock,
           ],
           [
             'language_manager',
@@ -182,6 +183,12 @@ class WhereToBuyBlockTest extends UnitTestCase {
           ],
         ]
       );
+
+    $this->configFactoryMock
+      ->method('get')
+      ->with('mars_product.wtb.settings')
+      ->willReturn($this->wtbGlobalConfig);
+
     $this->block::create(
       $this->containerMock,
       self::CONFIGURATION,
@@ -250,31 +257,14 @@ class WhereToBuyBlockTest extends UnitTestCase {
   public function testShouldBuildWhenPriceSpider() {
     $this->block->setConfiguration([
       'widget_id' => 'test_widget_id',
-      'commerce_vendor' => WhereToBuyBlock::VENDOR_PRICE_SPIDER,
+      'commerce_vendor' => PdpHeroBlock::VENDOR_PRICE_SPIDER,
     ]);
-
-    $this->configMock
-      ->expects($this->atLeastOnce())
-      ->method('get')
-      ->willReturn($this->immutableConfigMock);
-
-    $this->immutableConfigMock
-      ->expects($this->atLeastOnce())
-      ->method('get')
-      ->willReturn('US');
-
-    $this->languageManagerMock
-      ->expects($this->atLeastOnce())
-      ->method('getCurrentLanguage')
-      ->willReturn($this->languageMock);
 
     $build = $this->block->build();
     $this->assertArrayHasKey('#theme', $build);
     $this->assertArrayHasKey('#widget_id', $build);
     $this->assertArrayHasKey('#commerce_vendor', $build);
     $this->assertArrayHasKey('#product_sku', $build);
-    $this->assertArrayHasKey('#attached', $build);
-    $this->assertArrayHasKey('html_head', $build['#attached']);
   }
 
   /**
@@ -288,7 +278,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
       'label_display' => '1',
       'widget_id' => 'test_widget_id',
       'context_mapping' => [],
-      'commerce_vendor' => WhereToBuyBlock::VENDOR_COMMERCE_CONNECTOR,
+      'commerce_vendor' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR,
     ]);
 
     $this->entityTypeManagerMock
@@ -354,10 +344,10 @@ class WhereToBuyBlockTest extends UnitTestCase {
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
-    $this->configMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->languageManagerMock = $this->createMock(LanguageManagerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
-    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
+    $this->wtbGlobalConfig = $this->createMock(ImmutableConfig::class);
     $this->languageMock = $this->createMock(LanguageInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
