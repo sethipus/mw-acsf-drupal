@@ -9,14 +9,29 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
             e.preventDefault();
             e.currentTarget.classList.toggle('toggle-expand--open');
             $('#header-menu-trigger').toggleClass('header__primary--open');
-            $('#header-menu-trigger').hasClass('header__primary--open') ? disableBodyScroll(document.querySelector('#header-menu-trigger')) : enableBodyScroll(document.querySelector('#header-menu-trigger'));
+
+            if ($('#header-menu-trigger').hasClass('header__primary--open')) {
+              e.currentTarget.setAttribute('aria-pressed', true);
+              disableBodyScroll(document.querySelector('#header-menu-trigger'));
+            } else {
+              e.currentTarget.setAttribute('aria-pressed', false);
+              enableBodyScroll(document.querySelector('#header-menu-trigger'));
+            }
           });
           headerMobile.find('.main-nav__mobile .main-menu__link--with-sub').on('click', e => {
             e.preventDefault();
             const menuItem = e.currentTarget;
             const subMenu = menuItem.parentElement.nextElementSibling;
-            subMenu.classList.toggle('main-menu--sub-open');
-            menuItem.nextElementSibling.classList.toggle('main-menu--sub-open');
+            let subMenuOpened = subMenu.classList.contains('main-menu--sub-open');
+
+            // close all opened submenus
+            $('.main-menu--sub-open').removeClass('main-menu--sub-open');
+
+            if (!subMenuOpened) {
+              // open submenu
+              subMenu.classList.add('main-menu--sub-open');
+              menuItem.nextElementSibling.classList.add('main-menu--sub-open');
+            }
           });
         }
       })($('#header-menu-trigger').once('mobileMenuInited'));
@@ -63,7 +78,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                 });
               })
               .on('keydown', function (event) {
-                if (event.key === 'Escape') {
+                if (event.keyCode === 27) {
                   hideSubMenu($subMenuItem);
                   setTimeout(function () {
                     $subMenuItem.find('.main-menu__link--with-sub').focus();
@@ -71,15 +86,15 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                 }
               })
               .on('keydown', '.main-menu__link--with-sub', function (event) {
-                if (event.key === 'ArrowDown') {
+                if (event.keyCode === 40) {
                   event.preventDefault();
                   showSubMenu($subMenuItem);
                   $subMenuItem.find('.main-menu--sub .main-menu__item--sub:first-child .main-menu__link--sub').focus();
                 }
               })
               .on('keydown', '.main-menu__item--sub', function (event) {
-                switch (event.key) {
-                  case 'ArrowDown':
+                switch (event.keyCode) {
+                  case 40:
                     event.preventDefault();
                     if ($(event.target).parents('.main-menu__item--sub').is('.main-menu__item--sub:last-child')) {
                       $subMenuItem.find('.main-menu__item--sub:first').children('.main-menu__link--sub').focus();
@@ -87,7 +102,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                       $(event.target).parents('.main-menu__item--sub').next().children('.main-menu__link--sub').focus();
                     }
                     break;
-                  case 'ArrowUp':
+                  case 38:
                     event.preventDefault();
                     if ($(event.target).parents('.main-menu__item--sub').is('.main-menu__item--sub:first-child')) {
                       $subMenuItem.find('.main-menu__item--sub:last-child').children('.main-menu__link--sub').focus();
