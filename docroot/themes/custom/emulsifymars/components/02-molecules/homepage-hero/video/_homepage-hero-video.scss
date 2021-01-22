@@ -57,15 +57,6 @@
 
     .fullscreen-video__control[data-state="play"] {
       @include playbutton;
-
-      >div {
-        width: 0;
-        height: 0;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-left: 20px solid clr(player);
-        margin: auto 35%
-      }
     }
 
     .fullscreen-video__control[data-state="pause"] {
