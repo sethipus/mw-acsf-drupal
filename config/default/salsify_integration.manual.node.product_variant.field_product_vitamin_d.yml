@@ -1,9 +1,9 @@
-field_id: 'Allergen Statement'
-salsify_id: 'Allergen Statement'
+field_id: 'Vitamin D'
+salsify_id: 'Vitamin D'
 salsify_data_type: string
 entity_type: node
 bundle: product_variant
-field_name: field_product_allergen_statement
+field_name: field_product_vitamin_d
 method: manual
 created: 1546300800
 changed: 1546300801
