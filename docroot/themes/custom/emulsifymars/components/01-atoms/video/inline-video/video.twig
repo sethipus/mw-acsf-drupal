@@ -12,12 +12,9 @@
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
-    <button {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play" aria-live="polite">
+    <button {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play" aria-live="polite" aria-label="{{ 'Play' | mt }}">
+      <svg viewBox="0 0 320.001 320.001" style="enable-background:new 0 0 512 512" xml:space="preserve" class="play-icon"><path xmlns="http://www.w3.org/2000/svg" d="M295.84,146.049l-256-144c-4.96-2.784-11.008-2.72-15.904,0.128C19.008,5.057,16,10.305,16,16.001v288  c0,5.696,3.008,10.944,7.936,13.824c2.496,1.44,5.28,2.176,8.064,2.176c2.688,0,5.408-0.672,7.84-2.048l256-144  c5.024-2.848,8.16-8.16,8.16-13.952S300.864,148.897,295.84,146.049z"/></svg>
       <div {{ bem('playpause', ['inner'], video__base_class) }}>
-        {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
-          sronly_content: 'Play',
-          sronly_modifiers: ['play'],
-        } %}
       </div>
     </button>
     <button {{ bem('mute', ['inner'], video__base_class) }} type="button" title="{{ 'Mute' | mt }}" aria-label="{{ 'Mute' | mt }}" data-state="mute">
@@ -37,13 +34,9 @@
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path fill="#fff" d="M19.64 2.11c.48-.482.48-1.268 0-1.75-.482-.48-1.268-.48-1.75 0l-7.562 7.564c-.175.174-.437.174-.612 0L2.109.36C1.63-.12.842-.12.361.36-.12.84-.12 1.628.36 2.109l7.563 7.563c.174.175.174.437 0 .612L.36 17.891c-.481.48-.481 1.268 0 1.748.48.481 1.267.481 1.748 0l7.563-7.563c.175-.174.437-.174.612 0l7.563 7.563c.48.481 1.268.481 1.749 0 .48-.48.48-1.267 0-1.748l-7.52-7.563c-.174-.175-.174-.437 0-.612l7.563-7.607z"/></svg>
   </button>
   {% if video__control == true %}
-    <button {{ bem('control', [], video__base_class) }} type="button" data-state="play" aria-live="polite">
+    <button {{ bem('control', [], video__base_class) }} type="button" data-state="play" aria-label="{{ 'Play' | mt }}" aria-live="polite">
     <svg viewBox="0 0 320.001 320.001" style="enable-background:new 0 0 512 512" xml:space="preserve" class="play-icon"><path xmlns="http://www.w3.org/2000/svg" d="M295.84,146.049l-256-144c-4.96-2.784-11.008-2.72-15.904,0.128C19.008,5.057,16,10.305,16,16.001v288  c0,5.696,3.008,10.944,7.936,13.824c2.496,1.44,5.28,2.176,8.064,2.176c2.688,0,5.408-0.672,7.84-2.048l256-144  c5.024-2.848,8.16-8.16,8.16-13.952S300.864,148.897,295.84,146.049z"/></svg>
       <div {{ bem('control', ['inner'], video__base_class) }}>
-        {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
-          sronly_content: 'Play',
-          sronly_modifiers: ['play'],
-        } %}
       </div>
     </button>
   {% endif %}

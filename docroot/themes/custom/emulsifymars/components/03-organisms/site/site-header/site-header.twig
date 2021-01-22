@@ -4,6 +4,15 @@
 {% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
 
 <header {{ bem(header__base_class) }} data-theme="{{ theme_styles }}">
+  {#
+    Keyboard navigation/accessibility link to main content section in
+    page.html.twig.
+  #}
+  <div id="skip-link" tabindex="-1">
+    <a href="#main-content" class="visually-hidden focusable">
+      {{ 'Skip to main content'|t }}
+    </a>
+  </div>
   <div {{ bem('inner', [], header__base_class) }}>
     <div {{ bem('primary', [], header__base_class) }} id="header-menu-trigger">
       <div {{ bem('primary-container', [], header__base_class) }}>
@@ -13,6 +22,7 @@
             {% embed "@atoms/links/link/link.twig" with {
               link_modifiers: ['logo'],
               link_url: logo_link__url|default('/'),
+              link_content: "Logo image" | mt,
             } %}
               {% block link_content %}
                 {% include "@atoms/images/image/responsive-image.twig" with {
@@ -39,7 +49,8 @@
             {% if search_enabled %}
               {% include "@molecules/search/inline-search/inline-search.twig" with {
                 inline_search__modifiers: ['searchbtn'],
-                inline_search_title: 'Search'
+                inline_search_title: 'Search' | mt ,
+                inline_search_url: '#',
               } %}
             {% endif %}
           {% endblock %}

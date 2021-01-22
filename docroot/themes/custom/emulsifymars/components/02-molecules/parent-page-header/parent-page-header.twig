@@ -25,7 +25,7 @@
   {% endif %}
 >
   <div class="content">
-    {% if parent_page_media_type != 'video' and pp_header_heading %}
+    {% if pp_header_heading %}
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: pp_header_eyebrow_text,
         eyebrow_modifiers: pp_header_eyebrow_modifiers
@@ -45,18 +45,18 @@
         paragraph_base_class: pp_header_paragraph_base_class
       } %}
     {% endif %}
-
-    {% if parent_page_media_url and parent_page_media_type == 'video' %}
-      {{ attach_library('emulsifymars/ambient-video') }}
-      <div class="bg-video">
-        {% include "@atoms/video/ambient-video/video.twig" with {
-          video__src__url: parent_page_media_url,
-          video__control: true,
-          data_layer: data_layer,
-        } %}
-      </div>
-    {% endif %}
   </div>
+  
+  {% if parent_page_media_url and parent_page_media_type == 'video' %}
+    {{ attach_library('emulsifymars/ambient-video') }}
+    <div class="bg-video">
+      {% include "@atoms/video/ambient-video/video.twig" with {
+        video__src__url: parent_page_media_url,
+        video__control: true,
+        data_layer: data_layer,
+      } %}
+    </div>
+  {% endif %}
 
   <div class="brand-shape">
     {{ brand_shape | raw }}
