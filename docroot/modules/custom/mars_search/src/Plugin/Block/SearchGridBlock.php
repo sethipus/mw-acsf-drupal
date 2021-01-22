@@ -284,7 +284,6 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
    *
    * @return array
    *   Selectors for filters.
-   *
    */
   protected function buildExcludedFilters() {
     $form = [];
@@ -308,7 +307,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       'label' => $this->t('Filters to exclude'),
       '#options' => $exclude_options,
       '#default_value' => $config['exclude_filters']['filters'] ?? NULL,
-      ];
+    ];
 
     return $form;
   }
