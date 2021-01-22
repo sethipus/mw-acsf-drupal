@@ -1,12 +1,16 @@
 /* Toggle */
 .toggle-expand {
-  @include link;
-
   position: relative;
   padding: 0 2rem 0 1rem;
   text-decoration: none;
   width: 100%;
   display: block;
+  border: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
 
   @include large {
     display: none;
