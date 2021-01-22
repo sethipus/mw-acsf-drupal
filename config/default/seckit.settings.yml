@@ -6,19 +6,19 @@ seckit_xss:
       webkit: true
     report-only: false
     default-src: '''self'''
-    script-src: '''self'' ''unsafe-inline'' cdn.cookielaw.org:* cdn.jsdelivr.net:* apps.bazaarvoice.com:* *.googletagmanager.com:* *.google-analytics.com:* *.pricespider.com:* sfapi-sandbox.formstack.io:* formsprod.azureedge.net:* *.google.com:* *.gstatic.com:*'
+    script-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' cdn.cookielaw.org:* cdn.jsdelivr.net:* *.bazaarvoice.com:* *.googletagmanager.com:* *.google-analytics.com:* *.pricespider.com:* sfapi-sandbox.formstack.io:* formsprod.azureedge.net:* *.google.com:* *.gstatic.com:*'
     object-src: '''self'''
-    img-src: '''self'' data: lhcdn.mars.com:* img.juicer.io:* *.cdninstagram.com:* *.google-analytics.com:* formsprod.azureedge.net:*'
+    img-src: '''self'' data: lhcdn.mars.com:* img.juicer.io:* *.cdninstagram.com:* *.google-analytics.com:* formsprod.azureedge.net:*  *.bazaarvoice.com:*'
     media-src: '''self'' ''unsafe-inline'' lhcdn.mars.com:*'
     frame-src: '''self'' *.googletagmanager.com:* *.google.com:*'
     frame-ancestors: '''self'''
     child-src: '''self'''
-    font-src: '''self'' fonts.googleapis.com:* themes.googleusercontent.com:* *.gstatic.com:* data:'
-    connect-src: '''self'' cdn.cookielaw.org:* *.google-analytics.com:* sfapi-sandbox.formstack.io:*'
+    font-src: '''self'' fonts.googleapis.com:* themes.googleusercontent.com:* fonts.gstatic.com:* data:'
+    connect-src: '''self'' cdn.cookielaw.org:* *.google-analytics.com:* sfapi-sandbox.formstack.io:*  *.bazaarvoice.com:*'
     report-uri: ''
-    upgrade-req: true
+    upgrade-req: false
     policy-uri: ''
-    style-src: '''self'' ''unsafe-inline''  cdn.cookielaw.org:* cdn.jsdelivr.net:* apps.bazaarvoice.com:* fonts.googleapis.com:* unpkg.com:* *.pricespider.com:*  sfapi-sandbox.formstack.io:*  formsprod.azureedge.net:* *.google.com:* *.gstatic.com:*'
+    style-src: '''self'' ''unsafe-inline''  cdn.cookielaw.org:* cdn.jsdelivr.net:* *.bazaarvoice.com:* fonts.googleapis.com:* unpkg.com:* *.pricespider.com:*  sfapi-sandbox.formstack.io:*  formsprod.azureedge.net:* *.google.com:* *.gstatic.com:*'
   x_xss:
     seckit_x_xss_option_disable: Disabled
     seckit_x_xss_option_0: '0'
@@ -34,8 +34,8 @@ seckit_clickjacking:
   x_frame: '1'
   x_frame_allow_from: ''
 seckit_ssl:
-  hsts: true
-  hsts_subdomains: true
+  hsts: false
+  hsts_subdomains: false
   hsts_max_age: 1000
   hsts_preload: false
 seckit_ct:
