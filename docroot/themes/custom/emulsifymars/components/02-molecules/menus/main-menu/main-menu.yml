@@ -18,7 +18,7 @@ menu_items:
     url: '#'
   - title: 'Wildcard'
     url: '#'
-  - title: 'Or Do Not Pick A Side'
+  - title: 'Pick A Side'
     url: '#'
     below:
       - title: 'See All'
