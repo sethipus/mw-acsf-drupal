@@ -5,7 +5,6 @@
  */
 #}
 
-{% set main_variant = node | mainVariant %}
 {% set main_media = main_variant | entityMainMediaId | mediaParamsById %}
 {% set product_card_media = main_variant | productCardMedia | mediaParamsById %}
 
@@ -37,7 +36,7 @@
   wtb_commerce_vendor: wtb_commerce_vendor,
   wtb_button_type: wtb_button_type,
   wtb_widget_id: wtb_widget_id,
-  product_sku: wtb_product_sku,
+  product_sku: product_sku,
   datalayer_taxonomy: datalayer_taxonomy,
   item: {
     card_url: url,
