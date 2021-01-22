@@ -9,7 +9,14 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
             e.preventDefault();
             e.currentTarget.classList.toggle('toggle-expand--open');
             $('#header-menu-trigger').toggleClass('header__primary--open');
-            $('#header-menu-trigger').hasClass('header__primary--open') ? disableBodyScroll(document.querySelector('#header-menu-trigger')) : enableBodyScroll(document.querySelector('#header-menu-trigger'));
+
+            if ($('#header-menu-trigger').hasClass('header__primary--open')) {
+              e.currentTarget.setAttribute('aria-pressed', true);
+              disableBodyScroll(document.querySelector('#header-menu-trigger'));
+            } else {
+              e.currentTarget.setAttribute('aria-pressed', false);
+              enableBodyScroll(document.querySelector('#header-menu-trigger'));
+            }
           });
           headerMobile.find('.main-nav__mobile .main-menu__link--with-sub').on('click', e => {
             e.preventDefault();
