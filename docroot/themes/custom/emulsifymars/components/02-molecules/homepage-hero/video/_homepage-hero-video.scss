@@ -1,13 +1,16 @@
 .homepage-hero-video {
   &__wrapper {
-    height: calc(100% * 1.7778);
-    min-height: 520px;
     position: relative;
     background-color: clr(secondary);
+    height: 643px;
 
     @include medium {
-      min-height: 0;
+      height: 846px;
       background-color: clr(subcolor-3);
+    }
+
+    @include xl {
+      height: 580px;
     }
   }
 
@@ -42,10 +45,6 @@
 
       &__video {
         object-fit: cover;
-
-        @include medium {
-          object-fit: contain;
-        }
       }
     }
 
