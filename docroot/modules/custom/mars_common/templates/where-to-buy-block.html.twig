@@ -26,6 +26,6 @@
         commerce_vendor: commerce_vendor,
     } %}
   {% elseif commerce_vendor == 'price_spider' %}
-    <div class="ps-widget" ps-sku="{{ product_sku }}"></div>
+    <div class="ps-widget" ps-config="{{widget_id}}" ps-sku="{{ product_sku }}"></div>
   {% endif %}
 </div>
