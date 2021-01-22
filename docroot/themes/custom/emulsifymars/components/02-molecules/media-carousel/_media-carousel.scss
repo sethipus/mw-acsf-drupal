@@ -143,13 +143,11 @@
 
       @include playbutton;
 
-      > div {
-        width: 0;
-        height: 0;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-left: 20px solid clr(player);
-        margin: auto 35%
+      .play-icon {
+        width: 10px;
+        height: 12px;
+        fill: clr(secondary);
+        margin: auto 30%;
       }
     }
 
@@ -207,3 +205,15 @@
   }
 }
 
+.overlay-video__control[data-state="play"] .play-icon {
+  margin: auto 30%;
+}
+
+.overlay-video__playpause[data-state="pause"] .play-icon{
+  display: none;
+}
+
+.overlay-video__playpause[data-state="play"] .play-icon{
+  width: 10px;
+  height: 12px;
+}
