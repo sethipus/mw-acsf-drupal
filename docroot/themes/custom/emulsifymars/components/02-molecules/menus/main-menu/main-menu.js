@@ -78,7 +78,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                 });
               })
               .on('keydown', function (event) {
-                if (event.key === 'Escape') {
+                if (event.keyCode === 27) {
                   hideSubMenu($subMenuItem);
                   setTimeout(function () {
                     $subMenuItem.find('.main-menu__link--with-sub').focus();
@@ -86,15 +86,15 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                 }
               })
               .on('keydown', '.main-menu__link--with-sub', function (event) {
-                if (event.key === 'ArrowDown') {
+                if (event.keyCode === 40) {
                   event.preventDefault();
                   showSubMenu($subMenuItem);
                   $subMenuItem.find('.main-menu--sub .main-menu__item--sub:first-child .main-menu__link--sub').focus();
                 }
               })
               .on('keydown', '.main-menu__item--sub', function (event) {
-                switch (event.key) {
-                  case 'ArrowDown':
+                switch (event.keyCode) {
+                  case 40:
                     event.preventDefault();
                     if ($(event.target).parents('.main-menu__item--sub').is('.main-menu__item--sub:last-child')) {
                       $subMenuItem.find('.main-menu__item--sub:first').children('.main-menu__link--sub').focus();
@@ -102,7 +102,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
                       $(event.target).parents('.main-menu__item--sub').next().children('.main-menu__link--sub').focus();
                     }
                     break;
-                  case 'ArrowUp':
+                  case 38:
                     event.preventDefault();
                     if ($(event.target).parents('.main-menu__item--sub').is('.main-menu__item--sub:first-child')) {
                       $subMenuItem.find('.main-menu__item--sub:last-child').children('.main-menu__link--sub').focus();
