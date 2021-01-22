@@ -204,7 +204,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
-      $this->hideExcludedFacetOptions($facets_query, $config['exclude_filters']);
+      if (isset($config['exclude_filters'])) {
+        $this->hideExcludedFacetOptions($facets_query, $config['exclude_filters']);
+      }
       $build['#applied_filters_list'] = [];
       $build['#filters'] = [];
       if ($facets_query['resultsCount'] > 3) {
