@@ -208,6 +208,7 @@ class SalsifyImportField extends SalsifyImport {
       // then update salsify_updated and pass it along for further processing.
       $salsify_updated = strtotime($product_data['salsify:updated_at']);
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
+        $title = static::getTitle($product_data, $entity);
         $entity->set('salsify_updated', $salsify_updated);
         $process_result['import_result'] = static::PROCESS_RESULT_UPDATED;
         $entity->set('title', $title);
@@ -247,6 +248,28 @@ class SalsifyImportField extends SalsifyImport {
     }
 
     return $entity;
+  }
+
+  /**
+   * Get title for update.
+   *
+   * @param array $product_data
+   *   Product data array.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   Product entity.
+   *
+   * @return string
+   *   Title for the entity.
+   */
+  public static function getTitle(array $product_data, EntityInterface $entity) {
+    $original_title = $entity->label();
+    $salsify_title = $product_data['CMS: Product Name'] ?? $product_data['salsify:id'];
+
+    return ($original_title != $salsify_title &&
+      isset($product_data['CMS: multipack generated']) &&
+      $product_data['CMS: multipack generated'])
+      ? $original_title
+      : $salsify_title;
   }
 
   /**

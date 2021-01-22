@@ -83,6 +83,12 @@
     @include large {
       flex-direction: row;
     }
+
+    &-column {
+      @include large {
+        width: 50%;
+      }
+    }
   }
 
   &__product_image {
@@ -138,6 +144,7 @@
 
     .eyebrow {
       margin-bottom: 1.6rem;
+      margin-top: 0;
       font-size: 1.4rem;
       font-family: variable(primary-font);
     }
