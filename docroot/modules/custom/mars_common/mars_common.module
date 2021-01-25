@@ -1436,7 +1436,8 @@ function mars_common_page_attachments(&$page) {
     if ($show_rating_and_reviews) {
       if (EnvironmentDetector::isProdEnv()) {
         $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
-      } else {
+      } 
+      else {
         $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
       }
     }
