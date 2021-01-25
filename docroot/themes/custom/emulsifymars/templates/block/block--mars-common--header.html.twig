@@ -26,6 +26,7 @@
   alert_banner: alert_banner_text,
   alert_banner_url: alert_banner_url,
   search_form: search_form,
+  search_close_label: search_close_label,
   data_attributes: data_attributes
 } %}
 
@@ -83,6 +84,7 @@
   {% block search_results %}
     {% embed "@molecules/search/search-overlay/search-overlay.twig" with {
       search_results: search_form,
+      search_close_label: search_close_label,
       logo_src: logo_src,
       logo_srcset: logo_srcset
     } %}

@@ -61,6 +61,7 @@
       {% block search_results %}
         {% include "@molecules/search/search-overlay/search-overlay.twig" with {
           search_results: search_form,
+          search_close_label: search_close_label,
           logo_src: logo_src,
           logo_srcset: logo_srcset
         }%}

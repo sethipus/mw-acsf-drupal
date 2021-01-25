@@ -128,6 +128,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'alert_banner_text' => NULL,
         'alert_banner_url' => NULL,
         'search_form' => NULL,
+        'search_close_label' => NULL,
         'search_enabled' => NULL,
         'brand_border' => NULL,
       ],

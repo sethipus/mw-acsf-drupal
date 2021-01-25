@@ -3,6 +3,7 @@ search_enabled: true
 alert_banner: 'Give the gift of pleasure this Valentine’s Day with the Twix Signature Collection'
 alert_banner_url: '#'
 language_switcher: 'true'
+search_close_label: 'Close',
 search_results:
   - content: 'Think'
   - content: 'This'
