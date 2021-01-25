@@ -83,6 +83,7 @@ class SearchOverlayForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $search_placeholder = $this->config->get('mars_common.site_labels')->get('header_search_overlay');
     $form['search'] = [
       '#type' => 'textfield',
       '#attributes' => [
@@ -93,7 +94,7 @@ class SearchOverlayForm extends FormBase {
           'search-input__field',
         ],
         'autocomplete' => 'off',
-        'placeholder' => $this->config->get('mars_common.site_labels')->get('header_search_overlay'),
+        'placeholder' => $this->languageHelper->translate($search_placeholder),
         'aria-label' => $this->languageHelper->translate('Search input field'),
         // This is needed for correct work of SearchQueryParser.
         'data-grid-id' => SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID,

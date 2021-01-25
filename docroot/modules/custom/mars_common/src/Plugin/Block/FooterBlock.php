@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
@@ -63,6 +64,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $termStorage;
 
   /**
+   * Config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $config;
+
+  /**
    * Custom cache tag.
    *
    * @var string
@@ -86,7 +94,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
     LanguageHelper $language_helper,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    ConfigFactoryInterface $config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuLinkTree = $menu_link_tree;
@@ -94,6 +103,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageHelper = $language_helper;
     $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
+    $this->config = $config;
   }
 
   /**
@@ -107,7 +117,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('config.factory')
     );
   }
 
@@ -134,6 +145,9 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'href' => $conf['corporate_tout']['url'],
       'name' => $build['#corporate_tout_text'],
     ];
+
+    $region_title = $this->config->get('mars_common.site_labels')->get('header_search_overlay_close');
+    $build['#region_title'] = $this->languageHelper->translate($region_title);
 
     $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {

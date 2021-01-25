@@ -4,6 +4,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal;
 use Drupal\Core\Config\Config;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -94,6 +95,13 @@ class FooterBlockTest extends UnitTestCase {
   private $languageHelperMock;
 
   /**
+   * Config mock.
+   *
+   * @var \Drupal\Core\Config\Config|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $configMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -136,7 +144,8 @@ class FooterBlockTest extends UnitTestCase {
       $this->menuLinkTreeMock,
       $this->entityTypeManagerMock,
       $this->languageHelperMock,
-      $this->themeConfiguratorParserMock
+      $this->themeConfiguratorParserMock,
+      $this->configMock
     );
   }
 
@@ -150,7 +159,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->menuLinkTreeMock = $this->createMock(MenuLinkTreeInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
-    $this->configMock = $this->createMock(Config::class);
+    $this->configMock = $this->createMock(ConfigFactoryInterface::class);
     $this->menuStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->termStorageMock = $this->getMockBuilder(stdClass::class)
       ->setMethods(['loadTree'])
@@ -162,19 +171,21 @@ class FooterBlockTest extends UnitTestCase {
    */
   public function testBlockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('menu.link_tree')],
         [$this->equalTo('entity_type.manager')],
         [$this->equalTo('mars_common.language_helper')],
-        [$this->equalTo('mars_common.theme_configurator_parser')]
+        [$this->equalTo('mars_common.theme_configurator_parser')],
+        [$this->equalTo('config.factory')]
       )
       ->will($this->onConsecutiveCalls(
         $this->menuLinkTreeMock,
         $this->entityTypeManagerMock,
         $this->languageHelperMock,
-        $this->themeConfiguratorParserMock
+        $this->themeConfiguratorParserMock,
+        $this->configMock
       ));
 
     $this->entityTypeManagerMock
@@ -252,15 +263,21 @@ class FooterBlockTest extends UnitTestCase {
       ->method('loadTree')
       ->willReturn([]);
 
+    $this->configMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->createMock(Config::class));
+
     $build = $this->footerBlock->build();
 
-    $this->assertCount(12, $build);
+    $this->assertCount(13, $build);
     $this->assertArrayHasKey('#cache', $build);
     $this->assertArrayHasKey('#top_footer_menu', $build);
     $this->assertArrayHasKey('#legal_links', $build);
     $this->assertArrayHasKey('#marketing', $build);
     $this->assertArrayHasKey('#corporate_tout_text', $build);
     $this->assertArrayHasKey('#corporate_tout_url', $build);
+    $this->assertArrayHasKey('#region_title', $build);
     $this->assertCount(0, $build['#social_links']);
     $this->assertArrayHasKey('#region_selector', $build);
     $this->assertEquals('footer_block', $build['#theme']);

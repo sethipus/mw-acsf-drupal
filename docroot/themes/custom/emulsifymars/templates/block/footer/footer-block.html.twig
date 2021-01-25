@@ -14,7 +14,6 @@
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
 {% set corporate_tout_button = 'See all' | mt %}
-{% set region_title = 'Select Region' | mt %}
 
 {% embed "@organisms/site/site-footer/site-footer.twig" with {
   theme_styles: 'drupal',

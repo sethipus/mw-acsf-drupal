@@ -145,6 +145,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'marketing' => NULL,
         'corporate_tout_text' => NULL,
         'corporate_tout_url' => NULL,
+        'region_title' => NULL,
         'region_selector' => NULL,
         'current_region_title' => NULL,
       ],
