@@ -14,19 +14,21 @@
           event.preventDefault();
           event.stopPropagation();
           $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
-            $(this).removeClass('opened').find('.search-field-wrapper').removeClass('suggested');
+            $(this).removeClass('opened').css('display','').find('.search-field-wrapper').removeClass('suggested');
             $('.mars-suggestions').empty();
           });
         });
 
         $(document).keydown(function(e) {
           if (e.keyCode === 27) {
-            e.stopPropagation();
-            $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
-              $(this).removeClass('opened').find('.search-field-wrapper').removeClass('suggested');
-              $('.mars-suggestions').empty();
-              $('.inline-search__link').focus();
-            });
+            if($('.search-autocomplete-wrapper.opened').length !== 0){
+              e.stopPropagation();
+              $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
+                $(this).removeClass('opened').css('display','').find('.search-field-wrapper').removeClass('suggested');
+                $('.mars-suggestions').empty();
+                $('.inline-search__link').focus();
+              });
+            }
           }
         });
 
@@ -35,7 +37,7 @@
           event.preventDefault();
           event.stopPropagation();
           $('.search-autocomplete-wrapper:visible').slideUp(250, function (){
-            $(this).removeClass('opened').find('.search-field-wrapper').removeClass('suggested');
+            $(this).removeClass('opened').css('display','').find('.search-field-wrapper').removeClass('suggested');
           });
           $('.search-autocomplete-wrapper:hidden').slideDown(250, function(){
             $(this).addClass('opened');
@@ -53,7 +55,7 @@
           var parent =  $('.search-autocomplete-wrapper:visible').parent().attr('class');
           if (parent == 'header__inner' && $(event.target).parents('.search-autocomplete-wrapper').length == 0) {
             $('.header__inner .search-autocomplete-wrapper').slideUp(250, function () {
-              $(this).removeClass('opened').find('.search-field-wrapper').removeClass('suggested');
+              $(this).removeClass('opened').css('display','').find('.search-field-wrapper').removeClass('suggested');
             });
           }
 

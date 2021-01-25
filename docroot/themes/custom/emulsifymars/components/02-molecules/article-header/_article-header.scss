@@ -204,17 +204,17 @@
     display: block;
     
     @include xs {
-      top: 0;
-      right: -13rem;
-      width: 36rem;
-      height: 36rem;
+      top: -4.3rem;
+      right: -7rem;
+      width: 21.2rem;
+      height: 25.9rem;
     }
 
     @include medium {
-      top: -5rem;
-      right: -15rem;
-      width: 50rem;
-      height: 50rem;
+      top: -5.5rem;
+      right: -11rem;
+      width: 34.5rem;
+      height: 38.5rem;
     }
 
     @include large {
