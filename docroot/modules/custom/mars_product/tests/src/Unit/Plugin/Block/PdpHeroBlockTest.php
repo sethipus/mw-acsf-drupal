@@ -96,7 +96,7 @@ class PdpHeroBlockTest extends UnitTestCase {
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
    */
-  private $configMock;
+  private $configFactoryMock;
 
   /**
    * Mock.
@@ -164,13 +164,14 @@ class PdpHeroBlockTest extends UnitTestCase {
       'pdp_hero_block',
       $definitions,
       $this->entityTypeManagerMock,
-      $this->configMock,
       $this->entityRepositoryMock,
       $this->entityFormBuilderMock,
       $this->themeConfiguratorParserMock,
       $this->languageHelperMock,
       $this->productHelperMock,
-      $this->mediaHelperMock
+      $this->mediaHelperMock,
+      $this->immutableConfigMock,
+      FALSE
     );
   }
 
@@ -219,7 +220,7 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->method('getContextValue')
       ->willReturn($product_node);
 
-    $this->configMock
+    $this->configFactoryMock
       ->expects($this->any())
       ->method('get')
       ->willReturn($this->immutableConfigMock);
@@ -269,7 +270,7 @@ class PdpHeroBlockTest extends UnitTestCase {
 
     $build = $this->block->build();
 
-    $this->assertCount(6, $build);
+    $this->assertCount(5, $build);
     $this->assertArrayHasKey('#pdp_common_data', $build);
     $this->assertArrayHasKey('#pdp_size_data', $build);
     $this->assertArrayHasKey('#pdp_data', $build);
@@ -290,7 +291,7 @@ class PdpHeroBlockTest extends UnitTestCase {
       ->willReturn($product_node);
     $this->block->setContext('node', $nodeContext);
 
-    $this->configMock
+    $this->configFactoryMock
       ->expects($this->any())
       ->method('get')
       ->willReturn($this->immutableConfigMock);
@@ -326,7 +327,7 @@ class PdpHeroBlockTest extends UnitTestCase {
 
     $build = $this->block->build();
 
-    $this->assertCount(6, $build);
+    $this->assertCount(5, $build);
     $this->assertArrayHasKey('#pdp_common_data', $build);
     $this->assertArrayHasKey('#pdp_size_data', $build);
     $this->assertArrayHasKey('#pdp_data', $build);
@@ -345,7 +346,7 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->entityFormBuilderMock = $this->createMock(EntityFormBuilderInterface::class);
     $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
-    $this->configMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->productHelperMock = $this->createMock(ProductHelper::class);
