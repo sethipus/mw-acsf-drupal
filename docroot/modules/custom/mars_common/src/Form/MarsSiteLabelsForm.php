@@ -179,6 +179,7 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       ->set('footer_region', $form_state->getValue('footer_region'))
       ->set('footer_social_header', $form_state->getValue('footer_social_header'))
       ->save();
+
     parent::submitForm($form, $form_state);
   }
 
