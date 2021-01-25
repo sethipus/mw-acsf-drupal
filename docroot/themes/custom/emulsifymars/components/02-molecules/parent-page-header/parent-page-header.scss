@@ -69,7 +69,7 @@
     font-family: variable(secondary-font);
     color: clr(primary);
     text-align: center;
-    margin: 5.5rem auto 0 auto;
+    margin: 0 auto;
 
     @include small {
       font-size: 1.8rem;
@@ -137,7 +137,7 @@
     }
 
     .horizontal-img__inner {
-      margin: 4rem auto;
+      margin: 5.8rem auto;
     }
 
     @include medium {
@@ -146,7 +146,7 @@
 
       .eyebrow {
         margin-top: 6.8rem;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
       }
     }
 
@@ -155,7 +155,7 @@
       max-height: 58.0rem;
 
       .horizontal-img__inner {
-        margin: 5rem auto;
+        margin: 5.8rem auto;
       }
     }
   }
