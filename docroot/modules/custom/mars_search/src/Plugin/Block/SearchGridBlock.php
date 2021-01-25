@@ -178,6 +178,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
 
     $form = array_merge($form, $this->buildExposedFilters());
     $form = array_merge($form, $this->buildGeneralFilters());
+    $form = array_merge($form, $this->buildExcludedFilters());
     $form = array_merge($form, $this->buildTopResults());
 
     return $form;
@@ -273,6 +274,39 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
         'or' => $this->languageHelper->translate('OR'),
       ],
       '#default_value' => $config['general_filters']['options_logic'] ?? 'and',
+    ];
+
+    return $form;
+  }
+
+  /**
+   * Build fieldset for excluded filters.
+   *
+   * @return array
+   *   Selectors for filters.
+   */
+  protected function buildExcludedFilters() {
+    $form = [];
+    $config = $this->getConfiguration();
+
+    $form['exclude_filters'] = [
+      '#type' => 'details',
+      '#title' => $this->languageHelper->translate('Exclude filters'),
+      '#open' => FALSE,
+    ];
+
+    $exclude_options = [];
+    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+      $label = $vocabulary_data['label'];
+      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+      $exclude_options[$vocabulary] = $label;
+    }
+
+    $form['exclude_filters']['filters'] = [
+      '#type' => 'checkboxes',
+      'label' => $this->t('Filters to exclude'),
+      '#options' => $exclude_options,
+      '#default_value' => $config['exclude_filters']['filters'] ?? NULL,
     ];
 
     return $form;

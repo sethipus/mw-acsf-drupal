@@ -22,20 +22,20 @@
 
     &--first {
       @include xs {
-        left: -5rem;
+        left: -8.25rem;
         width: 12.5rem;
-        bottom: 5rem;
+        top: 27rem;
+      }
+
+      @include medium {
+        left: -8.25rem;
+        width: 21rem;
+        top: 26rem;
       }
 
       @include large {
-        left: -5.3rem;
-        top: 4.2rem;
-        width: 10rem;
-      }
-
-      @include xl {
-        left: 8rem;
-        top: 7rem;
+        left: 6.5rem;
+        top: 7.5rem;
         width: 11rem;
       }
     }
@@ -43,20 +43,20 @@
     &--second {
       @include xs {
         right: -9rem;
-        bottom: 8rem;
+        top: 14rem;
         width: 28.4rem;
       }
 
-      @include large {
-        bottom: -15.5rem;
-        left: 4rem;
-        width: 26rem;
+      @include medium {
+        right: -13rem;
+        top: 3rem;
+        width: 47rem;
       }
 
-      @include xl {
-        left: 21.5rem;
-        bottom: -16rem;
-        width: 26.5rem;
+      @include large {
+        left: 16.5rem;
+        top: 28rem;
+        width: 28rem;
       }
     }
 
@@ -66,16 +66,10 @@
       }
 
       @include large {
-        right: -30rem;
-        bottom: -12rem;
-        width: 43rem;
+        right: -7.5rem;
+        top: 10rem;
+        width: 45rem;
         display: block;
-      }
-
-      @include xl {
-        right: -11rem;
-        bottom: -18rem;
-        width: 46rem;
       }
     }
 
