@@ -6,19 +6,19 @@ seckit_xss:
       webkit: true
     report-only: false
     default-src: '''self'''
-    script-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' cdn.cookielaw.org:* cdn.jsdelivr.net:* *.bazaarvoice.com:* *.googletagmanager.com:* *.google-analytics.com:* *.pricespider.com:* sfapi-sandbox.formstack.io:* formsprod.azureedge.net:* *.google.com:* *.gstatic.com:*'
+    script-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' cdn.cookielaw.org:* cdn.jsdelivr.net:* *.bazaarvoice.com:* *.googletagmanager.com:* *.google-analytics.com:* *.pricespider.com:* sfapi-sandbox.formstack.io:* formsprod.azureedge.net:* *.google.com:* *.gstatic.com:* *.mapbox.com:* unpkg.com:*'
     object-src: '''self'''
-    img-src: '''self'' data: lhcdn.mars.com:* img.juicer.io:* *.cdninstagram.com:* *.google-analytics.com:* formsprod.azureedge.net:*  *.bazaarvoice.com:*'
+    img-src: '''self'' data: lhcdn.mars.com:* img.juicer.io:* *.cdninstagram.com:* *.google-analytics.com:* formsprod.azureedge.net:*  *.bazaarvoice.com:* *.pricespider.com:*'
     media-src: '''self'' ''unsafe-inline'' lhcdn.mars.com:*'
-    frame-src: '''self'' *.googletagmanager.com:* *.google.com:*'
+    frame-src: '*'
     frame-ancestors: '''self'''
-    child-src: '''self'''
+    child-src: '''self'' blob:'
     font-src: '''self'' fonts.googleapis.com:* themes.googleusercontent.com:* fonts.gstatic.com:* data:'
-    connect-src: '''self'' cdn.cookielaw.org:* *.google-analytics.com:* sfapi-sandbox.formstack.io:*  *.bazaarvoice.com:*'
+    connect-src: '''self'' cdn.cookielaw.org:* *.google-analytics.com:* sfapi-sandbox.formstack.io:*  *.bazaarvoice.com:* *.mapbox.com:*'
     report-uri: ''
     upgrade-req: false
     policy-uri: ''
-    style-src: '''self'' ''unsafe-inline''  cdn.cookielaw.org:* cdn.jsdelivr.net:* *.bazaarvoice.com:* fonts.googleapis.com:* unpkg.com:* *.pricespider.com:*  sfapi-sandbox.formstack.io:*  formsprod.azureedge.net:* *.google.com:* *.gstatic.com:*'
+    style-src: '''self'' ''unsafe-inline''  cdn.cookielaw.org:* cdn.jsdelivr.net:* *.bazaarvoice.com:* fonts.googleapis.com:* unpkg.com:* *.pricespider.com:*  sfapi-sandbox.formstack.io:*  formsprod.azureedge.net:* *.google.com:* *.gstatic.com:* *.mapbox.com:*'
   x_xss:
     seckit_x_xss_option_disable: Disabled
     seckit_x_xss_option_0: '0'
@@ -31,7 +31,7 @@ seckit_csrf:
 seckit_clickjacking:
   js_css_noscript: false
   noscript_message: 'Sorry, you need to enable JavaScript to visit this website.'
-  x_frame: '1'
+  x_frame: '0'
   x_frame_allow_from: ''
 seckit_ssl:
   hsts: false
