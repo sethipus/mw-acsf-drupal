@@ -207,7 +207,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media_type' => NULL,
         'media_format' => NULL,
         'brand_shape' => NULL,
-        'text_color' => NULL,
+        'styles' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],

@@ -24,25 +24,37 @@
     style="background-image: url('{{ parent_page_media_url }}');"
   {% endif %}
 >
+
+  {% set additional_attr = (styles is defined and styles is not empty)
+    ? {"style": styles}
+    : {}
+  %}
   <div class="content">
     {% if pp_header_heading %}
-      {% set eyebrow_base_class = eyebrow_base_class|default('eyebrow') %}
-      <h3 {{ bem(eyebrow_base_class, pp_header_eyebrow_modifiers) }} style="color:{{ text_color }}">
-        {{ pp_header_eyebrow_text }}
-      </h3>
+      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+        eyebrow_text: pp_header_eyebrow_text,
+        eyebrow_modifiers: pp_header_eyebrow_modifiers,
+        additional_attr: additional_attr
+      } %}
 
-      <h{{ pp_header_heading_level }} {{ bem(pp_header_heading_base_class) }} style="color:{{ text_color }}">
-        {{ pp_header_heading }}
-      </h{{ pp_header_heading_level }}>
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading: pp_header_heading,
+        heading_level: pp_header_heading_level,
+        heading_base_class: pp_header_heading_base_class,
+        additional_attr: additional_attr
+      } %}
 
       {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
 
-      <p {{ bem(pp_header_paragraph_base_class) }} style="color:{{ text_color }}">
-        {{ pp_header_paragraph_content | raw }}
-      </p>
+      {% include "@atoms/text/text/01-paragraph.twig" with {
+        paragraph_size: pp_header_paragraph_size,
+        paragraph_content: pp_header_paragraph_content,
+        paragraph_base_class: pp_header_paragraph_base_class,
+        additional_attr: additional_attr
+      } %}
     {% endif %}
   </div>
-  
+
   {% if parent_page_media_url and parent_page_media_type == 'video' %}
     {{ attach_library('emulsifymars/ambient-video') }}
     <div class="bg-video">

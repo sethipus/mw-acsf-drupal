@@ -164,7 +164,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
 
     $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
-    $build['#text_color'] = $this->getTextColor();
+    $build['#styles'] = 'color:' . $this->getTextColor();
     $build['#theme'] = 'parent_page_header_block';
 
     return $build;
