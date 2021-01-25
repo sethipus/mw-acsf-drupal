@@ -416,11 +416,7 @@ class SalsifyFields extends Salsify {
       $field_diff = array_diff_key($field_mapping, $salsify_fields);
       $field_diff = $this->rekeyArray($field_diff ?? [], 'field_name');
       $remove_fields = array_intersect_key($filtered_fields, $field_diff);
-      foreach ($remove_fields as $key => $field) {
-        if (strpos($key, 'salsify') == 0) {
-          $field->delete();
-        }
-      }
+      $this->deleteSalsifyField($remove_fields);
 
       $import_method = $this->config->get('import_method');
       // If the import method is manual, remove any dynamically generated
@@ -451,6 +447,22 @@ class SalsifyFields extends Salsify {
             ]
           );
         }
+      }
+    }
+  }
+
+  /**
+   * Delete field.
+   *
+   * @param mixed $remove_fields
+   *   Fields for remove action.
+   */
+  private function deleteSalsifyField(
+    $remove_fields
+  ) {
+    foreach ($remove_fields as $key => $field) {
+      if (strpos($key, 'salsify') == 0) {
+        $field->delete();
       }
     }
   }
