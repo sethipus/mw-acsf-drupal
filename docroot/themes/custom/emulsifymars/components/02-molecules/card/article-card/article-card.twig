@@ -1,4 +1,7 @@
 {% set article_card_base_class = 'article-card' %}
+{% if article_card_eyebrow %}
+  {% set article_card_paragraph_modifiers = article_card_paragraph_modifiers|merge(['with-eyebrow']) %}
+{% endif %}
 
 <section
   class="{{ article_card_background_img_url=='' ? 'article-card' :'article-card article-card--with-bg-img' }} card-item"
