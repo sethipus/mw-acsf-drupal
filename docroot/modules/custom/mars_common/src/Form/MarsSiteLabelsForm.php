@@ -94,12 +94,6 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#open' => FALSE,
     ];
 
-    $form['recipe_details']['recipe_details_products_used'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Products used label'),
-      '#default_value' => $site_label_config->get('recipe_details_products_used'),
-    ];
-
     $form['recipe_details']['recipe_details_time'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Time label'),
@@ -136,6 +130,24 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#default_value' => $site_label_config->get('recipe_details_servings_measurement'),
     ];
 
+    $form['recipe_details']['body'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Recipe body'),
+      '#open' => FALSE,
+    ];
+
+    $form['recipe_details']['body']['recipe_body_ingredients_used'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Ingredients used label'),
+      '#default_value' => $site_label_config->get('recipe_body_ingredients_used'),
+    ];
+
+    $form['recipe_details']['body']['recipe_body_products_used'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Products used label'),
+      '#default_value' => $site_label_config->get('recipe_body_products_used'),
+    ];
+
     $form['footer'] = [
       '#type' => 'details',
       '#title' => $this->t('Footer labels'),
@@ -169,7 +181,8 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       ->set('faq_card_grid_search', $form_state->getValue('faq_card_grid_search'))
       ->set('card_button', $form_state->getValue('card_button'))
       ->set('card_new_badge', $form_state->getValue('card_new_badge'))
-      ->set('recipe_details_products_used', $form_state->getValue('recipe_details_products_used'))
+      ->set('recipe_body_products_used', $form_state->getValue('recipe_body_products_used'))
+      ->set('recipe_body_ingredients_used', $form_state->getValue('recipe_body_ingredients_used'))
       ->set('recipe_details_time', $form_state->getValue('recipe_details_time'))
       ->set('recipe_details_time_measurement', $form_state->getValue('recipe_details_time_measurement'))
       ->set('recipe_details_ingredients', $form_state->getValue('recipe_details_ingredients'))

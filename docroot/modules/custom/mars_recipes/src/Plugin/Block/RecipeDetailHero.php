@@ -8,6 +8,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -68,6 +69,20 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
   protected $token;
 
   /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $config;
+
+  /**
+   * The language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -78,7 +93,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     ConfigFactoryInterface $config_factory,
     Token $token,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    MediaHelper $media_helper
+    MediaHelper $media_helper,
+    LanguageHelper $language_helper,
+    ConfigFactoryInterface $config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
@@ -86,6 +103,8 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $this->token = $token;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->mediaHelper = $media_helper;
+    $this->languageHelper = $language_helper;
+    $this->config = $config;
   }
 
   /**
@@ -100,7 +119,9 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
       $container->get('config.factory'),
       $container->get('token'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.media_helper'),
+      $container->get('mars_common.language_helper'),
+      $container->get('config.factory')
     );
   }
 
@@ -132,6 +153,15 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     // Get brand border path.
     $build['#border'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
+
+    // Get label config values.
+    $label_config = $this->config->get('mars_common.site_labels');
+    $build['#cooking_time_label'] = $this->languageHelper->translate($label_config->get('recipe_details_time'));
+    $build['#cooking_time_measure'] = $this->languageHelper->translate($label_config->get('recipe_details_time_measurement'));
+    $build['#ingredients_label'] = $this->languageHelper->translate($label_config->get('recipe_details_ingredients'));
+    $build['#ingredients_measure'] = $this->languageHelper->translate($label_config->get('recipe_details_ingredients_measurement'));
+    $build['#number_of_servings_label'] = $this->languageHelper->translate($label_config->get('recipe_details_servings'));
+    $build['#number_of_servings_measure'] = $this->languageHelper->translate($label_config->get('recipe_details_servings_measurement'));
 
     if (
       $node->hasField('field_recipe_video') &&
