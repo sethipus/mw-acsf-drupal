@@ -20,13 +20,11 @@
     right: 15px;
     left: auto;
 
-    >div {
-      width: 0;
-      height: 0;
-      border-top: 12px solid transparent;
-      border-bottom: 12px solid transparent;
-      border-left: 20px solid clr(player);
-      margin: auto 35%
+    .play-icon {
+      width: 20px;
+      height: 24px;
+      fill: clr(secondary);
+      margin: auto 35%;
     }
   }
 
@@ -46,6 +44,10 @@
       border-left: 4px solid clr(text-inverse);
       margin: auto;
     }
+  }
+
+  &__control[data-state="pause"] .play-icon{
+    display: none;
   }
 
   &__controls {
@@ -82,7 +84,7 @@
 
     button:hover,
     button:focus {
-      opacity: 0.5;
+      outline: 2px solid white;
     }
 
     progress {
@@ -103,6 +105,10 @@
         background-color: clr(player);
       }
 
+      &:focus {
+        outline: 2px solid white;
+      }
+
       &::-moz-progress-bar {
         background-color: clr(player);
       }
@@ -116,8 +122,8 @@
   &__playpause[data-state="play"] {
     @include playbutton;
 
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
     position: static;
     margin-right: 10px;
 
@@ -142,8 +148,8 @@
   &__playpause[data-state="pause"] {
     @include pausebutton;
 
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
     position: static;
     margin-right: 10px;
 
@@ -166,8 +172,8 @@
 
   button.fullscreen-video__mute {
     margin-right: 10px;
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
 
     @include medium {
       margin-right: 20px;
@@ -214,6 +220,10 @@
 
     @include xl {
       right: 60px;
+    }
+
+    &:focus {
+      outline: 2px solid white;
     }
   }
 

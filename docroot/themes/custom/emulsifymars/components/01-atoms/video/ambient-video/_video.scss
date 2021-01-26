@@ -5,6 +5,8 @@
 
   video {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .ambient-video__control[data-state="play"] {
@@ -18,11 +20,11 @@
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     background-color: rgba(255, 255, 255, 0.2);
 
-    >div {
-      border-top: 12px solid transparent;
-      border-bottom: 12px solid transparent;
-      border-left: 20px solid clr(player);
-      border-left-color: white;
+    .play-icon {
+      width: 20px;
+      height: 24px;
+      fill: clr(secondary);
+      margin: auto 35%;
     }
 
     @include medium {
@@ -36,6 +38,10 @@
       top: 40px;
       right: calc(5% + 40px);
     }
+  }
+
+  &__control[data-state="pause"] .play-icon{
+    display: none;
   }
 
   .ambient-video__control[data-state="pause"] {

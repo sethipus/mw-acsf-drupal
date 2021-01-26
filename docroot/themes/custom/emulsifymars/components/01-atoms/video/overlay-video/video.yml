@@ -1,3 +1,4 @@
+theme_styles: 'twix'
 video__src__url: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
 video__base_class: 'overlay-video'
 video__control: true
