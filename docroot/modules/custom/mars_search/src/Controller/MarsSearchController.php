@@ -7,6 +7,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
@@ -80,6 +81,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   protected $viewBuilder;
 
   /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -90,12 +98,15 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Request stack.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   Entity type manager.
+   * @param \Drupal\mars_common\ThemeConfiguratorParser $theme_configurator_parser
+   *   Theme configurator parser service.
    */
   public function __construct(
     RendererInterface $renderer,
     SearchProcessFactoryInterface $searchProcessor,
     RequestStack $request_stack,
-    EntityTypeManagerInterface $entityTypeManager
+    EntityTypeManagerInterface $entityTypeManager,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     $this->renderer = $renderer;
     $this->viewBuilder = $entityTypeManager->getViewBuilder('node');
@@ -104,6 +115,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -114,7 +126,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('renderer'),
       $container->get('mars_search.search_factory'),
       $container->get('request_stack'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -227,6 +240,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
 
       case self::MARS_SEARCH_AJAX_FACET:
         $build = $this->searchBuilder->buildSearchFacets($config, $query_parameters['grid_id']);
+        $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
         $build['#theme'] = 'mars_search_filter';
         $json_output['filters'] = $this->renderer->render($build);
         if ($query_parameters['grid_type'] === 'search_page') {

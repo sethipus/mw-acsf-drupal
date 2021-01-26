@@ -243,6 +243,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }, ARRAY_FILTER_USE_BOTH);
     $query_search_results = $this->searchHelper->getSearchResults($facetOptions, static::SEARCH_LINKS_QUERY_ID);
 
+    $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#search_filters'] = [];
     if ($query_search_results['resultsCount'] > 3) {
       $build['#search_filters'] = $this->searchTermFacetProcess->prepareFacetsLinksWithCount($query_search_results['facets'], 'type', SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);

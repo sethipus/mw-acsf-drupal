@@ -145,6 +145,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     ];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+    $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
