@@ -6,6 +6,7 @@
  */
 
 use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -769,6 +770,7 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
 function mars_common_preprocess_node__article__card(array &$variables) {
   card_add_badge_text($variables);
   card_add_button_label($variables, 'article_card_button');
+  add_cache_by_label_config($variables);
 }
 
 /**
@@ -776,6 +778,7 @@ function mars_common_preprocess_node__article__card(array &$variables) {
  */
 function mars_common_preprocess_node__campaign__card(array &$variables) {
   card_add_button_label($variables, 'campaign_card_button');
+  add_cache_by_label_config($variables);
 }
 
 /**
@@ -783,6 +786,7 @@ function mars_common_preprocess_node__campaign__card(array &$variables) {
  */
 function mars_common_preprocess_node__landing_page__card(array &$variables) {
   card_add_button_label($variables, 'landing_card_button');
+  add_cache_by_label_config($variables);
 }
 
 /**
@@ -790,6 +794,7 @@ function mars_common_preprocess_node__landing_page__card(array &$variables) {
  */
 function mars_common_preprocess_node__content_hub_page__card(array &$variables) {
   card_add_button_label($variables, 'content_hub_card_button');
+  add_cache_by_label_config($variables);
 }
 
 /**
@@ -816,6 +821,19 @@ function card_add_button_label(array &$variables, string $key) {
   $language_helper = \Drupal::service('mars_common.language_helper');
   $config = \Drupal::config('mars_common.site_labels');
   $variables['card_button_text'] = $language_helper->translate($config->get($key));
+}
+
+/**
+ * Add cache by label config.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function add_cache_by_label_config(array &$variables) {
+  $config = \Drupal::config('mars_common.site_labels');
+  $cacheMetadata = CacheableMetadata::createFromRenderArray($variables);
+  $cacheMetadata->addCacheableDependency($config);
+  $cacheMetadata->applyTo($variables);
 }
 
 /**
