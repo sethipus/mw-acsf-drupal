@@ -93,6 +93,8 @@ interface SearchBuilderInterface {
   /**
    * Prepare facet for search results.
    *
+   * @param string $grid_type
+   *   Type of grid.
    * @param array $config
    *   Search config.
    * @param string $grid_id
@@ -101,7 +103,7 @@ interface SearchBuilderInterface {
    * @return array
    *   Array with facets and results.
    */
-  public function buildSearchFacets(array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
+  public function buildSearchFacets(string $grid_type, array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
 
   /**
    * Prepare links for search page header.
