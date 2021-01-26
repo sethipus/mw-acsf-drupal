@@ -21,14 +21,14 @@ import moment from 'moment';
               e.preventDefault();
               link.focus();
           }
-        }
+        };
 
         link.onkeydown = function(e) {
           if ((e.code === 'Tab'  && !e.shiftKey) || (e.code === 'ArrowRight' && e.ctrlKey)) {
             e.preventDefault();
             dayInput.focus();
           }
-        }
+        };
 
         // helper for getting cooke with specified name
         const getCookieDate = name => {
@@ -40,7 +40,7 @@ import moment from 'moment';
             }
           }
           return null;
-        }
+        };
 
         // compare cookie value against age limit
         const isOldEnough = (date) => {
@@ -48,7 +48,7 @@ import moment from 'moment';
             return (moment(new Date()).diff(date, 'years')) >= ageLimit;
           }
           return false;
-        }
+        };
 
         // allow only numbers and max 2 characters length
         const checkValueLength = (event, field, limit) => {
@@ -62,7 +62,7 @@ import moment from 'moment';
           else {
             event.preventDefault();
           }
-        }
+        };
 
         // display entry gate if cookie is not set or the value of cookie is not
         // enough
@@ -76,7 +76,7 @@ import moment from 'moment';
           entryGate.css({display: 'flex'});
           entryGate.attr("aria-hidden", "false");
           $(".layout-container").attr("aria-hidden", "true");
-          
+
           $('.layout-container')
             .find(_tabElems.map(e => e + ':not([tabindex="-1"])').join(','))
             .each((i, e) => {
@@ -84,7 +84,7 @@ import moment from 'moment';
                 .attr('tabindex', '-1');
             });
 
-          // Hack for key nav from OneTrust 
+          // Hack for key nav from OneTrust
           $('body').prepend(
             `<a href="#" class="sronly" id="${a11yDateFakeLinkId}"></a>`
           );
@@ -121,14 +121,14 @@ import moment from 'moment';
                   e.preventDefault();
                   $('.entry-gate__error-link', this)[1].focus();
               }
-            }
+            };
 
             $('.entry-gate__error-link', this)[1].onkeydown = function(e) {
               if (e.code === 'Tab'  && !e.shiftKey) {
                 e.preventDefault();
                 $('.entry-gate__error-link', this)[0].focus();
               }
-            }
+            };
             return;
           }
 
@@ -142,8 +142,8 @@ import moment from 'moment';
             if ($(e).attr(a11yDataAttrName) === "none") {
               $(e).removeAttr('tabindex');
             } else {
-              $(e).attr("tabindex", $(e).attr(a11yDataAttrName));  
-            }            
+              $(e).attr("tabindex", $(e).attr(a11yDataAttrName));
+            }
             $(e).removeAttr(a11yDataAttrName);
           });
 
@@ -158,8 +158,8 @@ import moment from 'moment';
               formName: 'Entry Gate Form',
             });
           }
-        })
-      })
+        });
+      });
     },
   };
-})(jQuery, Drupal)
+})(jQuery, Drupal);
