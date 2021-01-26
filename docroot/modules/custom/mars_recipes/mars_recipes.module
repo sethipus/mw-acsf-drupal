@@ -107,7 +107,7 @@ function mars_recipes_preprocess_node__recipe__card(array &$variables) {
     !empty($color_key) &&
     array_key_exists($color_key, MarsCardColorSettingsForm::$colorVariables)
   ) {
-    $background_color = MarsCardColorSettingsForm::$colorVariables[$color_key];
+    $background_color = $color_key;
   }
   $variables['#cache']['tags'][] = 'config:' . MarsCardColorSettingsForm::SETTINGS;
   $variables['select_background_color'] = $background_color;
