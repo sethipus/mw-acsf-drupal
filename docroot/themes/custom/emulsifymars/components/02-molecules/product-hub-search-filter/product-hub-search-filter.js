@@ -101,11 +101,11 @@ Drupal.behaviors.searchFilterBehaviour = {
     });
 
     filterCheckboxes.forEach(checkbox => {
-      checkbox.addEventListener('keypress', (e) => {
-        if (e.keyCode === 32) {
+      checkbox.addEventListener('keypress', (event) => {
+        if (event.keyCode === 32) {
           event.preventDefault();
-          const grid = getGridBlock(e);
-          let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
+          const grid = getGridBlock(event);
+          let check = event.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
           updateCounters(grid);
           enableApplyButtons();
