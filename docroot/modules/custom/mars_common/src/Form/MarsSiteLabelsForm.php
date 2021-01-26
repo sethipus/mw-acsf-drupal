@@ -6,7 +6,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Override for the site information form.
+ * Settings form for site level labels.
  *
  * @internal
  */
@@ -76,16 +76,46 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#open' => FALSE,
     ];
 
-    $form['card']['card_button'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Button label'),
-      '#default_value' => $site_label_config->get('card_button'),
-    ];
-
     $form['card']['card_new_badge'] = [
       '#type' => 'textfield',
       '#title' => $this->t('New badge label'),
       '#default_value' => $site_label_config->get('card_new_badge'),
+    ];
+
+    $form['card']['recipe_card_button'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Recipe card button label'),
+      '#default_value' => $site_label_config->get('recipe_card_button'),
+    ];
+
+    $form['card']['product_card_button'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Product card button label'),
+      '#default_value' => $site_label_config->get('product_card_button'),
+    ];
+
+    $form['card']['article_card_button'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Article card button label'),
+      '#default_value' => $site_label_config->get('article_card_button'),
+    ];
+
+    $form['card']['landing_card_button'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Landing card button label'),
+      '#default_value' => $site_label_config->get('landing_card_button'),
+    ];
+
+    $form['card']['campaign_card_button'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Campaign card button label'),
+      '#default_value' => $site_label_config->get('campaign_card_button'),
+    ];
+
+    $form['card']['content_hub_card_button'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Content hub card button label'),
+      '#default_value' => $site_label_config->get('content_hub_card_button'),
     ];
 
     $form['recipe_details'] = [
@@ -179,8 +209,13 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       ->set('header_search_overlay', $form_state->getValue('header_search_overlay'))
       ->set('header_search_overlay_close', $form_state->getValue('header_search_overlay_close'))
       ->set('faq_card_grid_search', $form_state->getValue('faq_card_grid_search'))
-      ->set('card_button', $form_state->getValue('card_button'))
       ->set('card_new_badge', $form_state->getValue('card_new_badge'))
+      ->set('recipe_card_button', $form_state->getValue('recipe_card_button'))
+      ->set('product_card_button', $form_state->getValue('product_card_button'))
+      ->set('article_card_button', $form_state->getValue('article_card_button'))
+      ->set('landing_card_button', $form_state->getValue('landing_card_button'))
+      ->set('campaign_card_button', $form_state->getValue('campaign_card_button'))
+      ->set('content_hub_card_button', $form_state->getValue('content_hub_card_button'))
       ->set('recipe_body_products_used', $form_state->getValue('recipe_body_products_used'))
       ->set('recipe_body_ingredients_used', $form_state->getValue('recipe_body_ingredients_used'))
       ->set('recipe_details_time', $form_state->getValue('recipe_details_time'))

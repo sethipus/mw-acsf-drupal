@@ -120,6 +120,7 @@ function mars_product_node_view(array &$build, EntityInterface $entity, EntityVi
 function mars_common_preprocess_node__product__card(array &$variables) {
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
+  product_card_add_badge_text($variables);
 }
 
 /**
@@ -128,6 +129,7 @@ function mars_common_preprocess_node__product__card(array &$variables) {
 function mars_common_preprocess_node__product_multipack__card(array &$variables) {
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
+  product_card_add_badge_text($variables);
 }
 
 /**
@@ -204,6 +206,17 @@ function product_card_add_datalayer_vars(array &$variables) {
     }
   }
   $variables['datalayer_taxonomy'] = Json::encode($ga_taxonomy_data);
+}
+
+/**
+ * Add the configured badge text to cards.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_badge_text(array &$variables) {
+  $badge_text = \Drupal::config('mars_common.site_labels')->get('card_new_badge');
+  $variables['badge_text'] = $badge_text;
 }
 
 /**

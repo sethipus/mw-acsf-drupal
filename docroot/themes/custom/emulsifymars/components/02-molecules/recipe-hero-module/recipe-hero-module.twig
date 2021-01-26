@@ -98,7 +98,7 @@
 <div class="recipe-info" data-theme="{{ theme_styles }}">
   <div class="recipe-info__text">{{ recipe_description_text }}</div>
   <div class="recipe-info__social">
-    <div class="recipe-info__social-text">{{ 'Share' | mt }}</div>
+    <div class="recipe-info__social-text">{{ social_text }}</div>
     {% block recipe_social_menu %}
       {% include "@molecules/menus/social/social-menu.twig" with {
         social_menu_items: social_menu_items,
