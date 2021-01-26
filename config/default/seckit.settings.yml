@@ -8,7 +8,7 @@ seckit_xss:
     default-src: '''self'''
     script-src: '''self'' ''unsafe-inline'' ''unsafe-eval'' cdn.cookielaw.org:* cdn.jsdelivr.net:* *.bazaarvoice.com:* *.googletagmanager.com:* *.google-analytics.com:* *.pricespider.com:* sfapi-sandbox.formstack.io:* formsprod.azureedge.net:* *.google.com:* *.gstatic.com:* *.mapbox.com:* unpkg.com:*'
     object-src: '''self'''
-    img-src: '''self'' data: lhcdn.mars.com:* img.juicer.io:* *.cdninstagram.com:* *.google-analytics.com:* formsprod.azureedge.net:*  *.bazaarvoice.com:* *.pricespider.com:*'
+    img-src: '''self'' data: lhcdn.mars.com:* img.juicer.io:* *.cdninstagram.com:* *.google-analytics.com:* formsprod.azureedge.net:*  *.bazaarvoice.com:* *.pricespider.com:* cdn.cookielaw.org:*'
     media-src: '''self'' ''unsafe-inline'' lhcdn.mars.com:*'
     frame-src: '*'
     frame-ancestors: '''self'''
