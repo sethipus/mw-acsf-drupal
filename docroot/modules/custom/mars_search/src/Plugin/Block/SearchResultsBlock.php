@@ -86,7 +86,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build['#items'] = [];
     $query_search_results['results'] = [];
 
-    $build = array_merge($build, $this->searchBuilder->buildSearchFacets());
+    $build = array_merge($build, $this->searchBuilder->buildSearchFacets('search_page'));
 
     // "See more" link should be visible only if it makes sense.
     $build['#ajax_card_grid_link_text'] = $this->t('See more');

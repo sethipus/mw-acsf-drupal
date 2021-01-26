@@ -21,8 +21,8 @@ Drupal.behaviors.searchFilterBehaviour = {
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
-            updateCounters(grid);
             updateAriaChecked(event.target);
+            break;
           case event.target.classList.contains('search-filter-info__applied-clear'):
             const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
             if (currentFilter !== null) {
@@ -90,8 +90,10 @@ Drupal.behaviors.searchFilterBehaviour = {
 
     applyFiltersButtons.forEach(function (button) {
       button.addEventListener('click', function(event) {
+        const grid = getGridBlock(event);
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+        updateCounters(grid);
         processFilters(getGridBlock(event));
       });
     });
@@ -102,7 +104,6 @@ Drupal.behaviors.searchFilterBehaviour = {
           const grid = getGridBlock(e);
           let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
-          updateCounters(grid);
           enableApplyButtons();
           updateAriaChecked(e.target);
         }
