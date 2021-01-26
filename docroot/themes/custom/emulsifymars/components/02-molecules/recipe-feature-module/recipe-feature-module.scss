@@ -105,7 +105,7 @@
         line-height: 14px;
         color: clr(primary);
         text-transform: uppercase;
-        margin: -1px auto 0;
+        margin: 0;
 
         @include xs {
           padding-top: 3rem;
@@ -117,6 +117,7 @@
 
         @include large {
           padding-top: 0;
+          margin: -8px auto 0;
         }
       }
 
@@ -125,7 +126,8 @@
         font-size: 5.6rem;
         line-height: 100%;
         text-transform: capitalize;
-        font-weight: normal;
+        max-width: 496px;
+        font-weight: 500;
         margin: 30px auto 20px;
 
         @include xs {
@@ -140,12 +142,17 @@
         @include large {
           font-size: 6.4rem;
           min-height: 18rem;
-          margin: 3rem auto 4rem;
+          margin: 2.9rem auto 3.2rem;
         }
 
         a.link {
           color: clr(primary);
           text-decoration: none;
+
+          @include large {
+            display: block;
+            margin: -10px auto -5px auto;
+          }
         }
       }
 
@@ -176,3 +183,9 @@
     }
   }
 }
+
+.ambient-video .ambient-video__control[data-state="play"] .play-icon {
+  fill: #fff;
+}
+
+

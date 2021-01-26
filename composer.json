@@ -65,7 +65,7 @@
         "drupal/samlauth": "3.0-alpha2",
         "drupal/search_api": "^1.17",
         "drupal/search_api_solr": "1.x",
-        "drupal/seckit": "^1.0.0-alpha2",
+        "drupal/seckit": "^2.0",
         "drupal/shield": "^1.2.0",
         "drupal/simple_sitemap": "^3.7",
         "drupal/simplesamlphp_auth": "^3.2",

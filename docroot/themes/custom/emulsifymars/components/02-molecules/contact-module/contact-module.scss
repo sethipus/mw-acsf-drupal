@@ -17,6 +17,7 @@
   @include large {
     padding: 8rem 15.5rem 8.5rem;
     border-top: 12px solid clr(secondary);
+    max-height: 534px;
   }
 
   &__brand-shape {
@@ -120,7 +121,10 @@
     .social-menu {
       margin: 0;
       .social-menu__item {
-        margin-right: 2rem;
+        margin-right: 4rem;
+      }
+      .social-menu__item:last-child {
+        margin-right: 0;
       }
     }
 
