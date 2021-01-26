@@ -130,6 +130,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_form' => NULL,
         'search_close_label' => NULL,
         'search_enabled' => NULL,
+        'search_title' => NULL,
         'brand_border' => NULL,
       ],
       'template' => 'block--mars-common--header',

@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -81,6 +82,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   protected $configFactory;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -88,7 +96,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     MenuLinkTreeInterface $menuLinkTree,
     ThemeConfiguratorParser $themeConfiguratorParser,
     ConfigFactoryInterface $configFactory,
-    SearchProcessFactoryInterface $searchProcessor
+    SearchProcessFactoryInterface $searchProcessor,
+    LanguageHelper $language_helper
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->menuLinkTree = $menuLinkTree;
@@ -99,6 +108,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -192,7 +202,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       // Populating search form.
       if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
         // Preparing search form.
-        $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $this->t('Search'), $grid_id);
+        $label_config = $this->configFactory->get('mars_common.site_labels');
+        $placeholder = $this->languageHelper->translate($label_config->get('faq_card_grid_search'));
+        $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $placeholder, $grid_id);
         $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-card-grid';
       }
       if (!empty($config)) {
@@ -246,7 +258,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $build = [];
     // Getting search results from SOLR.
     $searchOptions = $this->searchQueryParser->parseQuery();
-    $build['#input_form'] = $this->getSearhForm($searchOptions['keys'], $this->t('Search'));
+    $label_config = $this->configFactory->get('mars_common.site_labels');
+    $placeholder = $this->languageHelper->translate($label_config->get('faq_card_grid_search'));
+    $build['#input_form'] = $this->getSearhForm($searchOptions['keys'], $placeholder);
     $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-faq';
     $build['#input_form']['#attributes']['data-grid-query'] = 'faq=1';
     unset($searchOptions['conditions']);

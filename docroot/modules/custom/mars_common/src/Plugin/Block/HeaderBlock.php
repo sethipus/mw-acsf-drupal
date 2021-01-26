@@ -268,6 +268,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#search_form'] = $this->buildSearchForm();
     $build['#search_enabled'] = $config['search_block'] ?? TRUE;
     $build['#search_close_label'] = $this->config->get('mars_common.site_labels')->get('header_search_overlay_close');
+    $build['#search_title'] = $this->config->get('mars_common.site_labels')->get('header_search_overlay');
 
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
 
