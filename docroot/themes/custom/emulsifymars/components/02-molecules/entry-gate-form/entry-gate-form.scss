@@ -90,6 +90,20 @@
       top: -3.6rem;
       font-size: 1.6rem;
     }
+
+  }
+
+  .entry-gate-form__input-container:last-child input:invalid:not(:placeholder-shown) + label{
+    top: -3.6rem;
+    font-size: 1.6rem;
+  }
+
+  .entry-gate-form__input-container:last-child input:valid:not(:placeholder-shown) {
+    border: 0;
+  }
+  
+  .entry-gate-form__input-container:last-child input:invalid:not(:placeholder-shown) {
+    border: 1px solid clr(secondary);
   }
 
   &__input-label {
