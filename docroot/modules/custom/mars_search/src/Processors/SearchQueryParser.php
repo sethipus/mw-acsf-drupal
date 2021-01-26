@@ -165,6 +165,7 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
     }
 
     // Taxonomy preset filter(s).
+    $config['general_filters'] = !empty($config['general_filters']) ? $config['general_filters'] : [];
     foreach ($config['general_filters'] as $filter_key => $filter_value) {
       if (!empty($filter_value['select'])) {
         $searchOptions['conditions'][] = [
