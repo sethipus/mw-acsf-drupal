@@ -4,6 +4,26 @@ no_results_heading: 'There are no matching results for “carwmsl”'
 no_results_heading_level: 1
 no_results_heading_base_class: 'no-results-heading'
 
+brand_border: '<svg xmlns="http://www.w3.org/2000/svg" height="15"><defs><pattern patternUnits="userSpaceOnUse" id="id0-repeat-pattern" width="425" height="15" viewBox="0 0 425 15"><path xmlns:default="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542zM225.004 12.542L212.502 0l-12.5 12.542L187.501 0 175 12.542 162.501 0 150 12.542 137.499 0 125 12.542V15h125v-2.458L237.501 0l-12.497 12.542zM400.004 12.542L387.502 0l-12.5 12.542L362.501 0 350 12.542 337.501 0 325 12.542 312.499 0 300 12.542V15h125v-2.458L412.501 0l-12.497 12.542z" clip-rule="evenodd"></path><path xmlns:default="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M350.004 12.542L337.502 0l-12.5 12.542L312.501 0 300 12.542 287.501 0 275 12.542 262.499 0 250 12.542V15h125v-2.458L362.501 0l-12.497 12.542z" clip-rule="evenodd"></path></pattern></defs><rect width="100%" height="15" fill="url(#id0-repeat-pattern)"></rect></svg>'
+brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 243 243">
+  <path fill-rule="evenodd" d="M121.5 243c67.103 0 121.5-54.397 121.5-121.5C243 54.397 188.603 0 121.5 0 54.397 0 0 54.397 0 121.5 0 188.603 54.397 243 121.5 243z" clip-rule="evenodd" opacity=".2"/>
+</svg>'
+
+filters_selected_modifier: "filter-selected"
+search_results:
+  - title: "Topics & Campaigns"
+    count: 13
+    search_results_item_modifier: ""
+  - title: "Products"
+    count: 13
+    search_results_item_modifier: "active"
+  - title: "Recipes"
+    count: 7
+    search_results_item_modifier: ""
+  - title: "Articles"
+    count: 3
+    search_results_item_modifier: ""
+
 no_results_text: 'Please try entering a different search'
 
 no_results_links:

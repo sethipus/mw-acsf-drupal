@@ -182,10 +182,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   /**
    * {@inheritdoc}
    */
-  public function buildSearchFacets(array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+  public function buildSearchFacets(string $grid_type, array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     $build = [];
     // Getting default search options.
     $facetOptions = $this->searchQueryParser->parseQuery($grid_id);
+    if ($grid_type == 'grid') {
+      $facetOptions = $this->searchQueryParser->parseFilterPreset($facetOptions, $config);
+    }
     unset($facetOptions['limit']);
 
     if (!empty($config)) {
