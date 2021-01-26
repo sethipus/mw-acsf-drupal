@@ -182,10 +182,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   /**
    * {@inheritdoc}
    */
-  public function buildSearchFacets(array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+  public function buildSearchFacets(string $grid_type, array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     $build = [];
     // Getting default search options.
     $facetOptions = $this->searchQueryParser->parseQuery($grid_id);
+    if ($grid_type == 'grid') {
+      $facetOptions = $this->searchQueryParser->parseFilterPreset($facetOptions, $config);
+    }
     unset($facetOptions['limit']);
 
     if (!empty($config)) {
@@ -204,14 +207,36 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
+      $default_filters = static::TAXONOMY_VOCABULARIES;
+      if (isset($config['exclude_filters'])) {
+        $this->hideExcludedFacetOptions($default_filters, $config['exclude_filters']);
+      }
       $build['#applied_filters_list'] = [];
       $build['#filters'] = [];
       if ($facets_query['resultsCount'] > 3) {
-        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], static::TAXONOMY_VOCABULARIES, $grid_id);
+        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], $default_filters, $grid_id);
       }
     }
 
     return $build;
+  }
+
+  /**
+   * Removes excluded facet options from the available facets list.
+   *
+   * @param array $default_filters
+   *   The default filters array.
+   * @param array $excluded_options
+   *   The excluded options configuration array.
+   */
+  private function hideExcludedFacetOptions(array &$default_filters, array $excluded_options) {
+    if (!empty($excluded_options['filters'])) {
+      foreach ($excluded_options['filters'] as $option) {
+        if ($option !== 0) {
+          unset($default_filters[$option]);
+        }
+      }
+    }
   }
 
   /**

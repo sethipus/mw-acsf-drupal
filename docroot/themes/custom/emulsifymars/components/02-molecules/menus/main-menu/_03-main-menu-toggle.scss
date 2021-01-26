@@ -1,25 +1,33 @@
 /* Toggle */
 .toggle-expand {
-  @include link;
-
   position: relative;
   padding: 0 2rem 0 1rem;
   text-decoration: none;
   width: 100%;
   display: block;
-
-  @include large {
-    display: none;
-  }
+  border: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
 
   @include xs {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   @include medium {
     padding-right: 4rem;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   @include large {
@@ -47,10 +55,7 @@
   height: 2rem;
   width: 2rem;
   margin: 0 auto;
-
-  path {
-    fill: clr(secondary);
-  }
+  fill: clr(secondary);
 
   @include medium {
     left: -22px;
