@@ -120,7 +120,7 @@ function mars_product_node_view(array &$build, EntityInterface $entity, EntityVi
 function mars_common_preprocess_node__product__card(array &$variables) {
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
-  product_card_add_badge_text($variables);
+  product_card_add_labels($variables);
 }
 
 /**
@@ -129,7 +129,7 @@ function mars_common_preprocess_node__product__card(array &$variables) {
 function mars_common_preprocess_node__product_multipack__card(array &$variables) {
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
-  product_card_add_badge_text($variables);
+  product_card_add_labels($variables);
 }
 
 /**
@@ -209,14 +209,16 @@ function product_card_add_datalayer_vars(array &$variables) {
 }
 
 /**
- * Add the configured badge text to cards.
+ * Add the configured labels to cards.
  *
  * @param array $variables
  *   Variables.
  */
-function product_card_add_badge_text(array &$variables) {
-  $badge_text = \Drupal::config('mars_common.site_labels')->get('card_new_badge');
-  $variables['badge_text'] = $badge_text;
+function product_card_add_labels(array &$variables) {
+  $language_helper = \Drupal::service('mars_common.language_helper');
+  $config = \Drupal::config('mars_common.site_labels');
+  $variables['card_button_text'] = $language_helper->translate($config->get('product_card_button'));
+  $variables['badge_text'] = $language_helper->translate($config->get('card_new_badge'));
 }
 
 /**
