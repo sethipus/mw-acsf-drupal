@@ -215,9 +215,10 @@ function product_card_add_datalayer_vars(array &$variables) {
  *   Variables.
  */
 function product_card_add_labels(array &$variables) {
+  $language_helper = \Drupal::service('mars_common.language_helper');
   $config = \Drupal::config('mars_common.site_labels');
-  $variables['card_button_text'] = $config->get('product_card_button');
-  $variables['badge_text'] = $config->get('card_new_badge');
+  $variables['card_button_text'] = $language_helper->translate($config->get('product_card_button'));
+  $variables['badge_text'] = $language_helper->translate($config->get('card_new_badge'));
 }
 
 /**

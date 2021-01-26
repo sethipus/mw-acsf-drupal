@@ -799,8 +799,9 @@ function mars_common_preprocess_node__content_hub_page__card(array &$variables) 
  *   Variables.
  */
 function card_add_badge_text(array &$variables) {
+  $language_helper = \Drupal::service('mars_common.language_helper');
   $badge_text = \Drupal::config('mars_common.site_labels')->get('card_new_badge');
-  $variables['badge_text'] = $badge_text;
+  $variables['badge_text'] = $language_helper->translate($badge_text);
 }
 
 /**
@@ -812,8 +813,9 @@ function card_add_badge_text(array &$variables) {
  *   Config key value.
  */
 function card_add_button_label(array &$variables, string $key) {
+  $language_helper = \Drupal::service('mars_common.language_helper');
   $config = \Drupal::config('mars_common.site_labels');
-  $variables['card_button_text'] = $config->get($key) ?? '';
+  $variables['card_button_text'] = $language_helper->translate($config->get($key));
 }
 
 /**
