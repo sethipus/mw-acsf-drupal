@@ -101,14 +101,5 @@ function mars_recipes_field_widget_form_alter(
  */
 function mars_recipes_preprocess_node__recipe__card(array &$variables) {
   $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_recipe');
-
-  $background_color = '';
-  if ($color_key != 'default' &&
-    !empty($color_key) &&
-    array_key_exists($color_key, MarsCardColorSettingsForm::$colorVariables)
-  ) {
-    $background_color = $color_key;
-  }
-  $variables['#cache']['tags'][] = 'config:' . MarsCardColorSettingsForm::SETTINGS;
-  $variables['select_background_color'] = $background_color;
+  card_change_color($variables, $color_key);
 }

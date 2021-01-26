@@ -10,9 +10,11 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -28,6 +30,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use SelectBackgroundColorTrait;
 
   /**
    * Article or recipe first.
@@ -259,6 +262,9 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $form['background']['#title'] = $this->t('Background');
     $form['background']['#open'] = TRUE;
 
+    // Add select background color.
+    $this->buildSelectBackground($form);
+
     return $form;
   }
 
@@ -277,6 +283,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['cta_link_text'] = $form_state->getValue('cta_link_text');
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
     $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
+    $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
   }
 
   /**
@@ -335,12 +342,21 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     if ($is_product_card) {
       $brand_shape = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
       $render_array['#brand_shape'] = $brand_shape;
+
+      if ($this->configuration['select_background_color'] != 'default' &&
+        !empty($this->configuration['select_background_color']) &&
+        array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+      ) {
+        $render_array['#select__background__color'] = $this->configuration['select_background_color'];
+      }
     }
 
+    $conf = $this->configFactory->get(MarsCardColorSettingsForm::SETTINGS);
     CacheableMetadata::createFromRenderArray($render_array)
       ->merge(
         $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
       )
+      ->addCacheableDependency($conf)
       ->applyTo($render_array);
 
     $render_array['#cache']['keys'][] = md5($eyebrow_text);
