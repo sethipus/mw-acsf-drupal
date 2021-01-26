@@ -4,7 +4,11 @@
 <section {{ bem(recipe_card_base_class, [], '', card__extra_classes) }}
          data-theme="{{ theme_styles }}"
          data-card-type="recipe-card"
-         data-site-search-clicked="{{ recipe_card_heading }}">
+         data-site-search-clicked="{{ recipe_card_heading }}"
+        {% if select_background_color|length > 0 %}
+          style="background-image: radial-gradient(circle at 50% 40%, var(--c-card-background) 10%, {{ 'var(' ~ select_background_color ~ ')' }})"
+        {% endif %}
+>
 
   {% if recipe_is_new %}
     {% include "@atoms/badge/badge.twig" %}
