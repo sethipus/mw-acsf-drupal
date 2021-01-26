@@ -100,6 +100,7 @@
 
         .product-card .product-card__title {
           text-align: center;
+          -webkit-line-clamp: 3;
         }
 
         .recipe-card {
