@@ -36,14 +36,3 @@ export const articleWYSIWYGBlock = () => {
 export const articleListBlock = () => {
   return <div dangerouslySetInnerHTML={{ __html: articleList(articleListData) }} />;
 };
-
-
-/**
- * Remove border from text if text is missing.
- */
-let items = document.getElementsByClassName("paragraph");
-let gross = "";
-for (let i = 0; i < items.length; i++) {
-  gross += items[i].innerHTML;
-  items[i].style.border = "0";
-}
