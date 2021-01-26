@@ -1,6 +1,6 @@
 theme_styles: 'twix'
 
-products_used_label: 'Products used'
+products_used_label: 'Products Used'
 product_used_items:
   - card__image__output_image_tag: true
     card__image__src: 'image9.png'
