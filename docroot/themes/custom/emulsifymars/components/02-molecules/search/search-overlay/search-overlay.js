@@ -1,4 +1,4 @@
-(function ($) {
+(function ($, Drupal) {
   Drupal.behaviors.searchOverlay = {
     attach(context) {
       const _this = this;
@@ -80,4 +80,4 @@
       }
     }
   };
-})(jQuery);
+})(jQuery, Drupal);
