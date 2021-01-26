@@ -14,7 +14,7 @@ trait SelectBackgroundColorTrait {
    *
    * @var array
    */
-  protected $colorVariables = [
+  public static $colorVariables = [
     'color_c' => '--c-subcolor-1',
     'color_d' => '--c-subcolor-2',
     'color_e' => '--c-subcolor-3',

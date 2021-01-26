@@ -98,9 +98,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $background_color = '';
     if ($this->configuration['select_background_color'] != 'default' &&
       !empty($this->configuration['select_background_color']) &&
-      array_key_exists($this->configuration['select_background_color'], $this->colorVariables)
+      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
     ) {
-      $background_color = $this->colorVariables[$this->configuration['select_background_color']];
+      $background_color = static::$colorVariables[$this->configuration['select_background_color']];
     }
     $mediaId1 = $this->getMediaId('asset_1');
     $mediaId2 = $this->getMediaId('asset_2');
