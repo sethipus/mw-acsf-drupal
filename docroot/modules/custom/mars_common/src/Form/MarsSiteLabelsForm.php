@@ -38,12 +38,14 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Recipe/Article share label'),
       '#default_value' => $site_label_config->get('article_recipe_share'),
+      '#required' => TRUE,
     ];
 
     $form['article_published'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Article published label'),
       '#default_value' => $site_label_config->get('article_published'),
+      '#required' => TRUE,
     ];
 
     $form['search'] = [
@@ -56,18 +58,21 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Header search overlay input label'),
       '#default_value' => $site_label_config->get('header_search_overlay'),
+      '#required' => TRUE,
     ];
 
     $form['search']['header_search_overlay_close'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header search overlay close label'),
       '#default_value' => $site_label_config->get('header_search_overlay_close'),
+      '#required' => TRUE,
     ];
 
     $form['search']['faq_card_grid_search'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Card grid and FAQ search label'),
       '#default_value' => $site_label_config->get('faq_card_grid_search'),
+      '#required' => TRUE,
     ];
 
     $form['card'] = [
@@ -80,42 +85,49 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('New badge label'),
       '#default_value' => $site_label_config->get('card_new_badge'),
+      '#required' => TRUE,
     ];
 
     $form['card']['recipe_card_button'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Recipe card button label'),
       '#default_value' => $site_label_config->get('recipe_card_button'),
+      '#required' => TRUE,
     ];
 
     $form['card']['product_card_button'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product card button label'),
       '#default_value' => $site_label_config->get('product_card_button'),
+      '#required' => TRUE,
     ];
 
     $form['card']['article_card_button'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Article card button label'),
       '#default_value' => $site_label_config->get('article_card_button'),
+      '#required' => TRUE,
     ];
 
     $form['card']['landing_card_button'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Landing card button label'),
       '#default_value' => $site_label_config->get('landing_card_button'),
+      '#required' => TRUE,
     ];
 
     $form['card']['campaign_card_button'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Campaign card button label'),
       '#default_value' => $site_label_config->get('campaign_card_button'),
+      '#required' => TRUE,
     ];
 
     $form['card']['content_hub_card_button'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Content hub card button label'),
       '#default_value' => $site_label_config->get('content_hub_card_button'),
+      '#required' => TRUE,
     ];
 
     $form['recipe_details'] = [
@@ -128,36 +140,42 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Time label'),
       '#default_value' => $site_label_config->get('recipe_details_time'),
+      '#required' => TRUE,
     ];
 
     $form['recipe_details']['recipe_details_time_measurement'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Time measurement label'),
       '#default_value' => $site_label_config->get('recipe_details_time_measurement'),
+      '#required' => TRUE,
     ];
 
     $form['recipe_details']['recipe_details_ingredients'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Ingredients label'),
       '#default_value' => $site_label_config->get('recipe_details_ingredients'),
+      '#required' => TRUE,
     ];
 
     $form['recipe_details']['recipe_details_ingredients_measurement'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Ingredients measurement label'),
       '#default_value' => $site_label_config->get('recipe_details_ingredients_measurement'),
+      '#required' => TRUE,
     ];
 
     $form['recipe_details']['recipe_details_servings'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Servings label'),
       '#default_value' => $site_label_config->get('recipe_details_servings'),
+      '#required' => TRUE,
     ];
 
     $form['recipe_details']['recipe_details_servings_measurement'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Servings measurement label'),
       '#default_value' => $site_label_config->get('recipe_details_servings_measurement'),
+      '#required' => TRUE,
     ];
 
     $form['recipe_details']['body'] = [
@@ -170,12 +188,14 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Ingredients used label'),
       '#default_value' => $site_label_config->get('recipe_body_ingredients_used'),
+      '#required' => TRUE,
     ];
 
     $form['recipe_details']['body']['recipe_body_products_used'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Products used label'),
       '#default_value' => $site_label_config->get('recipe_body_products_used'),
+      '#required' => TRUE,
     ];
 
     $form['footer'] = [
@@ -188,12 +208,14 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Select region label'),
       '#default_value' => $site_label_config->get('footer_region'),
+      '#required' => TRUE,
     ];
 
     $form['footer']['footer_social_header'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Social header label'),
       '#default_value' => $site_label_config->get('footer_social_header'),
+      '#required' => TRUE,
     ];
 
     return $form;
