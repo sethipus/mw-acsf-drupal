@@ -250,38 +250,40 @@
 
     @include playbutton;
 
-    > div {
-      width: 0;
-      height: 0;
-      border-top: 12px solid transparent;
-      border-bottom: 12px solid transparent;
-      border-left: 20px solid clr(player);
-      margin: auto 35%;
-    }
+    
   }
 
   &__brand-shape_1 {
     position: absolute;
-    width: 12.4rem;
-    height: 11.8rem;
-    min-width: 12.4rem;
-    min-height: 11.8rem;
     z-index: 1;
     top: 90rem;
     display: flex;
 
     & img {
-      margin: auto;
+      margin: 0;
+      max-width: 242px;
+      max-height: 242px;
+    }
+
+    @include xs {
+      top: 60rem;
+      right: -1rem;
+
+      & img {
+        max-width: 124px;
+        max-height: 118px;
+      }
     }
 
     @include medium {
-      top: 75rem;
-      right: -8rem;
+      top: 83rem;
+      right: -1rem;
       z-index: 1;
-      min-width: 22.7rem;
-      min-height: 21.2rem;
-      width: 24.2rem;
-      height: 24.2rem;
+
+      & img {
+        max-width: 124px;
+        max-height: 118px;
+      }
     }
 
     @include large {
@@ -291,12 +293,8 @@
     }
 
     @include xl {
-      top: 27rem;
-    }
-
-    @include xs {
-      top: 35rem;
-      right: -5rem;
+      top: 36rem;
+      right: 0;
     }
     
   }
@@ -313,17 +311,30 @@
     z-index: 1;
 
     & img {
-      margin: auto;
+      margin: 0;
+      max-width: 443px;
+      max-height: 434px;
+    }
+
+    @include xs {
+      top: 70rem;
+      left: -2rem;
+
+      & img {
+        max-width: 153px;
+        max-height: 153px;
+      }
     }
 
     @include medium {
-      top: 80rem;
-      left: -10rem;
-      z-index: 1;
-      min-width: 42.8rem;
-      min-height: 41.3rem;
-      width: 44.3rem;
-      height: 44.3rem;
+      top: 95rem;
+      left: -1rem;
+
+      & img {
+        max-width: 153px;
+        max-height: 153px;
+      }
+   
     }
 
     @include large {
@@ -334,42 +345,52 @@
 
     @include xl {
       z-index: 1;
-      top: 80rem;
-      left: 0;
-    }
-
-    @include xs {
-      top: 45rem;
+      top: 108rem;
       left: 0;
     }
   }
 
   &__brand-shape_3 {
     position: absolute;
-    min-width: 34.1rem;
-    min-height: 34.1rem;
-    width: 35.6rem;
-    height: 35.6rem;
     display: flex;
 
     & img {
-      margin: auto;
+      margin: 0;
+      max-width: 356px;
+      max-height: 330px;
     }
 
     @include xs {
       z-index: 0;
+      right: -1rem;
+      bottom: 20rem;
+
+      & img {
+        max-width: 182px;
+        max-height: 144px;
+      }
+    }
+
+    @include medium {
+      z-index: 0;
       right: 0;
-      bottom: 0;
-      min-width: 18.2rem;
-      min-height: 14.4rem;
-      width: 18.2rem;
-      height: 14.4rem;
+      bottom: 2rem;
+
+      & img {
+        max-width: 182px;
+        max-height: 144px;
+      }
     }
 
     @include large {
       z-index: 0;
-      right: -5rem;
-      width: 48rem;
+      right: 0;
+    }
+
+    @include xl {
+      z-index: 0;
+      right: 0;
+      bottom: 20rem;
     }
   }
 
