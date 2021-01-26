@@ -33,15 +33,16 @@ class NodeLBComponentIterator implements \IteratorAggregate {
     if (!$this->node->hasField('layout_builder__layout')) {
       yield from [];
     }
+    else {
+      /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layoutBuilderField */
+      $layoutBuilderField = $this->node->get('layout_builder__layout');
+      /** @var \Drupal\layout_builder\Section[] $sections */
+      $sections = $layoutBuilderField->getSections();
 
-    /** @var \Drupal\layout_builder\Field\LayoutSectionItemList $layoutBuilderField */
-    $layoutBuilderField = $this->node->get('layout_builder__layout');
-    /** @var \Drupal\layout_builder\Section[] $sections */
-    $sections = $layoutBuilderField->getSections();
-
-    foreach ($sections as $section) {
-      foreach ($section->getComponents() as $component) {
-        yield $component;
+      foreach ($sections as $section) {
+        foreach ($section->getComponents() as $component) {
+          yield $component;
+        }
       }
     }
   }
