@@ -8,7 +8,7 @@ heading: 'Dove caramel soft bread pudding'
 heading_level: 3
 heading_base_class: 'recommendations-card-heading'
 
-button_text: 'see details'
+button_text: 'SEE DETAILS'
 button_modifiers: ['small']
 button_link_attributes:
   href: 'https://storybook.js.org/'
