@@ -142,10 +142,13 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $node = $this->nodeStorage->load($this->configuration['article']);
     }
 
+    $label_config = $this->configFactory->get('mars_common.site_labels');
+    $published_label = $label_config->get('article_published');
+
     $build = [
       '#label' => $node->label(),
       '#eyebrow' => $this->languageHelper->translate($this->configuration['eyebrow']),
-      '#publication_date' => $node->isPublished() ? $this->languageHelper->translate('Published') . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
+      '#publication_date' => $node->isPublished() ? $this->languageHelper->translate($published_label) . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 
     $media_id = $this->mediaHelper->getEntityMainMediaId($node);

@@ -269,12 +269,12 @@ class ArticleHeaderTest extends UnitTestCase {
     $this->articleHeaderBlock->setContext('node', $nodeContext);
 
     $this->configFactoryMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('get')
       ->willReturn($this->immutableConfigMock);
 
     $this->immutableConfigMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('get')
       ->willReturn(self::TEST_SOCIAL_CONFIG);
 
