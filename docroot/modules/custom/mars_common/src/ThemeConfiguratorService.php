@@ -599,7 +599,7 @@ class ThemeConfiguratorService {
           'capitalize' => $this->t('Capitalized'),
           'uppercase' => $this->t('Uppercased'),
         ],
-        '#default_value' => $this->getData('card_grid', 'facets_text_transform', $config),
+        '#default_value' => $this->getData('card_grid', 'facets_text_transform', $config) ?? 'uppercase',
       ];
     }
 
