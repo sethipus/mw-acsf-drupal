@@ -16,6 +16,11 @@ class MarsCardColorSettingsForm extends ConfigFormBase {
 
   use SelectBackgroundColorTrait;
 
+  /**
+   * Pages data.
+   *
+   * @var array
+   */
   private $pages = [
     'recipe' => [
       'name' => 'Recipe',
