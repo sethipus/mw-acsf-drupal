@@ -162,6 +162,7 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     $build['#ingredients_measure'] = $this->languageHelper->translate($label_config->get('recipe_details_ingredients_measurement'));
     $build['#number_of_servings_label'] = $this->languageHelper->translate($label_config->get('recipe_details_servings'));
     $build['#number_of_servings_measure'] = $this->languageHelper->translate($label_config->get('recipe_details_servings_measurement'));
+    $build['#social_text'] = $this->languageHelper->translate($label_config->get('article_recipe_share'));
 
     if (
       $node->hasField('field_recipe_video') &&

@@ -316,6 +316,7 @@ class ArticleHeaderTest extends UnitTestCase {
     $this->assertArrayHasKey('url', $block_build['#image']);
     $this->assertArrayHasKey('social', $block_build['#social_links']);
     $this->assertArrayHasKey('icon', $block_build['#social_links']['social']);
+    $this->assertArrayHasKey('#share_text', $block_build);
   }
 
   /**

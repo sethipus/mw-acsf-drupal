@@ -144,10 +144,12 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
     $label_config = $this->configFactory->get('mars_common.site_labels');
     $published_label = $label_config->get('article_published');
+    $share_text = $label_config->get('article_recipe_share');
 
     $build = [
       '#label' => $node->label(),
       '#eyebrow' => $this->languageHelper->translate($this->configuration['eyebrow']),
+      '#share_text' => $this->languageHelper->translate($share_text),
       '#publication_date' => $node->isPublished() ? $this->languageHelper->translate($published_label) . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 

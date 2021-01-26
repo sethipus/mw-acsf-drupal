@@ -283,6 +283,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->assertArrayHasKey('#ingredients_measure', $build);
     $this->assertArrayHasKey('#number_of_servings_label', $build);
     $this->assertArrayHasKey('#number_of_servings_measure', $build);
+    $this->assertArrayHasKey('#social_text', $build);
     $this->assertArrayHasKey('#image', $build);
   }
 
