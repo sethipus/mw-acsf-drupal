@@ -97,6 +97,7 @@ Drupal.behaviors.searchFilterBehaviour = {
         const grid = getGridBlock(event);
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+        event.target.closest('.filter-block').querySelector('.filter-title').focus();
         updateCounters(grid);
         processFilters(getGridBlock(event));
       });
