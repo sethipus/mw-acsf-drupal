@@ -264,7 +264,6 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#type' => 'textfield',
       '#title' => $this->t('Featured Recipe'),
       '#maxlength' => 55,
-      '#required' => TRUE,
       '#default_value' => $config['block_title'] ?? $this->t('Featured Recipe'),
     ];
 
