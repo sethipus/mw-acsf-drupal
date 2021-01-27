@@ -17,6 +17,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
   use StringTranslationTrait;
 
+  /*
+   * Quite a big value in case of query without limit.
+   */
+  const SEARCH_LIMIT_NO_LIMIT = 999999;
+
   /**
    * The entity type manager service.
    *
@@ -142,7 +147,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         // Overriding some default options with FAQ specific values.
         // Overriding first condition from getDefaultOptions().
         $searchOptions['conditions'][0] = ['type', 'faq', '=', TRUE];
-        $searchOptions['limit'] = 4;
+        $searchOptions['limit'] = $this->getFaqLimit($searchOptions);
         $searchOptions['sort'] = [
           'faq_item_queue_weight' => 'ASC',
           'created' => 'DESC',
@@ -180,12 +185,30 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   }
 
   /**
+   * Get search limit for the faq list.
+   *
+   * @param array $searchOptions
+   *   Search options.
+   *
+   * @return int|string
+   *   Limit.
+   */
+  private function getFaqLimit(array $searchOptions) {
+    return (isset($searchOptions['offset']) && $searchOptions['offset'] != 0)
+      ? self::SEARCH_LIMIT_NO_LIMIT
+      : 4;
+  }
+
+  /**
    * {@inheritdoc}
    */
-  public function buildSearchFacets(array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+  public function buildSearchFacets(string $grid_type, array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     $build = [];
     // Getting default search options.
     $facetOptions = $this->searchQueryParser->parseQuery($grid_id);
+    if ($grid_type == 'grid') {
+      $facetOptions = $this->searchQueryParser->parseFilterPreset($facetOptions, $config);
+    }
     unset($facetOptions['limit']);
 
     if (!empty($config)) {

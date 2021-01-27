@@ -12,7 +12,6 @@
     max-width: 230px;
     flex-grow: 0;
     border: none;
-    cursor: pointer;
 
     &:first-child {
       .filter-title {
@@ -37,6 +36,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      cursor: pointer;
 
       &::before {
         content: '';
@@ -51,11 +51,12 @@
       }
     }
 
-    .filter-checkboxes {
+    &__checkboxes {
       position: absolute;
       z-index: 1;
       padding: 0 12px;
       box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+      background-color: clr(subcolor-3);
       border-radius: 10px;
       display: none;
       width: 230px;
@@ -79,9 +80,8 @@
         }
       }
 
-      .filter-checkboxes {
+      .filter-block__checkboxes {
         display: block;
-        background-color: clr(subcolor-3);
       }
     }
   }
