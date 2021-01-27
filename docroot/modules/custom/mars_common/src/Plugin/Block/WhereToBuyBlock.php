@@ -175,7 +175,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function build() {
     $build['#theme'] = 'where_to_buy_block';
 
-    $commerceVendor = $this->configuration['commerce_vendor'];
+    $commerceVendor = $this->getCommerceVendor();
     $build['#widget_id'] = $this->configuration['widget_id'];
     $build['#commerce_vendor'] = $commerceVendor;
 

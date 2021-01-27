@@ -8,4 +8,11 @@ module.exports = function (twigInstance) {
       return value
     }
   )
+  twigInstance.extendFunction('create_attribute', function (value) {
+      if (typeof (value) === "undefined" || value === null) {
+        return {};
+      }
+      return value
+    }
+  )
 }
