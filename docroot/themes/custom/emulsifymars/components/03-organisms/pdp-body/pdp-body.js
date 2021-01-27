@@ -16,45 +16,45 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         } else {
           obj[key] = value;
         }
-    
+
         return obj;
       }
-    
+
       function _objectSpread(target) {
         for (var i = 1; i < arguments.length; i++) {
           var source = arguments[i] != null ? arguments[i] : {};
           var ownKeys = Object.keys(source);
-    
+
           if (typeof Object.getOwnPropertySymbols === 'function') {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
               return Object.getOwnPropertyDescriptor(source, sym).enumerable;
             }));
           }
-    
+
           ownKeys.forEach(function (key) {
             _defineProperty(target, key, source[key]);
           });
         }
-    
+
         return target;
       }
-    
+
       function _toConsumableArray(arr) {
         return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
       }
-    
+
       function _arrayWithoutHoles(arr) {
         if (Array.isArray(arr)) {
           for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-    
+
           return arr2;
         }
       }
-    
+
       function _iterableToArray(iter) {
         if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
       }
-    
+
       function _nonIterableSpread() {
         throw new TypeError("Invalid attempt to spread non-iterable instance");
       }
@@ -72,16 +72,16 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           },
           onSnapWait: 50
         }, options);
-    
+
         var items = _toConsumableArray(document.querySelectorAll(selector));
 
         var positions = [];
         var currentlySnapped;
         var snapTimeout;
         var isScrolling;
-    
+
         var getPositions = function getPositions() {
-          
+
           positions = items.map(function (item) {
             return {
               offset: $(item).is(":visible") ? item.getBoundingClientRect().top + window.scrollY - offsetPaddingCalc(item) : -5000,
@@ -89,7 +89,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             };
           });
         };
-    
+
         var animatedScrollTo = function animatedScrollTo() {
           var scrollTargetY = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
           var callback = arguments.length > 1 ? arguments[1] : undefined;
@@ -97,12 +97,12 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
               scrollY = _window.scrollY;
           var currentTime = 0;
           var time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / defaults.duration, 0.4));
-    
+
           var tick = function tick() {
             currentTime += 1 / 60;
             var p = currentTime / time;
             var t = defaults.easing(p);
-    
+
             if (p < 1) {
               requestAnimationFrame(tick);
               window.scrollTo(0, scrollY + (scrollTargetY - scrollY) * t);
@@ -111,10 +111,10 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
               callback();
             }
           };
-    
+
           tick();
         };
-    
+
         var snapToElement = function snapToElement() {
           var _window2 = window,
               scrollY = _window2.scrollY;
@@ -122,7 +122,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             return element.offset - defaults.proximity <= scrollY && element.offset + defaults.proximity >= scrollY;
           });
           clearTimeout(snapTimeout);
-    
+
           if (snapElement && !isScrolling && snapElement != currentlySnapped) {
             snapTimeout = setTimeout(function () {
               isScrolling = true;
@@ -133,27 +133,27 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             }, defaults.onSnapWait);
           }
         };
-    
+
         var recalculateLayout = function recalculateLayout() {
           getPositions();
           snapToElement();
         };
-    
+
         var bindEvents = function bindEvents() {
           window.addEventListener('resize', recalculateLayout);
           window.addEventListener('scroll', snapToElement);
         };
-    
+
         var destroy = function destroy() {
           window.removeEventListener('resize', recalculateLayout);
           window.removeEventListener('scroll', snapToElement);
         };
-    
+
         var init = function init() {
           getPositions();
           bindEvents();
         };
-    
+
         init();
         return {
           init: init,

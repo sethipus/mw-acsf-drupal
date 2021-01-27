@@ -47,7 +47,7 @@
         window.addEventListener('DOMContentLoaded', listener);
         window.addEventListener('scroll', listener);
         window.addEventListener('resize', listener);
-      })
+      });
     }
-  }
+  };
 })(jQuery, Drupal);
