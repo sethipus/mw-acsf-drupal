@@ -152,8 +152,10 @@ Drupal.behaviors.overlayVideoPlayer = {
       if (type == 'playpause') {
         if (videoElements('video').paused || videoElements('video').ended) {
           videoElements('playpause').setAttribute('data-state', 'play');
+          videoElements(type).setAttribute('aria-label', Drupal.t('Play'));
         } else {
           videoElements('playpause').setAttribute('data-state', 'pause');
+          videoElements(type).setAttribute('aria-label', Drupal.t('Pause'));
         }
       }
       // Mute button

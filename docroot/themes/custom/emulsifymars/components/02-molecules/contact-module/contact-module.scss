@@ -1,20 +1,23 @@
 .contact-module {
   background-color: clr(subcolor-2);
-  border-top: 5px solid clr(secondary);
   margin-top: 4rem;
   position: relative;
   overflow: hidden;
 
   @include xs {
     padding: 5rem 2rem 4rem 2rem;
+    border-top: 5px solid clr(secondary);
   }
 
   @include medium {
-    padding: 6rem 4rem;
+    padding: 6rem 4rem 6.4rem;
+    border-top: 8px solid clr(secondary);
   }
 
   @include large {
-    padding: 8rem 15.5rem;
+    padding: 8rem 15.5rem 8.5rem;
+    border-top: 12px solid clr(secondary);
+    max-height: 534px;
   }
 
   &__brand-shape {
@@ -62,16 +65,18 @@
     @include xs {
       font-size: 2.8rem;
       line-height: 2.8rem;
-      margin-bottom: 3rem;
+      margin: 0 0 3rem 0;
     }
 
     @include medium {
       font-size: 4rem;
+      font-weight: 500;
       line-height: 4rem;
     }
 
     @include large {
       font-size: 4.8rem;
+      font-weight: 500;
       line-height: 4.8rem;
       max-width: 782px;
     }
@@ -90,7 +95,7 @@
     @include large {
       font-size: 1.8rem;
       line-height: 2.52rem;
-      margin-bottom: 6rem;
+      margin: 0 0 6.2rem;
       max-width: 782px;
     }
   }
@@ -101,7 +106,12 @@
     }
 
     @include medium {
-      margin-bottom: 6rem;
+      height: 5rem;
+      margin-bottom: 6.3rem;
+    }
+
+    @include large {
+      height: 6rem;
     }
   }
 
@@ -109,8 +119,12 @@
     display: flex;
 
     .social-menu {
+      margin: 0;
       .social-menu__item {
-        margin-right: 2rem;
+        margin-right: 4rem;
+      }
+      .social-menu__item:last-child {
+        margin-right: 0;
       }
     }
 
@@ -121,13 +135,17 @@
     @include medium {
       flex-direction: row;
     }
+
+    @include large {
+      height: 2.2rem;
+    }
   }
 
   &__social-heading {
     font-family: variable(primary-font);
     color: clr(primary);
     text-transform: uppercase;
-    margin-right: 4rem;
+    margin: 0 4rem 0 0;
 
     @include xs {
       font-size: 1.6rem;
@@ -136,12 +154,13 @@
 
     @include medium {
       font-size: 1.8rem;
-      line-height: 1.98rem;
+      line-height: 1.1;
+      height: 2.2rem;
     }
 
     @include large {
       font-size: 2rem;
-      line-height: 2.2rem;
+      font-weight: 500;
     }
   }
 
@@ -158,7 +177,7 @@
     @include medium {
       font-size: 1.6rem;
       margin-right: 3.2rem;
-      line-height: 6rem;
+      line-height: 5rem;
     }
 
     &__label {

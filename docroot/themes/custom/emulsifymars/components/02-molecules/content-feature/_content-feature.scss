@@ -5,12 +5,17 @@
   background-position: center center;
   background-size: cover;
 
+  @include medium {
+    padding: 8rem 2rem 7.2rem 2rem;
+  }
+
   &__content {
     position: relative;
   }
 
   & .eyebrow {
     font-family: variable(primary-font);
+    margin-top: 0;
 
     @include xs {
       font-size: 1.4rem;

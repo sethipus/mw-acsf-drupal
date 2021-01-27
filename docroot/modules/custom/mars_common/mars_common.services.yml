@@ -18,6 +18,10 @@ services:
     class: Drupal\mars_common\MediaHelper
     arguments: [ '@entity_type.manager', '@mars_product.product_helper', '@mars_common.language_helper']
 
+  mars_common.menu_builder:
+    class: Drupal\mars_common\MenuBuilder
+    arguments: ['@menu.link_tree']
+
   mars_common.media_helper_twig_filters:
     class: Drupal\mars_common\Twig\MediaHelperFilters
     arguments:
