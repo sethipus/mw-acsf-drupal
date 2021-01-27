@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -54,6 +55,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $termStorage;
 
   /**
+   * Config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $config;
+
+  /**
    * Menu builder service.
    *
    * @var \Drupal\mars_common\MenuBuilder
@@ -84,13 +92,15 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     EntityTypeManagerInterface $entity_type_manager,
     LanguageHelper $language_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    MenuBuilder $menu_builder
+    MenuBuilder $menu_builder,
+    ConfigFactoryInterface $config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageHelper = $language_helper;
     $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
+    $this->config = $config;
     $this->menuBuilder = $menu_builder;
   }
 
@@ -105,7 +115,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('entity_type.manager'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('mars_common.menu_builder')
+      $container->get('mars_common.menu_builder'),
+      $container->get('config.factory')
     );
   }
 
@@ -132,6 +143,12 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       'href' => $conf['corporate_tout']['url'],
       'name' => $build['#corporate_tout_text'],
     ];
+
+    $label_config = $this->config->get('mars_common.site_labels');
+    $region_title = $label_config->get('header_search_overlay_close');
+    $social_header = $label_config->get('footer_social_header');
+    $build['#region_title'] = $this->languageHelper->translate($region_title);
+    $build['#social_header'] = $this->languageHelper->translate($social_header);
 
     $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {
@@ -170,6 +187,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       ->merge(
         $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
       )
+      ->addCacheableDependency($label_config)
       ->applyTo($build);
 
     $build['#theme'] = 'footer_block';

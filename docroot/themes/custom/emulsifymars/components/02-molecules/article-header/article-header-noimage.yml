@@ -3,7 +3,7 @@ curve: 'article-header-wave-no-image.svg'
 eyebrow: '#SHESINBUSINESS'
 heading: 'Celebrating International Women’s Day'
 date_published: 'Published July 7, 2020'
-share_text: 'Share'
+share_text: 'SHARE'
 shape: '<svg xmlns="http://www.w3.org/2000/svg" width="425" height="36" viewBox="0 0 425 36" preserveAspectRatio="xMidYMid meet">
   <path d="M133.523 11.316C54.432 21.853 11.553 13.652 0 8.234v27.183h425V15.8C357.955-7.18 232.386-1.855 133.523 11.316z"></path>
   </svg>'

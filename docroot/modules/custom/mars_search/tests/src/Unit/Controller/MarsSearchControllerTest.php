@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Field\FieldItemList;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Controller\MarsSearchController;
 use Drupal\mars_search\Processors\SearchBuilder;
 use Drupal\mars_search\Processors\SearchHelperInterface;
@@ -136,6 +137,13 @@ class MarsSearchControllerTest extends UnitTestCase {
   private $immutableConfigMock;
 
   /**
+   * Theme configurator parser mock.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $themeConfiguratorParserMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -173,7 +181,8 @@ class MarsSearchControllerTest extends UnitTestCase {
       $this->rendererMock,
       $this->searchProcessFactoryMock,
       $this->requestStackMock,
-      $this->entityTypeManagerMock
+      $this->entityTypeManagerMock,
+      $this->themeConfiguratorParserMock
     );
   }
 
@@ -182,7 +191,7 @@ class MarsSearchControllerTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('get')
       ->willReturnMap(
         [
@@ -205,6 +214,11 @@ class MarsSearchControllerTest extends UnitTestCase {
             'entity_type.manager',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->entityTypeManagerMock,
+          ],
+          [
+            'mars_common.theme_configurator_parser',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->themeConfiguratorParserMock,
           ],
         ]
       );
@@ -365,6 +379,7 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
     $this->searchBuilderMock = $this->createMock(SearchBuilder::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
+    $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 
 }

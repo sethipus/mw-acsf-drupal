@@ -62,8 +62,8 @@
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Time'|mt }}</div>
-          <div class="recipe-details-item__value">{{ recipe_cooking_time ~ ' mins'|mt}}</div>
+          <div class="recipe-details-item__label">{{ recipe_cooking_time_label|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_cooking_time ~ ' ' ~ recipe_cooking_time_measure|mt}}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -76,8 +76,8 @@
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Ingredients'|mt }}</div>
-          <div class="recipe-details-item__value">{{ recipe_ingredients_number ~ ' items'|mt}}</div>
+          <div class="recipe-details-item__label">{{ recipe_ingredients_label|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_ingredients_number ~ ' ' ~ recipe_ingredients_measure |mt}}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -90,8 +90,8 @@
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Makes'|mt }}</div>
-          <div class="recipe-details-item__value">{{ recipe_number_of_servings ~ ' servings'|mt}}</div>
+          <div class="recipe-details-item__label">{{ recipe_number_of_servings_label|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_number_of_servings ~ ' ' ~ recipe_number_of_servings_measure|mt}}</div>
         </div>
       </div>
     </div>
@@ -100,7 +100,7 @@
 <div class="recipe-info" data-theme="{{ theme_styles }}">
   <div class="recipe-info__text">{{ recipe_description_text }}</div>
   <div class="recipe-info__social">
-    <div class="recipe-info__social-text">{{ 'Share' | mt }}</div>
+    <div class="recipe-info__social-text">{{ social_text }}</div>
     {% block recipe_social_menu %}
       {% include "@molecules/menus/social/social-menu.twig" with {
         social_menu_items: social_menu_items,

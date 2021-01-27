@@ -133,6 +133,7 @@ function mars_common_preprocess_node__product__card(array &$variables) {
   product_card_add_bazaarvoice_vars($variables);
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
+  product_card_add_labels($variables);
   product_card_change_color($variables);
 }
 
@@ -144,6 +145,7 @@ function mars_common_preprocess_node__product_multipack__card(array &$variables)
   product_card_add_bazaarvoice_vars($variables);
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
+  product_card_add_labels($variables);
   product_card_change_color($variables);
 }
 
@@ -248,6 +250,18 @@ function product_card_add_datalayer_vars(array &$variables) {
     }
   }
   $variables['datalayer_taxonomy'] = Json::encode($ga_taxonomy_data);
+}
+
+/**
+ * Add the configured labels to cards.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_labels(array &$variables) {
+  card_add_badge_text($variables);
+  card_add_button_label($variables, 'product_card_button');
+  add_cache_by_label_config($variables);
 }
 
 /**

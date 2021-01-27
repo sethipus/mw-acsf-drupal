@@ -20,8 +20,14 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'label' => NULL,
         'description' => NULL,
         'cooking_time' => NULL,
+        'cooking_time_label' => NULL,
+        'cooking_time_measure' => NULL,
         'ingredients_number' => NULL,
+        'ingredients_label' => NULL,
+        'ingredients_measure' => NULL,
         'number_of_servings' => NULL,
+        'number_of_servings_label' => NULL,
+        'number_of_servings_measure' => NULL,
         'image' => NULL,
         'video' => NULL,
         'social_links' => NULL,
@@ -31,6 +37,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'brand_shape_enabled' => NULL,
         'brand_shape' => NULL,
         'select_background_color' => NULL,
+        'social_text' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
     ],
@@ -39,6 +46,8 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'ingredients_list' => NULL,
         'nutrition_module' => NULL,
         'product_used_items' => NULL,
+        'ingredients_used_label' => NULL,
+        'products_used_label' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-body',
     ],
@@ -101,4 +110,7 @@ function mars_recipes_field_widget_form_alter(
 function mars_recipes_preprocess_node__recipe__card(array &$variables) {
   $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_recipe');
   card_change_color($variables, $color_key);
+  card_add_badge_text($variables);
+  card_add_button_label($variables, 'recipe_card_button');
+  add_cache_by_label_config($variables);
 }
