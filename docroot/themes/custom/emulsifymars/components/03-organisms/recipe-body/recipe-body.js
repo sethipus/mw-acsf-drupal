@@ -10,15 +10,26 @@
         }, 200));
 
         function adaptProductUsedBlock(productUsedPinned) {
-          const smallScreen = window.innerWidth < 1440;
+          const smallScreen = window.innerWidth < 1280;
+          const fullscreenElementsSelector = '.footer, .recommendations, .flexible-framer';
           let $productUsed = $('.product-used', this);
+let $recipeInfo = $('.recipe-info', this);
 
+          // find the first element from list on the page
+          let $firstFullwidth = $(fullscreenElementsSelector).first();
           if (smallScreen && productUsedPinned) {
             $productUsed.css('margin-top', 0);
+            $firstFullwidth.css('margin-top', 0);
             return false;
           } else if (!smallScreen && !productUsedPinned) {
             let $adjacentElement = $('.recipe-info', this).outerHeight(true);
             $productUsed.css('margin-top', '-' + $adjacentElement + 'px');
+
+            if ($firstFullwidth.length && $recipeInfo.length) {
+              let productUsedPlaceholderHeight = $productUsed.outerHeight() - ($firstFullwidth.offset().top - $recipeInfo.offset().top);
+              $firstFullwidth.css('margin-top', productUsedPlaceholderHeight > 0 ? productUsedPlaceholderHeight + 100 : 0 + 'px');
+            }
+
             return true;
           }
 
