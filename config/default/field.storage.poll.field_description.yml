@@ -9,7 +9,7 @@ field_name: field_description
 entity_type: poll
 type: string
 settings:
-  max_length: 100
+  max_length: 255
   is_ascii: false
   case_sensitive: false
 module: core
