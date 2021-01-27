@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -24,6 +25,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use SelectBackgroundColorTrait;
 
   /**
    * Mars Media Helper service.
@@ -202,6 +204,9 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       ];
     }
 
+    // Add select background color.
+    $this->buildSelectBackground($form);
+
     return $form;
   }
 
@@ -317,6 +322,15 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
     $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
 
+    $background_color = '';
+    if ($this->configuration['select_background_color'] != 'default' &&
+      !empty($this->configuration['select_background_color']) &&
+      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    ) {
+      $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
+
+    $build['#select_background_color'] = $background_color;
     $build['#items'] = $ff_items;
     $build['#grid_type'] = 'card';
     $build['#item_type'] = 'card';
