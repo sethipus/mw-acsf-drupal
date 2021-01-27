@@ -145,7 +145,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     ];
 
     $label_config = $this->config->get('mars_common.site_labels');
-    $region_title = $label_config->get('header_search_overlay_close');
+    $region_title = $label_config->get('footer_region');
     $social_header = $label_config->get('footer_social_header');
     $build['#region_title'] = $this->languageHelper->translate($region_title);
     $build['#social_header'] = $this->languageHelper->translate($social_header);
