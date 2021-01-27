@@ -53,7 +53,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   private $configuration = [
     'title' => 'Flexible driver',
     'description' => 'Description',
-    'select_background_color' => ''
+    'select_background_color' => '',
   ];
 
   /**
