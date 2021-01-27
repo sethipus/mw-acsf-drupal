@@ -13,4 +13,4 @@
       })
     },
   };
-})(jQuery, Drupal)
+})(jQuery, Drupal);
