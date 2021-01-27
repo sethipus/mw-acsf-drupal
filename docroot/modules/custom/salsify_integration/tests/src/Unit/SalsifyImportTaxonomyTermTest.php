@@ -240,7 +240,7 @@ class SalsifyImportTaxonomyTermTest extends UnitTestCase {
       ->willReturn('value');
 
     $this->queryMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('condition')
       ->willReturnSelf();
 

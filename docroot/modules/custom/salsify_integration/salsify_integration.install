@@ -92,3 +92,23 @@ function salsify_integration_update_8003() {
     $variant->save();
   }
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Empty field_product_occasions at products and product multipacks.
+ */
+function salsify_integration_update_8004() {
+  $storage_handler = \Drupal::entityTypeManager()->getStorage('node');
+  $product_entities = $storage_handler->loadByProperties(['type' => 'product']);
+  foreach ($product_entities as $product_entity) {
+    $product_entity->set('field_product_occasions', NULL);
+    $product_entity->save();
+  }
+
+  $multipack_entities = $storage_handler->loadByProperties(['type' => 'product_multipack']);
+  foreach ($multipack_entities as $multipack_entity) {
+    $multipack_entity->set('field_product_occasions', NULL);
+    $multipack_entity->save();
+  }
+}
