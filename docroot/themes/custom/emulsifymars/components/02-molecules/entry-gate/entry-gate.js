@@ -97,8 +97,8 @@ import moment from 'moment';
         dayInput.focus();
 
         dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
-        monthInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
-        yearInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 4));
+        monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
+        yearInput.once('entryGate').on('keypress', e => checkValueLength(e, yearInput, 4));
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
