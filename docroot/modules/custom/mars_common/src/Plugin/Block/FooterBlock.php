@@ -189,6 +189,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       ->merge(
         $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
       )
+      ->addCacheableDependency($label_config)
       ->applyTo($build);
 
     $build['#theme'] = 'footer_block';

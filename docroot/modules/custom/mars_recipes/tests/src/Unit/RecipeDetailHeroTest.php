@@ -156,7 +156,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
       ->method('translate')
       ->willReturn('test');
 
-    $this->configMock
+    $this->configFactoryMock
       ->expects($this->any())
       ->method('get')
       ->willReturn($this->createMock(Config::class));
@@ -175,8 +175,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
       $this->tokenMock,
       $this->themeConfiguratorParserMock,
       $this->mediaHelperMock,
-      $this->languageHelperMock,
-      $this->configMock
+      $this->languageHelperMock
     );
 
     $this->themeSettings = [
@@ -205,7 +204,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(7))
+      ->expects($this->exactly(6))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('entity_type.manager')],
@@ -213,8 +212,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
         [$this->equalTo('token')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
         [$this->equalTo('mars_common.media_helper')],
-        [$this->equalTo('mars_common.language_helper')],
-        [$this->equalTo('config.factory')]
+        [$this->equalTo('mars_common.language_helper')]
       )
       ->will($this->onConsecutiveCalls(
         $this->entityTypeManagerMock,
@@ -223,7 +221,6 @@ class RecipeDetailHeroTest extends UnitTestCase {
         $this->themeConfiguratorParserMock,
         $this->mediaHelperMock,
         $this->languageHelperMock,
-        $this->configMock
       ));
 
     $this->entityTypeManagerMock
@@ -299,7 +296,6 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->tokenMock = $this->createMock(Token::class);
-    $this->configMock = $this->createMock(ConfigFactoryInterface::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 

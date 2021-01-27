@@ -3,6 +3,7 @@
 namespace Drupal\mars_recipes\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
@@ -113,7 +114,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
     $ingredients_used_label = $label_config->get('recipe_body_ingredients_used');
     $products_used_label = $label_config->get('recipe_body_products_used');
 
-    return [
+    $build = [
       '#ingredients_list' => $ingredients_list,
       '#nutrition_module' => $node->field_recipe_nutrition_module->value,
       '#product_used_items' => $product_used_items,
@@ -121,6 +122,12 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       '#products_used_label' => $this->languageHelper->translate($products_used_label),
       '#theme' => 'recipe_detail_body_block',
     ];
+
+    $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
+    $cacheMetadata->addCacheableDependency($label_config);
+    $cacheMetadata->applyTo($build);
+
+    return $build;
   }
 
   /**
