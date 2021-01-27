@@ -186,7 +186,10 @@ class RecipeDetailHeroTest extends UnitTestCase {
     ];
 
     $this->recipeHeroBlock = new RecipeDetailHero(
-      ['social_links_toggle' => FALSE],
+      [
+        'social_links_toggle' => FALSE,
+        'select_background_color' => '',
+      ],
       'recipe_detail_hero',
       $definitions,
       $this->entityTypeManagerMock,

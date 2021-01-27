@@ -32,6 +32,7 @@ ignored_config_entities:
   - mars_product.wtb.settings
   - mars_common.site_labels
   - 'core.entity_view_display.node.*'
+  - card_color.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true

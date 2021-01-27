@@ -8,6 +8,7 @@
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\Entity\BaseFieldOverride;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 
 /**
  * Implements hook_theme().
@@ -35,6 +36,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'use_custom_color' => NULL,
         'brand_shape_enabled' => NULL,
         'brand_shape' => NULL,
+        'select_background_color' => NULL,
         'social_text' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-detail-hero',
@@ -106,6 +108,8 @@ function mars_recipes_field_widget_form_alter(
  * Implements hook_preprocess_HOOK().
  */
 function mars_recipes_preprocess_node__recipe__card(array &$variables) {
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_recipe');
+  card_change_color($variables, $color_key);
   card_add_badge_text($variables);
   card_add_button_label($variables, 'recipe_card_button');
   add_cache_by_label_config($variables);
