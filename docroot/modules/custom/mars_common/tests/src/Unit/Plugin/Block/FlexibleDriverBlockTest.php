@@ -53,6 +53,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   private $configuration = [
     'title' => 'Flexible driver',
     'description' => 'Description',
+    'select_background_color' => '',
   ];
 
   /**
@@ -135,7 +136,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
 
     $build = $this->flexibleDriverBlock->build();
 
-    $this->assertCount(7, $build);
+    $this->assertCount(8, $build);
     $this->assertEquals('flexible_driver_block', $build['#theme']);
     $this->assertEquals($this->configuration['title'], $build['#title']);
     $this->assertEquals($this->configuration['description'], $build['#description']);

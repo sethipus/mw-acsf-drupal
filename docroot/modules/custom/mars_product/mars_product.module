@@ -12,6 +12,7 @@ use Drupal\field\FieldConfigInterface;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 
 /**
  * Implements hook_theme().
@@ -132,6 +133,7 @@ function mars_common_preprocess_node__product__card(array &$variables) {
   product_card_add_bazaarvoice_vars($variables);
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
+  product_card_change_color($variables);
 }
 
 /**
@@ -142,6 +144,7 @@ function mars_common_preprocess_node__product_multipack__card(array &$variables)
   product_card_add_bazaarvoice_vars($variables);
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
+  product_card_change_color($variables);
 }
 
 /**
@@ -258,4 +261,12 @@ function mars_product_form_alter(array &$form, FormStateInterface $form_state, $
       ],
     ];
   }
+}
+
+/**
+ * Product card change color.
+ */
+function product_card_change_color(&$variables) {
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_product');
+  card_change_color($variables, $color_key);
 }
