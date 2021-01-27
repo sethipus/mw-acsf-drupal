@@ -472,7 +472,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => TRUE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'CMS: Category Computed' => 'category1',
+          'CMS: Occasion' => 'everyday',
         ],
         [
           'Bazaarvoice Family ID' => 'Family ID',
@@ -482,7 +482,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => FALSE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'CMS: Category Computed' => 'category1',
+          'CMS: Occasion' => 'everyday',
         ],
         [
           'Bazaarvoice Family ID' => 'Family ID',
@@ -491,7 +491,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => TRUE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'CMS: Category Computed' => 'category1',
+          'CMS: Occasion' => 'everyday',
         ],
       ],
     ]);
