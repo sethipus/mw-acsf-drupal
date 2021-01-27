@@ -12,6 +12,7 @@
             $cardCta.removeClass('default-link--light')
           });
           $productCard.on('click', (e) => {
+            $cardCta.removeClass('default-link--light')
             if (
               !e.target.parentNode.classList.contains('where-to-buy')
             ) {
