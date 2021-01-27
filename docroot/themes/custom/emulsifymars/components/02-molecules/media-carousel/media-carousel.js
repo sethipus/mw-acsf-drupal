@@ -35,4 +35,4 @@ import Swiper, {Navigation, Pagination, Scrollbar, Thumbs, EffectFade} from 'swi
       })
     },
   };
-})(jQuery, Drupal)
+})(jQuery, Drupal);

@@ -170,7 +170,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#type' => 'textarea',
         '#title' => $this->t('Item description'),
         '#default_value' => $config['items'][$key]['description'] ?? '',
-        '#maxlength' => 160,
+        '#maxlength' => 255,
       ];
 
       $item_image = isset($config['items'][$key]['item_image']) ? $config['items'][$key]['item_image'] : NULL;
