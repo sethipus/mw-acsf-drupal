@@ -19,7 +19,7 @@
 {% endif %}
 
 {% set default_link_content_text = 'SEE DETAILS' | mt %}
-{% set product_card_link_attributes = {href: url, 'data-click-name': node.title.value} | merge(attributes) %}
+{% set attributes = attributes | filter((v, k) => role == 'article') %}
 {% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} | merge(attributes) %}
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
