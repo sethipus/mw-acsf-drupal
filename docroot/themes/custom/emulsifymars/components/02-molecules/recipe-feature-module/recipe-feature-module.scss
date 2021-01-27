@@ -1,5 +1,7 @@
 .recipe-feature-block {
   $recipe-feature-desktop-max-height: 567px;
+  $recipe-feature-tablet-max-height: 432px;
+  $recipe-feature-mobile-max-height: 211px;
 
   padding-bottom: 8rem;
 
@@ -64,18 +66,36 @@
   .media {
     position: relative;
     overflow: hidden;
-
     @include large {
       height: $recipe-feature-desktop-max-height;
     }
 
     img, figure {
       width: 100%;
+      height: $recipe-feature-mobile-max-height;
 
+      @include medium {
+        height: $recipe-feature-tablet-max-height;
+      }  
+  
       @include large {
         height: 100%;
         width: 62%;
         object-fit: cover;
+      }
+    }
+
+    .ambient-video__control[data-state="play"] {
+      @include medium {
+        top: 40px;
+        right: calc(5% + 40px);
+      }
+    }
+  
+    .ambient-video__control[data-state="pause"] {
+      @include medium {
+        top: 40px;
+        right: calc(5% + 40px);
       }
     }
 

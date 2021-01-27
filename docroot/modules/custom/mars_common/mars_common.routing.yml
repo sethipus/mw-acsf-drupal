@@ -10,3 +10,11 @@ mars_common.poll.votes:
     parameters:
       poll:
         type: entity:poll
+
+mars_common.card_color_settings:
+  path: '/admin/config/card-color-settings'
+  defaults:
+    _form: '\Drupal\mars_common\Form\MarsCardColorSettingsForm'
+    _title: 'Card Color Settings'
+  requirements:
+    _permission: 'administer site configuration'
