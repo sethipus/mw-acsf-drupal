@@ -3,8 +3,8 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal;
-use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -102,6 +102,13 @@ class FooterBlockTest extends UnitTestCase {
   private $configMock;
 
   /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $immutableConfigMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -164,6 +171,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->termStorageMock = $this->getMockBuilder(stdClass::class)
       ->setMethods(['loadTree'])
       ->getMock();
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
   }
 
   /**
@@ -266,7 +274,19 @@ class FooterBlockTest extends UnitTestCase {
     $this->configMock
       ->expects($this->any())
       ->method('get')
-      ->willReturn($this->createMock(Config::class));
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
 
     $build = $this->footerBlock->build();
 

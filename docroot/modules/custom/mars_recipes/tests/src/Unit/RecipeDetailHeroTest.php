@@ -3,7 +3,7 @@
 namespace Drupal\Tests\mars_recipes\Unit;
 
 use Drupal;
-use Drupal\Core\Config\Config;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailHero;
@@ -115,6 +115,13 @@ class RecipeDetailHeroTest extends UnitTestCase {
   private $languageHelperMock;
 
   /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $immutableConfigMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -159,7 +166,19 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->configFactoryMock
       ->expects($this->any())
       ->method('get')
-      ->willReturn($this->createMock(Config::class));
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
 
     $definitions = [
       'provider' => 'test',
@@ -297,6 +316,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->tokenMock = $this->createMock(Token::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
   }
 
   /**

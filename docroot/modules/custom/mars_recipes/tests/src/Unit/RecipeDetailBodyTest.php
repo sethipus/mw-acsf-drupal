@@ -3,8 +3,8 @@
 namespace Drupal\Tests\mars_recipes\Unit;
 
 use Drupal;
-use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailBody;
 use Drupal\Tests\UnitTestCase;
@@ -64,6 +64,13 @@ class RecipeDetailBodyTest extends UnitTestCase {
    * @var \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
    */
   private $languageHelperMock;
+
+  /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $immutableConfigMock;
 
   /**
    * {@inheritdoc}
@@ -146,7 +153,17 @@ class RecipeDetailBodyTest extends UnitTestCase {
     $this->configMock
       ->expects($this->any())
       ->method('get')
-      ->willReturn($this->createMock(Config::class));
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
 
     $this->languageHelperMock
       ->expects($this->any())
@@ -174,6 +191,7 @@ class RecipeDetailBodyTest extends UnitTestCase {
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->configMock = $this->createMock(ConfigFactoryInterface::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
   }
 
   /**

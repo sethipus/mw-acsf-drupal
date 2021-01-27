@@ -278,6 +278,18 @@ class ArticleHeaderTest extends UnitTestCase {
       ->method('get')
       ->willReturn(self::TEST_SOCIAL_CONFIG);
 
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
+
     $this->containerMock
       ->expects($this->any())
       ->method('get')
