@@ -38,6 +38,8 @@ use Drupal\Core\Cache\Cache;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\mars_common\Constants\MenuConstants;
 use Drupal\mars_common\Constants\SocialMediaConstants;
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_menu_insert().
@@ -212,6 +214,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media_type' => NULL,
         'media_format' => NULL,
         'brand_shape' => NULL,
+        'styles' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -787,6 +790,10 @@ function mars_common_preprocess_node__campaign__card(array &$variables) {
 function mars_common_preprocess_node__landing_page__card(array &$variables) {
   card_add_button_label($variables, 'landing_card_button');
   add_cache_by_label_config($variables);
+  $variables['brand_shape'] = [
+    '#type' => 'inline_template',
+    '#template' => \Drupal::service('mars_common.theme_configurator_parser')->getBrandShapeWithoutFill(),
+  ];
 }
 
 /**
@@ -1503,6 +1510,19 @@ function mars_common_page_attachments(&$page) {
 
   if (in_array($route_name, $supported_routes)) {
     $page['#attached']['library'][] = 'mars_common/mars_common.dialog_fix';
+  }
+
+  $node = $current_route->getParameter('node');
+  if (!empty($node) && $node instanceof NodeInterface) {
+    $show_rating_and_reviews = \Drupal::config('emulsifymars.settings')->get('show_rating_and_reviews');
+    if ($show_rating_and_reviews) {
+      if (EnvironmentDetector::isProdEnv()) {
+        $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
+      }
+      else {
+        $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
+      }
+    }
   }
 }
 

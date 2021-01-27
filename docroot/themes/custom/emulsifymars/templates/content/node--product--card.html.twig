@@ -5,7 +5,6 @@
  */
 #}
 
-{% set main_variant = node | mainVariant %}
 {% set main_media = main_variant | entityMainMediaId | mediaParamsById %}
 {% set product_card_media = main_variant | productCardMedia | mediaParamsById %}
 
@@ -20,7 +19,7 @@
 {% endif %}
 
 {% set default_link_content_text = 'SEE DETAILS' | mt %}
-{% set product_card_link_attributes = {href: url, 'data-click-name': node.title.value} | merge(attributes) %}
+{% set attributes = attributes | filter((v, k) => role == 'article') %}
 {% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} | merge(attributes) %}
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
@@ -37,7 +36,7 @@
   wtb_commerce_vendor: wtb_commerce_vendor,
   wtb_button_type: wtb_button_type,
   wtb_widget_id: wtb_widget_id,
-  product_sku: wtb_product_sku,
+  product_sku: product_sku,
   datalayer_taxonomy: datalayer_taxonomy,
   item: {
     card_url: url,

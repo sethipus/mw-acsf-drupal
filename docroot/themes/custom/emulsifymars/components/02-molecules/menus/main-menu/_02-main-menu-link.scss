@@ -6,12 +6,24 @@
   font-size: 3.6rem;
   font-weight: normal;
   line-height: 1.5;
-  padding: 1.6rem 0.8rem 1.6rem 3rem;
+  padding: 1.6rem 3rem;
   text-decoration: none;
   border: none;
   background: none;
   text-align: left;
-  
+
+  @include xs {
+    &:focus {
+      outline: none;
+    }
+  }
+
+  @include medium {
+    &:focus {
+      outline: none;
+    }
+  }
+
   @include large {
     display: inline-block;
     font-size: 1.8rem;
@@ -51,6 +63,7 @@
   @include xs {
     pointer-events: none;
     top: 5px;
+    right: 20px;
 
     &.main-menu--sub-open {
       transform: translateY(-50%) rotate(180deg);
@@ -75,8 +88,8 @@
 .main-menu__link--sub {
   color: clr(secondary);
   padding-left: $space-triple;
-  font-family: variable(secondary-font);
-  font-weight: normal;
+  font-family: variable(primary-font);
+  font-weight: 500;
   font-size: 1.8rem;
 
   @include medium {
@@ -85,6 +98,7 @@
 
   @include large {
     color: clr(primary);
+    font-family: variable(secondary-font);
     display: block;
     padding: 1.2rem $space-double;
     font-size: 1.4rem;

@@ -50,6 +50,7 @@
         text-transform: uppercase;
         color: clr(primary);
         font-family: variable(primary-font);
+        margin-top: 0;
 
         @include xs {
           font-size: 1.4rem;
@@ -72,6 +73,7 @@
         @include xs {
           font-size: 1.4rem;
           line-height: 1.96rem;
+          margin-bottom: 30px;
         }
 
         @include medium {
@@ -86,6 +88,11 @@
         border-top: 1px solid rgba(196, 196, 196, .6);
         display:  flex;
         flex-flow: row nowrap;
+
+        @include xs {
+          padding-top: 30px;
+          padding-bottom: 35px;
+        }
 
         & .share-text {
           font-style: normal;
@@ -173,7 +180,6 @@
 
   &__border {
     position: relative;
-    bottom: (-$brand-border-offset);
     width: 100%;
 
     svg {
@@ -182,17 +188,35 @@
       height: auto;
       fill: clr(subcolor-3);
     }
+
+    @include xs {
+      bottom: 2rem;
+    }
+
+    @include medium {
+      bottom: 0.5rem;
+    }
+
+    @include large {
+      bottom: (-$brand-border-offset);
+    }
   }
 
   &__inner {
     position: relative;
     z-index: 2;
 
+    @include xs {
+      max-height: 326px;
+    }
+
     @include medium {
+      max-height: 388px;
       background-size: 40% auto;
     }
 
     @include large {
+      max-height: 100%;
       background-size: 48% auto;
     }
   }
@@ -203,17 +227,17 @@
     display: block;
     
     @include xs {
-      top: 0;
-      right: -13rem;
-      width: 36rem;
-      height: 36rem;
+      top: 1rem;
+      right: -7rem;
+      width: 28rem;
+      height: 26rem;
     }
 
     @include medium {
-      top: -5rem;
-      right: -15rem;
-      width: 50rem;
-      height: 50rem;
+      top: -5.5rem;
+      right: -11rem;
+      width: 49rem;
+      height: 44rem;
     }
 
     @include large {

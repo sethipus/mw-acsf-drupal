@@ -8,13 +8,10 @@ use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Template\Attribute;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,12 +25,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
-  /**
-   * Menu link tree.
-   *
-   * @var \Drupal\Core\Menu\MenuLinkTreeInterface
-   */
-  protected $menuLinkTree;
 
   /**
    * Menu storage.
@@ -71,6 +62,13 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   private $config;
 
   /**
+   * Menu builder service.
+   *
+   * @var \Drupal\mars_common\MenuBuilder
+   */
+  private $menuBuilder;
+
+  /**
    * Custom cache tag.
    *
    * @var string
@@ -91,19 +89,19 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
     LanguageHelper $language_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
+    MenuBuilder $menu_builder,
     ConfigFactoryInterface $config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageHelper = $language_helper;
     $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
     $this->config = $config;
+    $this->menuBuilder = $menu_builder;
   }
 
   /**
@@ -114,10 +112,10 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.menu_builder'),
       $container->get('config.factory')
     );
   }
@@ -137,8 +135,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     // Get brand border path.
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
 
-    $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
-    $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
+    $build['#top_footer_menu'] = $this->menuBuilder->getMenuItemsArray($conf['top_footer_menu']);
+    $build['#legal_links'] = $this->menuBuilder->getMenuItemsArray($conf['legal_links']);
     $build['#marketing'] = $this->languageHelper->translate($conf['marketing']['value']);
     $build['#corporate_tout_text'] = $this->languageHelper->translate($conf['corporate_tout']['title']);
     $build['#corporate_tout_url'] = [
@@ -194,57 +192,6 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#theme'] = 'footer_block';
     return $build;
-  }
-
-  /**
-   * Render menu by its name.
-   *
-   * @param string $menu_name
-   *   Menu name.
-   *
-   * @return array
-   *   Rendered menu.
-   */
-  protected function buildMenu($menu_name) {
-    $menu_parameters = new MenuTreeParameters();
-    $menu_parameters->setMaxDepth(1);
-
-    // Get the tree.
-    $tree = $this->menuLinkTree->load($menu_name, $menu_parameters);
-
-    // Apply some manipulators (checking the access, sorting).
-    $manipulators = [
-      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
-      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
-      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-    ];
-    $tree = $this->menuLinkTree->transform($tree, $manipulators);
-
-    // And the last step is to actually build the tree.
-    $menu = $this->menuLinkTree->build($tree);
-    $menu_links = [];
-    if (!empty($menu['#items'])) {
-      foreach ($menu['#items'] as $item) {
-        /* TODO: Reafactor this part.
-         * Processing menu_link_attributes module options. This is a quick fix
-         * for making our footer work with that contrib module. This should be
-         * investigated and done properly in more general way.
-         */
-        $attributes = $item['attributes'] ?? new Attribute();
-        $menu_link_content = $item['original_link'] ?? NULL;
-        if ($menu_link_content instanceof MenuLinkContent) {
-          $options = $menu_link_content->getOptions();
-          $menu_link_attributes = $options['attributes'] ?? [];
-          $attributes->merge(new Attribute($menu_link_attributes));
-        }
-        $menu_links[] = [
-          'title' => $item['title'],
-          'url' => $item['url']->setAbsolute()->toString(),
-          'item_attributes' => $attributes,
-        ];
-      }
-    }
-    return $menu_links;
   }
 
   /**
