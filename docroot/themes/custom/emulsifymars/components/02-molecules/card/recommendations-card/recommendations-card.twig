@@ -1,5 +1,13 @@
 {% set card_base_class = card_base_class|default('recommendations-card') %}
-{% set card__extra_classes = ['card-item'] %}
+{% if select_background_color == 'color_c' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-C', 'bg-gradient-C'] %}
+{% elseif select_background_color == 'color_d' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-D', 'bg-gradient-D'] %}
+{% elseif select_background_color == 'color_e' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-E', 'bg-gradient-E'] %}
+{% else %}
+  {% set card__extra_classes = ['card-item'] %}
+{% endif %}
 
 <section {{ bem(card_base_class, [], '', card__extra_classes) }}
          data-theme="{{ theme_styles }}"

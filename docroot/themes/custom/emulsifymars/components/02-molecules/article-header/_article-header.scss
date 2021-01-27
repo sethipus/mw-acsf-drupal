@@ -228,24 +228,24 @@
     display: block;
     
     @include xs {
-      top: 1rem;
-      right: -7rem;
-      width: 28rem;
-      height: 26rem;
+      top: -9.5rem;
+      right: -13rem;
+      width: 35rem;
+      height: 50rem;
     }
 
     @include medium {
-      top: -5.5rem;
-      right: -11rem;
-      width: 49rem;
-      height: 44rem;
+      top: -2.5rem;
+      right: -16rem;
+      width: 52rem;
+      height: 38rem;
     }
 
-    @include large {
-      top: -7rem;
-      right: -20rem;
-      width: 70rem;
-      height: 70rem;
+    @include xl {
+      top: -17rem;
+      right: -14.4rem;
+      width: 74rem;
+      height: 74rem;
     }
 
     svg {
