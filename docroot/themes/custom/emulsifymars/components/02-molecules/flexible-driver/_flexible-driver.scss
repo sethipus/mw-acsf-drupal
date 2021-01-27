@@ -100,6 +100,11 @@
     padding-top: 4rem;
     text-align: center;
 
+    @include large {
+      max-width: 40%;
+      margin: 0 auto;
+    }
+
   }
 
   & .cta_wrapper {

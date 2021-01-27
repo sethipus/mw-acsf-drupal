@@ -126,7 +126,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     // know right desktop type without page inner width.
     $build['#items'] = [];
     $query_search_results['results'] = [];
-    $build = array_merge($build, $this->searchBuilder->buildSearchFacets($config, $grid_id));
+    $build = array_merge($build, $this->searchBuilder->buildSearchFacets('grid', $config, $grid_id));
 
     // "See more" link should be visible only if it makes sense.
     $build['#ajax_card_grid_link_text'] = $this->languageHelper->translate('See more');
