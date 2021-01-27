@@ -186,6 +186,15 @@
         changeButtonState(videoElements, 'mute');
       };
 
+      var placeCloseButton = function(videoContainer) {
+        const videoElements = videoContainer.querySelector('.overlay-video__video');
+        const videoClose = videoContainer.querySelector('.overlay-video__close');
+        const topPosition = videoElements.clientHeight / 2 - window.innerHeight / 2 + 40;
+        const rightPosition = videoElements.clientWidth / 2 - window.innerWidth / 2 + 20;
+        videoClose.style.top = topPosition + 'px';
+        videoClose.style.right =  rightPosition + 'px';
+      }
+
       // Set overlay state to the video
       var setOverlay = function (videoContainer) {
         var modalWindow = document.createElement('div');
@@ -201,7 +210,10 @@
         videoClone.querySelector('.overlay-video__controls').setAttribute('data-state', 'visible');
         videoClone.querySelector('.overlay-video__control').setAttribute('data-state', 'hidden');
         videoInitState(videoClone);
-        // overlay-video__controls
+        placeCloseButton(videoClone);
+        window.addEventListener('resize', function(event) {
+          placeCloseButton(videoClone);
+        });
       };
 
       // Obtain handles to main elements

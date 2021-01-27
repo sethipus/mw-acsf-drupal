@@ -34,6 +34,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
     'cta_link_text' => 'CTA Link text',
     'supporting_card_eyebrow' => 'Supporting Card Eyebrow',
     'background' => 'media:1',
+    'select_background_color' => '',
   ];
 
   private const DEFINITION = [
@@ -170,7 +171,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(14, $config_form);
+    $this->assertCount(15, $config_form);
     $this->assertArrayHasKey('title', $config_form);
     $this->assertArrayHasKey('entity_priority', $config_form);
     $this->assertArrayHasKey('article_recipe', $config_form);
@@ -190,7 +191,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
     $form_data = [];
 
     $this->formStateMock
-      ->expects($this->exactly(9))
+      ->expects($this->exactly(10))
       ->method('getValue')
       ->willReturn('');
 

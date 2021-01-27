@@ -10,7 +10,9 @@
 
 <div class="recipe-header" data-theme="{{ theme_styles }}">
     <div class="recipe-header__background"
-      {% if background_color_override %}
+      {% if select_background_color|length > 0 %}
+        style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
+      {% elseif background_color_override %}
         style="background-color: {{ '#' ~ background_color }}"
       {% endif %}
     >

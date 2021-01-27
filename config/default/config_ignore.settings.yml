@@ -31,6 +31,7 @@ ignored_config_entities:
   - system.performance
   - mars_product.wtb.settings
   - 'core.entity_view_display.node.*'
+  - card_color.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true
