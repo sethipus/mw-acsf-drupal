@@ -146,6 +146,15 @@ Drupal.behaviors.overlayVideoPlayer = {
       videoElements('video').setAttribute('data-video-init', true);
     }
 
+    var placeCloseButton = function(videoContainer) {
+      const videoElements = videoContainer.querySelector('.overlay-video__video');
+      const videoClose = videoContainer.querySelector('.overlay-video__close');
+      const topPosition = videoElements.clientHeight / 2 - window.innerHeight / 2 + 40;
+      const rightPosition = videoElements.clientWidth / 2 - window.innerWidth / 2 + 20;
+      videoClose.style.top = topPosition + 'px';
+      videoClose.style.right =  rightPosition + 'px';
+    }
+
     // Changes the button state of certain button's so the correct visuals can be displayed with CSS
     var changeButtonState = function(videoElements, type) {
       // Play/Pause button
@@ -196,6 +205,10 @@ Drupal.behaviors.overlayVideoPlayer = {
       videoClone.querySelector('.overlay-video__controls').setAttribute('data-state', 'visible');
       videoClone.querySelector('.overlay-video__control').setAttribute('data-state', 'hidden');
       videoInitState(videoClone);
+      placeCloseButton(videoClone);
+      window.addEventListener('resize', function(event) {
+        placeCloseButton(videoClone);
+      });
       // overlay-video__controls
     }
 
