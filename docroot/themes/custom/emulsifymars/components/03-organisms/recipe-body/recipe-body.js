@@ -13,11 +13,10 @@
           const smallScreen = window.innerWidth < 1280;
           const fullscreenElementsSelector = '.footer, .recommendations, .flexible-framer';
           let $productUsed = $('.product-used', this);
-          let $recipeInfo = $('.recipe-info', this);
+let $recipeInfo = $('.recipe-info', this);
 
           // find the first element from list on the page
           let $firstFullwidth = $(fullscreenElementsSelector).first();
-
           if (smallScreen && productUsedPinned) {
             $productUsed.css('margin-top', 0);
             $firstFullwidth.css('margin-top', 0);
@@ -36,7 +35,7 @@
 
           return productUsedPinned;
         }
-      })
+      });
     }
   };
-})(jQuery, _, Drupal)
+})(jQuery, _, Drupal);
