@@ -102,15 +102,28 @@ $xl-left-margin: 11.583rem;
 
 .recipe-media {
   max-width: calc(100vw - 40px);
+  height: 251px;
   margin: auto;
   position: relative;
 
   @include medium {
     max-width: calc(100vw - 80px);
+    height: 410px;
   }
 
   @include xl {
     max-width: 1360px;
+    height: 583px;
+
+    .ambient-video__control[data-state="play"] {
+      top: 20px;
+      right: 20px;
+    }
+  
+    .ambient-video__control[data-state="pause"] {
+      top: 20px;
+      right: 20px;
+    }
   }
 
   &__info {
