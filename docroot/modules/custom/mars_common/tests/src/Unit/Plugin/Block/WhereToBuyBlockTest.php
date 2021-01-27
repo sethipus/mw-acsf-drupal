@@ -278,8 +278,12 @@ class WhereToBuyBlockTest extends UnitTestCase {
       'label_display' => '1',
       'widget_id' => 'test_widget_id',
       'context_mapping' => [],
-      'commerce_vendor' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR,
     ]);
+
+    $this->wtbGlobalConfig
+      ->method('get')
+      ->with('commerce_vendor')
+      ->willReturn(PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR);
 
     $this->entityTypeManagerMock
       ->expects($this->once())
