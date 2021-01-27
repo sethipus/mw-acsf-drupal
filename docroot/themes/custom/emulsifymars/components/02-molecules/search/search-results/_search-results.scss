@@ -1,4 +1,5 @@
 .search-results-container {
+  position: relative;
   width: 335px;
 
   @include medium {
@@ -13,12 +14,12 @@
     &__container {
       display: flex;
       flex-direction: column;
-  
+
       &__item {
         position: relative;
         z-index: 2;
       }
-  
+
       @include medium {
         flex-direction: row;
         flex-wrap: wrap;
@@ -34,7 +35,7 @@
       margin: 20px 0 0;
       position: relative;
       z-index: 2;
-  
+
       @include medium {
         margin-top: 30px;
         font-size: 12px;
@@ -56,7 +57,7 @@
     .results__container--filter-selected {
       .search-results-item {
         opacity: .5;
-  
+
         &--active {
           opacity: 1;
         }
