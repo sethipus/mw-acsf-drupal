@@ -2,7 +2,7 @@ Drupal.behaviors.searchFilterBehaviour = {
   attach(context) {
     const searchFilterContainer = context.querySelectorAll('.search-filter-container');
     const selectorSearchFilterContainer = '.search-filter-container';
-    const searchFilterOpenButton = context.querySelectorAll('.search-filter-open-button');
+    const searchFilterOpenButton = context.querySelectorAll('.search-filter-open-button'); /* mobile view ONLY */
     const clearAllButtons = context.querySelectorAll('.search-filter-block__button--clear-all');
     const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
     const filters = context.querySelectorAll('.filter-block');
@@ -21,8 +21,8 @@ Drupal.behaviors.searchFilterBehaviour = {
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
-            updateCounters(grid);
             updateAriaChecked(event.target);
+            break;
           case event.target.classList.contains('search-filter-info__applied-clear'):
             const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
             if (currentFilter !== null) {
@@ -57,13 +57,17 @@ Drupal.behaviors.searchFilterBehaviour = {
     filters.forEach(filter => {
       filter.addEventListener('click', () => {
         let open = false;
-        if (!filter.classList.contains('filter-block--open'))
+        if (!filter.classList.contains('filter-block--open')) {
           open = true;
+        }
         document.querySelectorAll('.filter-block--open').forEach(function (filter) {
           filter.classList.remove('filter-block--open');
+          filter.querySelector('.filter-title').setAttribute('aria-expanded', false);
         });
-        if (open)
+        if (open) {
           filter.classList.toggle('filter-block--open');
+          filter.querySelector('.filter-title').setAttribute('aria-expanded', true);
+        }
       });
     });
 
@@ -90,33 +94,34 @@ Drupal.behaviors.searchFilterBehaviour = {
 
     applyFiltersButtons.forEach(function (button) {
       button.addEventListener('click', function(event) {
+        const grid = getGridBlock(event);
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+        event.target.closest('.filter-block').querySelector('.filter-title').focus();
+        updateCounters(grid);
         processFilters(getGridBlock(event));
       });
     });
 
     filterCheckboxes.forEach(checkbox => {
-      checkbox.addEventListener('keypress', (e) => {
-        if (e.keyCode === 13) {
-          const grid = getGridBlock(e);
-          let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
+      checkbox.addEventListener('keypress', (event) => {
+        if (event.keyCode === 32) {
+          event.preventDefault();
+          const grid = getGridBlock(event);
+          let check = event.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
-          updateCounters(grid);
           enableApplyButtons();
-          updateAriaChecked(e.target);
+          updateAriaChecked(check);
         }
       });
     });
 
     const updateAriaChecked = (checkboxElement) => {
       const checkboxLabel = checkboxElement.closest('li').querySelector('label');
-      if (checkboxElement.getAttribute('aria-selected') == 'true') {
-        checkboxLabel.setAttribute('aria-checked', false);
-        checkboxElement.setAttribute('aria-selected', false);
+      if (checkboxElement.checked == true) {
+        checkboxLabel.setAttribute('aria-selected', true);
       } else {
-        checkboxLabel.setAttribute('aria-checked', true);
-        checkboxElement.setAttribute('aria-selected', true);
+        checkboxLabel.setAttribute('aria-selected', false);
       }
     }
 

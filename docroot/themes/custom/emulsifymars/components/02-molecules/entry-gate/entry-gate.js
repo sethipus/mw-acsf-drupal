@@ -149,6 +149,7 @@ import moment from 'moment';
 
           $(`#${a11yDateFakeLinkId}`).remove();
 
+          $('#skip-link').focus();
 
           if (typeof dataLayer !== 'undefined') {
             dataLayer.push({

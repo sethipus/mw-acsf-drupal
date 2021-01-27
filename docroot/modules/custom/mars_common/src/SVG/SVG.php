@@ -239,7 +239,7 @@ class SVG {
 
     /** @var \DOMNode $element */
     foreach ($elements as $element) {
-      $element->removeAttribute('opacity');;
+      $element->removeAttribute('opacity');
     }
 
     $content = $dom->saveXML();
