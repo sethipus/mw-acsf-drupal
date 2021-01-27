@@ -18,7 +18,7 @@
 
           return (vertInView && horInView);
         }
-        
+
         const updateElementsPositions = (element) => {
           const rect = element.getBoundingClientRect();
           const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
@@ -66,4 +66,4 @@
       })
     }
   }
-})(jQuery, _, Drupal)
+})(jQuery, _, Drupal);
