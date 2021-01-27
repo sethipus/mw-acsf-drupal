@@ -69,7 +69,6 @@ class SalsifyFieldsMap {
     // Enumirated.
     'field_product_flavor' => ['salsify:id' => 'CMS: Flavor', 'salsify:data_type' => 'enumerated'],
     'field_product_variants' => ['salsify:id' => 'CMS: Child variants', 'salsify:data_type' => 'entity_ref'],
-    'field_product_occasions' => ['salsify:id' => 'CMS: Occasion', 'salsify:data_type' => 'enumerated'],
     // There is a custom logic for fields with 'complex' data type in
     // SalsifyImportField class.
     'field_meta_tags' => ['salsify:id' => 'CMS: Meta tags', 'salsify:data_type' => 'complex'],
