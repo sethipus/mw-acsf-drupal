@@ -336,7 +336,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $keys = array_keys($form_state->get('items_storage'));
       foreach ($keys as $key) {
         $url = $form_state->getValue('items')[$key]['cta']['url'];
-        if (!(UrlHelper::isValid($url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $url))) {
+        if (!empty($url) && !(UrlHelper::isValid($url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $url))) {
           $form_state->setErrorByName('items][' . $key . '][cta][url', $this->t('The URL is not valid.'));
         }
       }
