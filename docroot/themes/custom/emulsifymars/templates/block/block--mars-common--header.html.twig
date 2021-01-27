@@ -29,27 +29,6 @@
   data_attributes: data_attributes
 } %}
 
-  {% block header__menu %}
-    {% include "@molecules/menus/main-menu/main-menu.twig" with {
-      menu_class: 'header-primary-menu',
-      items: menu_items,
-    } %}
-  {% endblock %}
-
-  {% block header__menu_secondary %}
-    {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" with {
-      menu_class: 'header-secondary-menu',
-    } %}
-    {% if search_enabled %}
-      {% include "@molecules/search/inline-search/inline-search.twig" with {
-        inline_search__modifiers: ['searchbtn'],
-        inline_search_title: 'Search' | mt ,
-        inline_search_url: '#',
-        inline_search_icon: 'search',
-      } %}
-    {% endif %}
-  {% endblock %}
-
   {% block alert_banner %}
     <div {{ bem('alert', [], header__base_class) }}>
       <span {{ bem('alert_text', [], header__base_class) }}>
@@ -64,6 +43,7 @@
         link_modifiers: ['logo'],
         link_url: logo_link__url|default('/'),
         link_attributes: data_attributes['logo'],
+        link_content: "Logo image" | mt,
       } %}
         {% block link_content %}
           {% include "@atoms/images/image/responsive-image.twig" with {

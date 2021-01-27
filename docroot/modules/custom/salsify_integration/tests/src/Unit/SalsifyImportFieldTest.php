@@ -1223,6 +1223,16 @@ class SalsifyImportFieldTest extends UnitTestCase {
       ->expects($this->any())
       ->method('get')
       ->willReturn($this->configMock);
+
+    $this->fieldableEntityMock
+      ->expects($this->any())
+      ->method('getEntityType')
+      ->willReturn($this->entityTypeMock);
+
+    $this->entityTypeMock
+      ->expects($this->any())
+      ->method('id')
+      ->willReturn('node');
   }
 
 }

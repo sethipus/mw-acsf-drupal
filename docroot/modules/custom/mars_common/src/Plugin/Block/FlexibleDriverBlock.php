@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -118,9 +119,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     $form['description'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 65,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];
@@ -134,8 +135,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     $form['cta_link'] = [
-      '#type' => 'url',
+      '#type' => 'textfield',
       '#title' => $this->t('CTA Link'),
+      '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
       '#default_value' => $this->configuration['cta_link'] ?? '',
       '#required' => TRUE,
     ];
@@ -192,6 +194,16 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
   private function getMediaId(string $assetKey): ?string {
     $entityBrowserSelectValue = $this->getConfiguration()[$assetKey] ?? NULL;
     return $this->mediaHelper->getIdFromEntityBrowserSelectValue($entityBrowserSelectValue);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    $cta_link = $form_state->getValue('cta_link');
+    if (!(UrlHelper::isValid($cta_link) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $cta_link))) {
+      $form_state->setErrorByName('cta_link', $this->t('The URL is not valid.'));
+    }
   }
 
 }

@@ -24,17 +24,24 @@
     style="background-image: url('{{ parent_page_media_url }}');"
   {% endif %}
 >
+
+  {% set additional_attr = (styles is defined and styles is not empty)
+    ? {"style": styles}
+    : {}
+  %}
   <div class="content">
-    {% if parent_page_media_type != 'video' and pp_header_heading %}
+    {% if pp_header_heading %}
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: pp_header_eyebrow_text,
-        eyebrow_modifiers: pp_header_eyebrow_modifiers
+        eyebrow_modifiers: pp_header_eyebrow_modifiers,
+        additional_attr: additional_attr
       } %}
 
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: pp_header_heading,
         heading_level: pp_header_heading_level,
-        heading_base_class: pp_header_heading_base_class
+        heading_base_class: pp_header_heading_base_class,
+        additional_attr: additional_attr
       } %}
 
       {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
@@ -42,21 +49,22 @@
       {% include "@atoms/text/text/01-paragraph.twig" with {
         paragraph_size: pp_header_paragraph_size,
         paragraph_content: pp_header_paragraph_content,
-        paragraph_base_class: pp_header_paragraph_base_class
+        paragraph_base_class: pp_header_paragraph_base_class,
+        additional_attr: additional_attr
       } %}
     {% endif %}
-
-    {% if parent_page_media_url and parent_page_media_type == 'video' %}
-      {{ attach_library('emulsifymars/ambient-video') }}
-      <div class="bg-video">
-        {% include "@atoms/video/ambient-video/video.twig" with {
-          video__src__url: parent_page_media_url,
-          video__control: true,
-          data_layer: data_layer,
-        } %}
-      </div>
-    {% endif %}
   </div>
+
+  {% if parent_page_media_url and parent_page_media_type == 'video' %}
+    {{ attach_library('emulsifymars/ambient-video') }}
+    <div class="bg-video">
+      {% include "@atoms/video/ambient-video/video.twig" with {
+        video__src__url: parent_page_media_url,
+        video__control: true,
+        data_layer: data_layer,
+      } %}
+    </div>
+  {% endif %}
 
   <div class="brand-shape">
     {{ brand_shape | raw }}

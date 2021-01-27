@@ -1,4 +1,15 @@
-(function($, Drupal){
+(function ($, Drupal, _) {
+    let WTBInit = _.debounce(
+      function () {
+        if (
+          typeof (window.PriceSpider) !== 'undefined' &&
+          typeof (window.PriceSpider.rebind) === 'function'
+        ) {
+          window.PriceSpider.rebind();
+        }
+      },
+      200
+    );
     Drupal.behaviors.productCard = {
       attach(context) {
         $(context).find('.product-card').once('productCard').each(function(){
@@ -19,7 +30,8 @@
               window.location.href = $cardCta.attr('href');
             }
           });
+          WTBInit();
         })
       }
     }
-  })(jQuery, Drupal);
+  })(jQuery, Drupal, _);
