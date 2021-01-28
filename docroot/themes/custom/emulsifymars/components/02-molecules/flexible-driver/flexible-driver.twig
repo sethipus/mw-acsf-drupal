@@ -2,7 +2,11 @@
 {% set flexible_driver_paragraph_base_class = 'flexible-driver__paragraph' %}
 
 
-<section {{ bem(felxible_driver__base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(felxible_driver__base_class) }} data-theme="{{ theme_styles }}"
+  {% if select_background_color|length > 0 %}
+    style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
+  {% endif %}
+>
   <div class="flexible-driver__bg-image flexible-driver__bg-image--left">
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,

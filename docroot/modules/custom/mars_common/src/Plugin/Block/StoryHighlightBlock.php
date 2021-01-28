@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -168,17 +169,17 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $config = $this->getConfiguration();
 
     $form['story_block_title'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Title'),
       '#required' => TRUE,
-      '#maxlength' => 55,
+      '#maxlength' => 300,
       '#default_value' => $this->configuration['story_block_title'] ?? NULL,
     ];
 
     $form['story_block_description'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Story description'),
-      '#maxlength' => 150,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['story_block_description'] ?? NULL,
     ];
 
@@ -229,8 +230,9 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       '#type' => 'fieldset',
       '#title' => $this->t('View more link'),
       'url' => [
-        '#type' => 'url',
+        '#type' => 'textfield',
         '#title' => $this->t('URL'),
+        '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
         '#default_value' => $this->configuration['view_more']['url'] ?? NULL,
       ],
       'label' => [
@@ -274,6 +276,18 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
           $key,
           'media',
         ]);
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    $view_more_url = $form_state->getValue('view_more')['url'];
+    if (!empty($view_more_url)) {
+      if (!(UrlHelper::isValid($view_more_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $view_more_url))) {
+        $form_state->setErrorByName('view_more][url', $this->t('The URL is not valid.'));
       }
     }
   }

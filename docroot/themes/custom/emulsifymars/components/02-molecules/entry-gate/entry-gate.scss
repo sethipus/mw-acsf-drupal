@@ -48,8 +48,35 @@
     font-size: 1.8rem;
     font-family: variable(primary-font);
     text-decoration: none;
+    text-transform: uppercase;
     padding-right: 1rem;
     position: relative;
+  }
+
+  &__inner-content-wrapper {
+    position: relative;
+    margin: 0;
+
+    @include xs {
+      padding: 6rem 3rem 3rem;
+    }
+
+    @include medium {
+      padding: 6rem 5.9rem;
+    }
+
+    @include large {
+      padding: 6rem 11rem 3rem;
+    }
+  }
+
+  &__brand-shape-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
   }
 
   &__brand-shape {
@@ -85,24 +112,20 @@
     max-width: 89.6rem;
     background-color: clr(subcolor-2);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 80vh;
 
     @include xs {
-      padding: 0 3rem 3rem 3rem;
-      margin-left: 5%;
-      margin-right: 5%;
       width: 90%;
     }
 
     @include medium {
-      padding: 0 5.9rem 6rem 5.9rem;
       width: 75%;
       max-width: 57rem;
-      margin: 0;
     }
 
     @include large {
-      padding: 0 11rem 6rem 11rem;
       max-width: 89.6rem;
     }
   }
@@ -118,23 +141,27 @@
     }
 
     @include medium {
-      margin: 6.2rem 0 2rem;
+      margin: 0 0 2rem;
       font-size: 4rem;
       line-height: 4rem;
+      height: 3rem;
     }
 
     @include large {
+      margin-bottom: 3rem;
       font-size: 6.4rem;
       line-height: 6.4rem;
+      height: auto;
     }
   }
 
   &__paragraph {
     font-family: variable(secondary-font);
     color: clr(primary);
-    margin-bottom: 4rem;
+    margin: 0 0 4rem 0;
     padding-bottom: 4rem;
     border-bottom: 1px solid #c4c4c4;
+    line-height: 1.4;
 
     @include medium {
       font-size: 1.6rem;
@@ -148,11 +175,11 @@
   &__eyebrow {
     display: block;
     color: clr(primary);
-    font-family: variable(secondary-font);
+    font-family: variable(primary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
     font-weight: 600;
-    margin-bottom: 3.5rem;
+    margin-bottom: 4rem;
 
     @include medium {
       font-size: 1.6rem;
@@ -175,7 +202,7 @@
 
     @include medium {
       font-size: 1.4rem;
-      line-height: 1.8rem;
+      line-height: 1.4rem;
     }
 
     @include large {

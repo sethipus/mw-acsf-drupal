@@ -1,10 +1,18 @@
 {% set inline__base_class = 'article-inline' %}
 
 <section {{ bem(inline__base_class) }} data-theme="{{ theme_styles }}"
-  {% if title and media_type == 'video' %}
-    data-component-title="{{ title }}"
+  {% if heading and media_type == 'video' %}
+    data-component-title="{{ heading }}"
   {% endif %}
 >
+  <div {{ bem('heading', [], inline__base_class) }}>
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 3,
+      heading_base_class: 'article-inline__heading',
+      heading_modifiers: ['main-heading'],
+      heading: heading
+    } %}
+  </div>
 
   {% if shape_motif %}
     <div class="article-inline__brand-shape">

@@ -1,5 +1,14 @@
 {% set recipe_card_base_class = recipe_card_base_class|default('recipe-card') %}
-{% set card__extra_classes = ['card-item'] %}
+
+{% if select_background_color == 'color_c' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-C', 'bg-gradient-C'] %}
+{% elseif select_background_color == 'color_d' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-D', 'bg-gradient-D'] %}
+{% elseif select_background_color == 'color_e' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-E', 'bg-gradient-E'] %}
+{% else %}
+  {% set card__extra_classes = ['card-item'] %}
+{% endif %}
 
 <section {{ bem(recipe_card_base_class, [], '', card__extra_classes) }}
          data-theme="{{ theme_styles }}"
@@ -12,9 +21,10 @@
 
   <div {{ bem('media', [], recipe_card_base_class) }}>
     <a href={{recipe_card_media_url}}
-     {% for attribute, value in recipe_card_heading_link_attributes %}
+      {% for attribute, value in recipe_card_heading_link_attributes %}
        {{ attribute }}="{{ value }}"
       {% endfor %}
+      aria-label="{{ recipe_card_heading | mt }}"
     >
       {% include "@atoms/images/image/_image.twig" with {
         output_image_tag: true,

@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -16,6 +17,11 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInterface {
 
   use StringTranslationTrait;
+
+  /*
+   * Quite a big value in case of query without limit.
+   */
+  const SEARCH_LIMIT_NO_LIMIT = 999999;
 
   /**
    * The entity type manager service.
@@ -81,6 +87,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   protected $configFactory;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -88,7 +101,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     MenuLinkTreeInterface $menuLinkTree,
     ThemeConfiguratorParser $themeConfiguratorParser,
     ConfigFactoryInterface $configFactory,
-    SearchProcessFactoryInterface $searchProcessor
+    SearchProcessFactoryInterface $searchProcessor,
+    LanguageHelper $language_helper
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->menuLinkTree = $menuLinkTree;
@@ -99,6 +113,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchTermFacetProcess = $this->searchProcessor->getProcessManager('search_facet_process');
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -142,7 +157,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         // Overriding some default options with FAQ specific values.
         // Overriding first condition from getDefaultOptions().
         $searchOptions['conditions'][0] = ['type', 'faq', '=', TRUE];
-        $searchOptions['limit'] = 4;
+        $searchOptions['limit'] = $this->getFaqLimit($searchOptions);
         $searchOptions['sort'] = [
           'faq_item_queue_weight' => 'ASC',
           'created' => 'DESC',
@@ -180,19 +195,39 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   }
 
   /**
+   * Get search limit for the faq list.
+   *
+   * @param array $searchOptions
+   *   Search options.
+   *
+   * @return int|string
+   *   Limit.
+   */
+  private function getFaqLimit(array $searchOptions) {
+    return (isset($searchOptions['offset']) && $searchOptions['offset'] != 0)
+      ? self::SEARCH_LIMIT_NO_LIMIT
+      : 4;
+  }
+
+  /**
    * {@inheritdoc}
    */
-  public function buildSearchFacets(array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+  public function buildSearchFacets(string $grid_type, array $config = [], string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     $build = [];
     // Getting default search options.
     $facetOptions = $this->searchQueryParser->parseQuery($grid_id);
+    if ($grid_type == 'grid') {
+      $facetOptions = $this->searchQueryParser->parseFilterPreset($facetOptions, $config);
+    }
     unset($facetOptions['limit']);
 
     if (!empty($config)) {
       // Populating search form.
       if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
         // Preparing search form.
-        $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $this->t('Search'), $grid_id);
+        $label_config = $this->configFactory->get('mars_common.site_labels');
+        $placeholder = $this->languageHelper->translate($label_config->get('faq_card_grid_search'));
+        $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $placeholder, $grid_id);
         $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-card-grid';
       }
       if (!empty($config)) {
@@ -204,14 +239,36 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
+      $default_filters = static::TAXONOMY_VOCABULARIES;
+      if (isset($config['exclude_filters'])) {
+        $this->hideExcludedFacetOptions($default_filters, $config['exclude_filters']);
+      }
       $build['#applied_filters_list'] = [];
       $build['#filters'] = [];
       if ($facets_query['resultsCount'] > 3) {
-        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], static::TAXONOMY_VOCABULARIES, $grid_id);
+        [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], $default_filters, $grid_id);
       }
     }
 
     return $build;
+  }
+
+  /**
+   * Removes excluded facet options from the available facets list.
+   *
+   * @param array $default_filters
+   *   The default filters array.
+   * @param array $excluded_options
+   *   The excluded options configuration array.
+   */
+  private function hideExcludedFacetOptions(array &$default_filters, array $excluded_options) {
+    if (!empty($excluded_options['filters'])) {
+      foreach ($excluded_options['filters'] as $option) {
+        if ($option !== 0) {
+          unset($default_filters[$option]);
+        }
+      }
+    }
   }
 
   /**
@@ -231,6 +288,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }, ARRAY_FILTER_USE_BOTH);
     $query_search_results = $this->searchHelper->getSearchResults($facetOptions, static::SEARCH_LINKS_QUERY_ID);
 
+    $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#search_filters'] = [];
     if ($query_search_results['resultsCount'] > 3) {
       $build['#search_filters'] = $this->searchTermFacetProcess->prepareFacetsLinksWithCount($query_search_results['facets'], 'type', SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID);
@@ -246,7 +304,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $build = [];
     // Getting search results from SOLR.
     $searchOptions = $this->searchQueryParser->parseQuery();
-    $build['#input_form'] = $this->getSearhForm($searchOptions['keys'], $this->t('Search'));
+    $label_config = $this->configFactory->get('mars_common.site_labels');
+    $placeholder = $this->languageHelper->translate($label_config->get('faq_card_grid_search'));
+    $build['#input_form'] = $this->getSearhForm($searchOptions['keys'], $placeholder);
     $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-faq';
     $build['#input_form']['#attributes']['data-grid-query'] = 'faq=1';
     unset($searchOptions['conditions']);
@@ -354,8 +414,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    */
   public function getSearchNoResult($key, $grid_type) {
     $config = $this->configFactory->get('mars_search.search_no_results');
+    $heading = (!empty($key))
+      ? str_replace('@keys', $key, $config->get('no_results_heading'))
+      : $config->get('no_results_heading_empty_str');
     $build = [
-      '#no_results_heading' => str_replace('@keys', $key, $config->get('no_results_heading')),
+      '#no_results_heading' => $heading,
       '#no_results_text' => $config->get('no_results_text'),
       '#theme' => 'mars_search_no_results',
     ];

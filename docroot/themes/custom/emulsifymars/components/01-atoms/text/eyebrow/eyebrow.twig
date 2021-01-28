@@ -1,5 +1,5 @@
 {% set eyebrow_base_class = eyebrow_base_class|default('eyebrow') %}
 
-<span {{ bem(eyebrow_base_class, eyebrow_modifiers) }}>
+<h3 {{ bem(eyebrow_base_class, eyebrow_modifiers) }} {{ add_attributes(additional_attr) }}>
     {{ eyebrow_text }}
-</span>
+</h3>

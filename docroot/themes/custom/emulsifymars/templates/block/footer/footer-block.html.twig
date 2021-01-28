@@ -14,7 +14,6 @@
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
 {% set corporate_tout_button = 'See all' | mt %}
-{% set region_title = 'Select Region' | mt %}
 
 {% embed "@organisms/site/site-footer/site-footer.twig" with {
   theme_styles: 'drupal',
@@ -24,6 +23,7 @@
   social_menu_items: social_links,
   region_title: region_title,
   regions: region_selector,
+  social_text: social_header,
   corporate_tout_text: corporate_tout_text,
   corporate_tout_link_attributes: corporate_tout_url,
   card__button__content: corporate_tout_button,
@@ -32,7 +32,7 @@
 } %}
 
   {% block footer__logo %}
-    <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }}>
+    <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }} aria-label="{{ "Logo image" | mt }}">
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
       image_alt: logo_alt,
@@ -51,7 +51,7 @@
   {% endblock %}
 
   {% block footer__social %}
-    <div {{ bem('section-header', [], footer__base_class) }}>{{ 'Follow Us On' | mt }}</div>
+    <div {{ bem('section-header', [], footer__base_class) }}>{{ social_header }}</div>
     {% include "@molecules/menus/social/social-menu.twig" with {
       social_menu_items: social_menu_items,
     }%}

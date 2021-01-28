@@ -15,8 +15,7 @@
   {% for link in no_results_links %}
     {% include "@atoms/links/defaultLink/defaultLink.twig" with {
       default_link_content: link.content,
-      default_link_attributes: link.attributes,
-      default_link_modifiers: ['light']
+      default_link_attributes: link.attributes
     } %}
   {% endfor %}
 </div>

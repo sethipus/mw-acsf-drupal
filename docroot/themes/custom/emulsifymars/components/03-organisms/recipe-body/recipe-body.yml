@@ -1,5 +1,6 @@
 theme_styles: 'twix'
 
+products_used_label: 'Products Used'
 product_used_items:
   - card__image__output_image_tag: true
     card__image__src: 'image9.png'
@@ -37,6 +38,7 @@ product_used_items:
     link_base_class: text_link
     link_content: BUY NOW
 
+ingredients_used_label: 'Ingredients'
 ingredients_list:
   - content: '3/4 cup butter, melted'
   - content: '2 cups light brown sugar'

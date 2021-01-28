@@ -4,6 +4,15 @@
 {% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
 
 <header {{ bem(header__base_class) }} data-theme="{{ theme_styles }}">
+  {#
+    Keyboard navigation/accessibility link to main content section in
+    page.html.twig.
+  #}
+  <div id="skip-link" tabindex="-1">
+    <a href="#main-content" class="visually-hidden focusable">
+      {{ 'Skip to main content'|t }}
+    </a>
+  </div>
   <div {{ bem('inner', [], header__base_class) }}>
     <div {{ bem('primary', [], header__base_class) }} id="header-menu-trigger">
       <div {{ bem('primary-container', [], header__base_class) }}>
@@ -13,6 +22,7 @@
             {% embed "@atoms/links/link/link.twig" with {
               link_modifiers: ['logo'],
               link_url: logo_link__url|default('/'),
+              link_content: "Logo image" | mt,
             } %}
               {% block link_content %}
                 {% include "@atoms/images/image/responsive-image.twig" with {
@@ -30,16 +40,25 @@
         </div>
         <div {{ bem('menu', [], header__base_class) }}>
           {% block header__menu %}
-            {% include "@molecules/menus/main-menu/main-menu.twig" %}
+            {% include "@molecules/menus/main-menu/main-menu.twig" with {
+              menu_class: 'header-primary-menu',
+              items: menu_items,
+              header_inline_menu_items: header_inline_menu_items,
+            } %}
           {% endblock %}
         </div>
         <nav {{ bem('menu', ['secondary'], header__base_class) }} role="navigation">
           {% block header__menu_secondary %}
-            {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
+            {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" with {
+              menu_class: 'header-secondary-menu',
+              header_inline_menu_items: header_inline_menu_items,
+            } %}
             {% if search_enabled %}
               {% include "@molecules/search/inline-search/inline-search.twig" with {
                 inline_search__modifiers: ['searchbtn'],
-                inline_search_title: 'Search'
+                inline_search_title: search_title ,
+                inline_search_url: '#',
+                inline_search_icon: 'search',
               } %}
             {% endif %}
           {% endblock %}
@@ -60,6 +79,7 @@
       {% block search_results %}
         {% include "@molecules/search/search-overlay/search-overlay.twig" with {
           search_results: search_form,
+          search_close_label: search_close_label,
           logo_src: logo_src,
           logo_srcset: logo_srcset
         }%}

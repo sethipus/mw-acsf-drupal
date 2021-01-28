@@ -144,6 +144,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
   public function testShouldBuildWhenImage() {
     $this->block->setConfiguration([
       'image' => 'image_id',
+      'title' => 'title',
       'description' => 'description',
       'svg_asset' => 1,
       'block_content_type' => 'image',
@@ -178,6 +179,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
   public function testShouldBuildWhenVideo() {
     $this->block->setConfiguration([
       'video' => 'video_id',
+      'title' => 'title',
       'description' => 'description',
       'svg_asset' => 1,
       'block_content_type' => 'video',

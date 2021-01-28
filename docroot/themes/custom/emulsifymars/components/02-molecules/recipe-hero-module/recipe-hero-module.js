@@ -34,8 +34,10 @@
               parallaxCoef = 0.005;
           }
 
-          element.querySelector('.recipe-media__image-wrapper').style.backgroundPosition = `center calc(50% - ${offset * parallaxCoef}px`;
-
+          let recipeMediaImageWrapper = element.querySelector('.recipe-media__image-wrapper');
+          if (recipeMediaImageWrapper !== null) {
+            recipeMediaImageWrapper.style.backgroundPosition = `center calc(50% - ${offset * parallaxCoef}px`;
+          }
         };
 
         const listener = () => {
@@ -47,7 +49,7 @@
         window.addEventListener('DOMContentLoaded', listener);
         window.addEventListener('scroll', listener);
         window.addEventListener('resize', listener);
-      })
+      });
     }
-  }
+  };
 })(jQuery, Drupal);

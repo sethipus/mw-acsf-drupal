@@ -222,7 +222,7 @@ class SearchGridBlockTest extends UnitTestCase {
     $this->searchBuilderMock
       ->expects($this->once())
       ->method('buildSearchFacets')
-      ->with($this->block->getConfiguration(), 'test_grid_id')
+      ->with('grid', $this->block->getConfiguration(), 'test_grid_id')
       ->willReturn([]);
 
     $this->themeConfiguratorMock
