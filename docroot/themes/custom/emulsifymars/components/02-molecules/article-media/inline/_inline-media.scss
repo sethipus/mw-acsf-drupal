@@ -126,6 +126,7 @@
   }
 
   .inline-video {
+    max-height: 635px;
 
     &__control[data-state="play"] {
       width: 9.671rem;

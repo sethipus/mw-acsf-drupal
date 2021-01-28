@@ -1,6 +1,8 @@
+{% set filter_title_transform = filter_title_transform|default('uppercase') %}
+
 <div {{ bem('filter-block', [], '') }} data-filter="{{ filter_id }}">
-  <button {{ bem('filter-title', [], '') }} aria-expanded="false" aria-haspopup="listbox">
-    {{ filter_title }} <span {{ bem('counter', [], 'filter-title') }}>{% if active_filters_count != 0 %}{{ active_filters_count }}{% endif %}</span>
+  <button {{ bem('filter-title', [], '') }} aria-expanded="false" aria-haspopup="listbox" style="text-transform: {{ filter_title_transform }}">
+    {{ filter_title | lower }} <span {{ bem('counter', [], 'filter-title') }}>{% if active_filters_count != 0 %}{{ active_filters_count }}{% endif %}</span>
   </button>
   <div {{ bem('checkboxes', [], 'filter-block') }}>
     <ul {{ bem('list', [], 'filter-block') }} role="listbox" aria-multiselectable="true">
