@@ -104,7 +104,10 @@ import moment from 'moment';
           event.preventDefault();
           const givenDate = moment(`${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`);
 
-          if (!givenDate.isValid()) {
+          if (dayInput.val().length > 2 || 
+              monthInput.val().length > 2 || 
+              yearInput.val().length !== 4 ||
+              !givenDate.isValid()) {
             // invalid date is entered
             fieldset.addClass('entry-gate-form__fieldset--error');
             errorMessage.css({display: 'block'})

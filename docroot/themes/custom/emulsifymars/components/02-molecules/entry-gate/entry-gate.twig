@@ -11,40 +11,44 @@
 
 <div {{ bem(entry_gate_base_class, entry_gate_modifiers) }} data-age={{ entry_gate_minimal_age }} data-theme="{{ theme_styles }}" aria-hidden="true" role="dialog">
   <section class="entry-gate__inner">
-    <div class="entry-gate__brand-shape">
-      {{ brand_shape | raw }}
-    </div>
-
-    {% include "@atoms/text/headings/_heading.twig" with {
-      heading: entry_gate_heading,
-      heading_level: entry_gate_heading_level,
-      heading_base_class: entry_gate_heading_base_class
-    } %}
-
-    {% include "@atoms/text/text/01-paragraph.twig" with {
-      paragraph_size: entry_gate_paragraph_size,
-      paragraph_content: entry_gate_paragraph_content,
-      paragraph_base_class: entry_gate_paragraph_base_class
-    } %}
-
-    {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-      eyebrow_text: entry_gate_eyebrow_text,
-      eyebrow_base_class: entry_gate_eyebrow_base_class
-    } %}
-
-    {% include "@molecules/entry-gate-form/entry-gate-form.twig" with {
-      entry_gate_form_submit_text: entry_gate_form_submit_text,
-      entry_gate_form_day_placeholder: entry_gate_form_day_placeholder,
-      entry_gate_form_month_placeholder: entry_gate_form_month_placeholder,
-      entry_gate_form_year_placeholder: entry_gate_form_year_placeholder,
-      entry_gate_form_error_message: entry_gate_form_error_message
-    } %}
-
-    {% block paragraph_content %}
-      <div class="entry-gate__bottom-paragraph">
-        {{ entry_gate_bottom_paragraph_content | raw }}
+    <div class="entry-gate__inner-content-wrapper">
+      <div class="entry-gate__brand-shape-wrapper">
+        <div class="entry-gate__brand-shape">
+          {{ brand_shape | raw }}
+        </div>
       </div>
-    {% endblock %}
+
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading: entry_gate_heading,
+        heading_level: entry_gate_heading_level,
+        heading_base_class: entry_gate_heading_base_class
+      } %}
+
+      {% include "@atoms/text/text/01-paragraph.twig" with {
+        paragraph_size: entry_gate_paragraph_size,
+        paragraph_content: entry_gate_paragraph_content,
+        paragraph_base_class: entry_gate_paragraph_base_class
+      } %}
+
+      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+        eyebrow_text: entry_gate_eyebrow_text,
+        eyebrow_base_class: entry_gate_eyebrow_base_class
+      } %}
+
+      {% include "@molecules/entry-gate-form/entry-gate-form.twig" with {
+        entry_gate_form_submit_text: entry_gate_form_submit_text,
+        entry_gate_form_day_placeholder: entry_gate_form_day_placeholder,
+        entry_gate_form_month_placeholder: entry_gate_form_month_placeholder,
+        entry_gate_form_year_placeholder: entry_gate_form_year_placeholder,
+        entry_gate_form_error_message: entry_gate_form_error_message
+      } %}
+
+      {% block paragraph_content %}
+        <div class="entry-gate__bottom-paragraph">
+          {{ entry_gate_bottom_paragraph_content | raw }}
+        </div>
+      {% endblock %}
+    </div>
   </section>
 
   <section class="entry-gate__error">
