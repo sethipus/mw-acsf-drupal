@@ -22,7 +22,7 @@
             $firstFullwidth.css('margin-top', 0);
             return false;
           } else if (!smallScreen && !productUsedPinned) {
-            let adjacentElementsHeight = $('.recipe-info').outerHeight(true);
+            let adjacentElementsHeight = $recipeInfo.outerHeight(true);
             $productUsed.css('margin-top', '-' + adjacentElementsHeight + 'px');
 
             if ($firstFullwidth.length && $recipeInfo.length) {
