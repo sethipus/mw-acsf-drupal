@@ -60,6 +60,7 @@
   }
 
   &-paragraph--xs {
+    word-break: break-word;
     color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.6rem;

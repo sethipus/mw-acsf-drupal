@@ -245,12 +245,12 @@ class ProductFieldSerializerTest extends UnitTestCase {
     $referenced_entity->entity = $this->nodeMock;
 
     $this->nodeMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('get')
       ->willReturn($this->fieldItemListMock);
 
     $this->fieldItemListMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('__get')
       ->willReturn('gtin123');
 
