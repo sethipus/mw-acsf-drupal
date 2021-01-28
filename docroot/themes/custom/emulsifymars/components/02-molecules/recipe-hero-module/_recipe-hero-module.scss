@@ -119,7 +119,7 @@ $xl-left-margin: 11.583rem;
       top: 20px;
       right: 20px;
     }
-  
+
     .ambient-video__control[data-state="pause"] {
       top: 20px;
       right: 20px;
@@ -380,7 +380,6 @@ $xl-left-margin: 11.583rem;
   &__social-text {
     font: 16px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: uppercase;
     margin-right: 30px;
 
     @include medium {
