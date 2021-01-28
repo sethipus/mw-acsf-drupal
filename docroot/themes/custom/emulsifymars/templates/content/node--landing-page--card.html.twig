@@ -6,7 +6,6 @@
 #}
 
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
-{% set button_text = 'See Details' | mt %}
 {% set heading_link_attributes = { href: url, target: '_blank', 'data-click-name': node.label } | merge(attributes) %}
 {% set button_link_attributes = { href: url, target: '_blank', 'data-click-name': button_text } | merge(attributes) %}
 
@@ -21,7 +20,7 @@
   heading_level: 3,
   heading_base_class: 'recommendations-card-heading',
   heading_link_attributes: heading_link_attributes,
-  button_text: button_text,
+  button_text: card_button_text,
   button_modifiers: ['small'],
   button_link_attributes: button_link_attributes,
 

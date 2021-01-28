@@ -67,19 +67,45 @@ class WtbConfigForm extends ConfigFormBase {
       '#title' => $this->t('Product card configuration'),
       '#collapsible' => FALSE,
       '#collapsed' => FALSE,
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
+          'or',
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+        ],
+      ],
     ];
 
     $form['product_card']['widget_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Widget id'),
       '#default_value' => $config->get('widget_id'),
-      '#required' => TRUE,
+      '#required' => in_array(
+        $selected_vendor,
+        [
+          PdpHeroBlock::VENDOR_PRICE_SPIDER,
+          PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR,
+        ]
+      ),
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
+          'or',
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+        ],
+        'required' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
+          'or',
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+        ],
+      ],
     ];
 
     $form['product_card']['data_token'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Token'),
       '#default_value' => $config->get('data_token'),
+      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR,
       '#states' => [
         'visible' => [
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
@@ -131,6 +157,7 @@ class WtbConfigForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Commerce connector data locale'),
       '#default_value' => $config->get('data_locale'),
+      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR,
       '#states' => [
         'visible' => [
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],

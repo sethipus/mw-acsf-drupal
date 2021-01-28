@@ -7,7 +7,7 @@ Drupal.behaviors.slideHelper = {
       // getting time difference in minutes or hours or days
       const createdAt = this.getElementsByClassName('social-feed-slide__data');
       const createdAtElements = Array.from(createdAt);
-      
+
       createdAtElements.forEach(elem => {
         if (moment().diff(elem.textContent, 'minutes') > 60) {
           const hours = moment().diff(elem.textContent, 'hours');
@@ -23,4 +23,4 @@ Drupal.behaviors.slideHelper = {
     })
   },
 };
-})(jQuery, Drupal)
+})(jQuery, Drupal);

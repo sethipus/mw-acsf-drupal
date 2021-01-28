@@ -4,7 +4,7 @@
       $(context).find('.dropdown').once('dropdown').each(function () {
         const $dropdown = $(this),
           $dropdownTrigger = $(this).find('.dropdown__trigger');
-          
+
         const hideMenu = function () {
           $dropdown.removeClass('is-expanded');
           $dropdownTrigger.attr('aria-expanded', 'false');

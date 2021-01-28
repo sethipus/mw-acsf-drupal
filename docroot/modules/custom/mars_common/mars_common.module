@@ -6,6 +6,7 @@
  */
 
 use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -39,6 +40,7 @@ use Drupal\mars_common\Constants\MenuConstants;
 use Drupal\mars_common\Constants\SocialMediaConstants;
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\node\NodeInterface;
+use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 
 /**
  * Implements hook_menu_insert().
@@ -130,7 +132,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'alert_banner_text' => NULL,
         'alert_banner_url' => NULL,
         'search_form' => NULL,
+        'search_close_label' => NULL,
         'search_enabled' => NULL,
+        'search_title' => NULL,
         'brand_border' => NULL,
       ],
       'template' => 'block--mars-common--header',
@@ -146,7 +150,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'marketing' => NULL,
         'corporate_tout_text' => NULL,
         'corporate_tout_url' => NULL,
+        'region_title' => NULL,
         'region_selector' => NULL,
+        'social_header' => NULL,
         'current_region_title' => NULL,
       ],
       'template' => 'footer-block',
@@ -170,6 +176,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'items' => [],
         'graphic_divider' => '',
         'brand_border' => '',
+        'select_background_color' => NULL,
       ],
     ],
     'flexible_driver_block' => [
@@ -180,6 +187,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'cta_link' => NULL,
         'asset_1' => NULL,
         'asset_2' => NULL,
+        'select_background_color' => NULL,
       ],
     ],
     'story_highlight_block' => [
@@ -209,6 +217,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media_type' => NULL,
         'media_format' => NULL,
         'brand_shape' => NULL,
+        'styles' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -377,6 +386,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_borders' => NULL,
         'brand_shape' => NULL,
         'divider' => NULL,
+        'select_background_color' => NULL,
       ],
       'template' => 'flexible-framer-block',
     ],
@@ -759,6 +769,90 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   $variables['item_type'] = 'card';
   $variables['divider'] = $file_divider_content ?? NULL;
   $variables['brand_borders'] = $file_border_content ?? NULL;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__article__card(array &$variables) {
+  card_add_badge_text($variables);
+  card_add_button_label($variables, 'article_card_button');
+  add_cache_by_label_config($variables);
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_article');
+  card_change_color($variables, $color_key);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__campaign__card(array &$variables) {
+  card_add_button_label($variables, 'campaign_card_button');
+  add_cache_by_label_config($variables);
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_campaign');
+  card_change_color($variables, $color_key);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__landing_page__card(array &$variables) {
+  card_add_button_label($variables, 'landing_card_button');
+  add_cache_by_label_config($variables);
+  $variables['brand_shape'] = [
+    '#type' => 'inline_template',
+    '#template' => \Drupal::service('mars_common.theme_configurator_parser')->getBrandShapeWithoutFill(),
+  ];
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_landing');
+  card_change_color($variables, $color_key);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__content_hub_page__card(array &$variables) {
+  card_add_button_label($variables, 'content_hub_card_button');
+  add_cache_by_label_config($variables);
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_hub_card');
+  card_change_color($variables, $color_key);
+}
+
+/**
+ * Add the configured badge text to cards.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function card_add_badge_text(array &$variables) {
+  $language_helper = \Drupal::service('mars_common.language_helper');
+  $badge_text = \Drupal::config('mars_common.site_labels')->get('card_new_badge');
+  $variables['badge_text'] = $language_helper->translate($badge_text);
+}
+
+/**
+ * Add the specific configured button text to cards.
+ *
+ * @param array $variables
+ *   Variables.
+ * @param string $key
+ *   Config key value.
+ */
+function card_add_button_label(array &$variables, string $key) {
+  $language_helper = \Drupal::service('mars_common.language_helper');
+  $config = \Drupal::config('mars_common.site_labels');
+  $variables['card_button_text'] = $language_helper->translate($config->get($key));
+}
+
+/**
+ * Add cache by label config.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function add_cache_by_label_config(array &$variables) {
+  $config = \Drupal::config('mars_common.site_labels');
+  $cacheMetadata = CacheableMetadata::createFromRenderArray($variables);
+  $cacheMetadata->addCacheableDependency($config);
+  $cacheMetadata->applyTo($variables);
 }
 
 /**
@@ -1272,7 +1366,7 @@ function mars_common_field_widget_form_alter(
     $element['#maxlength'] = 300;
   }
   if ($field_name == 'field_recipe_description') {
-    $element['#maxlength'] = 160;
+    $element['#maxlength'] = 255;
   }
 
   if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
@@ -1578,11 +1672,21 @@ function _mars_common_social_media_enabled_ajax_callback(array &$form, FormState
 }
 
 /**
- * Implements hook_preprocess_HOOK().
+ * Card change color.
  */
-function mars_common_preprocess_node__landing_page__card(&$variables) {
-  $variables['brand_shape'] = [
-    '#type' => 'inline_template',
-    '#template' => \Drupal::service('mars_common.theme_configurator_parser')->getBrandShapeWithoutFill(),
-  ];
+function card_change_color(&$variables, $color_key) {
+  $background_color = '';
+  if ($color_key != 'default' &&
+    !empty($color_key) &&
+    array_key_exists($color_key, MarsCardColorSettingsForm::$colorVariables)
+  ) {
+    $background_color = $color_key;
+  }
+
+  $conf = \Drupal::config(MarsCardColorSettingsForm::SETTINGS);
+  $cacheMetadata = CacheableMetadata::createFromRenderArray($variables);
+  $cacheMetadata->addCacheableDependency($conf);
+  $cacheMetadata->applyTo($variables);
+
+  $variables['select_background_color'] = $background_color;
 }

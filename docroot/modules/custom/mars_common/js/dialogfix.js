@@ -1,4 +1,4 @@
-(function($){
+(function($, Drupal){
     Drupal.behaviors.dialogfix = {
         attach: function (context) {
             $(context).once('dialogfix').on('focusin', function(e) {
@@ -10,4 +10,4 @@
             });
         }
     };
-})(jQuery);
+})(jQuery, Drupal);

@@ -1,6 +1,6 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
-(function($) {
+(function($, Drupal) {
   Drupal.behaviors.mainMenu = {
     attach(context) {
       (function(headerMobile) {
@@ -119,4 +119,4 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
       })($('#main-nav-desktop').once('desktopMenuInited'));
     },
   };
-})(jQuery);
+})(jQuery, Drupal);
