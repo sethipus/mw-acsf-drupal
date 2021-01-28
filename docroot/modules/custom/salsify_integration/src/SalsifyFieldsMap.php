@@ -61,15 +61,14 @@ class SalsifyFieldsMap {
     'field_product_segment' => ['salsify:id' => 'Amazon Segment', 'salsify:data_type' => 'string'],
     'field_product_name' => ['salsify:id' => 'CMS: Product Name', 'salsify:data_type' => 'string'],
     'field_product_description' => ['salsify:id' => 'CMS: Description', 'salsify:data_type' => 'string'],
-    // Enumirated.
+    // Enumerated.
     'field_product_format' => ['salsify:id' => 'CMS: Format', 'salsify:data_type' => 'enumerated'],
     'field_product_market' => ['salsify:id' => 'CMS: Market', 'salsify:data_type' => 'string'],
-    // Enumirated.
+    // Enumerated.
     'field_product_trade_description' => ['salsify:id' => 'Trade Item Description', 'salsify:data_type' => 'enumerated'],
-    // Enumirated.
+    // Enumerated.
     'field_product_flavor' => ['salsify:id' => 'CMS: Flavor', 'salsify:data_type' => 'enumerated'],
     'field_product_variants' => ['salsify:id' => 'CMS: Child variants', 'salsify:data_type' => 'entity_ref'],
-    'field_product_occasions' => ['salsify:id' => 'CMS: Category Computed', 'salsify:data_type' => 'enumerated'],
     // There is a custom logic for fields with 'complex' data type in
     // SalsifyImportField class.
     'field_meta_tags' => ['salsify:id' => 'CMS: Meta tags', 'salsify:data_type' => 'complex'],

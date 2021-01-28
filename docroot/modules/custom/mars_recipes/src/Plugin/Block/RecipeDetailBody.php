@@ -3,10 +3,13 @@
 namespace Drupal\mars_recipes\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\mars_common\LanguageHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
@@ -34,11 +37,34 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
   protected $viewBuilder;
 
   /**
+   * Config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $config;
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityTypeManagerInterface $entity_type_manager,
+    ConfigFactoryInterface $config,
+    LanguageHelper $language_helper
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
+    $this->config = $config;
+    $this->languageHelper = $language_helper;
   }
 
   /**
@@ -49,7 +75,9 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('config.factory'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -82,12 +110,24 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       }
     }
 
-    return [
+    $label_config = $this->config->get('mars_common.site_labels');
+    $ingredients_used_label = $label_config->get('recipe_body_ingredients_used');
+    $products_used_label = $label_config->get('recipe_body_products_used');
+
+    $build = [
       '#ingredients_list' => $ingredients_list,
       '#nutrition_module' => $node->field_recipe_nutrition_module->value,
       '#product_used_items' => $product_used_items,
+      '#ingredients_used_label' => $this->languageHelper->translate($ingredients_used_label),
+      '#products_used_label' => $this->languageHelper->translate($products_used_label),
       '#theme' => 'recipe_detail_body_block',
     ];
+
+    $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
+    $cacheMetadata->addCacheableDependency($label_config);
+    $cacheMetadata->applyTo($build);
+
+    return $build;
   }
 
   /**

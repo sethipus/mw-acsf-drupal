@@ -1,11 +1,15 @@
-<div class="filter-block" data-filter="{{ filter_id }}">
-  <button class="filter-title" tabindex="0" aria-haspopup="listbox">
-    {{ filter_title }} <span class="filter-title__counter">{% if active_filters_count != 0 %}{{ active_filters_count }}{% endif %}</span>
+{% set filter_title_transform = filter_title_transform|default('uppercase') %}
+
+<div {{ bem('filter-block', [], '') }} data-filter="{{ filter_id }}">
+  <button {{ bem('filter-title', [], '') }} aria-expanded="false" aria-haspopup="listbox" style="text-transform: {{ filter_title_transform }}">
+    {{ filter_title | lower }} <span {{ bem('counter', [], 'filter-title') }}>{% if active_filters_count != 0 %}{{ active_filters_count }}{% endif %}</span>
   </button>
-  <div class="filter-checkboxes" role="listbox" aria-controls="search-result-grid">
-    {% include "@atoms/forms/checkbox/checkbox.twig" with {
-      checkboxes: checkboxes,
-    } %}
-    <a href="#" {{ bem('button', ['highlighted', 'apply', 'disabled'], search_filter_block_base_class) }}>{{ "Apply" | mt }}</a>
+  <div {{ bem('checkboxes', [], 'filter-block') }}>
+    <ul {{ bem('list', [], 'filter-block') }} role="listbox" aria-multiselectable="true">
+      {% include "@atoms/forms/checkbox/checkbox.twig" with {
+        checkboxes: checkboxes,
+      } %}
+    </ul>
+    <button type="button" {{ bem('button', ['highlighted', 'apply', 'disabled'], search_filter_block_base_class) }}>{{ "Apply" | mt }}</button>
   </div>
 </div>

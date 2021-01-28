@@ -95,7 +95,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           $(".swiper-button-next", this).once('recommendationsCarousel').on("click", productCardListener);
           $(".swiper-button-prev", this).once('recommendationsCarousel').on("click", productCardListener);
         });
-      })
+      });
     },
   };
-})(jQuery, _, Drupal)
+})(jQuery, _, Drupal);

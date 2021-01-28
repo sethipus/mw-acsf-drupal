@@ -126,6 +126,7 @@
   }
 
   .inline-video {
+    max-height: 635px;
 
     &__control[data-state="play"] {
       width: 9.671rem;
@@ -134,7 +135,10 @@
       left: calc(50% - 9.671rem / 2);;
     }
 
-    &__control[data-state="play"] .play-icon {
+    &__control[data-state="play"] .play-icon{
+      width: 30.2px;
+      height: 36px;
+      transform: scale(1.112, 1.193);
       margin: auto 35%;
     }
 
