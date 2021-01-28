@@ -1366,7 +1366,7 @@ function mars_common_field_widget_form_alter(
     $element['#maxlength'] = 300;
   }
   if ($field_name == 'field_recipe_description') {
-    $element['#maxlength'] = 160;
+    $element['#maxlength'] = 255;
   }
 
   if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
