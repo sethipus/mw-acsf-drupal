@@ -111,3 +111,7 @@ img {
 .recipe-media .ambient-video {
   display: none;
 }
+
+.list-container-block ol .list-item__number {
+  display: none;
+}
