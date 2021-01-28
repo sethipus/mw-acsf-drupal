@@ -1,3 +1,10 @@
+mars_common.admin.site_labels:
+  title: 'MARS Site label settings'
+  description: 'Settings of MARS site level labels'
+  parent: system.admin_config_system
+  route_name: mars_common.admin.site_labels
+  weight: 100
+
 mars_common.admin.card_color_settings:
   title: 'MARS Card background color settings'
   description: 'Background settings for cards'

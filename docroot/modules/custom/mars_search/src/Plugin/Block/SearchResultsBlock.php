@@ -107,6 +107,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
                                     ? $this->languageHelper->translate('Results for: ') . $searchOptions['keys']
                                     : '';
     $build['#graphic_divider'] = $file_divider_content ?? '';
+    $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#ajax_card_grid_heading'] = $this->t('All results');
     $build['#theme'] = 'mars_search_search_results_block';
     $build['#attached']['library'][] = 'mars_search/datalayer_search';

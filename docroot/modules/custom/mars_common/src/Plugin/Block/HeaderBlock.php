@@ -4,6 +4,8 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\FormBuilderInterface;
@@ -87,6 +89,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   private $menuBuilder;
 
   /**
+   * Configuration object that stores site level labels.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $labelConfig;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -100,7 +109,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     FormBuilderInterface $form_builder,
     LanguageHelper $language_helper,
     RendererInterface $renderer,
-    ThemeConfiguratorParser $theme_configurator_parser
+    ThemeConfiguratorParser $theme_configurator_parser,
+    ImmutableConfig $label_config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentRouteMatch = $current_route_match;
@@ -111,12 +121,16 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $this->languageHelper = $language_helper;
     $this->renderer = $renderer;
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->labelConfig = $label_config;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
+    $config_factory = $container->get('config.factory');
+    $label_config = $config_factory->get('mars_common.site_labels');
     return new static(
       $configuration,
       $plugin_id,
@@ -128,7 +142,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $container->get('form_builder'),
       $container->get('mars_common.language_helper'),
       $container->get('renderer'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $label_config
     );
   }
 
@@ -250,7 +265,14 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#search_form'] = $this->buildSearchForm();
     $build['#search_enabled'] = $config['search_block'] ?? TRUE;
 
+    $build['#search_close_label'] = $this->languageHelper->translate($this->labelConfig->get('header_search_overlay_close'));
+    $build['#search_title'] = $this->languageHelper->translate($this->labelConfig->get('header_search_overlay'));
+
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
+
+    CacheableMetadata::createFromRenderArray($build)
+      ->addCacheableDependency($this->labelConfig)
+      ->applyTo($build);
 
     return $build;
   }
