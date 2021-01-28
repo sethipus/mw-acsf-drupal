@@ -172,7 +172,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       '#type' => 'textarea',
       '#title' => $this->t('Title'),
       '#required' => TRUE,
-      '#maxlength' => 300,
+      '#maxlength' => 55,
       '#default_value' => $this->configuration['story_block_title'] ?? NULL,
     ];
 
@@ -196,7 +196,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $form['items'][$i]['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Title'),
-        '#maxlength' => 200,
+        '#maxlength' => 300,
         '#required' => TRUE,
         '#required_error' => $this->t('<em>Title</em> from <em>Story Item @index</em> is required.', ['@index' => $i + 1]),
         '#default_value' => $this->configuration['items'][$i]['title'] ?? NULL,
