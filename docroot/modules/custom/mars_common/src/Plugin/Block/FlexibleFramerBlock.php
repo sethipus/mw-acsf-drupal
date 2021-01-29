@@ -334,9 +334,8 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
 
     $background_color = '';
-    if ($this->configuration['select_background_color'] != 'default' &&
-      !empty($this->configuration['select_background_color']) &&
-      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+      && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
     ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
     }

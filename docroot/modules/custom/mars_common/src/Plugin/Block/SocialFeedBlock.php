@@ -134,9 +134,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $configEntity = $this->getFeedConfig();
     $label = $this->languageHelper->translate($this->configuration['label'] ?? '');
     $background_color = '';
-    if ($this->configuration['select_background_color'] != 'default' &&
-      !empty($this->configuration['select_background_color']) &&
-      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+       && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
     ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
     }

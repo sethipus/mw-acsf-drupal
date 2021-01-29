@@ -141,6 +141,10 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function build() {
     $conf = $this->getConfiguration();
+    $text_color_override = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $text_color_override = '#FFFFFF';
+    }
     /** @var \Drupal\node\Entity\Node $main_entity */
     /** @var \Drupal\node\Entity\Node $supporting_entity */
     switch ($conf['entity_priority']) {
@@ -168,9 +172,9 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     }
     if ($supporting_entity) {
       $build['#supporting_card_entity'] = $supporting_entity;
-      $build['#supporting_card_entity_view'] = $this->createSupportCardRenderArray(
+      $build['#supporting_card_entity_view'] = array_merge($this->createSupportCardRenderArray(
         $supporting_entity
-      );
+      ), ['#text_color_override' => $text_color_override]);
     }
     $build['#background'] = $this->getBgImage($main_entity);
     return $build;
@@ -265,6 +269,17 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     // Add select background color.
     $this->buildSelectBackground($form);
 
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $this->configuration['override_text_color']['override_color'] ?? NULL,
+    ];
+
     return $form;
   }
 
@@ -284,6 +299,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
     $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
     $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**
@@ -343,9 +359,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $brand_shape = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
       $render_array['#brand_shape'] = $brand_shape;
 
-      if ($this->configuration['select_background_color'] != 'default' &&
-        !empty($this->configuration['select_background_color']) &&
-        array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+      if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+         && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
       ) {
         $render_array['#select__background__color'] = $this->configuration['select_background_color'];
       }

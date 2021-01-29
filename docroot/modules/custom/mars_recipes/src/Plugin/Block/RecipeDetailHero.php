@@ -176,8 +176,8 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     }
 
     $background_color = '';
-    if (!empty($this->configuration['select_background_color'] && $this->configuration['select_background_color'] != 'default') &&
-      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+      && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
     ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
     }

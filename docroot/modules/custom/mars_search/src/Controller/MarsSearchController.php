@@ -5,6 +5,7 @@ namespace Drupal\mars_search\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -88,6 +89,13 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   private $themeConfiguratorParser;
 
   /**
+   * The path validator service.
+   *
+   * @var \Drupal\Core\Path\PathValidatorInterface
+   */
+  protected $pathValidator;
+
+  /**
    * Creates a new AutocompleteController instance.
    *
    * @param \Drupal\Core\Render\RendererInterface $renderer
@@ -100,13 +108,16 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Entity type manager.
    * @param \Drupal\mars_common\ThemeConfiguratorParser $theme_configurator_parser
    *   Theme configurator parser service.
+   * @param \Drupal\Core\Path\PathValidatorInterface $path_validator
+   *   The path validator service.
    */
   public function __construct(
     RendererInterface $renderer,
     SearchProcessFactoryInterface $searchProcessor,
     RequestStack $request_stack,
     EntityTypeManagerInterface $entityTypeManager,
-    ThemeConfiguratorParser $theme_configurator_parser
+    ThemeConfiguratorParser $theme_configurator_parser,
+    PathValidatorInterface $path_validator
   ) {
     $this->renderer = $renderer;
     $this->viewBuilder = $entityTypeManager->getViewBuilder('node');
@@ -116,6 +127,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->pathValidator = $path_validator;
   }
 
   /**
@@ -127,7 +139,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $container->get('mars_search.search_factory'),
       $container->get('request_stack'),
       $container->get('entity_type.manager'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('path.validator')
     );
   }
 
@@ -213,6 +226,21 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       $config = $this->getComponentConfig($query_parameters['page_id'], $query_parameters['grid_id']) ?: [];
     }
 
+    // Adding an additional probe to get config if grid is not specified because
+    // the text color may be overridden.
+    if (empty($config)) {
+      $http_referer = $request->headers->get('referer');
+      $request_path = parse_url($http_referer)['path'];
+      $source_url = $this->pathValidator->getUrlIfValid($request_path);
+      if ($source_url->getRouteName() === 'entity.node.canonical') {
+        $route_params = $source_url->getrouteParameters();
+        $nid = $route_params['node'] ?? NULL;
+        if (!empty($nid)) {
+          $config = $this->getComponentConfig($nid, '0') ?? [];
+        }
+      }
+    }
+
     switch ($query_parameters['action_type']) {
       case self::MARS_SEARCH_AJAX_RESULTS:
         $results = $this->searchBuilder->buildSearchResults($query_parameters['grid_type'], $config, $query_parameters['grid_id']);
@@ -275,6 +303,11 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     foreach ($nodeIterator as $component) {
       $config = $component->get('configuration');
       if (!empty($config['grid_id']) && $config['grid_id'] == $grid_id) {
+        return $config;
+      }
+      // Adding an additional probe to get config if grid is not specified
+      // because the text color may be overridden.
+      if (!empty($config['override_text_color'])) {
         return $config;
       }
     }
