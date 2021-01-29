@@ -5,6 +5,7 @@
   background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
   position: relative;
   cursor: pointer;
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   @include card-width;
 
   a {
@@ -25,7 +26,8 @@
   }
 
   &:hover {
-    background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
+    // Use !important to override custom styles from _base.scss
+    background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary)) !important;
     transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
     p, a, .eyebrow{
