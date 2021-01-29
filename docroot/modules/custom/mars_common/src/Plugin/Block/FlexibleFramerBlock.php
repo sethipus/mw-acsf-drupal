@@ -207,6 +207,17 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     // Add select background color.
     $this->buildSelectBackground($form);
 
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
+    ];
+
     return $form;
   }
 
@@ -328,6 +339,11 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
     ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
+
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = '#FFFFFF';
     }
 
     $build['#select_background_color'] = $background_color;

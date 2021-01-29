@@ -100,6 +100,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'no_results' => NULL,
         'grid_modifiers' => NULL,
         'filter_title_transform' => NULL,
+        'text_color_override' => NULL,
       ],
     ],
     'mars_search_filter' => [

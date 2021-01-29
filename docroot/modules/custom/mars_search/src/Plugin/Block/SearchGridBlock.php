@@ -151,6 +151,10 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
     $build['#attached']['library'][] = 'mars_search/search_pager';
     $build['#attached']['library'][] = 'mars_search/autocomplete';
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = '#FFFFFF';
+    }
 
     return $build;
   }
@@ -181,6 +185,17 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form = array_merge($form, $this->buildGeneralFilters());
     $form = array_merge($form, $this->buildExcludedFilters());
     $form = array_merge($form, $this->buildTopResults());
+
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
+    ];
 
     return $form;
   }

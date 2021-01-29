@@ -110,12 +110,25 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $title = empty($this->configuration['title'])
       ? $this->languageHelper->translate('More @types Like This', ['@type' => $node->type->entity->label()])
       : $this->languageHelper->translate($this->configuration['title']);
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = '#FFFFFF';
+    }
+    $raw_rendered_recommendations = $plugin->getRenderedRecommendations();
+    $rendered_recommendations_with_color_override = [];
+    if (!empty($text_color_override && !empty($raw_rendered_recommendations))) {
+      foreach ($raw_rendered_recommendations as $item) {
+        $rendered_recommendations_with_color_override[] = array_merge($item, ['#text_color_override' => $text_color_override]);
+      }
+    }
+
     return [
       '#theme' => 'recommendations_module_block',
       '#title' => $title,
       '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
       '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
-      '#recommended_items' => $plugin->getRenderedRecommendations(),
+      '#recommended_items' => $rendered_recommendations_with_color_override ?? $raw_rendered_recommendations,
+      '#text_color_override' => $text_color_override,
     ];
   }
 
@@ -202,6 +215,17 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $form_state->set('population_logic_plugin', $plugin);
     }
 
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $conf['override_text_color']['override_color'] ?? NULL,
+    ];
+
     return $form;
   }
 
@@ -247,6 +271,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
 
       $this->configuration['population_plugin_configuration'] = $form_state->getValue('population_plugin_configuration');
     }
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**

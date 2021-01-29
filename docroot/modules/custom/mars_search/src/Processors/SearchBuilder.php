@@ -188,7 +188,12 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       return [$searchOptions, $query_search_results, $build];
     }
     foreach ($query_search_results['results'] as $node) {
-      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      if (!empty($config['override_text_color']['override_color'])) {
+        $build['#items'][] = array_merge($this->nodeViewBuilder->view($node, 'card'), ['#text_color_override' => '#FFFFFF']);
+      }
+      else {
+        $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      }
     }
 
     return [$searchOptions, $query_search_results, $build];

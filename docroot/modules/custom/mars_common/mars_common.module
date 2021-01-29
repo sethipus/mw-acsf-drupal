@@ -387,6 +387,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'divider' => NULL,
         'select_background_color' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'flexible-framer-block',
     ],
