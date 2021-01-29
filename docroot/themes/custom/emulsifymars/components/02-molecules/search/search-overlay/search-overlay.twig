@@ -5,7 +5,7 @@
 {{ attach_library('emulsifymars/search-overlay') }}
 {% set search__base_class = search__base_class|default('search-autocomplete-wrapper') %}
 {% set search__placeholder = search__placeholder|default('Search' | mt) %}
-{% set inline_search__close_btn = 'Close' | mt %}
+{% set inline_search__close_btn = search_close_label|default('Close' | mt) %}
 
 <div {{ bem(search__base_class, [], '') }}>
   <div class="wrapper-overlay">
@@ -45,10 +45,12 @@
         </div>
       </div>
     </div>
+
+    {% include "@molecules/search/inline-search/inline-search.twig" with {
+      inline_search__modifiers: ['closebtn'],
+      inline_search_title: inline_search__close_btn,
+      inline_search_icon: 'closed',
+      inline_search_url: '#',
+    } %}
   </div>
-  {% include "@molecules/search/inline-search/inline-search.twig" with {
-    inline_search__modifiers: ['closebtn'],
-    inline_search_title: inline_search__close_btn,
-    inline_search_icon: 'closed'
-  } %}
 </div>

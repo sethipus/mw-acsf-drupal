@@ -2,12 +2,14 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -23,6 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use SelectBackgroundColorTrait;
 
   /**
    * Lighthouse entity browser id.
@@ -92,10 +95,18 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function build() {
+    $background_color = '';
+    if ($this->configuration['select_background_color'] != 'default' &&
+      !empty($this->configuration['select_background_color']) &&
+      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    ) {
+      $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
     $mediaId1 = $this->getMediaId('asset_1');
     $mediaId2 = $this->getMediaId('asset_2');
     return [
       '#theme' => 'flexible_driver_block',
+      '#select_background_color' => $background_color,
       '#title' => $this->languageHelper->translate($this->configuration['title'] ?? ''),
       '#description' => $this->languageHelper->translate($this->configuration['description'] ?? ''),
       '#cta_label' => $this->languageHelper->translate($this->configuration['cta_label'] ?? ''),
@@ -118,9 +129,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     $form['description'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 65,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];
@@ -134,8 +145,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     $form['cta_link'] = [
-      '#type' => 'url',
+      '#type' => 'textfield',
       '#title' => $this->t('CTA Link'),
+      '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
       '#default_value' => $this->configuration['cta_link'] ?? '',
       '#required' => TRUE,
     ];
@@ -151,6 +163,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['asset_2']['#type'] = 'details';
     $form['asset_2']['#title'] = $this->t('Asset #2');
     $form['asset_2']['#open'] = TRUE;
+
+    // Add select background color.
+    $this->buildSelectBackground($form);
 
     return $form;
   }
@@ -168,6 +183,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
       'asset_1');
     $this->configuration['asset_2'] = $this->getEntityBrowserValue($form_state,
       'asset_2');
+    $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
   }
 
   /**
@@ -192,6 +208,16 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
   private function getMediaId(string $assetKey): ?string {
     $entityBrowserSelectValue = $this->getConfiguration()[$assetKey] ?? NULL;
     return $this->mediaHelper->getIdFromEntityBrowserSelectValue($entityBrowserSelectValue);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    $cta_link = $form_state->getValue('cta_link');
+    if (!(UrlHelper::isValid($cta_link) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $cta_link))) {
+      $form_state->setErrorByName('cta_link', $this->t('The URL is not valid.'));
+    }
   }
 
 }

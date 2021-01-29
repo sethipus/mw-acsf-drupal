@@ -66,6 +66,12 @@ img {
   float: left;
   width: 65%;
 }
+.recipe-media__image-wrapper {
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 397px;
+}
 
 .recipe-media .recipe-media__info {
   width: 30%;
@@ -103,5 +109,9 @@ img {
 .flexible-framer,
 .social-feed,
 .recipe-media .ambient-video {
+  display: none;
+}
+
+.list-container-block ol .list-item__number {
   display: none;
 }

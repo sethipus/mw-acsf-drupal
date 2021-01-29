@@ -1,4 +1,15 @@
-(function($, Drupal){
+(function ($, Drupal, _) {
+    let WTBInit = _.debounce(
+      function () {
+        if (
+          typeof (window.PriceSpider) !== 'undefined' &&
+          typeof (window.PriceSpider.rebind) === 'function'
+        ) {
+          window.PriceSpider.rebind();
+        }
+      },
+      200
+    );
     Drupal.behaviors.productCard = {
       attach(context) {
         $(context).find('.product-card').once('productCard').each(function(){
@@ -12,13 +23,15 @@
             $cardCta.removeClass('default-link--light')
           });
           $productCard.on('click', (e) => {
+            $cardCta.removeClass('default-link--light')
             if (
               !e.target.parentNode.classList.contains('where-to-buy')
             ) {
               window.location.href = $cardCta.attr('href');
             }
           });
+          WTBInit();
         })
       }
     }
-  })(jQuery, Drupal);
+  })(jQuery, Drupal, _);

@@ -2,6 +2,8 @@ ignored_config_entities:
   - 'system.site:name'
   - 'system.site:mail'
   - 'system.site:page.front'
+  - 'system.site:page.403'
+  - 'system.site:page.404'
   - acquia_connector.settings
   - samlauth.authentication
   - mars_onetrust.settings
@@ -28,7 +30,9 @@ ignored_config_entities:
   - salsify_integration.settings
   - system.performance
   - mars_product.wtb.settings
+  - mars_common.site_labels
   - 'core.entity_view_display.node.*'
+  - card_color.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true

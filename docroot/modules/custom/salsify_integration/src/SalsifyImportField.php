@@ -208,6 +208,7 @@ class SalsifyImportField extends SalsifyImport {
       // then update salsify_updated and pass it along for further processing.
       $salsify_updated = strtotime($product_data['salsify:updated_at']);
       if ($force_update || $entity->salsify_updated->isEmpty() || $salsify_updated > $entity->salsify_updated->value) {
+        $title = static::getTitle($product_data, $entity);
         $entity->set('salsify_updated', $salsify_updated);
         $process_result['import_result'] = static::PROCESS_RESULT_UPDATED;
         $entity->set('title', $title);
@@ -247,6 +248,28 @@ class SalsifyImportField extends SalsifyImport {
     }
 
     return $entity;
+  }
+
+  /**
+   * Get title for update.
+   *
+   * @param array $product_data
+   *   Product data array.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   Product entity.
+   *
+   * @return string
+   *   Title for the entity.
+   */
+  public static function getTitle(array $product_data, EntityInterface $entity) {
+    $original_title = $entity->label();
+    $salsify_title = $product_data['CMS: Product Name'] ?? $product_data['salsify:id'];
+
+    return ($original_title != $salsify_title &&
+      isset($product_data['CMS: multipack generated']) &&
+      $product_data['CMS: multipack generated'])
+      ? $original_title
+      : $salsify_title;
   }
 
   /**
@@ -422,10 +445,16 @@ class SalsifyImportField extends SalsifyImport {
       // For taxonomy term mapping, add processing for the terms coming in
       // from Salsify.
       elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'enumerated') {
+        $settings = $field_config->getSetting('handler_settings');
+        $vid = (!empty($settings['target_bundles']))
+          ? reset($settings['target_bundles'])
+          : NULL;
+
         static::populateTermOption(
           $product_data,
           $field,
-          $options
+          $options,
+          $vid
         );
       }
       elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'entity_ref') {
@@ -502,15 +531,18 @@ class SalsifyImportField extends SalsifyImport {
    *   Field data array.
    * @param mixed $options
    *   Option's array.
+   * @param mixed $vid
+   *   Vocabulary id.
    */
   public static function populateTermOption(
     array $product_data,
     array $field,
-    &$options
+    &$options,
+    $vid
   ) {
     $salsify_values = is_array($product_data[$field['salsify_id']]) ? $product_data[$field['salsify_id']] : [$product_data[$field['salsify_id']]];
     $term_entities = \Drupal::service('salsify_integration.salsify_import_taxonomy')
-      ->getTaxonomyTerms('salsify_id', $salsify_values);
+      ->getTaxonomyTerms('salsify_id', $salsify_values, $vid);
     if ($term_entities) {
       $options = [];
       /* @var \Drupal\taxonomy\Entity\Term $term_entity */

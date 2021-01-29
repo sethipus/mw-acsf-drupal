@@ -446,6 +446,7 @@ class ProductHelper {
     $salsify_id = base64_encode($product_variant['salsify:id']);
     $product['CMS: Meta Description'] = $product_variant['CMS: Meta Description'] ?? NULL;
     $product['CMS: Keywords'] = $product_variant['CMS: Keywords'] ?? NULL;
+    $this->addMetaTagsFlag($product);
     $product['salsify:id'] = $salsify_id;
     $product['GTIN'] = $salsify_id;
     $product['salsify:created_at'] = $product_variant['salsify:created_at'];
@@ -453,6 +454,19 @@ class ProductHelper {
     $product['CMS: content type'] = $content_type;
 
     return $product;
+  }
+
+  /**
+   * Add meta tag flag.
+   *
+   * @param array $product
+   *   Product data.
+   */
+  private function addMetaTagsFlag(array &$product) {
+    if (isset($product['CMS: Meta Description']) ||
+      isset($product['CMS: Keywords'])) {
+      $product['CMS: Meta tags'] = TRUE;
+    }
   }
 
   /**
@@ -495,6 +509,7 @@ class ProductHelper {
       $product['salsify:created_at'] = $product_variant['salsify:created_at'];
       $product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
       $product['CMS: content type'] = static::PRODUCT_VARIANT_CONTENT_TYPE;
+      $product['CMS: multipack generated'] = TRUE;
 
       $products_result[] = $product;
 
@@ -507,6 +522,7 @@ class ProductHelper {
       $empty_product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
       $empty_product['CMS: content type'] = static::PRODUCT_CONTENT_TYPE;
       $empty_product['CMS: not publish'] = TRUE;
+      $empty_product['CMS: multipack generated'] = TRUE;
       $products_result[] = $empty_product;
 
       $this->mapping['primary'][$empty_product['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
