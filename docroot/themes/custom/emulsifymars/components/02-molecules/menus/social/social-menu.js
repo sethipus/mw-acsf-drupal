@@ -1,6 +1,13 @@
 (function (Drupal) {
   Drupal.behaviors.socialMenu = {
     attach(context, settings) {
+      const socialPrintLinks = context.querySelectorAll(".social-menu__link[name='Print']");
+      socialPrintLinks.forEach(element => {
+        element.addEventListener('click', (event) => {
+          event.preventDefault();
+          window.print();
+        });
+      });
       if (typeof dataLayer === 'undefined') {
         return;
       }
@@ -15,7 +22,6 @@
             let result = {
               componentName: componentName,
             };
-
             if (clickName === 'Download' || clickName === 'Print') {
               if (componentName === 'recipe_detail_hero') {
                 result.recipeName = context.querySelector('.recipe-header__text').innerText.trim();
