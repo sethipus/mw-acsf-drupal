@@ -5,6 +5,7 @@
   background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
   position: relative;
   cursor: pointer;
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   @include card-width;
 
   a {
