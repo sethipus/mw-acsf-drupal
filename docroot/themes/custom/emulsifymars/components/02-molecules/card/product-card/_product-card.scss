@@ -156,22 +156,6 @@
         background-color: clr(subcolor-3) !important;
       }
 
-      @include xs {
-        &:active {
-          transition: none !important;
-          color: var(--c-text-inverse) !important;
-          background-color: var(--c-secondary) !important;
-        }
-      }
-
-      @include small {
-        &:active {
-          transition: none !important;
-          color: var(--c-text-inverse) !important;
-          background-color: var(--c-secondary) !important;
-        }
-      }
-
     }
 
     .default-link--light {

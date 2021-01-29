@@ -6,7 +6,7 @@
 /**
  * Provides the initial setup for OneTrust.
  */
-(function () {
+(function (Drupal) {
 
   'use strict';
 
@@ -19,4 +19,4 @@
       }
     }
   };
-})();
+})(Drupal);
