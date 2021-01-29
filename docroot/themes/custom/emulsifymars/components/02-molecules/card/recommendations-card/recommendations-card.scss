@@ -29,9 +29,9 @@
     @include card-width;
 
     img {
-      min-width: 100%;
-      min-height: 100%;
-      max-width: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     a {

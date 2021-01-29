@@ -265,7 +265,7 @@
     }
 
     @include xs {
-      top: 60rem;
+      top: 65rem;
       right: -1rem;
 
       & img {
@@ -317,7 +317,7 @@
 
     @include xs {
       top: 70rem;
-      left: -2rem;
+      left: -5rem;
 
       & img {
         max-width: 153px;
@@ -361,8 +361,8 @@
 
     @include xs {
       z-index: 0;
-      right: -1rem;
-      bottom: 20rem;
+      right: -3rem;
+      bottom: 7rem;
 
       & img {
         max-width: 182px;

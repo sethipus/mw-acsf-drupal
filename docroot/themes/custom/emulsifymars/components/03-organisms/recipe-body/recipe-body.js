@@ -11,9 +11,9 @@
 
         function adaptProductUsedBlock(productUsedPinned) {
           const smallScreen = window.innerWidth < 1280;
-          const fullscreenElementsSelector = '.footer, .recommendations, .flexible-framer';
-          let $productUsed = $('.product-used', this);
-let $recipeInfo = $('.recipe-info', this);
+          const fullscreenElementsSelector = '.footer, .recommendations, .flexible-framer, .article-full-width';
+          let $productUsed = $('.product-used');
+          let $recipeInfo = $('.recipe-info');
 
           // find the first element from list on the page
           let $firstFullwidth = $(fullscreenElementsSelector).first();
@@ -22,12 +22,12 @@ let $recipeInfo = $('.recipe-info', this);
             $firstFullwidth.css('margin-top', 0);
             return false;
           } else if (!smallScreen && !productUsedPinned) {
-            let $adjacentElement = $('.recipe-info', this).outerHeight(true);
-            $productUsed.css('margin-top', '-' + $adjacentElement + 'px');
+            let adjacentElementsHeight = $recipeInfo.outerHeight(true);
+            let productUsedPlaceholderHeight = $productUsed.outerHeight() - ($firstFullwidth.offset().top - $recipeInfo.offset().top);
+            $productUsed.css('margin-top', '-' + ( adjacentElementsHeight - 60 ) + 'px');
 
             if ($firstFullwidth.length && $recipeInfo.length) {
-              let productUsedPlaceholderHeight = $productUsed.outerHeight() - ($firstFullwidth.offset().top - $recipeInfo.offset().top);
-              $firstFullwidth.css('margin-top', productUsedPlaceholderHeight > 0 ? productUsedPlaceholderHeight + 100 : 0 + 'px');
+              $firstFullwidth.css('margin-top', productUsedPlaceholderHeight > 0 ? productUsedPlaceholderHeight + 160 : 0 + 'px');
             }
 
             return true;

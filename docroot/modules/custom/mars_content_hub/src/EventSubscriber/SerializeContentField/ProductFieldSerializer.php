@@ -115,7 +115,9 @@ class ProductFieldSerializer implements EventSubscriberInterface {
         foreach ($componentConfiguration['population_plugin_configuration']['nodes'] as $key => $nid) {
           /** @var \Drupal\core\Entity\EntityInterface $node */
           $node = $this->entityTypeManager->getStorage('node')->load($nid);
-          $componentConfiguration['population_plugin_configuration']['nodes'][$key] = $this->getProductGtin($node);
+          if (!empty($entity)) {
+            $componentConfiguration['population_plugin_configuration']['nodes'][$key] = $this->getProductGtin($node);
+          }
         }
       }
       $component->setConfiguration($componentConfiguration);

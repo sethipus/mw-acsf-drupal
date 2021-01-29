@@ -3,6 +3,8 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -94,6 +96,20 @@ class FooterBlockTest extends UnitTestCase {
   private $menuBuilderMock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $configFactoryMock;
+
+  /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $immutableConfigMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -136,7 +152,8 @@ class FooterBlockTest extends UnitTestCase {
       $this->entityTypeManagerMock,
       $this->languageHelperMock,
       $this->themeConfiguratorParserMock,
-      $this->menuBuilderMock
+      $this->menuBuilderMock,
+      $this->configFactoryMock
     );
   }
 
@@ -149,11 +166,13 @@ class FooterBlockTest extends UnitTestCase {
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->menuStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->menuBuilderMock = $this->createMock(MenuBuilder::class);
     $this->termStorageMock = $this->getMockBuilder(stdClass::class)
       ->setMethods(['loadTree'])
       ->getMock();
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
   }
 
   /**
@@ -161,19 +180,21 @@ class FooterBlockTest extends UnitTestCase {
    */
   public function testBlockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('entity_type.manager')],
         [$this->equalTo('mars_common.language_helper')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
-        [$this->equalTo('mars_common.menu_builder')]
+        [$this->equalTo('mars_common.menu_builder')],
+        [$this->equalTo('config.factory')]
       )
       ->will($this->onConsecutiveCalls(
         $this->entityTypeManagerMock,
         $this->languageHelperMock,
         $this->themeConfiguratorParserMock,
-        $this->menuBuilderMock
+        $this->menuBuilderMock,
+        $this->configFactoryMock
       ));
 
     $this->entityTypeManagerMock
@@ -241,15 +262,34 @@ class FooterBlockTest extends UnitTestCase {
       ->method('loadTree')
       ->willReturn([]);
 
+    $this->configFactoryMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
+
     $build = $this->footerBlock->build();
 
-    $this->assertCount(12, $build);
+    $this->assertCount(14, $build);
     $this->assertArrayHasKey('#cache', $build);
     $this->assertArrayHasKey('#top_footer_menu', $build);
     $this->assertArrayHasKey('#legal_links', $build);
     $this->assertArrayHasKey('#marketing', $build);
     $this->assertArrayHasKey('#corporate_tout_text', $build);
     $this->assertArrayHasKey('#corporate_tout_url', $build);
+    $this->assertArrayHasKey('#region_title', $build);
+    $this->assertArrayHasKey('#social_header', $build);
     $this->assertCount(0, $build['#social_links']);
     $this->assertArrayHasKey('#region_selector', $build);
     $this->assertEquals('footer_block', $build['#theme']);
