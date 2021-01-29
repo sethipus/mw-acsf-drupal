@@ -22,12 +22,12 @@
             $firstFullwidth.css('margin-top', 0);
             return false;
           } else if (!smallScreen && !productUsedPinned) {
-            let adjacentElementsHeight = $('.recipe-info', this).outerHeight(true);
-            $productUsed.css('margin-top', '-' + adjacentElementsHeight + 'px');
+            let adjacentElementsHeight = $recipeInfo.outerHeight(true);
+            let productUsedPlaceholderHeight = $productUsed.outerHeight() - ($firstFullwidth.offset().top - $recipeInfo.offset().top);
+            $productUsed.css('margin-top', '-' + ( adjacentElementsHeight - 60 ) + 'px');
 
             if ($firstFullwidth.length && $recipeInfo.length) {
-              let productUsedPlaceholderHeight = $productUsed.outerHeight() - ($firstFullwidth.offset().top - $recipeInfo.offset().top);
-              $firstFullwidth.css('margin-top', productUsedPlaceholderHeight > 0 ? productUsedPlaceholderHeight - adjacentElementsHeight + 100 : 0 + 'px');
+              $firstFullwidth.css('margin-top', productUsedPlaceholderHeight > 0 ? productUsedPlaceholderHeight + 160 : 0 + 'px');
             }
 
             return true;

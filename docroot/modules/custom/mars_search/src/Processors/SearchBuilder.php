@@ -414,8 +414,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    */
   public function getSearchNoResult($key, $grid_type) {
     $config = $this->configFactory->get('mars_search.search_no_results');
+    $heading = (!empty($key))
+      ? str_replace('@keys', $key, $config->get('no_results_heading'))
+      : $config->get('no_results_heading_empty_str');
     $build = [
-      '#no_results_heading' => str_replace('@keys', $key, $config->get('no_results_heading')),
+      '#no_results_heading' => $heading,
       '#no_results_text' => $config->get('no_results_text'),
       '#theme' => 'mars_search_no_results',
     ];
