@@ -5,6 +5,11 @@ dependencies:
   config:
     - field.storage.node.field_landing_page_new
     - node.type.landing_page
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 id: node.landing_page.field_landing_page_new
 field_name: field_landing_page_new
 entity_type: node
@@ -15,7 +20,7 @@ required: false
 translatable: false
 default_value:
   -
-    value: 0
+    value: 1
 default_value_callback: ''
 settings:
   on_label: 'On'
