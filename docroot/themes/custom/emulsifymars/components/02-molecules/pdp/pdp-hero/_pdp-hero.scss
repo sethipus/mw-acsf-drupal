@@ -373,23 +373,23 @@
     }
 
     &-item {
-      min-height: 50vh;
+      min-height: auto;
       display: flex;
       flex-direction: column;
       justify-content: center;
 
       @include large {
-        min-height: auto;
         display: block;
       }
     }
 
     img {
-      @media (max-width: 768px) {
+      @include medium {
         width: 47.2rem;
       }
-      @media (max-width: 375px) {
+      @include small {
         width: 27.7rem;
+        height: 100%;
       }
     }
   }
