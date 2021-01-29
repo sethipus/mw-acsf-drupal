@@ -47,7 +47,7 @@
     </div>
   </div>
   <div {{ bem(search_filter_information_base_class, [modifier]) }}>
-    <div {{ bem('applied', [modifier], search_filter_information_base_class) }} aria-live="polite" aria-atomic="true">
+    <div {{ bem('applied', [modifier], search_filter_information_base_class) }} aria-live="polite">
       <div {{ bem('applied-label', [], search_filter_information_base_class) }}>
         {{ "Applied filters (" | mt }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | mt }}
       </div>
