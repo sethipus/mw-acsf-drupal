@@ -305,7 +305,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     // Getting search results from SOLR.
     $searchOptions = $this->searchQueryParser->parseQuery();
     $label_config = $this->configFactory->get('mars_common.site_labels');
-    $placeholder = $this->languageHelper->translate($label_config->get('faq_card_grid_search'));
+    $placeholder = $this->languageHelper->translate($label_config->get('faq_card_grid_search')) ?? '';
     $build['#input_form'] = $this->getSearhForm($searchOptions['keys'], $placeholder);
     $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-faq';
     $build['#input_form']['#attributes']['data-grid-query'] = 'faq=1';
@@ -333,7 +333,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    * @return array
    *   Array with search options.
    */
-  protected function getSearhForm(string $keys, string $placeholder, string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
+  protected function getSearhForm(string $keys, string $placeholder = '', string $grid_id = SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID) {
     return [
       '#type' => 'textfield',
       '#attributes' => [

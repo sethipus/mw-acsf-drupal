@@ -91,3 +91,40 @@ function _mars_product_create_component(string $plugin_block_id, Section $sectio
   $section->appendComponent($section_component);
   $display->save();
 }
+
+/**
+ * Implements hook_update_N() for layout builder.
+ */
+function mars_product_update_8926() {
+  $delta = 1;
+  $region_to = 'all_regions';
+  $plugin_block_id = 'rating_bazarvoice_block';
+
+  /** @var \Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay $display */
+  $display = LayoutBuilderEntityViewDisplay::load('node.campaign.default');
+
+  $contexts = [
+    'display' => EntityContext::fromEntity($display),
+  ];
+
+  $section_storage_manager = \Drupal::service('plugin.manager.layout_builder.section_storage');
+  /** @var Drupal\layout_builder\SectionStorageInterface $section_storage */
+  $section_storage = $section_storage_manager->load('defaults', $contexts);
+
+  $third_party_settings = $section_storage->getThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', []);
+  $layout_id = $section_storage->getSection($delta)->getLayoutId();
+
+  $whitelisted_blocks = &$third_party_settings['whitelisted_blocks'][$layout_id];
+
+  if (isset($whitelisted_blocks[$region_to])) {
+    $definition = \Drupal::service('plugin.manager.block')->getDefinition($plugin_block_id);
+    $category = PluginHelperTrait::getUntranslatedCategory($definition['category']);
+    if (isset($whitelisted_blocks[$region_to][$category])) {
+      if (!in_array($plugin_block_id, $whitelisted_blocks[$region_to][$category])) {
+        $whitelisted_blocks[$region_to][$category][] = $plugin_block_id;
+      }
+    }
+  }
+  $section_storage->setThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', $third_party_settings);
+  $display->save();
+}
