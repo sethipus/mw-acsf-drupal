@@ -1,4 +1,6 @@
 .homepage-hero-standard {
+  overflow: hidden;
+
   &__inner {
     display: flex;
     flex-flow: row wrap;
