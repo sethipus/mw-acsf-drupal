@@ -8,6 +8,12 @@
   {% if image_sizes %}
     sizes="{{ image_sizes }}"
   {% endif %}
+  {% if height %}
+    height="{{ height }}"
+  {% endif %}
+  {% if width %}
+    width="{{ width }}"
+  {% endif %}
   src="{{ image_src }}"
   {% if image_alt %}
     alt="{{ image_alt }}"
