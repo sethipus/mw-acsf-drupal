@@ -54,7 +54,6 @@ third_party_settings:
         - field_product_market
         - field_product_name
         - field_product_segment
-        - field_product_sub_brand
         - field_product_category
         - field_product_format
         - field_product_occasions
