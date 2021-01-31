@@ -92,10 +92,10 @@
                 (max-width: 1024px) 1024px,
                 1440px',
             image_src: image_items|first.image.src,
-              responsive_image_base_class: 'main-image',
+            responsive_image_base_class: 'main-image',
             responsive_image_blockname: pdp_hero_base_class,
-            height: '800px',
-            width: '800px',
+            height: '550px',
+            width: '550px',
           } %}
         </div>
         <div {{ bem('sticky-nav-bottom', [size_id], pdp_hero_base_class) }}>
@@ -125,6 +125,8 @@
                     (max-width: 1024px) 1024px,
                     1440px',
                 image_src: item.image.src,
+                height: '550px',
+                width: '550px',
                 responsive_image_base_class: 'side-image',
                 responsive_image_blockname: pdp_hero_base_class,
               } %}
