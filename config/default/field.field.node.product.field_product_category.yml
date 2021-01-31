@@ -1,0 +1,34 @@
+uuid: f24c5a7e-8aec-449d-a6e8-ac8aacba8571
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_category
+    - node.type.product
+    - taxonomy.vocabulary.mars_category
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product.field_product_category
+field_name: field_product_category
+entity_type: node
+bundle: product
+label: Category
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_category: mars_category
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
