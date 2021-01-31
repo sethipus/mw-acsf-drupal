@@ -1,19 +1,19 @@
-uuid: d8031dba-b175-4e0c-a562-1e12577bfb66
+uuid: 22e8da07-b3d8-4801-90fc-58139a3c173e
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_campaign_new
-    - node.type.campaign
+    - field.storage.node.field_content_hub_page_new
+    - node.type.content_hub_page
   module:
     - tmgmt_content
 third_party_settings:
   tmgmt_content:
     excluded: false
-id: node.campaign.field_campaign_new
-field_name: field_campaign_new
+id: node.content_hub_page.field_content_hub_page_new
+field_name: field_content_hub_page_new
 entity_type: node
-bundle: campaign
+bundle: content_hub_page
 label: New
 description: ''
 required: false
