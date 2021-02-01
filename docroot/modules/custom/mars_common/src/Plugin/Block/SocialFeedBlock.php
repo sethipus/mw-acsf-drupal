@@ -139,6 +139,11 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
     }
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = '#FFFFFF';
+    }
+
     return [
       '#theme' => 'social_feed_block',
       '#select_background_color' => $background_color,
@@ -146,6 +151,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#items' => $this->getFeedItems(),
       '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
       '#brand_border' => $this->themeConfigurator->getBrandBorder2(),
+      '#text_color_override' => $text_color_override,
       '#cache' => [
         'tags' => $configEntity->getCacheTags(),
         'max-age' => self::MAX_AGE_1_DAY,
@@ -173,6 +179,17 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#required' => TRUE,
     ];
 
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $this->configuration['override_text_color']['override_color'] ?? NULL,
+    ];
+
     try {
       $form['feed']['#default_value'] = $this->getFeedConfig();
     }
@@ -194,6 +211,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->configuration['feed'] = $form_state->getValue('feed');
     $this->configuration['label'] = $form_state->getValue('label_title');
     $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**

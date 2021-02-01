@@ -25,7 +25,8 @@
   {% block grid_content %}
     {% for item in items %}
       {% include "@organisms/grid/_grid-ff-layout.twig" with {
-        brand_shape: brand_shape
+        brand_shape: brand_shape,
+        text_color_override: text_color_override
       } %}
     {% endfor %}
   {% endblock %}

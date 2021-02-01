@@ -158,6 +158,11 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $build['#view_more_cta_label'] = !empty($conf['view_more']['label']) ? $this->languageHelper->translate($conf['view_more']['label']) : $this->languageHelper->translate('View More');
     }
 
+    $build['#text_color_override'] = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = '#FFFFFF';
+    }
+
     return $build;
   }
 
@@ -244,6 +249,17 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       ],
     ];
 
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
+    ];
+
     return $form;
   }
 
@@ -258,6 +274,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->configuration['items'] = $form_state->getValue('items');
     $this->configuration['svg_assets'] = $form_state->getValue('svg_assets');
     $this->configuration['view_more'] = $form_state->getValue('view_more');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
 
     $svg_assets = $form_state->getValue('svg_assets');
     if (!empty($svg_assets)) {

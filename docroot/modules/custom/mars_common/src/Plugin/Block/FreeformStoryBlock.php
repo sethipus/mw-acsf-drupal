@@ -172,6 +172,17 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#default_value' => $this->configuration['custom_background_color'] ?? '',
     ];
 
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $this->configuration['override_text_color']['override_color'] ?? NULL,
+    ];
+
     return $form;
   }
 
@@ -198,6 +209,12 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'];
     $build['#use_custom_color'] = (bool) $this->configuration['use_custom_color'];
+
+    $build['#text_color_override'] = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = '#FFFFFF';
+    }
+
     $build['#theme'] = 'freeform_story_block';
 
     return $build;

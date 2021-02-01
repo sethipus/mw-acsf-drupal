@@ -112,6 +112,17 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $config->get('override_text_color')['override_color'] ?? NULL,
+    ];
+
     return $form;
   }
 
@@ -134,6 +145,7 @@ class EntryGateConfigForm extends ConfigFormBase {
     $config->set('error_message', $form_state->getValue('error_message'));
     $config->set('error_link_1', $form_state->getValue('error_link_1'));
     $config->set('error_link_2', $form_state->getValue('error_link_2'));
+    $config->set('override_text_color', ['override_color' => $form_state->getValue('override_color')]);
     $config->save();
 
     parent::submitForm($form, $form_state);

@@ -37,19 +37,22 @@
           {% include "@atoms/text/headings/_heading.twig" with {
             heading: freeform_story_header_1,
             heading_level: freeform_story_header_1_level,
-            heading_base_class: freeform_story_header_1_base_class
+            heading_base_class: freeform_story_header_1_base_class,
+            text_color_override: text_color_override
           } %}
         {% endif %}
 
         {% include "@atoms/text/headings/_heading.twig" with {
           heading: freeform_story_header_2,
           heading_level: freeform_story_header_2_level,
-          heading_base_class: freeform_story_header_2_base_class
+          heading_base_class: freeform_story_header_2_base_class,
+          text_color_override: text_color_override
         } %}
 
         {% include "@atoms/text/text/07-element.twig" with {
           paragraph_content: freeform_story_paragraph_content,
-          paragraph_base_class: freeform_story_paragraph_base_class
+          paragraph_base_class: freeform_story_paragraph_base_class,
+          text_color_override: text_color_override
         } %}
       </div>
     </div>

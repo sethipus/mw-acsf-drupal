@@ -172,6 +172,11 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#social_links'] = $this->socialLinks();
 
+    $build['#text_color_override'] = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = '#FFFFFF';
+    }
+
     $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
     $cacheMetadata->addCacheableDependency($label_config);
     $cacheMetadata->applyTo($build);
@@ -202,6 +207,18 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
         'target_bundles' => ['article'],
       ],
     ];
+
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
+    ];
+
     return $form;
   }
 

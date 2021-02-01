@@ -24,24 +24,28 @@
 
     <div {{ bem('text_wrapper', [], article_header) }}>
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-        eyebrow_text: eyebrow
+        eyebrow_text: eyebrow,
+        text_color_override: text_color_override
       } %}
 
       {% include "@atoms/text/headings/_heading.twig" with {
         heading_level: 2,
         heading: heading,
-        heading_base_class:'heading'
+        heading_base_class:'heading',
+        text_color_override: text_color_override
       } %}
 
       {% include "@atoms/text/text/07-span.twig" with {
         span_base_class: 'published',
-        span_content: date_published
+        span_content: date_published,
+        text_color_override: text_color_override
       } %}
 
       <div class="share-block">
         {% include "@atoms/text/text/07-span.twig" with {
           span_base_class: 'share-text',
-          span_content: share_text
+          span_content: share_text,
+          text_color_override: text_color_override
         } %}
         {% block article_social_menu %}
           {% include "@molecules/menus/social/social-menu.twig" with {

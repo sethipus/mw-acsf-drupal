@@ -14,6 +14,7 @@
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: heading,
         heading_level: heading_level|default(2),
+        text_color_override: text_color_override
       } %}
 
       <div class="graphic_divider">
@@ -22,7 +23,8 @@
 
       {% include "@atoms/text/text/01-paragraph.twig" with {
         paragraph_content: story_highlight_paragraph_content,
-        paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph')
+        paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph'),
+        text_color_override: text_color_override
       } %}
 
       <div class="white-background"></div>
@@ -56,7 +58,8 @@
             paragraph_size: paragraph_size,
             paragraph_content: item.content,
             paragraph_base_class: paragraph_base_class,
-            paragraph_modifiers: paragraph_modifiers
+            paragraph_modifiers: paragraph_modifiers,
+            text_color_override: text_color_override
           } %}
         </div>
       {% endfor %}

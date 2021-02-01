@@ -95,6 +95,11 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
     }
 
     $build['#poll'] = $this->pollViewBuilder->view($pollEntity);
+    $text_color_override = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $text_color_override = '#FFFFFF';
+    }
+    $build['#text_color_override'] = $text_color_override;
     $build['#theme'] = 'poll_block';
 
     return $build;
@@ -105,6 +110,7 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $conf = $this->getConfiguration();
 
     $form['poll'] = [
       '#type' => 'entity_autocomplete',
@@ -118,6 +124,17 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#required' => TRUE,
     ];
 
+    $form['override_text_color'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Override theme text color'),
+    ];
+
+    $form['override_text_color']['override_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
+      '#default_value' => $conf['override_text_color']['override_color'] ?? NULL,
+    ];
+
     return $form;
   }
 
@@ -127,6 +144,7 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['poll'] = $form_state->getValue('poll');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**
