@@ -3,6 +3,18 @@
   color: clr(primary);
   background-color: clr(subcolor-2);
 
+  @include xs {
+    margin-bottom: 5rem;
+  }
+
+  @include medium {
+    margin-bottom: 6rem;
+  }
+
+  @include xl {
+    margin-bottom: 8rem;
+  }
+
     &__text_wrapper {
       width: 90%;
       margin: 0 auto;
@@ -225,7 +237,7 @@
     z-index: 1;
     position: absolute;
     display: block;
-    
+
     @include xs {
       top: -9.5rem;
       right: -13rem;
