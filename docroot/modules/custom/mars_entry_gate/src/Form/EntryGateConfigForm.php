@@ -115,7 +115,8 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
-    $this->buildOverrideColorElement($form, $config->get('override_text_color'));
+    $text_color_config = $config->get('override_text_color') ? ['override_text_color' => $config->get('override_text_color')] : [];
+    $this->buildOverrideColorElement($form, $text_color_config);
 
     return $form;
   }
