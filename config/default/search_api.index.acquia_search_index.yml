@@ -3,23 +3,24 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_product_brand
-    - field.storage.node.field_faq_filter_topic
     - field.storage.node.field_qa_item_answer
-    - field.storage.node.field_qa_item_question
     - field.storage.node.field_brand_initiatives
-    - field.storage.node.field_product_diet_allergens
-    - field.storage.node.field_product_variants
+    - field.storage.node.field_product_brand
+    - field.storage.node.field_product_category
+    - field.storage.node.field_faq_filter_topic
     - field.storage.node.field_product_flavor
     - field.storage.node.field_product_format
     - field.storage.node.field_product_occasions
-    - field.storage.node.field_product_trade_description
     - field.storage.node.field_product_name
+    - field.storage.node.field_product_diet_allergens
+    - field.storage.node.field_product_variants
+    - field.storage.node.field_qa_item_question
+    - field.storage.node.field_product_trade_description
     - search_api.server.acquia_search_server
   module:
-    - taxonomy
-    - node
     - search_api_solr
+    - node
+    - taxonomy
     - search_api
     - mars_search
 _core:
@@ -61,6 +62,24 @@ field_settings:
     label: 'FAQ item queue weight'
     property_path: faq_item_queue_weight
     type: string
+  field_product_category:
+    label: Category
+    datasource_id: 'entity:node'
+    property_path: field_product_category
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_category
+  field_product_category_name:
+    label: 'Category » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_category:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_category
+      module:
+        - taxonomy
   field_qa_item_answer:
     label: Answer
     datasource_id: 'entity:node'
@@ -260,6 +279,7 @@ processor_settings:
       - brand
       - faq_filter_topic
       - faq_item_queue_weight
+      - field_product_category_name
       - field_qa_item_answer
       - field_qa_item_question
       - mars_brand_initiatives_name
