@@ -15,6 +15,7 @@
 {% include "@molecules/card/recipe-card/recipe-card.twig" with {
   theme_styles: 'drupal',
   recipe_is_new: recipe_is_new,
+  badge_text: badge_text,
   recipe_card_image_src: background_asset.src,
   recipe_card_image_alt: background_asset.alt ,
   recipe_card_media_url: url,
@@ -37,7 +38,6 @@
   label_for_cooking_time: node.field_recipe_cooking_time.fieldDefinition.label,
   label_for_ingredients: node.field_recipe_ingredients.fieldDefinition.label,
   select_background_color: select_background_color,
-  badge_text: badge_text,
   recipe_card_button_text: card_button_text,
   text_color_override: elements['#text_color_override']
 } %}

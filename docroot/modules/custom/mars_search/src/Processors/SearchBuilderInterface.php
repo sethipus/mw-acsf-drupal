@@ -13,6 +13,10 @@ interface SearchBuilderInterface {
    * @var array
    */
   const TAXONOMY_VOCABULARIES = [
+    'mars_category' => [
+      'label' => 'CATEGORY',
+      'content_types' => ['product'],
+    ],
     'mars_brand_initiatives' => [
       'label' => 'BRAND INITIATIVES',
       'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],

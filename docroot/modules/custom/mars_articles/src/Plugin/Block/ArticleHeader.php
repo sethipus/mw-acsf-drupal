@@ -251,6 +251,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
           '#uri' => $icon_path . $name . '.svg',
           '#title' => $social_media['text'],
           '#alt' => $social_media['text'],
+          '#attributes' => [
+            'height' => '20px',
+            'width' => '20px',
+          ],
         ];
       }
       elseif (!empty($social_media['img'])) {
@@ -259,6 +263,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
           '#uri' => $base_url . '/' . $social_media['img'],
           '#title' => $social_media['text'],
           '#alt' => $social_media['text'],
+          '#attributes' => [
+            'height' => '20px',
+            'width' => '20px',
+          ],
         ];
       }
     }

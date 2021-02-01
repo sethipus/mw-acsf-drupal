@@ -1,0 +1,6 @@
+select_background_color_recipe: default
+select_background_color_product: default
+select_background_color_campaign: default
+select_background_color_landing: default
+select_background_color_hub_card: default
+select_background_color_article: default

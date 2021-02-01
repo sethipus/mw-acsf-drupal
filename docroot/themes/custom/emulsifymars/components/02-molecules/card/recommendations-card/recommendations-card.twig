@@ -14,6 +14,10 @@
          data-card-type="{{ card_type }}"
          data-site-search-clicked="{{ heading }}">
 
+  {% if is_new %}
+    {% include "@atoms/badge/badge.twig" %}
+  {% endif %}
+
   {% include "@atoms/text/headings/_heading.twig" with {
     heading: heading,
     heading_level: heading_level,
@@ -44,6 +48,8 @@
           image_alt: card_image_alt,
           image_src: card_image_src,
           responsive_image_blockname: 'content_hub_image',
+          height: '318px',
+          width: '318px',
         } %}
       </a>
     </div>
