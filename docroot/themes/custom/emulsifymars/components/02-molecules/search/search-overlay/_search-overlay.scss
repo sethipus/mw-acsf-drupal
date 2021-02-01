@@ -36,6 +36,11 @@
     display: flex;
     width: 100%;
 
+    @include large {
+      align-items: center;
+      height: 16.2rem;  
+    }
+
     .header__branding {
       display: none;
 
@@ -213,6 +218,7 @@
 
       @include large {
         border-bottom: none;
+        margin: 5rem auto;
       }
 
       .form-item {
@@ -259,7 +265,7 @@
 
           @include large {
             left: 20px;
-            top: 20px;
+            top: 70px;
             background-color: clr(primary);
           }
         }
@@ -277,6 +283,7 @@
       height: 60px;
       max-width: 3%;
       position: absolute;
+      z-index: 10;
       right: 0;
       top: 0;
     }

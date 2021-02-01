@@ -73,15 +73,15 @@
     img, figure {
       width: 100%;
       height: $recipe-feature-mobile-max-height;
+      object-fit: cover;
 
       @include medium {
         height: $recipe-feature-tablet-max-height;
-      }  
-  
+      }
+
       @include large {
         height: 100%;
         width: 62%;
-        object-fit: cover;
       }
     }
 
@@ -91,7 +91,7 @@
         right: calc(5% + 40px);
       }
     }
-  
+
     .ambient-video__control[data-state="pause"] {
       @include medium {
         top: 40px;

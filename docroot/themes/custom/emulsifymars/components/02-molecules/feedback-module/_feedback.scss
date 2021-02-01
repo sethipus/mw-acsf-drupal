@@ -270,6 +270,10 @@
     z-index: 2;
     display: block;
 
+    img{ 
+      object-fit: cover;
+    }
+
     @include xs {
       width: 14rem;
       bottom: -3rem;

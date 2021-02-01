@@ -397,4 +397,4 @@
       }
     },
   };
-})(Drupal, drupalSettings);
+})(Drupal, window.drupalSettings);
