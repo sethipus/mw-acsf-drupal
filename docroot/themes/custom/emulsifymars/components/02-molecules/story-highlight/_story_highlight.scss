@@ -249,7 +249,7 @@
 
     @include playbutton;
 
-    
+
   }
 
   &__brand-shape_1 {
@@ -262,6 +262,7 @@
       margin: 0;
       max-width: 242px;
       max-height: 242px;
+      object-fit: contain;
     }
 
     @include xs {
@@ -295,7 +296,7 @@
       top: 36rem;
       right: 0;
     }
-    
+
   }
 
   &__brand-shape_2 {
@@ -313,6 +314,7 @@
       margin: 0;
       max-width: 443px;
       max-height: 434px;
+      object-fit: contain;
     }
 
     @include xs {
@@ -333,7 +335,7 @@
         max-width: 153px;
         max-height: 153px;
       }
-   
+
     }
 
     @include large {
@@ -357,6 +359,7 @@
       margin: 0;
       max-width: 356px;
       max-height: 330px;
+      object-fit: contain;
     }
 
     @include xs {
