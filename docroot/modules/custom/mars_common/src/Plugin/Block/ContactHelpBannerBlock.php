@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -19,6 +20,8 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * )
  */
 class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * Language helper service.
@@ -109,7 +112,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $build['#theme'] = 'contact_help_banner_block';
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = '#FFFFFF';
+      $text_color_override = self::$overrideColor;
     }
     $build['#text_color_override'] = $text_color_override;
 
@@ -213,17 +216,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       '#default_value' => $this->configuration['social_links_label'] ?? '',
       '#required' => TRUE,
     ];
-
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $this->configuration['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $this->configuration);
 
     return $form;
   }

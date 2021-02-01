@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -20,6 +21,8 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * )
  */
 class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * Entity storage.
@@ -97,7 +100,7 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
     $build['#poll'] = $this->pollViewBuilder->view($pollEntity);
     $text_color_override = FALSE;
     if (!empty($conf['override_text_color']['override_color'])) {
-      $text_color_override = '#FFFFFF';
+      $text_color_override = self::$overrideColor;
     }
     $build['#text_color_override'] = $text_color_override;
     $build['#theme'] = 'poll_block';
@@ -124,16 +127,7 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#required' => TRUE,
     ];
 
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $conf['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $conf);
 
     return $form;
   }

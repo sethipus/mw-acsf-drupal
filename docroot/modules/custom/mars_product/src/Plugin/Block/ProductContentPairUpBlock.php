@@ -14,6 +14,7 @@ use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,6 +32,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
   use EntityBrowserFormTrait;
   use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Article or recipe first.
@@ -143,7 +145,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $conf = $this->getConfiguration();
     $text_color_override = FALSE;
     if (!empty($conf['override_text_color']['override_color'])) {
-      $text_color_override = '#FFFFFF';
+      $text_color_override = self::$overrideColor;
     }
     /** @var \Drupal\node\Entity\Node $main_entity */
     /** @var \Drupal\node\Entity\Node $supporting_entity */
@@ -268,17 +270,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
     // Add select background color.
     $this->buildSelectBackground($form);
-
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $this->configuration['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $this->configuration);
 
     return $form;
   }

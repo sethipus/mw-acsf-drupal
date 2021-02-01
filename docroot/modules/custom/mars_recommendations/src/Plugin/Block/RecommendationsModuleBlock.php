@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\layout_builder\Form\ConfigureBlockFormBase;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_recommendations\RecommendationsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,6 +27,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * Mars Recommendations Service.
@@ -112,7 +115,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       : $this->languageHelper->translate($this->configuration['title']);
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = '#FFFFFF';
+      $text_color_override = self::$overrideColor;
     }
     $raw_rendered_recommendations = $plugin->getRenderedRecommendations();
     $rendered_recommendations_with_color_override = [];
@@ -215,16 +218,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $form_state->set('population_logic_plugin', $plugin);
     }
 
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $conf['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $conf);
 
     return $form;
   }

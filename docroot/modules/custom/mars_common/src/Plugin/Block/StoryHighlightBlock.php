@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -25,6 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use OverrideThemeTextColorTrait;
 
   const STORY_ITEMS_COUNT = 3;
   const SVG_ASSETS_COUNT = 3;
@@ -160,7 +162,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $build['#text_color_override'] = FALSE;
     if (!empty($conf['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = '#FFFFFF';
+      $build['#text_color_override'] = self::$overrideColor;
     }
 
     return $build;
@@ -249,16 +251,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       ],
     ];
 
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $this->configuration);
 
     return $form;
   }

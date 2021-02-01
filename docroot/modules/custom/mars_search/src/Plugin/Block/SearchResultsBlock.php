@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -20,6 +21,8 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
  * )
  */
 class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * ThemeConfiguratorParser.
@@ -82,17 +85,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $form = parent::buildConfigurationForm($form, $form_state);
 
     $config = $this->getConfiguration();
-
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $config);
 
     return $form;
   }
@@ -145,7 +138,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build['#attached']['library'][] = 'mars_search/search_pager';
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = '#FFFFFF';
+      $text_color_override = self::$overrideColor;
     }
     $build['#text_color_override'] = $text_color_override;
     return $build;

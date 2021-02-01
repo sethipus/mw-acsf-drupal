@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
@@ -28,6 +29,8 @@ use Drupal\mars_search\Processors\SearchBuilderInterface;
  * @package Drupal\mars_search\Plugin\Block
  */
 class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * The entity type manager service.
@@ -153,7 +156,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $build['#attached']['library'][] = 'mars_search/autocomplete';
     $build['#text_color_override'] = FALSE;
     if (!empty($config['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = '#FFFFFF';
+      $build['#text_color_override'] = self::$overrideColor;
     }
 
     return $build;
@@ -186,16 +189,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form = array_merge($form, $this->buildExcludedFilters());
     $form = array_merge($form, $this->buildTopResults());
 
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $config);
 
     return $form;
   }

@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,6 +27,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
   use EntityBrowserFormTrait;
   use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Mars Media Helper service.
@@ -206,17 +208,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
     // Add select background color.
     $this->buildSelectBackground($form);
-
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $config);
 
     return $form;
   }
@@ -342,7 +334,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $build['#text_color_override'] = FALSE;
     if (!empty($config['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = '#FFFFFF';
+      $build['#text_color_override'] = self::$overrideColor;
     }
 
     $build['#select_background_color'] = $background_color;

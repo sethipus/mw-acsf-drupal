@@ -9,6 +9,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
@@ -32,6 +33,8 @@ use Drupal\Core\Utility\Token;
  * @package Drupal\mars_articles\Plugin\Block
  */
 class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * A view builder instance.
@@ -174,7 +177,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
     $build['#text_color_override'] = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = '#FFFFFF';
+      $build['#text_color_override'] = self::$overrideColor;
     }
 
     $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
@@ -208,16 +211,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       ],
     ];
 
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $config);
 
     return $form;
   }

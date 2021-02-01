@@ -11,6 +11,7 @@ use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
@@ -29,6 +30,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  * @package Drupal\mars_recipes\Plugin\Block
  */
 class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * A view builder instance.
@@ -88,7 +91,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
   public function build() {
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = '#FFFFFF';
+      $text_color_override = self::$overrideColor;
     }
     $node = $this->getContextValue('node');
     $ingredients_list = [];
@@ -148,17 +151,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
     $form = parent::buildConfigurationForm($form, $form_state);
 
     $config = $this->getConfiguration();
-
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $config['override_text_color']['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $config);
 
     return $form;
   }

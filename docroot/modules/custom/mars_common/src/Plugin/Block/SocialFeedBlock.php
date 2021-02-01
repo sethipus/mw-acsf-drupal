@@ -14,6 +14,7 @@ use Drupal\juicer_io\Model\FeedFactory;
 use Drupal\juicer_io\Model\FeedItem;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,6 +31,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   const MAX_AGE_1_DAY = 60 * 60 * 24;
 
@@ -141,7 +143,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     }
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = '#FFFFFF';
+      $text_color_override = self::$overrideColor;
     }
 
     return [
@@ -179,17 +181,6 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#required' => TRUE,
     ];
 
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $this->configuration['override_text_color']['override_color'] ?? NULL,
-    ];
-
     try {
       $form['feed']['#default_value'] = $this->getFeedConfig();
     }
@@ -199,6 +190,9 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Add select background color.
     $this->buildSelectBackground($form);
+
+    // Add override text color config.
+    $this->buildOverrideColorElement($form, $this->configuration);
 
     return $form;
   }
