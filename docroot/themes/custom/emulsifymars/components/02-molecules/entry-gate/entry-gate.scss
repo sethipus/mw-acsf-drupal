@@ -15,7 +15,7 @@
     display: none;
     text-align: center;
     border-radius: variable(card-border-radius);
-    padding: 0 3rem 3rem 3rem;
+    padding: 3rem;
     max-width: 90%;
     background-color: clr(subcolor-2);
     position: relative;
@@ -23,11 +23,11 @@
 
     @include medium {
       max-width: 75%;
-      padding: 0 5rem 6rem 5rem;
+      padding: 6rem 5rem;
     }
 
     @include xl {
-      padding: 0 11rem 6rem 11rem;
+      padding: 6rem 11rem;
       max-width: 89.6rem;
     }
   }
