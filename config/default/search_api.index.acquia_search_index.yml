@@ -62,24 +62,6 @@ field_settings:
     label: 'FAQ item queue weight'
     property_path: faq_item_queue_weight
     type: string
-  field_product_category:
-    label: Category
-    datasource_id: 'entity:node'
-    property_path: field_product_category
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_product_category
-  field_product_category_name:
-    label: 'Category » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_product_category:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_product_category
-      module:
-        - taxonomy
   field_qa_item_answer:
     label: Answer
     datasource_id: 'entity:node'
@@ -112,6 +94,24 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_brand_initiatives
+      module:
+        - taxonomy
+  mars_category:
+    label: Category
+    datasource_id: 'entity:node'
+    property_path: field_product_category
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_category
+  mars_category_name:
+    label: 'Category » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_category:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_category
       module:
         - taxonomy
   mars_diet_allergens:
@@ -279,10 +279,10 @@ processor_settings:
       - brand
       - faq_filter_topic
       - faq_item_queue_weight
-      - field_product_category_name
       - field_qa_item_answer
       - field_qa_item_question
       - mars_brand_initiatives_name
+      - mars_category_name
       - mars_diet_allergens_name
       - mars_flavor_name
       - mars_format_name
