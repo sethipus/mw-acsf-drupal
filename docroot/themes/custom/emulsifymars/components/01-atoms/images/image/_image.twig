@@ -1,12 +1,18 @@
 {% set image_base_class = image_base_class|default('image') %}
 
-<img
+<img loading="lazy"
   {{ bem(image_base_class, image_modifiers, image_blockname) }}
   {% if image_srcset %}
     srcset="{{ image_srcset }}"
   {% endif %}
   {% if image_sizes %}
     sizes="{{ image_sizes }}"
+  {% endif %}
+  {% if height %}
+    height="{{ height }}"
+  {% endif %}
+  {% if width %}
+    width="{{ width }}"
   {% endif %}
   src="{{ image_src }}"
   {% if image_alt %}
