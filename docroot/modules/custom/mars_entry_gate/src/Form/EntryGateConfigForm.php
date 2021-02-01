@@ -4,11 +4,14 @@ namespace Drupal\mars_entry_gate\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 
 /**
  * Configuration form for Entry Gate.
  */
 class EntryGateConfigForm extends ConfigFormBase {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * {@inheritdoc}
@@ -112,16 +115,7 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
-    $form['override_text_color'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Override theme text color'),
-    ];
-
-    $form['override_text_color']['override_color'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Override default theme text color configuration with white for the selected component'),
-      '#default_value' => $config->get('override_text_color')['override_color'] ?? NULL,
-    ];
+    $this->buildOverrideColorElement($form, $config);
 
     return $form;
   }
