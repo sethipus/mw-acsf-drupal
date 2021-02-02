@@ -80,6 +80,8 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $myView->preExecute();
     $myView->setArguments([
       $this->languageHelper->translate($conf['title']) ?? '',
+      'with_brand_borders' => $conf['with_brand_borders'] ?? NULL,
+      'overlaps_previous' => $conf['overlaps_previous'] ?? NULL,
     ]);
 
     return $myView->render($conf['display']);
@@ -89,9 +91,12 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
    * {@inheritdoc}
    */
   public function defaultConfiguration(): array {
+    $config = $this->getConfiguration();
     return [
       'label_display' => FALSE,
       'title' => $this->t('All Products'),
+      'with_brand_borders' => $config['with_brand_borders'] ?? FALSE,
+      'overlaps_previous' => $config['overlaps_previous'] ?? FALSE,
     ];
   }
 
@@ -144,6 +149,18 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#required' => TRUE,
     ];
 
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' =>  $this->configuration['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $this->configuration['overlaps_previous'] ?? FALSE,
+    ];
+
     return $form;
   }
 
@@ -155,6 +172,8 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $this->configuration['view'] = $form_state->getValue('view');
     $this->configuration['display'] = $form_state->getUserInput()['settings']['display'];
     $this->configuration['title'] = $form_state->getValue('title');
+    $this->configuration['with_brand_borders'] = $form_state->getValue('with_brand_borders');
+    $this->configuration['overlaps_previous'] = $form_state->getValue('overlaps_previous');
   }
 
   /**

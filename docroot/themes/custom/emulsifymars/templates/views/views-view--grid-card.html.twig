@@ -43,6 +43,10 @@
     {{ brand_border | raw }}
   </div>
 
+  {% if overlaps_previous %}
+    {#{{ overlaps_previous }}#}
+  {% endif %}
+
   <div class="ajax-card-grid__content">
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: ajax_card_grid_heading,

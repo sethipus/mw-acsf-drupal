@@ -8,6 +8,7 @@
  * - graphic_divider: Graphic Divider asset.
  * - brand_border: Graphic border asset.
  * - recommended_items: Array of rendered article/recipe/product cards.
+ * - overlaps_previous: Overlaps previous component.
  */
 #}
 {% include "@molecules/recommendations-module/recommendations-module.twig" with {
@@ -15,5 +16,6 @@
   recommendation_title: title,
   graphic_divider: graphic_divider,
   brand_border: brand_border,
-  recommended_items: recommended_items
+  recommended_items: recommended_items,
+  overlaps_previous : overlaps_previous,
 } %}

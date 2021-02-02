@@ -146,7 +146,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#label' => $label,
       '#items' => $this->getFeedItems(),
       '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
-      '#brand_border' => $this->themeConfigurator->getBrandBorder2(),
+      '#brand_border' => ($this->configuration['with_brand_borders']) ? $this->themeConfigurator->getBrandBorder2() : NULL,
+      '#overlaps_previous' => $this->configuration['overlaps_previous'] ?? NULL,
       '#cache' => [
         'tags' => $configEntity->getCacheTags(),
         'max-age' => self::MAX_AGE_1_DAY,
@@ -184,6 +185,18 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     // Add select background color.
     $this->buildSelectBackground($form);
 
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' =>  $this->configuration['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $this->configuration['overlaps_previous'] ?? FALSE,
+    ];
+
     return $form;
   }
 
@@ -195,13 +208,20 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->configuration['feed'] = $form_state->getValue('feed');
     $this->configuration['label'] = $form_state->getValue('label_title');
     $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
+    $this->configuration['with_brand_borders'] = $form_state->getValue('with_brand_borders');
+    $this->configuration['overlaps_previous'] = $form_state->getValue('overlaps_previous');
   }
 
   /**
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return ['label_display' => FALSE];
+    $config = $this->getConfiguration();
+    return [
+      'label_display' => FALSE,
+      'with_brand_borders' => $config['with_brand_borders'] ?? FALSE,
+      'overlaps_previous' => $config['overlaps_previous'] ?? FALSE,
+    ];
   }
 
   /**

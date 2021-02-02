@@ -207,6 +207,18 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     // Add select background color.
     $this->buildSelectBackground($form);
 
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $config['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $config['overlaps_previous'] ?? FALSE,
+    ];
+
     return $form;
   }
 
@@ -336,7 +348,8 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#item_type'] = 'card';
     $build['#grid_label'] = $this->languageHelper->translate($config['title'] ?? NULL);
     $build['#divider'] = $file_divider_content ?? NULL;
-    $build['#brand_borders'] = $file_border_content ?? NULL;
+    $build['#brand_borders'] = ($config['with_brand_borders']) ? $file_border_content : NULL;
+    $build['#overlaps_previous'] = $config['overlaps_previous'] ?? NULL;
     $build['#theme'] = 'flexible_framer_block';
 
     return $build;
