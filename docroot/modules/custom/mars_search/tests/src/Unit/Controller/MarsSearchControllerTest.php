@@ -7,6 +7,7 @@ use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Field\FieldItemList;
+use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -144,6 +145,13 @@ class MarsSearchControllerTest extends UnitTestCase {
   private $themeConfiguratorParserMock;
 
   /**
+   * The path validator service.
+   *
+   * @var \Drupal\Core\Path\PathValidatorInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  protected $pathValidator;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -182,7 +190,8 @@ class MarsSearchControllerTest extends UnitTestCase {
       $this->searchProcessFactoryMock,
       $this->requestStackMock,
       $this->entityTypeManagerMock,
-      $this->themeConfiguratorParserMock
+      $this->themeConfiguratorParserMock,
+      $this->pathValidator
     );
   }
 
@@ -380,6 +389,7 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->searchBuilderMock = $this->createMock(SearchBuilder::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->pathValidator = $this->createMock(PathValidatorInterface::class);
   }
 
 }

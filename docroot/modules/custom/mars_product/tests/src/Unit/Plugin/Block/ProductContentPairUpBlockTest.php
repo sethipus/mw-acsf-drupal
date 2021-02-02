@@ -171,7 +171,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(15, $config_form);
+    $this->assertCount(16, $config_form);
     $this->assertArrayHasKey('title', $config_form);
     $this->assertArrayHasKey('entity_priority', $config_form);
     $this->assertArrayHasKey('article_recipe', $config_form);
@@ -181,6 +181,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('cta_link_text', $config_form);
     $this->assertArrayHasKey('supporting_card_eyebrow', $config_form);
     $this->assertArrayHasKey('background', $config_form);
+    $this->assertArrayHasKey('override_text_color', $config_form);
     $this->assertIsArray($config_form['background']);
   }
 
@@ -193,7 +194,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
     $this->formStateMock
       ->expects($this->exactly(10))
       ->method('getValue')
-      ->willReturn('');
+      ->willReturn('', NULL);
 
     $this->block->blockSubmit(
       $form_data,
