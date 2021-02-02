@@ -192,7 +192,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
     $form_data = [];
 
     $this->formStateMock
-      ->expects($this->exactly(10))
+      ->expects($this->exactly(11))
       ->method('getValue')
       ->willReturn('', NULL);
 
