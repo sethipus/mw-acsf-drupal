@@ -334,7 +334,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['with_brand_borders'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('With/without brand border'),
-      '#default_value' =>  $this->configuration['with_brand_borders'] ?? FALSE,
+      '#default_value' => $this->configuration['with_brand_borders'] ?? FALSE,
     ];
 
     $form['overlaps_previous'] = [

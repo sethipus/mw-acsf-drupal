@@ -80,8 +80,8 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $myView->preExecute();
     $myView->setArguments([
       $this->languageHelper->translate($conf['title']) ?? '',
-      'with_brand_borders' => $conf['with_brand_borders'] ?? NULL,
-      'overlaps_previous' => $conf['overlaps_previous'] ?? NULL,
+      $conf['with_brand_borders'] ?? NULL,
+      $conf['overlaps_previous'] ?? NULL,
     ]);
 
     return $myView->render($conf['display']);
@@ -152,7 +152,7 @@ class GridCardBlock extends BlockBase implements ContainerFactoryPluginInterface
     $form['with_brand_borders'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('With/without brand border'),
-      '#default_value' =>  $this->configuration['with_brand_borders'] ?? FALSE,
+      '#default_value' => $this->configuration['with_brand_borders'] ?? FALSE,
     ];
 
     $form['overlaps_previous'] = [
