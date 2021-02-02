@@ -10,9 +10,13 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
         Swiper.use([Navigation, Pagination, Scrollbar]);
 
         $recommendationContainer.find('.recommendations-swiper-container').each(function () {
-          const nextEl = $recommendationContainer.find(".swiper-button-next").first()[0];
-          const prevEl = $recommendationContainer.find(".swiper-button-prev").first()[0];
-          const scrollbar = $recommendationContainer.find(".swiper-scrollbar").first()[0];
+          const $nextEl = $recommendationContainer.find(".swiper-button-next").first();
+          const nextEl = (typeof $nextEl[0]) !== "undefined" ? $nextEl[0] : null;
+          const $prevEl = $recommendationContainer.find(".swiper-button-prev").first();
+          const prevEl = (typeof $prevEl[0]) !== "undefined" ? $prevEl[0] : null;
+          const $scrollbar = $recommendationContainer.find(".swiper-scrollbar").first();
+          const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
+
           const swiper = new Swiper(this, {
             slidesPerView: "auto",
             spaceBetween: 20,
