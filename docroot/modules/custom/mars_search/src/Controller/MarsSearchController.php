@@ -229,14 +229,16 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     // Adding an additional probe to get config if grid is not specified because
     // the text color may be overridden.
     if (empty($config)) {
-      $http_referer = $request->headers->get('referer');
+      $http_referer = !empty($request) ? $request->headers->get('referer') : '';
       $request_path = parse_url($http_referer)['path'];
-      $source_url = $this->pathValidator->getUrlIfValid($request_path);
-      if ($source_url->getRouteName() === 'entity.node.canonical') {
-        $route_params = $source_url->getrouteParameters();
-        $nid = $route_params['node'] ?? NULL;
-        if (!empty($nid)) {
-          $config = $this->getComponentConfig($nid, '0') ?? [];
+      if (!empty($request_path)) {
+        $source_url = $this->pathValidator->getUrlIfValid($request_path);
+        if ($source_url->getRouteName() === 'entity.node.canonical') {
+          $route_params = $source_url->getrouteParameters();
+          $nid = $route_params['node'] ?? NULL;
+          if (!empty($nid)) {
+            $config = $this->getComponentConfig($nid, '0') ?? [];
+          }
         }
       }
     }
