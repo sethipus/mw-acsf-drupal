@@ -7,7 +7,7 @@ dependencies:
 id: product
 label: 'Product '
 type: 'canonical_entities:node'
-pattern: 'products/[node:field_product_sub_brand]/[node:title]-[node:field_product_format]'
+pattern: 'products/[node:field_product_category]/[node:title]-[node:field_product_format]'
 selection_criteria:
   42b5ded2-6b12-42d3-ae8d-52c767e3b43a:
     id: node_type

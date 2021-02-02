@@ -1,9 +1,0 @@
-field_id: 'Sub Brand'
-salsify_id: 'Sub Brand'
-salsify_data_type: string
-entity_type: node
-bundle: product
-field_name: field_product_sub_brand
-method: manual
-created: 1546300800
-changed: 1546300801

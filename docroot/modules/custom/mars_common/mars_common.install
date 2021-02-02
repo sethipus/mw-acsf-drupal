@@ -120,3 +120,13 @@ function mars_common_update_8006() {
 
   FieldStorageConfig::loadByName('poll', 'field_description')->save();
 }
+
+/**
+ * Delete old card color config.
+ */
+function mars_common_update_8007() {
+  /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
+  $config_factory = \Drupal::service('config.factory');
+  $config = $config_factory->getEditable('card_color.settings');
+  $config->delete();
+}
