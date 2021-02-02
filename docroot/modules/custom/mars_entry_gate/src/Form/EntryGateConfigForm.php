@@ -4,14 +4,13 @@ namespace Drupal\mars_entry_gate\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 
 /**
  * Configuration form for Entry Gate.
  */
 class EntryGateConfigForm extends ConfigFormBase {
 
-  use OverrideThemeTextColorTrait;
+  use \Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 
   /**
    * {@inheritdoc}
