@@ -5,6 +5,7 @@
  * - paragraph_modifiers - array of modifiers to add to the base classname
  * - paragraph_blockname - blockname prepended to the base classname
  * - paragraph_content - the content of the paragraph (typically text)
+ * - paragraph_extra_classes - additional classes for paragraph
  *
  * Available blocks:
  * - paragraph_content - used to replace the content of the paragraph with something other than plain text
@@ -13,7 +14,7 @@
 #}
 {% set paragraph_base_class = paragraph_base_class|default('paragraph') %}
 
-<div {{ bem(paragraph_base_class, paragraph_modifiers, paragraph_blockname) }}>
+<div {{ bem(paragraph_base_class, paragraph_modifiers, paragraph_blockname, paragraph_extra_classes) }}>
   {% block paragraph_content %}
     {{ paragraph_content | raw }}
   {% endblock %}
