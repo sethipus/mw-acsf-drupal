@@ -28,6 +28,9 @@
 
     img {
       margin-top: 30px;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
 
       @include small  {
         max-width: 275px;
@@ -69,5 +72,11 @@
       max-width: 780px;
       margin-left: 19%;
     }
+  }
+}
+
+.node--article .list-container-block {
+  @include large {
+    margin: 0 27% 0 19%;
   }
 }

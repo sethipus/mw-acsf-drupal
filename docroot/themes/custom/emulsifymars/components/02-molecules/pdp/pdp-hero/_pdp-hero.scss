@@ -345,11 +345,10 @@
     }
 
     img {
-      @media (max-width: 768px) {
+      width: 27.7rem;
+
+      @include medium {
         width: 54.9rem;
-      }
-      @media (max-width: 375px) {
-        width: 27.7rem;
       }
     }
   }
@@ -384,12 +383,11 @@
     }
 
     img {
+      width: 27.7rem;
+      height: 100%;
+
       @include medium {
         width: 47.2rem;
-      }
-      @include small {
-        width: 27.7rem;
-        height: 100%;
       }
     }
   }
