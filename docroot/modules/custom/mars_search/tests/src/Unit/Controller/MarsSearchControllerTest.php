@@ -200,7 +200,7 @@ class MarsSearchControllerTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(5))
+      ->expects($this->exactly(6))
       ->method('get')
       ->willReturnMap(
         [
@@ -228,6 +228,11 @@ class MarsSearchControllerTest extends UnitTestCase {
             'mars_common.theme_configurator_parser',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->themeConfiguratorParserMock,
+          ],
+          [
+            'path.validator',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->pathValidator,
           ],
         ]
       );
