@@ -57,14 +57,6 @@ pdp-body:
     - core/jquery
     - core/jquery.once
 
-pdp-multipack:
-  js:
-    dist/js/pdp_multipack.js: {}
-  dependencies:
-    - emulsifymars/pdp-body
-    - emulsifymars/vendor-chunk-2
-    - core/drupal
-
 product-content-pair-up:
   js:
     dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
