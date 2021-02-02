@@ -20,6 +20,7 @@ use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -31,6 +32,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * Drupal\Core\Routing\CurrentRouteMatch definition.
@@ -201,6 +204,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['alert_banner']['alert_banner_url'] ?? '',
     ];
 
+    $this->buildOverrideColorElement($form, $config);
+
     return $form;
   }
 
@@ -269,6 +274,10 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#search_title'] = $this->languageHelper->translate($this->labelConfig->get('header_search_overlay'));
 
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = self::$overrideColor;
+    }
 
     CacheableMetadata::createFromRenderArray($build)
       ->addCacheableDependency($this->labelConfig)

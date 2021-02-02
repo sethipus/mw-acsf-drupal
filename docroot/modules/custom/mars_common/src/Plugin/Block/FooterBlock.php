@@ -12,6 +12,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -25,6 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  use OverrideThemeTextColorTrait;
 
   /**
    * Menu storage.
@@ -182,6 +184,10 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
         }
       }
     }
+    $build['#text_color_override'] = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = self::$overrideColor;
+    }
 
     CacheableMetadata::createFromRenderArray($build)
       ->merge(
@@ -250,6 +256,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#title' => $this->t('Display region selector'),
       '#default_value' => $config['region_selector_toggle'] ?? TRUE,
     ];
+
+    $this->buildOverrideColorElement($form, $config);
 
     return $form;
   }
