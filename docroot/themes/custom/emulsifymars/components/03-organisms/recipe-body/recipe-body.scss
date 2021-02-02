@@ -33,7 +33,6 @@ $xl-left-margin: 11.583rem;
   &__title {
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: capitalize;
 
     @include medium {
       font-size: 26px;
@@ -64,7 +63,6 @@ $xl-left-margin: 11.583rem;
 .recipe-body-content {
   padding: 0 20px 27px;
   position: relative;
-  min-height: 600px;
 
   @include small {
     padding: 0 20px;
@@ -84,7 +82,6 @@ $xl-left-margin: 11.583rem;
     margin: 31px 0 13px;
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: capitalize;
     padding: 0;
     font-weight: 500;
 

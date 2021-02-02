@@ -4,21 +4,21 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -47,29 +47,11 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $pathMatcher;
 
   /**
-   * Menu link tree.
-   *
-   * @var \Drupal\Core\Menu\MenuLinkTreeInterface
-   */
-  protected $menuLinkTree;
-  /**
    * Menu storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $menuStorage;
-  /**
-   * File storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorage;
-  /**
-   * Config Factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $config;
 
   /**
    * The form builder.
@@ -100,6 +82,20 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   private $themeConfiguratorParser;
 
   /**
+   * Menu builder service.
+   *
+   * @var \Drupal\mars_common\MenuBuilder
+   */
+  private $menuBuilder;
+
+  /**
+   * Configuration object that stores site level labels.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $labelConfig;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -108,44 +104,46 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_definition,
     CurrentRouteMatch $current_route_match,
     PathMatcherInterface $path_matcher,
-    MenuLinkTreeInterface $menu_link_tree,
+    MenuBuilder $menu_builder,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory,
     FormBuilderInterface $form_builder,
     LanguageHelper $language_helper,
     RendererInterface $renderer,
-    ThemeConfiguratorParser $theme_configurator_parser
+    ThemeConfiguratorParser $theme_configurator_parser,
+    ImmutableConfig $label_config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentRouteMatch = $current_route_match;
     $this->pathMatcher = $path_matcher;
-    $this->menuLinkTree = $menu_link_tree;
+    $this->menuBuilder = $menu_builder;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
-    $this->fileStorage = $entity_type_manager->getStorage('file');
-    $this->config = $config_factory;
     $this->formBuilder = $form_builder;
     $this->languageHelper = $language_helper;
     $this->renderer = $renderer;
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->labelConfig = $label_config;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
+    $config_factory = $container->get('config.factory');
+    $label_config = $config_factory->get('mars_common.site_labels');
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $container->get('current_route_match'),
       $container->get('path.matcher'),
-      $container->get('menu.link_tree'),
+      $container->get('mars_common.menu_builder'),
       $container->get('entity_type.manager'),
-      $container->get('config.factory'),
       $container->get('form_builder'),
       $container->get('mars_common.language_helper'),
       $container->get('renderer'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $label_config
     );
   }
 
@@ -237,9 +235,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   public function build() {
     $config = $this->getConfiguration();
-    $theme_settings = $this->config->get('emulsifymars.settings')->get();
 
-    $build['#logo'] = $theme_settings['logo']['path'] ?? '';
+    $build['#logo'] = $this->themeConfiguratorParser->getLogoFromTheme();
 
     $theme_logo_alt = $this->themeConfiguratorParser->getLogoAltFromTheme();
     $build['#logo_alt'] = ($theme_logo_alt)
@@ -248,8 +245,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $build['#alert_banner_text'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_text']['value']);
     $build['#alert_banner_url'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_url']);
-    $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
-    $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
+    $build['#primary_menu'] = $this->menuBuilder->getMenuItemsArray($config['primary_menu'], 2);
+    $build['#secondary_menu'] = $this->menuBuilder->getMenuItemsArray($config['secondary_menu']);
 
     $current_language_id = $this->languageHelper->getCurrentLanguageId();
     $build['#language_selector_current'] = mb_strtoupper($current_language_id);
@@ -268,7 +265,14 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#search_form'] = $this->buildSearchForm();
     $build['#search_enabled'] = $config['search_block'] ?? TRUE;
 
+    $build['#search_close_label'] = $this->languageHelper->translate($this->labelConfig->get('header_search_overlay_close'));
+    $build['#search_title'] = $this->languageHelper->translate($this->labelConfig->get('header_search_overlay'));
+
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
+
+    CacheableMetadata::createFromRenderArray($build)
+      ->addCacheableDependency($this->labelConfig)
+      ->applyTo($build);
 
     return $build;
   }
@@ -348,53 +352,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
 
     return $options;
-  }
-
-  /**
-   * Render menu by its name.
-   *
-   * @param string $menu_name
-   *   Menu name.
-   * @param int $max_depth
-   *   The max menu depth to render.
-   *
-   * @return array
-   *   Rendered menu.
-   */
-  protected function buildMenu(string $menu_name, int $max_depth = 1) {
-    $menu_parameters = new MenuTreeParameters();
-    $menu_parameters->setMaxDepth($max_depth);
-    // Get the tree.
-    $tree = $this->menuLinkTree->load($menu_name, $menu_parameters);
-    // Apply some manipulators (checking the access, sorting).
-    $manipulators = [
-      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
-      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
-      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-    ];
-    $tree = $this->menuLinkTree->transform($tree, $manipulators);
-    // And the last step is to actually build the tree.
-    $menu = $this->menuLinkTree->build($tree);
-    $menu_links = [];
-    if (!empty($menu['#items'])) {
-      foreach ($menu['#items'] as $item) {
-        $children = [];
-        if (!empty($item['below'])) {
-          foreach ($item['below'] as $child) {
-            $children[] = [
-              'title' => $child['title'],
-              'url' => $child['url']->setAbsolute()->toString(),
-            ];
-          }
-        }
-        $menu_links[] = [
-          'title' => $item['title'],
-          'url' => $item['url']->setAbsolute()->toString(),
-          'below' => $children,
-        ];
-      }
-    }
-    return $menu_links;
   }
 
   /**

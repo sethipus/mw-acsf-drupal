@@ -30,13 +30,14 @@
       <div {{ bem('title', [], search_filter_header_base_class) }}>{{ title }}</div>
       <div {{ bem('close', [], search_filter_header_base_class) }}></div>
     </div>
-    <div {{ bem(search_filter_content_base_class) }} aria-live="polite">
+    <div {{ bem(search_filter_content_base_class) }}>
       {% for filter in filters %}
         {% include "@molecules/filter/filter.twig" with {
           filter_title: filter.filter_title,
           filter_id: filter.filter_id,
           active_filters_count: filter.active_filters_count,
           checkboxes: filter.checkboxes,
+          filter_title_transform: filter_title_transform
         } %}
       {% endfor %}
     </div>
@@ -47,10 +48,10 @@
   </div>
   <div {{ bem(search_filter_information_base_class, [modifier]) }}>
     <div {{ bem('applied', [modifier], search_filter_information_base_class) }}>
-      <div {{ bem('applied-label', [], search_filter_information_base_class) }}>
+      <div {{ bem('applied-label', [], search_filter_information_base_class) }} aria-live="polite" aria-atomic="true">
         {{ "Applied filters (" | mt }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | mt }}
       </div>
-      <div {{ bem('applied-text', [], search_filter_information_base_class) }} aria-live="polite">
+      <div {{ bem('applied-text', [], search_filter_information_base_class) }}>
         {% for item in applied_filters_list %}
           <span {{ bem('applied-name', [], search_filter_information_base_class) }}>
             <span>{{ item.title }}</span>

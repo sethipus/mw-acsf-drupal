@@ -5,7 +5,7 @@
 {{ attach_library('emulsifymars/search-overlay') }}
 {% set search__base_class = search__base_class|default('search-autocomplete-wrapper') %}
 {% set search__placeholder = search__placeholder|default('Search' | mt) %}
-{% set inline_search__close_btn = 'Close' | mt %}
+{% set inline_search__close_btn = search_close_label|default('Close' | mt) %}
 
 <div {{ bem(search__base_class, [], '') }}>
   <div class="wrapper-overlay">
@@ -21,6 +21,8 @@
                 output_image_tag: true,
                 image_alt: 'Logo',
                 image_srcset: logo_srcset,
+                height: "75px",
+                width: "212px",
                 image_sizes: '212px',
                 image_src: 'twix-logo.png',
                 responsive_image_blockname: 'logo',

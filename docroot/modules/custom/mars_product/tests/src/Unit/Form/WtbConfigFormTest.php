@@ -126,7 +126,7 @@ class WtbConfigFormTest extends UnitTestCase {
       $this->formStateMock
     );
     $this->assertIsArray($form);
-    $this->assertNotEmpty($form['commerce_vendor']);
+    $this->assertNotEmpty($form['general']['commerce_vendor']);
   }
 
   /**

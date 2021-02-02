@@ -1,0 +1,28 @@
+uuid: 22e8da07-b3d8-4801-90fc-58139a3c173e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_hub_page_new
+    - node.type.content_hub_page
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.content_hub_page.field_content_hub_page_new
+field_name: field_content_hub_page_new
+entity_type: node
+bundle: content_hub_page
+label: New
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

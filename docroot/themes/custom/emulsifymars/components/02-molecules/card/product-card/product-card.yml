@@ -1,5 +1,6 @@
 theme_styles: 'twix'
-default_link_content: 'See details'
+badge_text: 'NEW'
+default_link_content: 'SEE DETAILS'
 link_content: BUY NOW2
 # recipe_is_new: true;
 

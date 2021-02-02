@@ -21,14 +21,14 @@ import moment from 'moment';
               e.preventDefault();
               link.focus();
           }
-        }
+        };
 
         link.onkeydown = function(e) {
           if ((e.code === 'Tab'  && !e.shiftKey) || (e.code === 'ArrowRight' && e.ctrlKey)) {
             e.preventDefault();
             dayInput.focus();
           }
-        }
+        };
 
         // helper for getting cooke with specified name
         const getCookieDate = name => {
@@ -40,7 +40,7 @@ import moment from 'moment';
             }
           }
           return null;
-        }
+        };
 
         // compare cookie value against age limit
         const isOldEnough = (date) => {
@@ -48,7 +48,7 @@ import moment from 'moment';
             return (moment(new Date()).diff(date, 'years')) >= ageLimit;
           }
           return false;
-        }
+        };
 
         // allow only numbers and max 2 characters length
         const checkValueLength = (event, field, limit) => {
@@ -62,7 +62,7 @@ import moment from 'moment';
           else {
             event.preventDefault();
           }
-        }
+        };
 
         // display entry gate if cookie is not set or the value of cookie is not
         // enough
@@ -76,7 +76,7 @@ import moment from 'moment';
           entryGate.css({display: 'flex'});
           entryGate.attr("aria-hidden", "false");
           $(".layout-container").attr("aria-hidden", "true");
-          
+
           $('.layout-container')
             .find(_tabElems.map(e => e + ':not([tabindex="-1"])').join(','))
             .each((i, e) => {
@@ -84,7 +84,7 @@ import moment from 'moment';
                 .attr('tabindex', '-1');
             });
 
-          // Hack for key nav from OneTrust 
+          // Hack for key nav from OneTrust
           $('body').prepend(
             `<a href="#" class="sronly" id="${a11yDateFakeLinkId}"></a>`
           );
@@ -97,14 +97,17 @@ import moment from 'moment';
         dayInput.focus();
 
         dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
-        monthInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
-        yearInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 4));
+        monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
+        yearInput.once('entryGate').on('keypress', e => checkValueLength(e, yearInput, 4));
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
           const givenDate = moment(`${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`);
 
-          if (!givenDate.isValid()) {
+          if (dayInput.val().length !== 2 || 
+              monthInput.val().length !== 2 || 
+              yearInput.val().length !== 4 ||
+              !givenDate.isValid()) {
             // invalid date is entered
             fieldset.addClass('entry-gate-form__fieldset--error');
             errorMessage.css({display: 'block'})
@@ -121,14 +124,14 @@ import moment from 'moment';
                   e.preventDefault();
                   $('.entry-gate__error-link', this)[1].focus();
               }
-            }
+            };
 
             $('.entry-gate__error-link', this)[1].onkeydown = function(e) {
               if (e.code === 'Tab'  && !e.shiftKey) {
                 e.preventDefault();
                 $('.entry-gate__error-link', this)[0].focus();
               }
-            }
+            };
             return;
           }
 
@@ -142,13 +145,14 @@ import moment from 'moment';
             if ($(e).attr(a11yDataAttrName) === "none") {
               $(e).removeAttr('tabindex');
             } else {
-              $(e).attr("tabindex", $(e).attr(a11yDataAttrName));  
-            }            
+              $(e).attr("tabindex", $(e).attr(a11yDataAttrName));
+            }
             $(e).removeAttr(a11yDataAttrName);
           });
 
           $(`#${a11yDateFakeLinkId}`).remove();
 
+          $('#skip-link').focus();
 
           if (typeof dataLayer !== 'undefined') {
             dataLayer.push({
@@ -158,8 +162,8 @@ import moment from 'moment';
               formName: 'Entry Gate Form',
             });
           }
-        })
-      })
+        });
+      });
     },
   };
-})(jQuery, Drupal)
+})(jQuery, Drupal);

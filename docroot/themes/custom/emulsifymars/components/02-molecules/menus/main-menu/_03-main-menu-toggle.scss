@@ -12,18 +12,22 @@
   background: transparent;
   cursor: pointer;
 
-  @include large {
-    display: none;
-  }
-
   @include xs {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   @include medium {
     padding-right: 4rem;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   @include large {

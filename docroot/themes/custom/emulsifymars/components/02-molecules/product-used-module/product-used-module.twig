@@ -12,8 +12,22 @@
       {% endfor %}
     </div>
     {% if product_used_items|length > 1 %}
-      <div class="swiper-button-prev product-used-nav"></div>
-      <div class="swiper-button-next product-used-nav"></div>
+      <div class="swiper-button-prev product-used-nav">
+        {% include "@atoms/images/icons/_icon.twig" with {
+          icon_base_class: "icon",
+          icon_blockname: "swiper-button-prev",
+          icon_name: "carousel_arrow_prev",
+          icon_decorative: true,
+        } %}
+      </div>
+      <div class="swiper-button-next product-used-nav">
+        {% include "@atoms/images/icons/_icon.twig" with {
+          icon_base_class: "icon",
+          icon_blockname: "swiper-button-next",
+          icon_name: "carousel_arrow_next",
+          icon_decorative: true,
+        } %}
+      </div>
     {% endif %}
     <div class="swiper-scrollbar product-used-nav"></div>
   </div>

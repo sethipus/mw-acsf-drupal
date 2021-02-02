@@ -1,5 +1,14 @@
 {% set recipe_card_base_class = recipe_card_base_class|default('recipe-card') %}
-{% set card__extra_classes = ['card-item'] %}
+
+{% if select_background_color == 'color_c' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-C', 'bg-gradient-C'] %}
+{% elseif select_background_color == 'color_d' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-D', 'bg-gradient-D'] %}
+{% elseif select_background_color == 'color_e' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-E', 'bg-gradient-E'] %}
+{% else %}
+  {% set card__extra_classes = ['card-item'] %}
+{% endif %}
 
 <section {{ bem(recipe_card_base_class, [], '', card__extra_classes) }}
          data-theme="{{ theme_styles }}"
@@ -22,6 +31,8 @@
         image_alt: recipe_card_image_alt,
         image_src: recipe_card_image_src,
         responsive_image_blockname: 'recipe_image',
+        height: '239px',
+        width: '318px',
       } %}
     </a>
   </div>

@@ -97,7 +97,7 @@
   }
 
   &__content {
-    padding: 0 1rem;
+    padding: 0;
 
     @include small {
       margin-top: 1rem;
@@ -126,19 +126,27 @@
   }
 
   .inline-video {
+    max-height: 635px;
 
     &__control[data-state="play"] {
-      width: 6.6rem;
-      height: 7rem;
-      top: calc(50% - 7rem / 2);;
-      left: calc(50% - 6.6rem / 2);;
+      width: 9.671rem;
+      height: 9.671rem;
+      top: calc(50% - 9.671rem / 2);;
+      left: calc(50% - 9.671rem / 2);;
+    }
+
+    &__control[data-state="play"] .play-icon{
+      width: 30.2px;
+      height: 36px;
+      transform: scale(1.112, 1.193);
+      margin: auto 35%;
     }
 
     &__control[data-state="pause"] {
-      width: 6.6rem;
-      height: 7rem;
-      top: calc(50% - 7rem / 2);;
-      left: calc(50% - 6.6rem / 2);;
+      width: 9.671rem;
+      height: 9.671rem;
+      top: calc(50% - 9.671rem / 2);;
+      left: calc(50% - 9.671rem / 2);;
     }
   }
 }

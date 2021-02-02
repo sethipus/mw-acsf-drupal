@@ -240,6 +240,7 @@ class SearchHelperTest extends UnitTestCase {
       'mars_diet_allergens',
       'mars_occasions',
       'mars_brand_initiatives',
+      'mars_category',
     ];
     $this->assertArrayEquals($facet_keys_expected_result, $facet_keys);
   }

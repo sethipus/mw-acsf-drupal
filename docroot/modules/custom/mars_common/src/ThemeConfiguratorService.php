@@ -585,6 +585,22 @@ class ThemeConfiguratorService {
         '#title' => $this->t('Turn off/on rating and reviews per site for all products'),
         '#default_value' => $this->getData('product_rating_and_reviews', 'show_rating_and_reviews', $config),
       ];
+
+      $form['card_grid'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#title' => $this->t('Card grid settings'),
+        '#description' => $this->t("MARS theme settings for card grid"),
+      ];
+      $form['card_grid']['facets_text_transform'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Filter facet name styling'),
+        '#options' => [
+          'capitalize' => $this->t('Capitalized'),
+          'uppercase' => $this->t('Uppercased'),
+        ],
+        '#default_value' => $this->getData('card_grid', 'facets_text_transform', $config) ?? 'uppercase',
+      ];
     }
 
     if (!$this->isPluginBlock($form)) {

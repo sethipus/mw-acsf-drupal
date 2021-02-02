@@ -5,6 +5,7 @@ namespace Drupal\Tests\mars_search\Unit\Processors;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Field\FieldItemList;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -108,6 +109,13 @@ class SearchBuilderTest extends UnitTestCase {
   protected $nodeViewBuilder;
 
   /**
+   * Language helper mock.
+   *
+   * @var \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -157,12 +165,18 @@ class SearchBuilderTest extends UnitTestCase {
       ->with('node')
       ->willReturn($this->nodeViewBuilder);
 
+    $this->languageHelperMock
+      ->expects($this->any())
+      ->method('translate')
+      ->willReturn('test');
+
     $this->searchBuilder = new SearchBuilder(
       $this->entityTypeManagerMock,
       $this->menuLinkTreeMock,
       $this->themeConfiguratorMock,
       $this->configFactoryMock,
-      $this->searchProcessFactoryMock
+      $this->searchProcessFactoryMock,
+      $this->languageHelperMock
     );
   }
 
@@ -180,6 +194,7 @@ class SearchBuilderTest extends UnitTestCase {
     $this->searchQueryParserMock = $this->createMock(SearchQueryParserInterface::class);
     $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
     $this->nodeViewBuilder = $this->createMock(EntityViewBuilderInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 
   /**
