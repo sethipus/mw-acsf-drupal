@@ -142,10 +142,12 @@ module:
   printable: 0
   printable_pdf: 0
   quickedit: 0
+  rabbit_hole: 0
   rdf: 0
   redirect: 0
   remote_stream_wrapper: 0
   remote_stream_wrapper_widget: 0
+  rh_node: 0
   robotstxt: 0
   salsify_integration: 0
   samlauth: 0
