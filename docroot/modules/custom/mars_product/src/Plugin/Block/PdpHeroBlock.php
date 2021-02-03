@@ -333,8 +333,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $color_a = $this->themeConfiguratorParser->getSettingValue('color_a');
     $color_e = $this->themeConfiguratorParser->getSettingValue('color_e');
 
-    $helper_text = '<div><li>' . $this->t('For light background please select color A for text and full opacity brand shape') . '</li>';
-    $helper_text .= '<li>' . $this->t('For dark background please select color E or white for text and 20% opacity shape') . '</li></div>';
+    $helper_text = '<div><li>' . $this->languageHelper->translate(
+      'For light background please select color A for text and full opacity brand shape') . '</li>';
+    $helper_text .= '<li>' . $this->languageHelper->translate(
+      'For dark background please select color E or white for text and 20% opacity shape') . '</li></div>';
 
     $form['text_color'] = [
       '#type' => 'select',
