@@ -154,7 +154,7 @@ class SalsifyImportField extends SalsifyImport {
 
     // Set status to draft for generated product based on nutrition fields.
     if (isset($product_data['CMS: not publish']) && $product_data['CMS: not publish']) {
-      $entity->set('moderation_state', 'draft');
+      $entity->set('rh_action', 'page_not_found');
     }
     $entity->save();
 
@@ -199,7 +199,7 @@ class SalsifyImportField extends SalsifyImport {
 
     // Load the existing entity or generate a new one.
     $title = $product_data['CMS: Product Name'] ?? $product_data['salsify:id'];
-    $moderation_state = static::getModerationState($entity_bundle);
+    $moderation_state = 'published';
     if ($results) {
       $entity_id = array_values($results)[0];
       $entity = $entityTypeManager->getStorage($entity_type)->load($entity_id);
@@ -270,20 +270,6 @@ class SalsifyImportField extends SalsifyImport {
       $product_data['CMS: multipack generated'])
       ? $original_title
       : $salsify_title;
-  }
-
-  /**
-   * Get moderation state by content type.
-   *
-   * @param string $entity_bundle
-   *   The entity bundle.
-   *
-   * @return string
-   *   State.
-   */
-  public static function getModerationState(string $entity_bundle) {
-    return ($entity_bundle == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) ?
-      'draft' : 'published';
   }
 
   /**
