@@ -1,4 +1,4 @@
-import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
+import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
 
 (function ($, _, Drupal){
   Drupal.behaviors.recommendationsCarousel = {
@@ -7,7 +7,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
       $(context).find('.recommendations').once('recommendationsCarousel').each(function(){
         const $recommendationContainer = $(this);
          // init swiper
-        Swiper.use([Navigation, Pagination, Scrollbar]);
+        Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
 
         $('.recommendations-swiper-container', this).each(function(){
           const swiper = new Swiper(this, {
@@ -15,6 +15,17 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             spaceBetween: 20,
             slidesOffsetBefore: 20,
             noSwipingClass: "swiper-no-swiping",
+            watchSlidesVisibility: true,
+            observer: true,
+            observeParents: true,
+            keyboard: {
+              enabled: true
+            },
+            a11y: {
+              enabled: true,
+              prevSlideMessage: 'Previous Slide',
+              nextSlideMessage: 'Next Slide'
+            },
             navigation: {
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",

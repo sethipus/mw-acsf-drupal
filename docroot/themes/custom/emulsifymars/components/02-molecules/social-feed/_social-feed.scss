@@ -75,14 +75,19 @@
     border-radius: 1rem;
     max-height: 31.7rem;
     overflow: hidden;
+    visibility: hidden; // for watchSlidesVisibility
 
     &:focus-within {
       border: 2px solid black;
+    }
+    &.swiper-slide-visible {
+      visibility: visible;
     }
   }
 
   .social-feed__content .swiper-button-prev, .social-feed__content .swiper-button-next  {
     background-color: clr(subcolor-3);
+    border: 0;
     border-radius: 50%;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     width: 7rem;

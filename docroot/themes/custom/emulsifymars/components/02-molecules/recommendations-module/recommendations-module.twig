@@ -21,6 +21,15 @@
     {{ graphic_divider | raw }}
   </div>
 
+  <button class="swiper-button-prev">
+    {% include "@atoms/images/icons/_icon.twig" with {
+    icon_base_class: "icon",
+    icon_blockname: "swiper-button-prev",
+    icon_name: "carousel_arrow_prev",
+    icon_decorative: true,
+    } %}
+  </button>
+
   <div class="swiper-container recommendations-swiper-container">
     <div class="swiper-wrapper">
         {% for item in recommended_items %}
@@ -30,21 +39,14 @@
         {% endfor %}
     </div>
   </div>
-  <div class="swiper-button-prev">
-    {% include "@atoms/images/icons/_icon.twig" with {
-    icon_base_class: "icon",
-    icon_blockname: "swiper-button-prev",
-    icon_name: "carousel_arrow_prev",
-    icon_decorative: true,
-    } %}
-  </div>
-  <div class="swiper-button-next">
+
+  <button class="swiper-button-next">
     {% include "@atoms/images/icons/_icon.twig" with {
     icon_base_class: "icon",
     icon_blockname: "swiper-button-next",
     icon_name: "carousel_arrow_next",
     icon_decorative: true,
     } %}
-  </div>
-  <div class="swiper-scrollbar"></div>
+  </button>
+  <div class="swiper-scrollbar" aria-hidden="true"></div>
 </section>
