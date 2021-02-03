@@ -153,6 +153,7 @@
 
     &.swiper-button-disabled {
       opacity: 0;
+      visibility: hidden;
     }
 
     &::after {
