@@ -96,6 +96,7 @@
         font-size: 1.6rem;
         line-height: 1.4;
         flex: 1 0 auto;
+        max-width: 549px;
 
         @include large {
           font-size: 1.8rem;
