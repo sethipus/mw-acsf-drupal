@@ -1,6 +1,6 @@
 {% set image_base_class = image_base_class|default('image') %}
 
-<img loading="lazy"
+<img loading="lazy" {{ add_attributes(additional_attributes) }}
   {{ bem(image_base_class, image_modifiers, image_blockname) }}
   {% if image_srcset %}
     srcset="{{ image_srcset }}"
