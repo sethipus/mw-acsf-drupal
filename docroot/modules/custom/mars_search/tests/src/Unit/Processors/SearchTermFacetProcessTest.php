@@ -40,6 +40,10 @@ class SearchTermFacetProcessTest extends UnitTestCase {
       'label' => 'FLAVOR',
       'content_types' => ['product'],
     ],
+    'mars_category' => [
+      'label' => 'CATEGORY',
+      'content_types' => ['product'],
+    ],
     'mars_format' => [
       'label' => 'FORMAT',
       'content_types' => ['product'],
