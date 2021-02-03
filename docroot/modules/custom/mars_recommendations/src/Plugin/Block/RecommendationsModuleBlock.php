@@ -115,7 +115,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       : $this->languageHelper->translate($this->configuration['title']);
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = self::$overrideColor;
+      $text_color_override = static::$overrideColor;
     }
     $raw_rendered_recommendations = $plugin->getRenderedRecommendations();
     $rendered_recommendations_with_color_override = [];

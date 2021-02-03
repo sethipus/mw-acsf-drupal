@@ -186,7 +186,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     }
     $build['#text_color_override'] = FALSE;
     if (!empty($conf['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = self::$overrideColor;
+      $build['#text_color_override'] = static::$overrideColor;
     }
 
     CacheableMetadata::createFromRenderArray($build)

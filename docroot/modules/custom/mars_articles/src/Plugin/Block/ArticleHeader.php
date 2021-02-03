@@ -177,7 +177,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
     $build['#text_color_override'] = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = self::$overrideColor;
+      $build['#text_color_override'] = static::$overrideColor;
     }
 
     $cacheMetadata = CacheableMetadata::createFromRenderArray($build);

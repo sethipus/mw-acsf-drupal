@@ -145,7 +145,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $conf = $this->getConfiguration();
     $text_color_override = FALSE;
     if (!empty($conf['override_text_color']['override_color'])) {
-      $text_color_override = self::$overrideColor;
+      $text_color_override = static::$overrideColor;
     }
     /** @var \Drupal\node\Entity\Node $main_entity */
     /** @var \Drupal\node\Entity\Node $supporting_entity */

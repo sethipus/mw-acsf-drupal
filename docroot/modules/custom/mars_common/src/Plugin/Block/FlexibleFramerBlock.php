@@ -334,7 +334,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $build['#text_color_override'] = FALSE;
     if (!empty($config['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = self::$overrideColor;
+      $build['#text_color_override'] = static::$overrideColor;
     }
 
     $build['#select_background_color'] = $background_color;

@@ -112,7 +112,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $build['#theme'] = 'contact_help_banner_block';
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = self::$overrideColor;
+      $text_color_override = static::$overrideColor;
     }
     $build['#text_color_override'] = $text_color_override;
 

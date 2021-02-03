@@ -276,7 +276,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#text_color_override'] = FALSE;
     if (!empty($config['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = self::$overrideColor;
+      $build['#text_color_override'] = static::$overrideColor;
     }
 
     CacheableMetadata::createFromRenderArray($build)

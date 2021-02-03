@@ -91,7 +91,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
   public function build() {
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = self::$overrideColor;
+      $text_color_override = static::$overrideColor;
     }
     $node = $this->getContextValue('node');
     $ingredients_list = [];

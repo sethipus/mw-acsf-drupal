@@ -205,7 +205,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
 
     $build['#text_color_override'] = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = self::$overrideColor;
+      $build['#text_color_override'] = static::$overrideColor;
     }
 
     $build['#theme'] = 'freeform_story_block';

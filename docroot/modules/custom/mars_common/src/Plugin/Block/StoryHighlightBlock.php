@@ -184,7 +184,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $build['#text_color_override'] = FALSE;
     if (!empty($conf['override_text_color']['override_color'])) {
-      $build['#text_color_override'] = self::$overrideColor;
+      $build['#text_color_override'] = static::$overrideColor;
     }
 
     return $build;

@@ -85,7 +85,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $form = parent::buildConfigurationForm($form, $form_state);
 
     $config = $this->getConfiguration();
-    $this->buildOverrideColorElement($form, $config);
+    $this->buildOverrideColorElement($form, $config, TRUE);
 
     return $form;
   }
@@ -138,7 +138,10 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build['#attached']['library'][] = 'mars_search/search_pager';
     $text_color_override = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
-      $text_color_override = self::$overrideColor;
+      $text_color_override = static::$overrideColor;
+    }
+    if (!empty($config['override_text_color']['override_filter_title_color'])) {
+      $build['#override_filter_title_color'] = static::$overrideColor;
     }
     $build['#text_color_override'] = $text_color_override;
     return $build;

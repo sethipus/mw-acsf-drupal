@@ -100,7 +100,7 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
     $build['#poll'] = $this->pollViewBuilder->view($pollEntity);
     $text_color_override = FALSE;
     if (!empty($conf['override_text_color']['override_color'])) {
-      $text_color_override = self::$overrideColor;
+      $text_color_override = static::$overrideColor;
     }
     $build['#text_color_override'] = $text_color_override;
     $build['#theme'] = 'poll_block';

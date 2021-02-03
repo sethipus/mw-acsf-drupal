@@ -82,6 +82,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'grid_modifiers' => NULL,
         'filter_title_transform' => NULL,
         'text_color_override' => NULL,
+        'override_filter_title_color' => NULL,
       ],
     ],
     'mars_search_grid_block' => [
@@ -102,6 +103,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'grid_modifiers' => NULL,
         'filter_title_transform' => NULL,
         'text_color_override' => NULL,
+        'override_filter_title_color' => NULL,
       ],
     ],
     'mars_search_filter' => [
