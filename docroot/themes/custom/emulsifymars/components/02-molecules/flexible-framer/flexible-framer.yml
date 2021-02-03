@@ -1,4 +1,6 @@
 theme_styles: 'twix'
+overlaps_previous: false
+select_background_color: ''
 related_recipes__additional_class: ''
 grid_label: 'More of our favorites'
 grid_type: 'card'
