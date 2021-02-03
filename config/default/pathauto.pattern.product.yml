@@ -13,6 +13,7 @@ selection_criteria:
     id: node_type
     bundles:
       product: product
+      product_multipack: product_multipack
     negate: false
     context_mapping:
       node: node
