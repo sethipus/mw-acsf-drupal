@@ -140,7 +140,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 160,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];

@@ -6,8 +6,10 @@
     data-component-title="{{ title }}"
   {% endif %}
 >
-  <div {{ bem('title', [], recipe_template__base_class) }}>{{ block_title }}</div>
-  <div {{ bem('graphic_divider', [], recipe_template__base_class) }}>{{graphic_divider | raw}}</div>
+  {% if block_title %}
+    <div {{ bem('title', [], recipe_template__base_class) }}>{{ block_title }}</div>
+    <div {{ bem('graphic_divider', [], recipe_template__base_class) }}>{{graphic_divider | raw}}</div>
+  {% endif %}
   <div class="media">
     {% if recipe_media.video_url is not empty %}
       {% block recipe_media_video %}
@@ -26,6 +28,8 @@
           image_sizes: '',
           image_src: recipe_media.src,
           responsive_image_blockname: 'recipe-media',
+          height: '567px',
+          width: '850px',
         } %}
       {% endblock %}
     {% endif %}

@@ -345,11 +345,10 @@
     }
 
     img {
-      @media (max-width: 768px) {
+      width: 27.7rem;
+
+      @include medium {
         width: 54.9rem;
-      }
-      @media (max-width: 375px) {
-        width: 27.7rem;
       }
     }
   }
@@ -373,23 +372,22 @@
     }
 
     &-item {
-      min-height: 50vh;
+      min-height: auto;
       display: flex;
       flex-direction: column;
       justify-content: center;
 
       @include large {
-        min-height: auto;
         display: block;
       }
     }
 
     img {
-      @media (max-width: 768px) {
+      width: 27.7rem;
+      height: 100%;
+
+      @include medium {
         width: 47.2rem;
-      }
-      @media (max-width: 375px) {
-        width: 27.7rem;
       }
     }
   }

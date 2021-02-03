@@ -2,6 +2,16 @@
 {% set card__extra_classes = ['card-item'] %}
 {{ attach_library('emulsifymars/recipe-card') }}
 
+{% if select_background_color == 'color_c' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-C', 'bg-gradient-C'] %}
+{% elseif select_background_color == 'color_d' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-D', 'bg-gradient-D'] %}
+{% elseif select_background_color == 'color_e' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-E', 'bg-gradient-E'] %}
+{% else %}
+  {% set card__extra_classes = ['card-item'] %}
+{% endif %}
+
 <section {{ bem(recipe_card_base_class, [], '', card__extra_classes) }}
          data-theme="{{ theme_styles }}"
          data-card-type="recipe-card"
@@ -13,15 +23,18 @@
 
   <div {{ bem('media', [], recipe_card_base_class) }}>
     <a href={{recipe_card_media_url}}
-     {% for attribute, value in recipe_card_heading_link_attributes %}
+      {% for attribute, value in recipe_card_heading_link_attributes %}
        {{ attribute }}="{{ value }}"
       {% endfor %}
+      aria-label="{{ recipe_card_heading | mt }}"
     >
       {% include "@atoms/images/image/_image.twig" with {
         output_image_tag: true,
         image_alt: recipe_card_image_alt,
         image_src: recipe_card_image_src,
         responsive_image_blockname: 'recipe_image',
+        height: '239px',
+        width: '318px',
       } %}
     </a>
   </div>

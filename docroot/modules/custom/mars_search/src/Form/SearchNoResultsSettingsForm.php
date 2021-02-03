@@ -37,6 +37,13 @@ class SearchNoResultsSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('no_results_heading') ?? $this->t('There are no matching results for "@keys"'),
     ];
 
+    $form['no_results_heading_empty_str'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Heading for no results in case of empty string'),
+      '#description' => $this->t('Will be used when search returns no results (empty string)'),
+      '#default_value' => $config->get('no_results_heading_empty_str') ?? $this->t('There are no matching results'),
+    ];
+
     $form['no_results_text'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Text for no results case'),
@@ -54,6 +61,7 @@ class SearchNoResultsSettingsForm extends ConfigFormBase {
     $this
       ->config('mars_search.search_no_results')
       ->set('no_results_heading', $form_state->getValue('no_results_heading'))
+      ->set('no_results_heading_empty_str', $form_state->getValue('no_results_heading_empty_str'))
       ->set('no_results_text', $form_state->getValue('no_results_text'))
       ->save();
 

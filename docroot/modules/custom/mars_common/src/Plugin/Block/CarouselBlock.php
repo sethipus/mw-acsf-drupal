@@ -191,9 +191,9 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       ];
       $form['carousel'][$key]['description'] = [
         '#title' => $this->t('Carousel item description'),
-        '#type' => 'textfield',
+        '#type' => 'textarea',
         '#default_value' => $config['carousel'][$key]['description'] ?? NULL,
-        '#maxlength' => 120,
+        '#maxlength' => 255,
       ];
 
       /*

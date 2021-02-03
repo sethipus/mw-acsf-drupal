@@ -3,6 +3,7 @@
 namespace Drupal\mars_articles\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
@@ -142,10 +143,15 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $node = $this->nodeStorage->load($this->configuration['article']);
     }
 
+    $label_config = $this->configFactory->get('mars_common.site_labels');
+    $published_label = $label_config->get('article_published');
+    $share_text = $label_config->get('article_recipe_share');
+
     $build = [
       '#label' => $node->label(),
       '#eyebrow' => $this->languageHelper->translate($this->configuration['eyebrow']),
-      '#publication_date' => $node->isPublished() ? $this->languageHelper->translate('Published') . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
+      '#share_text' => $this->languageHelper->translate($share_text),
+      '#publication_date' => $node->isPublished() ? $this->languageHelper->translate($published_label) . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 
     $media_id = $this->mediaHelper->getEntityMainMediaId($node);
@@ -165,6 +171,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     // Get brand border path.
     $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#social_links'] = $this->socialLinks();
+
+    $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
+    $cacheMetadata->addCacheableDependency($label_config);
+    $cacheMetadata->applyTo($build);
 
     return $build;
   }
@@ -230,6 +240,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
           '#uri' => $icon_path . $name . '.svg',
           '#title' => $social_media['text'],
           '#alt' => $social_media['text'],
+          '#attributes' => [
+            'height' => '20px',
+            'width' => '20px',
+          ],
         ];
       }
       elseif (!empty($social_media['img'])) {
@@ -238,6 +252,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
           '#uri' => $base_url . '/' . $social_media['img'],
           '#title' => $social_media['text'],
           '#alt' => $social_media['text'],
+          '#attributes' => [
+            'height' => '20px',
+            'width' => '20px',
+          ],
         ];
       }
     }

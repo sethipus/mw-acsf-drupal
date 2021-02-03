@@ -6,9 +6,10 @@ dependencies:
     - node.type.about_page
     - node.type.article
     - node.type.campaign
-    - node.type.faq_contact
+    - node.type.content_hub_page
     - node.type.error_page
     - node.type.faq
+    - node.type.faq_contact
     - node.type.homepage
     - node.type.landing_page
     - node.type.newsletter_sign_up
@@ -92,9 +93,10 @@ type_settings:
       - about_page
       - article
       - campaign
-      - faq_contact
+      - content_hub_page
       - error_page
       - faq
+      - faq_contact
       - homepage
       - landing_page
       - newsletter_sign_up

@@ -12,6 +12,7 @@ use Drupal\field\FieldConfigInterface;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 
 /**
  * Implements hook_theme().
@@ -52,53 +53,63 @@ function mars_product_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_page_attachments().
+ */
+function mars_product_page_attachments(&$page) {
+  $wtb_config = \Drupal::config('mars_product.wtb.settings');
+  $vendor = $wtb_config->get('commerce_vendor') ?? '';
+  if ($vendor == PdpHeroBlock::VENDOR_PRICE_SPIDER) {
+    $metatags = [
+      'ps-account' => [
+        '#tag' => 'meta',
+        '#attributes' => [
+          'name' => 'ps-account',
+          'content' => $wtb_config->get('account_id'),
+        ],
+      ],
+      'ps-country' => [
+        '#tag' => 'meta',
+        '#attributes' => [
+          'name' => 'ps-country',
+          'content' => \Drupal::configFactory()
+            ->get('system.date')
+            ->get('country.default'),
+        ],
+      ],
+      'ps-language' => [
+        '#tag' => 'meta',
+        '#attributes' => [
+          'name' => 'ps-language',
+          'content' => strtolower(\Drupal::languageManager()
+            ->getCurrentLanguage()
+            ->getId()),
+        ],
+      ],
+      'price-spider' => [
+        '#tag' => 'script',
+        '#attributes' => [
+          'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+          'async' => TRUE,
+        ],
+      ],
+    ];
+    foreach ($metatags as $key => $metatag) {
+      $page['#attached']['html_head'][] = [$metatag, $key];
+    }
+  }
+}
+
+/**
  * Implements hook_entity_view().
  */
 function mars_product_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
-  if ($view_mode == 'card' && $entity->bundle() == 'product') {
+  $is_product = in_array($entity->bundle(), ['product', 'product_multipack']);
+
+  if ($view_mode == 'card' && $is_product) {
     $wtb_confg = \Drupal::config('mars_product.wtb.settings');
     $vendor = $wtb_confg->get('commerce_vendor');
 
-    if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_PRICE_SPIDER) {
-      $metatags = [
-        'ps-key' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-key',
-            'content' => $wtb_confg->get('widget_id'),
-          ],
-        ],
-        'ps-country' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-country',
-            'content' => \Drupal::configFactory()
-              ->get('system.date')
-              ->get('country.default'),
-          ],
-        ],
-        'ps-language' => [
-          '#tag' => 'meta',
-          '#attributes' => [
-            'name' => 'ps-language',
-            'content' => strtolower(\Drupal::languageManager()
-              ->getCurrentLanguage()
-              ->getId()),
-          ],
-        ],
-        'price-spider' => [
-          '#tag' => 'script',
-          '#attributes' => [
-            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
-            'async' => TRUE,
-          ],
-        ],
-      ];
-      foreach ($metatags as $key => $metatag) {
-        $build['#attached']['html_head'][] = [$metatag, $key];
-      }
-    }
-    elseif (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
+    if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
       $locale = \Drupal::languageManager()
         ->getCurrentLanguage()->getId();
 
@@ -118,16 +129,24 @@ function mars_product_node_view(array &$build, EntityInterface $entity, EntityVi
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_node__product__card(array &$variables) {
+  product_card_add_variant_vars($variables);
+  product_card_add_bazaarvoice_vars($variables);
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
+  product_card_add_labels($variables);
+  product_card_change_color($variables);
 }
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_node__product_multipack__card(array &$variables) {
+  product_card_add_variant_vars($variables);
+  product_card_add_bazaarvoice_vars($variables);
   product_card_add_wtb_vars($variables);
   product_card_add_datalayer_vars($variables);
+  product_card_add_labels($variables);
+  product_card_change_color($variables);
 }
 
 /**
@@ -137,27 +156,32 @@ function mars_common_preprocess_node__product_multipack__card(array &$variables)
  *   Variables.
  */
 function product_card_add_wtb_vars(array &$variables) {
-  $show_rating_and_reviews = NULL;
   $wtb_config = \Drupal::config('mars_product.wtb.settings');
   $variables['wtb_commerce_vendor'] = $wtb_config->get('commerce_vendor') ?? NULL;
   $variables['wtb_button_type'] = $wtb_config->get('button_type') ?? NULL;
+  $variables['wtb_account_id'] = $wtb_config->get('account_id') ?? NULL;
   $variables['wtb_widget_id'] = $wtb_config->get('widget_id') ?? NULL;
+}
 
-  $variants = $variables['node']
-    ->get('field_product_variants')
-    ->referencedEntities();
-  $variant = reset($variants);
-  if ($variant !== FALSE) {
-    $product_sku = trim($variant->get('field_product_sku')->value);
-    if ($variables['node']->hasField('field_rating_and_reviews') &&
-      $variables['node']->hasField('field_override_global_rating') &&
-      $variables['node']->get('field_override_global_rating')->value == TRUE
-    ) {
-      $show_rating_and_reviews = $variables['node']->get('field_rating_and_reviews')->value;
-    }
-    else {
-      $show_rating_and_reviews = \Drupal::config('emulsifymars.settings')->get('show_rating_and_reviews');
-    }
+/**
+ * Add Where to buy related vars.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_bazaarvoice_vars(array &$variables) {
+  $show_rating_and_reviews = NULL;
+  $product = $variables['node'];
+
+  if ($product->hasField('field_rating_and_reviews') &&
+    $product->hasField('field_override_global_rating') &&
+    $product->get('field_override_global_rating')->value == TRUE
+  ) {
+    $show_rating_and_reviews = $product->get('field_rating_and_reviews')->value;
+  }
+  else {
+    $show_rating_and_reviews = \Drupal::config('emulsifymars.settings')
+      ->get('show_rating_and_reviews');
   }
 
   if ($show_rating_and_reviews) {
@@ -169,7 +193,29 @@ function product_card_add_wtb_vars(array &$variables) {
     }
   }
   $variables['show_rating_and_reviews'] = $show_rating_and_reviews;
-  $variables['wtb_product_sku'] = $product_sku ?? NULL;
+}
+
+/**
+ * Add Where to buy related vars.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_variant_vars(array &$variables) {
+  /** @var \Drupal\mars_product\ProductHelper $product_helper */
+  $product_helper = \Drupal::service('mars_product.product_helper');
+  /** @var \Drupal\node\Entity\Node|null $product */
+  $product = $variables['node'] ?? NULL;
+
+  if ($product) {
+    $main_variant = $product_helper->mainVariant($product);
+    $variables['main_variant'] = $main_variant;
+
+    if ($main_variant && $main_variant->hasField('field_product_sku')) {
+      $sku = $main_variant->get('field_product_sku')->value ?? '';
+      $variables['product_sku'] = trim($sku);
+    }
+  }
 }
 
 /**
@@ -207,6 +253,18 @@ function product_card_add_datalayer_vars(array &$variables) {
 }
 
 /**
+ * Add the configured labels to cards.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function product_card_add_labels(array &$variables) {
+  card_add_badge_text($variables);
+  card_add_button_label($variables, 'product_card_button');
+  add_cache_by_label_config($variables);
+}
+
+/**
  * Implements hook_form_alter().
  */
 function mars_product_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
@@ -217,4 +275,12 @@ function mars_product_form_alter(array &$form, FormStateInterface $form_state, $
       ],
     ];
   }
+}
+
+/**
+ * Product card change color.
+ */
+function product_card_change_color(&$variables) {
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_product');
+  card_change_color($variables, $color_key);
 }

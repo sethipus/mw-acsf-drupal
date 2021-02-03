@@ -83,6 +83,12 @@
     @include large {
       flex-direction: row;
     }
+
+    &-column {
+      @include large {
+        width: 50%;
+      }
+    }
   }
 
   &__product_image {
@@ -97,11 +103,11 @@
     }
 
     @include medium {
-      padding: 9rem 8rem 0;
+      padding: 2rem 8rem 0;
 
       img {
         width: auto;
-        max-width: 460px;
+        max-width: 60.8rem;
         min-width: 400px;
       }
     }
@@ -110,8 +116,17 @@
       padding: 8rem 0 8rem 4rem;
 
       img {
-        max-width: 580px;
-        min-width: 520px;
+        max-width: 44.42rem;
+        max-height: 44.21rem;
+      }
+    }
+
+    @include xl {
+      padding: 15rem 18.19rem 8rem 10.89rem;
+
+      img {
+        max-width: 44.42rem;
+        max-height: 44.21rem;
       }
     }
 
@@ -129,6 +144,7 @@
 
     .eyebrow {
       margin-bottom: 1.6rem;
+      margin-top: 0;
       font-size: 1.4rem;
       font-family: variable(primary-font);
     }

@@ -130,24 +130,30 @@ class ProductHelperTest extends UnitTestCase {
     $products = Json::encode([
       'data' => [
         [
-          'Bazaarvoice Family ID' => 'Family ID',
-          'GTIN' => 'value_1',
-          'Send to Brand Site?' => TRUE,
+          'mapping' => [
+            'Bazaarvoice Family ID' => 'Family ID',
+            'GTIN' => 'value_1',
+            'Send to Brand Site?' => TRUE,
+          ],
           'salsify:id' => '123',
         ],
         [
-          'Bazaarvoice Family ID' => 'Family ID',
-          'GTIN' => 'value_2',
-          'Case Net Weight' => 'value',
-          'CMS: Variety' => 'no',
-          'Send to Brand Site?' => FALSE,
+          'mapping' => [
+            'Bazaarvoice Family ID' => 'Family ID',
+            'GTIN' => 'value_2',
+            'Case Net Weight' => 'value',
+            'CMS: Variety' => 'no',
+            'Send to Brand Site?' => FALSE,
+          ],
           'salsify:id' => '123',
         ],
         [
-          'Bazaarvoice Family ID' => 'Family ID',
-          'GTIN' => 'value_3',
-          'CMS: Variety' => 'yes',
-          'Send to Brand Site?' => TRUE,
+          'mapping' => [
+            'Bazaarvoice Family ID' => 'Family ID',
+            'GTIN' => 'value_3',
+            'CMS: Variety' => 'yes',
+            'Send to Brand Site?' => TRUE,
+          ],
           'salsify:id' => '123',
         ],
       ],
@@ -208,7 +214,6 @@ class ProductHelperTest extends UnitTestCase {
           'salsify:updated_at' => time(),
           'salsify:digital_assets' => [],
           'CMS: Product Variant Family ID' => 'family id',
-          'CMS: Product Family Groups ID' => 'group id',
         ],
       ],
     ]);
@@ -239,13 +244,13 @@ class ProductHelperTest extends UnitTestCase {
           'salsify:updated_at' => time(),
           'salsify:digital_assets' => [],
           'CMS: Product Variant Family ID' => 'family id',
-          'CMS: Product Family Groups ID' => 'group id',
           'Calcium 2' => 2,
           'Calcium 3' => 4,
           'Calcium 4' => 5,
           'Iron 2' => 2,
           'Ironv 3' => 4,
           'Iron 4' => 5,
+          'CMS: Product Name' => 'product_name',
         ],
       ],
     ]);
@@ -282,7 +287,6 @@ class ProductHelperTest extends UnitTestCase {
       'salsify:updated_at' => time(),
       'salsify:digital_assets' => [],
       'CMS: Product Variant Family ID' => 'family id',
-      'CMS: Product Family Groups ID' => 'group id',
     ];
 
     $product = $this->productHelper->createProductFromProductVariant(
@@ -311,7 +315,6 @@ class ProductHelperTest extends UnitTestCase {
       'salsify:updated_at' => time(),
       'salsify:digital_assets' => [],
       'CMS: Product Variant Family ID' => 'family id',
-      'CMS: Product Family Groups ID' => 'group id',
       'Nutrition field 2' => 2,
       'Nutrition field 3' => 4,
       'Nutrition field 4' => 5,
@@ -342,7 +345,6 @@ class ProductHelperTest extends UnitTestCase {
       'salsify:updated_at' => time(),
       'salsify:digital_assets' => [],
       'CMS: Product Variant Family ID' => 'family id',
-      'CMS: Product Family Groups ID' => 'group id',
       'Nutrition field 2' => 2,
       'Nutrition field 3' => 4,
       'Nutrition field 4' => 5,
@@ -380,13 +382,13 @@ class ProductHelperTest extends UnitTestCase {
       'salsify:updated_at' => time(),
       'salsify:digital_assets' => [],
       'CMS: Product Variant Family ID' => 'family id',
-      'CMS: Product Family Groups ID' => 'group id',
       'Calcium 2' => 2,
       'Calcium 3' => 4,
       'Calcium 4' => 5,
       'Iron 2' => 2,
       'Ironv 3' => 4,
       'Iron 4' => 5,
+      'CMS: Product Name' => 'product_name',
     ];
 
     $result = $this->productHelper->createNutritionProductsFromProductVariant(
@@ -470,7 +472,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => TRUE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'Brand Name' => 'name1',
+          'CMS: Format' => 'format',
         ],
         [
           'Bazaarvoice Family ID' => 'Family ID',
@@ -480,7 +482,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => FALSE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'Brand Name' => 'name2',
+          'CMS: Format' => 'format',
         ],
         [
           'Bazaarvoice Family ID' => 'Family ID',
@@ -489,7 +491,7 @@ class ProductHelperTest extends UnitTestCase {
           'Send to Brand Site?' => TRUE,
           'Dietary Fiber' => 'value',
           'Generic Product Description' => 'description',
-          'Brand Name' => 'name3',
+          'CMS: Format' => 'format',
         ],
       ],
     ]);

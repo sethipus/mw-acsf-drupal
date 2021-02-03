@@ -80,6 +80,7 @@ product-card:
     - core/drupal
     - core/jquery
     - core/jquery.once
+    - core/underscore
 
 recipe-card:
   js:

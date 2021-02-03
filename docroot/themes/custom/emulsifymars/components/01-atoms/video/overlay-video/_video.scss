@@ -62,12 +62,12 @@
     padding: 0 20px;
 
     @include medium {
-      width: calc(100vw - 140px);
+      width: 100%;
       padding: 0 30px;
     }
 
     @include xl {
-      width: 836px;
+      width: 100%;
     }
 
     &[data-state="hidden"] {
@@ -142,7 +142,7 @@
       width: 26.7px;
       height: 31.9px;
       fill: clr(secondary);
-      margin: auto 35%;
+      margin: auto 30%;
     }
   }
 
@@ -303,11 +303,27 @@ figure[data-fullcontrol="true"] .overlay-video__controls .progress {
     position: absolute;
     top: 50vh;
     left: 50vw;
-    height: 100vh;
-    width: 100vw;
     padding-bottom: 3rem;
     margin-right: -50%;
     transform: translate(-50%, -50%);
+    width: 375px;
+    height: 210px;
+
+    @include medium {
+      width: 688px;
+      height: 388.8px;
+    }
+
+    @include xl {
+      width: 896px;
+      height: 504px;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 }
 
@@ -318,13 +334,6 @@ figure[data-fullcontrol="true"] .overlay-video__controls .progress {
   align-items: center;
 
   .overlay-video {
-    &__video {
-      width: 100vw;
-
-      @include medium {
-        width: calc(100vw - 80px);
-      }
-    }
 
     &__overlay {
       position: fixed;

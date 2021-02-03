@@ -94,11 +94,11 @@
     height: 25rem;
 
     @include medium {
-      height: 43.4rem;
+      height: 43.3rem;
     }
 
     @include xl {
-      height: 63.5rem;
+      height: 66.6rem;
     }
 
     /* Center slide text vertically */
@@ -118,17 +118,19 @@
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
 
     video {
       height: 25rem;
+      object-fit: cover;
 
       @include medium {
-        height: 43.4rem;
+        height: 43.3rem;
       }
-  
+
       @include xl {
-        height: 63.5rem;
+        height: 66.6rem;
       }
     }
 
@@ -143,13 +145,11 @@
 
       @include playbutton;
 
-      > div {
-        width: 0;
-        height: 0;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-left: 20px solid clr(player);
-        margin: auto 35%
+      .play-icon {
+        width: 10px;
+        height: 12px;
+        fill: clr(secondary);
+        margin: auto 30%;
       }
     }
 
@@ -201,9 +201,26 @@
     }
 
     &::after {
-      color: clr(secondary);
-      font-size: 2.5rem;
+      display: none; // hide original icon
+    }
+
+    &__icon {
+      width: 100%;
+      height: 100%;
+      fill: clr(secondary);
     }
   }
 }
 
+.overlay-video__control[data-state="play"] .play-icon {
+  margin: auto 30%;
+}
+
+.overlay-video__playpause[data-state="pause"] .play-icon{
+  display: none;
+}
+
+.overlay-video__playpause[data-state="play"] .play-icon{
+  width: 10px;
+  height: 12px;
+}

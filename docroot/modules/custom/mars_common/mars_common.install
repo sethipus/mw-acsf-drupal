@@ -5,6 +5,8 @@
  * Update scripts for the Mars Common module.
  */
 
+use Drupal\field\Entity\FieldStorageConfig;
+
 /**
  * Implements hook_update_N().
  *
@@ -93,4 +95,38 @@ function mars_common_update_8005() {
   $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
   $field_definition = $definition_update_manager->getFieldStorageDefinition('field_allergen_image', 'taxonomy_term');
   $definition_update_manager->updateFieldStorageDefinition($field_definition);
+}
+
+/**
+ * Increase the length of "field_description" to 255 characters for poll entity.
+ */
+function mars_common_update_8006() {
+  // Resize column.
+  $database = \Drupal::database();
+  $database->query("ALTER TABLE poll__field_description MODIFY field_description_value VARCHAR(255)");
+
+  // Update storage schema.
+  $storage_key = 'poll.field_schema_data.field_description';
+  $storage_schema = \Drupal::keyValue('entity.storage_schema.sql');
+  $field_schema = $storage_schema->get($storage_key);
+  $field_schema['poll__field_description']['fields']['field_description_value']['length'] = 255;
+  $storage_schema->set($storage_key, $field_schema);
+
+  // Update field configuration.
+  $config = \Drupal::configFactory()
+    ->getEditable('field.storage.poll.field_description');
+  $config->set('settings.max_length', 255);
+  $config->save(TRUE);
+
+  FieldStorageConfig::loadByName('poll', 'field_description')->save();
+}
+
+/**
+ * Delete old card color config.
+ */
+function mars_common_update_8007() {
+  /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
+  $config_factory = \Drupal::service('config.factory');
+  $config = $config_factory->getEditable('card_color.settings');
+  $config->delete();
 }

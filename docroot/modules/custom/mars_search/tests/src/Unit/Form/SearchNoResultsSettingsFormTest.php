@@ -110,7 +110,7 @@ class SearchNoResultsSettingsFormTest extends UnitTestCase {
       ->willReturn($this->configMock);
 
     $this->configMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(3))
       ->method('get');
 
     $form = $this->form->buildForm($form, $this->formStateMock);
@@ -142,12 +142,16 @@ class SearchNoResultsSettingsFormTest extends UnitTestCase {
       ->willReturn($this->configMock);
 
     $this->formStateMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(3))
       ->method('getValue')
-      ->withConsecutive(['no_results_heading'], ['no_results_text']);
+      ->withConsecutive(
+        ['no_results_heading'],
+        ['no_results_heading_empty_str'],
+        ['no_results_text']
+      );
 
     $this->configMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(3))
       ->method('set')
       ->willReturn($this->configMock);
 
