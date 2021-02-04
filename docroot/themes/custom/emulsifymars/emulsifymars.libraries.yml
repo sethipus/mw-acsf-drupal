@@ -82,6 +82,14 @@ product-card:
     - core/jquery.once
     - core/underscore
 
+recipe-card:
+  js:
+    dist/js/02-molecules/card/recipe-card/recipe-card.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once    
+
 recipe-hero-module:
   js:
     dist/js/02-molecules/recipe-hero-module/recipe-hero-module.js: { }

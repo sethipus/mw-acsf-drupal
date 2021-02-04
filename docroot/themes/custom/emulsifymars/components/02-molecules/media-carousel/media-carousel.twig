@@ -42,8 +42,22 @@
     <div {{ bem('divider', [], carousel_base_class) }} >
       {{ brand_borders | raw }}
     </div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev">
+      {% include "@atoms/images/icons/_icon.twig" with {
+        icon_base_class: "icon",
+        icon_blockname: "swiper-button-prev",
+        icon_name: "carousel_arrow_prev",
+        icon_decorative: true,
+      } %}
+    </div>
+    <div class="swiper-button-next">
+      {% include "@atoms/images/icons/_icon.twig" with {
+        icon_base_class: "icon",
+        icon_blockname: "swiper-button-next",
+        icon_name: "carousel_arrow_next",
+        icon_decorative: true,
+      } %}
+    </div>
     <div class="swiper-scrollbar"></div>
   </div>
   <div {{ bem('content', [], carousel_base_class) }}>
