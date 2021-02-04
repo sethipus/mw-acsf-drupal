@@ -1,4 +1,6 @@
-(function (Drupal, drupalSettings) {
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+
+(function ($, Drupal, drupalSettings) {
   Drupal.behaviors.searchFilterBehaviour = {
     attach(context) {
       const searchFilterContainer = context.querySelectorAll('.search-filter-container');
@@ -19,6 +21,7 @@
         switch (true) {
           case event.target.classList.contains('search-filter-header__close'):
             event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+            enableBodyScroll(document.querySelector('#search-filter-block'));
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
@@ -76,6 +79,7 @@
       filterOpenButton.addEventListener('click', function(event) {
         const searchFilterBlock = getGridBlock(event).querySelector('.search-filter-block');
         searchFilterBlock.classList.add('search-filter-block--opened');
+        disableBodyScroll(document.querySelector('#search-filter-block'));
       });
     });
 
@@ -98,6 +102,7 @@
         const grid = getGridBlock(event);
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+        enableBodyScroll(document.querySelector('#search-filter-block'));
         event.target.closest('.filter-block').querySelector('.filter-title').focus();
         updateCounters(grid);
         processFilters(getGridBlock(event));
@@ -397,4 +402,4 @@
       }
     },
   };
-})(Drupal, window.drupalSettings);
+})(jQuery, Drupal, window.drupalSettings);
