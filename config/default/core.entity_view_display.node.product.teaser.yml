@@ -15,7 +15,6 @@ dependencies:
     - field.field.node.product.field_product_new
     - field.field.node.product.field_product_occasions
     - field.field.node.product.field_product_segment
-    - field.field.node.product.field_product_sub_brand
     - field.field.node.product.field_product_trade_description
     - field.field.node.product.field_product_variants
     - field.field.node.product.field_rating_and_reviews
@@ -50,7 +49,6 @@ hidden:
   field_product_new: true
   field_product_occasions: true
   field_product_segment: true
-  field_product_sub_brand: true
   field_product_trade_description: true
   field_product_variants: true
   field_rating_and_reviews: true

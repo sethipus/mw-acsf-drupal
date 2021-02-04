@@ -180,6 +180,7 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       'mars_diet_allergens',
       'mars_occasions',
       'mars_brand_initiatives',
+      'mars_category',
     ];
   }
 
