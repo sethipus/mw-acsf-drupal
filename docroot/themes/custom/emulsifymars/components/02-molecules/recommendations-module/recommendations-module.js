@@ -23,8 +23,8 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             },
             a11y: {
               enabled: true,
-              prevSlideMessage: 'Previous Slide',
-              nextSlideMessage: 'Next Slide'
+              prevSlideMessage: Drupal.t('Previous Slide'),
+              nextSlideMessage: Drupal.t('Next Slide')
             },
             navigation: {
               nextEl: ".swiper-button-next",
