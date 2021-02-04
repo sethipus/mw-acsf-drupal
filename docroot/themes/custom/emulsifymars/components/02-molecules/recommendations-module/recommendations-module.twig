@@ -1,14 +1,11 @@
 {{ attach_library('emulsifymars/recommendations-module') }}
 {% set recommendations_base_class = recommendations_base_class|default('recommendations') %}
+{% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
 
-<section id="recommendations" {{ bem(recommendations_base_class, recommendations_modifiers) }} data-theme="{{ theme_styles }}"
-  {% if overlaps_previous %}
-    style="top: -40px;"
-  {% endif %}
->
-  {% if brand_border not empty %}
+<section id="recommendations" {{ bem(recommendations_base_class, recommendations_modifiers) }} data-theme="{{ theme_styles }}">
+  {% if brand_border is not empty %}
     {% block brand_border %}
-      <div {{  bem('border', [], recommendations_base_class)  }}>
+      <div {{  bem('border', [border_overflow], recommendations_base_class)  }}>
         {{ brand_border | raw }}
       </div>
     {% endblock %}

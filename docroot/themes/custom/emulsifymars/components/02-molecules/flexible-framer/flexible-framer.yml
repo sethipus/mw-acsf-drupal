@@ -1,5 +1,5 @@
 theme_styles: 'twix'
-overlaps_previous: false
+overlaps_previous: true
 select_background_color: ''
 related_recipes__additional_class: ''
 grid_label: 'More of our favorites'

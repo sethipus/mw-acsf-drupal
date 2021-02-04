@@ -1,12 +1,12 @@
 {{ attach_library('emulsifymars/overlay-video') }}
 {% set story_highlight_base_class = story_highlight_base_class|default('story-highlight') %}
 {% set divider = '<div class=divider>'~divider~'</div>' %}
-{% set story_highlight_modifiers = overlaps_previous ? 'overlaps-previous' : '' %}
+{% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
 
-<section id="story-highlight" {{ bem(story_highlight_base_class, [story_highlight_modifiers]) }} data-theme="{{ theme_styles }}">
-  {% if brand_borders not empty %}
+<section id="story-highlight" {{ bem(story_highlight_base_class, []) }} data-theme="{{ theme_styles }}">
+  {% if brand_borders is not empty %}
     {% block brand_border %}
-      <div {{  bem('border', [], story_highlight_base_class)  }}>
+      <div {{  bem('border', [border_overflow], story_highlight_base_class)  }}>
         {{ brand_borders | raw }}
       </div>
     {% endblock %}

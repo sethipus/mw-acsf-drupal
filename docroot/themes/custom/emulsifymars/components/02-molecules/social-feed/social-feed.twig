@@ -1,15 +1,15 @@
 {{ attach_library('emulsifymars/social-feed') }}
 {% set social_feed_base_class = social_feed_base_class|default('social-feed') %}
-{% set social_feed_modifiers = overlaps_previous ? 'overlaps-previous' : '' %}
+{% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
 
-<section id="social-feed" {{ bem(social_feed_base_class, [social_feed_modifiers]) }} data-theme="{{theme_styles}}"
+<section id="social-feed" {{ bem(social_feed_base_class, []) }} data-theme="{{theme_styles}}"
   {% if select_background_color|length > 0 %}
     style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
   {% endif %}
 >
-  {% if brand_border not empty %}
+  {% if brand_border is not empty %}
     {% block brand_border %}
-      <div {{  bem('border', [], social_feed_base_class)  }}>
+      <div {{  bem('border', [border_overflow], social_feed_base_class)  }}>
         {{ brand_border | raw }}
       </div>
     {% endblock %}
