@@ -88,11 +88,6 @@
 
   .swiper-slide {
     width: 318px;
-    visibility: hidden; // for watchSlidesVisibility
-  }
-
-  .swiper-slide-visible {
-    visibility: visible;
   }
 
   .hide-arrow {
@@ -135,7 +130,6 @@
   .swiper-button-prev, .swiper-button-next  {
     background-color: clr(text-inverse);
     border-radius: 50%;
-    border: 0;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     width: 7rem;
     height: 7rem;
@@ -153,7 +147,6 @@
 
     &.swiper-button-disabled {
       opacity: 0;
-      visibility: hidden;
     }
 
     &::after {
