@@ -411,13 +411,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $node = $this->getContextValue('node');
     // Get values from first Product Variant.
     $product_sku = '';
-    $ingredients_label = '';
-    $warnings_label = '';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
       $product_sku = $product_variant->get('field_product_sku')->value;
-      $ingredients_label = $this->languageHelper->translate($product_variant->get('field_product_ingredients')->getFieldDefinition()->getLabel()) . ':';
-      $warnings_label = $this->languageHelper->translate($product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel()) . ':';
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
@@ -446,8 +442,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'added_sugars_label' => $this->languageHelper->translate($this->configuration['nutrition']['added_sugars_label']) ?? '',
         'daily_text' => $this->languageHelper->translate($this->configuration['nutrition']['daily_text']) ?? '',
         'refer_text' => $this->languageHelper->translate($this->configuration['nutrition']['refer_text']) ?? '',
-        'ingredients_label' => $ingredients_label,
-        'warnings_label' => $warnings_label,
       ],
       'allergen_data' => [
         'allergen_label' => $this->languageHelper->translate($this->configuration['allergen_label']),
