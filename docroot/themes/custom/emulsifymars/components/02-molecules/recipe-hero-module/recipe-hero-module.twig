@@ -35,11 +35,13 @@
 >
   {% if video_src %}
     {% block recipe_media_video %}
-      {% include "@atoms/video/ambient-video/video.twig" with {
-        video__src__url: video_src,
-        video__base_class: 'ambient-video',
-        video__control: true,
-      } %}
+      <div {{ bem('video', [], 'recipe-media') }}>
+        {% include "@atoms/video/ambient-video/video.twig" with {
+          video__src__url: video_src,
+          video__base_class: 'ambient-video',
+          video__control: true,
+        } %}
+      </div>
     {% endblock %}
   {% else %}
     <div class="recipe-media__image-wrapper" style="background-image: url('{{ image.url }}')">
