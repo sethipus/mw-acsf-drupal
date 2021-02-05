@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.lighthouse_browser
+    - field.field.node.product_variant.field_product_added_sugars
+    - field.field.node.product_variant.field_product_added_sugars_daily
     - field.field.node.product_variant.field_product_allergen_statement
     - field.field.node.product_variant.field_product_allergen_warnings
     - field.field.node.product_variant.field_product_calcium
@@ -32,10 +34,14 @@ dependencies:
     - field.field.node.product_variant.field_product_iron_daily
     - field.field.node.product_variant.field_product_key_image
     - field.field.node.product_variant.field_product_key_image_override
+    - field.field.node.product_variant.field_product_niacin
+    - field.field.node.product_variant.field_product_niacin_daily
     - field.field.node.product_variant.field_product_potassium
     - field.field.node.product_variant.field_product_potassium_daily
     - field.field.node.product_variant.field_product_protein
     - field.field.node.product_variant.field_product_protein_daily
+    - field.field.node.product_variant.field_product_riboflavin
+    - field.field.node.product_variant.field_product_riboflavin_daily
     - field.field.node.product_variant.field_product_saturated_daily
     - field.field.node.product_variant.field_product_saturated_fat
     - field.field.node.product_variant.field_product_serving_size
@@ -44,10 +50,14 @@ dependencies:
     - field.field.node.product_variant.field_product_sku
     - field.field.node.product_variant.field_product_sodium
     - field.field.node.product_variant.field_product_sodium_daily
+    - field.field.node.product_variant.field_product_sugar_alcohol
     - field.field.node.product_variant.field_product_sugars
     - field.field.node.product_variant.field_product_sugars_daily
+    - field.field.node.product_variant.field_product_thiamin
+    - field.field.node.product_variant.field_product_thiamin_daily
     - field.field.node.product_variant.field_product_total_fat
     - field.field.node.product_variant.field_product_total_fat_daily
+    - field.field.node.product_variant.field_product_total_sugars
     - field.field.node.product_variant.field_product_trans_fat
     - field.field.node.product_variant.field_product_trans_fat_daily
     - field.field.node.product_variant.field_product_vitamin_a
@@ -151,6 +161,12 @@ third_party_settings:
         - field_product_potassium_daily
         - field_product_iron
         - field_product_iron_daily
+        - field_product_thiamin
+        - field_product_thiamin_daily
+        - field_product_niacin
+        - field_product_niacin_daily
+        - field_product_riboflavin
+        - field_product_riboflavin_daily
       parent_name: group_product_variant
       weight: 36
       format_type: accordion_item
@@ -251,6 +267,10 @@ third_party_settings:
         - field_product_carb_daily
         - field_product_sugars
         - field_product_sugars_daily
+        - field_product_total_sugars
+        - field_product_added_sugars
+        - field_product_added_sugars_daily
+        - field_product_sugar_alcohol
         - field_product_protein
         - field_product_protein_daily
         - field_product_dietary_fiber
@@ -279,6 +299,22 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_product_added_sugars:
+    weight: 32
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_added_sugars_daily:
+    weight: 33
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_allergen_statement:
     weight: 11
     settings: {  }
@@ -383,7 +419,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_product_dietary_daily:
-    weight: 34
+    weight: 38
     settings:
       size: 60
       placeholder: ''
@@ -391,7 +427,7 @@ content:
     type: string_textfield
     region: content
   field_product_dietary_fiber:
-    weight: 33
+    weight: 37
     settings:
       size: 60
       placeholder: ''
@@ -579,6 +615,22 @@ content:
       field_widget_replace: false
     region: content
     third_party_settings: {  }
+  field_product_niacin:
+    weight: 51
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_niacin_daily:
+    weight: 52
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_potassium:
     weight: 45
     settings:
@@ -596,7 +648,7 @@ content:
     type: string_textfield
     region: content
   field_product_protein:
-    weight: 31
+    weight: 35
     settings:
       size: 60
       placeholder: ''
@@ -604,7 +656,23 @@ content:
     type: string_textfield
     region: content
   field_product_protein_daily:
-    weight: 32
+    weight: 36
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_riboflavin:
+    weight: 53
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_riboflavin_daily:
+    weight: 54
     settings:
       size: 60
       placeholder: ''
@@ -675,6 +743,14 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_sugar_alcohol:
+    weight: 34
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_sugars:
     weight: 29
     settings:
@@ -691,6 +767,22 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_thiamin:
+    weight: 49
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_thiamin_daily:
+    weight: 50
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_total_fat:
     weight: 20
     settings:
@@ -701,6 +793,14 @@ content:
     region: content
   field_product_total_fat_daily:
     weight: 22
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_total_sugars:
+    weight: 31
     settings:
       size: 60
       placeholder: ''
@@ -827,9 +927,9 @@ content:
     third_party_settings: {  }
   translation:
     weight: 10
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 1
