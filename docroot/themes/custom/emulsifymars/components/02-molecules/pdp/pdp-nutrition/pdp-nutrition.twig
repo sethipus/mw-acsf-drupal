@@ -38,8 +38,9 @@
         {% if pdp_nutrition_data.serving_item.group_nutritional_subgroup_1 %}
           <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
             {% for item in pdp_nutrition_data.serving_item.group_nutritional_subgroup_1 %}
+              {% set additional_class = item.bold_modifier ? 'bold' : '' %}
               <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
-                <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class) }}>
+                <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class]) }}>
                   {% include "@atoms/text/text/07-span.twig" with {
                     span_content: item.label,
                     span_base_class: pdp_nutrition_label_base_class,
