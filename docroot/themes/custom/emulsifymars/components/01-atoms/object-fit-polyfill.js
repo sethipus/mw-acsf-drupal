@@ -1,3 +1,5 @@
 import 'objectFitPolyfill';
 
-window.objectFitPolyfill();
+if (window.MSInputMethodContext && document.documentMode) {
+  window.objectFitPolyfill();
+}
