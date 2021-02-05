@@ -6,8 +6,8 @@ heading: 'The Rainforest Alliance'
 heading_level: 1
 heading_url: 'https://storybook.js.org/'
 
-graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="101" height="12" fill="none" viewBox="0 0 101 12">
-    <path fill-rule="evenodd" d="M80.503 10.033L70.501 0l-10 10.033L50.502 0l-10 10.033L30.5 0l-10 10.033L10.5 0 .5 10.033V12h100v-1.967L90.5 0l-9.997 10.033z" clip-rule="evenodd"/>
+graphic_divider: '<svg xmlns="http://www.w3.org/2000/svg" width="125" height="15" fill="none" viewBox="0 0 125 15">
+    <path fill="#EAAA00" fill-rule="evenodd" d="M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542z" clip-rule="evenodd"/>
 </svg>'
 
 paragraph_size: 'large'
