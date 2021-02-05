@@ -170,6 +170,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         }
 
         break;
+
+      default:
+        break;
     }
 
     // Getting and building search results.
@@ -441,6 +444,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
       case 'grid':
         $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+        break;
+
+      default:
         break;
     }
 

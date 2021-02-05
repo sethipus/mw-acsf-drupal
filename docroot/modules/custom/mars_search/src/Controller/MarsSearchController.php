@@ -252,6 +252,9 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         }
 
         break;
+
+      default:
+        break;
     }
 
     return new JsonResponse($json_output);
