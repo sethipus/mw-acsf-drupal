@@ -121,9 +121,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * Fields with bold labels.
    */
   const FIELDS_WITH_BOLD_LABELS = [
-    'field_product_saturated_fat' => 'Saturated Fat',
-    'field_product_trans_fat' => 'Trans Fat',
-    'field_product_sugars' => 'Sugars',
+    'field_product_calories' => 'Calories',
+    'field_product_total_fat' => 'Total Fat',
+    'field_product_cholesterol' => 'Cholesterol',
+    'field_product_sodium' => 'Sodium',
+    'field_product_carb' => 'Total Carbohydrate',
     'field_product_protein' => 'Protein',
   ];
 
