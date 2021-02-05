@@ -282,6 +282,9 @@ function salsify_integration_setup_field_render_arrays(array $field_data) {
         $field_array['#theme'] = 'salsify_field__link';
         break;
 
+      default:
+        break;
+
     }
     $render_array[$id] = $field_array;
   }

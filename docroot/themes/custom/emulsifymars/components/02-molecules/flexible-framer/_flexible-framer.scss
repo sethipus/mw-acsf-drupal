@@ -46,10 +46,14 @@
     margin: 4rem 2rem 0 2rem;
     padding-bottom: 3rem;
 
+    @include xs {
+      flex-flow: column;
+    }
+
     @include medium {
       margin: 4rem 4rem 0 4rem;
       padding-bottom: 4rem;
-      flex-flow: row wrap;
+      flex-flow: row;
       flex-grow: 1;
       align-items: stretch;
     }
