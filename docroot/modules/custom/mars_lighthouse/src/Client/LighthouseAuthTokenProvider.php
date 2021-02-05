@@ -65,7 +65,8 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
    * {@inheritdoc}
    */
   public function getAccessToken() {
-    if (!$this->tokenExists()) {
+    $hash_of_lighthouse_credentials = md5(serialize($this->config));
+    if (!$this->tokenExists() || $this->state->get('mars_lighthouse.hash_of_lighthouse_credentials') != $hash_of_lighthouse_credentials) {
       $params = $this->requestToken();
     }
     elseif ($this->tokenExpired()) {
@@ -123,6 +124,8 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
     $tokens['mars_lighthouse.access_token'] = $tokens['response']['lhisToken'];
     $tokens['mars_lighthouse.refresh_token'] = $tokens['response']['refreshToken'];
     $tokens['mars_lighthouse.refresh_time'] = $tokens['response']['refreshTime'];
+
+    $tokens['mars_lighthouse.hash_of_lighthouse_credentials'] = md5(serialize($this->config));
 
     unset($tokens['response']);
     $this->state->setMultiple($tokens);
