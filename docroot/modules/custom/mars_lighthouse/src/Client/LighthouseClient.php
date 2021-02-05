@@ -3,6 +3,8 @@
 namespace Drupal\mars_lighthouse\Client;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Config\ConfigInstallerInterface;
+use Drupal\Core\Installer\InstallerKernel;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
 use Drupal\mars_lighthouse\LighthouseException;
@@ -31,6 +33,13 @@ class LighthouseClient extends LighthouseBaseApiAbstract implements LighthouseCl
   private $headerParams = [];
 
   /**
+   * The config installer.
+   *
+   * @var \Drupal\Core\Config\ConfigInstallerInterface
+   */
+  private $configInstaller;
+
+  /**
    * LighthouseClient constructor.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
@@ -41,16 +50,22 @@ class LighthouseClient extends LighthouseBaseApiAbstract implements LighthouseCl
    *   Logger factory.
    * @param \Drupal\mars_lighthouse\Client\LighthouseAuthTokenProvider $lighthouse_auth_token_provider
    *   Lighthouse auth token provider.
+   * @param \Drupal\Core\Config\ConfigInstallerInterface $config_installer
+   *   The config installer.
    */
   public function __construct(
     ClientInterface $http_client,
     LighthouseConfiguration $config,
     LoggerChannelFactoryInterface $logger_factory,
-    LighthouseAuthTokenProvider $lighthouse_auth_token_provider
+    LighthouseAuthTokenProvider $lighthouse_auth_token_provider,
+    ConfigInstallerInterface $config_installer
   ) {
     parent::__construct($http_client, $config, $logger_factory);
     $this->lighthouseAuthTokenProvider = $lighthouse_auth_token_provider;
-    $this->headerParams = $this->lighthouseAuthTokenProvider->getAccessToken();
+    $this->configInstaller = $config_installer;
+    if (!$this->configInstaller->isSyncing() && !InstallerKernel::installationAttempted()) {
+      $this->headerParams = $this->lighthouseAuthTokenProvider->getAccessToken();
+    }
   }
 
   /**
