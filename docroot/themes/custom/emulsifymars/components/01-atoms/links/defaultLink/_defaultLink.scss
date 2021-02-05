@@ -9,7 +9,7 @@
   position: relative;
   overflow: hidden;
   display: inline-block;
-  transition: color 1.2s cubic-bezier(.75, 0, .25, 1), background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+  transition: color 1s cubic-bezier(.75, 0, .25, 1), background-color 1s cubic-bezier(.75, 0, .25, 1);
   border-radius: variable(button-border-radius);
 
   &::after {
@@ -23,7 +23,7 @@
     transform: rotate(18deg);
     height: 0;
     background-color: clr(subcolor-3);
-    transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
+    transition: height .5s 0s cubic-bezier(.75, 0, .25, 1);
 
     @include medium {
       margin-bottom: -20%;
@@ -47,7 +47,7 @@
     box-shadow: 0 0 5px #ccc;
     margin-bottom: 2rem;
     text-align: center;
-    transition: all 1.2s ease;
+    transition: all 1s ease;
 
     &::after {
       background-color: clr(secondary);
