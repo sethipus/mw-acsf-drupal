@@ -74,3 +74,11 @@
   {% endblock %}
 
 {% endembed %}
+
+{% if text_color_override is not empty %}
+  <style type="text/css">
+    .footer-menu__link {
+      color: {{ text_color_override }};
+    }
+  </style>
+{% endif %}

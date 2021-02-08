@@ -13,7 +13,10 @@
 #}
 {% set paragraph_base_class = paragraph_base_class|default('paragraph') %}
 
-<div {{ bem(paragraph_base_class, paragraph_modifiers, paragraph_blockname) }}>
+<div {{ bem(paragraph_base_class, paragraph_modifiers, paragraph_blockname) }}
+  {% if text_color_override is not empty %}
+    style="color: {{ text_color_override }};"
+  {% endif %}>
   {% block paragraph_content %}
     {{ paragraph_content | raw }}
   {% endblock %}
