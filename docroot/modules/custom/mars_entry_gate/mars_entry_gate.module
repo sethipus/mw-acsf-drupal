@@ -5,6 +5,8 @@
  * MARS Entry gate module main file.
  */
 
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+
 /**
  * Implements hook_theme().
  */
@@ -22,6 +24,7 @@ function mars_entry_gate_theme($existing, $type, $theme, $path) {
         'error_link_1' => '',
         'error_link_2' => '',
         'brand_shape' => '',
+        'text_color_override' => NULL,
       ],
       'template' => 'entry-gate',
     ],
@@ -33,6 +36,10 @@ function mars_entry_gate_theme($existing, $type, $theme, $path) {
  */
 function mars_entry_gate_preprocess_html(&$variables) {
   $config = Drupal::config('mars_entry_gate.settings');
+  $text_color_override = FALSE;
+  if (!empty($config->get('override_text_color')['override_color'])) {
+    $text_color_override = OverrideThemeTextColorTrait::$overrideColor;
+  }
 
   $variables['#cache']['tags'][] = 'config:mars_entry_gate.settings';
 
@@ -54,6 +61,7 @@ function mars_entry_gate_preprocess_html(&$variables) {
 
   $entry_gate_render_array = [
     '#theme' => 'entry_gate',
+    '#text_color_override' => $text_color_override,
   ];
 
   foreach ($keys as $key) {

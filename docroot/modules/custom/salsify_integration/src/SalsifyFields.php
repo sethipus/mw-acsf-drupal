@@ -926,6 +926,9 @@ class SalsifyFields extends Salsify {
         $field_settings['field']['field_type'] = 'integer';
         break;
 
+      default:
+        break;
+
     }
 
     return $field_settings;
