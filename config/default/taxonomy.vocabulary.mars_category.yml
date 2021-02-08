@@ -1,0 +1,8 @@
+uuid: 868f34ef-d4b7-4139-9332-d23bb1c75bd0
+langcode: en
+status: true
+dependencies: {  }
+name: CATEGORY
+vid: mars_category
+description: ''
+weight: 0

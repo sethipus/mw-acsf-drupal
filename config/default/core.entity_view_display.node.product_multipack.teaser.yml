@@ -14,7 +14,6 @@ dependencies:
     - field.field.node.product_multipack.field_product_occasions
     - field.field.node.product_multipack.field_product_pack_items
     - field.field.node.product_multipack.field_product_segment
-    - field.field.node.product_multipack.field_product_sub_brand
     - field.field.node.product_multipack.field_product_trade_description
     - field.field.node.product_multipack.field_product_variants
     - field.field.node.product_multipack.layout_builder__layout
@@ -47,7 +46,6 @@ hidden:
   field_product_occasions: true
   field_product_pack_items: true
   field_product_segment: true
-  field_product_sub_brand: true
   field_product_trade_description: true
   field_product_variants: true
   langcode: true

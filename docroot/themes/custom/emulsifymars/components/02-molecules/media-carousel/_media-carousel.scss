@@ -118,6 +118,7 @@
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
 
     video {
@@ -127,7 +128,7 @@
       @include medium {
         height: 43.3rem;
       }
-  
+
       @include xl {
         height: 66.6rem;
       }
@@ -200,8 +201,13 @@
     }
 
     &::after {
-      color: clr(secondary);
-      font-size: 2.5rem;
+      display: none; // hide original icon
+    }
+
+    &__icon {
+      width: 100%;
+      height: 100%;
+      fill: clr(secondary);
     }
   }
 }

@@ -15,9 +15,15 @@
       flex-flow: row nowrap;
       align-items: center;
       justify-content: space-between;
+      height: 7.7rem;
+
+      @include medium {
+        height: 12rem;
+      }
 
       @include large {
         justify-content: flex-start;
+        height: 16.2rem;
       }
     }
 
@@ -41,16 +47,16 @@
 
   &__branding {
     flex: 0 0 104px;
-    margin: 1.5rem;
+    margin: 1.6rem 0 1.3rem 0.9rem;
 
     @include medium {
       flex-basis: 141px;
-      margin: 2.5rem;
+      margin: 2.75rem;
     }
 
     @include large {
       flex-basis: 160px;
-      margin: 4.5rem $space-triple 3.2rem;
+      margin: 3.2rem 3rem;
     }
 
     @include xl {

@@ -53,7 +53,7 @@ class MarsCardColorSettingsForm extends ConfigFormBase {
    *
    * @var string
    */
-  const SETTINGS = 'card_color.settings';
+  const SETTINGS = 'mars_common.card_color_settings';
 
   /**
    * Theme configurator parser.
