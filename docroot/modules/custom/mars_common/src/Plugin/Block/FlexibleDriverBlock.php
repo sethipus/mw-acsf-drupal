@@ -96,9 +96,8 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function build() {
     $background_color = '';
-    if ($this->configuration['select_background_color'] != 'default' &&
-      !empty($this->configuration['select_background_color']) &&
-      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+      && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
     ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
     }
@@ -131,7 +130,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 255,
+      '#maxlength' => 160,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];
