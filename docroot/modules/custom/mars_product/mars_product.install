@@ -10,6 +10,8 @@ use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
 use Drupal\Core\Plugin\Context\EntityContext;
 use Drupal\layout_builder_restrictions\Traits\PluginHelperTrait;
 use Drupal\layout_builder\Section;
+use Drupal\pathauto\Entity\PathautoPattern;
+use Drupal\pathauto\PathautoState;
 
 /**
  * Implements hook_update_N() for rating&reviews per site for all products (turned on by default).
@@ -127,4 +129,33 @@ function mars_product_update_8926() {
   }
   $section_storage->setThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', $third_party_settings);
   $display->save();
+}
+
+/**
+ * Update product multipack aliases.
+ */
+function mars_product_update_8927() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $pattern_config = $entity_type_manager
+    ->getStorage('pathauto_pattern')
+    ->load('product');
+
+  if (!$pattern_config instanceof PathautoPattern) {
+    return;
+  }
+
+  $condition = $pattern_config->getSelectionCondition('42b5ded2-6b12-42d3-ae8d-52c767e3b43a');
+  $condition_config = $condition->getConfiguration();
+  $condition_config['bundles']['product_multipack'] = 'product_multipack';
+  $condition->setConfiguration($condition_config);
+  $pattern_config->save();
+
+  $storage_handler = $entity_type_manager->getStorage('node');
+  $multipack_products = $storage_handler->loadByProperties(['type' => 'product_multipack']);
+  foreach ($multipack_products as $multipack_product) {
+    if ($multipack_product->hasField('path')) {
+      $multipack_product->path->pathauto = PathautoState::CREATE;
+      $multipack_product->save();
+    }
+  }
 }

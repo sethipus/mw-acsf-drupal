@@ -1,6 +1,12 @@
 .layout-container {
-    .main {
-        max-width: 100%;
-        margin: 0;
+  .main {
+    max-width: 100%;
+    margin: 0;
+
+    .layout {
+      @include small {
+        overflow: hidden;
+      }
     }
+  }
 }
