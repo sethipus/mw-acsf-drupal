@@ -88,7 +88,7 @@ recipe-card:
   dependencies:
     - core/drupal
     - core/jquery
-    - core/jquery.once
+    - core/jquery.once    
 
 recipe-hero-module:
   js:
@@ -228,7 +228,6 @@ card-grid-filter:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
   dependencies:
     - core/drupal
-    - core/jquery
 
 social-menu:
   js:

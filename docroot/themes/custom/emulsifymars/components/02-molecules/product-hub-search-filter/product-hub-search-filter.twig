@@ -25,7 +25,7 @@
   {% endif %}
   {% if filters is not empty %}
   <div class="search-filter-open-button">{{ 'Filter' | mt }}</div>
-  <div id="search-filter-block" {{ bem(search_filter_block_base_class) }}>
+  <div {{ bem(search_filter_block_base_class) }}>
     <div {{ bem(search_filter_header_base_class) }}>
       <div {{ bem('title', [], search_filter_header_base_class) }}>{{ title }}</div>
       <div {{ bem('close', [], search_filter_header_base_class) }}></div>
