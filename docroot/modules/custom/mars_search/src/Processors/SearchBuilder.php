@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
@@ -17,6 +18,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInterface {
 
   use StringTranslationTrait;
+  use OverrideThemeTextColorTrait;
 
   /*
    * Quite a big value in case of query without limit.
@@ -191,7 +193,12 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       return [$searchOptions, $query_search_results, $build];
     }
     foreach ($query_search_results['results'] as $node) {
-      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      if (!empty($config['override_text_color']['override_color'])) {
+        $build['#items'][] = array_merge($this->nodeViewBuilder->view($node, 'card'), ['#text_color_override' => static::$overrideColor]);
+      }
+      else {
+        $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      }
     }
 
     return [$searchOptions, $query_search_results, $build];

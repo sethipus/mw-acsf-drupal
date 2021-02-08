@@ -13,7 +13,10 @@
 #}
 {% set span_base_class = span_base_class|default('span') %}
 
-<span {{ bem(span_base_class, span_modifiers, span_blockname) }}>
+<span {{ bem(span_base_class, span_modifiers, span_blockname) }}
+  {% if text_color_override is not empty %}
+    style="color: {{ text_color_override }};"
+  {% endif %}>
   {% block span_content %}
     {{ span_content }}
   {% endblock %}
