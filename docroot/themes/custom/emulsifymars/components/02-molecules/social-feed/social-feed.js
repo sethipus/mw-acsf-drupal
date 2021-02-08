@@ -40,7 +40,7 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             }
           });
 
-          $(window).on('resize', _.debounce(() => {swiper.scrollbar.updateSize();console.log("WINresize");}, 200));
+          $(window).on('resize', _.debounce(() => {swiper.scrollbar.updateSize();}, 200));
         });
       })
     },
