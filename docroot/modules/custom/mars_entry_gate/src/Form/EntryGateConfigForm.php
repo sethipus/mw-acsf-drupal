@@ -10,6 +10,8 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class EntryGateConfigForm extends ConfigFormBase {
 
+  use \Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+
   /**
    * {@inheritdoc}
    */
@@ -112,6 +114,9 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $text_color_config = $config->get('override_text_color') ? ['override_text_color' => $config->get('override_text_color')] : [];
+    $this->buildOverrideColorElement($form, $text_color_config);
+
     return $form;
   }
 
@@ -134,6 +139,7 @@ class EntryGateConfigForm extends ConfigFormBase {
     $config->set('error_message', $form_state->getValue('error_message'));
     $config->set('error_link_1', $form_state->getValue('error_link_1'));
     $config->set('error_link_2', $form_state->getValue('error_link_2'));
+    $config->set('override_text_color', ['override_color' => $form_state->getValue('override_color')]);
     $config->save();
 
     parent::submitForm($form, $form_state);
