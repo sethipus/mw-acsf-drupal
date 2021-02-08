@@ -28,7 +28,6 @@ ignored_config_entities:
   - mars_common.system.site
   - gtm.settings
   - salsify_integration.settings
-  - system.performance
   - mars_product.wtb.settings
   - mars_common.site_labels
   - 'core.entity_view_display.node.*'

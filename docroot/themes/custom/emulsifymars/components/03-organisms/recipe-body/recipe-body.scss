@@ -10,7 +10,7 @@ $xl-left-margin: 11.583rem;
       flex-direction: row;
     }
 
-    @include large {
+    @include larger {
       flex-direction: column;
     }
   }
@@ -21,7 +21,7 @@ $xl-left-margin: 11.583rem;
     border-bottom: 1px solid rgba(196, 196, 196, 0.6);
   }
 
-  @include large {
+  @include larger {
     position: absolute;
     top: 0;
     right: 4rem;
