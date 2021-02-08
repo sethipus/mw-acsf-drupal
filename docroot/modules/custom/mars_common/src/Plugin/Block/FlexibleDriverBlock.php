@@ -130,7 +130,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 255,
+      '#maxlength' => 160,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];
