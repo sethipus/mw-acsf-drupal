@@ -7,4 +7,12 @@
 
 {% include "@organisms/card-grid/card-grid.twig" with {
   theme_styles: 'drupal',
+  text_color_override: text_color_override
 } %}
+{% if override_filter_title_color is not empty %}
+  <style type="text/css">
+    .filter-block .filter-title {
+      color: {{ override_filter_title_color }};
+    }
+  </style>
+{% endif %}

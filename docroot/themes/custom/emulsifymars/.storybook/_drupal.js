@@ -24,4 +24,9 @@ window.Drupal = { behaviors: {} };
       }
     });
   };
+
+  Drupal.t = function(content) {
+    return content;
+  };
+
 })(Drupal, window.drupalSettings);
