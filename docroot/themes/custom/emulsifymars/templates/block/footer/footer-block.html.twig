@@ -38,6 +38,8 @@
       image_alt: logo_alt,
       image_srcset: logo_srcset,
       image_src: logo_src,
+      height: '75px',
+	    width: '212px',
       image_sizes: '212px',
       responsive_image_blockname: 'logo',
     } %}
@@ -72,3 +74,11 @@
   {% endblock %}
 
 {% endembed %}
+
+{% if text_color_override is not empty %}
+  <style type="text/css">
+    .footer-menu__link {
+      color: {{ text_color_override }};
+    }
+  </style>
+{% endif %}

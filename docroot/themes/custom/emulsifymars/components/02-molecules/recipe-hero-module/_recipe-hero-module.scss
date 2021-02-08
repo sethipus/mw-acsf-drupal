@@ -10,12 +10,12 @@ $xl-left-margin: 11.583rem;
 
   @include medium {
     padding: 62px 0 233px;
-    margin-bottom: -210px;
+    margin-bottom: -233px;
   }
 
   @include xl {
     padding-top: 60px;
-    margin-bottom: -187px;
+    margin-bottom: -233px;
   }
 
   &__background {
@@ -82,41 +82,35 @@ $xl-left-margin: 11.583rem;
     font: 40px/40px variable(primary-font);
     color: clr(primary);
     text-align: center;
-    margin-top: 26px;
     animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
     max-width: 1128px;
-    margin-right: auto;
-    margin-left: auto;
+    margin: 30px auto 60px;
 
     @include medium {
       font-size: 56px;
       line-height: 1;
-      margin-top: 22px;
+      margin: 22px auto 40px;
     }
 
     @include xl {
       font-size: 64px;
       line-height: 64px;
-      margin-top: 26px;
-      margin-bottom: 0;
+      margin: 30px auto 60px;
     }
   }
 }
 
 .recipe-media {
   max-width: calc(100vw - 40px);
-  height: 251px;
   margin: auto;
   position: relative;
 
   @include medium {
     max-width: calc(100vw - 80px);
-    height: 410px;
   }
 
   @include xl {
     max-width: 1360px;
-    height: 583px;
 
     .ambient-video__control[data-state="play"] {
       top: 20px;
@@ -126,6 +120,18 @@ $xl-left-margin: 11.583rem;
     .ambient-video__control[data-state="pause"] {
       top: 20px;
       right: 20px;
+    }
+  }
+
+  &__video {
+    height: 251px;
+
+    @include medium {
+      height: 410px;
+    }
+
+    @include xl {
+      height: 583px;
     }
   }
 

@@ -9,6 +9,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
@@ -32,6 +33,8 @@ use Drupal\Core\Utility\Token;
  * @package Drupal\mars_articles\Plugin\Block
  */
 class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * A view builder instance.
@@ -172,6 +175,11 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#social_links'] = $this->socialLinks();
 
+    $build['#text_color_override'] = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
     $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
     $cacheMetadata->addCacheableDependency($label_config);
     $cacheMetadata->applyTo($build);
@@ -202,6 +210,9 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
         'target_bundles' => ['article'],
       ],
     ];
+
+    $this->buildOverrideColorElement($form, $config);
+
     return $form;
   }
 
@@ -240,6 +251,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
           '#uri' => $icon_path . $name . '.svg',
           '#title' => $social_media['text'],
           '#alt' => $social_media['text'],
+          '#attributes' => [
+            'height' => '20px',
+            'width' => '20px',
+          ],
         ];
       }
       elseif (!empty($social_media['img'])) {
@@ -248,6 +263,10 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
           '#uri' => $base_url . '/' . $social_media['img'],
           '#title' => $social_media['text'],
           '#alt' => $social_media['text'],
+          '#attributes' => [
+            'height' => '20px',
+            'width' => '20px',
+          ],
         ];
       }
     }
