@@ -4,16 +4,20 @@
   position: relative;
   overflow: hidden;
   margin: 5rem 2rem;
-  padding-bottom: 5.5rem;
+  padding: 1rem 0;
+  min-height: 336px;
 
   @include medium {
     margin: 6rem 4rem;
+    padding-bottom: 1.5rem;
+    min-height: 386px;
   }
 
   @include large {
     margin: 8rem auto;
     max-width: 1125px;
-    max-height: 422px;
+    min-height: 422px;
+    padding-bottom: 0;
   }
 
   &__content {
@@ -77,13 +81,14 @@
     font-style: normal;
     line-height: 4.8rem;
     margin: 0 2rem;
-    padding-top: 8.5rem;
+    padding-top: 5rem;
     text-transform: uppercase;
     text-align: center;
 
     @include medium {
       font-size: 4rem;
       margin: 0 4rem;
+      padding-top: 8.5rem;
     }
 
     @include large {
@@ -97,7 +102,8 @@
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.52rem;
-    padding-top: 4rem;
+    margin: 0;
+    padding: 3rem 0 4rem 0;
     text-align: center;
 
     @include large {
@@ -108,7 +114,7 @@
   }
 
   & .cta_wrapper {
-    padding: 8.3rem 0 0 0;
+    padding: 0;
     text-align: center;
 
     @include medium {
