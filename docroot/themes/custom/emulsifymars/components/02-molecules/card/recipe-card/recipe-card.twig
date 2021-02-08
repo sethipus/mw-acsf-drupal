@@ -1,4 +1,6 @@
 {% set recipe_card_base_class = recipe_card_base_class|default('recipe-card') %}
+{% set card__extra_classes = ['card-item'] %}
+{{ attach_library('emulsifymars/recipe-card') }}
 
 {% if select_background_color == 'color_c' %}
   {% set card__extra_classes = ['card-item', 'bg-color-C', 'bg-gradient-C'] %}
