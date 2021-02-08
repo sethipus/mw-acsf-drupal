@@ -27,12 +27,39 @@ class ProductHelper {
   protected $mapping;
 
   /**
+   * The Fields mapping, keyed by salsify field.
+   *
+   * @var array
+   */
+  protected $salsifyKeyMapping;
+
+  /**
    * Constructs a \Drupal\salsify_integration\ProductHelper object.
    */
   public function __construct() {
     $this->mapping = [
       'primary' => [],
     ];
+  }
+
+  /**
+   * Get field mapping keyed by salsify:id.
+   *
+   * @return array
+   *   Mapping.
+   */
+  public function getSalsifyKeyMapping() {
+    if (!isset($this->salsifyKeyMapping)) {
+      $this->salsifyKeyMapping = [];
+      $full_mapping = array_merge(
+        SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT,
+        SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT
+      );
+      foreach ($full_mapping as $field_mapping) {
+        $this->salsifyKeyMapping[$field_mapping['salsify:id']] = $field_mapping;
+      }
+    }
+    return $this->salsifyKeyMapping;
   }
 
   /**
@@ -217,8 +244,19 @@ class ProductHelper {
       $product_fields = array_merge($product_variant_fields, $product_fields);
 
       foreach ($product_fields as $product_field_name) {
+        $salsify_id_mapping = $this->getSalsifyKeyMapping();
         if (isset($product_variant[$product_field_name])) {
           $product[$product_field_name] = $product_variant[$product_field_name];
+
+          // Add prefix for the value.
+          $this->addPrefix($product, $product_variant, $product_field_name);
+        }
+        // Map another filed in case of 'OR' logic.
+        elseif (isset($salsify_id_mapping[$product_field_name]['or']) &&
+          isset($product_variant[$salsify_id_mapping[$product_field_name]['or']])) {
+
+          $value = $product_variant[$salsify_id_mapping[$product_field_name]['or']];
+          $product[$product_field_name] = $value;
         }
 
         // Add unit for the value.
@@ -258,6 +296,27 @@ class ProductHelper {
     $response['data'] = $products;
 
     return Json::encode($response);
+  }
+
+  /**
+   * Add prefix for the value.
+   *
+   * @param array $product
+   *   Product data.
+   * @param array $product_variant
+   *   Product variant data.
+   * @param string $product_field_name
+   *   Product field name.
+   */
+  private function addPrefix(array &$product, array $product_variant, string $product_field_name) {
+    $mapping = $this->getSalsifyKeyMapping();
+    if (isset($mapping[$product_field_name]['prefix_field']) &&
+      isset($product_variant[$mapping[$product_field_name]['prefix_field']])) {
+
+      $prefix_field = $mapping[$product_field_name]['prefix_field'];
+      $product[$product_field_name] = $product_variant[$prefix_field] .
+        ' ' . $product[$product_field_name];
+    }
   }
 
   /**
