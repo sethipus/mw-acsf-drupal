@@ -50,6 +50,7 @@ module:
   entityqueue: 0
   externalauth: 0
   facets: 0
+  fast404: 0
   field: 0
   field_group: 0
   field_ui: 0
