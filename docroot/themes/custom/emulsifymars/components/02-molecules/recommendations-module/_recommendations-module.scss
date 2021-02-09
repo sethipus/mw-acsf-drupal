@@ -109,8 +109,8 @@
   .recommendations-card {
     box-sizing: border-box;
     margin-top: 3.5rem;
-    width: 318px;
     height: 520px;
+    @include card-width;
   }
 
   .article-card {

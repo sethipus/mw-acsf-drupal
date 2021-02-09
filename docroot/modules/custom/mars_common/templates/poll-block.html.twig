@@ -9,3 +9,10 @@
 #}
 
 {{ poll }}
+{% if text_color_override is not empty %}
+  <style type="text/css">
+    .poll-view.full *:not(.default-link):not(.feedback-module__bottom-link):not(.feedback-module__label-text) {
+      color: {{ text_color_override }};
+    }
+  </style>
+{% endif %}

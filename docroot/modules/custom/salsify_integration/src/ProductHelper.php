@@ -443,7 +443,7 @@ class ProductHelper {
       }
     }
 
-    $salsify_id = base64_encode($product_variant['salsify:id']);
+    $salsify_id = base64_encode($product_variant['salsify:id']) . $content_type;
     $product['CMS: Meta Description'] = $product_variant['CMS: Meta Description'] ?? NULL;
     $product['CMS: Keywords'] = $product_variant['CMS: Keywords'] ?? NULL;
     $this->addMetaTagsFlag($product);
