@@ -168,6 +168,7 @@ simple_oauth_extras: 3.16.0
 simple_sitemap: 3.7.0
 slick: 2.0.0
 slick_entityreference: 2.0.0-rc1
+syslog: 8.9.13
 system: 8.8.1
 taxonomy: 8.8.1
 text: 8.8.1
