@@ -5,11 +5,13 @@ namespace Drupal\mars_recipes\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
@@ -28,6 +30,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  * @package Drupal\mars_recipes\Plugin\Block
  */
 class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * A view builder instance.
@@ -85,6 +89,10 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
    * {@inheritdoc}
    */
   public function build() {
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
     $node = $this->getContextValue('node');
     $ingredients_list = [];
     if (!$node->get('field_recipe_ingredients')->isEmpty()) {
@@ -106,7 +114,12 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       // Limit amount of cards.
       $products = array_slice($products, 0, 2);
       foreach ($products as $product) {
-        $product_used_items[] = $this->viewBuilder->view($product, 'card');
+        if (!empty($text_color_override)) {
+          $product_used_items[] = array_merge($this->viewBuilder->view($product, 'card'), ['#text_color_override' => $text_color_override]);
+        }
+        else {
+          $product_used_items[] = $this->viewBuilder->view($product, 'card');
+        }
       }
     }
 
@@ -120,6 +133,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       '#product_used_items' => $product_used_items,
       '#ingredients_used_label' => $this->languageHelper->translate($ingredients_used_label),
       '#products_used_label' => $this->languageHelper->translate($products_used_label),
+      '#text_color_override' => $text_color_override,
       '#theme' => 'recipe_detail_body_block',
     ];
 
@@ -128,6 +142,25 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
     $cacheMetadata->applyTo($build);
 
     return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+
+    $config = $this->getConfiguration();
+    $this->buildOverrideColorElement($form, $config);
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->setConfiguration($form_state->getValues());
   }
 
   /**

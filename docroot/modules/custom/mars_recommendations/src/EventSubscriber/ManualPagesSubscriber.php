@@ -13,8 +13,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ManualPagesSubscriber implements EventSubscriberInterface {
 
   const MANUAL_PAGES = [
-    'landing_page',
+    'article',
     'campaign',
+    'content_hub_page',
+    'landing_page',
+    'product',
+    'product_multipack',
+    'recipe',
   ];
 
   /**
@@ -33,7 +38,14 @@ class ManualPagesSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $event->setBundles([$bundle]);
+    // Passing const value to the variable to have an ability to manage items.
+    $available_bundles = self::MANUAL_PAGES;
+    // AB#223856: Unset landing page CT if the current bundle is campaign page.
+    if ($bundle === 'campaign') {
+      unset($available_bundles['landing_page']);
+    }
+    // Pass all content types to the autocomplete.
+    $event->setBundles($available_bundles);
   }
 
   /**
