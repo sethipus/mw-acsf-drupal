@@ -7,7 +7,6 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\mars_lighthouse\LighthouseAccessException;
 use Drupal\mars_lighthouse\LighthouseException;
-use Drupal\mars_lighthouse\TokenIsExpiredException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 
@@ -62,7 +61,13 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
   }
 
   /**
-   * {@inheritdoc}
+   * Get access tokens.
+   *
+   * @return array
+   *   Access tokens.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function getAccessToken() {
     $hash_of_lighthouse_credentials = md5(serialize($this->config));
@@ -79,9 +84,15 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
   }
 
   /**
-   * {@inheritdoc}
+   * Request access tokens.
+   *
+   * @return array
+   *   Access tokens.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function requestToken(): array {
+  private function requestToken(): array {
     $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_GET_TOKEN);
     try {
       /**@var \Psr\Http\Message\ResponseInterface $response */
@@ -98,11 +109,9 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
       );
     }
     catch (RequestException $exception) {
-      if ($exception->getCode() == static::TOKEN_IS_EXPIRED_ERROR_CODE) {
-        throw new TokenIsExpiredException('Access token is expired.');
-      }
-      elseif ($exception->getCode() == static::ACCESS_ERROR_CODE) {
-        throw new LighthouseAccessException('Access token is invalid. A new one should be forced requested.');
+      if ($exception->getCode() == static::ACCESS_ERROR_CODE) {
+        $this->logger->error('Invalid credentials, user details supplied are not valid "%error"', ['%error' => $exception->getMessage()]);
+        throw new LighthouseAccessException('Invalid credentials, user details supplied are not valid');
       }
       else {
         $this->logger->error('Failed to receive access token "%error"', ['%error' => $exception->getMessage()]);
@@ -133,10 +142,15 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
   }
 
   /**
-   * {@inheritdoc}
+   * Refresh access tokens.
+   *
+   * @return array
+   *   Access tokens.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   * @throws \Drupal\mars_lighthouse\LighthouseException
    */
-  public function refreshToken(): array {
-
+  private function refreshToken(): array {
     $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_REFRESH_TOKEN);
 
     try {
@@ -154,8 +168,8 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
       );
     }
     catch (RequestException $exception) {
+      $this->requestToken();
       $this->logger->error('Failed to refresh access token "%error"', ['%error' => $exception->getMessage()]);
-      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
     $header_value = $response->getHeaders()['x-lighthouse-authen'];
