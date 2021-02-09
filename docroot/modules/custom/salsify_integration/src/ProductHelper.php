@@ -307,15 +307,30 @@ class ProductHelper {
    *   Product variant data.
    * @param string $product_field_name
    *   Product field name.
+   * @param mixed $suffix
+   *   Suffix for the field name.
    */
-  private function addPrefix(array &$product, array $product_variant, string $product_field_name) {
+  private function addPrefix(
+    array &$product,
+    array $product_variant,
+    string $product_field_name,
+    $suffix = NULL
+  ) {
     $mapping = $this->getSalsifyKeyMapping();
-    if (isset($mapping[$product_field_name]['prefix_field']) &&
-      isset($product_variant[$mapping[$product_field_name]['prefix_field']])) {
+    if (isset($mapping[$product_field_name]['prefix_field'])) {
 
       $prefix_field = $mapping[$product_field_name]['prefix_field'];
-      $product[$product_field_name] = $product_variant[$prefix_field] .
-        ' ' . $product[$product_field_name];
+      $product_field_name = (isset($suffix))
+        ? $product_field_name . ' ' . $suffix
+        : $product_field_name;
+      $prefix_field = (isset($suffix))
+        ? $prefix_field . ' ' . $suffix
+        : $prefix_field;
+
+      if (isset($product_variant[$prefix_field])) {
+        $product[$product_field_name] = $product_variant[$prefix_field] .
+          ' ' . $product[$product_field_name];
+      }
     }
   }
 
@@ -394,18 +409,29 @@ class ProductHelper {
    */
   public function addNutritionFieldsData(array $nutrition_fields, array &$product, array $product_variant) {
     foreach ($nutrition_fields as $field_name) {
+
+      $matches = [];
+      preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
+      $salsify_id_mapping = $this->getSalsifyKeyMapping();
+
       if (isset($product_variant[$field_name])) {
         $product[$field_name] = $product_variant[$field_name];
 
-        $matches = [];
-        preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
-        // Add unit for the value.
-        if (isset($product_variant[$field_name]) &&
-          isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
+        $this->addPrefix($product, $product_variant, $matches[1], $matches[2]);
 
-          $product[$field_name] = $product_variant[$field_name] .
+        // Add unit for the value.
+        if (isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
+
+          $product[$field_name] = $product[$field_name] .
             ' ' . $product_variant[$matches[1] . ' UOM ' . $matches[2]];
         }
+      }
+      // Map another filed in case of 'OR' logic.
+      elseif (isset($salsify_id_mapping[$matches[1]]['or']) &&
+        isset($product_variant[$salsify_id_mapping[$matches[1]]['or'] . ' ' . $matches[2]])) {
+
+        $or_field_name = $salsify_id_mapping[$matches[1]]['or'] . ' ' . $matches[2];
+        $product[$field_name] = $product_variant[$or_field_name];
       }
     }
   }
