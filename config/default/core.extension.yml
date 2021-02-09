@@ -6,6 +6,7 @@ module:
   acquia_contenthub_subscriber: 0
   acquia_lift: 0
   acquia_lift_publisher: 0
+  acquia_purge: 0
   acquia_search: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
@@ -143,6 +144,7 @@ module:
   poll: 0
   printable: 0
   printable_pdf: 0
+  purge: 0
   quickedit: 0
   rabbit_hole: 0
   rdf: 0

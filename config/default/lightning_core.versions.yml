@@ -5,6 +5,7 @@ acquia_contenthub_publisher: 2.16.0
 acquia_contenthub_subscriber: 2.16.0
 acquia_lift: 4.3.0
 acquia_lift_publisher: 4.3.0
+acquia_purge: 1.1.0
 acsf: 2.63.0
 acsf_duplication: 2.63.0
 acsf_theme: 2.63.0
@@ -145,6 +146,7 @@ poll: 1.4.0
 printable: 1.1.0
 printable_pdf: 1.1.0
 publication_date: 2.0.0-beta1
+purge: 3.0.0
 quickedit: 8.8.1
 rabbit_hole: 1.0.0-beta10
 rdf: 8.8.1
