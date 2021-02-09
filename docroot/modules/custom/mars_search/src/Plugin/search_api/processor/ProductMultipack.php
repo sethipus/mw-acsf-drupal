@@ -85,9 +85,10 @@ class ProductMultipack extends ProcessorPluginBase {
   public function alterIndexedItems(array &$items) {
     /** @var \Drupal\search_api\Item\ItemInterface $item */
     foreach ($items as $item_id => $item) {
-      $nid = $item->getOriginalObject()->getEntity()->id();
-      $generatedProduct = $this->getEntityTypeManager()->getStorage('node')->loadByProperties(['field_product_pack_items' => $nid]);
-      if (count($generatedProduct) > 0) {
+      $node = $item->getOriginalObject()->getEntity();
+      /* @var \Drupal\Core\Entity\EntityInterface $node */
+      if ($node->bundle() == 'product' &&
+        $node->get('field_product_generated')->value) {
         unset($items[$item_id]);
       }
     }
