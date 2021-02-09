@@ -121,6 +121,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   ) {
     $this->renderer = $renderer;
     $this->viewBuilder = $entityTypeManager->getViewBuilder('node');
+    $this->entityTypeManager = $entityTypeManager;
     $this->requestStack = $request_stack;
     $this->searchProcessor = $searchProcessor;
     $this->searchQueryParser = $this->searchProcessor->getProcessManager('search_query_parser');
