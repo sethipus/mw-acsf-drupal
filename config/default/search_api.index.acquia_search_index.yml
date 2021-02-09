@@ -131,7 +131,7 @@ field_settings:
     label: 'Culture » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_culture:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_recipe_culture
@@ -190,7 +190,7 @@ field_settings:
     label: 'Food Type » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_food_type:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_recipe_food_type
@@ -226,7 +226,7 @@ field_settings:
     label: 'Main Ingredient » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_main_ingredient:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_recipe_main_ingredient
@@ -244,7 +244,7 @@ field_settings:
     label: 'Meal Type » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_meal_type:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_recipe_meal_type
@@ -262,7 +262,7 @@ field_settings:
     label: 'Method » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_recipe_method:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_recipe_method
