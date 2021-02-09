@@ -222,25 +222,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $json_output = [];
     $config = [];
     $query_parameters['grid_id'] = empty($query_parameters['grid_id']) ? 1 : $query_parameters['grid_id'];
-    if (!empty($query_parameters['grid_type']) && $query_parameters['grid_type'] == 'grid') {
+    if (!empty($query_parameters['grid_type'])) {
       $config = $this->getComponentConfig($query_parameters['page_id'], $query_parameters['grid_id']) ?: [];
-    }
-
-    // Adding an additional probe to get config if grid is not specified because
-    // the text color may be overridden.
-    if (empty($config)) {
-      $http_referer = !empty($request->headers) && $request->headers->has('referer') ? $request->headers->get('referer') : '';
-      $request_path = parse_url($http_referer)['path'];
-      if (!empty($request_path)) {
-        $source_url = $this->pathValidator->getUrlIfValid($request_path);
-        if ($source_url->getRouteName() === 'entity.node.canonical') {
-          $route_params = $source_url->getrouteParameters();
-          $nid = $route_params['node'] ?? NULL;
-          if (!empty($nid)) {
-            $config = $this->getComponentConfig($nid, '0') ?? [];
-          }
-        }
-      }
     }
 
     switch ($query_parameters['action_type']) {
@@ -316,7 +299,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         return $config;
       }
     }
-    return FALSE;
+    return [];
   }
 
 }
