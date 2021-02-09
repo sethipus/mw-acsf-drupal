@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -25,6 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use OverrideThemeTextColorTrait;
 
   const STORY_ITEMS_COUNT = 3;
   const SVG_ASSETS_COUNT = 3;
@@ -180,6 +182,11 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $build['#view_more_cta_label'] = !empty($conf['view_more']['label']) ? $this->languageHelper->translate($conf['view_more']['label']) : $this->languageHelper->translate('View More');
     }
 
+    $build['#text_color_override'] = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
     return $build;
   }
 
@@ -327,6 +334,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       ],
     ];
 
+    $this->buildOverrideColorElement($form, $this->configuration);
+
     return $form;
   }
 
@@ -341,6 +350,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->configuration['items'] = $form_state->getValue('items');
     $this->configuration['svg_assets'] = $form_state->getValue('svg_assets');
     $this->configuration['view_more'] = $form_state->getValue('view_more');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
 
     $svg_assets = $form_state->getValue('svg_assets');
     if (!empty($svg_assets)) {

@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -19,6 +20,8 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * )
  */
 class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * Language helper service.
@@ -107,6 +110,11 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $build['#social_menu_items'] = $this->themeConfiguratorParser->socialLinks();
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'contact_help_banner_block';
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+    $build['#text_color_override'] = $text_color_override;
 
     return $build;
   }
@@ -208,6 +216,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       '#default_value' => $this->configuration['social_links_label'] ?? '',
       '#required' => TRUE,
     ];
+    $this->buildOverrideColorElement($form, $this->configuration);
 
     return $form;
   }
@@ -230,6 +239,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
 
     $this->configuration['help_and_contact_cta_label'] = $form_state->getValue('help_and_contact_cta')['label'];
     $this->configuration['help_and_contact_cta_url'] = $form_state->getValue('help_and_contact_cta')['url'];
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
 }

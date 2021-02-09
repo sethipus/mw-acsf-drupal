@@ -3,8 +3,10 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -19,6 +21,8 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
  * )
  */
 class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * ThemeConfiguratorParser.
@@ -77,9 +81,29 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * {@inheritdoc}
    */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+
+    $config = $this->getConfiguration();
+    $this->buildOverrideColorElement($form, $config, TRUE);
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->setConfiguration($form_state->getValues());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
     $build = [];
-    [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('search_page');
+    $config = $this->getConfiguration();
+    [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('search_page', $config);
 
     // Results will be populated after ajax request. It's not possible to
     // know right desktop type without page inner width.
@@ -112,6 +136,14 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build['#theme'] = 'mars_search_search_results_block';
     $build['#attached']['library'][] = 'mars_search/datalayer_search';
     $build['#attached']['library'][] = 'mars_search/search_pager';
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+    if (!empty($config['override_text_color']['override_filter_title_color'])) {
+      $build['#override_filter_title_color'] = static::$overrideColor;
+    }
+    $build['#text_color_override'] = $text_color_override;
     return $build;
   }
 

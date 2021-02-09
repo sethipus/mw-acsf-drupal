@@ -1,7 +1,6 @@
 theme_styles: 'twix'
 
 homepage_hero_basic_content: 'Choose pleasure Choose pleasure'
-homepage_hero_basic_img_url: '/homepage-hero-basic.png'
 
 homepage_hero_basic_img:
-  src: '/homepage-hero-basic.png'
+  src: 'http://dove.mars.acsitefactory.com/sites/g/files/fnmzdf186/files/2020-12/Dove%20Home%20Banner%2021-9.PNG'
