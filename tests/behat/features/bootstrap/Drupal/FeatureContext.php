@@ -251,7 +251,8 @@ JS;
      */
     public function sleep($seconds)
     {
-        sleep($seconds);
+        $microseconds = 1000000 * (float) $seconds;
+        usleep($microseconds);
     }
 
     /**
