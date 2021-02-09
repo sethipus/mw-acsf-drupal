@@ -16,7 +16,19 @@
   {% endif %}
 
   <div {{ bem('container', [], product_content_pair_up_base_class) }}>
-    <div class="lead-card" style="background-image: url('{{ background }}')">
+    <div class="lead-card">
+      <div class="bg-image">
+        {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: background,
+          image_srcset: background,
+          image_sizes: '(max-width: 375px) 375px,
+                (max-width: 768px) 768px,
+                1440px',
+          image_src: background,
+          height: '300px'
+        } %}
+      </div>
       <div class="wrapper">
         <div class="content-pair-up-eyebrow">
           {% include "@atoms/text/eyebrow/eyebrow.twig" with {

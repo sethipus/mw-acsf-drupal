@@ -18,8 +18,8 @@
     {{ bem('', '', '', card__extra_classes) }}
   {% else %}
     class="article-card article-card--with-bg-img card-item"
-    style="{{ 'background-image: url(' ~ article_card_background_img_url ~ ')' }}"
   {% endif %}
+
   data-card-type="article-card"
   data-site-search-clicked="{{ article_card_heading }}"
   data-theme="{{ theme_styles }}">
@@ -31,6 +31,19 @@
   {% if  article_card_background_img_url == '' %}
     <div class="article-card__brand-shape">
       {{ brand_shape | raw }}
+    </div>
+  {% else %}
+    <div class="bg-image">
+      {% include "@atoms/images/image/responsive-image.twig" with {
+        output_image_tag: true,
+        image_alt: article_card_background_img_url,
+        image_srcset: article_card_background_img_url,
+        image_sizes: '(max-width: 375px) 375px,
+              (max-width: 768px) 768px,
+              1440px',
+        image_src: article_card_background_img_url,
+        height: '300px'
+      } %}
     </div>
   {% endif %}
 
