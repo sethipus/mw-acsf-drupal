@@ -1,29 +1,38 @@
 import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
-(function ($, _, Drupal){
+(function ($, _, Drupal) {
   Drupal.behaviors.recommendationsCarousel = {
     attach(context) {
 
-      $(context).find('.recommendations').once('recommendationsCarousel').each(function(){
+      $(context).find('.recommendations').once('recommendationsCarousel').each(function () {
         const $recommendationContainer = $(this);
-         // init swiper
+        // init swiper
         Swiper.use([Navigation, Pagination, Scrollbar]);
 
-        $('.recommendations-swiper-container', this).each(function(){
+        $recommendationContainer.find('.recommendations-swiper-container').each(function () {
+          const $nextEl = $recommendationContainer.find(".swiper-button-next").first();
+          const nextEl = (typeof $nextEl[0]) !== "undefined" ? $nextEl[0] : null;
+          const $prevEl = $recommendationContainer.find(".swiper-button-prev").first();
+          const prevEl = (typeof $prevEl[0]) !== "undefined" ? $prevEl[0] : null;
+          const $scrollbar = $recommendationContainer.find(".swiper-scrollbar").first();
+          const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
+
           const swiper = new Swiper(this, {
             slidesPerView: "auto",
             spaceBetween: 20,
             slidesOffsetBefore: 20,
             noSwipingClass: "swiper-no-swiping",
+            watchOverflow: true,
             navigation: {
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
+              nextEl: nextEl,
+              prevEl: prevEl,
             },
             scrollbar: {
-              el: ".swiper-scrollbar",
+              el: scrollbar,
             },
             breakpoints: {
               768: {
+                spaceBetween: 20,
                 slidesOffsetBefore: 40,
               },
               1440: {
@@ -64,10 +73,12 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             let screenWidth = window.innerWidth;
             let slidesCount = swiper.slides.length;
 
-            if (  ((screenWidth > 1440) && (slidesCount <= 4)) || // Wide Screen View && equal or less then 4 slides
-                  ((screenWidth > 1150 && screenWidth <= 1440) && (slidesCount <= 3)) || // Desktop View && equal or less then 3 slides
-                  ((screenWidth > 768 && screenWidth <= 1150) && (slidesCount <= 2)) || // Tablet View && equal or less then 2 slides
-                  (slidesCount <= 1)) { // Slides count equal or less then 1
+            if (
+              (screenWidth >= 1440 && slidesCount <= 4) ||
+              (screenWidth >= 1074 && slidesCount <= 3) ||
+              (screenWidth >= 768 && slidesCount <= 2) ||
+              (slidesCount <= 1)
+            ) {
               lockCarousel();
             } else {
               unlockCarousel();
@@ -77,9 +88,10 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           const lockCarousel = () => {
             swiper.navigation.nextEl.className += " hide-arrow";
             swiper.navigation.prevEl.className += " hide-arrow";
-            swiper.setTranslate(0);
             $(".swiper-wrapper", $recommendationContainer).addClass("no-carousel swiper-no-swiping");
             swiper.update();
+            swiper.setTranslate(0);
+            swiper.pagination.update()
           }
 
           const unlockCarousel = () => {
@@ -87,9 +99,11 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             swiper.navigation.prevEl.classList.remove("hide-arrow");
             $(".swiper-wrapper", $recommendationContainer).removeClass("no-carousel swiper-no-swiping");
             swiper.update();
+            swiper.slideTo(0, 0);
+            swiper.pagination.update()
           };
 
-          $(window).on("resize", _.debounce(checkSlides, 200));
+          $(window).on("resize", _.debounce(checkSlides, 100));
           $(window).on("load", checkSlides);
           $(window).on("load", productCardListener);
           $(".swiper-button-next", this).once('recommendationsCarousel').on("click", productCardListener);
