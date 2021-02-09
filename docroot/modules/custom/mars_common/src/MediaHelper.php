@@ -273,6 +273,9 @@ class MediaHelper {
         $media_id = $this->getTargetIdFromField($contentEntity,
           'field_allergen_image');
         break;
+
+      default:
+        $media_id = NULL;
     }
     return $media_id;
   }

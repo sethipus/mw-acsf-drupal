@@ -28,6 +28,10 @@
     border-radius: variable(button-border-radius);
     padding: 0 10px 0 50px;
 
+    @include xs {
+      width: 100%;
+    }
+
     @include medium {
       width: 688px;
     }

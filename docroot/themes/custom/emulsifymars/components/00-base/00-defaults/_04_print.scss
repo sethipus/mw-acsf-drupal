@@ -1,0 +1,10 @@
+/* Outputting page styles for printing */
+
+@media print {
+
+    * { -webkit-print-color-adjust: exact; }
+
+    .recipe-media__image-wrapper{
+        height: 100%;
+    }
+}
