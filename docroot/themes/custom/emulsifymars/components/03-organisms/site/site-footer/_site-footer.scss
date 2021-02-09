@@ -74,6 +74,7 @@ $fence-part-size: 1440px*2/101;
 
   @include xl {
     flex: 0 1 33%;
+    margin-top: 0.9rem;
   }
 
   .social-menu {
