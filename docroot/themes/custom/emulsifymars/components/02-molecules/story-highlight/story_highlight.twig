@@ -34,6 +34,7 @@
             data-component-title="{{ item.title }}"
           {% endif %}
         >
+          <div class="media_item_{{loop.index}}__wrapper">
           {% if item.image %}
 
             {% include "@atoms/images/image/_image.twig" with {
@@ -45,12 +46,14 @@
               image_title: item.title,
             } %}
 
-          {% elseif item.video %}
-            {% include "@atoms/video/overlay-video/video.twig" with {
-              video__src__url: item.src,
-              video__control: true,
-            } %}
-          {% endif %}
+            {% elseif item.video %}
+              {% include "@atoms/video/overlay-video/video.twig" with {
+                video__src__url: item.src,
+                video__control: true,
+              } %}
+            {% endif %}
+
+          </div>
 
           {% include "@atoms/text/text/01-paragraph.twig" with {
             paragraph_size: paragraph_size,
@@ -60,7 +63,6 @@
           } %}
         </div>
       {% endfor %}
-      </div>
 
       <div class="story-highlight__brand-shape_1">
         {% include "@atoms/images/image/responsive-image.twig" with {
@@ -84,6 +86,8 @@
         image_alt: asset_3_alt,
         image_src: asset_3,
       } %}
+      </div>
+
       </div>
 
       {% if story_highlight_button_link_attributes.href %}

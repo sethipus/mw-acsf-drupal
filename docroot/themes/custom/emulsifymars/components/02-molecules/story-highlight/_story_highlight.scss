@@ -101,6 +101,10 @@
       font-size: 2rem;
       line-height: 3.6rem;
     }
+
+    @include xl {
+      margin: 6rem auto 8rem;
+    }
   }
 
   & .media_items {
@@ -109,6 +113,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 5rem;
+    position: relative;
 
     @include xs {
       margin-top: 4rem;
@@ -136,6 +141,11 @@
         line-height: 2.08rem;
       }
     }
+
+    .overlay-video__control[data-state="play"] {
+      top: calc(50% - 3.5rem);
+      left: calc(50% - 3.3rem);
+    }
   }
 
   & .media_item_1 {
@@ -144,18 +154,68 @@
     z-index: 2;
     border-bottom: 1px solid lightgrey;
 
-    & img {
-      width: auto;
-      max-width: 100%;
+    &__wrapper{
+      max-height: 43.9rem;
+      & img {
+        max-height: 43.9rem;
+        min-height: 43.9rem;
+      }
     }
 
     @include xs {
-      width: 100%;
+      max-width: 33.5rem;
+      &__wrapper{
+        max-height: 18.8rem;
+        & img {
+          max-height: 18.8rem;
+          min-height: 18.8rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 18.8rem;
+            min-height: 18.8rem;
+          }
+
+        }
+      }
     }
 
-    @include large {
-      min-width: 55%;
-      max-width: 78rem;
+    @include medium {
+      max-width: 68.8rem;
+      margin: 0 auto;
+      &__wrapper{
+        max-height: 38.8rem;
+        & img {
+          max-height: 38.8rem;
+          min-height: 38.8rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 38.8rem;
+            min-height: 38.8rem;
+          }
+
+        }
+      }
+    }
+
+    @include xl {
+      max-width: 78.1rem;
+
+      &__wrapper{
+        max-height: 43.9rem;
+        & img {
+          max-height: 43.9rem;
+          min-height: 43.9rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 43.9rem;
+            min-height: 43.9rem;
+          }
+
+        }
+      }
     }
   }
 
@@ -165,32 +225,84 @@
     position: relative;
     z-index: 2;
     border-bottom: 1px solid lightgrey;
-    width: 50%;
-    margin: 4rem 2rem 0 auto;
+    min-width: 30%;
+    margin: 0 0 0 auto;
 
-    img {
-      width: auto;
-      max-width: 100%;
+    &__wrapper{
+      max-height: 32.5rem;
+      min-height: 32.5rem;
+      & img {
+        max-height: 32.5rem;
+        min-height: 32.5rem;
+      }
     }
 
     @include xs {
       margin-top: 3rem;
+      max-width: 19rem;
+      &__wrapper{
+        max-height: 14.3rem;
+        min-height: 14.3rem;
+        & img {
+          max-height: 14.3rem;
+          min-height: 14.3rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 14.3rem;
+            min-height: 14.3rem;
+          }
+
+        }
+      }
     }
 
     @include medium {
+      max-width: 33.4rem;
       margin-top: 4rem;
+      margin-right: 2rem;
+      &__wrapper{
+        max-height: 25.14rem;
+        min-height: 25.14rem;
+        & img {
+          max-height: 25.14rem;
+          min-height: 25.14rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 25.14rem;
+            min-height: 25.14rem;
+          }
+
+        }
+      }
     }
 
     @include large {
       left: 0;
-      min-width: 33%;
       max-width: 43rem;
-      min-height: 32.5rem;
       margin-right: 0;
     }
 
     @include xl {
-      margin-right: 6.7rem;
+      max-width: 43.3rem;
+      margin-top: 0;
+
+      &__wrapper{
+        max-height: 32.5rem;
+        min-height: 32.5rem;
+        & img {
+          max-height: 32.5rem;
+          min-height: 32.5rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 32.5rem;
+            min-height: 32.5rem;
+          }
+
+        }
+      }
     }
 
   }
@@ -201,31 +313,74 @@
 
   & .media_item_3 {
     flex: 0 auto;
-    width: 55.6rem;
     position: relative;
     z-index: 2;
     border-bottom: 1px solid lightgrey;
     margin: 12rem 12rem 12rem 2rem;
 
-    & img {
-      width: auto;
-      max-width: 100%;
-    }
-
     @include xs {
-      margin-top: 3rem;
-      margin-bottom: 0;
+      margin: 3rem 0 0;
+      width: 24.8rem;
+      &__wrapper{
+        max-height: 14rem;
+        min-height: 14rem;
+        & img {
+          max-height: 14rem;
+          min-height: 14rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 14rem;
+            min-height: 14rem;
+          }
+
+        }
+      }
     }
 
     @include medium {
-      margin-top: 4rem;
-      margin-bottom: 0;
+      margin: 4rem 0 0;
+      width: 45.2rem;
+      &__wrapper{
+        max-height: 25.52rem;
+        min-height: 25.52rem;
+        & img {
+          max-height: 25.52rem;
+          min-height: 25.52rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 25.52rem;
+            min-height: 25.52rem;
+          }
+
+        }
+      }
     }
 
     @include large {
       left: 0;
       width: 55.6rem;
       margin: 8rem auto 0;
+    }
+
+    @include xl {
+      width: 55rem;
+      &__wrapper{
+        max-height: 30.9rem;
+        min-height: 30.9rem;
+        & img {
+          max-height: 30.9rem;
+          min-height: 30.9rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 30.9rem;
+            min-height: 30.9rem;
+          }
+
+        }
+      }
     }
   }
 
@@ -237,6 +392,15 @@
     align-content: center;
     flex-direction: column;
     align-items: center;
+    &__wrapper{
+      width: auto;
+      height: 100%;
+      & img {
+        width: auto;
+        max-width: 100%;
+        object-fit: cover;
+      }
+    }
   }
 
   .overlay-video__control[data-state="play"] {
@@ -261,28 +425,31 @@
 
     & img {
       margin: 0;
-      max-width: 242px;
-      max-height: 242px;
+      object-fit: contain;
     }
 
     @include xs {
-      top: 65rem;
-      right: -1rem;
+      top: 23.7rem;
+      right: -2rem;
 
       & img {
         max-width: 124px;
-        max-height: 118px;
+        min-width: 124px;
+        max-height: 124px;
+        min-height: 124px;
       }
     }
 
     @include medium {
-      top: 83rem;
-      right: -1rem;
+      top: 38.8rem;
+      right: -4rem;
       z-index: 1;
 
       & img {
-        max-width: 124px;
-        max-height: 118px;
+        max-width: 196px;
+        min-width: 196px;
+        max-height: 184px;
+        min-height: 184px;
       }
     }
 
@@ -293,46 +460,50 @@
     }
 
     @include xl {
-      top: 36rem;
-      right: 0;
+      top: -1rem;
+      right: -4rem;
+      & img {
+        max-width: 242px;
+        min-width: 242px;
+        min-height: 242px;
+        max-height: 242px;
+      }
+  
     }
     
   }
 
   &__brand-shape_2 {
     position: absolute;
-    min-width: 15.3rem;
-    min-height: 15.3rem;
-    width: 15.3rem;
-    height: 15.3rem;
     display: flex;
-    top: 80rem;
-    right: 0;
     z-index: 1;
 
     & img {
       margin: 0;
-      max-width: 443px;
-      max-height: 434px;
+      object-fit: contain;
     }
 
     @include xs {
-      top: 70rem;
-      left: -5rem;
+      top: 30rem;
+      left: -2rem;
 
       & img {
         max-width: 153px;
+        min-width: 153px;
+        min-height: 153px;
         max-height: 153px;
       }
     }
 
     @include medium {
-      top: 95rem;
-      left: -1rem;
+      top: 64.3rem;
+      left: -4rem;
 
       & img {
-        max-width: 153px;
-        max-height: 153px;
+        max-width: 189px;
+        min-width: 189px;
+        min-height: 236px;
+        max-height: 236px;
       }
    
     }
@@ -345,8 +516,16 @@
 
     @include xl {
       z-index: 1;
-      top: 108rem;
-      left: 0;
+      top: 53.7rem;
+      left: -4rem;
+
+      & img {
+        margin: 0;
+        max-width: 443px;
+        min-width: 443px;
+        min-height: 434px;
+        max-height: 434px;
+      }
     }
   }
 
@@ -356,29 +535,31 @@
 
     & img {
       margin: 0;
-      max-width: 356px;
-      max-height: 330px;
     }
 
     @include xs {
       z-index: 0;
-      right: -3rem;
-      bottom: 7rem;
+      right: -2rem;
+      bottom: -4.9rem;
 
       & img {
         max-width: 182px;
-        max-height: 144px;
+        min-width: 182px;
+        min-height: 182px;
+        max-height: 182px;
       }
     }
 
     @include medium {
       z-index: 0;
-      right: 0;
-      bottom: 2rem;
+      right: -4rem;
+      bottom: -3.38rem;
 
       & img {
-        max-width: 182px;
-        max-height: 144px;
+        max-width: 314px;
+        min-width: 314px;
+        min-height: 315px;
+        max-height: 315px;
       }
     }
 
@@ -389,8 +570,14 @@
 
     @include xl {
       z-index: 0;
-      right: 0;
-      bottom: 20rem;
+      right: -4rem;
+      bottom: -17.4rem;
+      & img {
+        max-width: 356px;
+        min-width: 356px;
+        min-height: 356px;
+        max-height: 356px;
+      }
     }
   }
 
@@ -411,6 +598,11 @@
     @include large {
       padding: 6.3rem 0 6.3rem 0;
       margin-top: 6rem;
+    }
+
+    @include xl {
+      padding: 4rem 0 3rem 0;
+      margin-top: 4rem;
     }
   }
 
