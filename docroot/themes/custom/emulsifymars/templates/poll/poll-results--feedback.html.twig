@@ -23,13 +23,15 @@
     theme_styles: 'drupal',
     feedback_positive_heading: poll.field_positive_feedback.value,
     feedback_bottom_link_content: poll.field_contact_us_label.value,
-    feedback_bottom_link_url: poll.field_contact_us_link.value
+    feedback_bottom_link_url: poll.field_contact_us_link.value,
+    text_color_override: text_color_override
   } %}
 {% else %}
   {% include "@molecules/feedback-module/feedback-negative.twig" with {
     theme_styles: 'drupal',
     feedback_negative_heading: poll.field_negative_feedback.value,
     feedback_bottom_link_content: poll.field_contact_us_label.value,
-    feedback_bottom_link_url: poll.field_contact_us_link.value
+    feedback_bottom_link_url: poll.field_contact_us_link.value,
+    text_color_override: text_color_override
   } %}
 {% endif %}

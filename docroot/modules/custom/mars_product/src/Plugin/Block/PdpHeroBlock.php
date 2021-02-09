@@ -440,6 +440,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
 
       case 'product':
         $build['#pdp_data'] = $this->getPdpSingleProductData($node);
+        break;
+
       default:
         break;
     }

@@ -1,4 +1,4 @@
-import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
+import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
 
 (function($, _, Drupal){
   Drupal.behaviors.socialFeed = {
@@ -7,7 +7,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
 
       $(context).find('.social-feed').once('socialFeed').each(function(){
         const $socialFeedComponent = $(this);
-        Swiper.use([Navigation, Pagination, Scrollbar]);
+        Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
 
         $('.social-feed-swiper-container', this).each(function(){
           const $nextEl = $socialFeedComponent.find(".swiper-button-next").first();
@@ -21,6 +21,17 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             slidesPerView: 'auto',
             spaceBetween: 20,
             slidesOffsetBefore: 50,
+            watchSlidesVisibility: true,
+            observer: true,
+            observeParents: true,
+            keyboard: {
+              enabled: true
+            },
+            a11y: {
+              enabled: true,
+              prevSlideMessage: Drupal.t('Previous Slide'),
+              nextSlideMessage: Drupal.t('Next Slide')
+            },
             navigation: {
               nextEl: nextEl,
               prevEl: prevEl,
