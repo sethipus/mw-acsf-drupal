@@ -42,6 +42,7 @@
         "drupal/gdpr_onetrust": "^1.0",
         "drupal/google_analytics": "^3.1",
         "drupal/gtm": "^1.6",
+        "drupal/http_cache_control": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/jquery_colorpicker": "^1.4",
         "drupal/layout_builder_lock": "^1.0@RC",
