@@ -345,12 +345,12 @@ class ProductHelper {
    *   Product field name.
    */
   private function addUom(array &$product, array $product_variant, string $product_field_name) {
-    if (isset($product_variant[$product_field_name]) &&
+    if (isset($product[$product_field_name]) &&
       isset($product_variant[$product_field_name . ' UOM'])) {
 
-      $field_value = is_array($product_variant[$product_field_name])
-        ? reset($product_variant[$product_field_name])
-        : $product_variant[$product_field_name];
+      $field_value = is_array($product[$product_field_name])
+        ? reset($product[$product_field_name])
+        : $product[$product_field_name];
 
       $product[$product_field_name] = $field_value .
         ' ' . $product_variant[$product_field_name . ' UOM'];
