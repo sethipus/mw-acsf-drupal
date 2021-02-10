@@ -134,6 +134,7 @@
 
     @include medium {
       flex-direction: row;
+      align-items: center;
     }
 
     @include large {
@@ -157,6 +158,7 @@
       font-size: 1.8rem;
       line-height: 1.1;
       height: 2.2rem;
+      margin: 0 39.3px 0 0;
     }
 
     @include large {
