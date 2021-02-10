@@ -329,7 +329,7 @@ class ProductHelper {
 
       if (isset($product_variant[$prefix_field])) {
         $product[$product_field_name] = $product_variant[$prefix_field] .
-          ' ' . $product[$product_field_name];
+          $product[$product_field_name];
       }
     }
   }
@@ -353,7 +353,7 @@ class ProductHelper {
         : $product[$product_field_name];
 
       $product[$product_field_name] = $field_value .
-        ' ' . $product_variant[$product_field_name . ' UOM'];
+        $product_variant[$product_field_name . ' UOM'];
     }
   }
 
@@ -432,7 +432,7 @@ class ProductHelper {
         if (isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
 
           $product[$field_name] = $product[$field_name] .
-            ' ' . $product_variant[$matches[1] . ' UOM ' . $matches[2]];
+            $product_variant[$matches[1] . ' UOM ' . $matches[2]];
         }
       }
       // Map another filed in case of 'OR' logic.

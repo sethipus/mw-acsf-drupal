@@ -154,6 +154,19 @@ class SalsifyImportField extends SalsifyImport {
 
     // Set status to draft for generated product based on nutrition fields.
     if (isset($product_data['CMS: not publish']) && $product_data['CMS: not publish']) {
+      // Do not index products generated for Multipack.
+      if (\Drupal::service('module_handler')->moduleExists('simple_sitemap')) {
+        /** @var \Drupal\simple_sitemap\Simplesitemap $generator */
+        $generator = \Drupal::service('simple_sitemap.generator');
+        $settings = [
+          'index' => FALSE,
+          'priority' => '0.5',
+          'changefreq' => 'daily',
+          'include_images' => FALSE,
+        ];
+        $generator->setVariants('default');
+        $generator->setEntityInstanceSettings($entity->getEntityTypeId(), $entity->id(), $settings);
+      }
       $entity->set('rh_action', 'page_not_found');
     }
     $entity->save();
