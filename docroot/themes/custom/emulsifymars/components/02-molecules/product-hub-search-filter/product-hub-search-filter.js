@@ -19,6 +19,7 @@
         switch (true) {
           case event.target.classList.contains('search-filter-header__close'):
             event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+            enableScroll();
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
@@ -76,6 +77,7 @@
       filterOpenButton.addEventListener('click', function(event) {
         const searchFilterBlock = getGridBlock(event).querySelector('.search-filter-block');
         searchFilterBlock.classList.add('search-filter-block--opened');
+        disableScroll();
       });
     });
 
@@ -98,6 +100,7 @@
         const grid = getGridBlock(event);
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+        enableScroll();
         event.target.closest('.filter-block').querySelector('.filter-title').focus();
         updateCounters(grid);
         processFilters(getGridBlock(event));
@@ -129,7 +132,7 @@
     const getGridBlock = (event) => {
       const target = event.target;
       // Add ', .search-filter-container' to closest parameter for storybook
-      return target.closest('[data-block-plugin-id]');
+      return target.closest('[data-block-plugin-id]') || document;
     };
 
     const getGridId = (grid) => {
@@ -394,6 +397,21 @@
         applyButtons.forEach(function (button) {
           button.classList.remove('search-filter-block__button--disabled');
         });
+      }
+
+      const enableScroll = () => {
+        let scrollY = document.body.style.top;
+        document.body.classList.remove('locked-scroll');
+        document.body.style.top = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+
+      const disableScroll = () => {
+        let offset = window.scrollY;
+        document.body.classList.add('locked-scroll');
+        if (offset) {
+          document.body.style.top = `-${offset}px`;
+        }
       }
     },
   };
