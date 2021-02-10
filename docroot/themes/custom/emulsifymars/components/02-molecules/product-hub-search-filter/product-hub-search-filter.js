@@ -101,7 +101,10 @@
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
         enableBodyScroll();
-        event.target.closest('.filter-block').querySelector('.filter-title').focus();
+        const filterBlock = event.target.closest('.filter-block');
+        if (filterBlock !== null) {
+          filterBlock.querySelector('.filter-title').focus();
+        }
         updateCounters(grid);
         processFilters(getGridBlock(event));
       });
@@ -301,9 +304,9 @@
         const gridType = grid.querySelector('[data-layer-grid-type]').dataset.layerGridType;
         query += '&action_type=results';
         query += '&grid_type=' + gridType;
+        query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
         if (gridType == 'grid') {
           query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
-          query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
         }
         query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 
@@ -343,9 +346,9 @@
         const gridType = grid.querySelector('[data-layer-grid-type]').dataset.layerGridType;
         query += '&action_type=facet';
         query += '&grid_type=' + gridType;
+        query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
         if (gridType == 'grid') {
           query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
-          query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
         }
         query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 

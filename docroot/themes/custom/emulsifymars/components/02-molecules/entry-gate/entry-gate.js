@@ -104,8 +104,8 @@ import moment from 'moment';
           event.preventDefault();
           const givenDate = moment(`${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`);
 
-          if (dayInput.val().length !== 2 || 
-              monthInput.val().length !== 2 || 
+          if (dayInput.val().length > 2 ||
+              monthInput.val().length > 2 ||
               yearInput.val().length !== 4 ||
               !givenDate.isValid()) {
             // invalid date is entered
