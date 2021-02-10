@@ -152,7 +152,7 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
    */
   private function refreshToken(): array {
     $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_REFRESH_TOKEN);
-
+    $params = [];
     try {
       /**@var \Psr\Http\Message\ResponseInterface $response */
       $response = $this->httpClient->post(
@@ -168,8 +168,12 @@ class LighthouseAuthTokenProvider extends LighthouseBaseApiAbstract {
       );
     }
     catch (RequestException $exception) {
-      $this->requestToken();
+      $params = $this->requestToken();
       $this->logger->error('Failed to refresh access token "%error"', ['%error' => $exception->getMessage()]);
+    }
+
+    if (isset($params['mars_lighthouse.headers']) && isset($params['mars_lighthouse.access_token'])) {
+      return $params;
     }
 
     $header_value = $response->getHeaders()['x-lighthouse-authen'];
