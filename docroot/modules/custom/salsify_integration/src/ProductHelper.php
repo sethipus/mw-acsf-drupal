@@ -387,10 +387,19 @@ class ProductHelper {
    */
   public function getNuntritionFiledsByName(string $field_name, array $product_variant) {
     $fields = [];
-
+    $mapping = $this->getSalsifyKeyMapping();
     foreach (array_keys($product_variant) as $variant_field_name) {
+      $matches = [];
       if (preg_match('/^' . $field_name . ' [0-9]+$/', $variant_field_name)) {
         $fields[] = $variant_field_name;
+      }
+      elseif (isset($mapping[$field_name]['or']) &&
+        preg_match(
+          '/^' . $mapping[$field_name]['or'] . ' ([0-9]+)$/',
+          $variant_field_name,
+          $matches
+        )) {
+        $fields[] = $field_name . ' ' . $matches[1];
       }
     }
 

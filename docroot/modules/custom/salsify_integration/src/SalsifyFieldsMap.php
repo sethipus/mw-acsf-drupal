@@ -82,16 +82,13 @@ class SalsifyFieldsMap {
       'salsify:data_type' => 'string',
       'prefix_field' => 'Added Sugars Precision',
     ],
-    'field_product_added_sugars_daily' => [
-      'salsify:id' => 'Added Sugars Pct Daily Value',
-      'salsify:data_type' => 'string',
-    ],
+    'field_product_added_sugars_daily' => ['salsify:id' => 'Added Sugars Pct Daily Value', 'salsify:data_type' => 'string'],
     'field_product_sugar_alcohol' => [
       'salsify:id' => 'Sugar Alcohol',
       'salsify:data_type' => 'string',
       'prefix_field' => 'Sugar Alcohol Precision',
     ],
-    'field_product_sugars_daily' => ['salsify:id' => 'Added Sugars Pct Daily Value', 'salsify:data_type' => 'string'],
+    'field_product_sugars_daily' => ['salsify:id' => 'Sugars Pct Daily Value', 'salsify:data_type' => 'string'],
     'field_product_calcium' => [
       'salsify:id' => 'Calcium',
       'salsify:data_type' => 'string',
