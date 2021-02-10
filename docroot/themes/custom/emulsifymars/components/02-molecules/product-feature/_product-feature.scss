@@ -78,13 +78,19 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    min-height: 740px;
+    min-height: 664px;
+
+    @include medium {
+      min-height: 740px;
+    }
 
     @include large {
       flex-direction: row;
     }
 
     &-column {
+      width: 100%;
+
       @include large {
         width: 50%;
       }
@@ -99,7 +105,9 @@
     animation: cubic-bezier(0, 0, 1, 1) action 4.8s infinite;
 
     img {
-      width: 100%;
+      max-width:100%;
+      max-height: 400px;
+      object-fit: contain;
     }
 
     @include medium {

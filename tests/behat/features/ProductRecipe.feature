@@ -2,7 +2,20 @@ Feature: Product And Recipe Test
   @javascript
   Scenario: Product And Recipe Test
     When I login into Drupal
-    And I am on "/node/add/product_variant"
+
+    When I am on "admin/structure/taxonomy/manage/mars_category/add"
+    And I fill in "Name" with "my_category"
+    And I press "Save"
+    Then I should see "Status message"
+    And I should see "Created new term my_category."
+
+    When I am on "admin/structure/taxonomy/manage/mars_main_ingredient/add"
+    And I fill in "Name" with "my_ingredient"
+    And I press "Save"
+    Then I should see "Status message"
+    And I should see "Created new term my_ingredient."
+
+    When I am on "/node/add/product_variant"
     And I fill in "Title" with "product_variant_title"
     And I fill in "SKU" with "product_variant_sku"
     And I fill in "Size" with "product_variant_size"
@@ -15,7 +28,6 @@ Feature: Product And Recipe Test
     And I attach the file "icon.png" to "File"
     And I wait until the "//a[@type='image/png; length=1174']" xpath element appears
     Then I should see "(1.15 KB)"
-
     When I select "Image" from "Bundle"
     And I wait until the "//details[contains(@class, 'claro-details')]" xpath element appears
     And I fill in "Alternative text" with "alternative_icon_text"
@@ -47,15 +59,14 @@ Feature: Product And Recipe Test
     Then I should see "Status message"
     And I should see "Created new term Flavor1."
 
+
     When I follow "Content"
     And I follow "Add content"
     And I follow "Product"
-    Then I should see "Create Product"
-
     When I fill in "Title" with "product_title"
     And I select "Flavor1" from "Flavor"
     And I fill in "Market" with "product_market"
-    And I fill in "Sub Brand" with "product_subbrand"
+    And I select "my_category" from "Category"
     And I fill in "Segment" with "product_segment"
     And I fill in "Product Name" with "product_name"
     And I select "Format1" from "Format"
@@ -81,6 +92,7 @@ Feature: Product And Recipe Test
     And I should see "More information"
     And I should see "More Products Like This"
 
+
     When I am on "/node/add/recipe"
     And I fill in "Title" with "recipe_title"
     And I fill in "Cooking time" with "10"
@@ -94,7 +106,6 @@ Feature: Product And Recipe Test
     And I attach the file "icon.png" to "File"
     And I wait until the "//a[@type='image/png; length=1174']" xpath element appears
     Then I should see "(1.15 KB)"
-
     When I select "Image" from "Bundle"
     And I wait until the "//details[contains(@class, 'claro-details')]" xpath element appears
     And I fill in "Alternative text" with "icon_alternative_text"
@@ -103,8 +114,8 @@ Feature: Product And Recipe Test
     And I press "Select"
     And I wait for the ajax response
     And I switch to the main window
-    And I fill in "field_recipe_ingredients[0][value]" with "55"
-    And I click on a "(//a[@title='Insert Horizontal Line'])[2]" xpath element
+    And I fill in "field_recipe_ingredients[0][value]" with "my_ingredient"
+    And I fill in "field_recipe_description[0][value]" with "my_description"
     And I fill in "Product" with "product_title"
     And I press "Save"
     Then I should see "Recipe"
@@ -154,3 +165,23 @@ Feature: Product And Recipe Test
     And I press "Apply to selected items"
     Then the url should match "content/node/delete"
     And I press "Delete"
+
+    When I am on "admin/structure/taxonomy/manage/mars_category/overview"
+    And I click link which contains "edit?destination=/admin/structure/taxonomy/manage/mars_category/overview"
+    Then I should see "Edit term"
+    And I wait until the "//*[@id='edit-delete']" xpath element appears
+
+    And I follow "edit-delete"
+    And I press "Delete"
+    Then I should see "Deleted term"
+    And I should see "my_category"
+
+    When I am on "admin/structure/taxonomy/manage/mars_main_ingredient/overview"
+    And I click link which contains "edit?destination=/admin/structure/taxonomy/manage/mars_main_ingredient/overview"
+    Then I should see "Edit term"
+    And I wait until the "//*[@id='edit-delete']" xpath element appears
+
+    And I follow "edit-delete"
+    And I press "Delete"
+    Then I should see "Deleted term"
+    And I should see "my_ingredient"
