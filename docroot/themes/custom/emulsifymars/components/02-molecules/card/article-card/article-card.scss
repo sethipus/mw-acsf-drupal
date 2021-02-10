@@ -6,6 +6,7 @@
   margin-bottom: 6rem;
   position: relative;
   background-color: clr(subcolor-2);
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   @include card-width;
 
   &__brand-shape {
