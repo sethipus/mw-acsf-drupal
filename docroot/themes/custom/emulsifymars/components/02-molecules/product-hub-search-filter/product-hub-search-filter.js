@@ -19,7 +19,7 @@
         switch (true) {
           case event.target.classList.contains('search-filter-header__close'):
             event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
-            enableScroll();
+            enableBodyScroll();
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
@@ -77,7 +77,7 @@
       filterOpenButton.addEventListener('click', function(event) {
         const searchFilterBlock = getGridBlock(event).querySelector('.search-filter-block');
         searchFilterBlock.classList.add('search-filter-block--opened');
-        disableScroll();
+        disableBodyScroll();
       });
     });
 
@@ -100,7 +100,7 @@
         const grid = getGridBlock(event);
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
-        enableScroll();
+        enableBodyScroll();
         event.target.closest('.filter-block').querySelector('.filter-title').focus();
         updateCounters(grid);
         processFilters(getGridBlock(event));
@@ -399,14 +399,14 @@
         });
       }
 
-      const enableScroll = () => {
+      const enableBodyScroll = () => {
         let scrollY = document.body.style.top;
         document.body.classList.remove('locked-scroll');
         document.body.style.top = '';
         window.scrollTo(0, parseInt(scrollY || '0') * -1);
       }
 
-      const disableScroll = () => {
+      const disableBodyScroll = () => {
         let offset = window.scrollY;
         document.body.classList.add('locked-scroll');
         if (offset) {
