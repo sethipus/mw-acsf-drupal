@@ -101,8 +101,12 @@
               {% set additional_class = item.bold_modifier ? 'bold' : '' %}
               <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
                 <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class]) }}>
+                  {% set item_label = item.label %}
+                  {% if item.pre_label %}
+                    {% set item_label = item.pre_label ~ ' ' ~ item.label %}
+                  {% endif %}
                   {% include "@atoms/text/text/07-span.twig" with {
-                    span_content: item.label,
+                    span_content: item_label,
                     span_base_class: pdp_nutrition_label_base_class,
                     span_blockname: pdp_nutrition_base_class,
                   } %}

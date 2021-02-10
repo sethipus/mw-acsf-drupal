@@ -439,7 +439,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'nutritional_info_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['serving_label']) ?? '',
         'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
         'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
-        'added_sugars_label' => $this->languageHelper->translate($this->configuration['nutrition']['added_sugars_label']) ?? '',
         'daily_text' => $this->languageHelper->translate($this->configuration['nutrition']['daily_text']) ?? '',
         'refer_text' => $this->languageHelper->translate($this->configuration['nutrition']['refer_text']) ?? '',
       ],
@@ -720,6 +719,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
           $item['value_daily']
             = $node->get($field_daily)->value;
+        }
+        if ($field === 'field_product_added_sugars') {
+          $item['pre_label'] = $this->languageHelper->translate(
+            $this->configuration['nutrition']['added_sugars_label']) ?? '';
         }
         if (isset($item['value']) || isset($item['value_daily'])) {
           $result_item[$section][] = $item;
