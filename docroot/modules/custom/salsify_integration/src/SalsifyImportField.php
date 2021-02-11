@@ -155,6 +155,7 @@ class SalsifyImportField extends SalsifyImport {
     // Set status to draft for generated product based on nutrition fields.
     if (isset($product_data['CMS: not publish']) && $product_data['CMS: not publish']) {
       $entity->set('rh_action', 'page_not_found');
+      $entity->set('field_product_generated', TRUE);
     }
     $entity->save();
 

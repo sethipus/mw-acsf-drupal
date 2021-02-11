@@ -17,7 +17,10 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
  * @Block(
  *   id = "search_results_block",
  *   admin_label = @Translation("MARS: Search page results"),
- *   category = @Translation("Mars Search")
+ *   category = @Translation("Mars Search"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Current Node"))
+ *   }
  * )
  */
 class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInterface {
@@ -113,7 +116,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets('search_page'));
 
     // "See more" link should be visible only if it makes sense.
-    $build['#ajax_card_grid_link_text'] = $this->t('See more');
+    $build['#ajax_card_grid_link_text'] = $this->t('@see_more_label', ['@see_more_label' => strtoupper('See more')]);
     $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
       $build['#ajax_card_grid_link_attributes']['class'] = 'active';
@@ -123,6 +126,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build['#data_layer'] = [
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_search_results['resultsCount'],
+      'page_id' => $this->getContextValue('node')->id(),
     ];
 
     $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
@@ -152,6 +156,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContextMapping() {
+    $mapping = parent::getContextMapping();
+    $mapping['node'] = $mapping['node'] ?? 'layout_builder.entity';
+    return $mapping;
   }
 
 }
