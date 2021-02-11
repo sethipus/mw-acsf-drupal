@@ -65,6 +65,7 @@
         var query = currentQuery();
         query.grid_type = 'faq';
         query.action_type = 'results';
+        query.page_id = $('[data-layer-page-id]').attr('data-layer-page-id');
         var searchItems = $('.faq').find('ol.faq_list');
         query.offset = searchItems.children().length;
         $.ajax({
