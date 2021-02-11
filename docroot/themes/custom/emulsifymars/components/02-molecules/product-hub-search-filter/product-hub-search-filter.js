@@ -254,8 +254,7 @@
 
       const updateCounters = (grid) => {
         let appliedFilters = '';
-        let appliedFiltersAnnounce = '';
-        let appliedFiltersCounter = 0;
+        let appliedFiltersAnnounce = [];
         const filterBlocks = grid.querySelectorAll('.filter-block');
         const appliedFiltersContainer = grid.querySelector('.search-filter-info');
         const appliedFiltersBlock = grid.querySelector('.search-filter-info__applied');
@@ -275,10 +274,7 @@
               <button data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear" aria-label="' + Drupal.t('remove ' + label.innerText) + ' "></button>\
             </li>\
             '
-            appliedFiltersAnnounce = appliedFiltersAnnounce.length ? 
-                                     appliedFiltersAnnounce + ', ' + Drupal.t(label.innerText) : 
-                                     Drupal.t(label.innerText);
-            appliedFiltersCounter++;
+            appliedFiltersAnnounce.push = Drupal.t(label.innerText);
           });
         });
 
@@ -286,8 +282,7 @@
           appliedFiltersBlock.classList.remove('search-filter-info__applied--hidden');
           clearAllButton.classList.remove('search-filter-block__button--hidden');
           appliedFiltersContainer.classList.remove('search-filter-info--hidden');
-          appliedFiltersAnnounce = Drupal.t('Applied filters (' + appliedFiltersCounter + '): ' + appliedFiltersAnnounce);
-          Drupal.announce(appliedFiltersAnnounce);
+          Drupal.announce(Drupal.t('Applied filters (') + appliedFiltersAnnounce.length + '): ' + appliedFiltersAnnounce.join(', '));
         }
         else {
           appliedFiltersBlock.classList.add('search-filter-info__applied--hidden');
@@ -295,7 +290,7 @@
           appliedFiltersContainer.classList.add('search-filter-info--hidden');
         }
 
-        appliedFiltersCount.innerHTML = appliedFiltersCounter;
+        appliedFiltersCount.innerHTML = appliedFiltersAnnounce.length;
         appliedFiltersList.innerHTML = appliedFilters;
       }
 
