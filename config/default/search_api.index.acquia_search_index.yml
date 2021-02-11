@@ -263,11 +263,11 @@ processor_settings:
   aggregated_field: {  }
   entity_status: {  }
   faq_item_queue_weight: {  }
-  highlight:
+  mars_highlight:
     highlight: always
-    highlight_partial: false
-    excerpt: true
-    excerpt_length: null
+    highlight_partial: 0
+    excerpt: 1
+    excerpt_length: ''
     exclude_fields: {  }
     prefix: '<strong class="search-highlight">'
     suffix: '</strong>'
@@ -291,7 +291,7 @@ processor_settings:
       - product_name
       - title
       - type
-    ignorable: '[''¿¡!?,.:;]'
+    ignorable: '[''¿¡]'
     ignorable_classes:
       - Pc
       - Pd
