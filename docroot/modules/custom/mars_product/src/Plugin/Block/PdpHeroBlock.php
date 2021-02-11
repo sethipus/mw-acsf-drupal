@@ -3,6 +3,7 @@
 namespace Drupal\mars_product\Plugin\Block;
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
@@ -417,6 +418,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
+    $more_information_id = Html::getUniqueId('section-more-information');
     $pdp_common_data = [
       'hero_data' => [
         'product_label' => $this->languageHelper->translate($this->configuration['eyebrow'] ?? ''),
@@ -448,6 +450,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'more_information_data' => [
         'more_information_label' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
         'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
+        'more_information_id' => $more_information_id,
       ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
@@ -457,11 +460,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#pdp_bundle_type'] = $node_bundle;
     switch ($node_bundle) {
       case 'product_multipack':
-        $build['#pdp_data'] = $this->getPdpMultiPackProductData($node);
+        $build['#pdp_data'] = $this->getPdpMultiPackProductData($node, $more_information_id);
         break;
 
       case 'product':
-        $build['#pdp_data'] = $this->getPdpSingleProductData($node);
+        $build['#pdp_data'] = $this->getPdpSingleProductData($node, $more_information_id);
         break;
 
       default:
@@ -479,13 +482,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @param object $node
    *   Product node.
+   * @param string $more_information_id
+   *   ID for more information section.
    *
    * @return array
    *   PDP data array.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function getPdpSingleProductData($node) {
+  public function getPdpSingleProductData($node, string $more_information_id) {
     $items = [];
     $i = 0;
 
@@ -502,9 +507,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'gtin' => !empty($this->configuration['wtb']['product_id']) ? trim($this->configuration['wtb']['product_id']) : trim($gtin),
         'size_id' => $size_id,
         'active' => $state,
+        'more_information_id' => $more_information_id,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
-          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle()),
+          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle(), $more_information_id),
         ],
         'nutrition_data' => [
           'serving_item' => $this->getServingItems($product_variant),
@@ -525,13 +531,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @param \Drupal\Core\Entity\EntityInterface $node
    *   Product node.
+   * @param string $more_information_id
+   *   ID for more information section.
    *
    * @return array
    *   PDP data array.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function getPdpMultiPackProductData(EntityInterface $node) {
+  protected function getPdpMultiPackProductData(EntityInterface $node, string $more_information_id) {
     $products_data = [];
     foreach ($node->field_product_pack_items as $product_reference) {
       $product = $this->languageHelper->getTranslation($product_reference->entity);
@@ -568,7 +576,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
-          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle()),
+          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle(), $more_information_id),
         ],
         'products'  => $products_data,
       ];
@@ -879,18 +887,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Product Variant node.
    * @param string $bundle
    *   Product bundle.
+   * @param string $more_information_id
+   *   Id for more information section.
    *
    * @return array
    *   Mobile section array.
    */
-  public function getMobileItems(EntityInterface $node, string $bundle) {
+  public function getMobileItems(EntityInterface $node, string $bundle, string $more_information_id) {
     $size_id = $node->id();
     $items = [];
     $items[] = [
       'title' => $this->languageHelper->translate($this->configuration['nutrition']['label']),
       'link_attributes' => [
         'class' => 'pdp-hero__nutrition-menu',
-        'href' => '#section-nutrition-' . $size_id,
+        'href' => '#section-nutrition--' . $size_id,
       ],
     ];
 
@@ -913,7 +923,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'title' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
         'link_attributes' => [
           'class' => 'pdp-hero__more-info-menu',
-          'href' => '#section-more-information',
+          'href' => '#' . $more_information_id,
         ],
       ];
     }

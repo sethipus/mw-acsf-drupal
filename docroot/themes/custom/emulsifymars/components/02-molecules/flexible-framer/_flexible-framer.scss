@@ -245,6 +245,9 @@
           flex: 0 0 auto;
         }
       }
+      .card__body{
+        max-width: 433px;
+      }
     }
 
     .grid-items-4 {
@@ -253,6 +256,9 @@
           min-height: calc((100vw/4) * 0.5625);
           flex: 0 0 auto;
         }
+      }
+      .card__body{
+        max-width: 317px;
       }
     }
   }
