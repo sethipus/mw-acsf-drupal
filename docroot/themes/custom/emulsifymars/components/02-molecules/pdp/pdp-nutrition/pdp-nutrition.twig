@@ -155,14 +155,14 @@
                 </dt>
                 <dd {{ bem('section-column-item', ['mass'], pdp_nutrition_base_class) }}>
                   {% include "@atoms/text/text/07-span.twig" with {
-                    span_content: item.mass,
+                    span_content: item.value,
                     span_base_class: pdp_nutrition_value_base_class,
                     span_blockname: pdp_nutrition_base_class,
                   } %}
                 </dd>
                 <dd {{ bem('section-column-item', ['value'], pdp_nutrition_base_class) }}>
                   {% include "@atoms/text/text/07-span.twig" with {
-                    span_content: item.value,
+                    span_content: item.daily_value,
                     span_base_class: pdp_nutrition_value_base_class,
                     span_blockname: pdp_nutrition_base_class,
                   } %}
