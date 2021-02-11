@@ -254,6 +254,7 @@
 
       const updateCounters = (grid) => {
         let appliedFilters = '';
+        let appliedFiltersAnnounce = '';
         let appliedFiltersCounter = 0;
         const filterBlocks = grid.querySelectorAll('.filter-block');
         const appliedFiltersContainer = grid.querySelector('.search-filter-info');
@@ -269,11 +270,14 @@
           counterElement.innerHTML = counter ? counter : '';
           inputLabels.forEach(function (label) {
             appliedFilters += '\
-            <span class="search-filter-info__applied-name">\
+            <li class="search-filter-info__applied-name">\
               <span>' + label.innerText + '</span>\
-              <div data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear"></div>\
-            </span>\
+              <button data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear" aria-label="' + Drupal.t('remove ' + label.innerText) + ' "></button>\
+            </li>\
             '
+            appliedFiltersAnnounce = appliedFiltersAnnounce.length ? 
+                                     appliedFiltersAnnounce + ', ' + Drupal.t(label.innerText) : 
+                                     Drupal.t(label.innerText);
             appliedFiltersCounter++;
           });
         });
@@ -282,6 +286,8 @@
           appliedFiltersBlock.classList.remove('search-filter-info__applied--hidden');
           clearAllButton.classList.remove('search-filter-block__button--hidden');
           appliedFiltersContainer.classList.remove('search-filter-info--hidden');
+          appliedFiltersAnnounce = Drupal.t('Applied filters (' + appliedFiltersCounter + '): ' + appliedFiltersAnnounce);
+          Drupal.announce(appliedFiltersAnnounce);
         }
         else {
           appliedFiltersBlock.classList.add('search-filter-info__applied--hidden');
