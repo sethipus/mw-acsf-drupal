@@ -13,7 +13,8 @@
   }
 
   @include xl {
-    padding: 80px 40px;
+    padding: 12rem 40px 0;
+    height: 59.4rem;
   }
 
   &__brand-shape {
@@ -54,8 +55,8 @@
       }
 
       @include large {
+        top: 40.4rem;
         left: 16.5rem;
-        top: 28rem;
         width: 28rem;
       }
     }
@@ -67,7 +68,7 @@
 
       @include large {
         right: -7.5rem;
-        top: 10rem;
+        top: 21.2rem;
         width: 45rem;
         display: block;
       }
@@ -88,6 +89,7 @@
     text-align: center;
     font-weight: normal;
     z-index: 2;
+    margin: 0 auto 8rem;
 
     @include medium {
       font-size: 56px;
@@ -96,10 +98,6 @@
     @include xl {
       font-size: 64px;
     }
-  }
-
-  .search-input {
-    margin-top: 20px;
   }
 
   &__border {
