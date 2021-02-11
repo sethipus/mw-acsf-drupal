@@ -117,11 +117,10 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     if (!empty($this->configuration['override_text_color']['override_color'])) {
       $text_color_override = static::$overrideColor;
     }
-    $raw_rendered_recommendations = $plugin->getRenderedRecommendations();
-    $rendered_recommendations_with_color_override = [];
-    if (!empty($text_color_override && !empty($raw_rendered_recommendations))) {
-      foreach ($raw_rendered_recommendations as $item) {
-        $rendered_recommendations_with_color_override[] = array_merge($item, ['#text_color_override' => $text_color_override]);
+    $recommendation_render_arrays = $plugin->getRenderedRecommendations();
+    if (!empty($text_color_override)) {
+      foreach ($recommendation_render_arrays as &$item) {
+        $item['#text_color_override'] = $text_color_override;
       }
     }
 
@@ -130,7 +129,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#title' => $title,
       '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
       '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
-      '#recommended_items' => $rendered_recommendations_with_color_override ?? $raw_rendered_recommendations,
+      '#recommended_items' => $recommendation_render_arrays,
       '#text_color_override' => $text_color_override,
     ];
   }
