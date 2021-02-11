@@ -858,7 +858,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'title' => $this->languageHelper->translate($this->configuration['nutrition']['label']),
       'link_attributes' => [
         'class' => 'pdp-hero__nutrition-menu',
-        'href' => '#section-nutrition-' . $size_id,
+        'href' => '#section-nutrition--' . $size_id,
       ],
     ];
 
