@@ -22,6 +22,7 @@ Feature: Product And Recipe Test
     And I click on a "//a[contains(@class, 'form-required') and contains(text(), 'Media')]" xpath element
     And I click on a "//input[@data-drupal-selector='edit-field-product-key-image-entity-browser-entity-browser-open-modal']" xpath element
     And I wait for the ajax response
+    And I sleep "0.5" seconds
     And I switch to the iframe "entity_browser_iframe_lighthouse_browser"
     And I wait for the ajax response
     And I press "Upload"
@@ -100,6 +101,7 @@ Feature: Product And Recipe Test
     And I fill in "Number of servings" with "5"
     And I click on a "//input[@data-drupal-selector='edit-field-recipe-image-entity-browser-entity-browser-open-modal']" xpath element
     And I wait for the ajax response
+    And I sleep "0.5" seconds
     And I switch to the iframe "entity_browser_iframe_lighthouse_browser"
     And I wait for the ajax response
     And I press "Upload"
