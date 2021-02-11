@@ -19,6 +19,8 @@ pdp_common_data:
     vitamins_info_label: 'VITAMINS | MINERALS:'
     ingredients_label: 'INGREDIENTS:'
     warnings_label: 'WARNINGS:'
+    daily_text: 'The % Daily Value tells you how much nutrient a serving of food contributes to a daily diet. 2000 calories a day is used for a general advice.'
+    refer_text:  'Please refer to the product label for the most accurate nutrition, ingredient and allergen information'
   allergen_data:
     allergen_label: 'DIET & ALLERGENS'
   more_information_data:
