@@ -26,13 +26,13 @@
                 span_blockname: pdp_nutrition_base_class,
               } %}
             </dt>
-            <dt {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
+            <dd {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
               {% include "@atoms/text/text/07-span.twig" with {
                 span_content: pdp_common_nutrition_data.nutritional_info_daily_label,
                 span_base_class: pdp_nutrition_label_base_class,
                 span_blockname: pdp_nutrition_base_class,
               } %}
-            </dt>
+            </dd>
           </dl>
         </div>
         {% if pdp_nutrition_data.serving_item.group_nutritional_subgroup_1 %}
@@ -135,6 +135,7 @@
                 span_blockname: pdp_nutrition_base_class,
               } %}
             </dt>
+            <dd></dd>
           </dl>
         </div>
         {% if pdp_nutrition_data.serving_item.group_vitamins %}
