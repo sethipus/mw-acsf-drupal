@@ -24,6 +24,7 @@ pdp_common_data:
   more_information_data:
     more_information_label: 'MORE INFORMATION'
     show_more_information_label: true
+    more_information_id: 'section-more-information'
 pdp_size_data:
   - size_id : '1oz'
     title: '1.36 oz'
