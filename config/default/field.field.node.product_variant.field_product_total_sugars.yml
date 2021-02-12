@@ -1,22 +1,20 @@
-uuid: ac30c945-c7d6-4363-91a6-740ff9167ba6
+uuid: 108f6d7c-c7f2-4fa2-846c-a4195d28573c
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_product_carb_daily
+    - field.storage.node.field_product_total_sugars
     - node.type.product_variant
   module:
     - tmgmt_content
 third_party_settings:
   tmgmt_content:
     excluded: false
-_core:
-  default_config_hash: muj42zDWXYR-4z7SSvPLgI_Eq-lkezutKZQNcPhETBY
-id: node.product_variant.field_product_carb_daily
-field_name: field_product_carb_daily
+id: node.product_variant.field_product_total_sugars
+field_name: field_product_total_sugars
 entity_type: node
 bundle: product_variant
-label: 'Total Carbohydrate % Daily Value'
+label: 'Total Sugars'
 description: ''
 required: false
 translatable: true
