@@ -1,5 +1,5 @@
-field_id: 'Potassium pct'
-salsify_id: 'Potassium pct'
+field_id: 'Potassium Pct'
+salsify_id: 'Potassium Pct'
 salsify_data_type: string
 entity_type: node
 bundle: product_variant
