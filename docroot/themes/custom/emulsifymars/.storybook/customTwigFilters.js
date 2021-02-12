@@ -8,6 +8,18 @@ module.exports = function (twigInstance) {
       return value
     }
   )
+  twigInstance.extendFilter('resizeByHeight', function (value) {
+      return value
+    }
+  )
+  twigInstance.extendFilter('resizeByWidth', function (value) {
+      return value
+    }
+  )
+  twigInstance.extendFilter('resize', function (value) {
+      return value
+    }
+  ) 
   twigInstance.extendFunction('create_attribute', function (value) {
       if (typeof (value) === "undefined" || value === null) {
         return {};

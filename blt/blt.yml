@@ -37,6 +37,9 @@ validate:
       - mediaParamsById
       - mainVariant
       - productCardMedia
+      - resizeByHeight
+      - resizeByWidth
+      - resize
 tests:
   phpunit:
     -

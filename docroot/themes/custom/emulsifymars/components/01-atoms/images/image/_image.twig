@@ -1,5 +1,17 @@
 {% set image_base_class = image_base_class|default('image') %}
 
+{% if image_array %}
+  {% set image_srcset = '' %}
+  {% set image_sizes = '' %}
+  {% for breakpoint, image in image_array %}
+    {% set image_srcset = image_srcset ~ image ~ ' ' ~ breakpoint ~ 'w' ~ ',' %}
+    {% set image_sizes = image_sizes ~ '(max-width: ' ~ breakpoint ~ 'px) ' ~ breakpoint ~ 'px, ' %}
+      {% if loop.last %}
+        {% set image_sizes = image_sizes ~ breakpoint ~ 'px' %}
+      {% endif %}
+  {% endfor %}
+{% endif %}
+
 <img loading="lazy"
   {{ bem(image_base_class, image_modifiers, image_blockname) }}
   {% if image_srcset %}
