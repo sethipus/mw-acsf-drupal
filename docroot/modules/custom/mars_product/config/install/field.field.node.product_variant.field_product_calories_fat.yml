@@ -11,7 +11,7 @@ id: node.product_variant.field_product_calories_fat
 field_name: field_product_calories_fat
 entity_type: node
 bundle: product_variant
-label: 'Calories from Fat'
+label: 'Calories from fat'
 description: ''
 required: false
 translatable: false

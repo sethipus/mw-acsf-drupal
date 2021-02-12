@@ -30,12 +30,12 @@ function emulsifymars_form_system_theme_settings_alter(&$form, FormStateInterfac
 function emulsifymars_preprocess_html(&$variables) {
   $theme_settings = Drupal::config('emulsifymars.settings')->get();
   $style_tag = '';
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 100}", $theme_settings['headline_font_path']);
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 400}", $theme_settings['headline_font_path']);
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 900}", $theme_settings['headline_font_path']);
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 100}", $theme_settings['primary_font_path']);
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 400}", $theme_settings['primary_font_path']);
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 900}", $theme_settings['primary_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 100; font-display: swap}", $theme_settings['headline_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 400; font-display: swap}", $theme_settings['headline_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalHeadlineCampaignFont'; src: url('%s') format('opentype'); font-weight: 900; font-display: swap}", $theme_settings['headline_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 100; font-display: swap}", $theme_settings['primary_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 400; font-display: swap}", $theme_settings['primary_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 900; font-display: swap}", $theme_settings['primary_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypefaceFont'; src: url('%s') format('opentype');}", $theme_settings['secondary_font_path']);
   $style_tag .= sprintf(":root [data-theme='drupal'] {%s}", _emulsifymars_preprocess_css_properties($theme_settings));
   $variables['page']['#attached']['html_head'][] = [

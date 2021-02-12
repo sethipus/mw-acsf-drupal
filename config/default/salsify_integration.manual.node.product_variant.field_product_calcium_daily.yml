@@ -1,5 +1,5 @@
-field_id: 'Calcium Pct Daily Value'
-salsify_id: 'Calcium Pct Daily Value'
+field_id: 'Calcium Pct'
+salsify_id: 'Calcium Pct'
 salsify_data_type: string
 entity_type: node
 bundle: product_variant

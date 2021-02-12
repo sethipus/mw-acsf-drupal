@@ -39,11 +39,24 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             scrollbar: {
               el: scrollbar,
               draggable: true,
-              dragSize: 200
+              dragSize: 259
             },
             breakpoints: {
+              1440: {
+                scrollbar: {
+                  dragSize: 259
+                }
+              },
               768: {
-                spaceBetween: 30
+                spaceBetween: 30,
+                scrollbar: {
+                  dragSize: 140
+                }
+              },
+              375: {
+                scrollbar: {
+                  dragSize: 88
+                }
               }
             }
           });

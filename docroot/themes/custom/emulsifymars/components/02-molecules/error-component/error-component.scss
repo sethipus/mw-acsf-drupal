@@ -118,9 +118,7 @@
 
   &__link-container {
     display: flex;
-    justify-content: space-evenly;
-    max-width: 65rem;
-    margin: 0 auto;
+    justify-content: center;
     z-index: 5;
     position: relative;
 
@@ -130,6 +128,19 @@
 
     @include medium {
       flex-direction: row;
+    }
+
+    .default-link {
+      @include medium {
+        flex-basis: auto;
+        min-width: 157px;
+        padding: 0 3rem;
+        margin-right: 20px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
     }
   }
 
