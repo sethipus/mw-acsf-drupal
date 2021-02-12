@@ -6,9 +6,17 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
       // init swiper
 
       $(context).find('.social-feed').once('socialFeed').each(function(){
+        const $socialFeedComponent = $(this);
         Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
 
         $('.social-feed-swiper-container', this).each(function(){
+          const $nextEl = $socialFeedComponent.find(".swiper-button-next").first();
+          const nextEl = (typeof $nextEl[0]) !== "undefined" ? $nextEl[0] : null;
+          const $prevEl = $socialFeedComponent.find(".swiper-button-prev").first();
+          const prevEl = (typeof $prevEl[0]) !== "undefined" ? $prevEl[0] : null;
+          const $scrollbar = $socialFeedComponent.find(".swiper-scrollbar").first();
+          const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
+
           const swiper = new Swiper(this, {
             slidesPerView: 'auto',
             spaceBetween: 20,
@@ -25,17 +33,30 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
               nextSlideMessage: Drupal.t('Next Slide')
             },
             navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev'
+              nextEl: nextEl,
+              prevEl: prevEl,
             },
             scrollbar: {
-              el: '.swiper-scrollbar',
+              el: scrollbar,
               draggable: true,
-              dragSize: 200
+              dragSize: 259
             },
             breakpoints: {
+              1440: {
+                scrollbar: {
+                  dragSize: 259
+                }
+              },
               768: {
-                spaceBetween: 30
+                spaceBetween: 30,
+                scrollbar: {
+                  dragSize: 140
+                }
+              },
+              375: {
+                scrollbar: {
+                  dragSize: 88
+                }
               }
             }
           });
