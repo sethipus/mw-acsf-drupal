@@ -31,7 +31,7 @@
   }
 
   &__search-results {
-    margin: 20px 20px 0;
+    margin: 2rem 2rem 0;
     font-size: 1.6rem;
     color: clr(primary);
     display: none;
@@ -41,7 +41,7 @@
     }
 
     @include small {
-      margin: 20px 40px 0 0;
+      margin: 2rem 4rem 0 0;
     }
 
     @include medium {
@@ -68,7 +68,7 @@
     }
 
     @include small {
-      margin: 40px 0 49px;
+      margin: 4rem 0 49rem;
     }
 
     @include medium {
@@ -89,14 +89,14 @@
       overflow: hidden;
       background-color: clr(subcolor-3);
       border: 1px solid clr(secondary);
-      padding: 11px;
+      padding: 1.1rem;
       border-radius: variable(button-border-radius);
       font-family: variable(primary-font);
       font-size: 1.2rem;
       line-height: 1;
       text-transform: uppercase;
       color: clr(secondary);
-      margin: 0 10px 12px 0;
+      margin: 0 1rem 1.2rem 0;
       text-decoration: none;
       transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
       transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
@@ -181,7 +181,7 @@
         border-top: none;
 
         @include small {
-          margin: -25px 0;
+          margin: -2.5rem 0;
         }
 
         @include medium {
