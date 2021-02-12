@@ -1,0 +1,24 @@
+uuid: 0e0c5cbc-172d-4cb8-9d11-db2580271f2e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_niacin
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_niacin
+field_name: field_product_niacin
+entity_type: node
+bundle: product_variant
+label: Niacin
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

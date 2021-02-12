@@ -27,6 +27,11 @@
 
     .main-menu__item--sub {
       display: flex;
+      text-transform: uppercase;
+
+      @include large {
+        text-transform: capitalize;
+      }
     }
   }
 
