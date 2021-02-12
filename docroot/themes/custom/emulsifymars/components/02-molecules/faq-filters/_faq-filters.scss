@@ -4,6 +4,10 @@
     max-width: none;
     display: flex;
 
+    @include small {
+      margin: 0 auto;
+    }
+
     @include medium {
       margin: 0 40px;
       max-width: none;
@@ -27,13 +31,17 @@
   }
 
   &__search-results {
-    margin: 20px 40px 0 0;
+    margin: 2rem 2rem 0;
     font-size: 1.6rem;
     color: clr(primary);
     display: none;
 
     &.active {
       display: block;
+    }
+
+    @include small {
+      margin: 2rem 4rem 0 0;
     }
 
     @include medium {
@@ -59,6 +67,10 @@
       display: flex;
     }
 
+    @include small {
+      margin: 4rem 0 4.9rem;
+    }
+
     @include medium {
       margin: 40px 40px 59px;
       max-width: none;
@@ -77,14 +89,14 @@
       overflow: hidden;
       background-color: clr(subcolor-3);
       border: 1px solid clr(secondary);
-      padding: 12px;
+      padding: 1.1rem;
       border-radius: variable(button-border-radius);
       font-family: variable(primary-font);
-      font-size: 14px;
-      line-height: 14px;
+      font-size: 1.2rem;
+      line-height: 1;
       text-transform: uppercase;
       color: clr(secondary);
-      margin: 0 12px 12px 0;
+      margin: 0 1rem 1.2rem 0;
       text-decoration: none;
       transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
       transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
@@ -95,6 +107,7 @@
 
       @include xl {
         padding: 20px 40px;
+        font-size: 1.4rem;
       }
 
       &.active {
@@ -149,28 +162,36 @@
 
   .search-input-wrapper {
     &.suggested {
+      margin-left: 0;
+
       .search-input {
         border-bottom-right-radius: unset;
         border-bottom-left-radius: unset;
         border-bottom: none;
+
+        &__field {
+          width: 100%;
+        }
       }
+
       .mars-search-autocomplete-suggestions-wrapper {
         margin: -25px 20px 0;
         padding-top: 25px;
         border: 1px solid clr(subcolor-4);
         border-top: none;
-        width: calc(335px + 22px);
+
+        @include small {
+          margin: -2.5rem 0;
+        }
 
         @include medium {
           margin-left: 40px;
           margin-right: 40px;
-          width: calc(688px + 22px);
         }
 
         @include xl {
           margin-left: 0;
           margin-right: 0;
-          width: calc(896px + 22px);
         }
       }
     }
