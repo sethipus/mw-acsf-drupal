@@ -36,6 +36,12 @@
         top: 12.8rem;
         left: -9.5%;
       }
+
+      @include xl {
+        width: 76rem;
+        top: 2.7rem;
+        left: -6%;
+      }
     }
 
     &--2 {
