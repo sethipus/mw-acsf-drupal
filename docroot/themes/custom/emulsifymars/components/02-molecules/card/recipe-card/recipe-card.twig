@@ -28,13 +28,17 @@
       {% endfor %}
       aria-label="{{ recipe_card_heading | mt }}"
     >
+      {% set images = {
+        1440: recipe_card_image_src|resize(318, 239),
+        768: recipe_card_image_src|resize(334, 251),
+        375: recipe_card_image_src|resize(315, 236),
+      } %}
       {% include "@atoms/images/image/_image.twig" with {
         output_image_tag: true,
         image_alt: recipe_card_image_alt,
         image_src: recipe_card_image_src,
         responsive_image_blockname: 'recipe_image',
-        height: '239px',
-        width: '318px',
+        image_array: images,
       } %}
     </a>
   </div>

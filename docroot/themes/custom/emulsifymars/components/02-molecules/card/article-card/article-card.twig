@@ -34,15 +34,16 @@
     </div>
   {% else %}
     <div class="bg-image">
+      {% set images = {
+        1440: article_card_background_img_url|resize(318, 520),
+        768: article_card_background_img_url|resize(334, 520),
+        375: article_card_background_img_url|resize(315, 520),
+      } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
         image_alt: article_card_background_img_url,
-        image_srcset: article_card_background_img_url,
-        image_sizes: '(max-width: 375px) 375px,
-              (max-width: 768px) 768px,
-              1440px',
+        image_array: images,
         image_src: article_card_background_img_url,
-        height: '300px'
       } %}
     </div>
   {% endif %}

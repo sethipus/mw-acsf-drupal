@@ -23,6 +23,7 @@
   .product-card__image img {
     transition: transform 0.8s;
     z-index: 1;
+    object-fit: contain;
   }
 
   &:hover {

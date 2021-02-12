@@ -96,3 +96,36 @@ body {
       clr(subcolor-3)
   ) !important;
 }
+
+.aspect-ratio-wrapper {
+  position: relative;
+  height: 0;
+
+  &--21-9 {
+    padding-top: 42.85%;
+  }
+
+  &--16-9 {
+    padding-top: 56.25%;
+  }
+
+  &--4-3 {
+    padding-top: 75%;
+  }
+
+  &--1-1 {
+    padding-top: 100%;
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.swiper-slide .aspect-ratio-wrapper {
+  position: static;
+}
