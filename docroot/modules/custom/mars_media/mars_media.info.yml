@@ -1,0 +1,9 @@
+name: 'Mars Media'
+type: module
+description: 'Module that provides media related functionality.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
+dependencies:
+  - mars_lighthouse:mars_lighthouse
+
+configure: mars_media.configuration_form
