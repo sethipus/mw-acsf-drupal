@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.product.field_product_description
     - field.field.node.product.field_product_flavor
     - field.field.node.product.field_product_format
+    - field.field.node.product.field_product_generated
     - field.field.node.product.field_product_market
     - field.field.node.product.field_product_name
     - field.field.node.product.field_product_new
@@ -175,6 +176,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: options_select
+    region: content
+  field_product_generated:
+    weight: 26
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   field_product_market:
     weight: 4
