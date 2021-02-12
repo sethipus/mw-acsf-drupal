@@ -3,7 +3,7 @@
   color: clr(primary);
   display: block;
   font-family: variable(primary-font);
-  font-size: 3.6rem;
+  font-size: 3.2rem;
   font-weight: normal;
   line-height: 1.5;
   padding: 1.6rem 3rem;
@@ -19,6 +19,8 @@
   }
 
   @include medium {
+    font-size: 3.6rem;
+
     &:focus {
       outline: none;
     }
@@ -87,13 +89,13 @@
 /* A (Nested) */
 .main-menu__link--sub {
   color: clr(secondary);
-  padding-left: $space-triple;
   font-family: variable(primary-font);
   font-weight: 500;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+  padding: 1.5rem 1rem 1.5rem 0;
 
   @include medium {
-    padding: 1rem 1rem 1rem 0;
+    font-size: 1.8rem;
   }
 
   @include large {

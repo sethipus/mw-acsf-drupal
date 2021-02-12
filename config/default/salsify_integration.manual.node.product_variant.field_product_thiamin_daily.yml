@@ -1,0 +1,9 @@
+field_id: 'Thiamin Pct'
+salsify_id: 'Thiamin Pct'
+salsify_data_type: string
+entity_type: node
+bundle: product_variant
+field_name: field_product_thiamin_daily
+method: manual
+created: 1546300800
+changed: 1546300801
