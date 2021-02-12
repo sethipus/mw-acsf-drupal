@@ -92,6 +92,10 @@
           font-size: 1.6rem;
           line-height: 2.24rem;
         }
+
+        @include xl {
+          margin-bottom: 40px;
+        }
       }
 
       & .share-block {
@@ -104,6 +108,11 @@
         @include xs {
           padding-top: 30px;
           padding-bottom: 35px;
+        }
+
+        @include xl {
+          padding-top: 42.2px;
+          padding-bottom: 62.2px;
         }
 
         & .share-text {
@@ -201,11 +210,11 @@
     }
 
     @include xs {
-      bottom: 2rem;
+      bottom: 0;
     }
 
     @include medium {
-      bottom: 0.5rem;
+      bottom: 1.5rem;
     }
 
     @include large {
@@ -267,10 +276,22 @@
   }
 
   &__text_wrapper {
-    padding-top: 30px;
+    padding-top: 3rem;
+
+    @include xs {
+      padding-top: 1.8rem;
+    }
+
+    @include medium {
+      padding-top: 7rem;
+    }
 
     @include large {
-      padding-top: 120px;
+      padding-top: 7.3rem;
+    }
+
+    @include xl {
+      padding-top: 7.3rem;
     }
   }
 

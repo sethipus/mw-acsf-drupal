@@ -153,7 +153,7 @@
         },
         "patches": {
             "drupal/acquia_contenthub": {
-                "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2020-05-27/acquia_contenthub-8.x-2.13-3143039-3.patch"
+                "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2021-02-11/acquia_contenthub-8.x-2.x-3143039-5.patch"
             },
             "drupal/config_ignore": {
                 "Correct drush filtering": "https://www.drupal.org/files/issues/2020-08-18/support-for-export-2857247-54.patch",

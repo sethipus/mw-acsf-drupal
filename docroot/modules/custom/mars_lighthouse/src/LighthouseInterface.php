@@ -58,29 +58,6 @@ interface LighthouseInterface {
   public function getMediaEntity(int $id): ?MediaInterface;
 
   /**
-   * Get access tokens.
-   *
-   * @param bool $generate_new
-   *   Force to create new tokens.
-   *
-   * @return array
-   *   Access tokens.
-   *
-   * @throws \Drupal\mars_lighthouse\LighthouseException
-   */
-  public function getToken(bool $generate_new = FALSE): array;
-
-  /**
-   * Refresh access tokens.
-   *
-   * @return array
-   *   Access tokens.
-   *
-   * @throws \Drupal\mars_lighthouse\LighthouseException
-   */
-  public function refreshToken(): array;
-
-  /**
    * Get list of brand options.
    *
    * @return array
