@@ -13,7 +13,7 @@ use Drupal\layout_builder\Form\ConfigureBlockFormBase;
 use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionStorageInterface;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_recommendations\Plugin\Block\RecommendationsModuleBlock;
 use Drupal\mars_recommendations\RecommendationsLogicPluginInterface;

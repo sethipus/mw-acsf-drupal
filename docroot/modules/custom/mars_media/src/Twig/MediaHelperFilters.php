@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_common\Twig;
+namespace Drupal\mars_media\Twig;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\mars_media\MediaHelper;

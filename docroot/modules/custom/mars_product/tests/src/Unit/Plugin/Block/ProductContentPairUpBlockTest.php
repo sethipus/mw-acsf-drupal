@@ -9,7 +9,7 @@ use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_product\Plugin\Block\ProductContentPairUpBlock;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;

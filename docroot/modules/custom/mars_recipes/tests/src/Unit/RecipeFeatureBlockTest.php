@@ -6,7 +6,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\file\Entity\File;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\media\Entity\Media;
 use Drupal\node\Entity\Node;
@@ -21,7 +21,7 @@ use Drupal\Core\Url;
  * Class RecipeFeatureBlockTest.
  *
  * @package Drupal\Tests\mars_recipes\Unit
- * @covers \Drupal\mars_recipes\Plugin\Block\RecipeFeatureBlockTest
+ * @covers \Drupal\mars_recipes\Plugin\Block\RecipeFeatureBlock
  */
 class RecipeFeatureBlockTest extends UnitTestCase {
 

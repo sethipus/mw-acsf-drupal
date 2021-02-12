@@ -9,7 +9,7 @@ use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 
 /**
  * @coversDefaultClass \Drupal\mars_common\Plugin\Block\InlineImageVideoBlock

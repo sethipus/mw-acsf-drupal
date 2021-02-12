@@ -18,28 +18,14 @@ services:
     class: Drupal\mars_common\MenuBuilder
     arguments: ['@menu.link_tree']
 
-  mars_media.media_helper_twig_filters:
-    class: Drupal\mars_common\Twig\MediaHelperFilters
-    arguments:
-      [ '@mars_media.media_helper' ]
-    tags:
-      - { name: twig.extension }
-
   mars_common.theme_configurator_parser:
     class: Drupal\mars_common\ThemeConfiguratorParser
-    arguments: [ '@entity_type.manager', '@config.factory', '@mars_common.svg_factory' ,'@logger.channel.mars_common' ]
+    arguments: [ '@entity_type.manager', '@config.factory', '@mars_media.svg_factory' ,'@logger.channel.mars_common' ]
 
   mars_common.route_subscriber:
     class: Drupal\mars_common\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
-
-  mars_common.svg_factory:
-    arguments: [ '@entity_type.manager' , '@mars_common.svg_unique_id_generator' ]
-    class: Drupal\mars_common\SVG\SVGFactory
-
-  mars_common.svg_unique_id_generator:
-    class: Drupal\mars_common\SVG\SVGUniqueIdGenerator
 
   mars_common.theme_configurator_service:
     arguments: [ '@image.factory', '@module_handler', '@file_system', '@config.factory', '@entity_type.manager' ]

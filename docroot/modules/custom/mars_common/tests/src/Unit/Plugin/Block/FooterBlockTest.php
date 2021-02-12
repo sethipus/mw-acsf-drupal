@@ -11,7 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;

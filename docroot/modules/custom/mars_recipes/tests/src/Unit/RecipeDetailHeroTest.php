@@ -5,7 +5,7 @@ namespace Drupal\Tests\mars_recipes\Unit;
 use Drupal;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailHero;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;

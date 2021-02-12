@@ -5,7 +5,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\FlexibleFramerBlock;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;

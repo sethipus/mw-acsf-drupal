@@ -12,7 +12,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Plugin\Context\Context;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\mars_product\ProductHelper;
 use Drupal\node\Entity\Node;

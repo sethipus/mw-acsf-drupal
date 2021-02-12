@@ -9,7 +9,7 @@ use Drupal\file\Entity\File;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\StoryHighlightBlock;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\UnitTestCase;
