@@ -1,5 +1,5 @@
-field_id: 'Vitamin C Pct Daily Value'
-salsify_id: 'Vitamin C Pct Daily Value'
+field_id: 'Vitamin C Pct'
+salsify_id: 'Vitamin C Pct'
 salsify_data_type: string
 entity_type: node
 bundle: product_variant
