@@ -114,3 +114,15 @@ function mars_recipes_preprocess_node__recipe__card(array &$variables) {
   card_add_button_label($variables, 'recipe_card_button');
   add_cache_by_label_config($variables);
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function mars_recipes_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'node_recipe_edit_form' || $form_id === 'node_recipe_form') {
+    $form["field_recipe_description"]["widget"][0]["#format"] = 'plain_text';
+    $default_value = $form["field_recipe_description"]["widget"][0]["#default_value"];
+    $default_value = strip_tags(html_entity_decode($default_value));
+    $form["field_recipe_description"]["widget"][0]["#default_value"] = $default_value;
+  }
+}

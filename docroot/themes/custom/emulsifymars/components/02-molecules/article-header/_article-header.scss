@@ -3,6 +3,18 @@
   color: clr(primary);
   background-color: clr(subcolor-2);
 
+  @include xs {
+    margin-bottom: 5rem;
+  }
+
+  @include medium {
+    margin-bottom: 6rem;
+  }
+
+  @include xl {
+    margin-bottom: 8rem;
+  }
+
     &__text_wrapper {
       width: 90%;
       margin: 0 auto;
@@ -80,6 +92,10 @@
           font-size: 1.6rem;
           line-height: 2.24rem;
         }
+
+        @include xl {
+          margin-bottom: 40px;
+        }
       }
 
       & .share-block {
@@ -92,6 +108,11 @@
         @include xs {
           padding-top: 30px;
           padding-bottom: 35px;
+        }
+
+        @include xl {
+          padding-top: 42.2px;
+          padding-bottom: 62.2px;
         }
 
         & .share-text {
@@ -224,7 +245,7 @@
     z-index: 1;
     position: absolute;
     display: block;
-    
+
     @include xs {
       top: -9.5rem;
       right: -13rem;

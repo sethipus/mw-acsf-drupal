@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,6 +27,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
   use EntityBrowserFormTrait;
   use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Mars Media Helper service.
@@ -206,6 +208,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
     // Add select background color.
     $this->buildSelectBackground($form);
+    $this->buildOverrideColorElement($form, $config);
 
     $form['with_brand_borders'] = [
       '#type' => 'checkbox',
@@ -335,11 +338,15 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
 
     $background_color = '';
-    if ($this->configuration['select_background_color'] != 'default' &&
-      !empty($this->configuration['select_background_color']) &&
-      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+      && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
     ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
+
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
     }
 
     $build['#select_background_color'] = $background_color;

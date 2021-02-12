@@ -10,7 +10,7 @@ $xl-left-margin: 11.583rem;
       flex-direction: row;
     }
 
-    @include large {
+    @include larger {
       flex-direction: column;
     }
   }
@@ -21,7 +21,7 @@ $xl-left-margin: 11.583rem;
     border-bottom: 1px solid rgba(196, 196, 196, 0.6);
   }
 
-  @include large {
+  @include larger {
     position: absolute;
     top: 0;
     right: 4rem;
@@ -38,6 +38,10 @@ $xl-left-margin: 11.583rem;
       font-size: 26px;
       line-height: 1.1;
     }
+
+    @include larger {
+      padding-left: 1rem;
+    }
   }
 
   .swiper-container-vertical {
@@ -47,10 +51,14 @@ $xl-left-margin: 11.583rem;
 }
 
 .product-used-item {
-  margin-top: 34px;
+  margin-top: 3.4rem;
 
   @include medium {
-    margin-top: 30px;
+    margin-top: 3rem;
+  }
+
+  @include larger {
+    margin: 3rem 1rem 1rem 1rem;
   }
 }
 

@@ -35,3 +35,9 @@ mars_entry_gate.settings:
         error_link_2:
           type: string
           label: 'Error link 2'
+        override_text_color:
+          type: sequence
+          label: 'Override theme color'
+          sequence:
+            type: boolean
+            label: 'Enabled'

@@ -114,6 +114,7 @@
           pushQuery(query);
           query.grid_type = 'faq';
           query.action_type = 'results';
+          query.page_id = $('[data-layer-page-id]').attr('data-layer-page-id');
           query.offset = 0;
           $.ajax({
             url: '/search-callback',
@@ -149,6 +150,7 @@
         pushQuery(query);
         query.grid_type = 'faq';
         query.action_type = 'results';
+        query.page_id = $('[data-layer-page-id]').attr('data-layer-page-id');
         $.ajax({
           url: '/search-callback',
           data: query,
