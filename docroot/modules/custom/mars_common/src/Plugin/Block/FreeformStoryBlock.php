@@ -9,6 +9,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,6 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Lighthouse entity browser id.
@@ -172,6 +174,8 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#default_value' => $this->configuration['custom_background_color'] ?? '',
     ];
 
+    $this->buildOverrideColorElement($form, $this->configuration);
+
     return $form;
   }
 
@@ -198,6 +202,12 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'];
     $build['#use_custom_color'] = (bool) $this->configuration['use_custom_color'];
+
+    $build['#text_color_override'] = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
     $build['#theme'] = 'freeform_story_block';
 
     return $build;

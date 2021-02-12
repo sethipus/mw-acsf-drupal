@@ -92,6 +92,10 @@
           font-size: 1.6rem;
           line-height: 2.24rem;
         }
+
+        @include xl {
+          margin-bottom: 40px;
+        }
       }
 
       & .share-block {
@@ -104,6 +108,11 @@
         @include xs {
           padding-top: 30px;
           padding-bottom: 35px;
+        }
+
+        @include xl {
+          padding-top: 42.2px;
+          padding-bottom: 62.2px;
         }
 
         & .share-text {

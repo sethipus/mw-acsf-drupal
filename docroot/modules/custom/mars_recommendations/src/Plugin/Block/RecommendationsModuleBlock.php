@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\layout_builder\Form\ConfigureBlockFormBase;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_recommendations\RecommendationsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,6 +27,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * Mars Recommendations Service.
@@ -110,12 +113,24 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $title = empty($this->configuration['title'])
       ? $this->languageHelper->translate('More @types Like This', ['@type' => $node->type->entity->label()])
       : $this->languageHelper->translate($this->configuration['title']);
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+    $recommendation_render_arrays = $plugin->getRenderedRecommendations();
+    if (!empty($text_color_override)) {
+      foreach ($recommendation_render_arrays as &$item) {
+        $item['#text_color_override'] = $text_color_override;
+      }
+    }
+
     return [
       '#theme' => 'recommendations_module_block',
       '#title' => $title,
       '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
       '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
-      '#recommended_items' => $plugin->getRenderedRecommendations(),
+      '#recommended_items' => $recommendation_render_arrays,
+      '#text_color_override' => $text_color_override,
     ];
   }
 
@@ -202,6 +217,8 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $form_state->set('population_logic_plugin', $plugin);
     }
 
+    $this->buildOverrideColorElement($form, $conf);
+
     return $form;
   }
 
@@ -247,6 +264,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
 
       $this->configuration['population_plugin_configuration'] = $form_state->getValue('population_plugin_configuration');
     }
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**

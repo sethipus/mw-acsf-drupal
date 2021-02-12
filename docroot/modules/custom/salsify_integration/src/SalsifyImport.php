@@ -158,6 +158,9 @@ class SalsifyImport {
           'format' => 'full_html',
         ];
         break;
+
+      default:
+        break;
     }
     return $options;
   }

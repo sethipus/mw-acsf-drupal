@@ -48,20 +48,20 @@
   </div>
   <div {{ bem(search_filter_information_base_class, [modifier]) }}>
     <div {{ bem('applied', [modifier], search_filter_information_base_class) }}>
-      <div {{ bem('applied-label', [], search_filter_information_base_class) }} aria-live="polite" aria-atomic="true">
+      <div {{ bem('applied-label', [], search_filter_information_base_class) }}>
         {{ "Applied filters (" | mt }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | mt }}
       </div>
-      <div {{ bem('applied-text', [], search_filter_information_base_class) }}>
+      <ul {{ bem('applied-text', [], search_filter_information_base_class) }}>
         {% for item in applied_filters_list %}
-          <span {{ bem('applied-name', [], search_filter_information_base_class) }}>
+          <li {{ bem('applied-name', [], search_filter_information_base_class) }}>
             <span>{{ item.title }}</span>
-            <button data-id="{{ item.key }}" {{ bem('applied-clear', [], search_filter_information_base_class) }}></button>
-          </span>
+            <button data-id="{{ item.key }}" {{ bem('applied-clear', [], search_filter_information_base_class) }} aria-label="{{ ('remove ' ~ item.title) | mt }}"></button>
+          </li>
         {% endfor %}
-      </div>
+      </ul>
     </div>
     <div {{ bem('clear', [], search_filter_information_base_class) }}>
-      <a href="#" {{ bem('button', ['simple', 'clear-all', modifier], search_filter_block_base_class) }}>{{ "Clear All" | mt }}</a>
+      <button {{ bem('button', ['simple', 'clear-all', modifier], search_filter_block_base_class) }}>{{ "Clear All" | mt }}</button>
     </div>
   </div>
 {% endif %}
