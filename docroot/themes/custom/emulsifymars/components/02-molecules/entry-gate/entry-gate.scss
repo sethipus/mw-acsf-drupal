@@ -15,7 +15,7 @@
     display: none;
     text-align: center;
     border-radius: variable(card-border-radius);
-    padding: 0 3rem 3rem 3rem;
+    padding: 3rem;
     max-width: 90%;
     background-color: clr(subcolor-2);
     position: relative;
@@ -23,11 +23,11 @@
 
     @include medium {
       max-width: 75%;
-      padding: 0 5rem 6rem 5rem;
+      padding: 6rem 5rem;
     }
 
     @include xl {
-      padding: 0 11rem 6rem 11rem;
+      padding: 6rem 11rem;
       max-width: 89.6rem;
     }
   }
@@ -51,6 +51,32 @@
     text-transform: uppercase;
     padding-right: 1rem;
     position: relative;
+  }
+
+  &__inner-content-wrapper {
+    position: relative;
+    margin: 0;
+
+    @include xs {
+      padding: 3rem;
+    }
+
+    @include medium {
+      padding: 6rem 5.9rem;
+    }
+
+    @include large {
+      padding: 6rem 11rem 3rem;
+    }
+  }
+
+  &__brand-shape-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
   }
 
   &__brand-shape {
@@ -86,27 +112,21 @@
     max-width: 89.6rem;
     background-color: clr(subcolor-2);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 80vh;
 
     @include xs {
-      padding: 0 3rem 3rem 3rem;
-      margin-left: 5%;
-      margin-right: 5%;
       width: 90%;
     }
 
     @include medium {
-      padding: 0 5.9rem 6rem 5.9rem;
       width: 75%;
       max-width: 57rem;
-      max-height: 516px;
-      margin: 0;
     }
 
     @include large {
-      padding: 0 11rem 6rem 11rem;
       max-width: 89.6rem;
-      max-height: auto;
     }
   }
 
@@ -114,6 +134,7 @@
     font-family: variable(heading-font);
     color: clr(primary);
     font-weight: 500;
+    margin: 0 0 2rem;
 
     @include xs {
       font-size: 4rem;
@@ -121,7 +142,6 @@
     }
 
     @include medium {
-      margin: 6rem 0 2rem;
       font-size: 4rem;
       line-height: 4rem;
       height: 3rem;
@@ -189,12 +209,6 @@
       font-size: 1.6rem;
       line-height: 2rem;
       text-align: left;
-    }
-  }
-
-  &__bottom-paragraph p {
-    @include medium {
-      margin-bottom: 6rem;
     }
   }
 }

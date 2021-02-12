@@ -269,14 +269,26 @@ class ArticleHeaderTest extends UnitTestCase {
     $this->articleHeaderBlock->setContext('node', $nodeContext);
 
     $this->configFactoryMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('get')
       ->willReturn($this->immutableConfigMock);
 
     $this->immutableConfigMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('get')
       ->willReturn(self::TEST_SOCIAL_CONFIG);
+
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
 
     $this->containerMock
       ->expects($this->any())
@@ -316,6 +328,7 @@ class ArticleHeaderTest extends UnitTestCase {
     $this->assertArrayHasKey('url', $block_build['#image']);
     $this->assertArrayHasKey('social', $block_build['#social_links']);
     $this->assertArrayHasKey('icon', $block_build['#social_links']['social']);
+    $this->assertArrayHasKey('#share_text', $block_build);
   }
 
   /**

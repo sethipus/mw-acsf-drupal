@@ -154,7 +154,21 @@ class SalsifyImportField extends SalsifyImport {
 
     // Set status to draft for generated product based on nutrition fields.
     if (isset($product_data['CMS: not publish']) && $product_data['CMS: not publish']) {
-      $entity->set('moderation_state', 'draft');
+      // Do not index products generated for Multipack.
+      if (\Drupal::service('module_handler')->moduleExists('simple_sitemap')) {
+        /** @var \Drupal\simple_sitemap\Simplesitemap $generator */
+        $generator = \Drupal::service('simple_sitemap.generator');
+        $settings = [
+          'index' => FALSE,
+          'priority' => '0.5',
+          'changefreq' => 'daily',
+          'include_images' => FALSE,
+        ];
+        $generator->setVariants('default');
+        $generator->setEntityInstanceSettings($entity->getEntityTypeId(), $entity->id(), $settings);
+      }
+      $entity->set('rh_action', 'page_not_found');
+      $entity->set('field_product_generated', TRUE);
     }
     $entity->save();
 
@@ -199,7 +213,7 @@ class SalsifyImportField extends SalsifyImport {
 
     // Load the existing entity or generate a new one.
     $title = $product_data['CMS: Product Name'] ?? $product_data['salsify:id'];
-    $moderation_state = static::getModerationState($entity_bundle);
+    $moderation_state = 'published';
     if ($results) {
       $entity_id = array_values($results)[0];
       $entity = $entityTypeManager->getStorage($entity_type)->load($entity_id);
@@ -273,20 +287,6 @@ class SalsifyImportField extends SalsifyImport {
   }
 
   /**
-   * Get moderation state by content type.
-   *
-   * @param string $entity_bundle
-   *   The entity bundle.
-   *
-   * @return string
-   *   State.
-   */
-  public static function getModerationState(string $entity_bundle) {
-    return ($entity_bundle == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) ?
-      'draft' : 'published';
-  }
-
-  /**
    * Populate entity by salsify data.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
@@ -322,6 +322,8 @@ class SalsifyImportField extends SalsifyImport {
     unset($salsify_field_mapping['salsify_updated']);
     unset($salsify_field_mapping['salsify_id']);
 
+    static::clearEntity($entity, $product_data);
+
     foreach ($salsify_field_mapping as $field) {
       if (isset($product_data[$field['salsify_id']]) &&
         \Drupal::service('salsify_integration.product_data_helper')
@@ -351,6 +353,30 @@ class SalsifyImportField extends SalsifyImport {
         ->validateDataRecord($product_data, $field)) {
         $process_result['validation_errors'][] = $product_data['GTIN'] .
           ', ' . $field['salsify_id'] . ', ' . $field['salsify_data_type'];
+      }
+    }
+  }
+
+  /**
+   * Clear all fields data related to salsify mapping before populating.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   Entity.
+   * @param array $product_data
+   *   Product data.
+   */
+  public static function clearEntity(EntityInterface &$entity, array $product_data) {
+    if (!isset($product_data['CMS: multipack generated']) ||
+      !$product_data['CMS: multipack generated']) {
+      if ($entity->bundle() == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
+        $fields = array_keys(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT);
+      }
+      else {
+        $fields = array_keys(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT);
+      }
+
+      foreach ($fields as $field_name) {
+        $entity->set($field_name, NULL);
       }
     }
   }
@@ -445,10 +471,16 @@ class SalsifyImportField extends SalsifyImport {
       // For taxonomy term mapping, add processing for the terms coming in
       // from Salsify.
       elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'enumerated') {
+        $settings = $field_config->getSetting('handler_settings');
+        $vid = (!empty($settings['target_bundles']))
+          ? reset($settings['target_bundles'])
+          : NULL;
+
         static::populateTermOption(
           $product_data,
           $field,
-          $options
+          $options,
+          $vid
         );
       }
       elseif ($field_config->getType() == 'entity_reference' && $field['salsify_data_type'] == 'entity_ref') {
@@ -525,15 +557,18 @@ class SalsifyImportField extends SalsifyImport {
    *   Field data array.
    * @param mixed $options
    *   Option's array.
+   * @param mixed $vid
+   *   Vocabulary id.
    */
   public static function populateTermOption(
     array $product_data,
     array $field,
-    &$options
+    &$options,
+    $vid
   ) {
     $salsify_values = is_array($product_data[$field['salsify_id']]) ? $product_data[$field['salsify_id']] : [$product_data[$field['salsify_id']]];
     $term_entities = \Drupal::service('salsify_integration.salsify_import_taxonomy')
-      ->getTaxonomyTerms('salsify_id', $salsify_values);
+      ->getTaxonomyTerms('salsify_id', $salsify_values, $vid);
     if ($term_entities) {
       $options = [];
       /* @var \Drupal\taxonomy\Entity\Term $term_entity */

@@ -22,16 +22,16 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             el: '.swiper-scrollbar'
           },
         });
-    
+
         //see all functionality for multipack swiper
         const seeAllButton = $('.multipack-see-all');
-        
+
         seeAllButton.on('click', (event) => {
         event.preventDefault();
         multipackSwiper.addClass('expanded');
         swiper.update();
       });
-      })
+      });
     },
   };
-})(jQuery, Drupal)
+})(jQuery, Drupal);

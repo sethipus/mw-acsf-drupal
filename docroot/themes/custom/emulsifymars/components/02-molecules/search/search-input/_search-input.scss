@@ -28,6 +28,10 @@
     border-radius: variable(button-border-radius);
     padding: 0 10px 0 50px;
 
+    @include xs {
+      width: 100%;
+    }
+
     @include medium {
       width: 688px;
     }
@@ -47,7 +51,6 @@
       font-size: 1.6rem;
       line-height: 2.24rem;
       color: clr(primary);
-      opacity: .6;
 
       @include xl {
         font-size: 1.8rem;

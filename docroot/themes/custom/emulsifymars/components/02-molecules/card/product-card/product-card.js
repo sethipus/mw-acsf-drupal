@@ -17,12 +17,16 @@
           const $cardCta = $productCard.find('.default-link');
 
           $productCard.on('mouseover', () => {
-            $cardCta.addClass('default-link--light')
+            if(window.screen.availWidth > 768) {
+              $cardCta.addClass('default-link--light')
+            }
+
           });
           $productCard.on('mouseleave', () => {
             $cardCta.removeClass('default-link--light')
           });
           $productCard.on('click', (e) => {
+            $cardCta.removeClass('default-link--light')
             if (
               !e.target.parentNode.classList.contains('where-to-buy')
             ) {

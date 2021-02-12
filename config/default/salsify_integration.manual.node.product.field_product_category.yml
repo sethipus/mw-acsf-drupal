@@ -1,9 +1,9 @@
-field_id: 'CMS: Occasion'
-salsify_id: 'CMS: Occasion'
+field_id: 'CMS: Category Computed'
+salsify_id: 'CMS: Category Computed'
 salsify_data_type: enumerated
 entity_type: node
 bundle: product
-field_name: field_product_occasions
+field_name: field_product_category
 method: manual
 created: 1546300800
 changed: 1546300801

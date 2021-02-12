@@ -1,5 +1,8 @@
 {% set eyebrow_base_class = eyebrow_base_class|default('eyebrow') %}
 
-<h3 {{ bem(eyebrow_base_class, eyebrow_modifiers) }}>
+<h3 {{ bem(eyebrow_base_class, eyebrow_modifiers) }} {{ add_attributes(additional_attr) }}
+  {% if text_color_override is not empty %}
+    style="color: {{ text_color_override }};"
+  {% endif %}>
     {{ eyebrow_text }}
 </h3>

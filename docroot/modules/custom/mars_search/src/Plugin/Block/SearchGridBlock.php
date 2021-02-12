@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
@@ -28,6 +29,8 @@ use Drupal\mars_search\Processors\SearchBuilderInterface;
  * @package Drupal\mars_search\Plugin\Block
  */
 class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * The entity type manager service.
@@ -126,10 +129,10 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     // know right desktop type without page inner width.
     $build['#items'] = [];
     $query_search_results['results'] = [];
-    $build = array_merge($build, $this->searchBuilder->buildSearchFacets($config, $grid_id));
+    $build = array_merge($build, $this->searchBuilder->buildSearchFacets('grid', $config, $grid_id));
 
     // "See more" link should be visible only if it makes sense.
-    $build['#ajax_card_grid_link_text'] = $this->languageHelper->translate('See more');
+    $build['#ajax_card_grid_link_text'] = $this->languageHelper->translate(strtoupper('See more'));
     $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
       $build['#ajax_card_grid_link_attributes']['class'] = 'active';
@@ -145,11 +148,19 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     ];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+    $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
     $build['#attached']['library'][] = 'mars_search/search_pager';
     $build['#attached']['library'][] = 'mars_search/autocomplete';
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+    if (!empty($config['override_text_color']['override_filter_title_color'])) {
+      $build['#override_filter_title_color'] = static::$overrideColor;
+    }
 
     return $build;
   }
@@ -180,6 +191,8 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form = array_merge($form, $this->buildGeneralFilters());
     $form = array_merge($form, $this->buildExcludedFilters());
     $form = array_merge($form, $this->buildTopResults());
+
+    $this->buildOverrideColorElement($form, $config, TRUE);
 
     return $form;
   }

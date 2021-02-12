@@ -1,4 +1,4 @@
-(function($){
+(function($, Drupal){
   Drupal.behaviors.feedback = {
     attach(context) {
       $('.feedback-module').once('feedback').each(function() {
@@ -12,4 +12,4 @@
       });
     },
   };
-})(jQuery);
+})(jQuery, Drupal);

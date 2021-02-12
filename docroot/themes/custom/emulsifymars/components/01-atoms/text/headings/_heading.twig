@@ -18,7 +18,11 @@
 #}
 {% set heading_base_class = heading_base_class|default('h' ~ heading_level) %}
 
-<h{{ heading_level }} {{ bem(heading_base_class, heading_modifiers, heading_blockname) }}>
+<h{{ heading_level }} {{ bem(heading_base_class, heading_modifiers, heading_blockname) }} {{ add_attributes(additional_attr) }}
+  {% if text_color_override is not empty %}
+    style="color: {{ text_color_override }};"
+  {% endif %}
+>
   {% if heading_url %}
     {% include "@atoms/links/link/link.twig" with {
       "link_content": heading,
@@ -27,6 +31,7 @@
       "link_base_class": heading_link_base_class,
       "link_modifiers": heading_link_modifiers,
       "link_blockname": heading_link_blockname|default(heading_base_class),
+      "text_color_override": text_color_override,
     } %}
   {% else %}
     {{ heading }}

@@ -134,6 +134,10 @@ class ContentFeatureModuleBlockTest extends UnitTestCase {
     $form = [];
     $form_state = (new FormState())->setValues([
       'title' => 'test title',
+      'explore_group' => [
+        'explore_cta' => 'cta',
+        'explore_cta_link' => 'cta_link',
+      ],
     ]);
     $this->contentFeatureModuleBlock->blockSubmit($form, $form_state);
     $this->assertEquals($form_state->getValue('title'), $this->contentFeatureModuleBlock->getConfiguration()['title']);

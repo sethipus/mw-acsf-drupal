@@ -1,8 +1,25 @@
 {% set article_card_base_class = 'article-card' %}
+{% if article_card_eyebrow %}
+  {% set article_card_paragraph_modifiers = article_card_paragraph_modifiers|merge(['with-eyebrow']) %}
+{% endif %}
+
+{% if select_background_color == 'color_c' %}
+  {% set card__extra_classes = ['article-card', 'card-item', 'bg-color-C', 'bg-gradient-C'] %}
+{% elseif select_background_color == 'color_d' %}
+  {% set card__extra_classes = ['article-card', 'card-item', 'bg-color-D', 'bg-gradient-D'] %}
+{% elseif select_background_color == 'color_e' %}
+  {% set card__extra_classes = ['article-card', 'card-item', 'bg-color-E', 'bg-gradient-E'] %}
+{% else %}
+  {% set card__extra_classes = [] %}
+{% endif %}
 
 <section
-  class="{{ article_card_background_img_url=='' ? 'article-card' :'article-card article-card--with-bg-img' }} card-item"
-  style="{{ article_card_background_img_url=='' ? '' : 'background-image: url(' ~ article_card_background_img_url ~ ')' }}"
+  {% if card__extra_classes|length > 0 and article_card_background_img_url == '' %}
+    {{ bem('', '', '', card__extra_classes) }}
+  {% else %}
+    class="article-card article-card--with-bg-img card-item"
+    style="{{ 'background-image: url(' ~ article_card_background_img_url ~ ')' }}"
+  {% endif %}
   data-card-type="article-card"
   data-site-search-clicked="{{ article_card_heading }}"
   data-theme="{{ theme_styles }}">

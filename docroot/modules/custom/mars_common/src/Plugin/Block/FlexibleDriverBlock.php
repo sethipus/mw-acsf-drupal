@@ -9,6 +9,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,6 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use SelectBackgroundColorTrait;
 
   /**
    * Lighthouse entity browser id.
@@ -93,10 +95,17 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function build() {
+    $background_color = '';
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+      && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    ) {
+      $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
     $mediaId1 = $this->getMediaId('asset_1');
     $mediaId2 = $this->getMediaId('asset_2');
     return [
       '#theme' => 'flexible_driver_block',
+      '#select_background_color' => $background_color,
       '#title' => $this->languageHelper->translate($this->configuration['title'] ?? ''),
       '#description' => $this->languageHelper->translate($this->configuration['description'] ?? ''),
       '#cta_label' => $this->languageHelper->translate($this->configuration['cta_label'] ?? ''),
@@ -119,9 +128,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     $form['description'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 65,
+      '#maxlength' => 160,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];
@@ -154,6 +163,9 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['asset_2']['#title'] = $this->t('Asset #2');
     $form['asset_2']['#open'] = TRUE;
 
+    // Add select background color.
+    $this->buildSelectBackground($form);
+
     return $form;
   }
 
@@ -170,6 +182,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
       'asset_1');
     $this->configuration['asset_2'] = $this->getEntityBrowserValue($form_state,
       'asset_2');
+    $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
   }
 
   /**

@@ -1,13 +1,11 @@
-uuid: a7f2008c-dc1c-4b86-bb09-d0c35a91afcd
+uuid: 732249f8-2dba-4938-bc64-f67069996488
 langcode: en
 status: true
 dependencies:
   module:
     - node
-_core:
-  default_config_hash: M3PSz_prui2yO1d657foMET3O3tF1IV-hjtZ5dsSGp0
-id: node.field_product_sub_brand
-field_name: field_product_sub_brand
+id: node.field_product_total_sugars
+field_name: field_product_total_sugars
 entity_type: node
 type: string
 settings:
