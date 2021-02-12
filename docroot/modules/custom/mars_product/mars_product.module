@@ -58,44 +58,71 @@ function mars_product_theme($existing, $type, $theme, $path) {
 function mars_product_page_attachments(&$page) {
   $wtb_config = \Drupal::config('mars_product.wtb.settings');
   $vendor = $wtb_config->get('commerce_vendor') ?? '';
-  if ($vendor == PdpHeroBlock::VENDOR_PRICE_SPIDER) {
-    $metatags = [
-      'ps-account' => [
-        '#tag' => 'meta',
-        '#attributes' => [
-          'name' => 'ps-account',
-          'content' => $wtb_config->get('account_id'),
+  $metatags = [];
+  switch ($vendor) {
+
+    case PdpHeroBlock::VENDOR_PRICE_SPIDER:
+      $metatags = [
+        'ps-account' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-account',
+            'content' => $wtb_config->get('account_id'),
+          ],
         ],
-      ],
-      'ps-country' => [
-        '#tag' => 'meta',
-        '#attributes' => [
-          'name' => 'ps-country',
-          'content' => \Drupal::configFactory()
-            ->get('system.date')
-            ->get('country.default'),
+        'ps-country' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-country',
+            'content' => \Drupal::configFactory()
+              ->get('system.date')
+              ->get('country.default'),
+          ],
         ],
-      ],
-      'ps-language' => [
-        '#tag' => 'meta',
-        '#attributes' => [
-          'name' => 'ps-language',
-          'content' => strtolower(\Drupal::languageManager()
-            ->getCurrentLanguage()
-            ->getId()),
+        'ps-language' => [
+          '#tag' => 'meta',
+          '#attributes' => [
+            'name' => 'ps-language',
+            'content' => strtolower(\Drupal::languageManager()
+              ->getCurrentLanguage()
+              ->getId()),
+          ],
         ],
-      ],
-      'price-spider' => [
-        '#tag' => 'script',
-        '#attributes' => [
-          'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
-          'async' => TRUE,
+        'price-spider' => [
+          '#tag' => 'script',
+          '#attributes' => [
+            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+            'async' => TRUE,
+          ],
         ],
-      ],
-    ];
-    foreach ($metatags as $key => $metatag) {
-      $page['#attached']['html_head'][] = [$metatag, $key];
-    }
+      ];
+      break;
+
+    case PdpHeroBlock::VENDOR_SMART_COMMERCE:
+      $page['#attached']['library'][] = 'mars_product/smart_commerce';
+      $metatags = [
+        'smart_commerce_brand_js' => [
+          '#tag' => 'script',
+          '#attributes' => [
+            'type' => 'text/javascript',
+            'src' => 'https://s3-us-west-2.amazonaws.com/static.smartcommerce.co/assets/client/' . $wtb_config->get('client_code') . '/js/' . $wtb_config->get('brand') . '.js',
+          ],
+        ],
+        'smart_commerce_brand_css' => [
+          '#tag' => 'style',
+          '#attributes' => [
+            'src' => 'https://s3-us-west-2.amazonaws.com/static.smartcommerce.co/assets/client/' . $wtb_config->get('client_code') . '/js/' . $wtb_config->get('brand') . '.css',
+          ],
+        ],
+      ];
+      break;
+
+    default:
+      break;
+  }
+
+  foreach ($metatags as $key => $metatag) {
+    $page['#attached']['html_head'][] = [$metatag, $key];
   }
 }
 
@@ -157,10 +184,16 @@ function mars_common_preprocess_node__product_multipack__card(array &$variables)
  */
 function product_card_add_wtb_vars(array &$variables) {
   $wtb_config = \Drupal::config('mars_product.wtb.settings');
+  $product_helper = \Drupal::service('mars_product.product_helper');
+
+  $display = 'product_card';
+  $widget_id_field = $product_helper->getWidgetIdField($display);
+
   $variables['wtb_commerce_vendor'] = $wtb_config->get('commerce_vendor') ?? NULL;
   $variables['wtb_button_type'] = $wtb_config->get('button_type') ?? NULL;
   $variables['wtb_account_id'] = $wtb_config->get('account_id') ?? NULL;
-  $variables['wtb_widget_id'] = $wtb_config->get('widget_id') ?? NULL;
+  $variables['wtb_widget_id'] = $wtb_config->get($widget_id_field) ?? NULL;
+  $variables['wtb_display'] = $display;
 }
 
 /**
@@ -213,7 +246,7 @@ function product_card_add_variant_vars(array &$variables) {
 
     if ($main_variant && $main_variant->hasField('field_product_sku')) {
       $sku = $main_variant->get('field_product_sku')->value ?? '';
-      $variables['product_sku'] = trim($sku);
+      $variables['product_sku'] = $product_helper->formatSku(trim($sku));
     }
   }
 }

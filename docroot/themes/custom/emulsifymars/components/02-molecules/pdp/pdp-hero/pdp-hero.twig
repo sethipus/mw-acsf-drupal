@@ -139,17 +139,21 @@
           paragraph_content: pdp_common_hero_data.product_description,
         } %}
       </div>
-      <div class="where-to-buy--container where-to-buy--{{size_id}}">
-        {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
-          where_to_buy_modifiers: ['pdp-hero'],
-          product_sku: gtin,
-          commerce_vendor: pdp_common_hero_data.commerce_vendor,
-          data_widget_id: pdp_common_hero_data.data_widget_id,
-          reference_for_analitics: pdp_common_hero_data.reference_for_analitics,
-          cta_title: pdp_common_hero_data.product_CTA_title,
-          button_type: pdp_common_hero_data.button_type
-        } %}
-      </div>
+      {% if pdp_common_hero_data.commerce_vendor %}
+        <div class="where-to-buy--container where-to-buy--{{size_id}}">
+          {% set comerce_vendor_path = 'where-to-buy-' ~ pdp_common_hero_data.commerce_vendor %}
+          {% include '@atoms/buttons/' ~ comerce_vendor_path ~ '/' ~ comerce_vendor_path ~ '.twig' with {
+            where_to_buy_modifiers: ['pdp-hero'],
+            product_sku: gtin,
+            commerce_vendor: pdp_common_hero_data.commerce_vendor,
+            data_widget_id: pdp_common_hero_data.data_widget_id,
+            data_display: pdp_common_hero_data.data_display,
+            reference_for_analitics: pdp_common_hero_data.reference_for_analitics,
+            cta_title: pdp_common_hero_data.product_CTA_title,
+            button_type: pdp_common_hero_data.button_type
+          } %}
+        </div>
+      {% endif %}
 
       <div class='menu-container'>
         <div {{ bem('pdp-hero-menu-container', '', '', [scroll_mandatory_base_class]) }} id='section-nutrition--{{size_id}}'>
