@@ -135,4 +135,8 @@
       fill: clr(secondary);
     }
   }
+
+  &--overlaps-previous {
+    top: -40px;
+  }
 }
