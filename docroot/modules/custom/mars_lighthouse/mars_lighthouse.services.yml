@@ -1,10 +1,16 @@
 services:
   lighthouse.client:
     class: '\Drupal\mars_lighthouse\Client\LighthouseClient'
-    arguments: ['@http_client', '@mars_lighthouse.config', '@logger.factory']
+    arguments: ['@http_client', '@mars_lighthouse.config', '@logger.factory', '@lighthouse.auth_token_provider']
   lighthouse.adapter:
     class: '\Drupal\mars_lighthouse\Controller\LighthouseAdapter'
     arguments: ['@lighthouse.client', '@cache.default']
+  lighthouse.base_api_abstract:
+    class: '\Drupal\mars_lighthouse\Client\LighthouseBaseApiAbstract'
+    arguments: ['@http_client', '@mars_lighthouse.config', '@logger.factory']
+  lighthouse.auth_token_provider:
+    class: '\Drupal\mars_lighthouse\Client\LighthouseAuthTokenProvider'
+    arguments: ['@http_client', '@mars_lighthouse.config', '@logger.factory', '@state']
   mars_lighthouse.config_defaults_provider:
     class: '\Drupal\mars_lighthouse\Client\LighthouseDefaultsProvider'
     arguments:
