@@ -1,9 +1,9 @@
-field_id: 'Iron Pct'
-salsify_id: 'Iron Pct'
+field_id: 'Total Sugars'
+salsify_id: 'Total Sugars'
 salsify_data_type: string
 entity_type: node
 bundle: product_variant
-field_name: field_product_iron_daily
+field_name: field_product_total_sugars
 method: manual
 created: 1546300800
 changed: 1546300801

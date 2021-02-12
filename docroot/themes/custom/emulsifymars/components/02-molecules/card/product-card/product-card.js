@@ -17,7 +17,10 @@
           const $cardCta = $productCard.find('.default-link');
 
           $productCard.on('mouseover', () => {
-            $cardCta.addClass('default-link--light')
+            if(window.screen.availWidth > 768) {
+              $cardCta.addClass('default-link--light')
+            }
+
           });
           $productCard.on('mouseleave', () => {
             $cardCta.removeClass('default-link--light')
