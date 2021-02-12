@@ -1,4 +1,6 @@
 .homepage-hero-standard {
+  overflow: hidden;
+
   &__inner {
     display: flex;
     flex-flow: row wrap;
@@ -112,10 +114,15 @@
 
     & img {
       align-self: center;
+      object-fit: contain;
+      max-height: 210px;
+      max-width: 210px;
 
       @include large {
         margin-left: auto;
         margin-right: 0;
+        max-height: 550px;
+        max-width: 550px;
       }
     }
   }

@@ -94,11 +94,11 @@
     height: 25rem;
 
     @include medium {
-      height: 43.4rem;
+      height: 43.3rem;
     }
 
     @include xl {
-      height: 63.5rem;
+      height: 66.6rem;
     }
 
     /* Center slide text vertically */
@@ -118,17 +118,19 @@
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
 
     video {
       height: 25rem;
+      object-fit: cover;
 
       @include medium {
-        height: 43.4rem;
+        height: 43.3rem;
       }
-  
+
       @include xl {
-        height: 63.5rem;
+        height: 66.6rem;
       }
     }
 
@@ -199,8 +201,13 @@
     }
 
     &::after {
-      color: clr(secondary);
-      font-size: 2.5rem;
+      display: none; // hide original icon
+    }
+
+    &__icon {
+      width: 100%;
+      height: 100%;
+      fill: clr(secondary);
     }
   }
 }

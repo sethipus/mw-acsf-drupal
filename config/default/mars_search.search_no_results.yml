@@ -3,3 +3,4 @@ views:
 empty_text_description: 'Please try entering a different search'
 no_results_heading: 'There are no matching results for "@keys"'
 no_results_text: 'Please try entering a different search'
+no_results_heading_empty_str: 'There are no matching results'

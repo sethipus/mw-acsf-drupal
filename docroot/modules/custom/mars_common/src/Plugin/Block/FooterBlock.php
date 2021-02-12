@@ -5,15 +5,14 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Template\Attribute;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -27,12 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
-  /**
-   * Menu link tree.
-   *
-   * @var \Drupal\Core\Menu\MenuLinkTreeInterface
-   */
-  protected $menuLinkTree;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Menu storage.
@@ -63,6 +57,20 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $termStorage;
 
   /**
+   * Config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  private $config;
+
+  /**
+   * Menu builder service.
+   *
+   * @var \Drupal\mars_common\MenuBuilder
+   */
+  private $menuBuilder;
+
+  /**
    * Custom cache tag.
    *
    * @var string
@@ -83,17 +91,19 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MenuLinkTreeInterface $menu_link_tree,
     EntityTypeManagerInterface $entity_type_manager,
     LanguageHelper $language_helper,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    MenuBuilder $menu_builder,
+    ConfigFactoryInterface $config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->menuLinkTree = $menu_link_tree;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->languageHelper = $language_helper;
     $this->termStorage = $entity_type_manager->getStorage('taxonomy_term');
+    $this->config = $config;
+    $this->menuBuilder = $menu_builder;
   }
 
   /**
@@ -104,10 +114,11 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('menu.link_tree'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.menu_builder'),
+      $container->get('config.factory')
     );
   }
 
@@ -126,14 +137,20 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     // Get brand border path.
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
 
-    $build['#top_footer_menu'] = $this->buildMenu($conf['top_footer_menu']);
-    $build['#legal_links'] = $this->buildMenu($conf['legal_links']);
+    $build['#top_footer_menu'] = $this->menuBuilder->getMenuItemsArray($conf['top_footer_menu']);
+    $build['#legal_links'] = $this->menuBuilder->getMenuItemsArray($conf['legal_links']);
     $build['#marketing'] = $this->languageHelper->translate($conf['marketing']['value']);
     $build['#corporate_tout_text'] = $this->languageHelper->translate($conf['corporate_tout']['title']);
     $build['#corporate_tout_url'] = [
       'href' => $conf['corporate_tout']['url'],
       'name' => $build['#corporate_tout_text'],
     ];
+
+    $label_config = $this->config->get('mars_common.site_labels');
+    $region_title = $label_config->get('footer_region');
+    $social_header = $label_config->get('footer_social_header');
+    $build['#region_title'] = $this->languageHelper->translate($region_title);
+    $build['#social_header'] = $this->languageHelper->translate($social_header);
 
     $build['#social_links'] = [];
     if ($conf['social_links_toggle']) {
@@ -167,66 +184,20 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
         }
       }
     }
+    $build['#text_color_override'] = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
 
     CacheableMetadata::createFromRenderArray($build)
       ->merge(
         $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
       )
+      ->addCacheableDependency($label_config)
       ->applyTo($build);
 
     $build['#theme'] = 'footer_block';
     return $build;
-  }
-
-  /**
-   * Render menu by its name.
-   *
-   * @param string $menu_name
-   *   Menu name.
-   *
-   * @return array
-   *   Rendered menu.
-   */
-  protected function buildMenu($menu_name) {
-    $menu_parameters = new MenuTreeParameters();
-    $menu_parameters->setMaxDepth(1);
-
-    // Get the tree.
-    $tree = $this->menuLinkTree->load($menu_name, $menu_parameters);
-
-    // Apply some manipulators (checking the access, sorting).
-    $manipulators = [
-      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
-      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
-      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-    ];
-    $tree = $this->menuLinkTree->transform($tree, $manipulators);
-
-    // And the last step is to actually build the tree.
-    $menu = $this->menuLinkTree->build($tree);
-    $menu_links = [];
-    if (!empty($menu['#items'])) {
-      foreach ($menu['#items'] as $item) {
-        /* TODO: Reafactor this part.
-         * Processing menu_link_attributes module options. This is a quick fix
-         * for making our footer work with that contrib module. This should be
-         * investigated and done properly in more general way.
-         */
-        $attributes = $item['attributes'] ?? new Attribute();
-        $menu_link_content = $item['original_link'] ?? NULL;
-        if ($menu_link_content instanceof MenuLinkContent) {
-          $options = $menu_link_content->getOptions();
-          $menu_link_attributes = $options['attributes'] ?? [];
-          $attributes->merge(new Attribute($menu_link_attributes));
-        }
-        $menu_links[] = [
-          'title' => $item['title'],
-          'url' => $item['url']->setAbsolute()->toString(),
-          'item_attributes' => $attributes,
-        ];
-      }
-    }
-    return $menu_links;
   }
 
   /**
@@ -285,6 +256,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#title' => $this->t('Display region selector'),
       '#default_value' => $config['region_selector_toggle'] ?? TRUE,
     ];
+
+    $this->buildOverrideColorElement($form, $config);
 
     return $form;
   }

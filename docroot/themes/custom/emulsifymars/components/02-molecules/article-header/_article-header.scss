@@ -3,6 +3,18 @@
   color: clr(primary);
   background-color: clr(subcolor-2);
 
+  @include xs {
+    margin-bottom: 5rem;
+  }
+
+  @include medium {
+    margin-bottom: 6rem;
+  }
+
+  @include xl {
+    margin-bottom: 8rem;
+  }
+
     &__text_wrapper {
       width: 90%;
       margin: 0 auto;
@@ -50,6 +62,7 @@
         text-transform: uppercase;
         color: clr(primary);
         font-family: variable(primary-font);
+        margin-top: 0;
 
         @include xs {
           font-size: 1.4rem;
@@ -72,11 +85,16 @@
         @include xs {
           font-size: 1.4rem;
           line-height: 1.96rem;
+          margin-bottom: 30px;
         }
 
         @include medium {
           font-size: 1.6rem;
           line-height: 2.24rem;
+        }
+
+        @include xl {
+          margin-bottom: 40px;
         }
       }
 
@@ -87,10 +105,19 @@
         display:  flex;
         flex-flow: row nowrap;
 
+        @include xs {
+          padding-top: 30px;
+          padding-bottom: 35px;
+        }
+
+        @include xl {
+          padding-top: 42.2px;
+          padding-bottom: 62.2px;
+        }
+
         & .share-text {
           font-style: normal;
           font-weight: 500;
-          text-transform: uppercase;
           font-family: variable(primary-font);
 
           @include xs {
@@ -147,9 +174,8 @@
       }
 
       img {
-        position: absolute;
-        z-index: 0;
-        height: auto;
+        height: 100%;
+        object-fit: cover;
       }
     }
 
@@ -174,7 +200,6 @@
 
   &__border {
     position: relative;
-    bottom: (-$brand-border-offset);
     width: 100%;
 
     svg {
@@ -183,17 +208,35 @@
       height: auto;
       fill: clr(subcolor-3);
     }
+
+    @include xs {
+      bottom: 2rem;
+    }
+
+    @include medium {
+      bottom: 0.5rem;
+    }
+
+    @include large {
+      bottom: (-$brand-border-offset);
+    }
   }
 
   &__inner {
     position: relative;
     z-index: 2;
 
+    @include xs {
+      max-height: 326px;
+    }
+
     @include medium {
+      max-height: 388px;
       background-size: 40% auto;
     }
 
     @include large {
+      max-height: 100%;
       background-size: 48% auto;
     }
   }
@@ -202,26 +245,26 @@
     z-index: 1;
     position: absolute;
     display: block;
-    
+
     @include xs {
-      top: -4.3rem;
-      right: -7rem;
-      width: 21.2rem;
-      height: 25.9rem;
+      top: -9.5rem;
+      right: -13rem;
+      width: 35rem;
+      height: 50rem;
     }
 
     @include medium {
-      top: -5.5rem;
-      right: -11rem;
-      width: 34.5rem;
-      height: 38.5rem;
+      top: -2.5rem;
+      right: -16rem;
+      width: 52rem;
+      height: 38rem;
     }
 
-    @include large {
-      top: -7rem;
-      right: -20rem;
-      width: 70rem;
-      height: 70rem;
+    @include xl {
+      top: -17rem;
+      right: -14.4rem;
+      width: 74rem;
+      height: 74rem;
     }
 
     svg {

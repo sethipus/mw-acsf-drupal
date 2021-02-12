@@ -1,28 +1,30 @@
-Drupal.behaviors.searchFilterBehaviour = {
-  attach(context) {
-    const searchFilterContainer = context.querySelectorAll('.search-filter-container');
-    const selectorSearchFilterContainer = '.search-filter-container';
-    const searchFilterOpenButton = context.querySelectorAll('.search-filter-open-button');
-    const clearAllButtons = context.querySelectorAll('.search-filter-block__button--clear-all');
-    const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
-    const filters = context.querySelectorAll('.filter-block');
-    const filterCheckboxes = context.querySelectorAll('.checkbox-item');
+(function (Drupal, drupalSettings) {
+  Drupal.behaviors.searchFilterBehaviour = {
+    attach(context) {
+      const searchFilterContainer = context.querySelectorAll('.search-filter-container');
+      const selectorSearchFilterContainer = '.search-filter-container';
+      const searchFilterOpenButton = context.querySelectorAll('.search-filter-open-button'); /* mobile view ONLY */
+      const clearAllButtons = context.querySelectorAll('.search-filter-block__button--clear-all');
+      const applyFiltersButtons = context.querySelectorAll('.search-filter-block__button--apply');
+      const filters = context.querySelectorAll('.filter-block');
+      const filterCheckboxes = context.querySelectorAll('.checkbox-item');
 
-    searchFilterContainer.forEach(filterContainer => {
-      if (filterContainer === null || filterContainer.getAttribute('data-filter-init')) {
-        return;
-      }
-      filterContainer.addEventListener('click', function(event) {
-        const grid = getGridBlock(event);
+      searchFilterContainer.forEach(filterContainer => {
+        if (filterContainer === null || filterContainer.getAttribute('data-filter-init')) {
+          return;
+        }
+        filterContainer.addEventListener('click', function (event) {
+          const grid = getGridBlock(event);
 
         switch (true) {
           case event.target.classList.contains('search-filter-header__close'):
             event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+            enableBodyScroll();
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
-            updateCounters(grid);
             updateAriaChecked(event.target);
+            break;
           case event.target.classList.contains('search-filter-info__applied-clear'):
             const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
             if (currentFilter !== null) {
@@ -57,13 +59,17 @@ Drupal.behaviors.searchFilterBehaviour = {
     filters.forEach(filter => {
       filter.addEventListener('click', () => {
         let open = false;
-        if (!filter.classList.contains('filter-block--open'))
+        if (!filter.classList.contains('filter-block--open')) {
           open = true;
+        }
         document.querySelectorAll('.filter-block--open').forEach(function (filter) {
           filter.classList.remove('filter-block--open');
+          filter.querySelector('.filter-title').setAttribute('aria-expanded', false);
         });
-        if (open)
+        if (open) {
           filter.classList.toggle('filter-block--open');
+          filter.querySelector('.filter-title').setAttribute('aria-expanded', true);
+        }
       });
     });
 
@@ -71,6 +77,7 @@ Drupal.behaviors.searchFilterBehaviour = {
       filterOpenButton.addEventListener('click', function(event) {
         const searchFilterBlock = getGridBlock(event).querySelector('.search-filter-block');
         searchFilterBlock.classList.add('search-filter-block--opened');
+        disableBodyScroll();
       });
     });
 
@@ -90,41 +97,46 @@ Drupal.behaviors.searchFilterBehaviour = {
 
     applyFiltersButtons.forEach(function (button) {
       button.addEventListener('click', function(event) {
+        const grid = getGridBlock(event);
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+        enableBodyScroll();
+        const filterBlock = event.target.closest('.filter-block');
+        if (filterBlock !== null) {
+          filterBlock.querySelector('.filter-title').focus();
+        }
+        updateCounters(grid);
         processFilters(getGridBlock(event));
       });
     });
 
     filterCheckboxes.forEach(checkbox => {
-      checkbox.addEventListener('keypress', (e) => {
-        if (e.keyCode === 13) {
-          const grid = getGridBlock(e);
-          let check = e.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
+      checkbox.addEventListener('keypress', (event) => {
+        if (event.keyCode === 32) {
+          event.preventDefault();
+          const grid = getGridBlock(event);
+          let check = event.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
-          updateCounters(grid);
           enableApplyButtons();
-          updateAriaChecked(e.target);
+          updateAriaChecked(check);
         }
       });
     });
 
     const updateAriaChecked = (checkboxElement) => {
       const checkboxLabel = checkboxElement.closest('li').querySelector('label');
-      if (checkboxElement.getAttribute('aria-selected') == 'true') {
-        checkboxLabel.setAttribute('aria-checked', false);
-        checkboxElement.setAttribute('aria-selected', false);
+      if (checkboxElement.checked == true) {
+        checkboxLabel.setAttribute('aria-selected', true);
       } else {
-        checkboxLabel.setAttribute('aria-checked', true);
-        checkboxElement.setAttribute('aria-selected', true);
+        checkboxLabel.setAttribute('aria-selected', false);
       }
-    }
+    };
 
     const getGridBlock = (event) => {
       const target = event.target;
       // Add ', .search-filter-container' to closest parameter for storybook
-      return target.closest('[data-block-plugin-id]');
-    }
+      return target.closest('[data-block-plugin-id]') || document;
+    };
 
     const getGridId = (grid) => {
       const gridData = grid.querySelector('[data-layer-grid-id]');
@@ -132,25 +144,25 @@ Drupal.behaviors.searchFilterBehaviour = {
         return 1;
       }
       return grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
-    }
+    };
 
     // Prepare query object from browser search.
     const currentQuery = () => {
       const search = location.search;
       let hashes = search.slice(search.indexOf('?') + 1).split('&');
-      return hashes.reduce(function(params, hash) {
+      return hashes.reduce(function (params, hash) {
         if (hash === '') {
           return params;
         }
         let [key, val] = hash.split('=');
         // @TODO Find better to parse id Url not supported for IE.
         let id = decodeURIComponent(key).split('[')[1];
-        id = id.replace(']','');
+        id = id.replace(']', '');
         key = decodeURIComponent(key).split('[')[0];
         params[key] = {[id]: decodeURIComponent(val)};
         return params;
       }, {});
-    }
+    };
 
     // Current query without taxonomy filters.
     const currentQueryWithoutFilters = (gridId) => {
@@ -218,175 +230,193 @@ Drupal.behaviors.searchFilterBehaviour = {
       let appliedIds = [];
       const filterBlocks = grid.querySelectorAll('.filter-block');
 
-      filterBlocks.forEach(function(element) {
+      filterBlocks.forEach(function (element) {
         const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
         const inputElements = element.querySelectorAll('.checkbox-item__input:checked');
 
-        inputLabels.forEach(function(label) {
-          appliedFilters.push(label.innerText);
-        });
-        inputElements.forEach(function(input) {
-          appliedIds.push(input.getAttribute('id'));
-        });
-        if (appliedIds.length > 0) {
-          const taxonomyFilter = appliedIds.reduce(function(params, key) {
-            if (params === '') {
-              return key.replace(gridId,'');
-            }
-            return params + ',' + key.replace(gridId,'');
-          }, '');
-          queryElements[element.getAttribute('data-filter')] = { [gridId]: taxonomyFilter };
-          appliedIds = [];
-        }
-      });
-      updateResults(prepareQuery(queryElements), grid);
-      pushQuery(queryElements);
-    };
-
-    const updateCounters = (grid) => {
-      let appliedFilters = '';
-      let appliedFiltersCounter = 0;
-      const filterBlocks = grid.querySelectorAll('.filter-block');
-      const appliedFiltersContainer = grid.querySelector('.search-filter-info');
-      const appliedFiltersBlock = grid.querySelector('.search-filter-info__applied');
-      const appliedFiltersCount = grid.querySelector('.search-filter-info__applied-count');
-      const appliedFiltersList = grid.querySelector('.search-filter-info__applied-text');
-      const clearAllButton = grid.querySelector('.search-filter-info .search-filter-block__button--clear-all');
-
-      filterBlocks.forEach(function(element) {
-        const counterElement = element.querySelector('.filter-title__counter');
-        const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
-        let counter = inputLabels.length;
-        counterElement.innerHTML = counter ? counter : '';
-        inputLabels.forEach(function(label) {
-          appliedFilters += '\
-            <span class="search-filter-info__applied-name">\
-              <span>'+ label.innerText +'</span>\
-              <div data-id="'+ label.getAttribute('for') +'" class="search-filter-info__applied-clear"></div>\
-            </span>\
-            '
-          appliedFiltersCounter++;
-        });
-      });
-
-      if (appliedFilters.length) {
-        appliedFiltersBlock.classList.remove('search-filter-info__applied--hidden');
-        clearAllButton.classList.remove('search-filter-block__button--hidden');
-        appliedFiltersContainer.classList.remove('search-filter-info--hidden');
-      } else {
-        appliedFiltersBlock.classList.add('search-filter-info__applied--hidden');
-        clearAllButton.classList.add('search-filter-block__button--hidden');
-        appliedFiltersContainer.classList.add('search-filter-info--hidden');
-      }
-
-      appliedFiltersCount.innerHTML = appliedFiltersCounter;
-      appliedFiltersList.innerHTML = appliedFilters;
-    }
-
-    const updateResults = (query, grid) => {
-      const searchResults = grid.querySelector('.ajax-card-grid__items');
-      const searchNoResults = grid.querySelector('.card-grid-results .no-results-container');
-      const searchBlock = grid.querySelector('.card-grid-results .ajax-card-grid');
-      const pagerButton = grid.querySelector('.ajax-card-grid__more-link');
-      const gridType = grid.querySelector('[data-layer-grid-type]').dataset.layerGridType;
-      query += '&action_type=results';
-      query += '&grid_type=' + gridType;
-      if (gridType == 'grid') {
-        query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
-        query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
-      }
-      query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
-
-      let xhr = new XMLHttpRequest();
-      xhr.open('GET', '/search-callback' + query);
-      xhr.responseType = 'json';
-      xhr.send();
-      xhr.onload = function() {
-        if (xhr.status == 200) {
-          searchResults.innerHTML = '';
-          xhr.response.results.forEach(function(element) {
-            var elementWrapper = document.createElement('div');
-            elementWrapper.className = 'ajax-card-grid__item_wrapper';
-            elementWrapper.innerHTML = element;
-            searchResults.append(elementWrapper);
-            Drupal.behaviors.productCard.attach(searchResults);
+          inputLabels.forEach(function (label) {
+            appliedFilters.push(label.innerText);
           });
-          if (!xhr.response.pager) {
-            pagerButton.classList.remove('active');
+          inputElements.forEach(function (input) {
+            appliedIds.push(input.getAttribute('id'));
+          });
+          if (appliedIds.length > 0) {
+            const taxonomyFilter = appliedIds.reduce(function (params, key) {
+              if (params === '') {
+                return key.replace(gridId, '');
+              }
+              return params + ',' + key.replace(gridId, '');
+            }, '');
+            queryElements[element.getAttribute('data-filter')] = {[gridId]: taxonomyFilter};
+            appliedIds = [];
           }
-          else {
-            pagerButton.classList.add('active');
-          }
-          searchNoResults.innerHTML = xhr.response.no_results;
-          if (xhr.response.no_results !== '') {
-            searchBlock.classList.add('ajax-card-grid--no-results')
-          }
-          else {
-            searchBlock.classList.remove('ajax-card-grid--no-results')
-          }
-          dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid, gridType);
-        }
+        });
+        updateResults(prepareQuery(queryElements), grid);
+        pushQuery(queryElements);
       };
-    }
 
-    const updateFilters = (query, grid) => {
-      const gridType = grid.querySelector('[data-layer-grid-type]').dataset.layerGridType;
-      query += '&action_type=facet';
-      query += '&grid_type=' + gridType;
-      if (gridType == 'grid') {
-        query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
+      const updateCounters = (grid) => {
+        let appliedFilters = '';
+        let appliedFiltersAnnounce = [];
+        const filterBlocks = grid.querySelectorAll('.filter-block');
+        const appliedFiltersContainer = grid.querySelector('.search-filter-info');
+        const appliedFiltersBlock = grid.querySelector('.search-filter-info__applied');
+        const appliedFiltersCount = grid.querySelector('.search-filter-info__applied-count');
+        const appliedFiltersList = grid.querySelector('.search-filter-info__applied-text');
+        const clearAllButton = grid.querySelector('.search-filter-info .search-filter-block__button--clear-all');
+
+        filterBlocks.forEach(function (element) {
+          const counterElement = element.querySelector('.filter-title__counter');
+          const inputLabels = element.querySelectorAll('.checkbox-item__input:checked + label');
+          let counter = inputLabels.length;
+          counterElement.innerHTML = counter ? counter : '';
+          inputLabels.forEach(function (label) {
+            appliedFilters += '\
+            <li class="search-filter-info__applied-name">\
+              <span>' + label.innerText + '</span>\
+              <button data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear" aria-label="' + Drupal.t('remove ' + label.innerText) + ' "></button>\
+            </li>\
+            '
+            appliedFiltersAnnounce.push = Drupal.t(label.innerText);
+          });
+        });
+
+        if (appliedFilters.length) {
+          appliedFiltersBlock.classList.remove('search-filter-info__applied--hidden');
+          clearAllButton.classList.remove('search-filter-block__button--hidden');
+          appliedFiltersContainer.classList.remove('search-filter-info--hidden');
+          Drupal.announce(Drupal.t('Applied filters (') + appliedFiltersAnnounce.length + '): ' + appliedFiltersAnnounce.join(', '));
+        }
+        else {
+          appliedFiltersBlock.classList.add('search-filter-info__applied--hidden');
+          clearAllButton.classList.add('search-filter-block__button--hidden');
+          appliedFiltersContainer.classList.add('search-filter-info--hidden');
+        }
+
+        appliedFiltersCount.innerHTML = appliedFiltersAnnounce.length;
+        appliedFiltersList.innerHTML = appliedFilters;
+      }
+
+      const updateResults = (query, grid) => {
+        const searchResults = grid.querySelector('.ajax-card-grid__items');
+        const searchNoResults = grid.querySelector('.card-grid-results .no-results-container');
+        const searchBlock = grid.querySelector('.card-grid-results .ajax-card-grid');
+        const pagerButton = grid.querySelector('.ajax-card-grid__more-link');
+        const gridType = grid.querySelector('[data-layer-grid-type]').dataset.layerGridType;
+        query += '&action_type=results';
+        query += '&grid_type=' + gridType;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
-      }
-      query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
-
-      let xhr = new XMLHttpRequest();
-      xhr.open('GET', '/search-callback' + query);
-      xhr.responseType = 'json';
-      xhr.send();
-      xhr.onload = function() {
-        if (xhr.status == 200) {
-          grid.querySelector('.card-grid-filter').innerHTML = xhr.response.filters;
-          Drupal.behaviors.searchFilterBehaviour.attach(grid, drupalSettings);
+        if (gridType == 'grid') {
+          query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         }
-      };
-    }
+        query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
 
-    const dataLayerPush = (results_count, search_key, grid, gridType) => {
-      var eventPrefix = 'siteSearch',
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/search-callback' + query);
+        xhr.responseType = 'json';
+        xhr.send();
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            searchResults.innerHTML = '';
+            xhr.response.results.forEach(function (element) {
+              var elementWrapper = document.createElement('div');
+              elementWrapper.className = 'ajax-card-grid__item_wrapper';
+              elementWrapper.innerHTML = element;
+              searchResults.append(elementWrapper);
+              Drupal.behaviors.productCard.attach(searchResults);
+            });
+            if (!xhr.response.pager) {
+              pagerButton.classList.remove('active');
+            }
+            else {
+              pagerButton.classList.add('active');
+            }
+            searchNoResults.innerHTML = xhr.response.no_results;
+            if (xhr.response.no_results !== '') {
+              searchBlock.classList.add('ajax-card-grid--no-results')
+            }
+            else {
+              searchBlock.classList.remove('ajax-card-grid--no-results')
+            }
+            dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid, gridType);
+          }
+        };
+      }
+
+      const updateFilters = (query, grid) => {
+        const gridType = grid.querySelector('[data-layer-grid-type]').dataset.layerGridType;
+        query += '&action_type=facet';
+        query += '&grid_type=' + gridType;
+        query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
+        if (gridType == 'grid') {
+          query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
+        }
+        query += '&limit=' + Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/search-callback' + query);
+        xhr.responseType = 'json';
+        xhr.send();
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            grid.querySelector('.card-grid-filter').innerHTML = xhr.response.filters;
+            Drupal.behaviors.searchFilterBehaviour.attach(grid, drupalSettings);
+          }
+        };
+      }
+
+      const dataLayerPush = (results_count, search_key, grid, gridType) => {
+        var eventPrefix = 'siteSearch',
           eventName = '';
-      if (gridType == 'grid') {
-        eventPrefix = 'cardGrid';
+        if (gridType == 'grid') {
+          eventPrefix = 'cardGrid';
+        }
+        if (results_count === 0) {
+          eventName = eventPrefix + 'Search_ResultNo';
+        }
+        else {
+          eventName = eventPrefix + 'Search_ResultShown';
+        }
+        if (gridType == 'grid') {
+          dataLayer.push({
+            'event': eventName,
+            [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
+            [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
+            [eventPrefix + 'SearchTerm']: search_key,
+            [eventPrefix + 'SearchResultsNum']: results_count
+          });
+        }
+        else {
+          dataLayer.push({
+            'event': eventName,
+            [eventPrefix + 'Term']: search_key,
+            [eventPrefix + 'ResultsNum']: results_count
+          });
+        }
       }
-      if (results_count === 0) {
-        eventName = eventPrefix + 'Search_ResultNo';
-      }
-      else {
-        eventName = eventPrefix + 'Search_ResultShown';
-      }
-      if (gridType == 'grid') {
-        dataLayer.push({
-          'event': eventName,
-          [eventPrefix + 'ID']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridId,
-          [eventPrefix + 'Name']: grid.querySelector('[data-layer-grid-id]').dataset.layerGridName,
-          [eventPrefix + 'SearchTerm']: search_key,
-          [eventPrefix + 'SearchResultsNum']: results_count
+
+      const enableApplyButtons = () => {
+        const applyButtons = context.querySelectorAll('.search-filter-block__button--apply');
+
+        applyButtons.forEach(function (button) {
+          button.classList.remove('search-filter-block__button--disabled');
         });
       }
-      else {
-        dataLayer.push({
-          'event': eventName,
-          [eventPrefix + 'Term']: search_key,
-          [eventPrefix + 'ResultsNum']: results_count
-        });
+
+      const enableBodyScroll = () => {
+        let scrollY = document.body.style.top;
+        document.body.classList.remove('locked-scroll');
+        document.body.style.top = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
       }
-    }
 
-    const enableApplyButtons = () => {
-      const applyButtons = context.querySelectorAll('.search-filter-block__button--apply');
-
-      applyButtons.forEach(function(button) {
-        button.classList.remove('search-filter-block__button--disabled');
-      });
-    }
-  },
-};
+      const disableBodyScroll = () => {
+        let offset = window.scrollY;
+        document.body.classList.add('locked-scroll');
+        if (offset) {
+          document.body.style.top = `-${offset}px`;
+        }
+      }
+    },
+  };
+})(Drupal, window.drupalSettings);

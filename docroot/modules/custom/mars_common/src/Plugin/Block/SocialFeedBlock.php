@@ -14,6 +14,8 @@ use Drupal\juicer_io\Model\FeedFactory;
 use Drupal\juicer_io\Model\FeedItem;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -27,6 +29,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   const MAX_AGE_1_DAY = 60 * 60 * 24;
 
@@ -130,12 +135,25 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function build() {
     $configEntity = $this->getFeedConfig();
     $label = $this->languageHelper->translate($this->configuration['label'] ?? '');
+    $background_color = '';
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+       && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    ) {
+      $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+
     return [
       '#theme' => 'social_feed_block',
+      '#select_background_color' => $background_color,
       '#label' => $label,
       '#items' => $this->getFeedItems(),
       '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
       '#brand_border' => $this->themeConfigurator->getBrandBorder2(),
+      '#text_color_override' => $text_color_override,
       '#cache' => [
         'tags' => $configEntity->getCacheTags(),
         'max-age' => self::MAX_AGE_1_DAY,
@@ -170,6 +188,12 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       // Cannot set default value as feed config is missing.
     }
 
+    // Add select background color.
+    $this->buildSelectBackground($form);
+
+    // Add override text color config.
+    $this->buildOverrideColorElement($form, $this->configuration);
+
     return $form;
   }
 
@@ -180,6 +204,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     parent::blockSubmit($form, $form_state);
     $this->configuration['feed'] = $form_state->getValue('feed');
     $this->configuration['label'] = $form_state->getValue('label_title');
+    $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**

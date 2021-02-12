@@ -1,5 +1,5 @@
 theme_styles: 'twix'
-social_text: 'Follow Us On'
+social_text: 'FOLLOW US ON'
 footer_logo_link: '#homepage_link'
 region_selector_label: 'Select Region'
 marketing_text_title: 'This is a marketing site'
@@ -8,7 +8,7 @@ copyright_text: '®/ TM Trademarks © Mars, Incorporated 2020. Other trademarks 
 corporate_tout_text: 'LOVE TWIX? Check out more brands from Mars.'
 corporate_tout_link_attributes:
   href: '#'
-region_title: 'Select Region'
+region_title: 'SELECT REGION'
 current_region_title: 'East America: USA'
 regions:
   - title: 'East America: USA'

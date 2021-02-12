@@ -1,4 +1,4 @@
-{{ attach_library('emulsifymars/story_higlight') }}
+{{ attach_library('emulsifymars/overlay-video') }}
 {% set story_highlight_base_class = story_highlight_base_class|default('story-highlight') %}
 {% set divider = '<div class=divider>'~divider~'</div>' %}
 
@@ -14,6 +14,7 @@
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: heading,
         heading_level: heading_level|default(2),
+        text_color_override: text_color_override
       } %}
 
       <div class="graphic_divider">
@@ -22,7 +23,8 @@
 
       {% include "@atoms/text/text/01-paragraph.twig" with {
         paragraph_content: story_highlight_paragraph_content,
-        paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph')
+        paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph'),
+        text_color_override: text_color_override
       } %}
 
       <div class="white-background"></div>
@@ -44,6 +46,8 @@
               image_src: item.src,
               image_alt: item.alt,
               image_title: item.title,
+              height: '200px',
+              width: '200px',
             } %}
 
             {% elseif item.video %}
@@ -59,7 +63,8 @@
             paragraph_size: paragraph_size,
             paragraph_content: item.content,
             paragraph_base_class: paragraph_base_class,
-            paragraph_modifiers: paragraph_modifiers
+            paragraph_modifiers: paragraph_modifiers,
+            text_color_override: text_color_override
           } %}
         </div>
       {% endfor %}
@@ -69,6 +74,8 @@
         output_image_tag: true,
         image_alt: asset_1_alt,
         image_src: asset_1,
+        height: '118px',
+        width: '124px'
       } %}
       </div>
 
@@ -77,6 +84,8 @@
         output_image_tag: true,
         image_alt: asset_2_alt,
         image_src: asset_2,
+        height: '153px',
+        width: '153px'
       } %}
       </div>
 
@@ -85,6 +94,8 @@
         output_image_tag: true,
         image_alt: asset_3_alt,
         image_src: asset_3,
+        height: '144px',
+        width: '182px'
       } %}
       </div>
 

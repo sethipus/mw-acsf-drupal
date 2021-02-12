@@ -6,6 +6,7 @@
   margin-bottom: 6rem;
   position: relative;
   background-color: clr(subcolor-2);
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   @include card-width;
 
   &__brand-shape {
@@ -51,11 +52,16 @@
     line-height: 4.4rem;
     margin-bottom: 3rem;
     padding-bottom: 0.6rem;
-    display: block;
     max-height: 182px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
   }
 
   &-paragraph--xs {
+    word-break: break-word;
     color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.6rem;
@@ -63,17 +69,18 @@
     flex-grow: 1;
     margin-top: 0;
     font-weight: bold;
-    max-height: 90px;
+    max-height: 135px;
     margin-bottom: auto;
-  }
-
-  &-heading__link,
-  &-paragraph--xs {
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 6;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+  }
+
+  &-paragraph--with-eyebrow {
+    max-height: 112px;
+    -webkit-line-clamp: 5;
   }
 
   .badge {

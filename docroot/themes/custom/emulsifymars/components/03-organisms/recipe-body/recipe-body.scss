@@ -10,7 +10,7 @@ $xl-left-margin: 11.583rem;
       flex-direction: row;
     }
 
-    @include large {
+    @include larger {
       flex-direction: column;
     }
   }
@@ -21,7 +21,7 @@ $xl-left-margin: 11.583rem;
     border-bottom: 1px solid rgba(196, 196, 196, 0.6);
   }
 
-  @include large {
+  @include larger {
     position: absolute;
     top: 0;
     right: 4rem;
@@ -33,11 +33,14 @@ $xl-left-margin: 11.583rem;
   &__title {
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: capitalize;
 
     @include medium {
       font-size: 26px;
       line-height: 1.1;
+    }
+
+    @include larger {
+      padding-left: 1rem;
     }
   }
 
@@ -48,10 +51,14 @@ $xl-left-margin: 11.583rem;
 }
 
 .product-used-item {
-  margin-top: 34px;
+  margin-top: 3.4rem;
 
   @include medium {
-    margin-top: 30px;
+    margin-top: 3rem;
+  }
+
+  @include larger {
+    margin: 3rem 1rem 1rem 1rem;
   }
 }
 
@@ -83,7 +90,6 @@ $xl-left-margin: 11.583rem;
     margin: 31px 0 13px;
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: capitalize;
     padding: 0;
     font-weight: 500;
 

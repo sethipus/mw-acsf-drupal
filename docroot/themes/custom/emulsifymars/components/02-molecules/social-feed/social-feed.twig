@@ -1,14 +1,22 @@
 {{ attach_library('emulsifymars/social-feed') }}
 {% set social_feed_base_class = social_feed_base_class|default('social-feed') %}
 
-<section id="social-feed" {{ bem(social_feed_base_class) }} data-theme="{{theme_styles}}" >
+<section id="social-feed" {{ bem(social_feed_base_class) }} data-theme="{{theme_styles}}"
+  {% if select_background_color|length > 0 %}
+    style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
+  {% endif %}
+>
   {% block brand_border %}
     <div {{  bem('border', [], social_feed_base_class)  }}>
       {{ brand_border | raw }}
     </div>
   {% endblock %}
 
-  <div class="social-feed__content">
+  <div class="social-feed__content"
+    {% if select_background_color|length > 0 %}
+      style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
+    {% endif %}
+  >
     <div class="social-feed__heading">
       {% include "@atoms/text/headings/_heading.twig" with {
         heading_level: 1,
@@ -22,15 +30,31 @@
       {{ graphic_divider | raw }}
     </div>
 
+    <button type="button" class="swiper-button-prev">
+      {% include "@atoms/images/icons/_icon.twig" with {
+      icon_base_class: "icon",
+      icon_blockname: "swiper-button-prev",
+      icon_name: "carousel_arrow_prev",
+      icon_decorative: true,
+      } %}
+    </button>
+
     <div class="swiper-container social-feed-swiper-container">
       <div class="swiper-wrapper">
           {% for item in items %}
             {% include "@molecules/slide/social-feed-slide/social-feed-slide.twig" with { item: item } %}
           {% endfor %}
       </div>
-      <div class="swiper-button-prev" role="button" alt="previous slide"></div>
-      <div class="swiper-button-next" role="button" alt="next slide"></div>
-      <div class="swiper-scrollbar" role="button" alt="scroll bar"></div>
     </div>
+
+    <button type="button" class="swiper-button-next">
+      {% include "@atoms/images/icons/_icon.twig" with {
+        icon_base_class: "icon",
+        icon_blockname: "swiper-button-next",
+        icon_name: "carousel_arrow_next",
+        icon_decorative: true,
+      } %}
+    </button>
+    <div class="swiper-scrollbar" aria-hidden="true"></div>
   </div>
 </section>

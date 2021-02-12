@@ -19,7 +19,7 @@
 {% endif %}
 
 {% set default_link_content_text = 'SEE DETAILS' | mt %}
-{% set product_card_link_attributes = {href: url, 'data-click-name': node.title.value} | merge(attributes) %}
+{% set attributes = attributes | filter((v, k) => role == 'article') %}
 {% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} | merge(attributes) %}
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
@@ -32,6 +32,7 @@
   default_link_base_class: 'default-link',
   link_content: 'BUY NOW' | mt,
   is_new: node.field_product_new.value,
+  badge_text: badge_text,
   link_base_class: 'text_link',
   wtb_commerce_vendor: wtb_commerce_vendor,
   wtb_button_type: wtb_button_type,
@@ -47,4 +48,8 @@
     link_url: ''
   },
   show_rating_and_reviews: show_rating_and_reviews,
+  select_background_color: select_background_color,
+  select__background__color: elements['#select__background__color'],
+  default_link_content: card_button_text,
+  text_color_override: elements['#text_color_override']
 } %}

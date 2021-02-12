@@ -1,8 +1,18 @@
 {% set card__base_class = 'product-card' %}
-{% set default_link_content = 'See details'|mt %}
 {% set link_content = 'Buy now'|mt %}
-{% set card__extra_classes = ['card-item'] %}
 {{ attach_library('emulsifymars/product-card') }}
+
+{% set color_section = select__background__color is not empty ? select__background__color : select_background_color %}
+
+{% if color_section == 'color_c' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-C', 'bg-gradient-C'] %}
+{% elseif color_section == 'color_d' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-D', 'bg-gradient-D'] %}
+{% elseif color_section == 'color_e' %}
+  {% set card__extra_classes = ['card-item', 'bg-color-E', 'bg-gradient-E'] %}
+{% else %}
+  {% set card__extra_classes = ['card-item'] %}
+{% endif %}
 
 <section {{ bem(card__base_class, [], card__blockname, card__extra_classes) }}
          data-theme="{{ theme_styles }}"
@@ -36,6 +46,8 @@
           output_image_tag: true,
           image_alt: 'Product image',
           image_sizes: '212px',
+          height: "225px",
+          width: "225px",
           image_src: item.card__image__src,
           responsive_image_blockname: 'product-image'
         } %}
@@ -43,6 +55,8 @@
           output_image_tag: true,
           image_alt: 'Product image',
           image_sizes: '212px',
+          height: "225px",
+          width: "225px",
           image_src: item.card__image__hover__src,
           responsive_image_blockname: 'hover-image'
         } %}
@@ -53,6 +67,8 @@
           output_image_tag: true,
           image_alt: 'Product image',
           image_sizes: '212px',
+          height: "225px",
+          width: "225px",
           image_src: item.card__image__src,
           responsive_image_blockname: 'product-image',
         } %}

@@ -307,10 +307,6 @@
 
   }
 
-  & .fullscreen-video {
-    height: auto;
-  }
-
   & .media_item_3 {
     flex: 0 auto;
     position: relative;
@@ -414,7 +410,7 @@
 
     @include playbutton;
 
-    
+
   }
 
   &__brand-shape_1 {
@@ -433,10 +429,10 @@
       right: -2rem;
 
       & img {
-        max-width: 124px;
-        min-width: 124px;
-        max-height: 124px;
-        min-height: 124px;
+        max-width: 12.4rem;
+        min-width: 12.4rem;
+        max-height: 12.4rem;
+        min-height: 12.4rem;
       }
     }
 
@@ -446,10 +442,10 @@
       z-index: 1;
 
       & img {
-        max-width: 196px;
-        min-width: 196px;
-        max-height: 184px;
-        min-height: 184px;
+        max-width: 19.6rem;
+        min-width: 19.6rem;
+        max-height: 18.4rem;
+        min-height: 18.4rem;
       }
     }
 
@@ -463,14 +459,14 @@
       top: -1rem;
       right: -4rem;
       & img {
-        max-width: 242px;
-        min-width: 242px;
-        min-height: 242px;
-        max-height: 242px;
+        max-width: 24.2rem;
+        min-width: 24.2rem;
+        min-height: 24.2rem;
+        max-height: 24.2rem;
       }
   
     }
-    
+
   }
 
   &__brand-shape_2 {
@@ -488,10 +484,10 @@
       left: -2rem;
 
       & img {
-        max-width: 153px;
-        min-width: 153px;
-        min-height: 153px;
-        max-height: 153px;
+        max-width: 15.3rem;
+        min-width: 15.3rem;
+        min-height: 15.3rem;
+        max-height: 15.3rem;
       }
     }
 
@@ -500,12 +496,12 @@
       left: -4rem;
 
       & img {
-        max-width: 189px;
-        min-width: 189px;
-        min-height: 236px;
-        max-height: 236px;
+        max-width: 18.9rem;
+        min-width: 18.9rem;
+        min-height: 23.6rem;
+        max-height: 23.6rem;
       }
-   
+
     }
 
     @include large {
@@ -521,10 +517,10 @@
 
       & img {
         margin: 0;
-        max-width: 443px;
-        min-width: 443px;
-        min-height: 434px;
-        max-height: 434px;
+        max-width: 44.3rem;
+        min-width: 44.3rem;
+        min-height: 43.3rem;
+        max-height: 43.3rem;
       }
     }
   }
@@ -543,10 +539,10 @@
       bottom: -4.9rem;
 
       & img {
-        max-width: 182px;
-        min-width: 182px;
-        min-height: 182px;
-        max-height: 182px;
+        max-width: 18.2rem;
+        min-width: 18.2rem;
+        min-height: 18.2rem;
+        max-height: 18.2rem;
       }
     }
 
@@ -556,10 +552,10 @@
       bottom: -3.38rem;
 
       & img {
-        max-width: 314px;
-        min-width: 314px;
-        min-height: 315px;
-        max-height: 315px;
+        max-width: 31.4rem;
+        min-width: 31.4rem;
+        min-height: 31.5rem;
+        max-height: 31.5rem;
       }
     }
 
@@ -573,10 +569,10 @@
       right: -4rem;
       bottom: -17.4rem;
       & img {
-        max-width: 356px;
-        min-width: 356px;
-        min-height: 356px;
-        max-height: 356px;
+        max-width: 35.6rem;
+        min-width: 35.6rem;
+        min-height: 35.6rem;
+        max-height: 35.6rem;
       }
     }
   }

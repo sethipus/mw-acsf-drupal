@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -25,6 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use OverrideThemeTextColorTrait;
 
   const STORY_ITEMS_COUNT = 3;
   const SVG_ASSETS_COUNT = 3;
@@ -33,6 +35,21 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
    * Lighthouse entity browser image id.
    */
   const LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID = 'lighthouse_browser';
+
+  /**
+   * Lighthouse entity browser video id.
+   */
+  const LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID = 'lighthouse_video_browser';
+
+  /**
+   * Key option background video.
+   */
+  const KEY_OPTION_VIDEO = 'video';
+
+  /**
+   * Key option background image.
+   */
+  const KEY_OPTION_IMAGE = 'image';
 
   /**
    * Config Factory.
@@ -127,8 +144,15 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#story_description'] = $this->languageHelper->translate($conf['story_block_description']);
 
     $build['#story_items'] = array_map(function ($value) {
-      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($value['media']);
+      if ($value['item_type'] == self::KEY_OPTION_IMAGE) {
+        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($value['image']);
+      }
+      elseif ($value['item_type'] == self::KEY_OPTION_VIDEO) {
+        $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($value['video']);
+      }
       $item = $this->mediaHelper->getMediaParametersById($media_id);
+      $item['video'] = ($value['item_type'] == self::KEY_OPTION_VIDEO);
+      $item['image'] = ($value['item_type'] == self::KEY_OPTION_IMAGE);
 
       if (!empty($item['error'])) {
         return [];
@@ -158,6 +182,11 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $build['#view_more_cta_label'] = !empty($conf['view_more']['label']) ? $this->languageHelper->translate($conf['view_more']['label']) : $this->languageHelper->translate('View More');
     }
 
+    $build['#text_color_override'] = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
     return $build;
   }
 
@@ -169,7 +198,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $config = $this->getConfiguration();
 
     $form['story_block_title'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Title'),
       '#required' => TRUE,
       '#maxlength' => 55,
@@ -177,9 +206,9 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     ];
 
     $form['story_block_description'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Story description'),
-      '#maxlength' => 150,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['story_block_description'] ?? NULL,
     ];
 
@@ -196,19 +225,80 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       $form['items'][$i]['title'] = [
         '#type' => 'textfield',
         '#title' => $this->t('Title'),
-        '#maxlength' => 200,
+        '#maxlength' => 300,
         '#required' => TRUE,
         '#required_error' => $this->t('<em>Title</em> from <em>Story Item @index</em> is required.', ['@index' => $i + 1]),
         '#default_value' => $this->configuration['items'][$i]['title'] ?? NULL,
       ];
 
-      $media_default = isset($config['items'][$i]['media']) ? $config['items'][$i]['media'] : NULL;
-      $form['items'][$i]['media'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-        $media_default, $form_state, 1, 'thumbnail');
+      $form['items'][$i]['item_type'] = [
+        '#title' => $this->t('Item type'),
+        '#type' => 'select',
+        '#required' => TRUE,
+        '#default_value' => $config['items'][$i]['item_type'] ?? self::KEY_OPTION_IMAGE,
+        '#options' => [
+          self::KEY_OPTION_IMAGE => $this->t('Image'),
+          self::KEY_OPTION_VIDEO => $this->t('Video'),
+        ],
+      ];
+
+      $image_default = $config['items'][$i]['image'] ?? NULL;
+      if (!is_string($image_default)) {
+        $image_default = NULL;
+      }
+      $form['items'][$i]['image'] = $this->getEntityBrowserForm(
+        self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $image_default,
+        $form_state,
+        1,
+        'thumbnail',
+        function ($form_state) use ($i) {
+          return $form_state->getValue([
+            'settings',
+            'items',
+            $i,
+            'image',
+          ]) === self::KEY_OPTION_IMAGE;
+        }
+      );
       // Convert the wrapping container to a details element.
-      $form['items'][$i]['media']['#type'] = 'details';
-      $form['items'][$i]['media']['#title'] = $this->t('Media');
-      $form['items'][$i]['media']['#open'] = TRUE;
+      $form['items'][$i]['image']['#type'] = 'details';
+      $form['items'][$i]['image']['#title'] = $this->t('Image');
+      $form['items'][$i]['image']['#open'] = TRUE;
+      $form['items'][$i]['image']['#states'] = [
+        'visible' => [
+          [':input[name="settings[items][' . $i . '][item_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+        ],
+      ];
+
+      $video_default = $config['items'][$i]['video'] ?? NULL;
+      if (!is_string($video_default)) {
+        $video_default = NULL;
+      }
+      $form['items'][$i]['video'] = $this->getEntityBrowserForm(
+        self::LIGHTHOUSE_ENTITY_BROWSER_VIDEO_ID,
+        $video_default,
+        $form_state,
+        1,
+        'default',
+        function ($form_state) use ($i) {
+          return $form_state->getValue([
+            'settings',
+            'items',
+            $i,
+            'video',
+          ]) === self::KEY_OPTION_VIDEO;
+        }
+      );
+      // Convert the wrapping container to a details element.
+      $form['items'][$i]['video']['#type'] = 'details';
+      $form['items'][$i]['video']['#title'] = $this->t('Video');
+      $form['items'][$i]['video']['#open'] = TRUE;
+      $form['items'][$i]['video']['#states'] = [
+        'visible' => [
+          [':input[name="settings[items][' . $i . '][item_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+        ],
+      ];
     }
 
     $form['svg_assets'] = [
@@ -244,6 +334,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       ],
     ];
 
+    $this->buildOverrideColorElement($form, $this->configuration);
+
     return $form;
   }
 
@@ -258,6 +350,7 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->configuration['items'] = $form_state->getValue('items');
     $this->configuration['svg_assets'] = $form_state->getValue('svg_assets');
     $this->configuration['view_more'] = $form_state->getValue('view_more');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
 
     $svg_assets = $form_state->getValue('svg_assets');
     if (!empty($svg_assets)) {
@@ -271,10 +364,15 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $items = $form_state->getValue('items');
     if (!empty($items)) {
       foreach ($items as $key => $item) {
-        $this->configuration['items'][$key]['media'] = $this->getEntityBrowserValue($form_state, [
+        unset(
+          $this->configuration['carousel'][$key][self::KEY_OPTION_VIDEO],
+          $this->configuration['carousel'][$key][self::KEY_OPTION_IMAGE]
+        );
+
+        $this->configuration['items'][$key][$item['item_type']] = $this->getEntityBrowserValue($form_state, [
           'items',
           $key,
-          'media',
+          $item['item_type'],
         ]);
       }
     }
@@ -285,10 +383,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function blockValidate($form, FormStateInterface $form_state) {
     $view_more_url = $form_state->getValue('view_more')['url'];
-    if (!empty($view_more_url)) {
-      if (!(UrlHelper::isValid($view_more_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $view_more_url))) {
-        $form_state->setErrorByName('view_more][url', $this->t('The URL is not valid.'));
-      }
+    if (!empty($view_more_url) && !(UrlHelper::isValid($view_more_url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $view_more_url))) {
+      $form_state->setErrorByName('view_more][url', $this->t('The URL is not valid.'));
     }
   }
 
