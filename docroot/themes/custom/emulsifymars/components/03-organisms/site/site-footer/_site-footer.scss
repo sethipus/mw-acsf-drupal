@@ -163,10 +163,10 @@ $fence-part-size: 1440px*2/101;
 }
 
 .footer__logo {
-  flex: 0 0 101px;
+  flex: 0 0 10.1rem;
   max-width: 10.4rem;
   max-height: 3.9rem;
-  margin: 10px 0 26px -10px;
+  margin: 1rem 0 2.6rem -1rem;
   .footer__logoLink{
     display: inline-block;
     width: 100%;
@@ -178,10 +178,10 @@ $fence-part-size: 1440px*2/101;
   
 
   @include xs {
-    flex: 0 0 104px;
+    flex: 0 0 10.4rem;
     max-width: 10.4rem;
     max-height: 3.9rem;
-    margin: 20px 0 39px -15px;
+    margin: 2rem 0 3.9rem -1.5rem;
     .footer__logoLink{
       img{
         max-height: 3.9rem;
@@ -190,10 +190,10 @@ $fence-part-size: 1440px*2/101;
   }
 
   @include medium {
-    flex: 0 0 141px;
+    flex: 0 0 14.1rem;
     max-width: 14.1rem;
     max-height: 5.3rem;
-    margin: 20px 0 26px -15px;
+    margin: 2rem 0 2.6rem -1.5rem;
     .footer__logoLink{
       img{
         max-height: 5.3rem;
@@ -202,10 +202,10 @@ $fence-part-size: 1440px*2/101;
   }
 
   @include xl {
-    flex-basis: 212px;
+    flex-basis: 21.2rem;
     max-width: 21.2rem;
     max-height: 9.8rem;
-    margin: 20px 0 12px -12px;
+    margin: 2rem 0 1.2rem -1.2rem;
     .footer__logoLink{
       img{
         max-height: 9.8rem;
