@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -20,6 +21,8 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * )
  */
 class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * Entity storage.
@@ -95,6 +98,11 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
     }
 
     $build['#poll'] = $this->pollViewBuilder->view($pollEntity);
+    $text_color_override = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+    $build['#text_color_override'] = $text_color_override;
     $build['#theme'] = 'poll_block';
 
     return $build;
@@ -105,6 +113,7 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+    $conf = $this->getConfiguration();
 
     $form['poll'] = [
       '#type' => 'entity_autocomplete',
@@ -118,6 +127,8 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
       '#required' => TRUE,
     ];
 
+    $this->buildOverrideColorElement($form, $conf);
+
     return $form;
   }
 
@@ -127,6 +138,7 @@ class FeedbackBlock extends BlockBase implements ContainerFactoryPluginInterface
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['poll'] = $form_state->getValue('poll');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**

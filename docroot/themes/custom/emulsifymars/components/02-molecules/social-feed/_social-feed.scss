@@ -62,12 +62,33 @@
   // increasing specificity to avoid using !important
   .social-feed__content>.swiper-scrollbar {
     height: 0.8rem;
-    width: 70%;
-    left: 15%;
-    background-color: rgba(clr(secondary-rgb), 0.4);
+    width: 100%;
+    max-width: 47.9rem;
+    left: 0;
+    right: 0;
+    background-color: rgba(var(--c-secondary-rgb),0.4);
+    margin: 6rem auto 0;
 
     & .swiper-scrollbar-drag {
       background: clr(secondary);
+    }
+
+    @include xs {
+      height: 0.5rem;
+      max-width: 16.1rem;
+      margin: 3rem auto 0;
+    }
+
+    @include medium {
+      height: 0.5rem;
+      max-width: 25.7rem;
+      margin: 4rem auto 0;
+    }
+
+    @include xl {
+      height: 0.8rem;
+      max-width: 47.9rem;
+      margin: 6rem auto 0;
     }
   }
 
@@ -75,14 +96,19 @@
     border-radius: 1rem;
     max-height: 31.7rem;
     overflow: hidden;
+    visibility: hidden; // for watchSlidesVisibility
 
     &:focus-within {
       border: 2px solid black;
+    }
+    &.swiper-slide-visible {
+      visibility: visible;
     }
   }
 
   .social-feed__content .swiper-button-prev, .social-feed__content .swiper-button-next  {
     background-color: clr(subcolor-3);
+    border: 0;
     border-radius: 50%;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     width: 7rem;
@@ -101,6 +127,7 @@
 
     &.swiper-button-disabled {
       opacity: 0;
+      visibility: hidden;
     }
 
     &::after {
