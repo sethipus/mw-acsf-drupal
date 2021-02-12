@@ -404,6 +404,7 @@ processor_settings:
       preprocess_index: -10
       preprocess_query: -10
   language_with_fallback: {  }
+  product_multipack_reference: {  }
   rendered_item: {  }
 tracker_settings:
   default:
