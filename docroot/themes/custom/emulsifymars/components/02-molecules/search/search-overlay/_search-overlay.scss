@@ -265,7 +265,8 @@
           position: absolute;
           width: 20px;
           height: 20px;
-          top: 5px;
+          top: 50%;
+          transform: translateY(-50%);
           background-color: clr(subcolor-3);
 
           @include large {
