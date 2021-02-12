@@ -66,10 +66,6 @@
     z-index: 100;
     background-color: clr(subcolor-3);
 
-    @include xl {
-      background-color: clr(subcolor-2);
-    }
-
     .search-filter-block__button--apply {
       display: block;
     }
@@ -315,5 +311,13 @@
 .search-results-filter {
   .search-filter-container {
     background-color: clr(subcolor-3);
+  }
+}
+
+body.locked-scroll {
+  position: fixed;
+
+  @include xl {
+    position: static;
   }
 }
