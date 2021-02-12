@@ -11,6 +11,7 @@
         return;
       }
       var gridType = gridBlock.dataset.layerGridType;
+      var pageId = gridBlock.dataset.layerPageId;
       if (gridType === 'search_page') {
         var selectorInput = '.search-page-header input';
         var selectorTypeFilter = '.search-page-header .search-results-container .results__container a';
@@ -131,6 +132,7 @@
             query['search'] = { '1': searchKey };
           }
           pushQuery(query);
+          query.page_id = pageId;
           query.grid_type = gridType;
           query.offset = 0;
           query.action_type = 'results';
@@ -169,6 +171,7 @@
           var query = currentQuery();
           delete query.type;
           pushQuery(query);
+          query.page_id = pageId;
           query.grid_type = 'search_page';
           query.action_type = 'results';
           query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
@@ -203,6 +206,7 @@
             var query = currentQuery();
             query['type'] = { '1': filter };
             pushQuery(query);
+            query.page_id = pageId;
             query.grid_type = 'search_page';
             query.action_type = 'results';
             query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
