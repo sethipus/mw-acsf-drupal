@@ -61,6 +61,18 @@ body {
   overflow: hidden;
 }
 
+.text-color-A {
+  color: clr(primary) !important;
+}
+
+.text-color-E {
+  color: clr(subcolor-3) !important;
+}
+
+.text-color-W {
+  color: $white !important;
+}
+
 .bg-color-C {
   background-color: clr(subcolor-1) !important;
 }
