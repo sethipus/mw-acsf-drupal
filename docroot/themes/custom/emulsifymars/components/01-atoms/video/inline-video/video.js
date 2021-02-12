@@ -110,15 +110,6 @@
             if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
             else videoElements('video').pause();
           });
-          videoElements('video').addEventListener('click', function (e) {
-            if (videoElements('video').paused || videoElements('video').ended) {
-              videoElements('video').play();
-            }
-            else {
-              videoElements('video').pause();
-            }
-            changeButtonState(videoElements, 'control');
-          });
 
           videoElements('mute').addEventListener('click', function (e) {
             videoElements('video').muted = !videoElements('video').muted;
@@ -133,6 +124,11 @@
           });
           videoElements('close').addEventListener('click', function (e) {
             handleFullcontrol(videoContainer, videoElements);
+          });
+          document.addEventListener('keyup', function (event) {
+            if (event.keyCode == 27) {
+              handleFullcontrol(videoContainer, videoElements);
+            }
           });
 
           // As the video is playing, update the progress bar

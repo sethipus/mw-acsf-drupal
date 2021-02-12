@@ -3,6 +3,7 @@
 namespace Drupal\mars_product\Plugin\Block;
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
@@ -121,9 +122,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * Fields with bold labels.
    */
   const FIELDS_WITH_BOLD_LABELS = [
-    'field_product_saturated_fat' => 'Saturated Fat',
-    'field_product_trans_fat' => 'Trans Fat',
-    'field_product_sugars' => 'Sugars',
+    'field_product_calories' => 'Calories',
+    'field_product_total_fat' => 'Total Fat',
+    'field_product_cholesterol' => 'Cholesterol',
+    'field_product_sodium' => 'Sodium',
+    'field_product_carb' => 'Total Carbohydrate',
     'field_product_protein' => 'Protein',
   ];
 
@@ -290,6 +293,23 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['vitamins_label'],
       '#required' => TRUE,
     ];
+    $form['nutrition']['added_sugars_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Added Sugars pre label'),
+      '#default_value' => $this->configuration['nutrition']['added_sugars_label'],
+    ];
+    $form['nutrition']['daily_text'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Daily value information text'),
+      '#default_value' => $this->configuration['nutrition']['daily_text'],
+      '#required' => TRUE,
+    ];
+    $form['nutrition']['refer_text'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Refer part text'),
+      '#default_value' => $this->configuration['nutrition']['refer_text'],
+      '#required' => TRUE,
+    ];
     $form['allergen_label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Diet & Allergens part label'),
@@ -318,7 +338,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#title' => $this->t('Use Background Color Override'),
       '#default_value' => $this->configuration['use_background_color'] ?? FALSE,
     ];
-
     $form['background_color'] = [
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Background Color Override'),
@@ -400,6 +419,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'serving_label' => $config['nutrition']['serving_label'] ?? $this->t('Amount per serving'),
         'daily_label' => $config['nutrition']['daily_label'] ?? $this->t('% Daily value'),
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
+        'added_sugars_label' => $config['nutrition']['added_sugars_label'] ?? $this->languageHelper->translate('Includes'),
+        'daily_text' => $config['nutrition']['daily_text'] ?? $this->languageHelper->translate(
+            'The % Daily Value (DV) tells you how much a nutrient in a serving of food' .
+            ' contributes to a daily diet. 2,000 calories a day is used for general advice.'
+        ),
+        'refer_text' => $config['nutrition']['refer_text'] ?? $this->languageHelper->translate(
+            'Please refer to the product label for the most accurate nutrition, ingredient, and allergen information.'),
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
       'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More information'),
@@ -425,18 +451,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $node = $this->getContextValue('node');
     // Get values from first Product Variant.
     $product_sku = '';
-    $ingredients_label = '';
-    $warnings_label = '';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
       $product_sku = $product_variant->get('field_product_sku')->value;
-      $ingredients_label = $this->languageHelper->translate($product_variant->get('field_product_ingredients')->getFieldDefinition()->getLabel()) . ':';
-      $warnings_label = $this->languageHelper->translate($product_variant->get('field_product_allergen_warnings')->getFieldDefinition()->getLabel()) . ':';
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
     $brand_shape_color = !empty($this->configuration['brand_shape_color']) ?
       '#' . $this->configuration['brand_shape_color'] : '';
+    $more_information_id = Html::getUniqueId('section-more-information');
     $pdp_common_data = [
       'hero_data' => [
         'product_label' => $this->languageHelper->translate($this->configuration['eyebrow'] ?? ''),
@@ -462,8 +485,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'nutritional_info_serving_label' => $this->languageHelper->translate($this->configuration['nutrition']['serving_label']) ?? '',
         'nutritional_info_daily_label' => $this->languageHelper->translate($this->configuration['nutrition']['daily_label']) ?? '',
         'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
-        'ingredients_label' => $ingredients_label,
-        'warnings_label' => $warnings_label,
+        'daily_text' => $this->languageHelper->translate($this->configuration['nutrition']['daily_text']) ?? '',
+        'refer_text' => $this->languageHelper->translate($this->configuration['nutrition']['refer_text']) ?? '',
       ],
       'allergen_data' => [
         'allergen_label' => $this->languageHelper->translate($this->configuration['allergen_label']),
@@ -471,6 +494,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'more_information_data' => [
         'more_information_label' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
         'show_more_information_label' => $this->configuration['more_information']['show_more_information_label'] ?? TRUE,
+        'more_information_id' => $more_information_id,
       ],
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
@@ -480,11 +504,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $build['#pdp_bundle_type'] = $node_bundle;
     switch ($node_bundle) {
       case 'product_multipack':
-        $build['#pdp_data'] = $this->getPdpMultiPackProductData($node);
+        $build['#pdp_data'] = $this->getPdpMultiPackProductData($node, $more_information_id);
         break;
 
       case 'product':
-        $build['#pdp_data'] = $this->getPdpSingleProductData($node);
+        $build['#pdp_data'] = $this->getPdpSingleProductData($node, $more_information_id);
+        break;
+
       default:
         break;
     }
@@ -500,13 +526,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @param object $node
    *   Product node.
+   * @param string $more_information_id
+   *   ID for more information section.
    *
    * @return array
    *   PDP data array.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function getPdpSingleProductData($node) {
+  public function getPdpSingleProductData($node, string $more_information_id) {
     $items = [];
     $i = 0;
 
@@ -525,7 +553,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
-          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle()),
+          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle(), $more_information_id),
         ],
         'nutrition_data' => [
           'serving_item' => $this->getServingItems($product_variant),
@@ -546,13 +574,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @param \Drupal\Core\Entity\EntityInterface $node
    *   Product node.
+   * @param string $more_information_id
+   *   ID for more information section.
    *
    * @return array
    *   PDP data array.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  protected function getPdpMultiPackProductData(EntityInterface $node) {
+  protected function getPdpMultiPackProductData(EntityInterface $node, string $more_information_id) {
     $products_data = [];
     foreach ($node->field_product_pack_items as $product_reference) {
       $product = $this->languageHelper->getTranslation($product_reference->entity);
@@ -589,7 +619,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'active' => $state,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
-          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle()),
+          'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle(), $more_information_id),
         ],
         'products'  => $products_data,
       ];
@@ -741,6 +771,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           $item['value_daily']
             = $node->get($field_daily)->value;
         }
+        if ($field === 'field_product_added_sugars') {
+          $item['pre_label'] = $this->languageHelper->translate(
+            $this->configuration['nutrition']['added_sugars_label']) ?? '';
+        }
         if (isset($item['value']) || isset($item['value_daily'])) {
           $result_item[$section][] = $item;
         }
@@ -792,13 +826,19 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'field_product_carb' => '',
       'field_product_dietary_fiber' => 'field_product_dietary_daily',
       'field_product_sugars' => '',
+      'field_product_total_sugars' => FALSE,
+      'field_product_sugar_alcohol' => FALSE,
+      'field_product_added_sugars' => '',
       'field_product_protein' => '',
       'field_product_vitamin_a' => '',
       'field_product_vitamin_c' => '',
       'field_product_vitamin_d' => '',
       'field_product_calcium' => '',
+      'field_product_thiamin' => '',
+      'field_product_niacin' => '',
       'field_product_iron' => '',
       'field_product_potassium' => '',
+      'field_product_riboflavin' => '',
     ];
     $groups_mapping = [
       'group_nutritional_subgroup_1',
@@ -890,18 +930,20 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *   Product Variant node.
    * @param string $bundle
    *   Product bundle.
+   * @param string $more_information_id
+   *   Id for more information section.
    *
    * @return array
    *   Mobile section array.
    */
-  public function getMobileItems(EntityInterface $node, string $bundle) {
+  public function getMobileItems(EntityInterface $node, string $bundle, string $more_information_id) {
     $size_id = $node->id();
     $items = [];
     $items[] = [
       'title' => $this->languageHelper->translate($this->configuration['nutrition']['label']),
       'link_attributes' => [
         'class' => 'pdp-hero__nutrition-menu',
-        'href' => '#section-nutrition-' . $size_id,
+        'href' => '#section-nutrition--' . $size_id,
       ],
     ];
 
@@ -924,7 +966,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'title' => $this->languageHelper->translate($this->configuration['more_information']['more_information_label'] ?? 'More information'),
         'link_attributes' => [
           'class' => 'pdp-hero__more-info-menu',
-          'href' => '#section-more-information',
+          'href' => '#' . $more_information_id,
         ],
       ];
     }

@@ -65,11 +65,10 @@
   }
 
   .no-carousel {
-    @include medium {
-      display: flex;
-      justify-content: center;
-      margin-left: -2%;
-    }
+    display: flex;
+    justify-content: center;
+    margin-left: 10px;
+    transform: none !important;
 
     @include xl {
       margin-left: 15px;
@@ -109,8 +108,8 @@
   .recommendations-card {
     box-sizing: border-box;
     margin-top: 3.5rem;
-    width: 318px;
     height: 520px;
+    @include card-width;
   }
 
   .article-card {
