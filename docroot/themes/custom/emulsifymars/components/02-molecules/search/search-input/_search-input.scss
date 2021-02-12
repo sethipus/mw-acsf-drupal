@@ -1,6 +1,7 @@
 .search-input {
   position: relative;
   display: inline-block;
+  width: 100%;
 
   .form-item {
     margin-bottom: 0;
@@ -73,6 +74,15 @@
   color: clr(primary);
   z-index: 10;
   font-family: variable(secondary-font);
+  width: 33.5rem;
+
+  @include medium {
+    width: 68.8rem;
+  }
+
+  @include xl {
+    width: 89.6rem;
+  }
 
   .mars-search-autocomplete-suggestions-wrapper {
     display: none;
@@ -82,15 +92,6 @@
     .search-input__field {
       border-bottom-left-radius: unset;
       border-bottom-right-radius: unset;
-      width: 335px;
-
-      @include medium {
-        width: 688px;
-      }
-
-      @include xl {
-        width: 896px;
-      }
     }
 
     .autocomplete-border {
