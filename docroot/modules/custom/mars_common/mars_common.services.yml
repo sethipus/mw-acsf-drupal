@@ -14,18 +14,14 @@ services:
     parent: logger.channel_base
     arguments: [ 'mars_common' ]
 
-  mars_common.media_helper:
-    class: Drupal\mars_common\MediaHelper
-    arguments: [ '@entity_type.manager', '@mars_product.product_helper', '@mars_common.language_helper','@mars_media.media_settings']
-
   mars_common.menu_builder:
     class: Drupal\mars_common\MenuBuilder
     arguments: ['@menu.link_tree']
 
-  mars_common.media_helper_twig_filters:
+  mars_media.media_helper_twig_filters:
     class: Drupal\mars_common\Twig\MediaHelperFilters
     arguments:
-      [ '@mars_common.media_helper' ]
+      [ '@mars_media.media_helper' ]
     tags:
       - { name: twig.extension }
 

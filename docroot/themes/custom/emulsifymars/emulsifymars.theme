@@ -202,7 +202,7 @@ function emulsifymars_theme() {
  */
 function emulsifymars_preprocess_views_view_unformatted(&$variables) {
   /** @var \Drupal\mars_common\MediaHelper $media_helper */
-  $media_helper = \Drupal::service('mars_common.media_helper');
+  $media_helper = \Drupal::service('mars_media.media_helper');
   $view = $variables['view'];
   $id = $view->storage->id();
   $items = [];

@@ -11,7 +11,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Plugin\Context\Context;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\mars_product\ProductHelper;
@@ -52,7 +52,7 @@ class PdpHeroBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 

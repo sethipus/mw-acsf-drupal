@@ -4,7 +4,7 @@ namespace Drupal\mars_product\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,14 +17,14 @@ class WtbProductController extends ControllerBase implements ContainerInjectionI
   /**
    * The Media helper.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   private $mediaHelper;
 
   /**
    * Return product info.
    *
-   * @param \Drupal\mars_common\MediaHelper $media_helper
+   * @param \Drupal\mars_media\MediaHelper $media_helper
    *   The renderer.
    */
   public function __construct(
@@ -38,7 +38,7 @@ class WtbProductController extends ControllerBase implements ContainerInjectionI
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('mars_common.media_helper')
+      $container->get('mars_media.media_helper')
     );
   }
 

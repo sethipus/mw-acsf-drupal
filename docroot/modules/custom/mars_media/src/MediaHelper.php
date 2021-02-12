@@ -1,12 +1,13 @@
 <?php
 
-namespace Drupal\mars_common;
+namespace Drupal\mars_media;
 
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\file\FileInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_media\Media\ImageUriInterface;
 use Drupal\mars_media\Media\CFResizableImageUri;
 use Drupal\mars_media\Media\NonResizableImageUri;

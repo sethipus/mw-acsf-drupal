@@ -6,7 +6,7 @@ use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
 use Drupal\Core\Routing\UrlGeneratorInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,7 +24,7 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
   /**
    * Mars Common Media Helper.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   protected $mediaHelper;
 
@@ -43,7 +43,7 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_common.media_helper'),
+      $container->get('mars_media.media_helper'),
       $container->get('url_generator')
     );
   }

@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -41,7 +41,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   /**
    * The Media helper.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   private $mediaHelper;
 
@@ -88,7 +88,7 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $plugin_definition,
       $container->get('language_manager'),
       $container->get('entity_type.manager'),
-      $container->get('mars_common.media_helper'),
+      $container->get('mars_media.media_helper'),
       $config
     );
   }

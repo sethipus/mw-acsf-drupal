@@ -3,7 +3,7 @@
 namespace Drupal\mars_common\Twig;
 
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -15,14 +15,14 @@ class MediaHelperFilters extends AbstractExtension {
   /**
    * The media helper service.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   private $mediaHelper;
 
   /**
    * MediaHelperFilters constructor.
    *
-   * @param \Drupal\mars_common\MediaHelper $media_helper
+   * @param \Drupal\mars_media\MediaHelper $media_helper
    *   The media helper service.
    */
   public function __construct(MediaHelper $media_helper) {

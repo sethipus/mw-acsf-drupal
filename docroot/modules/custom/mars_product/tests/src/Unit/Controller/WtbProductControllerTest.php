@@ -4,7 +4,7 @@ namespace Drupal\Tests\mars_product\Unit\Controller;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_product\Controller\WtbProductController;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;
@@ -35,7 +35,7 @@ class WtbProductControllerTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\mars_media\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
    */
   private $mediaHelperMock;
 
@@ -75,7 +75,7 @@ class WtbProductControllerTest extends UnitTestCase {
       ->willReturnMap(
         [
           [
-            'mars_common.media_helper',
+            'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
           ],

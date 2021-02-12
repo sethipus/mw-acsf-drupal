@@ -11,7 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\WhereToBuyBlock;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\node\NodeInterface;
@@ -102,7 +102,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 
@@ -177,7 +177,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
             $this->entityTypeManagerMock,
           ],
           [
-            'mars_common.media_helper',
+            'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
           ],
