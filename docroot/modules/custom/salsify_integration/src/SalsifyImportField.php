@@ -309,6 +309,8 @@ class SalsifyImportField extends SalsifyImport {
     unset($salsify_field_mapping['salsify_updated']);
     unset($salsify_field_mapping['salsify_id']);
 
+    static::clearEntity($entity, $product_data);
+
     foreach ($salsify_field_mapping as $field) {
       if (isset($product_data[$field['salsify_id']]) &&
         \Drupal::service('salsify_integration.product_data_helper')
@@ -338,6 +340,30 @@ class SalsifyImportField extends SalsifyImport {
         ->validateDataRecord($product_data, $field)) {
         $process_result['validation_errors'][] = $product_data['GTIN'] .
           ', ' . $field['salsify_id'] . ', ' . $field['salsify_data_type'];
+      }
+    }
+  }
+
+  /**
+   * Clear all fields data related to salsify mapping before populating.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   Entity.
+   * @param array $product_data
+   *   Product data.
+   */
+  public static function clearEntity(EntityInterface &$entity, array $product_data) {
+    if (!isset($product_data['CMS: multipack generated']) ||
+      !$product_data['CMS: multipack generated']) {
+      if ($entity->bundle() == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
+        $fields = array_keys(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT);
+      }
+      else {
+        $fields = array_keys(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT);
+      }
+
+      foreach ($fields as $field_name) {
+        $entity->set($field_name, NULL);
       }
     }
   }

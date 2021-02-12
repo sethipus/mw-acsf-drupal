@@ -29,4 +29,8 @@ window.Drupal = { behaviors: {} };
     return content;
   };
 
+  Drupal.announce = function(content) {
+    return true;
+  }
+
 })(Drupal, window.drupalSettings);
