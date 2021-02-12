@@ -186,6 +186,7 @@
     flex-wrap: wrap;
     justify-content: center;
     overflow: visible;
+    position: static;
   }
 
   &::-webkit-scrollbar {
