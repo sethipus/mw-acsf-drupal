@@ -1,0 +1,5 @@
+mars_media.cf_configration_form:
+  title: 'Cloudflare image resizing'
+  description: 'Settings related for the Cloudflare image resizing.'
+  route_name: mars_media.configuration_form
+  parent: 'system.admin_config_services'

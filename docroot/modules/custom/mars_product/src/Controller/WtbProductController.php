@@ -78,7 +78,7 @@ class WtbProductController extends ControllerBase implements ContainerInjectionI
 
       $result[] = [
         'size' => $variant->get('field_product_size')->value,
-        'image_src' => $image_src,
+        'image_src' => (string) $image_src,
         'image_alt' => $image_alt,
         'gtin' => $variant->get('field_product_sku')->value,
       ];

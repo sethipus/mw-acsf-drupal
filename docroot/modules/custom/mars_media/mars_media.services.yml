@@ -1,0 +1,10 @@
+services:
+  mars_media.resize_twig_fitlers:
+    class: Drupal\mars_media\Twig\ImageResizeFilters
+    tags:
+      - { name: twig.extension }
+  mars_media.media_settings:
+    class: Drupal\Core\Config\ImmutableConfig
+    factory: config.factory:get
+    arguments:
+      - 'mars_media.settings'
