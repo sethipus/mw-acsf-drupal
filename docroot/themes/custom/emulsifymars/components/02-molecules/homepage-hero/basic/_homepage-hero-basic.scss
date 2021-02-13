@@ -1,6 +1,11 @@
 .homepage-hero-basic {
-  min-height: 58rem;
+  height: calc(100vh - 77px);
   position: relative;
+
+  @include medium {
+    height: auto;
+    min-height: 58rem;
+  }
 
   &__background {
     position: absolute;
@@ -21,6 +26,7 @@
 
   &__container {
     display: flex;
+    height: 100%;
   }
 
   &__image {
