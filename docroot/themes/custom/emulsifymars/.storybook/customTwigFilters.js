@@ -41,7 +41,7 @@ module.exports = function (twigInstance) {
         return value;
       }
       const image = resizeTargets[global.sb_mars.resize_mode];
-      const height = args[1];
+      const height = args[0];
       return `https://lhcdn.mars.com/cdn-cgi/image/height=${height}${image}`;
     }
   )

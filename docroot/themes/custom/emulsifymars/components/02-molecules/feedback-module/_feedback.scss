@@ -268,7 +268,8 @@
   &__png-asset {
     position: absolute;
     z-index: 2;
-    display: block;
+    display: flex;
+    justify-content: center;
     height: 64px;
 
     img{ 

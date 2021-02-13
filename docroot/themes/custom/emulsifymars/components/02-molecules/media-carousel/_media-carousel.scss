@@ -47,6 +47,7 @@
       height: 65px;
       left: 50%;
       bottom: 50%;
+      transform: translateX(-50%);
     }
 
     &__control[data-state="pause"] {

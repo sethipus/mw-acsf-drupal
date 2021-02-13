@@ -31,16 +31,18 @@
   %}
   {% if parent_page_media_url and parent_page_media_type == 'image' %}
     <div class="bg-image">
+      {% set images = {
+        1440: parent_page_media_url|resizeByHeight(640),
+        768: parent_page_media_url|resizeByHeight(603),
+        375: parent_page_media_url|resizeByHeight(612),
+      } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
         image_alt: parent_page_media_url,
-        image_srcset: parent_page_media_url,
-        image_sizes: '(max-width: 375px) 375px,
-              (max-width: 768px) 768px,
-              1440px',
         image_src: parent_page_media_url,
         height: '520px',
-        width: '1440px'
+        width: '1440px',
+        image_array: images,
       } %}
     </div>
   {% endif %}
