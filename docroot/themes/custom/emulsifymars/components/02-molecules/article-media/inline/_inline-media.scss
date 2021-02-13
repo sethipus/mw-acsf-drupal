@@ -27,7 +27,7 @@
       top: -15%;
       left: 50%;
     }
-  
+
     @include xl {
       width: 56rem;
       height: 48.5rem;
@@ -149,11 +149,5 @@
       top: calc(50% - 9.671rem / 2);;
       left: calc(50% - 9.671rem / 2);;
     }
-  }
-}
-
-.node--article .article-inline {
-  @include large {
-    margin: 0 27% 0 19%;
   }
 }
