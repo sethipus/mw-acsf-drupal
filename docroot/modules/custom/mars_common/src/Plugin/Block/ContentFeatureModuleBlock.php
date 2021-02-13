@@ -104,6 +104,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
     $build['#border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
+    $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
 
     $build['#theme'] = 'content_feature_module_block';
 
@@ -118,6 +119,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
 
     return [
       'label_display' => FALSE,
+      'use_dark_overlay' => TRUE,
       'explore_cta' => $conf['explore_cta'] ?? $this->t('Explore'),
     ];
   }
@@ -179,6 +181,12 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       ],
     ];
 
+    $form['use_dark_overlay'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use dark overlay'),
+      '#default_value' => $this->configuration['use_dark_overlay'] ?? TRUE,
+    ];
+
     return $form;
   }
 
@@ -193,6 +201,9 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['description'] = $form_state->getValue('description');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
+    $this->configuration['use_dark_overlay'] = ($form_state->getValue('use_dark_overlay'))
+      ? TRUE
+      : FALSE;
   }
 
 }
