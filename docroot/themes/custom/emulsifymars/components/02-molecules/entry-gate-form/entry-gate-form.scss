@@ -89,8 +89,21 @@
   }
 
   .entry-gate-form__input-container:last-child input:invalid:not(:placeholder-shown) + label{
-    top: -3.6rem;
+    top: 1rem;
     font-size: 1.6rem;
+
+    @include xs {
+      font-size: 1.2rem;
+    }
+
+    @include medium {
+      font-size: 1.2rem;
+    }
+
+    @include xl {
+      font-size: 1.2rem;
+    }
+
   }
 
   &__input-label {
