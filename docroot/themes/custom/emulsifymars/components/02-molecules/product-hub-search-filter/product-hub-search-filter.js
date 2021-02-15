@@ -19,6 +19,7 @@
         switch (true) {
           case event.target.classList.contains('search-filter-header__close'):
             event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+            enableBodyScroll();
             break;
           case event.target.classList.contains('checkbox-item__input'):
             enableApplyButtons();
@@ -76,6 +77,7 @@
       filterOpenButton.addEventListener('click', function(event) {
         const searchFilterBlock = getGridBlock(event).querySelector('.search-filter-block');
         searchFilterBlock.classList.add('search-filter-block--opened');
+        disableBodyScroll();
       });
     });
 
@@ -98,6 +100,7 @@
         const grid = getGridBlock(event);
         event.preventDefault();
         event.target.closest('.search-filter-block').classList.remove('search-filter-block--opened');
+        enableBodyScroll();
         const filterBlock = event.target.closest('.filter-block');
         if (filterBlock !== null) {
           filterBlock.querySelector('.filter-title').focus();
@@ -132,7 +135,7 @@
     const getGridBlock = (event) => {
       const target = event.target;
       // Add ', .search-filter-container' to closest parameter for storybook
-      return target.closest('[data-block-plugin-id]');
+      return target.closest('[data-block-plugin-id]') || document;
     };
 
     const getGridId = (grid) => {
@@ -254,7 +257,7 @@
 
       const updateCounters = (grid) => {
         let appliedFilters = '';
-        let appliedFiltersCounter = 0;
+        let appliedFiltersAnnounce = [];
         const filterBlocks = grid.querySelectorAll('.filter-block');
         const appliedFiltersContainer = grid.querySelector('.search-filter-info');
         const appliedFiltersBlock = grid.querySelector('.search-filter-info__applied');
@@ -269,12 +272,12 @@
           counterElement.innerHTML = counter ? counter : '';
           inputLabels.forEach(function (label) {
             appliedFilters += '\
-            <span class="search-filter-info__applied-name">\
+            <li class="search-filter-info__applied-name">\
               <span>' + label.innerText + '</span>\
-              <div data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear"></div>\
-            </span>\
+              <button data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear" aria-label="' + Drupal.t('remove ' + label.innerText) + ' "></button>\
+            </li>\
             '
-            appliedFiltersCounter++;
+            appliedFiltersAnnounce.push = Drupal.t(label.innerText);
           });
         });
 
@@ -282,6 +285,7 @@
           appliedFiltersBlock.classList.remove('search-filter-info__applied--hidden');
           clearAllButton.classList.remove('search-filter-block__button--hidden');
           appliedFiltersContainer.classList.remove('search-filter-info--hidden');
+          Drupal.announce(Drupal.t('Applied filters (') + appliedFiltersAnnounce.length + '): ' + appliedFiltersAnnounce.join(', '));
         }
         else {
           appliedFiltersBlock.classList.add('search-filter-info__applied--hidden');
@@ -289,7 +293,7 @@
           appliedFiltersContainer.classList.add('search-filter-info--hidden');
         }
 
-        appliedFiltersCount.innerHTML = appliedFiltersCounter;
+        appliedFiltersCount.innerHTML = appliedFiltersAnnounce.length;
         appliedFiltersList.innerHTML = appliedFilters;
       }
 
@@ -397,6 +401,21 @@
         applyButtons.forEach(function (button) {
           button.classList.remove('search-filter-block__button--disabled');
         });
+      }
+
+      const enableBodyScroll = () => {
+        let scrollY = document.body.style.top;
+        document.body.classList.remove('locked-scroll');
+        document.body.style.top = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+
+      const disableBodyScroll = () => {
+        let offset = window.scrollY;
+        document.body.classList.add('locked-scroll');
+        if (offset) {
+          document.body.style.top = `-${offset}px`;
+        }
       }
     },
   };

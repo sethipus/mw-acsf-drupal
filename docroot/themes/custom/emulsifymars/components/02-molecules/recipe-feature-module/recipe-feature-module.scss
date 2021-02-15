@@ -117,6 +117,11 @@
         display: inline-flex;
         justify-content: center;
         flex-flow: column nowrap;
+        padding: 0;
+      }
+
+      @include xl {
+        padding: 0 30px;
       }
 
       .eyebrow {
@@ -162,6 +167,13 @@
           font-size: 6.4rem;
           min-height: 18rem;
           margin: 3rem auto 4rem;
+          padding: 0;
+        }
+
+        @include large {
+          font-size: 6.4rem;
+          min-height: 18rem;
+          margin: 3rem auto;
           padding: 0;
         }
 
