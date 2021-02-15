@@ -17,6 +17,7 @@
  * - svg_asset_alt_3: SVG asset 3 Alt text for Story Highlight block background.
  * - view_more_cta_url: View More CTA link URL.
  * - view_more_cta_label: View More CTA link label.
+ * - overlaps_previous: Overlaps previous component.
  */
 #}
 {% include "@molecules/story-highlight/story_highlight.twig" with {
@@ -36,5 +37,6 @@
     href: view_more_cta_url
   },
   story_highlight_button_text: view_more_cta_label,
+  overlaps_previous: overlaps_previous,
   text_color_override: text_color_override
 } %}

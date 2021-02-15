@@ -5,13 +5,18 @@ dependencies:
   config:
     - field.storage.node.field_product_carb
     - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 _core:
   default_config_hash: vwCbA0uty84sOxNIf4zp66Qijmeip2m_bJOUo28mjlE
 id: node.product_variant.field_product_carb
 field_name: field_product_carb
 entity_type: node
 bundle: product_variant
-label: 'Total Carbohydrates'
+label: 'Total Carbohydrate'
 description: ''
 required: false
 translatable: true

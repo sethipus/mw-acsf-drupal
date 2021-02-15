@@ -152,7 +152,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#label' => $label,
       '#items' => $this->getFeedItems(),
       '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
-      '#brand_border' => $this->themeConfigurator->getBrandBorder2(),
+      '#brand_border' => ($this->configuration['with_brand_borders']) ? $this->themeConfigurator->getBrandBorder2() : NULL,
+      '#overlaps_previous' => $this->configuration['overlaps_previous'] ?? NULL,
       '#text_color_override' => $text_color_override,
       '#cache' => [
         'tags' => $configEntity->getCacheTags(),
@@ -191,6 +192,18 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     // Add select background color.
     $this->buildSelectBackground($form);
 
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $this->configuration['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $this->configuration['overlaps_previous'] ?? FALSE,
+    ];
+
     // Add override text color config.
     $this->buildOverrideColorElement($form, $this->configuration);
 
@@ -205,6 +218,8 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->configuration['feed'] = $form_state->getValue('feed');
     $this->configuration['label'] = $form_state->getValue('label_title');
     $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
+    $this->configuration['with_brand_borders'] = $form_state->getValue('with_brand_borders');
+    $this->configuration['overlaps_previous'] = $form_state->getValue('overlaps_previous');
     $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
@@ -212,7 +227,12 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return ['label_display' => FALSE];
+    $config = $this->getConfiguration();
+    return [
+      'label_display' => FALSE,
+      'with_brand_borders' => $config['with_brand_borders'] ?? FALSE,
+      'overlaps_previous' => $config['overlaps_previous'] ?? FALSE,
+    ];
   }
 
   /**

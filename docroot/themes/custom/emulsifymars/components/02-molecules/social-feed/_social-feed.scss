@@ -37,11 +37,6 @@
     text-align: center;
     margin-bottom: 6rem;
 
-    svg {
-      path {
-        fill: clr(subcolor-1);
-      }
-    }
   }
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
@@ -143,5 +138,9 @@
       height: 100%;
       fill: clr(secondary);
     }
+  }
+
+  &--overlaps-previous {
+    top: -40px;
   }
 }

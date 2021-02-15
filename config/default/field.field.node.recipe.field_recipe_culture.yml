@@ -1,0 +1,34 @@
+uuid: 6e4b3912-76a1-415c-ab15-b390feefb8d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_recipe_culture
+    - node.type.recipe
+    - taxonomy.vocabulary.mars_culture
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.recipe.field_recipe_culture
+field_name: field_recipe_culture
+entity_type: node
+bundle: recipe
+label: Culture
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_culture: mars_culture
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

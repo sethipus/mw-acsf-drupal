@@ -1,6 +1,7 @@
 theme_styles: 'twix'
 heading: 'The art of process'
 heading_level: 2
+overlaps_previous: true
 brand_borders: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="375" viewBox="0 0 375 20">
   <defs id="defs5123">
     <clipPath id="clipPath5159">
