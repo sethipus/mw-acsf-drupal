@@ -276,8 +276,8 @@
               <span>' + label.innerText + '</span>\
               <button data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear" aria-label="' + Drupal.t('remove ' + label.innerText) + ' "></button>\
             </li>\
-            '
-            appliedFiltersAnnounce.push = Drupal.t(label.innerText);
+            ';
+            appliedFiltersAnnounce.push(label.innerText);
           });
         });
 
