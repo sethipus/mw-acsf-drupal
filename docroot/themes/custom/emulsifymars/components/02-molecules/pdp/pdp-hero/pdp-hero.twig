@@ -84,18 +84,16 @@
       {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
         <div class='pdp-hero-main-image--{{size_id}} pdp-hero__main-image-container'>
+          {% set images = {
+            768: image_items|first.image.src|resize(472, 472),
+            375: image_items|first.image.src|resize(277, 277),
+          } %}
           {% include "@atoms/images/image/responsive-image.twig" with {
             image_alt: pdp_main_image.image.alt,
-            image_srcset: pdp_main_image.image.srcset,
-            image_sizes: '(max-width: 375px) 375px,
-                (max-width: 768px) 768px,
-                (max-width: 1024px) 1024px,
-                1440px',
             image_src: image_items|first.image.src,
             responsive_image_base_class: 'main-image',
             responsive_image_blockname: pdp_hero_base_class,
-            height: '550px',
-            width: '550px',
+            image_array: images,
           } %}
         </div>
         <div {{ bem('sticky-nav-bottom', [size_id], pdp_hero_base_class) }}>
@@ -117,18 +115,16 @@
         <div {{ bem('side-image-container', [], pdp_hero_base_class) }}>
           {% for item in pdp_side_images %}
             <div {{ bem('side-image-item', [], pdp_hero_base_class, [scroll_mandatory_base_class]) }}>
+              {% set images = {
+                768: item.image.src|resize(472, 472),
+                375: item.image.src|resize(277, 277),
+              } %}
               {% include "@atoms/images/image/responsive-image.twig" with {
                 image_alt: item.image.alt,
-                image_srcset: item.image.srcset,
-                image_sizes: '(max-width: 375px) 375px,
-                    (max-width: 768px) 768px,
-                    (max-width: 1024px) 1024px,
-                    1440px',
                 image_src: item.image.src,
-                height: '550px',
-                width: '550px',
                 responsive_image_base_class: 'side-image',
                 responsive_image_blockname: pdp_hero_base_class,
+                image_array: images,
               } %}
             </div>
           {% endfor %}

@@ -346,9 +346,12 @@
 
     img {
       width: 27.7rem;
+      height: 27.7rem;
+      object-fit: contain;
 
       @include medium {
         width: 54.9rem;
+        height: 54.9rem;
       }
     }
   }
@@ -384,10 +387,12 @@
 
     img {
       width: 27.7rem;
-      height: 100%;
+      height: 27.7rem;
+      object-fit: contain;
 
       @include medium {
         width: 47.2rem;
+        height: 47.2rem;
       }
     }
   }

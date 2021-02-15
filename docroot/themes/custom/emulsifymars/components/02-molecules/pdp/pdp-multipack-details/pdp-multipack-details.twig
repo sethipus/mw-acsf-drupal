@@ -7,10 +7,10 @@
       output_image_tag: true,
       image_alt: product_image.alt,
       image_sizes: '212px',
-      image_src: product_image.src,
+      image_src: product_image.src|resize(235, 235),
       responsive_image_blockname: 'pdp-multipack-details',
-      height: '255px',
-      width: '255px',
+      height: '235px',
+      width: '235px',
     } %}
 
     {% include "@atoms/text/headings/_heading.twig" with {
