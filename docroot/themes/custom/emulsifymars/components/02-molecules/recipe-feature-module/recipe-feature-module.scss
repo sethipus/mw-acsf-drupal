@@ -81,7 +81,7 @@
 
       @include large {
         height: 100%;
-        width: 62%;
+        width: 59%;
       }
     }
 
@@ -108,8 +108,8 @@
 
       @include large {
         position: absolute;
-        left: 60%;
-        width: 40%;
+        left: 59%;
+        width: 41%;
         margin-left: 0;
         margin-right: 0;
         top: 0;
@@ -118,10 +118,6 @@
         justify-content: center;
         flex-flow: column nowrap;
         padding: 0;
-      }
-
-      @include xl {
-        padding: 0 30px;
       }
 
       .eyebrow {
@@ -152,15 +148,15 @@
         text-transform: capitalize;
         max-width: 510px;
         font-weight: 500;
-        margin: 30px auto 20px;
+        margin: 3rem auto 2rem;
 
         @include xs {
-          padding: 0 12px;
+          padding: 0 1.2rem;
         }
 
         @include medium {
-          margin-bottom: 40px;
-          padding: 0 40px;
+          margin-bottom: 4rem;
+          padding: 0 4rem;
         }
 
         @include large {
@@ -170,11 +166,16 @@
           padding: 0;
         }
 
-        @include large {
+        @include xl {
           font-size: 6.4rem;
           min-height: 18rem;
-          margin: 3rem auto;
+          margin: 4rem;
           padding: 0;
+        }
+
+        @media (min-width: 1441px){
+          margin: 4rem;
+          max-width: 100%;
         }
 
         a.link {
