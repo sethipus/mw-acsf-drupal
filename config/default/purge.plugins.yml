@@ -1,5 +1,0 @@
-purgers:
-  -
-    order_index: 2
-    instance_id: aa145378d3
-    plugin_id: acquia_purge
