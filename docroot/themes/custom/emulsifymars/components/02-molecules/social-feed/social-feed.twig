@@ -9,7 +9,7 @@
 >
   {% if brand_border is not empty %}
     {% block brand_border %}
-      <div {{  bem('border', [border_overflow], social_feed_base_class)  }}>
+      <div {{  bem('border', [], social_feed_base_class)  }}>
         {{ brand_border | raw }}
       </div>
     {% endblock %}
