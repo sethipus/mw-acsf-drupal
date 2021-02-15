@@ -230,6 +230,7 @@ card-grid-filter:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
   dependencies:
     - core/drupal
+    - core/drupal.announce
 
 social-menu:
   js:
