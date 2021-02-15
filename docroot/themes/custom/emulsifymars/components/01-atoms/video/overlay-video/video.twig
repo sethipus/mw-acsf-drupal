@@ -9,7 +9,7 @@
   data-overlay="false"
   data-video-flag="Overlay"
   data-theme={{ theme_styles }}>
-  <video {{ bem('video', [], video__base_class) }} data-theme={{ theme_styles }}>
+  <video {{ bem('video', [], video__base_class) }} data-theme={{ theme_styles }} data-object-fit="cover">
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
