@@ -26,6 +26,10 @@
     }
   }
 
+  .first-date-element {
+    order: -1;
+  }
+
   &__input-container {
     position: relative;
     display: inline;
