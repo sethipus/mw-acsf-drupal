@@ -6,17 +6,17 @@
       <div class="wrapper">
         <!-- style="background-image:url('{{ hero_image.src }}');" -->
         <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
+          {% set images = {
+            1440: hero_image.src|resizeByHeight(656),
+            768: hero_image.src|resizeByHeight(600),
+            375: hero_image.src|resizeByHeight(435),
+          } %}
           {% include "@atoms/images/image/responsive-image.twig" with {
             output_image_tag: true,
             image_alt: '',
-            image_srcset: hero_image.srcset,
-            image_sizes: '(max-width: 375px) 375px,
-                (max-width: 768px) 768px,
-                1440px',
-            width: "936px",
-            height: "580px",
             image_src: hero_image.src,
-            responsive_image_blockname: 'homepage-hero-3up'
+            responsive_image_blockname: 'homepage-hero-3up',
+            image_array: images,
           } %}
         </div>
         <div {{ bem('container', ['hero-text'], homepage_hero__base_class) }}>
