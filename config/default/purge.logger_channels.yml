@@ -15,3 +15,9 @@ channels:
       - 0
       - 2
       - 3
+  -
+    id: purger_acquia_purge_aa145378d3
+    grants:
+      - 0
+      - 2
+      - 3
