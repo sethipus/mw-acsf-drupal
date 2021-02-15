@@ -18,15 +18,19 @@
   <div {{ bem('container', [], product_content_pair_up_base_class) }}>
     <div class="lead-card">
       <div class="bg-image">
+        {% set images = {
+          1440: background|resizeByHeight(750),
+          768: background|resizeByHeight(1003),
+          375: background|resizeByHeight(845),
+        } %}
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: background,
-          image_srcset: background,
-          image_sizes: '(max-width: 375px) 375px,
-                (max-width: 768px) 768px,
-                1440px',
           image_src: background,
-          height: '300px'
+          image_array: images,
+          width: '1440px',
+          height: '750px',
+          image_base_class: 'lead-card-bg',
         } %}
       </div>
       <div class="wrapper">

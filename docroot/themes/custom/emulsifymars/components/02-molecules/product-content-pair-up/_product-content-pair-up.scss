@@ -60,6 +60,12 @@
         padding: 179px 0 0 85px;
       }
 
+      & > .bg-image > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
       .bg-image {
         position: absolute;
         top: 0;
