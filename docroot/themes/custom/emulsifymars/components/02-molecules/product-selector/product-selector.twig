@@ -5,9 +5,15 @@
 <section {{bem(product_selector_class)}} data-theme={{theme_styles}}>
   <div {{bem('information', [], product_selector_class)}}>
     <div {{bem('image', [], product_selector_class)}}>
+      {% set images = {
+        1440: default_product.variants[0].image_src|resize(277, 277),
+        768: default_product.variants[0].image_src|resize(150, 150),
+        375: default_product.variants[0].image_src|resize(133, 133),
+      } %}
       {% include "@atoms/images/image/_image.twig" with {
         image_alt: default_product.variants[0].image_alt,
         image_src: default_product.variants[0].image_src,
+        image_array: images,
       } %}
     </div>
     <div {{bem('title', [], product_selector_class)}}>
