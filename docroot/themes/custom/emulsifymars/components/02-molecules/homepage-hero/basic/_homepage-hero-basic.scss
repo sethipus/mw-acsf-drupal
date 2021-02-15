@@ -1,7 +1,9 @@
 .homepage-hero-basic {
+  height: calc(100vh - 77px);
   position: relative;
 
-  @include xs {
+  @include medium {
+    height: auto;
     min-height: 31rem;
   }
 
@@ -33,6 +35,7 @@
 
   &__container {
     display: flex;
+    height: 100%;
   }
 
   &__image {
