@@ -14,7 +14,7 @@
         {% endif %}>
         {{entry_gate_form_day_placeholder}}</label>
     </div>
-    <div class="entry-gate-form__input-container">
+    <div class="entry-gate-form__input-container{{ (entry_gate_date_format == 'mm_dd') ? ' first-date-element' : '' }}">
       <input id="month" name="month-of-birth" class="entry-gate-form__input entry-gate--month" aria-label="{{ 'MM field, input two digits for your month of birth' | mt }}" type="text" pattern="\d*" maxlength="2" required
         {% if text_color_override is not empty %}
           style="color: {{ text_color_override }};"
