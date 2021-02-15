@@ -19,7 +19,7 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
 
           const swiper = new Swiper(this, {
             slidesPerView: 'auto',
-            spaceBetween: 20,
+            spaceBetween: 30,
             slidesOffsetBefore: 50,
             watchSlidesVisibility: true,
             observer: true,
@@ -39,11 +39,24 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             scrollbar: {
               el: scrollbar,
               draggable: true,
-              dragSize: 200
+              dragSize: 259
             },
             breakpoints: {
+              1440: {
+                scrollbar: {
+                  dragSize: 259
+                }
+              },
               768: {
-                spaceBetween: 30
+                spaceBetween: 20,
+                scrollbar: {
+                  dragSize: 140
+                }
+              },
+              375: {
+                scrollbar: {
+                  dragSize: 88
+                }
               }
             }
           });
