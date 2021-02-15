@@ -25,7 +25,7 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             observer: true,
             observeParents: true,
             keyboard: {
-              enabled: true
+              enabled: false
             },
             a11y: {
               enabled: true,
