@@ -19,7 +19,7 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
 
           const swiper = new Swiper(this, {
             slidesPerView: 'auto',
-            spaceBetween: 20,
+            spaceBetween: 30,
             slidesOffsetBefore: 50,
             watchSlidesVisibility: true,
             observer: true,
@@ -48,7 +48,7 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
                 }
               },
               768: {
-                spaceBetween: 30,
+                spaceBetween: 20,
                 scrollbar: {
                   dragSize: 140
                 }
