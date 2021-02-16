@@ -86,7 +86,7 @@
   }
 
   .swiper-slide {
-    width: 318px;
+    @include card-width;
   }
 
   .hide-arrow {
@@ -95,7 +95,7 @@
 
   .recipe-card {
     .recipe-card__media {
-      width: 318px;
+      width: 100%;
     }
     .recipe-card-heading__link {
       min-width: 0;
@@ -109,7 +109,6 @@
     box-sizing: border-box;
     margin-top: 3.5rem;
     height: 520px;
-    @include card-width;
   }
 
   .article-card {
