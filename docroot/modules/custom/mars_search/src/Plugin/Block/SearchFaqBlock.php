@@ -124,7 +124,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('faq');
     $build = array_merge($build, $this->searchBuilder->buildFaqFilters());
 
-    $cta_button_label = $this->languageHelper->translate(strtoupper('See more'));
+    $cta_button_label = $this->languageHelper->translate(strtoupper('See all'));
     $cta_button_link = '/';
     // Extracting the node context.
     $context_node = $this->getContextValue('node');

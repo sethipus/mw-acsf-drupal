@@ -178,7 +178,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
 
       $show_all = empty($faq) ? [
-        'title' => $this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]),
+        'title' => $this->t('@show_all "@keys"', ['@show_all' => strtoupper('Show All Results for'), '@keys' => strtoupper($options['keys'])]),
         'attributes' => [
           'href' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
             'query' => [
