@@ -21,7 +21,7 @@
         >
           {% if item.image %}
             {% set images = {
-              1440: item.src|resize(1128, 635),
+              1440: item.src|resize(1128, 666),
               768: item.src|resize(768, 434),
               375: item.src|resize(375, 250),
             } %}
@@ -31,7 +31,7 @@
                 image_modifiers: image_modifiers,
                 image_blockname: image_blockname,
                 image_array: images,
-                image_src: item.src,
+                image_src: item.src|resize(1128, 666),
                 image_alt: item.alt,
                 image_title: item.title,
               } %}

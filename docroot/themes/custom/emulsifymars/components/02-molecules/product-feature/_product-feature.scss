@@ -103,7 +103,6 @@
 
     img {
       max-width:100%;
-      max-height: 400px;
       object-fit: contain;
     }
 
@@ -112,27 +111,15 @@
 
       img {
         width: auto;
-        max-width: 60.8rem;
-        min-width: 400px;
       }
     }
 
     @include large {
       padding: 8rem 0 8rem 4rem;
-
-      img {
-        max-width: 44.42rem;
-        max-height: 44.21rem;
-      }
     }
 
     @include xl {
       padding: 15rem 18.19rem 8rem 10.89rem;
-
-      img {
-        max-width: 44.42rem;
-        max-height: 44.21rem;
-      }
     }
 
     @keyframes action {

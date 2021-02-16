@@ -11,7 +11,7 @@
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
         image_alt: '',
-        image_src: homepage_hero_basic_img.src,
+        image_src: homepage_hero_basic_img.src|resizeByHeight(580),
         responsive_image_blockname: 'homepage-hero-basic',
         image_array: images,
       } %}

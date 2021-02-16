@@ -26,7 +26,7 @@
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: background,
-          image_src: background,
+          image_src: background|resizeByHeight(750),
           image_array: images,
           width: '1440px',
           height: '750px',

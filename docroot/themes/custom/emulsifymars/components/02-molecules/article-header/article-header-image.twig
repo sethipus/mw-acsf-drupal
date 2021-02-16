@@ -14,7 +14,7 @@
           output_image_tag: true,
           image_alt: image.alt,
           image_array: images,
-          image_src: image.url
+          image_src: image.url|resizeByHeight(617)
         } %}
       {% endblock %}
       {% block article_media_devider %}

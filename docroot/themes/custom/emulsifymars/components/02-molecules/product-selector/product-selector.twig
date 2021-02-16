@@ -12,7 +12,7 @@
       } %}
       {% include "@atoms/images/image/_image.twig" with {
         image_alt: default_product.variants[0].image_alt,
-        image_src: default_product.variants[0].image_src,
+        image_src: default_product.variants[0].image_src|resize(277, 277),
         image_array: images,
       } %}
     </div>

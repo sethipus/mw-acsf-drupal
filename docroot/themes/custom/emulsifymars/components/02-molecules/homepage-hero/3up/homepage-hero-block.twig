@@ -44,7 +44,7 @@
           output_image_tag: true,
           image_alt: block_image.alt,
           image_title: block_image.title,
-          image_src: block_image.src,
+          image_src: block_image.src|resize(200, 200),
           responsive_image_blockname: block_image.class,
           image_array: images,
           width: '200px',

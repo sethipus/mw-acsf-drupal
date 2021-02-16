@@ -51,7 +51,7 @@
         {% include "@atoms/images/image/_image.twig" with {
           output_image_tag: true,
           image_alt: card_image_alt,
-          image_src: card_image_src,
+          image_src: card_image_src|resize(318, 318),
           responsive_image_blockname: 'content_hub_image',
           image_array: images,
         } %}

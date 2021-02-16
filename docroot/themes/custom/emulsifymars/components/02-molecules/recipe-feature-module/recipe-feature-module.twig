@@ -29,7 +29,7 @@
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: recipe_media.alt,
-          image_src: recipe_media.src,
+          image_src: recipe_media.src|resizeByHeight(567),
           responsive_image_blockname: 'recipe-media',
           height: '567px',
           width: '850px',
