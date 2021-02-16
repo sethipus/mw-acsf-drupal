@@ -12,6 +12,7 @@
       }
       var gridType = gridBlock.dataset.layerGridType;
       var pageId = gridBlock.dataset.layerPageId;
+      var pageRevisionId = gridBlock.dataset.layerPageRevisionId;
       if (gridType === 'search_page') {
         var selectorInput = '.search-page-header input';
         var selectorTypeFilter = '.search-page-header .search-results-container .results__container a';
@@ -133,6 +134,7 @@
           }
           pushQuery(query);
           query.page_id = pageId;
+          query.page_revision_id = pageRevisionId;
           query.grid_type = gridType;
           query.offset = 0;
           query.action_type = 'results';
@@ -172,6 +174,7 @@
           delete query.type;
           pushQuery(query);
           query.page_id = pageId;
+          query.page_revision_id = pageRevisionId;
           query.grid_type = 'search_page';
           query.action_type = 'results';
           query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
@@ -207,6 +210,7 @@
             query['type'] = { '1': filter };
             pushQuery(query);
             query.page_id = pageId;
+            query.page_revision_id = pageRevisionId;
             query.grid_type = 'search_page';
             query.action_type = 'results';
             query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(gridType);
