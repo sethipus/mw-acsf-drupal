@@ -72,13 +72,13 @@ class WtbProductController extends ControllerBase implements ContainerInjectionI
       $image_src = $image_alt = NULL;
       // Override media and the normal version both failed, we should skip this.
       if (isset($media_params['src'])) {
-        $image_src = $media_params['src'];
+        $image_src = (string) $media_params['src'];
         $image_alt = $media_params['alt'];
       }
 
       $result[] = [
         'size' => $variant->get('field_product_size')->value,
-        'image_src' => (string) $image_src,
+        'image_src' => $image_src,
         'image_alt' => $image_alt,
         'gtin' => $variant->get('field_product_sku')->value,
       ];

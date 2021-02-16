@@ -248,13 +248,13 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
       );
       $image_src = $image_alt = NULL;
       if (isset($media_params['src'])) {
-        $image_src = $media_params['src'];
+        $image_src = (string) $media_params['src'];
         $image_alt = $media_params['alt'];
       }
 
       $variants_info[] = [
         'size' => $variant->get('field_product_size')->value,
-        'image_src' => (string) $image_src,
+        'image_src' => $image_src,
         'image_alt' => $image_alt,
         'gtin' => $variant->get('field_product_sku')->value,
       ];
