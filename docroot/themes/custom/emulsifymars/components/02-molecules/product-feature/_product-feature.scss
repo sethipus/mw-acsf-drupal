@@ -84,9 +84,11 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+    justify-content: space-between;
     min-height: 664px;
 
     @include medium {
+      justify-content: unset;
       min-height: 740px;
     }
 
@@ -111,8 +113,10 @@
     animation: cubic-bezier(0, 0, 1, 1) action 4.8s infinite;
 
     img {
-      max-width:100%;
-      max-height: 400px;
+      min-width: 255px;
+      min-height: 255px;
+      max-width: 520px;
+      max-height: 520px;
       object-fit: contain;
     }
 
@@ -120,27 +124,25 @@
       padding: 2rem 8rem 0;
 
       img {
-        width: auto;
-        max-width: 60.8rem;
-        min-width: 400px;
+        max-width: 464px;
+        max-height: 464px;
       }
     }
 
     @include large {
-      padding: 8rem 0 8rem 4rem;
+      padding: 8rem 2rem 8rem 4rem;
 
       img {
-        max-width: 44.42rem;
-        max-height: 44.21rem;
+        max-width: 464px;
+        max-height: 464px;
       }
     }
 
     @include xl {
-      padding: 15rem 18.19rem 8rem 10.89rem;
 
       img {
-        max-width: 44.42rem;
-        max-height: 44.21rem;
+        max-width: 520px;
+        max-height: 520px;
       }
     }
 
