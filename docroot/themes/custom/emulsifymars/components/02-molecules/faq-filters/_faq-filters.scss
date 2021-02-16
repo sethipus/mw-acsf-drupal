@@ -9,12 +9,11 @@
     }
 
     @include medium {
-      margin: 0 40px;
+      margin: auto;
       max-width: none;
     }
 
     @include xl {
-      margin: auto;
       max-width: 896px;
     }
 
