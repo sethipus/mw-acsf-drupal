@@ -5,29 +5,27 @@ $xl-left-margin: 11.583rem;
   padding: 30px 0 0;
   position: relative;
 
-  .swiper-wrapper {
-    @include xs {
-      flex-direction: row;
-    }
-
-    @include larger {
-      flex-direction: column;
-    }
-  }
-
   @include small {
     padding: 40px 0 30px;
     border-top: 1px solid rgba(196, 196, 196, 0.6);
     border-bottom: 1px solid rgba(196, 196, 196, 0.6);
   }
 
-  @include larger {
+  @include xl {
     position: absolute;
     top: 0;
     right: 4rem;
     padding: 0;
     border-top: none;
     border-bottom: none;
+  }
+
+  .swiper-wrapper {
+    flex-direction: row;
+
+    @include xl {
+      flex-direction: column;
+    }
   }
 
   &__title {
@@ -39,7 +37,7 @@ $xl-left-margin: 11.583rem;
       line-height: 1.1;
     }
 
-    @include larger {
+    @include xl {
       padding-left: 1rem;
     }
   }
@@ -57,7 +55,7 @@ $xl-left-margin: 11.583rem;
     margin-top: 3rem;
   }
 
-  @include larger {
+  @include xl {
     margin: 3rem 1rem 1rem 1rem;
   }
 }
