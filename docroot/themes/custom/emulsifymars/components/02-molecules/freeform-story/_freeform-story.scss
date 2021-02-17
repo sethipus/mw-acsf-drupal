@@ -228,7 +228,6 @@
   &--left {
     img {
       max-width: 90%;
-      margin-top: 2rem;
     }
 
     .freeform-story__brand-shape {
@@ -271,6 +270,7 @@
       img {
         max-width: 100%;
         width: 100%;
+        object-fit: cover;
       }
     }
 

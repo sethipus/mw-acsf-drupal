@@ -8,7 +8,7 @@
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
       image_alt: item.image.alt,
-      image_src: item.image.src,
+      image_src: item.image.src|resize(600, 600),
       responsive_image_blockname: 'pdp-hero-slide',
       image_array: images,
     } %}

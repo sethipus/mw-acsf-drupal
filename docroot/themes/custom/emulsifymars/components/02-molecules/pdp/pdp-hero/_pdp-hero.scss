@@ -359,11 +359,6 @@
   &__side-image {
     display: flex;
     justify-content: center;
-    margin: 2rem 0;
-
-    @include medium {
-      margin: 4rem 0;
-    }
 
     &-container {
       margin: 4.5rem 0 2rem;
@@ -379,6 +374,12 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      margin: 2rem auto;
+      max-width: 65vw;
+
+      @include medium {
+        margin: 4rem 0;
+      }
 
       @include large {
         display: block;
