@@ -201,10 +201,10 @@ class WtbConfigForm extends ConfigFormBase {
       ],
     ];
 
-    $form['product_card']['client_code'] = [
+    $form['product_card']['brand_js'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Smart Commerce client code'),
-      '#default_value' => $config->get('client_code'),
+      '#title' => $this->t('Smart Commerce brand specific JS file URL'),
+      '#default_value' => $config->get('brand_js'),
       '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
       '#states' => [
         'visible' => [
@@ -216,10 +216,10 @@ class WtbConfigForm extends ConfigFormBase {
       ],
     ];
 
-    $form['product_card']['brand'] = [
+    $form['product_card']['brand_css'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Smart Commerce brand'),
-      '#default_value' => $config->get('brand'),
+      '#title' => $this->t('Smart Commerce brand specific CSS file URL'),
+      '#default_value' => $config->get('brand_css'),
       '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
       '#states' => [
         'visible' => [
@@ -250,8 +250,8 @@ class WtbConfigForm extends ConfigFormBase {
     $config->set('cta_title', $form_state->getValue('cta_title'));
     $config->set('button_type', $form_state->getValue('button_type'));
     $config->set('data_locale', $form_state->getValue('data_locale'));
-    $config->set('client_code', $form_state->getValue('client_code'));
-    $config->set('brand', $form_state->getValue('brand'));
+    $config->set('brand_js', $form_state->getValue('brand_js'));
+    $config->set('brand_css', $form_state->getValue('brand_css'));
     // Save the configuration.
     $config->save();
 

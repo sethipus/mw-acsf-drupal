@@ -105,13 +105,13 @@ function mars_product_page_attachments(&$page) {
           '#tag' => 'script',
           '#attributes' => [
             'type' => 'text/javascript',
-            'src' => 'https://s3-us-west-2.amazonaws.com/static.smartcommerce.co/assets/client/' . $wtb_config->get('client_code') . '/js/' . $wtb_config->get('brand') . '.js',
+            'src' => $wtb_config->get('brand_js'),
           ],
         ],
         'smart_commerce_brand_css' => [
           '#tag' => 'style',
           '#attributes' => [
-            'src' => 'https://s3-us-west-2.amazonaws.com/static.smartcommerce.co/assets/client/' . $wtb_config->get('client_code') . '/js/' . $wtb_config->get('brand') . '.css',
+            'src' => $wtb_config->get('brand_css'),
           ],
         ],
       ];

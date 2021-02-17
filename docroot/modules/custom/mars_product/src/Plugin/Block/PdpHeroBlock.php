@@ -268,15 +268,15 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         break;
 
       case self::VENDOR_SMART_COMMERCE:
-        $form['wtb']['client_code'] = [
+        $form['wtb']['brand_js'] = [
           '#type' => 'textfield',
-          '#title' => $this->t('Client code'),
-          '#default_value' => $this->configuration['wtb']['client_code'],
+          '#title' => $this->t('Smart Commerce brand specific JS file URL'),
+          '#default_value' => $this->configuration['wtb']['brand_js'],
         ];
-        $form['wtb']['brand'] = [
+        $form['wtb']['brand_css'] = [
           '#type' => 'textfield',
-          '#title' => $this->t('Brand'),
-          '#default_value' => $this->configuration['wtb']['brand'],
+          '#title' => $this->t('Smart Commerce brand specific CSS file URL'),
+          '#default_value' => $this->configuration['wtb']['brand_css'],
         ];
         break;
 
@@ -399,8 +399,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'product_id' => $config['wtb']['product_id'] ?? NULL,
         'button_type' => $config['wtb']['button_type'] ?? $this->wtbGlobalConfig->get('button_type') ?? NULL,
         'data_locale' => $config['wtb']['data_locale'] ?? $this->wtbGlobalConfig->get('data_locale') ?? NULL,
-        'client_code' => $this->wtbGlobalConfig->get('client_code') ?? NULL,
-        'brand' => $this->wtbGlobalConfig->get('brand') ?? NULL,
+        'brand_js' => $this->wtbGlobalConfig->get('brand_js') ?? NULL,
+        'brand_css' => $this->wtbGlobalConfig->get('brand_css') ?? NULL,
       ],
 
     ];
