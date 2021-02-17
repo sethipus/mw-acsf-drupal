@@ -15,6 +15,7 @@ import moment from 'moment';
         const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
         const a11yDataAttrName = 'data-a11y-block-tabbable';
         const a11yDateFakeLinkId = 'a11y-entry-gate-first-link';
+        const firstDateElement = $('.first-date-element input', this);
 
         dayInput[0].onkeydown = function(e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
@@ -94,7 +95,8 @@ import moment from 'moment';
           });
         }
 
-        dayInput.focus();
+        let initialFocusedElement = firstDateElement.length ? firstDateElement : dayInput;
+        initialFocusedElement.focus();
 
         dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
         monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
@@ -104,8 +106,8 @@ import moment from 'moment';
           event.preventDefault();
           const givenDate = moment(`${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`);
 
-          if (dayInput.val().length !== 2 || 
-              monthInput.val().length !== 2 || 
+          if (dayInput.val().length > 2 ||
+              monthInput.val().length > 2 ||
               yearInput.val().length !== 4 ||
               !givenDate.isValid()) {
             // invalid date is entered

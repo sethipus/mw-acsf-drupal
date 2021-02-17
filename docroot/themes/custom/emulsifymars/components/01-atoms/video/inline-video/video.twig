@@ -8,8 +8,12 @@
   data-fullcontrol="false"
   data-video-flag="Inline"
   data-theme={{ theme_styles }}>
-  <video {{ bem('video', [], video__base_class) }} >
-    <source loop src="{{ video__src__url }}" type="video/mp4" />
+  <video {{ bem('video', [], video__base_class) }} data-object-fit="cover">
+    {% if '#t' in video__src__url %}
+      <source loop src="{{ video__src__url }}" type="video/mp4" />
+    {% else %}
+      <source loop src="{{ video__src__url }}#t=0.001" type="video/mp4" />
+    {% endif %}
   </video>
   <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
     <button {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play" aria-live="polite" aria-label="{{ 'Play' | mt }}">

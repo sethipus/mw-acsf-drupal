@@ -8,7 +8,7 @@
   data-fullscreen="false"
   data-video-flag="Fullscreen"
   data-theme={{ theme_styles }}>
-  <video {{ bem('video', [], video__base_class) }}>
+  <video {{ bem('video', [], video__base_class) }} data-object-fit="cover">
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
