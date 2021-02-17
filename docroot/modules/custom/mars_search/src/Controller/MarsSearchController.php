@@ -178,16 +178,15 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
 
       $show_all = empty($faq) ? [
-        'title' => $this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]),
-        'attributes' => [
-          'href' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
-            'query' => [
-              SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
-                SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
-              ],
+        '#type' => 'link',
+        '#title' => $this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]),
+        '#url' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
+          'query' => [
+            SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
+              SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
             ],
-          ]),
-        ],
+          ],
+        ]),
       ] : [];
     }
     $config_no_results = $this->config('mars_search.search_no_results');
