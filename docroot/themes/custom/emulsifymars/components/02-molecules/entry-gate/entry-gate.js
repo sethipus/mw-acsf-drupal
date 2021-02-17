@@ -15,7 +15,6 @@ import moment from 'moment';
         const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
         const a11yDataAttrName = 'data-a11y-block-tabbable';
         const a11yDateFakeLinkId = 'a11y-entry-gate-first-link';
-        const firstDateElement = $('.first-date-element input', this);
 
         dayInput[0].onkeydown = function(e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
@@ -95,7 +94,7 @@ import moment from 'moment';
           });
         }
 
-        let initialFocusedElement = firstDateElement.length ? firstDateElement : dayInput;
+        let initialFocusedElement = $('.entry-gate-form__input')[0];
         initialFocusedElement.focus();
 
         dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
