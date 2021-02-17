@@ -15,6 +15,11 @@
         if (e.keyCode === 27) {
           return;
         }
+
+        if (e.keyCode === 13) {
+          debugger;
+        }
+
         var searchString = $(this).val();
         var gridId = $(this).attr('data-grid-id');
         var gridQuery = $(this).attr('data-grid-query');
