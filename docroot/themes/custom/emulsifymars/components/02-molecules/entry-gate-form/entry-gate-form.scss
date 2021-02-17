@@ -26,10 +26,6 @@
     }
   }
 
-  .first-date-element {
-    order: -1;
-  }
-
   &__input-container {
     position: relative;
     display: inline;
@@ -73,16 +69,6 @@
 
     @include large {
       padding: 2rem 0 1.5rem;
-    }
-
-    &--rounded-left {
-      border-top-left-radius: variable(button-border-radius);
-      border-bottom-left-radius: variable(button-border-radius);
-    }
-
-    &--rounded-right {
-      border-top-right-radius: variable(button-border-radius);
-      border-bottom-right-radius: variable(button-border-radius);
     }
 
     &:focus+label,
