@@ -240,6 +240,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $placeholder, $grid_id);
         $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-card-grid';
       }
+      // Prevent building facets if they are disabled in block configuration.
+      if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
+        $build['#filters'] = [];
+        return $build;
+      }
       if (!empty($config)) {
         $facet_id = "grid_{$grid_id}_facets";
       }
@@ -258,12 +263,6 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       if ($facets_query['resultsCount'] > 3) {
         [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], $default_filters, $grid_id);
       }
-    }
-
-    // Prevent building facets if they are disabled in block configuration.
-    if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-      $build['#filters'] = [];
-      return $build;
     }
 
     return $build;
