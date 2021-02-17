@@ -3,7 +3,7 @@
 <form {{ bem(entry_gate_form_base_class, entry_gate_form_modifiers) }} data-theme={{ theme_styles }}>
   <div class="entry-gate-form__fieldset">
     <div class="entry-gate-form__input-container">
-      <input id="day" name="day-of-birth" class="entry-gate-form__input entry-gate-form__input--rounded-left entry-gate--day" aria-label="{{ 'DD field, input two digits for your day of birth' | mt }}" type="text" pattern="\d*" maxlength="2" required
+      <input id="day" name="day-of-birth" class="entry-gate-form__input entry-gate-form__input entry-gate--day" aria-label="{{ 'DD field, input two digits for your day of birth' | mt }}" type="text" pattern="\d*" maxlength="2" required
         {% if text_color_override is not empty %}
           style="color: {{ text_color_override }};"
         {% endif %}
@@ -14,7 +14,7 @@
         {% endif %}>
         {{entry_gate_form_day_placeholder}}</label>
     </div>
-    <div class="entry-gate-form__input-container{{ (entry_gate_date_format == 'mm_dd') ? ' first-date-element' : '' }}">
+    <div class="entry-gate-form__input-container {{ (entry_gate_date_format == 'mm_dd') ? ' first-date-element' : '' }}">
       <input id="month" name="month-of-birth" class="entry-gate-form__input entry-gate--month" aria-label="{{ 'MM field, input two digits for your month of birth' | mt }}" type="text" pattern="\d*" maxlength="2" required
         {% if text_color_override is not empty %}
           style="color: {{ text_color_override }};"
@@ -27,7 +27,7 @@
         {{entry_gate_form_month_placeholder}}</label>
     </div>
     <div class="entry-gate-form__input-container">
-      <input id="year" name="year-of-birth" class="entry-gate-form__input entry-gate-form__input--rounded-right entry-gate--year" aria-label="{{ 'YYYY field, input four digits for your year of birth' | mt }}" placeholder=" "  type="text" pattern="\d*" minlength="4" maxlength="4" required
+      <input id="year" name="year-of-birth" class="entry-gate-form__input entry-gate-form__input entry-gate--year" aria-label="{{ 'YYYY field, input four digits for your year of birth' | mt }}" placeholder=" "  type="text" pattern="\d*" minlength="4" maxlength="4" required
         {% if text_color_override is not empty %}
           style="color: {{ text_color_override }};"
         {% endif %}

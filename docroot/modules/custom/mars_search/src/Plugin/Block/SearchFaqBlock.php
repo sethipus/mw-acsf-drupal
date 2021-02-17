@@ -124,8 +124,10 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('faq');
     $build = array_merge($build, $this->searchBuilder->buildFaqFilters());
 
-    $cta_button_label = $this->languageHelper->translate(strtoupper('See more'));
+    $cta_button_label = $this->languageHelper->translate(strtoupper('See all'));
     $cta_button_link = '/';
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
     $render_default = [
       '#theme' => 'mars_search_faq_block',
@@ -138,7 +140,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#data_layer' => [
         'search_term' => $searchOptions['keys'],
         'search_results' => $query_search_results['resultsCount'],
-        'page_id' => $this->getContextValue('node')->id(),
+        'page_id' => $context_node->id(),
+        'page_revision_id' => $context_node->getRevisionId(),
       ],
       '#attached' => [
         'library' => [
