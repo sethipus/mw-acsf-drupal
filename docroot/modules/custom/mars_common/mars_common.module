@@ -75,7 +75,8 @@ function mars_common_preprocess(&$variables, $hook) {
 
     $variables['theme_styles'] = 'drupal';
     $variables['graphic_divider'] = $file_divider_content ?? '';
-    $variables['brand_border'] = $file_border_content ?? '';
+    $variables['brand_border'] = ($variables['view']->args[1]) ? $file_border_content : '';
+    $variables['overlaps_previous'] = $variables['view']->args[2] ?? '';
     $variables['ajax_card_grid_heading'] = $variables['view']->args[0] ?? '';
     $variables['ajax_card_grid_link_text'] = 'See All';
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
@@ -136,6 +137,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_enabled' => NULL,
         'search_title' => NULL,
         'brand_border' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],
@@ -154,6 +156,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'region_selector' => NULL,
         'social_header' => NULL,
         'current_region_title' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -167,6 +170,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'explore_cta_link' => NULL,
         'border_radius' => NULL,
         'graphic_divider' => NULL,
+        'dark_overlay' => NULL,
       ],
       'template' => 'content-feature-module-block',
     ],
@@ -177,6 +181,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'graphic_divider' => '',
         'brand_border' => '',
         'select_background_color' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
     ],
     'flexible_driver_block' => [
@@ -205,6 +211,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'svg_asset_alt_3' => NULL,
         'view_more_cta_url' => NULL,
         'view_more_cta_label' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'story-highlight-block',
     ],
@@ -218,6 +226,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media_format' => NULL,
         'brand_shape' => NULL,
         'styles' => NULL,
+        'dark_overlay' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -289,6 +298,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
         'brand_shape' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'contact-help-banner-block',
     ],
@@ -311,12 +321,14 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'custom_background_color' => NULL,
         'use_custom_color' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'freeform-story-block',
     ],
     'poll_block' => [
       'variables' => [
         'poll' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'poll-block',
     ],
@@ -387,6 +399,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'divider' => NULL,
         'select_background_color' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'flexible-framer-block',
     ],

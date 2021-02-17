@@ -5,6 +5,11 @@
   line-height: 100%;
   color: clr(subcolor-3);
   max-height: 16.2rem;
+  margin-bottom: 2px;
+
+  @include medium {
+    margin-bottom: 30px;
+  }
 
   @include large {
     display: none;
@@ -13,6 +18,7 @@
     height: 100%;
     background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
     top: 0;
+    margin-bottom: 0;
   }
 
   &.opened {
@@ -38,7 +44,7 @@
 
     @include large {
       align-items: center;
-      height: 16.2rem;  
+      height: 16.2rem;
     }
 
     .header__branding {
@@ -59,17 +65,19 @@
     font-family: variable(secondary-font);
     color: clr(subcolor-3);
     font-size: 14px;
-    line-height: 14px;
+    line-height: 30px;
     letter-spacing: 1.4px;
 
     @include medium {
       font-size: 18px;
-      line-height: 25.2px;
     }
 
     @include large {
       color: clr(primary);
-      font-size: 18px;
+      line-height: 5rem;
+    }
+
+    @include xl {
       line-height: 6rem;
     }
   }
@@ -215,6 +223,11 @@
       width: 100%;
       border-bottom: 1px solid clr(subcolor-3);
       font-family: variable(secondary-font);
+      padding-bottom: 3px;
+
+      @include medium {
+        padding-bottom: 0;
+      }
 
       @include large {
         border-bottom: none;
@@ -227,10 +240,11 @@
         & input.mars-autocomplete-field {
           border: none;
           color: clr(subcolor-3);
+          height: 50px;
           width: 90%;
           background-color: transparent;
           outline: none;
-          padding: 0 10px 20px 35px;
+          padding: 0 10px 0 35px;
           font-size: 1.4rem;
           line-height: 1.4rem;
           letter-spacing: 1.4px;
@@ -260,7 +274,8 @@
           position: absolute;
           width: 20px;
           height: 20px;
-          top: 5px;
+          top: 50%;
+          transform: translateY(-50%);
           background-color: clr(subcolor-3);
 
           @include large {

@@ -94,7 +94,8 @@ import moment from 'moment';
           });
         }
 
-        dayInput.focus();
+        let initialFocusedElement = $('.entry-gate-form__input')[0];
+        initialFocusedElement.focus();
 
         dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
         monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
@@ -104,8 +105,8 @@ import moment from 'moment';
           event.preventDefault();
           const givenDate = moment(`${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`);
 
-          if (dayInput.val().length !== 2 || 
-              monthInput.val().length !== 2 || 
+          if (dayInput.val().length > 2 ||
+              monthInput.val().length > 2 ||
               yearInput.val().length !== 4 ||
               !givenDate.isValid()) {
             // invalid date is entered

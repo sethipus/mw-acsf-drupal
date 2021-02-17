@@ -88,6 +88,7 @@ class FlexibleFramerBlockTest extends UnitTestCase {
       'with_image' => 1,
       'with_description' => 1,
       'select_background_color' => '',
+      'with_brand_borders' => FALSE,
     ];
     $definitions = [
       'provider'    => 'test',

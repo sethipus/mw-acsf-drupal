@@ -17,7 +17,10 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
  * @Block(
  *   id = "search_faq_block",
  *   admin_label = @Translation("MARS: Search FAQs"),
- *   category = @Translation("Mars Search")
+ *   category = @Translation("Mars Search"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Current Node"))
+ *   }
  * )
  */
 class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterface {
@@ -121,8 +124,10 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('faq');
     $build = array_merge($build, $this->searchBuilder->buildFaqFilters());
 
-    $cta_button_label = $this->languageHelper->translate('See more');
+    $cta_button_label = $this->languageHelper->translate(strtoupper('See all'));
     $cta_button_link = '/';
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
     $render_default = [
       '#theme' => 'mars_search_faq_block',
@@ -135,6 +140,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#data_layer' => [
         'search_term' => $searchOptions['keys'],
         'search_results' => $query_search_results['resultsCount'],
+        'page_id' => $context_node->id(),
+        'page_revision_id' => $context_node->getRevisionId(),
       ],
       '#attached' => [
         'library' => [
@@ -153,6 +160,15 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContextMapping() {
+    $mapping = parent::getContextMapping();
+    $mapping['node'] = $mapping['node'] ?? 'layout_builder.entity';
+    return $mapping;
   }
 
 }

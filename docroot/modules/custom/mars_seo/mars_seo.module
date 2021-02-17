@@ -105,6 +105,9 @@ function mars_seo_tokens($type, $tokens, array $data, array $options, Bubbleable
 
         $replacements[$original] = $replacement ?? '';
         break;
+
+      default:
+        break;
     }
   }
 

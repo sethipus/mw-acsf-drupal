@@ -44,7 +44,8 @@
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: recipe_card_eyebrow,
       heading_level: 3,
-      heading_base_class: 'eyebrow'
+      heading_base_class: 'eyebrow',
+      text_color_override: text_color_override
     } %}
   {% endif %}
 
@@ -54,25 +55,38 @@
     heading_url: recipe_card_button_link_attributes.href,
     heading_base_class: recipe_card_heading_base_class,
     heading_link_attributes: recipe_card_heading_link_attributes,
+    text_color_override: text_color_override
   } %}
 
   <div {{ bem('labels_section', [], recipe_card_base_class) }}>
     <div class="cooking-block">
-      <label class="cooking-time">{{ label_for_cooking_time }}</label>
+      <label class="cooking-time"
+        {% if text_color_override is not empty %}
+          style="color: {{ text_color_override }};"
+        {% endif %}>
+        {{ label_for_cooking_time }}
+      </label>
         {% include "@atoms/text/text/01-paragraph.twig" with {
           paragraph_size: recipe_card_minutes,
           paragraph_content: recipe_card_minutes_number ~ ' mins',
           paragraph_base_class: recipe_card_minutes_base_class,
-          paragraph_modifiers: recipe_card_minutes_modifiers
+          paragraph_modifiers: recipe_card_minutes_modifiers,
+          text_color_override: text_color_override
         } %}
     </div>
     <div class="ingredients-block">
-      <label class="ingredients">{{ label_for_ingredients }}</label>
+      <label class="ingredients"
+        {% if text_color_override is not empty %}
+          style="color: {{ text_color_override }};"
+        {% endif %}>
+        {{ label_for_ingredients }}
+      </label>
         {% include "@atoms/text/text/01-paragraph.twig" with {
           paragraph_size: recipe_card_items_size,
           paragraph_content: recipe_card_items_number ~ ' items',
           paragraph_base_class: recipe_card_items_base_class,
-          paragraph_modifiers: recipe_card_items_modifiers
+          paragraph_modifiers: recipe_card_items_modifiers,
+          text_color_override: text_color_override
         } %}
     </div>
   </div>

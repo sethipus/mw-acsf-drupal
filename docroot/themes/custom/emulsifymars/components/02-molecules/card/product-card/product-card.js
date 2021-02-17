@@ -18,7 +18,10 @@
           const $smartCart = document.getElementById('smart-cart');
 
           $productCard.on('mouseover', () => {
-            $cardCta.addClass('default-link--light')
+            if(window.screen.availWidth > 768) {
+              $cardCta.addClass('default-link--light')
+            }
+
           });
           $productCard.on('mouseleave', () => {
             $cardCta.removeClass('default-link--light')

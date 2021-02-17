@@ -1,0 +1,24 @@
+uuid: 11670294-5a87-49cc-8f3a-2495179cdf7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_niacin_daily
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_niacin_daily
+field_name: field_product_niacin_daily
+entity_type: node
+bundle: product_variant
+label: 'Niacin % Daily Value'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
