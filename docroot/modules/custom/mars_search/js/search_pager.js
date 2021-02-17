@@ -28,6 +28,7 @@
         query.grid_type = $(this).closest('[data-layer-grid-type]').attr('data-layer-grid-type');
         query.action_type = 'results';
         query.page_id = $(this).closest('.card-grid-results').attr('data-layer-page-id');
+        query.page_revision_id = $(this).closest('.card-grid-results').attr('data-layer-page-revision-id');
         if (query.grid_type === 'grid') {
           query.grid_id = $(this).closest('.card-grid-results').attr('data-layer-grid-id');
         }
@@ -66,6 +67,7 @@
         query.grid_type = 'faq';
         query.action_type = 'results';
         query.page_id = $('[data-layer-page-id]').attr('data-layer-page-id');
+        query.page_revision_id = $('[data-layer-page-revision-id]').attr('data-layer-page-revision-id');
         var searchItems = $('.faq').find('ol.faq_list');
         query.offset = searchItems.children().length;
         $.ajax({
@@ -92,6 +94,7 @@
           query.grid_type = $(this).attr('data-layer-grid-type');
           query.action_type = 'results';
           query.page_id = $(this).attr('data-layer-page-id');
+          query.page_revision_id = $(this).attr('data-layer-page-revision-id');
           if (query.grid_type === 'grid') {
             query.grid_id = $(this).attr('data-layer-grid-id');
           }
