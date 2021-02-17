@@ -34,9 +34,11 @@
         <li>{{ suggestion|raw }}</li>
       {% endfor %}
     </ul>
-    <div class="show-all">
-      {{ link(show_all.title, show_all.attributes.href) }}
-    </div>
+    {% if show_all|length > 0 %}
+      <div class="show-all">
+        {{ link(show_all.title, show_all.attributes.href) }}
+      </div>
+    {% endif %}
   {% endif %}
 {% else %}
   {% if cards_view %}
