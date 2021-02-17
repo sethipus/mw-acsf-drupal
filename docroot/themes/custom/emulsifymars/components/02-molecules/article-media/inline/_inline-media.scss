@@ -27,7 +27,7 @@
       top: -15%;
       left: 50%;
     }
-  
+
     @include xl {
       width: 56rem;
       height: 48.5rem;
@@ -90,7 +90,7 @@
 
   @include xl {
     max-width: 780px;
-    margin: 0 auto;
+    margin-left: 19%;
   }
 
   img {

@@ -2,15 +2,22 @@
   background-color: clr(subcolor-3);
   padding: 2rem;
   overflow-x: hidden;
-  margin: 0 2rem;
   font-family: variable(secondary-font);
   font-size: 2rem;
   line-height: 1.8;
   color: clr(primary);
 
+  @include xs {
+    margin: 0 2rem;
+  }
+
   @include medium {
     margin: 0 4rem;
     padding: 2rem 0;
+  }
+
+  @include large {
+    margin: 0;
   }
 
   &__content {
@@ -23,6 +30,7 @@
     @include xl {
       max-width: 780px;
       text-align: justify;
+      margin-left: 19%;
     }
   }
 }
