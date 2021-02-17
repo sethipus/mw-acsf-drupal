@@ -68,32 +68,44 @@
       </div>
 
       <div class="story-highlight__brand-shape_1">
+        {% set brand_shape_1 = {
+          1440: asset_1|resize(242, 242),
+          768: asset_1|resize(196, 196),
+          375: asset_1|resize(124, 124),
+        } %}
         {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
         image_alt: asset_1_alt,
-        image_src: asset_1,
-        height: '118px',
-        width: '124px'
+        image_src: asset_1|resize(242, 242),
+        image_array: brand_shape_1,
       } %}
       </div>
 
       <div class="story-highlight__brand-shape_2">
+        {% set brand_shape_2 = {
+          1440: asset_2|resize(443, 443),
+          768: asset_2|resize(237, 237),
+          375: asset_2|resize(153, 153),
+        } %}
         {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
         image_alt: asset_2_alt,
         image_src: asset_2,
-        height: '153px',
-        width: '153px'
+        image_array: brand_shape_2,
       } %}
       </div>
 
       <div class="story-highlight__brand-shape_3">
+        {% set brand_shape_3 = {
+          1440: asset_3|resize(356, 356),
+          768: asset_3|resize(314, 314),
+          375: asset_3|resize(182, 182),
+        } %}
         {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
         image_alt: asset_3_alt,
-        image_src: asset_3,
-        height: '144px',
-        width: '182px'
+        image_src: asset_3|resize(356, 356),
+        image_array: brand_shape_3,
       } %}
       </div>
 
