@@ -242,7 +242,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       }
       // Prevent building facets if they are disabled in block configuration.
       if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-        return $build['#filters'] = [];
+        $build['#filters'] = [];
+        return $build;
       }
       if (!empty($config)) {
         $facet_id = "grid_{$grid_id}_facets";
