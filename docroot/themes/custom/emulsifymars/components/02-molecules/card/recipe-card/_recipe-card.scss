@@ -119,6 +119,11 @@
       font-size: 1.4rem;
       padding: 0 1.85rem;
     }
+
+    .default-link--visited{
+      color: var(--c-text-inverse);
+      background-color: var(--c-secondary);
+    }
   }
 
   .badge {

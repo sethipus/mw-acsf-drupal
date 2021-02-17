@@ -5,8 +5,12 @@
             const $recipeCard = $(this);
             const $cardCta = $recipeCard.find('.default-link');
   
+            $recipeCard.on('mouseover', () => {
+              $cardCta.removeClass('default-link--visited')
+            });
+
             $recipeCard.on('click', (e) => {
-              $cardCta.blur();
+              $cardCta.addClass('default-link--visited');
             });
           })
       }
