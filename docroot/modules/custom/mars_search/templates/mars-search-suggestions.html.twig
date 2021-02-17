@@ -35,7 +35,7 @@
       {% endfor %}
     </ul>
     <div class="show-all">
-      {{ show_all }}
+      {{ link(show_all.title, show_all.attributes.href) }}
     </div>
   {% endif %}
 {% else %}
