@@ -782,3 +782,8 @@ require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
 if (file_exists($app_root . '/' . $site_path . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
   include $app_root . '/' . $site_path . '/settings.ddev.php';
 }
+
+// Include settings for Fast404 module.
+if (file_exists($app_root . '/' . $site_path . '/settings.fast404.php')) {
+  include $app_root . '/' . $site_path . '/settings.fast404.php';
+}
