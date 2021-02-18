@@ -10,10 +10,12 @@
         <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_size.label}}</dt>
         <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_size.value}}</dd>
       </dl>
+      {% if pdp_nutrition_data.serving_item.serving_per_container.value %}
       <dl {{ bem('heading-list', [], pdp_nutrition_base_class) }}>
         <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.label}}</dt>
         <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.value}}</dd>
       </dl>
+      {% endif %}
     </div>
     <div {{ bem('nutrition-row', [], pdp_nutrition_base_class) }}>
       <div {{ bem('nutrition-column', [], pdp_nutrition_base_class) }}>
