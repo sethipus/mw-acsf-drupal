@@ -1,0 +1,24 @@
+uuid: 1f4131f5-a148-4fe6-9cf1-bb9c6afa90fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_riboflavin_daily
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_riboflavin_daily
+field_name: field_product_riboflavin_daily
+entity_type: node
+bundle: product_variant
+label: 'Riboflavin % Daily Value'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
