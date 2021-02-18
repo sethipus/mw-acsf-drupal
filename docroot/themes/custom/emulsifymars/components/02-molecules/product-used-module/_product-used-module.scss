@@ -16,7 +16,7 @@
   .product-used-swiper-container {
     width: 100%;
     height: 590px;
-    overflow: hidden;
+    overflow: visible;
 
     @include xl {
       height: auto;
