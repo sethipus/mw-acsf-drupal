@@ -122,7 +122,11 @@
 
     .default-link--visited{
       color: var(--c-text-inverse);
-      background-color: var(--c-secondary);
+      background-color: var(--c-secondary) !important;
+
+      &::after {
+        height: 0;
+      }
     }
   }
 
