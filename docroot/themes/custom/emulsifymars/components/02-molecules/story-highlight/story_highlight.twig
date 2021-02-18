@@ -38,22 +38,49 @@
         >
           {% if item.image %}
 
-            {% include "@atoms/images/image/_image.twig" with {
-              image_base_class: item.base_class,
-              image_modifiers: image_modifiers,
-              image_blockname: image_blockname,
-              image_src: item.src,
-              image_alt: item.alt,
-              image_title: item.title,
-              height: '200px',
-              width: '200px',
-            } %}
+            {% if loop.index is same as(2) %}
+              {% set images = {
+                1440: item.src|resize(433, 325),
+                768: item.src|resize(334, 251),
+                375: item.src|resize(190, 143),
+              } %}
+              <div {{ bem('aspect-ratio-wrapper', ['4-3', 'full-width']) }}>
+                {% include "@atoms/images/image/_image.twig" with {
+                  image_base_class: item.base_class,
+                  image_modifiers: image_modifiers,
+                  image_blockname: image_blockname,
+                  image_src: item.src|resize(433, 325),
+                  image_alt: item.alt,
+                  image_title: item.title,
+                  image_array: images,
+                } %}
+              </div>
+            {% else %}
+              {% set images = {
+                1440: item.src|resize(781, 439),
+                768: item.src|resize(688, 387),
+                375: item.src|resize(355, 188),
+              } %}
+              <div {{ bem('aspect-ratio-wrapper', ['16-9', 'full-width']) }}>
+                {% include "@atoms/images/image/_image.twig" with {
+                  image_base_class: item.base_class,
+                  image_modifiers: image_modifiers,
+                  image_blockname: image_blockname,
+                  image_src: item.src|resize(781, 439),
+                  image_alt: item.alt,
+                  image_title: item.title,
+                  image_array: images,
+                } %}
+              </div>
+            {% endif %}
 
           {% elseif item.video %}
-            {% include "@atoms/video/overlay-video/video.twig" with {
-              video__src__url: item.src,
-              video__control: true,
-            } %}
+            <div {{ bem('aspect-ratio-wrapper', ['16-9', 'full-width']) }}>
+              {% include "@atoms/video/overlay-video/video.twig" with {
+                video__src__url: item.src,
+                video__control: true,
+              } %}
+            </div>
           {% endif %}
 
           {% include "@atoms/text/text/01-paragraph.twig" with {

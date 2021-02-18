@@ -145,7 +145,7 @@
     border-bottom: 1px solid lightgrey;
 
     & img, video {
-      width: auto;
+      width: 100%;
       max-width: 100%;
       object-fit: cover;
     }
@@ -170,7 +170,7 @@
     margin: 4rem 2rem 0 auto;
 
     & img, video {
-      width: auto;
+      width: 100%;
       max-width: 100%;
       object-fit: cover;
     }
@@ -206,7 +206,7 @@
     margin: 12rem 12rem 12rem 2rem;
 
     & img, video {
-      width: auto;
+      width: 100%;
       max-width: 100%;
       object-fit: cover;
     }
