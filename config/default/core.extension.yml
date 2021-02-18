@@ -6,6 +6,7 @@ module:
   acquia_contenthub_subscriber: 0
   acquia_lift: 0
   acquia_lift_publisher: 0
+  acquia_purge: 0
   acquia_search: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
@@ -50,6 +51,7 @@ module:
   entityqueue: 0
   externalauth: 0
   facets: 0
+  fast404: 0
   field: 0
   field_group: 0
   field_ui: 0
@@ -59,6 +61,7 @@ module:
   gtm: 0
   help: 0
   history: 0
+  http_cache_control: 0
   image: 0
   image_widget_crop: 0
   inline_entity_form: 0
@@ -141,6 +144,12 @@ module:
   poll: 0
   printable: 0
   printable_pdf: 0
+  purge: 0
+  purge_drush: 0
+  purge_queuer_coretags: 0
+  purge_processor_lateruntime: 0
+  purge_processor_cron: 0
+  purge_ui: 0
   quickedit: 0
   rabbit_hole: 0
   rdf: 0
@@ -165,6 +174,7 @@ module:
   slick: 0
   slick_entityreference: 0
   social_media: 0
+  syslog: 0
   system: 0
   taxonomy: 0
   text: 0
