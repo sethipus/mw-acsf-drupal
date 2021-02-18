@@ -15,9 +15,9 @@ import moment from 'moment';
         const link = $('.entry-gate__bottom-paragraph a', this).length > 0 ? $('.entry-gate__bottom-paragraph a', this).last()[0] : submitBtn[0];
         const a11yDataAttrName = 'data-a11y-block-tabbable';
         const a11yDateFakeLinkId = 'a11y-entry-gate-first-link';
-        const firstDateElement = $('.first-date-element input', this);
+        const firstInputElement = $('.entry-gate-form__input', this)[0];
 
-        dayInput[0].onkeydown = function(e) {
+        firstInputElement.onkeydown = function(e) {
           if ((e.code === 'Tab' && e.shiftKey) || (e.code === 'ArrowLeft' && e.ctrlKey)) {
               e.preventDefault();
               link.focus();
@@ -27,7 +27,7 @@ import moment from 'moment';
         link.onkeydown = function(e) {
           if ((e.code === 'Tab'  && !e.shiftKey) || (e.code === 'ArrowRight' && e.ctrlKey)) {
             e.preventDefault();
-            dayInput.focus();
+            firstInputElement.focus();
           }
         };
 
@@ -95,8 +95,7 @@ import moment from 'moment';
           });
         }
 
-        let initialFocusedElement = firstDateElement.length ? firstDateElement : dayInput;
-        initialFocusedElement.focus();
+        firstInputElement.focus();
 
         dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
         monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
@@ -131,7 +130,7 @@ import moment from 'moment';
             $('.entry-gate__error-link', this)[1].onkeydown = function(e) {
               if (e.code === 'Tab'  && !e.shiftKey) {
                 e.preventDefault();
-                $('.entry-gate__error-link', this)[0].focus();
+                firstInputElement.focus();
               }
             };
             return;
