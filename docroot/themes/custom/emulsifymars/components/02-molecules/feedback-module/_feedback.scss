@@ -173,8 +173,12 @@
   }
 
   &__bottom-link {
-    line-height: 5rem;
     z-index: 2;
+    line-height: 5rem;
+
+    @include medium {
+      line-height: 6rem;
+    }
   }
 
   &__feedback-img {
