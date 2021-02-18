@@ -92,7 +92,7 @@
       <div {{ bem('corporate-tout', [], footer__base_class) }}>
         <div {{ bem('corporate-tout__text', []) }}>{{ corporate_tout_text }}</div>
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-          default_link_content: 'See All' | mt,
+          default_link_content: 'See All' | mt | upper,
           default_link_attributes: corporate_tout_link_attributes,
           default_link_base_class: 'default-link',
           default_link_modifiers: ['light']

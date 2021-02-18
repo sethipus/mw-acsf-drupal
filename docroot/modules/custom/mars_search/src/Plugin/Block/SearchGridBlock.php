@@ -137,10 +137,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
       $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
     $build['#ajax_card_grid_heading'] = $this->languageHelper->translate($config['title']);
     $build['#data_layer'] = [
-      'page_id' => $this->getContextValue('node')->id(),
+      'page_id' => $context_node->id(),
+      'page_revision_id' => $context_node->getRevisionId(),
       'grid_id' => $grid_id,
       'grid_name' => $config['title'],
       'search_term' => $searchOptions['keys'],

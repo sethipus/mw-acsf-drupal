@@ -94,7 +94,8 @@ import moment from 'moment';
           });
         }
 
-        dayInput.focus();
+        let initialFocusedElement = $('.entry-gate-form__input')[0];
+        initialFocusedElement.focus();
 
         dayInput.once('entryGate').on('keypress', e => checkValueLength(e, dayInput, 2));
         monthInput.once('entryGate').on('keypress', e => checkValueLength(e, monthInput, 2));
