@@ -4,9 +4,9 @@
   display: block;
   font-family: variable(primary-font);
   font-size: 3.2rem;
-  font-weight: normal;
-  line-height: 1.5;
-  padding: 1.6rem 3rem;
+  font-weight: 500;
+  line-height: 1;
+  padding: 2rem 3rem;
   text-decoration: none;
   border: none;
   background: none;
@@ -20,6 +20,7 @@
 
   @include medium {
     font-size: 3.6rem;
+    padding: 2.5rem 3rem;
 
     &:focus {
       outline: none;
@@ -92,10 +93,11 @@
   font-family: variable(primary-font);
   font-weight: 500;
   font-size: 1.6rem;
-  padding: 1.5rem 1rem 1.5rem 0;
+  padding: 1.8rem 1rem 1.8rem 0;
 
   @include medium {
     font-size: 1.8rem;
+    padding: 1.9rem 1rem 1.9rem 0;
   }
 
   @include large {

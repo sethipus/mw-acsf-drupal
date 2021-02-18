@@ -349,6 +349,43 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ],
     ];
 
+    $color_a = $this->themeConfiguratorParser->getSettingValue('color_a');
+    $color_e = $this->themeConfiguratorParser->getSettingValue('color_e');
+
+    $form['color_helper'] = [
+      '#type' => 'markup',
+      '#markup' => $this->languageHelper->translate(
+        'For light background please select color A for text and full opacity brand shape. 
+        For dark background please select color E or white for text and 20% opacity shape.'),
+    ];
+
+    $form['text_color'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Text color'),
+      '#options' => [
+        'color_a' => 'Color A - #' . $color_a,
+        'color_e' => 'Color E - #' . $color_e,
+        'color_w' => $this->t('White'),
+      ],
+      '#default_value' => $this->configuration['text_color'] ?? 'color_a',
+    ];
+
+    $form['brand_shape_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Brand shape color'),
+      '#default_value' => $this->configuration['brand_shape_color'] ?? '',
+    ];
+
+    $form['brand_shape_opacity'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Brand shape opacity'),
+      '#options' => [
+        'partial' => $this->t('Default 20% opacity'),
+        'full' => $this->t('Full opacity'),
+      ],
+      '#default_value' => $this->configuration['brand_shape_opacity'] ?? 'partial',
+    ];
+
     return $form;
   }
 
@@ -373,6 +410,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     return [
       'label_display' => FALSE,
       'use_background_color' => $config['use_background_color'] ?? FALSE,
+      'text_color' => $config['text_color'] ?? NULL,
+      'brand_shape_color' => $config['brand_shape_color'] ?? NULL,
+      'brand_shape_opacity' => $config['brand_shape_opacity'] ?? NULL,
       'eyebrow' => $config['eyebrow'] ?? $this->t('Products'),
       'available_sizes' => $config['available_sizes'] ?? $this->t('Available sizes'),
       'nutrition' => [
@@ -418,6 +458,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
+    $brand_shape_color = !empty($this->configuration['brand_shape_color']) ?
+      '#' . $this->configuration['brand_shape_color'] : '';
     $more_information_id = Html::getUniqueId('section-more-information');
     $pdp_common_data = [
       'hero_data' => [
@@ -435,6 +477,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'product_CTA_title' => $this->configuration['wtb']['cta_title'] ?? '',
         'button_type' => $this->configuration['wtb']['button_type'] ?? '',
         'data_locale' => $this->configuration['wtb']['data_locale'] ?? '',
+        'text_color' => $this->configuration['text_color'] ?? 'color_a',
+        'brand_shape_color' => $brand_shape_color,
+        'brand_shape_opacity' => $this->configuration['brand_shape_opacity'] ?? 'partial',
       ],
       'nutrition_data' => [
         'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',

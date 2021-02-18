@@ -18,6 +18,7 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
           const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
 
           const swiper = new Swiper(this, {
+            init: false,
             slidesPerView: "auto",
             spaceBetween: 20,
             slidesOffsetBefore: 20,
@@ -102,6 +103,12 @@ import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
             swiper.slideTo(0, 0);
             swiper.pagination.update()
           };
+
+          swiper.on('afterInit', () => {
+            checkSlides();
+            productCardListener();
+          });
+          swiper.init();
 
           $(window).on("resize", _.debounce(checkSlides, 100));
           $(window).on("load", checkSlides);
