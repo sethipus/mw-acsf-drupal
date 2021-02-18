@@ -11,6 +11,8 @@
     {% include "@molecules/polls/poll-vote.twig" %}
 
     <!-- Content Feature Module -->
-    {% include "@molecules/content-feature/content-feature.twig" %}
+    {% include "@molecules/content-feature/content-feature.twig" with {
+      heading_level: '2',
+    } %}
 
 </div>
