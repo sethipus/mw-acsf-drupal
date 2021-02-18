@@ -13,6 +13,7 @@
  * 'blocks' => [],
  * 'background_color' => [],
  * 'brand_shape' => NULL,
+ * 'dark_overlay' => NULL,
  */
 #}
 
@@ -38,6 +39,7 @@
     cta_link_attributes: cta_url,
     cta_base_class: 'cta-link',
     video__src__url: background_asset.src,
+    dark_overlay: dark_overlay,
   } %}
 
 {% elseif (block_type == 'default') %}
@@ -61,6 +63,7 @@
     cta_base_class: 'cta-link',
     background_color: background_color,
     hero_image: hero_image,
+    dark_overlay: dark_overlay,
   } %}
 
 {% elseif (block_type == 'image') %}
@@ -85,6 +88,7 @@
     hero_image: hero_image,
     blocks: blocks,
     brand_shape: brand_shape,
+    dark_overlay: dark_overlay,
   } %}
 
 {% elseif (block_type == 'image_and_text') %}

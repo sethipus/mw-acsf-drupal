@@ -7,7 +7,7 @@ body {
   background-color: clr(background);
   color: clr(text);
 
-  p > a {
+  p a {
     color: clr(primary);
     text-decoration: none;
     border-bottom: 1px solid clr(secondary);
@@ -59,6 +59,18 @@ body {
 
 .visually-hidden:focus-within {
   overflow: hidden;
+}
+
+.text-color-A {
+  color: clr(primary) !important;
+}
+
+.text-color-E {
+  color: clr(subcolor-3) !important;
+}
+
+.text-color-W {
+  color: $white !important;
 }
 
 .bg-color-C {

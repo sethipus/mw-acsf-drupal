@@ -12,20 +12,13 @@
     bottom: 0;
   }
 
-  .product-card {
-    width: 318px;
-
-    @include xl {
-      width: 318px;
-    }
-  }
-
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .product-used-swiper-container {
     width: 100%;
-    overflow: hidden;
+    height: 590px;
+    overflow: visible;
 
-    @include large {
+    @include xl {
       height: auto;
 
       .swiper-slide-next {
@@ -46,7 +39,7 @@
   }
 
   .swiper-slide {
-    width: 320px;
+    @include card-width;
   }
 
   .swiper-button-prev, .swiper-button-next {

@@ -16,6 +16,8 @@ function mars_recommendations_theme($existing, $type, $theme, $path) {
         'graphic_divider' => NULL,
         'brand_border' => NULL,
         'recommended_items' => [],
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'recommendations-module-block',
     ],

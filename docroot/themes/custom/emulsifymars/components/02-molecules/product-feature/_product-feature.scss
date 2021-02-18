@@ -36,6 +36,12 @@
         top: 12.8rem;
         left: -9.5%;
       }
+
+      @include xl {
+        width: 76rem;
+        top: 2.7rem;
+        left: -6%;
+      }
     }
 
     &--2 {
@@ -78,13 +84,21 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    min-height: 740px;
+    justify-content: space-between;
+    min-height: 66.4rem;
+
+    @include medium {
+      justify-content: unset;
+      min-height: 74rem;
+    }
 
     @include large {
       flex-direction: row;
     }
 
     &-column {
+      width: 100%;
+
       @include large {
         width: 50%;
       }
@@ -99,34 +113,36 @@
     animation: cubic-bezier(0, 0, 1, 1) action 4.8s infinite;
 
     img {
-      width: 100%;
+      min-width: 25.5rem;
+      min-height: 25.5rem;
+      max-width: 52rem;
+      max-height: 52rem;
+      object-fit: contain;
     }
 
     @include medium {
       padding: 2rem 8rem 0;
 
       img {
-        width: auto;
-        max-width: 60.8rem;
-        min-width: 400px;
+        max-width: 46.4rem;
+        max-height: 46.4rem;
       }
     }
 
     @include large {
-      padding: 8rem 0 8rem 4rem;
+      padding: 8rem 2rem 8rem 4rem;
 
       img {
-        max-width: 44.42rem;
-        max-height: 44.21rem;
+        max-width: 46.4rem;
+        max-height: 46.4rem;
       }
     }
 
     @include xl {
-      padding: 15rem 18.19rem 8rem 10.89rem;
 
       img {
-        max-width: 44.42rem;
-        max-height: 44.21rem;
+        max-width: 52rem;
+        max-height: 52rem;
       }
     }
 

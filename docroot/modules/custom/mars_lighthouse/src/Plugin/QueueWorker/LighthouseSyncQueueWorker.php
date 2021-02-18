@@ -6,10 +6,9 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\mars_lighthouse\Controller\LighthouseAdapter;
-use Drupal\mars_lighthouse\LighthouseAccessException;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
+use Drupal\mars_lighthouse\LighthouseException;
 use Drupal\mars_lighthouse\LighthouseInterface;
-use Drupal\mars_lighthouse\TokenIsExpiredException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -327,21 +326,15 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
       }
     }
 
-    $params = $this->lighthouseAdapter->getToken();
     $latest_modified_date = $this->getLatestModifiedDate($media_objects);
+
     try {
-      $data = $this->lighthouseClient->getAssetsByIds($request_data, $latest_modified_date, $params);
+      $data = $this->lighthouseClient->getAssetsByIds($request_data, $latest_modified_date);
     }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->lighthouseAdapter->refreshToken();
-      $data = $this->lighthouseClient->getAssetsByIds($request_data, $latest_modified_date, $params);
+    catch (LighthouseException $exception) {
+      $this->logger->error('Failed to run sync getAssetsByIds "%error"', ['%error' => $exception->getMessage()]);
     }
-    catch (LighthouseAccessException $e) {
-      // Try to force request new token.
-      $params = $this->lighthouseAdapter->getToken(TRUE);
-      $data = $this->lighthouseClient->getAssetsByIds($request_data, $latest_modified_date, $params);
-    }
+
     $external_ids = [];
     foreach ($data as $item) {
       $media_objects = $this->mediaStorage->loadByProperties([
@@ -380,19 +373,12 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
       ]));
       return [];
     }
-    $params = $this->lighthouseAdapter->getToken();
+
     try {
-      $data = $this->lighthouseClient->getAssetById($external_id, $params);
+      $data = $this->lighthouseClient->getAssetById($external_id);
     }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->lighthouseAdapter->refreshToken();
-      $data = $this->lighthouseClient->getAssetById($external_id, $params);
-    }
-    catch (LighthouseAccessException $e) {
-      // Try to force request new token.
-      $params = $this->lighthouseAdapter->getToken(TRUE);
-      $data = $this->lighthouseClient->getAssetById($external_id, $params);
+    catch (LighthouseException $exception) {
+      $this->logger->error('Failed to run sync getAssetById "%error"', ['%error' => $exception->getMessage()]);
     }
 
     if (!empty($data) && isset($data['assetId'])) {

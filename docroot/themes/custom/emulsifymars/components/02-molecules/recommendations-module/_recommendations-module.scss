@@ -65,11 +65,10 @@
   }
 
   .no-carousel {
-    @include medium {
-      display: flex;
-      justify-content: center;
-      margin-left: -2%;
-    }
+    display: flex;
+    justify-content: center;
+    margin-left: 10px;
+    transform: none !important;
 
     @include xl {
       margin-left: 15px;
@@ -87,7 +86,7 @@
   }
 
   .swiper-slide {
-    width: 318px;
+    @include card-width;
   }
 
   .hide-arrow {
@@ -96,7 +95,7 @@
 
   .recipe-card {
     .recipe-card__media {
-      width: 318px;
+      width: 100%;
     }
     .recipe-card-heading__link {
       min-width: 0;
@@ -109,7 +108,6 @@
   .recommendations-card {
     box-sizing: border-box;
     margin-top: 3.5rem;
-    width: 318px;
     height: 520px;
   }
 

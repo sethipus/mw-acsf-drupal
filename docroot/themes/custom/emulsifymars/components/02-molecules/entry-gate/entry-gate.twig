@@ -21,18 +21,21 @@
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: entry_gate_heading,
         heading_level: entry_gate_heading_level,
-        heading_base_class: entry_gate_heading_base_class
+        heading_base_class: entry_gate_heading_base_class,
+        text_color_override: text_color_override
       } %}
 
       {% include "@atoms/text/text/01-paragraph.twig" with {
         paragraph_size: entry_gate_paragraph_size,
         paragraph_content: entry_gate_paragraph_content,
-        paragraph_base_class: entry_gate_paragraph_base_class
+        paragraph_base_class: entry_gate_paragraph_base_class,
+        text_color_override: text_color_override
       } %}
 
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: entry_gate_eyebrow_text,
-        eyebrow_base_class: entry_gate_eyebrow_base_class
+        eyebrow_base_class: entry_gate_eyebrow_base_class,
+        text_color_override: text_color_override
       } %}
 
       {% include "@molecules/entry-gate-form/entry-gate-form.twig" with {
@@ -40,13 +43,25 @@
         entry_gate_form_day_placeholder: entry_gate_form_day_placeholder,
         entry_gate_form_month_placeholder: entry_gate_form_month_placeholder,
         entry_gate_form_year_placeholder: entry_gate_form_year_placeholder,
-        entry_gate_form_error_message: entry_gate_form_error_message
+        entry_gate_date_format: entry_gate_date_format,
+        entry_gate_form_error_message: entry_gate_form_error_message,
+        text_color_override: text_color_override
       } %}
 
       {% block paragraph_content %}
-        <div class="entry-gate__bottom-paragraph">
+        <div class="entry-gate__bottom-paragraph"
+          {% if text_color_override is not empty %}
+            style="color: {{ text_color_override }};"
+          {% endif %}>
           {{ entry_gate_bottom_paragraph_content | raw }}
         </div>
+        {% if text_color_override is not empty %}
+          <style type="text/css">
+            .entry-gate__bottom-paragraph a {
+              color: {{ text_color_override }};
+            }
+          </style>
+        {% endif %}
       {% endblock %}
     </div>
   </section>
@@ -59,27 +74,31 @@
     {% include "@atoms/text/headings/_heading.twig" with {
       heading: entry_gate_error_heading,
       heading_level: entry_gate_error_heading_level,
-      heading_base_class: entry_gate_error_heading_base_class
+      heading_base_class: entry_gate_error_heading_base_class,
+      text_color_override: text_color_override
     } %}
 
     {% include "@atoms/text/text/01-paragraph.twig" with {
       paragraph_size: entry_gate_error_paragraph_size,
       paragraph_content: entry_gate_error_paragraph_content,
-      paragraph_base_class: entry_gate_error_paragraph_base_class
+      paragraph_base_class: entry_gate_error_paragraph_base_class,
+      text_color_override: text_color_override
     } %}
 
     {% include "@atoms/links/link/link.twig" with {
       link_base_class: entry_gate_error_link_base_class,
       link_content: entry_gate_error_top_link_content ~ " >",
       link_url: entry_gate_error_top_link_url,
-      link_attributes: entry_gate_error_top_link_attributes
+      link_attributes: entry_gate_error_top_link_attributes,
+      text_color_override: text_color_override
     } %}
 
     {% include "@atoms/links/link/link.twig" with {
       link_base_class: entry_gate_error_link_base_class,
       link_content: entry_gate_error_bottom_link_content ~ " >",
       link_url: entry_gate_error_bottom_link_url,
-      link_attributes: entry_gate_error_bottom_link_attributes
+      link_attributes: entry_gate_error_bottom_link_attributes,
+      text_color_override: text_color_override
     } %}
   </section>
 </div>
