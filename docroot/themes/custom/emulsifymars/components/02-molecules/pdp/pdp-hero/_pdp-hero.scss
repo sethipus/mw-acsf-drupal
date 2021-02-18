@@ -359,6 +359,7 @@
   &__side-image {
     display: flex;
     justify-content: center;
+    object-fit: contain;
 
     &-container {
       margin: 4.5rem 0 2rem;

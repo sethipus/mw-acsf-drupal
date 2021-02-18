@@ -34,13 +34,17 @@
     </div>
 
     <div class="error-component__img-container">
+      {% set images = {
+        1440: error_component_bg_image_src|resizeByWidth(1440),
+        768: error_component_bg_image_src|resizeByWidth(768),
+        375: error_component_bg_image_src|resizeByWidth(375),
+      } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
-          output_image_tag: false,
+          output_image_tag: true,
           image_alt: error_component_bg_image_alt,
-          image_src: error_component_bg_image_src,
+          image_src: error_component_bg_image_src|resizeByWidth(1440),
           responsive_image_blockname: 'error-bg-img',
-          height: '800px',
-          width: '1600px',
+          image_array: images,
         } %}
     </div>
   </div>
