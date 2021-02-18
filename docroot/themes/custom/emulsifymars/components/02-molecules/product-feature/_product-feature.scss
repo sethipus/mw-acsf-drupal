@@ -85,11 +85,11 @@
     flex-flow: column nowrap;
     align-items: center;
     justify-content: space-between;
-    min-height: 664px;
+    min-height: 66.4rem;
 
     @include medium {
       justify-content: unset;
-      min-height: 740px;
+      min-height: 74rem;
     }
 
     @include large {
@@ -113,10 +113,10 @@
     animation: cubic-bezier(0, 0, 1, 1) action 4.8s infinite;
 
     img {
-      min-width: 255px;
-      min-height: 255px;
-      max-width: 520px;
-      max-height: 520px;
+      min-width: 25.5rem;
+      min-height: 25.5rem;
+      max-width: 52rem;
+      max-height: 52rem;
       object-fit: contain;
     }
 
@@ -124,8 +124,8 @@
       padding: 2rem 8rem 0;
 
       img {
-        max-width: 464px;
-        max-height: 464px;
+        max-width: 46.4rem;
+        max-height: 46.4rem;
       }
     }
 
@@ -133,16 +133,16 @@
       padding: 8rem 2rem 8rem 4rem;
 
       img {
-        max-width: 464px;
-        max-height: 464px;
+        max-width: 46.4rem;
+        max-height: 46.4rem;
       }
     }
 
     @include xl {
 
       img {
-        max-width: 520px;
-        max-height: 520px;
+        max-width: 52rem;
+        max-height: 52rem;
       }
     }
 
