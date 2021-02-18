@@ -303,7 +303,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
       // Adding an additional probe to get config if grid is not specified
       // because the text color may be overridden.
-      if ($grid_id === 1 && !empty($config['override_text_color'])) {
+      if ($grid_id == 1 && !empty($config['override_text_color'])) {
         return $config;
       }
     }
