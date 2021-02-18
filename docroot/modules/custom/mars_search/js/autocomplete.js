@@ -54,6 +54,17 @@
                   $(target_container).find('.search-input-wrapper').addClass('suggested');
                   $('.mars-search-autocomplete-suggestions-wrapper').show();
                 }
+                else if (
+                  $(results).hasClass('no-results') &&
+                  $(target_container).parents('.header__menu--secondary-mobile').length
+                ) {
+                  const suggestions = $(target_container).find('.mars-suggestions');
+                  suggestions.html(results);
+                  $(target_container).find('.search-input-wrapper').addClass('suggested');
+                  $('.mars-search-autocomplete-suggestions-wrapper').show();
+                  $(target_container).find('.empty-text-description').hide();
+                }
+
                 $('.faq .suggestions-links li').not(':last').click(function (){
                   var  clicked_text = $(this).text();
                   $('.mars-autocomplete-field-faq').val(clicked_text);
