@@ -109,14 +109,18 @@
         } %}
       </div>
 
-      <div {{ bem('link', [], card__base_class) }}>
-        {% include '@atoms/buttons/where-to-buy/where-to-buy.twig' with {
-            product_sku: product_sku,
-            commerce_vendor: wtb_commerce_vendor,
-            cta_title: link_content,
-            button_type: wtb_button_type,
-            data_widget_id: wtb_widget_id,
-        } %}
-      </div>
+      {% if wtb_commerce_vendor %}
+        {% set wtb_comerce_vendor_path = 'where-to-buy-' ~ wtb_commerce_vendor %}
+        <div {{ bem('link', [], card__base_class) }}>
+          {% include '@atoms/buttons/' ~ wtb_comerce_vendor_path ~ '/' ~ wtb_comerce_vendor_path ~ '.twig' with {
+              product_sku: product_sku,
+              commerce_vendor: wtb_commerce_vendor,
+              cta_title: link_content,
+              button_type: wtb_button_type,
+              data_widget_id: wtb_widget_id,
+              data_display: wtb_display
+          } %}
+        </div>
+      {% endif %}
     </div>
 </section>
