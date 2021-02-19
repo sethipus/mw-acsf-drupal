@@ -54,27 +54,6 @@
     height: 590px;
   }
 
-  .is-in-viewport {
-    img {
-      transition: cubic-bezier(0.75, 0, 0.25, 0), 0.8s;
-      transform: scale(1.1);
-    }
-    .product-card__img-hover img {
-      transform: translate(-50%, 0) scale(1.1);
-    }
-  }
-
-  .no-carousel {
-    display: flex;
-    justify-content: center;
-    margin-left: 10px;
-    transform: none !important;
-
-    @include xl {
-      margin-left: 15px;
-    }
-  }
-
   // increasing specificity to avoid using !important
   .swiper-scrollbar {
     height: 16px;
@@ -87,16 +66,21 @@
 
   .swiper-slide {
     @include card-width;
-    
-    visibility: hidden; // for watchSlidesVisibility
-  }
 
-  .swiper-slide-visible {
-    visibility: visible;
-  }
+    .product-card__image img,
+    .product-card__img-hover img {
+      transition: transform cubic-bezier(0.75, 0, 0.25, 0) 0.8s, opacity .25s ease-in;
+    }
 
-  .hide-arrow {
-    display: none;
+    &.is-in-viewport {
+      .product-card__image img {
+        transform: scale(1.1);
+      }
+
+      .product-card__img-hover img {
+        transform: translate(-50%, 0) scale(1.1);
+      }
+    }
   }
 
   .recipe-card {

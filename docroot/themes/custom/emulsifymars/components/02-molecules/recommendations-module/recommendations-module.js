@@ -22,18 +22,16 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             slidesPerView: "auto",
             spaceBetween: 20,
             slidesOffsetBefore: 20,
-            noSwipingClass: "swiper-no-swiping",
+            slidesOffsetAfter: 20,
+            centerInsufficientSlides: true,
             watchOverflow: true,
-            watchSlidesVisibility: true,
-            observer: true,
-            observeParents: true,
             keyboard: {
-              enabled: false
+              enabled: true,
             },
             a11y: {
               enabled: true,
               prevSlideMessage: Drupal.t('Previous Slide'),
-              nextSlideMessage: Drupal.t('Next Slide')
+              nextSlideMessage: Drupal.t('Next Slide'),
             },
             navigation: {
               nextEl: nextEl,
@@ -46,86 +44,129 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
               768: {
                 spaceBetween: 20,
                 slidesOffsetBefore: 40,
+                slidesOffsetAfter: 40,
               },
               1440: {
                 spaceBetween: 30,
-                slidesOffsetBefore: 39,
+                slidesOffsetBefore: 40,
+                slidesOffsetAfter: 40,
               },
             },
           });
 
-          const isInViewport = (element) => {
-            const rect = element.getBoundingClientRect();
+          let isLocked = null,
+            slidesOffsetBefore = 0,
+            slidesOffsetAfter = 0;
 
-            const windowHeight =
-              window.innerHeight || document.documentElement.clientHeight;
-            const windowWidth =
-              window.innerWidth || document.documentElement.clientWidth;
-
-            const vertInView =
-              rect.top <= windowHeight && rect.top + rect.height >= 0;
-            const horInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
-
-            return vertInView && horInView;
-          };
-
-          const productCardListener = () => {
-            const productCardList = context.querySelectorAll(".product-card");
-
-            productCardList.forEach((productCard) => {
-              if (isInViewport(productCard)) {
-                productCard.className += " is-in-viewport";
-              } else {
-                productCard.classList.remove("is-in-viewport");
+          const adjustCarouselLock = () => {
+            if(isLocked !== swiper.isLocked){
+              if (isLocked === null) {
+                ({slidesOffsetBefore, slidesOffsetAfter} = swiper.params);
               }
-            });
-          };
-
-          const checkSlides = () => {
-            let screenWidth = window.innerWidth;
-            let slidesCount = swiper.slides.length;
-
-            if (
-              (screenWidth >= 1440 && slidesCount <= 4) ||
-              (screenWidth >= 1074 && slidesCount <= 3) ||
-              (screenWidth >= 768 && slidesCount <= 2) ||
-              (slidesCount <= 1)
-            ) {
-              lockCarousel();
-            } else {
-              unlockCarousel();
+              isLocked = swiper.isLocked;
+              if(isLocked) {
+                swiper.params.slidesOffsetBefore = 0;
+                swiper.params.slidesOffsetAfter = 0;
+                swiper.params.centerInsufficientSlides = true;
+              }
+              else {
+                swiper.params.slidesOffsetBefore = slidesOffsetBefore;
+                swiper.params.slidesOffsetAfter = slidesOffsetAfter;
+                swiper.params.centerInsufficientSlides = false;
+              }
+              swiper.update();
             }
           };
 
-          const lockCarousel = () => {
-            swiper.navigation.nextEl.className += " hide-arrow";
-            swiper.navigation.prevEl.className += " hide-arrow";
-            $(".swiper-wrapper", $recommendationContainer).addClass("no-carousel swiper-no-swiping");
-            swiper.update();
-            swiper.setTranslate(0);
-            swiper.pagination.update()
-          }
+          const adjustInertSlides = _.debounce( () => {
+            const setInert = (element) => {
+              if(!element.hasAttribute('inert')) {
+                element.setAttribute('inert', '');
+                element.setAttribute('aria-hidden', 'true');
 
-          const unlockCarousel = () => {
-            swiper.navigation.nextEl.classList.remove("hide-arrow");
-            swiper.navigation.prevEl.classList.remove("hide-arrow");
-            $(".swiper-wrapper", $recommendationContainer).removeClass("no-carousel swiper-no-swiping");
-            swiper.update();
-            swiper.slideTo(0, 0);
-            swiper.pagination.update()
-          };
+                const _tabElementsString = ['a','area', 'button', 'input', 'textarea', 'select', 'details','summary', 'iframe', 'object', 'embed', '[tabindex]'];
+                const tabElements = element.querySelectorAll(_tabElementsString.join(','));
+
+                tabElements.forEach((elm) => {
+                  let tabindexValue = 'none';
+                  if(elm.hasAttribute('tabindex')){
+                    tabindexValue = elm.getAttribute('tabindex');
+                  }
+                  elm.setAttribute('data-inert-orig-tabindex', tabindexValue);
+                  elm.setAttribute('tabindex', "-1");
+                });
+              }
+            };
+
+            const removeInert = (element) => {
+              if(element.hasAttribute('inert')) {
+                element.removeAttribute('inert');
+                element.removeAttribute('aria-hidden');
+
+                const inertElements = element.querySelectorAll('[data-inert-orig-tabindex]');
+
+                inertElements.forEach((elm) => {
+                  let tabindexValue = elm.getAttribute('data-inert-orig-tabindex');
+                  if(tabindexValue === 'none'){
+                    elm.removeAttribute('tabindex');
+                  }
+                  else {
+                    elm.setAttribute('tabindex', tabindexValue);
+                  }
+                  elm.removeAttribute('data-inert-orig-tabindex');
+                });
+              }
+            };
+
+            const isSlideFullyVisible = (slide) => {
+              const slideRect = slide.getBoundingClientRect();
+              const containerRect = swiper.el.getBoundingClientRect();
+              return slideRect.left >= containerRect.left && slideRect.right <= containerRect.right;
+            };
+
+            const slides = swiper.slides;
+            const activeSlider = swiper.activeIndex;
+            slides.forEach((slide, i) => {
+              if(activeSlider === i || isSlideFullyVisible(slide)){
+                removeInert(slide);
+                slide.classList.add('is-in-viewport');
+              }
+              else {
+                setInert(slide);
+                slide.classList.remove("is-in-viewport");
+              }
+            });
+          }, 100);
 
           swiper.on('afterInit', () => {
-            checkSlides();
-            productCardListener();
+            adjustCarouselLock();
+            adjustInertSlides();
           });
-          swiper.init();
 
-          $(window).on("resize", _.debounce(checkSlides, 100));
-          $(window).on("load", checkSlides);
-          $(window).on("load", productCardListener);
-          $(".swiper-button-next", this).once('recommendationsCarousel').on("click", productCardListener);
-          $(".swiper-button-prev", this).once('recommendationsCarousel').on("click", productCardListener);
+          swiper.on('resize', _.debounce( () => {
+            adjustCarouselLock();
+            adjustInertSlides();
+          }, 100));
+
+          swiper.on('breakpoint', (swiper, breakpointParams) => {
+            isLocked = null;
+          });
+
+          swiper.on('slideChange', () => {
+            adjustInertSlides();
+          });
+
+          swiper.on('slideChangeTransitionEnd', () => {
+            adjustInertSlides();
+          });
+
+          swiper.on('transitionEnd', () => {
+            adjustInertSlides();
+          });
+
+          swiper.init();
+          
+
         });
       });
     },
