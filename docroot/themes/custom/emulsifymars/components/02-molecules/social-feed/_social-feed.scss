@@ -19,11 +19,13 @@
       @include xs {
         font-size: 4rem;
         line-height: 4rem;
+        padding: 0 2rem;
       }
 
       @include medium {
         font-size: 5.6rem;
         line-height: 5.6rem;
+        padding: 0 4rem;
       }
 
       @include large {
