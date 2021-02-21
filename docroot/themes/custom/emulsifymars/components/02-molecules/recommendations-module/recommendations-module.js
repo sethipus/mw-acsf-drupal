@@ -26,7 +26,7 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             centerInsufficientSlides: true,
             watchOverflow: true,
             keyboard: {
-              enabled: true,
+              enabled: false,
             },
             a11y: {
               enabled: true,
@@ -39,17 +39,25 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             },
             scrollbar: {
               el: scrollbar,
+              draggable: true,
+              dragSize: 88,
             },
             breakpoints: {
               768: {
                 spaceBetween: 20,
                 slidesOffsetBefore: 40,
                 slidesOffsetAfter: 40,
+                scrollbar: {
+                  dragSize: 140,
+                }
               },
               1440: {
                 spaceBetween: 30,
                 slidesOffsetBefore: 40,
                 slidesOffsetAfter: 40,
+                scrollbar: {
+                  dragSize: 259,
+                }
               },
             },
           });
@@ -165,7 +173,7 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
           });
 
           swiper.init();
-          
+
 
         });
       });
