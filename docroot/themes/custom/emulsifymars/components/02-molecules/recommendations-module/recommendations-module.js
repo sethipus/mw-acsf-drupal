@@ -17,6 +17,9 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
           const $scrollbar = $recommendationContainer.find(".swiper-scrollbar").first();
           const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
 
+          // START: the same code for
+          // recommendations-module.js
+          // social-feed.js
           const swiper = new Swiper(this, {
             init: false,
             slidesPerView: "auto",
@@ -173,7 +176,9 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
           });
 
           swiper.init();
-
+          // END: the same code for
+          // recommendations-module.js
+          // social-feed.js
 
         });
       });
