@@ -71,7 +71,7 @@
     }
 
     @include medium {
-      margin: 40px 40px 59px;
+      margin: 40px 0 59px;
       max-width: none;
     }
 
@@ -101,7 +101,7 @@
       transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
 
       @include medium {
-        padding: 17px 45px;
+        padding: 17px 43px;
       }
 
       @include xl {

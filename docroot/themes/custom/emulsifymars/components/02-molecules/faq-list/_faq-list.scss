@@ -60,15 +60,14 @@
   background-color: clr(secondary);
   font-family: variable(primary-font);
   color: clr(text-inverse);
+  display: block;
+  max-width: 315px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
 
   &:hover {
     color: clr(secondary);
-  }
-
-  @include small {
-    display: block;
-    max-width: 315px;
-    margin: auto;
   }
 
   @include medium {
@@ -77,5 +76,6 @@
 
   @include xl {
     line-height: 6rem;
+    margin-bottom: 60px;
   }
 }

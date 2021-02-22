@@ -14,3 +14,7 @@ mars_product.bazarrevoice_staging:
 mars_product.bazarrevoice_production:
   js:
     https://apps.bazaarvoice.com/deployments/dovechocolates/main_site/production/en_US/bv.js: { type: external, attributes: { async: true } }
+
+smart_commerce:
+  js:
+    https://click2cart.co/assets/js/smartcart_min.js: { type: external }

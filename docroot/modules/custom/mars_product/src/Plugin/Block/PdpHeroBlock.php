@@ -114,6 +114,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   const VENDOR_COMMERCE_CONNECTOR = 'commerce_connector';
 
   /**
+   * WTB Smart Commerce provider id.
+   */
+  const VENDOR_SMART_COMMERCE = 'smart_commerce';
+
+  /**
    * WTB none provider id.
    */
   const VENDOR_NONE = 'none';
@@ -228,40 +233,58 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#description' => $this->t("If left empty then the product variant's SKU is used."),
     ];
 
-    if ($commerce_vendor === self::VENDOR_COMMERCE_CONNECTOR) {
-      $form['wtb']['data_token'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Token'),
-        '#default_value' => $this->configuration['wtb']['data_token'],
-      ];
+    switch ($commerce_vendor) {
+      case self::VENDOR_COMMERCE_CONNECTOR:
+        $form['wtb']['data_token'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Token'),
+          '#default_value' => $this->configuration['wtb']['data_token'],
+        ];
 
-      $form['wtb']['data_subid'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('SubId'),
-        '#default_value' => $this->configuration['wtb']['data_subid'],
-      ];
+        $form['wtb']['data_subid'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('SubId'),
+          '#default_value' => $this->configuration['wtb']['data_subid'],
+        ];
 
-      $form['wtb']['cta_title'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('CTA title'),
-        '#default_value' => $this->configuration['wtb']['cta_title'],
-      ];
+        $form['wtb']['cta_title'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('CTA title'),
+          '#default_value' => $this->configuration['wtb']['cta_title'],
+        ];
 
-      $form['wtb']['button_type'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Commerce Connector: button type'),
-        '#default_value' => $this->configuration['wtb']['button_type'],
-        '#options' => [
-          'my_own' => $this->t('My own button'),
-          'commerce_connector' => $this->t('Commerce Connector button'),
-        ],
-      ];
+        $form['wtb']['button_type'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Commerce Connector: button type'),
+          '#default_value' => $this->configuration['wtb']['button_type'],
+          '#options' => [
+            'my_own' => $this->t('My own button'),
+            'commerce_connector' => $this->t('Commerce Connector button'),
+          ],
+        ];
 
-      $form['wtb']['data_locale'] = [
-        '#type' => 'textfield',
-        '#title' => $this->t('Commerce Connector: data locale'),
-        '#default_value' => $this->configuration['wtb']['data_locale'],
-      ];
+        $form['wtb']['data_locale'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Commerce Connector: data locale'),
+          '#default_value' => $this->configuration['wtb']['data_locale'],
+        ];
+        break;
+
+      case self::VENDOR_SMART_COMMERCE:
+        $form['wtb']['brand_js'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Smart Commerce brand specific JS file URL'),
+          '#default_value' => $this->configuration['wtb']['brand_js'],
+        ];
+        $form['wtb']['brand_css'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Smart Commerce brand specific CSS file URL'),
+          '#default_value' => $this->configuration['wtb']['brand_css'],
+        ];
+        break;
+
+      default:
+        break;
     }
 
     $form['nutrition'] = [
@@ -355,7 +378,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $form['color_helper'] = [
       '#type' => 'markup',
       '#markup' => $this->languageHelper->translate(
-        'For light background please select color A for text and full opacity brand shape. 
+        'For light background please select color A for text and full opacity brand shape.
         For dark background please select color E or white for text and 20% opacity shape.'),
     ];
 
@@ -407,6 +430,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function defaultConfiguration(): array {
     $config = $this->getConfiguration();
 
+    $display = 'product_hero';
+    $widget_id_field = $this->productHelper->getWidgetIdField($display);
+
     return [
       'label_display' => FALSE,
       'use_background_color' => $config['use_background_color'] ?? FALSE,
@@ -432,13 +458,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More information'),
       'show_more_information_label' => $config['more_information']['show_more_information_label'] ?? TRUE,
       'wtb' => [
-        'data_widget_id' => $config['wtb']['data_widget_id'] ?? $this->wtbGlobalConfig->get('widget_id') ?? NULL,
+        'data_widget_id' => $config['wtb']['data_widget_id'] ?? $this->wtbGlobalConfig->get($widget_id_field) ?? NULL,
+        'data_display' => $display,
         'data_token' => $config['wtb']['data_token'] ?? $this->wtbGlobalConfig->get('data_token') ?? NULL,
         'data_subid' => $config['wtb']['data_subid'] ?? $this->wtbGlobalConfig->get('data_subid') ?? NULL,
         'cta_title' => $config['wtb']['cta_title'] ?? $this->wtbGlobalConfig->get('cta_title') ?? NULL,
         'product_id' => $config['wtb']['product_id'] ?? NULL,
         'button_type' => $config['wtb']['button_type'] ?? $this->wtbGlobalConfig->get('button_type') ?? NULL,
         'data_locale' => $config['wtb']['data_locale'] ?? $this->wtbGlobalConfig->get('data_locale') ?? NULL,
+        'brand_js' => $this->wtbGlobalConfig->get('brand_js') ?? NULL,
+        'brand_css' => $this->wtbGlobalConfig->get('brand_css') ?? NULL,
       ],
 
     ];
@@ -454,7 +483,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $product_sku = '';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $product_sku = $product_variant->get('field_product_sku')->value;
+      $product_sku = $this->productHelper->formatSku($product_variant->get('field_product_sku')->value);
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
@@ -547,9 +576,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $size_id = $product_variant->id();
       $i++;
       $state = ($main_variant->id() == $product_variant->id()) ? 'true' : 'false';
-      $gtin = $product_variant->get('field_product_sku')->value;
+      if (!empty($this->configuration['wtb']['product_id'])) {
+        $gtin = trim($this->configuration['wtb']['product_id']);
+      }
+      else {
+        $gtin = trim($product_variant->get('field_product_sku')->value);
+        $gtin = $this->productHelper->formatSku($gtin);
+      }
+
       $items[] = [
-        'gtin' => !empty($this->configuration['wtb']['product_id']) ? trim($this->configuration['wtb']['product_id']) : trim($gtin),
+        'gtin' => $gtin,
         'size_id' => $size_id,
         'active' => $state,
         'hero_data' => [
