@@ -335,6 +335,7 @@
     display: flex;
     justify-content: center;
     animation: cubic-bezier(0, 0, 1, 1) pulse 4.8s infinite;
+    align-items: center;
 
 
     &-container {
