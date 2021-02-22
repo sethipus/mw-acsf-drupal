@@ -14,7 +14,7 @@ class BgColorClassMapper extends \Twig_Extension {
    */
   public function getFilters() {
     return [
-      new \Twig_SimpleFilter('bg_color_class_map', [$this, 'getBgColorClasses']),
+      new \Twig_SimpleFilter('bgColorClassMap', [$this, 'getBgColorClasses']),
     ];
   }
 
@@ -23,25 +23,6 @@ class BgColorClassMapper extends \Twig_Extension {
    */
   public function getName() {
     return 'mars_common.bg_color_class_map.twig_extension';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getFunctions() {
-    return [
-      new \Twig_SimpleFunction('uuid', [$this, 'getUuid']),
-    ];
-  }
-
-  /**
-   * Returns a unique id.
-   *
-   * @return string
-   *   A unique id.
-   */
-  public static function getUuid() {
-    return uniqid();
   }
 
   /**

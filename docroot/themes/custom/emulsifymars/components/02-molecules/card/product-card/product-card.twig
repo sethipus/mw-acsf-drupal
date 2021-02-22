@@ -4,7 +4,7 @@
 
 {% set color_section = select__background__color is not empty ? select__background__color : select_background_color %}
 
-{% set bg_color_classes = color_section | bg_color_class_map %}
+{% set bg_color_classes = color_section | bgColorClassMap %}
 {% if bg_color_classes is not empty %}
   {% set card__extra_classes = ['card-item'] | merge(bg_color_classes) %}
 {% else %}
