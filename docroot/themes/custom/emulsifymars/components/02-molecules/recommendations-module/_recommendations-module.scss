@@ -90,7 +90,7 @@
 
     &[inert] {
       [tabindex='0'] {
-        visibility: hidden; // fix for pricespider which add tabidex=0 asynchronously
+        visibility: hidden !important; // fix for pricespider which add tabidex=0 asynchronously
       }
     }
   }
