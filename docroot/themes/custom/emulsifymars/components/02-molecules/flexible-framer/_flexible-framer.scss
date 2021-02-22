@@ -136,6 +136,40 @@
         }
       }
     }
+
+  }
+
+  .grid-items-2 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/2) * 0.5625);
+        flex: 0 0 auto;
+      }
+    }
+  }
+
+  .grid-items-3 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/3) * 0.5625);
+        flex: 0 0 auto;
+      }
+    }
+    .card__body{
+      max-width: 433px;
+    }
+  }
+
+  .grid-items-4 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/4) * 0.5625);
+        flex: 0 0 auto;
+      }
+    }
+    .card__body{
+      max-width: 317px;
+    }
   }
 
   & .grid__item {
