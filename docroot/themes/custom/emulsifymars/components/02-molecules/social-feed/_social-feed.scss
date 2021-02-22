@@ -2,10 +2,6 @@
   position: relative;
   @include brand-border-overflow;
 
-  &--overlaps-previous {
-    top: -40px;
-  }
-
   &__content {
     position: relative;
     background-color: clr(subcolor-2);

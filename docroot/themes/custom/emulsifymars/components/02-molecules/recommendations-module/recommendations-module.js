@@ -117,7 +117,13 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
                 const inertElements = element.querySelectorAll('[data-inert-orig-tabindex]');
 
                 inertElements.forEach((elm) => {
+                  let tabindexCurrentValue = elm.getAttribute('tabindex');
                   let tabindexValue = elm.getAttribute('data-inert-orig-tabindex');
+
+                  if (tabindexCurrentValue !== "-1") {
+                    tabindexValue = tabindexCurrentValue;
+                  }
+
                   if(tabindexValue === 'none'){
                     elm.removeAttribute('tabindex');
                   }
@@ -137,6 +143,14 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
 
             const slides = swiper.slides;
             const activeSlider = swiper.activeIndex;
+
+            // fix invalid inert elements due to 3rd party js (priceSpider) set tabindex="0"
+            const invalidInertElements = swiper.el.querySelectorAll('[inert] [tabindex="0"]');
+            invalidInertElements.forEach((elm) => {
+              elm.setAttribute('data-inert-orig-tabindex', elm.getAttribute('tabindex'));
+              elm.setAttribute('tabindex', "-1");
+            });
+
             slides.forEach((slide, i) => {
               if(activeSlider === i || isSlideFullyVisible(slide)){
                 removeInert(slide);

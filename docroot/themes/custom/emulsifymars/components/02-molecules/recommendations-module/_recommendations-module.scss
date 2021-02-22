@@ -87,6 +87,12 @@
         transform: translate(-50%, 0) scale(1.1);
       }
     }
+
+    &[inert] {
+      [tabindex='0'] {
+        visibility: hidden; // fix for pricespider which add tabidex=0 asynchronously
+      }
+    }
   }
 
   .recipe-card {
