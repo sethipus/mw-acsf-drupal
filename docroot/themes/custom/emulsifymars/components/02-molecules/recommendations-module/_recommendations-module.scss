@@ -51,12 +51,12 @@
     background-color: rgba(clr(secondary-rgb),0.4);
     height: 0.5rem;
     width: 16.1rem;
-    margin: 3rem auto 0;
+    margin: 1rem auto 0;
 
     @include medium {
       height: 0.5rem;
       width: 25.7rem;
-      margin-top: 4rem;
+      margin-top: 2rem;
     }
 
     @include xl {
@@ -109,9 +109,10 @@
   .product-card,
   .recommendations-card {
     box-sizing: border-box;
-    margin-top: 3.5rem; //due to "new" badge
-    margin-bottom: 0;
     height: 5.2rem;
+    margin-top: 3.5rem; //due to "new" badge
+    margin-bottom: 2rem; // space for shadow
+
   }
 
   .article-card {
@@ -133,18 +134,18 @@
     border-radius: 50%;
     border: 0;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-    margin-top: -(5.5rem - 3.5rem)/2;
+    margin-top: -(5.5rem - 3.5rem + 2rem)/2; // -(buttonHeight - cardMarginTop + cardMarginbottom)/2
     width: 5.5rem;
     height: 5.5rem;
 
     @include medium {
-      margin-top: -(6rem - 3.5rem)/2;
+      margin-top: -(6rem - 3.5rem + 2rem)/2;
       width: 6rem;
       height: 6rem;
     }
 
     @include xl {
-      margin-top: -(7rem - 3.5rem)/2;
+      margin-top: -(7rem - 3.5rem + 2rem)/2;
       width: 7rem;
       height: 7rem;
     }
