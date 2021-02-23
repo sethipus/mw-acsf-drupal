@@ -36,6 +36,9 @@
     position: relative;
     width: auto;
 
+    &:focus {
+      outline: royalblue auto 1px;
+    }
     &.active,
     &:active,
     &:hover {
