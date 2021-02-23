@@ -5,4 +5,4 @@ dependencies: {  }
 name: 'FOOD TYPE'
 vid: mars_food_type
 description: ''
-weight: 0
+weight: -4
