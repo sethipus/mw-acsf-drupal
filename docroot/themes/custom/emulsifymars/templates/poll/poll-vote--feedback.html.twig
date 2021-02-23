@@ -8,7 +8,7 @@
 #}
 
 {{ attach_library('emulsifymars/feedback') }}
-{% set feedback_bottom_link_attr = href: form.poll['#value'].field_contact_us_link.value %}
+{% set feedback_bottom_link_attr = { href: form.poll['#value'].field_contact_us_link.value } %}
 
 {% include "@molecules/feedback-module/feedback.twig" with {
   theme_styles: 'drupal',
