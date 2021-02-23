@@ -150,6 +150,10 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
     // Adjusting them with grid specific configuration.
     // Content type filter.
     if (!empty($config['content_type'])) {
+      // Remove filter by type.
+      $searchOptions['conditions'] = array_filter($searchOptions['conditions'], function ($condition, $k) {
+        return $condition[0] !== 'type';
+      }, ARRAY_FILTER_USE_BOTH);
       $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
     }
 

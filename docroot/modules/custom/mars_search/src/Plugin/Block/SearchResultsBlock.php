@@ -121,12 +121,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
       $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
     // Build dataLayer attributes if search results are displayed for keys.
     $build['#data_layer'] = [
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_search_results['resultsCount'],
-      'page_id' => $this->getContextValue('node')->id(),
+      'page_id' => $context_node->id(),
+      'page_revision_id' => $context_node->getRevisionId(),
     ];
 
     $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();

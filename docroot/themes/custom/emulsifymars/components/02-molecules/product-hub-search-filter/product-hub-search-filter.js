@@ -276,8 +276,8 @@
               <span>' + label.innerText + '</span>\
               <button data-id="' + label.getAttribute('for') + '" class="search-filter-info__applied-clear" aria-label="' + Drupal.t('remove ' + label.innerText) + ' "></button>\
             </li>\
-            '
-            appliedFiltersAnnounce.push = Drupal.t(label.innerText);
+            ';
+            appliedFiltersAnnounce.push(label.innerText);
           });
         });
 
@@ -306,6 +306,7 @@
         query += '&action_type=results';
         query += '&grid_type=' + gridType;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
+        query += '&page_revision_id=' + grid.querySelector('[data-layer-page-revision-id]').dataset.layerPageRevisionId;
         if (gridType == 'grid') {
           query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         }
@@ -348,6 +349,7 @@
         query += '&action_type=facet';
         query += '&grid_type=' + gridType;
         query += '&page_id=' + grid.querySelector('[data-layer-page-id]').dataset.layerPageId;
+        query += '&page_revision_id=' + grid.querySelector('[data-layer-page-revision-id]').dataset.layerPageRevisionId;
         if (gridType == 'grid') {
           query += '&grid_id=' + grid.querySelector('[data-layer-grid-id]').dataset.layerGridId;
         }

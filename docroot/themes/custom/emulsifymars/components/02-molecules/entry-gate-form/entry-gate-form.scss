@@ -65,19 +65,10 @@
     border: none;
     outline: none;
     width: 100%;
+    border-radius: var(--card-border-radius);
 
     @include large {
       padding: 2rem 0 1.5rem;
-    }
-
-    &--rounded-left {
-      border-top-left-radius: variable(button-border-radius);
-      border-bottom-left-radius: variable(button-border-radius);
-    }
-
-    &--rounded-right {
-      border-top-right-radius: variable(button-border-radius);
-      border-bottom-right-radius: variable(button-border-radius);
     }
 
     &:focus+label,
@@ -89,8 +80,21 @@
   }
 
   .entry-gate-form__input-container:last-child input:invalid:not(:placeholder-shown) + label{
-    top: -3.6rem;
+    top: 1rem;
     font-size: 1.6rem;
+
+    @include xs {
+      font-size: 1.2rem;
+    }
+
+    @include medium {
+      font-size: 1.2rem;
+    }
+
+    @include xl {
+      font-size: 1.2rem;
+    }
+
   }
 
   &__input-label {

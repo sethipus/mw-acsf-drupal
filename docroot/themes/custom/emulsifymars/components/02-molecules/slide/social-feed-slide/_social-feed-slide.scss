@@ -1,12 +1,37 @@
 .social-feed-slide {
-  max-width: 31.7rem;
+  border-radius: 1rem;
+  width: 24.8rem;
+  height: 24.8rem;
+  overflow: hidden;
 
-  @media (max-width: 768px) {
-    max-width: 21.6rem;
+  @include medium {
+    width: 21.6rem;
+    height: 21.6rem;
   }
 
-  @media (max-width: 375px) {
-    max-width: 24.8rem;
+  @include xl {
+    width: 31.7rem;
+    height: 31.7rem;
+  }
+
+  &__link {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: clr(text-inverse);
+    font-size: 1.4rem;
+
+    &:focus::after { // TODO: focus ring should be applied via mixin
+      position: absolute;
+      content: '';
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      outline: 0;
+      border-radius: 1rem;
+      border: 2px solid black;
+    }
   }
 
   &__header {
@@ -39,9 +64,4 @@
     border-radius: 1rem;
   }
 
-  &__link {
-    text-decoration: none;
-    color: clr(text-inverse);
-    font-size: 1.4rem;
-  }
 }

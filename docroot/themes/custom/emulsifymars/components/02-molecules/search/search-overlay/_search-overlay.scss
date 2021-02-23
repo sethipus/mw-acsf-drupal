@@ -5,7 +5,11 @@
   line-height: 100%;
   color: clr(subcolor-3);
   max-height: 16.2rem;
-  margin-bottom: 30px;
+  margin-bottom: 2px;
+
+  @include medium {
+    margin-bottom: 30px;
+  }
 
   @include large {
     display: none;
@@ -219,6 +223,11 @@
       width: 100%;
       border-bottom: 1px solid clr(subcolor-3);
       font-family: variable(secondary-font);
+      padding-bottom: 3px;
+
+      @include medium {
+        padding-bottom: 0;
+      }
 
       @include large {
         border-bottom: none;
@@ -271,7 +280,6 @@
 
           @include large {
             left: 20px;
-            top: 70px;
             background-color: clr(primary);
           }
         }

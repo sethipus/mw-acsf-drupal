@@ -43,6 +43,7 @@ class WtbConfigForm extends ConfigFormBase {
         PdpHeroBlock::VENDOR_NONE => $this->t('None'),
         PdpHeroBlock::VENDOR_PRICE_SPIDER => $this->t('Price Spider'),
         PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR => $this->t('Commerce Connector'),
+        PdpHeroBlock::VENDOR_SMART_COMMERCE => $this->t('Smart Commerce'),
       ],
       '#required' => TRUE,
     ];
@@ -72,6 +73,8 @@ class WtbConfigForm extends ConfigFormBase {
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
           'or',
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+          'or',
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
         ],
       ],
     ];
@@ -97,6 +100,36 @@ class WtbConfigForm extends ConfigFormBase {
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
           'or',
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+        ],
+      ],
+    ];
+
+    $form['product_card']['carousel_widget_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Carousel Widget id'),
+      '#default_value' => $config->get('carousel_widget_id'),
+      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+        ],
+        'required' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+        ],
+      ],
+    ];
+
+    $form['product_card']['button_widget_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Smart Button Widget id'),
+      '#default_value' => $config->get('button_widget_id'),
+      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+        ],
+        'required' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
         ],
       ],
     ];
@@ -168,6 +201,36 @@ class WtbConfigForm extends ConfigFormBase {
       ],
     ];
 
+    $form['product_card']['brand_js'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Smart Commerce brand specific JS file URL'),
+      '#default_value' => $config->get('brand_js'),
+      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+        ],
+        'required' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+        ],
+      ],
+    ];
+
+    $form['product_card']['brand_css'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Smart Commerce brand specific CSS file URL'),
+      '#default_value' => $config->get('brand_css'),
+      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
+      '#states' => [
+        'visible' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+        ],
+        'required' => [
+          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+        ],
+      ],
+    ];
+
     return $form;
   }
 
@@ -179,12 +242,16 @@ class WtbConfigForm extends ConfigFormBase {
 
     $config->set('commerce_vendor', $form_state->getValue('commerce_vendor'));
     $config->set('widget_id', $form_state->getValue('widget_id'));
+    $config->set('carousel_widget_id', $form_state->getValue('carousel_widget_id'));
+    $config->set('button_widget_id', $form_state->getValue('button_widget_id'));
     $config->set('account_id', $form_state->getValue('account_id'));
     $config->set('data_token', $form_state->getValue('data_token'));
     $config->set('data_subid', $form_state->getValue('data_subid'));
     $config->set('cta_title', $form_state->getValue('cta_title'));
     $config->set('button_type', $form_state->getValue('button_type'));
     $config->set('data_locale', $form_state->getValue('data_locale'));
+    $config->set('brand_js', $form_state->getValue('brand_js'));
+    $config->set('brand_css', $form_state->getValue('brand_css'));
     // Save the configuration.
     $config->save();
 

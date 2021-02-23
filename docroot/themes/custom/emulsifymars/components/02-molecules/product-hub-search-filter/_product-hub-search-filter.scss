@@ -46,7 +46,7 @@
   position: fixed;
   top: 30px;
   left: 0;
-  height: calc(100vh - 30px);
+  bottom: 0;
   width: 100%;
   border-radius: 20px 20px 0 0;
   display: none;
@@ -122,6 +122,9 @@
 
 .search-filter-header {
   height: 60px;
+  position: absolute;
+  top: 0;
+  width: 100%;
 
   @include xl {
     display: none;
@@ -164,12 +167,13 @@
 
 .search-filter-content {
   padding: 0 20px;
-  height: calc(100vh - 170px);
-  overflow-x: hidden;
-  overflow-y: scroll;
+  position: absolute;
+  top: 60px;
+  bottom: 80px;
+  width: 100%;
+  overflow: auto;
 
   @include xl {
-    height: auto;
     width: 920px;
     margin: auto;
     padding: 0;
@@ -177,6 +181,7 @@
     flex-wrap: wrap;
     justify-content: center;
     overflow: visible;
+    position: static;
   }
 
   &::-webkit-scrollbar {
@@ -185,6 +190,9 @@
 }
 
 .search-filter-footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   height: 80px;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   display: flex;

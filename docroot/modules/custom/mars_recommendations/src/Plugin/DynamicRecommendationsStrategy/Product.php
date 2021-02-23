@@ -47,6 +47,12 @@ class Product extends DynamicRecommendationsStrategyPluginBase {
       $query = $this->nodeStorage->getQuery();
       $query->condition('type', ['product', 'product_multipack'], 'IN');
 
+      $product_generated = $query->orConditionGroup()
+        ->notExists('field_product_generated')
+        ->condition('field_product_generated.value', 1, '!=');
+
+      $query->condition($product_generated);
+
       $queryFieldName = $fieldname . '.target_id';
       if (!empty($entity_ids)) {
         $query->condition($queryFieldName, $entity_ids, 'IN');

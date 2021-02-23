@@ -130,6 +130,10 @@ $outer-container-break: $small;
     transform: translateY(-100%) translateY($brand-border2-offset);
     z-index: $brand-border-overflow-zindex;
 
+    &--no-overflow {
+      display: none;
+    }
+
     svg {
       display: block;
       top: $brand-border2-offset;
