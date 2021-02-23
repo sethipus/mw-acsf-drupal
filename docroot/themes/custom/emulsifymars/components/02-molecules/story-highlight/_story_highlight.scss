@@ -300,7 +300,8 @@
     }
 
     @media (min-width: 550px){
-      max-width: 41rem;
+      max-width: 33.4rem;
+      margin: 4rem 0 0 calc(100% - 33.4rem);
       &__wrapper{
         & img {
           width: 100% !important;
