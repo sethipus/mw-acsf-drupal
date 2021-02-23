@@ -26,10 +26,10 @@
           $('.mars-search-autocomplete-suggestions-wrapper').hide();
           $('.search-input-wrapper').removeClass('suggested');
           $(target_container).find('.mars-suggestions').html('');
-          return;
         }
         if ((searchString.length < 3) || (e.keyCode === 13)) {
           hideSuggestion();
+          return;
         }
         if (searchString.length > 2) {
           var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString + '&search_id=' + gridId;
