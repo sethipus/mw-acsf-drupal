@@ -15,15 +15,18 @@
         if (e.keyCode === 27) {
           return;
         }
+
         var searchString = $(this).val();
         var gridId = $(this).attr('data-grid-id');
         var gridQuery = $(this).attr('data-grid-query');
         var cardsView = $(this).hasClass('mars-cards-view');
         var target_container = $(this).parents('.search-input-wrapper').parent();
-        if (searchString.length < 3) {
+
+        if ((searchString.length < 3) || (e.keyCode === 13)) {
           $('.mars-search-autocomplete-suggestions-wrapper').hide();
           $('.search-input-wrapper').removeClass('suggested');
           $(target_container).find('.mars-suggestions').html('');
+          return;
         }
         if (searchString.length > 2) {
           var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString + '&search_id=' + gridId;
