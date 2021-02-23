@@ -169,16 +169,14 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
             'ellipsis' => TRUE,
           ];
           $suggestions[] = FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value));
-          // Indicates that it's faq query so we can skip show all link.
-          $faq = TRUE;
         }
         else {
           $suggestions[] = $options['cards_view'] ? $this->viewBuilder->view($entity, 'card') : $entity->toLink();
         }
       }
 
-      $show_all = empty($faq) ? [
-        'title' => $this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]),
+      $show_all = isset($options['cards_view']) ? [
+        'title' => $this->t('@show_all "@keys"', ['@show_all' => 'Show All Results for', '@keys' => $options['keys']]),
         'attributes' => [
           'href' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
             'query' => [
@@ -303,7 +301,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
       // Adding an additional probe to get config if grid is not specified
       // because the text color may be overridden.
-      if ((empty($config['grid_id']) || $config['grid_id'] === 1) && !empty($config['override_text_color'])) {
+      if ($grid_id == 1 && !empty($config['override_text_color'])) {
         return $config;
       }
     }

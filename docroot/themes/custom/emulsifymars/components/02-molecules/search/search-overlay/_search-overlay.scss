@@ -159,7 +159,6 @@
 
           & a {
             color: clr(subcolor-3);
-            text-transform: uppercase;
 
             @include large {
               color: clr(primary);
