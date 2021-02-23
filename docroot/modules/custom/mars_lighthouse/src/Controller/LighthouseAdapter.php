@@ -264,10 +264,9 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     // Replace file scheme with a 001default URI scheme for creating the file
     // if 001orig scheme URI value is longer than 255 symbols.
     $remote_media_file_uri_scheme = explode('.', $file_mapping['uri']);
-    if (!empty($remote_media_file_uri_scheme[1])) {
-      if (strlen($data['urls'][$remote_media_file_uri_scheme[1]]) >= 255) {
-        $fields_values['uri'] = $data['urls']['001default'];
-      }
+    if (!empty($remote_media_file_uri_scheme[1]) && strlen($data['urls'][$remote_media_file_uri_scheme[1]]) >= 255) {
+      $this->messenger()->addWarning('We are trying to get the default LightHouse media component URL because the original one is longer than 255 symbols. Filename: @filename', ['@filename' => $fields_values['filename']]);
+      $fields_values['uri'] = !empty($data['urls']['001default']) ? $data['urls']['001default'] : '';
     }
 
     $file = $this->fileStorage->create($fields_values);
