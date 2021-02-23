@@ -346,7 +346,7 @@
     min-width: 20.2rem;
     padding: 2.4rem 0;
     background-color: var(--c-secondary);
-    color: clr(primary) !important;
+    color: clr(subcolor-3) !important;
     font-size: 1.6rem !important;
     font-family: variable(secondary-font) !important;
     font-weight: normal;
@@ -574,7 +574,7 @@
     #dvFastForms .btnDiv input:hover {
       background-color: white;
       border: 1px solid #c4c4c4;
-      color: clr(secondary);
+      color: clr(secondary) !important;
     }
   }
 }
