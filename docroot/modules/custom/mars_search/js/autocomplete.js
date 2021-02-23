@@ -54,7 +54,7 @@
                   $(target_container).find('.search-input-wrapper').addClass('suggested');
                   $('.mars-search-autocomplete-suggestions-wrapper').show();
                 }
-                $('.faq .suggestions-links li').not(':last').click(function (){
+                $('.faq .suggestions-links li').click(function (){
                   var  clicked_text = $(this).text();
                   $('.mars-autocomplete-field-faq').val(clicked_text);
                 });
