@@ -266,7 +266,13 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     $remote_media_file_uri_scheme = explode('.', $file_mapping['uri']);
     if (!empty($remote_media_file_uri_scheme[1]) && strlen($data['urls'][$remote_media_file_uri_scheme[1]]) >= 255) {
       $this->messenger()->addWarning('We are trying to get the default LightHouse media component URL because the original one is longer than 255 symbols. Filename: @filename', ['@filename' => $fields_values['filename']]);
-      $fields_values['uri'] = !empty($data['urls']['001default']) ? $data['urls']['001default'] : '';
+      if (!empty($data['urls']['001default'])) {
+        $fields_values['uri'] = $data['urls']['001default'];
+      }
+      else {
+        $this->messenger()->addWarning('Alternative video URL not found. Please contact administrators to check the LightHouse response. Filename: @filename', ['@filename' => $fields_values['filename']]);
+        return '';
+      }
     }
 
     $file = $this->fileStorage->create($fields_values);
