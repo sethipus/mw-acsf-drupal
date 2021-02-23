@@ -1,12 +1,15 @@
 {{ attach_library('emulsifymars/recommendations-module') }}
 {% set recommendations_base_class = recommendations_base_class|default('recommendations') %}
+{% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
 
-<section id="recommendations" {{ bem(recommendations_base_class) }} data-theme="{{ theme_styles }}">
-  {% block brand_border %}
-    <div {{  bem('border', [], recommendations_base_class)  }}>
-      {{ brand_border | raw }}
-    </div>
-  {% endblock %}
+<section id="recommendations" {{ bem(recommendations_base_class, recommendations_modifiers) }} data-theme="{{ theme_styles }}">
+  {% if brand_border is not empty %}
+    {% block brand_border %}
+      <div {{  bem('border', [border_overflow], recommendations_base_class)  }}>
+        {{ brand_border | raw }}
+      </div>
+    {% endblock %}
+  {% endif %}
 
   <div class="recommendations__heading">
     {% include "@atoms/text/headings/_heading.twig" with {
@@ -14,6 +17,7 @@
       heading_base_class: 'recommendations__heading',
       heading_modifiers: ['main-heading'],
       heading: recommendation_title,
+      text_color_override: text_color_override,
     } %}
   </div>
 
@@ -21,30 +25,34 @@
     {{ graphic_divider | raw }}
   </div>
 
-  <div class="swiper-container recommendations-swiper-container">
-    <div class="swiper-wrapper">
-        {% for item in recommended_items %}
-          <div class="swiper-slide recommended-item">
-            {{ item }}
-          </div>
-        {% endfor %}
+  <div class="recommendations-swiper-container-outer">
+    <button class="swiper-button-prev">
+      {% include "@atoms/images/icons/_icon.twig" with {
+      icon_base_class: "icon",
+      icon_blockname: "swiper-button-prev",
+      icon_name: "carousel_arrow_prev",
+      icon_decorative: true,
+      } %}
+    </button>
+
+    <div class="swiper-container recommendations-swiper-container">
+      <div class="swiper-wrapper">
+          {% for item in recommended_items %}
+            <div class="swiper-slide recommended-item">
+              {{ item }}
+            </div>
+          {% endfor %}
+      </div>
     </div>
+
+    <button class="swiper-button-next">
+      {% include "@atoms/images/icons/_icon.twig" with {
+      icon_base_class: "icon",
+      icon_blockname: "swiper-button-next",
+      icon_name: "carousel_arrow_next",
+      icon_decorative: true,
+      } %}
+    </button>
   </div>
-  <div class="swiper-button-prev">
-    {% include "@atoms/images/icons/_icon.twig" with {
-    icon_base_class: "icon",
-    icon_blockname: "swiper-button-prev",
-    icon_name: "carousel_arrow_prev",
-    icon_decorative: true,
-    } %}
-  </div>
-  <div class="swiper-button-next">
-    {% include "@atoms/images/icons/_icon.twig" with {
-    icon_base_class: "icon",
-    icon_blockname: "swiper-button-next",
-    icon_name: "carousel_arrow_next",
-    icon_decorative: true,
-    } %}
-  </div>
-  <div class="swiper-scrollbar"></div>
+  <div class="swiper-scrollbar" aria-hidden="true"></div>
 </section>

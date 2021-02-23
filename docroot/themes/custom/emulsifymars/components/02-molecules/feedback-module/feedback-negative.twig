@@ -2,7 +2,7 @@
 {% set feedback_heading_base_class = 'feedback-module__heading' %}
 {% set feedback_heading_level = 1 %}
 {% set feedback_paragraph_base_class = 'feedback-module__paragraph' %}
-{% set feedback_link_base_class = 'feedback-module__bottom-link' %}
+{% set feedback_link_base_class = 'feedback-module__bottom-link default-link' %}
 
 <section {{ bem(feedback_base_class) }} data-theme="{{ theme_styles }}">
   <div class="feedback-module__brand-shape">
@@ -26,9 +26,9 @@
       </div>
     </div>
 
-    {% include "@atoms/links/link/link.twig" with {
-      link_base_class: feedback_link_base_class,
-      link_content: feedback_bottom_link_content,
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content: feedback_bottom_link_content,
+      default_link_base_class: feedback_link_base_class,
       link_url: feedback_bottom_link_url
     } %}
   </div>

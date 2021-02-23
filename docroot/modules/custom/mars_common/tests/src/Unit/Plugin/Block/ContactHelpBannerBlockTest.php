@@ -151,7 +151,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
 
     $build = $this->contactHelpBannerBlock->build();
 
-    $this->assertCount(12, $build);
+    $this->assertCount(13, $build);
     $this->assertEquals($this->configuration['title'], $build['#title']);
     $this->assertEquals($this->configuration['description'], $build['#description']);
     $this->assertEquals($this->configuration['social_links_label'], $build['#social_links_label']);
@@ -163,6 +163,7 @@ class ContactHelpBannerBlockTest extends UnitTestCase {
     $this->assertEquals($this->configuration['help_and_contact_cta_url'], $build['#help_and_contact_cta_url']);
     $this->assertEquals($this->socialLinks, $build['#social_menu_items']);
     $this->assertEquals($this->svgContent, $build['#brand_shape']);
+    $this->assertArrayHasKey('#text_color_override', $build);
     $this->assertEquals($this->configuration['theme'], $build['#theme']);
   }
 

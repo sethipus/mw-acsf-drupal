@@ -169,6 +169,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         'label' => 'View Extra',
         'url' => 'https://mars.com/',
       ],
+      'with_brand_borders' => TRUE,
     ];
   }
 
@@ -225,6 +226,8 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#svg_asset_alt_3' => 'Alt',
       '#view_more_cta_url' => 'https://mars.com/',
       '#view_more_cta_label' => 'View Extra',
+      '#overlaps_previous' => FALSE,
+      '#text_color_override' => FALSE,
     ];
 
     $this->assertArrayEquals($expected, $build);
@@ -286,6 +289,8 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#svg_asset_alt_3' => 'Alt',
       '#view_more_cta_url' => 'https://mars.com/',
       '#view_more_cta_label' => 'View More',
+      '#overlaps_previous' => FALSE,
+      '#text_color_override' => FALSE,
     ];
 
     $this->assertArrayEquals($expected, $build);
@@ -345,6 +350,8 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#svg_asset_alt_2' => 'Alt',
       '#svg_asset_src_3' => self::SVG_ASSET_3_MEDIA_URI,
       '#svg_asset_alt_3' => 'Alt',
+      '#overlaps_previous' => FALSE,
+      '#text_color_override' => FALSE,
     ];
 
     $this->assertArrayEquals($expected, $build);

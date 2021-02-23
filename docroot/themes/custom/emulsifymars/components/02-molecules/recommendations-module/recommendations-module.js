@@ -1,99 +1,199 @@
-import Swiper, {Navigation, Pagination, Scrollbar} from 'swiper';
+import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
 
-(function ($, _, Drupal){
+(function ($, _, Drupal) {
   Drupal.behaviors.recommendationsCarousel = {
     attach(context) {
 
-      $(context).find('.recommendations').once('recommendationsCarousel').each(function(){
+      $(context).find('.recommendations').once('recommendationsCarousel').each(function () {
         const $recommendationContainer = $(this);
-         // init swiper
-        Swiper.use([Navigation, Pagination, Scrollbar]);
+        // init swiper
+        Swiper.use([Navigation, Pagination, Scrollbar, A11y]);
 
-        $('.recommendations-swiper-container', this).each(function(){
+        $recommendationContainer.find('.recommendations-swiper-container').each(function () {
+          const $nextEl = $recommendationContainer.find(".swiper-button-next").first();
+          const nextEl = (typeof $nextEl[0]) !== "undefined" ? $nextEl[0] : null;
+          const $prevEl = $recommendationContainer.find(".swiper-button-prev").first();
+          const prevEl = (typeof $prevEl[0]) !== "undefined" ? $prevEl[0] : null;
+          const $scrollbar = $recommendationContainer.find(".swiper-scrollbar").first();
+          const scrollbar = (typeof $scrollbar[0]) !== "undefined" ? $scrollbar[0] : null;
+
+          // START: the same code for
+          // recommendations-module.js
+          // social-feed.js
           const swiper = new Swiper(this, {
+            init: false,
             slidesPerView: "auto",
             spaceBetween: 20,
             slidesOffsetBefore: 20,
-            noSwipingClass: "swiper-no-swiping",
+            slidesOffsetAfter: 20,
+            centerInsufficientSlides: true,
+            watchOverflow: true,
+            keyboard: {
+              enabled: false,
+            },
+            a11y: {
+              enabled: true,
+              prevSlideMessage: Drupal.t('Previous Slide'),
+              nextSlideMessage: Drupal.t('Next Slide'),
+            },
             navigation: {
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
+              nextEl: nextEl,
+              prevEl: prevEl,
             },
             scrollbar: {
-              el: ".swiper-scrollbar",
+              el: scrollbar,
+              draggable: true,
+              dragSize: 88,
             },
             breakpoints: {
               768: {
+                spaceBetween: 20,
                 slidesOffsetBefore: 40,
+                slidesOffsetAfter: 40,
+                scrollbar: {
+                  dragSize: 140,
+                }
               },
               1440: {
                 spaceBetween: 30,
-                slidesOffsetBefore: 39,
+                slidesOffsetBefore: 40,
+                slidesOffsetAfter: 40,
+                scrollbar: {
+                  dragSize: 259,
+                }
               },
             },
           });
 
-          const isInViewport = (element) => {
-            const rect = element.getBoundingClientRect();
+          let isLocked = null,
+            slidesOffsetBefore = 0,
+            slidesOffsetAfter = 0;
 
-            const windowHeight =
-              window.innerHeight || document.documentElement.clientHeight;
-            const windowWidth =
-              window.innerWidth || document.documentElement.clientWidth;
-
-            const vertInView =
-              rect.top <= windowHeight && rect.top + rect.height >= 0;
-            const horInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
-
-            return vertInView && horInView;
-          };
-
-          const productCardListener = () => {
-            const productCardList = context.querySelectorAll(".product-card");
-
-            productCardList.forEach((productCard) => {
-              if (isInViewport(productCard)) {
-                productCard.className += " is-in-viewport";
-              } else {
-                productCard.classList.remove("is-in-viewport");
+          const adjustCarouselLock = () => {
+            if(isLocked !== swiper.isLocked){
+              if (isLocked === null) {
+                ({slidesOffsetBefore, slidesOffsetAfter} = swiper.params);
               }
-            });
-          };
-
-          const checkSlides = () => {
-            let screenWidth = window.innerWidth;
-            let slidesCount = swiper.slides.length;
-
-            if (  ((screenWidth > 1440) && (slidesCount <= 4)) || // Wide Screen View && equal or less then 4 slides
-                  ((screenWidth > 1150 && screenWidth <= 1440) && (slidesCount <= 3)) || // Desktop View && equal or less then 3 slides
-                  ((screenWidth > 768 && screenWidth <= 1150) && (slidesCount <= 2)) || // Tablet View && equal or less then 2 slides
-                  (slidesCount <= 1)) { // Slides count equal or less then 1
-              lockCarousel();
-            } else {
-              unlockCarousel();
+              isLocked = swiper.isLocked;
+              if(isLocked) {
+                swiper.params.slidesOffsetBefore = 0;
+                swiper.params.slidesOffsetAfter = 0;
+                swiper.params.centerInsufficientSlides = true;
+              }
+              else {
+                swiper.params.slidesOffsetBefore = slidesOffsetBefore;
+                swiper.params.slidesOffsetAfter = slidesOffsetAfter;
+                swiper.params.centerInsufficientSlides = false;
+              }
+              swiper.update();
             }
           };
 
-          const lockCarousel = () => {
-            swiper.navigation.nextEl.className += " hide-arrow";
-            swiper.navigation.prevEl.className += " hide-arrow";
-            swiper.setTranslate(0);
-            $(".swiper-wrapper", $recommendationContainer).addClass("no-carousel swiper-no-swiping");
-            swiper.update();
-          }
+          const adjustInertSlides = _.debounce( () => {
+            const setInert = (element) => {
+              if(!element.hasAttribute('inert')) {
+                element.setAttribute('inert', '');
+                element.setAttribute('aria-hidden', 'true');
 
-          const unlockCarousel = () => {
-            swiper.navigation.nextEl.classList.remove("hide-arrow");
-            swiper.navigation.prevEl.classList.remove("hide-arrow");
-            $(".swiper-wrapper", $recommendationContainer).removeClass("no-carousel swiper-no-swiping");
-            swiper.update();
-          };
+                const _tabElementsString = ['a','area', 'button', 'input', 'textarea', 'select', 'details','summary', 'iframe', 'object', 'embed', '[tabindex]'];
+                const tabElements = element.querySelectorAll(_tabElementsString.join(','));
 
-          $(window).on("resize", _.debounce(checkSlides, 200));
-          $(window).on("load", checkSlides);
-          $(window).on("load", productCardListener);
-          $(".swiper-button-next", this).once('recommendationsCarousel').on("click", productCardListener);
-          $(".swiper-button-prev", this).once('recommendationsCarousel').on("click", productCardListener);
+                tabElements.forEach((elm) => {
+                  let tabindexValue = 'none';
+                  if(elm.hasAttribute('tabindex')){
+                    tabindexValue = elm.getAttribute('tabindex');
+                  }
+                  elm.setAttribute('data-inert-orig-tabindex', tabindexValue);
+                  elm.setAttribute('tabindex', "-1");
+                });
+              }
+            };
+
+            const removeInert = (element) => {
+              if(element.hasAttribute('inert')) {
+                element.removeAttribute('inert');
+                element.removeAttribute('aria-hidden');
+
+                const inertElements = element.querySelectorAll('[data-inert-orig-tabindex]');
+
+                inertElements.forEach((elm) => {
+                  let tabindexCurrentValue = elm.getAttribute('tabindex');
+                  let tabindexValue = elm.getAttribute('data-inert-orig-tabindex');
+
+                  if (tabindexCurrentValue !== "-1") {
+                    tabindexValue = tabindexCurrentValue;
+                  }
+
+                  if(tabindexValue === 'none'){
+                    elm.removeAttribute('tabindex');
+                  }
+                  else {
+                    elm.setAttribute('tabindex', tabindexValue);
+                  }
+                  elm.removeAttribute('data-inert-orig-tabindex');
+                });
+              }
+            };
+
+            const isSlideFullyVisible = (slide) => {
+              const slideRect = slide.getBoundingClientRect();
+              const containerRect = swiper.el.getBoundingClientRect();
+              return slideRect.left >= containerRect.left && slideRect.right <= containerRect.right;
+            };
+
+            const slides = swiper.slides;
+            const activeSlider = swiper.activeIndex;
+
+            // fix invalid inert elements due to 3rd party js (priceSpider) set tabindex="0"
+            const invalidInertElements = swiper.el.querySelectorAll('[inert] [tabindex="0"]');
+            invalidInertElements.forEach((elm) => {
+              elm.setAttribute('data-inert-orig-tabindex', elm.getAttribute('tabindex'));
+              elm.setAttribute('tabindex', "-1");
+            });
+
+            slides.forEach((slide, i) => {
+              if(activeSlider === i || isSlideFullyVisible(slide)){
+                removeInert(slide);
+                slide.classList.add('is-in-viewport');
+              }
+              else {
+                setInert(slide);
+                slide.classList.remove("is-in-viewport");
+              }
+            });
+          }, 100);
+
+          swiper.on('afterInit', () => {
+            adjustCarouselLock();
+            adjustInertSlides();
+          });
+
+          swiper.on('resize', _.debounce( () => {
+            adjustCarouselLock();
+            adjustInertSlides();
+          }, 100));
+
+          swiper.on('breakpoint', (swiper, breakpointParams) => {
+            isLocked = null;
+          });
+
+          swiper.on('slideChange', () => {
+            adjustInertSlides();
+          });
+
+          swiper.on('slideChangeTransitionEnd', () => {
+            adjustInertSlides();
+          });
+
+          swiper.on('transitionEnd', () => {
+            adjustInertSlides();
+          });
+
+          swiper.init();
+          // END: the same code for
+          // recommendations-module.js
+          // social-feed.js
+
         });
       });
     },

@@ -27,12 +27,39 @@ class ProductHelper {
   protected $mapping;
 
   /**
+   * The Fields mapping, keyed by salsify field.
+   *
+   * @var array
+   */
+  protected $salsifyKeyMapping;
+
+  /**
    * Constructs a \Drupal\salsify_integration\ProductHelper object.
    */
   public function __construct() {
     $this->mapping = [
       'primary' => [],
     ];
+  }
+
+  /**
+   * Get field mapping keyed by salsify:id.
+   *
+   * @return array
+   *   Mapping.
+   */
+  public function getSalsifyKeyMapping() {
+    if (!isset($this->salsifyKeyMapping)) {
+      $this->salsifyKeyMapping = [];
+      $full_mapping = array_merge(
+        SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT,
+        SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT
+      );
+      foreach ($full_mapping as $field_mapping) {
+        $this->salsifyKeyMapping[$field_mapping['salsify:id']] = $field_mapping;
+      }
+    }
+    return $this->salsifyKeyMapping;
   }
 
   /**
@@ -217,8 +244,19 @@ class ProductHelper {
       $product_fields = array_merge($product_variant_fields, $product_fields);
 
       foreach ($product_fields as $product_field_name) {
+        $salsify_id_mapping = $this->getSalsifyKeyMapping();
         if (isset($product_variant[$product_field_name])) {
           $product[$product_field_name] = $product_variant[$product_field_name];
+
+          // Add prefix for the value.
+          $this->addPrefix($product, $product_variant, $product_field_name);
+        }
+        // Map another filed in case of 'OR' logic.
+        elseif (isset($salsify_id_mapping[$product_field_name]['or']) &&
+          isset($product_variant[$salsify_id_mapping[$product_field_name]['or']])) {
+
+          $value = $product_variant[$salsify_id_mapping[$product_field_name]['or']];
+          $product[$product_field_name] = $value;
         }
 
         // Add unit for the value.
@@ -261,6 +299,42 @@ class ProductHelper {
   }
 
   /**
+   * Add prefix for the value.
+   *
+   * @param array $product
+   *   Product data.
+   * @param array $product_variant
+   *   Product variant data.
+   * @param string $product_field_name
+   *   Product field name.
+   * @param mixed $suffix
+   *   Suffix for the field name.
+   */
+  private function addPrefix(
+    array &$product,
+    array $product_variant,
+    string $product_field_name,
+    $suffix = NULL
+  ) {
+    $mapping = $this->getSalsifyKeyMapping();
+    if (isset($mapping[$product_field_name]['prefix_field'])) {
+
+      $prefix_field = $mapping[$product_field_name]['prefix_field'];
+      $product_field_name = (isset($suffix))
+        ? $product_field_name . ' ' . $suffix
+        : $product_field_name;
+      $prefix_field = (isset($suffix))
+        ? $prefix_field . ' ' . $suffix
+        : $prefix_field;
+
+      if (isset($product_variant[$prefix_field])) {
+        $product[$product_field_name] = $product_variant[$prefix_field] .
+          $product[$product_field_name];
+      }
+    }
+  }
+
+  /**
    * Add unit of measure for the value.
    *
    * @param array $product
@@ -271,15 +345,15 @@ class ProductHelper {
    *   Product field name.
    */
   private function addUom(array &$product, array $product_variant, string $product_field_name) {
-    if (isset($product_variant[$product_field_name]) &&
+    if (isset($product[$product_field_name]) &&
       isset($product_variant[$product_field_name . ' UOM'])) {
 
-      $field_value = is_array($product_variant[$product_field_name])
-        ? reset($product_variant[$product_field_name])
-        : $product_variant[$product_field_name];
+      $field_value = is_array($product[$product_field_name])
+        ? reset($product[$product_field_name])
+        : $product[$product_field_name];
 
       $product[$product_field_name] = $field_value .
-        ' ' . $product_variant[$product_field_name . ' UOM'];
+        $product_variant[$product_field_name . ' UOM'];
     }
   }
 
@@ -313,10 +387,19 @@ class ProductHelper {
    */
   public function getNuntritionFiledsByName(string $field_name, array $product_variant) {
     $fields = [];
-
+    $mapping = $this->getSalsifyKeyMapping();
     foreach (array_keys($product_variant) as $variant_field_name) {
+      $matches = [];
       if (preg_match('/^' . $field_name . ' [0-9]+$/', $variant_field_name)) {
         $fields[] = $variant_field_name;
+      }
+      elseif (isset($mapping[$field_name]['or']) &&
+        preg_match(
+          '/^' . $mapping[$field_name]['or'] . ' ([0-9]+)$/',
+          $variant_field_name,
+          $matches
+        )) {
+        $fields[] = $field_name . ' ' . $matches[1];
       }
     }
 
@@ -335,18 +418,29 @@ class ProductHelper {
    */
   public function addNutritionFieldsData(array $nutrition_fields, array &$product, array $product_variant) {
     foreach ($nutrition_fields as $field_name) {
+
+      $matches = [];
+      preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
+      $salsify_id_mapping = $this->getSalsifyKeyMapping();
+
       if (isset($product_variant[$field_name])) {
         $product[$field_name] = $product_variant[$field_name];
 
-        $matches = [];
-        preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
-        // Add unit for the value.
-        if (isset($product_variant[$field_name]) &&
-          isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
+        $this->addPrefix($product, $product_variant, $matches[1], $matches[2]);
 
-          $product[$field_name] = $product_variant[$field_name] .
-            ' ' . $product_variant[$matches[1] . ' UOM ' . $matches[2]];
+        // Add unit for the value.
+        if (isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
+
+          $product[$field_name] = $product[$field_name] .
+            $product_variant[$matches[1] . ' UOM ' . $matches[2]];
         }
+      }
+      // Map another filed in case of 'OR' logic.
+      elseif (isset($salsify_id_mapping[$matches[1]]['or']) &&
+        isset($product_variant[$salsify_id_mapping[$matches[1]]['or'] . ' ' . $matches[2]])) {
+
+        $or_field_name = $salsify_id_mapping[$matches[1]]['or'] . ' ' . $matches[2];
+        $product[$field_name] = $product_variant[$or_field_name];
       }
     }
   }
@@ -443,7 +537,7 @@ class ProductHelper {
       }
     }
 
-    $salsify_id = base64_encode($product_variant['salsify:id']);
+    $salsify_id = base64_encode($product_variant['salsify:id']) . $content_type;
     $product['CMS: Meta Description'] = $product_variant['CMS: Meta Description'] ?? NULL;
     $product['CMS: Keywords'] = $product_variant['CMS: Keywords'] ?? NULL;
     $this->addMetaTagsFlag($product);

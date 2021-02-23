@@ -9,6 +9,8 @@
 
   video {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   &__control[data-state="hidden"] {
@@ -251,10 +253,6 @@ figure[data-fullcontrol="true"] {
   margin: 0;
   padding: 0;
   max-height: 100%;
-}
-
-figure[data-fullcontrol="true"] video {
-  height: auto;
 }
 
 figure[data-fullcontrol="true"] figcaption {

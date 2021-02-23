@@ -1,0 +1,27 @@
+/* Outputting page styles for printing */
+
+@media print {
+
+    * { -webkit-print-color-adjust: exact; }
+
+    .recipe-media__image-wrapper{
+        height: 100%;
+    }
+
+    #onetrust-close-btn-container-mobile{
+        display: none;
+    }
+
+    #onetrust-banner-sdk .onetrust-close-btn-ui{
+        display: none;
+    }
+
+    .layout__region img {
+      height: auto;
+      width: 100%;
+    }
+
+    .product-used {
+      margin-top: 0 !important;
+    }
+}

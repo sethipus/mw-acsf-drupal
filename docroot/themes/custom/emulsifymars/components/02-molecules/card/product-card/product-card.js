@@ -15,18 +15,20 @@
         $(context).find('.product-card').once('productCard').each(function(){
           const $productCard = $(this);
           const $cardCta = $productCard.find('.default-link');
+          const $smartCart = document.getElementById('smart-cart');
 
           $productCard.on('mouseover', () => {
-            $cardCta.addClass('default-link--light')
+            if(window.screen.availWidth > 768) {
+              $cardCta.addClass('default-link--light')
+            }
+
           });
           $productCard.on('mouseleave', () => {
             $cardCta.removeClass('default-link--light')
           });
           $productCard.on('click', (e) => {
-            $cardCta.removeClass('default-link--light')
-            if (
-              !e.target.parentNode.classList.contains('where-to-buy')
-            ) {
+            $cardCta.removeClass('default-link--light');
+            if (!e.target.parentNode.classList.contains('where-to-buy') && $smartCart === null) {
               window.location.href = $cardCta.attr('href');
             }
           });

@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
@@ -17,6 +18,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInterface {
 
   use StringTranslationTrait;
+  use OverrideThemeTextColorTrait;
 
   /*
    * Quite a big value in case of query without limit.
@@ -170,6 +172,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         }
 
         break;
+
+      default:
+        break;
     }
 
     // Getting and building search results.
@@ -188,7 +193,12 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       return [$searchOptions, $query_search_results, $build];
     }
     foreach ($query_search_results['results'] as $node) {
-      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      if (!empty($config['override_text_color']['override_color'])) {
+        $build['#items'][] = array_merge($this->nodeViewBuilder->view($node, 'card'), ['#text_color_override' => static::$overrideColor]);
+      }
+      else {
+        $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      }
     }
 
     return [$searchOptions, $query_search_results, $build];
@@ -229,6 +239,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         $placeholder = $this->languageHelper->translate($label_config->get('faq_card_grid_search'));
         $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $placeholder, $grid_id);
         $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-card-grid';
+      }
+      // Prevent building facets if they are disabled in block configuration.
+      if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
+        $build['#filters'] = [];
+        return $build;
       }
       if (!empty($config)) {
         $facet_id = "grid_{$grid_id}_facets";
@@ -441,6 +456,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
       case 'grid':
         $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+        break;
+
+      default:
         break;
     }
 

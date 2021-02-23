@@ -173,23 +173,11 @@
   }
 
   &__bottom-link {
-    color: clr(secondary);
-    font-family: variable(primary-font);
-    text-decoration: none;
-    text-transform: uppercase;
-
-    &:focus {
-      outline: royalblue auto 1px;
-    }
-
-    @include xs {
-      font-size: 1.4rem;
-      line-height: 1.4rem;
-    }
+    z-index: 2;
+    line-height: 5rem;
 
     @include medium {
-      font-size: 1.8rem;
-      line-height: 1.98rem;
+      line-height: 6rem;
     }
   }
 
@@ -270,7 +258,7 @@
     z-index: 2;
     display: block;
 
-    img{ 
+    img{
       object-fit: cover;
     }
 

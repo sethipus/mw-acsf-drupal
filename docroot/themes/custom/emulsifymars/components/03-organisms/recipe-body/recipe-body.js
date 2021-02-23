@@ -10,7 +10,7 @@
         }, 200));
 
         function adaptProductUsedBlock(productUsedPinned) {
-          const smallScreen = window.innerWidth < 1280;
+          const smallScreen = window.innerWidth < 1440;
           const fullscreenElementsSelector = '.footer, .recommendations, .flexible-framer, .article-full-width';
           let $productUsed = $('.product-used');
           let $recipeInfo = $('.recipe-info');

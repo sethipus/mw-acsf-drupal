@@ -1,19 +1,23 @@
 {{ attach_library('emulsifymars/overlay-video') }}
 {% set story_highlight_base_class = story_highlight_base_class|default('story-highlight') %}
 {% set divider = '<div class=divider>'~divider~'</div>' %}
+{% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
 
-<section id="story-highlight" {{ bem(story_highlight_base_class) }} data-theme="{{ theme_styles }}">
-  {% block brand_border %}
-    <div {{  bem('border', [], story_highlight_base_class)  }}>
-      {{ brand_borders | raw }}
-    </div>
-  {% endblock %}
+<section id="story-highlight" {{ bem(story_highlight_base_class, []) }} data-theme="{{ theme_styles }}">
+  {% if brand_borders is not empty %}
+    {% block brand_border %}
+      <div {{  bem('border', [border_overflow], story_highlight_base_class)  }}>
+        {{ brand_borders | raw }}
+      </div>
+    {% endblock %}
+  {% endif %}
 
   <div class="story-highlight__content {{default_link_modifier}}">
     <div class="story-highlight__contentbg">
       {% include "@atoms/text/headings/_heading.twig" with {
         heading: heading,
         heading_level: heading_level|default(2),
+        text_color_override: text_color_override
       } %}
 
       <div class="graphic_divider">
@@ -22,76 +26,84 @@
 
       {% include "@atoms/text/text/01-paragraph.twig" with {
         paragraph_content: story_highlight_paragraph_content,
-        paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph')
+        paragraph_base_class: story_highlight_paragraph_base_class|default('story-highlight__paragraph'),
+        text_color_override: text_color_override
       } %}
 
       <div class="white-background"></div>
 
-      <div class="media_items">
-      {% for item in items %}
-        <div class="media_item_{{loop.index}}"
-          {% if item.title and item.video %}
-            data-component-title="{{ item.title }}"
-          {% endif %}
-        >
-          {% if item.image %}
+      <div class="media_items_wrapper">
+        <div class="media_items">
+        {% for item in items %}
+          <div class="media_item_{{loop.index}}"
+            {% if item.title and item.video %}
+              data-component-title="{{ item.title }}"
+            {% endif %}
+          >
+            <div class="media_item_{{loop.index}}__wrapper">
+            {% if item.image %}
 
-            {% include "@atoms/images/image/_image.twig" with {
-              image_base_class: item.base_class,
-              image_modifiers: image_modifiers,
-              image_blockname: image_blockname,
-              image_src: item.src,
-              image_alt: item.alt,
-              image_title: item.title,
-              height: '200px',
-              width: '200px',
+              {% include "@atoms/images/image/_image.twig" with {
+                image_base_class: item.base_class,
+                image_modifiers: image_modifiers,
+                image_blockname: image_blockname,
+                image_src: item.src,
+                image_alt: item.alt,
+                image_title: item.title,
+                height: '200px',
+                width: '200px',
+              } %}
+
+              {% elseif item.video %}
+                {% include "@atoms/video/overlay-video/video.twig" with {
+                  video__src__url: item.src,
+                  video__control: true,
+                } %}
+              {% endif %}
+
+            </div>
+
+            {% include "@atoms/text/text/01-paragraph.twig" with {
+              paragraph_size: paragraph_size,
+              paragraph_content: item.content,
+              paragraph_base_class: paragraph_base_class,
+              paragraph_modifiers: paragraph_modifiers,
+              text_color_override: text_color_override
             } %}
+          </div>
+        {% endfor %}
 
-          {% elseif item.video %}
-            {% include "@atoms/video/overlay-video/video.twig" with {
-              video__src__url: item.src,
-              video__control: true,
-            } %}
-          {% endif %}
-
-          {% include "@atoms/text/text/01-paragraph.twig" with {
-            paragraph_size: paragraph_size,
-            paragraph_content: item.content,
-            paragraph_base_class: paragraph_base_class,
-            paragraph_modifiers: paragraph_modifiers
-          } %}
+        <div class="story-highlight__brand-shape_1">
+          {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: asset_1_alt,
+          image_src: asset_1,
+          height: '118px',
+          width: '124px'
+        } %}
         </div>
-      {% endfor %}
-      </div>
 
-      <div class="story-highlight__brand-shape_1">
-        {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: asset_1_alt,
-        image_src: asset_1,
-        height: '118px',
-        width: '124px'
-      } %}
-      </div>
+        <div class="story-highlight__brand-shape_2">
+          {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: asset_2_alt,
+          image_src: asset_2,
+          height: '153px',
+          width: '153px'
+        } %}
+        </div>
 
-      <div class="story-highlight__brand-shape_2">
-        {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: asset_2_alt,
-        image_src: asset_2,
-        height: '153px',
-        width: '153px'
-      } %}
-      </div>
+        <div class="story-highlight__brand-shape_3">
+          {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: asset_3_alt,
+          image_src: asset_3,
+          height: '144px',
+          width: '182px'
+        } %}
+        </div>
 
-      <div class="story-highlight__brand-shape_3">
-        {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: asset_3_alt,
-        image_src: asset_3,
-        height: '144px',
-        width: '182px'
-      } %}
+        </div>
       </div>
 
       {% if story_highlight_button_link_attributes.href %}

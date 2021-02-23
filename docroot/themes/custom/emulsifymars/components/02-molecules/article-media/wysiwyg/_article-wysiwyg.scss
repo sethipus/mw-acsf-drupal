@@ -36,10 +36,4 @@
 
 .node--article .article-wysiwyg {
   margin: 0;
-
-  &__content {
-    @include large {
-      margin: 0 27% 0 19%;
-    }
-  }
 }
