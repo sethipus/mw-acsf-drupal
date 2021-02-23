@@ -38,7 +38,6 @@ class MarsSearchControllerTest extends UnitTestCase {
       ['type', 'faq', '<>', TRUE],
     ],
     'keys' => 'some key',
-    'cards_view' => FALSE,
   ];
 
   /**
