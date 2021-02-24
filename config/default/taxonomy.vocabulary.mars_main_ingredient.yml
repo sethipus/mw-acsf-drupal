@@ -5,4 +5,4 @@ dependencies: {  }
 name: 'MAIN INGREDIENT'
 vid: mars_main_ingredient
 description: ''
-weight: 0
+weight: -2
