@@ -345,8 +345,8 @@
     max-width: 20.2rem;
     min-width: 20.2rem;
     padding: 2.4rem 0;
-    background-color: var(--c-secondary);
-    color: clr(subcolor-3) !important;
+    background-color: var(--c-secondary) !important;
+    color: clr(--c-subcolor-3) !important;
     font-size: 1.6rem !important;
     font-family: variable(secondary-font) !important;
     font-weight: normal;
@@ -545,9 +545,8 @@
   }
 
   .ff-btn-submit:hover {
-    background-color: white;
-    border: 1px solid #c4c4c4;
-    color: clr(secondary);
+    background-color: white !important;
+    color: clr(secondary) !important;
   }
 
   @include medium {
