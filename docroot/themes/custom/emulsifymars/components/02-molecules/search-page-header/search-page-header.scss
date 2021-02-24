@@ -5,7 +5,7 @@
   align-items: center;
   background-color: clr(secondary);
   overflow: hidden;
-  padding: 10px 40px;
+  padding: 10px 40px 40px 40px;
   min-height: 578px;
 
   @include medium {
@@ -111,5 +111,9 @@
       height: auto;
       fill: clr(subcolor-3);
     }
+  }
+
+  .search-input-wrapper {
+    border: 1px solid clr(subcolor-4);
   }
 }
