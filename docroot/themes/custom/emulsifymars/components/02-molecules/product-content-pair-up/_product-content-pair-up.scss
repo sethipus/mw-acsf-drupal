@@ -216,24 +216,25 @@
       position: relative;
       left: 0;
       right: 0;
-      max-width: 31.8rem;
+      width: 31.5rem;
       margin: auto;
       z-index: $content-pair-supportive-card;
 
       @include medium {
         top: 450px;
         position: absolute;
-        max-width: 396px;
+        width: 396px;
       }
 
       @include large {
         top: 85px;
         left: auto;
         right: 30px;
+        width: 432px;
       }
 
       @include xl {
-        right: 115px;
+        right: 63px;
       }
 
       .recipe-card-heading__link {
