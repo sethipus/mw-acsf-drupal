@@ -4,12 +4,10 @@ import Button from './react/Button.component';
 
 import button from './twig/button.twig';
 import toggle from './toggle/toggle.twig';
-import wtb from './where-to-buy/where-to-buy.twig';
 
 import buttonData from './twig/button.yml';
 import buttonAltData from './twig/button-alt.yml';
 import toggleData from './toggle/toggle.yml';
-import wtbData from './where-to-buy/where-to-buy.yml';
 
 /**
  * Storybook Definition.
@@ -29,7 +27,4 @@ export const twigAlt = () => (
 );
 export const toggleExample = () => (
   <div dangerouslySetInnerHTML={{ __html: toggle(toggleData) }} />
-);
-export const whereToBuyExample = () => (
-  <div dangerouslySetInnerHTML={{ __html: wtb(wtbData) }} />
 );
