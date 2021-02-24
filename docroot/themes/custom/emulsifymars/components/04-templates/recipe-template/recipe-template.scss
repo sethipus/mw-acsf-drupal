@@ -71,7 +71,7 @@
       max-width: 1365px;
       margin: auto;
 
-      &__media, .inline-video, .article-inline__content {
+      &__heading>h3, &__media, .inline-video, .article-inline__content {
         max-width: 665px;
         margin-left: $xl-left-margin;
       }

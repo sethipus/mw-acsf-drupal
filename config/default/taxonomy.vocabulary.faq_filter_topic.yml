@@ -5,4 +5,4 @@ dependencies: {  }
 name: 'FAQ Filter topic'
 vid: faq_filter_topic
 description: ''
-weight: 0
+weight: -6
