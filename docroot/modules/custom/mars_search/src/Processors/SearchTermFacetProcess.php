@@ -54,6 +54,7 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
   public function processFilter(array $facets, array $vocabularies, $grid_id) {
     $filters = [];
     $terms = $this->getTaxonomies($facets, $vocabularies);
+    $taxonomy_vocs = $this->getTaxonomiesVocabularies($vocabularies);
     $appliedFilters = [];
 
     foreach ($vocabularies as $vocabulary => $vocabulary_data) {
@@ -68,6 +69,7 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
           $facetValues[] = [
             'title' => $terms[$facet['filter']]->label(),
             'key' => $grid_id . $facet['filter'],
+            'weight' => $terms[$facet['filter']]->get('weight')->value,
           ];
           if (
             $this->hasQueryKey($vocabulary) &&
@@ -81,14 +83,17 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
         if (count($facetValues) == 0) {
           continue;
         }
+        $this->sortFilters($facetValues);
         $filters[] = [
           'filter_title' => $vocabulary_data['label'],
           'filter_id' => $queryFilter,
           'active_filters_count' => $countSelected,
           'checkboxes' => $facetValues,
+          'weight' => $taxonomy_vocs[$vocabulary]->get('weight'),
         ];
       }
     }
+    $this->sortFilters($filters);
 
     return [$appliedFilters, $filters];
   }
@@ -100,6 +105,12 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
    *   The facet result from search query.
    * @param array $vocabularies
    *   List of vocabularies to process.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface[]
+   *   Terms.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   private function getTaxonomies(array $facets, array $vocabularies) {
     $term_ids = [];
@@ -117,6 +128,46 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
     }
     // Loading needed taxonomy terms.
     return $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($term_ids);
+  }
+
+  /**
+   * Load taxonomies vocabularies for provided filters list.
+   *
+   * @param array $vocabularies
+   *   List of vocabularies to process.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface[]
+   *   Terms.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function getTaxonomiesVocabularies(array $vocabularies) {
+    // Loading needed taxonomy vocabularies.
+    return $this->entityTypeManager
+      ->getStorage('taxonomy_vocabulary')
+      ->loadMultiple(array_keys($vocabularies));
+  }
+
+  /**
+   * Sort filters and options.
+   *
+   * @param array $facetValues
+   *   Option's values.
+   *
+   * @return bool
+   *   Result of sorting operation (true or false in case of error).
+   */
+  private function sortFilters(array &$facetValues) {
+    return usort($facetValues, function ($option_one, $option_two) {
+      if ((int) $option_one['weight'] == (int) $option_two['weight']) {
+        return 0;
+      }
+      if ((int) $option_one['weight'] < (int) $option_two['weight']) {
+        return -1;
+      }
+      return 1;
+    });
   }
 
   /**
