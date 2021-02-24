@@ -19,6 +19,8 @@
   {% set text_color_extra_class = ['text-color-W'] %}
 {% endif %}
 
+{% set bg_color__extra_classes = pdp_common_hero_data.card_sticky_bg_color | bgColorClassMap %}
+
 <section
   class="pdp-hero pdp-hero--{{size_id}}"
   data-theme="{{ theme_styles }}"
@@ -60,7 +62,7 @@
         heading_base_class: 'product-name',
         heading_extra_classes: text_color_extra_class,
       } %}
-      <div {{ bem('sticky-nav-top', [size_id], pdp_hero_base_class) }}>
+      <div {{ bem('sticky-nav-top', [size_id], pdp_hero_base_class, bg_color__extra_classes) }}>
         {% include "@atoms/text/headings/_heading.twig" with {
           heading_level: 5,
           heading: pdp_common_hero_data.product_label,

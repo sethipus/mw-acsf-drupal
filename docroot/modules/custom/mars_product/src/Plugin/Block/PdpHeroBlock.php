@@ -5,6 +5,7 @@ namespace Drupal\mars_product\Plugin\Block;
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityFormBuilderInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -12,6 +13,7 @@ use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -74,6 +76,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    * @var \Drupal\Core\Form\FormBuilderInterface
    */
   protected $entityFormBuilder;
+
+  /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
 
   /**
    * Helper service to deal with media.
@@ -150,7 +159,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ProductHelper $product_helper,
     MediaHelper $media_helper,
     ImmutableConfig $wtb_global_config,
-    bool $default_review_state
+    bool $default_review_state,
+    ConfigFactoryInterface $config_factory
   ) {
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->entityRepository = $entity_repository;
@@ -161,6 +171,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->mediaHelper = $media_helper;
     $this->wtbGlobalConfig = $wtb_global_config;
     $this->defaultReviewState = $default_review_state;
+    $this->configFactory = $config_factory;
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
@@ -185,7 +196,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('mars_product.product_helper'),
       $container->get('mars_common.media_helper'),
       $global_wtb_config,
-      (bool) $default_review_state
+      (bool) $default_review_state,
+      $container->get('config.factory')
     );
   }
 
@@ -490,6 +502,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $brand_shape_color = !empty($this->configuration['brand_shape_color']) ?
       '#' . $this->configuration['brand_shape_color'] : '';
     $more_information_id = Html::getUniqueId('section-more-information');
+    $card_grid_bg_color_key = $this->configFactory->get(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_product');
     $pdp_common_data = [
       'hero_data' => [
         'product_label' => $this->languageHelper->translate($this->configuration['eyebrow'] ?? ''),
@@ -509,6 +522,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'text_color' => $this->configuration['text_color'] ?? 'color_a',
         'brand_shape_color' => $brand_shape_color,
         'brand_shape_opacity' => $this->configuration['brand_shape_opacity'] ?? 'partial',
+        'card_sticky_bg_color' => $card_grid_bg_color_key,
       ],
       'nutrition_data' => [
         'nutritional_label' => $this->languageHelper->translate($this->configuration['nutrition']['label']) ?? '',
