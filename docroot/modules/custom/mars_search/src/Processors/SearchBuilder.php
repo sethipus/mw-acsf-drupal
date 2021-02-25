@@ -155,9 +155,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
             $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
           }
           if ($searchOptions['offset'] !== 0) {
-            $offset = $searchOptions['offset'] - count($config['top_results_wrapper']['top_results']);
-            if ($offset >= 0) {
-              $searchOptions['offset'] = $offset;
+            if (count($config['top_results_wrapper']['top_results']) >= $searchOptions['offset']) {
+              $searchOptions['offset'] = 0;
+            }
+            else {
+              $searchOptions['offset'] = $searchOptions['offset'] - count($config['top_results_wrapper']['top_results']);
             }
           }
           $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
