@@ -310,7 +310,10 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
         $url->setOptions($url_options);
 
         $search_filters[] = [
-          'title' => Link::fromTextAndUrl($type_facet['filter'], $url),
+          'title' => Link::fromTextAndUrl(
+            SearchBuilderInterface::CONTENT_TYPES[$type_facet['filter']] ?? $type_facet['filter'],
+            $url
+          ),
           'count' => $type_facet['count'],
           'search_results_item_modifier' => $state,
         ];

@@ -276,16 +276,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#title' => $this->t('Description'),
       '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
-      '#required' => in_array($type_for_validation, [
-        self::KEY_OPTION_DEFAULT,
-      ]),
-      '#states' => [
-        'required' => [
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
-          ],
-        ],
-      ],
     ];
 
     $form['text_color'] = [
