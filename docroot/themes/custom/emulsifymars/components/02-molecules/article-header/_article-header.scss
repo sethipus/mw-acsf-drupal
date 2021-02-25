@@ -2,17 +2,14 @@
   font-family: variable(primary-font);
   color: clr(primary);
   background-color: clr(subcolor-2);
-
-  @include xs {
-    margin-bottom: 5rem;
-  }
+  margin-bottom: 1rem; // +2rem from .article-wysiwyg padding and +2rem from .article-wysiwyg__content paragraph margin
 
   @include medium {
-    margin-bottom: 6rem;
+    margin-bottom: 2rem;
   }
 
   @include xl {
-    margin-bottom: 8rem;
+    margin-bottom: 4rem;
   }
 
     &__text_wrapper {

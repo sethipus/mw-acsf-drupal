@@ -7,4 +7,4 @@ _core:
 name: FORMAT
 vid: mars_format
 description: ''
-weight: 0
+weight: -3
