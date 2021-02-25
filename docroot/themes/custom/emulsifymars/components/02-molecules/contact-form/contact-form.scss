@@ -4,18 +4,17 @@
     display: block;
     border-radius: 2rem;
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08);
-    max-width: 33.5rem !important;
     background-color: #fff;
     margin: 0 auto 4rem;
-    padding: 6rem 11.4rem;
+    padding: 3rem 2rem;
     border: 0.2rem solid #fff;
+    max-width: none;
+    width: calc(100% - 4rem);
 
     @include medium {
-      max-width: 68.8rem !important;
-    }
-
-    @include large {
-      max-width: 89.5rem !important;
+      padding: 6rem 6rem;
+      max-width: 89.5rem;
+      width: calc(100% - 8rem);
     }
 
     select{
@@ -204,7 +203,7 @@
     color: clr(secondary) !important;
   }
 
-  
+
 
   .ff-input-type {
     border-style: none none solid none !important;
@@ -358,7 +357,7 @@
 
   #dvFastForms .ff-group-row {
     max-width: 100%;
-    margin: 0 auto
+    margin: 0 auto;
   }
 
   .btnDiv input {
