@@ -7,10 +7,9 @@
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Serialization\Json;
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Asset\AttachedAssetsInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
-use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 
@@ -127,28 +126,13 @@ function mars_product_page_attachments(&$page) {
 }
 
 /**
- * Implements hook_entity_view().
+ * Implements hook_preprocess_page().
  */
-function mars_product_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
-  $is_product = in_array($entity->bundle(), ['product', 'product_multipack']);
-
-  if ($view_mode == 'card' && $is_product) {
-    $wtb_confg = \Drupal::config('mars_product.wtb.settings');
-    $vendor = $wtb_confg->get('commerce_vendor');
-
-    if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
-      $locale = \Drupal::languageManager()
-        ->getCurrentLanguage()->getId();
-
-      $build['#attached']['drupalSettings']['cc'] = [
-        'data-token' => $wtb_confg->get('data_token'),
-        'data-locale' => $wtb_confg->get('data_locale'),
-        'data-displaylanguage' => $locale,
-        'data-widgetid' => $wtb_confg->get('widget_id'),
-        'data-subid' => $wtb_confg->get('data_subid'),
-      ];
-      $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
-    }
+function mars_product_preprocess_page(&$variables) {
+  $wtb_confg = \Drupal::config('mars_product.wtb.settings');
+  $vendor = $wtb_confg->get('commerce_vendor');
+  if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
+    $variables['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
   }
 }
 
@@ -316,4 +300,31 @@ function mars_product_form_alter(array &$form, FormStateInterface $form_state, $
 function product_card_change_color(&$variables) {
   $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_product');
   card_change_color($variables, $color_key);
+}
+
+/**
+ * Implements hook_js_alter().
+ */
+function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
+  foreach ($javascript as $key => $script) {
+    if (strpos($key, '[commerce_connector_url]') !== FALSE) {
+      $wtb_confg = \Drupal::config('mars_product.wtb.settings');
+      $vendor = $wtb_confg->get('commerce_vendor');
+      if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
+        $locale = \Drupal::languageManager()
+          ->getCurrentLanguage()->getId();
+        // Updating library JS path.
+        $javascript[$key]['data'] = '//fi-v2.global.commerce-connector.com/cc.js';
+        // Setting library attributes.
+        $javascript[$key]['attributes'] = [
+          'id' => 'cci-widget',
+          'data-token' => $wtb_confg->get('data_token'),
+          'data-locale' => $wtb_confg->get('data_locale'),
+          'data-displaylanguage' => $locale,
+          'data-widgetid' => $wtb_confg->get('widget_id'),
+          'data-subid' => $wtb_confg->get('data_subid'),
+        ];
+      }
+    }
+  }
 }

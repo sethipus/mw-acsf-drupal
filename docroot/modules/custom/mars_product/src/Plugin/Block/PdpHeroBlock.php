@@ -1060,6 +1060,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'data-widgetid' => $this->configuration['wtb']['data_widget_id'],
           'data-subid' => $this->configuration['wtb']['data_subid'] ?? NULL,
         ];
+        // @TODO: Ensure that configuration might be passed to the script.
         $build['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
       }
     }
