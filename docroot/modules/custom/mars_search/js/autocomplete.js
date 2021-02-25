@@ -79,7 +79,7 @@
                   hideSuggestion();
                 }
                 $('.faq .suggestions-links li').click(function (){
-                  var  clicked_text = $(this).text();
+                  var  clicked_text = $(this).text().replace('…', '');
                   $('.mars-autocomplete-field-faq').val(clicked_text);
                   var press = jQuery.Event("keypress");
                   press.which = 13;
