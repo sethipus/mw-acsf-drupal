@@ -29,8 +29,6 @@
       fill: clr(secondary);
       margin: auto 35%;
     }
-
-    
   }
 
   &__control[data-state="pause"] {
@@ -256,10 +254,6 @@ figure[data-fullcontrol="true"] {
   margin: 0;
   padding: 0;
   max-height: 100%;
-}
-
-figure[data-fullcontrol="true"] video {
-  height: auto;
 }
 
 figure[data-fullcontrol="true"] figcaption {
