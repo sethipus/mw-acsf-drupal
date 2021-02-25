@@ -139,6 +139,10 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
+        // Temporary fix - removing top results in case user filter results.
+        if (count($searchOptions['conditions']) > 1 || !empty($searchOptions['keys'])) {
+          unset($config['top_results_wrapper']['top_results']);
+        }
         $searchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
 
         if (!empty($config['top_results_wrapper']['top_results'])) {
