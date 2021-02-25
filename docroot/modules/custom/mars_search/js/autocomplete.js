@@ -83,7 +83,7 @@
                   $('.mars-autocomplete-field-faq').val(clicked_text);
                   var press = jQuery.Event("keypress");
                   press.which = 13;
-                  $(selector).trigger(press);
+                  $(selector, context).trigger(press);
                 });
               }
             });
