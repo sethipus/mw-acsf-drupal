@@ -13,6 +13,10 @@
     padding: 2rem 0;
   }
 
+  @include large {
+    margin: 0;
+  }
+
   &__content {
     margin: 0 auto;
 
@@ -23,6 +27,7 @@
     @include xl {
       max-width: 780px;
       text-align: justify;
+      margin-left: 19%;
     }
   }
 }

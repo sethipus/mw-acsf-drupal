@@ -182,16 +182,6 @@
         @include small {
           margin: -2.5rem 0;
         }
-
-        @include medium {
-          margin-left: 40px;
-          margin-right: 40px;
-        }
-
-        @include xl {
-          margin-left: 0;
-          margin-right: 0;
-        }
       }
     }
   }
