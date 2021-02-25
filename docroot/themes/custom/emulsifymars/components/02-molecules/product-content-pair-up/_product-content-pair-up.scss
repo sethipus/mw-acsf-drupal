@@ -73,6 +73,16 @@
       .supportive-card .wrapper {
         text-align: left;
 
+        .product-card, .recipe-card, .article-card {
+          @include medium {
+            width: 396px;
+          }
+          @include xl {
+            width: 432px;
+            right: 0;
+          }
+        }
+
         @include xs {
           padding-top: 0;
         }
@@ -99,7 +109,7 @@
 
         @include large {
           margin: 0;
-          right: -5%;
+          right: 0;
         }
 
         @include xl  {
@@ -206,23 +216,25 @@
       position: relative;
       left: 0;
       right: 0;
-      max-width: 31.8rem;
+      width: 31.5rem;
       margin: auto;
       z-index: $content-pair-supportive-card;
 
       @include medium {
         top: 450px;
         position: absolute;
+        width: 396px;
       }
 
       @include large {
         top: 85px;
         left: auto;
-        right: 90px;
+        right: 30px;
+        width: 432px;
       }
 
       @include xl {
-        right: 115px;
+        right: 63px;
       }
 
       .recipe-card-heading__link {
@@ -243,7 +255,6 @@
       }
 
       .wrapper > section {
-        max-width: 31.8rem;
         text-align: initial;
       }
     }

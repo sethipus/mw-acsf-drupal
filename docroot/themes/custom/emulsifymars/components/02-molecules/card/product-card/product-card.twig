@@ -4,12 +4,9 @@
 
 {% set color_section = select__background__color is not empty ? select__background__color : select_background_color %}
 
-{% if color_section == 'color_c' %}
-  {% set card__extra_classes = ['card-item', 'bg-color-C', 'bg-gradient-C'] %}
-{% elseif color_section == 'color_d' %}
-  {% set card__extra_classes = ['card-item', 'bg-color-D', 'bg-gradient-D'] %}
-{% elseif color_section == 'color_e' %}
-  {% set card__extra_classes = ['card-item', 'bg-color-E', 'bg-gradient-E'] %}
+{% set bg_color_classes = color_section | bgColorClassMap %}
+{% if bg_color_classes is not empty %}
+  {% set card__extra_classes = ['card-item'] | merge(bg_color_classes) %}
 {% else %}
   {% set card__extra_classes = ['card-item'] %}
 {% endif %}
@@ -110,9 +107,8 @@
       </div>
 
       {% if wtb_commerce_vendor %}
-        {% set wtb_comerce_vendor_path = 'where-to-buy-' ~ wtb_commerce_vendor %}
         <div {{ bem('link', [], card__base_class) }}>
-          {% include '@atoms/buttons/' ~ wtb_comerce_vendor_path ~ '/' ~ wtb_comerce_vendor_path ~ '.twig' with {
+          {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
               product_sku: product_sku,
               commerce_vendor: wtb_commerce_vendor,
               cta_title: link_content,

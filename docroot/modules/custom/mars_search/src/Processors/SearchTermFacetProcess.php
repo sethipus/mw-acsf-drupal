@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\taxonomy\TermInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
@@ -236,6 +237,9 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
         }
 
         $url->setOptions($options);
+        if ($facet_key == 'faq_filter_topic') {
+          $weight = $this->getFaqFacetWeight($facet['filter']);
+        }
         $facets_links[] = [
           'class' => $facet_link_class,
           'text' => $facet['filter'],
@@ -243,10 +247,38 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
             'href' => $url->toString(),
             'data-filter-value' => $facet['filter'],
           ],
+          'weight' => $weight ?? NULL,
         ];
       }
     }
+    $this->sortFilters($facets_links);
     return $facets_links;
+  }
+
+  /**
+   * Get faq facet weight based on term weight.
+   *
+   * @param string $name
+   *   Term name.
+   *
+   * @return \Drupal\taxonomy\TermInterface|null
+   *   Term or null.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function getFaqFacetWeight(string $name) {
+    $term = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->loadByProperties([
+        'name' => $name,
+        'vid' => 'faq_filter_topic',
+      ]);
+    $term = reset($term);
+
+    return ($term instanceof TermInterface)
+      ? $term->get('weight')->value
+      : NULL;
   }
 
   /**
@@ -278,7 +310,10 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
         $url->setOptions($url_options);
 
         $search_filters[] = [
-          'title' => Link::fromTextAndUrl($type_facet['filter'], $url),
+          'title' => Link::fromTextAndUrl(
+            SearchBuilderInterface::CONTENT_TYPES[$type_facet['filter']] ?? $type_facet['filter'],
+            $url
+          ),
           'count' => $type_facet['count'],
           'search_results_item_modifier' => $state,
         ];

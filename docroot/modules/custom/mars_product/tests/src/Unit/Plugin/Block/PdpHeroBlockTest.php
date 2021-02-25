@@ -171,7 +171,8 @@ class PdpHeroBlockTest extends UnitTestCase {
       $this->productHelperMock,
       $this->mediaHelperMock,
       $this->immutableConfigMock,
-      FALSE
+      FALSE,
+      $this->configFactoryMock
     );
   }
 
