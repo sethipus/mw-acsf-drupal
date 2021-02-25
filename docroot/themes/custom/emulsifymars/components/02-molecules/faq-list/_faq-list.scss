@@ -1,16 +1,10 @@
 .faq {
   margin: auto;
-
-  @include small {
-    max-width: 33.5rem;
-  }
+  padding: 0 2rem;
 
   @include medium {
-    max-width: 68.8rem;
-  }
-
-  @include xl {
-    max-width: 89.6rem;
+    padding: 0 4rem;
+    max-width: 4rem + 89.5rem + 4rem;
   }
 
   .search-no-results {
