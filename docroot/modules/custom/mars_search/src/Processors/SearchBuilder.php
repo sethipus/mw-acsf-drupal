@@ -134,8 +134,6 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
-    // Save search limit.
-    $search_limit = $searchOptions['limit'];
     $searcher_key = static::SEARCH_PAGE_QUERY_ID;
 
     switch ($grid_type) {
