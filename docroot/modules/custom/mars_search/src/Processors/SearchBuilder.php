@@ -156,14 +156,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
           foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
             $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
           }
-          if (!empty($build['#items']) &&
-            count($build['#items']) < $searchOptions['limit']
-          ) {
-            $searchOptions['offset'] = 0;
-          }
-          elseif (empty($build['#items'])) {
-            $searchOptions['offset'] = $searchOptions['offset'] - count($config['top_results_wrapper']['top_results']);
-          }
+          $searchOptions['offset'] = count($build['#items']) > 0 ? 0 : $searchOptions['offset'] - count($config['top_results_wrapper']['top_results']);
           $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
         }
         $searcher_key = "grid_{$grid_id}";
@@ -193,17 +186,6 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
     // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, $searcher_key);
-
-    // Setup limit for grid.
-    if ($grid_type === 'grid' &&
-      !empty($config['top_results_wrapper']['top_results'] &&
-        count($build['#items']) > 0
-      )) {
-      $all_result_items = $query_search_results["resultsCount"] + count($config['top_results_wrapper']['top_results']);
-      if ($all_result_items <= $search_limit) {
-        $searchOptions['limit'] = $search_limit;
-      }
-    }
 
     $query_search_results['resultsCount'] += count($build['#items']);
     if ($query_search_results['resultsCount'] == 0) {
