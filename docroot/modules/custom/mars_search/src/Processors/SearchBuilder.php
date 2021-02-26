@@ -184,7 +184,6 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
     // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, $searcher_key);
-
     $query_search_results['resultsCount'] += count($build['#items']);
     if ($query_search_results['resultsCount'] == 0) {
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys'], $grid_type);
