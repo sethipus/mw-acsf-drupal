@@ -157,8 +157,17 @@
 
   &--right {
     img {
-      max-width: 90%;
       margin: 2rem 0 0 auto;
+
+      @include xs {
+        margin-left: 50px;
+        width: calc(100% - 50px);
+      }
+
+      @include medium {
+        margin-left: 0;
+        width: 100%;
+      }
     }
 
     .freeform-story__brand-shape {
@@ -185,24 +194,15 @@
       .freeform-story__content {
         padding-top: 2rem;
         padding-bottom: 2rem;
-        flex-direction: row;
+        flex-direction: column;
 
         &--column {
           flex: 1 0 0;
         }
       }
 
-      .freeform-story__img {
-        padding-right: 1rem;
-      }
-
       .freeform-story__texts {
         padding: 2rem 4rem 0 3rem;
-      }
-
-      img {
-        max-width: 100%;
-        width: 100%;
       }
     }
 
@@ -265,8 +265,17 @@
 
   &--left {
     img {
-      max-width: 90%;
       margin-top: 2rem;
+
+      @include xs {
+        margin-right: 50px;
+        width: calc(100% - 50px);
+      }
+
+      @include medium {
+        margin-right: 0;
+        width: 100%;
+      }
     }
 
     .freeform-story__brand-shape {
@@ -296,7 +305,7 @@
         padding-top: 2rem;
         padding-bottom: 2rem;
         flex-direction: row-reverse;
-        
+
         &--column {
           flex: 1 0 0;
         }
