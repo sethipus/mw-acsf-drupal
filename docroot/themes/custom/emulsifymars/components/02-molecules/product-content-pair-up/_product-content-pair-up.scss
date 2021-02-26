@@ -89,6 +89,20 @@
         }
 
         .product-card {
+          &__link_section{
+            justify-content: space-around;
+            width: 100%;
+            max-width: 250px;
+
+            @include medium {
+              max-width: 330px;
+            }
+
+            @include large {
+              max-width: 370px;
+            }
+          } 
+
           @include large {
             .eyebrow {
               padding-top: 4rem;
