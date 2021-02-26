@@ -139,6 +139,10 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
+        // Temporary fix - removing top results in case user filter results.
+        if (count($searchOptions['conditions']) > 1 || !empty($searchOptions['keys'])) {
+          unset($config['top_results_wrapper']['top_results']);
+        }
         $searchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
 
         if (!empty($config['top_results_wrapper']['top_results'])) {
@@ -149,6 +153,12 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
           $top_result_ids = array_slice($top_result_ids, $searchOptions['offset'], $searchOptions['limit']);
           foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
             $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
+          }
+          if ($searchOptions['offset'] !== 0) {
+            $offset = $searchOptions['offset'] - count($config['top_results_wrapper']['top_results']);
+            if ($offset >= 0) {
+              $searchOptions['offset'] = $offset;
+            }
           }
           $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
         }
