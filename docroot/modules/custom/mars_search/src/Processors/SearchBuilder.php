@@ -134,6 +134,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
     // Getting default search options.
     $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
+    // Save search limit.
+    $search_limit = $searchOptions['limit'];
     $searcher_key = static::SEARCH_PAGE_QUERY_ID;
 
     switch ($grid_type) {
@@ -191,6 +193,18 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
     // Getting and building search results.
     $query_search_results = $this->searchHelper->getSearchResults($searchOptions, $searcher_key);
+
+    // Setup limit for grid.
+    if ($grid_type === 'grid' &&
+      !empty($config['top_results_wrapper']['top_results'] &&
+        count($build['#items']) > 0
+      )) {
+      $all_result_items = $query_search_results["resultsCount"] + count($config['top_results_wrapper']['top_results']);
+      if ($all_result_items <= $search_limit) {
+        $searchOptions['limit'] = $search_limit;
+      }
+    }
+
     $query_search_results['resultsCount'] += count($build['#items']);
     if ($query_search_results['resultsCount'] == 0) {
       $build['#no_results'] = $this->getSearchNoResult($searchOptions['keys'], $grid_type);
