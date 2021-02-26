@@ -154,13 +154,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
           foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
             $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
           }
-          if ($searchOptions['offset'] !== 0) {
-            if (count($config['top_results_wrapper']['top_results']) >= $searchOptions['offset']) {
-              $searchOptions['offset'] = 0;
-            }
-            else {
-              $searchOptions['offset'] = $searchOptions['offset'] - count($config['top_results_wrapper']['top_results']);
-            }
+          if (!empty($build['#items']) &&
+            count($build['#items']) < $searchOptions['limit']
+          ) {
+            $searchOptions['offset'] = 0;
+          }
+          elseif (empty($build['#items'])) {
+            $searchOptions['offset'] = $searchOptions['offset'] - count($config['top_results_wrapper']['top_results']);
           }
           $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
         }
