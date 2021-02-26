@@ -1,6 +1,6 @@
 cache:
   http:
-    s_maxage: 86400
+    s_maxage: 60
     404_max_age: 86400
     302_max_age: 86400
     301_max_age: 86400
