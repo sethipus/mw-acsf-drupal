@@ -71,11 +71,11 @@ interface SearchBuilderInterface {
    * @var array
    */
   const CONTENT_TYPES = [
-    'product' => 'Product',
-    'article' => 'Article',
-    'recipe' => 'Recipe',
-    'campaign' => 'Campaign',
-    'landing_page' => 'Landing page',
+    'product' => 'product',
+    'article' => 'article',
+    'recipe' => 'recipe',
+    'campaign' => 'campaign',
+    'landing_page' => 'landing page',
   ];
 
   /**
