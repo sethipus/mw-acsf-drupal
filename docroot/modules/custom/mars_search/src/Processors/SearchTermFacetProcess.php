@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\taxonomy\TermInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Url;
-use Drupal\Core\Link;
 
 /**
  * Class SearchTermFacetProcess.
