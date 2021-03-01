@@ -158,16 +158,6 @@
   &--right {
     img {
       margin: 2rem 0 0 auto;
-
-      @include xs {
-        margin-left: 50px;
-        width: calc(100% - 50px);
-      }
-
-      @include medium {
-        margin-left: 0;
-        width: 100%;
-      }
     }
 
     .freeform-story__brand-shape {
@@ -194,6 +184,7 @@
       .freeform-story__content {
         padding-top: 2rem;
         padding-bottom: 2rem;
+        padding-left: 50px;
         flex-direction: column;
 
         &--column {
@@ -202,7 +193,7 @@
       }
 
       .freeform-story__texts {
-        padding: 2rem 4rem 0 3rem;
+        padding: 30px 20px 0 0;
       }
     }
 
@@ -266,16 +257,6 @@
   &--left {
     img {
       margin-top: 2rem;
-
-      @include xs {
-        margin-right: 50px;
-        width: calc(100% - 50px);
-      }
-
-      @include medium {
-        margin-right: 0;
-        width: 100%;
-      }
     }
 
     .freeform-story__brand-shape {
@@ -289,6 +270,16 @@
 
     .freeform-story__texts {
       padding: 2rem 4.9rem 0 2rem;
+    }
+
+    @include xs {
+      .freeform-story__content {
+        padding-right: 50px;
+      }
+
+      .freeform-story__texts {
+        padding: 30px 0 0 20px;
+      }
     }
 
     @include medium {
