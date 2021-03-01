@@ -57,6 +57,11 @@ function mars_product_theme($existing, $type, $theme, $path) {
 function mars_product_page_attachments(&$page) {
   $wtb_config = \Drupal::config('mars_product.wtb.settings');
   $vendor = $wtb_config->get('commerce_vendor') ?? '';
+  $commerce_vendor_settings = [];
+  if (!empty($vendor)) {
+    $commerce_vendor_settings = \Drupal::configFactory()->get('mars_product.wtb.' . $vendor . '.settings');
+    $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData()['settings'] : [];
+  }
   $metatags = [];
   switch ($vendor) {
 
@@ -66,7 +71,7 @@ function mars_product_page_attachments(&$page) {
           '#tag' => 'meta',
           '#attributes' => [
             'name' => 'ps-account',
-            'content' => $wtb_config->get('account_id'),
+            'content' => !empty($commerce_vendor_settings['account_id']) ? $commerce_vendor_settings['account_id'] : '',
           ],
         ],
         'ps-country' => [
@@ -104,16 +109,20 @@ function mars_product_page_attachments(&$page) {
           '#tag' => 'script',
           '#attributes' => [
             'type' => 'text/javascript',
-            'src' => $wtb_config->get('brand_js'),
+            'src' => !empty($commerce_vendor_settings['brand_js']) ? $commerce_vendor_settings['brand_js'] : '',
           ],
         ],
         'smart_commerce_brand_css' => [
           '#tag' => 'style',
           '#attributes' => [
-            'src' => $wtb_config->get('brand_css'),
+            'src' => !empty($commerce_vendor_settings['brand_css']) ? $commerce_vendor_settings['brand_css'] : '',
           ],
         ],
       ];
+      break;
+
+    case PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR:
+      $page['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
       break;
 
     default:
@@ -122,17 +131,6 @@ function mars_product_page_attachments(&$page) {
 
   foreach ($metatags as $key => $metatag) {
     $page['#attached']['html_head'][] = [$metatag, $key];
-  }
-}
-
-/**
- * Implements hook_preprocess_page().
- */
-function mars_product_preprocess_page(&$variables) {
-  $wtb_confg = \Drupal::config('mars_product.wtb.settings');
-  $vendor = $wtb_confg->get('commerce_vendor');
-  if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
-    $variables['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
   }
 }
 
@@ -169,15 +167,20 @@ function mars_common_preprocess_node__product_multipack__card(array &$variables)
 function product_card_add_wtb_vars(array &$variables) {
   $wtb_config = \Drupal::config('mars_product.wtb.settings');
   $product_helper = \Drupal::service('mars_product.product_helper');
+  $vendor = $wtb_config->get('commerce_vendor') ?? '';
 
   $display = 'product_card';
   $widget_id_field = $product_helper->getWidgetIdField($display);
-
-  $variables['wtb_commerce_vendor'] = $wtb_config->get('commerce_vendor') ?? NULL;
-  $variables['wtb_button_type'] = $wtb_config->get('button_type') ?? NULL;
-  $variables['wtb_account_id'] = $wtb_config->get('account_id') ?? NULL;
-  $variables['wtb_widget_id'] = $wtb_config->get($widget_id_field) ?? NULL;
-  $variables['wtb_display'] = $display;
+  // Display WTB button once Commerce Vendor selected.
+  if (!empty($vendor) && $vendor !== PdpHeroBlock::VENDOR_NONE) {
+    $commerce_vendor_settings = \Drupal::configFactory()->get('mars_product.wtb.' . $vendor . '.settings');
+    $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData()['settings'] : [];
+    $variables['wtb_commerce_vendor'] = $vendor;
+    $variables['wtb_button_type'] = !empty($commerce_vendor_settings['button_type']) ? $commerce_vendor_settings['button_type'] : NULL;
+    $variables['wtb_account_id'] = !empty($commerce_vendor_settings['account_id']) ? $commerce_vendor_settings['account_id'] : NULL;
+    $variables['wtb_widget_id'] = !empty($commerce_vendor_settings[$widget_id_field]) ? $commerce_vendor_settings[$widget_id_field] : NULL;
+    $variables['wtb_display'] = $display;
+  }
 }
 
 /**
@@ -310,6 +313,11 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
     if (strpos($key, '[commerce_connector_url]') !== FALSE) {
       $wtb_confg = \Drupal::config('mars_product.wtb.settings');
       $vendor = $wtb_confg->get('commerce_vendor');
+      $commerce_vendor_settings = [];
+      if (!empty($vendor)) {
+        $commerce_vendor_settings = \Drupal::configFactory()->get('mars_product.wtb.' . $vendor . '.settings');
+        $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData()['settings'] : [];
+      }
       if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
         $locale = \Drupal::languageManager()
           ->getCurrentLanguage()->getId();
@@ -318,11 +326,11 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
         // Setting library attributes.
         $javascript[$key]['attributes'] = [
           'id' => 'cci-widget',
-          'data-token' => $wtb_confg->get('data_token'),
-          'data-locale' => $wtb_confg->get('data_locale'),
+          'data-token' => !empty($commerce_vendor_settings['data_token']) ? $commerce_vendor_settings['data_token'] : NULL,
+          'data-locale' => !empty($commerce_vendor_settings['data_locale']) ? $commerce_vendor_settings['data_locale'] : NULL,
           'data-displaylanguage' => $locale,
-          'data-widgetid' => $wtb_confg->get('widget_id'),
-          'data-subid' => $wtb_confg->get('data_subid'),
+          'data-widgetid' => !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : NULL,
+          'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL,
         ];
       }
     }
