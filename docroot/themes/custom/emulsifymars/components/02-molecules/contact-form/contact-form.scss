@@ -8,19 +8,19 @@
       box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08);
       background-color: #fff;
       margin: 0 auto 4rem;
-      padding: 2rem 2rem 3rem;
+      padding: 2rem 2rem 0;
       border: 0.2rem solid #fff;
       max-width: none;
       width: calc(100% - 4rem);
 
       @include medium {
-        padding: 2rem 6rem 4rem;
+        padding: 2rem 6rem 1rem;
         max-width: 89.5rem;
         width: calc(100% - 8rem);
       }
 
       @include large {
-        padding: 2rem 6rem 6rem;
+        padding: 2rem 6rem 3rem;
       }
     }
 
@@ -354,12 +354,17 @@
       }
     }
 
-    .group-6 .ff-item-row:nth-child(n+3) { // assume that ONLY .ff-general-text-label is placed there!
+    .group-6 .ff-item-row:nth-child(n+3),
+    .group-7 .ff-item-row
+    { // assume that ONLY .ff-general-text-label CAN BE placed there!
       margin-bottom: 1rem;
     }
 
+    .group-7 { // should be as regular .ff-item-row
+      margin-bottom: 2rem;
+    }
+
     .ff-footer-group,
-    .ff-footer-row,
     .ff-submit-btn {
       padding: 0;
       margin: 0;
@@ -367,10 +372,6 @@
 
     .footnoteDiv {
       margin: 0 0 3rem 0;
-
-      .ff-required-mark {
-        display: none;
-      }
 
       .ff-footnote-label {
         font-size: 1.2rem;
@@ -451,7 +452,8 @@
     .group-1 .ff-item-row:nth-child(1), // About you
     .group-5 .ff-item-row:nth-child(1), // Empty row
     .group-5 .ff-item-row:nth-child(2) .ff-label-col, // Upload a photo or file
-    .group-6 .ff-item-row:nth-child(1) // Empty row
+    .group-6 .ff-item-row:nth-child(1), // Empty row
+    .group-7 .ff-item-row:nth-child(1) // Empty row
     {
       display: none;
     }
