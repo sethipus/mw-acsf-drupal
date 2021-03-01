@@ -5,4 +5,4 @@ dependencies: {  }
 name: 'PRODUCTS USED'
 vid: mars_product_used
 description: ''
-weight: 0
+weight: 4

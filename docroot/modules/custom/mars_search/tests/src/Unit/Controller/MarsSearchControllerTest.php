@@ -38,7 +38,6 @@ class MarsSearchControllerTest extends UnitTestCase {
       ['type', 'faq', '<>', TRUE],
     ],
     'keys' => 'some key',
-    'cards_view' => FALSE,
   ];
 
   /**
@@ -327,6 +326,7 @@ class MarsSearchControllerTest extends UnitTestCase {
         'action_type' => MarsSearchController::MARS_SEARCH_AJAX_RESULTS,
         'grid_type' => 'test_type',
         'page_id' => 0,
+        'limit' => 0,
       ]);
     $nodeMock = $this->getMockBuilder(Node::class)
       ->disableOriginalConstructor()

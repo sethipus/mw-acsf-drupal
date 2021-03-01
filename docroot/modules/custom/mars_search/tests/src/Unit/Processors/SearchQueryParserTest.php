@@ -73,7 +73,6 @@ class SearchQueryParserTest extends UnitTestCase {
   public function testParseQuery() {
     $filter = $this->searchQueryParser->parseQuery();
     $expected = [
-      'cards_view' => FALSE,
       'conditions' => [
         0 => [
           0 => 'type',
@@ -118,7 +117,6 @@ class SearchQueryParserTest extends UnitTestCase {
     $resultSearchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
 
     $expected = [
-      'cards_view' => FALSE,
       'conditions' => [
         0 => [
           0 => 'type',

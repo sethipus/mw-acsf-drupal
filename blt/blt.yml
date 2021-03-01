@@ -37,6 +37,7 @@ validate:
       - mediaParamsById
       - mainVariant
       - productCardMedia
+      - bgColorClassMap
 tests:
   phpunit:
     -

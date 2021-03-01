@@ -1,21 +1,8 @@
 .faq-filters {
   &__search {
-    margin: 0 20px;
+    margin: 0;
     max-width: none;
     display: flex;
-
-    @include small {
-      margin: 0 auto;
-    }
-
-    @include medium {
-      margin: auto;
-      max-width: none;
-    }
-
-    @include xl {
-      max-width: 896px;
-    }
 
     .search-input {
       border: 1px solid clr(subcolor-4);
@@ -23,14 +10,14 @@
       flex-grow: 1;
 
       &__field {
-        margin-right: 20px;
-        padding: 0 0 0 50px;
+        padding: 0 2rem 0 5rem;
+        width: 100%;
       }
     }
   }
 
   &__search-results {
-    margin: 2rem 2rem 0;
+    margin: 2rem 2rem 3rem 0;
     font-size: 1.6rem;
     color: clr(primary);
     display: none;
@@ -39,23 +26,19 @@
       display: block;
     }
 
-    @include small {
-      margin: 2rem 4rem 0 0;
-    }
-
     @include medium {
-      margin: 20px 40px 0 40px;
+      margin: 2rem 2rem 4rem 0;
     }
 
     @include xl {
-      margin: 20px 40px 0 0;
+      margin: 2rem 2rem 4rem 0;
     }
   }
 
   &__filters {
     position: relative;
     font-size: 0;
-    margin: 40px 20px 49px;
+    margin: 3rem 0 4.9rem;
     max-width: none;
     display: none;
     flex-wrap: wrap;
@@ -66,10 +49,6 @@
       display: flex;
     }
 
-    @include small {
-      margin: 4rem 0 4.9rem;
-    }
-
     @include medium {
       margin: 40px 0 59px;
       max-width: none;
@@ -77,7 +56,6 @@
 
     @include xl {
       margin: 40px auto 79px;
-      max-width: 896px;
       padding-bottom: 40px;
     }
 
@@ -160,6 +138,8 @@
   }
 
   .search-input-wrapper {
+    width: 100%;
+
     &.suggested {
       margin-left: 0;
 
@@ -181,16 +161,6 @@
 
         @include small {
           margin: -2.5rem 0;
-        }
-
-        @include medium {
-          margin-left: 40px;
-          margin-right: 40px;
-        }
-
-        @include xl {
-          margin-left: 0;
-          margin-right: 0;
         }
       }
     }

@@ -169,16 +169,14 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
             'ellipsis' => TRUE,
           ];
           $suggestions[] = FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value));
-          // Indicates that it's faq query so we can skip show all link.
-          $faq = TRUE;
         }
         else {
           $suggestions[] = $options['cards_view'] ? $this->viewBuilder->view($entity, 'card') : $entity->toLink();
         }
       }
 
-      $show_all = empty($faq) ? [
-        'title' => $this->t('@show_all "@keys"', ['@show_all' => strtoupper('Show All Results for'), '@keys' => strtoupper($options['keys'])]),
+      $show_all = isset($options['cards_view']) ? [
+        'title' => $this->t('@show_all "@keys"', ['@show_all' => 'Show All Results for', '@keys' => $options['keys']]),
         'attributes' => [
           'href' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
             'query' => [
@@ -190,6 +188,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         ],
       ] : [];
     }
+    // Set Card view FLASE by default.
+    $options['cards_view'] = $options['cards_view'] ?? FALSE;
     $config_no_results = $this->config('mars_search.search_no_results');
     $empty_text_heading = $config_no_results->get('no_results_heading');
     $empty_text_description = $config_no_results->get('no_results_text');
@@ -236,8 +236,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         }
         $json_output['no_results'] = !empty($results[2]['#no_results']) ? $this->renderer->render($results[2]['#no_results']) : '';
 
-        if ((($results[1]['resultsCount'] - $results[0]['offset']) == $results[0]['limit']) ||
-          ($results[0]['limit'] > $results[1]['itemsCount'])) {
+        if (($results[1]['resultsCount'] - $results[0]['offset']) <= $query_parameters["limit"]) {
           $pager = 0;
         }
         else {
