@@ -205,7 +205,7 @@
         $(selectorTypeFilter, context).each(function(index) {
           $(this).on('click', function (e) {
             e.preventDefault();
-            var filter = $(e.target).text();
+            var filter = $(e.target).data('type');
             var query = currentQuery();
             query['type'] = { '1': filter };
             pushQuery(query);

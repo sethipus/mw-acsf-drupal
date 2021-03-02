@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\taxonomy\TermInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Url;
-use Drupal\Core\Link;
 
 /**
  * Class SearchTermFacetProcess.
@@ -310,10 +309,14 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
         $url->setOptions($url_options);
 
         $search_filters[] = [
-          'title' => Link::fromTextAndUrl(
-            SearchBuilderInterface::CONTENT_TYPES[$type_facet['filter']] ?? $type_facet['filter'],
-            $url
-          ),
+          'title' => [
+            '#type' => 'link',
+            '#title' => SearchBuilderInterface::CONTENT_TYPES[$type_facet['filter']] ?? $type_facet['filter'],
+            '#url' => $url,
+            '#attributes' => [
+              'data-type' => $type_facet['filter'],
+            ],
+          ],
           'count' => $type_facet['count'],
           'search_results_item_modifier' => $state,
         ];
