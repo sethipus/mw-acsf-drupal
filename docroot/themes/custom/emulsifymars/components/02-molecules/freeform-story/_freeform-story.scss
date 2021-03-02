@@ -157,7 +157,6 @@
 
   &--right {
     img {
-      max-width: 90%;
       margin: 2rem 0 0 auto;
     }
 
@@ -182,24 +181,16 @@
       .freeform-story__content {
         padding-top: 2rem;
         padding-bottom: 2rem;
-        flex-direction: row;
+        padding-left: 50px;
+        flex-direction: column;
 
         &--column {
           flex: 1 0 0;
         }
       }
 
-      .freeform-story__img {
-        padding-right: 1rem;
-      }
-
       .freeform-story__texts {
-        padding: 2rem 4rem 0 3rem;
-      }
-
-      img {
-        max-width: 100%;
-        width: 100%;
+        padding: 30px 20px 0 0;
       }
     }
 
@@ -262,7 +253,6 @@
 
   &--left {
     img {
-      max-width: 90%;
       margin-top: 2rem;
     }
 
@@ -279,6 +269,16 @@
       padding: 2rem 4.9rem 0 2rem;
     }
 
+    @include xs {
+      .freeform-story__content {
+        padding-right: 50px;
+      }
+
+      .freeform-story__texts {
+        padding: 30px 0 0 20px;
+      }
+    }
+
     @include medium {
       .freeform-story__brand-shape {
         width: 18.68rem;
@@ -293,7 +293,7 @@
         padding-top: 2rem;
         padding-bottom: 2rem;
         flex-direction: row-reverse;
-        
+
         &--column {
           flex: 1 0 0;
         }
