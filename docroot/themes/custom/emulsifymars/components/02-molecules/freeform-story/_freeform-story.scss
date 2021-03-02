@@ -175,15 +175,9 @@
     }
 
     @include xs {
-// Could be causing potential issues between 375px and 768px viewport on Galaxy. Commented out for now until reviewed.
-//      .freeform-story__brand-shape {
-//        top: -2.6rem;
-//        width: 27rem;
-//        height: 35.6rem;
-//        left: auto;
-//        right: 0;
-//        transform: translateX(23%);
-//      }
+      .freeform-story__brand-shape {
+        transform: translateX(23%);
+      }
 
       .freeform-story__content {
         padding-top: 2rem;
