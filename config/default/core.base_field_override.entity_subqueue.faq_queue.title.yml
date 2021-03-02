@@ -1,0 +1,18 @@
+uuid: 561aaa7f-89e1-4eea-9c11-16d903c9d1ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - entityqueue.entity_queue.faq_queue
+id: entity_subqueue.faq_queue.title
+field_name: title
+entity_type: entity_subqueue
+bundle: faq_queue
+label: Title
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

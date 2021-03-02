@@ -1,0 +1,18 @@
+uuid: f07c0a6f-8b00-4622-bfca-5661f7a9d8b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_prep_time
+id: taxonomy_term.mars_prep_time.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_prep_time
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

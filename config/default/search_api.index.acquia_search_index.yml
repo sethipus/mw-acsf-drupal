@@ -3,23 +3,29 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_product_brand
-    - field.storage.node.field_faq_filter_topic
     - field.storage.node.field_qa_item_answer
-    - field.storage.node.field_qa_item_question
     - field.storage.node.field_brand_initiatives
+    - field.storage.node.field_product_brand
+    - field.storage.node.field_product_category
+    - field.storage.node.field_recipe_culture
+    - field.storage.node.field_faq_filter_topic
+    - field.storage.node.field_product_flavor
+    - field.storage.node.field_recipe_food_type
+    - field.storage.node.field_product_format
+    - field.storage.node.field_recipe_main_ingredient
+    - field.storage.node.field_recipe_meal_type
+    - field.storage.node.field_recipe_method
+    - field.storage.node.field_product_occasions
+    - field.storage.node.field_product_name
     - field.storage.node.field_product_diet_allergens
     - field.storage.node.field_product_variants
-    - field.storage.node.field_product_flavor
-    - field.storage.node.field_product_format
-    - field.storage.node.field_product_occasions
+    - field.storage.node.field_qa_item_question
     - field.storage.node.field_product_trade_description
-    - field.storage.node.field_product_name
     - search_api.server.acquia_search_server
   module:
-    - taxonomy
-    - node
     - search_api_solr
+    - node
+    - taxonomy
     - search_api
     - mars_search
 _core:
@@ -95,6 +101,42 @@ field_settings:
         - field.storage.node.field_brand_initiatives
       module:
         - taxonomy
+  mars_category:
+    label: Category
+    datasource_id: 'entity:node'
+    property_path: field_product_category
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_category
+  mars_category_name:
+    label: 'Category » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_category:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_category
+      module:
+        - taxonomy
+  mars_culture:
+    label: Culture
+    datasource_id: 'entity:node'
+    property_path: field_recipe_culture
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_culture
+  mars_culture_name:
+    label: 'Culture » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_culture:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_culture
+      module:
+        - taxonomy
   mars_diet_allergens:
     label: 'Product Variants » Content » Diet & Allergens'
     datasource_id: 'entity:node'
@@ -136,6 +178,24 @@ field_settings:
         - field.storage.node.field_product_flavor
       module:
         - taxonomy
+  mars_food_type:
+    label: 'Food Type'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_food_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_food_type
+  mars_food_type_name:
+    label: 'Food Type » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_food_type:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_food_type
+      module:
+        - taxonomy
   mars_format:
     label: Format
     datasource_id: 'entity:node'
@@ -152,6 +212,60 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_product_format
+      module:
+        - taxonomy
+  mars_main_ingredient:
+    label: 'Main Ingredient'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_main_ingredient
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_main_ingredient
+  mars_main_ingredient_name:
+    label: 'Main Ingredient » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_main_ingredient:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_main_ingredient
+      module:
+        - taxonomy
+  mars_meal_type:
+    label: 'Meal Type'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_meal_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_meal_type
+  mars_meal_type_name:
+    label: 'Meal Type » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_meal_type:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_meal_type
+      module:
+        - taxonomy
+  mars_method:
+    label: Method
+    datasource_id: 'entity:node'
+    property_path: field_recipe_method
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_method
+  mars_method_name:
+    label: 'Method » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_method:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_method
       module:
         - taxonomy
   mars_occasions:
@@ -244,7 +358,8 @@ processor_settings:
   aggregated_field: {  }
   entity_status: {  }
   faq_item_queue_weight: {  }
-  highlight:
+  language_with_fallback: {  }
+  mars_highlight:
     highlight: always
     highlight_partial: false
     excerpt: true
@@ -254,36 +369,7 @@ processor_settings:
     suffix: '</strong>'
     weights:
       postprocess_query: 0
-  ignore_character:
-    all_fields: true
-    fields:
-      - brand
-      - faq_filter_topic
-      - faq_item_queue_weight
-      - field_qa_item_answer
-      - field_qa_item_question
-      - mars_brand_initiatives_name
-      - mars_diet_allergens_name
-      - mars_flavor_name
-      - mars_format_name
-      - mars_occasions_name
-      - mars_trade_item_description_name
-      - product_name
-      - title
-      - type
-    ignorable: '[''¿¡!?,.:;]'
-    ignorable_classes:
-      - Pc
-      - Pd
-      - Pe
-      - Pf
-      - Pi
-      - Po
-      - Ps
-    weights:
-      preprocess_index: -10
-      preprocess_query: -10
-  language_with_fallback: {  }
+  product_multipack_reference: {  }
   rendered_item: {  }
 tracker_settings:
   default:

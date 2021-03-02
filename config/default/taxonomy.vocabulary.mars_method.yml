@@ -1,0 +1,8 @@
+uuid: d0bb7be0-e3ea-4c62-914c-a5e2a2485446
+langcode: en
+status: true
+dependencies: {  }
+name: METHOD
+vid: mars_method
+description: ''
+weight: 0

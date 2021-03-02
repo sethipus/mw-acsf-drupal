@@ -1,0 +1,18 @@
+uuid: c2f9b7fa-3524-46a4-9eb2-6e8bd8289fb0
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_image
+id: media.lighthouse_image.scheduled_transition_state
+field_name: scheduled_transition_state
+entity_type: media
+bundle: lighthouse_image
+label: 'Scheduled transition state'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

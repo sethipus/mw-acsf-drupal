@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\mars_common\LanguageHelper;
 use Drupal\Tests\UnitTestCase;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\MediaHelper;
@@ -52,7 +53,15 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   private $configuration = [
     'title' => 'Flexible driver',
     'description' => 'Description',
+    'select_background_color' => '',
   ];
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
 
   /**
    * {@inheritdoc}
@@ -71,6 +80,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
       'flexible_driver',
       $definitions,
       $this->mediaHelperMock,
+      $this->languageHelperMock,
       $this->themeConfiguratorParserMock
     );
   }
@@ -80,7 +90,26 @@ class FlexibleDriverBlockTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->languageHelperMock = $this->createLanguageHelperMock();
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+  }
+
+  /**
+   * Returns Language helper mock.
+   *
+   * @return \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   *   Theme Configuration Parser service mock.
+   */
+  private function createLanguageHelperMock() {
+    $mock = $this->createMock(LanguageHelper::class);
+    $mock->method('translate')
+      ->will(
+        $this->returnCallback(function ($arg) {
+          return $arg;
+        })
+      );
+
+    return $mock;
   }
 
   /**
@@ -107,7 +136,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
 
     $build = $this->flexibleDriverBlock->build();
 
-    $this->assertCount(7, $build);
+    $this->assertCount(8, $build);
     $this->assertEquals('flexible_driver_block', $build['#theme']);
     $this->assertEquals($this->configuration['title'], $build['#title']);
     $this->assertEquals($this->configuration['description'], $build['#description']);

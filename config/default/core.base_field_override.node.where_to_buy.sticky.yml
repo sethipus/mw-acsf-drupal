@@ -1,0 +1,22 @@
+uuid: 411056b0-7d36-49db-b820-6a81a506ccf6
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.where_to_buy
+id: node.where_to_buy.sticky
+field_name: sticky
+entity_type: node
+bundle: where_to_buy
+label: 'Sticky at top of lists'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

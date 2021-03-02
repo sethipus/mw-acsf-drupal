@@ -17,19 +17,7 @@
 #}
 
 {% set related_recipes__base_class = 'flexible-framer' %}
-{% set grid_label = title|default('Related recipes' | t) %}
+{% set related_recipes__additional_class = 'related-recipes' %}
+{% set grid_label = title|default('Related recipes') %}
 
-{% set divider = '<div class=divider>'~divider~'</div>' %}
-<section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}" style="position: relative;">
-  <div class="curve" style="top: -60px;">
-    {{ brand_borders | raw }}
-  </div>
-
-  {% include "@organisms/grid/grid-ff.twig" with {
-    grid_label: grid_label,
-    grid_type: grid_type,
-    divider: divider,
-    item_type: item_type,
-    items: items
-  } %}
-</section>
+{% include "flexible-framer-block.html.twig" %}

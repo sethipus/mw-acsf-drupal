@@ -1,0 +1,8 @@
+uuid: f9c8dee2-3a06-4c25-a880-0e5a0e60c5a2
+langcode: en
+status: true
+dependencies: {  }
+name: 'MEAL TYPE'
+vid: mars_meal_type
+description: ''
+weight: -1

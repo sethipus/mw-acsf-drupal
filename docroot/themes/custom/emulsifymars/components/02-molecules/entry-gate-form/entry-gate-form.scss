@@ -2,26 +2,27 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 
-  @include medium {
+  @include xl {
     flex-direction: row;
   }
 
   &__fieldset {
     padding: 0;
     margin: 0 0 2rem 0;
-    border-radius: 4rem;
-    display: inline-block;
+    border-radius: variable(button-border-radius);
+    display: flex;
     font-size: 0;
     border: none;
+    overflow: hidden;
 
-    @include medium {
+    @include xl {
       margin-bottom: 0;
     }
 
     &--error {
-      border: 1px solid clr(primary);
+      border: 1px solid clr(secondary);
     }
   }
 
@@ -29,6 +30,7 @@
     position: relative;
     display: inline;
     overflow: hidden;
+    flex-grow: 1;
 
     &::after {
       content: "";
@@ -37,14 +39,19 @@
       width: .1rem;
       height: 3rem;
       background-color: clr(subcolor-4);
-      top: -20px;
+      top: 50%;
       right: 1px;
+      transform: translateY(-50%);
     }
 
     &:last-of-type {
       &::after {
         display: none;
       }
+    }
+
+    @include xl {
+      max-width: 14.5rem;
     }
   }
 
@@ -53,76 +60,69 @@
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 1rem 0;
     text-align: center;
     border: none;
     outline: none;
+    width: 100%;
+    border-radius: var(--card-border-radius);
 
-    @include xs {
-      max-width: 6rem;
-    }
-
-    @include small {
-      max-width: 8rem;
-    }
-
-    @include medium {
-      max-width: 13rem;
-    }
-
-    &--rounded-left {
-      border-top-left-radius: 4rem;
-      border-bottom-left-radius: 4rem;
-    }
-
-    &--rounded-right {
-      border-top-right-radius: 4rem;
-      border-bottom-right-radius: 4rem;
+    @include large {
+      padding: 2rem 0 1.5rem;
     }
 
     &:focus+label,
     &:not(:focus):valid+label {
-      top: -3.6rem;
-      font-size: 1.6rem;
+      top: 1rem;
+      font-size: 1.2rem;
     }
+
+  }
+
+  .entry-gate-form__input-container:last-child input:invalid:not(:placeholder-shown) + label{
+    top: 1rem;
+    font-size: 1.6rem;
+
+    @include xs {
+      font-size: 1.2rem;
+    }
+
+    @include medium {
+      font-size: 1.2rem;
+    }
+
+    @include xl {
+      font-size: 1.2rem;
+    }
+
   }
 
   &__input-label {
     position: absolute;
-    display: block;
-    width: 100%;
     text-align: center;
-    left: 0;
+    font-size: 1.6rem;
     pointer-events: none;
     font-family: variable(secondary-font);
     transition: all .3s ease;
     color: clr(primary);
-
-    @include xs {
-      font-size: 1.6rem;
-      top: -1.8rem;
-    }
-
-    @include small {
-      font-size: 1.6rem;
-      top: -1.8rem;
-    }
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
 
     @include medium {
       font-size: 2rem;
-      top: -2.2rem;
     }
   }
 
   &__submit-btn {
     position: relative;
-    line-height: 5.8rem;
+    line-height: 5rem;
     background: clr(secondary);
     color: clr(subcolor-3);
     border-radius: variable(button-border-radius);
     font-family: variable(secondary-font);
     font-size: 1.6rem;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     border: none;
     overflow: hidden;
@@ -130,10 +130,28 @@
     transition: color .3s;
     padding: 0 7rem;
     max-width: 20rem;
+    min-width: 100%;
     margin: 0 auto;
 
     @include medium {
+      min-width: 0;
+    }
+
+    @include xl {
       margin: 0;
+      height: 6rem;
+    }
+
+    & > span {
+      @include xs {
+        line-height: 1.4rem;
+        font-size: 1.4rem;
+      }
+
+      @include large {
+        line-height: 1.6rem;
+        font-size: 1.6rem;
+      }
     }
 
     &:hover {
@@ -164,7 +182,7 @@
   &__error-message {
     display: none;
     font-family: variable(secondary-font);
-    color: clr(primary);
+    color: clr(secondary);
     font-size: 1.6rem;
     text-align: left;
     margin-bottom: 2rem;

@@ -13,7 +13,7 @@ entity_type: media
 bundle: lighthouse_image
 label: 'Last modified date'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

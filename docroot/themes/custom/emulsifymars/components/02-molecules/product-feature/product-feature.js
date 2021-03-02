@@ -1,33 +1,69 @@
-Drupal.behaviors.contentFeature = {
-  attach(context) {
-    const bubble_1_top = context.getElementById('product-feature__bubble_1').getBoundingClientRect().top;
-    const bubble_2_top = context.getElementById('product-feature__bubble_2').getBoundingClientRect().top;
-    const bubble_3_top = context.getElementById('product-feature__bubble_3').getBoundingClientRect().top;
+(function($, _, Drupal) {
+  Drupal.behaviors.productFeature = {
+    attach(context) {
+      $(context).find('.product-feature').once('productFeature').each(function(){
+        const productFeature = this;
+        var bubble_1_top = productFeature.querySelector('.product-feature__bubble--1').offsetTop;
+        var bubble_2_top = productFeature.querySelector('.product-feature__bubble--2').offsetTop;
+        var bubble_3_top = productFeature.querySelector('.product-feature__bubble--3').offsetTop;
 
-    window.addEventListener('scroll', () => {
-      const bubble_1 = context.getElementById('product-feature__bubble_1');
-      const bubble_2 = context.getElementById('product-feature__bubble_2');
-      const bubble_3 = context.getElementById('product-feature__bubble_3');
-      const offset = window.pageYOffset;
+        const isInViewport = element => {
+          const rect = element.getBoundingClientRect();
 
-      bubble_1.style.top = `${bubble_1_top - (offset * .75)}px`;
-      bubble_2.style.top = `${bubble_2_top - (offset * .75)}px`;
-      bubble_3.style.top = `${bubble_3_top - (offset * .75)}px`;
-    })
+          const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+          const windowWidth = (window.innerWidth || document.documentElement.clientWidth);
 
-    const isInViewport = element => {
-      const scroll = window.scrollY || window.pageYOffset
-      const boundsTop = element.getBoundingClientRect().top + scroll
-      const viewport = {
-        top: scroll,
-        bottom: scroll + window.innerHeight,
-      }
-      const bounds = {
-        top: boundsTop,
-        bottom: boundsTop + element.clientHeight,
-      }
-      return (bounds.bottom >= viewport.top && bounds.bottom <= viewport.bottom) ||
-        (bounds.top <= viewport.bottom && bounds.top >= viewport.top);
+          const vertInView = ((rect.top + (rect.height * 1.1)) <= windowHeight) && ((rect.top + rect.height) >= 0);
+          const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
+
+          return (vertInView && horInView);
+        }
+
+        const updateElementsPositions = (element) => {
+          const rect = element.getBoundingClientRect();
+          const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+          let parallaxCoef;
+
+          switch (true) {
+            case rect.width >= 1360:
+              parallaxCoef = 1.1;
+              break;
+
+            case rect.width >= 688:
+              parallaxCoef = 0.5;
+              break;
+
+            default:
+              parallaxCoef = 0.5;
+          }
+          let offset = windowHeight - (rect.top + (rect.height * 1.1));
+          element.querySelector('.product-feature__bubble--1').style.top = `${(bubble_1_top) - (offset * parallaxCoef)}px`;
+          element.querySelector('.product-feature__bubble--2').style.top = `${(bubble_2_top) - (offset * parallaxCoef)}px`;
+          element.querySelector('.product-feature__bubble--3').style.top = `${(bubble_3_top) - (offset * parallaxCoef)}px`;
+
+        };
+
+        const restoreElementsPositions = (element) => {
+          element.querySelector('.product-feature__bubble--1').style.removeProperty("top");
+          element.querySelector('.product-feature__bubble--2').style.removeProperty("top");
+          element.querySelector('.product-feature__bubble--3').style.removeProperty("top");
+
+        }
+
+        const listener = () => {
+          if (isInViewport(productFeature)) {
+            updateElementsPositions(productFeature);
+          }
+          else {
+            restoreElementsPositions(productFeature);
+          }
+        };
+
+        window.addEventListener('DOMContentLoaded', listener);
+        window.addEventListener('scroll', listener);
+        window.addEventListener('resize', listener);
+
+      })
     }
   }
-}
+})(jQuery, _, Drupal);

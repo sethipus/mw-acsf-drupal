@@ -1,0 +1,20 @@
+uuid: f4f56b62-3d5c-455c-be57-b6363d26d68b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+  module:
+    - datetime
+id: node.newsletter_sign_up.scheduled_transition_date
+field_name: scheduled_transition_date
+entity_type: node
+bundle: newsletter_sign_up
+label: 'Scheduled transition date'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

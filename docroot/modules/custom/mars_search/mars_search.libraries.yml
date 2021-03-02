@@ -1,5 +1,4 @@
 autocomplete:
-  version: 1.x
   js:
     js/autocomplete.js: {}
   dependencies:
@@ -7,3 +6,44 @@ autocomplete:
     - core/jquery
     - core/drupalSettings
     - core/drupal.autocomplete
+    - emulsifymars/product-card
+
+datalayer_search:
+  js:
+    js/datalayer_search.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+
+datalayer.card_grid:
+  js:
+    js/datalayer_card_grid.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+
+search_filter_faq:
+  js:
+    js/search_filter_faq.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+
+search_pager:
+  js:
+    js/search_pager.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+
+search_filter_search_page:
+  js:
+    js/search_filter_search_page.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery

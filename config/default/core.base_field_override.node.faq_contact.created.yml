@@ -1,0 +1,18 @@
+uuid: 5d53455b-9fbe-44e7-8078-f7ed730d9745
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq_contact
+id: node.faq_contact.created
+field_name: created
+entity_type: node
+bundle: faq_contact
+label: 'Authored on'
+description: 'The time that the node was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

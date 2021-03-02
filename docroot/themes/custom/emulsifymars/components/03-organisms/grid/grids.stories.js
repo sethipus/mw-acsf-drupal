@@ -53,5 +53,5 @@ export const ajaxCardGridExample = () => {
     articleCard(articleCardData),
     productCard(productCardData)
   ];
-  return <div dangerouslySetInnerHTML={{ __html: ajaxGrid(ajaxGridData) }} />
+  return <div dangerouslySetInnerHTML={{ __html:  "<div style='height: 300px; background-color: grey'></div>" + ajaxGrid(ajaxGridData) }} />
 };

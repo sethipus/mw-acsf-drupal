@@ -200,8 +200,6 @@ third_party_settings:
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        'Flexible driver': {  }
-        'Mars Search': {  }
         Printable: {  }
       blacklisted_blocks: {  }
       allowed_layouts:
@@ -236,6 +234,7 @@ third_party_settings:
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe:
               - recipe_detail_hero
@@ -263,11 +262,7 @@ third_party_settings:
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
-            'Page components':
-              - fullwidth_image_video_block
-              - inline_image_video_block
-              - list_block
-              - text_block
+            'Page components': {  }
             Product: {  }
             Recipe:
               - recipe_detail_body
@@ -332,10 +327,12 @@ third_party_settings:
             Help: {  }
             'Inline blocks': {  }
             'Lists (Views)': {  }
-            'Mars Common': {  }
+            'Mars Common':
+              - feedback_block
             'Mars Product': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
@@ -364,6 +361,7 @@ third_party_settings:
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
@@ -479,6 +477,7 @@ hidden:
   content_moderation_control: true
   field_product_reference: true
   field_recipe_ingredients: true
+  langcode: true
   layout_builder__layout: true
   published_at: true
   search_api_excerpt: true

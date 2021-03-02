@@ -1,25 +1,28 @@
-{{ attach_library('emulsifymars/product-content-pair-up') }}
 {% set product_content_pair_up_base_class = 'product-content-pair-up' %}
 
-<section class="{{ product_content_pair_up_base_class }} max-size--{{ max_width }}" id="product-content-pair-up" data-theme="{{ theme_styles }}">
+<section class="{{ product_content_pair_up_base_class }}" data-theme="{{ theme_styles }}">
 
-  {% include "@atoms/text/headings/_heading.twig" with {
-    heading_level: 2,
-    heading: title,
-    heading_base_class: product_content_pair_up_base_class ~ '__heading'
-  }
-  %}
+  {% if title %}
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 2,
+      heading: title,
+      heading_base_class: product_content_pair_up_base_class ~ '__heading'
+    }
+    %}
 
-  <div {{ bem('graphic-divider', [], product_content_pair_up_base_class) }}>
-    {{ graphic_divider | raw }}
-  </div>
+    <div {{ bem('graphic-divider', [], product_content_pair_up_base_class) }}>
+      {{ graphic_divider | raw }}
+    </div>
+  {% endif %}
 
   <div {{ bem('container', [], product_content_pair_up_base_class) }}>
     <div class="lead-card" style="background-image: url('{{ background }}')">
       <div class="wrapper">
-        {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-          eyebrow_text: lead_card_eyebrow
-        } %}
+        <div class="content-pair-up-eyebrow">
+          {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+            eyebrow_text: lead_card_eyebrow
+          } %}
+        </div>
         {% include "@atoms/text/headings/_heading.twig" with {
           heading_level: 3,
           heading: lead_card_title,
@@ -28,21 +31,17 @@
         }
         %}
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-          default_link_content: cta_link_text|default('Explore'|t),
+          default_link_content: cta_link_text|default('Explore'|mt),
           default_link_attributes: {
             href: cta_link_url
           }
         } %}
       </div>
-    </div>
 
-    <div class="png-asset">
-      <div class="wrapper" style="background-image: url('{{ png_asset }}')"></div>
-    </div>
-
-    <div class="supportive-card">
-      <div class="wrapper">
-        {{ supporting_card_content }}
+      <div class="supportive-card">
+        <div class="wrapper">
+          {{ supporting_card_content }}
+        </div>
       </div>
     </div>
   </div>

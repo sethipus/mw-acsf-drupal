@@ -4,11 +4,15 @@
   overflow: hidden;
 
   @include xs {
-    padding: 6rem 2rem 11rem 2rem;
+    padding: 0 2rem 11rem 2rem;
   }
 
   @include medium {
-    padding: 6rem 8rem 37rem 8rem;
+    padding: 0 8rem 46.7rem 8rem;
+  }
+
+  @include large {
+    padding: 0 8rem 31.1rem 8rem;
   }
 
   &__content {
@@ -17,9 +21,13 @@
 
   &__graphic-divider {
     text-align: center;
-    margin-bottom: 6rem;
+    margin-bottom: 3rem;
     position: relative;
     z-index: 2;
+
+    @include medium {
+      margin-bottom: 4rem;
+    }
   }
 
   &__brand-shape {
@@ -47,6 +55,7 @@
     }
 
     svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
       width: 100%;
       height: 100%;
       position: relative;
@@ -60,15 +69,20 @@
     color: clr(primary);
     z-index: 5;
     position: relative;
+    text-transform: uppercase;
 
     @include xs {
       font-size: 6rem;
       line-height: 5.4rem;
+      margin-top: 6rem;
+      margin-bottom: 3rem;
     }
 
     @include medium {
       font-size: 10rem;
       line-height: 9rem;
+      margin-top: 12rem;
+      margin-bottom: 4rem;
     }
 
     @include large {
@@ -83,7 +97,7 @@
     color: clr(primary);
     z-index: 5;
     position: relative;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
 
     @include xs {
       font-size: 1.8rem;
@@ -93,6 +107,7 @@
     @include medium {
       font-size: 2rem;
       line-height: 3.2rem;
+      margin-bottom: 6rem;
     }
 
     @include large {
@@ -103,9 +118,7 @@
 
   &__link-container {
     display: flex;
-    justify-content: space-evenly;
-    max-width: 65rem;
-    margin: 0 auto;
+    justify-content: center;
     z-index: 5;
     position: relative;
 
@@ -117,16 +130,15 @@
       flex-direction: row;
     }
 
-    .default-link:hover {
-      &::after {
-        @include xs {
-          bottom: -13rem;
-        }
-        @include medium {
-          width: 190px;
-          left: -10px;
-          height: 120px;
-          bottom: -30px;
+    .default-link {
+      @include medium {
+        flex-basis: auto;
+        min-width: 157px;
+        padding: 0 3rem;
+        margin-right: 20px;
+
+        &:last-child {
+          margin-right: 0;
         }
       }
     }

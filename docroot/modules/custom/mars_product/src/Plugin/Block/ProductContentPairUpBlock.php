@@ -3,13 +3,19 @@
 namespace Drupal\mars_product\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\Form\MarsCardColorSettingsForm;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -25,6 +31,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Article or recipe first.
@@ -77,6 +85,13 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
   protected $themeConfiguratorParser;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -94,6 +109,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -108,6 +124,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     ConfigFactoryInterface $config_factory,
     EntityTypeManager $entity_type_manager,
     ThemeConfiguratorParser $theme_configurator_parser,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -117,6 +134,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -125,7 +143,10 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function build() {
     $conf = $this->getConfiguration();
-
+    $text_color_override = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
     /** @var \Drupal\node\Entity\Node $main_entity */
     /** @var \Drupal\node\Entity\Node $supporting_entity */
     switch ($conf['entity_priority']) {
@@ -138,42 +159,26 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       default:
         $main_entity = !empty($conf['article_recipe']) ? $this->nodeStorage->load($conf['article_recipe']) : NULL;
         $supporting_entity = !empty($conf['product']) ? $this->nodeStorage->load($conf['product']) : NULL;
-
     }
-
     $build['#theme'] = 'product_content_pair_up_block';
-    $build['#title'] = $conf['title'];
+    $build['#title'] = $this->languageHelper->translate($conf['title']);
     $build['#graphic_divider'] = $this
       ->themeConfiguratorParser
-      ->getFileContentFromTheme('graphic_divider');
-
+      ->getGraphicDivider();
     if ($main_entity) {
       $build['#lead_card_entity'] = $main_entity;
-      $build['#lead_card_eyebrow'] = ($conf['lead_card_eyebrow'] ?? NULL) ?: $main_entity->type->entity->label();
-      $build['#lead_card_title'] = ($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
+      $build['#lead_card_eyebrow'] = $this->languageHelper->translate($conf['lead_card_eyebrow'] ?? $main_entity->type->entity->label());
+      $build['#lead_card_title'] = $this->languageHelper->translate($conf['lead_card_title'] ?? NULL) ?: $main_entity->getTitle();
       $build['#cta_link_url'] = $main_entity->toUrl()->toString();
-      $build['#cta_link_text'] = ($conf['cta_link_text'] ?? NULL) ?: $this->t('Explore');
+      $build['#cta_link_text'] = $this->languageHelper->translate($conf['cta_link_text'] ?? NULL) ?: $this->languageHelper->translate('Explore');
     }
-
-    $build['#background'] = $this->getBgImage($main_entity);
-
     if ($supporting_entity) {
       $build['#supporting_card_entity'] = $supporting_entity;
-
-      $default_eyebrow_text = $supporting_entity->bundle() == 'product' ? $this->t('Made With') : $this->t('Seen In');
-      $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
-
-      $build['#supporting_card_entity_view'] = $this->viewBuilder->view($supporting_entity, 'card');
-      $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
-      $build['#supporting_card_entity_view']['#eyebrow'] = $eyebrow_text;
-      $build['#supporting_card_entity_view']['#cache']['keys'][] = md5($eyebrow_text);
-      $build['#supporting_card_eyebrow'] = $build['#supporting_card_entity_view']['#eyebrow'];
+      $build['#supporting_card_entity_view'] = array_merge($this->createSupportCardRenderArray(
+        $supporting_entity
+      ), ['#text_color_override' => $text_color_override]);
     }
-
-    // Get PNG asset path.
-    $build['#png_asset'] = $this->themeConfiguratorParser->getUrlForFile('png_asset');
-    $build['#max_width'] = $conf['max_width'];
-
+    $build['#background'] = $this->getBgImage($main_entity);
     return $build;
   }
 
@@ -186,7 +191,6 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
-      '#required' => TRUE,
       '#maxlength' => 55,
       '#default_value' => $this->configuration['title'] ?? NULL,
     ];
@@ -218,7 +222,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#target_type' => 'node',
       '#default_value' => ($node_id = $this->configuration['product'] ?? NULL) ? $this->nodeStorage->load($node_id) : NULL,
       '#selection_settings' => [
-        'target_bundles' => ['product'],
+        'target_bundles' => ['product', 'product_multipack'],
       ],
     ];
 
@@ -242,6 +246,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#type' => 'textfield',
       '#title' => $this->t('CTA Link text'),
       '#maxlength' => 15,
+      '#required' => TRUE,
       '#placeholder' => $this->t('Explore'),
       '#default_value' => $this->configuration['cta_link_text'] ?? NULL,
     ];
@@ -255,24 +260,17 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       '#default_value' => $this->configuration['supporting_card_eyebrow'] ?? NULL,
     ];
 
-    $form['max_width'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Max Width'),
-      '#required' => TRUE,
-      '#options' => [
-        '1440' => '1440',
-        '768' => '768',
-        '375' => '375',
-      ],
-      '#default_value' => (string) ($this->configuration['max_width'] ?? 1440),
-    ];
-
     // Entity Browser element for background image.
-    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $this->configuration['background'], 1, 'thumbnail');
+    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+      $this->configuration['background'], $form_state, 1, 'thumbnail', FALSE);
     // Convert the wrapping container to a details element.
     $form['background']['#type'] = 'details';
     $form['background']['#title'] = $this->t('Background');
     $form['background']['#open'] = TRUE;
+
+    // Add select background color.
+    $this->buildSelectBackground($form);
+    $this->buildOverrideColorElement($form, $this->configuration);
 
     return $form;
   }
@@ -291,8 +289,9 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['lead_card_title'] = $form_state->getValue('lead_card_title');
     $this->configuration['cta_link_text'] = $form_state->getValue('cta_link_text');
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
-    $this->configuration['max_width'] = $form_state->getValue('max_width');
     $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
+    $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**
@@ -321,6 +320,54 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       }
     }
     return $bg_src;
+  }
+
+  /**
+   * Returns a render array for the support entity.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $supporting_entity
+   *   Entity that we would like to render.
+   *
+   * @return array
+   *   Render array for the support card.
+   */
+  private function createSupportCardRenderArray(
+    EntityInterface $supporting_entity
+  ): array {
+    $conf = $this->getConfiguration();
+    $is_product_card = in_array($supporting_entity->bundle(), ['product', 'product_multipack']);
+
+    $render_array = $this->viewBuilder->view(
+      $supporting_entity,
+      'card'
+    );
+
+    $default_eyebrow_text = $is_product_card ? $this->languageHelper->translate('Made With') : $this->languageHelper->translate('Seen In');
+    $conf_eyebrow_text = $conf['supporting_card_eyebrow'] ?? NULL;
+    $eyebrow_text = $conf_eyebrow_text ?: $default_eyebrow_text;
+    $render_array['#eyebrow'] = $eyebrow_text;
+
+    if ($is_product_card) {
+      $brand_shape = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
+      $render_array['#brand_shape'] = $brand_shape;
+
+      if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+         && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+      ) {
+        $render_array['#select__background__color'] = $this->configuration['select_background_color'];
+      }
+    }
+
+    $conf = $this->configFactory->get(MarsCardColorSettingsForm::SETTINGS);
+    CacheableMetadata::createFromRenderArray($render_array)
+      ->merge(
+        $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
+      )
+      ->addCacheableDependency($conf)
+      ->applyTo($render_array);
+
+    $render_array['#cache']['keys'][] = md5($eyebrow_text);
+    return $render_array;
   }
 
 }

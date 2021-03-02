@@ -2,11 +2,14 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\InlineImageVideoBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\SVG\SVG;
 
 /**
  * @coversDefaultClass \Drupal\mars_common\Plugin\Block\InlineImageVideoBlock
@@ -39,6 +42,13 @@ class InlineImageVideoBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
+   * Mock.
+   *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
    */
   private $mediaHelperMock;
@@ -49,6 +59,13 @@ class InlineImageVideoBlockTest extends UnitTestCase {
    * @var array
    */
   private $configuration;
+
+  /**
+   * ThemeConfiguratorParserMock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\mars_common\ThemeConfiguratorParser
+   */
+  protected $themeConfiguratorParserMock;
 
   /**
    * {@inheritdoc}
@@ -69,7 +86,9 @@ class InlineImageVideoBlockTest extends UnitTestCase {
       $this->configuration,
       'inline_image_video_block',
       $definitions,
-      $this->mediaHelperMock
+      $this->languageHelperMock,
+      $this->mediaHelperMock,
+      $this->themeConfiguratorParserMock
     );
   }
 
@@ -78,14 +97,24 @@ class InlineImageVideoBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(1))
+      ->expects($this->exactly(3))
       ->method('get')
       ->willReturnMap(
         [
           [
+            'mars_common.language_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageHelperMock,
+          ],
+          [
             'mars_common.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
+          ],
+          [
+            'mars_common.theme_configurator_parser',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->themeConfiguratorParserMock,
           ],
         ]
       );
@@ -106,7 +135,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
    */
   public function testShouldBuildConfigurationForm() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertArrayHasKey('title', $config_form);
+    $this->assertArrayHasKey('svg_asset', $config_form);
   }
 
   /**
@@ -134,6 +163,11 @@ class InlineImageVideoBlockTest extends UnitTestCase {
         'alt' => 'alt',
         'title' => 'title',
       ]);
+
+    $this->themeConfiguratorParserMock
+      ->expects($this->exactly(1))
+      ->method('getBrandShapeWithoutFill')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
 
     $build = $this->block->build();
     $this->assertEquals('inline_image_video_block', $build['#theme']);
@@ -163,6 +197,11 @@ class InlineImageVideoBlockTest extends UnitTestCase {
         'src' => 'src',
       ]);
 
+    $this->themeConfiguratorParserMock
+      ->expects($this->exactly(1))
+      ->method('getBrandShapeWithoutFill')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
+
     $build = $this->block->build();
     $this->assertEquals('inline_image_video_block', $build['#theme']);
   }
@@ -190,7 +229,9 @@ class InlineImageVideoBlockTest extends UnitTestCase {
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 
 }

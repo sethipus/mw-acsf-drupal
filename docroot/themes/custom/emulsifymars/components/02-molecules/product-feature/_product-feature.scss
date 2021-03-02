@@ -1,135 +1,205 @@
 .product-feature {
     text-align: left;
-    background-size: cover;
     background-color: clr(secondary);
 
   &__inner {
     position: relative;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    background-repeat: no-repeat;
     width: 100%;
     height: 100%;
     overflow: hidden;
-
-    @media (max-width: 768px) {
-      flex-flow: column nowrap;
-    }
   }
 
-  &__bubble_1 {
+  &__bubble {
     position: absolute;
-    left: 60%;
-    top: 7%;
-    height: 117px;
-    width: 117px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: variable(brand-shape);
+    height: auto;
 
-    @media (max-width: 768px) {
-      display: block;
-      left: 80%;
+    svg {
+      width: 100%;
+      height: auto;
+      fill: clr(subcolor-3);
+      opacity: 0.15;
     }
 
-    @media (max-width: 375px) {
+    &--1 {
+      width: 42rem;
+      top: 2.7rem;
+      left: -50%;
+
+      @include medium {
+        width: 75rem;
+        top: 6.5rem;
+        left: -43%;
+      }
+
+      @include large {
+        width: 76rem;
+        top: 12.8rem;
+        left: -9.5%;
+      }
+
+      @include xl {
+        width: 76rem;
+        top: 2.7rem;
+        left: -6%;
+      }
+    }
+
+    &--2 {
       display: none;
+
+      @include medium {
+        display: block;
+        width: 19rem;
+        top: 10.7rem;
+        right: 7%;
+      }
+
+      @include large {
+        width: 17.5rem;
+        top: 6rem;
+        right: 24%;
+      }
+    }
+
+    &--3 {
+      width: 25rem;
+      top: 45.5rem;
+      right: -27%;
+
+      @include medium {
+        width: 42rem;
+        top: 71rem;
+        right: -7%;
+      }
+
+      @include large {
+        width: 38rem;
+        top: 47.3rem;
+        right: -3.5%;
+      }
     }
   }
 
-  &__bubble_2 {
-    position: absolute;
-    height: 587px;
-    width: 572px;
-    top: 15%;
-    left: -7.5%;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: variable(brand-shape);
+  &__content {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 66.4rem;
 
-    @media (max-width: 768px) {
-      top: 5%;
-      left: -35%;
-      height: 597px;
-      width: 433px;
+    @include medium {
+      justify-content: unset;
+      min-height: 74rem;
     }
 
-    @media (max-width: 375px) {
-      top: 5%;
-      height: 330px;
-      width: 242px;
-    }
-  }
-
-  &__bubble_3 {
-    position: absolute;
-    top: 80%;
-    left: 85%;
-    height: 272px;
-    width: 290px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: variable(brand-shape);
-
-    @media (max-width: 768px) {
-      top: 75%;
-      left: 70%;
-      height: 237px;
-      width: 279px;
+    @include large {
+      flex-direction: row;
     }
 
-    @media (max-width: 375px) {
-      top: 75%;
-      height: 192px;
-      width: 142px;
+    &-column {
+      width: 100%;
+
+      @include large {
+        width: 50%;
+      }
     }
   }
 
   &__product_image {
-    flex: 0 0 auto;
-    margin: 0 4rem;
-    animation: action 1.2s cubic-bezier(0, 0, 1, 1) infinite alternate;
-    max-width: 45%;
+    padding: 5rem 6rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: cubic-bezier(0, 0, 1, 1) action 4.8s infinite;
 
-    @keyframes action {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-20px); }
+    img {
+      min-width: 25.5rem;
+      min-height: 25.5rem;
+      max-width: 52rem;
+      max-height: 52rem;
+      object-fit: contain;
     }
 
-    @media (max-width: 768px) {
-      max-width: 100%;
-      padding: 2rem;
-      margin-right: 0;
+    @include medium {
+      padding: 2rem 8rem 0;
+
+      img {
+        max-width: 46.4rem;
+        max-height: 46.4rem;
+      }
+    }
+
+    @include large {
+      padding: 8rem 2rem 8rem 4rem;
+
+      img {
+        max-width: 46.4rem;
+        max-height: 46.4rem;
+      }
+    }
+
+    @include xl {
+
+      img {
+        max-width: 52rem;
+        max-height: 52rem;
+      }
+    }
+
+    @keyframes action {
+      0%   { transform: translateY(-16px); }
+      50%  { transform: translateY(16px); }
+      100%  { transform: translateY(-16px); }
     }
   }
 
   &__product_text {
-    flex: 0 0 auto;
-    max-width: 50%;
+    position: relative;
+    padding: 6rem 2rem 2rem;
+    z-index: 2;
 
-    & .h1__link {
-      font-family: variable(primary-font);
-      font-size: 6.4rem;
-      font-weight: normal;
-    }
-
-    & .eyebrow {
-      letter-spacing: .16rem;
+    .eyebrow {
+      margin-bottom: 1.6rem;
+      margin-top: 0;
+      font-size: 1.4rem;
       font-family: variable(primary-font);
     }
 
-    @media (max-width: 768px) {
-      padding: 2rem;
-      max-width: 100%;
-      & h1 {
+    .h1 {
+      margin-bottom: 3.5rem;
+      font-family: variable(primary-font);
+      font-size: 4rem;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .default-link {
+      line-height: 5rem;
+    }
+
+    @include medium {
+      padding: 4rem 4rem 6rem;
+
+      .eyebrow {
+        margin-bottom: 3.4rem;
+        font-size: 1.6rem;
+      }
+
+      .h1 {
+        margin-bottom: 3rem;
         font-size: 5.6rem;
       }
     }
 
-    @media (max-width: 375px) {
-      & h1 {
-        font-size: 4.2rem;
+    @include large {
+      padding: 8.4rem 4rem 4rem 1.5rem;
+
+      .h1 {
+        font-size: 6.4rem;
+      }
+
+      .default-link {
+        line-height: 6rem;
       }
     }
   }

@@ -7,7 +7,9 @@ dependencies:
     - field.field.node.campaign.field_body
     - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_image
+    - field.field.node.campaign.field_campaign_new
     - field.field.node.campaign.field_campaign_related_products
+    - field.field.node.campaign.field_meta_tags
     - field.field.node.campaign.field_product_occasions
     - field.field.node.campaign.layout_builder__layout
     - node.type.campaign
@@ -125,9 +127,11 @@ content:
 hidden:
   content_moderation_control: true
   field_brand_initiatives: true
+  field_campaign_new: true
   field_campaign_related_products: true
   field_meta_tags: true
   field_product_occasions: true
+  langcode: true
   layout_builder__layout: true
   published_at: true
   search_api_excerpt: true

@@ -17,7 +17,9 @@ module.exports = {
     pdp_body: path.resolve(distDir + '/js/03-organisms/pdp-body', 'pdp-body.js'),
     pdp_multipack: path.resolve(distDir + '/js/02-molecules/pdp/pdp-multipack', 'pdp-multipack.js'),
     product_used: path.resolve(distDir + '/js/02-molecules/product-used-module', 'product-used-module.js'),
-    recommendations_module: path.resolve(distDir + '/js/02-molecules/recommendations-module', 'recommendations-module.js')
+    recommendations_module: path.resolve(distDir + '/js/02-molecules/recommendations-module', 'recommendations-module.js'),
+    main_menu: path.resolve(distDir + '/js/02-molecules/menus/main-menu', 'main-menu.js'),
+    object_fit_polyfill: path.resolve(distDir + '/js/01-atoms', 'object-fit-polyfill.js')
   },
   module: {
     rules: [loaders.SVGSpriteLoader, loaders.CSSLoader,loaders.SASSLoader, loaders.ImageLoader, loaders.FontLoader],

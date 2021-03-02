@@ -2,23 +2,48 @@
 {% set pdp_main_image = pdp_hero_data.image_items|first %}
 {% set pdp_side_images = pdp_hero_data.image_items[1:] %}
 {% set scroll_mandatory_base_class = 'scroll-mandatory' %}
+{% set brand_shape_wrapper_extra_class = 'brand-shape-wrapper-extra-class' %}
+{% set pdp_size_id_modifier = size_id %}
+`
+{% if pdp_common_hero_data.brand_shape_opacity == 'partial' %}
+  {% set brand_shape_opacity = '0.2' %}
+{% else %}
+  {% set brand_shape_opacity = '1' %}
+{% endif %}
+
+{% if pdp_common_hero_data.text_color == 'color_a' %}
+  {% set text_color_extra_class = ['text-color-A'] %}
+{% elseif pdp_common_hero_data.text_color == 'color_e' %}
+  {% set text_color_extra_class = ['text-color-E'] %}
+{% elseif pdp_common_hero_data.text_color == 'color_w' %}
+  {% set text_color_extra_class = ['text-color-W'] %}
+{% endif %}
+
+{% set bg_color__extra_classes = pdp_common_hero_data.card_sticky_bg_color | bgColorClassMap %}
 
 <section
-  id="pdp-hero-{{size_id}}"
-  {{ bem(pdp_hero_base_class) }}
+  class="pdp-hero pdp-hero--{{size_id}}"
   data-theme="{{ theme_styles }}"
   {% if pdp_common_hero_data.background_color %}
     style="background-color: {{ pdp_common_hero_data.background_color }};"
   {% endif %}
 >
+  {% if pdp_common_hero_data.brand_shape_color != '' %}
+    <style>
+      .brand-shape-wrapper-extra-class svg {
+        fill: {{ pdp_common_hero_data.brand_shape_color }} !important;
+        opacity: {{ brand_shape_opacity }} !important;
+      }
+    </style>
+  {% endif %}
 
-  <div {{ bem('bubble_1', [], pdp_hero_base_class) }} id="pdp-hero__bubble_1-{{size_id}}">
+  <div {{ bem('bubble', ['1'], pdp_hero_base_class, [brand_shape_wrapper_extra_class]) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
-  <div {{ bem('bubble_2', [], pdp_hero_base_class) }} id="pdp-hero__bubble_2-{{size_id}}">
+  <div {{ bem('bubble', ['2'], pdp_hero_base_class, [brand_shape_wrapper_extra_class]) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
-  <div {{ bem('bubble_3', [], pdp_hero_base_class) }} id="pdp-hero__bubble_3-{{size_id}}">
+  <div {{ bem('bubble', ['3'], pdp_hero_base_class, [brand_shape_wrapper_extra_class]) }}>
     {{ pdp_common_hero_data.brand_shape | raw }}
   </div>
   <div {{ bem('container', [], pdp_hero_base_class) }}>
@@ -28,20 +53,23 @@
         heading: pdp_common_hero_data.product_label,
         heading_blockname: pdp_hero_base_class,
         heading_base_class: 'product-label',
+        heading_extra_classes: text_color_extra_class,
       } %}
       {% include "@atoms/text/headings/_heading.twig" with {
-        heading_level: 2,
+        heading_level: 1,
         heading: pdp_common_hero_data.product_name,
         heading_blockname: pdp_hero_base_class,
         heading_base_class: 'product-name',
+        heading_extra_classes: text_color_extra_class,
       } %}
-      <div id='sticky-nav-top-{{size_id}}' {{ bem('sticky-nav-top', [], pdp_hero_base_class) }}>
+      <div {{ bem('sticky-nav-top', [size_id], pdp_hero_base_class, bg_color__extra_classes) }}>
         {% include "@atoms/text/headings/_heading.twig" with {
           heading_level: 5,
           heading: pdp_common_hero_data.product_label,
           heading_blockname: pdp_hero_base_class,
           heading_base_class: 'product-label',
           heading_modifiers: ['sticky'],
+          heading_extra_classes: text_color_extra_class,
         } %}
         {% include "@atoms/text/headings/_heading.twig" with {
           heading_level: 2,
@@ -49,6 +77,7 @@
           heading_blockname: pdp_hero_base_class,
           heading_base_class: 'product-name',
           heading_modifiers: ['sticky'],
+          heading_extra_classes: text_color_extra_class,
         } %}
       </div>
       <div {{ bem('size-container', [], pdp_hero_base_class) }}>
@@ -56,25 +85,36 @@
           span_content: pdp_common_hero_data.size_label,
           span_base_class: 'size-label',
           span_blockname: pdp_hero_base_class,
+          span_extra_classes: text_color_extra_class,
         } %}
-        <ul {{ bem('size-list', [], pdp_hero_base_class)}}>
-          {% for size_item in pdp_size_items_data %}
-            {% set active_size = size_item.size_id == size_id ? 'true' : 'false' %}
-            {% set size_attributes = {'data-size-id' : size_item.size_id, 'data-size-selected' : active_size } %}
-            <li {{ bem('list-item', [], pdp_hero_base_class)}}>
-              {% include "@atoms/links/link/link.twig" with {
-                link_base_class: 'list-item--link',
-                link_blockname: pdp_hero_base_class,
-                link_content: size_item.title,
-                link_url: size_item.link_url,
-                link_attributes: size_attributes,
-              } %}
-            </li>
-          {% endfor %}
-        </ul>
+        <div {{ bem('list-container', [], pdp_hero_base_class)}}>
+          <ul {{ bem('size-list', [], pdp_hero_base_class)}}>
+            {% for size_item in pdp_size_items_data %}
+              {% set active_size = size_item.size_id == size_id ? 'true' : 'false' %}
+              {% set size_attributes = {'data-size-id' : size_item.size_id, 'data-size-selected' : active_size } %}
+              <li {{ bem('list-item', [], pdp_hero_base_class)}}>
+                {% include "@atoms/links/link/link.twig" with {
+                  link_base_class: 'list-item--link',
+                  link_blockname: pdp_hero_base_class,
+                  link_content: size_item.title,
+                  link_url: size_item.link_url,
+                  link_attributes: size_attributes,
+                  link_extra_classes: text_color_extra_class,
+                } %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
+      {% if show_rating_and_reviews == true %}
+        {% if pdp_is_main_variant %}
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+        {% else %}
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}" data-bv-seo="false"></div>
+        {% endif %}
+      {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
-        <div id='pdp-hero-main-image-{{size_id}}' {{ bem('main-image-container', [], pdp_hero_base_class) }}>
+        <div class='pdp-hero-main-image--{{size_id}} pdp-hero__main-image-container'>
           {% include "@atoms/images/image/responsive-image.twig" with {
             image_alt: pdp_main_image.image.alt,
             image_srcset: pdp_main_image.image.srcset,
@@ -83,11 +123,13 @@
                 (max-width: 1024px) 1024px,
                 1440px',
             image_src: image_items|first.image.src,
-              responsive_image_base_class: 'main-image',
+            responsive_image_base_class: 'main-image',
             responsive_image_blockname: pdp_hero_base_class,
+            height: '550px',
+            width: '550px',
           } %}
         </div>
-        <div id='sticky-nav-bottom-{{size_id}}' {{ bem('sticky-nav-bottom', [], pdp_hero_base_class) }}>
+        <div {{ bem('sticky-nav-bottom', [size_id], pdp_hero_base_class) }}>
           <div {{ bem('sections-container', [], pdp_hero_base_class) }}>
             <ul {{ bem('sections-list', [], pdp_hero_base_class)}}>
               {% for section_item in pdp_hero_data.mobile_sections_items %}
@@ -114,6 +156,8 @@
                     (max-width: 1024px) 1024px,
                     1440px',
                 image_src: item.image.src,
+                height: '550px',
+                width: '550px',
                 responsive_image_base_class: 'side-image',
                 responsive_image_blockname: pdp_hero_base_class,
               } %}
@@ -124,21 +168,26 @@
       <div {{ bem('description', [], pdp_hero_base_class, [scroll_mandatory_base_class]) }}>
         {% include "@atoms/text/text/07-element.twig" with {
           paragraph_content: pdp_common_hero_data.product_description,
+          paragraph_extra_classes: text_color_extra_class,
         } %}
       </div>
-      <div id='where-to-buy-{{size_id}}' class="where-to-buy--container">
-        {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
-          where_to_buy_modifiers: ['pdp-hero'],
-          product_sku: pdp_common_hero_data.product_sku,
-          commerce_vendor: pdp_common_hero_data.commerce_vendor,
-          data_widget_id: pdp_common_hero_data.data_widget_id,
-          reference_for_analitics: pdp_common_hero_data.reference_for_analitics,
-          cta_title: pdp_common_hero_data.product_CTA_title,
-        } %}
-      </div>
+      {% if pdp_common_hero_data.commerce_vendor %}
+        <div class="where-to-buy--container where-to-buy--{{size_id}}">
+          {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
+            where_to_buy_modifiers: ['pdp-hero'],
+            product_sku: gtin,
+            commerce_vendor: pdp_common_hero_data.commerce_vendor,
+            data_widget_id: pdp_common_hero_data.data_widget_id,
+            data_display: pdp_common_hero_data.data_display,
+            reference_for_analitics: pdp_common_hero_data.reference_for_analitics,
+            cta_title: pdp_common_hero_data.product_CTA_title,
+            button_type: pdp_common_hero_data.button_type
+          } %}
+        </div>
+      {% endif %}
 
-      <div class='menu-container' {{ bem('slider-container', [], pdp_hero_base_class) }}>
-        <div {{ bem('pdp-hero-menu-container', '', '', [scroll_mandatory_base_class]) }} id='section-nutrition-{{size_id}}'>
+      <div class='menu-container'>
+        <div {{ bem('pdp-hero-menu-container', '', '', [scroll_mandatory_base_class]) }} id='section-nutrition--{{size_id}}'>
           {% include "@atoms/text/headings/_heading.twig" with {
             heading_level: 5,
             heading: pdp_label_nutrition,
@@ -174,7 +223,18 @@
         </div>
       </div>
       <div class="swiper-pagination"></div>
-      <div class="swiper-control" tabindex="0"><a href="#" class="playpause-icon"></a></div>
+      <div class="swiper-control" tabindex="0">
+        <a href="#" class="playpause-icon" role="button" aria-live="polite">
+          {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+            sronly_content: 'Play',
+            sronly_modifiers: ['play'],
+          } %}
+          {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+            sronly_content: 'Pause',
+            sronly_modifiers: ['pause'],
+          } %}
+        </a>
+      </div>
     </div>
   </div>
 </section>

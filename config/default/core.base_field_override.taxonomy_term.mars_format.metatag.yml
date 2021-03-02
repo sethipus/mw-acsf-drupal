@@ -1,0 +1,18 @@
+uuid: eba7c2dc-b184-4362-b64e-f1902916361e
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_format
+id: taxonomy_term.mars_format.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_format
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

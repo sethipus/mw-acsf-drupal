@@ -1,5 +1,7 @@
   {# Set classes #}
   {% set menu_class = 'social-menu' %}
+  {{ attach_library('emulsifymars/social-menu') }}
+
 
   {# List #}
   {% embed "@atoms/lists/ul.twig" with {
@@ -21,9 +23,18 @@
               link_base_class: 'link',
               link_modifiers: item_modifiers,
               link_blockname: menu_class,
+              link_attributes: {
+                'target': '_blank',
+                'aria-label': 'Social link',
+                'name': item.title
+              }
             } %}
               {% block link_content %}
                 {{ item.icon | raw }}
+                {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
+                  sronly_content: item.title,
+                  sronly_modifiers: ['social_link'],
+                } %}
               {% endblock %}
             {% endembed %}
           {% endblock %}

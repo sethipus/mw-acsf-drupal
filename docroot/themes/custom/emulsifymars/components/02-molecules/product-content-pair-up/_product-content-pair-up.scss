@@ -1,37 +1,65 @@
 .product-content-pair-up {
-  padding-bottom: 500px;
-
-  .product-content-pair-up__heading {
+  &__heading {
     width: 100%;
     text-align: center;
-    font-family: variable(primary-font);
+    font-family: variable(heading-font);
     font-size: 2.8rem;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 1;
-    letter-spacing: 0.14rem;
     margin-bottom: 4rem;
     margin-left: auto;
     margin-right: auto;
     max-width: 33.5rem;
     color: clr(primary);
     text-transform: uppercase;
+
+    @include medium {
+      max-width: 688px;
+      font-size: 4rem;
+    }
+
+    @include xl {
+      max-width: none;
+      font-size: 4.8rem;
+      margin-bottom: 6rem;
+    }
   }
 
-  .product-content-pair-up__graphic-divider {
+  &__graphic-divider {
     text-align: center;
     margin-bottom: 4rem;
+
+    @include xl {
+      margin-bottom: 6rem;
+    }
   }
 
-  .product-content-pair-up__container {
+  &__container {
     position: relative;
 
     .lead-card {
       background-color: clr(subcolor-2);
-      background-size: auto 110%;
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
       padding-top: 50px;
       position: relative;
+      height: 1000px;
+
+      @include medium {
+        height: 1060px;
+        padding-top: 60px;
+      }
+
+      @include large {
+        width: 100%;
+        height: 750px;
+        padding-top: 179px;
+      }
+
+      @include xl {
+        padding: 179px 0 0 85px;
+      }
 
       &::before {
         position: absolute;
@@ -43,30 +71,155 @@
         background: rgba($black, 0.4);
       }
 
+      .supportive-card .wrapper {
+        text-align: left;
+
+        .product-card, .article-card {
+          min-height: 444px;
+          
+          @include medium {
+            width: 396px;
+            height: 528px;
+          }
+          @include large {
+            width: 432px;
+            height: 590px;
+            right: 0;
+          }
+        }
+
+        .product-card {
+          &__link_section{
+            justify-content: space-around;
+            width: 100%;
+            max-width: 250px;
+
+            @include medium {
+              max-width: 330px;
+            }
+
+            @include large {
+              max-width: 370px;
+            }
+          } 
+
+          @include large {
+            .eyebrow {
+              padding-top: 4rem;
+            }
+            .product-card__title {
+              margin: 4rem auto 0;
+            }
+            .product-card__title p {
+              font-size: 2.8rem;
+              line-height: 3.08rem;
+            }
+          }
+        }
+
+        .recipe-card {
+          max-height: initial;
+
+          @include medium {
+            width: 396px;
+          }
+
+          @include large {
+            width: 432px;
+            height: 630px;
+            .recipe-card__media {
+              height: 325px;
+            }
+          }
+        }
+
+        @include xs {
+          padding-top: 0;
+        }
+
+        @include medium {
+          padding-top: 0;
+        }
+      }
+
       .wrapper {
-        height: 538px;
         max-width: 335px;
         margin: 0 auto;
         position: relative;
         text-align: center;
+        padding: 3rem 0;
 
-        .eyebrow {
+        @include medium {
+          margin: 0 auto;
+          max-width: 572px;
+          right: auto;
+          background-position: center center;
+          padding: 0;
+        }
+
+        @include large {
+          margin: 0;
+          right: 0;
+        }
+
+        @include xl  {
+          right: 0;
+          max-width: 900px;
+        }
+
+        .product-card .product-card__title {
+          text-align: center;
+          -webkit-line-clamp: 3;
+        }
+
+        .recipe-card {
+          margin-bottom: 0;
+        }
+
+        .content-pair-up-eyebrow {
           color: clr(subcolor-3);
           font-size: 1.4rem;
-          letter-spacing: 0.14rem;
           margin-bottom: 2rem;
+
+          .eyebrow {
+            margin-top: 0;
+            font-weight: normal;
+          }
+
+          @include medium {
+            font-size: 1.6rem;
+            margin-bottom: 4rem;
+          }
         }
 
         .heading {
           color: clr(subcolor-3);
           font-family: variable(primary-font);
-          font-size: 2.8rem;
           font-weight: 500;
-          line-height: 1;
-          letter-spacing: 0.14rem;
           margin-top: 0;
           margin-bottom: 3rem;
           text-decoration: none;
+          word-break: break-word;
+
+          @include xs {
+            font-size: 4rem;
+            line-height: 4rem;
+          }
+
+          @include medium {
+            font-size: 5.6rem;
+            line-height: 5.6rem;
+          }
+
+          @include large {
+            font-size: 6.4rem;
+            line-height: 6.4rem;
+          }
+
+          @include xl {
+            margin-top: auto;
+            margin-bottom: 6rem;
+          }
 
           // Remove later.
           text-transform: uppercase;
@@ -74,256 +227,89 @@
           a {
             color: clr(subcolor-3);
             text-decoration: none;
+            display: inline-block;
+            max-width: 828px;
           }
         }
 
-        .default-link {
+        & > .default-link {
           background-color: clr(subcolor-3);
           font-family: variable(primary-font);
           font-weight: 500;
           color: clr(secondary);
           line-height: 5rem;
 
+          @include xs {
+            bottom: -5px;
+          }
+
+          @include medium {
+            bottom: 0;
+          }
+
+          @include xl {
+            line-height: 6rem;
+          }
+
           &:hover {
             color: clr(subcolor-3);
           }
 
           &::after {
-            bottom: -110px;
             background-color: clr(secondary);
           }
         }
       }
     }
 
-    .png-asset {
-      position: absolute;
-      left: 0;
-      right: 0;
-      overflow-x: hidden;
-      top: 840px;
-      width: 100%;
-      min-height: 375px;
-      margin: auto;
-
-      .wrapper {
-        position: absolute;
-        right: -20%;
-        height: 100%;
-        width: 100%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center top;
-      }
-    }
-
     .supportive-card {
-      position: absolute;
+      position: relative;
       left: 0;
       right: 0;
-      top: 420px;
-      max-width: 31.5rem;
+      width: 31.5rem;
+      min-height: 444px;
       margin: auto;
+      z-index: $content-pair-supportive-card;
+
+      @include medium {
+        top: 450px;
+        position: absolute;
+        width: 396px;
+        min-height: 528px;
+      }
+
+      @include large {
+        top: 85px;
+        left: auto;
+        right: 30px;
+        width: 432px;
+        min-height: 590px;
+      }
+
+      @include xl {
+        right: 63px;
+      }
+
+      .recipe-card-heading__link {
+        @include xs {
+          font-size: 2rem;
+          line-height: 2.2rem;
+        }
+
+        @include medium {
+          font-size: 2.6rem;
+          line-height: 2.86rem;
+        }
+
+        @include large {
+          font-size: 2.8rem;
+          line-height: 3.08rem;
+        }
+      }
 
       .wrapper > section {
-        max-width: 31.5rem;
-      }
-
-      .recipe-card__media {
-        width: 100%;
-        height: auto;
-        max-height: 23.6rem;
+        text-align: initial;
       }
     }
   }
-
-  .layout-builder & {
-    .png-asset {
-      top: 640px;
-    }
-
-    .supportive-card {
-      top: 306px;
-    }
-  }
-
-  &.max-size--375 {
-    max-width: 375px;
-  }
-
-  &.max-size--768 {
-    max-width: 768px;
-  }
-
-  &.max-size--1440 {
-    max-width: 100%;
-  }
-
-  @include medium {
-    padding-bottom: 600px;
-
-    &:not(.max-size--375):not(.size--default), &.size--medium {
-      .product-content-pair-up__heading {
-        letter-spacing: 0.2rem;
-        font-size: 4rem;
-        max-width: 532px;
-      }
-
-      .product-content-pair-up__container {
-        .lead-card {
-          height: 538px;
-          padding-top: 60px;
-          background-size: auto 130%;
-
-          .wrapper {
-            margin: 0 auto;
-            max-width: 572px;
-
-            .eyebrow {
-              font-size: 1.6rem;
-              letter-spacing: 0.16rem;
-              margin-bottom: 4rem;
-            }
-
-            .heading {
-              font-size: 4rem;
-              letter-spacing: 0.2rem;
-            }
-          }
-        }
-
-        .png-asset {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          left: 0;
-          right: 0;
-          top: 640px;
-          margin: auto;
-          height: 768px;
-          width: 768px;
-
-          .wrapper {
-            right: auto;
-            background-position: center center;
-          }
-        }
-
-        .supportive-card {
-          top: 361px;
-          max-width: 33.4rem;
-
-          .wrapper > section {
-            max-width: 33.4rem;
-          }
-
-          .recipe-card__media {
-            width: 100%;
-            height: auto;
-            max-height: 25.1rem;
-          }
-        }
-      }
-    }
-
-    .layout-builder &:not(.max-size--375) {
-      .png-asset {
-        top: 365px;
-      }
-
-      .supportive-card {
-        top: 361px;
-      }
-    }
-  }
-
-  @include large {
-    &:not(.max-size--375) {
-      .product-content-pair-up__container {
-        .lead-card {
-          background-size: auto 120%;
-        }
-      }
-    }
-  }
-
-  @include xl {
-    padding-bottom: 275px;
-
-    &:not(.max-size--375):not(.max-size--768):not(.size--medium):not(.size--default), &.size--large {
-      .product-content-pair-up__heading {
-        max-width: none;
-        font-size: 4.8rem;
-        margin-bottom: 6rem;
-        line-height: 1.6;
-        letter-spacing: 0.24rem;
-      }
-
-      .product-content-pair-up__graphic-divider {
-        margin-bottom: 6rem;
-      }
-
-      .product-content-pair-up__container {
-        padding-bottom: 275px;
-
-        .lead-card {
-          width: 85%;
-          height: 665px;
-          padding: 179px 0 0 85px;
-
-          .wrapper {
-            margin: 0;
-            max-width: 640px;
-
-            .heading {
-              font-size: 4.8rem;
-              letter-spacing: 0.24rem;
-              margin-top: auto;
-              margin-bottom: 6rem;
-            }
-
-            .default-link {
-              line-height: 6rem;
-            }
-          }
-        }
-
-        .png-asset {
-          left: auto;
-          right: 0;
-          top: 360px;
-          width: 860px;
-          height: 860px;
-        }
-
-        .supportive-card {
-          top: 185px;
-          left: auto;
-          max-width: 43.3rem;
-          right: 158px;
-
-          .wrapper > section {
-            max-width: 43.3rem;
-          }
-
-          .recipe-card__media {
-            width: 100%;
-            height: auto;
-            max-height: 32.5rem;
-          }
-        }
-      }
-    }
-
-    .layout-builder &:not(.max-size--375):not(.max-size--768) {
-      .png-asset {
-        top: 80px;
-      }
-
-      .supportive-card {
-        top: 75px;
-      }
-    }
-  }
-
 }

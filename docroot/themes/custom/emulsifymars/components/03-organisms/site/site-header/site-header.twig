@@ -4,6 +4,15 @@
 {% set header__logo_src = directory ? '/' ~ directory ~ '/images/mars_logo.png' : 'images/mars_logo.png' %}
 
 <header {{ bem(header__base_class) }} data-theme="{{ theme_styles }}">
+  {#
+    Keyboard navigation/accessibility link to main content section in
+    page.html.twig.
+  #}
+  <div id="skip-link" tabindex="-1">
+    <a href="#main-content" class="visually-hidden focusable">
+      {{ 'Skip to main content'|t }}
+    </a>
+  </div>
   <div {{ bem('inner', [], header__base_class) }}>
     <div {{ bem('primary', [], header__base_class) }} id="header-menu-trigger">
       <div {{ bem('primary-container', [], header__base_class) }}>
@@ -13,6 +22,8 @@
             {% embed "@atoms/links/link/link.twig" with {
               link_modifiers: ['logo'],
               link_url: logo_link__url|default('/'),
+              link_content: "Logo image" | mt,
+              text_color_override: false,
             } %}
               {% block link_content %}
                 {% include "@atoms/images/image/responsive-image.twig" with {
@@ -20,6 +31,8 @@
                   image_alt: 'Logo',
                   image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
                   image_sizes: '212px',
+                  height: '75px',
+                  width: '212px',
                   image_src: 'twix-logo.png',
                   responsive_image_blockname: 'logo',
                 } %}
@@ -30,35 +43,69 @@
         </div>
         <div {{ bem('menu', [], header__base_class) }}>
           {% block header__menu %}
-            {% include "@molecules/menus/main-menu/main-menu.twig" %}
-          {% endblock %}
-        </div>
-        <div {{ bem('menu', ['secondary'], header__base_class) }}>
-          {% block header__menu_secondary %}
-            {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" %}
-            {% include "@molecules/search/inline-search/inline-search.twig" with {
-              inline_search__modifiers: ['searchbtn'],
-              inline_search_title: 'Search'
+            {% include "@molecules/menus/main-menu/main-menu.twig" with {
+              menu_class: 'header-primary-menu',
+              items: menu_items,
+              header_inline_menu_items: header_inline_menu_items,
+              text_color_override: false,
             } %}
           {% endblock %}
         </div>
+        <nav {{ bem('menu', ['secondary'], header__base_class) }} role="navigation">
+          {% block header__menu_secondary %}
+            {% include "@molecules/menus/inline/header-inline-menu/header-inline-menu.twig" with {
+              menu_class: 'header-secondary-menu',
+              header_inline_menu_items: header_inline_menu_items,
+            } %}
+            {% if search_enabled %}
+              {% include "@molecules/search/inline-search/inline-search.twig" with {
+                inline_search__modifiers: ['searchbtn'],
+                inline_search_title: search_title ,
+                inline_search_url: '#',
+                inline_search_icon: 'search',
+                text_color_override: false,
+              } %}
+            {% endif %}
+          {% endblock %}
+        </nav>
       </div>
     </div>
     <div {{ bem('secondary', [], header__base_class) }}>
       {% block header__secondary %}
-        {% include "@molecules/status/status.twig" with {
-          message_list: { alert: { message: alert_banner} },
-          message_url: alert_banner_url,
-        }%}
+        {% if alert_banner is not empty %}
+          {% include "@molecules/status/status.twig" with {
+            message_list: { alert: { message: alert_banner} },
+            message_url: alert_banner_url,
+          }%}
+        {% endif %}
       {% endblock %}
     </div>
-    {% block search_results %}
-      {% include "@molecules/search/search-overlay/search-overlay.twig" with {
-        search_results: search_form,
-        logo_src: logo_src,
-        logo_srcset: logo_srcset
-      }%}
-    {% endblock %}
-
+    {% if search_enabled %}
+      {% block search_results %}
+        {% include "@molecules/search/search-overlay/search-overlay.twig" with {
+          search_results: search_form,
+          search_close_label: search_close_label,
+          logo_src: logo_src,
+          logo_srcset: logo_srcset,
+          text_color_override: false
+        }%}
+      {% endblock %}
+    {% endif %}
+    {% if text_color_override is not empty %}
+      <style type="text/css">
+        @media (min-width: 1024px) {
+          .main-menu__link,
+          .header-inline-menu__link,
+          .inline-search__link {
+            color: {{ text_color_override }};
+          }
+        }
+        @media(max-width: 1023px) {
+          .main-menu__link:not(.main-menu__link--sub) {
+            color: {{ text_color_override }};
+          }
+        }
+      </style>
+    {% endif %}
   </div>
 </header>

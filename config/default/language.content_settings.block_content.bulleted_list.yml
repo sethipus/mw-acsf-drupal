@@ -1,0 +1,18 @@
+uuid: 9e0f7171-0d2e-4ef0-8f3f-da6470593065
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.bulleted_list
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: block_content.bulleted_list
+target_entity_type_id: block_content
+target_bundle: bulleted_list
+default_langcode: site_default
+language_alterable: false

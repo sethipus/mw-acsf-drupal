@@ -2,24 +2,34 @@ global:
   css:
     theme:
       dist/css/theme_style.css: {}
+  js:
+    dist/js/object_fit_polyfill.js: {}  
 
 main-menu:
   js:
-    dist/js/02-molecules/menus/main-menu/main-menu.js: {}
+    dist/js/main_menu.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 content-feature:
   js:
     dist/js/02-molecules/content-feature/content-feature.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 social-feed:
   js:
     dist/js/social_feed.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
     - emulsifymars/vendor-chunk-2
 
 entry-gate:
@@ -28,6 +38,8 @@ entry-gate:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-1
+    - core/jquery
+    - core/jquery.once
 
 social-feed-slide:
   js:
@@ -35,6 +47,8 @@ social-feed-slide:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-1
+    - core/jquery
+    - core/jquery.once
 
 pdp-body:
   js:
@@ -43,6 +57,7 @@ pdp-body:
     - core/drupal
     - emulsifymars/vendor-chunk-2
     - core/jquery
+    - core/jquery.once
 
 pdp-multipack:
   js:
@@ -57,6 +72,33 @@ product-content-pair-up:
     dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+
+product-card:
+  js:
+    dist/js/02-molecules/card/product-card/product-card.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
+
+recipe-card:
+  js:
+    dist/js/02-molecules/card/recipe-card/recipe-card.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once    
+
+recipe-hero-module:
+  js:
+    dist/js/02-molecules/recipe-hero-module/recipe-hero-module.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 recommendations-module:
   js:
@@ -64,6 +106,9 @@ recommendations-module:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 # IE 11 support for SVG use - disable if not needed.
 # See also components/01-atoms/images/icons/_icon.twig to remove attach_library.
@@ -82,13 +127,8 @@ dropdown:
     dist/js/02-molecules/dropdown/dropdown.js: {}
   dependencies:
     - core/drupal
-
-parent-page-header:
-  js:
-    dist/js/02-molecules/parent-page-header/parent-page-header.js: {}
-    dist/js/01-atoms/video/ambient-video/video.js: {}
-  dependencies:
-    - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 media-carousel:
   js:
@@ -96,6 +136,8 @@ media-carousel:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
 
 ambient-video:
   js:
@@ -126,6 +168,8 @@ iframe:
     dist/js/01-atoms/iframe/iframe.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
 
 product-used-module:
   js:
@@ -133,12 +177,26 @@ product-used-module:
   dependencies:
     - core/drupal
     - emulsifymars/vendor-chunk-2
+    - core/jquery
+    - core/jquery.once
+
+product-feature:
+  js:
+    dist/js/02-molecules/product-feature/product-feature.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 recipe-body:
   js:
     dist/js/03-organisms/recipe-body/recipe-body.js: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/underscore
 
 ajaxcardgrid:
   js:
@@ -167,14 +225,35 @@ search-facet-type:
   dependencies:
     - core/drupal
 
-feedback:
-  js:
-    dist/js/02-molecules/feedback-module/feedback.js: { }
-  dependencies:
-    - core/drupal
-
 card-grid-filter:
   js:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
   dependencies:
     - core/drupal
+    - core/drupal.announce
+
+social-menu:
+  js:
+    dist/js/02-molecules/menus/social/social-menu.js: {}
+  dependencies:
+    - core/drupal
+
+product-selector:
+  js:
+    dist/js/02-molecules/product-selector/product-selector.js: {}
+  dependencies:
+    - core/drupal
+
+flexible-framer:
+  js:
+    dist/js/02-molecules/flexible-framer/flexible-framer.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+
+feedback-module:
+  js:
+    dist/js/02-molecules/feedback-module/feedback.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

@@ -22,7 +22,7 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
+    allow_custom: true
     enabled: true
     sections:
       -
@@ -223,8 +223,7 @@ third_party_settings:
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types': {  }
-            'Custom blocks':
-              - mars_common_content_feature_module
+            'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
             'Flexible driver': {  }
@@ -240,6 +239,8 @@ third_party_settings:
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
+            Printable: {  }
             Product: {  }
             Recipe: {  }
             'Social feed':
@@ -258,7 +259,6 @@ third_party_settings:
               - parent_page_header
             'Entity Block': {  }
             'Entity Browser': {  }
-            Facets: {  }
             'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
@@ -270,13 +270,14 @@ third_party_settings:
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
+            Printable: {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         landing_page_storytelling:
           all_regions:
@@ -294,6 +295,7 @@ third_party_settings:
             'Inline blocks': {  }
             'Lists (Views)': {  }
             'Mars Common':
+              - feedback_block
               - freeform_story_block
               - iframe_block
               - poll_block
@@ -306,6 +308,7 @@ third_party_settings:
             'Moderation Dashboard': {  }
             'Page components':
               - carousel_block
+              - flexible_framer_block
               - fullwidth_image_video_block
               - inline_image_video_block
             Printable: {  }
@@ -322,7 +325,8 @@ third_party_settings:
             'Chaos Tools': {  }
             'Content fields': {  }
             'Custom block types': {  }
-            'Custom blocks': {  }
+            'Custom blocks':
+              - mars_common_content_feature_module
             'Entity Block': {  }
             'Entity Browser': {  }
             'Flexible driver':
@@ -410,6 +414,7 @@ content:
 hidden:
   body: true
   content_moderation_control: true
+  langcode: true
   layout_builder__layout: true
   links: true
   published_at: true

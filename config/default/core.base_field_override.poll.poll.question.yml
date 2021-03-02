@@ -1,0 +1,18 @@
+uuid: 9063a586-0737-45a4-a5e5-eb5466f66c32
+langcode: en
+status: true
+dependencies:
+  module:
+    - poll
+id: poll.poll.question
+field_name: question
+entity_type: poll
+bundle: poll
+label: Question
+description: 'The poll question.'
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

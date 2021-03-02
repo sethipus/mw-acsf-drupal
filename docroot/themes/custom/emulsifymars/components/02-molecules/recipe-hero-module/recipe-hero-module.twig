@@ -1,52 +1,71 @@
+{{ attach_library('emulsifymars/recipe-hero-module') }}
 {% set recipe_template__base_class = 'recipe-detail' %}
 {% set icon_clock = icon_clock|default('/' ~ base_path ~ directory ~ '/images/icons/clock.svg') %}
 {% set icon_ingredients = icon_ingredients|default('/' ~ base_path ~ directory ~ '/images/icons/ingredients.svg') %}
 {% set icon_makes = icon_makes|default('/' ~ base_path ~ directory ~'/images/icons/makes.svg') %}
 {% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
+{% set clock_alt = 'clock' | mt %}
+{% set ingredients_alt = 'ingredients' | mt %}
+{% set makes_alt = 'makes' | mt %}
 
 <div class="recipe-header" data-theme="{{ theme_styles }}">
-  <div class="recipe-header__title">{{ "Recipe" | t }}</div>
-  <div class="recipe-header__text">{{ recipe_header_text }}</div>
+    <div class="recipe-header__background"
+      {% if select_background_color|length > 0 %}
+        style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"
+      {% elseif background_color_override %}
+        style="background-color: {{ '#' ~ background_color }}"
+      {% endif %}
+    >
+      {% if brand_shape_enabled %}
+        <div class="recipe-header__brand-shape">
+          {{ brand_shape | raw }}
+        </div>
+      {% endif %}
+    </div>
+  <div class="recipe-header__content">
+    <div class="recipe-header__title">{{ "Recipe" | mt }}</div>
+    <h1 class="recipe-header__text">{{ recipe_header_text }}</h1>
+  </div>
 </div>
-<div class="recipe-media" data-theme="{{ theme_styles }}">
+
+<div class="recipe-media" data-theme="{{ theme_styles }}"
+  {% if recipe_header_text and video_src %}
+    data-component-title="{{ recipe_header_text }}"
+  {% endif %}
+>
   {% if video_src %}
     {% block recipe_media_video %}
-      {% include "@atoms/video/ambient-video/video.twig" with {
-        video__src__url: video_src,
-        video__base_class: 'ambient-video',
-        video__control: true,
-      } %}
+      <div {{ bem('video', [], 'recipe-media') }}>
+        {% include "@atoms/video/ambient-video/video.twig" with {
+          video__src__url: video_src,
+          video__base_class: 'ambient-video',
+          video__control: true,
+        } %}
+      </div>
     {% endblock %}
   {% else %}
-    <div class="recipe-media-image-wrapper">
-    {% block recipe_media_image %}
-      {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: image_title,
-        image_srcset: image_srcset,
-        image_sizes: '',
-        image_src: image_src,
-        responsive_image_blockname: 'recipe-media',
-      } %}
-    {% endblock %}
+    <div class="recipe-media__image-wrapper" style="background-image: url('{{ image.url }}')">
     </div>
   {% endif %}
   <div class="recipe-media__info">
-    <div class="{{ brand_shape_class }}">
-      {{ brand_borders | raw }}
-    </div>
+    {% block brand_border %}
+      <div {{ bem('border', [], 'recipe-media') }}>
+        {{ brand_borders | raw }}
+      </div>
+    {% endblock %}
     <div class="recipe-details">
       <div class="recipe-details-item">
         <div class="recipe-details-item__icon-container">
           {% include "@atoms/images/image/_image.twig" with {
             image_base_class: 'recipe-details-item__icon',
             image_modifiers: ['clock'],
+            image_alt: clock_alt,
             image_src: icon_clock,
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Time'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_cooking_time ~ ' mins'|t}}</div>
+          <div class="recipe-details-item__label">{{ recipe_cooking_time_label|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_cooking_time ~ ' ' ~ recipe_cooking_time_measure|mt}}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -54,12 +73,13 @@
           {% include "@atoms/images/image/_image.twig" with {
             image_base_class: 'recipe-details-item__icon',
             image_modifiers: ['ingredients'],
+            image_alt: ingredients_alt,
             image_src: icon_ingredients,
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Ingredients'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_ingredients_number ~ ' items'|t}}</div>
+          <div class="recipe-details-item__label">{{ recipe_ingredients_label|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_ingredients_number ~ ' ' ~ recipe_ingredients_measure |mt}}</div>
         </div>
       </div>
       <div class="recipe-details-item">
@@ -67,12 +87,13 @@
           {% include "@atoms/images/image/_image.twig" with {
             image_base_class: 'recipe-details-item__icon',
             image_modifiers: ['makes'],
+            image_alt: makes_alt,
             image_src: icon_makes,
           } %}
         </div>
         <div class="recipe-details-item__info">
-          <div class="recipe-details-item__label">{{ 'Makes'|t }}</div>
-          <div class="recipe-details-item__value">{{ recipe_number_of_servings ~ ' servings'|t}}</div>
+          <div class="recipe-details-item__label">{{ recipe_number_of_servings_label|mt }}</div>
+          <div class="recipe-details-item__value">{{ recipe_number_of_servings ~ ' ' ~ recipe_number_of_servings_measure|mt}}</div>
         </div>
       </div>
     </div>
@@ -81,7 +102,7 @@
 <div class="recipe-info" data-theme="{{ theme_styles }}">
   <div class="recipe-info__text">{{ recipe_description_text }}</div>
   <div class="recipe-info__social">
-    <div class="recipe-info__social-text">Share</div>
+    <div class="recipe-info__social-text">{{ social_text }}</div>
     {% block recipe_social_menu %}
       {% include "@molecules/menus/social/social-menu.twig" with {
         social_menu_items: social_menu_items,

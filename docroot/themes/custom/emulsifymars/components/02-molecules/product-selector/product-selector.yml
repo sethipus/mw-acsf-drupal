@@ -1,0 +1,45 @@
+theme_styles: "twix"
+title: "TWIX® Cookies & Creme Bar"
+image_src: "Recipe_Image.png"
+
+default_product:
+  title: "Twix Cookies & Creme"
+  id: "0001"
+  variants:
+    - size: "3.33"
+      image_src: "https://via.placeholder.com/333"
+      image_alt: "Alternative Image Text"
+      gtin: "00047677482760"
+    - size: "8.66"
+      image_src: "https://via.placeholder.com/222"
+      image_alt: "Alternative Image Text"
+      gtin: "00047677391284"
+
+products:
+  - title: "Twix Cookies & Creme"
+    id: "0001"
+  - title: "Cookies & Creme"
+    id: "0002"
+  - title: "Twix Cookies"
+    id: "0003"
+  - title: "Creme"
+    id: "0004"
+  - title: "Twix Creme"
+    id: "0005"
+
+productVariants:
+  - size: "3.3"
+    image_src: "https://via.placeholder.com/333"
+    image_alt: "Alternative Image Text"
+    gtin: "00047677482760"
+  - size: "8.67"
+    image_src: "https://via.placeholder.com/222"
+    image_alt: "Alternative Image Text"
+    gtin: "00047677391284"
+
+data_token: "mock_data_token"
+data_locale: "mock_data_locale"
+data_displaylanguage: "mock_data_displaylanguage"
+widget_id: "mock_widget_id"
+data_subid: "mock_data_subid"
+commerce_vendor: "price_spider"

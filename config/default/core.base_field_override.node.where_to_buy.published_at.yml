@@ -1,0 +1,20 @@
+uuid: c228a043-262c-4819-9069-330723827d61
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.where_to_buy
+  module:
+    - publication_date
+id: node.where_to_buy.published_at
+field_name: published_at
+entity_type: node
+bundle: where_to_buy
+label: 'Published on'
+description: 'Keep the publication timestamp for each node.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: published_at

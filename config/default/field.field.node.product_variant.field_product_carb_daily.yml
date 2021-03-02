@@ -5,16 +5,21 @@ dependencies:
   config:
     - field.storage.node.field_product_carb_daily
     - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 _core:
   default_config_hash: muj42zDWXYR-4z7SSvPLgI_Eq-lkezutKZQNcPhETBY
 id: node.product_variant.field_product_carb_daily
 field_name: field_product_carb_daily
 entity_type: node
 bundle: product_variant
-label: 'Total Carbohydrates % Daily Value'
+label: 'Total Carbohydrate % Daily Value'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

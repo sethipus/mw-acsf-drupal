@@ -1,0 +1,20 @@
+uuid: 0fda756e-f6e3-4c52-9c6b-1b4a172940c5
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_regions
+  module:
+    - text
+id: taxonomy_term.mars_regions.description
+field_name: description
+entity_type: taxonomy_term
+bundle: mars_regions
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

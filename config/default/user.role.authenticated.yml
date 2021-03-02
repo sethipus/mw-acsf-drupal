@@ -13,3 +13,4 @@ permissions:
   - 'access shortcuts'
   - 'access site-wide contact form'
   - 'view media'
+  - 'view printer friendly versions'

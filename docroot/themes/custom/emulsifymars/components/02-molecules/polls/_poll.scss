@@ -2,21 +2,23 @@
   display: block;
   position: relative;
   overflow: visible;
-  margin: 0 auto;
-  max-width: 99%;
   box-shadow: 1px 1px 3px #ccc;
   border-radius: variable(button-border-radius);
+  max-width: 1128px;
 
   @include xs {
     padding: 3rem 1.7rem 5rem 1.7rem;
+    margin: 4rem 2rem;
   }
 
   @include medium {
     padding: 6rem;
+    margin: 4rem;
   }
 
   @include large {
-    padding: 6rem 11.8rem 8rem 11.8rem;
+    padding: 6rem 10.5rem 8rem 10.5rem;
+    margin: 6rem auto;
   }
 
   &__png-asset {
@@ -25,23 +27,31 @@
     z-index: 1;
     right: 0;
 
+    img{ 
+      object-fit: cover;
+    }
+
     @include xs {
-      width: 18rem;
-      height: 18rem;
-      bottom: -13rem;
+      width: 17rem;
+      height: 9rem;
+      bottom: -35px;
+      right: 5px;
     }
 
     @include medium {
-      width: 25rem;
-      height: 25rem;
-      bottom: -15rem;
+      width: 22rem;
+      height: 12rem;
+      bottom: -30px;
+      right: 15px;
     }
 
     @include large {
       width: 35rem;
-      height: 35rem;
-      bottom: -22rem;
+      height: 19rem;
+      bottom: -30px;
+      right: 0;
     }
+
   }
 
   &__content {
@@ -61,20 +71,17 @@
     @include xs {
       font-size: 2rem;
       line-height: 3.2rem;
-      letter-spacing: 0.08rem;
       margin-bottom: 2rem;
     }
 
     @include medium {
       font-size: 2.6rem;
-      letter-spacing: 0.104rem;
       margin-bottom: 3rem;
     }
 
     @include large {
       font-size: 2.8rem;
       line-height: 3.08rem;
-      letter-spacing: 0.14rem;
     }
   }
 
@@ -82,7 +89,7 @@
     font-family: variable(secondary-font);
     color: clr(primary);
     text-align: center;
-    font-weight: 600;
+    font-weight: 300;
 
     @include xs {
       font-size: 1.6rem;
@@ -132,6 +139,7 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 
     @include xs {
       border-bottom: 1px solid #ccc;
@@ -144,15 +152,6 @@
     @include medium {
       border: none;
       flex-direction: row;
-      justify-content: center;
-    }
-
-    @include large {
-      justify-content: center;
-    }
-
-    @media (max-width: 1193px) {
-      justify-content: center;
     }
 
     &--column-layout {
@@ -163,11 +162,9 @@
   &__label {
     display: block;
     width: 100%;
-    max-width: 43.3rem;
     font-family: variable(primary-font);
     color: clr(secondary);
     font-size: 1.6rem;
-    letter-spacing: 0.128rem;
     text-transform: uppercase;
     border: 1px solid clr(secondary);
     border-radius: variable(button-border-radius);
@@ -176,7 +173,19 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    margin: 0 1rem 2rem 1rem;
+
+    @include xs {
+      margin-bottom: 2rem;
+      max-width: 100%;
+    }
+
+    @include medium {
+      max-width: 49%;
+    }
+
+    &:focus-within {
+      border: 2px solid black;
+    }
   }
 
   &__label-text {
@@ -302,18 +311,15 @@
     @include xs {
       font-size: 2rem;
       line-height: 3.2rem;
-      letter-spacing: 0.08rem;
     }
 
     @include medium {
       font-size: 2.6rem;
-      letter-spacing: 0.104rem;
     }
 
     @include large {
       font-size: 2.8rem;
       line-height: 3.08rem;
-      letter-spacing: 0.112rem;
     }
   }
 
@@ -349,6 +355,10 @@
     height: 100%;
     top: 0;
     left: 0;
+
+    svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
+    }
   }
 
   &__tick {

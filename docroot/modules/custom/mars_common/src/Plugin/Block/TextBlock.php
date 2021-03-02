@@ -4,6 +4,9 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a Text component block.
@@ -14,7 +17,39 @@ use Drupal\Core\Form\FormStateInterface;
  *   category = @Translation("Page components"),
  * )
  */
-class TextBlock extends BlockBase {
+class TextBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    LanguageHelper $language_helper
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new self(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('mars_common.language_helper')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -63,7 +98,7 @@ class TextBlock extends BlockBase {
   public function build() {
     $config = $this->getConfiguration();
 
-    $build['#content'] = $config['body']['value'];
+    $build['#content'] = $this->languageHelper->translate($config['body']['value']);
     $build['#drop_cap'] = $config['drop_cap'];
 
     $build['#theme'] = 'text_block';

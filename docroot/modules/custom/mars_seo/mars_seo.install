@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for mars_seo module.
+ */
+
+/**
+ * Rename default og image config.
+ */
+function mars_seo_update_8001() {
+  /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
+  $config_factory = \Drupal::service('config.factory');
+  $old = $config_factory->getEditable('open_graph.settings');
+  $new = $config_factory->getEditable('mars_seo.settings');
+
+  $new->set('og_default_image', $old->get('image'));
+  $new->save();
+  $old->delete();
+
+  $config_ignore_config = $config_factory->getEditable('config_ignore.settings');
+  $ignores = $config_ignore_config->get('ignored_config_entities');
+  $ignores = array_map(
+    function ($ignore) {
+      return $ignore == 'open_graph.settings' ? 'mars_seo.settings' : $ignore;
+    },
+    $ignores
+  );
+  $config_ignore_config->set('ignored_config_entities', $ignores);
+  $config_ignore_config->save();
+}

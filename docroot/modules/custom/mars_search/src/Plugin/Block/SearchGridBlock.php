@@ -3,17 +3,16 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityViewBuilderInterface;
-use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\mars_search\Form\SearchForm;
-use Drupal\mars_search\SearchHelperInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_search\SearchProcessFactoryInterface;
+use Drupal\mars_search\Processors\SearchBuilderInterface;
 
 /**
  * Class SearchGridBlock.
@@ -21,59 +20,17 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  * @Block(
  *   id = "search_grid_block",
  *   admin_label = @Translation("MARS: Search Grid block"),
- *   category = @Translation("Mars Search")
+ *   category = @Translation("Mars Search"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Current Node"))
+ *   }
  * )
  *
  * @package Drupal\mars_search\Plugin\Block
  */
-class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
 
-  /**
-   * List of vocabularies which are included in indexing.
-   *
-   * @var array
-   */
-  const TAXONOMY_VOCABULARIES = [
-    'mars_brand_initiatives' => [
-      'label' => 'Brand initiatives',
-      'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],
-    ],
-    'mars_occasions' => [
-      'label' => 'Occasions',
-      'content_types' => [
-        'article', 'recipe', 'product', 'landing_page', 'campaign',
-      ],
-    ],
-    'mars_flavor' => [
-      'label' => 'Flavor',
-      'content_types' => ['product'],
-    ],
-    'mars_format' => [
-      'label' => 'Format',
-      'content_types' => ['product'],
-    ],
-    'mars_diet_allergens' => [
-      'label' => 'Diet & Allergens',
-      'content_types' => ['product'],
-    ],
-    'mars_trade_item_description' => [
-      'label' => 'Trade item description',
-      'content_types' => ['product'],
-    ],
-  ];
-
-  /**
-   * List of content types which are included in indexing.
-   *
-   * @var array
-   */
-  const CONTENT_TYPES = [
-    'product' => 'Product',
-    'article' => 'Article',
-    'recipe' => 'Recipe',
-    'campaign' => 'Campaign',
-    'landing_page' => 'Landing page',
-  ];
+  use OverrideThemeTextColorTrait;
 
   /**
    * The entity type manager service.
@@ -83,11 +40,25 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $entityTypeManager;
 
   /**
+   * Search processing factory.
+   *
+   * @var \Drupal\mars_search\SearchProcessFactoryInterface
+   */
+  protected $searchProcessor;
+
+  /**
    * Search helper.
    *
-   * @var \Drupal\mars_search\SearchHelperInterface
+   * @var \Drupal\mars_search\Processors\SearchHelperInterface
    */
   protected $searchHelper;
+
+  /**
+   * Templates builder service .
+   *
+   * @var \Drupal\mars_search\Processors\SearchBuilder
+   */
+  protected $searchBuilder;
 
   /**
    * ThemeConfiguratorParser.
@@ -97,32 +68,11 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $themeConfiguratorParser;
 
   /**
-   * The node view builder.
+   * The language helper service.
    *
-   * @var \Drupal\node\NodeViewBuilder
+   * @var \Drupal\mars_common\LanguageHelper
    */
-  protected $nodeViewBuilder;
-
-  /**
-   * The form builder.
-   *
-   * @var \Drupal\Core\Form\FormBuilderInterface
-   */
-  protected $formBuilder;
-
-  /**
-   * Search query parser.
-   *
-   * @var \Drupal\mars_search\SearchQueryParserInterface
-   */
-  protected $searchQueryParser;
-
-  /**
-   * Config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactory
-   */
-  protected $configFactory;
+  private $languageHelper;
 
   /**
    * {@inheritdoc}
@@ -133,12 +83,9 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('mars_search.search_helper'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('entity_type.manager')->getViewBuilder('node'),
-      $container->get('form_builder'),
-      $container->get('mars_search.search_query_parser'),
-      $container->get('config.factory')
+      $container->get('mars_search.search_factory'),
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -150,157 +97,75 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    SearchHelperInterface $search_helper,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    EntityViewBuilderInterface $node_view_builder,
-    FormBuilderInterface $form_builder,
-    SearchQueryParserInterface $search_query_parser,
-    ConfigFactoryInterface $configFactory
+    SearchProcessFactoryInterface $searchProcessor,
+    LanguageHelper $language_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
-    $this->searchHelper = $search_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
-    $this->nodeViewBuilder = $node_view_builder;
-    $this->formBuilder = $form_builder;
-    $this->searchQueryParser = $search_query_parser;
-    $this->configFactory = $configFactory;
+    $this->searchProcessor = $searchProcessor;
+    $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
+    $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
+    $this->languageHelper = $language_helper;
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    // Getting all GET parameters in array.
-    $query_parameters = $this->searchHelper->request->query->all();
-    // Getting unique grid id for the page.
-    // This will be used later when several grids on a single page will be
-    // approved. In that case URL will be like
-    // /grid?search[1]=key&mars_format[1]=bla&search[2]=key2&mars_format[2]=bla
-    // where [1] and [2] are grid ids generated by the following static logic.
-    $grid_id = &drupal_static('mars_search_grid_id');
-    if (!$grid_id) {
-      $grid_id = 1;
+    $config = $this->getConfiguration();
+    if (!isset($config['grid_id']) || !$config['grid_id']) {
+      $grid_id = uniqid(substr(md5(serialize($config)), 0, 12));
+      $config['grid_id'] = $grid_id;
+      $this->setConfiguration($config);
     }
     else {
-      $grid_id++;
+      $grid_id = $config['grid_id'];
     }
+    [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('grid', $config, $grid_id);
 
-    // Initializing grid options array.
-    // It is needed to pass preset filters to autocomplete.
-    $grid_options = [
-      'grid_id' => $grid_id,
-      'filters' => [],
-    ];
-
-    $config = $this->getConfiguration();
+    // Results will be populated after ajax request. It's not possible to
+    // know right desktop type without page inner width.
     $build['#items'] = [];
+    $query_search_results['results'] = [];
+    $build = array_merge($build, $this->searchBuilder->buildSearchFacets('grid', $config, $grid_id));
 
-    // Getting default search options.
-    $searchOptions = $this->searchQueryParser->parseQuery($grid_id);
-
-    if (empty($query_parameters['see-all'])) {
-      // We need only 8 items to show initially.
-      // Parse query will trim limit in case of see all.
-      // But initial results count needs to be 8 instead of configured default.
-      $searchOptions['limit'] = 8;
-    }
-
-    // Adjusting them with grid specific configuration.
-    // Content type filter.
-    if (!empty($config['content_type'])) {
-      $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
-      $grid_options['filters']['type'][$grid_id] = $config['content_type'];
-      $grid_options['filters']['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
-    }
-
-    // Populate top results items before other results.
-    if (!empty($config['top_results_wrapper']['top_results'])) {
-      $top_result_ids = [];
-      foreach ($config['top_results_wrapper']['top_results'] as $top_result) {
-        $top_result_ids[] = $top_result['target_id'];
-      }
-      foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
-        $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
-      }
-      // Adjusting query options to consider top results.
-      // Adjusting limit.
-      $searchOptions['limit'] = $searchOptions['limit'] - count($top_result_ids);
-      // Excluding top results ids from query.
-      $searchOptions['conditions'][] = ['nid', $top_result_ids, 'NOT IN'];
-    }
-
-    // After this line $facetOptions and $searchOptions become different.
-    $facetOptions = $searchOptions;
-    // We don't need taxonomy filters and keys filter applied for facets query.
-    $facetOptions['disable_filters'] = TRUE;
-    unset($facetOptions['limit']);
-
-    // Taxonomy preset filter(s).
-    // Adding them only if facets are disabled.
-    if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-      foreach ($config['general_filters'] as $filter_key => $filter_value) {
-        if (!empty($filter_value['select'])) {
-          $grid_options['filters'][$filter_key][$grid_id] = implode(',', $filter_value['select']);
-
-          $searchOptions['conditions'][] = [
-            $filter_key,
-            $filter_value['select'],
-            'IN',
-          ];
-        }
-      }
-      $searchOptions['options_logic'] = !empty($config['general_filters']['options_logic']) ? $config['general_filters']['options_logic'] : 'and';
-    }
-
-    // Getting and building search results.
-    $query_search_results = $this->searchHelper->getSearchResults($searchOptions, "grid_{$grid_id}");
-    if ($query_search_results['resultsCount'] == 0) {
-      $build['#no_results'] = $this->getSearchNoResult();
-    }
-    foreach ($query_search_results['results'] as $node) {
-      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
-    }
-
-    // Populating search form.
-    if (!empty($config['exposed_filters_wrapper']['toggle_search'])) {
-      // Preparing search form.
-      $build['#input_form'] = $this->formBuilder->getForm(SearchForm::class, TRUE, $grid_options);
-    }
-    // Populating filters.
-    if (!empty($config['exposed_filters_wrapper']['toggle_filters'])) {
-      $query_search_results = $this->searchHelper->getSearchResults($facetOptions, "grid_{$grid_id}_facets");
-      list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($query_search_results['facets'], self::TAXONOMY_VOCABULARIES, $grid_id);
-    }
-
-    // Output See all only if we have enough results.
+    // "See more" link should be visible only if it makes sense.
+    $build['#ajax_card_grid_link_text'] = $this->languageHelper->translate(strtoupper('See more'));
+    $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
-      $url = $this->searchHelper->getCurrentUrl();
-      $url_options = $url->getOptions();
-      $url_options['query']['see-all'] = 1;
-      $url->setOptions($url_options);
-      $build['#ajax_card_grid_link_text'] = $this->t('See all');
-      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
+      $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
-    $build['#ajax_card_grid_heading'] = $config['title'];
-    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#ajax_card_grid_heading'] = $this->languageHelper->translate($config['title']);
+    $build['#data_layer'] = [
+      'page_id' => $context_node->id(),
+      'page_revision_id' => $context_node->getRevisionId(),
+      'grid_id' => $grid_id,
+      'grid_name' => $config['title'],
+      'search_term' => $searchOptions['keys'],
+      'search_results' => $query_search_results['resultsCount'],
+    ];
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+    $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
+    $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
+    $build['#attached']['library'][] = 'mars_search/search_pager';
+    $build['#attached']['library'][] = 'mars_search/autocomplete';
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+    if (!empty($config['override_text_color']['override_filter_title_color'])) {
+      $build['#override_filter_title_color'] = static::$overrideColor;
+    }
 
     return $build;
-  }
-
-  /**
-   * Render search no result block.
-   */
-  private function getSearchNoResult() {
-    $config = $this->configFactory->get('mars_search.search_no_results');
-    return [
-      '#no_results_heading' => $config->get('no_results_heading'),
-      '#no_results_text' => $config->get('no_results_text'),
-      '#theme' => 'mars_search_no_results',
-    ];
   }
 
   /**
@@ -310,24 +175,27 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $config = $this->getConfiguration();
 
     $form['title'] = [
-      '#title' => $this->t('Title'),
+      '#title' => $this->languageHelper->translate('Title'),
       '#type' => 'textfield',
       '#size' => 55,
       '#required' => TRUE,
-      '#default_value' => $config['title'] ?? $this->t('All products'),
+      '#default_value' => $config['title'] ?? $this->languageHelper->translate('All products'),
     ];
 
     $form['content_type'] = [
       '#type' => 'radios',
-      '#title' => $this->t('Content type'),
-      '#options' => self::CONTENT_TYPES,
+      '#title' => $this->languageHelper->translate('Content type'),
+      '#options' => SearchBuilderInterface::CONTENT_TYPES,
       '#default_value' => $config['content_type'] ?? NULL,
       '#required' => TRUE,
     ];
 
     $form = array_merge($form, $this->buildExposedFilters());
     $form = array_merge($form, $this->buildGeneralFilters());
+    $form = array_merge($form, $this->buildExcludedFilters());
     $form = array_merge($form, $this->buildTopResults());
+
+    $this->buildOverrideColorElement($form, $config, TRUE);
 
     return $form;
   }
@@ -340,6 +208,20 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     // Disable default label to display.
     $values['label_display'] = FALSE;
+    $values['grid_id'] = uniqid(substr(md5(serialize($values)), 0, 12));
+    // Process Top Results.
+    $values['top_results_wrapper']['top_results'] = [];
+    foreach ($values['top_results_wrapper'] as $key => $results) {
+      if ($key == 'top_results') {
+        continue;
+      }
+      if ($results == NULL) {
+        unset($values['top_results_wrapper'][$key]);
+        continue;
+      }
+      $values['top_results_wrapper']['top_results'][] = reset($results);
+      unset($values['top_results_wrapper'][$key]);
+    }
 
     $this->setConfiguration($values);
   }
@@ -359,20 +241,16 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     $form['general_filters'] = [
       '#type' => 'details',
-      '#title' => $this->t('Predefined filters'),
+      '#title' => $this->languageHelper->translate('Predefined filters'),
       '#open' => FALSE,
-      '#states' => [
-        'visible' => [
-          ':input[name="settings[exposed_filters_wrapper][toggle_filters]"]' => ['checked' => FALSE],
-        ],
-      ],
     ];
 
-    foreach (self::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
       $label = $vocabulary_data['label'];
+      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+      $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
       /** @var \Drupal\taxonomy\TermInterface[] $terms */
-      $terms = $this->entityTypeManager->getStorage('taxonomy_term')
-        ->loadTree($vocabulary, 0, NULL, TRUE);
+      $terms = $term_storage->loadTree($vocabulary, 0, NULL, TRUE);
       if (!$terms) {
         continue;
       }
@@ -405,13 +283,46 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     }
     $form['general_filters']['options_logic'] = [
       '#type' => 'select',
-      '#title' => $this->t('Logic operator'),
-      '#description' => $this->t('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
+      '#title' => $this->languageHelper->translate('Logic operator'),
+      '#description' => $this->languageHelper->translate('AND filters are exclusive and narrow the result set. OR filters are inclusive and widen the result set.'),
       '#options' => [
-        'and' => $this->t('AND'),
-        'or' => $this->t('OR'),
+        'and' => $this->languageHelper->translate('AND'),
+        'or' => $this->languageHelper->translate('OR'),
       ],
       '#default_value' => $config['general_filters']['options_logic'] ?? 'and',
+    ];
+
+    return $form;
+  }
+
+  /**
+   * Build fieldset for excluded filters.
+   *
+   * @return array
+   *   Selectors for filters.
+   */
+  protected function buildExcludedFilters() {
+    $form = [];
+    $config = $this->getConfiguration();
+
+    $form['exclude_filters'] = [
+      '#type' => 'details',
+      '#title' => $this->languageHelper->translate('Exclude filters'),
+      '#open' => FALSE,
+    ];
+
+    $exclude_options = [];
+    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+      $label = $vocabulary_data['label'];
+      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+      $exclude_options[$vocabulary] = $label;
+    }
+
+    $form['exclude_filters']['filters'] = [
+      '#type' => 'checkboxes',
+      'label' => $this->t('Filters to exclude'),
+      '#options' => $exclude_options,
+      '#default_value' => $config['exclude_filters']['filters'] ?? NULL,
     ];
 
     return $form;
@@ -438,20 +349,32 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $form = [];
     $form['top_results_wrapper'] = [
       '#type' => 'details',
-      '#title' => $this->t('Top results'),
+      '#title' => $this->languageHelper->translate('Top results'),
       '#open' => FALSE,
     ];
-    $form['top_results_wrapper']['top_results'] = [
-      '#type' => 'entity_autocomplete',
-      '#target_type' => 'node',
-      '#title' => $this->t('Top results'),
-      '#selection_settings' => [
-        'target_bundles' => array_keys(self::CONTENT_TYPES),
-      ],
-      '#tags' => TRUE,
-      '#cardinality' => 8,
-      '#default_value' => $default_top,
-    ];
+    for ($i = 1; $i < 9; $i++) {
+      $form['top_results_wrapper']['top_results_' . $i] = [
+        '#type' => 'entity_autocomplete',
+        '#target_type' => 'node',
+        '#title' => $this->languageHelper->translate('Top results'),
+        '#selection_settings' => [
+          'target_bundles' => array_keys(SearchBuilderInterface::CONTENT_TYPES),
+        ],
+        '#tags' => TRUE,
+        '#cardinality' => 1,
+        '#default_value' => is_array($default_top) && count($default_top) > 0 ? array_shift($default_top) : [],
+      ];
+      if ($i > 1) {
+        $prev = $i - 1;
+        $form['top_results_wrapper']['top_results_' . $i]['#states'] = [
+          'visible' => [
+            ":input[name = 'settings[top_results_wrapper][top_results_$prev]']" => [
+              'filled' => TRUE,
+            ],
+          ],
+        ];
+      }
+    }
 
     return $form;
   }
@@ -469,20 +392,20 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
 
     $form['exposed_filters_wrapper'] = [
       '#type' => 'details',
-      '#title' => $this->t('Exposed filters'),
+      '#title' => $this->languageHelper->translate('Exposed filters'),
       '#open' => TRUE,
     ];
 
     $form['exposed_filters_wrapper']['toggle_search'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Enable text search bar'),
-      '#description' => $this->t('If enabled a text search bar appears on the grid.'),
+      '#title' => $this->languageHelper->translate('Enable text search bar'),
+      '#description' => $this->languageHelper->translate('If enabled a text search bar appears on the grid.'),
       '#default_value' => $config['exposed_filters_wrapper']['toggle_search'] ?? FALSE,
     ];
     $form['exposed_filters_wrapper']['toggle_filters'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Enable exposed search filters'),
-      '#description' => $this->t('If enabled search filters by taxonomy fields appear on the grid.'),
+      '#title' => $this->languageHelper->translate('Enable exposed search filters'),
+      '#description' => $this->languageHelper->translate('If enabled search filters by taxonomy fields appear on the grid.'),
       '#default_value' => $config['exposed_filters_wrapper']['toggle_filters'] ?? FALSE,
     ];
     return $form;
@@ -493,6 +416,15 @@ class SearchGridBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContextMapping() {
+    $mapping = parent::getContextMapping();
+    $mapping['node'] = $mapping['node'] ?? 'layout_builder.entity';
+    return $mapping;
   }
 
 }

@@ -1,0 +1,18 @@
+uuid: b0499863-a519-4b20-acca-6c700db0d882
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_flavor
+id: taxonomy_term.mars_flavor.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_flavor
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

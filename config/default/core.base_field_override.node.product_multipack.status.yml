@@ -1,0 +1,22 @@
+uuid: 2fb1e9c1-a635-43ed-8fa0-8369c244a0a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_multipack
+id: node.product_multipack.status
+field_name: status
+entity_type: node
+bundle: product_multipack
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

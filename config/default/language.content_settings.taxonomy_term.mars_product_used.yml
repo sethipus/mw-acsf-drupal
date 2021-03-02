@@ -1,0 +1,16 @@
+uuid: 4cd4edd1-c6b4-4500-b0d8-3d77a5620189
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_product_used
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.mars_product_used
+target_entity_type_id: taxonomy_term
+target_bundle: mars_product_used
+default_langcode: site_default
+language_alterable: true

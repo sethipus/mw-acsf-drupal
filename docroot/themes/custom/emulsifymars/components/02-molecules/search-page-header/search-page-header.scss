@@ -4,25 +4,81 @@
   flex-direction: column;
   align-items: center;
   background-color: clr(secondary);
-  background-image: variable(brand-shape),
-                    variable(brand-shape),
-                    variable(brand-shape);
-  background-repeat: no-repeat;
-  background-position: 212% 89px, 57% 470px, -22% 231px;
-  background-size: 280px, 285px, 122px;
-  padding: 10px 40px;
-  min-height: 500px;
+  overflow: hidden;
+  padding: 10px 40px 40px 40px;
+  min-height: 578px;
 
   @include medium {
     padding: 60px 40px;
-    background-position: 131% 188px, 4% 390px, -4% 42px;
-    background-size: 431px, 255px, 102px;
   }
 
   @include xl {
-    padding: 80px 40px;
-    background-position: 108% 218px, 15% 390px, 5% 70px;
-    background-size: 450px, 265px, 110px;
+    padding: 12rem 4rem 0;
+    height: 59.4rem;
+  }
+
+  &__brand-shape {
+    position: absolute;
+    display: block;
+
+    &--first {
+      @include xs {
+        left: -8.25rem;
+        width: 12.5rem;
+        top: 27rem;
+      }
+
+      @include medium {
+        left: -8.25rem;
+        width: 21rem;
+        top: 26rem;
+      }
+
+      @include large {
+        left: 6.5rem;
+        top: 7.5rem;
+        width: 11rem;
+      }
+    }
+
+    &--second {
+      @include xs {
+        right: -9rem;
+        top: 14rem;
+        width: 28.4rem;
+      }
+
+      @include medium {
+        right: -13rem;
+        top: 3rem;
+        width: 47rem;
+      }
+
+      @include large {
+        top: 40.4rem;
+        left: 16.5rem;
+        width: 28rem;
+      }
+    }
+
+    &--third {
+      @include xs {
+        display: none;
+      }
+
+      @include large {
+        right: -7.5rem;
+        top: 21.2rem;
+        width: 45rem;
+        display: block;
+      }
+    }
+
+    svg {
+      fill: rgba(clr(subcolor-3-rgb), 0.2);
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .search-page-heading {
@@ -32,6 +88,8 @@
     line-height: 1em;
     text-align: center;
     font-weight: normal;
+    z-index: 2;
+    margin: 0 auto 8rem;
 
     @include medium {
       font-size: 56px;
@@ -42,48 +100,20 @@
     }
   }
 
-  .search-input {
-    margin-top: 20px;
-  }
-
-  .stretch {
+  &__border {
     position: absolute;
+    bottom: (-$brand-border-offset);
     width: 100%;
-    height: auto;
-    z-index: 2;
-    bottom: -5px;
 
     svg {
-      path {
-        fill: clr(subcolor-3);
-        width: 100%;
-      }
-      rect {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  .repeat {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    bottom: 15px;
-
-    svg {
+      display: block;
       width: 100%;
-      position: absolute;
-      bottom: -120px;
-
-      path {
-        fill: clr(subcolor-3);
-      }
-      rect {
-        width: 100%;
-        height: 3rem;
-      }
+      height: auto;
+      fill: clr(subcolor-3);
     }
+  }
+
+  .search-input-wrapper {
+    border: 1px solid clr(subcolor-4);
   }
 }

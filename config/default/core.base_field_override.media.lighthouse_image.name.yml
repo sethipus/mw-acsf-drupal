@@ -1,0 +1,20 @@
+uuid: b5f3b06f-d10f-45c9-a83d-97f567d27113
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_image
+id: media.lighthouse_image.name
+field_name: name
+entity_type: media
+bundle: lighthouse_image
+label: Name
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string

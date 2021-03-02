@@ -13,6 +13,7 @@ dropdown_items:
   - title: 'English'
     abbr: 'EN'
     url: '#'
+    selected: true
   - title: 'Espanol'
     abbr: 'ES'
     url: '#'

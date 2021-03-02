@@ -1,0 +1,59 @@
+.no-results-heading {
+  font-family: variable(heading-font);
+  font-size: 2.8rem;
+  line-height: 2.8rem;
+  color: clr(primary);
+  text-transform: uppercase;
+  padding: 80px 0 40px 0;
+  margin: 0;
+  text-align: center;
+  word-break: break-word;
+
+  @include medium {
+    font-size: 4rem;
+    line-height: 4rem;
+  }
+
+  @include large {
+    font-size: 4.8rem;
+    line-height: 4.8rem;
+  }
+}
+
+.no-results-text {
+  font-family: variable(secondary-font);
+  font-size: 16px;
+  color: clr(primary);
+  margin: 40px auto;
+  text-align: center;
+
+  @include xl {
+    font-size: 22px;
+    line-height: 24px;
+    margin: 60px auto;
+  }
+}
+
+.no-results-links-container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 80px;
+  flex-direction: column;
+
+  @include medium {
+    flex-direction: row;
+  }
+
+  .default-link {
+    margin: 10px 40px;
+    text-align: center;
+
+    @include medium {
+      margin: 0 20px 0 0;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

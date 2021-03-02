@@ -1,0 +1,20 @@
+uuid: cba4bc7e-45fc-48c6-8e7a-d751e359ddac
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq_contact
+  module:
+    - path
+id: node.faq_contact.path
+field_name: path
+entity_type: node
+bundle: faq_contact
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

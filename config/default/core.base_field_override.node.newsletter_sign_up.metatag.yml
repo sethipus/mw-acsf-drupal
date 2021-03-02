@@ -1,0 +1,18 @@
+uuid: 0532c96f-59f2-4608-8b7a-40225e0a4836
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+id: node.newsletter_sign_up.metatag
+field_name: metatag
+entity_type: node
+bundle: newsletter_sign_up
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

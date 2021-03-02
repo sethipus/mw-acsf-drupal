@@ -1,20 +1,153 @@
 .article-inline {
-  background-color: clr(subcolor-2);
-  padding: 2rem 0 4rem 0;
-  overflow-x: hidden;
+  position: relative;
+  padding: 2rem 0 2rem 0;
   max-width: 780px;
-  margin: 0 auto 60px auto;
+  margin: 0 auto 6rem auto;
   font-family: variable(secondary-font);
   font-size: 2rem;
   line-height: 1.8;
   color: clr(primary);
 
+  &__brand-shape {
+    position: absolute;
+    display: block;
+    left: 12%;
+    z-index: 0;
+
+    @include xs {
+      width: 35rem;
+      height: 30rem;
+      top: -40%;
+      left: 12%;
+    }
+
+    @include medium {
+      width: 40rem;
+      height: 35rem;
+      top: -15%;
+      left: 50%;
+    }
+
+    @include xl {
+      width: 56rem;
+      height: 48.5rem;
+      top: -21rem;
+      left: 40%;
+    }
+
+    svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
+    }
+  }
+
+  &__heading {
+    &--main-heading {
+      text-align: left;
+      color: clr(primary);
+      text-transform: uppercase;
+      font-size: 2.8rem;
+      line-height: 1.1;
+      font-weight: 500;
+      font-family: variable(heading-font);
+      margin: 0 0 30px;
+
+      @include small {
+        font-size: 2rem;
+        line-height: 2.2rem;
+        letter-spacing: 0.01rem;
+      }
+
+      @include medium {
+        font-size: 2.6rem;
+        line-height: 2.86rem;
+        letter-spacing: 0.13rem;
+      }
+
+      @include large {
+        font-size: 2.8rem;
+        line-height: 3.08rem;
+        letter-spacing: 0.14rem;
+      }
+    }
+  }
+
+  &__media {
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+  }
+
+  @include small {
+    margin: 0 2rem;
+  }
+
+  @include medium {
+    max-width: 688px;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+
+  @include xl {
+    max-width: 780px;
+    margin-left: 19%;
+  }
+
   img {
     width: 100%;
-    margin-bottom: 60px
   }
 
   &__content {
-    padding: 0 1rem;
+    padding: 0;
+
+    @include small {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      line-height: 1.56rem;
+    }
+
+    @include medium {
+      margin-top: 2rem;
+      font-size: 1.4rem;
+    }
+
+    @include large {
+      margin-top: 3rem;
+      font-size: 1.6rem;
+      line-height: 2.08rem;
+    }
+
+  }
+
+  .paragraph {
+    padding-bottom: 2rem;
+    margin: 0 0 2rem;
+    border-bottom: 1px solid clr(subcolor-4);
+    width: 100%;
+  }
+
+  .inline-video {
+    max-height: 635px;
+
+    &__control[data-state="play"] {
+      width: 9.671rem;
+      height: 9.671rem;
+      top: calc(50% - 9.671rem / 2);;
+      left: calc(50% - 9.671rem / 2);;
+    }
+
+    &__control[data-state="play"] .play-icon{
+      width: 30.2px;
+      height: 36px;
+      transform: scale(1.112, 1.193);
+      margin: auto 35%;
+    }
+
+    &__control[data-state="pause"] {
+      width: 9.671rem;
+      height: 9.671rem;
+      top: calc(50% - 9.671rem / 2);;
+      left: calc(50% - 9.671rem / 2);;
+    }
   }
 }

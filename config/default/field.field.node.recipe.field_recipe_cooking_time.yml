@@ -5,6 +5,11 @@ dependencies:
   config:
     - field.storage.node.field_recipe_cooking_time
     - node.type.recipe
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
 _core:
   default_config_hash: '-lGSUKT5Rgj_KSZZS6191GiyeUxJwUEbAV5KvksipPQ'
 id: node.recipe.field_recipe_cooking_time
@@ -18,8 +23,8 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  min: 5
-  max: 180
+  min: null
+  max: null
   prefix: ''
   suffix: ' mins'
 field_type: integer

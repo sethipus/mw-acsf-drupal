@@ -8,7 +8,9 @@ use Drupal\Core\Form\SubformState;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\layout_builder\Form\ConfigureBlockFormBase;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_recommendations\RecommendationsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,12 +28,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  use OverrideThemeTextColorTrait;
+
   /**
    * Mars Recommendations Service.
    *
    * @var \Drupal\mars_recommendations\RecommendationsService
    */
   protected $recommendationsService;
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
 
   /**
    * Theme configurator parser.
@@ -49,6 +60,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $plugin_id,
       $plugin_definition,
       $container->get('mars_recommendations.recommendations_service'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -61,11 +73,13 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     $plugin_id,
     $plugin_definition,
     RecommendationsService $recommendations_service,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->recommendationsService = $recommendations_service;
+    $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
@@ -73,8 +87,11 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
    * {@inheritdoc}
    */
   public function defaultConfiguration(): array {
+    $config = $this->getConfiguration();
     return [
       'label_display' => FALSE,
+      'with_brand_borders' => $config['with_brand_borders'] ?? FALSE,
+      'overlaps_previous' => $config['overlaps_previous'] ?? FALSE,
     ];
   }
 
@@ -96,12 +113,28 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
     }
 
     $node = $this->getContextValue('node');
+    $title = empty($this->configuration['title'])
+      ? $this->languageHelper->translate('More @types Like This', ['@type' => $node->type->entity->label()])
+      : $this->languageHelper->translate($this->configuration['title']);
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+    $recommendation_render_arrays = $plugin->getRenderedRecommendations();
+    if (!empty($text_color_override)) {
+      foreach ($recommendation_render_arrays as &$item) {
+        $item['#text_color_override'] = $text_color_override;
+      }
+    }
 
     return [
       '#theme' => 'recommendations_module_block',
-      '#title' => !empty($this->configuration['title']) ? $this->configuration['title'] : $this->t('More @types Like This', ['@type' => $node->type->entity->label()]),
-      '#graphic_divider' => $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider'),
-      '#recommended_items' => $plugin->getRenderedRecommendations(),
+      '#title' => $title,
+      '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
+      '#brand_border' => ($this->configuration['with_brand_borders']) ? $this->themeConfiguratorParser->getBrandBorder2() : NULL,
+      '#recommended_items' => $recommendation_render_arrays,
+      '#overlaps_previous' => $this->configuration['overlaps_previous'] ?? NULL,
+      '#text_color_override' => $text_color_override,
     ];
   }
 
@@ -130,7 +163,7 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#title' => $this->t('Title'),
       '#description' => $this->t('Defaults to <em>More <strong>&lt;Content Type&gt;</strong>s Like This</em>'),
       '#placeholder' => $this->t('More &lt;Content Type&gt;s Like This'),
-      '#maxwidth' => 55,
+      '#maxlength' => 55,
       '#default_value' => $conf['title'] ?? NULL,
     ];
 
@@ -188,6 +221,20 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $form_state->set('population_logic_plugin', $plugin);
     }
 
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $conf['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $conf['overlaps_previous'] ?? FALSE,
+    ];
+
+    $this->buildOverrideColorElement($form, $conf);
+
     return $form;
   }
 
@@ -223,6 +270,9 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
 
     $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['population_plugin_id'] = $form_state->getValue('population')['plugin_id'] ?? NULL;
+    $this->configuration['with_brand_borders'] = $form_state->getValue('with_brand_borders');
+    $this->configuration['overlaps_previous'] = $form_state->getValue('overlaps_previous');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
 
     if ($form_state->has('population_logic_plugin')) {
       /** @var \Drupal\mars_recommendations\RecommendationsLogicPluginInterface $plugin */

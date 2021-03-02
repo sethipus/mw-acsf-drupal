@@ -1,0 +1,19 @@
+uuid: f7f599fc-f2e3-47a4-b3e1-72c28a8493cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.salsify_id
+    - taxonomy.vocabulary.mars_occasions
+id: taxonomy_term.mars_occasions.salsify_id
+field_name: salsify_id
+entity_type: taxonomy_term
+bundle: mars_occasions
+label: salsify_id
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

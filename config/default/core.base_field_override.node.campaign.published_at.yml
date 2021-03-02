@@ -1,0 +1,20 @@
+uuid: d270346c-c229-4915-8073-f5777c20c013
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.campaign
+  module:
+    - publication_date
+id: node.campaign.published_at
+field_name: published_at
+entity_type: node
+bundle: campaign
+label: 'Published on'
+description: 'Keep the publication timestamp for each node.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: published_at

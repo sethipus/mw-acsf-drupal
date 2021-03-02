@@ -12,7 +12,7 @@ bundle: lighthouse_video
 label: 'Original external ID'
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }

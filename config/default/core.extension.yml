@@ -6,10 +6,12 @@ module:
   acquia_contenthub_subscriber: 0
   acquia_lift: 0
   acquia_lift_publisher: 0
+  acquia_purge: 0
   acquia_search: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
   adminimal_admin_toolbar: 0
+  advagg: 0
   autosave_form: 0
   bg_image_formatter: 0
   blazy: 0
@@ -17,12 +19,14 @@ module:
   block_content: 0
   breakpoint: 0
   ckeditor: 0
+  ckeditor_config: 0
   color: 0
   components: 0
   config: 0
   config_filter: 0
   config_ignore: 0
   config_split: 0
+  config_translation: 0
   conflict: 0
   consumers: 0
   contact: 0
@@ -36,6 +40,7 @@ module:
   diff: 0
   dropzonejs: 0
   editor: 0
+  editor_advanced_link: 0
   embed: 0
   emulsify_twig: 0
   entity_block: 0
@@ -46,20 +51,24 @@ module:
   entityqueue: 0
   externalauth: 0
   facets: 0
+  fast404: 0
   field: 0
   field_group: 0
   field_ui: 0
   file: 0
   filelog: 0
   filter: 0
+  gtm: 0
   help: 0
   history: 0
+  http_cache_control: 0
   image: 0
   image_widget_crop: 0
   inline_entity_form: 0
   jquery_colorpicker: 0
   jsonapi: 0
   juicer_io: 0
+  language: 0
   layout_builder: 0
   layout_builder_lock: 0
   layout_builder_modal: 0
@@ -92,21 +101,27 @@ module:
   lightning_search: 0
   lightning_workflow: 0
   link: 0
+  locale: 0
   mars_articles: 0
   mars_banners: 0
   mars_common: 0
+  mars_content_hub: 0
   mars_entry_gate: 0
+  mars_google_analytics: 0
   mars_lighthouse: 0
   mars_onetrust: 0
+  mars_print: 0
   mars_product: 0
   mars_recipes: 0
   mars_recommendations: 0
   mars_search: 0
   mars_seo: 0
+  maxlength: 0
   media: 0
   media_entity_instagram: 0
   media_entity_twitter: 0
   media_library: 0
+  menu_link_attributes: 0
   menu_ui: 0
   metatag: 0
   metatag_open_graph: 0
@@ -126,15 +141,22 @@ module:
   path: 0
   path_alias: 0
   pdf_api: 0
-  platform_core: 0
   poll: 0
   printable: 0
   printable_pdf: 0
+  purge: 0
+  purge_drush: 0
+  purge_queuer_coretags: 0
+  purge_processor_lateruntime: 0
+  purge_processor_cron: 0
+  purge_ui: 0
   quickedit: 0
+  rabbit_hole: 0
   rdf: 0
   redirect: 0
   remote_stream_wrapper: 0
   remote_stream_wrapper_widget: 0
+  rh_node: 0
   robotstxt: 0
   salsify_integration: 0
   samlauth: 0
@@ -142,6 +164,7 @@ module:
   schemata_json_schema: 0
   search_api: 0
   search_api_solr: 0
+  seckit: 0
   serialization: 0
   shortcut: 0
   simple_gmap: 0
@@ -151,9 +174,18 @@ module:
   slick: 0
   slick_entityreference: 0
   social_media: 0
+  syslog: 0
   system: 0
   taxonomy: 0
   text: 0
+  tmgmt: 0
+  tmgmt_config: 0
+  tmgmt_content: 0
+  tmgmt_extension_suit: 0
+  tmgmt_file: 0
+  tmgmt_language_combination: 0
+  tmgmt_locale: 0
+  tmgmt_smartling: 0
   token: 0
   toolbar: 0
   update: 0
@@ -165,6 +197,7 @@ module:
   workflows: 0
   menu_link_content: 1
   pathauto: 1
+  content_translation: 10
   views: 10
   publication_date: 99
   lightning: 1000

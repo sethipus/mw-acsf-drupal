@@ -1,13 +1,16 @@
 .homepage-hero-video {
   &__wrapper {
-    height: calc(100% * 1.7778);
-    min-height: 520px;
     position: relative;
     background-color: clr(secondary);
+    height: 643px;
 
     @include medium {
-      min-height: 0;
+      height: 846px;
       background-color: clr(subcolor-3);
+    }
+
+    @include xl {
+      height: 580px;
     }
   }
 
@@ -16,6 +19,10 @@
     height: 100%;
     position: absolute;
 
+    @include medium {
+      position: static;
+    }
+
     .ambient-video__control {
       margin-left: 40px;
       z-index: 4;
@@ -23,15 +30,21 @@
   }
 
   &__container {
+    .ambient-video__control[data-state="play"] {
+      left: calc(100% - 120px);
+      top: 15px;
+    }
+
+    .ambient-video__control[data-state="pause"] {
+      left: calc(100% - 120px);
+      top: 15px;
+    }
+
     .fullscreen-video {
       display: flex;
 
       &__video {
         object-fit: cover;
-
-        @include medium {
-          object-fit: contain;
-        }
       }
     }
 
@@ -43,17 +56,6 @@
 
     .fullscreen-video__control[data-state="play"] {
       @include playbutton;
-
-      @include playbutton;
-
-      >div {
-        width: 0;
-        height: 0;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-left: 20px solid clr(player);
-        margin: auto 35%
-      }
     }
 
     .fullscreen-video__control[data-state="pause"] {
@@ -70,13 +72,20 @@
   }
 
   &__container--title {
-    background-size: auto 100%;
-    background-position: right;
-    background-repeat: no-repeat;
-    margin-left: 40px;
+    width: 100%;
+    padding: 0 2rem;
     position: absolute;
     z-index: 2;
-    bottom: 4px;
+    bottom: 0;
+
+    @include medium {
+      width: 75%;
+      padding: 0 4rem;
+    }
+
+    @include large {
+      width: 62%;
+    }
   }
 
   .eyebrow {
@@ -84,12 +93,20 @@
     font-size: 14px;
     color: clr(subcolor-3);
     text-decoration: none;
-    letter-spacing: 1.4px;
+
+    @include xs {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+    }
+
+    @include medium {
+      font-size: 1.6rem;
+      line-height: 1.6rem;
+    }
   }
 
   .heading {
     margin: 0;
-    max-width: 70%;
 
     &__link {
       font-family: variable(heading-font);
@@ -97,25 +114,68 @@
       text-decoration: none;
       font-weight: 300;
       word-wrap: break-spaces;
-      font-size: 48px;
-      line-height: 43.2px;
+
+      @include xs {
+        font-size: 4rem;
+        line-height: 4rem;
+      }
+
+      @include medium {
+        font-size: 5.6rem;
+        line-height: 5.6rem;
+      }
 
       @include large {
-        font-size: 84px;
-        line-height: 75.6px;
+        font-size: 6.4rem;
+        line-height: 6.4rem;
       }
     }
   }
   .default-link {
-    margin: 35px 0 30px 0;
-    height: 50px;
-    line-height: 50px;
-    background-color: clr(subcolor-2);
-    color: clr(secondary);
+    margin: 3.5rem 0 3rem 0;
+    height: 5rem;
+    line-height: 5rem;
+
+    @include medium {
+      margin: 6rem 0;
+    }
+
+    @include large {
+      height: 6rem;
+      line-height: 6rem;
+    }
   }
 
   .fullscreen-video__control[data-state="play"] {
     background-color: clr(subcolor-3);
     bottom: 30px;
+  }
+
+  .dark-overlay {
+    @include medium {
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: inherit;
+        top: 0;
+        left: 0;
+        background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15) 75%, rgba(0, 0, 0, 0.3));
+      }
+    }
+
+    @include xl {
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: inherit;
+        top: 0;
+        left: 0;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15) 75%, rgba(0, 0, 0, 0.3));
+      }
+    }
   }
 }

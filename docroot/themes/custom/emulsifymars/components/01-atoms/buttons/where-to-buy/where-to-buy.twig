@@ -1,36 +1,30 @@
 {#
 /**
  * Available variables:
- * - where_to_buy_base_class -
  * - product_sku -
  * - commerce_vendor -
- * - data_widget_id -
- * - reference_for_analitics -
  * - cta_title -
+ * - button_type -
+ * - data_widget_id -
+ * - data_display -
+ * - reference_for_analitics -
+ * - where_to_buy_base_class -
+ * - where_to_buy_modifiers -
+ * - where_to_buy_blockname -
  *
  */
 #}
-{% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
 
-{% if commerce_vendor == 'price_spider' %}
-  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}>
-    <div class="ps-widget" ps-sku="{{ product_sku }}">{{ cta_title }}</div>
-  </div>
+{% if (commerce_vendor == 'commerce_connector') %}
+  <!-- Commerce Connector -->
+  {% include "@atoms/buttons/where-to-buy-commerce_connector/where-to-buy-commerce_connector.twig" %}
+{% elseif (commerce_vendor == 'price_spider') %}
+  <!-- Price Spider -->
+  {% include "@atoms/buttons/where-to-buy-price_spider/where-to-buy-price_spider.twig" %}
+{% elseif (commerce_vendor == 'smart_commerce') %}
+  <!-- Smart Commerce -->
+  {% include "@atoms/buttons/where-to-buy-smart_commerce/where-to-buy-smart_commerce.twig" %}
 {% else %}
-  <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}>
-    <script
-      type="text/javascript"
-      src="https://fi-v2.global.commerce-connector.com/cc.js"
-      id="cci-widget"
-      data-token="080b73af92c4aa9324ac9f9296f5045e76256857"
-      data-locale="en-US"
-      data-displaylanguage="en-us"
-      data-widgetid="{{ data_widget_id }}"
-      data-ean="{{ product_sku }}"
-      data-subid="ohne"
-      {% if reference_for_analytics is defined and reference_for_analytics|length %}
-        data-trackingid="{{ reference_for_analytics }}"
-      {% endif %}
-    ></script>
-  </div>
+  <!-- Default Variant -->
+  {% include "@atoms/buttons/where-to-buy-commerce_connector/where-to-buy-commerce_connector.twig" %}
 {% endif %}

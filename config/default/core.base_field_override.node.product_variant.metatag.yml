@@ -1,0 +1,18 @@
+uuid: f650fd64-4b5b-4911-931c-b9ea10c4d239
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_variant
+id: node.product_variant.metatag
+field_name: metatag
+entity_type: node
+bundle: product_variant
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

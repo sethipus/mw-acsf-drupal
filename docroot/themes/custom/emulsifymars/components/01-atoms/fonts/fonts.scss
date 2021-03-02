@@ -1,0 +1,37 @@
+.fonts-test-component {
+  color: clr(primary);
+  padding: 0 5rem;
+
+  &__heading {
+    margin: 0;
+    font-size: 5rem;
+
+    &--heading-font {
+      font-family: variable(heading-font);
+    }
+
+    &--primary-font {
+      font-family: variable(primary-font);
+    }
+
+    &--secondary-font {
+      font-family: variable(secondary-font);
+    }
+  }
+
+  &__paragraph {
+    column-count: 3;
+    column-gap: 5rem;
+    font-size: 2rem;
+
+    &--light {
+      font-family: variable(secondary-font);
+    }
+    &--medium {
+      font-family: variable(primary-font);
+    }
+    &--bold {
+      font-family: variable(heading-font);
+    }
+  }
+}

@@ -1,0 +1,18 @@
+uuid: a39e0e12-436a-4449-a9f1-1fd75420bc68
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_culture
+id: taxonomy_term.mars_culture.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_culture
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

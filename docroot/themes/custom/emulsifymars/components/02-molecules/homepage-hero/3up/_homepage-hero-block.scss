@@ -1,82 +1,125 @@
 .homepage-hero-block {
-  flex-grow: 1;
+  z-index: 1;
+  flex: 1 0 auto;
   font-family: variable(primary-font);
-  padding-top: 45px;
+  padding-top: 2.9rem;
+
+  @include medium {
+    padding-top: 4em;
+  }
 
   &--block-1 {
-    & .wrapper {
-      border-bottom: 1px solid rgba(196, 196, 196, .6);
-      margin-bottom: 20px;
-    }
+    border-bottom: 1px solid rgba(clr(subcolor-4-rgb), 0.6);
   }
 
   & .wrapper {
     display: flex;
     height: 100%;
     flex-flow: row nowrap;
-    margin-left: 20px;
-    margin-right: 20px;
+    padding: 0 0 2.8rem;
+
+    @include medium {
+      padding-bottom: 4rem;
+    }
+  }
+
+  &:last-child .wrapper {
+    @include medium {
+      padding-bottom: 5.8rem;
+    }
   }
 
   &__left {
-    padding-left: 20px;
     font-weight: 150;
-    flex-grow: 2;
+    flex: 2 0 58%;
+    display: flex;
+    flex-flow: column nowrap;
 
     .eyebrow {
+      flex: 0 0 auto;
+      font-family: variable(primary-font);
       color: clr(primary);
-      font-size: 14px;
-      line-height: 14px;
-      letter-spacing: 1.4px;
+      font-size: 1.4rem;
+      line-height: 1;
+      font-weight: 500;
       margin: 0;
     }
-    h3 {
-      color: clr(primary);
-      margin-top: 20px;
 
-      @include large {
-        margin-bottom: 18rem;
+    h3 {
+      flex: 1 0 auto;
+      color: clr(primary);
+      margin-top: 3rem;
+      margin-bottom: 5.5rem;
+
+      @include medium {
+        margin-bottom: 6rem;
       }
 
       & a {
         color: clr(primary);
         text-decoration: none;
-        font-size: 20px;
-        line-height: 22px;
-        letter-spacing: 0.8px;
+        font-size: 2rem;
+        line-height: 1.1;
+
+        @include medium {
+          font-size: 2.6rem;
+        }
+
+        @include large {
+          font-size: 2.8rem;
+        }
       }
     }
     & .cta-link {
+      flex: 0 0 auto;
       background: none;
       color: clr(secondary);
       padding-left: 0;
       text-transform: uppercase;
       text-decoration: none;
-      font-size: 14px;
-      line-height: 14px;
-      letter-spacing: 1.12px;
+      font-size: 1.4rem;
+      line-height: 1;
 
-      &__label::after {
-        border: solid clr(secondary);
-        border-width: 0 3px 3px 0;
+      @include large {
+        font-size: 1.6rem;
+      }
+
+      &__label {
+        position: relative;
         display: inline-block;
-        padding: 3px;
-        transform: rotate(-45deg);
-        -webkit-transform: rotate(-45deg);
-        content: "";
-        margin-left: 5px;
+        padding-right: 1.5rem;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 2px;
+          right: 0;
+          border: solid clr(secondary);
+          border-width: 0 1px 1px 0;
+          display: inline-block;
+          padding: 4px;
+          transform: rotate(-45deg);
+        }
       }
     }
   }
 
   &__right {
-    flex-grow: 1;
+    flex: 1 0 42%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     & .block1-small__image {
       width: 136px;
 
-      @include large {
+      @include medium {
         width: 200px;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+        transition: transform 0.8s;
       }
     }
   }

@@ -4,11 +4,17 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\WhereToBuyBlock;
+use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
+use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,6 +32,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
     'label_display' => '1',
     'widget_id' => 'test_widget_id',
     'context_mapping' => [],
+    'commerce_vendor' => PdpHeroBlock::VENDOR_PRICE_SPIDER,
   ];
 
   private const DEFINITION = [
@@ -48,7 +55,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ConfigFactoryInterface
    */
-  private $configMock;
+  private $configFactoryMock;
 
   /**
    * Mock.
@@ -90,7 +97,42 @@ class WhereToBuyBlockTest extends UnitTestCase {
    *
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Config\ImmutableConfig
    */
-  private $immutableConfigMock;
+  private $wtbGlobalConfig;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   */
+  private $mediaHelperMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  private $entityTypeManagerMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Entity\EntityStorageInterface
+   */
+  private $entityStorageMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\node\NodeInterface
+   */
+  private $nodeMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Field\EntityReferenceFieldItemListInterface
+   */
+  private $fieldItemListMock;
 
   /**
    * {@inheritdoc}
@@ -103,8 +145,10 @@ class WhereToBuyBlockTest extends UnitTestCase {
       self::CONFIGURATION,
       self::PLUGIN_ID,
       self::DEFINITION,
-      $this->configMock,
-      $this->languageManagerMock
+      $this->languageManagerMock,
+      $this->entityTypeManagerMock,
+      $this->mediaHelperMock,
+      $this->wtbGlobalConfig,
     );
   }
 
@@ -113,22 +157,38 @@ class WhereToBuyBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(2))
+      ->expects($this->exactly(4))
       ->method('get')
       ->willReturnMap(
         [
           [
             'config.factory',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
-            $this->configMock,
+            $this->configFactoryMock,
           ],
           [
             'language_manager',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->languageManagerMock,
           ],
+          [
+            'entity_type.manager',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->entityTypeManagerMock,
+          ],
+          [
+            'mars_common.media_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->mediaHelperMock,
+          ],
         ]
       );
+
+    $this->configFactoryMock
+      ->method('get')
+      ->with('mars_product.wtb.settings')
+      ->willReturn($this->wtbGlobalConfig);
+
     $this->block::create(
       $this->containerMock,
       self::CONFIGURATION,
@@ -194,16 +254,80 @@ class WhereToBuyBlockTest extends UnitTestCase {
   /**
    * Test.
    */
-  public function testShouldBuild() {
-    $this->configMock
-      ->expects($this->once())
-      ->method('get')
-      ->willReturn($this->immutableConfigMock);
+  public function testShouldBuildWhenPriceSpider() {
+    $this->block->setConfiguration([
+      'widget_id' => 'test_widget_id',
+      'commerce_vendor' => PdpHeroBlock::VENDOR_PRICE_SPIDER,
+    ]);
 
-    $this->immutableConfigMock
-      ->expects($this->once())
+    $build = $this->block->build();
+    $this->assertArrayHasKey('#theme', $build);
+    $this->assertArrayHasKey('#widget_id', $build);
+    $this->assertArrayHasKey('#commerce_vendor', $build);
+    $this->assertArrayHasKey('#product_sku', $build);
+  }
+
+  /**
+   * Test.
+   */
+  public function testShouldBuildWhenCommerceConnector() {
+    $this->block->setConfiguration([
+      'id' => 'where_to_buy_block',
+      'label' => 'MARS: Where To Buy',
+      'provider' => 'mars_common',
+      'label_display' => '1',
+      'widget_id' => 'test_widget_id',
+      'context_mapping' => [],
+    ]);
+
+    $this->wtbGlobalConfig
       ->method('get')
-      ->willReturn('US');
+      ->with('commerce_vendor')
+      ->willReturn(PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR);
+
+    $this->entityTypeManagerMock
+      ->expects($this->once())
+      ->method('getStorage')
+      ->willReturn($this->entityStorageMock);
+
+    $this->entityStorageMock
+      ->expects($this->once())
+      ->method('loadByProperties')
+      ->willReturn([$this->nodeMock]);
+
+    $this->nodeMock
+      ->expects($this->any())
+      ->method('id')
+      ->willReturn('id');
+
+    $this->nodeMock
+      ->expects($this->once())
+      ->method('label')
+      ->willReturn('label');
+
+    $this->nodeMock->target_id = '123';
+    $this->nodeMock->value = 'value';
+
+    $this->nodeMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->fieldItemListMock);
+
+    $this->fieldItemListMock
+      ->expects($this->once())
+      ->method('referencedEntities')
+      ->willReturn([
+        $this->nodeMock,
+      ]);
+
+    $this->mediaHelperMock
+      ->expects($this->once())
+      ->method('getMediaParametersById')
+      ->willReturn([
+        'error' => TRUE,
+        'src' => 'src',
+        'alt' => 'alt',
+      ]);
 
     $this->languageManagerMock
       ->expects($this->once())
@@ -215,10 +339,7 @@ class WhereToBuyBlockTest extends UnitTestCase {
       ->method('getId')
       ->willReturn('en');
 
-    $build = $this->block->build();
-    $this->assertIsArray(
-      $build['#attached']['html_head']
-    );
+    $this->block->build();
   }
 
   /**
@@ -227,11 +348,16 @@ class WhereToBuyBlockTest extends UnitTestCase {
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->translationMock = $this->createMock(TranslationInterface::class);
-    $this->configMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->languageManagerMock = $this->createMock(LanguageManagerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
-    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
+    $this->wtbGlobalConfig = $this->createMock(ImmutableConfig::class);
     $this->languageMock = $this->createMock(LanguageInterface::class);
+    $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this->entityStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->nodeMock = $this->createMock(NodeInterface::class);
+    $this->fieldItemListMock = $this->createMock(EntityReferenceFieldItemListInterface::class);
   }
 
 }

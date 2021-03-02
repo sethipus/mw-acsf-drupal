@@ -1,29 +1,41 @@
-Drupal.behaviors.recipeBody = {
-  attach: function (context) {
-    const _this = this;
-    let productUsedPinned = false;
+(function($, _, Drupal){
+  Drupal.behaviors.recipeBody = {
+    attach: function (context) {
+      $(context).find('.recipe-body-content').once('recipeBody').each(() => {
+        let productUsedPinned = false;
+        productUsedPinned = adaptProductUsedBlock(productUsedPinned);
 
-    productUsedPinned = this.adaptProductUsedBlock(productUsedPinned);
+        $(window).on('resize', _.debounce(() => {
+          productUsedPinned = adaptProductUsedBlock(productUsedPinned);
+        }, 200));
 
-    window.onresize = function(event) {
-      productUsedPinned = _this.adaptProductUsedBlock(productUsedPinned);
-    };
-  },
+        function adaptProductUsedBlock(productUsedPinned) {
+          const smallScreen = window.innerWidth < 1440;
+          const fullscreenElementsSelector = '.footer, .recommendations, .flexible-framer, .article-full-width';
+          let $productUsed = $('.product-used');
+          let $recipeInfo = $('.recipe-info');
 
-  adaptProductUsedBlock: function (productUsedPinned) {
-    const smallScreen = window.innerWidth < 1440;
+          // find the first element from list on the page
+          let $firstFullwidth = $(fullscreenElementsSelector).first();
+          if (smallScreen && productUsedPinned) {
+            $productUsed.css('margin-top', 0);
+            $firstFullwidth.css('margin-top', 0);
+            return false;
+          } else if (!smallScreen && !productUsedPinned) {
+            let adjacentElementsHeight = $recipeInfo.outerHeight(true);
+            let productUsedPlaceholderHeight = $productUsed.outerHeight() - ($firstFullwidth.offset().top - $recipeInfo.offset().top);
+            $productUsed.css('margin-top', '-' + ( adjacentElementsHeight - 60 ) + 'px');
 
-    if (smallScreen && productUsedPinned) {
-      let productUsed = document.querySelector('.product-used');
-      productUsed.setAttribute('style', 'margin-top: 0;');
-      return false;
-    } else if (!smallScreen && !productUsedPinned) {
-      let adjacentElement = document.querySelector('.recipe-info');
-      let productUsed = document.querySelector('.product-used');
-      productUsed.setAttribute('style', 'margin-top: -' + ( adjacentElement.offsetHeight + 30 ) + 'px;');
-      return true;
+            if ($firstFullwidth.length && $recipeInfo.length) {
+              $firstFullwidth.css('margin-top', productUsedPlaceholderHeight > 0 ? productUsedPlaceholderHeight + 160 : 0 + 'px');
+            }
+
+            return true;
+          }
+
+          return productUsedPinned;
+        }
+      });
     }
-
-    return productUsedPinned;
-  },
-};
+  };
+})(jQuery, _, Drupal);

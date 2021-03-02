@@ -1,79 +1,69 @@
 .recommendations {
+  position: relative;
   background-color: clr(subcolor-2);
-  padding: 2rem 0 4rem 0;
-  overflow-x: hidden;
+  padding-bottom: 4rem;
 
-  .graphic-divider {
-    text-align: center;
-    margin-bottom: 4rem;
-
-    @include xl {
-      margin-bottom: 6rem;
-    }
-  }
+  @include brand-border-overflow;
 
   &__heading {
+    padding-top: 2rem;
+
     &--main-heading {
       text-align: center;
       color: clr(primary);
       text-transform: uppercase;
-      font-size: 40px;
-      line-height: 1.1em;
       font-family: variable(heading-font);
+      font-size: 4rem;
+      line-height: 1;
+      margin-bottom: 4rem;
 
       @include medium {
-        font-size: 56px;
+        font-size: 5.6rem;
       }
 
       @include xl {
-        font-size: 64px;
+        font-size: 6.4rem;
+        margin-bottom: 6rem;
       }
     }
   }
 
-  .horizontal-img__inner {
-    margin: 0 auto 3rem auto;
+  .graphic-divider {
+    text-align: center;
+    margin-bottom: .5rem; // margin-top 3.5rem on the card due to "new" badge
 
     @include xl {
-      margin: 0 auto 4rem auto;
+      margin-bottom: 2.5rem; // margin-top 3.5rem on the card due to "new" badge
     }
+  }
+
+  .recommendations-swiper-container-outer {
+    position: relative;
   }
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .recommendations-swiper-container {
     width: 100%;
-    height: 610px;
-  }
-
-  .is-in-viewport {
-    img {
-      transition: cubic-bezier(0.75, 0, 0.25, 0), 0.8s;
-      transform: scale(1.1);
-    }
-    .product-card__img-hover img {
-      transform: translate(-50%, 0) scale(1.1);
-    }
-  }
-
-  .no-carousel {
-    @include xl {
-      display: flex;
-      justify-content: center;
-      margin-left: -2%;
-    }
-  }
-
-  .swiper-wrapper{
-    @media (max-width: 600px) {
-      margin-left: -8%;
-    }
   }
 
   // increasing specificity to avoid using !important
-  .recommendations-swiper-container.swiper-container-horizontal
-    > .swiper-scrollbar {
-    height: 16px;
-    transform: scale(0.5);
+  .swiper-scrollbar {
+    background-color: rgba(clr(secondary-rgb),0.4);
+    height: 0.5rem;
+    width: 16.1rem;
+    margin: 1rem auto 0;
+
+    @include medium {
+      height: 0.5rem;
+      width: 25.7rem;
+      margin-top: 2rem;
+    }
+
+    @include xl {
+      height: 0.8rem;
+      width: 42.7rem;
+      margin-top: 4rem;
+    }
 
     & .swiper-scrollbar-drag {
       background: clr(secondary);
@@ -81,16 +71,33 @@
   }
 
   .swiper-slide {
-    width: 315px;
-  }
+    @include card-width;
 
-  .hide-arrow {
-    display: none;
+    .product-card__image img,
+    .product-card__img-hover img {
+      transition: transform cubic-bezier(0.75, 0, 0.25, 0) 0.8s, opacity .25s ease-in;
+    }
+
+    &.is-in-viewport {
+      .product-card__image img {
+        transform: scale(1.1);
+      }
+
+      .product-card__img-hover img {
+        transform: translate(-50%, 0) scale(1.1);
+      }
+    }
+
+    &[inert] {
+      [tabindex='0'] {
+        visibility: hidden !important; // fix for pricespider which add tabidex=0 asynchronously
+      }
+    }
   }
 
   .recipe-card {
     .recipe-card__media {
-      width: 315px;
+      width: 100%;
     }
     .recipe-card-heading__link {
       min-width: 0;
@@ -99,46 +106,80 @@
 
   .recipe-card,
   .article-card,
-  .product-card {
-    margin-top: 3.5rem;
+  .product-card,
+  .recommendations-card {
+    box-sizing: border-box;
+    height: 5.2rem;
+    margin-top: 3.5rem; //due to "new" badge
+    margin-bottom: 2rem; // space for shadow
+
   }
 
   .article-card {
-    width: 255px;
-    height: 520px;
+    &__content {
+      display: block;
+    }
 
     .article-card-paragraph {
       flex-grow: 0;
     }
 
     .default-link {
-      margin-top: 5.85rem;
+      margin-top: 7.45rem;
     }
   }
 
-  #swiper-button {
+  .swiper-button-prev, .swiper-button-next  {
     background-color: clr(text-inverse);
     border-radius: 50%;
-    width: 7rem;
-    height: 7rem;
+    border: 0;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+    margin-top: -(5.5rem - 3.5rem + 2rem)/2; // -(buttonHeight - cardMarginTop + cardMarginbottom)/2
+    width: 5.5rem;
+    height: 5.5rem;
 
-    @media (max-width: 768px) {
+    @include medium {
+      margin-top: -(6rem - 3.5rem + 2rem)/2;
       width: 6rem;
       height: 6rem;
     }
 
-    @media (max-width: 375px) {
-      width: 5.5rem;
-      height: 5.5rem;
+    @include xl {
+      margin-top: -(7rem - 3.5rem + 2rem)/2;
+      width: 7rem;
+      height: 7rem;
     }
 
     &.swiper-button-disabled {
       opacity: 0;
+      visibility: hidden;
     }
 
     &::after {
-      color: clr(secondary);
-      font-size: 2.5rem;
+      display: none; // hide original icon
+    }
+
+    &__icon {
+      width: 100%;
+      height: 100%;
+      fill: clr(secondary);
     }
   }
+
+  .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+    right: 1.5rem;
+
+    @include medium {
+      right: 3rem;
+    }
+  }
+
+  .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+    left: 1.5rem;
+
+    @include medium {
+      left: 3rem;
+    }
+  }
+
 }

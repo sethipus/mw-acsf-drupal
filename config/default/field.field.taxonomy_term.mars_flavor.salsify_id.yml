@@ -12,7 +12,7 @@ bundle: mars_flavor
 label: salsify_id
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }

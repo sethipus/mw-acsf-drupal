@@ -1,0 +1,20 @@
+uuid: db02123a-f2dc-46d3-bc72-ad52fe5e303c
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_flavor
+  module:
+    - text
+id: taxonomy_term.mars_flavor.description
+field_name: description
+entity_type: taxonomy_term
+bundle: mars_flavor
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

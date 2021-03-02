@@ -1,19 +1,11 @@
-{% embed "@molecules/article-header/article-header-image.twig" with {
+{% include "@molecules/article-header/article-header-noimage.twig" with {
   theme_styles: 'drupal',
   shape: brand_borders,
+  brand_shape : brand_shape,
   eyebrow: eyebrow,
   heading: label,
   date_published: publication_date,
-  share_text: 'Share'|t
+  share_text: share_text,
+  social_menu_items: social_links,
+  text_color_override: text_color_override
 } %}
-  {% block article_social_menu %}
-    {% include "@molecules/menus/social/social-menu.twig" with {
-      social_menu_items: social_links,
-    } %}
-  {% endblock %}
-  {% block article_media_devider %}
-    <div class="{{ brand_shape_class }}">
-      {{ shape | raw }}
-    </div>
-  {% endblock %}
-{% endembed %}

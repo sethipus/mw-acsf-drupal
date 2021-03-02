@@ -79,19 +79,23 @@ const Twig = require('twig');
 const twigDrupal = require('twig-drupal-filters');
 const twigBEM = require('bem-twig-extension');
 const twigAddAttributes = require('add-attributes-twig-extension');
+const customTwigFunctions = require('./customTwigFilters');
 
 Twig.cache();
 
 twigDrupal(Twig);
 twigBEM(Twig);
 twigAddAttributes(Twig);
+customTwigFunctions(Twig)
 
 // config.js
 import jquery from "jquery";
 import once from "jquery-once";
+import underscore from "underscore";
 
 global.$ = jquery;
 global.jQuery =  jquery;
+global._ = underscore;
 
 // If in a Drupal project, it's recommended to import a symlinked version of drupal.js.
 import './_drupal.js';

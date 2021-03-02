@@ -7,13 +7,13 @@
 {{ attach_library('emulsifymars/pdp-multipack') }}
 {% set pdp_multipack_base_class = pdp_multipack_base_class|default('pdp-multipack') %}
 {% set theme_styles = 'drupal' %}
-{% set multipack_see_all_label = 'See all'|t %}
+{% set multipack_see_all_label = 'See all' | mt %}
 {% set multipack_see_all_attributes = {
   'id': 'multipack-see-all',
   'href': '#',
 } %}
 
-<section id="section-products" {{ bem(pdp_multipack_base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(pdp_multipack_base_class) }} data-theme="{{ theme_styles }}">
   {% include "@atoms/text/headings/_heading.twig" with {
     heading_level: 5,
     heading: multipack_label,
@@ -25,8 +25,8 @@
       <div class="swiper-wrapper">
         {{ multipack_view }}
       </div>
-      <div class="swiper-button-prev" id="swiper-button"></div>
-      <div class="swiper-button-next" id="swiper-button"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
       <div class="swiper-scrollbar"></div>
     </div>
   </div>

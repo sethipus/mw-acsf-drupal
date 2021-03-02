@@ -1,16 +1,10 @@
 .faq {
   margin: auto;
-
-  @include small {
-    max-width: 33.5rem;
-  }
+  padding: 0 2rem;
 
   @include medium {
-    max-width: 68.8rem;
-  }
-
-  @include xl {
-    max-width: 89.6rem;
+    padding: 0 4rem;
+    max-width: 4rem + 89.5rem + 4rem;
   }
 
   .search-no-results {
@@ -20,7 +14,6 @@
 .faq-heading {
   font-family: variable(primary-font);
   font-weight: normal;
-  letter-spacing: 1.12px;
   color: clr(primary);
   text-align: center;
 
@@ -41,38 +34,43 @@
 .list-item__question,
 .list-item__answer {
   color: clr(primary);
-  word-break: break-all;
+
+  & p {
+    margin: 0;
+    word-break: break-word;
+  }
 }
 
 .faq__see_all {
   text-align: center;
+  display: none;
+
+  &.active {
+    display: block;
+  }
 }
 
 .default-link--faq_see_all {
   background-color: clr(secondary);
   font-family: variable(primary-font);
   color: clr(text-inverse);
+  min-width: 20.2rem;
+  padding: 0 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
 
   &:hover {
     color: clr(secondary);
   }
 
-  @include small {
-    display: block;
-    max-width: 315px;
-    margin: auto;
-  }
-
   @include medium {
     line-height: 5rem;
+    margin-bottom: 60px;
   }
 
   @include xl {
     line-height: 6rem;
-  }
-
-  &::after {
-    bottom: -45px;
-    width: 600px;
+    margin-bottom: 108px;
   }
 }

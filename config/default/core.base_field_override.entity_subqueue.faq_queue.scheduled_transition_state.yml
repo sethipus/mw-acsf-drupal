@@ -1,0 +1,18 @@
+uuid: cdd22935-98e3-4a94-aac8-b09471c3871f
+langcode: en
+status: true
+dependencies:
+  config:
+    - entityqueue.entity_queue.faq_queue
+id: entity_subqueue.faq_queue.scheduled_transition_state
+field_name: scheduled_transition_state
+entity_type: entity_subqueue
+bundle: faq_queue
+label: 'Scheduled transition state'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

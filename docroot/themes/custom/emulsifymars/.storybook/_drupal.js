@@ -24,4 +24,13 @@ window.Drupal = { behaviors: {} };
       }
     });
   };
+
+  Drupal.t = function(content) {
+    return content;
+  };
+
+  Drupal.announce = function(content) {
+    return true;
+  }
+
 })(Drupal, window.drupalSettings);

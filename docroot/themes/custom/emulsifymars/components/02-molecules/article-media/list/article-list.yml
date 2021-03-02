@@ -1,0 +1,11 @@
+theme_styles: 'dove'
+title: 'This is my title'
+takeaways_list:
+  - content: 'VSLAs operate in 39 communities in Cote d’Ivoire with thousands of members, 80 percent of which are women.'
+    item_number: 1
+  - content: 'We’re committed to improving the lives of our cocoa farmers across the globe under our Cocoa for Generations goals and Sustainable in a Generation Plan ambitions.'
+    item_number: 2
+    image:
+      src: "https://mars.com/sites/g/files/jydpyr316/files/styles/image_copy/public/webimage-GettyImages-964172312.png?itok=IHauQ4Os"
+  - content: 'Each time a woman stands up for herself, she stands up for all women.'
+    item_number: 3

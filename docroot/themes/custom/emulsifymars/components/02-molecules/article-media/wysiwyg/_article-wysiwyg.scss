@@ -1,40 +1,44 @@
 .article-wysiwyg {
   background-color: clr(subcolor-3);
-  padding: 2rem 0 4rem 0;
+  padding: 2rem;
   overflow-x: hidden;
-  margin: 0 20px 30px;
+  margin: 0 2rem;
   font-family: variable(secondary-font);
   font-size: 2rem;
   line-height: 1.8;
   color: clr(primary);
 
   @include medium {
-    margin: 0 40px 40px;
+    margin: 0 4rem;
+    padding: 2rem 0;
   }
 
-  @include xl {
-    max-width: 70%;
-    margin: 0 auto;
-    text-align: justify;
+  @include large {
+    margin: 0;
   }
 
   &__content {
-    padding: 0 1rem;
+    margin: 0 auto;
+
+    @include medium {
+      max-width: 688px;
+    }
+
+    @include xl {
+      max-width: 780px;
+      text-align: justify;
+      margin-left: 19%;
+    }
   }
 }
 
 .article-detail {
   .article-wysiwyg {
-    width: 90%;
-    margin: 0 auto;
-
-    @include medium {
-      max-width: 100%;
-      width: 70%;
-    }
+    font-size: 1.8rem;
+    line-height: 1.6;
   }
+}
 
-  .article-wysiwyg__content {
-    padding: 0;
-  }
+.node--article .article-wysiwyg {
+  margin: 0;
 }

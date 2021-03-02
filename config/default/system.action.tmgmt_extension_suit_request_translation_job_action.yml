@@ -1,0 +1,13 @@
+uuid: e70905cf-0de4-463b-9108-07da37454821
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_extension_suit
+_core:
+  default_config_hash: Ya2WmuzZiHM-2A2sbN1gCXD9bSjWbGHSsmiSPaICZus
+id: tmgmt_extension_suit_request_translation_job_action
+label: 'Request Translation'
+type: tmgmt_job
+plugin: tmgmt_extension_suit_request_translation_job_action
+configuration: {  }

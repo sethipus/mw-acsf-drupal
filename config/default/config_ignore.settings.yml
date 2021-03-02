@@ -2,18 +2,41 @@ ignored_config_entities:
   - 'system.site:name'
   - 'system.site:mail'
   - 'system.site:page.front'
+  - 'system.site:page.403'
+  - 'system.site:page.404'
   - acquia_connector.settings
   - samlauth.authentication
   - mars_onetrust.settings
   - mars_entry_gate.settings
   - 'juicer_io.feed.*'
+  - 'language.negotiation:url'
+  - 'language.entity.*'
+  - 'tmgmt.translator.smartling:settings.project_id'
+  - 'tmgmt.translator.smartling:settings.user_id'
+  - 'tmgmt.translator.smartling:settings.token_secret'
+  - 'tmgmt.translator.smartling:settings.contextUsername'
+  - 'tmgmt.translator.smartling:settings.basic_auth.*'
+  - 'tmgmt.translator.smartling:remote_languages_mappings'
+  - 'core.menu.static_menu_link_overrides:definitions'
   - emulsifymars.settings
   - mars_lighthouse.settings
   - block.block.footerblock
   - block.block.marsheaderblock
   - acquia_contenthub.admin_settings
   - field.storage.node.field_product_allergen_statement
-  - open_graph.settings
+  - mars_seo.settings
+  - mars_common.system.site
+  - gtm.settings
+  - salsify_integration.settings
+  - mars_product.wtb.settings
+  - mars_common.site_labels
+  - 'core.entity_view_display.node.*'
+  - mars_common.card_color_settings
+  - purge.logger_channels
+  - purge.plugins
+  - purge_queuer_coretags.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
-enable_export_filtering: '1'
+enable_export_filtering: true
+ignored_config_collections:
+  - 'language.*'

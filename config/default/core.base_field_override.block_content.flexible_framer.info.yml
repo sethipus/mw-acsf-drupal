@@ -1,0 +1,18 @@
+uuid: 1666ea93-3bfa-4561-8081-25964e5fe584
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer
+id: block_content.flexible_framer.info
+field_name: info
+entity_type: block_content
+bundle: flexible_framer
+label: 'Block description'
+description: 'A brief description of your block.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

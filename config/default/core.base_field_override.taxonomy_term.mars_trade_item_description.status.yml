@@ -1,0 +1,22 @@
+uuid: c032e4b2-4715-4bc7-b6d7-b9b2cab7dc0d
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_trade_item_description
+id: taxonomy_term.mars_trade_item_description.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_trade_item_description
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -107,13 +107,13 @@ class SalsifyImport {
    * @return array
    *   Result status of processing (not updated, updated, or created)
    */
-  public function processSalsifyItem(
+  public static function processSalsifyItem(
     array $product_data,
     $force_update = FALSE,
     $content_type = ProductHelper::PRODUCT_CONTENT_TYPE
   ) {
     return [
-      'import_result' => self::PROCESS_RESULT_NOT_UPDATED,
+      'import_result' => static::PROCESS_RESULT_NOT_UPDATED,
       'validation_errors' => [],
     ];
   }
@@ -129,7 +129,7 @@ class SalsifyImport {
    * @return array|string
    *   The options array or string values.
    */
-  protected function getFieldOptions(array $field, $field_data) {
+  public static function getFieldOptions(array $field, $field_data) {
     $options = $field_data;
     switch ($field['salsify_data_type']) {
       case 'link':
@@ -157,6 +157,9 @@ class SalsifyImport {
           'value' => $field_data,
           'format' => 'full_html',
         ];
+        break;
+
+      default:
         break;
     }
     return $options;

@@ -13,3 +13,4 @@ send_email: 1
 auth_method: client_secret
 client_id: client_id
 client_secret: client_secret
+cron_force_update: 1

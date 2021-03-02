@@ -1,12 +1,14 @@
 theme_styles: twix
 heading: 'Empowering women today'
-brand_borders: '<svg xmlns="http://www.w3.org/2000/svg"><defs><pattern viewBox="0 0 768 291" id="divider-pattern" x="0" y="0" width="768" height="291" patternUnits="userSpaceOnUse"><path fill="#E62B1E" fill-rule="evenodd" d="M26.839 14l-13.5-14-13 14H0v277h768V14h-.352l-13.5-14-12.583 13.552L728.497 0l-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.23l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.178l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.69l-13.5-14-13 14h-.691l-13.5-14-13 14h-.177l-13.5-14-12.584 13.552L344.754 0l-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.229l-13.5-14-13 14H135.6L122.1 0l-13 14h-.177l-13.5-14-13 14h-1.204L67.72 0l-13 14h-.69L40.53 0l-13 14h-.69z" clip-rule="evenodd"/></pattern></defs><rect x="0" y="0" stroke="#630" stroke-width="0" fill="url(#divider-pattern)"></rect></svg>'
+brand_borders: '<svg xmlns="http://www.w3.org/2000/svg" width="425" height="36" viewBox="0 0 425 36" preserveAspectRatio="xMidYMid meet">
+                    <path d="M133.523 11.316C54.432 21.853 11.553 13.652 0 8.234v27.183h425V15.8C357.955-7.18 232.386-1.855 133.523 11.316z"></path>
+                </svg>'
 items:
   - image: true
     src: "https://www.mars.com/sites/g/files/jydpyr316/files/styles/highlights/public/2020-06/Coral%20Header%202.png?itok=9GzIUN9s"
     alt: "We are committed to building a better world tomorrow and never before has there been a greater need..."
     title: "We are committed to building a better world tomorrow and never before has there been a greater need..."
-    content: 'One days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'
+    content: 'One days prior to International '
   - video: true
     src: "https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/"
     content: 'Two days prior to International Women’s Day, the first stone was laid on a new marketplace for women-led businesses in the village of Gueyo in Cote d’Ivoire.'

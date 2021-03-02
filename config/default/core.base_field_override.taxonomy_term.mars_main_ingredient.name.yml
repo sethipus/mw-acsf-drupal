@@ -1,0 +1,18 @@
+uuid: dbddfa32-97db-4d2c-89ce-164fff5e00e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_main_ingredient
+id: taxonomy_term.mars_main_ingredient.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_main_ingredient
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -19,6 +19,7 @@ branch="$2"
 update_type="$3"
 user="$4"
 api_key="$5"
+stack_id="$6"
 
 # add comma to "code,db" if not already entered
 if [ "$update_type" = "code,db" ]
@@ -32,4 +33,4 @@ fi
 curl "https://www.${env}-mars.acsitefactory.com/api/v1/update" \
 -f -v -u ${user}:${api_key} -k -X POST \
 -H 'Content-Type: application/json' \
--d "{\"sites_ref\": \"${branch}\", \"sites_type\": \"${update_type}\"}"
+-d "{\"stack_id\": ${stack_id}, \"sites_ref\": \"${branch}\", \"sites_type\": \"${update_type}\"}"

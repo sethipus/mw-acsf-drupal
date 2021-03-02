@@ -23,7 +23,7 @@ class OpenGraphSettingForm extends ConfigFormBase {
    *
    * @var string
    */
-  const SETTINGS = 'open_graph.settings';
+  const SETTINGS = 'mars_seo.settings';
 
   /**
    * {@inheritdoc}
@@ -47,7 +47,8 @@ class OpenGraphSettingForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config(static::SETTINGS);
 
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $config->get('image'), 1, 'thumbnail');
+    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+      $config->get('og_default_image'), $form_state, 1, 'thumbnail');
     // Convert the wrapping container to a details element.
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Default OG image');
@@ -63,7 +64,7 @@ class OpenGraphSettingForm extends ConfigFormBase {
     // Retrieve the configuration.
     $this->configFactory->getEditable(static::SETTINGS)
       // Set the submitted configuration setting.
-      ->set('image', $this->getEntityBrowserValue($form_state, 'browser'))
+      ->set('og_default_image', $this->getEntityBrowserValue($form_state, 'browser'))
       ->save();
     parent::submitForm($form, $form_state);
   }

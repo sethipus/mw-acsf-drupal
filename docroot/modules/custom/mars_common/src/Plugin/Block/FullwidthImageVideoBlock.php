@@ -19,12 +19,11 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
   public function build() {
     $config = $this->getConfiguration();
 
-    $build['#heading'] = $config['title'];
-    $build['#content'] = $config['description'];
-    $build['#shape_motif'] = (bool) $config['svg_asset'];
+    $build['#heading'] = $this->languageHelper->translate($config['title']);
+    $build['#content'] = $this->languageHelper->translate($config['description']);
     $build['#block_type'] = $config['block_content_type'];
 
-    if ($config['block_content_type'] == self::CONTENT_TYPE_IMAGE && !empty($config['image'])) {
+    if ($config['block_content_type'] == static::CONTENT_TYPE_IMAGE && !empty($config['image'])) {
 
       $image_url = NULL;
       $media_id = $this->mediaHelper
@@ -43,7 +42,7 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         'title' => $media_params['title'] ?? NULL,
       ];
     }
-    elseif ($config['block_content_type'] == self::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
+    elseif ($config['block_content_type'] == static::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
 
       $video_url = NULL;
       $media_id = $this->mediaHelper

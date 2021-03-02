@@ -1,9 +1,16 @@
 {% set pp_header_base_class = pp_header_base_class|default('parent-page-header') %}
 
+
 {% if parent_page_media_url and parent_page_media_type == 'image' %}
   {% set pp_header_modifiers = ['with-bg-media', 'with-min-height'] %}
+  {% if dark_overlay %}
+    {% set pp_header_modifiers = pp_header_modifiers|merge(['tint-enabled']) %}
+  {% endif %}
 {% elseif parent_page_media_url and parent_page_media_type == 'video' %}
   {% set pp_header_modifiers = ['with-bg-video'] %}
+  {% if dark_overlay %}
+    {% set pp_header_modifiers = pp_header_modifiers|merge(['tint-enabled']) %}
+  {% endif %}
 {% else %}
   {% set pp_header_modifiers = ['with-min-height'] %}
 {% endif %}
@@ -11,38 +18,56 @@
 <section
   {{ bem(pp_header_base_class, pp_header_modifiers, pp_header_extra_classes) }}
   data-theme="{{ theme_styles }}"
+  {% if pp_header_heading and parent_page_media_type == 'video' %}
+    data-component-title="{{ pp_header_heading }}"
+  {% endif %}
   {% if parent_page_media_url and parent_page_media_type == 'image' %}
     style="background-image: url('{{ parent_page_media_url }}');"
   {% endif %}
 >
 
-  {% if parent_page_media_type != 'video' and pp_header_heading %}
-    {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-      eyebrow_text: pp_header_eyebrow_text,
-      eyebrow_modifiers: pp_header_eyebrow_modifiers
-    } %}
+  {% set additional_attr = (styles is defined and styles is not empty)
+    ? {"style": styles}
+    : {}
+  %}
+  <div class="content">
+    {% if pp_header_heading %}
+      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+        eyebrow_text: pp_header_eyebrow_text,
+        eyebrow_modifiers: pp_header_eyebrow_modifiers,
+        additional_attr: additional_attr
+      } %}
 
-    {% include "@atoms/text/headings/_heading.twig" with {
-      heading: pp_header_heading,
-      heading_level: pp_header_heading_level,
-      heading_base_class: pp_header_heading_base_class
-    } %}
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading: pp_header_heading,
+        heading_level: pp_header_heading_level,
+        heading_base_class: pp_header_heading_base_class,
+        additional_attr: additional_attr
+      } %}
 
-    {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
+      {% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
 
-    {% include "@atoms/text/text/01-paragraph.twig" with {
-      paragraph_size: pp_header_paragraph_size,
-      paragraph_content: pp_header_paragraph_content,
-      paragraph_base_class: pp_header_paragraph_base_class
-    } %}
-  {% endif %}
+      {% include "@atoms/text/text/01-paragraph.twig" with {
+        paragraph_size: pp_header_paragraph_size,
+        paragraph_content: pp_header_paragraph_content,
+        paragraph_base_class: pp_header_paragraph_base_class,
+        additional_attr: additional_attr
+      } %}
+    {% endif %}
+  </div>
 
   {% if parent_page_media_url and parent_page_media_type == 'video' %}
+    {{ attach_library('emulsifymars/ambient-video') }}
     <div class="bg-video">
       {% include "@atoms/video/ambient-video/video.twig" with {
         video__src__url: parent_page_media_url,
-        video__control: true
+        video__control: true,
+        data_layer: data_layer,
       } %}
     </div>
   {% endif %}
+
+  <div class="brand-shape">
+    {{ brand_shape | raw }}
+  </div>
 </section>

@@ -35,11 +35,12 @@
 {% set card_grid_base_class = card_grid_base_class|default('ajax-card-grid') ~ ' js-view-dom-id-' ~ dom_id %}
 {% set ajax_card_grid_heading_base_class = ajax_card_grid_heading_base_class|default('ajax-card-grid__heading') %}
 {% set ajax_card_grid_modifiers = ajax_card_grid_modifiers|default(['centered']) %}
+{% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
 
 {{ attach_library('emulsifymars/ajaxcardgrid') }}
 
 <section {{ bem(card_grid_base_class, grid_modifiers, grid_blockname) }} data-theme="{{ theme_styles }}">
-  <div class="ajax-card-grid__brand-border">
+  <div {{  bem('border', [border_overflow], card_grid_base_class)  }}>
     {{ brand_border | raw }}
   </div>
 
