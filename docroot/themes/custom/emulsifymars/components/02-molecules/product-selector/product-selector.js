@@ -95,7 +95,6 @@
             'data-widgetid="' + settings.widget_id + '" ' +
             'data-ean="' + selectedVariant.data('id') + '" ' +
             'data-subid="' + settings.data_subid + '" ' +
-            'data-no-focus-lock' +
             '></script>';
           $('.product-selector #cci-inline-root').remove();
           $('script#cci-widget[data-widgetid="' + settings.widget_id + '"]').remove();

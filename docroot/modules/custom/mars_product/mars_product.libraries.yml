@@ -1,7 +1,7 @@
 mars_product.commerce_connector:
   version: 1.x
   js:
-    //[commerce_connector_url]: { type: external}
+    //[commerce_connector_url]: { type: external, weight: -3 }
   dependencies:
     - core/drupal
     - core/drupalSettings
