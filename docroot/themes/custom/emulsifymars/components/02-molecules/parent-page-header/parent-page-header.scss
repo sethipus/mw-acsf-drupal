@@ -135,12 +135,22 @@
       margin: 5.8rem auto;
     }
 
+    @include small {
+        .eyebrow {
+            margin-top: 1rem;
+        }
+
+        .horizontal-img__inner {
+            margin: 4rem auto;
+        }
+    }
+
     @include medium {
       min-height: 48.3rem;
       max-height: 48.3rem;
 
       .eyebrow {
-        margin-top: 6.8rem;
+        margin-top: 5rem;
         margin-bottom: 3rem;
       }
     }

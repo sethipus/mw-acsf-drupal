@@ -14,11 +14,12 @@ $fence-part-size: 1440px*2/101;
         flex-flow: column nowrap;
 
         @include medium {
-          padding: 20px 40px 25px;
+          padding: 25px 40px 30px;
         }
 
         @include xl {
           flex-flow: row nowrap;
+          padding: 10px 40px 14px;
         }
       }
     }
