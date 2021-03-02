@@ -1,41 +1,37 @@
 {{ attach_library('emulsifymars/main-menu') }}
 
-<nav class="main-nav__desktop">
+<nav class="main-nav__desktop" id="main-nav-desktop" role="navigation">
   {% include "@molecules/menus/_menu.twig" with {
     menu_class: "main-menu",
     items: menu_items,
   } %}
 </nav>
-<a href="#" id="toggle-expand" class="toggle-expand">
+<button id="toggle-expand" class="toggle-expand" role="button" aria-pressed="false">
   {% include "@atoms/images/icons/_icon.twig" with {
     icon_base_class: "icon",
     icon_blockname: "toggle-expand",
     icon_modifiers: ['open'],
     icon_name: "hamburger",
-    icon_title: true,
+    icon_title: "",
+    icon_decorative: true,
   } %}
   {% include "@atoms/images/icons/_icon.twig" with {
     icon_base_class: "icon",
     icon_blockname: "toggle-expand",
     icon_modifiers: ['close'],
     icon_name: "close",
-    icon_title: true,
+    icon_title: "",
+    icon_decorative: true,
   } %}
   <span class="toggle-expand__text">Menu</span>
-</a>
-<nav class="main-nav__mobile">
+</button>
+<nav class="main-nav__mobile" role="navigation" role="navigation">
   {% include "@molecules/menus/_menu.twig" with {
     menu_class: "main-menu",
     items: menu_items,
   } %}
-  <div {{ bem('brand-border', [], header__base_class) }}>
-    {% block footer__brand_border %}
-      {% include "@atoms/images/image/background-image.twig" with {
-        image_src: 'twix-border.svg',
-        background_repeat: 'repeat',
-        height: '15px',
-      } %}
-    {% endblock %}
+  <div {{ bem('mobile__border', [], 'main-nav') }}>
+      {{ brand_border | raw }}
   </div>
   <div {{ bem('menu', ['secondary-mobile'], header__base_class) }}>
     {% block header__menu_secondary %}

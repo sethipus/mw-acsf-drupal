@@ -1,16 +1,19 @@
+{% set search_container_base_class = 'search-results-container' %}
+{% set search_results_base_class = 'results' %}
 {% if search_results %}
-  {% set results_exist_class = ' search-results-container--active' %}
+  {% set results_exist_modifier = 'active' %}
 {% endif %}
-<div class="search-results-container{{ results_exist_class }}">
+
+<div {{ bem(search_container_base_class, [results_exist_modifier], '') }}>
   {% if search_results %}
     {% include "@atoms/text/text/01-paragraph.twig" with {
-      paragraph_content: 'Results'|t ~ ':',
-      paragraph_base_class: 'results-text'
+      paragraph_content: 'Results'|mt ~ ':',
+      paragraph_base_class: 'results__text'
     } %}
-    <div class="results">
+    <div {{ bem('container', [filters_selected_modifier], search_results_base_class)}}>
       {% block results_items %}
         {% for item in search_results %}
-          <div class="results__item">
+          <div {{ bem('item', [], search_results_base_class) }}>
             {% include "@atoms/search-results-item/search-results-item.twig" with {
               item_title: item.title,
               item_count: item.count,

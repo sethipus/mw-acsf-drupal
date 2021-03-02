@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mukta:wght@700&display=swap");
+
+/* Uncomment before deploy:
+
+body {
+  height: 750px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ */
+
+.twix {
+
+.newsletter-form-lightbox {
+  max-width: 335px;
+  width: calc(100% - 80px);
+  border-radius: 20px;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08);
+  padding: 30px 60px;
+  display: flex;
+  flex-direction: column;
+  margin: 50px auto;
+}
+
+@media (min-width: 768px) {
+  .newsletter-form-lightbox {
+    max-width: 688px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .newsletter-form-lightbox {
+    max-width: 895px;
+    padding: 30px 120px;
+  }
+}
+
+.newsletter-form-heading {
+  margin: 30px 0 10px;
+  font: 30px/1.1em "Mukta", sans-serif;
+  color: #e62b1e;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  align-self: center;
+}
+
+@media (min-width: 768px) {
+  .newsletter-form-heading {
+    margin: 30px 0 0;
+  }
+}
+
+.newsletter-form-text {
+  font: 16px/1.4em "Montserrat", sans-serif;
+  color: #490e00;
+  text-align: center;
+}
+
+.newsletter-form-image {
+  position: relative;
+  width: 150px;
+  height: 140px;
+  margin: 20px auto 10px;
+}
+
+.newsletter-form-image__circle {
+  position: absolute;
+  width: 98px;
+  height: 98px;
+  left: 26px;
+  top: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='98' height='98' fill='none' viewBox='0 0 98 98'%3E%3Ccircle cx='49' cy='49' r='49' fill='%23EAAA00' fill-opacity='.2'/%3E%3C/svg%3E%0A");
+}
+
+.newsletter-form-image__tick {
+  position: absolute;
+  width: 50px;
+  height: 36px;
+  left: 53px;
+  top: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='36' fill='none' viewBox='0 0 50 36'%3E%3Cpath fill='%23E62B1E' fill-rule='evenodd' d='M49.03 1.052c1.063 1.072 1.063 2.81 0 3.883l-29.945 30.2c-1.063 1.072-2.786 1.072-3.85 0L1.626 21.408c-1.064-1.072-1.064-2.81 0-3.883 1.063-1.072 2.786-1.072 3.85 0L17.16 29.311 45.18 1.052c1.063-1.072 2.787-1.072 3.85 0z' clip-rule='evenodd'/%3E%3C/svg%3E%0A");
+  background-repeat: no-repeat;
+}
+
+.newsletter-form-image__image {
+  position: absolute;
+  top: 60px;
+  left: 40px;
+}
+
+}

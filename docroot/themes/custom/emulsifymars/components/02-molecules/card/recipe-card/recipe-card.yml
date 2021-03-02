@@ -1,4 +1,5 @@
 theme_styles: 'twix'
+badge_text: 'NEW'
 recipe_card_image_alt: 'Recipe image'
 recipe_card_image_src: 'Recipe_Image.png'
 recipe_card_media_url: https://storybook.js.org/
@@ -6,7 +7,7 @@ recipe_card_media_url: https://storybook.js.org/
 recipe_card_heading: 'Dove caramel soft bread pudding'
 recipe_card_heading_level: 3
 recipe_card_heading_base_class: 'recipe-card-heading'
-
+recipe_card_heading_link_attributes: []
 recipe_card_minutes_number: 25
 recipe_card_minutes_base_class: 'recipe-card-time'
 recipe_card_minutes_size: 'large'
@@ -17,11 +18,10 @@ recipe_card_items_base_class: 'recipe-card-items'
 recipe_card_items_size: 'large'
 recipe_card_items_modifiers: ['xs']
 
-recipe_card_button_text: 'see details'
+recipe_card_button_text: 'SEE DEATILS'
 recipe_card_button_modifiers: ['small']
 recipe_card_button_link_attributes:
   href: 'https://storybook.js.org/'
-  target: '_blank'
 
 label_for_cooking_time: 'Cooking Time'
 label_for_ingredients: 'Ingredients'

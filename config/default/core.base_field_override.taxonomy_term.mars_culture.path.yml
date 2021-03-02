@@ -1,0 +1,20 @@
+uuid: 71772ef8-c469-4b44-bc97-a8c40e334140
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_culture
+  module:
+    - path
+id: taxonomy_term.mars_culture.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_culture
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

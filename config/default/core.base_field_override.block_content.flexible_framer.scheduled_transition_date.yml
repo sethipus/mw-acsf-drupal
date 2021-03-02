@@ -1,0 +1,20 @@
+uuid: bece7f59-ff9d-4ca6-beda-5ba3bb5c87f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.flexible_framer
+  module:
+    - datetime
+id: block_content.flexible_framer.scheduled_transition_date
+field_name: scheduled_transition_date
+entity_type: block_content
+bundle: flexible_framer
+label: 'Scheduled transition date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

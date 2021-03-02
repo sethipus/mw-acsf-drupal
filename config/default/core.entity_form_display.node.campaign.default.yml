@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.campaign.field_body
     - field.field.node.campaign.field_brand_initiatives
     - field.field.node.campaign.field_campaign_image
+    - field.field.node.campaign.field_campaign_new
     - field.field.node.campaign.field_campaign_related_products
     - field.field.node.campaign.field_meta_tags
     - field.field.node.campaign.field_product_occasions
@@ -16,6 +17,7 @@ dependencies:
   module:
     - content_moderation
     - entity_browser
+    - metatag
     - path
     - publication_date
     - text
@@ -26,12 +28,12 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   field_body:
-    weight: 126
+    weight: 16
     settings:
       rows: 9
       summary_rows: 3
@@ -41,7 +43,7 @@ content:
     type: text_textarea_with_summary
     region: content
   field_brand_initiatives:
-    weight: 125
+    weight: 15
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -52,7 +54,7 @@ content:
     region: content
   field_campaign_image:
     type: entity_browser_entity_reference
-    weight: 127
+    weight: 17
     settings:
       entity_browser: lighthouse_browser
       field_widget_display: rendered_entity
@@ -65,8 +67,15 @@ content:
       field_widget_replace: false
     region: content
     third_party_settings: {  }
+  field_campaign_new:
+    weight: 0
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   field_campaign_related_products:
-    weight: 124
+    weight: 14
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -75,8 +84,15 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_meta_tags:
+    type: metatag_firehose
+    weight: 18
+    region: content
+    settings:
+      sidebar: true
+    third_party_settings: {  }
   field_product_occasions:
-    weight: 123
+    weight: 13
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -85,15 +101,22 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 100
+    weight: 11
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -101,12 +124,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 15
+    weight: 7
     region: content
     third_party_settings: {  }
   published_at:
     type: publication_date_timestamp
-    weight: 10
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -114,27 +137,32 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 120
+    weight: 12
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 16
+    weight: 8
     region: content
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: -5
+    weight: 1
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 3
     settings:
       match_operator: CONTAINS
       size: 60
@@ -143,10 +171,9 @@ content:
     region: content
     third_party_settings: {  }
   url_redirects:
-    weight: 50
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
-  field_meta_tags: true
   layout_builder__layout: true

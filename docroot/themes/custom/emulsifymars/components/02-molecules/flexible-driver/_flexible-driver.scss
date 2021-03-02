@@ -3,13 +3,21 @@
   border-top: 5px solid clr(secondary);
   position: relative;
   overflow: hidden;
+  margin: 5rem 2rem;
+  padding: 1rem 0;
+  min-height: 336px;
 
-  @include xs {
-    margin: 10rem 5rem;
+  @include medium {
+    margin: 6rem 4rem;
+    padding-bottom: 1.5rem;
+    min-height: 386px;
   }
 
   @include large {
-    margin: 5rem 8rem;
+    margin: 8rem auto;
+    max-width: 1125px;
+    min-height: 422px;
+    padding-bottom: 0;
   }
 
   &__content {
@@ -67,42 +75,50 @@
   & .h2 {
     color: clr(primary);
     font-family: variable(heading-font);
-    font-size: 48px;
+    font-size: 2.8rem;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: 40px;
-    letter-spacing: normal;
-    padding-top: 8.5rem;
+    line-height: 4.8rem;
+    margin: 0 2rem;
+    padding-top: 5rem;
     text-transform: uppercase;
     text-align: center;
 
-    @include small {
-      width: 50%;
-      margin: 0 auto;
+    @include medium {
+      font-size: 4rem;
+      margin: 0 4rem;
+      padding-top: 8.5rem;
+    }
+
+    @include large {
+      font-size: 4.8rem;
+      margin: 0 11.5rem;
     }
   }
 
   &__paragraph {
     color: clr(primary);
     font-family: variable(secondary-font);
-    font-size: 16px;
-    line-height: 22.4px;
-    padding-top: 4rem;
+    font-size: 1.8rem;
+    line-height: 2.52rem;
+    margin: 0;
+    padding: 3rem 0 4rem 0;
     text-align: center;
+
+    @include large {
+      max-width: 40%;
+      margin: 0 auto;
+    }
 
   }
 
   & .cta_wrapper {
-    padding: 8.3rem 0;
+    padding: 0;
     text-align: center;
 
     @include medium {
-      padding: 6.3rem 0 12.6rem 0;
-    }
-
-    @include large {
-      padding: 6.3rem 0 8rem 0;
+      padding: 6.3rem 0 0 0;
     }
   }
 

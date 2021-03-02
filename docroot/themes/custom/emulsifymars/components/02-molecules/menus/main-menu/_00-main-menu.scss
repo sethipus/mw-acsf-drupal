@@ -5,7 +5,7 @@ $main-menu-medium: $medium;
 .main-nav {
   &__desktop {
     display: none;
-  
+
     @include large {
       display: block;
     }
@@ -14,18 +14,35 @@ $main-menu-medium: $medium;
   &__mobile {
     display: none;
     position: absolute;
-    top: 120px;
+    top: 95px;
     right: 0;
     left: 0;
     bottom: 0;
     width: 100%;
     flex-flow: column nowrap;
 
+    @include medium {
+      top: 155px;
+    }
+
     .header__primary--open & {
       display: flex;
-  
+
       @include large {
         display: none;
+      }
+    }
+
+    &__border {
+      position: relative;
+      bottom: (-$brand-border-offset);
+      width: 100%;
+
+      svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        fill: clr(bottom-nav);
       }
     }
   }
@@ -50,19 +67,24 @@ $main-menu-medium: $medium;
   border-bottom: none;
   height: 0;
   overflow: hidden;
-  background-color: clr(subcolor-3);
   width: 100%;
+  padding: 0.4rem $space-triple;
 
   @include xs {
     margin: 0;
-    padding: 0 $space-triple;
+  }
+
+  @include medium {
+    margin-top: -10px;
+    padding: 0 $space-triple 0.8rem;
   }
 
   @include large {
+    background-color: clr(subcolor-3);
     display: none;
     height: auto;
     left: 0;
-    margin: 0 $space-triple;
+    margin: 0 $space;
     overflow: visible;
     padding: .8rem 0;
     position: absolute;

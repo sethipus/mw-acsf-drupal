@@ -40,7 +40,8 @@
     {% embed "@atoms/lists/ul.twig" with {
       ul_base_class: menu_class,
       ul_modifiers: menu_modifiers,
-      ul_blockname: menu_blockname
+      ul_blockname: menu_blockname,
+      ul_attributes: ul_attributes
     } %}
       {% block list_content %}
         {% for item in items %}

@@ -4,16 +4,24 @@ namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Routing\CurrentRouteMatch;
+use Drupal\Core\Url;
+use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\MenuBuilder;
+use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Provides a Header block.
@@ -24,36 +32,29 @@ use Symfony\Component\HttpFoundation\Request;
  * )
  */
 class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
+
   /**
-   * Menu link tree.
+   * Drupal\Core\Routing\CurrentRouteMatch definition.
    *
-   * @var \Drupal\Core\Menu\MenuLinkTreeInterface
+   * @var \Drupal\Core\Routing\CurrentRouteMatch
    */
-  protected $menuLinkTree;
+  protected $currentRouteMatch;
+
+  /**
+   * The path matcher.
+   *
+   * @var \Drupal\Core\Path\PathMatcherInterface
+   */
+  protected $pathMatcher;
+
   /**
    * Menu storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $menuStorage;
-  /**
-   * File storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $fileStorage;
-  /**
-   * Config Factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $config;
-  /**
-   * Request.
-   *
-   * @var \Symfony\Component\HttpFoundation\Request
-   */
-  protected $request;
 
   /**
    * The form builder.
@@ -63,11 +64,39 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $formBuilder;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * The renderer.
    *
    * @var \Drupal\Core\Render\RendererInterface
    */
   protected $renderer;
+
+  /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
+   * Menu builder service.
+   *
+   * @var \Drupal\mars_common\MenuBuilder
+   */
+  private $menuBuilder;
+
+  /**
+   * Configuration object that stores site level labels.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $labelConfig;
 
   /**
    * {@inheritdoc}
@@ -76,37 +105,48 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MenuLinkTreeInterface $menu_link_tree,
+    CurrentRouteMatch $current_route_match,
+    PathMatcherInterface $path_matcher,
+    MenuBuilder $menu_builder,
     EntityTypeManagerInterface $entity_type_manager,
-    ConfigFactoryInterface $config_factory,
-    Request $request,
     FormBuilderInterface $form_builder,
-    RendererInterface $renderer
+    LanguageHelper $language_helper,
+    RendererInterface $renderer,
+    ThemeConfiguratorParser $theme_configurator_parser,
+    ImmutableConfig $label_config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->menuLinkTree = $menu_link_tree;
+    $this->currentRouteMatch = $current_route_match;
+    $this->pathMatcher = $path_matcher;
+    $this->menuBuilder = $menu_builder;
     $this->menuStorage = $entity_type_manager->getStorage('menu');
-    $this->fileStorage = $entity_type_manager->getStorage('file');
-    $this->config = $config_factory;
-    $this->request = $request;
     $this->formBuilder = $form_builder;
+    $this->languageHelper = $language_helper;
     $this->renderer = $renderer;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->labelConfig = $label_config;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
+    $config_factory = $container->get('config.factory');
+    $label_config = $config_factory->get('mars_common.site_labels');
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('menu.link_tree'),
+      $container->get('current_route_match'),
+      $container->get('path.matcher'),
+      $container->get('mars_common.menu_builder'),
       $container->get('entity_type.manager'),
-      $container->get('config.factory'),
-      $container->get('request_stack')->getCurrentRequest(),
       $container->get('form_builder'),
-      $container->get('renderer')
+      $container->get('mars_common.language_helper'),
+      $container->get('renderer'),
+      $container->get('mars_common.theme_configurator_parser'),
+      $label_config
     );
   }
 
@@ -164,6 +204,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['alert_banner']['alert_banner_url'] ?? '',
     ];
 
+    $this->buildOverrideColorElement($form, $config);
+
     return $form;
   }
 
@@ -198,24 +240,113 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   public function build() {
     $config = $this->getConfiguration();
-    $theme_settings = $this->config->get('emulsifymars.settings')->get();
 
-    $build['#logo'] = $theme_settings['logo']['path'] ?? '';
+    $build['#logo'] = $this->themeConfiguratorParser->getLogoFromTheme();
 
-    $build['#alert_banner_text'] = $config['alert_banner']['alert_banner_text']['value'];
-    $build['#alert_banner_url'] = $config['alert_banner']['alert_banner_url'];
-    if ($config['search_block']) {
-      $host = $this->request->getSchemeAndHttpHost();
-      $build['#search_menu'] = [['title' => 'Search', 'url' => $host]];
+    $theme_logo_alt = $this->themeConfiguratorParser->getLogoAltFromTheme();
+    $build['#logo_alt'] = ($theme_logo_alt)
+      ? $this->languageHelper->translate($theme_logo_alt)
+      : $theme_logo_alt;
+
+    $build['#alert_banner_text'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_text']['value']);
+    $build['#alert_banner_url'] = $this->languageHelper->translate($config['alert_banner']['alert_banner_url']);
+    $build['#primary_menu'] = $this->menuBuilder->getMenuItemsArray($config['primary_menu'], 2);
+    $build['#secondary_menu'] = $this->menuBuilder->getMenuItemsArray($config['secondary_menu']);
+
+    $current_language_id = $this->languageHelper->getCurrentLanguageId();
+    $build['#language_selector_current'] = mb_strtoupper($current_language_id);
+    $build['#language_selector_label'] = $this->languageHelper->translate('Select language');
+    $language_selector_items = [];
+    try {
+      $language_selector_items = $this->getLanguageLinks();
     }
-    $build['#primary_menu'] = $this->buildMenu($config['primary_menu'], 2);
-    $build['#secondary_menu'] = $this->buildMenu($config['secondary_menu']);
+    catch (EntityMalformedException $entity_malformed_exception) {
+    }
+    $build['#language_selector_items'] = $language_selector_items;
+    $build['#language_selector'] = $config['language_selector'] && count($build['#language_selector_items']);
 
     $build['#theme'] = 'header_block';
 
     $build['#search_form'] = $this->buildSearchForm();
+    $build['#search_enabled'] = $config['search_block'] ?? TRUE;
+
+    $build['#search_close_label'] = $this->languageHelper->translate($this->labelConfig->get('header_search_overlay_close'));
+    $build['#search_title'] = $this->languageHelper->translate($this->labelConfig->get('header_search_overlay'));
+
+    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
+    CacheableMetadata::createFromRenderArray($build)
+      ->addCacheableDependency($this->labelConfig)
+      ->applyTo($build);
 
     return $build;
+  }
+
+  /**
+   * Get language links.
+   *
+   * @return array
+   *   Language selector links.
+   *
+   * @throws \Drupal\Core\Entity\EntityMalformedException
+   */
+  protected function getLanguageLinks() {
+    $languageManager = $this->languageHelper->getLanguageManager();
+    $languages = $languageManager->getLanguages();
+    $render_links = [];
+
+    if (count($languages) > 1) {
+      $derivative_id = LanguageInterface::TYPE_URL;
+      $page_entity = $this->getPageEntity();
+      $route = $this->pathMatcher->isFrontPage() ? '<front>' : '<current>';
+
+      $current_language = $languageManager->getCurrentLanguage($derivative_id)->getId();
+      $default_language = $languageManager->getDefaultLanguage()->getId();
+      $links = $languageManager->getLanguageSwitchLinks($derivative_id, Url::fromRoute($route))->links;
+
+      ksort($links);
+      if (isset($links[$current_language])) {
+        $links[$current_language]['url'] = Url::fromRoute('<current>');
+        $links[$current_language]['selected'] = TRUE;
+      }
+      if (isset($links[$default_language])) {
+        $links = [$default_language => $links[$default_language]] + $links;
+      }
+
+      foreach ($links as $link_key => $link_data) {
+        $url = $page_entity ?
+          $page_entity->toUrl('canonical', ['language' => $link_data['language']])->toString()
+          : Url::fromRoute('<current>', [], ['language' => $link_data['language']]);
+        $render_links[] = [
+          'title' => $link_data['title'],
+          'abbr' => mb_strtoupper($link_key),
+          'url' => $url,
+          'selected' => $link_data['selected'] ?? FALSE,
+        ];
+      }
+    }
+    return $render_links;
+  }
+
+  /**
+   * Retrieves the current page entity.
+   *
+   * @return \Drupal\Core\Entity\ContentEntityInterface|bool
+   *   The retrieved entity, or FALSE if none found.
+   */
+  protected function getPageEntity() {
+    $params = $this->currentRouteMatch->getParameters()->all();
+
+    foreach ($params as $param) {
+      if ($param instanceof ContentEntityInterface) {
+        return $param;
+      }
+    }
+    return FALSE;
   }
 
   /**
@@ -233,53 +364,6 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
   }
 
   /**
-   * Render menu by its name.
-   *
-   * @param string $menu_name
-   *   Menu name.
-   * @param int $max_depth
-   *   The max menu depth to render.
-   *
-   * @return array
-   *   Rendered menu.
-   */
-  protected function buildMenu(string $menu_name, int $max_depth = 1) {
-    $menu_parameters = new MenuTreeParameters();
-    $menu_parameters->setMaxDepth($max_depth);
-    // Get the tree.
-    $tree = $this->menuLinkTree->load($menu_name, $menu_parameters);
-    // Apply some manipulators (checking the access, sorting).
-    $manipulators = [
-      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
-      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
-      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-    ];
-    $tree = $this->menuLinkTree->transform($tree, $manipulators);
-    // And the last step is to actually build the tree.
-    $menu = $this->menuLinkTree->build($tree);
-    $menu_links = [];
-    if (!empty($menu['#items'])) {
-      foreach ($menu['#items'] as $item) {
-        $children = [];
-        if (!empty($item['below'])) {
-          foreach ($item['below'] as $child) {
-            $children[] = [
-              'title' => $child['title'],
-              'url' => $child['url']->setAbsolute()->toString(),
-            ];
-          }
-        }
-        $menu_links[] = [
-          'title' => $item['title'],
-          'url' => $item['url']->setAbsolute()->toString(),
-          'below' => $children,
-        ];
-      }
-    }
-    return $menu_links;
-  }
-
-  /**
    * Render search form.
    *
    * @return string
@@ -287,7 +371,8 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
    */
   protected function buildSearchForm() {
     $form = $this->formBuilder->getForm('\Drupal\mars_search\Form\SearchOverlayForm');
-    unset($form['actions']['submit']);
+    $form['actions']['submit']['#attributes']['class'][] = 'visually-hidden';
+    $form['#input_form']['search']['#attributes']['class'][] = 'data-layer-search-form-input';
 
     return $this->renderer->render($form);
   }

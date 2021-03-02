@@ -24,23 +24,40 @@
         }
       }
     }
+
+    .main-menu__item--sub {
+      display: flex;
+      text-transform: uppercase;
+
+      @include large {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  &--opened {
+    @include large {
+      .main-menu--sub {
+        display: block;
+      }
+    }
   }
 
   /* Only top level */
   &:not(.main-menu__item--sub):hover {
     transition: all 0.2s;
 
-    & > .main-menu--sub {
-      @include large {
-        display: block;
-      }
-    }
-
     &:hover {
       .main-menu__link::after {
         color: clr(text);
       }
     }
+  }
+
+  .menu-item__heading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }
 

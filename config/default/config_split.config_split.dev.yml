@@ -8,6 +8,7 @@ description: ''
 folder: ../config/envs/dev
 module:
   acquia_connector: 0
+  dblog: 0
   acsf: 0
   acsf_duplication: 0
   acsf_sso: 0

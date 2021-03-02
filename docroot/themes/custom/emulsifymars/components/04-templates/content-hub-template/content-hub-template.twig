@@ -7,10 +7,8 @@
     <!-- Recipe Feature Module -->
     {% include "@molecules/recipe-feature-module/recipe-feature-module.twig" %}
 
-    <!-- Content Hub Search Filter -->
-    {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" %}
-
-    <!-- Content Hub Contact Module -->
-    {% include "@organisms/grid/ajax-card-grid.twig" %}
+    {% for component in components %}
+      {{ components | raw }}
+    {% endfor %}
 
 </div>

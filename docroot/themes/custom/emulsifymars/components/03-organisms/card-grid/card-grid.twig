@@ -1,0 +1,42 @@
+{% set card_grid_filter_base_class = card_grid_filter_base_class|default('card-grid-filter') %}
+
+<div class="card-grid" data-theme="{{ theme_styles }}">
+  <div class="card-grid__border">
+    {{ brand_border | raw }}
+  </div>
+
+  <div {{ bem(card_grid_filter_base_class, grid_modifiers, grid_blockname) }}>
+    {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
+      theme_styles: theme_styles,
+      search_form: input_form,
+      applied_filters_list: applied_filters_list,
+      items: filters,
+      title: 'Filter by:'|mt,
+      filter_title_transform: filter_title_transform
+    } %}
+  </div>
+
+  <div class="card-grid-results"
+       data-theme="{{ theme_styles }}"
+       data-layer-grid-type="grid"
+       data-layer-page-id="{{ data_layer.page_id }}"
+       data-layer-page-revision-id="{{ data_layer.page_revision_id }}"
+       data-layer-grid-id="{{ data_layer.grid_id }}"
+       data-layer-grid-name="{{ data_layer.grid_name }}"
+       data-layer-search-term="{{ data_layer.search_term }}"
+       data-layer-search-results="{{ data_layer.search_results }}">
+
+    <div class="no-results-container">
+      {% if no_results %}
+        {{ no_results }}
+      {% endif %}
+    </div>
+    {% include "@organisms/grid/ajax-card-grid.twig" with {
+      theme_styles: theme_styles,
+      items: items,
+      ajax_card_grid_heading: ajax_card_grid_heading,
+      graphic_divider: graphic_divider,
+      text_color_override: text_color_override,
+    } %}
+  </div>
+</div>

@@ -11,6 +11,18 @@ use Drupal\Core\Form\FormStateInterface;
 class EntryGateConfigForm extends ConfigFormBase {
 
   /**
+   * Date format MM DD YYYY.
+   */
+  const KEY_OPTION_DATE_M_D = 'mm_dd';
+
+  /**
+   * Date format DD MM YYYY.
+   */
+  const KEY_OPTION_DATE_D_M = 'dd_mm';
+
+  use \Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+
+  /**
    * {@inheritdoc}
    */
   public function getFormId() {
@@ -68,7 +80,7 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#type' => 'text_format',
       '#format' => 'rich_text',
       '#title' => $this->t('Marketing message'),
-      '#default_value' => $config->get('marketing_message') ?? '<p>For more information about responsible use of our products, please follow the link to the <a href="https://twix.de/assets/media/Mars-Code.pdf">Mars Marketing Code</a>.</p>',
+      '#default_value' => $config->get('marketing_message') ?? '<p>For more information about responsible use of our products, please follow the link to the <a target="_blank" href="https://twix.de/assets/media/Mars-Code.pdf">Mars Marketing Code</a>.</p>',
       '#required' => TRUE,
     ];
 
@@ -80,6 +92,17 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#max' => 150,
       '#step' => 1,
       '#required' => TRUE,
+    ];
+
+    $form['date_format'] = [
+      '#title' => $this->t('Format of date'),
+      '#type' => 'select',
+      '#required' => TRUE,
+      '#default_value' => $config->get('date_format') ?? self::KEY_OPTION_DATE_D_M,
+      '#options' => [
+        self::KEY_OPTION_DATE_D_M => $this->t('DD MM YYYY'),
+        self::KEY_OPTION_DATE_M_D => $this->t('MM DD YYYY'),
+      ],
     ];
 
     $form['error_title'] = [
@@ -112,6 +135,9 @@ class EntryGateConfigForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $text_color_config = $config->get('override_text_color') ? ['override_text_color' => $config->get('override_text_color')] : [];
+    $this->buildOverrideColorElement($form, $text_color_config);
+
     return $form;
   }
 
@@ -130,10 +156,12 @@ class EntryGateConfigForm extends ConfigFormBase {
       $form_state->getValue('marketing_message')['value'] ?? NULL
     );
     $config->set('minimum_age', $form_state->getValue('minimum_age'));
+    $config->set('date_format', $form_state->getValue('date_format'));
     $config->set('error_title', $form_state->getValue('error_title'));
     $config->set('error_message', $form_state->getValue('error_message'));
     $config->set('error_link_1', $form_state->getValue('error_link_1'));
     $config->set('error_link_2', $form_state->getValue('error_link_2'));
+    $config->set('override_text_color', ['override_color' => $form_state->getValue('override_color')]);
     $config->save();
 
     parent::submitForm($form, $form_state);

@@ -3,37 +3,11 @@
  * @file
  * FAQ views page componnent.
  *
- * Views related available variables:
- * - attributes: Remaining HTML attributes for the element.
- * - css_name: A CSS-safe version of the view name.
- * - css_class: The user-specified classes names, if any.
- * - header: The optional header.
- * - footer: The optional footer.
- * - rows: The results of the view query, if any.
- * - empty: The content to display if there are no rows.
- * - pager: The optional pager next/prev links to display.
- * - exposed: Exposed widget form/info to display.
- * - feed_icons: Optional feed icons to display.
- * - more: An optional link to the next page of results.
- * - title: Title of the view, only used when displaying in the admin preview.
- * - title_prefix: Additional output populated by modules, intended to be
- *   displayed in front of the view title.
- * - title_suffix: Additional output populated by modules, intended to be
- *   displayed after the view title.
- * - attachment_before: An optional attachment view to be displayed before the
- *   view content.
- * - attachment_after: An optional attachment view to be displayed after the
- *   view content.
- * - dom_id: Unique id for every view being printed to give unique class for
- *   Javascript.
- *
  * FAQ component variables:
  * 'faq_title' => NULL,
- * 'qa_items' => NULL,
+ * 'items' => NULL,
  * 'cta_button_label' => NULL,
  * 'cta_button_link' => NULL,
- *
- * @see mars_common_preprocess_views_view__faq_view__page()
  */
 #}
 {%
@@ -41,14 +15,20 @@
     dom_id ? 'js-view-dom-id-' ~ dom_id,
 ]
 %}
-<div{{ attributes.addClass(classes) }}>
+<div {{ attributes.addClass(classes) }}
+     data-layer-search-term="{{ data_layer.search_term }}"
+     data-layer-search-results="{{ data_layer.search_results }}"
+     data-layer-page-id="{{ data_layer.page_id }}"
+     data-layer-page-revision-id="{{ data_layer.page_revision_id }}"
+     data-layer-grid-type="faq">
+
   {% include "@molecules/faq-list/faq-list.twig" with {
     theme_styles: 'drupal',
     title: faq_title,
-    faq_items: qa_items,
+    faq_items: items,
     button_name: cta_button_label,
     button_link: cta_button_link,
-    search_form: search_form,
+    search_form: input_form,
     search_result_counter: search_result_counter,
     search_result_text: search_result_text,
     facetLinks: facets,

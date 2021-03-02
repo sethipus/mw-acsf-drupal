@@ -1,0 +1,18 @@
+uuid: 67461bf4-9527-45c0-aeae-de344a80ddde
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_method
+id: taxonomy_term.mars_method.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_method
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

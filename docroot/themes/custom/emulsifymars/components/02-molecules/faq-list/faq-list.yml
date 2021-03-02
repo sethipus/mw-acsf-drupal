@@ -1,11 +1,14 @@
 title: "FAQs"
+data-layer:
+  search_term: 'twix'
+  search_results: '3'
 faq_items:
   - content:
       question: "<p>To be or not to be</p>"
       answer: "<p>Shakespeare knows</p>"
   - content:
       question: "<p>Plus, I’m all in whenever Twix are involved. Except, can we just chat a quick minute?</p>"
-      answer: "<p>Plus, I’m all in whenever Twix are involved. Except, can we just chat a quick minute?</p>"
+      answer: "<p>Over the past several years, we’ve made important progress, achieving our goal of sending zero waste to landfills from our facilities, and we plan to reduce our virgin plastic use by 25%, for 100% of our plastic packaging to be reusable, recyclable or compostable by 2025 and use, on average, 30% recycled content in our plastic packaging. </p>"
   - content:
       question: "<p>To be or not to be</p>"
       answer: "<p>Shakespeare knows</p>"
@@ -64,6 +67,4 @@ no_results_links:
     attributes:
       target: '_self'
       href: 'https://storybook.js.org/'
-
-brand_shape_class: 'triangle'
 shape: '<svg xmlns="http://www.w3.org/2000/svg"><defs><pattern viewBox="0 0 768 291" id="divider-pattern" x="0" y="0" width="768" height="291" patternUnits="userSpaceOnUse"><path fill="#E62B1E" fill-rule="evenodd" d="M26.839 14l-13.5-14-13 14H0v277h768V14h-.352l-13.5-14-12.583 13.552L728.497 0l-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.23l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.178l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.69l-13.5-14-13 14h-.691l-13.5-14-13 14h-.177l-13.5-14-12.584 13.552L344.754 0l-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.229l-13.5-14-13 14H135.6L122.1 0l-13 14h-.177l-13.5-14-13 14h-1.204L67.72 0l-13 14h-.69L40.53 0l-13 14h-.69z" clip-rule="evenodd"/></pattern></defs><rect x="0" y="0" stroke="#630" stroke-width="0" fill="url(#divider-pattern)"></rect></svg>'

@@ -13,7 +13,6 @@ dependencies:
     - field.field.node.product_multipack.field_product_occasions
     - field.field.node.product_multipack.field_product_pack_items
     - field.field.node.product_multipack.field_product_segment
-    - field.field.node.product_multipack.field_product_sub_brand
     - field.field.node.product_multipack.field_product_trade_description
     - field.field.node.product_multipack.field_product_variants
     - field.field.node.product_multipack.layout_builder__layout
@@ -402,14 +401,6 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  field_product_sub_brand:
-    weight: 107
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
   field_product_trade_description:
     weight: 114
     label: above
@@ -433,6 +424,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  langcode: true
   layout_builder__layout: true
   published_at: true
   salsify_id: true

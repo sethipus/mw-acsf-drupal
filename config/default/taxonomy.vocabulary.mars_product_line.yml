@@ -1,0 +1,8 @@
+uuid: efabb33e-52ed-425b-bfc2-3934639ccd20
+langcode: en
+status: true
+dependencies: {  }
+name: 'PRODUCT LINE'
+vid: mars_product_line
+description: ''
+weight: 3

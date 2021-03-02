@@ -33,5 +33,6 @@ hidden:
   content_moderation_control: true
   field_error_page_image: true
   field_meta_tags: true
+  langcode: true
   published_at: true
   search_api_excerpt: true

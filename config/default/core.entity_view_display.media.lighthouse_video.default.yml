@@ -72,6 +72,7 @@ hidden:
   field_segment: true
   field_sub_brand: true
   field_sub_type: true
+  langcode: true
   name: true
   search_api_excerpt: true
   thumbnail: true

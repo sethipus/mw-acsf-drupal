@@ -6,10 +6,9 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\mars_lighthouse\Controller\LighthouseAdapter;
-use Drupal\mars_lighthouse\LighthouseAccessException;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
+use Drupal\mars_lighthouse\LighthouseException;
 use Drupal\mars_lighthouse\LighthouseInterface;
-use Drupal\mars_lighthouse\TokenIsExpiredException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -25,7 +24,7 @@ use Drupal\media\MediaInterface;
  * @QueueWorker(
  *   id = "lighthouse_sync_queue",
  *   title = @Translation("Lighthouse sync queue worker"),
- *   cron = {"time" = 60}
+ *   cron = {"time" = 3600}
  * )
  */
 class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
@@ -213,9 +212,15 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function updateMediaData(MediaInterface $media, array $data) {
+  public function updateMediaData(MediaInterface $media, array $data): ?MediaInterface {
     if (!$data) {
       return NULL;
+    }
+
+    // Condition to prevent wrong image extensions like (*.psd, *.iso)
+    // from lighthouse side.
+    if ($media->bundle() === 'lighthouse_image') {
+      $this->lighthouseAdapter->prepareImageExtension($data);
     }
 
     $file_mapping = $this->mapping->get('media');
@@ -284,17 +289,24 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    * Get latest modified date.
    */
   public function getLatestModifiedDate(array $media_objects) {
+    $date = date('m/d/Y');
     if ($this->state->get('system.sync_lighthouse_last')) {
       $date = $this->state->get('system.sync_lighthouse_last');
     }
     else {
       $array_last_modified = [];
       foreach ($media_objects as $media) {
-        $array_last_modified[] = $media->field_last_mod_date->value;
+        $last_mod_date = $media->field_last_mod_date->value;
+        $date_object = \DateTime::createFromFormat(self::DATE_FORMAT, $last_mod_date);
+        if ($date_object instanceof \DateTimeInterface) {
+          $array_last_modified[] = $last_mod_date;
+        }
       }
-      $latest_modified_date = min($array_last_modified);
-      $date = \DateTime::createFromFormat(self::DATE_FORMAT, $latest_modified_date);
-      $date = $date->format('m/d/Y');
+      if (!empty($array_last_modified)) {
+        $latest_modified_date = min($array_last_modified);
+        $date = \DateTime::createFromFormat(self::DATE_FORMAT, $latest_modified_date);
+        $date = $date->format('m/d/Y');
+      }
     }
     return $date;
   }
@@ -303,43 +315,49 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    * Sync media bulk.
    */
   public function syncLighthouseSiteBulk($media_objects) {
-    $assets_ids = [];
+    $request_data = [];
+    /* @var \Drupal\media\Entity\Media $media */
     foreach ($media_objects as $media) {
-      $assets_ids[] = $media->field_external_id->value;
+      if (!empty($media->field_external_id->value) && !empty($media->field_original_external_id->value)) {
+        $request_data[$media->field_external_id->value] = $media->field_original_external_id->value;
+      }
+      elseif (!empty($media->field_external_id->value)) {
+        $request_data[$media->field_external_id->value] = $media->field_external_id->value;
+      }
     }
 
-    $params = $this->lighthouseAdapter->getToken();
+    $latest_modified_date = $this->getLatestModifiedDate($media_objects);
+
     try {
-      $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate($media_objects), $params);
+      $data = $this->lighthouseClient->getAssetsByIds($request_data, $latest_modified_date);
     }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->lighthouseAdapter->refreshToken();
-      $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate($media_objects), $params);
+    catch (LighthouseException $exception) {
+      $this->logger->error('Failed to run sync getAssetsByIds "%error"', ['%error' => $exception->getMessage()]);
     }
-    catch (LighthouseAccessException $e) {
-      // Try to force request new token.
-      $params = $this->lighthouseAdapter->getToken(TRUE);
-      $data = $this->lighthouseClient->getAssetsByIds($assets_ids, $this->getLatestModifiedDate($media_objects), $params);
-    }
+
     $external_ids = [];
     foreach ($data as $item) {
       $media_objects = $this->mediaStorage->loadByProperties([
-        'field_external_id' => $item['assetId'],
+        'field_original_external_id' => $item['origAssetId'],
       ]);
       foreach ($media_objects as $media) {
-        if (isset($item['versionIdOTMM']) &&
-          $item['versionIdOTMM'] != $media->field_version_id->value) {
-          $external_ids[] = $media->field_external_id->value;
+        $external_ids[] = $media->field_external_id->value;
+        if (!empty($item) && isset($item['assetId'])) {
           $this->updateMediaData($media, $item);
         }
       }
     }
     if ($external_ids) {
       $this->state->set('system.sync_lighthouse_last', date('m/d/Y'));
-      $this->logger->info($this->t('@count results processed. List of entities with external ids were updated @external_ids', [
+      $this->logger->info($this->t('@count results processed. List of entities with external ids were updated @external_ids. Check date is @check_date.', [
         '@count' => count($data),
         '@external_ids' => implode(', ', array_unique($external_ids)),
+        '@check_date' => $latest_modified_date,
+      ]));
+    }
+    else {
+      $this->logger->info($this->t('Checked chunk of media with non updated information. Check date is @check_date.', [
+        '@check_date' => $latest_modified_date,
       ]));
     }
   }
@@ -349,26 +367,21 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
    */
   public function processMediaSync(MediaInterface $media) {
     $external_id = $media->field_external_id->value;
-    $params = $this->lighthouseAdapter->getToken();
-    try {
-      $data = $this->lighthouseClient->getAssetById($external_id, $params);
-    }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->lighthouseAdapter->refreshToken();
-      $data = $this->lighthouseClient->getAssetById($external_id, $params);
-    }
-    catch (LighthouseAccessException $e) {
-      // Try to force request new token.
-      $params = $this->lighthouseAdapter->getToken(TRUE);
-      $data = $this->lighthouseClient->getAssetById($external_id, $params);
+    if (empty($external_id)) {
+      $this->logger->info($this->t('Media with id: @media_id has empty field_external_id', [
+        '@media_id' => $media->id(),
+      ]));
+      return [];
     }
 
-    if ((!empty($data) &&
-      isset($data['versionIdOTMM']) &&
-      $data['versionIdOTMM'] != $media->field_version_id->value) ||
-      $media->get('field_original_external_id')->isEmpty()
-    ) {
+    try {
+      $data = $this->lighthouseClient->getAssetById($external_id);
+    }
+    catch (LighthouseException $exception) {
+      $this->logger->error('Failed to run sync getAssetById "%error"', ['%error' => $exception->getMessage()]);
+    }
+
+    if (!empty($data) && isset($data['assetId'])) {
       $this->updateMediaData($media, $data);
 
       $this->logger->info($this->t('Result processed. Media with external id was updated @external_id', [

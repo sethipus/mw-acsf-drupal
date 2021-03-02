@@ -86,7 +86,15 @@ class PopulationLogicSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $event->setBundles(['content_hub_page']);
+    $event->setBundles([
+      'article',
+      'campaign',
+      'content_hub_page',
+      'landing_page',
+      'product',
+      'product_multipack',
+      'recipe',
+    ]);
   }
 
   /**

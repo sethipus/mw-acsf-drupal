@@ -1,13 +1,6 @@
 .ajax-card-grid {
   position: relative;
 
-  &__brand-border {
-    position: absolute;
-    top: 0;
-    height: 15rem;
-    width: 100%;
-  }
-
   &__content {
     display: flex;
     flex-direction: column;
@@ -19,7 +12,6 @@
 
   &__heading {
     font-family: variable(heading-font);
-    letter-spacing: .14rem;
     color: clr(primary);
     text-transform: uppercase;
     text-align: center;
@@ -32,8 +24,8 @@
     }
 
     @include medium {
-      font-size: 6.4rem;
-      line-height: 6.4rem;
+      font-size: 4.8rem;
+      line-height: 4.8rem;
       margin-bottom: 6rem;
     }
   }
@@ -52,7 +44,7 @@
   &__items {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: left;
     flex-wrap: wrap;
     margin: 0 auto;
     width: 100%;
@@ -69,6 +61,7 @@
       max-width: 140.5rem;
     }
 
+
     & .product-card {
       margin-bottom: 6rem;
       & > a {
@@ -79,12 +72,38 @@
 
   &__more-link {
     text-align: center;
+    display: none;
+
+    &.active {
+      display: block;
+    }
 
     & .default-link {
       background-color: clr(secondary);
       &:hover {
         cursor: pointer;
       }
+    }
+  }
+
+  &__item_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    @include medium {
+      width: 50%;
+    }
+
+    @include xl {
+      width: 25%;
+    }
+
+    & > section, & > article {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 }

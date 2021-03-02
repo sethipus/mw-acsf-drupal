@@ -1,0 +1,8 @@
+uuid: 20ec683a-764f-43b9-8a60-18152bb24b6f
+langcode: en
+status: true
+dependencies: {  }
+name: 'MAIN INGREDIENT'
+vid: mars_main_ingredient
+description: ''
+weight: -2

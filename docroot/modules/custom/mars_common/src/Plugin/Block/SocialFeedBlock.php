@@ -12,7 +12,10 @@ use Drupal\juicer_io\Entity\FeedConfiguration;
 use Drupal\juicer_io\Model\Feed;
 use Drupal\juicer_io\Model\FeedFactory;
 use Drupal\juicer_io\Model\FeedItem;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -21,11 +24,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "social_feed",
- *   admin_label = @Translation("Social feed"),
+ *   admin_label = @Translation("MARS: Social feed"),
  *   category = @Translation("Social feed"),
  * )
  */
 class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   const MAX_AGE_1_DAY = 60 * 60 * 24;
 
@@ -58,6 +64,13 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   private $cacheBackend;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Theme Configurator service.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -88,6 +101,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       $feed_factory,
       $time_service,
       $cache_backend,
+      $container->get('mars_common.language_helper'),
       $theme_configurator
     );
   }
@@ -103,6 +117,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     FeedFactory $feed_factory,
     TimeInterface $time_service,
     CacheBackendInterface $cache_backend,
+    LanguageHelper $language_helper,
   ThemeConfiguratorParser $themeConfigurator
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -110,6 +125,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
     $this->feedFactory = $feed_factory;
     $this->timeService = $time_service;
     $this->cacheBackend = $cache_backend;
+    $this->languageHelper = $language_helper;
     $this->themeConfigurator = $themeConfigurator;
   }
 
@@ -118,13 +134,27 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function build() {
     $configEntity = $this->getFeedConfig();
-    $label = $this->configuration['label'] ?? '';
+    $label = $this->languageHelper->translate($this->configuration['label'] ?? '');
+    $background_color = '';
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+       && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    ) {
+      $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+
     return [
       '#theme' => 'social_feed_block',
+      '#select_background_color' => $background_color,
       '#label' => $label,
       '#items' => $this->getFeedItems(),
-      '#graphic_divider' => $this->themeConfigurator->getFileContentFromTheme('graphic_divider'),
-      '#brand_border' => $this->themeConfigurator->getFileContentFromTheme('brand_borders'),
+      '#graphic_divider' => $this->themeConfigurator->getGraphicDivider(),
+      '#brand_border' => ($this->configuration['with_brand_borders']) ? $this->themeConfigurator->getBrandBorder2() : NULL,
+      '#overlaps_previous' => $this->configuration['overlaps_previous'] ?? NULL,
+      '#text_color_override' => $text_color_override,
       '#cache' => [
         'tags' => $configEntity->getCacheTags(),
         'max-age' => self::MAX_AGE_1_DAY,
@@ -136,7 +166,7 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
-    $form['label'] = [
+    $form['label_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Title'),
       '#maxlength' => 55,
@@ -159,6 +189,24 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
       // Cannot set default value as feed config is missing.
     }
 
+    // Add select background color.
+    $this->buildSelectBackground($form);
+
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $this->configuration['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $this->configuration['overlaps_previous'] ?? FALSE,
+    ];
+
+    // Add override text color config.
+    $this->buildOverrideColorElement($form, $this->configuration);
+
     return $form;
   }
 
@@ -168,13 +216,23 @@ class SocialFeedBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
     $this->configuration['feed'] = $form_state->getValue('feed');
+    $this->configuration['label'] = $form_state->getValue('label_title');
+    $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
+    $this->configuration['with_brand_borders'] = $form_state->getValue('with_brand_borders');
+    $this->configuration['overlaps_previous'] = $form_state->getValue('overlaps_previous');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return ['label_display' => FALSE];
+    $config = $this->getConfiguration();
+    return [
+      'label_display' => FALSE,
+      'with_brand_borders' => $config['with_brand_borders'] ?? FALSE,
+      'overlaps_previous' => $config['overlaps_previous'] ?? FALSE,
+    ];
   }
 
   /**

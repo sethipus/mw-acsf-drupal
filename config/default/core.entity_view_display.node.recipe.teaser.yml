@@ -60,6 +60,7 @@ hidden:
   field_recipe_number_of_servings: true
   field_recipe_nutrition_module: true
   field_recipe_video: true
+  langcode: true
   layout_builder__layout: true
   links: true
   published_at: true

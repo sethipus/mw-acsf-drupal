@@ -1,0 +1,18 @@
+uuid: 8e43e97f-b3a3-4e2e-8610-ec9b712424fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq_contact
+id: node.faq_contact.metatag
+field_name: metatag
+entity_type: node
+bundle: faq_contact
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

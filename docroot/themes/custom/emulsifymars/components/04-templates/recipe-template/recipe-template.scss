@@ -1,55 +1,85 @@
-/*
-.recipe-detail {
-  @include xl {
-    display: grid;
-    grid-template-rows: repeat(auto-fill, auto);
-    grid-template-columns: repeat(12, 1fr);
-    grid-column-gap: 30px;
-    max-width: 1360px;
-    margin: auto;
-  }
+.node--recipe {
 
-  .recipe-media {
-    @include xl {
-      grid-column: span 12;
-      margin: 0;
+  .list-container-block {
+    h2 {
+      font: 20px/1.1em variable(primary-font);
+      font-weight: 500;
+      color: clr(primary);
+      text-transform: capitalize;
+
+      @include small {
+        margin: 30px 20px 20px 20px;
+      }
+
+      @include medium {
+        margin: 40px 40px 30px 40px;
+        font-size: 26px;
+        line-height: 29px;
+      }
+
+      @include xl {
+        font-size: 28px;
+        line-height: 31px;
+      }
+    }
+
+    ol {
+      padding: 0;
     }
   }
 
-  .recipe-header,
-  .more-recipes {
-    @include xl {
-      grid-column: span 12;
-      width: 100vw;
-      margin-left: calc((100% - 100vw) / 2);
+  @include large {
+    .recipe-body-content-header {
+      margin-left: $xl-left-margin;
+      text-transform: capitalize;
+      color: clr(primary);
     }
-  }
+  
+    .list-container-block {
+      max-width: 1360px;
+      margin: auto;
 
-  .recipe-info {
-    @include xl {
-      grid-column: 2 / span 6;
-      width: auto;
-      margin-left: auto;
+      h2 {
+        margin-left: $xl-left-margin;
+      }
+
+      ol {
+        margin-left: $xl-left-margin;
+        max-width: 665px;
+
+        .list-item__content {
+          max-width: 509px;
+        }
+
+        img {
+          max-width: 509px;
+        }
+      }
     }
-  }
 
-  .product-used {
-    @include xl {
-      grid-column: 9 / span 3;
-      grid-row: 3;
+    .article-wysiwyg {
+      max-width: 1365px;
+      margin: 0 auto;
+
+      &__content {
+        max-width: 665px;
+        margin-left: $xl-left-margin;
+      }
     }
-  }
 
-  .product-used-items {
-    width: 100%;
+    .article-inline {
+      max-width: 1365px;
+      margin: auto;
 
-    @include xl {
-      position: absolute;
+      &__heading>h3, &__media, .inline-video, .article-inline__content {
+        max-width: 665px;
+        margin-left: $xl-left-margin;
+      }
     }
-  }
 
-  .recipe-body-content {
-    grid-column: 2 / span 6;
+    .article-full-width__media {
+      max-width: 1128px;
+      margin: auto;
+    }
   }
 }
-*/

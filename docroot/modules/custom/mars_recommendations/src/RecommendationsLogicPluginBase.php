@@ -2,6 +2,7 @@
 
 namespace Drupal\mars_recommendations;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
@@ -71,7 +72,9 @@ abstract class RecommendationsLogicPluginBase extends ContextAwarePluginBase imp
     $result = [];
 
     foreach ($this->getRecommendations() as $node) {
-      $result[] = $this->viewBuilder->view($node, 'card');
+      if (!empty($node) && $node instanceof EntityInterface) {
+        $result[] = $this->viewBuilder->view($node, 'card');
+      }
     }
 
     return $result;

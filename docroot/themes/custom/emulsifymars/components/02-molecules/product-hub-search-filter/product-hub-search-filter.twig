@@ -9,7 +9,7 @@
 
 <div {{ bem(search_filter_container_base_class) }} data-theme="{{ theme_styles }}">
   {% if search_form is not empty %}
-    <div {{ bem('search', [], search_filter_container_base_class, ['search-input-wrapper']) }}>
+    <div {{ bem('search', [], search_filter_container_base_class, ['search-input-wrapper', 'mars-search-form']) }}>
       <div class="search-input">
         {{ search_form }}
       </div>
@@ -23,43 +23,47 @@
       </div>
     </div>
   {% endif %}
-  <div class="search-filter-open-button">{{ 'Filter' | t }}</div>
+  {% if filters is not empty %}
+  <div class="search-filter-open-button">{{ 'Filter' | mt }}</div>
   <div {{ bem(search_filter_block_base_class) }}>
     <div {{ bem(search_filter_header_base_class) }}>
       <div {{ bem('title', [], search_filter_header_base_class) }}>{{ title }}</div>
       <div {{ bem('close', [], search_filter_header_base_class) }}></div>
     </div>
     <div {{ bem(search_filter_content_base_class) }}>
-      {% for item in items %}
+      {% for filter in filters %}
         {% include "@molecules/filter/filter.twig" with {
-          filter_title: item.filter_title,
-          filter_id: item.filter_id,
-          active_filters_count: item.active_filters_count,
-          checkboxes: item.checkboxes,
+          filter_title: filter.filter_title,
+          filter_id: filter.filter_id,
+          active_filters_count: filter.active_filters_count,
+          checkboxes: filter.checkboxes,
+          filter_title_transform: filter_title_transform
         } %}
       {% endfor %}
     </div>
     <div {{ bem(search_filter_footer_base_class) }}>
-      <a href="#" {{ bem('button', ['clear-all'], search_filter_block_base_class) }}>{{ "Clear All" | t }}</a>
-      <a href="#" {{ bem('button', ['highlighted', 'apply'], search_filter_block_base_class) }}>{{ "Apply" | t }}</a>
+      <a href="#" {{ bem('button', ['clear-all'], search_filter_block_base_class) }}>{{ "Clear All" | mt }}</a>
+      <a href="#" {{ bem('button', ['highlighted', 'apply', 'disabled'], search_filter_block_base_class) }}>{{ "Apply" | mt }}</a>
     </div>
   </div>
   <div {{ bem(search_filter_information_base_class, [modifier]) }}>
     <div {{ bem('applied', [modifier], search_filter_information_base_class) }}>
       <div {{ bem('applied-label', [], search_filter_information_base_class) }}>
-        {{ "Applied filters (" | t }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | t }}
+        {{ "Applied filters (" | mt }}<span {{ bem('applied-count', [], search_filter_information_base_class) }}>{{ applied_filters_list|length }}</span>{{ "):" | mt }}
       </div>
-      <div {{ bem('applied-text', [], search_filter_information_base_class) }}>
+      <ul {{ bem('applied-text', [], search_filter_information_base_class) }}>
         {% for item in applied_filters_list %}
-          <span {{ bem('applied-name', [], search_filter_information_base_class) }}>
+          <li {{ bem('applied-name', [], search_filter_information_base_class) }}>
             <span>{{ item.title }}</span>
-            <div data-id="{{ item.key }}" {{ bem('applied-clear', [], search_filter_information_base_class) }}></div>
-          </span>
+            <button data-id="{{ item.key }}" {{ bem('applied-clear', [], search_filter_information_base_class) }} aria-label="{{ ('remove ' ~ item.title) | mt }}"></button>
+          </li>
         {% endfor %}
-      </div>
+      </ul>
     </div>
     <div {{ bem('clear', [], search_filter_information_base_class) }}>
-      <a href="#" {{ bem('button', ['simple', 'clear-all', modifier], search_filter_block_base_class) }}>{{ "Clear All" | t }}</a>
+      <button {{ bem('button', ['simple', 'clear-all', modifier], search_filter_block_base_class) }}>{{ "Clear All" | mt }}</button>
     </div>
   </div>
+{% endif %}
 </div>
+

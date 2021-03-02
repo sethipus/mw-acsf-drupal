@@ -1,0 +1,18 @@
+uuid: 49ef3aa6-0905-40c6-9caf-493c0b1020eb
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.recipe
+id: node.recipe.moderation_state
+field_name: moderation_state
+entity_type: node
+bundle: recipe
+label: 'Moderation state'
+description: 'The moderation state of this piece of content.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

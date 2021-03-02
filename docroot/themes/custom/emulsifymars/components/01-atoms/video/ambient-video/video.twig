@@ -5,11 +5,17 @@
 {% set video__base_class = video__base_class|default('ambient-video') %}
 {% set video__extra_classes = ['ambient-video'] %}
 
-<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} data-fullscreen="false">
-  <video {{ bem('main', [], video__base_class) }}>
+<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
+  data-fullscreen="false"
+  data-video-flag="Background">
+  <video {{ bem('main', [], video__base_class) }} data-object-fit="cover">
     <source loop src="{{ video__src__url }}" type="video/mp4" />
   </video>
   {% if video__control == true %}
-    <button {{ bem('control', [], video__base_class) }} type="button" data-state="pause"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+    <button {{ bem('control', [], video__base_class) }} type="button" data-state="pause" aria-label="{{ 'Pause' | mt }}" aria-live="polite">
+    <svg viewBox="0 0 320.001 320.001" style="enable-background:new 0 0 512 512" xml:space="preserve" class="play-icon"><path xmlns="http://www.w3.org/2000/svg" d="M295.84,146.049l-256-144c-4.96-2.784-11.008-2.72-15.904,0.128C19.008,5.057,16,10.305,16,16.001v288  c0,5.696,3.008,10.944,7.936,13.824c2.496,1.44,5.28,2.176,8.064,2.176c2.688,0,5.408-0.672,7.84-2.048l256-144  c5.024-2.848,8.16-8.16,8.16-13.952S300.864,148.897,295.84,146.049z"/></svg>
+      <div {{ bem('control', ['inner'], video__base_class) }}>
+      </div>
+    </button>
   {% endif %}
 </figure>

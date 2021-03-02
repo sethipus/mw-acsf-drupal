@@ -1,0 +1,18 @@
+uuid: 130cece7-5c33-4281-84f6-ae452468e541
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_regions
+id: taxonomy_term.mars_regions.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_regions
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

@@ -1,0 +1,22 @@
+uuid: 80cf0e64-e3e5-4de9-9a98-6c5934ad9b6a
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_main_ingredient
+id: taxonomy_term.mars_main_ingredient.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_main_ingredient
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

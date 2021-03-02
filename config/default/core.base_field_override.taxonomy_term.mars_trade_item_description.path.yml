@@ -1,0 +1,20 @@
+uuid: 89e8f191-58ba-4f35-b923-27b8cd812b0e
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_trade_item_description
+  module:
+    - path
+id: taxonomy_term.mars_trade_item_description.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_trade_item_description
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

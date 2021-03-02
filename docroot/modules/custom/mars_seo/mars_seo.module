@@ -73,40 +73,43 @@ function mars_seo_token_info() {
  * Implements hook_tokens().
  */
 function mars_seo_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  if ($type != 'og_token') {
+    return [];
+  }
+
+  /** @var \Drupal\node\Entity\Node $node */
+  $node = $data['node'] ?? NULL;
   $replacements = [];
 
-  if ($type == 'og_token') {
-    foreach ($tokens as $name => $original) {
-      /** @var \Drupal\node\Entity\Node $node */
-      $node = $data['node'] ?? NULL;
-      switch ($name) {
-        case 'type_page':
-          $type = 'article';
-          if ($node !== NULL) {
-            if ($node->bundle() == 'product') {
-              $type = $node->bundle();
-            }
-            elseif ($node->bundle() == 'recipe') {
-              $type = $node->bundle();
-            }
-            $bubbleable_metadata->addCacheableDependency($node);
+  foreach ($tokens as $name => $original) {
+    switch ($name) {
+      case 'type_page':
+        $replacement = 'article';
+        if ($node !== NULL) {
+          if ($node->bundle() == 'product' || $node->bundle() == 'recipe') {
+            $replacement = $node->bundle();
           }
-          $replacements[$original] = $type;
-          break;
+          $bubbleable_metadata->addCacheableDependency($node);
+        }
+        $replacements[$original] = $replacement;
+        break;
 
-        case 'hero_image':
-          if ($node !== NULL) {
-            /** @var \Drupal\mars_seo\HeroImageService $hero_image_service */
-            $hero_image_service = \Drupal::service('mars_seo.hero_image');
+      case 'hero_image':
+        if ($node !== NULL) {
+          /** @var \Drupal\mars_seo\HeroImageService $hero_image_service */
+          $hero_image_service = \Drupal::service('mars_seo.hero_image');
 
-            $bubbleable_metadata->merge($hero_image_service->getCacheableMetadata($node));
-            $replacement = $hero_image_service->getHeroImageUrl($node);
-          }
+          $bubbleable_metadata->merge($hero_image_service->getCacheableMetadata($node));
+          $replacement = $hero_image_service->getHeroImageUrl($node);
+        }
 
-          $replacements[$original] = $replacement ?? '';
-          break;
-      }
+        $replacements[$original] = $replacement ?? '';
+        break;
+
+      default:
+        break;
     }
   }
+
   return $replacements;
 }

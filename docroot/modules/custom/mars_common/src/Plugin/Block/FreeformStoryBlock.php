@@ -6,8 +6,10 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -23,6 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Lighthouse entity browser id.
@@ -66,6 +69,13 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -74,11 +84,13 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ThemeConfiguratorParser $theme_configurator_parser,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->themeConfiguratorParser = $theme_configurator_parser;
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -97,6 +109,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -131,7 +144,8 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#required' => TRUE,
     ];
     // Entity Browser element for background image.
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID, $this->configuration['image'], 1, 'thumbnail');
+    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
+      $this->configuration['image'], $form_state, 1, 'thumbnail', FALSE);
     // Convert the wrapping container to a details element.
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Image');
@@ -160,6 +174,8 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#default_value' => $this->configuration['custom_background_color'] ?? '',
     ];
 
+    $this->buildOverrideColorElement($form, $this->configuration);
+
     return $form;
   }
 
@@ -168,9 +184,9 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
    */
   public function build() {
     $build['#block_aligned'] = $this->configuration['block_aligned'];
-    $build['#header_1'] = $this->configuration['header_1'];
-    $build['#header_2'] = $this->configuration['header_2'];
-    $build['#body'] = $this->configuration['body']['value'];
+    $build['#header_1'] = $this->languageHelper->translate($this->configuration['header_1']);
+    $build['#header_2'] = $this->languageHelper->translate($this->configuration['header_2']);
+    $build['#body'] = $this->languageHelper->translate($this->configuration['body']['value']);
     $build['#background_shape'] = $this->configuration['background_shape'] == 1 ? 'true' : 'false';
     if (!empty($this->configuration['image'])) {
       $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($this->configuration['image']);
@@ -182,10 +198,16 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     }
 
     if ($this->configuration['background_shape'] == 1) {
-      $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
+      $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'];
     $build['#use_custom_color'] = (bool) $this->configuration['use_custom_color'];
+
+    $build['#text_color_override'] = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
     $build['#theme'] = 'freeform_story_block';
 
     return $build;

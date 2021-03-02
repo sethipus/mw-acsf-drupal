@@ -7,10 +7,15 @@
 
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
 {% set recipe_is_new = node.field_recipe_new.value == 1 ? true : false %}
+{% set   recipe_card_heading_link_attributes = { href: url,
+  'data-click-name': node.label } | merge(attributes) %}
+{% set   recipe_card_button_link_attributes = { href: url,
+  'data-click-name': recipe_card_button_text } | merge(attributes) %}
 
 {% include "@molecules/card/recipe-card/recipe-card.twig" with {
   theme_styles: 'drupal',
   recipe_is_new: recipe_is_new,
+  badge_text: badge_text,
   recipe_card_image_src: background_asset.src,
   recipe_card_image_alt: background_asset.alt ,
   recipe_card_media_url: url,
@@ -18,6 +23,7 @@
   recipe_card_heading: node.label,
   recipe_card_heading_level: 3,
   recipe_card_heading_base_class: 'recipe-card-heading',
+  recipe_card_heading_link_attributes: recipe_card_heading_link_attributes,
   recipe_card_minutes_number: content.field_recipe_cooking_time['#items'].0.value,
   recipe_card_minutes_base_class: 'recipe-card-time',
   recipe_card_minutes_size: 'large',
@@ -26,12 +32,12 @@
   recipe_card_items_base_class: 'recipe-card-items',
   recipe_card_items_size: 'large',
   recipe_card_items_modifiers: ['xs'],
-  recipe_card_button_text: 'see details'|t,
+  recipe_card_button_text: recipe_card_button_text,
   recipe_card_button_modifiers: ['small'],
-  recipe_card_button_link_attributes: {
-    href: url,
-    target: '_blank'
-  },
+  recipe_card_button_link_attributes: recipe_card_button_link_attributes,
   label_for_cooking_time: node.field_recipe_cooking_time.fieldDefinition.label,
   label_for_ingredients: node.field_recipe_ingredients.fieldDefinition.label,
+  select_background_color: select_background_color,
+  recipe_card_button_text: card_button_text,
+  text_color_override: elements['#text_color_override']
 } %}

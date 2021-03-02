@@ -3,56 +3,25 @@
 namespace Drupal\mars_lighthouse\Client;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
 use Drupal\mars_lighthouse\LighthouseException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\mars_lighthouse\TokenIsExpiredException;
-use Drupal\mars_lighthouse\LighthouseAccessException;
 
 /**
  * Class LighthouseClient.
  *
  * @package Drupal\mars_lighthouse\Client
  */
-class LighthouseClient implements LighthouseClientInterface {
+class LighthouseClient extends LighthouseBaseApiAbstract implements LighthouseClientInterface {
 
   /**
-   * Date format required by API.
-   */
-  const DATE_FORMAT = 'Y-m-d-H-i-s Z';
-
-  /**
-   * Error code when an access token is expired.
-   */
-  const TOKEN_IS_EXPIRED_ERROR_CODE = 400;
-
-  /**
-   * Error code when an access token is not found at Lighthouse.
-   */
-  const ACCESS_ERROR_CODE = 403;
-
-  /**
-   * An http client.
+   * Lighthouse authentication token provider.
    *
-   * @var \GuzzleHttp\ClientInterface
+   * @var \Drupal\mars_lighthouse\Client\LighthouseAuthTokenProvider
    */
-  protected $httpClient;
-
-  /**
-   * Logger for this channel.
-   *
-   * @var \Psr\Log\LoggerInterface
-   */
-  protected $logger;
-
-  /**
-   * Lighthouse API configuration.
-   *
-   * @var \Drupal\mars_lighthouse\Client\LighthouseConfiguration
-   */
-  protected $config;
+  protected $lighthouseAuthTokenProvider;
 
   /**
    * LighthouseClient constructor.
@@ -63,101 +32,30 @@ class LighthouseClient implements LighthouseClientInterface {
    *   Client configuration.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   Logger factory.
+   * @param \Drupal\mars_lighthouse\Client\LighthouseAuthTokenProvider $lighthouse_auth_token_provider
+   *   Lighthouse auth token provider.
    */
   public function __construct(
     ClientInterface $http_client,
     LighthouseConfiguration $config,
-    LoggerChannelFactoryInterface $logger_factory
+    LoggerChannelFactoryInterface $logger_factory,
+    LighthouseAuthTokenProvider $lighthouse_auth_token_provider
   ) {
-    $this->httpClient = $http_client;
-    $this->config = $config;
-    $this->logger = $logger_factory->get('mars_lighthouse');
+    parent::__construct($http_client, $config, $logger_factory);
+    $this->lighthouseAuthTokenProvider = $lighthouse_auth_token_provider;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getToken(): array {
-    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_GET_TOKEN);
-
-    try {
-      /**@var \Psr\Http\Message\ResponseInterface $response */
-      $response = $this->httpClient->post(
-        $endpoint_full_path,
-        [
-          'json' => [
-            'username' => $this->config->getUsername(),
-            'password' => $this->config->getPassword(),
-            "apikey" => $this->config->getApiKey(),
-            "requestTime" => date(self::DATE_FORMAT),
-          ],
-        ]
-      );
-    }
-    catch (RequestException $exception) {
-      $this->logger->error('Failed to receive access token "%error"', ['%error' => $exception->getMessage()]);
-      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
-    }
-
-    $header_value = $response->getHeaders()['x-lighthouse-authen'];
-    $header_value = is_array($header_value) ? array_shift($header_value) : $header_value;
-
-    $response = $response->getBody()->getContents();
-    $response = Json::decode($response);
-
-    return [
-      'mars_lighthouse.headers' => ['x-lighthouse-authen' => $header_value],
-      'response' => $response,
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function refreshToken($params): array {
-    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_REFRESH_TOKEN);
-
-    try {
-      /**@var \Psr\Http\Message\ResponseInterface $response */
-      $response = $this->httpClient->post(
-        $endpoint_full_path,
-        [
-          'json' => [
-            'refreshToken' => $params['mars_lighthouse.refresh_token'] ?? '',
-            'token' => $params['mars_lighthouse.access_token'] ?? '',
-            'requestTime' => date(self::DATE_FORMAT),
-          ],
-          'headers' => $params['mars_lighthouse.headers'],
-        ]
-      );
-    }
-    catch (RequestException $exception) {
-      $this->logger->error('Failed to refresh access token "%error"', ['%error' => $exception->getMessage()]);
-      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
-    }
-
-    $header_value = $response->getHeaders()['x-lighthouse-authen'];
-    $header_value = is_array($header_value) ? array_shift($header_value) : $header_value;
-
-    $response = $response->getBody()->getContents();
-    $response = Json::decode($response);
-
-    return [
-      'mars_lighthouse.headers' => ['x-lighthouse-authen' => $header_value],
-      'response' => $response,
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function search(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $params = [], $media_type = 'image'): array {
+  public function search(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 10, $media_type = 'image'): array {
+    $params = $this->lighthouseAuthTokenProvider->getAccessToken();
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
 
     $body = [
-      'requestTime' => date(self::DATE_FORMAT),
+      'requestTime' => date(static::DATE_FORMAT),
       'token' => $params['mars_lighthouse.access_token'],
       'text' => $text,
       'orderBy' => '',
@@ -186,16 +84,8 @@ class LighthouseClient implements LighthouseClientInterface {
       );
     }
     catch (RequestException $exception) {
-      if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
-        throw new TokenIsExpiredException('Access token is expired.');
-      }
-      elseif ($exception->getCode() == self::ACCESS_ERROR_CODE) {
-        throw new LighthouseAccessException('Access token is invalid. A new one should be forced requested.');
-      }
-      else {
-        $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
-        throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
-      }
+      $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
+      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
     $content = $response->getBody()->getContents();
@@ -208,7 +98,8 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function getAssetById(string $id, array $params = []): array {
+  public function getAssetById(string $id): array {
+    $params = $this->lighthouseAuthTokenProvider->getAccessToken();
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
@@ -223,7 +114,8 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function getAssetsByIds(array $ids, string $date, array $params = []): array {
+  public function getAssetsByIds(array $request_data, string $date): array {
+    $params = $this->lighthouseAuthTokenProvider->getAccessToken();
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
@@ -231,7 +123,7 @@ class LighthouseClient implements LighthouseClientInterface {
     $body = [
       'token' => $params['mars_lighthouse.access_token'],
       'checkDate' => $date,
-      'assets' => $ids,
+      'assets' => $request_data,
     ];
 
     $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_ASSETS_BY_IDS);
@@ -247,28 +139,62 @@ class LighthouseClient implements LighthouseClientInterface {
       );
     }
     catch (RequestException $exception) {
-      if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
-        throw new TokenIsExpiredException('Access token is expired.');
-      }
-      elseif ($exception->getCode() == self::ACCESS_ERROR_CODE) {
-        throw new LighthouseAccessException('Access token is invalid. A new one should be forced requested.');
-      }
-      else {
-        $this->logger->error('Failed to run search "%error"', ['%error' => $exception->getMessage()]);
-        throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
-      }
+      $this->logger->error('Failed to run getAssetsByIds "%error"', ['%error' => $exception->getMessage()]);
+      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
     $content = $response->getBody()->getContents();
     $content = Json::decode($content);
 
-    return $content['assetList'] ?? [];
+    $asset_modified = $content['assetModified'] ?? [];
+    $asset_with_new_version = $content['assetWithNewVersion'] ?? [];
+    $result = array_merge($asset_modified, $asset_with_new_version);
+    return $result;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getBrands(array $params = []): array {
+  public function sentInventoryReport(array $asset_list): array {
+    $params = $this->lighthouseAuthTokenProvider->getAccessToken();
+    if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
+      return [];
+    }
+
+    $body = [
+      'token' => $params['mars_lighthouse.access_token'],
+      'requestTime' => date(static::DATE_FORMAT),
+      'assetList' => $asset_list,
+    ];
+
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_SENT_INVENTORY_REPORT);
+
+    try {
+      /**@var \Psr\Http\Message\ResponseInterface $response */
+      $response = $this->httpClient->post(
+        $endpoint_full_path,
+        [
+          'json' => $body,
+          'headers' => $params['mars_lighthouse.headers'],
+        ]
+      );
+    }
+    catch (RequestException $exception) {
+      $this->logger->error('Failed to run sentInventoryReport "%error"', ['%error' => $exception->getMessage()]);
+      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
+    }
+
+    $content = $response->getBody()->getContents();
+    $result = Json::decode($content);
+
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBrands(): array {
+    $params = $this->lighthouseAuthTokenProvider->getAccessToken();
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
@@ -282,7 +208,8 @@ class LighthouseClient implements LighthouseClientInterface {
   /**
    * {@inheritdoc}
    */
-  public function getMarkets(array $params = []): array {
+  public function getMarkets(): array {
+    $params = $this->lighthouseAuthTokenProvider->getAccessToken();
     if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
       return [];
     }
@@ -323,16 +250,8 @@ class LighthouseClient implements LighthouseClientInterface {
       );
     }
     catch (RequestException $exception) {
-      if ($exception->getCode() == self::TOKEN_IS_EXPIRED_ERROR_CODE) {
-        throw new TokenIsExpiredException('Access token is expired.');
-      }
-      elseif ($exception->getCode() == self::ACCESS_ERROR_CODE) {
-        throw new LighthouseAccessException('Access token is invalid. A new one should be forced requested.');
-      }
-      else {
-        $this->logger->error('Failed to run asset_by_id "%error"', ['%error' => $exception->getMessage()]);
-        throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
-      }
+      $this->logger->error('Failed to run getAssetsById "%error"', ['%error' => $exception->getMessage()]);
+      throw new LighthouseException('Something went wrong while connecting to Lighthouse. Please, check logs or contact site administrator.');
     }
 
     $content = $response->getBody()->getContents();

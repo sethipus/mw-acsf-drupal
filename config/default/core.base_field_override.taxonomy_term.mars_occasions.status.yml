@@ -1,0 +1,22 @@
+uuid: ed617cec-2e87-4022-8836-da729bc7ccf7
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_occasions
+id: taxonomy_term.mars_occasions.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_occasions
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

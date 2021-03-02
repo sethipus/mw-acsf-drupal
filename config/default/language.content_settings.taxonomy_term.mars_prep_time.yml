@@ -1,0 +1,18 @@
+uuid: 56e77690-5b12-4b14-844c-190084a8efa9
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_prep_time
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: taxonomy_term.mars_prep_time
+target_entity_type_id: taxonomy_term
+target_bundle: mars_prep_time
+default_langcode: site_default
+language_alterable: true

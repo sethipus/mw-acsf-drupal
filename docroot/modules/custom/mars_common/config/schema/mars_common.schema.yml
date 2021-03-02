@@ -1,0 +1,22 @@
+mars_common.card_color_settings:
+  type: config_object
+  label: 'Card background color configuration'
+  mapping:
+    select_background_color_recipe:
+      type: string
+      label: 'Recipe card background color'
+    select_background_color_product:
+      type: string
+      label: 'Product card background color'
+    select_background_color_campaign:
+      type: string
+      label: 'Campaign card background color'
+    select_background_color_landing:
+      type: string
+      label: 'Landing card background color'
+    select_background_color_hub_card:
+      type: string
+      label: 'Content Hub card background color'
+    select_background_color_article:
+      type: string
+      label: 'Article card background color'

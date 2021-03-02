@@ -1,0 +1,18 @@
+uuid: e570d5db-588f-4680-a9eb-73cbc1271693
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.bulleted_list
+id: block_content.bulleted_list.info
+field_name: info
+entity_type: block_content
+bundle: bulleted_list
+label: 'Block description'
+description: 'A brief description of your block.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

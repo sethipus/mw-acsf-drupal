@@ -157,7 +157,6 @@ third_party_settings:
       - core
     entity_view_mode_restriction:
       whitelisted_blocks:
-        'Flexible driver': {  }
         'Mars Search': {  }
         Printable: {  }
       blacklisted_blocks: {  }
@@ -226,6 +225,7 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -233,15 +233,17 @@ third_party_settings:
             'Lists (Views)': {  }
             'Mars Common': {  }
             'Mars Product': {  }
+            'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
+            Printable: {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
         article_content_recommendations:
           all_regions:
@@ -252,7 +254,7 @@ third_party_settings:
             'Custom blocks': {  }
             'Entity Block': {  }
             'Entity Browser': {  }
-            Facets: {  }
+            'Flexible driver': {  }
             Forms: {  }
             'Global elements': {  }
             Help: {  }
@@ -264,13 +266,14 @@ third_party_settings:
             'Mars Search': {  }
             Menus: {  }
             'Moderation Dashboard': {  }
+            'Page components': {  }
+            Printable: {  }
             Product: {  }
             Recipe: {  }
             'Social feed': {  }
             'Social media share': {  }
             System: {  }
             User: {  }
-            Views: {  }
             core: {  }
 _core:
   default_config_hash: 5aFgQ8A4y2gkv9-vwy7WRgAoxRvtFXm4bpN8NZO7FCI
@@ -313,6 +316,7 @@ hidden:
   field_article_image: true
   field_article_new: true
   field_article_related_products: true
+  langcode: true
   layout_builder__layout: true
   published_at: true
   search_api_excerpt: true

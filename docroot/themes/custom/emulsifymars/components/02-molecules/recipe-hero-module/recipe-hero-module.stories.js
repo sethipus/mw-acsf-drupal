@@ -4,18 +4,28 @@ import { useEffect } from '@storybook/client-api';
 import '../../01-atoms/video/fullscreen-video/video';
 
 import recipeHeroModuleTwig from './recipe-hero-module.twig';
-import recipeHeroModuleData from './recipe-hero-module.yml';
+import recipeHeroModuleVideoData from './recipe-hero-module-video.yml';
+import recipeHeroModuleImageData from './recipe-hero-module-image.yml';
 import recipeSocial from '../menus/social/social-menu.yml';
+
+import './recipe-hero-module';
 
 /**
  * Storybook Definition.
  */
 export default { title: 'Molecules/Recipe Hero Module' };
 
-export const recipeHeroModule = () => {
+export const recipeHeroModuleVideo = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: recipeHeroModuleTwig({
-      ...recipeHeroModuleData,
+      ...recipeHeroModuleVideoData,
+      ...recipeSocial
+    }) }} />
+};
+export const recipeHeroModuleImage = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return <div dangerouslySetInnerHTML={{ __html: recipeHeroModuleTwig({
+      ...recipeHeroModuleImageData,
       ...recipeSocial
     }) }} />
 };

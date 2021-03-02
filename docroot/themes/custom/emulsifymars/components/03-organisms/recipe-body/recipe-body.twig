@@ -1,45 +1,18 @@
-<div class="recipe-body-content recipe-body-content__top" data-theme="{{ theme_styles }}">
-  <h1 class="recipe-body-content-header">{{ "ingredients" | t }}</h1>
+{% set recipe_template__base_class = 'recipe-detail' %}
+{{ attach_library('emulsifymars/recipe-body') }}
+
+<section {{ bem(recipe_template__base_class) }} data-theme="{{ theme_styles }}">
+<div class="recipe-body-content recipe-body-content__top">
+  <h2 class="recipe-body-content-header">{{ ingredients_used_label }}</h2>
   {% include "@atoms/lists/ul.twig" with {
     ul_items: ingredients_list,
     ul_base_class: 'recipe-body-ingredients-list'
   }%}
-  <div class="product-used" data-theme="{{ theme_styles }}">
-    <div class="product-used__title">{{ products_used }}</div>
+  <div class="product-used">
+    <div class="product-used__title">{{ products_used_label }}</div>
     {% include "@molecules/product-used-module/product-used-module.twig" with {
       items: product_used_items
     } %}
   </div>
 </div>
-<div class="recipe-body-content recipe-body-content__bottom" data-theme="{{ theme_styles }}">
-  <h1 class="recipe-body-content-header">{{ "Instructions" | t }}</h1>
-  {% include "@atoms/lists/ol.twig" with {
-    ol_items: instructions_list,
-    ol_base_class: 'recipe-body-instructions-list'
-  }%}
-  {% include "@atoms/text/text/01-paragraph.twig" with {
-    paragraph_base_class: 'recipe-body-content-paragraph',
-    paragraph_content: recipe_text_1,
-  } %}
-  <div class="recipe-body-video recipe-body-video__full">
-    {% include "@atoms/video/ambient-video/video.twig" with {
-      video__src__url: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/',
-      video__base_class: 'ambient-video',
-      video__control: true,
-    } %}
-  </div>
-  {% include "@atoms/text/text/01-paragraph.twig" with {
-    paragraph_base_class: 'recipe-body-content-paragraph',
-    paragraph_content: recipe_text_2,
-  } %}
-</div>
-<div class="more-recipes" data-theme="{{ theme_styles }}">
-  {% include "@atoms/images/image/background-image.twig" with {
-    image_src: 'twix-brand-border-torn-edge.svg',
-    background_repeat: 'repeat',
-    height: '100px',
-  } %}
-  {% include "@molecules/recommendations-module/recommendations-module.twig" with {
-    items: recommended_items
-  } %}
-</div>
+</section>

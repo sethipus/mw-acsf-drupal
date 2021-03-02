@@ -77,6 +77,12 @@ show_allergen_info:
   type: boolean
   label: 'Show allergen info at product details.'
 
+# Product rating and reviews settings.
+# ----------------------------
+show_rating_and_reviews:
+  type: boolean
+  label: 'Show rating and reviews for all products.'
+
 # Social links.
 # ----------------------------
 social_links:

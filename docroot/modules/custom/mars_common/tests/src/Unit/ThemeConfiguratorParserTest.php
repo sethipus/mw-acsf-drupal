@@ -7,10 +7,14 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\file\Entity\File;
+use Drupal\mars_common\SVG\SVGFactory;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
+use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\mars_common\SVG\SVG;
+use Drupal\Core\Url;
 
 /**
  * Class ThemeConfiguratorParserTest.
@@ -56,6 +60,13 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
   protected $fileStorageMock;
 
   /**
+   * Mocked SVG factory service.
+   *
+   * @var \Drupal\mars_common\SVG\SVGFactory|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $svgFactoryMock;
+
+  /**
    * Test block configuration.
    *
    * @var array
@@ -64,9 +75,19 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     'brand_shape' => '<svg xmlns="http://www.w3.org/2000/svg" width="125" height="15" fill="none" viewBox="0 0 125 15">
     <path fill="#EAAA00" fill-rule="evenodd" d="M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542z" clip-rule="evenodd"/>
 </svg>',
+    'brand_borders' => [
+      0 => 'test',
+    ],
+    'brand_borders_2' => [
+      0 => 'test',
+    ],
+    'graphic_divider' => [
+      0 => 'test',
+    ],
     'logo' => [
       'path' => 'logo-path',
     ],
+    'logo_alt' => 'test logo alt',
     'social' => [
       [
         'name' => 'facebook',
@@ -94,6 +115,11 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getFileUri')
       ->willReturn($vfsFile->url());
+
+    $fileMock
+      ->expects($this->any())
+      ->method('id')
+      ->willReturn('test');
 
     $this->fileStorageMock
       ->expects($this->any())
@@ -123,9 +149,16 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
       ->method('get')
       ->willReturn($this->configuration);
 
+    $this->svgFactoryMock
+      ->expects($this->any())
+      ->method('createSvgFromFileId')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
+
     $this->themeConfiguratorParser = new ThemeConfiguratorParser(
       $this->entityTypeManagerMock,
-      $this->configFactoryMock
+      $this->configFactoryMock,
+      $this->svgFactoryMock,
+      new NullLogger()
     );
   }
 
@@ -137,6 +170,7 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->svgFactoryMock = $this->createMock(SVGFactory::class);
   }
 
   /**
@@ -161,6 +195,96 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
   public function testGetSettingValue() {
     $getSettingValueBrandShape = $this->themeConfiguratorParser->getSettingValue('brand_shape');
     $this->assertEquals($this->configuration['brand_shape'], $getSettingValueBrandShape);
+  }
+
+  /**
+   * Test testGetUrlForFile.
+   */
+  public function testGetUrlForFile() {
+    $url_for_file = $this->themeConfiguratorParser->getUrlForFile('test');
+    $url = Url::fromUri('http://example.com/root/mock.file');
+    $this->assertEquals($url->getUri(), $url_for_file->getUri());
+  }
+
+  /**
+   * Test getLogoAltFromTheme.
+   */
+  public function testGetLogoAltFromTheme() {
+    $logo_alt = $this->themeConfiguratorParser->getLogoAltFromTheme();
+    $expected = 'test logo alt';
+    $this->assertEquals($expected, $logo_alt);
+  }
+
+  /**
+   * Test getBrandBorder.
+   */
+  public function testGetBrandBorder() {
+    $svg = $this->themeConfiguratorParser->getBrandBorder();
+
+    $expected = '<svg xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="id-repeat-pattern" patternUnits="userSpaceOnUse"/>
+      </defs>
+      <rect fill="url(#id-repeat-pattern)" width="100%"/>
+    </svg>';
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+  /**
+   * Test getBrandBorder2.
+   */
+  public function testGetBrandBorder2() {
+    $svg = $this->themeConfiguratorParser->getBrandBorder2();
+
+    $expected = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"/>';
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+  /**
+   * Test getGraphicDivider.
+   */
+  public function testGetGraphicDivider() {
+    $svg = $this->themeConfiguratorParser->getGraphicDivider();
+
+    $expected = '<svg xmlns="http://www.w3.org/2000/svg"/>';
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+  /**
+   * Test getBrandShapeWithoutFill.
+   */
+  public function testGetBrandShapeWithoutFill() {
+    $svg = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
+
+    $expected = '<svg xmlns="http://www.w3.org/2000/svg"/>';
+
+    $this->assertXmlStringEqualsXmlString($expected, (string) $svg);
+  }
+
+}
+
+/**
+ * ThemeConfiguratorParser uses file_create_url().
+ */
+namespace Drupal\mars_common;
+
+if (!function_exists('Drupal\mars_common\file_create_url')) {
+
+  /**
+   * Stub for drupal file_create_url function.
+   *
+   * @param string $uri
+   *   The URI to a file for which we need an external URL, or the path to a
+   *   shipped file.
+   *
+   * @return string
+   *   Result.
+   */
+  function file_create_url($uri) {
+    return 'http://example.com/root/mock.file';
   }
 
 }

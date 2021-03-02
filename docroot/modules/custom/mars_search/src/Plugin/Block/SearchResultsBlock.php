@@ -3,15 +3,13 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityViewBuilderInterface;
-use Drupal\mars_search\SearchHelperInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\mars_search\SearchQueryParserInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 
 /**
  * Provides a search page results block.
@@ -19,51 +17,15 @@ use Drupal\Core\Menu\MenuTreeParameters;
  * @Block(
  *   id = "search_results_block",
  *   admin_label = @Translation("MARS: Search page results"),
- *   category = @Translation("Mars Search")
+ *   category = @Translation("Mars Search"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Current Node"))
+ *   }
  * )
  */
 class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
-  /**
-   * List of vocabularies which are included in indexing.
-   *
-   * @var array
-   */
-  const TAXONOMY_VOCABULARIES = [
-    'mars_brand_initiatives' => [
-      'label' => 'Brand initiatives',
-      'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],
-    ],
-    'mars_occasions' => [
-      'label' => 'Occasions',
-      'content_types' => [
-        'article', 'recipe', 'product', 'landing_page', 'campaign',
-      ],
-    ],
-    'mars_flavor' => [
-      'label' => 'Flavor',
-      'content_types' => ['product'],
-    ],
-    'mars_format' => [
-      'label' => 'Format',
-      'content_types' => ['product'],
-    ],
-    'mars_diet_allergens' => [
-      'label' => 'Diet & Allergens',
-      'content_types' => ['product'],
-    ],
-    'mars_trade_item_description' => [
-      'label' => 'Trade item description',
-      'content_types' => ['product'],
-    ],
-  ];
-
-  /**
-   * Search helper.
-   *
-   * @var \Drupal\mars_search\SearchHelperInterface
-   */
-  protected $searchHelper;
+  use OverrideThemeTextColorTrait;
 
   /**
    * ThemeConfiguratorParser.
@@ -73,32 +35,18 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   protected $themeConfiguratorParser;
 
   /**
-   * The node view builder.
+   * Templates builder service .
    *
-   * @var \Drupal\node\NodeViewBuilder
+   * @var \Drupal\mars_search\Processors\SearchBuilder
    */
-  protected $nodeViewBuilder;
+  protected $searchBuilder;
 
   /**
-   * Menu link tree.
+   * Language helper service.
    *
-   * @var \Drupal\Core\Menu\MenuLinkTreeInterface
+   * @var \Drupal\mars_common\LanguageHelper
    */
-  protected $menuLinkTree;
-
-  /**
-   * Search query parser.
-   *
-   * @var \Drupal\mars_search\SearchQueryParserInterface
-   */
-  protected $searchQueryParser;
-
-  /**
-   * Config factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactory
-   */
-  protected $configFactory;
+  private $languageHelper;
 
   /**
    * {@inheritdoc}
@@ -108,12 +56,9 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_search.search_helper'),
+      $container->get('mars_search.search_factory'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('entity_type.manager')->getViewBuilder('node'),
-      $container->get('menu.link_tree'),
-      $container->get('mars_search.search_query_parser'),
-      $container->get('config.factory')
+      $container->get('mars_common.language_helper')
     );
   }
 
@@ -124,20 +69,35 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    SearchHelperInterface $search_helper,
+    SearchProcessFactoryInterface $searchProcessor,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    EntityViewBuilderInterface $node_view_builder,
-    MenuLinkTreeInterface $menu_link_tree,
-    SearchQueryParserInterface $search_query_parser,
-    ConfigFactoryInterface $configFactory
+    LanguageHelper $language_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->searchHelper = $search_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
-    $this->nodeViewBuilder = $node_view_builder;
-    $this->menuLinkTree = $menu_link_tree;
-    $this->searchQueryParser = $search_query_parser;
-    $this->configFactory = $configFactory;
+    $this->searchProcessor = $searchProcessor;
+    $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
+    $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
+    $this->languageHelper = $language_helper;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+
+    $config = $this->getConfiguration();
+    $this->buildOverrideColorElement($form, $config, TRUE);
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->setConfiguration($form_state->getValues());
   }
 
   /**
@@ -145,111 +105,53 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
    */
   public function build() {
     $build = [];
+    $config = $this->getConfiguration();
+    [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('search_page', $config);
 
-    $searchOptions = $this->searchQueryParser->parseQuery();
-
-    // Results should be obtained from static cache.
-    $query_search_results = $this->searchHelper->getSearchResults($searchOptions, 'main_search');
-    // After this line $facetOptions and $searchOptions become different.
-    $facetOptions = $searchOptions;
-    // We don't need taxonomy filters and keys filter applied for facets query.
-    $facetOptions['disable_filters'] = TRUE;
-    unset($facetOptions['limit']);
-
-    $facets_query = $this->searchHelper->getSearchResults($facetOptions, 'main_search_facet');
-
-    // Preparing search results.
+    // Results will be populated after ajax request. It's not possible to
+    // know right desktop type without page inner width.
     $build['#items'] = [];
-    foreach ($query_search_results['results'] as $node) {
-      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
-    }
-    if (count($build['#items']) == 0) {
-      $build['#no_results'] = $this->getSearchNoResult();
-    }
+    $query_search_results['results'] = [];
 
-    $file_divider_content = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build = array_merge($build, $this->searchBuilder->buildSearchFacets('search_page'));
 
-    $build['#theme_styles'] = 'drupal';
-    $build['#graphic_divider'] = $file_divider_content ?? '';
-
-    // "See all" link should be visible only if it makes sense.
+    // "See more" link should be visible only if it makes sense.
+    $build['#ajax_card_grid_link_text'] = $this->t('@see_more_label', ['@see_more_label' => strtoupper('See more')]);
+    $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
-      $url = $this->searchHelper->getCurrentUrl();
-      $url_options = $url->getOptions();
-      $url_options['query']['see-all'] = 1;
-      $url->setOptions($url_options);
-      $build['#ajax_card_grid_link_text'] = $this->t('See all');
-      $build['#ajax_card_grid_link_attributes']['href'] = $url->toString();
+      $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
+    // Build dataLayer attributes if search results are displayed for keys.
+    $build['#data_layer'] = [
+      'search_term' => $searchOptions['keys'],
+      'search_results' => $query_search_results['resultsCount'],
+      'page_id' => $context_node->id(),
+      'page_revision_id' => $context_node->getRevisionId(),
+    ];
+
+    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
+    $build['#theme_styles'] = 'drupal';
+    $build['#results_key_header'] = !empty($searchOptions['keys'] && $query_search_results['resultsCount'] > 0)
+                                    ? $this->languageHelper->translate('Results for: ') . $searchOptions['keys']
+                                    : '';
+    $build['#graphic_divider'] = $file_divider_content ?? '';
+    $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#ajax_card_grid_heading'] = $this->t('All results');
-    list($build['#applied_filters_list'], $build['#filters']) = $this->searchHelper->processTermFacets($facets_query['facets'], self::TAXONOMY_VOCABULARIES, 1);
     $build['#theme'] = 'mars_search_search_results_block';
+    $build['#attached']['library'][] = 'mars_search/datalayer_search';
+    $build['#attached']['library'][] = 'mars_search/search_pager';
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+    if (!empty($config['override_text_color']['override_filter_title_color'])) {
+      $build['#override_filter_title_color'] = static::$overrideColor;
+    }
+    $build['#text_color_override'] = $text_color_override;
     return $build;
-  }
-
-  /**
-   * Render search no result block.
-   */
-  private function getSearchNoResult() {
-    $config = $this->configFactory->get('mars_search.search_no_results');
-    $url = $this->searchHelper->getCurrentUrl();
-    $url_options = $url->getOptions();
-    $search_text = array_key_exists('search', $url_options['query']) ? reset($url_options['query']['search']) : '';
-
-    $linksMenu = $this->buildMenu('error-page-menu');
-    $links = [];
-    foreach ($linksMenu as $linkMenu) {
-      $links[] = [
-        'content' => $linkMenu['title'],
-        'attributes' => [
-          'target' => '_self',
-          'href' => $linkMenu['url'],
-        ],
-      ];
-    }
-
-    return [
-      '#no_results_heading' => str_replace('@keys', $search_text, $config->get('no_results_heading')),
-      '#no_results_text' => $config->get('no_results_text'),
-      '#no_results_links' => $links,
-      '#theme' => 'mars_search_no_results',
-    ];
-  }
-
-  /**
-   * Render menu by its name.
-   *
-   * @param string $menu_name
-   *   Menu name.
-   *
-   * @return array
-   *   Rendered menu.
-   */
-  protected function buildMenu($menu_name) {
-    $menu_parameters = new MenuTreeParameters();
-    $menu_parameters->setMaxDepth(1);
-
-    // Get the tree.
-    $tree = $this->menuLinkTree->load($menu_name, $menu_parameters);
-
-    // Apply some manipulators (checking the access, sorting).
-    $manipulators = [
-      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
-      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
-      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-    ];
-    $tree = $this->menuLinkTree->transform($tree, $manipulators);
-
-    // And the last step is to actually build the tree.
-    $menu = $this->menuLinkTree->build($tree);
-    $menu_links = [];
-    if (!empty($menu['#items'])) {
-      foreach ($menu['#items'] as $item) {
-        array_push($menu_links, ['title' => $item['title'], 'url' => $item['url']->setAbsolute()->toString()]);
-      }
-    }
-    return $menu_links;
   }
 
   /**
@@ -257,6 +159,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContextMapping() {
+    $mapping = parent::getContextMapping();
+    $mapping['node'] = $mapping['node'] ?? 'layout_builder.entity';
+    return $mapping;
   }
 
 }

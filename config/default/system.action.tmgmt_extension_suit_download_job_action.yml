@@ -1,0 +1,13 @@
+uuid: f333cbf4-c5d3-4a95-a148-55161cf1f5e1
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_extension_suit
+_core:
+  default_config_hash: UHOjEJbxuAyiLfNf49uwp_kahr6LMkf9rXJiCHTbfWY
+id: tmgmt_extension_suit_download_job_action
+label: 'Download Translation'
+type: tmgmt_job
+plugin: tmgmt_extension_suit_download_job_action
+configuration: {  }

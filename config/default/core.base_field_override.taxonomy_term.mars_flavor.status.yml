@@ -1,0 +1,22 @@
+uuid: dd3b291b-c540-40ea-afe6-6f5ceaf5abc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_flavor
+id: taxonomy_term.mars_flavor.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_flavor
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,9 +1,5 @@
 theme_styles: 'twix'
-search_form: '<form class="mars-search-form" data-drupal-selector="mars-search-form" action="/node/437" method="post" id="mars-search-form" accept-charset="UTF-8" data-drupal-form-fields="edit-search,edit-submit">
-                <div class="js-form-item form-item">
-                  <input placeholder="Search" class="search-input__field form-text form-item__textfield" autocomplete="off" data-drupal-selector="edit-search" type="text" id="edit-search" name="search" value="" size="60" maxlength="128">
-                </div>
-              </form>'
+search_form: '<input placeholder="Search" class="search-input__field form-text form-item__textfield" autocomplete="off" data-drupal-selector="edit-search" type="text" id="edit-search" name="search" value="" size="60" maxlength="128">'
 title: 'Filter By:'
 applied_filters_list:
   - title: 'Nut Free'
@@ -12,7 +8,7 @@ applied_filters_list:
     key: 'cocoa_for_generations'
   - title: 'Bars/Countlines'
     key: 'bars_countlines'
-items:
+filters:
   - filter_title: 'Diet & Allergens'
     filter_id: 'mars_diet_allergens'
     active_filters_count: 1

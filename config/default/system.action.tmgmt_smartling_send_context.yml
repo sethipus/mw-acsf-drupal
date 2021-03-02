@@ -1,0 +1,13 @@
+uuid: d10e0d0d-ba82-4973-acaa-ed45b2e50c86
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_smartling
+_core:
+  default_config_hash: hDK9LOuGQjPmkrjlSiX_5oeaRsl7yDbvRrQpz-J6Z8U
+id: tmgmt_smartling_send_context
+label: 'Smartling send context'
+type: tmgmt_job_item
+plugin: tmgmt_smartling_send_context_action
+configuration: {  }

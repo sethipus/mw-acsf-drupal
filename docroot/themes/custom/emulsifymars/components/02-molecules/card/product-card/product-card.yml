@@ -1,5 +1,6 @@
 theme_styles: 'twix'
-default_link_content: 'See details'
+badge_text: 'NEW'
+default_link_content: 'SEE DETAILS'
 link_content: BUY NOW2
 # recipe_is_new: true;
 
@@ -7,7 +8,14 @@ item:
   card_url: https://storybook.js.org/
   card__image__src: image9@3x.png
   paragraph_content: 'TWIX® PEANUT BUTTER Minis'
+  product_card_link_attributes: []
   default_link_attributes:
     'target': '_self'
     'href': 'https://storybook.js.org/'
+
   link_url: ''
+product_sku: 040000529361
+wtb_commerce_vendor: 'commerce_connector'
+wtb_button_type: 'my_own'
+wtb_widget_id: 123321
+datalayer_taxonomy: 'taxonomy vocabylary: term;'

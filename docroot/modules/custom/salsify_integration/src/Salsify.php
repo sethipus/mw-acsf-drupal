@@ -12,8 +12,8 @@ use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
-use GuzzleHttp\Client;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 
 /**
@@ -108,6 +108,13 @@ class Salsify {
   protected $mulesoftConnector;
 
   /**
+   * The HTTP client service.
+   *
+   * @var \GuzzleHttp\ClientInterface
+   */
+  protected $client;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
@@ -126,6 +133,8 @@ class Salsify {
    *   The Queue factory service.
    * @param \Drupal\salsify_integration\MulesoftConnector $mulesoft_connector
    *   The Mulesoft connector.
+   * @param \GuzzleHttp\ClientInterface $client
+   *   The HTTP client.
    */
   public function __construct(
     LoggerChannelFactoryInterface $logger,
@@ -135,7 +144,8 @@ class Salsify {
     CacheBackendInterface $cache_salsify,
     QueueFactory $queue_factory,
     ModuleHandlerInterface $module_handler,
-    MulesoftConnector $mulesoft_connector
+    MulesoftConnector $mulesoft_connector,
+    ClientInterface $client
   ) {
     $this->logger = $logger->get('salsify_integration');
     $this->configFactory = $config_factory;
@@ -146,6 +156,7 @@ class Salsify {
     $this->queueFactory = $queue_factory;
     $this->moduleHandler = $module_handler;
     $this->mulesoftConnector = $mulesoft_connector;
+    $this->client = $client;
   }
 
   /**
@@ -198,12 +209,12 @@ class Salsify {
     $auth_method = $this->config->get('auth_method');
     $headers = [];
 
-    if ($auth_method == self::AUTH_METHOD_TOKEN) {
+    if ($auth_method == static::AUTH_METHOD_TOKEN) {
       $headers = [
         'Authorization' => 'Bearer ' . $this->getAccessToken(),
       ];
     }
-    if ($auth_method == self::AUTH_METHOD_SECRET) {
+    if ($auth_method == static::AUTH_METHOD_SECRET) {
       $headers = [
         'client_id' => $this->getClientId(),
         'client_secret' => $this->getClientSecret(),
@@ -221,14 +232,15 @@ class Salsify {
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   protected function getRawData() {
-    $client = new Client();
     $endpoint = $this->getUrl();
     try {
       // Access the channel URL to fetch the newest product feed URL.
-      $generate_product_feed = $client->get($endpoint, [
+      $generate_product_feed = $this->client->get($endpoint, [
         'headers' => $this->getAuthHeaders(),
+        'timeout' => 60000,
       ]);
 
+      /* @var \GuzzleHttp\Psr7\Response $generate_product_feed */
       $response = $generate_product_feed->getBody()->__toString();
       return $this->mulesoftConnector->transformData($response);
     }
@@ -382,7 +394,7 @@ class Salsify {
     $configs = [];
     foreach ($methods as $method) {
       $keys['method'] = $method;
-      $config_prefix = self::getConfigName($keys);
+      $config_prefix = static::getConfigName($keys);
       $configs += \Drupal::configFactory()->listAll($config_prefix);
     }
     $results = [];
@@ -413,7 +425,7 @@ class Salsify {
     \Drupal::moduleHandler()->alter('salsify_field_mapping_create', $values);
 
     if ($values) {
-      self::setConfig($values);
+      static::setConfig($values);
     }
   }
 
@@ -429,7 +441,7 @@ class Salsify {
     \Drupal::moduleHandler()->alter('salsify_field_mapping_update', $values);
 
     if ($values) {
-      self::setConfig($values);
+      static::setConfig($values);
     }
   }
 
@@ -440,7 +452,7 @@ class Salsify {
    *   The array of column name => value settings to use when matching the row.
    */
   public static function deleteFieldMapping(array $keys) {
-    self::deleteConfig($keys);
+    static::deleteConfig($keys);
   }
 
   /**
@@ -467,7 +479,7 @@ class Salsify {
    *   The values to write into the configuration element.
    */
   public static function setConfig(array $values) {
-    $config_name = self::getConfigName($values);
+    $config_name = static::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
     $config = \Drupal::service('config.factory')->getEditable($config_name);
     foreach ($values as $label => $value) {
@@ -483,7 +495,7 @@ class Salsify {
    *   The values used to lookup the  configuration element.
    */
   public static function deleteConfig(array $values) {
-    $config_name = self::getConfigName($values);
+    $config_name = static::getConfigName($values);
     /* @var \Drupal\Core\Config\Config $config */
     $config = \Drupal::service('config.factory')->getEditable($config_name);
     $config->delete();
@@ -557,7 +569,7 @@ class Salsify {
       foreach ($salsify_data['values'] as $value) {
         // Filter out everything but alphanumeric characters, dashes, and spaces
         // to prevent errors when setting the field options.
-        $salsify_id = preg_replace('/[^\w-\s]/', '', $value['salsify:id']);
+        $salsify_id = preg_replace('/[^[A-Za-z0-9_]-\s]/', '', $value['salsify:id']);
         $options[$salsify_id] = $value['salsify:name'];
       }
       $config->set($salsify_data['salsify:system_id'], $options);

@@ -1,27 +1,24 @@
 {% set footer__base_class = 'footer' %}
-{% set modifier = legal_links_menu_items|length > 10 ? 'large' : 'small' %}
+{% set legal_links_modifier = legal_links_menu_items|length > 10 ? 'large' : 'small' %}
+{% set legal_full_width_modifier = social_menu_items|length == 0 ? 'full-width' : '' %}
 
 <footer {{ bem(footer__base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('section', ['primary'], footer__base_class) }}>
     <div {{ bem('section-content', [], footer__base_class) }}>
       <div {{ bem('logo', [], footer__base_class) }}>
         {% block footer__logo %}
-          <a href="#">
-            {% include "@atoms/images/image/_image.twig" with {
-              output_image_tag: true,
-              image_alt: 'Logo',
-              image_srcset: 'twix-logo-102-x2.png 200w,
-                twix-logo-302-x2.png 200w,
-                twix-logo-414-x2.png 200w,
-                twix-logo-414-x2.png 200w',
-              image_sizes: '(max-width: 375px) 101px,
-                (max-width: 768px) 151px,
-                (max-width: 1024px) 212px,
-                232px',
-              image_src: 'twix-logo.png',
-              responsive_image_blockname: 'logo',
-            } %}
-          </a>
+        <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }} aria-label="{{ "Logo image" | mt }}">
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            output_image_tag: true,
+            image_alt: 'Logo',
+            image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
+            image_sizes: '212px',
+            height: '75px',
+            width: '212px',
+            image_src: 'twix-logo.png',
+            responsive_image_blockname: 'logo',
+          } %}
+        </a>
         {% endblock %}
       </div>
       <div {{ bem('menu', [], footer__base_class) }}>
@@ -30,43 +27,47 @@
         {% endblock %}
       </div>
     </div>
-  </div>
-  <div {{ bem('section', ['secondary'], footer__base_class) }}>
     {% block footer__brand_border %}
-      <div class="{{ brand_shape_class }}">
+      <div {{  bem('border', [], footer__base_class)  }}>
         {{ brand_border | raw }}
       </div>
     {% endblock %}
-
+  </div>
+  <div {{ bem('section', ['secondary'], footer__base_class) }}>
     <div {{ bem('section-content', [], footer__base_class) }}>
-      <div {{ bem('social', [], footer__base_class) }}>
-        {% block footer__social %}
-          <div {{ bem('section-header', [], footer__base_class) }}>{{ social_text }}</div>
-          {% include "@molecules/menus/social/social-menu.twig" with {
-            social_menu_items: social_menu_items,
-          } %}
-        {% endblock %}
-      </div>
-      <div {{ bem('legal-links', [modifier], footer__base_class) }}>
+      {% if social_menu_items|length > 0 %}
+        <div {{ bem('social', [], footer__base_class) }}>
+          {% block footer__social %}
+            <div {{ bem('section-header', [], footer__base_class) }}>{{ social_text }}</div>
+            {% include "@molecules/menus/social/social-menu.twig" with {
+              social_menu_items: social_menu_items,
+            } %}
+          {% endblock %}
+        </div>
+      {% endif %}
+      <div {{ bem('separator_1', [], footer__base_class) }}></div>
+      <div {{ bem('legal-links', [legal_links_modifier, legal_full_width_modifier], footer__base_class) }}>
         {% block footer__legal_links %}
           {% include "@molecules/menus/legal-links/legal-links-menu.twig" %}
         {% endblock %}
       </div>
-      <div {{ bem('region-selector', [], footer__base_class) }}>
-        {% if regions|length > 0 %}
-          {% block footer__region_selector %}
-            {% include "@atoms/text/text/07-span.twig" with {
-              span_base_class: footer__base_class ~ '__section-header',
-              span_content: region_title,
-            } %}
-            {% include "@molecules/dropdown/dropdown.twig" with {
-              dropdown_selected_title: current_region_title,
-              dropdown_title: region_title,
-              dropdown_items: regions,
-            } %}
-          {% endblock %}
-        {% endif %}
-      </div>
+      {% if social_menu_items|length > 0 or regions|length > 0 %}
+        <div {{ bem('region-selector', [], footer__base_class) }}>
+          {% if regions|length > 0 %}
+            {% block footer__region_selector %}
+              {% include "@atoms/text/text/07-span.twig" with {
+                span_base_class: footer__base_class ~ '__section-header',
+                span_content: region_title,
+              } %}
+              {% include "@molecules/dropdown/dropdown.twig" with {
+                dropdown_selected_title: current_region_title,
+                dropdown_title: region_title,
+                dropdown_items: regions,
+              } %}
+            {% endblock %}
+          {% endif %}
+        </div>
+      {% endif %}
       <div {{ bem('info', [], footer__base_class) }}>
         {% block footer__info %}
           {% include "@atoms/text/text/01-paragraph.twig" with {
@@ -87,13 +88,14 @@
           } %}
         {% endblock %}
       </div>
-      <div {{ bem('separator', [], footer__base_class) }}></div>
+      <div {{ bem('separator_2', [], footer__base_class) }}></div>
       <div {{ bem('corporate-tout', [], footer__base_class) }}>
         <div {{ bem('corporate-tout__text', []) }}>{{ corporate_tout_text }}</div>
-        {% include "@atoms/buttons/twig/button.twig" with {
-          button_base_class: 'corporate-tout__button',
-          button_content: 'See All',
-          button_url: '/',
+        {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+          default_link_content: 'See All' | mt | upper,
+          default_link_attributes: corporate_tout_link_attributes,
+          default_link_base_class: 'default-link',
+          default_link_modifiers: ['light']
         } %}
       </div>
     </div>

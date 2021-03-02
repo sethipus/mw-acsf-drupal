@@ -1,0 +1,18 @@
+uuid: 23e1ebb3-1448-40c3-8dfa-cc6a3ae62521
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_product_line
+id: taxonomy_term.mars_product_line.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_product_line
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

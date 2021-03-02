@@ -1,0 +1,18 @@
+uuid: 193ff160-9f3e-4c33-a2ac-25245927821d
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_occasions
+id: taxonomy_term.mars_occasions.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_occasions
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

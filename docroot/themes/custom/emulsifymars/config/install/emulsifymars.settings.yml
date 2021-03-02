@@ -30,6 +30,10 @@ button_style: 0
 # ----------------------------
 show_allergen_info: false
 
+# Product rating and reviews settings.
+# ----------------------------
+show_rating_and_reviews: true
+
 # Social links.
 # ----------------------------
 social_links:

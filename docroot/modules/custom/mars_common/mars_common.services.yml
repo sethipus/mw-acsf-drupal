@@ -1,7 +1,26 @@
 services:
+  mars_common.language_helper:
+    class: Drupal\mars_common\LanguageHelper
+    arguments: ['@language_manager', '@string_translation']
+
+  mars_common.language_helper_twig_filters:
+    class: Drupal\mars_common\Twig\LanguageTwigFilter
+    arguments:
+      [ '@mars_common.language_helper' ]
+    tags:
+      - {name: twig.extension}
+
+  logger.channel.mars_common:
+    parent: logger.channel_base
+    arguments: [ 'mars_common' ]
+
   mars_common.media_helper:
     class: Drupal\mars_common\MediaHelper
-    arguments: ['@entity_type.manager', '@mars_product.product_helper']
+    arguments: [ '@entity_type.manager', '@mars_product.product_helper', '@mars_common.language_helper']
+
+  mars_common.menu_builder:
+    class: Drupal\mars_common\MenuBuilder
+    arguments: ['@menu.link_tree']
 
   mars_common.media_helper_twig_filters:
     class: Drupal\mars_common\Twig\MediaHelperFilters
@@ -12,15 +31,41 @@ services:
 
   mars_common.theme_configurator_parser:
     class: Drupal\mars_common\ThemeConfiguratorParser
-    arguments: [ '@entity_type.manager', '@config.factory' ]
-
-  mars_common.menu_add_access:
-    class: Drupal\mars_common\Access\MenuAddAccess
-    arguments: ['@current_route_match', '@plugin.manager.menu.link']
-    tags:
-      - { name: access_check, applies_to: _menu_add_access }
+    arguments: [ '@entity_type.manager', '@config.factory', '@mars_common.svg_factory' ,'@logger.channel.mars_common' ]
 
   mars_common.route_subscriber:
     class: Drupal\mars_common\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+
+  mars_common.svg_factory:
+    arguments: [ '@entity_type.manager' , '@mars_common.svg_unique_id_generator' ]
+    class: Drupal\mars_common\SVG\SVGFactory
+
+  mars_common.svg_unique_id_generator:
+    class: Drupal\mars_common\SVG\SVGUniqueIdGenerator
+
+  mars_common.theme_configurator_service:
+    arguments: [ '@image.factory', '@module_handler', '@file_system', '@config.factory', '@entity_type.manager' ]
+    class: Drupal\mars_common\ThemeConfiguratorService
+
+  mars_common.theme_config_factory_override:
+    class: Drupal\mars_common\ThemeOverride\ConfigFactoryOverride
+    arguments: [ '@config.factory', '@config.installer', '@mars_common.theme_override_service' ]
+    tags:
+      - { name: config.factory.override, priority: 5 }
+
+  mars_common.theme_override_service:
+    class: Drupal\mars_common\ThemeOverride\ThemeOverrideService
+    arguments: [ '@current_route_match' ]
+
+  cache_context.theme_override:
+    class: Drupal\mars_common\Cache\Context\ThemeOverrideContext
+    arguments: [ '@mars_common.theme_override_service' ]
+    tags:
+      - { name: cache.context }
+
+  mars_common.bg_color_class_map.twig_extension:
+    class: Drupal\mars_common\Twig\BgColorClassMapper
+    tags:
+      - { name: twig.extension }

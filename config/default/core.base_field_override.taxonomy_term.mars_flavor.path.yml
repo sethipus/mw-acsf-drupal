@@ -1,0 +1,20 @@
+uuid: 502f7665-ff40-4cec-87bc-2cfcaa1c3871
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_flavor
+  module:
+    - path
+id: taxonomy_term.mars_flavor.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_flavor
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

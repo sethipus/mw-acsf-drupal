@@ -1,123 +1,95 @@
 .flexible-framer {
+  @include brand-border-overflow;
+
+  position: relative;
   font-family: variable(primary-font);
   background-color: clr(subcolor-2);
   color: clr(primary);
-  margin-top: 23px;
-  padding-top: 50px;
-  position: relative;
-
-  @include medium {
-    margin-top: 40px;
-  }
-
-  @include large {
-    margin-top: 75px;
-  }
-
-  & .stretch {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    z-index: -1;
-    top: -65px;
-
-    > svg {
-      width: 100%;
-      > path {
-        fill: clr(subcolor-2);
-        width: 100%;
-      }
-      > rect {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  & .repeat {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    top: -20px;
-
-    svg {
-      width: 100%;
-      max-height: 30px;
-
-      path {
-        fill: clr(secondary);
-      }
-      rect {
-        width: 100%;
-        height: 3rem;
-      }
-    }
-  }
 
   & .h2 {
+    position: relative;
     font-family: variable(heading-font);
-    font-size: 40px;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: 40px;
-    letter-spacing: 1.4px;
     color: clr(primary);
-    text-transform: uppercase;
     text-align: center;
+    padding-top: 8rem;
+    font-size: 2.8rem;
+    line-height: 2.8rem;
+
+    @include medium {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
+
+    @include large {
+      font-size: 4.8rem;
+      line-height: 4.8rem;
+    }
   }
 
   & .divider {
     text-align: center;
-    margin-top: 20px;
-    svg {
-      path {
-        fill: clr(subcolor-1);
-      }
-    }
+    margin-top: 2rem;
+    fill: clr(subcolor-1);
   }
 
   & .image-wrapper {
-    min-height: 200px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 
-    & img:hover {
-      transform: scale(1.1);
-      transition: transform 0.8s;
-    }
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      &:hover {
+        transform: scale(1.1);
+        transition: transform 0.8s;
+      }  
+    }    
   }
 
   & .grid--card {
-    margin: 40px 20px 0 20px;
+    margin: 4rem 2rem 0 2rem;
+    padding-bottom: 3rem;
 
-  & .image-background {
-    display: inline-block;
-    margin: auto;
-  }
+    @include xs {
+      flex-flow: column;
+    }
 
     @include medium {
-      flex-flow: row wrap;
+      margin: 4rem 4rem 0 4rem;
+      padding-bottom: 4rem;
+      flex-flow: row;
       flex-grow: 1;
       align-items: stretch;
     }
 
     @include large {
+      padding-bottom: 6rem;
       flex-flow: row nowrap;
-      flex-grow: 1;
+    }
+
+    & .image-background {
+      display: inline-block;
+      margin: 0 auto;
+      max-width: 80%;
     }
 
     & .card {
       text-align: center;
+      align-items: center;
+
       &__heading {
+        margin-top: 3rem;
         text-align: center;
         color: clr(primary);
         font-family: variable(primary-font);
         font-size: 2rem;
-        line-height: 1.1;
-        letter-spacing: 0.8px;
+        line-height: 2.2rem;
 
         &-link {
           color: clr(primary);
@@ -127,35 +99,90 @@
             color: clr(secondary);
           }
         }
-        
+
         @include large {
+          margin-top: 6rem;
           font-size: 2.4rem;
-          letter-spacing: 0.96px;
+          line-height: 2.64rem;
+        }
+
+        &:last-child {
+          margin-bottom: 2rem;
         }
       }
 
       &__body {
+        margin-top: 1.6rem;
+        margin-bottom: 0;
         font-family: variable(secondary-font);
         font-size: 1.6rem;
         line-height: 1.4;
-        
+        flex: 1 0 auto;
+        max-width: 549px;
+
         @include large {
           font-size: 1.8rem;
         }
       }
 
       & a.default-link {
-        height: 50px;
-        line-height: 50px;
-        padding: 0 20px;
+        height: 5rem;
+        width: 13.3rem;
+        line-height: 5rem;
         background-color: clr(secondary);
-        font-size: 14px;
-        border:none;
+        font-size: 1.4rem;
+        border: none;
+        padding: 0;
+
+        @include medium {
+          font-size: 1.6rem;
+          width: 15.7rem;
+        }
+
+        @include large {
+          height: 6rem;
+          line-height: 6rem;
+          width: 20.2rem;
+        }
 
         &:hover {
           color: clr(secondary);
         }
       }
+    }
+
+  }
+
+  .grid-items-2 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/2) * 0.5625);
+        flex: 0 0 auto;
+      }
+    }
+  }
+
+  .grid-items-3 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/3) * 0.5625);
+        flex: 0 0 auto;
+      }
+    }
+    .card__body{
+      max-width: 433px;
+    }
+  }
+
+  .grid-items-4 {
+    .image-wrapper {
+      @include large {
+        min-height: calc((100vw/4) * 0.5625);
+        flex: 0 0 auto;
+      }
+    }
+    .card__body{
+      max-width: 317px;
     }
   }
 
@@ -172,27 +199,110 @@
     }
 
     & .cta-wrapper {
-      margin-top: auto;
-      margin-bottom: 20px;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+
+      @include large {
+        margin-top: 4rem;
+      }
+    }
+  }
+
+  &--related-recipes {
+
+    & .image-wrapper {
+      align-items: center;
     }
 
-    &:nth-child(2n-1) {
+    & .grid--card {
+      @include medium {
+        align-items: stretch;
+      }
+
+      @include large {
+        align-items: stretch;
+      }
+
       & .image-background {
-        background-image: variable(brand-shape);
-        background-size: 70% 70%;
-        background-repeat: no-repeat;
-        background-position: center center;
+        margin: auto;
+      }
 
-        &:hover {
-          transform: scale(1.1);
-          transition: transform 0.8s ease;
-        }
+      & .card__heading {
+        margin-top: 4rem;
+      }
+    }
 
-        & svg {
-          circle {
-            fill: clr(subcolor-2);
+    & .grid__item {
+      .brand-shape {
+        display: none;
+      }
+      &:nth-child(2n-1) {
+        & .image-background {
+          position: relative;
+
+          .image {
+            position: relative;
           }
+
+          .brand-shape {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+
+            svg {
+              width: 100%;
+              height: 100%;
+              max-width: 27.7rem;
+              margin-left: 0%;
+              fill: clr(subcolor-1);
+              opacity: 0.2;
+            }
+          }
+
+          &:hover {
+            background-size: 77%;
+            transition: background-size 0.8s ease;
+          }
+
         }
+      }
+    }
+
+    .grid-items-2 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/2) * 0.5625);
+          flex: 0 0 auto;
+        }
+      }
+    }
+
+    .grid-items-3 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/3) * 0.5625);
+          flex: 0 0 auto;
+        }
+      }
+      .card__body{
+        max-width: 433px;
+      }
+    }
+
+    .grid-items-4 {
+      .image-wrapper {
+        @include large {
+          min-height: calc((100vw/4) * 0.5625);
+          flex: 0 0 auto;
+        }
+      }
+      .card__body{
+        max-width: 317px;
       }
     }
   }

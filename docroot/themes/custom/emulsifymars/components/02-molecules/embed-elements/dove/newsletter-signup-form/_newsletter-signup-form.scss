@@ -1,0 +1,240 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mukta:wght@700&display=swap");
+
+/* Uncomment before deploy:
+
+body {
+  height: 750px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ */
+
+.dove.newsletter-signup-form {
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  color: #490e00;
+}
+.newsletter-form:invalid > .newsletter-form-submit {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.newsletter-form-lightbox {
+  max-width: 335px;
+  border-radius: 20px;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08);
+  padding: 0 17px;
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 768px) {
+  .newsletter-form-lightbox {
+    width: calc(100% - 80px);
+    max-width: 688px;
+    padding: 30px 60px;
+  }
+}
+@media (min-width: 1440px) {
+  .newsletter-form-lightbox {
+    max-width: 895px;
+    padding: 30px 120px;
+  }
+}
+
+.newsletter-form-heading {
+  margin: 33px 0 5px;
+  font: 22px/1.1em "Mukta", sans-serif;
+  color: #e42525;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  align-self: center;
+}
+@media (min-width: 768px) {
+  .newsletter-form-heading {
+    margin: 30px 0 0;
+    font-size: 27px;
+  }
+}
+@media (min-width: 1440px) {
+  .newsletter-form-heading {
+    margin: 30px 0 0;
+  }
+}
+
+.newsletter-form-row {
+  position: relative;
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .newsletter-form-row {
+    margin: 10px 0;
+  }
+}
+
+.newsletter-form-columns {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+@media (min-width: 768px) {
+  .newsletter-form-columns {
+    flex-direction: row;
+  }
+}
+.newsletter-form-columns__item {
+  position: relative;
+  flex-grow: 1;
+}
+@media (min-width: 768px) {
+  .newsletter-form-columns__item {
+    max-width: 48%;
+  }
+}
+
+/* floating label styles */
+.newsletter-form-item {
+  position: relative;
+}
+.newsletter-form-item__input {
+  position: relative;
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #c4c4c4;
+  margin: 0 auto;
+  padding: 20px 0 0 0;
+  height: 55px;
+  outline: none;
+  font: 16px/1.4em "Montserrat", sans-serif;
+  color: #490e00;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+.newsletter-form-item__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: left;
+  display: block;
+  width: 100%;
+  height: 55px;
+  font: 16px/75px "Montserrat", sans-serif;
+  color: #490e00;
+  margin: 0 auto;
+  cursor: text;
+  transition: all 0.15s ease-in-out;
+}
+.newsletter-form-item__input:valid + .newsletter-form-item__label, .newsletter-form-item__input:focus + .newsletter-form-item__label {
+  height: 20px;
+  line-height: 20px;
+  font-size: 11px;
+  color: #490e00;
+  opacity: 0.5;
+  letter-spacing: -0.9px;
+}
+
+/* end of floating label styles */
+.newsletter-form-checkbox {
+  margin: 30px 0 15px;
+}
+@media (min-width: 768px) {
+  .newsletter-form-checkbox {
+    margin: 20px 0 15px;
+  }
+}
+.newsletter-form-checkbox__input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+.newsletter-form-checkbox__label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font: 12px/1.3em "Montserrat", sans-serif;
+  color: #490e00;
+  letter-spacing: -0.25px;
+  padding-left: 30px;
+}
+@media (min-width: 768px) {
+  .newsletter-form-checkbox__label {
+    font-size: 14px;
+  }
+}
+.newsletter-form-checkbox__label::before {
+  content: "";
+  display: block;
+  background-color: transparent;
+  border: 1px solid #c4c4c4;
+  padding: 10px;
+  position: absolute;
+  left: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.newsletter-form-checkbox__input:checked + .newsletter-form-checkbox__label::before {
+  background-color: #e42525;
+  border-color: #e42525;
+}
+.newsletter-form-checkbox__input:checked + .newsletter-form-checkbox__label::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 7px;
+  width: 6px;
+  height: 14px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.newsletter-form-terms-link {
+  color: #490e00;
+}
+
+.newsletter-form-submit {
+  margin: 40px 0;
+  width: 157px;
+  height: 50px;
+  background-color: #e42525;
+  color: white;
+  border: none;
+  font: 16px/50px "Mukta", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+@media (max-width: 375px) {
+  .newsletter-form-submit {
+    width: 335px;
+  }
+}
+@media (min-width: 1440px) {
+  .newsletter-form-submit {
+    width: 200px;
+    height: 60px;
+    line-height: 60px;
+  }
+}
+.newsletter-form-submit:hover {
+  filter: brightness(85%);
+}
+
+input.error {
+  border-bottom: 1px solid red;
+}
+
+}

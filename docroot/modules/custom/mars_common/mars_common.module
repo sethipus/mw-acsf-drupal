@@ -6,11 +6,13 @@
  */
 
 use Drupal\block_content\BlockContentInterface;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\layout_builder\Entity\LayoutEntityDisplayInterface;
@@ -35,6 +37,10 @@ use Drupal\taxonomy\TermInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\mars_common\Constants\MenuConstants;
+use Drupal\mars_common\Constants\SocialMediaConstants;
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
+use Drupal\node\NodeInterface;
+use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 
 /**
  * Implements hook_menu_insert().
@@ -62,29 +68,42 @@ function mars_common_preprocess(&$variables, $hook) {
 
   if ($hook === 'views_view__grid_card') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
-    $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'card-grid-border');
+    $file_divider_content = $themeParser->getGraphicDivider();
+    $file_border_content = $themeParser->getBrandBorder2();
     $border_radius = Drupal::config('emulsifymars.settings')
       ->get('button_style');
 
     $variables['theme_styles'] = 'drupal';
     $variables['graphic_divider'] = $file_divider_content ?? '';
-    $variables['brand_border'] = $file_border_content ?? '';
+    $variables['brand_border'] = ($variables['view']->args[1]) ? $file_border_content : '';
+    $variables['overlaps_previous'] = $variables['view']->args[2] ?? '';
     $variables['ajax_card_grid_heading'] = $variables['view']->args[0] ?? '';
     $variables['ajax_card_grid_link_text'] = 'See All';
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
   }
 
-  if ((isset($variables['view_mode']) && $variables['view_mode'] === 'article_card')
-    || $hook === 'poll_results') {
+  $view_mode_is_card =
+    isset($variables['view_mode']) &&
+    $variables['view_mode'] === 'card';
+
+  $is_article_card =
+    $hook === 'node' &&
+    $view_mode_is_card &&
+    isset($variables['node']) &&
+    $variables['node'] instanceof Node &&
+    $variables['node']->bundle() === 'article';
+
+  if ($is_article_card || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-    $brand_shape_content = $themeParser->getFileContentFromTheme('brand_shape');
+    $brand_shape_content = $themeParser->getBrandShapeWithoutFill();
     $variables['brand_shape'] = $brand_shape_content ?? '';
   }
 
   if ($hook === 'poll_vote' || $hook === 'poll_results') {
     $themeParser = Drupal::service('mars_common.theme_configurator_parser');
     $variables['polling_png_asset'] = $themeParser->getUrlForFile('png_asset');
+    $brand_shape_content = $themeParser->getBrandShapeWithoutFill();
+    $variables['brand_shape'] = $brand_shape_content ?? '';
   }
 
   if ($hook === 'views_infinite_scroll_pager__grid_card') {
@@ -101,30 +120,43 @@ function mars_common_theme($existing, $type, $theme, $path) {
   return [
     'header_block' => [
       'variables' => [
-        'logo'              => NULL,
-        'primary_menu'      => NULL,
-        'secondary_menu'    => NULL,
-        'search_menu'       => NULL,
+        'logo' => NULL,
+        'logo_alt' => NULL,
+        'primary_menu' => NULL,
+        'secondary_menu' => NULL,
+        'search_menu' => NULL,
         'language_selector' => NULL,
-        'search_block'      => NULL,
+        'language_selector_current' => NULL,
+        'language_selector_label' => NULL,
+        'language_selector_items' => NULL,
+        'search_block' => NULL,
         'alert_banner_text' => NULL,
-        'alert_banner_url'  => NULL,
-        'search_form'       => NULL,
+        'alert_banner_url' => NULL,
+        'search_form' => NULL,
+        'search_close_label' => NULL,
+        'search_enabled' => NULL,
+        'search_title' => NULL,
+        'brand_border' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],
     'footer_block' => [
       'variables' => [
-        'logo'                 => NULL,
-        'brand_shape_class'    => NULL,
-        'brand_border'         => NULL,
-        'social_links'         => NULL,
-        'top_footer_menu'      => NULL,
-        'legal_links'          => NULL,
-        'marketing'            => NULL,
-        'corporate_tout'       => NULL,
-        'region_selector'      => NULL,
+        'logo' => NULL,
+        'logo_alt' => NULL,
+        'brand_border' => NULL,
+        'social_links' => NULL,
+        'top_footer_menu' => NULL,
+        'legal_links' => NULL,
+        'marketing' => NULL,
+        'corporate_tout_text' => NULL,
+        'corporate_tout_url' => NULL,
+        'region_title' => NULL,
+        'region_selector' => NULL,
+        'social_header' => NULL,
         'current_region_title' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -138,6 +170,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'explore_cta_link' => NULL,
         'border_radius' => NULL,
         'graphic_divider' => NULL,
+        'dark_overlay' => NULL,
       ],
       'template' => 'content-feature-module-block',
     ],
@@ -147,6 +180,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'items' => [],
         'graphic_divider' => '',
         'brand_border' => '',
+        'select_background_color' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
     ],
     'flexible_driver_block' => [
@@ -157,6 +193,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'cta_link' => NULL,
         'asset_1' => NULL,
         'asset_2' => NULL,
+        'select_background_color' => NULL,
       ],
     ],
     'story_highlight_block' => [
@@ -174,6 +211,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'svg_asset_alt_3' => NULL,
         'view_more_cta_url' => NULL,
         'view_more_cta_label' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'story-highlight-block',
     ],
@@ -185,6 +224,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'description' => NULL,
         'media_type' => NULL,
         'media_format' => NULL,
+        'brand_shape' => NULL,
+        'styles' => NULL,
+        'dark_overlay' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -209,10 +251,12 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'eyebrow' => NULL,
         'title' => NULL,
         'background_color' => NULL,
+        'brand_shape' => NULL,
         'image_src' => NULL,
         'image_alt' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
+        'brand_shape' => NULL,
       ],
       'template' => 'product-feature-block',
     ],
@@ -254,6 +298,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
         'brand_shape' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'contact-help-banner-block',
     ],
@@ -276,17 +321,30 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'custom_background_color' => NULL,
         'use_custom_color' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'freeform-story-block',
     ],
     'poll_block' => [
       'variables' => [
         'poll' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'poll-block',
     ],
     'where_to_buy_block' => [
       'template' => 'where-to-buy-block',
+      'variables' => [
+        'commerce_vendor' => NULL,
+        'widget_id' => NULL,
+        'data_token' => NULL,
+        'data_subid' => NULL,
+        'data_locale' => NULL,
+        'data_displaylanguage' => NULL,
+        'products' => NULL,
+        'default_product' => NULL,
+        'product_sku' => NULL,
+      ],
     ],
     'text_block' => [
       'variables' => [
@@ -301,10 +359,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'video_src' => NULL,
         'image_src' => NULL,
         'image_alt' => NULL,
-        'image_title' => NULL,
         'shape_motif' => NULL,
         'content' => NULL,
-        'title' => NULL,
+        'heading' => NULL,
       ],
       'template' => 'inline-image-video-block',
     ],
@@ -312,7 +369,6 @@ function mars_common_theme($existing, $type, $theme, $path) {
       'variables' => [
         'block_type' => NULL,
         'media' => NULL,
-        'shape_motif' => NULL,
         'content' => NULL,
         'heading' => NULL,
       ],
@@ -340,9 +396,19 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'item_type' => NULL,
         'items' => NULL,
         'brand_borders' => NULL,
+        'brand_shape' => NULL,
         'divider' => NULL,
+        'select_background_color' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'flexible-framer-block',
+    ],
+    'js_block' => [
+      'variables' => [
+        'js_code' => NULL,
+      ],
+      'template' => 'js-block',
     ],
   ];
 }
@@ -399,8 +465,9 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
   $field_carousel_title = $variables['content']['field_carousel_title'];
   $field_carousel_items = $variables['content']['field_carousel_items'];
 
+  /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-  $file_content = $themeParser->getFileWithId('brand_borders', 'carousel');
+  $file_content = $themeParser->getBrandBorder();
 
   $media_items = [];
   foreach ($field_carousel_items as $item_key => $item_value) {
@@ -501,10 +568,10 @@ function mars_common_preprocess_block__inline_block__inline_image(array &$variab
   }
 
   if (!$block->get('field_inline_image_svg_asset')->isEmpty()) {
-    $variables['shape_motif'] = (bool) $block
-      ->get('field_inline_image_svg_asset')
-      ->first()
-      ->value;
+
+    /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $variables['shape_motif'] = $themeParser->getBrandShape();
   }
 
   if (!$block->get('field_inline_image_description')->isEmpty()) {
@@ -545,10 +612,10 @@ function mars_common_preprocess_block__inline_block__inline_video(array &$variab
   }
 
   if (!$block->get('field_inline_video_svg_asset')->isEmpty()) {
-    $variables['shape_motif'] = (bool) $block
-      ->get('field_inline_video_svg_asset')
-      ->first()
-      ->value;
+
+    /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
+    $themeParser = Drupal::service('mars_common.theme_configurator_parser');
+    $variables['shape_motif'] = $themeParser->getBrandShape();
   }
 
   if (!$block->get('field_inline_video_description')->isEmpty()) {
@@ -707,8 +774,8 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   }
   /** @var \Drupal\mars_common\ThemeConfiguratorParser $themeParser */
   $themeParser = Drupal::service('mars_common.theme_configurator_parser');
-  $file_divider_content = $themeParser->getFileContentFromTheme('graphic_divider');
-  $file_border_content = $themeParser->getFileWithId('brand_borders_2', 'recipe-hero-border');
+  $file_divider_content = $themeParser->getGraphicDivider();
+  $file_border_content = $themeParser->getBrandBorder2();
 
   $variables['items'] = $ff_items;
   $variables['grid_label'] = $field_ff_title;
@@ -716,7 +783,93 @@ function mars_common_preprocess_block__inline_block__flexible_framer(array &$var
   $variables['item_type'] = 'card';
   $variables['divider'] = $file_divider_content ?? NULL;
   $variables['brand_borders'] = $file_border_content ?? NULL;
-  $variables['brand_shape_class'] = $themeParser->getSettingValue('brand_border_style', 'stretch');
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__article__card(array &$variables) {
+  card_add_badge_text($variables);
+  card_add_button_label($variables, 'article_card_button');
+  add_cache_by_label_config($variables);
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_article');
+  card_change_color($variables, $color_key);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__campaign__card(array &$variables) {
+  card_add_badge_text($variables);
+  card_add_button_label($variables, 'campaign_card_button');
+  add_cache_by_label_config($variables);
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_campaign');
+  card_change_color($variables, $color_key);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__landing_page__card(array &$variables) {
+  card_add_badge_text($variables);
+  card_add_button_label($variables, 'landing_card_button');
+  add_cache_by_label_config($variables);
+  $variables['brand_shape'] = [
+    '#type' => 'inline_template',
+    '#template' => \Drupal::service('mars_common.theme_configurator_parser')->getBrandShapeWithoutFill(),
+  ];
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_landing');
+  card_change_color($variables, $color_key);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function mars_common_preprocess_node__content_hub_page__card(array &$variables) {
+  card_add_badge_text($variables);
+  card_add_button_label($variables, 'content_hub_card_button');
+  add_cache_by_label_config($variables);
+  $color_key = \Drupal::config(MarsCardColorSettingsForm::SETTINGS)->get('select_background_color_hub_card');
+  card_change_color($variables, $color_key);
+}
+
+/**
+ * Add the configured badge text to cards.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function card_add_badge_text(array &$variables) {
+  $language_helper = \Drupal::service('mars_common.language_helper');
+  $badge_text = \Drupal::config('mars_common.site_labels')->get('card_new_badge');
+  $variables['badge_text'] = $language_helper->translate($badge_text);
+}
+
+/**
+ * Add the specific configured button text to cards.
+ *
+ * @param array $variables
+ *   Variables.
+ * @param string $key
+ *   Config key value.
+ */
+function card_add_button_label(array &$variables, string $key) {
+  $language_helper = \Drupal::service('mars_common.language_helper');
+  $config = \Drupal::config('mars_common.site_labels');
+  $variables['card_button_text'] = $language_helper->translate($config->get($key));
+}
+
+/**
+ * Add cache by label config.
+ *
+ * @param array $variables
+ *   Variables.
+ */
+function add_cache_by_label_config(array &$variables) {
+  $config = \Drupal::config('mars_common.site_labels');
+  $cacheMetadata = CacheableMetadata::createFromRenderArray($variables);
+  $cacheMetadata->addCacheableDependency($config);
+  $cacheMetadata->applyTo($variables);
 }
 
 /**
@@ -737,6 +890,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     if ($form['actions']['vote']['#ajax'] ?? NULL) {
       $form['actions']['vote']['#ajax']['progress'] = FALSE;
     }
+    $form['actions']['vote']['#submit'][] = 'poll_form_submit_action_callback';
     if ($form['actions']['result']['#ajax'] ?? NULL) {
       $form['actions']['result']['#ajax']['progress'] = FALSE;
     }
@@ -757,6 +911,14 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       $form['#validate'][] = [$form_alter_class, 'validate'];
     }
   }
+}
+
+/**
+ * Callback function to delete status messages in the poll submit function.
+ */
+function poll_form_submit_action_callback() {
+  $msg = \Drupal::messenger();
+  $msg->deleteByType('status');
 }
 
 /**
@@ -873,6 +1035,32 @@ function mars_common_menu_link_content_delete(EntityInterface $entity) {
 }
 
 /**
+ * Validate menu links against limit.
+ *
+ * @param \Drupal\menu_link_content\Entity\MenuLinkContent $entity
+ *   MenuLinkContent entity for review.
+ * @param string $menu
+ *   The Menu name.
+ * @param int $limit
+ *   Max amount of menu links.
+ */
+function _mars_common_menu_link_count_validation(MenuLinkContent $entity, string $menu, int $limit) {
+  if ($entity->isNew() ||
+  (
+    $entity->get('menu_name')->value !== $menu ||
+    $entity->get('parent')->value !== NULL)
+  ) {
+    $menu_tree_params = new MenuTreeParameters();
+    $menu_tree_params->setMaxDepth(1);
+    $menu_tree = \Drupal::menuTree()->load($menu, $menu_tree_params);
+    if (count($menu_tree) >= $limit) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+/**
  * Add custom validation to menu link form.
  *
  * @param array $form
@@ -882,24 +1070,48 @@ function mars_common_menu_link_content_delete(EntityInterface $entity) {
  */
 function _mars_common_form_menu_link_content_menu_link_content_form_validate(array &$form, FormStateInterface $form_state) {
   $entity = $form_state->getFormObject()->getEntity();
-
   $form_values = $form_state->getValues();
-  if (substr($form_values['menu_parent'], 0, -1) === MenuConstants::MAIN_MENU_ID) {
-    $menu_manager = \Drupal::service('plugin.manager.menu.link');
-    if ($entity->isNew()
-      || (!$entity->isNew() && $entity->get('menu_name')->value !== MenuConstants::MAIN_MENU_ID)) {
-      if ($menu_manager->countMenuLinks(MenuConstants::MAIN_MENU_ID) >= MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT) {
-        $form_state->setErrorByName(
-          'title',
-          t(
-            'The maximum menu count of <b>@menu</b> is <b>@max_count</b>.',
-            [
-              '@menu' => '<Main navigation>',
-              '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
-            ]
-          )
-        );
-      }
+  $form_values_parent_menu = substr($form_values['menu_parent'], 0, -1);
+  if ($form_values_parent_menu === MenuConstants::MAIN_MENU_ID) {
+    if (!_mars_common_menu_link_count_validation($entity, $form_values_parent_menu, MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT)) {
+      $form_state->setErrorByName(
+        'menu_parent',
+        t(
+          'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+          [
+            '@menu' => '<Main navigation>',
+            '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
+          ]
+        )
+      );
+    }
+  }
+  elseif ($form_values_parent_menu === MenuConstants::TOP_FOOTER_MENU_ID) {
+    if (!_mars_common_menu_link_count_validation($entity, $form_values_parent_menu, MenuConstants::TOP_FOOTER_MENU_ITEM_COUNT_LIMIT)) {
+      $form_state->setErrorByName(
+        'menu_parent',
+        t(
+          'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+          [
+            '@menu' => '<Top footer navigation>',
+            '@max_count' => MenuConstants::TOP_FOOTER_MENU_ITEM_COUNT_LIMIT,
+          ]
+        )
+      );
+    }
+  }
+  elseif ($form_values_parent_menu === MenuConstants::LEGAL_MENU_ID) {
+    if (!_mars_common_menu_link_count_validation($entity, $form_values_parent_menu, MenuConstants::LEGAL_MENU_ITEM_COUNT_LIMIT)) {
+      $form_state->setErrorByName(
+        'menu_parent',
+        t(
+          'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+          [
+            '@menu' => '<Legal links menu>',
+            '@max_count' => MenuConstants::LEGAL_MENU_ITEM_COUNT_LIMIT,
+          ]
+        )
+      );
     }
   }
 }
@@ -913,6 +1125,7 @@ function _mars_common_form_menu_link_content_menu_link_content_form_validate(arr
  *   Form state.
  */
 function mars_common_form_menu_link_content_menu_link_content_form_alter(array &$form, FormStateInterface $form_state) {
+  $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::DEFAULT_CHARACTER_COUNT_LIMIT;
   $form['#validate'][] = '_mars_common_form_menu_link_content_menu_link_content_form_validate';
   $form['#prefix'] = '<div id="menu-link-form-content-wrapper">';
   $form['#suffix'] = '</div>';
@@ -921,6 +1134,16 @@ function mars_common_form_menu_link_content_menu_link_content_form_alter(array &
   $menu_parent = $form_input['menu_parent'] ?? $form['menu_parent']['#default_value'];
   if (substr($menu_parent, 0, -1) === MenuConstants::MAIN_MENU_ID) {
     $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::MAIN_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+    $form['title']['widget'][0]['value']['#description'] .= ' Be sure the items you add do not cause the navigation to extend past one line.';
+  }
+  elseif (substr($menu_parent, 0, -1) === MenuConstants::LEGAL_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::LEGAL_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
+  elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_FOOTER_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_FOOTER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
+  }
+  elseif (substr($menu_parent, 0, -1) === MenuConstants::TOP_HEADER_MENU_ID) {
+    $form['title']['widget'][0]['value']['#maxlength'] = MenuConstants::TOP_HEADER_MENU_ITEM_CHARACTER_COUNT_LIMIT;
   }
   $form['menu_parent']['#ajax'] = [
     'disable-refocus' => FALSE,
@@ -930,6 +1153,80 @@ function mars_common_form_menu_link_content_menu_link_content_form_alter(array &
       'type' => 'throbber',
     ],
   ];
+}
+
+/**
+ * Validate "main menu" edit form.
+ *
+ * @param array $form
+ *   Render array of the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function _mars_common_form_menu_edit_form_validate(array &$form, FormStateInterface $form_state) {
+  $menu_tree_params = new MenuTreeParameters();
+  $menu_tree_params->setMaxDepth(1);
+  $menu_tree = \Drupal::menuTree()->load(MenuConstants::MAIN_MENU_ID, $menu_tree_params);
+  $form_values = $form_state->getValues();
+  $menu_tree_root_items_count = 0;
+  foreach ($form_values['links'] as $link) {
+    if (!$link['parent']) {
+      $menu_tree_root_items_count++;
+    }
+  }
+
+  if ($menu_tree_root_items_count > MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT && $menu_tree_root_items_count != count($menu_tree)) {
+    $form_state->setErrorByName('links', t(
+      'The maximum top level menu count of <b>@menu</b> is <b>@max_count</b>.',
+      [
+        '@menu' => '<Main navigation>',
+        '@max_count' => MenuConstants::MAIN_MENU_ITEM_COUNT_LIMIT,
+      ]
+    ));
+
+    // TODO: find a proper fix.
+    /*
+     * Upon validation error, the form should show the invalid state in which it
+     * was submitted. In this case because of tabledrag behavior, upon
+     * validation error the form will look like as if it's in its initial state,
+     * but in reality the hidden parent and weight fields will contain the
+     * invalid state.
+     *
+     * We are resetting those fields to their default values so the
+     * visible state and the actual hidden input state are equal. This has to be
+     * done manually as an invalid form is not rebuilt by the form builder even
+     * if we set it to do so.
+     *
+     * The proper fix would be to properly change the visibly rendered table to
+     * reflect the posted values, but currently it's done based on the actually
+     * saved menu structure and the posted values are not used at all.
+     */
+    foreach ($form['links']['links'] as &$link_form) {
+      if (is_array($link_form)) {
+        if (
+          isset($link_form['parent']['#value'], $link_form['parent']['#default_value'])
+        ) {
+          $link_form['parent']['#value'] = $link_form['parent']['#default_value'];
+        }
+        if (
+          isset($link_form['weight']['#value'], $link_form['weight']['#default_value'])
+        ) {
+          $link_form['weight']['#value'] = $link_form['weight']['#default_value'];
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_menu_edit_form_alter(array &$form, FormStateInterface $form_state) {
+  $entity = $form_state->getFormObject()->getEntity();
+  if ($entity && $entity->id() === MenuConstants::MAIN_MENU_ID) {
+    $form_state->setCached(FALSE);
+    $form['#validate'][] = '_mars_common_form_menu_edit_form_validate';
+  }
 }
 
 /**
@@ -957,10 +1254,12 @@ function mars_common_form_poll_form_alter(
 
     if (empty($form['choice']['widget'][0]['choice']['#default_value'])) {
       $form['choice']['widget'][0]['choice']['#default_value'] = 'YES';
+      $form['choice']['widget'][0]['choice']['#required'] = TRUE;
     }
 
     if (empty($form['choice']['widget'][1]['choice']['#default_value'])) {
       $form['choice']['widget'][1]['choice']['#default_value'] = 'NO';
+      $form['choice']['widget'][1]['choice']['#required'] = TRUE;
     }
 
     foreach ($form['choice']['widget'] as $choiceIndex => $choice) {
@@ -1009,7 +1308,12 @@ function mars_common_form_poll_form_alter(
     ];
 
   $form['question']['widget'][0]['value']['#title'] = 'Title';
-  $form['question']['widget'][0]['value']['#maxlength'] = 50;
+  if (empty($form['question']['widget'][0]['value']['#default_value'])) {
+    $mars_config = \Drupal::configFactory()
+      ->getEditable('mars_common.system.site');
+    $form['question']['widget'][0]['value']['#default_value'] = t('Thank you for visiting @brand!', ['@brand' => $mars_config->get('brand')]);
+  }
+  $form['question']['widget'][0]['value']['#maxlength'] = 55;
   $form['choice']['widget']['#title'] = 'Responses';
   $form['anonymous_vote_allow']['widget']['value']['#default_value'] = 1;
 
@@ -1076,10 +1380,10 @@ function mars_common_field_widget_form_alter(
   }
 
   if ($field_name == 'field_product_description') {
-    $element['#maxlength'] = 160;
+    $element['#maxlength'] = 300;
   }
   if ($field_name == 'field_recipe_description') {
-    $element['#maxlength'] = 160;
+    $element['#maxlength'] = 255;
   }
 
   if ($plugin_id === 'poll_choice_default' && $field_name === 'choice') {
@@ -1119,6 +1423,17 @@ function mars_common_theme_suggestions_block_alter(array &$suggestions, array $v
     else {
       $suggestions[] = $block_type_suggestion;
     }
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function mars_common_entity_type_alter(array &$entity_types) {
+  foreach ($entity_types as $entity_type) {
+    $constraints = $entity_type->getConstraints();
+    unset($constraints['EntityUntranslatableFields']);
+    $entity_type->setConstraints($constraints);
   }
 }
 
@@ -1225,6 +1540,19 @@ function mars_common_page_attachments(&$page) {
   if (in_array($route_name, $supported_routes)) {
     $page['#attached']['library'][] = 'mars_common/mars_common.dialog_fix';
   }
+
+  $node = $current_route->getParameter('node');
+  if (!empty($node) && $node instanceof NodeInterface) {
+    $show_rating_and_reviews = \Drupal::config('emulsifymars.settings')->get('show_rating_and_reviews');
+    if ($show_rating_and_reviews) {
+      if (EnvironmentDetector::isProdEnv()) {
+        $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
+      }
+      else {
+        $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
+      }
+    }
+  }
 }
 
 /**
@@ -1282,4 +1610,100 @@ function mars_common_include_ief_entities(array $entity_form, FormStateInterface
   }
 
   return $entity_form;
+}
+
+/**
+ * Implements hook_pathauto_punctuation_chars_alter().
+ */
+function mars_common_pathauto_punctuation_chars_alter(array &$punctuation) {
+  $punctuation['registered_trademark'] = ['value' => '®', 'name' => t('Registered trademark symbol')];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterface $form_state) {
+  $social_medias = SocialMediaConstants::SOCIAL_MEDIAS;
+  $limitation_tooltip_text = t('You must disable one of the enabled social medias to enable a new one!');
+
+  $form['#prefix'] = '<div id="social-media-wrapper">';
+  $form['#suffix'] = '</div>';
+
+  $values = $form_state->getValues();
+  $social_media_enabled_count = 0;
+  foreach ($social_medias as $social_media) {
+    $form[$social_media][$social_media . '_enable']['#ajax'] = [
+      'callback' => '_mars_common_social_media_enabled_ajax_callback',
+      'wrapper' => 'social-media-wrapper',
+      'event' => 'change',
+    ];
+    $value = isset($values[$social_media . '_enable'])
+      ? $values[$social_media . '_enable']
+      : $form[$social_media][$social_media . '_enable']['#default_value'];
+    if ($value) {
+      $social_media_enabled_count++;
+    }
+    else {
+      $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+    }
+  }
+
+  $i = 0;
+  foreach ($social_medias as $social_media) {
+    $value = isset($values[$social_media . '_enable'])
+      ? $values[$social_media . '_enable']
+      : $form[$social_media][$social_media . '_enable']['#default_value'];
+    if ($social_media_enabled_count > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM - 1) {
+      if ($value) {
+        $i++;
+        if ($i > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM) {
+          $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+          $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+          $form_state->setValue($social_media . '_enable', FALSE);
+          $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+        }
+      }
+      else {
+        $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+        $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+        $form_state->setValue($social_media . '_enable', FALSE);
+      }
+    }
+  }
+}
+
+/**
+ * Ajax callback for social media enabled checkbox change events.
+ *
+ * @param array $form
+ *   The current form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current form state.
+ *
+ * @return array
+ *   The updated form.
+ */
+function _mars_common_social_media_enabled_ajax_callback(array &$form, FormStateInterface $form_state) {
+  $form_state->setRebuild();
+  return $form;
+}
+
+/**
+ * Card change color.
+ */
+function card_change_color(&$variables, $color_key) {
+  $background_color = '';
+  if ($color_key != 'default' &&
+    !empty($color_key) &&
+    array_key_exists($color_key, MarsCardColorSettingsForm::$colorVariables)
+  ) {
+    $background_color = $color_key;
+  }
+
+  $conf = \Drupal::config(MarsCardColorSettingsForm::SETTINGS);
+  $cacheMetadata = CacheableMetadata::createFromRenderArray($variables);
+  $cacheMetadata->addCacheableDependency($conf);
+  $cacheMetadata->applyTo($variables);
+
+  $variables['select_background_color'] = $background_color;
 }

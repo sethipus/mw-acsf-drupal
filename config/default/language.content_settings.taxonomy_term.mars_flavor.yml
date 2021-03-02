@@ -1,0 +1,18 @@
+uuid: 0ff60eb6-11c0-416f-8992-208be0d7c39d
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_flavor
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: taxonomy_term.mars_flavor
+target_entity_type_id: taxonomy_term
+target_bundle: mars_flavor
+default_langcode: site_default
+language_alterable: true

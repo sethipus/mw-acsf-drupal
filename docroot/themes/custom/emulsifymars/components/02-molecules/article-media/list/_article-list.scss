@@ -1,0 +1,82 @@
+.list-container-block {
+
+  h2 {
+    text-transform: capitalize;
+    color: clr(primary);
+    font-family: variable(primary-font);
+    font-weight: normal;
+    font-size: 2.8rem;
+    line-height: 1.1;
+
+    @include small {
+      font-size: 2rem;
+      margin: 0 20px;
+    }
+
+    @include medium {
+      font-size: 2.6rem;
+      margin: 0 40px;
+    }
+
+    @include large {
+      margin: 0 0 30px 19%;
+    }
+  }
+
+  ol {
+    padding: 0;
+
+    img {
+      margin-top: 30px;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+
+      @include small  {
+        max-width: 275px;
+        margin: 20px auto 0 auto;
+      }
+
+      @include medium {
+        max-width: 509px;
+        margin: 30px auto 0 auto;
+      }
+    }
+
+    .list-item__content {
+      color: clr(primary);
+
+      @include small {
+        max-width: 295px;
+         font-size: 1.6rem;
+       }
+
+      @include medium {
+        max-width: 509px;
+        margin: 0 auto;
+      }
+
+    }
+
+    @include small {
+      max-width: 355px;
+      margin: 0 20px;
+    }
+
+    @include medium {
+      max-width: 688px;
+      margin: 0 40px;
+    }
+
+    @include xl {
+      max-width: 780px;
+      margin-left: 19%;
+    }
+  }
+}
+
+.node--article .list-container-block {
+  @include large {
+    margin: 0 27% 0 19%;
+  }
+}

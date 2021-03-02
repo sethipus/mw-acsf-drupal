@@ -26,6 +26,16 @@ class LighthouseSyncService {
   const SIZE_CHUNK = 10;
 
   /**
+   * Inventory queue id.
+   */
+  const INVENTORY_QUEUE_ID = 'lighthouse_inventory_report_queue';
+
+  /**
+   * Sync queue id.
+   */
+  const SYNC_QUEUE_ID = 'lighthouse_sync_queue';
+
+  /**
    * The queue service.
    *
    * @var \Drupal\Core\Queue\QueueFactory
@@ -54,6 +64,30 @@ class LighthouseSyncService {
    * Run lighthouse sync queue.
    */
   public function runLighthouseSyncQueue() {
+    $media_chunks = $this->getAllMediaChunks();
+    /** @var \Drupal\entityqueue\EntityQueueInterface $queue */
+    $queue = $this->queueFactory->get(self::SYNC_QUEUE_ID);
+    foreach ($media_chunks as $media_chunk) {
+      $queue->createItem($media_chunk);
+    }
+  }
+
+  /**
+   * Run lighthouse inventory report queue.
+   */
+  public function runLighthouseInventoryReport() {
+    $media_chunks = $this->getAllMediaChunks();
+    /** @var \Drupal\entityqueue\EntityQueueInterface $queue */
+    $queue = $this->queueFactory->get(self::INVENTORY_QUEUE_ID);
+    foreach ($media_chunks as $media_chunk) {
+      $queue->createItem($media_chunk);
+    }
+  }
+
+  /**
+   * Get all media "video" and "images" split by chunks.
+   */
+  private function getAllMediaChunks() {
     $media_images = $this->mediaStorage->loadByProperties([
       'bundle' => self::LIGHTHOUSE_IMAGE_BUNDLE,
     ]);
@@ -62,12 +96,7 @@ class LighthouseSyncService {
     ]);
     $all_media = array_merge($media_images, $media_videos);
     $media_chunks = array_chunk($all_media, self::SIZE_CHUNK);
-    /** @var \Drupal\entityqueue\EntityQueueInterface $queue */
-    $queue = $this->queueFactory->get('lighthouse_sync_queue');
-    foreach ($media_chunks as $media_chunk) {
-      $queue->createItem($media_chunk);
-    }
-
+    return $media_chunks;
   }
 
 }

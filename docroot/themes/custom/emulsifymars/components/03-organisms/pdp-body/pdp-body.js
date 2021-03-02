@@ -1,9 +1,9 @@
 import Swiper, {Autoplay, Pagination} from 'swiper';
 
-(function($) {
+(function($, _, Drupal) {
   Drupal.behaviors.pdpBody = {
     attach(context) {
-
+      $(context).find('.pdp-body').once('pdpBody').each(function(){
       //snapScroll function
       function _defineProperty(obj, key, value) {
         if (key in obj) {
@@ -16,45 +16,45 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         } else {
           obj[key] = value;
         }
-    
+
         return obj;
       }
-    
+
       function _objectSpread(target) {
         for (var i = 1; i < arguments.length; i++) {
           var source = arguments[i] != null ? arguments[i] : {};
           var ownKeys = Object.keys(source);
-    
+
           if (typeof Object.getOwnPropertySymbols === 'function') {
             ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
               return Object.getOwnPropertyDescriptor(source, sym).enumerable;
             }));
           }
-    
+
           ownKeys.forEach(function (key) {
             _defineProperty(target, key, source[key]);
           });
         }
-    
+
         return target;
       }
-    
+
       function _toConsumableArray(arr) {
         return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
       }
-    
+
       function _arrayWithoutHoles(arr) {
         if (Array.isArray(arr)) {
           for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-    
+
           return arr2;
         }
       }
-    
+
       function _iterableToArray(iter) {
         if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
       }
-    
+
       function _nonIterableSpread() {
         throw new TypeError("Invalid attempt to spread non-iterable instance");
       }
@@ -72,16 +72,16 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           },
           onSnapWait: 50
         }, options);
-    
+
         var items = _toConsumableArray(document.querySelectorAll(selector));
 
         var positions = [];
         var currentlySnapped;
         var snapTimeout;
         var isScrolling;
-    
+
         var getPositions = function getPositions() {
-          
+
           positions = items.map(function (item) {
             return {
               offset: $(item).is(":visible") ? item.getBoundingClientRect().top + window.scrollY - offsetPaddingCalc(item) : -5000,
@@ -89,20 +89,20 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             };
           });
         };
-    
+
         var animatedScrollTo = function animatedScrollTo() {
           var scrollTargetY = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
           var callback = arguments.length > 1 ? arguments[1] : undefined;
           var _window = window,
               scrollY = _window.scrollY;
           var currentTime = 0;
-          var time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / defaults.duration, 0.8));
-    
+          var time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / defaults.duration, 0.4));
+
           var tick = function tick() {
             currentTime += 1 / 60;
             var p = currentTime / time;
             var t = defaults.easing(p);
-    
+
             if (p < 1) {
               requestAnimationFrame(tick);
               window.scrollTo(0, scrollY + (scrollTargetY - scrollY) * t);
@@ -111,10 +111,10 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
               callback();
             }
           };
-    
+
           tick();
         };
-    
+
         var snapToElement = function snapToElement() {
           var _window2 = window,
               scrollY = _window2.scrollY;
@@ -122,7 +122,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             return element.offset - defaults.proximity <= scrollY && element.offset + defaults.proximity >= scrollY;
           });
           clearTimeout(snapTimeout);
-    
+
           if (snapElement && !isScrolling && snapElement != currentlySnapped) {
             snapTimeout = setTimeout(function () {
               isScrolling = true;
@@ -133,27 +133,27 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
             }, defaults.onSnapWait);
           }
         };
-    
+
         var recalculateLayout = function recalculateLayout() {
           getPositions();
           snapToElement();
         };
-    
+
         var bindEvents = function bindEvents() {
           window.addEventListener('resize', recalculateLayout);
           window.addEventListener('scroll', snapToElement);
         };
-    
+
         var destroy = function destroy() {
           window.removeEventListener('resize', recalculateLayout);
           window.removeEventListener('scroll', snapToElement);
         };
-    
+
         var init = function init() {
           getPositions();
           bindEvents();
         };
-    
+
         init();
         return {
           init: init,
@@ -164,9 +164,9 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
 
       // scroll snapping
       var optionsMandatory = {
-        proximity: 200,
+        proximity: 300,
       };
-      if (!window.snapScroller && context.querySelector('.pdp-body') !== null && window.innerWidth < 1024 ) {
+      if (!window.snapScroller && $('.pdp-body').length !== null && window.innerWidth < 768 ) {
         window.snapScroller = SnapScroll('.scroll-mandatory', optionsMandatory);
         setTimeout(() => {
           window.snapScroller.recalculateLayout();
@@ -180,6 +180,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       sliderContainers.forEach((sliderContainer, index) => {
         sliderContainer.dataset.swiperIndex = index;
         swiperInstances[index] = new Swiper(`[data-swiper-index="${index}"]`, {
+          init: sliderContainer.querySelectorAll('.swiper-slide').length == 1 ? false:true,
           autoplay: {
             delay: 3000,
           },
@@ -193,20 +194,20 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           },
         });
 
-        let swiperControl = document.querySelector(`[data-swiper-index="${index}"] ~ .swiper-control`);
-        $(swiperControl, context).once('pdpBody').on('click', (e) => {
+        let swiperControl = $(`[data-swiper-index="${index}"] ~ .swiper-control`, this);
+        swiperControl.on('click', (e) => {
           e.preventDefault();
           if (swiperInstances[index].autoplay.running) {
             swiperInstances[index].autoplay.stop();
-            swiperControl.classList.toggle('swiper-control-play');
+            swiperControl.toggleClass('swiper-control-play');
           } else {
             swiperInstances[index].autoplay.start();
-            swiperControl.classList.toggle('swiper-control-play');
+            swiperControl.toggleClass('swiper-control-play');
           }
         });
       });
 
-      $('.pdp-hero-menu-container').once('pdpBody').click(event => {
+      $('.pdp-hero-menu-container', this).on('click', event => {
         event.preventDefault();
         const stickyNavTopHeight = offsetPaddingCalc();
         if (event.target.className.indexOf('pdp-hero__nutrition-menu') > -1) {
@@ -224,7 +225,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         }
       });
 
-      $('.pdp-hero__sticky-nav-bottom a[href^="#"]').once('pdpBody').click(event => {
+      $('.pdp-hero__sticky-nav-bottom a[href^="#"]', this).on('click', event => {
         event.preventDefault();
         const stickyNavTopHeight = offsetPaddingCalc();
         $('html, body').animate({
@@ -251,29 +252,45 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       sizeElements.forEach((item) => {
         item.addEventListener('click', e => {
           updateSizeSlider(e, item.dataset.sizeId);
+          updateReview(e, item.dataset.sizeId);
           if (window.snapScroller) {
             window.snapScroller.recalculateLayout();
           }
         }, false);
       });
 
+      function updateReview(event, sizeId) {
+        event.preventDefault();
+        let reviews = context.querySelectorAll(`div[data-bv-show="reviews"]`);
+        if (reviews.length > 0) {
+          reviews.forEach((item) => {
+            if (item.hasChildNodes()) {
+              item.removeChild(item.firstChild);
+            }
+          });
+          let review = context.querySelector(`[data-review-size-id="${sizeId}"] div[data-bv-show="reviews"]`);
+          let productId = review.getAttribute('data-bv-product-id');
+          review.setAttribute('data-bv-product-id', productId);
+        }
+      }
+
       //scroll effects: bubbles, section-select and WTB
       function onScrollEffects() {
-        const pdp_size_id = context.querySelector('[data-pdp-size-active="true"]').dataset.pdpSizeId;
+        const pdp_size_id = $('[data-pdp-size-active="true"]', this).attr('data-pdp-size-id');
 
-        const pdp_bubble_1 = context.getElementById(`pdp-hero__bubble_1-${pdp_size_id}`);
-        const pdp_bubble_2 = context.getElementById(`pdp-hero__bubble_2-${pdp_size_id}`);
-        const pdp_bubble_3 = context.getElementById(`pdp-hero__bubble_3-${pdp_size_id}`);
-        const pdp_bubble_1_top = $(`#pdp-hero__bubble_1-${pdp_size_id}`, context).offset().top;
-        const pdp_bubble_2_top = $(`#pdp-hero__bubble_2-${pdp_size_id}`, context).offset().top;
-        const pdp_bubble_3_top = $(`#pdp-hero__bubble_3-${pdp_size_id}`, context).offset().top;
+        const pdp_bubble_1 = $('.pdp-hero__bubble--1', this);
+        const pdp_bubble_2 = $('.pdp-hero__bubble--2', this);
+        const pdp_bubble_3 = $('.pdp-hero__bubble--3', this);
+        const pdp_bubble_1_top = pdp_bubble_1.offset().top;
+        const pdp_bubble_2_top = pdp_bubble_2.offset().top;
+        const pdp_bubble_3_top = pdp_bubble_3.offset().top;
 
-        const pdp_section = $(`[data-pdp-size-id="${pdp_size_id}"]`, context);
-        const pdp_hero = $(`#pdp-hero-${pdp_size_id}`, context);
-        const pdp_main_image = $(`#pdp-hero-main-image-${pdp_size_id}`, context);
-        const pdp_sticky_nav_top = context.getElementById(`sticky-nav-top-${pdp_size_id}`);
-        const pdp_sticky_nav_bottom = context.getElementById(`sticky-nav-bottom-${pdp_size_id}`);
-        const pdp_wtb = context.getElementById(`where-to-buy-${pdp_size_id}`);
+        const pdp_section = $(`[data-pdp-size-id="${pdp_size_id}"]`, this);
+        const pdp_hero = $(`.pdp-hero--${pdp_size_id}`, this);
+        const pdp_main_image = $(`.pdp-hero-main-image--${pdp_size_id}`, this);
+        const pdp_sticky_nav_top = $(`.pdp-hero__sticky-nav-top--${pdp_size_id}`, this);
+        const pdp_sticky_nav_bottom = $(`.pdp-hero__sticky-nav-bottom--${pdp_size_id}`, this);
+        const pdp_wtb = $(`.where-to-buy--${pdp_size_id}`, this);
 
         const pdp_main_image_top = pdp_main_image.offset().top;
         const pdp_hero_bottom = pdp_hero.offset().top + pdp_hero.outerHeight() - 100;
@@ -281,21 +298,20 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
 
         var scrollEventListener = function() {
           var offset = window.pageYOffset;
-          pdp_bubble_1.style.top = `${pdp_bubble_1_top - (offset * .75)}px`;
-          pdp_bubble_2.style.top = `${pdp_bubble_2_top - (offset * .75)}px`;
-          pdp_bubble_3.style.top = `${pdp_bubble_3_top - (offset * .75)}px`;
+          pdp_bubble_1.css({top: `${pdp_bubble_1_top - (offset * .75)}px`});
+          pdp_bubble_2.css({top: `${pdp_bubble_2_top - (offset * .75)}px`})
+          pdp_bubble_3.css({top: `${pdp_bubble_3_top - (offset * .75)}px`})
 
-          offset > pdp_main_image_top ? pdp_sticky_nav_top.classList.add('nav--show') : pdp_sticky_nav_top.classList.remove('nav--show');
-          offset > pdp_hero_bottom ? pdp_sticky_nav_bottom.classList.add('sections--hide') : pdp_sticky_nav_bottom.classList.remove('sections--hide');
-          offset > pdp_section_bottom ? pdp_wtb.classList.add('where-to-buy--hide') : pdp_wtb.classList.remove('where-to-buy--hide');
+          offset > pdp_main_image_top ? pdp_sticky_nav_top.addClass('nav--show') : pdp_sticky_nav_top.removeClass('nav--show');
+          offset > pdp_hero_bottom ? pdp_sticky_nav_bottom.addClass('sections--hide') : pdp_sticky_nav_bottom.removeClass('sections--hide');
+          offset > pdp_section_bottom ? pdp_wtb.addClass('where-to-buy--hide') : pdp_wtb.removeClass('where-to-buy--hide');
         }
 
-        window.removeEventListener('scroll', scrollEventListener);
-        window.addEventListener('scroll', scrollEventListener);
+        $(window).on('scroll', _.throttle(scrollEventListener, 30));
       };
 
-      //ToDo: refactor for correct values after slider initialized (only for 1st time)
-      setTimeout(onScrollEffects, 200);
-    },
-  }
-})(jQuery);
+      onScrollEffects();
+    })
+  },
+}
+})(jQuery, _, Drupal);

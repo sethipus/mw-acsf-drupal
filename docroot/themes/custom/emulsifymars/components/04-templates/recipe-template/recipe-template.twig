@@ -1,8 +1,7 @@
-{% set recipe_template__base_class = 'recipe-detail' %}
+{% set recipe_template__base_class = 'node--recipe' %}
 
 <section {{ bem(recipe_template__base_class) }} data-theme="twix">
-  <!-- Recipe Hero Module -->
-  {% include "@molecules/recipe-hero-module/recipe-hero-module.twig" %}
-  <!-- Recipe Body -->
-  {% include "@organisms/recipe-body/recipe-body.twig" %}
+    {% for component in components %}
+      {{component | raw}}
+    {% endfor %}
 </section>

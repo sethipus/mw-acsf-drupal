@@ -1,0 +1,9 @@
+field_id: 'CMS: Product Variant Family Master'
+salsify_id: 'CMS: Product Variant Family Master'
+salsify_data_type: boolean
+entity_type: node
+bundle: product_variant
+field_name: field_product_family_master
+method: manual
+created: 1546300800
+changed: 1546300801

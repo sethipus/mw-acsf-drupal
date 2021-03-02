@@ -1,0 +1,18 @@
+uuid: a152ef32-8005-45d9-8d95-e0eaaaba953d
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.media_carousel
+id: block_content.media_carousel.metatag
+field_name: metatag
+entity_type: block_content
+bundle: media_carousel
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

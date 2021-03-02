@@ -1,0 +1,72 @@
+services:
+  mars_content_hub.content_pair_dependency_calculator:
+    class: Drupal\mars_content_hub\EventSubscriber\DependencyCollector\ContentPairUpBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  mars_content_hub.recipe_feature_dependency_calculator:
+    class: Drupal\mars_content_hub\EventSubscriber\DependencyCollector\RecipeFeatureBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  mars_content_hub.media_dependency_calculator:
+    class: Drupal\mars_content_hub\EventSubscriber\DependencyCollector\MediaEntityBlockCollector
+    arguments: [ '@entity_type.manager' ]
+    tags:
+      - { name: event_subscriber }
+
+  mars_content_hub.component_dependency_calculator:
+    class: Drupal\mars_content_hub\EventSubscriber\DependencyCollector\ManualRecommendationBlockCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  mars_content_hub.load_local_entity.product:
+    class: Drupal\mars_content_hub\EventSubscriber\LoadLocalEntity\ProductMatch
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  mars_content_hub.enqueue_entity.product:
+    class: Drupal\mars_content_hub\EventSubscriber\EnqueueEntity\EnqueueProducts
+    arguments: ['@acquia_contenthub.settings']
+    tags:
+      - { name: event_subscriber }
+
+  media_entity.field.cdf.serializer:
+    class: Drupal\mars_content_hub\EventSubscriber\SerializeContentField\MediaFieldSerializer
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  recipe_entity.field.cdf.serializer:
+    class: Drupal\mars_content_hub\EventSubscriber\SerializeContentField\RecipeFieldSerializer
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  product_entity.field.cdf.serializer:
+    class: Drupal\mars_content_hub\EventSubscriber\SerializeContentField\ProductFieldSerializer
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  media_entity.field.cdf.unserializer:
+    class: Drupal\mars_content_hub\EventSubscriber\UnserializeContentField\MediaFieldUnserializer
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  recipe_entity.field.cdf.unserializer:
+    class: Drupal\mars_content_hub\EventSubscriber\UnserializeContentField\RecipeFieldUnserializer
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
+
+  product_entity.field.cdf.unserializer:
+    class: Drupal\mars_content_hub\EventSubscriber\UnserializeContentField\ProductFieldUnserializer
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

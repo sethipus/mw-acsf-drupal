@@ -1,0 +1,22 @@
+uuid: 8bf13939-6abe-46d7-b4c8-4edeebbca4b8
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_regions
+id: taxonomy_term.mars_regions.status
+field_name: status
+entity_type: taxonomy_term
+bundle: mars_regions
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

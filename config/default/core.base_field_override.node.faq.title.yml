@@ -1,0 +1,18 @@
+uuid: 68b1239e-570c-4156-8b3e-4c39ca1d76e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq
+id: node.faq.title
+field_name: title
+entity_type: node
+bundle: faq
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

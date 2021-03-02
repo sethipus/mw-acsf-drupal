@@ -1,111 +1,169 @@
 .homepage-hero-3up {
   &__inner {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
+    position: relative;
 
     @include large {
       flex-flow: row nowrap;
     }
+  }
 
-    }
-    &__left {
-      flex-grow: 2;
-      width: 100%;
-      background-color: clr(secondary);
-      background-size: auto 100%;
-      background-position: right;
-      background-repeat: no-repeat;
-
-      @include large {
-        width: auto;
-      }
-
-      & .wrapper {
-        background-size: auto 100%;
-        background-position: bottom center;
-        position: relative;
-        min-height: 580px;
-
-        & .eyebrow {
-          font-family: variable(primary-font);
-          font-size: 14px;
-          color: clr(subcolor-3);
-          text-decoration: none;
-          letter-spacing: 1.4px;
-        }
-
-        & .heading {
-          margin: 0;
-          max-width: 70%;
-
-          &__link {
-            font-family: variable(heading-font);
-            color: clr(subcolor-3);
-            text-decoration: none;
-            font-weight: 300;
-            word-wrap: break-spaces;
-            font-size: 48px;
-            line-height: 43.2px;
-
-            @include large {
-              font-size: 84px;
-              line-height: 75.6px;
-            }
-          }
-        }
-
-        & .default-link {
-          margin: 30px 0;
-          height: 50px;
-          line-height: 50px;
-          background-color: clr(subcolor-2);
-          color: clr(secondary);
-        }
-      }
-    }
-
-    &__right {
-      flex-grow: 1;
-      width: 100%;
-
-      @include large {
-        width: auto;
-      }
-
-      &__wrapper {
-        background-repeat: no-repeat;
-        background-position: right center;
-        background-size: 30% 90%;
-        background-color: clr(subcolor-2);
-        display: flex;
-        flex-flow: column nowrap;
-
-        @include large {
-          height: 100%;
-        }
-      }
-    }
-
-  &__container--image {
+  &__left {
+    flex: 2 0 65%;
+    width: 100%;
 
     @include large {
-      position: absolute;
-      z-index: 0;
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
-      display: flex;
+      width: auto;
     }
 
-    & img {
-      margin-left: auto;
-      align-self: center;
-      object-fit: cover;
-      min-height: 580px;
+    & .wrapper {
+      position: relative;
+      height: 100%;
+      min-height: 435px;
+
+      @include medium {
+        min-height: 600px;
+      }
 
       @include large {
+        min-height: 580px;
+      }
+
+      & .eyebrow {
+        font-family: variable(primary-font);
+        font-size: 1.4rem;
+        color: clr(subcolor-3);
+        text-decoration: none;
+        margin-bottom: 2.5rem;
+
+        @include medium {
+          font-size: 1.6rem;
+          margin-bottom: 3.3rem;
+        }
+
+        @include large {
+          margin-bottom: 3.1rem;
+        }
+      }
+
+      & .heading {
+        margin: 0;
+        max-width: 70%;
+
+        &__link {
+          font-family: variable(heading-font);
+          color: clr(subcolor-3);
+          text-decoration: none;
+          font-weight: 300;
+          word-wrap: break-spaces;
+          font-size: 4.8rem;
+          line-height: 0.9;
+
+          @include medium {
+            font-size: 7.2rem;
+          }
+
+          @include large {
+            font-size: 8.4rem;
+          }
+        }
+      }
+
+      & .default-link {
+        margin: 3.4rem 0 3.5rem;
+        height: 50px;
+        line-height: 50px;
+
+        @include medium {
+          margin: 6rem 0;
+        }
+
+        @include large {
+          height: 6rem;
+          line-height: 6rem;
+        }
+      }
+    }
+  }
+
+  &__right {
+    flex: 1 0 35%;
+    width: 100%;
+
+    @include large {
+      width: auto;
+    }
+
+    &__wrapper {
+      position: relative;
+      overflow: hidden;
+      background-color: clr(subcolor-3);
+      display: flex;
+      flex-flow: column nowrap;
+      padding: 1rem 2rem;
+
+      @include medium {
+        padding: 0 4rem;
+      }
+
+      @include large {
+        padding: 0 4rem 0 2.9rem;
         height: 100%;
       }
+    }
+  }
+
+  &__brand-shape {
+    position: absolute;
+    z-index: 0;
+    display: block;
+    top: 44%;
+    right: -26%;
+    width: 36rem;
+    height: 36rem;
+    transform: translateY(-50%);
+    animation: hero-brand-shape-xs-m-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+
+    @include medium {
+      width: 60rem;
+      height: 60rem;
+      top: 40%;
+    }
+
+    @include large {
+      width: 54rem;
+      height: 54rem;
+      right: -37%;
+      top: 49%;
+      animation: hero-brand-shape-l-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      fill: clr(subcolor-1);
+      opacity: 0.1;
+    }
+  }
+
+  &__container--image {
+    position: absolute;
+    z-index: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+
+  &__image {
+    flex-grow: 1;
+    object-fit: cover;
+    animation: hero-3up-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+
+    @include large {
+      transform: scale(1.05);
+      animation: hero-3up-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
     }
   }
 
@@ -114,10 +172,64 @@
     position: absolute;
     z-index: 1;
     bottom: 0;
+    animation: hero-3up-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
     @include large {
-      padding: 370px 0 0 40px;
-      position: relative;
+      padding-left: 40px;
     }
+  }
+
+  .dark-overlay {
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.3));
+    }
+  }
+
+}
+
+@keyframes hero-3up-image-animates-in {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes hero-3up-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-brand-shape-xs-m-animates-in {
+  0% {
+    opacity: 0;
+    right: -100%;
+  }
+  100% {
+    opacity: 1;
+    right: -26%;
+  }
+}
+
+@keyframes hero-brand-shape-l-animates-in {
+  0% {
+    opacity: 0;
+    right: -100%;
+  }
+  100% {
+    opacity: 1;
+    right: -37%;
   }
 }

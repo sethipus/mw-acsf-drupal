@@ -1,14 +1,15 @@
 theme_styles: 'twix'
+badge_text: 'NEW'
 article_card_heading: 'Delicious chocolate is just the beginning.'
 article_card_heading_level: 3
 article_card_heading_base_class: 'article-card-heading'
-
+article_card_heading_attributes: []
 article_card_text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, incididunt ut labore et dolore magna aliqua.'
 article_card_paragraph_base_class: 'article-card-paragraph'
 article_card_paragraph_size: 'large'
 article_card_paragraph_modifiers: ['xs']
 
-article_card_button_text: 'explore'
+article_card_button_text: 'EXPLORE'
 article_card_button_modifiers: ['small']
 article_card_button_link_attributes:
   href: 'https://storybook.js.org/'

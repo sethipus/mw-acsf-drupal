@@ -2,11 +2,12 @@
   min-height: 52rem;
   border-radius: variable(card-border-radius);
   display: inline-block;
-  width: 31.8rem;
   padding: 0 3rem;
   margin-bottom: 6rem;
   position: relative;
   background-color: clr(subcolor-2);
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+  @include card-width;
 
   &__brand-shape {
     position: absolute;
@@ -20,6 +21,7 @@
     border-radius: 3rem;
 
     svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
       width: 50rem;
       height: 50rem;
       position: absolute;
@@ -30,6 +32,7 @@
 
   &__content {
     position: relative;
+    box-sizing: border-box;
     z-index: 2;
     min-height: 52rem;
     padding: 6rem 0 3rem 0;
@@ -48,16 +51,36 @@
     font-size: 4rem;
     line-height: 4.4rem;
     margin-bottom: 3rem;
-    display: block;
+    padding-bottom: 0.6rem;
+    max-height: 182px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
   }
 
   &-paragraph--xs {
+    word-break: break-word;
     color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.6rem;
     line-height: 2.24rem;
     flex-grow: 1;
     margin-top: 0;
+    font-weight: bold;
+    max-height: 135px;
+    margin-bottom: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 6;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  &-paragraph--with-eyebrow {
+    max-height: 112px;
+    -webkit-line-clamp: 5;
   }
 
   .badge {
@@ -71,6 +94,8 @@
     color: clr(primary);
     font-family: variable(primary-font);
     text-align: center;
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
 
   &--with-bg-img {
@@ -89,5 +114,8 @@
   & .default-link {
     padding: 0 2.95rem;
     align-self: flex-start;
+    position: absolute;
+    bottom: 3rem;
+    left: 0;
   }
 }

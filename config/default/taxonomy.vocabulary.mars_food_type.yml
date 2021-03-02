@@ -1,0 +1,8 @@
+uuid: cc35afa1-2601-4858-8be4-b44307f40f7b
+langcode: en
+status: true
+dependencies: {  }
+name: 'FOOD TYPE'
+vid: mars_food_type
+description: ''
+weight: -4

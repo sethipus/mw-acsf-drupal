@@ -1,0 +1,20 @@
+uuid: c8075c5a-a928-406a-96a6-e5ab08c0403e
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_occasions
+  module:
+    - text
+id: taxonomy_term.mars_occasions.description
+field_name: description
+entity_type: taxonomy_term
+bundle: mars_occasions
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

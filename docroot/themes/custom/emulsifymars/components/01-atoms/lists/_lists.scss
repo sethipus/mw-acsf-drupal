@@ -14,6 +14,15 @@ ul {
 ol {
   list-style: none;
 
+  li {
+    margin-left: 0;
+    margin-right: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+
   .list-item {
     position: relative;
     margin: 10px;
@@ -23,36 +32,57 @@ ol {
     background-color: clr(text-inverse);
     padding: 40px 20px 20px 20px;
 
+    @include small {
+      padding: 30px 20px 20px 20px;
+      margin: 10px 0;
+    }
+
     @include medium {
       padding: 20px 20px 20px 80px;
+      margin-bottom: 20px;
     }
 
     &__content {
-      font-family: variable(primary-font);
-      font-size: 18px;
+      font-family: variable(secondary-font);
       font-weight: normal;
       font-stretch: normal;
       font-style: normal;
-      line-height: 1.4;
-      letter-spacing: normal;
       margin: 20px 0;
       color: clr(primary);
+
+      @include xs {
+        font-size: 1.6rem;
+        line-height: 2.24rem;
+      }
+
+      @include large {
+        font-size: 1.8rem;
+        line-height: 2.52rem;
+      }
     }
 
     &__number {
       color: clr(secondary);
-      font-size: 22px;
+      font-family: variable(primary-font);
       font-weight: bold;
       position: absolute;
       line-height: 32px;
       left: calc(40% + 32px / 2);
       top: calc(32px / 2);
 
+      @include xs {
+        font-size: 2rem;
+      }
+      
       @include medium {
+        font-size: 1.6rem;
         left: calc(20px + 32px / 2);
         top: calc(50% - 32px / 2);
       }
 
+      @include large {
+        font-size: 2.8rem;
+      }
     }
   }
 }
@@ -123,19 +153,19 @@ ol {
     color: clr(secondary);
 
     @include small {
-      font-size: 20px;
-      margin-bottom: -16px;
+      font-size: 2rem;
+      margin-bottom: 0;
     }
 
     @include medium {
       position: absolute;
-      top: 30px;
+      top: 20px;
       left: 0;
-      font-size: 26px;
+      font-size: 2.6rem;
     }
 
     @include xl {
-      font-size: 28px;
+      font-size: 2.8rem;
     }
 }
 
@@ -147,18 +177,19 @@ ol {
   font-weight: normal;
   line-height: 1.4;
 
-  @include small {
-    font-size: 16px;
+  @include xs {
+    font-size: 1.6rem;
+    line-height: 2.24rem;
     padding: 20px 17px;
   }
 
   @include medium {
-    font-size: 16px;
     padding: 25px 40px 20px 75px;
   }
 
   @include xl {
-    font-size: 18px;
+    font-size: 1.8rem;
+    line-height: 2.52rem;
     padding: 20px 40px 20px 75px;
   }
 }
@@ -177,27 +208,10 @@ ol {
     color: clr(primary);
     padding: 2rem 0 4rem;
     width: 90%;
-    margin: 0 auto;
-
-    @include medium {
-      width: 70%;
-    }
-
-    @include xl {
-      font-size: 20px;
-      line-height: 36px;
-      max-width: 1125px;
-    }
   }
 
   .list-item {
     position: relative;
-    text-indent: 18px;
-    padding: 0;
-
-    @include xl {
-      text-indent: 20px;
-    }
 
     &::before {
       content: "";

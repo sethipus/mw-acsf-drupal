@@ -1,0 +1,18 @@
+uuid: a3b744ac-2ae4-48d2-ac35-c7f4097a35d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+id: node.newsletter_sign_up.changed
+field_name: changed
+entity_type: node
+bundle: newsletter_sign_up
+label: Changed
+description: 'The time that the node was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

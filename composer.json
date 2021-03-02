@@ -5,6 +5,7 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.3",
+        "ext-dom": "*",
         "ext-json": "*",
         "acquia/acsf-tools": "dev-9.x-dev",
         "acquia/blt": "^11.1.0",
@@ -17,30 +18,40 @@
         "drupal/acquia_connector": "^1.22",
         "drupal/acquia_contenthub": "^2",
         "drupal/acquia_lift": "^4.3",
-        "drupal/acquia_purge": "^1.0-beta3",
+        "drupal/acquia_purge": "^1.1",
         "drupal/acsf": "^2.47.0",
         "drupal/admin_toolbar": "^2.0",
         "drupal/adminimal_admin_toolbar": "^1.10",
+        "drupal/advagg": "^4.1",
         "drupal/bootstrap_barrio": "^4.28",
+        "drupal/ckeditor_config": "^3.0",
         "drupal/cog": "^1.0.0",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
         "drupal/core-recommended": "^8.9",
+        "drupal/csp": "^1.13",
+        "drupal/datalayer": "^1.0@beta",
         "drupal/devel": "^2.0.0",
+        "drupal/editor_advanced_link": "^1.8",
         "drupal/entityqueue": "^1.1",
         "drupal/environment_indicator": "^3.7",
         "drupal/externalauth": "^1.3",
         "drupal/facets": "^1.5",
+        "drupal/fast_404": "^2.0@alpha",
         "drupal/field_group": "^3.1",
         "drupal/filelog": "^2.0",
         "drupal/gdpr_onetrust": "^1.0",
-        "drupal/google_tag": "^1.3",
+        "drupal/google_analytics": "^3.1",
+        "drupal/gtm": "^1.6",
+        "drupal/http_cache_control": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/jquery_colorpicker": "^1.4",
         "drupal/layout_builder_lock": "^1.0@RC",
         "drupal/layout_builder_modal": "^1.1",
+        "drupal/maxlength": "^1.0@RC",
         "drupal/media_entity_image": "^1.3",
         "drupal/menu_item_extras": "^2.11",
+        "drupal/menu_link_attributes": "^1.1",
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_source_csv": "^3.4",
         "drupal/migrate_tools": "^5.0",
@@ -49,22 +60,23 @@
         "drupal/printable": "^1.1",
         "drupal/publication_date": "^2.0@beta",
         "drupal/qa_accounts": "^1.0.0-alpha1",
-        "drupal/redirect": "^1.5",
+        "drupal/rabbit_hole": "^1.0@beta",
+        "drupal/redirect": "^1.6",
         "drupal/remote_stream_wrapper": "^1.3",
         "drupal/remote_stream_wrapper_widget": "^1.2",
         "drupal/robotstxt": "^1.4",
         "drupal/samlauth": "3.0-alpha2",
         "drupal/search_api": "^1.17",
         "drupal/search_api_solr": "1.x",
-        "drupal/seckit": "^1.0.0-alpha2",
+        "drupal/seckit": "^2.0",
         "drupal/shield": "^1.2.0",
         "drupal/simple_sitemap": "^3.7",
         "drupal/simplesamlphp_auth": "^3.2",
         "drupal/social_media": "^1.8",
-        "drupal/tmgmt_smartling": "^4.10",
+        "drupal/tmgmt_extension_suit": "~3.4",
+        "drupal/tmgmt_smartling": "^4.12",
         "emulsify-ds/emulsify-drupal": "^1.0@beta",
         "eyecon/jquery_colorpicker": "master",
-        "lcatlett/blt-ddev": "dev-master",
         "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
         "mikemadison13/blt-azure-pipelines": "dev-master",
@@ -73,6 +85,7 @@
     },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev",
+        "behat/mink-selenium2-driver": "^1.4",
         "mikey179/vfsstream": "^1.6",
         "symfony/phpunit-bridge": "^5.1"
     },
@@ -139,8 +152,15 @@
             "drupal/core": "-p2"
         },
         "patches": {
+            "drupal/acquia_contenthub": {
+                "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2021-02-11/acquia_contenthub-8.x-2.x-3143039-5.patch"
+            },
             "drupal/config_ignore": {
-                "correct drush filtering": "https://www.drupal.org/files/issues/2018-10-14/support-for-export-2857247-24.patch"
+                "Correct drush filtering": "https://www.drupal.org/files/issues/2020-08-18/support-for-export-2857247-54.patch",
+                "Config ignore collection": "https://www.drupal.org/files/issues/2020-11-04/config-ignore-collections-2973431-57.patch"
+            },
+            "drupal/core": {
+                "2321071 - Base field overrides fix": "https://www.drupal.org/files/issues/2019-12-24/2321071-39.patch"
             },
             "drupal/jquery_colorpicker": {
                 "Set a high z-index on colorpicker widget": "https://www.drupal.org/files/issues/2020-09-10/increase-z-index-value-3058389-6.patch"
@@ -151,8 +171,30 @@
             "drupal/poll": {
                 "Make form actions unique": "https://www.drupal.org/files/issues/2019-04-16/poll-unique_id_actions-3048428-2.patch"
             },
+            "drupal/tmgmt": {
+                "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-10-30/tmgmt-2690201-19.patch",
+                "Source list limit setting": "https://www.drupal.org/files/issues/2020-11-11/tmgmt-settings-limit.patch"
+            },
+            "drupal/tmgmt_smartling": {
+                "The job has no provider assigned": "https://www.drupal.org/files/issues/2020-11-06/tmgmt-smartling-the-job-has-no-provider-assigned.patch"
+            },
+            "drupal/lightning_workflow": {
+                "Update scheduled status change": "https://www.drupal.org/files/issues/2020-11-12/take-workflow-transitions-into-account-3182093-1.patch"
+            },
             "drupal/pdf_api": {
-                "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2019-01-31/tmp-directory-3016161-4.patch"
+                "Set MPDF generation directory to drupals tmp directory": "https://www.drupal.org/files/issues/2020-10-21/tmp-directory-3016161-9.patch"
+            },
+            "drupal/field_group": {
+                "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
+            },
+            "drupal/maxlength": {
+                "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch"
+            },
+            "drupal/samlauth": {
+                "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
+            },
+            "drupal/printable": {
+                "Fix file url for lighthouse images.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
             }
         }
     },

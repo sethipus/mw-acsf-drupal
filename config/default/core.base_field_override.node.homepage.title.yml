@@ -1,0 +1,18 @@
+uuid: db770ec2-b4f3-4186-9b68-06bbccd8c0fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.homepage
+id: node.homepage.title
+field_name: title
+entity_type: node
+bundle: homepage
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

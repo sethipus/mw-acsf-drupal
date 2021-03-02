@@ -1,9 +1,13 @@
 {% set full_width__base_class = 'article-full-width' %}
 
-<section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}"
+  {% if heading and media.video %}
+    data-component-title="{{ heading }}"
+  {% endif %}
+>
   <div {{ bem('heading', [], full_width__base_class) }}>
     {% include "@atoms/text/headings/_heading.twig" with {
-      heading_level: 1,
+      heading_level: 3,
       heading_base_class: 'article-full-width__heading',
       heading_modifiers: ['main-heading'],
       heading: heading
@@ -19,12 +23,15 @@
         image_src: media.src,
         image_alt: media.alt,
         image_title: media.title,
+        height: '635px',
+        width: '1128px',
       } %}
     {% elseif media.video %}
       {{ attach_library('emulsifymars/inline-video') }}
       {% include "@atoms/video/inline-video/video.twig" with {
         video__src__url: media.src,
-        video__control: true
+        video__control: true,
+        data_layer: data_layer,
       } %}
     {% endif %}
   </div>

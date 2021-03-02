@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -38,15 +39,24 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -58,6 +68,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -72,8 +83,8 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
     $build = [];
     foreach ($list_items as $item_value) {
       $item = [
-        'content' => $item_value['description'],
-        'item_number' => $item_value['number'],
+        'content' => $this->languageHelper->translate($item_value['description']),
+        'item_number' => $this->languageHelper->translate($item_value['number']),
       ];
 
       if (!empty($item_value['image'])) {
@@ -90,7 +101,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
 
       $ol_items[] = $item;
     }
-    $build['#label'] = $config['list_label'] ?? '';
+    $build['#label'] = $this->languageHelper->translate($config['list_label']) ?? '';
     $build['#ol_items'] = $ol_items;
     $build['#theme'] = 'list_component';
     return $build;
@@ -152,14 +163,13 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
       ];
       $form['list'][$key]['description'] = [
         '#title'         => $this->t('List item description'),
-        '#type'          => 'textfield',
+        '#type'          => 'textarea',
         '#required'      => TRUE,
         '#default_value' => $config['list'][$key]['description'],
-        '#maxlength'     => 55,
       ];
 
       $form['list'][$key]['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
-        $config['list'][$key]['image'], 1, 'thumbnail');
+        $config['list'][$key]['image'], $form_state, 1, 'thumbnail', FALSE);
       $form['list'][$key]['image']['#type'] = 'details';
       $form['list'][$key]['image']['#title'] = $this->t('List item image');
       $form['list'][$key]['image']['#open'] = TRUE;

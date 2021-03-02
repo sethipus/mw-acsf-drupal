@@ -1,43 +1,72 @@
 .article-full-width {
-  background-color: clr(subcolor-2);
-  padding: 2rem 0 4rem 0;
+  padding: 2rem 0 2rem 0;
   overflow-x: hidden;
   max-width: 1128px;
   margin: 0 auto;
 
   &__heading {
     &--main-heading {
-      text-align: center;
+      text-align: left;
       color: clr(primary);
       text-transform: uppercase;
       font-size: 2.8rem;
-      line-height: 1.1rem;
+      line-height: 1.1;
       font-weight: 500;
       font-family: variable(heading-font);
+      margin: 0 0 30px 5%;
+
+      @include xs {
+        margin: 0 4rem 30px;
+      }
+
+      @include small {
+        font-size: 2rem;
+      }
+
+      @include medium {
+        font-size: 1.4rem;
+        max-width: 688px;
+        margin: 0 4rem 30px;
+      }
+
+      @include large {
+        font-size: 2.6rem;
+        margin: 0 auto 30px;
+      }
+
+      @include xl {
+        max-width: 780px;
+      }
     }
   }
 
 
   &__content {
-    background-color: clr(subcolor-2);
     color: clr(primary);
     font-family: variable(secondary-font);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    font-weight: normal;
     line-height: 1.82rem;
-    padding: 2rem 3rem;
+    padding: 2rem 3rem 0 2rem;
 
     @include medium {
       padding: 2rem 4rem;
     }
 
     @include xl {
-      padding: 2rem 11.6rem;
+      padding: 2rem 0;
     }
 
     .paragraph {
       padding-bottom: 2rem;
       margin: 0;
-      border-bottom: 1px solid clr(primary);
+      border-bottom: 1px solid clr(subcolor-4);
+      width: 100%;
+      text-align: left;
+
+      @include small {
+        font-size: 1.2rem;
+      }
     }
   }
 
@@ -59,17 +88,19 @@
 
     img {
       width: 100%;
+      object-fit: cover;
     }
 
     .inline-video {
-    
+      max-height: 635px;
+
       &__control[data-state="play"] {
         width: 6.6rem;
         height: 7rem;
         top: calc(50% - 7rem / 2);;
         left: calc(50% - 6.6rem / 2);;
       }
-    
+
       &__control[data-state="pause"] {
         width: 6.6rem;
         height: 7rem;

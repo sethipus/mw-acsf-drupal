@@ -1,0 +1,28 @@
+uuid: 0622f9f8-8ef8-427b-a2fe-12f1292d2ad6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_override_global_rating
+    - node.type.product
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product.field_override_global_rating
+field_name: field_override_global_rating
+entity_type: node
+bundle: product
+label: 'Override global rating and reviews'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

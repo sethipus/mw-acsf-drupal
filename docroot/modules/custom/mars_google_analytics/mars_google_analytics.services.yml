@@ -1,0 +1,31 @@
+services:
+  mars_google_analytics.entity_type.manager:
+    class: Drupal\mars_google_analytics\Entity\EntityManagerWrapper
+    public: false
+    decorates: entity_type.manager
+    arguments: ['@mars_google_analytics.entity_type.manager.inner']
+    properties:
+      _serviceId: 'entity_type.manager'
+
+  mars_google_analytics.data_collector.products:
+    class: Drupal\mars_google_analytics\DataCollector\ProductsDataCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: ga_data_collector}
+
+  mars_google_analytics.data_collector.terms:
+    class: Drupal\mars_google_analytics\DataCollector\TermsDataCollector
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: ga_data_collector}
+
+  mars_google_analytics.data_collector.page:
+    class: Drupal\mars_google_analytics\DataCollector\PageDataCollector
+    arguments: ['@current_route_match']
+    tags:
+      - { name: ga_data_collector}
+
+  mars_google_analytics.data_collector.service_collector:
+    class: Drupal\mars_google_analytics\DataCollectorServiceManager
+    tags:
+      - { name: service_collector, tag: ga_data_collector, call: addService }

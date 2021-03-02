@@ -1,0 +1,18 @@
+uuid: 3704ab7e-ec50-42a5-b0fc-353b60ebc300
+langcode: en
+status: true
+dependencies:
+  config:
+    - entityqueue.entity_queue.faq_queue
+id: entity_subqueue.faq_queue.changed
+field_name: changed
+entity_type: entity_subqueue
+bundle: faq_queue
+label: Changed
+description: 'The time that the subqueue was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

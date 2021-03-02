@@ -1,0 +1,18 @@
+uuid: 856f049c-a6b6-43b3-a1ed-0445ce474eb5
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: node.newsletter_sign_up
+target_entity_type_id: node
+target_bundle: newsletter_sign_up
+default_langcode: site_default
+language_alterable: true
