@@ -97,10 +97,8 @@ class WtbConfigForm extends ConfigFormBase {
    *   The widget id.
    */
   protected function buildCommerceVendorProductCardElement(array &$form, $widget_id) {
-    $ps_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_PRICE_SPIDER . '.settings')->getRawData();
-    $cc_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '.settings')->getRawData();
-    $sc_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_SMART_COMMERCE . '.settings')->getRawData();
-
+    $config_entity = $this->config('mars_product.wtb.' . $widget_id . '.settings');
+    $config = !empty($config_entity) && !$config_entity->isNew() ? $config_entity->getRawData() : [];
     $fieldset = &$form['general'][$widget_id];
 
     switch ($widget_id) {
@@ -108,7 +106,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['account_id'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Price Spider Account id'),
-          '#default_value' => !empty($ps_config['settings']['account_id']) ? $ps_config['settings']['account_id'] : '',
+          '#default_value' => !empty($config['settings']['account_id']) ? $config['settings']['account_id'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
@@ -119,7 +117,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['widget_id'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Widget id'),
-          '#default_value' => !empty($ps_config['settings']['widget_id']) ? $ps_config['settings']['widget_id'] : '',
+          '#default_value' => !empty($config['settings']['widget_id']) ? $config['settings']['widget_id'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
@@ -133,7 +131,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['widget_id'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Widget id'),
-          '#default_value' => !empty($cc_config['settings']['widget_id']) ? $cc_config['settings']['widget_id'] : '',
+          '#default_value' => !empty($config['settings']['widget_id']) ? $config['settings']['widget_id'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
@@ -144,7 +142,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['data_token'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Token'),
-          '#default_value' => !empty($cc_config['settings']['data_token']) ? $cc_config['settings']['data_token'] : '',
+          '#default_value' => !empty($config['settings']['data_token']) ? $config['settings']['data_token'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
@@ -155,19 +153,19 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['data_subid'] = [
           '#type' => 'textfield',
           '#title' => $this->t('SubId'),
-          '#default_value' => !empty($cc_config['settings']['data_subid']) ? $cc_config['settings']['data_subid'] : '',
+          '#default_value' => !empty($config['settings']['data_subid']) ? $config['settings']['data_subid'] : '',
         ];
 
         $fieldset['cta_title'] = [
           '#type' => 'textfield',
           '#title' => $this->t('CTA title'),
-          '#default_value' => !empty($cc_config['settings']['cta_title']) ? $cc_config['settings']['cta_title'] : '',
+          '#default_value' => !empty($config['settings']['cta_title']) ? $config['settings']['cta_title'] : '',
         ];
 
         $fieldset['button_type'] = [
           '#type' => 'select',
           '#title' => $this->t('Commerce Connector: button type'),
-          '#default_value' => !empty($cc_config['settings']['button_type']) ? $cc_config['settings']['button_type'] : '',
+          '#default_value' => !empty($config['settings']['button_type']) ? $config['settings']['button_type'] : '',
           '#options' => [
             'my_own' => $this->t('My own button'),
             'commerce_connector' => $this->t('Commerce Connector button'),
@@ -177,7 +175,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['data_locale'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Commerce connector data locale'),
-          '#default_value' => !empty($cc_config['settings']['data_locale']) ? $cc_config['settings']['data_locale'] : '',
+          '#default_value' => !empty($config['settings']['data_locale']) ? $config['settings']['data_locale'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
@@ -191,7 +189,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['carousel_widget_id'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Carousel Widget id'),
-          '#default_value' => !empty($sc_config['settings']['carousel_widget_id']) ? $sc_config['settings']['carousel_widget_id'] : '',
+          '#default_value' => !empty($config['settings']['carousel_widget_id']) ? $config['settings']['carousel_widget_id'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
@@ -202,7 +200,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['button_widget_id'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Smart Button Widget id'),
-          '#default_value' => !empty($sc_config['settings']['button_widget_id']) ? $sc_config['settings']['button_widget_id'] : '',
+          '#default_value' => !empty($config['settings']['button_widget_id']) ? $config['settings']['button_widget_id'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
@@ -213,7 +211,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['brand_js'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Smart Commerce brand specific JS file URL'),
-          '#default_value' => !empty($sc_config['settings']['brand_js']) ? $sc_config['settings']['brand_js'] : '',
+          '#default_value' => !empty($config['settings']['brand_js']) ? $config['settings']['brand_js'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
@@ -224,7 +222,7 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['brand_css'] = [
           '#type' => 'textfield',
           '#title' => $this->t('Smart Commerce brand specific CSS file URL'),
-          '#default_value' => !empty($sc_config['settings']['brand_css']) ? $sc_config['settings']['brand_css'] : '',
+          '#default_value' => !empty($config['settings']['brand_css']) ? $config['settings']['brand_css'] : '',
           '#states' => [
             'required' => [
               [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
@@ -241,9 +239,9 @@ class WtbConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Load configuration entities.
     $config = $this->config('mars_product.wtb.settings');
-    $ps_config = $this->configFactory->getEditable('mars_product.wtb.' . PdpHeroBlock::VENDOR_PRICE_SPIDER . '.settings');
-    $cc_config = $this->configFactory->getEditable('mars_product.wtb.' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '.settings');
-    $sc_config = $this->configFactory->getEditable('mars_product.wtb.' . PdpHeroBlock::VENDOR_SMART_COMMERCE . '.settings');
+    $ps_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_PRICE_SPIDER . '.settings');
+    $cc_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '.settings');
+    $sc_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_SMART_COMMERCE . '.settings');
 
     // Get configuration from the form fields.
     $config->set('commerce_vendor', $form_state->getValue('commerce_vendor'));
@@ -266,6 +264,9 @@ class WtbConfigForm extends ConfigFormBase {
   protected function getEditableConfigNames() {
     return [
       'mars_product.wtb.settings',
+      'mars_product.wtb.' . PdpHeroBlock::VENDOR_PRICE_SPIDER . '.settings',
+      'mars_product.wtb.' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '.settings',
+      'mars_product.wtb.' . PdpHeroBlock::VENDOR_SMART_COMMERCE . '.settings',
     ];
   }
 
