@@ -232,6 +232,11 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
         break;
     }
 
+    // Disable caching for the block as it can be changed at any time.
+    $build['#cache'] = [
+      'max-age' => 0,
+    ];
+
     return $build;
   }
 
