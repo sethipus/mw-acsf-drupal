@@ -277,7 +277,7 @@ class ProductHelper {
 
       $product['CMS: Product Variant Family Master'] = $family_master;
       $product['salsify:id'] = $product_variant['salsify:id'];
-      $product['GTIN'] = $product_variant['salsify:id'];
+      $product['GTIN'] = $product_variant['GTIN'];
       $product['salsify:version'] = $product_variant['salsify:version'];
       $product['salsify:system_id'] = $product_variant['salsify:system_id'];
       $product['salsify:created_at'] = $product_variant['salsify:created_at'];
