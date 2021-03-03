@@ -812,7 +812,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $file_storage = $this->entityTypeManager->getStorage('file');
       /* @var \Drupal\file\Entity\File $file */
       $file = $file_storage->load($custom_shape_image_id);
-      return !empty($file) ? $file->url() : '';
+      return !empty($file) ? $file->createFileUrl() : '';
     }
     return '';
   }
