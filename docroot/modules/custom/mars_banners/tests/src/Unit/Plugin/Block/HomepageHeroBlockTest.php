@@ -3,6 +3,7 @@
 namespace Drupal\Tests\mars_banners\Unit\Plugin\Block;
 
 use Drupal;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
@@ -10,6 +11,7 @@ use Drupal\mars_banners\Plugin\Block\HomepageHeroBlock;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\ThemeConfiguratorService;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -123,6 +125,20 @@ class HomepageHeroBlockTest extends UnitTestCase {
   private $themeConfiguratorParserMock;
 
   /**
+   * Mock.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorService|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $themeConfigServiceMock;
+
+  /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $entityTypeManagerMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -136,7 +152,9 @@ class HomepageHeroBlockTest extends UnitTestCase {
       self::TEST_DEFINITION,
       $this->mediaHelperMock,
       $this->languageHelperMock,
-      $this->themeConfiguratorParserMock
+      $this->themeConfiguratorParserMock,
+      $this->themeConfigServiceMock,
+      $this->entityTypeManagerMock
     );
   }
 
@@ -145,7 +163,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(5))
       ->method('get')
       ->willReturnMap(
         [
@@ -163,6 +181,16 @@ class HomepageHeroBlockTest extends UnitTestCase {
             'mars_common.theme_configurator_parser',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->themeConfiguratorParserMock,
+          ],
+          [
+            'mars_common.theme_configurator_service',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->themeConfigServiceMock,
+          ],
+          [
+            'entity_type.manager',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->entityTypeManagerMock,
           ],
         ]
       );
@@ -340,6 +368,8 @@ class HomepageHeroBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getUrlForFile')
       ->willReturn($this->createUrlMock());
+    $this->themeConfigServiceMock = $this->createMock(ThemeConfiguratorService::class);
+    $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
   }
 
   /**

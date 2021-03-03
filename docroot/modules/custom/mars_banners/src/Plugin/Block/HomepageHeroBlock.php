@@ -4,11 +4,14 @@ namespace Drupal\mars_banners\Plugin\Block;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\file\Element\ManagedFile;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\ThemeConfiguratorService;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -82,6 +85,20 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   private $themeConfigParser;
 
   /**
+   * Service for dealing with theme configs.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorService
+   */
+  private $themeConfigService;
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  private $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -90,12 +107,16 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_definition,
     MediaHelper $media_helper,
     LanguageHelper $language_helper,
-    ThemeConfiguratorParser $theme_config_parser
+    ThemeConfiguratorParser $theme_config_parser,
+    ThemeConfiguratorService $theme_config_service,
+    EntityTypeManagerInterface $entity_type_manager
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaHelper = $media_helper;
     $this->languageHelper = $language_helper;
     $this->themeConfigParser = $theme_config_parser;
+    $this->themeConfigService = $theme_config_service;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -108,7 +129,9 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $plugin_definition,
       $container->get('mars_common.media_helper'),
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.theme_configurator_service'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -117,6 +140,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function build() {
     $config = $this->getConfiguration();
+    $custom_brand_shape_url = $this->getCustomBrandShape($config);
+    $alternative_image_foreground_enabled = !empty($config['custom_brand_shape']['use_as_foreground']);
 
     $build['#label'] = $this->languageHelper->translate($config['label']);
     $build['#eyebrow'] = $this->languageHelper->translate($config['eyebrow']);
@@ -139,8 +164,8 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         $build['#blocks'][$key]['title_href'] = $card['title']['url'];
         $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($card['foreground_image']);
         $media_data = $this->mediaHelper->getMediaParametersById($media_id);
-        if (!isset($media_data['error']) || $media_data['error'] !== TRUE) {
-          $file_url = $media_data['src'];
+        if (!isset($media_data['error']) || $media_data['error'] !== TRUE || ($alternative_image_foreground_enabled && !empty($custom_brand_shape_url))) {
+          $file_url = empty($media_data['src']) && $alternative_image_foreground_enabled ? $custom_brand_shape_url : $media_data['src'];
           $format = '%s 375w, %s 768w, %s 1024w, %s 1440w';
           $default_alt = $this->languageHelper->translate('Homepage hero 3up image');
           $build['#blocks'][$key]['image'][] = [
@@ -215,6 +240,47 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
       ],
     ];
+
+    $form['custom_brand_shape'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Custom Brand Shape Image'),
+      '#open' => TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+        ],
+      ],
+    ];
+    $form['custom_brand_shape']['image'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Image'),
+      '#description' => $this->t('Will be designed by each brand team.
+      Size and format requirements detailed out in the Style Guide.'),
+      '#default_value' => $config['custom_brand_shape']['image'] ?? '',
+      '#theme' => 'image_widget',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['svg'],
+      ],
+      '#upload_location' => 'public://',
+      '#preview_image_style' => 'medium',
+      '#process' => [
+        [ManagedFile::class, 'processManagedFile'],
+        [$this->themeConfigService, 'processImageWidget'],
+      ],
+    ];
+    $form['custom_brand_shape']['use_as_foreground'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use as alternative image for card foregrounds'),
+      '#default_value' => $config['custom_brand_shape']['use_as_foreground'] ?? FALSE,
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE],
+        ],
+      ],
+    ];
+
     $form['title'] = [
       '#type' => 'details',
       '#title' => $this->t('Title'),
@@ -680,9 +746,10 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     }
 
     if (!$bg_image_url) {
+      $custom_brand_shape_url = $this->getCustomBrandShape($config);
       $bg_url_object = $this->themeConfigParser->getUrlForFile('brand_shape');
       if ($bg_url_object) {
-        $bg_image_url = $bg_url_object->toUriString();
+        $bg_image_url = !empty($custom_brand_shape_url) ? $custom_brand_shape_url : $bg_url_object->toUriString();
       }
     }
 
@@ -725,6 +792,29 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         $form_state->setErrorByName('cta][url', $this->t('The URL is not valid.'));
       }
     }
+  }
+
+  /**
+   * Provides uploaded custom brand shape file URL.
+   *
+   * @param array $config
+   *   Block settings config array.
+   *
+   * @return string
+   *   Returns a file URL or an empty string value.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function getCustomBrandShape(array $config): string {
+    $custom_shape_image_id = !empty($config["custom_brand_shape"]["image"]) ? reset($config["custom_brand_shape"]["image"]) : NULL;
+    if (!empty($custom_shape_image_id)) {
+      $file_storage = $this->entityTypeManager->getStorage('file');
+      /* @var \Drupal\file\Entity\File $file */
+      $file = $file_storage->load($custom_shape_image_id);
+      return !empty($file) ? $file->url() : '';
+    }
+    return '';
   }
 
 }
