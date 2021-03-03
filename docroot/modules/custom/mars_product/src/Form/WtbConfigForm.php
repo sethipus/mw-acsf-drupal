@@ -165,11 +165,12 @@ class WtbConfigForm extends ConfigFormBase {
         $fieldset['button_type'] = [
           '#type' => 'select',
           '#title' => $this->t('Commerce Connector: button type'),
-          '#default_value' => !empty($config['settings']['button_type']) ? $config['settings']['button_type'] : '',
+          '#default_value' => 'my_own',
           '#options' => [
             'my_own' => $this->t('My own button'),
             'commerce_connector' => $this->t('Commerce Connector button'),
           ],
+          '#disabled' => TRUE,
         ];
 
         $fieldset['data_locale'] = [

@@ -302,7 +302,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $form['wtb']['button_type'] = [
           '#type' => 'select',
           '#title' => $this->t('Commerce Connector: button type'),
-          '#default_value' => $this->configuration['wtb']['button_type'],
+          '#default_value' => 'my_own',
           '#options' => [
             'my_own' => $this->t('My own button'),
             'commerce_connector' => $this->t('Commerce Connector button'),
@@ -312,6 +312,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
               [':input[name="override_global"]' => ['checked' => TRUE]],
             ],
           ],
+          '#disabled' => TRUE,
         ];
 
         $form['wtb']['data_locale'] = [
