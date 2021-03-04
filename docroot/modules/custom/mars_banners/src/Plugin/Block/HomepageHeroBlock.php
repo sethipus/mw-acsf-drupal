@@ -248,7 +248,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         'file_validate_extensions' => ['svg png'],
       ],
       '#upload_location' => 'public://',
-      '#preview_image_style' => 'medium',
       '#process' => [
         [ManagedFile::class, 'processManagedFile'],
         [$this, 'processImagePreview'],
