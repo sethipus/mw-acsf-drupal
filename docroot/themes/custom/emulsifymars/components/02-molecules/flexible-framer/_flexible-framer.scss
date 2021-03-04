@@ -189,6 +189,7 @@
   & .grid__item {
     display: flex;
     flex-flow: column;
+    margin-top: 1.5rem;
 
     @include medium {
       flex: 1 1 50%;
