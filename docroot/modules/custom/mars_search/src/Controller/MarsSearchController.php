@@ -153,8 +153,9 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    */
   public function autocomplete() {
     $options = $this->searchQueryParser->parseQuery();
-    // We need only 4 results in autocomplete.
-    $options['limit'] = 4;
+    // We need only 5 results in autocomplete.
+    $options['offset'] = 0;
+    $options['limit'] = 5;
 
     $suggestions = [];
     $show_all = '';
@@ -236,7 +237,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         }
         $json_output['no_results'] = !empty($results[2]['#no_results']) ? $this->renderer->render($results[2]['#no_results']) : '';
 
-        if (($results[1]['resultsCount'] - $results[0]['offset']) <= $query_parameters["limit"]) {
+        if ((($results[1]['resultsCount'] - $results[0]['offset']) <= $query_parameters["limit"]) ||
+          (($query_parameters['grid_type']) == 'faq' && $results[0]['offset'] > 0)) {
           $pager = 0;
         }
         else {
