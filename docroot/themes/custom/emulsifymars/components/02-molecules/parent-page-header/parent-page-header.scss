@@ -132,7 +132,8 @@
     }
 
     .horizontal-img__inner {
-      margin: 5.8rem auto;
+      height: 4rem;
+      margin: 5.05rem auto;
     }
 
     @include small {
@@ -160,7 +161,7 @@
       max-height: 58.0rem;
 
       .horizontal-img__inner {
-        margin: 5.8rem auto;
+        margin: 5.05rem auto;
       }
     }
   }
