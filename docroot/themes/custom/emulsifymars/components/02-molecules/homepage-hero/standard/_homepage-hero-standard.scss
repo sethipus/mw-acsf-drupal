@@ -3,7 +3,7 @@
 
   &__inner {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column;
     position: relative;
     background-color: clr(secondary);
 
@@ -11,6 +11,120 @@
       flex-flow: row nowrap;
     }
   }
+
+  &__bubble {
+    position: absolute;
+    height: auto;
+
+    svg {
+      width: 100%;
+      height: auto;
+      fill: clr(subcolor-3);
+      opacity: 0.15;
+    }
+
+    &--1 {
+      width: 30rem;
+      top: 49rem;
+      left: 43%;
+
+      @include medium {
+        width: 37rem;
+        top: -8.3rem;
+        left: 78%;
+      }
+
+      @media (max-width: 767px) {
+        animation: movedown 2s;
+      }
+
+      @media (min-width: 768px) {
+        animation: moveup 2s;
+      }
+
+    }
+
+    &--2 {
+      width: 8.5rem;
+      top: 8.7rem;
+      right: 25px;
+
+      @include medium {
+        width: 11.5rem;
+        top: 11rem;
+        right: 66.5%;
+      }
+
+      @media (max-width: 767px) {
+        animation: moveright 2s;
+      }
+
+      @media (min-width: 768px) {
+        animation: moveleft 2s;
+      }
+    }
+
+    &--3 {
+      display: none;
+      width: 21.4rem;
+      top: 48.5rem;
+      right: -26%;
+
+      @include medium {
+        display: block;
+        top: 58.3rem;
+        right: 50.5%;
+      }
+    }
+  }
+
+  @keyframes moveleft {
+    0% {
+      top: 8.7rem;
+      right: 25px;
+    }
+    100% {
+      top: 11rem;
+      right: 66.5%;
+    }
+  }
+
+  @keyframes moveright {
+    0% {
+      top: 11rem;
+      right: 66.5%;
+    }
+    100% {
+      top: 8.7rem;
+      right: 25px;
+    }
+  }
+
+  @keyframes movedown {
+    0% {
+      top: -8.3rem;
+      left: 78%;
+    }
+
+    100% {
+      top: 49rem;
+      left: 43%;
+    }
+  }
+
+  @keyframes moveup {
+    0% {
+      top: 49rem;
+      left: 43%;
+    }
+
+    100% {
+      top: -8.3rem;
+      left: 78%;
+    }
+  }
+
+
   &__left {
     flex-grow: 1;
     order: 2;
@@ -22,7 +136,8 @@
     & .wrapper {
       position: relative;
       height: 100%;
-      min-height: 435px;
+      margin-top: 52px;
+      min-height: 325px;
 
       @include medium {
         min-height: 600px;
@@ -36,6 +151,7 @@
         font-family: variable(primary-font);
         color: clr(subcolor-3);
         text-decoration: none;
+        margin-bottom: 4rem;
 
         @include xs {
           font-size: 1.4rem;
@@ -50,7 +166,11 @@
 
       & .heading {
         margin: 0;
-        max-width: 70%;
+        height: 149px;
+
+        @include medium {
+          height: auto;
+        }
 
         &__link {
           font-family: variable(heading-font);
@@ -62,6 +182,7 @@
           @include xs {
             font-size: 4.8rem;
             line-height: 4.32rem;
+            letter-spacing: -2.5px;
           }
 
           @include medium {
@@ -90,7 +211,7 @@
 
   &__right {
     flex-grow: 1;
-    order:1;
+    order: 1;
 
     @include medium {
       order: 2;
@@ -113,16 +234,19 @@
     }
 
     & img {
-      align-self: center;
+      align-self: flex-end;
       object-fit: contain;
       max-height: 210px;
       max-width: 210px;
 
       @include large {
         margin-left: auto;
-        margin-right: 0;
-        max-height: 550px;
+        margin-right: 8.6rem;
+        height: 658px;
+        width: 549px;
+        max-height: 658px;
         max-width: 550px;
+        transform: translateY(26.5%);
       }
     }
   }
@@ -132,7 +256,12 @@
     position: absolute;
     bottom: 0;
     z-index: 1;
-    animation: hero-standard-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    animation: hero-standard-text-animates-in 1.7s
+      cubic-bezier(0.75, 0, 0.25, 0);
+
+    @include medium {
+      bottom: 52px;
+    }
 
     @include large {
       padding-left: 40px;
