@@ -30,20 +30,18 @@
 
       @include medium {
         width: 37rem;
-      }
-
-      @media (max-width: 1023px) {
-        animation: movedown 2s;
-      }
-
-      @media (min-width: 1024px) {
-        animation: moveup 2s;
-      }
-
-      @include large {
         top: -8.3rem;
         left: 78%;
       }
+
+      @media (max-width: 767px) {
+        animation: movedown 2s;
+      }
+
+      @media (min-width: 768px) {
+        animation: moveup 2s;
+      }
+
     }
 
     &--2 {
@@ -53,19 +51,16 @@
 
       @include medium {
         width: 11.5rem;
+        top: 11rem;
+        right: 66.5%;
       }
 
-      @media (max-width: 1023px) {
+      @media (max-width: 767px) {
         animation: moveright 2s;
       }
 
-      @media (min-width: 1024px) {
+      @media (min-width: 768px) {
         animation: moveleft 2s;
-      }
-
-      @include large {
-        top: 11rem;
-        right: 66.5%;
       }
     }
 
@@ -77,9 +72,6 @@
 
       @include medium {
         display: block;
-      }
-
-      @include large {
         top: 58.3rem;
         right: 50.5%;
       }
