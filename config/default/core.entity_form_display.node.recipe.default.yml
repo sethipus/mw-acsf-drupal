@@ -22,6 +22,7 @@ dependencies:
     - field.field.node.recipe.field_recipe_new
     - field.field.node.recipe.field_recipe_number_of_servings
     - field.field.node.recipe.field_recipe_nutrition_module
+    - field.field.node.recipe.field_recipe_prep_time
     - field.field.node.recipe.field_recipe_video
     - field.field.node.recipe.layout_builder__layout
     - node.type.recipe
@@ -214,6 +215,16 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+    region: content
+  field_recipe_prep_time:
+    weight: 34
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_recipe_video:
     type: entity_browser_entity_reference
