@@ -247,6 +247,7 @@ class SearchHelperTest extends UnitTestCase {
       'mars_main_ingredient',
       'mars_meal_type',
       'mars_method',
+      'mars_prep_time',
     ];
     $this->assertArrayEquals($facet_keys_expected_result, $facet_keys);
   }
