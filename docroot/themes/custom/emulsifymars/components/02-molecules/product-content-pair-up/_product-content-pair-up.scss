@@ -44,6 +44,7 @@
       background-position: center center;
       padding-top: 50px;
       position: relative;
+      height: 1000px;
 
       @include medium {
         height: 1060px;
@@ -73,12 +74,71 @@
       .supportive-card .wrapper {
         text-align: left;
 
+        .product-card, .article-card {
+          min-height: 444px;
+          
+          @include medium {
+            width: 396px;
+            height: 528px;
+          }
+          @include large {
+            width: 432px;
+            height: 590px;
+            right: 0;
+          }
+        }
+
+        .product-card {
+          &__link_section{
+            justify-content: space-around;
+            width: 100%;
+            max-width: 250px;
+
+            @include medium {
+              max-width: 330px;
+            }
+
+            @include large {
+              max-width: 370px;
+            }
+          } 
+
+          @include large {
+            .eyebrow {
+              padding-top: 4rem;
+            }
+            .product-card__title {
+              margin: 4rem auto 0;
+            }
+            .product-card__title p {
+              font-size: 2.8rem;
+              line-height: 3.08rem;
+            }
+          }
+        }
+
+        .recipe-card {
+          max-height: initial;
+
+          @include medium {
+            width: 396px;
+          }
+
+          @include large {
+            width: 432px;
+            height: 630px;
+            .recipe-card__media {
+              height: 325px;
+            }
+          }
+        }
+
         @include xs {
           padding-top: 0;
         }
 
         @include medium {
-          padding-top: 3rem;
+          padding-top: 0;
         }
       }
 
@@ -99,7 +159,7 @@
 
         @include large {
           margin: 0;
-          right: -5%;
+          right: 0;
         }
 
         @include xl  {
@@ -168,7 +228,7 @@
             color: clr(subcolor-3);
             text-decoration: none;
             display: inline-block;
-            max-width: 665px;
+            max-width: 828px;
           }
         }
 
@@ -206,23 +266,28 @@
       position: relative;
       left: 0;
       right: 0;
-      max-width: 31.8rem;
+      width: 31.5rem;
+      min-height: 444px;
       margin: auto;
       z-index: $content-pair-supportive-card;
 
       @include medium {
         top: 450px;
         position: absolute;
+        width: 396px;
+        min-height: 528px;
       }
 
       @include large {
         top: 85px;
         left: auto;
-        right: 90px;
+        right: 30px;
+        width: 432px;
+        min-height: 590px;
       }
 
       @include xl {
-        right: 115px;
+        right: 63px;
       }
 
       .recipe-card-heading__link {
@@ -243,7 +308,6 @@
       }
 
       .wrapper > section {
-        max-width: 31.8rem;
         text-align: initial;
       }
     }

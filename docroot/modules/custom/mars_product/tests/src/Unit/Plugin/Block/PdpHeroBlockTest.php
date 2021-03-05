@@ -171,7 +171,8 @@ class PdpHeroBlockTest extends UnitTestCase {
       $this->productHelperMock,
       $this->mediaHelperMock,
       $this->immutableConfigMock,
-      FALSE
+      FALSE,
+      $this->configFactoryMock
     );
   }
 
@@ -180,7 +181,7 @@ class PdpHeroBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(13, $config_form);
+    $this->assertCount(17, $config_form);
     $this->assertArrayHasKey('eyebrow', $config_form);
     $this->assertArrayHasKey('available_sizes', $config_form);
     $this->assertArrayHasKey('wtb', $config_form);

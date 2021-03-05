@@ -13,7 +13,11 @@
       line-height: 1.1;
       font-weight: 500;
       font-family: variable(heading-font);
-      margin: 0 0 30px 8%;
+      margin: 0 0 30px 5%;
+
+      @include xs {
+        margin: 0 4rem 30px;
+      }
 
       @include small {
         font-size: 2rem;
@@ -21,10 +25,17 @@
 
       @include medium {
         font-size: 1.4rem;
+        max-width: 688px;
+        margin: 0 4rem 30px;
       }
 
       @include large {
         font-size: 2.6rem;
+        margin: 0 auto 30px;
+      }
+
+      @include xl {
+        max-width: 780px;
       }
     }
   }

@@ -37,7 +37,31 @@ interface SearchBuilderInterface {
     ],
     'mars_diet_allergens' => [
       'label' => 'DIET & ALLERGENS',
-      'content_types' => ['product'],
+      'content_types' => ['product', 'recipe'],
+    ],
+    'mars_culture' => [
+      'label' => 'CULTURE',
+      'content_types' => ['recipe'],
+    ],
+    'mars_food_type' => [
+      'label' => 'FOOD TYPE',
+      'content_types' => ['recipe'],
+    ],
+    'mars_main_ingredient' => [
+      'label' => 'MAIN INGREDIENT',
+      'content_types' => ['recipe'],
+    ],
+    'mars_meal_type' => [
+      'label' => 'MEAL TYPE',
+      'content_types' => ['recipe'],
+    ],
+    'mars_method' => [
+      'label' => 'METHOD',
+      'content_types' => ['recipe'],
+    ],
+    'mars_prep_time' => [
+      'label' => 'PREP TIME',
+      'content_types' => ['recipe'],
     ],
     'mars_trade_item_description' => [
       'label' => 'TRADE ITEM DESCRIPTION',

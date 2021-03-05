@@ -8,7 +8,7 @@
   @include xl {
     height: 100%;
     align-items: center;
-    margin: 0 0 0 125px;
+    margin-left: 12.5rem;
   }
 }
 
@@ -32,13 +32,10 @@
   font-family: variable(primary-font);
   color: clr(primary);
   text-decoration: none;
+  font-size: 1.6rem;
+  line-height: 1.6rem;
 
-  @include xs {
-    font-size: 1.6rem;
-    line-height: 1.6rem;
-  }
-
-  @include large {
+  @include medium {
     font-size: 1.8rem;
     line-height: 1.8rem;
   }

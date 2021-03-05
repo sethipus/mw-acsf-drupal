@@ -10,10 +10,12 @@
         <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_size.label}}</dt>
         <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_size.value}}</dd>
       </dl>
+      {% if pdp_nutrition_data.serving_item.serving_per_container.value %}
       <dl {{ bem('heading-list', [], pdp_nutrition_base_class) }}>
         <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.label}}</dt>
         <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.value}}</dd>
       </dl>
+      {% endif %}
     </div>
     <div {{ bem('nutrition-row', [], pdp_nutrition_base_class) }}>
       <div {{ bem('nutrition-column', [], pdp_nutrition_base_class) }}>
@@ -38,8 +40,9 @@
         {% if pdp_nutrition_data.serving_item.group_nutritional_subgroup_1 %}
           <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
             {% for item in pdp_nutrition_data.serving_item.group_nutritional_subgroup_1 %}
+              {% set additional_class = item.bold_modifier ? 'bold' : '' %}
               <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
-                <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class) }}>
+                <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class]) }}>
                   {% include "@atoms/text/text/07-span.twig" with {
                     span_content: item.label,
                     span_base_class: pdp_nutrition_label_base_class,
@@ -100,8 +103,12 @@
               {% set additional_class = item.bold_modifier ? 'bold' : '' %}
               <dl {{ bem('section-column-list', [], pdp_nutrition_base_class) }}>
                 <dt {{ bem('section-column-item', ['label'], pdp_nutrition_base_class, [additional_class]) }}>
+                  {% set item_label = item.label %}
+                  {% if item.pre_label %}
+                    {% set item_label = item.pre_label ~ ' ' ~ item.label %}
+                  {% endif %}
                   {% include "@atoms/text/text/07-span.twig" with {
-                    span_content: item.label,
+                    span_content: item_label,
                     span_base_class: pdp_nutrition_label_base_class,
                     span_blockname: pdp_nutrition_base_class,
                   } %}
@@ -135,7 +142,13 @@
                 span_blockname: pdp_nutrition_base_class,
               } %}
             </dt>
-            <dd></dd>
+            <dd {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
+              {% include "@atoms/text/text/07-span.twig" with {
+                span_content: pdp_common_nutrition_data.nutritional_info_daily_label,
+                span_base_class: pdp_nutrition_label_base_class,
+                span_blockname: pdp_nutrition_base_class,
+              } %}
+            </dd>
           </dl>
         </div>
         {% if pdp_nutrition_data.serving_item.group_vitamins %}
@@ -156,20 +169,31 @@
                     span_blockname: pdp_nutrition_base_class,
                   } %}
                 </dd>
+                <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
+                  {% include "@atoms/text/text/07-span.twig" with {
+                    span_content: item.value_daily,
+                    span_base_class: pdp_nutrition_value_daily_base_class,
+                    span_blockname: pdp_nutrition_base_class,
+                  } %}
+                </dd>
               </dl>
             {% endfor %}
           </div>
         {% endif %}
-        <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
-          <dl {{ bem('section-column-list', ['additional-info'], pdp_nutrition_base_class) }}>
-            <dt {{ bem('section-column-item', ['additional-info'], pdp_nutrition_base_class) }}>
+          <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
+          <dl {{ bem('section-column-list', ['info-block'], pdp_nutrition_base_class) }}>
+            <dd {{ bem('section-column-item', ['info-block'], pdp_nutrition_base_class) }}>
               {% include "@atoms/text/text/07-span.twig" with {
-                span_content: pdp_common_nutrition_data.ingredients_label,
-                span_base_class: pdp_nutrition_label_base_class,
+                span_content: pdp_common_nutrition_data.daily_text,
+                span_base_class: pdp_nutrition_value_base_class,
                 span_blockname: pdp_nutrition_base_class,
               } %}
-            </dt>
-            <dd {{ bem('section-column-item', ['additional-info'], pdp_nutrition_base_class) }}>
+            </dd>
+          </dl>
+        </div>
+        <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
+          <dl {{ bem('section-column-list', ['info-block', 'upper'], pdp_nutrition_base_class) }}>
+            <dd {{ bem('section-column-item', ['info-block', 'upper'], pdp_nutrition_base_class) }}>
               {% include "@atoms/text/text/07-span.twig" with {
                 span_content: pdp_nutrition_data.serving_item.ingredients_value,
                 span_base_class: pdp_nutrition_value_base_class,
@@ -180,13 +204,6 @@
         </div>
         <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
           <dl {{ bem('section-column-list', ['additional-info'], pdp_nutrition_base_class) }}>
-            <dt {{ bem('section-column-item', ['additional-info'], pdp_nutrition_base_class) }}>
-              {% include "@atoms/text/text/07-span.twig" with {
-                span_content: pdp_common_nutrition_data.warnings_label,
-                span_base_class: pdp_nutrition_label_base_class,
-                span_blockname: pdp_nutrition_base_class,
-              } %}
-            </dt>
             <dd {{ bem('section-column-item', ['additional-info'], pdp_nutrition_base_class) }}>
               {% include "@atoms/text/text/07-span.twig" with {
                 span_content: pdp_nutrition_data.serving_item.warnings_value,
@@ -198,5 +215,12 @@
         </div>
       </div>
     </div>
+  </div>
+  <div {{ bem('additional-info', [], pdp_nutrition_base_class) }}>
+  {% include "@atoms/text/text/07-span.twig" with {
+    span_content: pdp_common_nutrition_data.refer_text,
+    span_base_class: pdp_nutrition_value_base_class,
+    span_blockname: pdp_nutrition_base_class,
+  } %}
   </div>
 </section>

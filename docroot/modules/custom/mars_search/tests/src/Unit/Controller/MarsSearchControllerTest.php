@@ -23,6 +23,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\node\NodeInterface;
 
 /**
  * @coversDefaultClass \Drupal\mars_search\Controller\MarsSearchController
@@ -36,7 +38,6 @@ class MarsSearchControllerTest extends UnitTestCase {
       ['type', 'faq', '<>', TRUE],
     ],
     'keys' => 'some key',
-    'cards_view' => FALSE,
   ];
 
   /**
@@ -164,6 +165,14 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->method('getViewBuilder')
       ->with('node')
       ->willReturn($this->entityViewBuilderMock);
+    $this->nodeStorageMock
+      ->expects($this->any())
+      ->method('load')
+      ->willReturn($this->createMock(NodeInterface::class));
+    $this->entityTypeManagerMock
+      ->expects($this->any())
+      ->method('getStorage')
+      ->willReturn($this->nodeStorageMock);
 
     $this->searchProcessFactoryMock
       ->expects($this->any())
@@ -316,6 +325,8 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->willReturn([
         'action_type' => MarsSearchController::MARS_SEARCH_AJAX_RESULTS,
         'grid_type' => 'test_type',
+        'page_id' => 0,
+        'limit' => 0,
       ]);
     $nodeMock = $this->getMockBuilder(Node::class)
       ->disableOriginalConstructor()
@@ -356,6 +367,7 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->willReturn([
         'action_type' => MarsSearchController::MARS_SEARCH_AJAX_FACET,
         'grid_type' => 'search_page',
+        'page_id' => 0,
       ]);
     $this->searchBuilderMock
       ->expects($this->once())
@@ -365,7 +377,6 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->method('buildSearchHeader')
       ->willReturn([
         '#search_filters' => [],
-
       ]);
     $this->rendererMock
       ->expects($this->exactly(2))
@@ -385,7 +396,6 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->rendererMock = $this->createMock(RendererInterface::class);
     $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
     $this->searchQueryParserMock = $this->createMock(SearchQueryParserInterface::class);
-    $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->entityViewBuilderMock = $this->createMock(EntityViewBuilderInterface::class);
     $this->requestStackMock = $this->createMock(RequestStack::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
@@ -395,6 +405,8 @@ class MarsSearchControllerTest extends UnitTestCase {
     $this->translationMock = $this->createMock(TranslationInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->pathValidator = $this->createMock(PathValidatorInterface::class);
+    $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this->nodeStorageMock = $this->createMock(EntityStorageInterface::class);
   }
 
 }

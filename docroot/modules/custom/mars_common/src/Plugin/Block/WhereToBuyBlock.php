@@ -175,55 +175,67 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
   public function build() {
     $build['#theme'] = 'where_to_buy_block';
 
-    $commerceVendor = $this->getCommerceVendor();
+    $commerce_vendor = $this->getCommerceVendor();
     $build['#widget_id'] = $this->configuration['widget_id'];
-    $build['#commerce_vendor'] = $commerceVendor;
+    $build['#commerce_vendor'] = $commerce_vendor;
 
-    if ($commerceVendor === PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
-      $build['#data_subid'] = $this->configuration['data_subid'];
-      $build['#data_token'] = $this->configuration['data_token'];
-      $build['#data_locale'] = $this->configuration['data_locale'];
+    switch ($commerce_vendor) {
+      case PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR:
+        $build['#data_subid'] = $this->configuration['data_subid'];
+        $build['#data_token'] = $this->configuration['data_token'];
+        $build['#data_locale'] = $this->configuration['data_locale'];
 
-      $locale = $this->languageManager->getCurrentLanguage()->getId();
-      $build['#data_displaylanguage'] = $locale;
+        $locale = $this->languageManager->getCurrentLanguage()->getId();
+        $build['#data_displaylanguage'] = $locale;
 
-      $build['#attached']['drupalSettings']['wtb_block'] = [
-        'widget_id' => $this->configuration['widget_id'],
-        'data_subid' => $this->configuration['data_subid'],
-        'data_token' => $this->configuration['data_token'],
-        'data_locale' => $this->configuration['data_locale'],
-        'data_displaylanguage' => $locale,
-      ];
-
-      /** @var \Drupal\node\Entity\Node[] $products */
-      $products = $this->entityTypeManager->getStorage('node')
-        ->loadByProperties([
-          'type' => ['product', 'product_multipack'],
-        ]);
-      $products_for_render = [];
-      $default_product = [];
-      foreach ($products as $product) {
-        $products_for_render[] = [
-          'id' => $product->id(),
-          'title' => $product->label(),
+        $build['#attached']['drupalSettings']['wtb_block'] = [
+          'widget_id' => $this->configuration['widget_id'],
+          'data_subid' => $this->configuration['data_subid'],
+          'data_token' => $this->configuration['data_token'],
+          'data_locale' => $this->configuration['data_locale'],
+          'data_displaylanguage' => $locale,
         ];
-        if (empty($default_product)) {
-          $variants_info = $this->addProductVariantsInfo($product);
-          if (empty($variants_info) || empty($variants_info[0]['size'])) {
-            continue;
-          }
 
-          $default_product['id'] = $product->id();
-          $default_product['title'] = $product->label();
-          $default_product['variants'] = $variants_info;
+        /** @var \Drupal\node\Entity\Node[] $products */
+        $products = $this->entityTypeManager->getStorage('node')
+          ->loadByProperties([
+            'type' => ['product', 'product_multipack'],
+          ]);
+        $products_for_render = [];
+        $default_product = [];
+        foreach ($products as $product) {
+          $products_for_render[] = [
+            'id' => $product->id(),
+            'title' => $product->label(),
+          ];
+          if (empty($default_product)) {
+            $variants_info = $this->addProductVariantsInfo($product);
+            if (empty($variants_info) || empty($variants_info[0]['size'])) {
+              continue;
+            }
+
+            $default_product['id'] = $product->id();
+            $default_product['title'] = $product->label();
+            $default_product['variants'] = $variants_info;
+          }
         }
-      }
-      $build['#products'] = $products_for_render;
-      $build['#default_product'] = $default_product;
+        $build['#products'] = $products_for_render;
+        $build['#default_product'] = $default_product;
+        break;
+
+      case PdpHeroBlock::VENDOR_SMART_COMMERCE:
+        $build = [];
+        break;
+
+      default:
+        $build['#product_sku'] = $this->configuration['product_sku'];
+        break;
     }
-    else {
-      $build['#product_sku'] = $this->configuration['product_sku'];
-    }
+
+    // Disable caching for the block as it can be changed at any time.
+    $build['#cache'] = [
+      'max-age' => 0,
+    ];
 
     return $build;
   }

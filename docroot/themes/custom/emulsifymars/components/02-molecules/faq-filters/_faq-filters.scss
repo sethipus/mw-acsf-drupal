@@ -1,18 +1,8 @@
 .faq-filters {
   &__search {
-    margin: 0 20px;
+    margin: 0;
     max-width: none;
     display: flex;
-
-    @include medium {
-      margin: 0 40px;
-      max-width: none;
-    }
-
-    @include xl {
-      margin: auto;
-      max-width: 896px;
-    }
 
     .search-input {
       border: 1px solid clr(subcolor-4);
@@ -20,14 +10,14 @@
       flex-grow: 1;
 
       &__field {
-        margin-right: 20px;
-        padding: 0 0 0 50px;
+        padding: 0 2rem 0 5rem;
+        width: 100%;
       }
     }
   }
 
   &__search-results {
-    margin: 20px 40px 0 0;
+    margin: 2rem 2rem 3rem 0;
     font-size: 1.6rem;
     color: clr(primary);
     display: none;
@@ -37,18 +27,18 @@
     }
 
     @include medium {
-      margin: 20px 40px 0 40px;
+      margin: 2rem 2rem 4rem 0;
     }
 
     @include xl {
-      margin: 20px 40px 0 0;
+      margin: 2rem 2rem 4rem 0;
     }
   }
 
   &__filters {
     position: relative;
     font-size: 0;
-    margin: 40px 20px 49px;
+    margin: 3rem 0 4.9rem;
     max-width: none;
     display: none;
     flex-wrap: wrap;
@@ -60,13 +50,12 @@
     }
 
     @include medium {
-      margin: 40px 40px 59px;
+      margin: 40px 0 59px;
       max-width: none;
     }
 
     @include xl {
       margin: 40px auto 79px;
-      max-width: 896px;
       padding-bottom: 40px;
     }
 
@@ -77,24 +66,25 @@
       overflow: hidden;
       background-color: clr(subcolor-3);
       border: 1px solid clr(secondary);
-      padding: 12px;
+      padding: 1.1rem;
       border-radius: variable(button-border-radius);
       font-family: variable(primary-font);
-      font-size: 14px;
-      line-height: 14px;
+      font-size: 1.2rem;
+      line-height: 1;
       text-transform: uppercase;
       color: clr(secondary);
-      margin: 0 12px 12px 0;
+      margin: 0 1rem 1.2rem 0;
       text-decoration: none;
       transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
       transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
 
       @include medium {
-        padding: 17px 45px;
+        padding: 17px 43px;
       }
 
       @include xl {
         padding: 20px 40px;
+        font-size: 1.4rem;
       }
 
       &.active {
@@ -148,29 +138,28 @@
   }
 
   .search-input-wrapper {
+    width: 100%;
+
     &.suggested {
+      margin-left: 0;
+
       .search-input {
         border-bottom-right-radius: unset;
         border-bottom-left-radius: unset;
         border-bottom: none;
+
+        &__field {
+          width: 100%;
+        }
       }
+
       .mars-search-autocomplete-suggestions-wrapper {
-        margin: -25px 20px 0;
+        margin: -2.5rem 0 0;
         padding-top: 25px;
         border: 1px solid clr(subcolor-4);
         border-top: none;
-        width: calc(335px + 22px);
 
-        @include medium {
-          margin-left: 40px;
-          margin-right: 40px;
-          width: calc(688px + 22px);
-        }
-
-        @include xl {
-          margin-left: 0;
-          margin-right: 0;
-          width: calc(896px + 22px);
+        @include small {
         }
       }
     }

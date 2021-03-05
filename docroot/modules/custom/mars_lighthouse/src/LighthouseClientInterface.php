@@ -10,29 +10,6 @@ namespace Drupal\mars_lighthouse;
 interface LighthouseClientInterface {
 
   /**
-   * Returns access tokens.
-   *
-   * @return array
-   *   Array with access tokens and headers.
-   *
-   * @throws \Drupal\mars_lighthouse\LighthouseException
-   */
-  public function getToken(): array;
-
-  /**
-   * Refresh access tokens.
-   *
-   * @param array $params
-   *   Expired headers and access token.
-   *
-   * @return array
-   *   Array with access tokens and headers.
-   *
-   * @throws \Drupal\mars_lighthouse\LighthouseException
-   */
-  public function refreshToken(array $params): array;
-
-  /**
    * Search request.
    *
    * @param int $total_found
@@ -47,8 +24,6 @@ interface LighthouseClientInterface {
    *   Offset index.
    * @param int $limit
    *   Limit number.
-   * @param array $params
-   *   Headers and access token.
    * @param string $media_type
    *   Media type to get.
    *
@@ -66,7 +41,6 @@ interface LighthouseClientInterface {
     array $sort_by = [],
     int $offset = 0,
     int $limit = 10,
-    array $params = [],
     string $media_type = 'image'
   ): array;
 
@@ -75,8 +49,6 @@ interface LighthouseClientInterface {
    *
    * @param string $id
    *   Asset Id.
-   * @param array $params
-   *   Headers and access token.
    *
    * @return array
    *   An asset data.
@@ -85,7 +57,7 @@ interface LighthouseClientInterface {
    * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
    * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
-  public function getAssetById(string $id, array $params = []): array;
+  public function getAssetById(string $id): array;
 
   /**
    * Get an assets data by its Ids.
@@ -94,8 +66,6 @@ interface LighthouseClientInterface {
    *   Asset Id.
    * @param string $date
    *   The latest modified date.
-   * @param array $params
-   *   Headers and access token.
    *
    * @return array
    *   An asset data.
@@ -104,15 +74,13 @@ interface LighthouseClientInterface {
    * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
    * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
-  public function getAssetsByIds(array $ids, string $date, array $params = []): array;
+  public function getAssetsByIds(array $ids, string $date): array;
 
   /**
    * Sent inventory report.
    *
    * @param array $asset_list
    *   List of asset information.
-   * @param array $params
-   *   Headers and access token.
    *
    * @return array
    *   Response data.
@@ -121,13 +89,10 @@ interface LighthouseClientInterface {
    * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
    * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
-  public function sentInventoryReport(array $asset_list, array $params = []): array;
+  public function sentInventoryReport(array $asset_list): array;
 
   /**
    * Brands list.
-   *
-   * @param array $params
-   *   Headers and access token.
    *
    * @return array
    *   List of brands.
@@ -136,13 +101,10 @@ interface LighthouseClientInterface {
    * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
    * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
-  public function getBrands(array $params = []): array;
+  public function getBrands(): array;
 
   /**
    * Markets list.
-   *
-   * @param array $params
-   *   Headers and access token.
    *
    * @return array
    *   List of markets.
@@ -151,6 +113,6 @@ interface LighthouseClientInterface {
    * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
    * @throws \Drupal\mars_lighthouse\LighthouseAccessException
    */
-  public function getMarkets(array $params = []): array;
+  public function getMarkets(): array;
 
 }

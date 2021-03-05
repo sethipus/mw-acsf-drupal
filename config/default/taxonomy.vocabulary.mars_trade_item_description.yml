@@ -7,4 +7,4 @@ _core:
 name: 'Trade item description'
 vid: mars_trade_item_description
 description: ''
-weight: 0
+weight: 6

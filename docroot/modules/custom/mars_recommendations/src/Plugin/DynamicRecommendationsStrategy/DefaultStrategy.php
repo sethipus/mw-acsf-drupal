@@ -23,6 +23,11 @@ class DefaultStrategy extends DynamicRecommendationsStrategyPluginBase {
     $query = $this->nodeStorage->getQuery();
     $query->condition('type', ['product', 'product_multipack'], 'IN');
     $query->condition('status', NodeInterface::PUBLISHED);
+    $product_generated = $query->orConditionGroup()
+      ->notExists('field_product_generated')
+      ->condition('field_product_generated.value', 1, '!=');
+
+    $query->condition($product_generated);
     $query->sort('created', 'DESC');
     $query->range(0, 4);
     $result = $query->execute();
