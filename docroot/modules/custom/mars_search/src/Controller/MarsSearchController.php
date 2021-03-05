@@ -148,14 +148,28 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
   /**
    * Page callback: Retrieves autocomplete suggestions.
    *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   The autocompletion response.
+   *
+   * @throws \Exception
    */
-  public function autocomplete() {
+  public function autocomplete(Request $request) {
     $options = $this->searchQueryParser->parseQuery();
-    // We need only 5 results in autocomplete.
-    $options['offset'] = 0;
-    $options['limit'] = 5;
+    $query_parameters = $request->query->all();
+    $options['limit'] = 4;
+    // We need only 5 results in autocomplete (for search page, faq page
+    // and card grid component).
+    if (isset($query_parameters['grid_type']) &&
+     in_array(
+       $query_parameters['grid_type'],
+       ['search_page', 'faq_page', 'card_grid_component']
+     )) {
+
+      $options['limit'] = 5;
+    }
 
     $suggestions = [];
     $show_all = '';

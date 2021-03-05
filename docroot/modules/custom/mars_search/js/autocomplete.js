@@ -44,6 +44,17 @@
             url = url + '&cards_view=0';
           }
 
+          // Update url by component/page type.
+          if ($(this).parents('.search-page-header').length) {
+            url += '&grid_type=search_page'
+          }
+          else if ($(this).parents('.faq-filters').length) {
+            url += '&grid_type=faq_page'
+          }
+          else if ($(this).parents('.card-grid-filter').length) {
+            url += '&grid_type=card_grid_component'
+          }
+
           setTimeout(function() {
             $.ajax({
               url: url,

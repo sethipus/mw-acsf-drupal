@@ -255,6 +255,14 @@ class MarsSearchControllerTest extends UnitTestCase {
    * Test autocomplete.
    */
   public function testShouldAutocomplete() {
+    $this->requestMock->query
+      ->expects($this->once())
+      ->method('all')
+      ->willReturn([
+        'action_type' => MarsSearchController::MARS_SEARCH_AJAX_FACET,
+        'grid_type' => 'search_page',
+        'page_id' => 0,
+      ]);
     $this->containerMock
       ->expects($this->any())
       ->method('get')
@@ -311,7 +319,7 @@ class MarsSearchControllerTest extends UnitTestCase {
       ->expects($this->once())
       ->method('getSearchNoResult');
 
-    $autocompleteResult = $this->controller->autocomplete();
+    $autocompleteResult = $this->controller->autocomplete($this->requestMock);
     $this->assertInstanceOf(JsonResponse::class, $autocompleteResult);
   }
 
