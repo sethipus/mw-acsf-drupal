@@ -39,17 +39,17 @@
       bottom: -1.3rem;
 
       @include medium {
-        width: 23.2rem;
-        height: 23.2rem;
-        left: 0;
-        bottom: 0;
+        width: 22.2rem;
+        height: 22.2rem;
+        left: 1.9rem;
+        bottom: 5.8rem;
       }
 
       @include xl {
         width: 31.6rem;
         height: 31.6rem;
-        left: 1.6rem;
-        bottom: -6.1rem;
+        left: 1.5rem;
+        bottom: -7.8rem;
       }
     }
 
@@ -60,17 +60,17 @@
       top: 2.1rem;
 
       @include medium {
-        width: 17.2rem;
-        height: 17.2rem;
-        right: -7.4rem;
-        top: 1.4rem;
+        width: 18.9rem;
+        height: 18.9rem;
+        right: -7.7rem;
+        top: 4rem;
       }
 
       @include xl {
         width: 25.9rem;
         height: 25.9rem;
-        right: -9.6rem;
-        top: 1.8rem;
+        right: -10rem;
+        top: 2.2rem;
       }
     }
 
