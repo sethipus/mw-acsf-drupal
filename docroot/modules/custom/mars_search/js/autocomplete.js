@@ -45,14 +45,13 @@
           }
 
           // Update url by component/page type.
-          if ($(this).parents('.search-page-header').length) {
-            url += '&grid_type=search_page'
+          if ($(this).parents('.search-page-header').length ||
+            $(this).parents('.faq-filters').length ||
+            $(this).parents('.card-grid-filter').length) {
+            url += '&limit=5'
           }
-          else if ($(this).parents('.faq-filters').length) {
-            url += '&grid_type=faq_page'
-          }
-          else if ($(this).parents('.card-grid-filter').length) {
-            url += '&grid_type=card_grid_component'
+          else {
+            url += '&limit=4'
           }
 
           setTimeout(function() {
