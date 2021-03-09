@@ -187,6 +187,7 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       'mars_main_ingredient',
       'mars_meal_type',
       'mars_method',
+      'mars_prep_time',
     ];
   }
 
