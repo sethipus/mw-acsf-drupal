@@ -51,6 +51,14 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
   protected $themeConfiguratorParser;
 
   /**
+   * Image sizes.
+   */
+  const IMAGE_SIZE = [
+    '1:1' => '1:1',
+    '16:9' => '16:9',
+  ];
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -192,6 +200,12 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
           'wrapper' => 'items-wrapper',
         ],
       ];
+      $form['items'][$key]['image_size'] = [
+        '#type' => 'radios',
+        '#title' => $this->t('Image size'),
+        '#options' => static::IMAGE_SIZE,
+        '#default_value' => isset($config['items'][$key]['image_size']) ? $config['items'][$key]['image_size'] : static::IMAGE_SIZE['1:1'],
+      ];
     }
     if (count($items_storage) < 4) {
       $form['items']['add_item'] = [
@@ -330,6 +344,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         $ff_item['card__image__src'] = $image_url;
         $ff_item['card__image__alt'] = $media_params['alt'] ?? NULL;
         $ff_item['card__image__title'] = $media_params['title'] ?? NULL;
+        $ff_item['card__image__size'] = isset($config['items'][$key]['image_size']) ? $config['items'][$key]['image_size'] : static::IMAGE_SIZE['1:1'];
       }
       $ff_items[] = $ff_item;
     }

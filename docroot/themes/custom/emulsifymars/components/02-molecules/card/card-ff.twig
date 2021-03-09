@@ -51,6 +51,11 @@
     {% if card__image__src %}
       <div class="image-wrapper">
         <div class="image-background">
+          {% if card__image__size == '16:9' %}
+            16:9
+          {% else %}
+            1:1
+          {% endif %}
         {% if card__link__url %}
           <a href="{{card__link__url}}">
         {% endif %}
