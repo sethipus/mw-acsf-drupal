@@ -54,7 +54,6 @@
   &__heading {
     font-family: variable(primary-font);
     color: clr(primary);
-    text-transform: uppercase;
 
     @include xs {
       font-size: 2.8rem;
