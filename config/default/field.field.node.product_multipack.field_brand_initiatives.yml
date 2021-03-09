@@ -1,0 +1,34 @@
+uuid: f5ac84d2-fca5-43af-8563-b47f63e6660e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_brand_initiatives
+    - node.type.product_multipack
+    - taxonomy.vocabulary.mars_brand_initiatives
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_multipack.field_brand_initiatives
+field_name: field_brand_initiatives
+entity_type: node
+bundle: product_multipack
+label: Brand
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      mars_brand_initiatives: mars_brand_initiatives
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,28 +1,26 @@
-uuid: 3b435c7b-f48d-494a-8e88-7e94b7c23a07
+uuid: f51d43eb-53a3-427b-8074-450ea11d604b
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.product.field_brand_initiatives
-    - field.field.node.product.field_meta_tags
-    - field.field.node.product.field_override_global_rating
-    - field.field.node.product.field_product_category
-    - field.field.node.product.field_product_description
-    - field.field.node.product.field_product_flavor
-    - field.field.node.product.field_product_format
-    - field.field.node.product.field_product_generated
-    - field.field.node.product.field_product_market
-    - field.field.node.product.field_product_name
-    - field.field.node.product.field_product_new
-    - field.field.node.product.field_product_occasions
-    - field.field.node.product.field_product_segment
-    - field.field.node.product.field_product_trade_description
-    - field.field.node.product.field_product_variants
-    - field.field.node.product.field_rating_and_reviews
-    - field.field.node.product.layout_builder__layout
-    - field.field.node.product.salsify_id
-    - field.field.node.product.salsify_updated
-    - node.type.product
+    - field.field.node.product_multipack.field_brand_initiatives
+    - field.field.node.product_multipack.field_meta_tags
+    - field.field.node.product_multipack.field_product_brand
+    - field.field.node.product_multipack.field_product_category
+    - field.field.node.product_multipack.field_product_description
+    - field.field.node.product_multipack.field_product_flavor
+    - field.field.node.product_multipack.field_product_format
+    - field.field.node.product_multipack.field_product_market
+    - field.field.node.product_multipack.field_product_name
+    - field.field.node.product_multipack.field_product_occasions
+    - field.field.node.product_multipack.field_product_pack_items
+    - field.field.node.product_multipack.field_product_segment
+    - field.field.node.product_multipack.field_product_trade_description
+    - field.field.node.product_multipack.field_product_variants
+    - field.field.node.product_multipack.layout_builder__layout
+    - field.field.node.product_multipack.salsify_id
+    - field.field.node.product_multipack.salsify_updated
+    - node.type.product_multipack
     - workflows.workflow.editorial
   module:
     - content_moderation
@@ -33,56 +31,74 @@ dependencies:
     - text
 third_party_settings:
   field_group:
-    group_product_overview:
+    group_product_multipack:
       children:
-        - title
-        - field_product_brand
-        - field_brand_initiatives
-        - field_product_flavor
-        - field_product_market
-        - field_product_category
-        - field_product_segment
-        - field_product_name
-        - field_product_description
-        - field_product_format
-        - field_product_occasions
-        - field_product_trade_description
-        - field_product_new
-        - field_override_global_rating
-        - field_rating_and_reviews
-      parent_name: group_product
-      weight: 1
-      format_type: details
-      region: content
-      format_settings:
-        description: ''
-        open: true
-        required_fields: true
-        id: ''
-        classes: ''
-      label: 'Product Overview'
-    group_product:
-      children:
-        - group_product_overview
+        - group_product_description
         - group_variants
+        - group_products
         - group_system
       parent_name: ''
       weight: 0
-      format_type: html_element
+      format_type: accordion
       region: content
       format_settings:
         id: ''
         classes: ''
         effect: bounceslide
-        open: false
+      label: 'Product Multipack'
+    group_product_description:
+      children:
+        - title
+        - field_product_brand
+        - field_brand_initiatives
+        - field_product_flavor
+        - field_product_description
+        - field_product_market
+        - field_product_name
+        - field_product_segment
+        - field_product_category
+        - field_product_format
+        - field_product_occasions
+        - field_product_trade_description
+      parent_name: group_product_multipack
+      weight: 20
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: open
         required_fields: true
-        element: div
-        show_label: false
-        label_element: h3
-        label_element_classes: ''
-        speed: fast
-        attributes: ''
-      label: Product
+        description: ''
+      label: 'Product Description'
+    group_variants:
+      children:
+        - field_product_variants
+      parent_name: group_product_multipack
+      weight: 21
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: Variants
+    group_products:
+      children:
+        - field_product_pack_items
+      parent_name: group_product_multipack
+      weight: 22
+      format_type: accordion_item
+      region: content
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        required_fields: true
+        description: ''
+      label: Products
     group_system:
       children:
         - uid
@@ -93,143 +109,99 @@ third_party_settings:
         - url_redirects
         - moderation_state
         - status
-      parent_name: group_product
-      weight: 4
-      format_type: details
+      parent_name: group_product_multipack
+      weight: 23
+      format_type: accordion_item
       region: content
       format_settings:
         id: ''
         classes: ''
+        formatter: closed
+        required_fields: true
         description: ''
-        required_fields: true
-        formatter: closed
-        open: false
       label: System
-    group_variants:
-      children:
-        - field_product_variants
-      parent_name: group_product
-      weight: 2
-      format_type: details
-      region: content
-      format_settings:
-        formatter: closed
-        required_fields: true
-        id: ''
-        classes: ''
-        open: false
-      label: Variants
 _core:
-  default_config_hash: M26Ctwvzf3e3h8zeeLunTl3F4RagFfha09B2urY9BVY
-id: node.product.default
+  default_config_hash: OOPlixFypvv5HGiMh7Fwa72RJywvtF88MKLTzXKUa6g
+id: node.product_multipack.default
 targetEntityType: node
-bundle: product
+bundle: product_multipack
 mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 5
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
   field_brand_initiatives:
-    weight: 3
+    weight: 2
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_meta_tags:
-    weight: 5
+    weight: 28
     settings:
       sidebar: true
     third_party_settings: {  }
     type: metatag_firehose
     region: content
-  field_override_global_rating:
-    weight: 14
-    settings:
-      display_label: true
+  field_product_brand:
+    weight: 1
+    settings: {  }
     third_party_settings: {  }
-    type: boolean_checkbox
+    type: options_select
     region: content
   field_product_category:
-    weight: 6
+    weight: 8
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_product_description:
-    weight: 9
+    type: text_textarea
+    weight: 4
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   field_product_flavor:
-    weight: 4
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_product_format:
+    weight: 9
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_product_market:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_product_name:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_product_occasions:
     weight: 10
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
-  field_product_generated:
-    weight: 26
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
-  field_product_market:
-    weight: 5
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_name:
-    weight: 8
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_new:
-    weight: 13
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
-  field_product_occasions:
-    weight: 11
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
-  field_product_segment:
-    weight: 7
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_trade_description:
-    weight: 12
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
-  field_product_variants:
-    weight: 3
+  field_product_pack_items:
+    weight: 27
     settings:
       match_operator: CONTAINS
       match_limit: 10
@@ -238,12 +210,29 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
-  field_rating_and_reviews:
-    weight: 15
+  field_product_segment:
+    type: string_textfield
+    weight: 7
+    region: content
     settings:
-      display_label: true
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: boolean_checkbox
+  field_product_trade_description:
+    weight: 11
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_product_variants:
+    weight: 26
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   langcode:
     type: language_select
@@ -254,13 +243,13 @@ content:
     third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 10
+    weight: 7
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 8
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -268,12 +257,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 6
+    weight: 3
     region: content
     third_party_settings: {  }
   published_at:
     type: publication_date_timestamp
-    weight: 3
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -281,41 +270,41 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 11
+    weight: 8
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 4
     region: content
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 1
+    weight: 0
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 4
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 4
-    region: content
+    weight: 1
     settings:
       match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
+      match_limit: 10
+    region: content
     third_party_settings: {  }
   url_redirects:
-    weight: 9
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
