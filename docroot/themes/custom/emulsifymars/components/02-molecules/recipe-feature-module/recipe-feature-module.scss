@@ -9,7 +9,6 @@
     text-align: center;
     font-family: variable(heading-font);
     color: clr(primary);
-    text-transform: uppercase;
     margin-bottom: 4rem;
 
     @include xs {
@@ -145,7 +144,6 @@
         font-family: variable(primary-font);
         font-size: 5.6rem;
         line-height: 100%;
-        text-transform: capitalize;
         max-width: 510px;
         font-weight: 500;
         margin: 3rem auto 2rem;
