@@ -4,10 +4,8 @@ namespace Drupal\mars_banners\Plugin\Block;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\file\Element\ManagedFile;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -84,13 +82,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
   private $themeConfigParser;
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  private $entityTypeManager;
-
-  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -99,14 +90,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_definition,
     MediaHelper $media_helper,
     LanguageHelper $language_helper,
-    ThemeConfiguratorParser $theme_config_parser,
-    EntityTypeManagerInterface $entity_type_manager
+    ThemeConfiguratorParser $theme_config_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaHelper = $media_helper;
     $this->languageHelper = $language_helper;
     $this->themeConfigParser = $theme_config_parser;
-    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -119,8 +108,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $plugin_definition,
       $container->get('mars_common.media_helper'),
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.theme_configurator_parser'),
-      $container->get('entity_type.manager')
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -238,21 +226,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
       ],
     ];
-    $form['custom_foreground_image']['image'] = [
-      '#type' => 'managed_file',
-      '#title' => $this->t('Image'),
-      '#description' => $this->t('Please upload your custom Foreground image.'),
-      '#default_value' => $config['custom_foreground_image']['image'] ?? '',
-      '#theme' => 'image_widget',
-      '#upload_validators' => [
-        'file_validate_extensions' => ['svg png'],
-      ],
-      '#upload_location' => 'public://',
-      '#process' => [
-        [ManagedFile::class, 'processManagedFile'],
-        [$this, 'processImagePreview'],
-      ],
-    ];
+    $fg_image_default = isset($config['custom_foreground_image']['image']) ? $config['custom_foreground_image']['image'] : NULL;
+    $form['custom_foreground_image']['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $fg_image_default, $form_state, 1, 'thumbnail', function ($form_state) {
+        return in_array($form_state->getValue(['settings', 'block_type']),
+          [self::KEY_OPTION_DEFAULT]);
+      }
+    );
 
     $form['title'] = [
       '#type' => 'details',
@@ -678,6 +658,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       : FALSE;
     $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
+    $this->configuration['custom_foreground_image']['image'] = $this->getEntityBrowserValue($form_state, ['custom_foreground_image', 'image']);
     if (isset($values['card']) && !empty($values['card'])) {
       foreach ($values['card'] as $key => $card) {
         $this->configuration['card'][$key]['foreground_image'] = $this->getEntityBrowserValue($form_state, [
@@ -775,49 +756,15 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    *
    * @return string
    *   Returns a file URL or an empty string value.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   private function getCustomForegroundImageUrl(array $config): string {
-    $custom_shape_image_id = !empty($config["custom_foreground_image"]["image"]) ? reset($config["custom_foreground_image"]["image"]) : NULL;
+    $custom_shape_image_id = !empty($config["custom_foreground_image"]["image"]) ? $config["custom_foreground_image"]["image"] : NULL;
     if (!empty($custom_shape_image_id)) {
-      $file_storage = $this->entityTypeManager->getStorage('file');
-      /* @var \Drupal\file\Entity\File $file */
-      $file = $file_storage->load($custom_shape_image_id);
-      return !empty($file) ? $file->createFileUrl() : '';
+      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($custom_shape_image_id);
+      $media_data = $this->mediaHelper->getMediaParametersById($media_id);
+      return !empty($media_data['src']) ? $media_data['src'] : '';
     }
     return '';
-  }
-
-  /**
-   * Process managed_file element to add preview element with uploaded image.
-   *
-   * @param array $element
-   *   Form element children.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   Form state.
-   * @param array $complete_form
-   *   Processed form.
-   *
-   * @return array
-   *   Form element for further processing and theming
-   */
-  public function processImagePreview(array &$element, FormStateInterface $form_state, array &$complete_form): array {
-    if (empty($element['fids']['#value'])) {
-      return $element;
-    }
-
-    $file = reset($element['#files']);
-    $element['preview'] = [
-      '#weight' => -10,
-      '#theme' => 'image',
-      '#width' => 220,
-      '#height' => 220,
-      '#uri' => $file->getFileUri(),
-    ];
-
-    return $element;
   }
 
 }
