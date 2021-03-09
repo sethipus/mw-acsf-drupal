@@ -227,11 +227,13 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ],
     ];
     $fg_image_default = isset($config['custom_foreground_image']['image']) ? $config['custom_foreground_image']['image'] : NULL;
-    $form['custom_foreground_image']['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
-      $fg_image_default, $form_state, 1, 'thumbnail', function ($form_state) {
-        return in_array($form_state->getValue(['settings', 'block_type']),
-          [self::KEY_OPTION_DEFAULT]);
-      }
+    $form['custom_foreground_image']['image'] = $this->getEntityBrowserForm(
+      self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $fg_image_default,
+      $form_state,
+      1,
+      'thumbnail',
+      FALSE
     );
 
     $form['title'] = [
