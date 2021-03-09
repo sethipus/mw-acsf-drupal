@@ -154,13 +154,12 @@
       }
 
       .mars-search-autocomplete-suggestions-wrapper {
-        margin: -25px 20px 0;
+        margin: -2.5rem 0 0;
         padding-top: 25px;
         border: 1px solid clr(subcolor-4);
         border-top: none;
 
         @include small {
-          margin: -2.5rem 0;
         }
       }
     }
