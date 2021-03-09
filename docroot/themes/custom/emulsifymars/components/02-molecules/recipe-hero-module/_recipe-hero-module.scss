@@ -349,6 +349,7 @@ $xl-left-margin: 11.583rem;
 
     @include medium {
       margin: 0;
+      max-width: 100%;
     }
 
     @include xl {
@@ -370,6 +371,7 @@ $xl-left-margin: 11.583rem;
       margin-top: 24px;
       margin-bottom: 41px;
       padding-bottom: 52px;
+      max-width: 100%;
     }
 
     @include xl {
