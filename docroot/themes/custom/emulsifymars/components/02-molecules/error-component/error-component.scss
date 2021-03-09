@@ -75,7 +75,6 @@
     color: clr(primary);
     z-index: 5;
     position: relative;
-    text-transform: uppercase;
 
     @include xs {
       font-size: 6rem;
