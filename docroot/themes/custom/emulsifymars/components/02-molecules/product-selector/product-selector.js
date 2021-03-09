@@ -97,6 +97,7 @@
             'data-subid="' + settings.data_subid + '" ' +
             '></script>';
           $('.product-selector #cci-inline-root').remove();
+          $('script[src*="fi-v2.global.commerce-connector.com/static/js"]').remove();
           $('script#cci-widget[data-widgetid="' + settings.widget_id + '"]').remove();
           $('.product-selector__form-container').append(script);
         }
