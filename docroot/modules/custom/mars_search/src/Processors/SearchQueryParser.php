@@ -140,7 +140,8 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
       'options_logic' => 'AND',
       'keys' => '',
       'sort' => [
-        'created' => 'DESC',
+        'bundle_weight' => 'ASC',
+        'title' => 'ASC',
       ],
     ];
   }
