@@ -36,7 +36,6 @@ third_party_settings:
     group_product_overview:
       children:
         - title
-        - field_product_brand
         - field_brand_initiatives
         - field_product_flavor
         - field_product_market
