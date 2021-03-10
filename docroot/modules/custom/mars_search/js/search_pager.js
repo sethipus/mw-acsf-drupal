@@ -14,6 +14,7 @@
         let resultQuery = new Map();
         for (var i = 0; i < vars.length; i++) {
           var pair = vars[i].split('=');
+          pair[0] = decodeURIComponent(pair[0]);
           pair[1] = decodeURIComponent(pair[1]);
           if (!(pair[0].includes('grid_type') || pair[0].includes('action_type') || pair[0].includes('offset'))) {
             resultQuery[pair[0]] = pair[1];
