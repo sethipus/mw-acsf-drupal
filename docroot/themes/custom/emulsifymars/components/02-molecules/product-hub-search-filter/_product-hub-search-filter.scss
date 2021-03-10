@@ -27,7 +27,7 @@
           width: calc(100% - 20px);
           margin: 0 20px;
 
-          @include xl {
+          @include desktop {
             width: calc(100% - 20px);
           }
         }
@@ -52,7 +52,7 @@
   display: none;
   z-index: 5;
 
-  @include xl {
+  @include desktop {
     display: block;
     position: relative;
     top: auto;
@@ -115,7 +115,7 @@
 .filter-block .search-filter-block__button--apply {
   display: none;
 
-  @include xl {
+  @include desktop {
     display: block;
   }
 }
@@ -126,7 +126,7 @@
   top: 0;
   width: 100%;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 
@@ -173,8 +173,8 @@
   width: 100%;
   overflow: auto;
 
-  @include xl {
-    width: 920px;
+  @include desktop {
+    max-width: 920px;
     margin: auto;
     padding: 0;
     display: flex;
@@ -199,7 +199,7 @@
   justify-content: center;
   align-items: center;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 }
@@ -218,7 +218,7 @@
   max-width: 896px;
   margin: 0 auto;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 
@@ -325,7 +325,7 @@
 body.locked-scroll {
   position: fixed;
 
-  @include xl {
+  @include desktop {
     position: static;
   }
 }
