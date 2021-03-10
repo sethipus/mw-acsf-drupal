@@ -53,7 +53,7 @@
   }
 
   & .grid--card {
-    margin: 4rem 2rem 0 2rem;
+    margin: 0 2rem 0 2rem;
     padding-bottom: 3rem;
 
     @include xs {
@@ -61,7 +61,7 @@
     }
 
     @include medium {
-      margin: 4rem 4rem 0 4rem;
+      margin: 0 4rem 0 4rem;
       padding-bottom: 4rem;
       flex-flow: row;
       flex-grow: 1;
@@ -189,6 +189,7 @@
   & .grid__item {
     display: flex;
     flex-flow: column;
+    margin-top: 4rem;
 
     @include medium {
       flex: 1 1 50%;
