@@ -19,7 +19,13 @@ interface SearchBuilderInterface {
     ],
     'mars_brand_initiatives' => [
       'label' => 'BRAND INITIATIVES',
-      'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],
+      'content_types' => [
+        'article',
+        'recipe',
+        'landing_page',
+        'campaign',
+        'product',
+      ],
     ],
     'mars_occasions' => [
       'label' => 'OCCASIONS',
