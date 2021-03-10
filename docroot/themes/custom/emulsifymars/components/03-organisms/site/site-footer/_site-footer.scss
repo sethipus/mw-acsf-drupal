@@ -13,11 +13,11 @@ $fence-part-size: 1440px*2/101;
         display: flex;
         flex-flow: column nowrap;
 
-        @include xs {
+        @include tablet {
           padding: 20px 40px 25px;
         }
 
-        @include medium {
+        @include desktop {
           flex-flow: row nowrap;
         }
       }
@@ -189,7 +189,7 @@ $fence-part-size: 1440px*2/101;
     }
   }
 
-  @include small {
+  @include tablet {
     flex: 0 0 14.1rem;
     max-width: 14.1rem;
     max-height: 5.3rem;
@@ -202,7 +202,7 @@ $fence-part-size: 1440px*2/101;
     }
   }
 
-  @include medium {
+  @include desktop {
     flex-basis: 21.2rem;
     max-width: 21.2rem;
     max-height: 9.8rem;

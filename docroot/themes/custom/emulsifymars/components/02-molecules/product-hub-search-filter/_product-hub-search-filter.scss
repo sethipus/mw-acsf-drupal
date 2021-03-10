@@ -27,7 +27,7 @@
           width: calc(100% - 20px);
           margin: 0 20px;
 
-          @include medium {
+          @include desktop {
             width: calc(100% - 20px);
           }
         }
@@ -52,7 +52,7 @@
   display: none;
   z-index: 5;
 
-  @include medium {
+  @include desktop {
     display: block;
     position: relative;
     top: auto;
@@ -115,7 +115,7 @@
 .filter-block .search-filter-block__button--apply {
   display: none;
 
-  @include medium {
+  @include desktop {
     display: block;
   }
 }
@@ -126,7 +126,7 @@
   top: 0;
   width: 100%;
 
-  @include medium {
+  @include desktop {
     display: none;
   }
 
@@ -173,7 +173,7 @@
   width: 100%;
   overflow: auto;
 
-  @include medium {
+  @include desktop {
     max-width: 920px;
     margin: auto;
     padding: 0;
@@ -199,7 +199,7 @@
   justify-content: center;
   align-items: center;
 
-  @include medium {
+  @include desktop {
     display: none;
   }
 }
@@ -218,7 +218,7 @@
   max-width: 896px;
   margin: 0 auto;
 
-  @include medium {
+  @include desktop {
     display: none;
   }
 
@@ -325,7 +325,7 @@
 body.locked-scroll {
   position: fixed;
 
-  @include medium {
+  @include desktop {
     position: static;
   }
 }
