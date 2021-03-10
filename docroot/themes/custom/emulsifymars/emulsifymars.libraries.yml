@@ -3,7 +3,7 @@ global:
     theme:
       dist/css/theme_style.css: {}
   js:
-    dist/js/object_fit_polyfill.js: {}  
+    dist/js/object_fit_polyfill.js: {}
 
 main-menu:
   js:
@@ -90,7 +90,7 @@ recipe-card:
   dependencies:
     - core/drupal
     - core/jquery
-    - core/jquery.once    
+    - core/jquery.once
 
 recipe-hero-module:
   js:
@@ -138,6 +138,12 @@ media-carousel:
     - emulsifymars/vendor-chunk-2
     - core/jquery
     - core/jquery.once
+
+parallax-image:
+  js:
+    dist/js/01-atoms/images/image/parallax/parallax-image.js: {}
+  dependencies:
+    - core/drupal
 
 ambient-video:
   js:
@@ -240,7 +246,7 @@ social-menu:
 
 product-selector:
   js:
-    dist/js/02-molecules/product-selector/product-selector.js: {}
+    dist/js/02-molecules/product-selector/product-selector.js: {weight: -1}
   dependencies:
     - core/drupal
 
@@ -254,6 +260,13 @@ flexible-framer:
 feedback-module:
   js:
     dist/js/02-molecules/feedback-module/feedback.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+
+cc-wtb-conflict-resolver:
+  js:
+    dist/js/02-molecules/product-selector/cc-wtb-conflicts-resolver.js: {weight: -2}
   dependencies:
     - core/drupal
     - core/jquery

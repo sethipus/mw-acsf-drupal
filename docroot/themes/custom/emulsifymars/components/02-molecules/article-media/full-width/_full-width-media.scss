@@ -8,7 +8,6 @@
     &--main-heading {
       text-align: left;
       color: clr(primary);
-      text-transform: uppercase;
       font-size: 2.8rem;
       line-height: 1.1;
       font-weight: 500;
@@ -39,7 +38,6 @@
       }
     }
   }
-
 
   &__content {
     color: clr(primary);
@@ -94,19 +92,34 @@
     .inline-video {
       max-height: 635px;
 
-      &__control[data-state="play"] {
+      &__control[data-state='play'] {
         width: 6.6rem;
         height: 7rem;
-        top: calc(50% - 7rem / 2);;
-        left: calc(50% - 6.6rem / 2);;
+        top: calc(50% - 7rem / 2);
+        left: calc(50% - 6.6rem / 2);
       }
 
-      &__control[data-state="pause"] {
+      &__control[data-state='pause'] {
         width: 6.6rem;
         height: 7rem;
-        top: calc(50% - 7rem / 2);;
-        left: calc(50% - 6.6rem / 2);;
+        top: calc(50% - 7rem / 2);
+        left: calc(50% - 6.6rem / 2);
       }
+    }
+  }
+}
+
+.article-full-width-parallax {
+  @extend .article-full-width;
+
+  max-width: 100%;
+
+  &__media {
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      object-fit: cover;
     }
   }
 }
