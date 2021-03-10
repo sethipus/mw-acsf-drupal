@@ -130,8 +130,16 @@ steps:
         ./scripts/deploy_branch.sh &&
         ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
   - task: Bash@3
-    displayName: 'Deploy dev Branch and Trigger Application Deployment to QA env'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'Schedule'), eq(variables['build.sourceBranchName'], 'dev'))
+    displayName: 'Deploy master Branch and Trigger Application Deployment to QA env'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'master'))
+    inputs:
+      targetType: 'inline'
+      script: |
+        ./scripts/deploy_branch.sh &&
+        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
+  - task: Bash@3
+    displayName: 'Deploy master Branch and Trigger by Schedule Application Deployment to QA env'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'Schedule'), eq(variables['build.sourceBranchName'], 'master'))
     inputs:
       targetType: 'inline'
       script: |
