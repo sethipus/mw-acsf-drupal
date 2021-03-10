@@ -1,0 +1,20 @@
+# Base definitions for processors
+plugin.plugin_configuration.search_api_processor.content_type_weight:
+  type: search_api.default_processor_configuration
+  label: 'Type-specific weight processor configuration'
+  mapping:
+    bundle_weights:
+      type: sequence
+      label: 'Weight settings'
+      orderby: key
+      sequence:
+        type: mapping
+        label: 'Datasource weight settings'
+        mapping:
+          bundle_weights:
+            type: sequence
+            label: 'Bundle-specific weights'
+            orderby: key
+            sequence:
+              type: integer
+              label: 'The weight value for this bundle'

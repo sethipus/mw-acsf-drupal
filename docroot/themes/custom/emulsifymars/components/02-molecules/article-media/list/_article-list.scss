@@ -17,7 +17,7 @@
       margin: 0 40px;
     }
 
-    @include large {
+    @include xl {
       margin: 0 0 30px 19%;
     }
   }
@@ -71,11 +71,5 @@
       max-width: 780px;
       margin-left: 19%;
     }
-  }
-}
-
-.node--article .list-container-block {
-  @include large {
-    margin: 0 27% 0 19%;
   }
 }
