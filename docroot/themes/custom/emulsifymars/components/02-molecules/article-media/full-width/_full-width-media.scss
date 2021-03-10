@@ -1,41 +1,33 @@
 .article-full-width {
   padding: 2rem 0 2rem 0;
   overflow-x: hidden;
-  max-width: 1128px;
-  margin: 0 auto;
 
   &__heading {
     &--main-heading {
       text-align: left;
       color: clr(primary);
       text-transform: uppercase;
-      font-size: 2.8rem;
       line-height: 1.1;
       font-weight: 500;
       font-family: variable(heading-font);
-      margin: 0 0 30px 5%;
+      margin: 0 0 30px;
+      padding: 0 20px;
 
-      @include xs {
-        margin: 0 4rem 30px;
-      }
 
       @include small {
         font-size: 2rem;
       }
 
       @include medium {
-        font-size: 1.4rem;
-        max-width: 688px;
-        margin: 0 4rem 30px;
-      }
-
-      @include large {
         font-size: 2.6rem;
-        margin: 0 auto 30px;
+        padding:  0 40px;
       }
 
       @include xl {
+        font-size: 2.8rem;
         max-width: 780px;
+        margin: 0 0 40px;
+        padding-left: 272px;
       }
     }
   }
@@ -77,6 +69,8 @@
     height: 25rem;
     overflow: hidden;
     position: relative;
+    max-width: 1128px;
+    margin: 0 auto;
 
     @include medium {
       height: 43.4rem;
