@@ -132,7 +132,22 @@
     }
 
     .horizontal-img__inner {
-      margin: 5.8rem auto;
+      height: 4rem;
+      margin: 4.55rem auto;
+
+      @media (max-width: 768px) {
+          height: 3.5rem;
+      }
+    }
+
+    @include small {
+        .eyebrow {
+            margin-top: 1rem;
+        }
+
+        .horizontal-img__inner {
+            margin: 2.75rem auto;
+        }
     }
 
     @include medium {
@@ -140,7 +155,7 @@
       max-height: 48.3rem;
 
       .eyebrow {
-        margin-top: 6.8rem;
+        margin-top: 5rem;
         margin-bottom: 3rem;
       }
     }
@@ -150,7 +165,7 @@
       max-height: 58.0rem;
 
       .horizontal-img__inner {
-        margin: 5.8rem auto;
+        margin: 4.55rem auto;
       }
     }
   }
