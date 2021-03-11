@@ -3,6 +3,10 @@
   overflow-x: hidden;
 
   &__heading {
+    &:empty {
+      display: none;
+    }
+    
     &--main-heading {
       text-align: left;
       color: clr(primary);
@@ -39,14 +43,15 @@
     font-size: 1.6rem;
     font-weight: normal;
     line-height: 1.82rem;
-    padding: 2rem 3rem 0 2rem;
+    max-width: 1128px;
+    margin: 3rem 2rem 0;
 
     @include medium {
-      padding: 2rem 4rem;
+      margin: 2rem 4rem 0;
     }
 
-    @include xl {
-      padding: 2rem 0;
+    @include larger {
+      margin: 3rem auto 0;
     }
 
     .paragraph {
