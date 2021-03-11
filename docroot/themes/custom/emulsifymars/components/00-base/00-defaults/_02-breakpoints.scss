@@ -75,3 +75,9 @@ $max-width: $xl;
     @content;
   }
 }
+
+@mixin medium-max-width {
+  @media (max-width: $medium) {
+    @content;
+  }
+}

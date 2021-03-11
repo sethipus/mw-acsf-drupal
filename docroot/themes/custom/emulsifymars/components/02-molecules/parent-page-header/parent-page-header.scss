@@ -135,7 +135,7 @@
       height: 4rem;
       margin: 4.55rem auto;
 
-      @media (max-width: 768px) {
+      @include medium-max-width {
           height: 3.5rem;
       }
     }
