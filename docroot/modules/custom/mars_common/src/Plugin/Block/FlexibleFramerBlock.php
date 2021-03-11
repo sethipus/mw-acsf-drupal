@@ -372,6 +372,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#divider'] = $file_divider_content ?? NULL;
     $build['#brand_borders'] = !empty($config['with_brand_borders']) ? $file_border_content : NULL;
     $build['#overlaps_previous'] = $config['overlaps_previous'] ?? NULL;
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'flexible_framer_block';
 
     return $build;
