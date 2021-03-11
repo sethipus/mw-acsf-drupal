@@ -4,6 +4,19 @@
   max-width: 1128px;
   margin: 0 auto;
 
+  &--parallax {
+    max-width: 100%;
+
+    &__media {
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
   &__heading {
     &--main-heading {
       text-align: left;
@@ -105,21 +118,6 @@
         top: calc(50% - 7rem / 2);
         left: calc(50% - 6.6rem / 2);
       }
-    }
-  }
-}
-
-.article-full-width-parallax {
-  @extend .article-full-width;
-
-  max-width: 100%;
-
-  &__media {
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      object-fit: cover;
     }
   }
 }
