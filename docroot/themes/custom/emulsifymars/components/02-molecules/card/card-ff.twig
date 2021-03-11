@@ -50,25 +50,26 @@
   {% block card__img %}
     {% if card__image__src %}
       <div class="image-wrapper">
-        <div class="image-background">
-          {% if card__image__size == '16:9' %}
-            16:9
+        {% if card__image__size == '16:9' %}
+            {% set image_size = 'image-size-large' %}
           {% else %}
-            1:1
+            {% set image_size = 'image-size-small' %}
           {% endif %}
+        <div class="image-background {{image_size}}">
         {% if card__link__url %}
           <a href="{{card__link__url}}">
         {% endif %}
         <div class="brand-shape">
           {{ brand_shape | raw }}
         </div>
-          {% include "@atoms/images/image/responsive-image.twig" with {
+            {% include "@atoms/images/image/responsive-image.twig" with {
             image_blockname: card__base_class,
             output_image_tag: card__image__output_image_tag,
             image_src: card__image__src,
             image_alt: card__image__alt,
             height: "260px",
             width: "260px",
+            image_size: image_size,
           } %}
         {% if card__link__url %}
           </a>
