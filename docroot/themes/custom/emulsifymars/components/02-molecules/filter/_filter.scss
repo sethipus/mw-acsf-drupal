@@ -7,7 +7,7 @@
     border-bottom: none;
   }
 
-  @include xl {
+  @include desktop {
     flex-basis: 230px;
     max-width: 230px;
     flex-grow: 0;
