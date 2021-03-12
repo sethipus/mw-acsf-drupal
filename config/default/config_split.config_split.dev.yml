@@ -14,6 +14,7 @@ module:
   acsf_sso: 0
   acsf_theme: 0
   acsf_variables: 0
+  history: 0
   syslog: 0
 theme: {  }
 blacklist: {  }
