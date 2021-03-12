@@ -235,7 +235,6 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
 
       //size control
       function updateSizeSlider(event, sizeId) {
-        event.preventDefault();
         context.querySelector(`[data-pdp-size-active="true"]`).dataset.pdpSizeActive = false;
         context.querySelector(`[data-pdp-size-id="${sizeId}"]`).dataset.pdpSizeActive = true;
 
@@ -251,6 +250,10 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       var sizeElements = context.querySelectorAll('[data-size-id]');
       sizeElements.forEach((item) => {
         item.addEventListener('click', e => {
+          e.preventDefault();
+          if (swiperInstances.length < 2) {
+            return false;
+          }
           updateSizeSlider(e, item.dataset.sizeId);
           updateReview(e, item.dataset.sizeId);
           if (window.snapScroller) {
@@ -260,7 +263,6 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       });
 
       function updateReview(event, sizeId) {
-        event.preventDefault();
         let reviews = context.querySelectorAll(`div[data-bv-show="reviews"]`);
         if (reviews.length > 0) {
           reviews.forEach((item) => {
