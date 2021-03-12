@@ -45,7 +45,7 @@ class ContactFormBlock extends BlockBase {
 
     $form['form_id'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Form ID'),
+      '#title' => $this->t('Form script endpoint'),
       '#default_value' => $this->configuration['form_id'] ?? '',
       '#required' => TRUE,
       '#size' => 65,

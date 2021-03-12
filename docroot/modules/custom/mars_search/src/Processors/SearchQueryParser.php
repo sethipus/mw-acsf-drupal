@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\search_api\Query\QueryInterface;
 
 /**
  * Class SearchQueryParser.
@@ -140,8 +141,9 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
       'options_logic' => 'AND',
       'keys' => '',
       'sort' => [
-        'bundle_weight' => 'ASC',
-        'title' => 'ASC',
+        'search_api_relevance' => QueryInterface::SORT_ASC,
+        'bundle_weight' => QueryInterface::SORT_ASC,
+        'title' => QueryInterface::SORT_ASC,
       ],
     ];
   }
