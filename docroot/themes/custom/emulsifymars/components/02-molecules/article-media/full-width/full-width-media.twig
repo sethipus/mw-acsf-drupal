@@ -1,5 +1,6 @@
 {% if media.parallax_image %}
     {% set full_width__base_class = 'article-full-width--parallax' %}
+    {% set base_class = 'parallax-image' %}
 {% else %}
     {% set full_width__base_class = 'article-full-width' %}
 {% endif %}
@@ -38,7 +39,8 @@
         data_layer: data_layer,
       } %}
     {% elseif media.parallax_image %}
-      {% include "@atoms/images/image/parallax/_parallax-image.twig" with {
+      {{ attach_library('emulsifymars/parallax-image') }}
+      {% include "@atoms/images/image/_image.twig" with {
         image_base_class: base_class,
         image_modifiers: image_modifiers,
         image_blockname: image_blockname,

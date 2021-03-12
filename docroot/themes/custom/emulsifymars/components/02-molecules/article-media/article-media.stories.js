@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from '@storybook/client-api';
 
-import '../../01-atoms/images/image/parallax/parallax-image';
+import './full-width/parallax-image';
 
 import '../../01-atoms/video/fullscreen-video/video';
 

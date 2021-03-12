@@ -141,7 +141,7 @@ media-carousel:
 
 parallax-image:
   js:
-    dist/js/01-atoms/images/image/parallax/parallax-image.js: {}
+    dist/js/02-molecules/article-media/full-width/parallax-image.js: {}
   dependencies:
     - core/drupal
 
