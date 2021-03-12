@@ -133,6 +133,37 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   const VENDOR_NONE = 'none';
 
   /**
+   * Nutritional table US view.
+   */
+  const NUTRITION_VIEW_US = 'US';
+
+  /**
+   * Nutritional table UK view.
+   */
+  const NUTRITION_VIEW_UK = 'UK';
+
+  /**
+   * Nutritional table subgorup 1.
+   */
+  const NUTRITION_SUBGROUP_1 = 'group_nutritional_subgroup_1';
+
+  /**
+   * Nutritional table subgorup 2.
+   */
+  const NUTRITION_SUBGROUP_2 = 'group_nutritional_subgroup_2';
+
+  /**
+   * Nutritional table subgorup 3.
+   */
+  const NUTRITION_SUBGROUP_3 = 'group_nutritional_subgroup_3';
+
+  /**
+   * Nutritional table subgorup vitamins.
+   */
+  const NUTRITION_SUBGROUP_VITAMINS = 'group_vitamins';
+
+
+  /**
    * Fields with bold labels.
    */
   const FIELDS_WITH_BOLD_LABELS = [
@@ -954,10 +985,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'field_product_riboflavin' => '',
     ];
     $groups_mapping = [
-      'group_nutritional_subgroup_1',
-      'group_nutritional_subgroup_2',
-      'group_nutritional_subgroup_3',
-      'group_vitamins',
+      self::NUTRITION_SUBGROUP_1,
+      self::NUTRITION_SUBGROUP_2,
+      self::NUTRITION_SUBGROUP_3,
+      self::NUTRITION_SUBGROUP_VITAMINS,
     ];
 
     $form = $this->entityFormBuilder->getForm($node);
