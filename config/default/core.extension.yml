@@ -61,7 +61,6 @@ module:
   filter: 0
   gtm: 0
   help: 0
-  history: 0
   http_cache_control: 0
   image: 0
   image_widget_crop: 0
@@ -122,6 +121,7 @@ module:
   media_entity_instagram: 0
   media_entity_twitter: 0
   media_library: 0
+  memcache: 0
   menu_link_attributes: 0
   menu_ui: 0
   metatag: 0
