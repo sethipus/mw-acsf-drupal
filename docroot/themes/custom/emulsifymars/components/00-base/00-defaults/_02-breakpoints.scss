@@ -16,6 +16,10 @@ $medium: 768px;
 $large: 1024px;
 $larger: 1280px;
 $xl: 1440px;
+
+$tablet: 376px;
+$desktop: 769px;
+
 // The max-width breakpoint is used when the design should be applied at whatever the
 // largest breakpoint is regardless of actual pixel value. e.g. removing outer margin on body wrapper
 $max-width: $xl;
@@ -36,10 +40,26 @@ $max-width: $xl;
   }
 }
 
+/// Mixin - tablet Breakpoint
+/// Allows easier @include tablet {} syntax
+@mixin tablet {
+  @include breakpoint($tablet) {
+    @content;
+  }
+}
+
 /// Mixin - medium Breakpoint
 /// Allows easier @include medium {} syntax
 @mixin medium {
   @include breakpoint($medium) {
+    @content;
+  }
+}
+
+/// Mixin - desktop Breakpoint
+/// Allows easier @include desktop {} syntax
+@mixin desktop {
+  @include breakpoint($desktop) {
     @content;
   }
 }

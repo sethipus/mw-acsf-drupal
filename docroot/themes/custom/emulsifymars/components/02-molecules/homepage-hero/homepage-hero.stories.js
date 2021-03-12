@@ -21,6 +21,7 @@ import homepageHeroBasicData from './basic/homepage-hero-basic.yml';
 export default { title: 'Molecules/Homepage Hero' };
 
 export const homepageHeroBlock = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: homepageHero(homepageHeroData) }} />;
 };
 

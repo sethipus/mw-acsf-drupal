@@ -206,6 +206,23 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $this->buildOverrideColorElement($form, $config);
 
+    $form['override_text_color']['сhoose_override_hover'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Сhoose an alternative color to override the on-hover'),
+      '#default_value' => $config['override_text_color']['сhoose_override_hover'] ?? NULL,
+    ];
+
+    $form['override_text_color']['hover_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Сhoose color B on-hover'),
+      '#default_value' => $config['override_text_color']['hover_color'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[override_text_color][сhoose_override_hover]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
     return $form;
   }
 
@@ -277,6 +294,13 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#text_color_override'] = FALSE;
     if (!empty($config['override_text_color']['override_color'])) {
       $build['#text_color_override'] = static::$overrideColor;
+    }
+
+    $build['#hover_color'] = FALSE;
+    if (!empty($config['override_text_color']['сhoose_override_hover']) &&
+      !empty($config['override_text_color']['hover_color'])
+    ) {
+      $build['#hover_color'] = '#' . $config['override_text_color']['hover_color'];
     }
 
     CacheableMetadata::createFromRenderArray($build)
