@@ -47,8 +47,8 @@ class Product extends JsonLdStrategyPluginBase {
     return Schema::product()
       ->name($node->getTitle())
       ->identifier($url)
-      ->if($node->field_product_brand->target_id, function (SchemaProduct $product) use ($node) {
-        $product->brand($node->field_product_brand->entity->getName());
+      ->if($node->field_brand_initiatives->target_id, function (SchemaProduct $product) use ($node) {
+        $product->brand($node->field_brand_initiatives->entity->getName());
       })
       ->if($node->field_product_description->value, function (SchemaProduct $product) use ($node) {
         $product->description($node->field_product_description->value);
