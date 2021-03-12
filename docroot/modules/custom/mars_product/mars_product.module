@@ -39,6 +39,7 @@ function mars_product_theme($existing, $type, $theme, $path) {
         'cta_link_text' => NULL,
         'supporting_card_entity' => NULL,
         'supporting_card_entity_view' => NULL,
+        'dark_overlay' => NULL,
       ],
       'template' => 'product-content-pair-up-block',
     ],
