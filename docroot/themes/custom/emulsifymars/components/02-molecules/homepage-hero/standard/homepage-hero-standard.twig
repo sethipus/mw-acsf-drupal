@@ -6,6 +6,15 @@
     style="background-color: #{{ background_color }};"
     {% endif %}
   >
+    <div {{ bem('bubble', ['1'], homepage_hero__base_class) }}>
+      {{ brand_shape | raw }}
+    </div>
+    <div {{ bem('bubble', ['2'], homepage_hero__base_class) }}>
+      {{ brand_shape | raw }}
+    </div>
+    <div {{ bem('bubble', ['3'], homepage_hero__base_class) }}>
+      {{ brand_shape | raw }}
+    </div>
     <div {{ bem('left', [], homepage_hero__base_class) }} >
       <div class="wrapper">
         <div {{ bem('container', ['hero-text'], homepage_hero__base_class) }}>
@@ -41,8 +50,8 @@
                 1440px',
           image_src: hero_image.src,
           responsive_image_blockname: 'homepage-hero-image',
-          height: '418px',
-          width: '346px',
+          height: '549px',
+          width: '485px',
         } %}
       </div>
     </div>
