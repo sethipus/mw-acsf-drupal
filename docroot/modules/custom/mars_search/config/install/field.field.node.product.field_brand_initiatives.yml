@@ -1,17 +1,20 @@
-uuid: e6e0fccc-3775-4b91-9c82-15d8ca5b61d4
+uuid: 7baa43e3-93bf-45c9-aefa-ac25a6cec5e7
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_product_brand
-    - node.type.product_multipack
+    - field.storage.node.field_brand_initiatives
+    - node.type.product
     - taxonomy.vocabulary.mars_brand_initiatives
-_core:
-  default_config_hash: 0S8rEEUomKEsAuTa8R-hYqXfj0xazv5_DjoPEyo4I44
-id: node.product_multipack.field_product_brand
-field_name: field_product_brand
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product.field_brand_initiatives
+field_name: field_brand_initiatives
 entity_type: node
-bundle: product_multipack
+bundle: product
 label: Brand
 description: ''
 required: false
