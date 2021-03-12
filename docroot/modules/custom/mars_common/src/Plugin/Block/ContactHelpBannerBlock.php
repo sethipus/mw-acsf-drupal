@@ -178,7 +178,6 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       'label' => [
         '#type' => 'textfield',
         '#title' => $this->t('Label'),
-        '#maxlength' => 20,
         '#default_value' => $this->configuration['email_cta_label'] ?? '',
         '#required' => FALSE,
       ],
@@ -197,7 +196,6 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       'label' => [
         '#type' => 'textfield',
         '#title' => $this->t('Button Label'),
-        '#maxlength' => 15,
         '#default_value' => $this->configuration['help_and_contact_cta_label'] ?? '',
         '#required' => FALSE,
       ],
