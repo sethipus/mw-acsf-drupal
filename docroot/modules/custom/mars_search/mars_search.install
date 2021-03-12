@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * @file
+ * The Mars search module install file.
+ */
+
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Config\StorageComparer;
+use Drupal\Core\Config\ConfigImporter;
+use Drupal\Core\Config\StorageInterface;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_update_N().
+ *
+ * Import file_brand_initiative configs programmatically.
+ */
+function mars_search_update_8001() {
+  $storage_comparer = new StorageComparer(
+    \Drupal::service('config.storage.sync'),
+    \Drupal::service('config.storage'),
+    \Drupal::service('config.manager')
+  );
+  $config_importer = new ConfigImporter(
+    $storage_comparer,
+    \Drupal::service('event_dispatcher'),
+    \Drupal::service('config.manager'),
+    \Drupal::lock(),
+    \Drupal::service('config.typed'),
+    \Drupal::moduleHandler(),
+    \Drupal::service('module_installer'),
+    \Drupal::service('theme_handler'),
+    \Drupal::service('string_translation')
+  );
+  $collection = StorageInterface::DEFAULT_COLLECTION;
+  $method = new \ReflectionMethod($config_importer, 'processConfiguration');
+  $method->setAccessible(TRUE);
+  $method->invoke($config_importer, $collection, 'create', 'field.field.node.product.field_brand_initiatives');
+  $method->invoke($config_importer, $collection, 'create', 'field.field.node.product_multipack.field_brand_initiatives');
+
+  $config_path = drupal_get_path('module', 'mars_search') . '/config/install';
+  $source = new FileStorage($config_path);
+  $config_storage = \Drupal::service('config.storage');
+  $config_storage->write(
+    'field.field.node.product.field_brand_initiatives',
+    $source->read('field.field.node.product.field_brand_initiatives')
+  );
+  $config_storage->write(
+    'field.field.node.product_multipack.field_brand_initiatives',
+    $source->read('field.field.node.product_multipack.field_brand_initiatives')
+  );
+  $config_storage->write(
+    'field.field.node.product.field_brand_initiatives',
+    $source->read('field.field.node.product.field_brand_initiatives')
+  );
+  $config_storage->write(
+    'field.field.node.product_multipack.field_brand_initiatives',
+    $source->read('field.field.node.product_multipack.field_brand_initiatives')
+  );
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Copy field_product_brand to field_brand_initiatives.
+ */
+function mars_search_update_8002() {
+  $storage_handler = \Drupal::entityTypeManager()->getStorage('node');
+  $product_entities = $storage_handler->loadByProperties(['type' => 'product']);
+  foreach ($product_entities as $product_entity) {
+    $brand_value = $product_entity->get('field_product_brand')->getValue();
+    if (!empty($brand_value)) {
+      $product_entity->set('field_brand_initiatives', $brand_value);
+      $product_entity->save();
+    }
+  }
+
+  $multipack_entities = $storage_handler->loadByProperties(['type' => 'product_multipack']);
+  foreach ($multipack_entities as $multipack_entity) {
+    $brand_value = $multipack_entity->get('field_product_brand')->getValue();
+    if (!empty($brand_value)) {
+      $multipack_entity->set('field_brand_initiatives', $brand_value);
+      $multipack_entity->save();
+    }
+  }
+
+  FieldConfig::loadByName(
+    'node',
+    'product',
+    'field_product_brand'
+  )->delete();
+  FieldConfig::loadByName(
+    'node',
+    'product_multipack',
+    'field_product_brand'
+  )->delete();
+}
