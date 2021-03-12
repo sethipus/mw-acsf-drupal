@@ -86,6 +86,7 @@ class SearchQueryParserTest extends UnitTestCase {
       'offset' => 0,
       'options_logic' => 'AND',
       'sort' => [
+        'search_api_relevance' => 'ASC',
         'bundle_weight' => 'ASC',
         'title' => 'ASC',
       ],
@@ -141,6 +142,7 @@ class SearchQueryParserTest extends UnitTestCase {
       'offset' => 0,
       'options_logic' => 'OR',
       'sort' => [
+        'search_api_relevance' => 'ASC',
         'bundle_weight' => 'ASC',
         'title' => 'ASC',
       ],
