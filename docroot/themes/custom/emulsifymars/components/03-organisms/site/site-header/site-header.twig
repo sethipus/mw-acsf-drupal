@@ -119,5 +119,18 @@
         }
       </style>
     {% endif %}
+    {% if mobile_color is not empty %}
+      <style type="text/css">
+        @media(max-width: 1023px) {
+          .main-menu__link--sub {
+            color: {{ mobile_color }};
+          }
+          .menu_chevron__icon,
+          .toggle-expand__icon {
+            fill: {{ mobile_color }};
+          }
+        }
+      </style>
+    {% endif %}
   </div>
 </header>
