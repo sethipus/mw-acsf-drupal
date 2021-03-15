@@ -105,6 +105,19 @@
             videoElements('video').addEventListener("timeupdate", videoEndedHandler);
           }
 
+          // Play and pause when clicking on a video
+          videoElements('video').addEventListener('click', function (e) {
+            if (videoElements('video').paused || videoElements('video').ended) {
+              videoElements('video').play();
+            }
+            else {
+              videoElements('video').pause();
+            }
+            videoElements('video').muted = true;
+            videoElements('controls').setAttribute('data-state', 'visible');
+            setFullcontrolData(videoContainer, videoElements, true);
+          });
+
           // Add events for all buttons
           videoElements('playpause').addEventListener('click', function (e) {
             if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
