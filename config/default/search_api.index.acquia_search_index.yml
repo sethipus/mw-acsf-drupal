@@ -15,6 +15,7 @@ dependencies:
     - field.storage.node.field_recipe_meal_type
     - field.storage.node.field_recipe_method
     - field.storage.node.field_product_occasions
+    - field.storage.node.field_recipe_prep_time
     - field.storage.node.field_product_name
     - field.storage.node.field_product_diet_allergens
     - field.storage.node.field_product_variants
@@ -279,6 +280,24 @@ field_settings:
         - field.storage.node.field_product_occasions
       module:
         - taxonomy
+  mars_prep_time:
+    label: 'Prep Time'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_prep_time
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_prep_time
+  mars_prep_time_name:
+    label: 'Prep Time » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_prep_time:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_prep_time
+      module:
+        - taxonomy
   mars_trade_item_description:
     label: 'Trade item description'
     datasource_id: 'entity:node'
@@ -367,7 +386,7 @@ processor_settings:
   mars_highlight:
     highlight: always
     highlight_partial: 0
-    excerpt: 1
+    excerpt: 0
     excerpt_length: ''
     exclude_fields: {  }
     prefix: '<strong class="search-highlight">'
