@@ -50,12 +50,10 @@
 
     &::placeholder {
       font-size: 1.6rem;
-      line-height: 2.24rem;
       color: clr(primary);
 
       @include xl {
         font-size: 1.8rem;
-        line-height: 2.52rem;
       }
     }
   }

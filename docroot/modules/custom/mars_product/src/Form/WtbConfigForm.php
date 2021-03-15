@@ -47,213 +47,214 @@ class WtbConfigForm extends ConfigFormBase {
       ],
       '#required' => TRUE,
     ];
-
-    $form['general']['account_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Price Spider Account id'),
-      '#default_value' => $config->get('account_id'),
-      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_PRICE_SPIDER,
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
-        ],
-        'required' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
-        ],
-      ],
-    ];
-
-    $form['product_card'] = [
+    // Build PS widget settings fieldset.
+    $form['general'][PdpHeroBlock::VENDOR_PRICE_SPIDER] = [
       '#type' => 'fieldset',
-      '#title' => $this->t('Product card configuration'),
-      '#collapsible' => FALSE,
-      '#collapsed' => FALSE,
+      '#title' => $this->t('PriceSpider configuration'),
+      '#tree' => TRUE,
       '#states' => [
         'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-          'or',
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
-          'or',
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
-        ],
-      ],
-    ];
-
-    $form['product_card']['widget_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Widget id'),
-      '#default_value' => $config->get('widget_id'),
-      '#required' => in_array(
-        $selected_vendor,
-        [
-          PdpHeroBlock::VENDOR_PRICE_SPIDER,
-          PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR,
-        ]
-      ),
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-          'or',
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
-        ],
-        'required' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-          'or',
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
         ],
       ],
     ];
-
-    $form['product_card']['carousel_widget_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Carousel Widget id'),
-      '#default_value' => $config->get('carousel_widget_id'),
-      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
-        ],
-        'required' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
-        ],
-      ],
-    ];
-
-    $form['product_card']['button_widget_id'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Smart Button Widget id'),
-      '#default_value' => $config->get('button_widget_id'),
-      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
-        ],
-        'required' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
-        ],
-      ],
-    ];
-
-    $form['product_card']['data_token'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Token'),
-      '#default_value' => $config->get('data_token'),
-      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR,
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-        'required' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['product_card']['data_subid'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('SubId'),
-      '#default_value' => $config->get('data_subid'),
+    // Build CC widget settings fieldset.
+    $form['general'][PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Commerce Connector configuration'),
+      '#tree' => TRUE,
       '#states' => [
         'visible' => [
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
         ],
       ],
     ];
-
-    $form['product_card']['cta_title'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('CTA title'),
-      '#default_value' => $config->get('cta_title'),
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['product_card']['button_type'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Commerce Connector: button type'),
-      '#default_value' => $config->get('button_type'),
-      '#options' => [
-        'my_own' => $this->t('My own button'),
-        'commerce_connector' => $this->t('Commerce Connector button'),
-      ],
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['product_card']['data_locale'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Commerce connector data locale'),
-      '#default_value' => $config->get('data_locale'),
-      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR,
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-        'required' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
-        ],
-      ],
-    ];
-
-    $form['product_card']['brand_js'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Smart Commerce brand specific JS file URL'),
-      '#default_value' => $config->get('brand_js'),
-      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
+    // Build SC widget settings fieldset.
+    $form['general'][PdpHeroBlock::VENDOR_SMART_COMMERCE] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Smart Commerce configuration'),
+      '#tree' => TRUE,
       '#states' => [
         'visible' => [
           [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
         ],
-        'required' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
-        ],
       ],
     ];
 
-    $form['product_card']['brand_css'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Smart Commerce brand specific CSS file URL'),
-      '#default_value' => $config->get('brand_css'),
-      '#required' => $selected_vendor === PdpHeroBlock::VENDOR_SMART_COMMERCE,
-      '#states' => [
-        'visible' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
-        ],
-        'required' => [
-          [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
-        ],
-      ],
-    ];
+    $this->buildCommerceVendorProductCardElement($form, PdpHeroBlock::VENDOR_PRICE_SPIDER);
+    $this->buildCommerceVendorProductCardElement($form, PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR);
+    $this->buildCommerceVendorProductCardElement($form, PdpHeroBlock::VENDOR_SMART_COMMERCE);
 
     return $form;
+  }
+
+  /**
+   * Builds commerce vendor-specific configuration fields.
+   *
+   * @param array $form
+   *   The given form to update.
+   * @param string $widget_id
+   *   The widget id.
+   */
+  protected function buildCommerceVendorProductCardElement(array &$form, $widget_id) {
+    $config_entity = $this->config('mars_product.wtb.' . $widget_id . '.settings');
+    $config = !empty($config_entity) && !$config_entity->isNew() ? $config_entity->getRawData() : [];
+    $fieldset = &$form['general'][$widget_id];
+
+    switch ($widget_id) {
+      case PdpHeroBlock::VENDOR_PRICE_SPIDER:
+        $fieldset['account_id'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Price Spider Account id'),
+          '#default_value' => !empty($config['settings']['account_id']) ? $config['settings']['account_id'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+            ],
+          ],
+        ];
+
+        $fieldset['widget_id'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Widget id'),
+          '#default_value' => !empty($config['settings']['widget_id']) ? $config['settings']['widget_id'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_PRICE_SPIDER]],
+            ],
+          ],
+        ];
+
+        break;
+
+      case PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR:
+        $fieldset['widget_id'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Widget id'),
+          '#default_value' => !empty($config['settings']['widget_id']) ? $config['settings']['widget_id'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
+            ],
+          ],
+        ];
+
+        $fieldset['data_token'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Token'),
+          '#default_value' => !empty($config['settings']['data_token']) ? $config['settings']['data_token'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
+            ],
+          ],
+        ];
+
+        $fieldset['data_subid'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('SubId'),
+          '#default_value' => !empty($config['settings']['data_subid']) ? $config['settings']['data_subid'] : '',
+        ];
+
+        $fieldset['cta_title'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('CTA title'),
+          '#default_value' => !empty($config['settings']['cta_title']) ? $config['settings']['cta_title'] : '',
+        ];
+
+        $fieldset['button_type'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Commerce Connector: button type'),
+          '#default_value' => 'my_own',
+          '#options' => [
+            'my_own' => $this->t('My own button'),
+            'commerce_connector' => $this->t('Commerce Connector button'),
+          ],
+          '#disabled' => TRUE,
+        ];
+
+        $fieldset['data_locale'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Commerce connector data locale'),
+          '#default_value' => !empty($config['settings']['data_locale']) ? $config['settings']['data_locale'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR]],
+            ],
+          ],
+        ];
+
+        break;
+
+      case PdpHeroBlock::VENDOR_SMART_COMMERCE:
+        $fieldset['carousel_widget_id'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Carousel Widget id'),
+          '#default_value' => !empty($config['settings']['carousel_widget_id']) ? $config['settings']['carousel_widget_id'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+            ],
+          ],
+        ];
+
+        $fieldset['button_widget_id'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Smart Button Widget id'),
+          '#default_value' => !empty($config['settings']['button_widget_id']) ? $config['settings']['button_widget_id'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+            ],
+          ],
+        ];
+
+        $fieldset['brand_js'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Smart Commerce brand specific JS file URL'),
+          '#default_value' => !empty($config['settings']['brand_js']) ? $config['settings']['brand_js'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+            ],
+          ],
+        ];
+
+        $fieldset['brand_css'] = [
+          '#type' => 'textfield',
+          '#title' => $this->t('Smart Commerce brand specific CSS file URL'),
+          '#default_value' => !empty($config['settings']['brand_css']) ? $config['settings']['brand_css'] : '',
+          '#states' => [
+            'required' => [
+              [':input[name="commerce_vendor"]' => ['value' => PdpHeroBlock::VENDOR_SMART_COMMERCE]],
+            ],
+          ],
+        ];
+        break;
+    }
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Load configuration entities.
     $config = $this->config('mars_product.wtb.settings');
+    $ps_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_PRICE_SPIDER . '.settings');
+    $cc_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '.settings');
+    $sc_config = $this->config('mars_product.wtb.' . PdpHeroBlock::VENDOR_SMART_COMMERCE . '.settings');
 
+    // Get configuration from the form fields.
     $config->set('commerce_vendor', $form_state->getValue('commerce_vendor'));
-    $config->set('widget_id', $form_state->getValue('widget_id'));
-    $config->set('carousel_widget_id', $form_state->getValue('carousel_widget_id'));
-    $config->set('button_widget_id', $form_state->getValue('button_widget_id'));
-    $config->set('account_id', $form_state->getValue('account_id'));
-    $config->set('data_token', $form_state->getValue('data_token'));
-    $config->set('data_subid', $form_state->getValue('data_subid'));
-    $config->set('cta_title', $form_state->getValue('cta_title'));
-    $config->set('button_type', $form_state->getValue('button_type'));
-    $config->set('data_locale', $form_state->getValue('data_locale'));
-    $config->set('brand_js', $form_state->getValue('brand_js'));
-    $config->set('brand_css', $form_state->getValue('brand_css'));
+    $ps_config->set('settings', $form_state->getValue(PdpHeroBlock::VENDOR_PRICE_SPIDER));
+    $cc_config->set('settings', $form_state->getValue(PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR));
+    $sc_config->set('settings', $form_state->getValue(PdpHeroBlock::VENDOR_SMART_COMMERCE));
+
     // Save the configuration.
     $config->save();
+    $ps_config->save();
+    $cc_config->save();
+    $sc_config->save();
 
     parent::submitForm($form, $form_state);
   }
@@ -264,6 +265,9 @@ class WtbConfigForm extends ConfigFormBase {
   protected function getEditableConfigNames() {
     return [
       'mars_product.wtb.settings',
+      'mars_product.wtb.' . PdpHeroBlock::VENDOR_PRICE_SPIDER . '.settings',
+      'mars_product.wtb.' . PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR . '.settings',
+      'mars_product.wtb.' . PdpHeroBlock::VENDOR_SMART_COMMERCE . '.settings',
     ];
   }
 

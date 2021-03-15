@@ -32,11 +32,8 @@
   font-family: variable(primary-font);
   color: clr(primary);
   text-decoration: none;
-
-  @include tablet {
-    font-size: 1.6rem;
-    line-height: 1.6rem;
-  }
+  font-size: 1.6rem;
+  line-height: 1.6rem;
 
   @include large {
     font-size: 1.8rem;
