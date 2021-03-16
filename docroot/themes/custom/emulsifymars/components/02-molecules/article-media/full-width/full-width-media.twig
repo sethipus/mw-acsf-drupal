@@ -1,4 +1,9 @@
-{% set full_width__base_class = 'article-full-width' %}
+{% if media.parallax_image %}
+    {% set full_width__base_class = 'article-full-width--parallax' %}
+    {% set base_class = 'parallax-image' %}
+{% else %}
+    {% set full_width__base_class = 'article-full-width' %}
+{% endif %}
 
 <section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}"
   {% if heading and media.video %}
@@ -33,6 +38,18 @@
         video__control: true,
         data_layer: data_layer,
       } %}
+    {% elseif media.parallax_image %}
+      {{ attach_library('emulsifymars/parallax-image') }}
+      {% include "@atoms/images/image/_image.twig" with {
+        image_base_class: base_class,
+        image_modifiers: image_modifiers,
+        image_blockname: image_blockname,
+        image_src: media.src,
+        image_alt: media.alt,
+        image_title: media.title,
+        height: '635px',
+        width: '1440px',
+      } %}
     {% endif %}
   </div>
 
@@ -47,6 +64,3 @@
     </div>
   {% endif %}
 </section>
-
-
-

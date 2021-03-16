@@ -39,7 +39,7 @@ function emulsifymars_preprocess_html(&$variables) {
   $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 100; font-display: swap}", $theme_settings['primary_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 400; font-display: swap}", $theme_settings['primary_font_path']);
   $style_tag .= sprintf("@font-face {font-family: 'DrupalPrimaryTypefaceFont'; src: url('%s') format('opentype'); font-weight: 900; font-display: swap}", $theme_settings['primary_font_path']);
-  $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypefaceFont'; src: url('%s') format('opentype');}", $theme_settings['secondary_font_path']);
+  $style_tag .= sprintf("@font-face {font-family: 'DrupalSecondaryTypefaceFont'; src: url('%s') format('opentype'); font-display: swap}", $theme_settings['secondary_font_path']);
   $style_tag .= sprintf(":root [data-theme='drupal'] {%s}", _emulsifymars_preprocess_css_properties($theme_settings));
   $variables['page']['#attached']['html_head'][] = [
     [
@@ -101,9 +101,9 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --c-bottom-nav: #%s;", $settings['bottom_nav']);
   $properties .= sprintf(" --c-card-background: #%s;", $settings['card_background']);
 
-  $properties .= sprintf(" --v-heading-font: %s;", 'DrupalHeadlineCampaignFont');
-  $properties .= sprintf(" --v-primary-font: %s;", 'DrupalPrimaryTypefaceFont');
-  $properties .= sprintf(" --v-secondary-font: %s;", 'DrupalSecondaryTypefaceFont');
+  $properties .= sprintf(" --v-heading-font: %s;", "DrupalHeadlineCampaignFont, Arial, Helvetica Neue, Helvetica, sans-serif");
+  $properties .= sprintf(" --v-primary-font: %s;", "DrupalPrimaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif");
+  $properties .= sprintf(" --v-secondary-font: %s;", "DrupalSecondaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif");
 
   if (theme_get_setting('button_style') == 0) {
     $properties .= sprintf(" --v-button-border-radius: %s;", '30px');

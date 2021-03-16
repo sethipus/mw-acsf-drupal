@@ -139,6 +139,12 @@ media-carousel:
     - core/jquery
     - core/jquery.once
 
+parallax-image:
+  js:
+    dist/js/02-molecules/article-media/full-width/parallax-image.js: {}
+  dependencies:
+    - core/drupal
+
 ambient-video:
   js:
     dist/js/01-atoms/video/ambient-video/video.js: {}
