@@ -20,7 +20,7 @@ pdp_nutrition_data:
     group_nutritional_subgroup_1:
       - label: 'Calories'
         value: '170'
-        value_daily: '10000'
+        value_daily: ''
     group_nutritional_subgroup_2:
       - label: 'Total Fat'
         value: '10g'
@@ -32,7 +32,7 @@ pdp_nutrition_data:
       - label: 'Trans Fat'
         bold_modifier: true
         value: '0g'
-        value_daily: '2000'
+        value_daily: ''
     group_nutritional_subgroup_3:
       - label: 'Cholesterol'
         value: '10mg'
