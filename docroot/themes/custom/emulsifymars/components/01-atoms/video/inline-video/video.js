@@ -31,7 +31,7 @@
           return;
         }
         videoElements('video').controls = false;
-        videoElements('video').muted = false;
+        videoElements('video').muted = true;
 
         // Display the user defined video controls
         videoElements('controls').setAttribute('data-state', 'hidden');
@@ -113,9 +113,10 @@
             else {
               videoElements('video').pause();
             }
-            videoElements('video').muted = true;
             videoElements('controls').setAttribute('data-state', 'visible');
             setFullcontrolData(videoContainer, videoElements, true);
+            videoElements('video').muted = !videoElements('video').muted;
+            changeButtonState(videoElements, 'mute');
           });
 
           // Add events for all buttons
