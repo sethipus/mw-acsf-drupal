@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_product\NutritionDataHelper;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -38,7 +39,14 @@ class NutritionConfigForm extends ConfigFormBase {
   private $languageHelper;
 
   /**
-   * ConfigForm constructor.
+   * Nutrition data helper service.
+   *
+   * @var \Drupal\mars_product\NutritionDataHelper
+   */
+  private $nutritionHelper;
+
+  /**
+   * NutritionConfigForm constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The configuration factory.
@@ -48,17 +56,21 @@ class NutritionConfigForm extends ConfigFormBase {
    *   The form builder interface.
    * @param \Drupal\mars_common\LanguageHelper $language_helper
    *   The language helper service.
+   * @param \Drupal\mars_product\NutritionDataHelper $nutrition_helper
+   *   The nutrition data helper service.
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
     EntityTypeManagerInterface $entity_type_manager,
     EntityFormBuilderInterface $form_builder,
-    LanguageHelper $language_helper
+    LanguageHelper $language_helper,
+    NutritionDataHelper $nutrition_helper
   ) {
     parent::__construct($config_factory);
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFormBuilder = $form_builder;
     $this->languageHelper = $language_helper;
+    $this->nutritionHelper = $nutrition_helper;
   }
 
   /**
@@ -69,7 +81,8 @@ class NutritionConfigForm extends ConfigFormBase {
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('entity.form_builder'),
-      $container->get('mars_common.language_helper')
+      $container->get('mars_common.language_helper'),
+      $container->get('mars_product.nutrition_data_helper')
     );
   }
 
@@ -129,6 +142,9 @@ class NutritionConfigForm extends ConfigFormBase {
    *   Form state object.
    * @param string $group_key
    *   Subgroup key.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function getSubgroupTable(
     array &$form,
@@ -175,6 +191,7 @@ class NutritionConfigForm extends ConfigFormBase {
         $this->t('Product variant fields'),
         $this->t('Label'),
         $this->t('Bold'),
+        $this->t('Daily value field'),
         $this->t('Weight'),
         $this->t('Action'),
       ],
@@ -223,6 +240,12 @@ class NutritionConfigForm extends ConfigFormBase {
         '#attributes' => ['class' => [$group_class]],
       ];
 
+      $form[$group_key . '_fieldset'][$group_key][$key]['daily_field'] = [
+        '#type' => 'select',
+        '#options' => $this->getDailyOptions(),
+        '#default_value' => $config[$key]['daily_field'] ?? '',
+      ];
+
       // Action col.
       $form[$group_key . '_fieldset'][$group_key][$key]['remove'] = [
         '#type'  => 'button',
@@ -261,6 +284,9 @@ class NutritionConfigForm extends ConfigFormBase {
    *
    * @return array|mixed|null
    *   Config.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function getConfig(
     string $group_key,
@@ -374,34 +400,13 @@ class NutritionConfigForm extends ConfigFormBase {
       $subgroup_value = $form_state->getValue($subgroup_key) ?: [];
       $config->set(
         $subgroup_key,
-        $this->sortFields($subgroup_value)
+        $this->nutritionHelper->sortFields($subgroup_value)
       );
     }
     // Save the configuration.
     $config->save();
 
     parent::submitForm($form, $form_state);
-  }
-
-  /**
-   * Sort mapping according to weight.
-   *
-   * @param array $mapping
-   *   Mapping.
-   *
-   * @return array
-   *   Sortered mapping.
-   */
-  private function sortFields(array &$mapping) {
-    usort($mapping, function ($a, $b) {
-      if ($a['weight'] == $b['weight']) {
-        return 0;
-      }
-      return $a['weight'] < $b['weight']
-        ? -1
-        : 1;
-    });
-    return $mapping;
   }
 
   /**
@@ -444,20 +449,23 @@ class NutritionConfigForm extends ConfigFormBase {
         if ($fieldgroup->group_name == $group) {
           foreach ($fieldgroup->children as $field) {
             if (strpos($field, 'daily') === FALSE) {
-              // TODO: wrap to translate function.
               $mapping[$group][$field] = [
                 'field' => $field,
-                'label' => $node->get($field)
+                'label' => $this->languageHelper->translate($node->get($field)
                   ->getFieldDefinition()
-                  ->getLabel(),
+                  ->getLabel()),
                 'weight' => $form[$field]['#weight'] ?? 0,
-                'bold' => FALSE,
+                'bold' => (isset(PdpHeroBlock::FIELDS_WITH_BOLD_LABELS[$field]))
+                ? TRUE
+                : FALSE,
+                'daily_field' => $this->getDailyField($field),
               ];
             }
           }
         }
       }
     }
+
     if ($brand == PdpHeroBlock::NUTRITION_VIEW_UK) {
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_calories']['label'] = $this->t('Energy');
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_calories']['bold'] = TRUE;
@@ -520,6 +528,49 @@ class NutritionConfigForm extends ConfigFormBase {
       }
     }
     return $fields;
+  }
+
+  /**
+   * Get options for daily field.
+   *
+   * @return array|false
+   *   Daily field options.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function getDailyOptions() {
+    $node = $this->entityTypeManager
+      ->getStorage('node')
+      ->create([
+        'type' => 'product_variant',
+      ]);
+    $fields = ['none' => $this->t('None')];
+    $fields += array_combine(
+      array_keys($node->getFieldDefinitions()),
+      array_keys($node->getFieldDefinitions())
+    );
+    return $fields;
+  }
+
+  /**
+   * Get daily field by name.
+   *
+   * @param string $field_name
+   *   Base field name.
+   *
+   * @return string
+   *   Daily field name.
+   */
+  private function getDailyField(string $field_name) {
+    $field_daily = 'none';
+    if (isset(PdpHeroBlock::FIELDS_MAPPING_DAILY[$field_name]) &&
+      PdpHeroBlock::FIELDS_MAPPING_DAILY[$field_name] !== FALSE) {
+
+      $field_daily = PdpHeroBlock::FIELDS_MAPPING_DAILY[$field_name];
+      $field_daily = !empty($field_daily) ? $field_daily : $field_name . '_daily';
+    }
+    return $field_daily;
   }
 
 }
