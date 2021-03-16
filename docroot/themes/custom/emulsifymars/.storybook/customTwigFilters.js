@@ -53,4 +53,5 @@ module.exports = function (twigInstance) {
       return value
     }
   )
+  twigInstance.extendFilter('bgColorClassMap', (value, args) => value )
 }

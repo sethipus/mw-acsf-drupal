@@ -1,15 +1,16 @@
 {% set pp_header_base_class = pp_header_base_class|default('parent-page-header') %}
 
-{# TODO: for now this is hardcoded, backend change will be required later #}
-{% set tint_enabled = tint_enabled|default(false) %}
 
 {% if parent_page_media_url and parent_page_media_type == 'image' %}
   {% set pp_header_modifiers = ['with-bg-media', 'with-min-height'] %}
-  {% if tint_enabled %}
+  {% if dark_overlay %}
     {% set pp_header_modifiers = pp_header_modifiers|merge(['tint-enabled']) %}
   {% endif %}
 {% elseif parent_page_media_url and parent_page_media_type == 'video' %}
   {% set pp_header_modifiers = ['with-bg-video'] %}
+  {% if dark_overlay %}
+    {% set pp_header_modifiers = pp_header_modifiers|merge(['tint-enabled']) %}
+  {% endif %}
 {% else %}
   {% set pp_header_modifiers = ['with-min-height'] %}
 {% endif %}

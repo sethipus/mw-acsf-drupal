@@ -125,8 +125,11 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function defaultConfiguration(): array {
+    $config = $this->getConfiguration();
     return [
       'label_display' => FALSE,
+      'with_brand_borders' => $config['with_brand_borders'] ?? FALSE,
+      'overlaps_previous' => $config['overlaps_previous'] ?? FALSE,
     ];
   }
 
@@ -139,9 +142,10 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#theme'] = 'story_highlight_block';
 
     $build['#title'] = $this->languageHelper->translate($conf['story_block_title']);
-    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+    $build['#brand_border'] = ($conf['with_brand_borders']) ? $this->themeConfiguratorParser->getBrandBorder2() : NULL;
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     $build['#story_description'] = $this->languageHelper->translate($conf['story_block_description']);
+    $build['#overlaps_previous'] = $conf['overlaps_previous'] ?? NULL;
 
     $build['#story_items'] = array_map(function ($value) {
       if ($value['item_type'] == self::KEY_OPTION_IMAGE) {
@@ -334,6 +338,18 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
       ],
     ];
 
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $this->configuration['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $this->configuration['overlaps_previous'] ?? FALSE,
+    ];
+
     $this->buildOverrideColorElement($form, $this->configuration);
 
     return $form;
@@ -350,6 +366,8 @@ class StoryHighlightBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->configuration['items'] = $form_state->getValue('items');
     $this->configuration['svg_assets'] = $form_state->getValue('svg_assets');
     $this->configuration['view_more'] = $form_state->getValue('view_more');
+    $this->configuration['with_brand_borders'] = $form_state->getValue('with_brand_borders');
+    $this->configuration['overlaps_previous'] = $form_state->getValue('overlaps_previous');
     $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
 
     $svg_assets = $form_state->getValue('svg_assets');

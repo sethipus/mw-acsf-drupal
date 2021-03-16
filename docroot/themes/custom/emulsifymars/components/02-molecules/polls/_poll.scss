@@ -69,7 +69,6 @@
   &__heading {
     color: clr(secondary);
     font-family: variable(primary-font);
-    text-transform: uppercase;
     text-align: center;
 
     @include xs {

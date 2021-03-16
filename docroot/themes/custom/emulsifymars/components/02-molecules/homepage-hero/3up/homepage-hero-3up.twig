@@ -1,7 +1,10 @@
 {% set homepage_hero__base_class = 'homepage-hero-3up' %}
+{% if dark_overlay %}
+  {% set homepage_hero__modifiers = ['dark-overlay'] %}
+{% endif %}
 
 <section {{ bem(homepage_hero__base_class) }} data-theme="{{ theme_styles }}">
-  <div {{ bem('inner', [], homepage_hero__base_class) }}>
+  <div {{ bem('inner', [], homepage_hero__base_class, homepage_hero__modifiers) }}>
     <div {{ bem('left', [], homepage_hero__base_class) }} >
       <div class="wrapper">
         <!-- style="background-image:url('{{ hero_image.src }}');" -->

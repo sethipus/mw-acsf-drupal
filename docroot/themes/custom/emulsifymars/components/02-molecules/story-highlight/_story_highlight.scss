@@ -6,18 +6,17 @@
 
   &__contentbg {
     background-color: clr(subcolor-2);
-    padding: 3rem 2rem 0;
-    overflow: hidden;
+    padding: 3rem 20px 0;
 
-    @include large {
-      padding-left: 4rem;
-      padding-right: 4rem;
+    @include medium {
+      padding-left: 40px;
+      padding-right: 40px;
     }
+
   }
 
   &__content {
     position: relative;
-    overflow: hidden;
 
     @include large {
       padding-bottom: 5rem;
@@ -46,7 +45,6 @@
     font-stretch: normal;
     font-style: normal;
     color: clr(primary);
-    text-transform: uppercase;
     text-align: center;
     padding-top: 2rem;
 
@@ -78,40 +76,70 @@
   }
 
   &__paragraph {
-    margin: 6rem auto 8rem;
     font-family: variable(secondary-font);
     text-align: center;
     color: clr(primary);
     font-weight: normal;
     font-style: normal;
-    width: 70%;
 
     @include xs {
+      padding: 0 8px;
+      margin: 20px auto 40px;
       font-size: 1.8rem;
       line-height: 1.8rem;
-      margin: 2rem auto 4rem;
     }
 
     @include medium {
+      padding: 0 20px;
+      margin: 40px auto 60px;
       line-height: 2.88rem;
-      margin: 4rem auto 6rem;
+    }
+
+    @include xl {
+      max-width: 1128px;
+      padding: 0 35px;
+      margin: 60px auto 80px;
+    }
+  }
+
+  & .media_items_wrapper{
+    margin: 0 auto;
+    padding: 0 4rem;
+    width: 100%;
+    max-width: 152.0rem;
+
+    @include xs {
+      padding: 0;
+      max-width: 100%;
     }
 
     @include large {
-      font-size: 2rem;
-      line-height: 3.6rem;
+      padding: 0;
+      max-width: 100%;
     }
+
+    @include xl {
+      padding: 0;
+      max-width: 100%;
+    }
+
+    @media (min-width: 1525px) {
+      padding: 0;
+      max-width: 144.0rem;
+    }
+
   }
 
   & .media_items {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 5rem;
+    flex-direction: column;
+    position: relative;
 
-    @include xs {
-      margin-top: 4rem;
+    @include xl {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
     }
 
     & .paragraph {
@@ -136,13 +164,16 @@
         line-height: 2.08rem;
       }
     }
+
+    .overlay-video__control[data-state="play"] {
+      top: calc(50% - 3.5rem);
+      left: calc(50% - 3.3rem);
+    }
   }
 
   & .media_item_1 {
-    flex: 0 auto;
-    position: relative;
-    z-index: 2;
-    border-bottom: 1px solid lightgrey;
+    align-self: center;
+    z-index: 3;
 
     & img, video {
       width: 100%;
@@ -150,24 +181,73 @@
       object-fit: cover;
     }
 
-    @include xs {
-      width: 100%;
+    &__wrapper{
+      max-height: 43.9rem;
+      & img {
+        max-height: 43.9rem;
+        min-height: 43.9rem;
+      }
     }
 
-    @include large {
-      min-width: 55%;
-      max-width: 78rem;
+    @include xs {
+      width: 335px;
+      &__wrapper{
+        max-height: 18.8rem;
+        & img {
+          max-height: 18.8rem;
+          min-height: 18.8rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 18.8rem;
+            min-height: 18.8rem;
+          }
+
+        }
+      }
+    }
+
+    @include medium {
+      width: 688px;
+      &__wrapper{
+        max-height: 38.8rem;
+        & img {
+          max-height: 38.8rem;
+          min-height: 38.8rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 38.8rem;
+            min-height: 38.8rem;
+          }
+
+        }
+      }
+    }
+
+    @include xl {
+      width: 781px;
+
+      &__wrapper{
+        max-height: 43.9rem;
+        & img {
+          max-height: 43.9rem;
+          min-height: 43.9rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 43.9rem;
+            min-height: 43.9rem;
+          }
+
+        }
+      }
     }
   }
 
   & .media_item_2 {
-    align-self: flex-end;
-    flex: 0 auto;
-    position: relative;
     z-index: 2;
-    border-bottom: 1px solid lightgrey;
-    width: 50%;
-    margin: 4rem 2rem 0 auto;
+    margin-left: auto;
 
     & img, video {
       width: 100%;
@@ -175,35 +255,79 @@
       object-fit: cover;
     }
 
+    &__wrapper{
+      max-height: 32.5rem;
+      min-height: 32.5rem;
+      & img {
+        max-height: 32.5rem;
+        min-height: 32.5rem;
+      }
+    }
+
     @include xs {
-      margin-top: 3rem;
+      max-width: 190px;
+      &__wrapper{
+        max-height: 14.3rem;
+        min-height: 14.3rem;
+        & img {
+          max-height: 14.3rem;
+          min-height: 14.3rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 14.3rem;
+            min-height: 14.3rem;
+          }
+
+        }
+      }
     }
 
     @include medium {
-      margin-top: 4rem;
-    }
+      max-width: 334px;
+      &__wrapper{
+        max-height: 25.14rem;
+        min-height: 25.14rem;
+        & img {
+          max-height: 25.14rem;
+          min-height: 25.14rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 25.14rem;
+            min-height: 25.14rem;
+          }
 
-    @include large {
-      left: 0;
-      min-width: 33%;
-      max-width: 43rem;
-      min-height: 32.5rem;
-      margin-right: 0;
+        }
+      }
     }
 
     @include xl {
-      margin-right: 6.7rem;
+      max-width: 433px;
+
+      &__wrapper{
+        max-height: 32.5rem;
+        min-height: 32.5rem;
+        & img {
+          max-height: 32.5rem;
+          min-height: 32.5rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 32.5rem;
+            min-height: 32.5rem;
+          }
+
+        }
+      }
     }
 
   }
 
   & .media_item_3 {
-    flex: 0 auto;
-    width: 55.6rem;
-    position: relative;
     z-index: 2;
     border-bottom: 1px solid lightgrey;
-    margin: 12rem 12rem 12rem 2rem;
+    margin-right: auto;
 
     & img, video {
       width: 100%;
@@ -212,30 +336,88 @@
     }
 
     @include xs {
-      margin-top: 3rem;
-      margin-bottom: 0;
+      width: 248px;
+      &__wrapper{
+        max-height: 14rem;
+        min-height: 14rem;
+        & img {
+          max-height: 14rem;
+          min-height: 14rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 14rem;
+            min-height: 14rem;
+          }
+
+        }
+      }
     }
 
     @include medium {
-      margin-top: 4rem;
-      margin-bottom: 0;
+      width: 452px;
+      &__wrapper{
+        max-height: 25.52rem;
+        min-height: 25.52rem;
+        & img {
+          max-height: 25.52rem;
+          min-height: 25.52rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 25.52rem;
+            min-height: 25.52rem;
+          }
+
+        }
+      }
     }
 
-    @include large {
-      left: 0;
-      width: 55.6rem;
-      margin: 8rem auto 0;
+    @include xl {
+      margin: 0 auto;
+      width: 550px;
+      &__wrapper{
+        max-height: 31.1rem;
+        min-height: 31.1rem;
+        & img {
+          max-height: 31.1rem;
+          min-height: 31.1rem;
+        }
+        figure{
+          .overlay-video__video{
+            max-height: 31.1rem;
+            min-height: 31.1rem;
+          }
+
+        }
+      }
     }
   }
 
   & .media_item_1,
   & .media_item_2,
   & .media_item_3 {
-    display: flex;
-    justify-content: flex-end;
-    align-content: center;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
+    margin-bottom: 30px;
+    border-bottom: 1px solid $silver;
+
+    &__wrapper{
+      width: 100%;
+      height: 100%;
+      & img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    @include medium {
+      margin-bottom: 40px;
+    }
+
+    @include xl {
+      margin-bottom: 80px;
+    }
+
   }
 
   .overlay-video__control[data-state="play"] {
@@ -272,7 +454,7 @@
       top: 65rem;
       right: -1rem;
       width: 124px;
-    height: 124px;
+      height: 124px;
     }
 
     @include medium {
@@ -292,21 +474,20 @@
     }
 
     @include xl {
-      top: 36rem;
-      right: 0;
+      top: -124px;
+      right: -40px;
+
+      & img {
+        max-width: 242px;
+        height: 242px;
+      }
+
     }
 
   }
 
   &__brand-shape_2 {
     position: absolute;
-    min-width: 15.3rem;
-    min-height: 15.3rem;
-    width: 15.3rem;
-    height: 15.3rem;
-    display: flex;
-    top: 80rem;
-    right: 0;
     z-index: 1;
 
     & img {
@@ -338,9 +519,13 @@
     }
 
     @include xl {
-      z-index: 1;
-      top: 108rem;
-      left: 0;
+      bottom: 80px;
+      left: -40px;
+
+      & img {
+        max-width: 443px;
+        height: 443px;
+      }
     }
   }
 
@@ -380,29 +565,24 @@
     }
 
     @include xl {
-      z-index: 0;
-      right: 0;
-      bottom: 20rem;
+      right: -4rem;
+      bottom: -120px;
+      & img {
+        max-width: 356px;
+        height: 356px;
+      }
     }
   }
 
   & .cta_wrapper {
-    padding: 8.3rem 0;
     text-align: center;
 
-    @include small {
-      padding: 3.3rem 0 12.6rem 0;
-      margin-top: 5rem;
+    @include xs {
+      margin-top: 10px;
     }
 
-    @include medium {
-      padding: 0 0 12.6rem 0;
-      margin-top: 6rem;
-    }
-
-    @include large {
-      padding: 6.3rem 0 6.3rem 0;
-      margin-top: 6rem;
+    @include xl {
+      margin-top: 0;
     }
   }
 
@@ -410,6 +590,22 @@
     background-color: clr(secondary);
     color: clr(subcolor-3);
     margin: 0 auto;
+
+    @include xs {
+      height: 50px;
+      min-width: 133px;
+      padding: 0;
+      font-size: 14px;
+      line-height: 50px;
+    }
+
+    @include xl {
+      height: 60px;
+      min-width: 202px;
+      padding: 0;
+      line-height: 60px;
+    }
+
   }
 
   & .default-link:hover {

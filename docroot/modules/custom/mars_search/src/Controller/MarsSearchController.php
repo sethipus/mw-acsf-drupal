@@ -150,11 +150,11 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   The autocompletion response.
+   *
+   * @throws \Exception
    */
   public function autocomplete() {
     $options = $this->searchQueryParser->parseQuery();
-    // We need only 4 results in autocomplete.
-    $options['limit'] = 4;
 
     $suggestions = [];
     $show_all = '';
@@ -169,16 +169,14 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
             'ellipsis' => TRUE,
           ];
           $suggestions[] = FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value));
-          // Indicates that it's faq query so we can skip show all link.
-          $faq = TRUE;
         }
         else {
           $suggestions[] = $options['cards_view'] ? $this->viewBuilder->view($entity, 'card') : $entity->toLink();
         }
       }
 
-      $show_all = empty($faq) ? [
-        'title' => $this->t('Show All Results for "@keys"', ['@keys' => $options['keys']]),
+      $show_all = isset($options['cards_view']) ? [
+        'title' => $this->t('@show_all "@keys"', ['@show_all' => 'Show All Results for', '@keys' => $options['keys']]),
         'attributes' => [
           'href' => Url::fromUri('internal:/' . SearchHelperInterface::MARS_SEARCH_SEARCH_PAGE_PATH, [
             'query' => [
@@ -190,6 +188,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         ],
       ] : [];
     }
+    // Set Card view FLASE by default.
+    $options['cards_view'] = $options['cards_view'] ?? FALSE;
     $config_no_results = $this->config('mars_search.search_no_results');
     $empty_text_heading = $config_no_results->get('no_results_heading');
     $empty_text_description = $config_no_results->get('no_results_text');
@@ -223,8 +223,9 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
     $json_output = [];
     $config = [];
     $query_parameters['grid_id'] = empty($query_parameters['grid_id']) ? 1 : $query_parameters['grid_id'];
+    $query_parameters['page_revision_id'] = empty($query_parameters['page_revision_id']) ? '' : $query_parameters['page_revision_id'];
     if (!empty($query_parameters['grid_type'])) {
-      $config = $this->getComponentConfig($query_parameters['page_id'], $query_parameters['grid_id']) ?: [];
+      $config = $this->getComponentConfig($query_parameters['page_id'], $query_parameters['grid_id'], $query_parameters['page_revision_id']) ?: [];
     }
 
     switch ($query_parameters['action_type']) {
@@ -235,8 +236,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         }
         $json_output['no_results'] = !empty($results[2]['#no_results']) ? $this->renderer->render($results[2]['#no_results']) : '';
 
-        if ((($results[1]['resultsCount'] - $results[0]['offset']) == $results[0]['limit']) ||
-          ($results[0]['limit'] > $results[1]['itemsCount'])) {
+        if ((($results[1]['resultsCount'] - $results[0]['offset']) <= $query_parameters["limit"]) ||
+          (($query_parameters['grid_type']) == 'faq' && $results[0]['offset'] > 0)) {
           $pager = 0;
         }
         else {
@@ -281,13 +282,19 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *   Node ID.
    * @param string $grid_id
    *   Grid ID of the component.
+   * @param string $vid
+   *   The current node revision ID.
    *
    * @return mixed
    *   Returns block configuration or FALSE.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  protected function getComponentConfig(string $nid, string $grid_id) {
+  protected function getComponentConfig(string $nid, string $grid_id, string $vid) {
+    $nodeStorage = $this->entityTypeManager()->getStorage('node');
     /** @var \Drupal\node\Entity\Node $node */
-    $node = $this->entityTypeManager()->getStorage('node')->load($nid);
+    $node = !empty($vid) ? $nodeStorage->loadRevision($vid) : $nodeStorage->load($nid);
     $nodeIterator = new NodeLBComponentIterator($node);
     foreach ($nodeIterator as $component) {
       $config = $component->get('configuration');
@@ -296,7 +303,7 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
       }
       // Adding an additional probe to get config if grid is not specified
       // because the text color may be overridden.
-      if (!empty($config['override_text_color'])) {
+      if ($grid_id == 1 && !empty($config['override_text_color'])) {
         return $config;
       }
     }

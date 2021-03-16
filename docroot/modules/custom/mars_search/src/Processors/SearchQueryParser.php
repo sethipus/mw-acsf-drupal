@@ -3,6 +3,7 @@
 namespace Drupal\mars_search\Processors;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\search_api\Query\QueryInterface;
 
 /**
  * Class SearchQueryParser.
@@ -61,7 +62,9 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
     $filter['options_logic'] = !empty($query_parameters['options_logic']) ? $query_parameters['options_logic'] : $filter['options_logic'];
     // Autocomplete specific option for header search overlay.
     // If it is set we display nodes cards, otherwise – just links.
-    $filter['cards_view'] = !empty($query_parameters['cards_view']);
+    if (isset($query_parameters['cards_view'])) {
+      $filter['cards_view'] = $query_parameters['cards_view'];
+    }
     return $filter;
   }
 
@@ -138,7 +141,9 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
       'options_logic' => 'AND',
       'keys' => '',
       'sort' => [
-        'created' => 'DESC',
+        'search_api_relevance' => QueryInterface::SORT_ASC,
+        'bundle_weight' => QueryInterface::SORT_ASC,
+        'title' => QueryInterface::SORT_ASC,
       ],
     ];
   }
@@ -150,11 +155,25 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
     // Adjusting them with grid specific configuration.
     // Content type filter.
     if (!empty($config['content_type'])) {
+      // Remove filter by type.
+      $searchOptions['conditions'] = array_filter($searchOptions['conditions'], function ($condition, $k) {
+        return $condition[0] !== 'type';
+      }, ARRAY_FILTER_USE_BOTH);
       $searchOptions['conditions'][] = ['type', $config['content_type'], '='];
     }
 
     // Populate top results items before other results.
-    if (!empty($config['top_results_wrapper']['top_results'])) {
+    if (isset($searchOptions['top_results_query']) &&
+      $searchOptions['top_results_query'] &&
+      !empty($searchOptions['top_results_ids'])) {
+
+      $searchOptions['conditions'][] = [
+        'nid',
+        $searchOptions['top_results_ids'],
+        'IN',
+      ];
+    }
+    elseif (!empty($config['top_results_wrapper']['top_results'])) {
       $top_result_ids = array_map(function ($value) {
         return $value['target_id'];
       }, $config['top_results_wrapper']['top_results']);

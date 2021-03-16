@@ -74,10 +74,15 @@
   &__form {
     width: 100%;
     display: flex;
+    margin-bottom: 20px;
     flex-direction: column;
 
     @include medium {
       flex-direction: row;
+    }
+
+    @include xl {
+      margin-bottom: 30px;
     }
   }
 

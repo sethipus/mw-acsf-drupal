@@ -43,6 +43,7 @@ validate:
       - resizeByHeight
       - resizeByWidth
       - resize
+      - bgColorClassMap
 tests:
   phpunit:
     -

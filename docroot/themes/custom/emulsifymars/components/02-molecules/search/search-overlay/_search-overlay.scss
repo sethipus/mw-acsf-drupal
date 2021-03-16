@@ -4,14 +4,18 @@
   font-size: 14px;
   line-height: 100%;
   color: clr(subcolor-3);
-  max-height: 16.2rem;
-  margin-bottom: 30px;
+  max-height: 100%;
+  margin-bottom: 2px;
+
+  @include medium {
+    margin-bottom: 30px;
+  }
 
   @include large {
     display: none;
     position: absolute;
     width: 100%;
-    height: 100%;
+    max-height: 16.2rem;
     background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
     top: 0;
     margin-bottom: 0;
@@ -155,7 +159,6 @@
 
           & a {
             color: clr(subcolor-3);
-            text-transform: uppercase;
 
             @include large {
               color: clr(primary);
@@ -219,6 +222,11 @@
       width: 100%;
       border-bottom: 1px solid clr(subcolor-3);
       font-family: variable(secondary-font);
+      padding-bottom: 3px;
+
+      @include medium {
+        padding-bottom: 0;
+      }
 
       @include large {
         border-bottom: none;
@@ -227,6 +235,7 @@
 
       .form-item {
         margin-bottom: 0;
+        position: relative;
 
         & input.mars-autocomplete-field {
           border: none;
@@ -263,16 +272,15 @@
           content: '';
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' viewBox='0 0 20 20'%3E%3Cpath fill='%23490E00' d='M19.644 18.107l-4.098-4.098c.2-.267.4-.535.556-.824.067-.112.134-.245.2-.357.134-.244.246-.49.357-.757.268-.646.468-1.336.58-2.049.044-.29.066-.579.088-.868 0-.156.023-.29.023-.446C17.372 3.898 13.474 0 8.686 0c-.156 0-.29 0-.445.022-.29.023-.58.045-.87.09-.868.133-1.692.4-2.449.757-.245.111-.512.245-.735.378-.245.156-.468.312-.69.468-.446.334-.869.713-1.225 1.114-.09.11-.178.2-.268.311-.356.423-.668.891-.935 1.381C.379 5.768 0 7.194 0 8.686c0 .156 0 .29.022.445.023.29.045.58.09.869.11.713.311 1.403.578 2.049.335.78.78 1.492 1.292 2.138.09.111.178.223.267.312.38.4.78.78 1.225 1.114.223.155.446.311.69.467.246.156.49.29.736.401.757.356 1.581.624 2.45.757.29.045.579.067.868.09.156 0 .29.022.446.022 1.982 0 3.808-.669 5.278-1.782l4.098 4.098c.223.223.512.334.78.334.267 0 .579-.111.78-.334.49-.423.49-1.136.044-1.56zM1.782 8.686c0-3.808 3.096-6.904 6.904-6.904s6.904 3.096 6.904 6.904-3.096 6.904-6.904 6.904-6.904-3.096-6.904-6.904z'/%3E%3C/svg%3E%0A");
           position: absolute;
-          width: 20px;
-          height: 20px;
-          top: 50%;
-          transform: translateY(-50%);
+          width: 2rem;
+          height: 2rem;
+          top: calc(50% - 1rem);
+          left: 0;
           background-color: clr(subcolor-3);
 
           @include large {
-            left: 20px;
-            top: 70px;
             background-color: clr(primary);
+            left: 2rem;
           }
         }
       }

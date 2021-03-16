@@ -3,9 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.product.field_brand_initiatives
     - field.field.node.product.field_meta_tags
     - field.field.node.product.field_override_global_rating
-    - field.field.node.product.field_product_brand
     - field.field.node.product.field_product_category
     - field.field.node.product.field_product_description
     - field.field.node.product.field_product_flavor
@@ -36,7 +36,7 @@ third_party_settings:
     group_product_overview:
       children:
         - title
-        - field_product_brand
+        - field_brand_initiatives
         - field_product_flavor
         - field_product_market
         - field_product_category
@@ -131,6 +131,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_brand_initiatives:
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_meta_tags:
     weight: 5
     settings:
@@ -144,12 +150,6 @@ content:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
-    region: content
-  field_product_brand:
-    weight: 2
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
     region: content
   field_product_category:
     weight: 6
@@ -166,7 +166,7 @@ content:
     type: text_textarea
     region: content
   field_product_flavor:
-    weight: 3
+    weight: 4
     settings: {  }
     third_party_settings: {  }
     type: options_select
@@ -185,7 +185,7 @@ content:
     type: boolean_checkbox
     region: content
   field_product_market:
-    weight: 4
+    weight: 5
     settings:
       size: 60
       placeholder: ''

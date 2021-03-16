@@ -52,6 +52,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
     'background_default' => 'background_default',
     'background_image' => [0 => 'background_default'],
     'card' => [self::TEST_CARD],
+    'use_dark_overlay' => TRUE,
   ];
 
   private const TEST_DEFINITION = [

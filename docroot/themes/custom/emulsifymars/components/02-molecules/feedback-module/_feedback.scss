@@ -29,6 +29,7 @@
     span {
       position: relative;
       z-index: 3;
+      padding-left: 0;
     }
 
     &:hover {
@@ -100,7 +101,6 @@
     color: clr(primary);
     font-family: variable(primary-font);
     margin-top: 0;
-    text-transform: capitalize;
 
     @include xs {
       font-size: 2.8rem;
@@ -173,23 +173,11 @@
   }
 
   &__bottom-link {
-    color: clr(secondary);
-    font-family: variable(primary-font);
-    text-decoration: none;
-    text-transform: uppercase;
-
-    &:focus {
-      outline: royalblue auto 1px;
-    }
-
-    @include xs {
-      font-size: 1.4rem;
-      line-height: 1.4rem;
-    }
+    z-index: 2;
+    line-height: 5rem;
 
     @include medium {
-      font-size: 1.8rem;
-      line-height: 1.98rem;
+      line-height: 6rem;
     }
   }
 

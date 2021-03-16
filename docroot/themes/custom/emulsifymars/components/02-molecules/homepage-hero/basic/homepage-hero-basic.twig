@@ -1,7 +1,7 @@
 {% set homepage_hero_basic_base_class = 'homepage-hero-basic' %}
 
 <section {{ bem(homepage_hero_basic_base_class) }} data-theme="{{ theme_styles }}">
-  <div {{ bem('background', [], homepage_hero_basic_base_class) }}>
+  <div {{ bem('background', [], homepage_hero_basic_base_class, homepage_hero__modifiers) }}>
     <div {{ bem('container', ['image'], homepage_hero_basic_base_class) }}>
       {% set images = {
         1440: homepage_hero_basic_img.src|resizeByHeight(580),

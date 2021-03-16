@@ -9,7 +9,6 @@
     text-align: center;
     font-family: variable(heading-font);
     color: clr(primary);
-    text-transform: uppercase;
     margin-bottom: 4rem;
 
     @include xs {
@@ -90,7 +89,7 @@
 
       @include large {
         height: 100%;
-        width: 62%;
+        width: 59%;
       }
     }
 
@@ -117,8 +116,8 @@
 
       @include large {
         position: absolute;
-        left: 60%;
-        width: 40%;
+        left: 59%;
+        width: 41%;
         margin-left: 0;
         margin-right: 0;
         top: 0;
@@ -126,6 +125,7 @@
         display: inline-flex;
         justify-content: center;
         flex-flow: column nowrap;
+        padding: 0;
       }
 
       .eyebrow {
@@ -153,18 +153,17 @@
         font-family: variable(primary-font);
         font-size: 5.6rem;
         line-height: 100%;
-        text-transform: capitalize;
         max-width: 510px;
         font-weight: 500;
-        margin: 30px auto 20px;
+        margin: 3rem auto 2rem;
 
         @include xs {
-          padding: 0 12px;
+          padding: 0 1.2rem;
         }
 
         @include medium {
-          margin-bottom: 40px;
-          padding: 0 40px;
+          margin-bottom: 4rem;
+          padding: 0 4rem;
         }
 
         @include large {
@@ -172,6 +171,18 @@
           min-height: 18rem;
           margin: 3rem auto 4rem;
           padding: 0;
+        }
+
+        @include xl {
+          font-size: 6.4rem;
+          min-height: 18rem;
+          margin: 4rem;
+          padding: 0;
+        }
+
+        @media (min-width: 1441px){
+          margin: 4rem;
+          max-width: 100%;
         }
 
         a.link {

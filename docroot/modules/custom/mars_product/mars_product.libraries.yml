@@ -1,7 +1,7 @@
 mars_product.commerce_connector:
   version: 1.x
   js:
-    js/commerce_connector.js: {}
+    //[commerce_connector_url]: { type: external, weight: -3 }
   dependencies:
     - core/drupal
     - core/drupalSettings
@@ -14,3 +14,7 @@ mars_product.bazarrevoice_staging:
 mars_product.bazarrevoice_production:
   js:
     https://apps.bazaarvoice.com/deployments/dovechocolates/main_site/production/en_US/bv.js: { type: external, attributes: { async: true } }
+
+smart_commerce:
+  js:
+    https://click2cart.co/assets/js/smartcart_min.js: { type: external }

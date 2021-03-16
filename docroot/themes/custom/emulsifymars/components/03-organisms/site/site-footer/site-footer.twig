@@ -49,6 +49,7 @@
           {% endblock %}
         </div>
       {% endif %}
+      <div {{ bem('separator_1', [], footer__base_class) }}></div>
       <div {{ bem('legal-links', [legal_links_modifier, legal_full_width_modifier], footer__base_class) }}>
         {% block footer__legal_links %}
           {% include "@molecules/menus/legal-links/legal-links-menu.twig" %}
@@ -91,11 +92,11 @@
           } %}
         {% endblock %}
       </div>
-      <div {{ bem('separator', [], footer__base_class) }}></div>
+      <div {{ bem('separator_2', [], footer__base_class) }}></div>
       <div {{ bem('corporate-tout', [], footer__base_class) }}>
         <div {{ bem('corporate-tout__text', []) }}>{{ corporate_tout_text }}</div>
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-          default_link_content: 'See All' | mt,
+          default_link_content: 'See All' | mt | upper,
           default_link_attributes: corporate_tout_link_attributes,
           default_link_base_class: 'default-link',
           default_link_modifiers: ['light']

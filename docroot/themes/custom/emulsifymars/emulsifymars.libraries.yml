@@ -2,6 +2,8 @@ global:
   css:
     theme:
       dist/css/theme_style.css: {}
+  js:
+    dist/js/object_fit_polyfill.js: {}
 
 main-menu:
   js:
@@ -88,7 +90,7 @@ recipe-card:
   dependencies:
     - core/drupal
     - core/jquery
-    - core/jquery.once    
+    - core/jquery.once
 
 recipe-hero-module:
   js:
@@ -228,6 +230,7 @@ card-grid-filter:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
   dependencies:
     - core/drupal
+    - core/drupal.announce
 
 social-menu:
   js:
@@ -237,7 +240,7 @@ social-menu:
 
 product-selector:
   js:
-    dist/js/02-molecules/product-selector/product-selector.js: {}
+    dist/js/02-molecules/product-selector/product-selector.js: {weight: -1}
   dependencies:
     - core/drupal
 

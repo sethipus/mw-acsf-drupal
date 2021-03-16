@@ -46,3 +46,8 @@ services:
     arguments: [ '@mars_common.theme_override_service' ]
     tags:
       - { name: cache.context }
+
+  mars_common.bg_color_class_map.twig_extension:
+    class: Drupal\mars_common\Twig\BgColorClassMapper
+    tags:
+      - { name: twig.extension }

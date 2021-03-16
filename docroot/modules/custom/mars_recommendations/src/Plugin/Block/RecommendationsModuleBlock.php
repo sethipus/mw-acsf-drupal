@@ -87,8 +87,11 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
    * {@inheritdoc}
    */
   public function defaultConfiguration(): array {
+    $config = $this->getConfiguration();
     return [
       'label_display' => FALSE,
+      'with_brand_borders' => $config['with_brand_borders'] ?? FALSE,
+      'overlaps_previous' => $config['overlaps_previous'] ?? FALSE,
     ];
   }
 
@@ -128,8 +131,9 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       '#theme' => 'recommendations_module_block',
       '#title' => $title,
       '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
-      '#brand_border' => $this->themeConfiguratorParser->getBrandBorder2(),
+      '#brand_border' => ($this->configuration['with_brand_borders']) ? $this->themeConfiguratorParser->getBrandBorder2() : NULL,
       '#recommended_items' => $recommendation_render_arrays,
+      '#overlaps_previous' => $this->configuration['overlaps_previous'] ?? NULL,
       '#text_color_override' => $text_color_override,
     ];
   }
@@ -217,6 +221,18 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
       $form_state->set('population_logic_plugin', $plugin);
     }
 
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $conf['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $conf['overlaps_previous'] ?? FALSE,
+    ];
+
     $this->buildOverrideColorElement($form, $conf);
 
     return $form;
@@ -254,6 +270,9 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
 
     $this->configuration['title'] = $form_state->getValue('title');
     $this->configuration['population_plugin_id'] = $form_state->getValue('population')['plugin_id'] ?? NULL;
+    $this->configuration['with_brand_borders'] = $form_state->getValue('with_brand_borders');
+    $this->configuration['overlaps_previous'] = $form_state->getValue('overlaps_previous');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
 
     if ($form_state->has('population_logic_plugin')) {
       /** @var \Drupal\mars_recommendations\RecommendationsLogicPluginInterface $plugin */
@@ -264,7 +283,6 @@ class RecommendationsModuleBlock extends BlockBase implements ContainerFactoryPl
 
       $this->configuration['population_plugin_configuration'] = $form_state->getValue('population_plugin_configuration');
     }
-    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
   /**
