@@ -1,0 +1,8 @@
+uuid: 87b55155-929d-409e-885e-fd78c8fd57cf
+langcode: en
+status: true
+dependencies: {  }
+name: 'Recipe Collection'
+vid: recipe_collection
+description: ''
+weight: 0

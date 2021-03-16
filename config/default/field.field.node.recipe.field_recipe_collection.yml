@@ -1,31 +1,31 @@
-uuid: 35701d61-919a-48ce-96fe-2030384d60d1
+uuid: 67ac66e2-0b4a-422c-8bd2-8c2912e6dfa5
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_recipe_meal_type
+    - field.storage.node.field_recipe_collection
     - node.type.recipe
-    - taxonomy.vocabulary.mars_meal_type
+    - taxonomy.vocabulary.recipe_collection
   module:
     - tmgmt_content
 third_party_settings:
   tmgmt_content:
     excluded: false
-id: node.recipe.field_recipe_meal_type
-field_name: field_recipe_meal_type
+id: node.recipe.field_recipe_collection
+field_name: field_recipe_collection
 entity_type: node
 bundle: recipe
-label: 'Meal Type'
+label: 'Recipe Collection'
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      mars_meal_type: mars_meal_type
+      recipe_collection: recipe_collection
     sort:
       field: name
       direction: asc
