@@ -13,23 +13,21 @@
   }
 
     &__text_wrapper {
-      width: 90%;
-      margin: 0 auto;
+      max-width: 100%;
+      margin: 0 20px;
 
-      @include large {
-        width: 70%;
-        padding-top: 0;
+      @include medium {
+        margin: 0 40px;
       }
 
       @include xl {
         max-width: 780px;
-        margin: 0 27% 0 19%;
+        margin: 0 0 0 272px;
       }
 
       & .heading {
         font-style: normal;
         font-weight: 500;
-        text-transform: uppercase;
         font-family: variable(primary-font);
 
         @include xs {

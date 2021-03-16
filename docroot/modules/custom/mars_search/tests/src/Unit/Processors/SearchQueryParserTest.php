@@ -86,7 +86,9 @@ class SearchQueryParserTest extends UnitTestCase {
       'offset' => 0,
       'options_logic' => 'AND',
       'sort' => [
-        'created' => 'DESC',
+        'search_api_relevance' => 'ASC',
+        'bundle_weight' => 'ASC',
+        'title' => 'ASC',
       ],
     ];
     $this->assertArrayEquals($expected, $filter);
@@ -140,7 +142,9 @@ class SearchQueryParserTest extends UnitTestCase {
       'offset' => 0,
       'options_logic' => 'OR',
       'sort' => [
-        'created' => 'DESC',
+        'search_api_relevance' => 'ASC',
+        'bundle_weight' => 'ASC',
+        'title' => 'ASC',
       ],
     ];
 

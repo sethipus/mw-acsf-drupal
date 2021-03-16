@@ -158,8 +158,8 @@ class Carousel extends JsonLdStrategyPluginBase {
                     ->ratingCount(18)
                   )
                   ->sku($variant->field_product_sku->value)
-                  ->if($node->field_product_brand->target_id, function (Product $product) use ($node) {
-                    $product->brand($node->field_product_brand->entity->getName());
+                  ->if($node->field_brand_initiatives->target_id, function (Product $product) use ($node) {
+                    $product->brand($node->field_brand_initiatives->entity->getName());
                   })
                   ->if($node->field_product_description->value, function (Product $product) use ($node) {
                     $product->description($node->field_product_description->value);

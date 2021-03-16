@@ -96,9 +96,22 @@
             'data-ean="' + selectedVariant.data('id') + '" ' +
             'data-subid="' + settings.data_subid + '" ' +
             '></script>';
+          // Cleanup global CC object.
+          window.CCIW = [];
+          // Remove inline widget container.
           $('.product-selector #cci-inline-root').remove();
+          // Remove static CC scripts from the page.
+          $('script[src*="fi-v2.global.commerce-connector.com/static/js"]').remove();
+          // Remove inline widget script by widget ID before replacement.
           $('script#cci-widget[data-widgetid="' + settings.widget_id + '"]').remove();
+          // Attach inline widget script to the page with a new SKU.
           $('.product-selector__form-container').append(script);
+          // Remove unnecessary duplicated DOM for Popup widget.
+          $('.cci-root-container').each(function() {
+            if ($(this).contents().attr('id') !== 'widgetMain') {
+              $(this).remove();
+            }
+          });
         }
 
         initEvents();

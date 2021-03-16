@@ -257,10 +257,3 @@ feedback-module:
   dependencies:
     - core/drupal
     - core/jquery
-
-cc-wtb-conflict-resolver:
-  js:
-    dist/js/02-molecules/product-selector/cc-wtb-conflicts-resolver.js: {weight: -2}
-  dependencies:
-    - core/drupal
-    - core/jquery
