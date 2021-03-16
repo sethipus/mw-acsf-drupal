@@ -105,7 +105,7 @@
       }
 
       &--heading {
-        margin: 1.8rem 0 1.9rem;
+        margin: 2rem 0;
         text-transform: uppercase;
 
         @include large {
@@ -140,6 +140,14 @@
       &:last-child {
         border-bottom: none;
       }
+
+      & + .pdp-nutrition__section-column:not(.pdp-nutrition__section-column--data) {
+        margin-top: 2rem;
+
+        @include large {
+          margin-top: 0;
+        }
+      }
     }
 
     &-item {
@@ -170,7 +178,8 @@
         flex: 1 0 61%;
 
         @include large {
-          flex: 1 0 42%;
+          flex: 1 0 60%;
+          padding-right: 1rem;
         }
 
         &.bold {
@@ -182,10 +191,10 @@
 
       &--value {
         flex: 1 0 18%;
-        text-align: right;
+        text-align: left;
 
         @include large {
-          flex: 1 0 27%;
+          flex: 1 0 20%;
         }
       }
 
@@ -199,7 +208,7 @@
         text-align: right;
 
         @include large {
-          flex: 1 0 30%;
+          flex: 1 0 20%;
         }
       }
 
