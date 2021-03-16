@@ -15,6 +15,7 @@
         if (e.keyCode === 27) {
           return;
         }
+
         var searchString = $(this).val();
         var gridId = $(this).attr('data-grid-id');
         var gridQuery = $(this).attr('data-grid-query');
@@ -26,8 +27,9 @@
           $('.search-input-wrapper').removeClass('suggested');
           $(target_container).find('.mars-suggestions').html('');
         }
-        if (searchString.length < 3) {
+        if ((searchString.length < 3) || (e.keyCode === 13)) {
           hideSuggestion();
+          return;
         }
         if (searchString.length > 2) {
           var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString + '&search_id=' + gridId;
@@ -40,6 +42,16 @@
           }
           else if (cardsView) {
             url = url + '&cards_view=0';
+          }
+
+          // Update url by component/page type.
+          if ($(this).parents('.search-page-header').length ||
+            $(this).parents('.faq-filters').length ||
+            $(this).parents('.card-grid-filter').length) {
+            url += '&limit=5'
+          }
+          else {
+            url += '&limit=4'
           }
 
           setTimeout(function() {
@@ -76,9 +88,12 @@
                 ) {
                   hideSuggestion();
                 }
-                $('.faq .suggestions-links li').not(':last').click(function (){
-                  var  clicked_text = $(this).text();
+                $('.faq .suggestions-links li').click(function (){
+                  var  clicked_text = $(this).text().replace('…', '');
                   $('.mars-autocomplete-field-faq').val(clicked_text);
+                  var press = jQuery.Event("keypress");
+                  press.which = 13;
+                  $(selector, context).trigger(press);
                 });
               }
             });

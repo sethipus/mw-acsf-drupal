@@ -150,11 +150,11 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   The autocompletion response.
+   *
+   * @throws \Exception
    */
   public function autocomplete() {
     $options = $this->searchQueryParser->parseQuery();
-    // We need only 4 results in autocomplete.
-    $options['limit'] = 4;
 
     $suggestions = [];
     $show_all = '';
@@ -236,8 +236,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
         }
         $json_output['no_results'] = !empty($results[2]['#no_results']) ? $this->renderer->render($results[2]['#no_results']) : '';
 
-        if ((($results[1]['resultsCount'] - $results[0]['offset']) == $results[0]['limit']) ||
-          ($results[0]['limit'] > $results[1]['itemsCount'])) {
+        if ((($results[1]['resultsCount'] - $results[0]['offset']) <= $query_parameters["limit"]) ||
+          (($query_parameters['grid_type']) == 'faq' && $results[0]['offset'] > 0)) {
           $pager = 0;
         }
         else {

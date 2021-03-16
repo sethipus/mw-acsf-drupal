@@ -1,6 +1,6 @@
 {% set feedback_base_class = 'feedback-module' %}
 {% set feedback_heading_base_class = 'feedback-module__heading' %}
-{% set feedback_heading_level = 1 %}
+{% set feedback_heading_level = 2 %}
 {% set feedback_paragraph_base_class = 'feedback-module__paragraph' %}
 {% set feedback_link_base_class = 'feedback-module__bottom-link default-link' %}
 
@@ -27,7 +27,7 @@
       {% for key, value in choices %}
         <label class="feedback-module__label default-link" for="edit-choice-{{key}}">
           <input class="feedback-module__radio" type="radio" name="choice" id="edit-choice-{{key}}" value="{{key}}" data-drupal-selector="edit-choice-{{key}}" />
-          <span class="feedback-module__label-text">{{value}}</span>
+          <span class="feedback-module__label-text polling__label-text">{{value}}</span>
         </label>
       {% endfor %}
 
@@ -40,6 +40,6 @@
   {% include "@atoms/links/defaultLink/defaultLink.twig" with {
     default_link_content: feedback_bottom_link_content,
     default_link_base_class: feedback_link_base_class,
-    link_url: feedback_bottom_link_url
+    default_link_attributes: feedback_bottom_link_url
   } %}
 </section>

@@ -1,21 +1,19 @@
-uuid: 27487085-2d0c-47fd-80e9-3281bd0fcb7e
+uuid: 818470c4-ab0a-4159-a82e-8438d7c9be5d
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - taxonomy
-_core:
-  default_config_hash: zxnAtXcPmJ3Vs6q3zOBwQFovvmxqHNIiA4aYQfKuoSg
-id: node.field_product_brand
-field_name: field_product_brand
+id: node.field_recipe_prep_time
+field_name: field_recipe_prep_time
 entity_type: node
 type: entity_reference
 settings:
   target_type: taxonomy_term
 module: core
 locked: false
-cardinality: -1
+cardinality: 1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

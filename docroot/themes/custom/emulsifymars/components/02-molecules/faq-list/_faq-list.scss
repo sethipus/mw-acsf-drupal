@@ -1,16 +1,10 @@
 .faq {
   margin: auto;
-
-  @include small {
-    max-width: 33.5rem;
-  }
+  padding: 0 2rem;
 
   @include medium {
-    max-width: 68.8rem;
-  }
-
-  @include xl {
-    max-width: 89.6rem;
+    padding: 0 4rem;
+    max-width: 4rem + 89.5rem + 4rem;
   }
 
   .search-no-results {
@@ -60,23 +54,31 @@
   background-color: clr(secondary);
   font-family: variable(primary-font);
   color: clr(text-inverse);
-  display: block;
-  max-width: 315px;
+  padding: 0 3rem;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50px;
+  height: 50px;
+  line-height: 50px;
+  min-width: 100%;
 
   &:hover {
     color: clr(secondary);
   }
 
   @include medium {
-    line-height: 5rem;
     margin-bottom: 60px;
+    min-width: 157px;
   }
 
   @include xl {
+    height: 60px;
     line-height: 6rem;
     margin-bottom: 108px;
+    min-width: 202px;
+  }
+
+  .default-link__label {
+    vertical-align: middle;
   }
 }

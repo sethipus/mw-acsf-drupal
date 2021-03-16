@@ -4,7 +4,7 @@
 {% set scroll_mandatory_base_class = 'scroll-mandatory' %}
 {% set brand_shape_wrapper_extra_class = 'brand-shape-wrapper-extra-class' %}
 {% set pdp_size_id_modifier = size_id %}
-`
+
 {% if pdp_common_hero_data.brand_shape_opacity == 'partial' %}
   {% set brand_shape_opacity = '0.2' %}
 {% else %}
@@ -18,6 +18,8 @@
 {% elseif pdp_common_hero_data.text_color == 'color_w' %}
   {% set text_color_extra_class = ['text-color-W'] %}
 {% endif %}
+
+{% set bg_color__extra_classes = pdp_common_hero_data.card_sticky_bg_color | bgColorClassMap %}
 
 <section
   class="pdp-hero pdp-hero--{{size_id}}"
@@ -54,13 +56,13 @@
         heading_extra_classes: text_color_extra_class,
       } %}
       {% include "@atoms/text/headings/_heading.twig" with {
-        heading_level: 2,
+        heading_level: 1,
         heading: pdp_common_hero_data.product_name,
         heading_blockname: pdp_hero_base_class,
         heading_base_class: 'product-name',
         heading_extra_classes: text_color_extra_class,
       } %}
-      <div {{ bem('sticky-nav-top', [size_id], pdp_hero_base_class) }}>
+      <div {{ bem('sticky-nav-top', [size_id], pdp_hero_base_class, bg_color__extra_classes) }}>
         {% include "@atoms/text/headings/_heading.twig" with {
           heading_level: 5,
           heading: pdp_common_hero_data.product_label,
@@ -171,8 +173,7 @@
       </div>
       {% if pdp_common_hero_data.commerce_vendor %}
         <div class="where-to-buy--container where-to-buy--{{size_id}}">
-          {% set comerce_vendor_path = 'where-to-buy-' ~ pdp_common_hero_data.commerce_vendor %}
-          {% include '@atoms/buttons/' ~ comerce_vendor_path ~ '/' ~ comerce_vendor_path ~ '.twig' with {
+          {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
             where_to_buy_modifiers: ['pdp-hero'],
             product_sku: gtin,
             commerce_vendor: pdp_common_hero_data.commerce_vendor,

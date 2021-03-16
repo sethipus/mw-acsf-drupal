@@ -13,12 +13,13 @@ $fence-part-size: 1440px*2/101;
         display: flex;
         flex-flow: column nowrap;
 
-        @include medium {
+        @include tablet {
           padding: 20px 40px 25px;
         }
 
-        @include xl {
+        @include desktop {
           flex-flow: row nowrap;
+          padding: 10px 40px 14px;
         }
       }
     }
@@ -175,39 +176,41 @@ $fence-part-size: 1440px*2/101;
       object-fit: contain;
     }
   }
-  
 
   @include xs {
     flex: 0 0 10.4rem;
     max-width: 10.4rem;
     max-height: 3.9rem;
     margin: 2rem 0 3.9rem 0;
-    .footer__logoLink{
-      img{
+
+    .footer__logoLink {
+      img {
         max-height: 3.9rem;
       }
     }
   }
 
-  @include medium {
+  @include tablet {
     flex: 0 0 14.1rem;
     max-width: 14.1rem;
     max-height: 5.3rem;
     margin: 2rem 0 2.6rem 0;
-    .footer__logoLink{
-      img{
+
+    .footer__logoLink {
+      img {
         max-height: 5.3rem;
       }
     }
   }
 
-  @include xl {
+  @include desktop {
     flex-basis: 21.2rem;
     max-width: 21.2rem;
     max-height: 9.8rem;
     margin: 2rem 0 1.2rem 0;
-    .footer__logoLink{
-      img{
+
+    .footer__logoLink {
+      img {
         max-height: 9.8rem;
         min-height: 9.8rem;
       }

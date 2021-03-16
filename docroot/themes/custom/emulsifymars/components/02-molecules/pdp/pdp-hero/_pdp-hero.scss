@@ -121,10 +121,11 @@
     left: 0;
     right: 0;
     padding: 2rem;
-    background-image: radial-gradient(circle at 0 0, rgb(245, 225, 164), clr(subcolor-1));
+    background-image: radial-gradient(circle at 0 0, clr(card-background), clr(subcolor-1));
     transform: translateY(-100%);
     transition: transform 1s ease-out;
     z-index: 11;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08);
 
     @include medium {
       flex-direction: column;
@@ -223,7 +224,6 @@
       margin: 0;
       color: clr(primary);
       font-size: 1.6rem;
-      text-transform: uppercase;
 
       @include medium {
         font-size: 1.8rem;
@@ -766,9 +766,15 @@
       position: relative;
       overflow: hidden;
       display: inline-block;
+      border: 0;
       border-radius: variable(button-border-radius);
       cursor: pointer;
       width: 100%;
+
+      &[disabled] {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
     }
   }
 

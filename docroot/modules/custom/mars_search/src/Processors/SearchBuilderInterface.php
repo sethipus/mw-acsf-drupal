@@ -19,7 +19,13 @@ interface SearchBuilderInterface {
     ],
     'mars_brand_initiatives' => [
       'label' => 'BRAND INITIATIVES',
-      'content_types' => ['article', 'recipe', 'landing_page', 'campaign'],
+      'content_types' => [
+        'article',
+        'recipe',
+        'landing_page',
+        'campaign',
+        'product',
+      ],
     ],
     'mars_occasions' => [
       'label' => 'OCCASIONS',
@@ -57,6 +63,10 @@ interface SearchBuilderInterface {
     ],
     'mars_method' => [
       'label' => 'METHOD',
+      'content_types' => ['recipe'],
+    ],
+    'mars_prep_time' => [
+      'label' => 'PREP TIME',
       'content_types' => ['recipe'],
     ],
     'mars_trade_item_description' => [

@@ -29,6 +29,7 @@ class SearchBuilderTest extends UnitTestCase {
     ],
     'keys' => 'some key',
     'cards_view' => FALSE,
+    'limit' => 0,
   ];
 
   /**
@@ -255,7 +256,7 @@ class SearchBuilderTest extends UnitTestCase {
         '#markup' => '',
       ]);
 
-    $build = $this->searchBuilder->buildSearchResults('grid', [], 'test_grid_id');
+    $build = $this->searchBuilder->buildSearchResults('grid', ['top_results_wrapper' => ['top_results' => '']], 'test_grid_id');
 
     $this->assertEquals([
       [
@@ -269,6 +270,7 @@ class SearchBuilderTest extends UnitTestCase {
           ],
         ],
         'cards_view' => FALSE,
+        'limit' => 0,
       ],
       [
         'resultsCount' => 1,

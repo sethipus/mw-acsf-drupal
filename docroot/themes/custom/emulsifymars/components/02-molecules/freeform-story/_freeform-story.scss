@@ -25,7 +25,7 @@
 
     svg {
       fill: rgba(clr(subcolor-1-rgb), 0.2);
-      width: 100%;
+      width: auto;
       height: 100%;
     }
   }
@@ -157,27 +157,51 @@
 
   &--right {
     img {
-      max-width: 90%;
       margin: 2rem 0 0 auto;
     }
 
     .freeform-story__brand-shape {
       top: 2rem;
+      width: 27rem;
+      height: 35.6rem;
       left: 0;
       right: auto;
-      transform: translateX(-35%);
+      transform: translateX(-85%);
     }
 
     .freeform-story__texts {
       padding: 2rem 2rem 0 4.9rem;
     }
 
+    @include xs {
+      .freeform-story__brand-shape {
+        transform: translateX(23%);
+      }
+
+      .freeform-story__content {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        padding-left: 50px;
+        flex-direction: column;
+
+        &--column {
+          flex: 1 0 0;
+        }
+      }
+
+      .freeform-story__texts {
+        padding: 30px 20px 0 0;
+      }
+    }
+
     @include medium {
       .freeform-story__brand-shape {
         top: -2.6rem;
+        width: 17.6rem;
+        height: 24rem;
         left: auto;
         right: 0;
-        transform: translateX(23%);
+        transform: translateX(-11%);
       }
 
       .freeform-story__content {
@@ -207,7 +231,9 @@
     @include large {
       .freeform-story__brand-shape {
         top: 4.4rem;
-        transform: translateX(38%);
+        width: 27.3rem;
+        height: 35.6rem;
+        transform: translateX(0%);
       }
 
       .freeform-story__content{
@@ -227,34 +253,47 @@
 
   &--left {
     img {
-      max-width: 90%;
       margin-top: 2rem;
     }
 
     .freeform-story__brand-shape {
+      width: 22.2rem;
+      height: 35.6rem;
       top: 2rem;
       left: auto;
       right: 0;
-      transform: translateX(35%);
+      transform: translateX(-20%);
     }
 
     .freeform-story__texts {
       padding: 2rem 4.9rem 0 2rem;
     }
 
+    @include xs {
+      .freeform-story__content {
+        padding-right: 50px;
+      }
+
+      .freeform-story__texts {
+        padding: 30px 0 0 20px;
+      }
+    }
+
     @include medium {
       .freeform-story__brand-shape {
-        top: -2.3rem;
+        width: 18.68rem;
+        height: 24rem;
+        top: 0;
         left: 0;
         right: auto;
-        transform: translateX(-37%);
+        transform: translateX(-59%);
       }
 
       .freeform-story__content {
         padding-top: 2rem;
         padding-bottom: 2rem;
         flex-direction: row-reverse;
-        
+
         &--column {
           flex: 1 0 0;
         }
@@ -277,7 +316,9 @@
     @include large {
       .freeform-story__brand-shape {
         top: 6.6rem;
-        transform: translateX(-38%);
+        width: 22.7rem;
+        height: 35.6rem;
+        transform: translateX(-100%);
       }
 
       .freeform-story__content{
