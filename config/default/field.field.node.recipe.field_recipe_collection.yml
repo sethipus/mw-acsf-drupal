@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_recipe_collection
     - node.type.recipe
-    - taxonomy.vocabulary.recipe_collection
+    - taxonomy.vocabulary.mars_recipe_collection
   module:
     - tmgmt_content
 third_party_settings:
@@ -25,7 +25,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      recipe_collection: recipe_collection
+      mars_recipe_collection: mars_recipe_collection
     sort:
       field: name
       direction: asc
