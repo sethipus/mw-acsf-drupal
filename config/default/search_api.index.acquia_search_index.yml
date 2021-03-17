@@ -17,9 +17,11 @@ dependencies:
     - field.storage.node.field_product_occasions
     - field.storage.node.field_recipe_prep_time
     - field.storage.node.field_product_name
+    - field.storage.node.field_product_used
     - field.storage.node.field_product_diet_allergens
     - field.storage.node.field_product_variants
     - field.storage.node.field_qa_item_question
+    - field.storage.node.field_recipe_collection
     - field.storage.node.field_product_trade_description
     - search_api.server.acquia_search_server
   module:
@@ -296,6 +298,42 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_recipe_prep_time
+      module:
+        - taxonomy
+  mars_product_used:
+    label: 'Product used'
+    datasource_id: 'entity:node'
+    property_path: field_product_used
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_used
+  mars_product_used_name:
+    label: 'Product used » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_used:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_product_used
+      module:
+        - taxonomy
+  mars_recipe_collection:
+    label: 'Recipe Collection'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_collection
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_collection
+  mars_recipe_collection_name:
+    label: 'Recipe Collection » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_collection:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_collection
       module:
         - taxonomy
   mars_trade_item_description:
