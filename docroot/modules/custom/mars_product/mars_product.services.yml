@@ -3,10 +3,13 @@ services:
     class: Drupal\mars_product\ProductHelper
     arguments:
       ['@mars_common.language_helper', '@config.factory']
-
   mars_product.product_twig_filters:
     class: Drupal\mars_product\Twig\ProductFilters
     arguments:
       [ '@mars_product.product_helper' ]
     tags:
       - { name: twig.extension }
+  mars_product.nutrition_data_helper:
+    class: Drupal\mars_product\NutritionDataHelper
+    arguments:
+      [ '@config.factory', '@class_resolver' ]
