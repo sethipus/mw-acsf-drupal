@@ -30,6 +30,11 @@
             content: content,
             shape_motif: shape_motif
         } %}
+        {% elseif (block_type == 'parallax_image') %}
+          {% include "@molecules/article-media/full-width/full-width-media.twig" with {
+            theme_styles: 'drupal',
+            media: media,
+          } %}
         {% endif %}
     {% endblock %}
 </div>

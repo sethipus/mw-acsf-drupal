@@ -107,5 +107,17 @@
         }
       </style>
     {% endif %}
+    {% if hover_color is not empty %}
+      <style type="text/css">
+        @media (min-width: 1024px) {
+          .main-nav__desktop > .main-menu > .main-menu__item > .main-menu__link:hover,
+          .main-menu__link--with-sub:hover,
+          .header-inline-menu__link:hover,
+          .inline-search__link:hover {
+            color: {{ hover_color }};
+          }
+        }
+      </style>
+    {% endif %}
   </div>
 </header>
