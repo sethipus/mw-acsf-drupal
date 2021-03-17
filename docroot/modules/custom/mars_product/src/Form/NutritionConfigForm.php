@@ -231,6 +231,12 @@ class NutritionConfigForm extends ConfigFormBase {
         '#default_value' => $config[$key]['bold'] ?? FALSE,
       ];
 
+      $form[$group_key . '_fieldset'][$group_key][$key]['daily_field'] = [
+        '#type' => 'select',
+        '#options' => $this->getDailyOptions(),
+        '#default_value' => $config[$key]['daily_field'] ?? '',
+      ];
+
       // Weight col.
       $form[$group_key . '_fieldset'][$group_key][$key]['weight'] = [
         '#type' => 'weight',
@@ -238,12 +244,6 @@ class NutritionConfigForm extends ConfigFormBase {
         '#title_display' => 'invisible',
         '#default_value' => $config[$key]['weight'] ?? 10,
         '#attributes' => ['class' => [$group_class]],
-      ];
-
-      $form[$group_key . '_fieldset'][$group_key][$key]['daily_field'] = [
-        '#type' => 'select',
-        '#options' => $this->getDailyOptions(),
-        '#default_value' => $config[$key]['daily_field'] ?? '',
       ];
 
       // Action col.
