@@ -1,0 +1,161 @@
+<?php
+
+/**
+ * @file
+ * Update scripts for the Mars Product module.
+ */
+
+use Drupal\layout_builder\SectionComponent;
+use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
+use Drupal\Core\Plugin\Context\EntityContext;
+use Drupal\layout_builder_restrictions\Traits\PluginHelperTrait;
+use Drupal\layout_builder\Section;
+use Drupal\pathauto\Entity\PathautoPattern;
+use Drupal\pathauto\PathautoState;
+
+/**
+ * Implements hook_update_N() for rating&reviews per site for all products (turned on by default).
+ */
+function mars_product_update_8901() {
+  \Drupal::configFactory()
+    ->getEditable('emulsifymars.settings')
+    ->set('show_rating_and_reviews', TRUE)
+    ->save();
+}
+
+/**
+ * Implements hook_update_N() for layout builder.
+ */
+function mars_product_update_8917() {
+  $delta = 2;
+  $region_to = 'all_regions';
+  $plugin_block_id = 'rating_bazarvoice_block';
+
+  /** @var \Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay $display */
+  $display = LayoutBuilderEntityViewDisplay::load('node.product.default');
+
+  $contexts = [
+    'display' => EntityContext::fromEntity($display),
+  ];
+  $section_storage_manager = \Drupal::service('plugin.manager.layout_builder.section_storage');
+  /** @var Drupal\layout_builder\SectionStorageInterface $section_storage */
+  $section_storage = $section_storage_manager->load('defaults', $contexts);
+
+  $third_party_settings = $section_storage->getThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', []);
+  $layout_id = $section_storage->getSection($delta)->getLayoutId();
+
+  $whitelisted_blocks = &$third_party_settings['whitelisted_blocks'][$layout_id];
+
+  if (isset($whitelisted_blocks[$region_to])) {
+    $definition = \Drupal::service('plugin.manager.block')->getDefinition($plugin_block_id);
+    $category = PluginHelperTrait::getUntranslatedCategory($definition['category']);
+    if (isset($whitelisted_blocks[$region_to][$category])) {
+      if (!in_array($plugin_block_id, $whitelisted_blocks[$region_to][$category])) {
+        $whitelisted_blocks[$region_to][$category][] = $plugin_block_id;
+      }
+    }
+  }
+  $section_storage->setThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', $third_party_settings);
+
+  /** @var Drupal\layout_builder\Section $section */
+  $section = $section_storage->getSection($delta);
+  $components = $section->getComponents();
+
+  if (empty($components)) {
+    _mars_product_create_component($plugin_block_id, $section, $display);
+  }
+  else {
+    $rating_exist = array_filter($components, function ($component) use ($plugin_block_id) {
+      /** @var Drupal\layout_builder\SectionComponent $component */
+      return $component->get('configuration')['id'] == $plugin_block_id;
+    });
+    if (empty($rating_exist)) {
+      _mars_product_create_component($plugin_block_id, $section, $display);
+    }
+  }
+}
+
+/**
+ * Add component.
+ */
+function _mars_product_create_component(string $plugin_block_id, Section $section, LayoutBuilderEntityViewDisplay $display) {
+  $configuration = [
+    'id' => $plugin_block_id,
+    'label' => 'Rating Bazarvoice',
+    'provider' => 'mars_product',
+    'label_display' => 1,
+    'product' => NULL,
+    'context_mapping' => [
+      'node' => 'layout_builder.entity',
+    ],
+  ];
+  $section_component = new SectionComponent(\Drupal::service('uuid')->generate(), 'content', $configuration);
+  $section->appendComponent($section_component);
+  $display->save();
+}
+
+/**
+ * Implements hook_update_N() for layout builder.
+ */
+function mars_product_update_8926() {
+  $delta = 1;
+  $region_to = 'all_regions';
+  $plugin_block_id = 'rating_bazarvoice_block';
+
+  /** @var \Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay $display */
+  $display = LayoutBuilderEntityViewDisplay::load('node.campaign.default');
+
+  $contexts = [
+    'display' => EntityContext::fromEntity($display),
+  ];
+
+  $section_storage_manager = \Drupal::service('plugin.manager.layout_builder.section_storage');
+  /** @var Drupal\layout_builder\SectionStorageInterface $section_storage */
+  $section_storage = $section_storage_manager->load('defaults', $contexts);
+
+  $third_party_settings = $section_storage->getThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', []);
+  $layout_id = $section_storage->getSection($delta)->getLayoutId();
+
+  $whitelisted_blocks = &$third_party_settings['whitelisted_blocks'][$layout_id];
+
+  if (isset($whitelisted_blocks[$region_to])) {
+    $definition = \Drupal::service('plugin.manager.block')->getDefinition($plugin_block_id);
+    $category = PluginHelperTrait::getUntranslatedCategory($definition['category']);
+    if (isset($whitelisted_blocks[$region_to][$category])) {
+      if (!in_array($plugin_block_id, $whitelisted_blocks[$region_to][$category])) {
+        $whitelisted_blocks[$region_to][$category][] = $plugin_block_id;
+      }
+    }
+  }
+  $section_storage->setThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', $third_party_settings);
+  $display->save();
+}
+
+/**
+ * Update product multipack aliases.
+ */
+function mars_product_update_8927() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $pattern_config = $entity_type_manager
+    ->getStorage('pathauto_pattern')
+    ->load('product');
+
+  if (!$pattern_config instanceof PathautoPattern) {
+    return;
+  }
+
+  $condition = $pattern_config->getSelectionCondition('42b5ded2-6b12-42d3-ae8d-52c767e3b43a');
+  $condition_config = $condition->getConfiguration();
+  $condition_config['bundles']['product_multipack'] = 'product_multipack';
+  $condition->setConfiguration($condition_config);
+  $pattern_config->save();
+
+  $storage_handler = $entity_type_manager->getStorage('node');
+  $multipack_products = $storage_handler->loadByProperties(['type' => 'product_multipack']);
+  foreach ($multipack_products as $multipack_product) {
+    if ($multipack_product->hasField('path')) {
+      $multipack_product->path->pathauto = PathautoState::CREATE;
+      $multipack_product->save();
+    }
+  }
+}

@@ -1,5 +1,6 @@
 theme_styles: 'twix'
 eyebrow: 'Left or Right'
+brand_shape: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="100"></circle></svg>'
 title_label: 'NEW MINI WHITE CHOCOLATE'
 title_href: '#'
 cta_title: 'Explore'
@@ -9,3 +10,4 @@ cta_base_class: 'cta-link'
 hero_image:
   'srcset': 'image-4.png, image-4@2x.png 2x, image-4@3x.png 3x '
   'src': 'image-4.png'
+background_color: ''

@@ -1,0 +1,20 @@
+uuid: e0c2a398-6f88-422d-94e0-2b4cf9454e18
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_multipack
+  module:
+    - datetime
+id: node.product_multipack.scheduled_transition_date
+field_name: scheduled_transition_date
+entity_type: node
+bundle: product_multipack
+label: 'Scheduled transition date'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -13,6 +13,7 @@ dependencies:
     - field.field.poll.poll.field_type
   module:
     - field_group
+    - maxlength
     - poll
 third_party_settings:
   field_group:
@@ -87,7 +88,10 @@ content:
     settings:
       size: 90
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 255
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
     type: string_textfield
     region: content
   field_negative_feedback:
@@ -133,8 +137,16 @@ content:
     weight: 1
     region: content
     settings:
-      size: 50
+      size: 55
       placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete

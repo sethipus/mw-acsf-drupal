@@ -1,0 +1,18 @@
+uuid: 64d227d5-d3db-470c-a55c-51c9957a7e8f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_trade_item_description
+id: taxonomy_term.mars_trade_item_description.name
+field_name: name
+entity_type: taxonomy_term
+bundle: mars_trade_item_description
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

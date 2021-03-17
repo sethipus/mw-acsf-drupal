@@ -1,0 +1,20 @@
+uuid: a1be9db2-015a-44fd-97cb-2dd77e3a50fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_method
+  module:
+    - path
+id: taxonomy_term.mars_method.path
+field_name: path
+entity_type: taxonomy_term
+bundle: mars_method
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

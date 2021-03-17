@@ -33,11 +33,14 @@ validate:
       - add_attributes
     filters:
       - entityMainMediaId
+      - mt
       - mediaParamsById
       - mainVariant
       - productCardMedia
+      - bgColorClassMap
 tests:
   phpunit:
     -
       config: '${docroot}/core/phpunit.xml.dist'
       directory: '${docroot}/modules/custom'
+      concurrency: 2

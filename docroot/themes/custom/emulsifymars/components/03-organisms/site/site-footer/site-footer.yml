@@ -1,11 +1,14 @@
 theme_styles: 'twix'
-social_text: 'Follow Us On'
+social_text: 'FOLLOW US ON'
+footer_logo_link: '#homepage_link'
 region_selector_label: 'Select Region'
 marketing_text_title: 'This is a marketing site'
 marketing_text: 'This site includes information, games, advertisements and promotional offers featuring our products. Children should get a parent’s permission before visiting any website or giving personal information. You must be 18 or older to shop online.'
 copyright_text: '®/ TM Trademarks © Mars, Incorporated 2020. Other trademarks are property of their respective owners.'
 corporate_tout_text: 'LOVE TWIX? Check out more brands from Mars.'
-region_title: 'Select Region'
+corporate_tout_link_attributes:
+  href: '#'
+region_title: 'SELECT REGION'
 current_region_title: 'East America: USA'
 regions:
   - title: 'East America: USA'
@@ -15,16 +18,4 @@ regions:
   - title: 'United Kingdom'
     url: '#'
 card__button__content: 'See all'
-#brand_border: '<svg viewBox="0 0 768 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-#                <path d="M241.283 15.337C98.3615 29.6176 20.877 18.502 0 11.1592V48H768V21.4138C646.845 -9.72996 419.936 -2.51371 241.283 15.337Z" fill="#F9F5EF"/>
-#              </svg>'
-brand_border: '<svg xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <pattern viewBox="0 0 768 291" id="divider-pattern" x="0" y="0" width="768" height="291" patternUnits="userSpaceOnUse">
-                      <path fill="#E62B1E" fill-rule="evenodd" d="M26.839 14l-13.5-14-13 14H0v277h768V14h-.352l-13.5-14-12.583 13.552L728.497 0l-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.23l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.178l-13.5-14-13 14h-1.203l-13.5-14-13 14h-.69l-13.5-14-13 14h-.691l-13.5-14-13 14h-.177l-13.5-14-12.584 13.552L344.754 0l-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-1.204l-13.5-14-13 14h-1.203l-13.5-14-13 14h-2.229l-13.5-14-13 14H135.6L122.1 0l-13 14h-.177l-13.5-14-13 14h-1.204L67.72 0l-13 14h-.69L40.53 0l-13 14h-.69z" clip-rule="evenodd"/>
-                    </pattern>
-                  </defs>
-                  <rect x="0" y="0" stroke="#630" stroke-width="0" fill="url(#divider-pattern)"></rect>
-                </svg>'
-#brand_shape_class: 'stretch'
-brand_shape_class: 'repeat'
+brand_border: '<svg xmlns="http://www.w3.org/2000/svg" height="15"><defs><pattern patternUnits="userSpaceOnUse" id="id4-repeat-pattern" width="425" height="15" viewBox="0 0 425 15"><path xmlns:default="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M100.004 12.542L87.502 0l-12.5 12.542L62.502 0 50 12.542 37.501 0l-12.5 12.542L12.498 0 0 12.542V15h125v-2.458L112.501 0l-12.497 12.542zM225.004 12.542L212.502 0l-12.5 12.542L187.501 0 175 12.542 162.501 0 150 12.542 137.499 0 125 12.542V15h125v-2.458L237.501 0l-12.497 12.542zM400.004 12.542L387.502 0l-12.5 12.542L362.501 0 350 12.542 337.501 0 325 12.542 312.499 0 300 12.542V15h125v-2.458L412.501 0l-12.497 12.542z" clip-rule="evenodd"></path><path xmlns:default="http://www.w3.org/2000/svg" fill-rule="evenodd" d="M350.004 12.542L337.502 0l-12.5 12.542L312.501 0 300 12.542 287.501 0 275 12.542 262.499 0 250 12.542V15h125v-2.458L362.501 0l-12.497 12.542z" clip-rule="evenodd"></path></pattern></defs><rect width="100%" height="15" fill="url(#id4-repeat-pattern)"></rect></svg>'

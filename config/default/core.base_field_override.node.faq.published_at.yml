@@ -1,0 +1,20 @@
+uuid: 2a15c48b-ef00-425f-8e01-8c4dcdfbac28
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq
+  module:
+    - publication_date
+id: node.faq.published_at
+field_name: published_at
+entity_type: node
+bundle: faq
+label: 'Published on'
+description: 'Keep the publication timestamp for each node.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: published_at

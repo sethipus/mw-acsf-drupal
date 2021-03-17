@@ -1,19 +1,40 @@
 {% set card__base_class = 'product-card' %}
-{% set default_link_content = 'See details'|t %}
-{% set link_content = 'Buy now'|t %}
+{% set link_content = 'Buy now'|mt %}
+{{ attach_library('emulsifymars/product-card') }}
 
-<div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }} data-theme="{{ theme_styles }}">
-  <a href={{ item.card_url }}>
+{% set color_section = select__background__color is not empty ? select__background__color : select_background_color %}
 
-    {% if recipe_is_new %}
+{% set bg_color_classes = color_section | bgColorClassMap %}
+{% if bg_color_classes is not empty %}
+  {% set card__extra_classes = ['card-item'] | merge(bg_color_classes) %}
+{% else %}
+  {% set card__extra_classes = ['card-item'] %}
+{% endif %}
+
+<section {{ bem(card__base_class, [], card__blockname, card__extra_classes) }}
+         data-theme="{{ theme_styles }}"
+         data-site-search-clicked="{{ item.paragraph_content }}"
+         data-datalayer-gtin="{{ product_sku }}"
+         data-datalayer-taxonomy="{{ datalayer_taxonomy }}"
+         data-card-type="product-card">
+
+    {% if is_new %}
       {% include "@atoms/badge/badge.twig" %}
     {% endif %}
 
     {# Eyebrow #}
     {% if card__eyebrow %}
-      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-        eyebrow_text: card__eyebrow
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading: card__eyebrow,
+        heading_level: 3,
+        heading_base_class: 'eyebrow'
       } %}
+    {% endif %}
+
+    {% if brand__shape %}
+      <div class="product-card__brand-shape">
+        {{ brand__shape | raw }}
+      </div>
     {% endif %}
 
     {% if item.card__image__hover__src %}
@@ -22,6 +43,8 @@
           output_image_tag: true,
           image_alt: 'Product image',
           image_sizes: '212px',
+          height: "225px",
+          width: "225px",
           image_src: item.card__image__src,
           responsive_image_blockname: 'product-image'
         } %}
@@ -29,6 +52,8 @@
           output_image_tag: true,
           image_alt: 'Product image',
           image_sizes: '212px',
+          height: "225px",
+          width: "225px",
           image_src: item.card__image__hover__src,
           responsive_image_blockname: 'hover-image'
         } %}
@@ -39,6 +64,8 @@
           output_image_tag: true,
           image_alt: 'Product image',
           image_sizes: '212px',
+          height: "225px",
+          width: "225px",
           image_src: item.card__image__src,
           responsive_image_blockname: 'product-image',
         } %}
@@ -54,6 +81,22 @@
       } %}
     </div>
 
+    {% if show_rating_and_reviews == true %}
+      <div {{ bem('rating', [], card__base_class) }}>
+        <div class="inline-rating" data-bv-show="inline_rating" data-bv-product-id="{{ product_sku }}" data-bv-redirect-url="{{ default_link_content }}">
+          {{ star | raw }}
+          {{ star | raw }}
+          {{ star | raw }}
+          {{ star | raw }}
+          {{ star_half | raw }}
+          {% include '@atoms/text/text/07-span.twig' with {
+            span_base_class: "score",
+            span_content: score
+          } %}
+          </div>
+      </div>
+    {% endif %}
+
     <div {{ bem('link_section', [], card__base_class) }}>
       <div {{ bem('button', [], card__base_class) }}>
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
@@ -63,13 +106,17 @@
         } %}
       </div>
 
-      <div {{ bem('link', [], card__base_class) }}>
-        {% include "@atoms/links/link/link.twig" with {
-          link_content: link_content,
-          link_url: item.link_url,
-          link_base_class: 'text_link',
-        } %}
-      </div>
+      {% if wtb_commerce_vendor %}
+        <div {{ bem('link', [], card__base_class) }}>
+          {% include "@atoms/buttons/where-to-buy/where-to-buy.twig" with {
+              product_sku: product_sku,
+              commerce_vendor: wtb_commerce_vendor,
+              cta_title: link_content,
+              button_type: wtb_button_type,
+              data_widget_id: wtb_widget_id,
+              data_display: wtb_display
+          } %}
+        </div>
+      {% endif %}
     </div>
-  </a>
-</div>
+</section>

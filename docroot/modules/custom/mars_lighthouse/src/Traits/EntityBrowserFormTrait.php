@@ -2,6 +2,8 @@
 
 namespace Drupal\mars_lighthouse\Traits;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormInterface;
@@ -32,15 +34,26 @@ trait EntityBrowserFormTrait {
    *   The ID of the entity browser to use.
    * @param string $default_value
    *   The default value for the entity browser.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current form state.
    * @param int $cardinality
    *   The cardinality of the entity browser.
    * @param string $view_mode
    *   The view mode to use when displaying the selected entity in the table.
+   * @param bool|callable $required
+   *   Decides whether the selection is required or not.
    *
    * @return array
    *   The form element containing the entity browser.
    */
-  public function getEntityBrowserForm($entity_browser_id, $default_value, $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED, $view_mode = 'default') {
+  public function getEntityBrowserForm(
+    $entity_browser_id,
+    $default_value,
+    FormStateInterface $form_state,
+    $cardinality = EntityBrowserElement::CARDINALITY_UNLIMITED,
+    $view_mode = 'default',
+    $required = TRUE
+  ) {
     // We need a wrapping container for AJAX operations.
     $element = [
       '#type' => 'container',
@@ -49,16 +62,32 @@ trait EntityBrowserFormTrait {
       ],
     ];
 
+    if ($required) {
+      $form_state->disableCache();
+      $element['#element_validate'] = [
+        function ($element, $form_state) use ($required) {
+          if (!is_callable($required) || $required($form_state)) {
+            static::validateRequiredElement($element, $form_state);
+          }
+        },
+      ];
+
+      $element['#required'] = TRUE;
+    }
+
     $element['browser'] = [
       '#type' => 'entity_browser',
       '#entity_browser' => $entity_browser_id,
       '#process' => [
-        [self::class, 'processEntityBrowser'],
+        [static::class, 'processEntityBrowser'],
       ],
       '#cardinality' => $cardinality,
       '#selection_mode' => $cardinality === 1 ? EntityBrowserElement::SELECTION_MODE_PREPEND : EntityBrowserElement::SELECTION_MODE_APPEND,
       '#default_value' => $default_value,
       '#wrapper_id' => &$element['#attributes']['id'],
+      '#widget_context' => [
+        'cardinality' => $cardinality,
+      ],
     ];
     $element['selected'] = [
       '#type' => 'table',
@@ -68,7 +97,7 @@ trait EntityBrowserFormTrait {
       ],
       '#empty' => $this->t('No items selected yet'),
       '#process' => [
-        [self::class, 'processEntityBrowserSelected'],
+        [static::class, 'processEntityBrowserSelected'],
       ],
       '#view_mode' => $view_mode,
       '#wrapper_id' => &$element['#attributes']['id'],
@@ -106,14 +135,43 @@ trait EntityBrowserFormTrait {
     }
     $ids = array_filter($ids);
 
-    $storage = [];
+    $entity_type_manager = \Drupal::entityTypeManager();
+
     $entities = [];
     foreach ($ids as $id) {
-      list($entity_type_id, $entity_id) = explode(':', $id);
-      if (!isset($storage[$entity_type_id])) {
-        $storage[$entity_type_id] = \Drupal::entityTypeManager()->getStorage($entity_type_id);
+      $id_parts = explode(':', $id);
+
+      if (!isset($id_parts[0], $id_parts[1])) {
+        \Drupal::logger('mars_lighthouse')
+          ->error(
+            "The id string '@id' is invalid, expected format is 'entity_type_id:entity_id'.",
+            [
+              '@id' => $id,
+            ]
+          );
+        continue;
       }
-      $entities[$entity_type_id . ':' . $entity_id] = $storage[$entity_type_id]->load($entity_id);
+
+      $entity_type_id = $id_parts[0];
+      $entity_id = $id_parts[1];
+
+      try {
+        $storage = $entity_type_manager->getStorage($entity_type_id);
+        $entity = $storage->load($entity_id);
+      }
+      catch (InvalidPluginDefinitionException | PluginNotFoundException $e) {
+        \Drupal::logger('mars_lighthouse')
+          ->error(
+            'Couldn\'t get storage for entity: @exception_message' .
+            ['@exception_message' => $e->getMessage()]
+          );
+        $entity = NULL;
+      }
+
+      if ($entity) {
+        $entities[$entity_type_id . ':' . $entity_id] = $entity;
+      }
+
     }
     return $entities;
   }
@@ -138,7 +196,7 @@ trait EntityBrowserFormTrait {
       $value = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']));
     }
 
-    if (strpos($value, self::$file) !== FALSE) {
+    if (strpos($value, static::$file) !== FALSE) {
       $file_id = str_replace('file:', '', $value);
       $file = File::load($file_id);
       $list_of_usage = \Drupal::service('file.usage')->listUsage($file);
@@ -162,7 +220,7 @@ trait EntityBrowserFormTrait {
     }
     $element = EntityBrowserElement::processEntityBrowser($element, $form_state, $complete_form);
     $element['entity_ids']['#ajax'] = [
-      'callback' => [self::class, 'updateEntityBrowserSelected'],
+      'callback' => [static::class, 'updateEntityBrowserSelected'],
       'wrapper' => $element['#wrapper_id'],
       'event' => 'entity_browser_value_updated',
     ];
@@ -187,13 +245,13 @@ trait EntityBrowserFormTrait {
       $entity_ids = $form_state->getValue(array_merge($parents, ['browser', 'entity_ids']), '');
     }
 
-    $entities = empty($entity_ids) ? [] : self::loadEntityBrowserEntitiesByIds($entity_ids);
+    $entities = empty($entity_ids) ? [] : static::loadEntityBrowserEntitiesByIds($entity_ids);
     $entity_type_manager = \Drupal::entityTypeManager();
 
     foreach ($entities as $id => $entity) {
       $entity_type_id = $entity->getEntityTypeId();
       if ($entity_type_manager->hasHandler($entity_type_id, 'view_builder')) {
-        if ($entity_type_id == self::$file) {
+        if ($entity_type_id == static::$file) {
           $list_of_usage = \Drupal::service('file.usage')->listUsage($entity);
           $mid = key($list_of_usage['file']['media']);
           $media = Media::load($mid);
@@ -219,7 +277,7 @@ trait EntityBrowserFormTrait {
             '#op' => 'remove',
             '#name' => 'remove_' . $id,
             '#ajax' => [
-              'callback' => [self::class, 'updateEntityBrowserSelected'],
+              'callback' => [static::class, 'updateEntityBrowserSelected'],
               'wrapper' => $element['#wrapper_id'],
             ],
           ],
@@ -247,6 +305,24 @@ trait EntityBrowserFormTrait {
       $selection = NestedArray::getValue($form, $parents);
     }
     return $selection;
+  }
+
+  /**
+   * Validate the empty value of the selected element if its required.
+   *
+   * @param array $element
+   *   The current element of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   */
+  public static function validateRequiredElement(array $element, FormStateInterface $form_state) {
+    $trigger = $form_state->getTriggeringElement();
+    if ($trigger['#type'] === 'submit' && empty($element['browser']['#value']['entities'])) {
+      $form_state->setError(
+        $element,
+        'File selection is required!'
+      );
+    }
   }
 
 }

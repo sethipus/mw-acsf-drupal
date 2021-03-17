@@ -19,12 +19,12 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
   public function build() {
     $config = $this->getConfiguration();
 
-    $build['#title'] = $config['title'];
-    $build['#content'] = $config['description'];
-    $build['#shape_motif'] = (bool) $config['svg_asset'];
+    $build['#heading'] = !empty($config['title']) ? $this->languageHelper->translate($config['title']) : '';
+    $build['#content'] = $this->languageHelper->translate($config['description']);
+    $build['#shape_motif'] = $config['svg_asset'] ? $this->themeConfiguratorParser->getBrandShapeWithoutFill() : FALSE;
     $build['#block_type'] = $config['block_content_type'];
 
-    if ($config['block_content_type'] == self::CONTENT_TYPE_IMAGE && !empty($config['image'])) {
+    if ($config['block_content_type'] == static::CONTENT_TYPE_IMAGE && !empty($config['image'])) {
 
       $image_url = NULL;
       $media_id = $this->mediaHelper
@@ -40,7 +40,7 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
       $build['#image_alt'] = $media_params['alt'] ?? NULL;
       $build['#image_title'] = $media_params['title'] ?? NULL;
     }
-    elseif ($config['block_content_type'] == self::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
+    elseif ($config['block_content_type'] == static::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
 
       $video_url = NULL;
       $media_id = $this->mediaHelper

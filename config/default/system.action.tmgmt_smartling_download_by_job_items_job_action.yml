@@ -1,0 +1,13 @@
+uuid: 149e9c9c-e805-4e1f-8d97-b3fef88b2730
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_smartling
+_core:
+  default_config_hash: SlagDbeNbUqCq5VvmlHhJGFQir5YFjZmVLnNvsKIcSI
+id: tmgmt_smartling_download_by_job_items_job_action
+label: 'Download Translation (by job items)'
+type: tmgmt_job
+plugin: tmgmt_smartling_download_by_job_items_job_action
+configuration: {  }

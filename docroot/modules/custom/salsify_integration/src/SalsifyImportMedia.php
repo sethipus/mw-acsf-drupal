@@ -4,6 +4,7 @@ namespace Drupal\salsify_integration;
 
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\File\FileSystemInterface;
@@ -109,28 +110,65 @@ class SalsifyImportMedia extends SalsifyImport {
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function processSalsifyMediaItem(array $field, array $product_data) {
+    $salsify_media_ids = $this->getSalsifyMediaIds($product_data, $field);
+
+    $media_entities = $this->getMediaEntitiesByAssetIds(
+      $product_data,
+      $salsify_media_ids
+    );
+
+    if ($media_entities) {
+      return $media_entities;
+    }
+    else {
+      return FALSE;
+    }
+  }
+
+  /**
+   * Get salsify media ids.
+   *
+   * @param array $product_data
+   *   Product data.
+   * @param array $field
+   *   Field data.
+   *
+   * @return array|mixed
+   *   Salsify media ids.
+   */
+  private function getSalsifyMediaIds(array $product_data, array $field) {
     if (!is_array($product_data[$field['salsify_id']])) {
       $salsify_media_ids = [$product_data[$field['salsify_id']]];
     }
     else {
       $salsify_media_ids = $product_data[$field['salsify_id']];
     }
+    return $salsify_media_ids;
+  }
 
-    // Load the cached Salsify data from when the items were queued.
-    $cache_entry = $this->cache->get('salsify_import_product_data');
-    if ($cache_entry) {
-      $salsify_data = $cache_entry->data;
-    }
-    else {
-      // NOTE: During this call the cached item is refreshed.
-      $salsify_data = $this->salsify->getProductData();
-    }
-
+  /**
+   * Get media entities by salsify asset ids.
+   *
+   * @param array $product_data
+   *   Product data array.
+   * @param mixed $salsify_media_ids
+   *   Salsify media ids.
+   *
+   * @return array
+   *   Media entities.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  private function getMediaEntitiesByAssetIds(
+    array $product_data,
+    $salsify_media_ids
+  ) {
     // Set the default fields to use to lookup any existing media that was
     // previously imported.
     $field_name = 'salsify_id';
     $field_id_storage = FieldStorageConfig::loadByName('media', $field_name);
-    $media_storage = $this->entityTypeManager->getStorage('media');
 
     $media_entities = [];
 
@@ -142,126 +180,230 @@ class SalsifyImportMedia extends SalsifyImport {
       // successfully into Salsify.
       if ($asset_data['salsify:status'] <> 'failed') {
 
-        if ($field_id_storage) {
-          $results = $this->getMediaEntity($field_name, $asset_data['salsify:id']);
+        $media = $this->getMediaByAssetId(
+          $asset_data,
+          $field_id_storage,
+          $field_name
+        );
 
-          if ($results) {
-            $media_id = array_pop($results);
-            $media = $media_storage->load($media_id);
-            $updated = strtotime($asset_data['salsify:updated_at']);
-            // If the file hasn't been changed in Salsify, then stop processing.
-            if ($updated <= $media->getChangedTime()) {
-              $media_entities[] = $media;
-              unset($media);
-              continue;
-            }
-          }
+        $updated = strtotime($asset_data['salsify:updated_at']);
+        // If the file hasn't been changed in Salsify, then stop processing.
+        if ($media instanceof EntityInterface && $updated <= $media->getChangedTime()) {
+          $media_entities[] = $media;
+          unset($media);
+          continue;
         }
 
-        $data_file = file_get_contents($asset_data['salsify:url']);
-        $parsed_filename = $asset_data['salsify:filename'];
-        if ($position = strpos($parsed_filename, '?')) {
-          $parsed_filename = substr($parsed_filename, 0, $position);
-        }
-        $file = file_save_data($data_file, 'temporary://' . $parsed_filename, FileSystemInterface::EXISTS_REPLACE);
+        $file = $this->getFileByAssetData($asset_data);
 
         // If the file was successfully saved, use its mimetype to determine
         // which kind of media type it is.
-        if ($file) {
-          if (isset($media)) {
-            $type = $media->bundle();
-            $this->setMediaFields($type);
-            $file_field_name = $this->fieldStorageConfig->getName();
-            $current_file = $this->entityTypeManager->getStorage('file')
-              ->load($media->{$file_field_name}->target_id);
-            if ($current_file) {
-              $current_file->delete();
-            }
-            $file = $this->moveFile($file);
-            $media->set($file_field_name, $file->id());
-            $media->save();
-          }
-          else {
-            if (strpos($file->getMimeType(), 'image') !== FALSE) {
-              $bundle = 'image';
-            }
-            else {
-              $bundle = 'document';
-            }
-            // Invoke hook_salsify_process_field_alter() and
-            // hook_salsify_process_field_FIELD_TYPE_alter() implementations.
-            $hooks = [
-              'salsify_process_media_field_bundle',
-              'salsify_process_media_field_bundle_' . $bundle,
-            ];
-            $context = [
-              'bundle' => $bundle,
-              'salsify_data' => $salsify_data,
-              'asset_data' => $asset_data,
-              'field_map' => $field,
-            ];
-            $this->moduleHandler
-              ->alter($hooks, $bundle, $context);
-
-            $this->setMediaFields($bundle);
-            $file = $this->moveFile($file);
-
-            // Verify the Salsify ID field is present on this media type.
-            // If not, add it before proceeding.
-            $media_salsify_id_field = FieldConfig::loadByName('media', $bundle, $field_name);
-            if (!$media_salsify_id_field) {
-              $salsify_id_field = [
-                'salsify:id' => 'salsify:id',
-                'salsify:system_id' => 'salsify:id',
-                'salsify:name' => $this->t('Salsify Sync ID'),
-                'salsify:data_type' => 'string',
-                'salsify:created_at' => date('Y-m-d', time()),
-                'date_updated' => time(),
-              ];
-              SalsifyFields::createDynamicField(
-                $salsify_id_field,
-                $field_name,
-                'media',
-                $bundle
-              );
-            }
-
-            // Clean up file name to use as media name if Salsify is sending the
-            // same values for both the name and filename fields.
-            $parsed_filename = urldecode($parsed_filename);
-            if ($asset_data['salsify:name'] == $parsed_filename) {
-              $media_name = preg_replace('/[^a-zA-Z0-9]/', " ", substr($asset_data['salsify:name'], 0, strripos($asset_data['salsify:name'], '.')));
-            }
-            else {
-              $media_name = $asset_data['salsify:name'];
-            }
-
-            // Create the new piece of media.
-            $media = Media::create([
-              'bundle' => $bundle,
-              'name' => $media_name,
-              'created' => strtotime($asset_data['salsify:created_at']),
-              'changed' => strtotime($asset_data['salsify:updated_at']),
-              'thumbnail__target_id' => $file->id(),
-              $this->fieldStorageConfig->getName() => [
-                'target_id' => $file->id(),
-              ],
-              $field_name => $asset_data['salsify:id'],
-              'status' => 1,
-            ]);
-            $media->save();
-          }
+        $media = $this->processMediaEntity($media, $file, $asset_data, $field_name);
+        if ($media instanceof EntityInterface) {
           $media_entities[] = $media;
-          unset($media);
         }
+        unset($media);
       }
     }
 
-    if ($media_entities) {
-      return $media_entities;
+    return $media_entities;
+  }
+
+  /**
+   * Get Media entity by asset data.
+   *
+   * @param array $asset_data
+   *   Asset data.
+   * @param mixed $field_id_storage
+   *   Field id storage class.
+   * @param string $field_name
+   *   Field name.
+   *
+   * @return bool|\Drupal\media\Entity\Media|null
+   *   Entity, null or false.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function getMediaByAssetId(
+    array $asset_data,
+    $field_id_storage,
+    $field_name
+  ) {
+    $media = NULL;
+    if ($field_id_storage) {
+      $results = $this->getMediaEntity($field_name, $asset_data['salsify:id']);
+
+      if ($results) {
+        $media_id = array_pop($results);
+
+        $media_storage = $this->entityTypeManager->getStorage('media');
+        /* @var \Drupal\media\Entity\Media $media */
+        $media = $media_storage->load($media_id);
+      }
+    }
+    return $media;
+  }
+
+  /**
+   * Get file by asset data.
+   *
+   * @param array $asset_data
+   *   Asset data.
+   *
+   * @return \Drupal\file\FileInterface|false|mixed
+   *   File.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  private function getFileByAssetData(array $asset_data) {
+    $data_file = file_get_contents($asset_data['salsify:url']);
+    $parsed_filename = $this->getParsedFileNameByAssetData($asset_data);
+    return file_save_data($data_file, 'temporary://' . $parsed_filename, FileSystemInterface::EXISTS_REPLACE);
+  }
+
+  /**
+   * Get parsed filename by asset data.
+   *
+   * @param array $asset_data
+   *   Asset data.
+   *
+   * @return bool|string
+   *   Parsed filename.
+   */
+  private function getParsedFileNameByAssetData(array $asset_data) {
+    $parsed_filename = $asset_data['salsify:filename'];
+    if ($position = strpos($parsed_filename, '?')) {
+      $parsed_filename = substr($parsed_filename, 0, $position);
+    }
+    return $parsed_filename;
+  }
+
+  /**
+   * Process media entity.
+   *
+   * @param mixed $media
+   *   The media entity.
+   * @param mixed $file
+   *   The file entity.
+   * @param array $asset_data
+   *   Asset data.
+   * @param string $field_name
+   *   Field name.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface|\Drupal\media\Entity\Media
+   *   Media entity.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  private function processMediaEntity($media, $file, array $asset_data, string $field_name) {
+    if ($file) {
+      if (isset($media)) {
+        $type = $media->bundle();
+        $this->setMediaFields($type);
+        $file_field_name = $this->fieldStorageConfig->getName();
+        $current_file = $this->entityTypeManager->getStorage('file')
+          ->load($media->{$file_field_name}->target_id);
+        if ($current_file) {
+          $current_file->delete();
+        }
+        $file = $this->moveFile($file);
+        $media->set($file_field_name, $file->id());
+        $media->save();
+      }
+      else {
+        $bundle = (strpos($file->getMimeType(), 'image') !== FALSE) ?
+          'image' : 'document';
+
+        $this->setMediaFields($bundle);
+        $file = $this->moveFile($file);
+
+        // Verify the Salsify ID field is present on this media type.
+        // If not, add it before proceeding.
+        $this->verifySalsifyIdField(
+          $field_name,
+          $bundle
+        );
+
+        // Clean up file name to use as media name if Salsify is sending the
+        // same values for both the name and filename fields.
+        $media_name = $this->getMediaNameByAssetData($asset_data);
+
+        // Create the new piece of media.
+        $media = Media::create([
+          'bundle' => $bundle,
+          'name' => $media_name,
+          'created' => strtotime($asset_data['salsify:created_at']),
+          'changed' => strtotime($asset_data['salsify:updated_at']),
+          'thumbnail__target_id' => $file->id(),
+          $this->fieldStorageConfig->getName() => [
+            'target_id' => $file->id(),
+          ],
+          $field_name => $asset_data['salsify:id'],
+          'status' => 1,
+        ]);
+        $media->save();
+      }
+    }
+    return $media;
+  }
+
+  /**
+   * Get media name by asset data.
+   *
+   * Clean up file name to use as media name if Salsify is sending the
+   * same values for both the name and filename fields.
+   *
+   * @param array $asset_data
+   *   Asset data.
+   *
+   * @return string|null
+   *   Media name.
+   */
+  private function getMediaNameByAssetData(array $asset_data) {
+    $parsed_filename = $this->getParsedFileNameByAssetData($asset_data);
+    $parsed_filename = urldecode($parsed_filename);
+    if ($asset_data['salsify:name'] == $parsed_filename) {
+      $media_name = preg_replace('/[^a-zA-Z0-9]/', " ", substr($asset_data['salsify:name'], 0, strripos($asset_data['salsify:name'], '.')));
     }
     else {
-      return FALSE;
+      $media_name = $asset_data['salsify:name'];
+    }
+    return $media_name;
+  }
+
+  /**
+   * Verify the Salsify ID field is present on this media type.
+   *
+   * If not, add it before proceeding.
+   *
+   * @param string $field_name
+   *   Field name.
+   * @param string $bundle
+   *   Bundle.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  private function verifySalsifyIdField($field_name, $bundle) {
+    $media_salsify_id_field = FieldConfig::loadByName('media', $bundle, $field_name);
+    if (!$media_salsify_id_field) {
+      $salsify_id_field = [
+        'salsify:id' => 'salsify:id',
+        'salsify:system_id' => 'salsify:id',
+        'salsify:name' => $this->t('Salsify Sync ID'),
+        'salsify:data_type' => 'string',
+        'salsify:created_at' => date('Y-m-d', time()),
+        'date_updated' => time(),
+      ];
+      SalsifyFields::createDynamicField(
+        $salsify_id_field,
+        $field_name,
+        'media',
+        $bundle
+      );
     }
   }
 
@@ -275,6 +417,9 @@ class SalsifyImportMedia extends SalsifyImport {
    *
    * @return array|int
    *   An array of media entity ids that match the given options.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   private function getMediaEntity($field_name, $field_value) {
     return $this->entityTypeManager->getStorage('media')

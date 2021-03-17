@@ -1,0 +1,6 @@
+name: 'Mars Google Analytics'
+description: 'Defines an integration between Google Analytics and Drupal.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
+
+type: module

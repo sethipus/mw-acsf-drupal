@@ -5,6 +5,8 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -18,6 +20,15 @@ use Drupal\mars_common\ThemeConfiguratorParser;
  * )
  */
 class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
 
   /**
    * ThemeConfiguratorParser.
@@ -34,6 +45,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -45,9 +57,11 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     array $configuration,
     $plugin_id,
     $plugin_definition,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $themeConfiguratorParser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
   }
 
@@ -59,35 +73,48 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
 
     $phone_cta_label = '';
     if ($conf['phone_cta_label']) {
-      $phone_cta_label = $conf['phone_cta_label'];
+      $phone_cta_label = $this->languageHelper->translate($conf['phone_cta_label']);
     }
     elseif ($conf['phone_cta_number']) {
-      $phone_cta_label = $conf['phone_cta_number'];
+      $phone_cta_label = $this->languageHelper->translate($conf['phone_cta_number']);
     }
 
     $phone_cta_number = '';
     if ($conf['phone_cta_number']) {
-      $phone_cta_number = 'tel:' . $conf['phone_cta_number'];
+      $phone_cta_number = 'tel:' . $this->languageHelper->translate($conf['phone_cta_number']);
     }
 
     $email_cta_address = '';
     if ($conf['email_cta_address']) {
-      $email_cta_address = 'mailto:' . $conf['email_cta_address'];
+      $email_cta_address = 'mailto:' . $this->languageHelper->translate($conf['email_cta_address']);
     }
 
-    $build['#title'] = $conf['title'] ?? '';
-    $build['#description'] = $conf['description'] ?? '';
-    $build['#social_links_label'] = $conf['social_links_label'] ?? '';
+    $email_cta_label = '';
+    if ($conf['email_cta_label']) {
+      $email_cta_label = $this->languageHelper->translate($conf['email_cta_label']);
+    }
+    elseif ($conf['email_cta_address']) {
+      $email_cta_label = $this->languageHelper->translate($conf['email_cta_address']);
+    }
+
+    $build['#title'] = $this->languageHelper->translate($conf['title'] ?? '');
+    $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
+    $build['#social_links_label'] = $this->languageHelper->translate($conf['social_links_label'] ?? '');
     $build['#phone_cta_label'] = $phone_cta_label;
     $build['#phone_cta_link'] = $phone_cta_number;
-    $build['#email_cta_label'] = $conf['email_cta_label'] ?? '';
+    $build['#email_cta_label'] = $email_cta_label;
     $build['#email_cta_link'] = $email_cta_address;
-    $build['#help_and_contact_cta_label'] = $conf['help_and_contact_cta_label'] ?? '';
+    $build['#help_and_contact_cta_label'] = $this->languageHelper->translate($conf['help_and_contact_cta_label'] ?? '');
     $build['#help_and_contact_cta_url'] = $conf['help_and_contact_cta_url'] ?? '';
 
     $build['#social_menu_items'] = $this->themeConfiguratorParser->socialLinks();
-    $build['#brand_shape'] = $this->themeConfiguratorParser->getFileContentFromTheme('brand_shape');
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'contact_help_banner_block';
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+    $build['#text_color_override'] = $text_color_override;
 
     return $build;
   }
@@ -121,7 +148,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 160,
+      '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => FALSE,
     ];
@@ -151,7 +178,6 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       'label' => [
         '#type' => 'textfield',
         '#title' => $this->t('Label'),
-        '#maxlength' => 20,
         '#default_value' => $this->configuration['email_cta_label'] ?? '',
         '#required' => FALSE,
       ],
@@ -170,7 +196,6 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       'label' => [
         '#type' => 'textfield',
         '#title' => $this->t('Button Label'),
-        '#maxlength' => 15,
         '#default_value' => $this->configuration['help_and_contact_cta_label'] ?? '',
         '#required' => FALSE,
       ],
@@ -187,8 +212,9 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
       '#title' => $this->t('Social Links label'),
       '#maxlength' => 35,
       '#default_value' => $this->configuration['social_links_label'] ?? '',
-      '#required' => FALSE,
+      '#required' => TRUE,
     ];
+    $this->buildOverrideColorElement($form, $this->configuration);
 
     return $form;
   }
@@ -211,6 +237,7 @@ class ContactHelpBannerBlock extends BlockBase implements ContainerFactoryPlugin
 
     $this->configuration['help_and_contact_cta_label'] = $form_state->getValue('help_and_contact_cta')['label'];
     $this->configuration['help_and_contact_cta_url'] = $form_state->getValue('help_and_contact_cta')['url'];
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
   }
 
 }

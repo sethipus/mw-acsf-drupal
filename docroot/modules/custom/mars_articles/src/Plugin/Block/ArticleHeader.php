@@ -3,10 +3,13 @@
 namespace Drupal\mars_articles\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
@@ -19,7 +22,7 @@ use Drupal\Core\Utility\Token;
  *
  * @Block(
  *   id = "article_header",
- *   admin_label = @Translation("Article header"),
+ *   admin_label = @Translation("MARS: Article header"),
  *   category = @Translation("Article"),
  *   context_definitions = {
  *     "node" = @ContextDefinition("entity:node", label =
@@ -30,6 +33,8 @@ use Drupal\Core\Utility\Token;
  * @package Drupal\mars_articles\Plugin\Block
  */
 class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * A view builder instance.
@@ -67,6 +72,13 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
   protected $configFactory;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -92,6 +104,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     Token $token,
     ThemeConfiguratorParser $themeConfiguratorParser,
     ConfigFactoryInterface $config_factory,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -101,6 +114,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     $this->token = $token;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->configFactory = $config_factory;
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -117,6 +131,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $container->get('token'),
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('config.factory'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -131,10 +146,15 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       $node = $this->nodeStorage->load($this->configuration['article']);
     }
 
+    $label_config = $this->configFactory->get('mars_common.site_labels');
+    $published_label = $label_config->get('article_published');
+    $share_text = $label_config->get('article_recipe_share');
+
     $build = [
       '#label' => $node->label(),
-      '#eyebrow' => $this->configuration['eyebrow'],
-      '#publication_date' => $node->isPublished() ? $this->t('Published') . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
+      '#eyebrow' => $this->languageHelper->translate($this->configuration['eyebrow']),
+      '#share_text' => $this->languageHelper->translate($share_text),
+      '#publication_date' => $node->isPublished() ? $this->languageHelper->translate($published_label) . ' ' . $this->dateFormatter->format($node->published_at->value, 'article_header') : NULL,
     ];
 
     $media_id = $this->mediaHelper->getEntityMainMediaId($node);
@@ -148,12 +168,21 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     }
     else {
       $build['#theme'] = 'article_header_block_no_image';
+      $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     }
 
     // Get brand border path.
-    $build['#brand_borders'] = $this->themeConfiguratorParser->getFileWithId('brand_borders', 'article-hero-border');
-    $build['#brand_shape_class'] = $this->themeConfiguratorParser->getSettingValue('brand_border_style', 'repeat');
+    $build['#brand_borders'] = $this->themeConfiguratorParser->getBrandBorder();
     $build['#social_links'] = $this->socialLinks();
+
+    $build['#text_color_override'] = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
+    $cacheMetadata = CacheableMetadata::createFromRenderArray($build);
+    $cacheMetadata->addCacheableDependency($label_config);
+    $cacheMetadata->applyTo($build);
 
     return $build;
   }
@@ -181,6 +210,9 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
         'target_bundles' => ['article'],
       ],
     ];
+
+    $this->buildOverrideColorElement($form, $config);
+
     return $form;
   }
 
@@ -214,10 +246,28 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {
         $icon_path = $base_url . '/' . drupal_get_path('module', 'social_media') . '/icons/';
-        $social_menu_items[$name]['icon'] = $icon_path . $name . '.svg';
+        $social_menu_items[$name]['icon'] = [
+          '#theme' => 'image',
+          '#uri' => $icon_path . $name . '.svg',
+          '#title' => $social_media['text'],
+          '#alt' => $social_media['text'],
+          '#attributes' => [
+            'height' => '20px',
+            'width' => '20px',
+          ],
+        ];
       }
       elseif (!empty($social_media['img'])) {
-        $social_menu_items[$name]['icon'] = $base_url . '/' . $social_media['img'];
+        $social_menu_items[$name]['icon'] = [
+          '#theme' => 'image',
+          '#uri' => $base_url . '/' . $social_media['img'],
+          '#title' => $social_media['text'],
+          '#alt' => $social_media['text'],
+          '#attributes' => [
+            'height' => '20px',
+            'width' => '20px',
+          ],
+        ];
       }
     }
 

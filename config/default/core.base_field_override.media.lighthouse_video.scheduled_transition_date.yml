@@ -1,0 +1,20 @@
+uuid: 778a7cfe-d5c1-4b75-a931-a6e10f63fb13
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_video
+  module:
+    - datetime
+id: media.lighthouse_video.scheduled_transition_date
+field_name: scheduled_transition_date
+entity_type: media
+bundle: lighthouse_video
+label: 'Scheduled transition date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

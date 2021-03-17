@@ -1,43 +1,81 @@
 .article-full-width {
-  background-color: clr(subcolor-2);
-  padding: 2rem 0 4rem 0;
+  padding: 2rem 0 2rem 0;
   overflow-x: hidden;
-  max-width: 1128px;
-  margin: 0 auto;
 
-  &__heading {
-    &--main-heading {
-      text-align: center;
-      color: clr(primary);
-      text-transform: uppercase;
-      font-size: 2.8rem;
-      line-height: 1.1rem;
-      font-weight: 500;
-      font-family: variable(heading-font);
+  &--parallax {
+    max-width: 100%;
+
+    &__media {
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
     }
   }
 
+  &__heading {
+    &:empty {
+      display: none;
+    }
+    
+    &--main-heading {
+      text-align: left;
+      color: clr(primary);
+      font-size: 2.8rem;
+      line-height: 1.1;
+      font-weight: 500;
+      font-family: variable(heading-font);
+      margin: 0 0 30px;
+      padding: 0 20px;
+
+
+      @include xs {
+        font-size: 2rem;
+      }
+
+      @include medium {
+        font-size: 2.6rem;
+        padding:  0 40px;
+      }
+
+      @include xl {
+        font-size: 2.8rem;
+        max-width: 780px;
+        margin: 0 0 40px;
+        padding-left: 272px;
+      }
+    }
+  }
 
   &__content {
-    background-color: clr(subcolor-2);
     color: clr(primary);
     font-family: variable(secondary-font);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    font-weight: normal;
     line-height: 1.82rem;
-    padding: 2rem 3rem;
+    max-width: 1128px;
+    margin: 3rem 2rem 0;
 
     @include medium {
-      padding: 2rem 4rem;
+      margin: 2rem 4rem 0;
     }
 
-    @include xl {
-      padding: 2rem 11.6rem;
+    @include larger {
+      margin: 3rem auto 0;
     }
 
     .paragraph {
       padding-bottom: 2rem;
       margin: 0;
-      border-bottom: 1px solid clr(primary);
+      border-bottom: 1px solid clr(subcolor-4);
+      width: 100%;
+      text-align: left;
+
+      @include small {
+        font-size: 1.2rem;
+      }
     }
   }
 
@@ -48,6 +86,8 @@
     height: 25rem;
     overflow: hidden;
     position: relative;
+    max-width: 1128px;
+    margin: 0 auto;
 
     @include medium {
       height: 43.4rem;
@@ -59,22 +99,25 @@
 
     img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .inline-video {
-    
-      &__control[data-state="play"] {
+      max-height: 635px;
+
+      &__control[data-state='play'] {
         width: 6.6rem;
         height: 7rem;
-        top: calc(50% - 7rem / 2);;
-        left: calc(50% - 6.6rem / 2);;
+        top: calc(50% - 7rem / 2);
+        left: calc(50% - 6.6rem / 2);
       }
-    
-      &__control[data-state="pause"] {
+
+      &__control[data-state='pause'] {
         width: 6.6rem;
         height: 7rem;
-        top: calc(50% - 7rem / 2);;
-        left: calc(50% - 6.6rem / 2);;
+        top: calc(50% - 7rem / 2);
+        left: calc(50% - 6.6rem / 2);
       }
     }
   }

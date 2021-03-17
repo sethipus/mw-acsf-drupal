@@ -5,10 +5,10 @@
   flex-wrap: wrap;
   margin-top: 10px;
 
-  @include xl {
+  @include desktop {
     height: 100%;
     align-items: center;
-    margin: 0 0 0 125px;
+    margin-left: 12.5rem;
   }
 }
 
@@ -16,11 +16,11 @@
   flex: 0 1 50%;
   margin: 0 0 26px 0;
 
-  @include medium {
+  @include tablet {
     flex: 0 0 33%;
   }
 
-  @include xl {
+  @include desktop {
     flex: 0 1 auto;
     margin: 0 60px 0 0;
   }
@@ -30,12 +30,13 @@
   @include link;
 
   font-family: variable(primary-font);
-  font-size: 16px;
   color: clr(primary);
   text-decoration: none;
-  letter-spacing: 0.65px;
+  font-size: 1.6rem;
+  line-height: 1.6rem;
 
-  @include xl {
-    font-size: 18px;
+  @include large {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
   }
 }

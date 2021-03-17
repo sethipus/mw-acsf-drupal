@@ -6,8 +6,10 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\file\Entity\File;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\StoryHighlightBlock;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\UnitTestCase;
@@ -110,6 +112,13 @@ class StoryHighlightBlockTest extends UnitTestCase {
   private $internalMediaStorage = [];
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -123,6 +132,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $container->set('entity_type.repository', $this->entityTypeRepositoryMock);
     $container->set('mars_common.media_helper', $this->mediaHelperMock);
     $container->set('mars_common.theme_configurator_parser', $this->themeConfigurationParserMock);
+    $container->set('mars_common.language_helper', $this->languageHelperMock);
     \Drupal::setContainer($container);
 
     $this->defaultDefinitions = [
@@ -134,9 +144,21 @@ class StoryHighlightBlockTest extends UnitTestCase {
       'story_block_title' => 'Test Block Title',
       'story_block_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       'items' => [
-        ['title' => 'Story Item 1', 'media' => self::STORY_ITEM_1_ENTITY_BROWSER_VALUE],
-        ['title' => 'Story Item 2', 'media' => self::STORY_ITEM_2_ENTITY_BROWSER_VALUE],
-        ['title' => 'Story Item 3', 'media' => self::STORY_ITEM_3_ENTITY_BROWSER_VALUE],
+        [
+          'title' => 'Story Item 1',
+          'item_type' => 'image',
+          'image' => self::STORY_ITEM_1_ENTITY_BROWSER_VALUE,
+        ],
+        [
+          'title' => 'Story Item 2',
+          'item_type' => 'image',
+          'image' => self::STORY_ITEM_2_ENTITY_BROWSER_VALUE,
+        ],
+        [
+          'title' => 'Story Item 3',
+          'item_type' => 'image',
+          'image' => self::STORY_ITEM_3_ENTITY_BROWSER_VALUE,
+        ],
       ],
       'svg_assets' => [
         'svg_asset_1' => self::SVG_ASSET_1_ENTITY_BROWSER_VALUE,
@@ -147,6 +169,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
         'label' => 'View Extra',
         'url' => 'https://mars.com/',
       ],
+      'with_brand_borders' => TRUE,
     ];
   }
 
@@ -166,11 +189,12 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $expected = [
       '#theme' => 'story_highlight_block',
       '#title' => 'Test Block Title',
-      '#brand_border' => 'Mocked brand_borders_2 content',
-      '#graphic_divider' => 'Mocked graphic_divider content',
+      '#brand_border' => new SVG('Mocked brand_borders_2 content', 'id'),
+      '#graphic_divider' => new SVG('Mocked graphic_divider content', 'id'),
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 1',
           'src' => self::STORY_ITEM_1_MEDIA_URI,
@@ -178,6 +202,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'title' => 'Title',
         ],
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 2',
           'src' => self::STORY_ITEM_2_MEDIA_URI,
@@ -185,6 +210,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'title' => 'Title',
         ],
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 3',
           'src' => self::STORY_ITEM_3_MEDIA_URI,
@@ -200,6 +226,8 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#svg_asset_alt_3' => 'Alt',
       '#view_more_cta_url' => 'https://mars.com/',
       '#view_more_cta_label' => 'View Extra',
+      '#overlaps_previous' => FALSE,
+      '#text_color_override' => FALSE,
     ];
 
     $this->assertArrayEquals($expected, $build);
@@ -224,11 +252,12 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $expected = [
       '#theme' => 'story_highlight_block',
       '#title' => 'Test Block Title',
-      '#brand_border' => 'Mocked brand_borders_2 content',
-      '#graphic_divider' => 'Mocked graphic_divider content',
+      '#brand_border' => new SVG('Mocked brand_borders_2 content', 'id'),
+      '#graphic_divider' => new SVG('Mocked graphic_divider content', 'id'),
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 1',
           'src' => self::STORY_ITEM_1_MEDIA_URI,
@@ -236,6 +265,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'title' => 'Title',
         ],
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 2',
           'src' => self::STORY_ITEM_2_MEDIA_URI,
@@ -243,6 +273,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'title' => 'Title',
         ],
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 3',
           'src' => self::STORY_ITEM_3_MEDIA_URI,
@@ -258,6 +289,8 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#svg_asset_alt_3' => 'Alt',
       '#view_more_cta_url' => 'https://mars.com/',
       '#view_more_cta_label' => 'View More',
+      '#overlaps_previous' => FALSE,
+      '#text_color_override' => FALSE,
     ];
 
     $this->assertArrayEquals($expected, $build);
@@ -282,11 +315,12 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $expected = [
       '#theme' => 'story_highlight_block',
       '#title' => 'Test Block Title',
-      '#brand_border' => 'Mocked brand_borders_2 content',
-      '#graphic_divider' => 'Mocked graphic_divider content',
+      '#brand_border' => new SVG('Mocked brand_borders_2 content', 'id'),
+      '#graphic_divider' => new SVG('Mocked graphic_divider content', 'id'),
       '#story_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       '#story_items' => [
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 1',
           'src' => self::STORY_ITEM_1_MEDIA_URI,
@@ -294,6 +328,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'title' => 'Title',
         ],
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 2',
           'src' => self::STORY_ITEM_2_MEDIA_URI,
@@ -301,6 +336,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
           'title' => 'Title',
         ],
         [
+          'video' => FALSE,
           'image' => TRUE,
           'content' => 'Story Item 3',
           'src' => self::STORY_ITEM_3_MEDIA_URI,
@@ -314,6 +350,8 @@ class StoryHighlightBlockTest extends UnitTestCase {
       '#svg_asset_alt_2' => 'Alt',
       '#svg_asset_src_3' => self::SVG_ASSET_3_MEDIA_URI,
       '#svg_asset_alt_3' => 'Alt',
+      '#overlaps_previous' => FALSE,
+      '#text_color_override' => FALSE,
     ];
 
     $this->assertArrayEquals($expected, $build);
@@ -348,20 +386,23 @@ class StoryHighlightBlockTest extends UnitTestCase {
         return $this->internalMediaStorage[$id];
       });
 
-    $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this
-      ->themeConfigurationParserMock
-      ->method('getFileContentFromTheme')
-      ->willReturnCallback(function ($field) {
-        switch ($field) {
-          case 'brand_borders_2':
-          case 'graphic_divider':
-            return sprintf('Mocked %s content', $field);
+      ->languageHelperMock->method('translate')
+      ->will(
+        $this->returnCallback(
+          function ($arg) {
+            return $arg;
+          })
+      );
 
-          default:
-            return '';
-        }
-      });
+    $this->themeConfigurationParserMock = $this->createMock(ThemeConfiguratorParser::class);
+    $this->themeConfigurationParserMock
+      ->method('getGraphicDivider')
+      ->willReturn(new SVG('Mocked graphic_divider content', 'id'));
+    $this->themeConfigurationParserMock
+      ->method('getBrandBorder2')
+      ->willReturn(new SVG('Mocked brand_borders_2 content', 'id'));
 
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this

@@ -7,6 +7,28 @@ body {
   background-color: clr(background);
   color: clr(text);
 
+  p a {
+    color: clr(primary);
+    text-decoration: none;
+    border-bottom: 1px solid clr(secondary);
+  }
+
+  /* ToDo: move functionality to separate font-family mixing to have possibility to add letter spacing per font from theme configurator.
+     And update all font-family declarations.
+     Current data is for Dove Site only
+  */
+  &, & button {
+    letter-spacing: 0.048rem;
+
+    @include medium {
+      letter-spacing: 0.07rem;
+    }
+
+    @include large {
+      letter-spacing: 0.16rem;
+    }
+  }
+
   #layout-builder-modal {
     font-size: 120%;
   }
@@ -33,4 +55,56 @@ body {
   height: 1px;
   width: 1px;
   word-wrap: normal;
+}
+
+.visually-hidden:focus-within {
+  overflow: hidden;
+}
+
+.text-color-A {
+  color: clr(primary) !important;
+}
+
+.text-color-E {
+  color: clr(subcolor-3) !important;
+}
+
+.text-color-W {
+  color: $white !important;
+}
+
+.bg-color-C {
+  background-color: clr(subcolor-1) !important;
+}
+
+.bg-color-D {
+  background-color: clr(subcolor-2) !important;
+}
+
+.bg-color-E {
+  background-color: clr(subcolor-3) !important;
+}
+
+.bg-gradient-C {
+  background-image: radial-gradient(
+      circle at 50% 40%,
+      clr(card-background) 10%,
+      clr(subcolor-1)
+  ) !important;
+}
+
+.bg-gradient-D {
+  background-image: radial-gradient(
+      circle at 50% 40%,
+      clr(card-background) 10%,
+      clr(subcolor-2)
+  ) !important;
+}
+
+.bg-gradient-E {
+  background-image: radial-gradient(
+      circle at 50% 40%,
+      clr(card-background) 10%,
+      clr(subcolor-3)
+  ) !important;
 }

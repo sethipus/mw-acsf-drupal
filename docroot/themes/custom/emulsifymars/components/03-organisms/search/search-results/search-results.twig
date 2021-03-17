@@ -1,0 +1,40 @@
+{% set header_key_state = results_key_header ? 'active' : '' %}
+{% set search_container_base_class = 'search-results-page' %}
+{% set search_filter_base_class = 'search-results-filter' %}
+{% set grid_base_class = 'card-grid-results' %}
+
+<div class="results-key-header-container {{ header_key_state }}" data-theme={{ theme_styles }}>
+  {% if results_key_header %}
+    {{ results_key_header }}
+  {% endif %}
+</div>
+
+<div {{ bem(search_filter_base_class, [], '') }}>
+  {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
+    theme_styles: theme_styles,
+    search_form: '',
+    applied_filters_list: applied_filters_list,
+    items: filters,
+    filter_title_transform: filter_title_transform
+  } %}
+</div>
+
+<div {{ bem(search_container_base_class, [], '', [grid_base_class]) }}
+     data-layer-search-term="{{ data_layer.search_term }}"
+     data-layer-search-results="{{ data_layer.search_results }}"
+     data-layer-page-id="{{ data_layer.page_id }}"
+     data-layer-page-revision-id="{{ data_layer.page_revision_id }}"
+     data-layer-grid-type="search_page"
+     data-theme="{{ theme_styles }}"
+     id="search-result-grid"
+     aria-live="polite">
+
+  <div class="no-results-container">
+    {% if no_results %}
+      {{ no_results }}
+    {% endif %}
+  </div>
+  {% include "@organisms/grid/ajax-card-grid.twig" with {
+    theme_styles: theme_styles,
+  } %}
+</div>

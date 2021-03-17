@@ -3,6 +3,9 @@
 namespace Drupal\Tests\mars_recipes\Unit;
 
 use Drupal;
+use Drupal\Core\Config\ImmutableConfig;
+use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailHero;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -98,6 +101,27 @@ class RecipeDetailHeroTest extends UnitTestCase {
   protected $tokenMock;
 
   /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $configMock;
+
+  /**
+   * Language helper mock.
+   *
+   * @var \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $languageHelperMock;
+
+  /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $immutableConfigMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -134,20 +158,46 @@ class RecipeDetailHeroTest extends UnitTestCase {
       ->method('replace')
       ->willReturn('string_with_replaced_tokens');
 
+    $this->languageHelperMock
+      ->expects($this->any())
+      ->method('translate')
+      ->willReturn('test');
+
+    $this->configFactoryMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
+
     $definitions = [
       'provider' => 'test',
       'admin_label' => 'test',
     ];
 
     $this->recipeHeroBlock = new RecipeDetailHero(
-      ['social_links_toggle' => FALSE],
+      [
+        'social_links_toggle' => FALSE,
+        'select_background_color' => '',
+      ],
       'recipe_detail_hero',
       $definitions,
       $this->entityTypeManagerMock,
       $this->configFactoryMock,
       $this->tokenMock,
       $this->themeConfiguratorParserMock,
-      $this->mediaHelperMock
+      $this->mediaHelperMock,
+      $this->languageHelperMock
     );
 
     $this->themeSettings = [
@@ -176,16 +226,24 @@ class RecipeDetailHeroTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(5))
+      ->expects($this->exactly(6))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('entity_type.manager')],
         [$this->equalTo('config.factory')],
         [$this->equalTo('token')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
-        [$this->equalTo('mars_common.media_helper')]
+        [$this->equalTo('mars_common.media_helper')],
+        [$this->equalTo('mars_common.language_helper')]
       )
-      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configFactoryMock, $this->tokenMock, $this->themeConfiguratorParserMock, $this->mediaHelperMock));
+      ->will($this->onConsecutiveCalls(
+        $this->entityTypeManagerMock,
+        $this->configFactoryMock,
+        $this->tokenMock,
+        $this->themeConfiguratorParserMock,
+        $this->mediaHelperMock,
+        $this->languageHelperMock,
+      ));
 
     $this->entityTypeManagerMock
       ->expects($this->exactly(1))
@@ -215,8 +273,8 @@ class RecipeDetailHeroTest extends UnitTestCase {
     // Set Config Parser Mock.
     $this->themeConfiguratorParserMock
       ->expects($this->exactly(1))
-      ->method('getFileWithId')
-      ->willReturn('');
+      ->method('getBrandBorder')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
 
     // Mock node context.
     $nodeMock = $this->createNodeMock();
@@ -238,6 +296,13 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->assertArrayHasKey('#cooking_time', $build);
     $this->assertArrayHasKey('#ingredients_number', $build);
     $this->assertArrayHasKey('#number_of_servings', $build);
+    $this->assertArrayHasKey('#cooking_time_label', $build);
+    $this->assertArrayHasKey('#cooking_time_measure', $build);
+    $this->assertArrayHasKey('#ingredients_label', $build);
+    $this->assertArrayHasKey('#ingredients_measure', $build);
+    $this->assertArrayHasKey('#number_of_servings_label', $build);
+    $this->assertArrayHasKey('#number_of_servings_measure', $build);
+    $this->assertArrayHasKey('#social_text', $build);
     $this->assertArrayHasKey('#image', $build);
   }
 
@@ -253,6 +318,8 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->tokenMock = $this->createMock(Token::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
   }
 
   /**

@@ -141,6 +141,66 @@ third_party_settings:
         - homepage_drive_to_product
         - homepage_additional_touts
       whitelisted_blocks:
+        homepage_homepage_hero:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            Forms: {  }
+            'Global elements':
+              - homepage_hero_block
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common': {  }
+            'Mars Product': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            'Page components': {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
+        homepage_drive_to_product:
+          all_regions:
+            Article: {  }
+            'Chaos Tools': {  }
+            'Content fields': {  }
+            'Custom block types': {  }
+            'Custom blocks': {  }
+            'Entity Block': {  }
+            'Entity Browser': {  }
+            'Flexible driver':
+              - flexible_driver
+            Forms: {  }
+            'Global elements': {  }
+            Help: {  }
+            'Inline blocks': {  }
+            'Lists (Views)': {  }
+            'Mars Common':
+              - product_feature
+            'Mars Product':
+              - product_content_pair_up_block
+            'Mars Search': {  }
+            Menus: {  }
+            'Moderation Dashboard': {  }
+            'Page components':
+              - flexible_framer_block
+            Printable: {  }
+            Product: {  }
+            Recipe: {  }
+            'Social feed': {  }
+            'Social media share': {  }
+            System: {  }
+            User: {  }
+            core: {  }
         homepage_additional_touts:
           all_regions:
             Article: {  }
@@ -185,66 +245,6 @@ third_party_settings:
             System: {  }
             User: {  }
             core: {  }
-        homepage_homepage_hero:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            Forms: {  }
-            'Global elements':
-              - homepage_hero_block
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common': {  }
-            'Mars Product': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            Views: {  }
-            core: {  }
-        homepage_drive_to_product:
-          all_regions:
-            Article: {  }
-            'Chaos Tools': {  }
-            'Content fields': {  }
-            'Custom block types': {  }
-            'Custom blocks': {  }
-            'Entity Block': {  }
-            'Entity Browser': {  }
-            'Flexible driver':
-              - flexible_driver
-            Forms: {  }
-            'Global elements': {  }
-            Help: {  }
-            'Inline blocks': {  }
-            'Lists (Views)': {  }
-            'Mars Common':
-              - product_feature
-            'Mars Product':
-              - product_content_pair_up_block
-            'Mars Search': {  }
-            Menus: {  }
-            'Moderation Dashboard': {  }
-            'Page components':
-              - flexible_framer_block
-            Printable: {  }
-            Product: {  }
-            Recipe: {  }
-            'Social feed': {  }
-            'Social media share': {  }
-            System: {  }
-            User: {  }
-            core: {  }
 id: node.homepage.default
 targetEntityType: node
 bundle: homepage
@@ -271,6 +271,7 @@ content:
     region: content
 hidden:
   content_moderation_control: true
+  langcode: true
   layout_builder__layout: true
   published_at: true
   search_api_excerpt: true

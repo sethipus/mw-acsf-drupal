@@ -3,6 +3,9 @@
 namespace Drupal\Tests\mars_recipes\Unit;
 
 use Drupal;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailBody;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -49,6 +52,27 @@ class RecipeDetailBodyTest extends UnitTestCase {
   private $recipeBodyBlock;
 
   /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $configMock;
+
+  /**
+   * Mock.
+   *
+   * @var \Drupal\mars_common\LanguageHelper|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $languageHelperMock;
+
+  /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $immutableConfigMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -71,7 +95,9 @@ class RecipeDetailBodyTest extends UnitTestCase {
       [],
       'recipe_detail_body',
       $definitions,
-      $this->entityTypeManagerMock
+      $this->entityTypeManagerMock,
+      $this->configMock,
+      $this->languageHelperMock
     );
   }
 
@@ -82,12 +108,14 @@ class RecipeDetailBodyTest extends UnitTestCase {
    */
   public function blockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(1))
+      ->expects($this->exactly(3))
       ->method('get')
       ->withConsecutive(
         [$this->equalTo('entity_type.manager')],
+        [$this->equalTo('config.factory')],
+        [$this->equalTo('mars_common.language_helper')],
         )
-      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock));
+      ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->configMock, $this->languageHelperMock));
 
     $this->entityTypeManagerMock
       ->expects($this->exactly(1))
@@ -122,6 +150,26 @@ class RecipeDetailBodyTest extends UnitTestCase {
       ->willReturn($nodeMock);
     $this->recipeBodyBlock->setContext('node', $nodeContext);
 
+    $this->configMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
+
+    $this->languageHelperMock
+      ->expects($this->any())
+      ->method('translate')
+      ->willReturn('test');
+
     // Main testing function.
     $build = $this->recipeBodyBlock->build();
 
@@ -130,6 +178,8 @@ class RecipeDetailBodyTest extends UnitTestCase {
     $this->assertArrayHasKey('#ingredients_list', $build);
     $this->assertArrayHasKey('#nutrition_module', $build);
     $this->assertArrayHasKey('#product_used_items', $build);
+    $this->assertArrayHasKey('#ingredients_used_label', $build);
+    $this->assertArrayHasKey('#products_used_label', $build);
   }
 
   /**
@@ -139,6 +189,9 @@ class RecipeDetailBodyTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->viewBuilderMock = $this->createMock(EntityViewBuilderInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
+    $this->configMock = $this->createMock(ConfigFactoryInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
   }
 
   /**

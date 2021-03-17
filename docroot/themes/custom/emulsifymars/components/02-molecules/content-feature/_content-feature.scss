@@ -1,27 +1,57 @@
 .content-feature {
+  position: relative;
   text-align: center;
   padding: 8rem 4rem 7.2rem 4rem;
+  background-position: center center;
   background-size: cover;
+
+  @include medium {
+    padding: 8rem 2rem 7.2rem 2rem;
+  }
+
+  &__content {
+    position: relative;
+  }
+
+  & .eyebrow {
+    font-family: variable(primary-font);
+    margin-top: 0;
+
+    @include xs {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+    }
+
+    @include large {
+      font-size: 1.6rem;
+      line-height: 1.6rem;
+    }
+  }
 
   &__heading {
     color: clr(subcolor-3);
     font-family: variable(heading-font);
-    font-size: 4.8rem;
-    line-height: 4.3rem;
     margin: 4rem 0;
     word-break: break-all;
     word-break: break-word;
 
+    @include xs {
+      font-size: 4rem;
+      line-height: 4rem;
+    }
+
     @include medium {
       font-size: 5.6rem;
       line-height: 5.6rem;
-      word-break: normal;
     }
 
     @include large {
-      font-size: 8.4rem;
-      line-height: 7.5rem;
-      margin: 4rem 0 6rem 0;
+      font-size: 6.4rem;
+      line-height: 6.4rem;
+    }
+
+    @include xl {
+      margin: 4rem 0 6rem;
     }
 
     a {
@@ -38,11 +68,6 @@
         margin-bottom: 6rem;
     }
 
-    svg {
-      path {
-        fill: clr(subcolor-1);
-      }
-    }
   }
 
   &__paragraph {
@@ -50,12 +75,17 @@
     font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.88rem;
-    margin-bottom: 3rem;
+    margin: 0 auto 3rem;
+
+    @include medium {
+      max-width: 570px;
+    }
 
     @include large {
         font-size: 2.2rem;
         line-height: 3.52rem;
-        margin-bottom: 6rem;
+        margin: 0 auto 6rem;
+        max-width: 817px;
     }
   }
 
@@ -66,5 +96,30 @@
     &:hover {
       color: clr(secondary);
     }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.3));
+    opacity: .4;
+  }
+}
+
+/* https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/209464 */
+.block[data-block-plugin-id='mars_common_content_feature_module'] +
+.block[data-block-plugin-id='mars_common_content_feature_module'] {
+  margin-top: 50px;
+
+  @include medium {
+    margin-top: 60px;
+  }
+
+  @include xl {
+    margin-top: 80px;
   }
 }

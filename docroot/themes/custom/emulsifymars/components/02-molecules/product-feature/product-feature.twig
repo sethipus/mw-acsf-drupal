@@ -1,37 +1,48 @@
 {{ attach_library('emulsifymars/product-feature') }}
 {% set product_feature_base_class = 'product-feature' %}
 
-<section {{ bem(product_feature_base_class) }} id="product-feature" data-theme="{{ theme_styles }}" style="background-color: {{ background_color }};">
+<section {{ bem(product_feature_base_class) }} data-theme="{{ theme_styles }}" style="background-color: {{ background_color }};">
   <div {{ bem('inner', [], product_feature_base_class) }}>
-  <div {{ bem('bubble_1', [], product_feature_base_class) }} id="product-feature__bubble_1">
-  </div>
-  <div {{ bem('bubble_2', [], product_feature_base_class) }} id="product-feature__bubble_2">
-  </div>
-  <div {{ bem('bubble_3', [], product_feature_base_class) }} id="product-feature__bubble_3">
-  </div>
-    <div {{ bem('product_image', [], product_feature_base_class) }}>
-      {% include "@atoms/images/image/responsive-image.twig" with {
-        output_image_tag: true,
-        image_alt: image_alt,
-        image_sizes: '212px',
-        image_src: image_src,
-        responsive_image_blockname: 'product_image',
-      } %}
+    <div {{ bem('bubble', ['1'], product_feature_base_class) }}>
+      {{ brand_shape | raw }}
     </div>
-    <div {{ bem('product_text', [], product_feature_base_class) }}>
-      {% include "@atoms/text/eyebrow/eyebrow.twig" with {
-        eyebrow_text: eyebrow_text
-      } %}
-      {% include "@atoms/text/headings/_heading.twig" with {
-        heading: heading,
-        heading_level: heading_level,
-        heading_url: default_link_attributes.href
-      } %}
-      {% include "@atoms/links/defaultLink/defaultLink.twig" with {
-        default_link_content: default_link_content,
-        default_link_base_class: default_link_base_class,
-        default_link_attributes: default_link_attributes
-      } %}
+    <div {{ bem('bubble', ['2'], product_feature_base_class) }}>
+      {{ brand_shape | raw }}
+    </div>
+    <div {{ bem('bubble', ['3'], product_feature_base_class) }}>
+      {{ brand_shape | raw }}
+    </div>
+    <div {{ bem('content', [], product_feature_base_class) }}>
+      <div {{ bem('content-column', [], product_feature_base_class) }}>
+        <div {{ bem('product_image', [], product_feature_base_class) }}>
+          {% include "@atoms/images/image/responsive-image.twig" with {
+            output_image_tag: true,
+            image_alt: image_alt,
+            image_sizes: '212px',
+            height: '520px',
+            width: '520px',
+            image_src: image_src,
+            responsive_image_blockname: 'product_image',
+          } %}
+        </div>
+      </div>
+      <div {{ bem('content-column', [], product_feature_base_class) }}>
+        <div {{ bem('product_text', [], product_feature_base_class) }}>
+          {% include "@atoms/text/eyebrow/eyebrow.twig" with {
+            eyebrow_text: eyebrow_text
+          } %}
+          {% include "@atoms/text/headings/_heading.twig" with {
+            heading: heading,
+            heading_level: heading_level,
+            heading_url: default_link_attributes.href
+          } %}
+          {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+            default_link_content: default_link_content,
+            default_link_base_class: default_link_base_class,
+            default_link_attributes: default_link_attributes
+          } %}
+        </div>
+      </div>
     </div>
   </div>
 </section>

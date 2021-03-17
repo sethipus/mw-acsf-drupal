@@ -1,17 +1,19 @@
 {% include "@molecules/card/recommendations-card/recommendations-card.twig" with {
   theme_styles: theme_styles,
+  card_type: 'landing-page',
 
   card_image_src: card_image_src,
   card_image_alt: card_image_alt ,
   media_url: media_url,
 
+  is_new: is_new,
+  badge_text: badge_text,
+
   heading: heading,
   heading_level: heading_level,
   heading_base_class: heading_base_class,
-
+  heading_link_attributes: heading_link_attributes,
   button_text: button_text,
   button_modifiers: button_modifiers,
   button_link_attributes: button_link_attributes,
-
-}
-%}
+}%}

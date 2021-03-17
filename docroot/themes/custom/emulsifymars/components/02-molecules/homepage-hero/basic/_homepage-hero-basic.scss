@@ -1,0 +1,110 @@
+.homepage-hero-basic {
+  height: calc(100vh - 77px);
+  position: relative;
+
+  @include medium {
+    height: auto;
+    min-height: 31rem;
+  }
+
+  @include large {
+    min-height: 41rem;
+  }
+
+  @include xl {
+    min-height: 58rem;
+  }
+
+  &__background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+
+    @include medium {
+      background-size: 120% auto;
+      background-position: center center;
+      animation: hero-basic-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    }
+  }
+
+  &__container {
+    display: flex;
+    height: 100%;
+  }
+
+  &__image {
+    flex-grow: 1;
+    object-fit: cover;
+    animation: hero-3up-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+
+    @include large {
+      transform: scale(1.05);
+      animation: hero-3up-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+    }
+  }
+
+  &__content {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    animation: hero-basic-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
+  }
+
+  &__heading {
+    font-family: variable(heading-font);
+    font-weight: 300;
+    color: clr(subcolor-3);
+    text-align: center;
+
+    @include xs {
+      font-size: 4.8rem;
+      line-height: 4.32rem;
+    }
+
+    @include large {
+      font-size: 8.4rem;
+      line-height: 7.56rem;
+    }
+  }
+
+  .dark-overlay {
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-image: linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.49), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.29), rgba(0, 0, 0, 0.2));
+    }
+  }
+}
+
+@keyframes hero-basic-image-animates-in {
+  0% {
+    background-size: 100% auto;
+  }
+  100% {
+    background-size: 120% auto;
+  }
+}
+
+@keyframes hero-basic-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

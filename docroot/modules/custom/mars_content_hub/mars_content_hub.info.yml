@@ -1,0 +1,9 @@
+name: 'Mars Content Hub'
+type: module
+description: 'Defines an integration between Acquia Content Hub and Drupal.'
+package: 'Mars'
+core_version_requirement: '^8.8 || ^9'
+
+dependencies:
+  - depcalc
+  - acquia_contenthub

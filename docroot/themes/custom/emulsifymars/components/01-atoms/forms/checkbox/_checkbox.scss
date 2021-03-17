@@ -11,9 +11,10 @@
   &__label {
     display: block;
     cursor: pointer;
-    font: 14px/1.4em variable(secondary-font);
+    font-family: variable(secondary-font);
+    font-size: 1.6rem;
+    line-height: 2.24rem;
     color: clr(primary);
-    letter-spacing: -1.1px;
 
     &::before {
       content: '';

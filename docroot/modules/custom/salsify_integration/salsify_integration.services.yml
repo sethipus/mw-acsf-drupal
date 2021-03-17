@@ -42,6 +42,7 @@ services:
       - '@queue'
       - '@module_handler'
       - '@salsify_integration.mulesof_connector'
+      - '@http_client'
 
   salsify_integration.salsify_fields:
     class: Drupal\salsify_integration\SalsifyFields
@@ -54,6 +55,7 @@ services:
       - '@queue'
       - '@module_handler'
       - '@salsify_integration.mulesof_connector'
+      - '@http_client'
       - '@salsify_integration.salsify_product_repository'
       - '@plugin.manager.mail'
       - '@language_manager'
@@ -62,6 +64,7 @@ services:
       - '@salsify_integration.product_fields_mapper'
       - '@salsify_integration.salsify_import_field'
       - '@salsify_integration.salsify_import_taxonomy'
+      - '@messenger'
 
   salsify_integration.salsify_import_field:
     class: Drupal\salsify_integration\SalsifyImportField

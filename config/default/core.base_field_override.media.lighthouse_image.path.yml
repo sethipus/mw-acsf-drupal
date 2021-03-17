@@ -1,0 +1,20 @@
+uuid: 9719fe1a-a51b-4489-9f77-1b35c2c98312
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.lighthouse_image
+  module:
+    - path
+id: media.lighthouse_image.path
+field_name: path
+entity_type: media
+bundle: lighthouse_image
+label: 'URL alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

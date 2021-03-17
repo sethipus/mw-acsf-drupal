@@ -54,11 +54,16 @@
         {% if card__link__url %}
           <a href="{{card__link__url}}">
         {% endif %}
+        <div class="brand-shape">
+          {{ brand_shape | raw }}
+        </div>
           {% include "@atoms/images/image/responsive-image.twig" with {
             image_blockname: card__base_class,
             output_image_tag: card__image__output_image_tag,
             image_src: card__image__src,
             image_alt: card__image__alt,
+            height: "260px",
+            width: "260px",
           } %}
         {% if card__link__url %}
           </a>
@@ -80,6 +85,7 @@
         heading_url: card__heading__link|default(card__link__url),
         heading_link_base_class: card__heading__link_base_class|default('heading-link'),
         heading_link_blockname: card__base_class,
+        text_color_override: text_color_override
       } %}
       {{ title_suffix }}
     {% endif %}
@@ -92,6 +98,7 @@
         heading_level: 3,
         heading: card__subheading,
         heading_url: card__subheading__link,
+        text_color_override: text_color_override
       } %}
     {% endif %}
     {# Body #}
@@ -100,6 +107,7 @@
           paragraph_base_class: 'body',
           paragraph_blockname: card__base_class,
           paragraph_content: card__body,
+          text_color_override: text_color_override
         } %}
     {% endif %}
     {# Link #}

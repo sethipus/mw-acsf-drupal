@@ -16,15 +16,18 @@
     link_url: inline_search_url,
     link_base_class: inline_search_link__base_class|default(inline_search__base_class ~ '__link'),
     link_modifiers: inline_search_link__modifiers,
+    text_color_override: false,
   } %}
     {% block link_content %}
         {% include "@atoms/images/icons/_icon.twig" with {
           icon_base_class: "icon",
           icon_blockname: "inline-search",
           icon_name: inline_search_icon,
+          icon_decorative: true,
         } %}
         {% include "@atoms/text/text/07-span.twig" with {
           span_content: inline_search_title,
+          text_color_override: false,
         } %}
     {% endblock %}
   {% endembed %}

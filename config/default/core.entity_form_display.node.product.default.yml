@@ -3,19 +3,22 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.product.field_brand_initiatives
     - field.field.node.product.field_meta_tags
-    - field.field.node.product.field_product_brand
+    - field.field.node.product.field_override_global_rating
+    - field.field.node.product.field_product_category
     - field.field.node.product.field_product_description
     - field.field.node.product.field_product_flavor
     - field.field.node.product.field_product_format
+    - field.field.node.product.field_product_generated
     - field.field.node.product.field_product_market
     - field.field.node.product.field_product_name
     - field.field.node.product.field_product_new
     - field.field.node.product.field_product_occasions
     - field.field.node.product.field_product_segment
-    - field.field.node.product.field_product_sub_brand
     - field.field.node.product.field_product_trade_description
     - field.field.node.product.field_product_variants
+    - field.field.node.product.field_rating_and_reviews
     - field.field.node.product.layout_builder__layout
     - field.field.node.product.salsify_id
     - field.field.node.product.salsify_updated
@@ -33,10 +36,10 @@ third_party_settings:
     group_product_overview:
       children:
         - title
-        - field_product_brand
+        - field_brand_initiatives
         - field_product_flavor
         - field_product_market
-        - field_product_sub_brand
+        - field_product_category
         - field_product_segment
         - field_product_name
         - field_product_description
@@ -44,16 +47,18 @@ third_party_settings:
         - field_product_occasions
         - field_product_trade_description
         - field_product_new
+        - field_override_global_rating
+        - field_rating_and_reviews
       parent_name: group_product
       weight: 1
-      format_type: accordion_item
+      format_type: details
       region: content
       format_settings:
+        description: ''
+        open: true
+        required_fields: true
         id: ''
         classes: ''
-        formatter: open
-        required_fields: true
-        description: ''
       label: 'Product Overview'
     group_product:
       children:
@@ -62,12 +67,20 @@ third_party_settings:
         - group_system
       parent_name: ''
       weight: 0
-      format_type: accordion
+      format_type: html_element
       region: content
       format_settings:
         id: ''
         classes: ''
         effect: bounceslide
+        open: false
+        required_fields: true
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        speed: fast
+        attributes: ''
       label: Product
     group_system:
       children:
@@ -81,7 +94,7 @@ third_party_settings:
         - status
       parent_name: group_product
       weight: 4
-      format_type: accordion_item
+      format_type: details
       region: content
       format_settings:
         id: ''
@@ -89,20 +102,21 @@ third_party_settings:
         description: ''
         required_fields: true
         formatter: closed
+        open: false
       label: System
     group_variants:
       children:
         - field_product_variants
       parent_name: group_product
       weight: 2
-      format_type: accordion_item
+      format_type: details
       region: content
       format_settings:
-        id: ''
-        classes: ''
         formatter: closed
         required_fields: true
-        description: ''
+        id: ''
+        classes: ''
+        open: false
       label: Variants
 _core:
   default_config_hash: M26Ctwvzf3e3h8zeeLunTl3F4RagFfha09B2urY9BVY
@@ -113,25 +127,38 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 3
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_brand_initiatives:
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_meta_tags:
-    weight: 26
+    weight: 5
     settings:
       sidebar: true
     third_party_settings: {  }
     type: metatag_firehose
     region: content
-  field_product_brand:
-    weight: 2
+  field_override_global_rating:
+    weight: 14
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_product_category:
+    weight: 6
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_product_description:
-    weight: 8
+    weight: 9
     settings:
       rows: 5
       placeholder: ''
@@ -139,55 +166,25 @@ content:
     type: text_textarea
     region: content
   field_product_flavor:
-    weight: 3
+    weight: 4
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_product_format:
-    weight: 9
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
-  field_product_market:
-    weight: 4
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_name:
-    weight: 7
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_product_new:
-    weight: 12
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
-  field_product_occasions:
     weight: 10
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
-  field_product_segment:
-    weight: 6
+  field_product_generated:
+    weight: 26
     settings:
-      size: 60
-      placeholder: ''
+      display_label: true
     third_party_settings: {  }
-    type: string_textfield
+    type: boolean_checkbox
     region: content
-  field_product_sub_brand:
+  field_product_market:
     weight: 5
     settings:
       size: 60
@@ -195,8 +192,37 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_product_trade_description:
+  field_product_name:
+    weight: 8
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_new:
+    weight: 13
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_product_occasions:
     weight: 11
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_product_segment:
+    weight: 7
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_product_trade_description:
+    weight: 12
     settings: {  }
     third_party_settings: {  }
     type: options_select
@@ -211,15 +237,29 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_rating_and_reviews:
+    weight: 15
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
-    weight: 8
+    weight: 10
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 6
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -227,12 +267,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 6
     region: content
     third_party_settings: {  }
   published_at:
     type: publication_date_timestamp
-    weight: 10
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -240,14 +280,14 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 9
+    weight: 11
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 7
     region: content
     third_party_settings: {  }
   title:
@@ -258,9 +298,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 2
+    weight: 4
     region: content
     settings:
       match_operator: CONTAINS
@@ -269,7 +314,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   url_redirects:
-    weight: 7
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }

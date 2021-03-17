@@ -4,11 +4,11 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  margin: 15px 0 23px -5px;
+  margin: 15px 0 23px;
 
   &__item {
-    margin-bottom: $space-one-fourth;
     flex-basis: 20px;
+    margin-bottom: $space-one-fourth;
     margin-right: 3rem;
   }
 
@@ -18,8 +18,8 @@
 
     & svg {
       display: inline;
-      height: 22px;
-      width: 22px;
+      max-height: 22px;
+      max-width: 22px;
     }
 
     & svg path {

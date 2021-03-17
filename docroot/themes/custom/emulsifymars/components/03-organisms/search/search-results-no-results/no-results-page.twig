@@ -1,0 +1,17 @@
+<section class="search-results-page" data-theme="{{ theme_styles }}" data-site-search-term="{{ site_search_term }}">
+  {% block search_header %}
+    {% include "@molecules/search-page-header/search-page-header.twig" with {
+        search_page_header_heading: 'What are you looking for?',
+        search_page_header_heading_level: 1,
+        search_page_header_heading_base_class: 'search-page-heading'
+      }
+    %}
+  {% endblock %}
+
+  {% include "@organisms/search/search-results-no-results/no-results.twig" with {
+    theme_styles: theme_styles,
+    no_results_text: no_results_text,
+    no_results_links: no_results_links,
+  } %}
+
+</section>

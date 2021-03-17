@@ -1,0 +1,20 @@
+uuid: a2d7c001-3aaf-4c80-ba1c-0baad59a17cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.faq_contact
+  module:
+    - datetime
+id: node.faq_contact.scheduled_transition_date
+field_name: scheduled_transition_date
+entity_type: node
+bundle: faq_contact
+label: 'Scheduled transition date'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

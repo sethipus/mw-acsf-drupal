@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\Plugin\Block\TextBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -37,6 +38,13 @@ class TextBlockTest extends UnitTestCase {
   private $formStateMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * Test block configuration.
    *
    * @var array
@@ -61,7 +69,8 @@ class TextBlockTest extends UnitTestCase {
     $this->block = new TextBlock(
       $this->configuration,
       'text_block',
-      $definitions
+      $definitions,
+      $this->languageHelperMock,
     );
   }
 
@@ -108,6 +117,7 @@ class TextBlockTest extends UnitTestCase {
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 
 }

@@ -1,6 +1,6 @@
 {% set image_base_class = image_base_class|default('image') %}
 
-<img
+<img loading="lazy" data-object-fit
   {{ bem(image_base_class, image_modifiers, image_blockname) }}
   {% if image_srcset %}
     srcset="{{ image_srcset }}"
@@ -8,9 +8,17 @@
   {% if image_sizes %}
     sizes="{{ image_sizes }}"
   {% endif %}
+  {% if height %}
+    height="{{ height }}"
+  {% endif %}
+  {% if width %}
+    width="{{ width }}"
+  {% endif %}
   src="{{ image_src }}"
   {% if image_alt %}
     alt="{{ image_alt }}"
+  {% else %}
+    alt=""
   {% endif %}
   {% if image_title %}
     title="{{ image_title }}"

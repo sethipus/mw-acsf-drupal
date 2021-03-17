@@ -1,5 +1,5 @@
-field_id: 'Hero Image'
-salsify_id: 'Hero Image'
+field_id: 'CMS: Image 1'
+salsify_id: 'CMS: Image 1'
 salsify_data_type: digital_asset
 entity_type: node
 bundle: product_variant

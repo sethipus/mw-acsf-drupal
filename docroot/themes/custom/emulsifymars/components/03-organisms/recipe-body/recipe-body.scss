@@ -1,55 +1,62 @@
+//calculated at recipe hero for large screen
+$xl-left-margin: 11.583rem;
+
 .product-used {
   padding: 30px 0 0;
   position: relative;
 
-  @include medium {
+  @include small {
     padding: 40px 0 30px;
+    border-top: 1px solid rgba(196, 196, 196, 0.6);
+    border-bottom: 1px solid rgba(196, 196, 196, 0.6);
   }
 
   @include xl {
     position: absolute;
     top: 0;
-    left: calc(50% + 248px);
-    padding: 60px 0 0;
+    right: 4rem;
+    padding: 0;
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .swiper-wrapper {
+    flex-direction: row;
+
+    @include xl {
+      flex-direction: column;
+    }
   }
 
   &__title {
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: capitalize;
-    letter-spacing: 1px;
 
     @include medium {
-      font-size: 28px;
-      line-height: 31px;
-    }
-  }
-
-  &::before {
-    content: "";
-    height: 1px;
-    width: 100%;
-    background-color: rgba(196, 196, 196, 0.6);
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    @include medium {
-      width: calc(100% - 80px);
-      left: 40px;
+      font-size: 26px;
+      line-height: 1.1;
     }
 
     @include xl {
-      display: none;
+      padding-left: 1rem;
     }
   }
+
+  .swiper-container-vertical {
+    overflow: inherit;
+  }
+
 }
 
 .product-used-item {
-  margin-top: 34px;
+  margin-top: 3.4rem;
 
   @include medium {
-    margin-top: 30px;
+    margin-top: 3rem;
+  }
+
+  @include xl {
+    margin: 3rem 1rem 1rem 1rem;
   }
 }
 
@@ -62,6 +69,10 @@
 .recipe-body-content {
   padding: 0 20px 27px;
   position: relative;
+
+  @include small {
+    padding: 0 20px;
+  }
 
   @include medium {
     padding: 0 40px;
@@ -77,9 +88,8 @@
     margin: 31px 0 13px;
     font: 20px/1.1em variable(primary-font);
     color: clr(primary);
-    text-transform: capitalize;
-    letter-spacing: 1.12px;
     padding: 0;
+    font-weight: 500;
 
     @include medium {
       margin: 31px 0 24px;
@@ -101,19 +111,20 @@
     list-style-type: none;
     font: 18px/29px variable(secondary-font);
     color: clr(primary);
-    letter-spacing: -1.1px;
     padding: 0;
     margin: 13px 0 60px;
 
     @include medium {
       padding: 0;
+      line-height: 1.6;
     }
 
     @include xl {
       font-size: 20px;
-      line-height: 36px;
+      line-height: 1.8;
       max-width: 1125px;
       padding: 0 460px 0 0;
+      margin-left: 116px;
     }
 
     .list-item {
@@ -144,125 +155,9 @@
     }
   }
 
-  .recipe-body-instructions-list {
-    margin: auto;
-    padding: 0 15px;
-
-    @include medium {
-      padding: 0;
-    }
-
-    @include xl {
-      max-width: 1125px;
-      padding: 0 460px 0 0;
-    }
-
-    .list-item {
-      margin-top: 20px;
-
-      @include medium {
-        padding: 20px 20px 20px 80px;
-      }
-
-      &__content {
-        font: 18px/1.65em variable(secondary-font);
-        color: clr(primary);
-        letter-spacing: -1.1px;
-      }
-
-      &::before {
-        font: 28px/1em variable(primary-font);
-        top: 20px;
-
-        @include medium {
-          top: calc(50% - .5em);
-        }
-      }
-    }
-  }
-
-  .recipe-body-content-paragraph {
-    margin: 40px auto;
-    font: 18px/1.65em variable(secondary-font);
-    color: clr(primary);
-    letter-spacing: -1.1px;
-    padding: 0 15px;
-
-    @include medium {
-      padding: 0 40px;
-    }
-
-    @include xl {
-      font-size: 20px;
-      line-height: 1.8em;
-      max-width: 1125px;
-      padding: 0 460px 0 0;
-    }
-  }
-
-  .recipe-body-video {
-    &__full {
-      width: 100vw;
-      margin-left: -20px;
-
-      @include medium {
-        margin-left: -40px;
-      }
-
-      @include xl {
-        width: 1125px;
-        margin: auto;
-      }
-    }
-  }
-
-  &__bottom {
-    margin-bottom: 100px;
-    padding-top: 40px;
-
-    .recipe-body-content-header {
-      margin-top: 0;
-    }
-
-    &::before {
-      content: "";
-      height: 1px;
-      width: calc(100% - 40px);
-      background-color: rgba(196, 196, 196, 0.6);
-      position: absolute;
-      top: 0;
-      left: 20px;
-
-      @include medium {
-        width: calc(100% - 160px);
-        left: 80px;
-      }
-
-      @include xl {
-        display: none;
-      }
-    }
-  }
-
   .ambient-video__control[data-state="play"] {
     left: calc(50% - 30px);
     top: calc(50% - 30px);
   }
-}
 
-.list-container-block {
-  margin: 0 20px 30px;
-
-  h2 {
-    padding-left: 2em;
-  }
-
-  @include medium {
-    margin: 0 40px 40px;
-  }
-
-  @include xl {
-    max-width: 70%;
-    margin: 0 auto;
-  }
 }

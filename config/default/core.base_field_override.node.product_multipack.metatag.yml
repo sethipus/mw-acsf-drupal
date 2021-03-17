@@ -1,0 +1,18 @@
+uuid: 1eef70e4-d2dd-4a8e-8c55-a59d852dbf43
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_multipack
+id: node.product_multipack.metatag
+field_name: metatag
+entity_type: node
+bundle: product_multipack
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

@@ -1,55 +1,18 @@
 {#
 /**
  * @file
- * Template for search results.
- *
- * Available variables:
- * - attributes: Remaining HTML attributes for the element.
- * - css_name: A CSS-safe version of the view name.
- * - css_class: The user-specified classes names, if any.
- * - header: The optional header.
- * - footer: The optional footer.
- * - rows: The results of the view query, if any.
- * - empty: The content to display if there are no rows.
- * - pager: The optional pager next/prev links to display.
- * - exposed: Exposed widget form/info to display.
- * - feed_icons: Optional feed icons to display.
- * - more: An optional link to the next page of results.
- * - title: Title of the view, only used when displaying in the admin preview.
- * - title_prefix: Additional output populated by modules, intended to be
- *   displayed in front of the view title.
- * - title_suffix: Additional output populated by modules, intended to be
- *   displayed after the view title.
- * - attachment_before: An optional attachment view to be displayed before the
- *   view content.
- * - attachment_after: An optional attachment view to be displayed after the
- *   view content.
- * - dom_id: Unique id for every view being printed to give unique class for
- *   Javascript.
- *
- * @see template_preprocess_views_view()
+ * Template for card grid.
  */
 #}
 
-{% if input_form or filters %}
-  {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
-    theme_styles: theme_styles,
-    search_form: input_form,
-    applied_filters_list: applied_filters_list,
-    items: filters,
-    title: 'Filter by:'|t,
-  } %}
+{% include "@organisms/card-grid/card-grid.twig" with {
+  theme_styles: 'drupal',
+  text_color_override: text_color_override
+} %}
+{% if override_filter_title_color is not empty %}
+  <style type="text/css">
+    .filter-block .filter-title {
+      color: {{ override_filter_title_color }};
+    }
+  </style>
 {% endif %}
-
-<div class="card-grid-results" data-theme="drupal">
-  {% if no_results %}
-    {{ no_results }}
-  {% else %}
-    {% include "@organisms/grid/ajax-card-grid.twig" with {
-      theme_styles: theme_styles,
-      items: items,
-      ajax_card_grid_heading: ajax_card_grid_heading,
-      graphic_divider: graphic_divider,
-    } %}
-  {% endif %}
-</div>

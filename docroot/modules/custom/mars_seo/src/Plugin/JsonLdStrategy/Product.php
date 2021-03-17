@@ -40,15 +40,15 @@ class Product extends JsonLdStrategyPluginBase {
     $main_image_id = $this->mediaHelper->getEntityMainMediaId($node);
     $main_image_url = $this->mediaHelper->getMediaUrl($main_image_id);
 
+    $options = ['absolute' => TRUE];
+    $url = $this->urlGenerator->generateFromRoute('entity.node.canonical', ['node' => $node->id()], $options);
+
     // TODO: Import from rating engine or similar.
     return Schema::product()
       ->name($node->getTitle())
-      ->aggregateRating(Schema::aggregateRating()
-        ->ratingValue(5)
-        ->ratingCount(18)
-      )
-      ->if($node->field_product_brand->target_id, function (SchemaProduct $product) use ($node) {
-        $product->brand($node->field_product_brand->entity->getName());
+      ->identifier($url)
+      ->if($node->field_brand_initiatives->target_id, function (SchemaProduct $product) use ($node) {
+        $product->brand($node->field_brand_initiatives->entity->getName());
       })
       ->if($node->field_product_description->value, function (SchemaProduct $product) use ($node) {
         $product->description($node->field_product_description->value);

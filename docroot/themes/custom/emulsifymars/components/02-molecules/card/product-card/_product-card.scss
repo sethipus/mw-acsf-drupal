@@ -1,10 +1,12 @@
 .product-card {
   min-height: 520px;
   border-radius: variable(card-border-radius);
-  width: 318px;
   transition: cubic-bezier(0.75, 0, 0.25, 0), 0.8s;
   background-image: radial-gradient(circle at 50% 40%, clr(card-background) 10%, clr(subcolor-1));
   position: relative;
+  cursor: pointer;
+  box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+  @include card-width;
 
   a {
     text-decoration: none;
@@ -15,36 +17,58 @@
     padding-top: 3rem;
     font-family: variable(primary-font);
     text-align: center;
-    margin-bottom: 0;
+    margin: 0;
   }
 
   .product-card__image img {
     transition: transform 0.8s;
+    z-index: 1;
   }
 
-  &:hover {
-    background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary));
-    transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
+  @include medium {
+    &:hover {
+      // Use !important to override custom styles from _base.scss
+      background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary)) !important;
+      transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
-    p, a, .eyebrow{
-      color: clr(subcolor-3);
-    }
-
-    .product-card__image img {
-      transform: scale(1.1);
-      transition: transform 0.8s;
-    }
-
-    .product-card__img-hover {
-      .product-image__image {
-        opacity: 0;
+      p, a, .eyebrow, .cc-fi-button {
+        color: clr(subcolor-3);
       }
 
-      .hover-image__image {
-        opacity: 1;
+      .product-card__image img {
+        transform: scale(1.1);
+        transition: transform 0.8s;
+      }
+
+      .product-card__img-hover {
+        .product-image__image {
+          opacity: 0;
+        }
+
+        .hover-image__image {
+          opacity: 1;
+        }
+      }
+
+      .product-card__button a{
+        color: clr(secondary);
       }
     }
+  }
 
+
+  &__brand-shape {
+    position: absolute;
+    width: 20rem;
+    height: 20rem;
+    left: calc(50% - 100px);
+    top: 9rem;
+
+    svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &__image {
@@ -93,42 +117,64 @@
     font-size: 2.2rem;
     font-family: variable(primary-font);
     max-width: 75%;
-    min-height: 105px;
     margin: 2rem auto 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 6;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 
     p {
       max-width: 255px;
       color: clr(primary);
       margin-bottom: 0;
+      line-height: 2.42rem;
     }
 
+  }
+
+  &__rating {
+    margin: 1rem 0 1rem 0;
   }
 
   &__link_section {
     display: flex;
     flex-direction: row;
     position: absolute;
-    bottom: 1rem;
+    bottom: 2.5rem;
+    left: 3.7rem;
+
   }
 
   &__button{
     position: relative;
     left: -1rem;
     a {
-      padding: 0 1.85rem;;
+      padding: 0 1.85rem;
       line-height: 5rem;
       font-size: 1.4rem;
+
+
+      @include medium {
+        transition: color 1s cubic-bezier(.75, 0, .25, .8), background-color 1s cubic-bezier(.75, 0, .25, .8);
+        &:hover {
+          color: clr(subcolor-3) !important;
+          transition: color 1s cubic-bezier(.75, 0, .25, .8);
+          background-color: clr(subcolor-3) !important;
+        }
+      }
+
     }
 
-    &:hover {
-      a {
-        color: clr(secondary);
-      }
+    .default-link--light {
+      margin-bottom: 0;
+      box-shadow: none;
     }
   }
 
-  & .text_link{
-    padding: 1.5rem 2rem;
+  & .cc-fi-button {
+    display: inline-block;
+    padding: 0 2rem;
     line-height: 5rem;
     font-size: 1.4rem;
     text-decoration: none;
@@ -136,11 +182,36 @@
     color: clr(primary);
     font-family: variable(secondary-font);
     text-transform: uppercase;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
   }
 
   .badge {
     position: absolute;
     top: -3.5rem;
     right: -1.5rem;
+    z-index: 2;
+  }
+
+  .ps-disabled {
+    display: none !important;
+  }
+
+  .inline-rating {
+    max-width: 75%;
+    margin: 0 auto;
+  }
+
+  .score {
+    color: clr(primary);
+    font-family: variable(secondary-font);
+    font-size: 1.4rem;
   }
 }
+

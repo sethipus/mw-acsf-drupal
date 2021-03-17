@@ -17,6 +17,7 @@
  * - svg_asset_alt_3: SVG asset 3 Alt text for Story Highlight block background.
  * - view_more_cta_url: View More CTA link URL.
  * - view_more_cta_label: View More CTA link label.
+ * - overlaps_previous: Overlaps previous component.
  */
 #}
 {% include "@molecules/story-highlight/story_highlight.twig" with {
@@ -24,7 +25,6 @@
   heading: title,
   story_highlight_paragraph_content: story_description,
   brand_borders: brand_border,
-  brand_shape_class: 'stretch',
   graphic_divider: graphic_divider,
   items: story_items,
   asset_1: svg_asset_src_1,
@@ -34,8 +34,9 @@
   asset_3: svg_asset_src_3,
   asset_3_alt: svg_asset_alt_3,
   story_highlight_button_link_attributes: {
-    href: view_more_cta_url,
-    target: "_blank"
+    href: view_more_cta_url
   },
-  story_highlight_button_text: view_more_cta_label
+  story_highlight_button_text: view_more_cta_label,
+  overlaps_previous: overlaps_previous,
+  text_color_override: text_color_override
 } %}

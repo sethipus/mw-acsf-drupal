@@ -1,40 +1,37 @@
 .article-wysiwyg {
   background-color: clr(subcolor-3);
-  padding: 2rem 0 4rem 0;
-  overflow-x: hidden;
-  margin: 0 20px 30px;
   font-family: variable(secondary-font);
   font-size: 2rem;
   line-height: 1.8;
   color: clr(primary);
+  margin: 40px 0;
 
   @include medium {
-    margin: 0 40px 40px;
+    margin: 60px 0;
   }
 
   @include xl {
-    max-width: 70%;
-    margin: 0 auto;
-    text-align: justify;
+    margin: 80px 0;
   }
 
   &__content {
-    padding: 0 1rem;
+    margin: 0 20px;
+
+    @include medium {
+      max-width: 570px;
+      margin: 0 auto;
+    }
+
+    @include xl {
+      max-width: 1128px;
+      padding: 0 30px;
+    }
   }
 }
 
 .article-detail {
   .article-wysiwyg {
-    width: 90%;
-    margin: 0 auto;
-
-    @include medium {
-      max-width: 100%;
-      width: 70%;
-    }
-  }
-
-  .article-wysiwyg__content {
-    padding: 0;
+    font-size: 1.8rem;
+    line-height: 1.6;
   }
 }

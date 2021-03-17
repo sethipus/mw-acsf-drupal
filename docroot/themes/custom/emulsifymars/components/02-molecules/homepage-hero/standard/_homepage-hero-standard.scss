@@ -1,7 +1,9 @@
 .homepage-hero-standard {
+  overflow: hidden;
+
   &__inner {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column;
     position: relative;
     background-color: clr(secondary);
 
@@ -9,6 +11,120 @@
       flex-flow: row nowrap;
     }
   }
+
+  &__bubble {
+    position: absolute;
+    height: auto;
+
+    svg {
+      width: 100%;
+      height: auto;
+      fill: clr(subcolor-3);
+      opacity: 0.15;
+    }
+
+    &--1 {
+      width: 30rem;
+      top: 49rem;
+      left: 43%;
+
+      @include medium {
+        width: 37rem;
+        top: -8.3rem;
+        left: 78%;
+      }
+
+      @media (max-width: 767px) {
+        animation: movedown 2s;
+      }
+
+      @media (min-width: 768px) {
+        animation: moveup 2s;
+      }
+
+    }
+
+    &--2 {
+      width: 8.5rem;
+      top: 8.7rem;
+      right: 25px;
+
+      @include medium {
+        width: 11.5rem;
+        top: 11rem;
+        right: 66.5%;
+      }
+
+      @media (max-width: 767px) {
+        animation: moveright 2s;
+      }
+
+      @media (min-width: 768px) {
+        animation: moveleft 2s;
+      }
+    }
+
+    &--3 {
+      display: none;
+      width: 21.4rem;
+      top: 48.5rem;
+      right: -26%;
+
+      @include medium {
+        display: block;
+        top: 58.3rem;
+        right: 50.5%;
+      }
+    }
+  }
+
+  @keyframes moveleft {
+    0% {
+      top: 8.7rem;
+      right: 25px;
+    }
+    100% {
+      top: 11rem;
+      right: 66.5%;
+    }
+  }
+
+  @keyframes moveright {
+    0% {
+      top: 11rem;
+      right: 66.5%;
+    }
+    100% {
+      top: 8.7rem;
+      right: 25px;
+    }
+  }
+
+  @keyframes movedown {
+    0% {
+      top: -8.3rem;
+      left: 78%;
+    }
+
+    100% {
+      top: 49rem;
+      left: 43%;
+    }
+  }
+
+  @keyframes moveup {
+    0% {
+      top: 49rem;
+      left: 43%;
+    }
+
+    100% {
+      top: -8.3rem;
+      left: 78%;
+    }
+  }
+
+
   &__left {
     flex-grow: 1;
     order: 2;
@@ -18,17 +134,43 @@
     }
 
     & .wrapper {
+      position: relative;
+      height: 100%;
+      margin-top: 52px;
+      min-height: 325px;
+
+      @include medium {
+        min-height: 600px;
+      }
+
+      @include large {
+        min-height: 580px;
+      }
+
       & .eyebrow {
         font-family: variable(primary-font);
-        font-size: 14px;
         color: clr(subcolor-3);
         text-decoration: none;
-        letter-spacing: 1.4px;
+        margin-bottom: 4rem;
+
+        @include xs {
+          font-size: 1.4rem;
+          line-height: 1.4rem;
+        }
+
+        @include medium {
+          font-size: 1.6rem;
+          line-height: 1.6rem;
+        }
       }
 
       & .heading {
         margin: 0;
-        max-width: 70%;
+        height: 149px;
+
+        @include medium {
+          height: auto;
+        }
 
         &__link {
           font-family: variable(heading-font);
@@ -36,29 +178,39 @@
           text-decoration: none;
           font-weight: 300;
           word-wrap: break-spaces;
-          font-size: 48px;
-          line-height: 43.2px;
 
-          @include large {
-            font-size: 84px;
-            line-height: 75.6px;
+          @include xs {
+            font-size: 4.8rem;
+            line-height: 4.32rem;
+          }
+
+          @include medium {
+            font-size: 8.4rem;
+            line-height: 7.56rem;
           }
         }
       }
 
       & .default-link {
-        margin: 30px 0;
-        height: 50px;
-        line-height: 50px;
-        background-color: clr(subcolor-2);
-        color: clr(secondary);
+        margin: 3.4rem 0 3.5rem;
+        height: 5rem;
+        line-height: 5rem;
+
+        @include medium {
+          margin: 6rem 0;
+        }
+
+        @include large {
+          height: 6rem;
+          line-height: 6rem;
+        }
       }
     }
   }
 
   &__right {
     flex-grow: 1;
-    order:1;
+    order: 1;
 
     @include medium {
       order: 2;
@@ -81,22 +233,46 @@
     }
 
     & img {
-      align-self: center;
+      align-self: flex-end;
+      object-fit: contain;
+      max-height: 210px;
+      max-width: 210px;
 
       @include large {
         margin-left: auto;
-        margin-right: 0;
+        margin-right: 8.6rem;
+        height: 658px;
+        width: 549px;
+        max-height: 658px;
+        max-width: 550px;
+        transform: translateY(26.5%);
       }
     }
   }
 
   &__container--hero-text {
-    padding: 50px 0 0 20px;
-    position: relative;
+    padding: 30px 20px 0 20px;
+    position: absolute;
+    bottom: 0;
     z-index: 1;
+    animation: hero-standard-text-animates-in 1.7s
+      cubic-bezier(0.75, 0, 0.25, 0);
+
+    @include medium {
+      bottom: 52px;
+    }
 
     @include large {
-      padding: 150px 0 0 20px;
+      padding-left: 40px;
     }
+  }
+}
+
+@keyframes hero-standard-text-animates-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

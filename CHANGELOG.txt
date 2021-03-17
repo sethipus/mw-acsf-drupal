@@ -1,0 +1,249 @@
+release-2020-12-14
+....
+
+
+release-2020-12-24
+
+48f7cf79 (shutova/task/000000-inline-video-hot-fix, task/000000-inline-video-hot-fix) AB#000000: update inline video behaviour on scroll.
+d0bcfdb2 AB#205470: fix styles fro where to buy and styles.
+b37f9a8f AB#205470: adding brand shape for inline video element.
+283ee0ac AB#212805: Accessibility - fix alt attr for recipe page.
+7f8edb03 AB#211570: PIM integration - publishing logic update.
+2fe16d33 AB#211570: Alt text - add translation functionality.
+2b4fddbb AB#213773: fix for search header predictive search.
+d9e48a78 AB#212359: Service id correction.
+739791f8 AB#212359: Correction in the namespace.
+ee3d4e55 AB#212359: Poll controller unit tests.
+61149ac9 AB#212780: Add BG overlay to Content Feature component.
+3a419ea2 AB#211579: Contact Module Title and description size is incorrect.
+3e91a952 AB#214497: Remove footer extra space.
+9b115f1a AB#206354: Incorrect alignment of Recipe Detail page.
+abffb5c1 AB#212358: Minor correction in a typehint.
+30931af4 AB#212358: Parent page header block unit tests.
+bd40d760 (sosieart/task/2123070-unit-test-search, task/2123070-unit-test-search) AB#2123070: unit test updates to fix class imports.
+3016b38f AB#213773: list title font styles.
+60f1e984 AB#212357: Product content pair up unit tests.
+48daaf8d AB#212307: Unit test search.
+1efdb36d (sosieart/task/215354-reduce-code-complexity-for-theme-configurator-service) AB#215354: Reduce code complexity for theme configurator service.
+aa62a77f AB#207113: Accessibility - Keyboard focus incorrect behavior fix.
+9fbf35a8 AB#215354: Reduce code complexity for theme configurator service.
+b61dd75e AB#215354: Reduce code complexity for theme configurator service.
+1367c0b2 AB#206162: social links sr-only content.
+dc91768e AB#215354: Reduce code complexity for theme configurator service. Fix code styles.
+0e199ebb AB#215354: Reduce code complexity for theme configurator service.
+135d85db AB#214462: Feedback module - fix submit logic.
+30959777 AB#215354: Reduce code complexity for theme configurator service.
+fb64d711 AB#208618: SROnly twig include fix.
+696bf3ea AB#208618: Unnecessary check removed.
+67d78bf7 AB#214003: Translation issues.
+517fb511 AB#208618: Removeclass console error message addressed.
+924836cd AB#194299: Datalayer page view - fix taxonomy null.
+bc746c52 AB#212357: Content pair up unit test setup.
+64540393 (origin/BUG_211624_Accessibility_Entry_Gate_Each_field_of_the_Date_has_no_proper_aria_label, BUG_211624_Accessibility_Entry_Gate_Each_field_of_the_Date_has_no_proper_aria_label) AB#211624: aria label translation.
+665c3b94 AB#211624: aria label translation.
+957c4204 (sosieart/task/214676-fix-ability-to-choose-wtb-provider) Merge branch 'dev' into task/214676-fix-ability-to-choose-wtb-provider
+f4d84999 (yashcole/bug/183063_incorrect_video_behaviour, bug/183063_incorrect_video_behaviour) AB#183063: merge conflict resolve.
+852651ae AB#211548: fixing recipe height
+96a8463d AB#210990: adding max height for the element. Max width was already added
+ed3da982 AB#000000: setting pdp brand shape opacity to 0.2
+bb3262a6 AB#213591: [Social Feed] : [Swiper] Uncaught ReferenceError on Swiper Integration
+d780fa3c (shutova/task/000000-qa-deploy, task/000000-qa-deploy) AB#000000: deploy to QA pipeline fix.
+a487c63a Merge pull request #1108 from nikulbar/task/salsify_multipack_update
+86d4bd58 AB#211811: Added aria-live polite to card grid
+66198e31 AB#209662: adding discernible text to links
+ad0ac6fb Update product-rating.yml
+3b022910 AB#214921: pdp hero font fix
+e9c8e909 (shutova/task/207598_logo_size, task/207598_logo_size) AB#207598: update for logo images.
+3abee9ef AB#211038: changing span to h3
+235a1af8 AB#210841: [Accessibility]: [Homepage Hero] - Button must have a discernible text
+906c813a AB#211809: Added aria-role to checkbox and added aria-selected attributes to checkboxes
+5345b32c AB#214462: JS block - fix cloudflare validation.
+28cbbec8 (shutova/task/207111-footer-legals, task/207111-footer-legals) AB#207111: update footer placement.
+795efc6c AB#212806: [Accessibility] [FE] Anchor element found with a valid href attribute, but no link content has been supplied.
+bbde8534 AB#212806: [Accessibility] [FE] Anchor element found with a valid href attribute, but no link content has been supplied.
+a8504c91 AB#210841: [Accessibility]: [Homepage Hero] - Button must have a discernible text
+ec1ad38c AB#194299: Salsify import - update unit tests.
+90a4215b AB#194299: Salsify import - fix 'oz' suffix.
+ac4d8671 AB#213676: Make sku required for PS widget.
+788200b6 AB#213676: Fix unit tests.
+b568aed3 AB#214709: fixing background
+80eef7fc AB#194299: Salsify import - master variant - add configs.
+0d3ac66b AB#194299: Salsify import - add variant master field.
+7e30d1fd AB#214717: Contact Form submit button text is not aligned.
+788ea96a AB#207666: Search field Firefox bug.
+e2bd985b AB#214794: No paddings on the sides of article block.
+4220384a AB#210761, AB#210761: [Homepage Hero] : [Video]
+fe5de2ee AB#213676: Remove duplicate button text from PS WTB buttons.
+8a4a7a61 AB#213676: refactor WTB block.
+28ed8d45 AB#213591: [Social Feed] : [Swiper] Uncaught ReferenceError on Swiper Integration
+8e5a273d AB#213700: [Error Page] - Uncaught ReferenceError on Event Listener
+a63ec642 AB#211030: Added aria-label to default links
+f0144a38 AB#214676: Fix update commerce connector select and fix hiden button.
+583ee9a7 (shutova/task/214736-stretch-brand-border, task/214736-stretch-brand-border) AB#214736: ignore aspect ratio for branch border 1.
+f3d71e3f AB#194299: Salsify import - multipack creation - fix.
+ff62c400 (shutova/task/194304_form_data_layer, task/194304_form_data_layer) AB#194304: Observe contact form validation changes.
+462c2c70 AB#194304: Observe contact form validation changes.
+c0057c99 AB#194299: Salsify import - update sort.
+27d9b24b AB#194299: Salsify import - update CMS: Product Name.
+7e5f4a4e AB#194299: Salsify import - update field name.
+cf0d5aad AB#194299: Salsify import - update field mapping.
+0a84a9d1 AB#210620: [Homepage Hero] : [Hero] - Component height is incorrect
+20427338 AB#210624: [Homepage Hero] - [3Up-Big Card] - CTA Element padding is incorrect
+e15ff026 AB#210375: [Navigation] : [Line separator] - Color is incorrect
+77291532 AB#208536: [FE] [Twix] [Search]  Search Result &  Predictive Search Terms.
+39ceb855 (shutova/task/207664-video-control-sizes, task/207664-video-control-sizes) AB#207664: video control element sizes.
+c9df96aa AB#207240: fix non-related changes.
+f42adebe AB#209619: [Search Page] : [Filters] - Filter text are not in uppercase.
+001a7e43 AB#209596: Added position fixed to opened search overlay to scroll with screen
+63e83728 AB#211624: Aria labels for entry gate fields.
+f889e823 Merge pull request #1044 from kyryland/akyrylenko/180680-max-char-not-limited-for-top-header
+3902a030 AB#209426: removing unnecessaryfiles
+e6471201 AB#185687: [FE] Region selector: font/size/color/line height does not much design Letter spacing change by request on all site
+f5598e66 AB#185687: [FE] Region selector: font/size/color/line height does not much design Letter spacing change by request on all site
+390bc6c4 AB#0000: Adding menu link attributes.
+f1607694 AB#212741: changing padding to achieve needed space
+16de6975 (shutova/task/210425-footer-fix) AB#210425: remove not used sizes in logo template.
+2af8092b AB#194304: form submission events.
+f5ac8c3b AB#194304: form submission events.
+d2532099 AB#194304: form submission events.
+17e6db90 AB#214676: Fix ability to choose WTB provider.
+548ca071 AB#188516: Rating summary tag generation logic into the block.
+de23ba7c AB#207063: Resolved merge conflict
+f8eb2092 AB#000000: Resolved merge conflict
+276cadea AB#194299: Salsify import - self-static refactoring.
+640e39ae AB#194299: Salsify import - update product multipack creation process.
+0c0bdc50 AB#20429: adding styles to BV override
+6fec302d AB#188516: Seo tags extension for products.
+c61c2c2b AB#214065: Supported tags on the CKEditor.
+671b1128 AB#211567: merge and conflict resolution
+99acea1c AB#211567: display and hide logic fixed in template
+ebd78d8b AB#212793: Video buttons accessibility.
+fee6104d AB#213936: Fixed product card title visible text after ellipsis, modified recipe card title settings
+a2d7345d AB#211755: Added missing tablet font size
+d31c8e1b AB#194304: datalayer form_submit after form validation.
+4dd127de AB#206948: supporting card eyebrow is not a required field.
+6a4cc79e AB#209426: adding css
+34c5160e AB#000000: remove unneeded attach call, injected drupalSettings into the IIFE.
+604a3f5b AB#209426: adding product install
+979e3c57 AB#209426: Adding product card changes
+6a6514b2 AB#210623: [Homepage Hero] - [3Up-Small Card] - Element padding is incorrect
+2e2ae764 AB#211627: Added check if link is missing, if it is missing, submit button will be the last element
+b35be016 AB#000000: Open graph settings form missing parameter fix.
+7d811337 AB#210937: Fixed Error page paddings and margins on different breakpoints
+8985f2a1 AB#187045: Fixed flexible driver max width on desktop
+e9111d4a AB#211771: card grid filter checkbox font fixes
+d7bf2123 AB#209620: card grid heading font fix
+f49c1942 AB#205969: added font-face rules for different weight on drupal side as well not just on storybook. Removed font weight override for the 3rd font as in that case the browser generated bolder versions should be used.
+0b5736d4 AB#209388: Divider only comes when title is not empty.
+3006d540 AB#211613: Added overflow auto to entry gate, so it gets a scroll bar on large screen zoom
+5913e951 AB#211627: Entry gate dom element is now located at the bottom of body
+1cededac AB#211627: Corrected jquery selector for focus trap, added aria-hidden and values to entry gate
+04de9d34 AB#212800 AB#212803 AB#212802 AB#212799: Field to be div instead.
+c7e8987d AB#213045: [Content Feature] : [Parallax Animation] - Parallax Animation Repeats Image, Displays Edges
+88e39f5a AB#212800 AB#212803 AB#212802 AB#212799: Freeform subheading existence check since its optional.
+1282556b AB#212308: Unit tests recipe feature.
+820d0d9a AB#210617: [Homepage Hero] : [3Up-Small Card] - Background is  incorrect
+4274a700 AB#212308: Unit tests recipe feature.
+749441ad AB#211567: Hex format addition.
+1a16b904 AB#211567: Backend side corrections.
+a1a2e33d AB#210425: merge conflict resolve.
+83aa7a44 AB#209004: Fixed eyebrow color with no background in parent page
+bdd54a40 AB#210425: hot fix for footer logo.
+a6b6290a AB#210425: hot fix for footer logo.
+992059cd AB#209612: Fixed min-height value for the search page header.
+5844a960 AB#211567: recipe hero header bg logic
+b385d6da AB#000000: fix svg color according to style guide.
+8e8fd8ab AB#000000: addedd missing assignment.
+cc35d45d (origin/task/210615-homepage-hero-parallax-effect) AB#210615: [Homepage Hero] : [Animation] - Parallax is not implemented in the component
+ef049a2e AB#212308: Unit test recipe.
+db8a62af (origin/BUG_211567_recipeHeroDefaultBackground) AB#211567: typo corrected
+31f01f93 AB#211567: brand shape or custom bg color options added to recipe hero
+21a4bae8 AB#211552, AB#211553, AB#211554, AB#211557: Product Feature
+c055571b AB#208319: brand shape positions and sizes are fixed
+be70d931 AB#207240: [BE] [WL] [Dove] Print and download PDF don  work.
+ebfc6f02 AB#211552, AB#211553, AB#211554, AB#211557: Product Feature
+f33dc2bd AB#210557, AB#210558
+cdb73760 AB#208319: remove brand shape css variable.
+d1a35c54 AB#208319: providing templates with proper brand_shape svg from BE side.
+5e466356 AB#210567: [Dove] [WL] Header: 'Our chocolate' and 'Sustainability' should only expand the dropdown
+cbd54b6f AB#208898: Add layout builder configuration in install hook.
+8beff4ef AB#211624: Added missing aria label on entry gate input fields and modified button aria-label
+3823400a (origin/BUG_208916_ProductFeatureBrandShapeOverlapsText) AB#208916: product feature brand shape overlap fix
+217ff5d6 (origin/BUG_211547_RecipeFeatureTitleFonts) AB#211547: recipe feature title font fix
+69a68755 (origin/task/182778-PDP-hero-block-unit-tests) AB#182778: Correct file space.
+6e410305 AB#182778: PDP hero unit tests.
+cab44c09 AB#208707: Social Icons Not Left Aligned to Title.
+c45691c9 AB#207471: Default Link Refactoring.
+aade20b9 AB#207471: Default Link Refactoring.
+cbbecbce AB#180635: [Header] CMS user able to add more CC to the fields than allowed.
+b1a42826 (origin/BUG_210400_contentFeatureHeadingFonts) AB#210400: content feature heading font fixes
+b940e62b (origin/BUG_000000_Entry_Gate_Common_Fix) AB#000000: Corrected max width at extra small screens
+0440c8c3 AB#000000: Fixing entry gate dimensions, field and cta shapes, styles
+b4b6037a AB#208319: product feature module brand shape usage
+7240665f AB#208319: parent page header brand shape usage
+d7c4a493 AB#208319: article header brand shape usage
+975d09b3 AB#208319: flexible framer brand shape usage
+bd09447d AB#209355: Added missed library for the twig template.
+96914ac2 (origin/TASK_207063_JS_Code_Clean_up_and_refactoring_11) AB#207063: Lowered throttle, removed unused bem function in pdp-hero refactored pdp-multipack js and modified id to class in button
+af488074 AB#207063: Refactored pdp-body js and removed id-s where possible
+a38862b2 AB#182947: Removed console.log messages.
+ddd7260b AB#182947: Fixed video playing bugs.
+e0d18fd9 AB#183063: Fixed scss styles for the overlay video.
+0c301791 AB#183063: Maked some changes with scss and js about the bug.
+f500eac1 (origin/task/209463-content-feature-parallax) AB#209463: [Content Feature] Image is not displayed correctly
+a2b8852b AB#205470: [Inline Media] Inline image display issues.
+7b90e1a9 (origin/bug/206948-Product-Content-pairup-required-fields) AB#206948: Fix required fields except background image field.
+
+release-2021-01-06
+
+0d1715a0 AB#000000: Add Newsletter Signup Forms for Dove brand.
+f985cdf4 AB#183063: update link to https for newsletters form.
+72a7f382 AB#209460: empty fields are also considered connection for recommendation. Strategies will only take into consideration published content.
+ea4fdcf9 AB#216308: search autocomplete visibility fix
+3fcae96a AB#187045: fixed flexible driver height
+d83bdc26 AB#211811: adding aria-live to filter section
+2fbcbff7 AB#183063: brand shape styles for poll.
+b5adc153 AB#216305: small changes to freeform story block mobile version.
+5408eb76 AB#209650: Added aria-label to images with the same text as img alt
+ff7a6da5 AB#217835: fixing js issue preventing cookie placing
+f0d84029 AB#214709: fixing svg brand border
+92add969 AB#210931: Change flexible framer CTA button wrong sizing.
+290140c2 AB#209436: fixing width issues
+8167e83f AB#214709: fixing height issues with bg
+9fef741e AB#211811: adding aria-polite to search
+35a0ac09 AB#212741: fixing CTA button position
+db70a73e AB#207289: Print PDF - fix article and recipe print - fix visibility.
+f1cf225c AB#211627: fixing tabulating issues
+565ce130 AB#207289: Print PDF - fix article and recipe print - image fix.
+3803359d AB#215117: multiple issues fix #215117,#210986,#215516.
+2f634697 AB#207289: Print PDF - fix article and recipe print - refactor.
+a33bbddd AB#207289: Print PDF - fix article and recipe print.
+8001f46f AB#209691: remove not used id that could be duplicated on the page.
+d0c65820 AB#000000: changelog for last deployment at 2020-12-24.
+7585f6c6 AB#210617: [Homepage Hero] : [3Up-Small Card] - Background is  incorrect
+d45ce3db AB#210623: [Homepage Hero] - [3Up-Small Card] - Element padding is incorrect
+852e888b AB#215700: freeform story alignment fix.
+
+release 2021-01-08
+
+1bc08c64 (tothbcsa/BUG_209567_Placeholder_in_search, BUG_209567_Placeholder_in_search) AB#209567: search overlay fixes.
+57c62721 AB#209567: styles for search overlay placeholder.
+4a65f4db AB#209567: adding search input field class to search input
+a39bc7bb AB#209567: fixing unit tests.
+66b04c48 AB#214750: fixing word break
+625014b9 AB#215272: filter overlay z-index fix
+c44eef39 AB#209567: adding placeholder text and fixing height issue
+18af0a02 AB#214266: font family fix for suggestions list in header search
+2a195a69 (shutova/task/211809-listbox, task/211809-listbox) AB#211809: VO listbox role for cardgrid filters.
+250c975c AB#192028:Cover mars_search module with unit tests. Class SearchTermFacetProcess.
+f410d121 AB#214785: product feature block - text cropping is fixed
+6b345ffc AB#215694: fixing the paralax effect and the relate bg image sizing.
+52d2d881 AB#216110: contact banner spacing fix
+aceb3db6 (shutova/task/208539-progress-bar, task/208539-progress-bar) AB#208539: set duration scroll stable.
+5d6678d0 AB#192028:Cover mars_search module with unit tests. Add bash command.
+39aa622e AB#192028:Cover mars_search module with unit tests. Add bash command.
+8859806a AB#215694: defined image load event listener earlier to avoid race condition
+a98f0fc1 AB#215694: content feature parallax image resize work in progress
+c71a380b AB#192028:Cover mars_search module with unit tests. Class SearchQueryParser.
+0723154e AB#192028:Cover mars_search module with unit tests. Class SearchQueryParser.
+e969b1c5 AB#192028:Cover mars_search module with unit tests.

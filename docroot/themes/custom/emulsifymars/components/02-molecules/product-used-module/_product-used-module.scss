@@ -3,32 +3,29 @@
   overflow: visible;
 
   .product-used-nav {
-    @include medium {
+    @include xl {
       display: none;
     }
   }
 
   .swiper-scrollbar {
-    bottom: -30px;
-  }
-
-  .product-card {
-    width: 318px;
-
-    @include xl {
-      width: 318px;
-    }
+    bottom: 0;
   }
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .product-used-swiper-container {
     width: 100%;
-    height: 570px;
+    height: 590px;
     overflow: visible;
 
     @include xl {
       height: auto;
+
+      .swiper-slide-next {
+        margin-top: 10px;
+      }
     }
+
   }
 
   // increasing specificity to avoid using !important
@@ -42,14 +39,19 @@
   }
 
   .swiper-slide {
-    width: 315px;
+    @include card-width;
   }
 
-  #swiper-button {
+  .swiper-button-prev, .swiper-button-next {
     background-color: clr(text-inverse);
     border-radius: 50%;
+    box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
     width: 7rem;
     height: 7rem;
+
+    @include large {
+      display: none;
+    }
 
     @media (max-width: 768px) {
       width: 6rem;
@@ -66,8 +68,13 @@
     }
 
     &::after {
-      color: clr(secondary);
-      font-size: 2.5rem;
+      display: none; // hide original icon
+    }
+
+    &__icon {
+      width: 100%;
+      height: 100%;
+      fill: clr(secondary);
     }
   }
 }

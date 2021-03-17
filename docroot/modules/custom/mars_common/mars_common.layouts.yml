@@ -569,3 +569,16 @@ search_page_results:
   regions:
     content:
       label: Content
+
+campaign_page_theme_configurator:
+  label: 'Campaign page theme configurator'
+  path: layouts/base_onecol
+  template: layout--base--onecol
+  library: layout_discovery/onecol
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content

@@ -7,19 +7,19 @@ $fence-part-size: 1440px*2/101;
   &__section {
     &--primary {
       background-image: radial-gradient(circle at 50% 50%, clr(top-nav-gradient), clr(top-nav));
-      border-bottom: 15px solid transparent;
 
       .footer__section-content {
         padding: 20px 20px 5px;
         display: flex;
         flex-flow: column nowrap;
 
-        @include medium {
+        @include tablet {
           padding: 20px 40px 25px;
         }
 
-        @include xl {
+        @include desktop {
           flex-flow: row nowrap;
+          padding: 10px 40px 14px;
         }
       }
     }
@@ -42,43 +42,16 @@ $fence-part-size: 1440px*2/101;
     }
   }
 
-  & .stretch {
-    position: absolute;
+  &__border {
+    position: relative;
+    bottom: (-$brand-border-offset);
     width: 100%;
-    height: auto;
-    z-index: 2;
-    top: -40px;
 
     svg {
-      path {
-        fill: clr(secondary);
-        width: 100%;
-      }
-      rect {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  & .repeat {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    top: -15px;
-
-    svg {
+      display: block;
       width: 100%;
-      position: absolute;
-
-      path {
-        fill: clr(secondary);
-      }
-      rect {
-        width: 100%;
-        height: 3rem;
-      }
+      height: auto;
+      fill: clr(bottom-nav);
     }
   }
 }
@@ -102,6 +75,20 @@ $fence-part-size: 1440px*2/101;
 
   @include xl {
     flex: 0 1 33%;
+    margin-top: 0.9rem;
+  }
+
+  .social-menu {
+    display: block;
+  }
+
+  .social-menu__item {
+    display: inline;
+
+    &:nth-child(5n)::after {
+      content: "\A";
+      white-space: pre-line;
+    }
   }
 
   .social-menu__link svg path{
@@ -123,17 +110,30 @@ $fence-part-size: 1440px*2/101;
         flex: 0 1 25%;
       }
     }
+
+    &--full-width {
+      flex: 0 1 100%;
+    }
   }
 }
 
 .footer__section-header {
-  font: 16px/16px variable(primary-font);
-  letter-spacing: 0.65px;
+  font-family: variable(primary-font);
   color: clr(subcolor-3);
+
+  @include xs {
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+  }
 
   @include medium {
     flex: 0 1 50%;
-    font-size: 18px;
+    font-size: 1.6rem;
+  }
+
+  @include large {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
   }
 }
 
@@ -164,68 +164,177 @@ $fence-part-size: 1440px*2/101;
 }
 
 .footer__logo {
-  margin: 10px 0 26px -10px;
-
-  @include medium {
-    margin: 20px 0 26px -15px;
+  flex: 0 0 10.1rem;
+  max-width: 10.4rem;
+  max-height: 3.9rem;
+  margin: 1rem 0 2.6rem 0;
+  .footer__logoLink{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    img{
+      object-fit: contain;
+    }
   }
 
-  @include xl {
-    margin: 20px 0 12px -12px;
+  @include xs {
+    flex: 0 0 10.4rem;
+    max-width: 10.4rem;
+    max-height: 3.9rem;
+    margin: 2rem 0 3.9rem 0;
+
+    .footer__logoLink {
+      img {
+        max-height: 3.9rem;
+      }
+    }
   }
 
-  .logo__image {
-    width: auto;
+  @include tablet {
+    flex: 0 0 14.1rem;
+    max-width: 14.1rem;
+    max-height: 5.3rem;
+    margin: 2rem 0 2.6rem 0;
+
+    .footer__logoLink {
+      img {
+        max-height: 5.3rem;
+      }
+    }
+  }
+
+  @include desktop {
+    flex-basis: 21.2rem;
+    max-width: 21.2rem;
+    max-height: 9.8rem;
+    margin: 2rem 0 1.2rem 0;
+
+    .footer__logoLink {
+      img {
+        max-height: 9.8rem;
+        min-height: 9.8rem;
+      }
+    }
   }
 }
 
 .footer__marketing-text-title {
-  font: 14px/22px variable(primary-font);
+  font-family: variable(primary-font);
   color: clr(subcolor-3);
+
+  @include xs {
+    font-size: 1.2rem;
+    line-height: 1.92rem;
+  }
+
+  @include medium {
+    font-size: 1.4rem;
+    line-height: 2.24rem;
+  }
+
+  @include large {
+    font-size: 1.2rem;
+    line-height: 1.92rem;
+  }
 }
 
 .footer__marketing-text {
-  font: 14px/22px variable(secondary-font);
+  font-family: variable(secondary-font);
   color: clr(subcolor-3);
 
   strong {
-    font: 14px/22px variable(primary-font);
+    font-family: variable(primary-font);
+  }
+
+  @include xs {
+    font-size: 1.2rem;
+    line-height: 1.92rem;
+  }
+
+  @include medium {
+    font-size: 1.4rem;
+    line-height: 2.24rem;
+  }
+
+  @include large {
+    font-size: 1.2rem;
+    line-height: 1.92rem;
   }
 }
 
 .footer__copyright {
-  font: 14px/22px variable(secondary-font);
+  font-family: variable(secondary-font);
   color: clr(subcolor-3);
+
+  @include xs {
+    font-size: 1.2rem;
+    line-height: 1.92rem;
+  }
+
+  @include medium {
+    font-size: 1.4rem;
+    line-height: 2.24rem;
+  }
+
+  @include large {
+    font-size: 1.2rem;
+    line-height: 1.92rem;
+  }
 }
 
-.footer__separator {
-  height: 1px;
-  order: 5;
-  flex: 0 1 100%;
+.footer__separator_1 {
+  height: 0.1rem;
+  order: 3;
+  flex: 0 1 auto;
   background-color: clr(subcolor-3);
   opacity: .5;
+  margin: 2rem 0 1rem;
+
+  @include medium {
+    flex: 0 1 100%;
+  }
+
+  @include xl {
+    display: none;
+  }
+}
+
+.footer__separator_2 {
+  height: 1px;
+  order: 5;
+  flex: 0 1 auto;
+  background-color: clr(subcolor-3);
+  opacity: .5;
+
+  @include medium {
+    flex: 0 1 100%;
+  }
 }
 
 .footer__corporate-tout {
   display: flex;
   flex-direction: column;
-  font: 20px/22px variable(primary-font);
-  letter-spacing: 0.75px;
+  font-family: variable(primary-font);
   color: clr(subcolor-3);
   order: 6;
   flex: 0 1 100%;
   margin: 50px 0 30px;
 
+  @include xs {
+    font-size: 2rem;
+    line-height: 2.2rem;
+  }
+
   @include medium {
     margin: 30px 0 10px;
-    font-size: 26px;
-    letter-spacing: 1px;
+    font-size: 2.6rem;
+    line-height: 2.86rem;
   }
 
   @include large {
     margin: 30px 0 10px;
-    font-size: 28px;
-    letter-spacing: 1px;
+    font-size: 2.8rem;
+    line-height: 3.08rem;
   }
 
   @include xl {
@@ -233,76 +342,29 @@ $fence-part-size: 1440px*2/101;
     justify-content: space-between;
     align-items: baseline;
   }
+
+  .default-link {
+    @include xs {
+      font-size: 14px;
+      height: 50px;
+      line-height: 5rem;
+      width: 133px;
+      padding: 0 2.7rem;
+    }
+
+    @include medium {
+      width: 157px;
+    }
+
+    @include xl {
+      font-size: 16px;
+      height: 60px;
+      line-height: 6rem;
+      width: 202px;
+    }
+  }
 }
 
 .corporate-tout__text {
   margin: 0 0 18px;
-}
-
-.corporate-tout__button {
-  @include button-base;
-
-  height: 50px;
-  width: 133px;
-  border-radius: variable(button-border-radius);
-  background-color: clr(subcolor-3);
-  color: clr(secondary);
-  font-size: 16px;
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
-  transition: background-color 0s 0.6s,
-              color 1.2s cubic-bezier(.75, 0, .25, 1);
-
-  @include medium {
-    font-size: 14px;
-    height: 50px;
-    width: 157px;
-  }
-
-  @include xl {
-    font-size: 16px;
-    height: 60px;
-    width: 202px;
-  }
-
-  & > span {
-    position: relative;
-    z-index: 1;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    display: block;
-    bottom: -100px;
-    left: -120px;
-    width: 1000px;
-    transform: rotate(18deg);
-    height: 0;
-    background-color: clr(secondary);
-    transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
-    z-index: 1;
-
-    @include xs {
-      width: 1000px;
-    }
-
-    @include medium {
-      width: 750px;
-    }
-  }
-
-  &:hover {
-    color: clr(subcolor-3);
-    background-color: clr(secondary);
-
-    &::before {
-      height: 300px;
-    }
-  }
-
-  &:focus {
-    outline: none;
-  }
 }

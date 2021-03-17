@@ -177,6 +177,17 @@ $color-heading: clr(accent);
   @include heading-xs;
 }
 
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  &--primary-modifier {
+    font-family: variable(primary-font) !important;
+  }
+}
+
 /* TODO: BEM selectors should be applied to wysiwyg-created content */
 
 .text-long {

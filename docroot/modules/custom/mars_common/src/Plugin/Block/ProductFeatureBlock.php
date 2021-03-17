@@ -5,7 +5,9 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -35,6 +37,20 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   protected $mediaHelper;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -42,7 +58,9 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_common.media_helper')
+      $container->get('mars_common.language_helper'),
+      $container->get('mars_common.media_helper'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -53,10 +71,14 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MediaHelper $media_helper
+    LanguageHelper $language_helper,
+    MediaHelper $media_helper,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -65,8 +87,8 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#title'] = $conf['title'] ?? '';
+    $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
+    $build['#title'] = $this->languageHelper->translate($conf['title'] ?? '');
     $build['#background_color'] = $conf['background_color'] ?? '';
     if (!empty($conf['image'])) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['image']);
@@ -76,8 +98,9 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
         $build['#image_alt'] = $media_params['alt'];
       }
     }
-    $build['#explore_cta'] = $conf['explore_cta'] ?? '';
+    $build['#explore_cta'] = $this->languageHelper->translate($conf['explore_cta'] ?? '');
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
 
     $build['#theme'] = 'product_feature_block';
 
@@ -127,7 +150,8 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
 
     $image_default = isset($config['image']) ? $config['image'] : NULL;
     // Entity Browser element for background image.
-    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail');
     // Convert the wrapping container to a details element.
     $form['image']['#type'] = 'details';
     $form['image']['#title'] = $this->t('Image');
@@ -141,13 +165,13 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
         '#title' => $this->t('Button Label'),
         '#maxlength' => 15,
         '#default_value' => $this->configuration['explore_cta'],
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
       'explore_cta_link' => [
         '#type' => 'textfield',
         '#title' => $this->t('URL'),
         '#default_value' => $this->configuration['explore_cta_link'] ?? '',
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
     ];
 

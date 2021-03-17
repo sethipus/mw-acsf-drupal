@@ -1,48 +1,46 @@
 .contact-module {
   background-color: clr(subcolor-2);
-  border-top: 5px solid clr(secondary);
   margin-top: 4rem;
   position: relative;
   overflow: hidden;
-
-  @include xs {
-    padding: 5rem 2rem 4rem 2rem;
-  }
+  padding: 5rem 2rem 4rem 2rem;
+  border-top: 5px solid clr(secondary);
 
   @include medium {
-    padding: 6rem 4rem;
+    padding: 6rem 4rem 6.4rem;
+    border-top: 8px solid clr(secondary);
   }
 
-  @include large {
-    padding: 6rem 15.5rem;
+  @include xl {
+    padding: 8rem 15.5rem 8.5rem;
+    border-top: 12px solid clr(secondary);
+    max-height: 534px;
   }
 
   &__brand-shape {
     position: absolute;
     z-index: 1;
+    top: -24.5%;
+    right: -83%;
+    width: 145%;
+    height: 145%;
 
-    @include xs {
-      top: 0;
-      right: -50%;
+    @include medium {
+      top: -10%;
+      right: -43%;
       width: 100%;
       height: 100%;
     }
 
-    @include medium {
-      top: -5%;
-      right: -65%;
-      width: 130%;
-      height: 130%;
-    }
-
-    @include large {
-      top: -10%;
-      right: -65%;
+    @include xl {
+      top: -45%;
+      right: -66.5%;
       width: 150%;
       height: 150%;
     }
 
     svg {
+      fill: rgba(clr(subcolor-1-rgb), 0.2);
       width: 100%;
       height: 100%;
     }
@@ -56,22 +54,24 @@
   &__heading {
     font-family: variable(primary-font);
     color: clr(primary);
-    text-transform: uppercase;
 
     @include xs {
       font-size: 2.8rem;
       line-height: 2.8rem;
-      margin-bottom: 3rem;
+      margin: 0 0 3rem 0;
     }
 
     @include medium {
       font-size: 4rem;
+      font-weight: 500;
       line-height: 4rem;
     }
 
     @include large {
       font-size: 4.8rem;
+      font-weight: 500;
       line-height: 4.8rem;
+      max-width: 782px;
     }
   }
 
@@ -88,7 +88,8 @@
     @include large {
       font-size: 1.8rem;
       line-height: 2.52rem;
-      margin-bottom: 6rem;
+      margin: 0 0 6.2rem;
+      max-width: 782px;
     }
   }
 
@@ -98,7 +99,12 @@
     }
 
     @include medium {
-      margin-bottom: 6rem;
+      height: 5rem;
+      margin-bottom: 6.3rem;
+    }
+
+    @include large {
+      height: 6rem;
     }
   }
 
@@ -106,8 +112,12 @@
     display: flex;
 
     .social-menu {
+      margin: 0;
       .social-menu__item {
-        margin-right: 2rem;
+        margin-right: 4rem;
+      }
+      .social-menu__item:last-child {
+        margin-right: 0;
       }
     }
 
@@ -117,6 +127,11 @@
 
     @include medium {
       flex-direction: row;
+      align-items: center;
+    }
+
+    @include large {
+      height: 2.2rem;
     }
   }
 
@@ -124,45 +139,45 @@
     font-family: variable(primary-font);
     color: clr(primary);
     text-transform: uppercase;
-    margin-right: 4rem;
+    margin: 0 4rem 0 0;
 
     @include xs {
       font-size: 1.6rem;
-      line-height: 1.76rem;
-      letter-spacing: .12rem;
+      line-height: 1.6rem;
+      margin: 0 3.93rem 2rem 0;
     }
 
     @include medium {
       font-size: 1.8rem;
-      line-height: 1.98rem;
-      letter-spacing: .14rem;
+      line-height: 1.1;
+      height: 2.2rem;
+      margin: 0 3.93rem 0 0;
     }
 
     @include large {
       font-size: 2rem;
-      line-height: 2.2rem;
-      letter-spacing: .16rem;
+      font-weight: 500;
     }
   }
 
   & .default-link {
     background-color: clr(secondary);
-    font-size: 1.6rem;
 
     @include xs {
-      margin-right: .5rem;
+      margin-right: 1rem;
+      line-height: 5rem;
+      font-size: 1.4rem;
+      padding: 0 1.5rem;
     }
 
     @include medium {
+      font-size: 1.6rem;
       margin-right: 3.2rem;
+      line-height: 5rem;
     }
 
     &__label {
       font-family: variable(primary-font);
-    }
-
-    &::after {
-      width: 350px;
     }
   }
 }

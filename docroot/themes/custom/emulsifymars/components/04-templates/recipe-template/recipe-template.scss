@@ -1,55 +1,105 @@
-/*
-.recipe-detail {
+.node--recipe {
+
+  .list-container-block {
+    h2 {
+      font: 20px/1.1em variable(primary-font);
+      font-weight: 500;
+      color: clr(primary);
+      text-transform: capitalize;
+
+      @include small {
+        margin: 30px 20px 20px 20px;
+      }
+
+      @include medium {
+        margin: 40px 40px 30px 40px;
+        font-size: 26px;
+        line-height: 29px;
+      }
+
+      @include xl {
+        font-size: 28px;
+        line-height: 31px;
+      }
+    }
+
+    ol {
+      padding: 0;
+    }
+  }
+
+  .article-wysiwyg {
+    margin: 30px 0;
+
+    @include medium {
+      margin: 40px 0;
+    }
+
+    @include xl {
+      margin: 60px auto;
+      max-width: 1360px;
+    }
+
+    &__content {
+      margin: 0 20px;
+      max-width: 100%;
+
+      @include medium {
+        margin: 0 40px;
+      }
+
+      @include xl {
+        max-width: 665px;
+        padding: 0;
+        margin: 0 0 0 116px;
+      }
+
+    }
+  }
+
+
   @include xl {
-    display: grid;
-    grid-template-rows: repeat(auto-fill, auto);
-    grid-template-columns: repeat(12, 1fr);
-    grid-column-gap: 30px;
-    max-width: 1360px;
-    margin: auto;
-  }
-
-  .recipe-media {
-    @include xl {
-      grid-column: span 12;
-      margin: 0;
+    .recipe-body-content-header {
+      margin-left: 116px;
+      text-transform: capitalize;
+      color: clr(primary);
     }
-  }
 
-  .recipe-header,
-  .more-recipes {
-    @include xl {
-      grid-column: span 12;
-      width: 100vw;
-      margin-left: calc((100% - 100vw) / 2);
+    .list-container-block {
+      max-width: 1360px;
+      margin: auto;
+
+      h2 {
+        margin-left: 116px;
+      }
+
+      ol {
+        margin-left: 116px;
+        max-width: 665px;
+
+        .list-item__content {
+          max-width: 509px;
+        }
+
+        img {
+          max-width: 509px;
+        }
+      }
     }
-  }
 
-  .recipe-info {
-    @include xl {
-      grid-column: 2 / span 6;
-      width: auto;
-      margin-left: auto;
+    .article-inline {
+      max-width: 1365px;
+      margin: auto;
+
+      &__heading>h3, &__media, .inline-video, .article-inline__content {
+        max-width: 665px;
+        margin-left: 116px;
+      }
     }
-  }
 
-  .product-used {
-    @include xl {
-      grid-column: 9 / span 3;
-      grid-row: 3;
+    .article-full-width__media {
+      max-width: 1128px;
+      margin: auto;
     }
-  }
-
-  .product-used-items {
-    width: 100%;
-
-    @include xl {
-      position: absolute;
-    }
-  }
-
-  .recipe-body-content {
-    grid-column: 2 / span 6;
   }
 }
-*/

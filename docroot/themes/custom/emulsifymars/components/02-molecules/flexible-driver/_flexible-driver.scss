@@ -3,13 +3,21 @@
   border-top: 5px solid clr(secondary);
   position: relative;
   overflow: hidden;
+  margin: 5rem 2rem;
+  padding: 1rem 0;
+  min-height: 336px;
 
-  @include xs {
-    margin: 10rem 5rem;
+  @include medium {
+    margin: 6rem 4rem;
+    padding-bottom: 1.5rem;
+    min-height: 386px;
   }
 
   @include large {
-    margin: 5rem 8rem;
+    margin: 8rem auto;
+    max-width: 1125px;
+    min-height: 422px;
+    padding-bottom: 0;
   }
 
   &__content {
@@ -20,41 +28,57 @@
   &__bg-image {
     position: absolute;
     z-index: 1;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &--left {
-      @include xs {
-        width: 19rem;
-        left: 0;
-        bottom: 0;
-      }
+      width: 16.3rem;
+      height: 16.3rem;
+      left: 0;
+      bottom: -1.3rem; // 163 - 150 = 13
 
       @include medium {
-        width: 28rem;
-        bottom: -8rem;
+        width: 22.2rem;
+        height: 22.2rem;
+        left: 1.9rem;
+        bottom: -5.8rem; // 222 - 164 = 58
       }
 
-      @include large {
-        bottom: -3rem;
-        width: 34.6rem;
+      @include xl {
+        width: 31.6rem;
+        height: 31.6rem;
+        left: 1.5rem;
+        bottom: -7.8rem; // 316 - 238 = 78
       }
     }
 
     &--right {
-      @include xs {
-        width: 17rem;
-        right: -5rem;
-        top: 2rem;
-      }
+      width: 11.4rem;
+      height: 11.4rem;
+      right: -4.6rem; // 114 - 68 = 46
+      top: 2.1rem;
 
       @include medium {
-        width: 25rem;
+        width: 18.9rem;
+        height: 18.9rem;
+        right: -7.7rem; // 189 - 112 = 77
+        top: 4rem;
       }
 
-      @include large {
-        width: 28.9rem;
-        top: 0;
+      @include xl {
+        width: 25.9rem;
+        height: 25.9rem;
+        right: -5.2rem; // 259 - 207 = 52
+        top: 2.2rem;
       }
+    }
+
+    img {
+      object-fit: contain;
+      flex-grow: 1;
+      max-width: 100%;
+      max-height: 100%;
     }
   }
 
@@ -67,42 +91,49 @@
   & .h2 {
     color: clr(primary);
     font-family: variable(heading-font);
-    font-size: 48px;
+    font-size: 2.8rem;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
-    line-height: 40px;
-    letter-spacing: normal;
-    padding-top: 8.5rem;
-    text-transform: uppercase;
+    line-height: 4.8rem;
+    margin: 0 2rem;
+    padding-top: 5rem;
     text-align: center;
 
-    @include small {
-      width: 50%;
-      margin: 0 auto;
+    @include medium {
+      font-size: 4rem;
+      margin: 0 4rem;
+      padding-top: 8.5rem;
+    }
+
+    @include large {
+      font-size: 4.8rem;
+      margin: 0 11.5rem;
     }
   }
 
   &__paragraph {
     color: clr(primary);
     font-family: variable(secondary-font);
-    font-size: 16px;
-    line-height: 22.4px;
-    padding-top: 4rem;
+    font-size: 1.8rem;
+    line-height: 2.52rem;
+    margin: 0;
+    padding: 3rem 0 4rem 0;
     text-align: center;
+
+    @include large {
+      max-width: 40%;
+      margin: 0 auto;
+    }
 
   }
 
   & .cta_wrapper {
-    padding: 8.3rem 0;
+    padding: 0;
     text-align: center;
 
     @include medium {
-      padding: 6.3rem 0 12.6rem 0;
-    }
-
-    @include large {
-      padding: 6.3rem 0 8rem 0;
+      padding: 3.3rem 0 0 0;
     }
   }
 

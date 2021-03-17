@@ -1,0 +1,20 @@
+uuid: 5eff5211-e97d-4790-a973-b30e5c0f64bf
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.newsletter_sign_up
+  module:
+    - path
+id: node.newsletter_sign_up.path
+field_name: path
+entity_type: node
+bundle: newsletter_sign_up
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\Plugin\Block\ListBlock;
 use Drupal\Tests\UnitTestCase;
@@ -44,6 +45,13 @@ class ListBlockTest extends UnitTestCase {
   private $mediaHelperMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
    * Test block configuration.
    *
    * @var array
@@ -69,6 +77,7 @@ class ListBlockTest extends UnitTestCase {
       $this->configuration,
       'list_block',
       $definitions,
+      $this->languageHelperMock,
       $this->mediaHelperMock
     );
   }
@@ -78,10 +87,15 @@ class ListBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(1))
+      ->expects($this->exactly(2))
       ->method('get')
       ->willReturnMap(
         [
+          [
+            'mars_common.language_helper',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->languageHelperMock,
+          ],
           [
             'mars_common.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
@@ -166,6 +180,7 @@ class ListBlockTest extends UnitTestCase {
     $this->containerMock = $this->createMock(ContainerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
   }
 
 }

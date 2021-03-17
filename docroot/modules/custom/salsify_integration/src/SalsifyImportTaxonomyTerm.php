@@ -54,9 +54,10 @@ class SalsifyImportTaxonomyTerm extends SalsifyImport {
     }
 
     // Find any and all existing terms and update them as needed.
-    $existing_terms = $this->getTaxonomyTerms($field_name, $salsify_ids);
+    $existing_terms = $this->getTaxonomyTerms($field_name, $salsify_ids, $vid);
     $updated_ids = [];
     foreach ($existing_terms as $existing_term) {
+      /* @var \Drupal\taxonomy\Entity\Term $existing_term */
       $salsify_id = $existing_term->{$field_name}->value;
       if (isset($salsify_field_data['values'][$salsify_id]) && $salsify_field_data['values'][$salsify_id]['salsify:name'] != $existing_term->name->value) {
         $existing_term->set('name', $salsify_field_data['values'][$salsify_id]['salsify:name']);
@@ -86,15 +87,21 @@ class SalsifyImportTaxonomyTerm extends SalsifyImport {
    *   The name of the field to search on.
    * @param array $field_values
    *   The values of the field to match.
+   * @param mixed $vid
+   *   Vocabulary id.
    *
    * @return array|int
    *   An array of media entity ids that match the given options.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function getTaxonomyTerms($field_name, array $field_values) {
+  public function getTaxonomyTerms($field_name, array $field_values, $vid) {
     $term_ids = $this->entityTypeManager
       ->getStorage('taxonomy_term')
       ->getQuery()
       ->condition($field_name, $field_values, 'IN')
+      ->condition('vid', $vid)
       ->execute();
 
     return $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($term_ids);

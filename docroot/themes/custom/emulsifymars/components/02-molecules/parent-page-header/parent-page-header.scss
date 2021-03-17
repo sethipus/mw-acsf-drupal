@@ -1,37 +1,36 @@
 .parent-page-header {
   background-color: clr(subcolor-2);
-  background-image: variable(brand-shape);
-  background-repeat: no-repeat;
-  background-position: center -50rem;
-  background-size: 84rem;
+  background-position: center;
+  background-size: cover;
   padding: 12rem 4rem 8rem 4rem;
   position: relative;
   overflow: hidden;
 
   @include small {
-    background-position: center -16rem;
-    background-size: 33rem;
     padding: 5rem 4rem 8rem 4rem;
   }
 
   .bg-video {
     width: 100%;
-    height: 100%;
+    height: 452px;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+
+    @include medium {
+      height: 483px;
+    }
+
+    @include xl {
+      height: 640px;
+    }
 
     .ambient-video__control {
       z-index: 10;
       top: 15px;
       left: calc(100% - 75px);
     }
-  }
-
-  @include medium {
-    background-size: 75rem;
-    background-position: center -50rem;
   }
 
   & > *:not(.bg-video) {
@@ -43,18 +42,21 @@
     font-family: variable(primary-font);
     color: clr(primary);
     text-align: center;
-    line-height: 6.4rem;
+    font-weight: 500;
 
     @include small {
       font-size: 4rem;
+      line-height: 4rem;
     }
 
     @include medium {
       font-size: 5.6rem;
+      line-height: 5.6rem;
     }
 
     @include large {
       font-size: 6.4rem;
+      line-height: 6.4rem;
     }
   }
 
@@ -66,27 +68,82 @@
 
     @include small {
       font-size: 1.8rem;
+      line-height: 2.88rem;
     }
 
     @include medium {
       font-size: 2rem;
-      max-width: 70%;
+      max-width: 89.6rem;
+      line-height: 3.2rem;
     }
 
     @include large {
       font-size: 2.2rem;
+      line-height: 3.52rem
     }
   }
 
   &--with-min-height {
     min-height: 45.2rem;
-    max-height: 53.2rem;
+    max-height: 45.2rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 
+    .brand-shape {
+      position: absolute;
+      display: block;
+      width: 100%;
+      z-index: 1;
+      left: 0;
+      top: 0;
+
+      @include xs {
+        height: 17rem;
+      }
+
+      @include medium {
+        height: 26.7rem;
+      }
+
+      @include large {
+        height: 32.7rem;
+      }
+
+      svg {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        fill: clr(subcolor-1);
+        opacity: 0.2;
+
+        @include xs {
+          width: 33.4rem;
+        }
+
+        @include medium {
+          width: 65.2rem;
+        }
+
+        @include large {
+          width: 85.6rem;
+        }
+      }
+    }
+
     .eyebrow {
-      margin-top: 2rem;
+      margin-top: 1rem;
+
+      @include medium {
+        margin-top: 5rem;
+        margin-bottom: 3rem;
+      }
+
+      @include large {
+        margin-top: 7rem;
+        margin-bottom: 3rem;
+      }
     }
 
     .parent-page-heading {
@@ -94,16 +151,27 @@
     }
 
     .horizontal-img__inner {
-      margin: 4rem auto;
+      height: 4rem;
+      margin: 4.55rem auto;
+
+      @media (max-width: 768px) {
+          height: 3.5rem;
+      }
+    }
+
+    @include small {
+        .eyebrow {
+            margin-top: 1rem;
+        }
+
+        .horizontal-img__inner {
+            margin: 2.75rem auto;
+        }
     }
 
     @include medium {
       min-height: 48.3rem;
       max-height: 54.3rem;
-
-      .eyebrow {
-        margin-top: 6rem;
-      }
     }
 
     @include large {
@@ -111,14 +179,15 @@
       max-height: 58.0rem;
 
       .horizontal-img__inner {
-        margin: 6rem auto;
+        margin: 4.55rem auto;
       }
     }
   }
 
   &--with-bg-media {
-    background-position: top center;
-    background-size: cover;
+    .brand-shape {
+      display: none;
+    }
 
     .parent-page-heading,
     .eyebrow,
@@ -130,7 +199,62 @@
         text-decoration: none;
       }
     }
+  }
 
+  &--with-bg-video {
+    padding: 0;
+
+    .content {
+      position: absolute;
+      z-index: 1;
+      padding: 0 2rem;
+      left: 0;
+      width: 100%;
+      top: calc(50% - 15rem);
+
+      @include small {
+        padding: 0 2rem;
+      }
+
+      @include large {
+        padding: 0 4rem;
+      }
+
+      @include xl {
+        left: calc(50% - 89.6rem / 2);
+        width: 89.6rem;
+      }
+    }
+
+    .brand-shape {
+      display: none;
+    }
+
+    .parent-page-heading,
+    .eyebrow,
+    .parent-page-paragraph {
+      color: clr(subcolor-3);
+
+      a {
+        color: clr(subcolor-3);
+        text-decoration: none;
+      }
+    }
+  }
+
+  .eyebrow {
+    @include xs {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+    }
+
+    @include medium {
+      font-size: 1.6rem;
+      line-height: 1.6rem;
+    }
+  }
+
+  &--tint-enabled {
     &::after {
       content: '';
       position: absolute;
@@ -139,24 +263,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      background-color: rgba(0, 0, 0, .5);
-      z-index: 2
-    }
-  }
-
-  &--with-bg-video {
-    background-position: top center;
-    background-size: cover;
-    padding: 0;
-    .parent-page-heading,
-    .eyebrow,
-    .parent-page-paragraph {
-      color: clr(subcolor-3);
-
-      a {
-        color: clr(subcolor-3);
-        text-decoration: none;
-      }
+      background-image: linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.49), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.29), rgba(0, 0, 0, 0.2));
     }
   }
 }

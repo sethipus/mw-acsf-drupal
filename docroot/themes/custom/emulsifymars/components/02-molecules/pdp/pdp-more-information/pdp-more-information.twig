@@ -1,7 +1,7 @@
 {% if pdp_common_more_information_data.show_more_information_label %}
   {% set pdp_more_information_base_class = pdp_more_information_base_class|default('pdp-more-information') %}
   {% set scroll_mandatory_base_class = 'scroll-mandatory' %}
-  <section id="section-more-information" {{ bem(pdp_more_information_base_class, [], [], scroll_mandatory_base_class) }} data-theme="{{ theme_styles }}">
+  <section {{ bem(pdp_more_information_base_class, [], [], scroll_mandatory_base_class) }} data-theme="{{ theme_styles }}" id="{{ pdp_common_more_information_data.more_information_id }}">
     {% set header_modifiers = pdp_more_information_data.multipack ? 'multipack' : 'singlepack' %}
     {% include "@atoms/text/headings/_heading.twig" with {
       heading_level: 5,

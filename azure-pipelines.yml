@@ -26,6 +26,7 @@ variables:
   scriptDir: $(Build.Repository.LocalPath)/vendor/mikemadison13/blt-azure-pipelines/scripts/azure
   COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
   deployment_user: 'digie'
+  stack_id: 1
 
 steps:
   - task: InstallSSHKey@0
@@ -57,18 +58,6 @@ steps:
     displayName: 'Install Node JS'
     inputs:
       versionSpec: '10.x'
-  - task: SonarQubePrepare@4
-    displayName: 'SonarQube Prepare'
-    inputs:
-      SonarQube: 'sonarqubetest'
-      scannerMode: 'CLI'
-      configMode: 'file'
-  - task: SonarQubeAnalyze@4
-    displayName: 'SonarQube Validation'
-  - task: SonarQubePublish@4
-    displayName: 'SonarQube Publish'
-    inputs:
-      pollingTimeoutSec: '300'
   - task: Cache@2
     displayName: 'Cache Composer Packages'
     inputs:
@@ -86,7 +75,7 @@ steps:
         composer validate --no-check-all --ansi &&
         composer install &&
         npm install npm@latest -g
-  - task: Npm@1 
+  - task: Npm@1
     inputs:
       command: 'ci'
       workingDir: 'docroot/themes/custom/emulsifymars'
@@ -108,15 +97,30 @@ steps:
     inputs:
       filePath: '$(scriptDir)/setup_app.sh'
   - task: Bash@3
-    displayName: 'Run Tests'
+    displayName: 'Run Php Unit Tests'
     inputs:
-      filePath: '$(scriptDir)/test.sh'
+      filePath: './scripts/phpunit_test.sh'
+  - task: SonarQubePrepare@4
+    displayName: 'SonarQube Prepare'
+    inputs:
+      SonarQube: 'sonarqubetest'
+      scannerMode: 'CLI'
+      configMode: 'file'
+  - task: SonarQubeAnalyze@4
+    displayName: 'SonarQube Validation'
+  #- task: SonarQubePublish@4
+  #  displayName: 'SonarQube Publish'
+  #  inputs:
+  #    pollingTimeoutSec: '300'
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
       testResultsFiles: 'reports/phpunit/*.xml'
       mergeTestResults: true
       testRunTitle: 'Unit tests'
+  #- task: PublishCodeCoverageResults@1
+  #  inputs:
+  #    summaryFileLocation: 'reports/phpunit/coverage.xml'
   - task: Bash@3
     displayName: 'Deploy Branch and Trigger Application Deployment on ACSF'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'dev'))
@@ -124,15 +128,23 @@ steps:
       targetType: 'inline'
       script: |
         ./scripts/deploy_branch.sh &&
-        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
+        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
   - task: Bash@3
-    displayName: 'Deploy dev Branch and Trigger Application Deployment to QA env'
-    condition: and(succeeded(), in(variables['Build.Reason'], 'Schedule'), eq(variables['build.sourceBranchName'], 'dev'))
+    displayName: 'Deploy master Branch and Trigger Application Deployment to QA env'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), eq(variables['build.sourceBranchName'], 'master'))
     inputs:
       targetType: 'inline'
       script: |
         ./scripts/deploy_branch.sh &&
-        ./scripts/deploy_db.sh 01qa $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key)
+        ./scripts/deploy_db.sh dev $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
+  - task: Bash@3
+    displayName: 'Deploy master Branch and Trigger by Schedule Application Deployment to QA env'
+    condition: and(succeeded(), in(variables['Build.Reason'], 'Schedule'), eq(variables['build.sourceBranchName'], 'master'))
+    inputs:
+      targetType: 'inline'
+      script: |
+        ./scripts/deploy_branch.sh &&
+        ./scripts/deploy_db.sh 01qa $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
   - task: Bash@3
     displayName: 'Deploy Tag'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranch'], 'refs/tags/'))

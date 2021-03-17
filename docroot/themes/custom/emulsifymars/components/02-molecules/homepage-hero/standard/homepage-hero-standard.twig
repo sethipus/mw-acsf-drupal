@@ -1,7 +1,20 @@
 {% set homepage_hero__base_class = 'homepage-hero-standard' %}
 
 <section {{ bem(homepage_hero__base_class) }} id="homepage-hero-standard" data-theme="{{ theme_styles }}">
-  <div {{ bem('inner', [], homepage_hero__base_class) }}>
+  <div {{ bem('inner', [], homepage_hero__base_class) }}
+    {% if background_color %}
+    style="background-color: #{{ background_color }};"
+    {% endif %}
+  >
+    <div {{ bem('bubble', ['1'], homepage_hero__base_class) }}>
+      {{ brand_shape | raw }}
+    </div>
+    <div {{ bem('bubble', ['2'], homepage_hero__base_class) }}>
+      {{ brand_shape | raw }}
+    </div>
+    <div {{ bem('bubble', ['3'], homepage_hero__base_class) }}>
+      {{ brand_shape | raw }}
+    </div>
     <div {{ bem('left', [], homepage_hero__base_class) }} >
       <div class="wrapper">
         <div {{ bem('container', ['hero-text'], homepage_hero__base_class) }}>
@@ -19,7 +32,8 @@
 
           {% include "@atoms/links/defaultLink/defaultLink.twig" with {
             default_link_content: cta_title,
-            default_link_attributes: cta_link_attributes
+            default_link_attributes: cta_link_attributes,
+            default_link_modifiers: ['light']
           } %}
         </div>
       </div>
@@ -28,13 +42,16 @@
       <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
-          image_alt: '',
+          image_alt: hero_image.alt,
+          image_title: hero_image.title,
           image_srcset: hero_image.srcset,
           image_sizes: '(max-width: 375px) 375px,
                 (max-width: 768px) 768px,
                 1440px',
           image_src: hero_image.src,
           responsive_image_blockname: 'homepage-hero-image',
+          height: '549px',
+          width: '485px',
         } %}
       </div>
     </div>

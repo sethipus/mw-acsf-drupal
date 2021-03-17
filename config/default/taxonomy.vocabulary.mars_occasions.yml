@@ -4,7 +4,7 @@ status: true
 dependencies: {  }
 _core:
   default_config_hash: ZdtBSjup2yIaMr00h2-2DmItOshiiZbLxQ-mgDyF3_c
-name: Occasions
+name: OCCASIONS
 vid: mars_occasions
 description: ''
-weight: 0
+weight: 1

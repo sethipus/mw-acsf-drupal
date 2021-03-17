@@ -1,0 +1,18 @@
+uuid: 43fabf06-7de6-4c4c-ae55-110d671aed56
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_multipack
+id: node.product_multipack.scheduled_transition_state
+field_name: scheduled_transition_state
+entity_type: node
+bundle: product_multipack
+label: 'Scheduled transition state'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

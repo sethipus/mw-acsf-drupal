@@ -2,6 +2,7 @@
 
 namespace Drupal\salsify_integration;
 
+use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -10,10 +11,12 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use GuzzleHttp\ClientInterface;
 
 /**
  * Class Salsify.
@@ -79,6 +82,20 @@ class SalsifyFields extends Salsify {
   private $salsifyImportTaxonomy;
 
   /**
+   * Batch Builder.
+   *
+   * @var \Drupal\Core\Batch\BatchBuilder
+   */
+  protected $batchBuilder;
+
+  /**
+   * Salsify import taxonomy.
+   *
+   * @var \Drupal\Core\Messenger\Messenger
+   */
+  private $messenger;
+
+  /**
    * Constructs a \Drupal\salsify_integration\Salsify object.
    *
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger
@@ -97,6 +114,8 @@ class SalsifyFields extends Salsify {
    *   The Module handler service.
    * @param \Drupal\salsify_integration\MulesoftConnector $mulesoft_connector
    *   The Mulesoft connector.
+   * @param \GuzzleHttp\ClientInterface $client
+   *   The HTTP client.
    * @param \Drupal\salsify_integration\SalsifyProductRepository $salsify_product_repository
    *   Salsify product repository service.
    * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
@@ -113,6 +132,8 @@ class SalsifyFields extends Salsify {
    *   Salsify import field service.
    * @param \Drupal\salsify_integration\SalsifyImportTaxonomyTerm $import_taxonomy
    *   Salsify import taxonomy service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   Messenger service.
    */
   public function __construct(
     LoggerChannelFactoryInterface $logger,
@@ -123,6 +144,7 @@ class SalsifyFields extends Salsify {
     QueueFactory $queue_factory,
     ModuleHandlerInterface $module_handler,
     MulesoftConnector $mulesoft_connector,
+    ClientInterface $client,
     SalsifyProductRepository $salsify_product_repository,
     MailManagerInterface $mail_manager,
     LanguageManagerInterface $language_manager,
@@ -130,7 +152,8 @@ class SalsifyFields extends Salsify {
     SalsifyEmailReport $email_report,
     ProductFieldsMapper $product_fields_mapper,
     SalsifyImportField $import_field,
-    SalsifyImportTaxonomyTerm $import_taxonomy
+    SalsifyImportTaxonomyTerm $import_taxonomy,
+    MessengerInterface $messenger
   ) {
     parent::__construct(
       $logger,
@@ -140,7 +163,8 @@ class SalsifyFields extends Salsify {
       $cache_salsify,
       $queue_factory,
       $module_handler,
-      $mulesoft_connector
+      $mulesoft_connector,
+      $client
     );
     $this->salsifyProductRepository = $salsify_product_repository;
     $this->mailManager = $mail_manager;
@@ -150,6 +174,8 @@ class SalsifyFields extends Salsify {
     $this->productFieldsMappger = $product_fields_mapper;
     $this->salsifyImportField = $import_field;
     $this->salsifyImportTaxonomy = $import_taxonomy;
+    $this->batchBuilder = new BatchBuilder();
+    $this->messenger = $messenger;
   }
 
   /**
@@ -167,146 +193,11 @@ class SalsifyFields extends Salsify {
    */
   public function importProductFields() {
     try {
-      $import_method = $this->config->get('import_method');
       $entity_type = $this->getEntityType();
       $entity_bundle = $this->getEntityBundle();
 
       // Sync the fields in Drupal with the fields in the Salsify feed.
-      // TODO: Put this logic into a queue since it can get resource intensive.
-      if ($entity_type && $entity_bundle) {
-        // Load the product and field data from Salsify.
-        $product_data = $this->getProductData();
-
-        $field_mapping = $this->getFieldMappings(
-          [
-            'entity_type' => $entity_type,
-            'bundle' => $entity_bundle,
-            'method' => 'dynamic',
-          ],
-          'salsify_id'
-        );
-
-        // Remove the manually mapped Salsify Fields from the product data so
-        // they aren't added back into the system.
-        $manual_field_mapping = $this->getFieldMappings(
-          [
-            'entity_type' => $entity_type,
-            'bundle' => $entity_bundle,
-            'method' => 'manual',
-          ],
-          'salsify_id'
-        );
-        $salsify_id_fields = parent::getSystemFieldNames();
-
-        // Only generate new fields if the import method is dynamic. Otherwise
-        // only generate the required system tracking fields.
-        if ($import_method == 'dynamic') {
-          $salsify_fields = array_diff_key($product_data['fields'], $manual_field_mapping);
-        }
-        else {
-          $salsify_fields = array_intersect_key($product_data['fields'], $salsify_id_fields);
-        }
-
-        // Determine the dynamically mapped fields that are in the field mapping
-        // that aren't in the list of fields from Salsify.
-        $field_diff = array_diff_key($field_mapping, $salsify_fields);
-
-        // Setup the list of Drupal fields and machine names that belong to the
-        // targeted entity and entity bundle.
-        $filtered_fields = $this->getContentTypeFields($entity_type, $entity_bundle);
-        $field_machine_names = array_keys($filtered_fields);
-
-        // Find all of the fields from Salsify that are already in the system.
-        // Check if they need to be updated using the "updated_at" field.
-        $salsify_intersect = array_intersect_key($salsify_fields, $field_mapping);
-        foreach ($salsify_intersect as $key => $salsify_field) {
-          $updated = $salsify_field['date_updated'];
-          if ($updated <> $field_mapping[$key]['changed']) {
-            $updated_mapping = $field_mapping[$key];
-            $updated_mapping['changed'] = $updated;
-            $this->updateFieldMapping($updated_mapping);
-            $this->updateDynamicField($salsify_field, $filtered_fields[$field_mapping[$key]['field_name']]);
-          }
-        }
-
-        // Create any fields that don't yet exist in the system.
-        $salsify_diff = array_diff_key($salsify_fields, $field_mapping);
-        foreach ($salsify_diff as $salsify_field) {
-          $field_name = self::createFieldMachineName($salsify_field['salsify:id'], $field_machine_names);
-
-          // If the field exists on the system, but isn't in the map, just add
-          // it to the map instead of trying to create a new field. This
-          // should cover if fields were left over from an uninstall.
-          if (isset($filtered_fields[$field_name])) {
-            $this->createFieldMapping([
-              'field_id' => $salsify_field['salsify:system_id'],
-              'salsify_id' => $salsify_field['salsify:id'],
-              'salsify_data_type' => $salsify_field['salsify:data_type'],
-              'entity_type' => $entity_type,
-              'bundle' => $entity_bundle,
-              'field_name' => $field_name,
-              'method' => 'dynamic',
-              'created' => strtotime($salsify_field['salsify:created_at']),
-              'changed' => $salsify_field['date_updated'],
-            ]);
-          }
-          // Add a record to track the Salsify field and the new Drupal field
-          // map.
-          else {
-            $this->createDynamicField($salsify_field, $field_name);
-          }
-
-        }
-
-        // Find any fields that are already in the system that weren't in the
-        // Salsify feed. This means they were deleted from Salsify, or the
-        // import method has been changed from dynamic to manual. They need to
-        // be deleted on the Drupal side.
-        if ($filtered_fields) {
-          $field_diff = $this->rekeyArray($field_diff, 'field_name');
-          $remove_fields = array_intersect_key($filtered_fields, $field_diff);
-          foreach ($remove_fields as $key => $field) {
-            if (strpos($key, 'salsify') == 0) {
-              $field->delete();
-            }
-          }
-          // If the import method is manual, remove any dynamically generated
-          // field based on the prefix "salsifysync". This will preserve the
-          // "salsify_" prefixed fields that are required for this integration
-          // to function properly.
-          if ($import_method == 'manual') {
-            foreach ($filtered_fields as $field_name => $filtered_field) {
-              if (strpos($field_name, 'salsifysync_') !== FALSE) {
-                $field_diff[$field_name] = $filtered_field;
-              }
-            }
-          }
-          foreach ($field_diff as $salsify_field_id => $field) {
-            if (isset($field_mapping[$salsify_field_id])) {
-              $diff_field_name = $field_mapping[$salsify_field_id]['field_name'];
-              if (isset($filtered_fields[$diff_field_name])) {
-                $this->deleteDynamicField($filtered_fields[$diff_field_name]);
-              }
-              // Remove the options listing for this field.
-              $this->removeFieldOptions($salsify_field_id);
-              // Delete the field mapping from the database.
-              $this->deleteFieldMapping(
-                [
-                  'entity_type' => $entity_type,
-                  'bundle' => $entity_bundle,
-                  'salsify_id' => $salsify_field_id,
-                ]
-              );
-            }
-          }
-        }
-
-      }
-      else {
-        $message = $this->t('Could not complete Salsify field data import. No content type configured.')->render();
-        $this->logger->error($message);
-        throw new MissingDataException($message);
-      }
+      $product_data = $this->syncDrupalAndSalsifyFields($entity_type, $entity_bundle);
 
       // Add custom mapping for product related content types.
       $this->productFieldsMappger->addProductFieldsMapping($entity_type);
@@ -322,14 +213,267 @@ class SalsifyFields extends Salsify {
   }
 
   /**
+   * Sync the fields in Drupal with the fields in the Salsify feed.
+   *
+   * @param string $entity_type
+   *   Entity type.
+   * @param string $entity_bundle
+   *   Entity bundle.
+   *
+   * @return array
+   *   Product data.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  private function syncDrupalAndSalsifyFields(string $entity_type, string $entity_bundle) {
+    $import_method = $this->config->get('import_method');
+    if ($entity_type && $entity_bundle) {
+      // Load the product and field data from Salsify.
+      $product_data = $this->getProductData();
+
+      $field_mapping = $this->getFieldMappings(
+        [
+          'entity_type' => $entity_type,
+          'bundle' => $entity_bundle,
+          'method' => 'dynamic',
+        ],
+        'salsify_id'
+      );
+
+      // Remove the manually mapped Salsify Fields from the product data so
+      // they aren't added back into the system.
+      $manual_field_mapping = $this->getFieldMappings(
+        [
+          'entity_type' => $entity_type,
+          'bundle' => $entity_bundle,
+          'method' => 'manual',
+        ],
+        'salsify_id'
+      );
+      $salsify_id_fields = parent::getSystemFieldNames();
+
+      // Only generate new fields if the import method is dynamic. Otherwise
+      // only generate the required system tracking fields.
+      $salsify_fields = ($import_method == 'dynamic') ?
+        array_diff_key($product_data['fields'], $manual_field_mapping) :
+        array_intersect_key($product_data['fields'], $salsify_id_fields);
+
+      // Setup the list of Drupal fields and machine names that belong to the
+      // targeted entity and entity bundle.
+      $filtered_fields = $this->getContentTypeFields($entity_type, $entity_bundle);
+
+      // Find all of the fields from Salsify that are already in the system.
+      // Check if they need to be updated using the "updated_at" field.
+      $this->updateSalsifyFields(
+        $salsify_fields,
+        $field_mapping,
+        $filtered_fields
+      );
+
+      // Create any fields that don't yet exist in the system.
+      $this->createNonExistentFields(
+        $filtered_fields,
+        $salsify_fields,
+        $field_mapping,
+        $entity_type,
+        $entity_bundle
+      );
+
+      // Find any fields that are already in the system that weren't in the
+      // Salsify feed. This means they were deleted from Salsify, or the
+      // import method has been changed from dynamic to manual. They need to
+      // be deleted on the Drupal side.
+      $this->removeDeletedSalsifyFields(
+        $salsify_fields,
+        $filtered_fields,
+        $field_mapping,
+        $entity_type,
+        $entity_bundle
+      );
+
+    }
+    else {
+      $message = $this->t('Could not complete Salsify field data import. No content type configured.')->render();
+      $this->logger->error($message);
+      throw new MissingDataException($message);
+    }
+
+    return $product_data;
+  }
+
+  /**
+   * Find all of the fields from Salsify that are already in the system.
+   *
+   * Check if they need to be updated using the "updated_at" field.
+   *
+   * @param array $salsify_fields
+   *   Salsify fields.
+   * @param mixed $field_mapping
+   *   Field mapping.
+   * @param array $filtered_fields
+   *   Filtered fields.
+   */
+  private function updateSalsifyFields(
+    array $salsify_fields,
+    $field_mapping,
+    array $filtered_fields
+  ) {
+    $salsify_intersect = array_intersect_key($salsify_fields, $field_mapping);
+    foreach ($salsify_intersect as $key => $salsify_field) {
+      $updated = $salsify_field['date_updated'];
+      if ($updated <> $field_mapping[$key]['changed']) {
+        $updated_mapping = $field_mapping[$key];
+        $updated_mapping['changed'] = $updated;
+        $this->updateFieldMapping($updated_mapping);
+        $this->updateDynamicField($salsify_field, $filtered_fields[$field_mapping[$key]['field_name']]);
+      }
+    }
+  }
+
+  /**
+   * Create any fields that don't yet exist in the system.
+   *
+   * @param array $filtered_fields
+   *   Filtered fields.
+   * @param array $salsify_fields
+   *   Salsify fields.
+   * @param mixed $field_mapping
+   *   Feild mapping array.
+   * @param string $entity_type
+   *   Entity type.
+   * @param string $entity_bundle
+   *   Entiry bundle.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  private function createNonExistentFields(
+    array $filtered_fields,
+    array $salsify_fields,
+    $field_mapping,
+    string $entity_type,
+    string $entity_bundle
+  ) {
+    $salsify_diff = array_diff_key($salsify_fields, $field_mapping);
+    $field_machine_names = array_keys($filtered_fields);
+    foreach ($salsify_diff as $salsify_field) {
+      $field_name = static::createFieldMachineName($salsify_field['salsify:id'], $field_machine_names);
+
+      // If the field exists on the system, but isn't in the map, just add
+      // it to the map instead of trying to create a new field. This
+      // should cover if fields were left over from an uninstall.
+      if (isset($filtered_fields[$field_name])) {
+        $this->createFieldMapping([
+          'field_id' => $salsify_field['salsify:system_id'],
+          'salsify_id' => $salsify_field['salsify:id'],
+          'salsify_data_type' => $salsify_field['salsify:data_type'],
+          'entity_type' => $entity_type,
+          'bundle' => $entity_bundle,
+          'field_name' => $field_name,
+          'method' => 'dynamic',
+          'created' => strtotime($salsify_field['salsify:created_at']),
+          'changed' => $salsify_field['date_updated'],
+        ]);
+      }
+      // Add a record to track the Salsify field and the new Drupal field
+      // map.
+      else {
+        $this->createDynamicField($salsify_field, $field_name);
+      }
+
+    }
+  }
+
+  /**
+   * Remove Drupal fields deleted at Salsify side.
+   *
+   * Find any fields that are already in the system that weren't in the
+   * Salsify feed. This means they were deleted from Salsify, or the
+   * import method has been changed from dynamic to manual. They need to
+   * be deleted on the Drupal side.
+   *
+   * @param array $salsify_fields
+   *   Salsify fields.
+   * @param array $filtered_fields
+   *   Array of filtered fields.
+   * @param mixed $field_mapping
+   *   Field mapping.
+   * @param string $entity_type
+   *   Entity type.
+   * @param string $entity_bundle
+   *   Entity bundle.
+   */
+  private function removeDeletedSalsifyFields(
+    array $salsify_fields,
+    array $filtered_fields,
+    $field_mapping,
+    string $entity_type,
+    string $entity_bundle
+  ) {
+    if ($filtered_fields) {
+      // Determine the dynamically mapped fields that are in the field mapping
+      // that aren't in the list of fields from Salsify.
+      $field_diff = array_diff_key($field_mapping, $salsify_fields);
+      $field_diff = $this->rekeyArray($field_diff ?? [], 'field_name');
+      $remove_fields = array_intersect_key($filtered_fields, $field_diff);
+      $this->deleteSalsifyField($remove_fields);
+
+      $import_method = $this->config->get('import_method');
+      // If the import method is manual, remove any dynamically generated
+      // field based on the prefix "salsifysync". This will preserve the
+      // "salsify_" prefixed fields that are required for this integration
+      // to function properly.
+      if ($import_method == 'manual') {
+        foreach ($filtered_fields as $field_name => $filtered_field) {
+          if (strpos($field_name, 'salsifysync_') !== FALSE) {
+            $field_diff[$field_name] = $filtered_field;
+          }
+        }
+      }
+      foreach ($field_diff as $salsify_field_id => $field) {
+        if (isset($field_mapping[$salsify_field_id])) {
+          $diff_field_name = $field_mapping[$salsify_field_id]['field_name'];
+          if (isset($filtered_fields[$diff_field_name])) {
+            $this->deleteDynamicField($filtered_fields[$diff_field_name]);
+          }
+          // Remove the options listing for this field.
+          $this->removeFieldOptions($salsify_field_id);
+          // Delete the field mapping from the database.
+          $this->deleteFieldMapping(
+            [
+              'entity_type' => $entity_type,
+              'bundle' => $entity_bundle,
+              'salsify_id' => $salsify_field_id,
+            ]
+          );
+        }
+      }
+    }
+  }
+
+  /**
+   * Delete field.
+   *
+   * @param mixed $remove_fields
+   *   Fields for remove action.
+   */
+  private function deleteSalsifyField(
+    $remove_fields
+  ) {
+    foreach ($remove_fields as $key => $field) {
+      if (strpos($key, 'salsify') == 0) {
+        $field->delete();
+      }
+    }
+  }
+
+  /**
    * The main product import function.
    *
    * This is the main function of this class. Running this function will
    * initiate a field data sync prior to importing product data. Once the field
    * data is ready, the product data is imported using Drupal's queue system.
    *
-   * @param bool $process_immediately
-   *   If set to TRUE, the product import will bypass the queue system.
    * @param bool $force_update
    *   If set to TRUE, the updated date highwater mark will be ignored.
    *
@@ -340,7 +484,7 @@ class SalsifyFields extends Salsify {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function importProductData($process_immediately = FALSE, $force_update = FALSE) {
+  public function importProductData($force_update = FALSE) {
     try {
       // Refresh the product field settings from Salsify.
       $product_data = $this->importProductFields();
@@ -349,64 +493,32 @@ class SalsifyFields extends Salsify {
       // entity reference fields that point to taxonomy fields.
       $this->prepareTermData($product_data);
 
-      $process_result = [];
+      // Sort product array in order to process product variant firstly,
+      // then product and finally product multipack.
+      $this->productHelper
+        ->sortProducts($product_data['products']);
+
       // Import the actual product data.
       if (!empty($product_data['products'])) {
-        // Handle cases where the user wants to perform all of the data
-        // processing immediately instead of waiting for the queue to finish.
-        if ($process_immediately) {
 
-          // Product variant import.
-          $variant_process_result = $this->processItems(
-            $product_data,
-            $force_update,
-            ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE
-          );
-
-          // Product import.
-          $product_process_result = $this->processItems(
-            $product_data,
-            $force_update,
-            ProductHelper::PRODUCT_CONTENT_TYPE
-          );
-
-          // Product multipack import.
-          $multipack_process_result = $this->processItems(
-            $product_data,
-            $force_update,
-            ProductHelper::PRODUCT_MULTIPACK_CONTENT_TYPE
-          );
-
-          $process_result = array_merge_recursive(
-            $variant_process_result,
-            $product_process_result,
-            $multipack_process_result
-          );
-          $this->logger->info($this->t(
-            'The Salsify data import is complete. @created @updated', [
-              '@created' => 'Created products: ' . implode(', ', $process_result['created_products']) . '.',
-              '@updated' => 'Updated products: ' . implode(', ', $process_result['updated_products']) . '.',
-            ]
-          ));
-
-          $message = $this->t('The Salsify data import is complete.');
-        }
-        // Add each product value into a queue for background processing.
-        else {
+        $message = $this->t('The Salsify data import was initialized.');
+        // Add items only to empty query in order to avoid
+        // infinite queue.
+        $number_of_items = $this->queueFactory
+          ->get('salsify_integration_content_import')
+          ->numberOfItems();
+        if ($number_of_items == 0) {
           $this->addItemsToQueue($product_data, $force_update);
           $message = $this->t('The Salsify data import queue was created.');
         }
 
-        // Unpublish products in case of deletion at Salsify side.
         $deleted_items = $this->salsifyProductRepository
-          ->unpublishProducts($product_data['products']);
+          ->unpublishProducts(array_column($product_data['products'], 'salsify:id'));
 
-        // Send import report.
-        if ((isset($process_result['validation_errors']) && !empty($process_result['validation_errors'])) ||
-          !empty($deleted_items)) {
-          $validation_errors = $process_result['validation_errors'] ?? [];
+        // Send report with deleted items.
+        if (!empty($deleted_items)) {
           $this->salsifyEmailReport
-            ->sendReport($validation_errors, $deleted_items);
+            ->sendReport([], $deleted_items);
         }
 
         return [
@@ -433,64 +545,6 @@ class SalsifyFields extends Salsify {
       ];
     }
 
-  }
-
-  /**
-   * Process salsify items.
-   *
-   * @param mixed $product_data
-   *   Array of salsify products.
-   * @param bool $force_update
-   *   Force update.
-   * @param string $content_type
-   *   Content type for import.
-   *
-   * @return array
-   *   Array of updated and created GTINs.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   */
-  private function processItems(
-    &$product_data,
-    bool $force_update,
-    $content_type
-  ) {
-    $updated_products = [];
-    $created_products = [];
-    $validation_errors = [];
-
-    foreach ($product_data['products'] as $product) {
-      // Add child entity references.
-      $this->addChildLinks($product_data['mapping'], $product);
-      $product['CMS: Market'] = $product_data['market'] ?? NULL;
-
-      if (ProductHelper::getProductType($product) == $content_type) {
-        $result = $this->salsifyImportField->processSalsifyItem(
-          $product,
-          $force_update,
-          $content_type
-        );
-
-        if ($result['import_result'] == SalsifyImport::PROCESS_RESULT_UPDATED) {
-          $updated_products[] = $product['GTIN'];
-        }
-        elseif ($result['import_result'] == SalsifyImport::PROCESS_RESULT_CREATED) {
-          $created_products[] = $product['GTIN'];
-        }
-        $validation_errors = array_merge(
-          $validation_errors,
-          $result['validation_errors']
-        );
-      }
-    }
-
-    return [
-      'updated_products' => $updated_products,
-      'created_products' => $created_products,
-      'validation_errors' => $validation_errors,
-    ];
   }
 
   /**
@@ -522,7 +576,7 @@ class SalsifyFields extends Salsify {
    * @param array $product
    *   Product record.
    */
-  private function addChildLinks(array $mapping, array &$product) {
+  public function addChildLinks(array $mapping, array &$product) {
     if (isset($mapping[$product['GTIN']])) {
       foreach ($mapping[$product['GTIN']] as $child_gtin => $child_type) {
         if ($child_type == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
@@ -540,8 +594,13 @@ class SalsifyFields extends Salsify {
    *
    * @param array $product_data
    *   Data of product.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
-  protected function prepareTermData(array $product_data) {
+  public function prepareTermData(array $product_data) {
     $salsify_fields = $product_data['fields'];
     $entity_type = $this->getEntityType();
     $entity_bundle = $this->getEntityBundle();
@@ -566,28 +625,62 @@ class SalsifyFields extends Salsify {
     $field_configs = $this->getContentTypeFields($entity_type, $entity_bundle);
     foreach ($field_mappings as $field_mappings_by_method) {
       foreach ($field_mappings_by_method as $salsify_field_name => $field_mapping) {
-        $field_name = $field_mapping['field_name'];
-        if (isset($field_configs[$field_name])) {
-          $field_config = $field_configs[$field_name];
-          if ($field_config->getType() == 'entity_reference' && isset($salsify_fields[$salsify_field_name]['values'])) {
-            $salsify_values = $salsify_fields[$salsify_field_name]['values'];
-            $field_handler = $field_config->getSetting('handler');
-            $field_handler_settings = $field_config->getSetting('handler_settings');
-            if ($field_handler == 'default:taxonomy_term' && !empty($field_handler_settings['target_bundles'])) {
-              // Only use the first taxonomy in the list.
-              $vid = current($field_handler_settings['target_bundles']);
-              $salsify_ids = array_keys($salsify_values);
-              $salsify_ids_array = array_chunk($salsify_ids, 50);
-              foreach ($salsify_ids_array as $salsify_ids_chunk) {
-                $this->salsifyImportTaxonomy
-                  ->processSalsifyTaxonomyTermItems(
-                    $vid,
-                    $field_mapping,
-                    $salsify_ids_chunk,
-                    $salsify_fields[$field_mapping['salsify_id']]
-                  );
-              }
-            }
+
+        $this->processTermDataByFieldName(
+          $field_mapping,
+          $field_configs,
+          $salsify_fields,
+          $salsify_field_name
+        );
+      }
+    }
+  }
+
+  /**
+   * Process Term data based on field mapping data by salsify field name.
+   *
+   * @param array $field_mapping
+   *   Field mapping.
+   * @param array $field_configs
+   *   Field configs.
+   * @param array $salsify_fields
+   *   Salsify fields.
+   * @param mixed $salsify_field_name
+   *   Salsify field name.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  private function processTermDataByFieldName(
+    array $field_mapping,
+    array $field_configs,
+    array $salsify_fields,
+    $salsify_field_name
+  ) {
+
+    $field_name = $field_mapping['field_name'];
+    if (isset($field_configs[$field_name])) {
+      $field_config = $field_configs[$field_name];
+      /* @var \Drupal\field\Entity\FieldConfig $field_config */
+      if ($field_config->getType() == 'entity_reference' && isset($salsify_fields[$salsify_field_name]['values'])) {
+        $salsify_values = $salsify_fields[$salsify_field_name]['values'];
+        $field_handler = $field_config->getSetting('handler');
+        $field_handler_settings = $field_config->getSetting('handler_settings');
+        if ($field_handler == 'default:taxonomy_term' && !empty($field_handler_settings['target_bundles'])) {
+          // Only use the first taxonomy in the list.
+          $vid = current($field_handler_settings['target_bundles']);
+          $salsify_ids = array_keys($salsify_values);
+          $salsify_ids_array = array_chunk($salsify_ids, 50);
+          foreach ($salsify_ids_array as $salsify_ids_chunk) {
+            $this->salsifyImportTaxonomy
+              ->processSalsifyTaxonomyTermItems(
+                $vid,
+                $field_mapping,
+                $salsify_ids_chunk,
+                $salsify_fields[$field_mapping['salsify_id']]
+              );
           }
         }
       }
@@ -673,7 +766,7 @@ class SalsifyFields extends Salsify {
       $entity_bundle = $config->get('bundle');
     }
     $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
-    $field_settings = self::getFieldSettingsByType($salsify_data, $entity_type, $entity_bundle, $field_name);
+    $field_settings = static::getFieldSettingsByType($salsify_data, $entity_type, $entity_bundle, $field_name);
     $field = FieldConfig::loadByName($entity_type, $entity_bundle, $field_name);
     $created = strtotime($salsify_data['salsify:created_at']);
     $changed = $salsify_data['date_updated'];
@@ -693,13 +786,13 @@ class SalsifyFields extends Salsify {
       if (strpos($field_name, 'salsifysync_') !== FALSE) {
         // Add the field to the default displays.
         /* @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $view_storage */
-        self::createFieldViewDisplay($entity_type, $entity_bundle, $field_name, 'default');
-        self::createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_data['salsify:data_type']);
+        static::createFieldViewDisplay($entity_type, $entity_bundle, $field_name, 'default');
+        static::createFieldFormDisplay($entity_type, $entity_bundle, $field_name, $salsify_data['salsify:data_type']);
       }
     }
 
     // Add a record to track the Salsify field and the new Drupal field map.
-    self::createFieldMapping([
+    static::createFieldMapping([
       'field_id' => $salsify_data['salsify:system_id'],
       'salsify_id' => $salsify_data['salsify:id'],
       'salsify_data_type' => $salsify_data['salsify:data_type'],
@@ -784,7 +877,7 @@ class SalsifyFields extends Salsify {
         $field_settings['field_storage']['type'] = 'list_string';
         $field_settings['field_storage']['cardinality'] = -1;
         $field_settings['field_storage']['settings']['allowed_values_function'] = 'salsify_integration_allowed_values_callback';
-        self::setFieldOptions($salsify_data);
+        static::setFieldOptions($salsify_data);
         break;
 
       case 'date':
@@ -831,6 +924,9 @@ class SalsifyFields extends Salsify {
           'size' => 'normal',
         ];
         $field_settings['field']['field_type'] = 'integer';
+        break;
+
+      default:
         break;
 
     }

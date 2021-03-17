@@ -1,0 +1,18 @@
+uuid: fbcf9caa-c57e-4e3a-8b38-6eb172c0624d
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_main_ingredient
+id: taxonomy_term.mars_main_ingredient.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: mars_main_ingredient
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

@@ -19,11 +19,14 @@ pdp_common_data:
     vitamins_info_label: 'VITAMINS | MINERALS:'
     ingredients_label: 'INGREDIENTS:'
     warnings_label: 'WARNINGS:'
+    daily_text: 'The % Daily Value tells you how much nutrient a serving of food contributes to a daily diet. 2000 calories a day is used for a general advice.'
+    refer_text:  'Please refer to the product label for the most accurate nutrition, ingredient and allergen information'
   allergen_data:
     allergen_label: 'DIET & ALLERGENS'
   more_information_data:
     more_information_label: 'MORE INFORMATION'
     show_more_information_label: true
+    more_information_id: 'section-more-information'
 pdp_size_data:
   - size_id : '1oz'
     title: '1.36 oz'
@@ -36,6 +39,7 @@ pdp_size_data:
     link_url: '#'
 pdp_data:
   - size_id: '1oz'
+    gtin: '01231243341231'
     active: true
     hero_data:
       image_items:
@@ -137,21 +141,10 @@ pdp_data:
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
   - size_id: '4oz'
+    gtin: '01231243341232'
     active: false
     hero_data:
       image_items:
-        - image:
-            srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-            src: 'image-23x.png'
-            alt: 'Twix'
-        - image:
-            srcset: 'Front3x.png 375w, Front3x.png 768w, Front3x.png 1024w, Front3x.png 1440w'
-            src: 'Front3x.png'
-            alt: 'Twix'
-        - image:
-            srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
-            src: 'image-23x.png'
-            alt: 'Twix'
         - image:
             srcset: 'image-23x.png 375w, image-23x.png 768w, image-23x.png 1024w, image-23x.png 1440w'
             src: 'image-23x.png'
@@ -238,6 +231,7 @@ pdp_data:
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
   - size_id: '6oz'
+    gtin: '01231243341233'
     active: false
     hero_data:
       image_items:

@@ -3,6 +3,8 @@
 namespace Drupal\salsify_integration;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\TypedData\Exception\MissingDataException;
 
 /**
  * Class MulesofConnector.
@@ -10,6 +12,8 @@ use Drupal\Component\Serialization\Json;
  * @package Drupal\salsify_integration
  */
 class MulesoftConnector {
+
+  use StringTranslationTrait;
 
   /**
    * The Product helper class.
@@ -38,20 +42,36 @@ class MulesoftConnector {
    *
    * @return array
    *   Data array.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function transformData(string $response) {
-    $mapping = $this->productHelper
-      ->getParentEntitiesMapping($response);
+    // Filter products and product fields in order
+    // to reduce memory usage.
     $response = $this->productHelper
       ->filterProductsInResponse($response);
+    $response = $this->productHelper
+      ->filterProductFields($response);
+
+    // Process product variants in response in order to populate
+    // data by products and product multipacks.
+    $response = $this->productHelper->addProducts($response);
+    $response = $this->productHelper->addProductMultipacks($response);
+
     $data = [
       'attributes' => $this->productHelper->getAttributesByProducts($response),
       'attribute_values' => $this->productHelper->getAttributeValuesByProducts($response),
       'digital_assets' => $this->productHelper->getDigitalAssetsByProducts($response),
-      'mapping' => $mapping,
+      'mapping' => $this->productHelper->getPrimaryMapping(),
     ];
 
     $response_array = Json::decode($response);
+
+    if (empty($response_array['data'])) {
+      $message = $this->t('Empty data set for the Import.');
+      throw new MissingDataException($message);
+    }
+
     $data['products'] = $response_array['data'] ?? [];
     $data['market'] = $response_array['country'] ?? NULL;
 

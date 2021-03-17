@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -15,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "mars_common_content_feature_module",
- *   admin_label = @Translation("Content Feature Module"),
+ *   admin_label = @Translation("MARS: Content Feature Module"),
  *   category = @Translation("Custom")
  * )
  */
@@ -37,6 +38,13 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   protected $themeConfiguratorParser;
 
   /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
+
+  /**
    * Mars Media Helper service.
    *
    * @var \Drupal\mars_common\MediaHelper
@@ -52,6 +60,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.theme_configurator_parser'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.media_helper')
     );
   }
@@ -64,10 +73,12 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $plugin_id,
     $plugin_definition,
     ThemeConfiguratorParser $themeConfiguratorParser,
+    LanguageHelper $language_helper,
     MediaHelper $media_helper
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->languageHelper = $language_helper;
     $this->mediaHelper = $media_helper;
   }
 
@@ -77,8 +88,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
   public function build() {
     $conf = $this->getConfiguration();
 
-    $build['#eyebrow'] = $conf['eyebrow'] ?? '';
-    $build['#title'] = $conf['title'] ?? '';
+    $build['#eyebrow'] = $this->languageHelper->translate($conf['eyebrow'] ?? '');
+    $build['#title'] = $this->languageHelper->translate($conf['title'] ?? '');
 
     if (!empty($conf['background'])) {
       $mediaId = $this->mediaHelper->getIdFromEntityBrowserSelectValue($conf['background']);
@@ -88,11 +99,12 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
       }
     }
 
-    $build['#description'] = $conf['description'] ?? '';
-    $build['#explore_cta'] = $conf['explore_cta'] ?? '';
+    $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
+    $build['#explore_cta'] = $this->languageHelper->translate($conf['explore_cta'] ?? '');
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
     $build['#border_radius'] = $this->themeConfiguratorParser->getSettingValue('button_style');
-    $build['#graphic_divider'] = $this->themeConfiguratorParser->getFileContentFromTheme('graphic_divider');
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
+    $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
 
     $build['#theme'] = 'content_feature_module_block';
 
@@ -107,6 +119,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
 
     return [
       'label_display' => FALSE,
+      'use_dark_overlay' => TRUE,
       'explore_cta' => $conf['explore_cta'] ?? $this->t('Explore'),
     ];
   }
@@ -136,7 +149,8 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
 
     $image_default = isset($config['background']) ? $config['background'] : NULL;
     // Entity Browser element for background image.
-    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $image_default, 1, 'thumbnail');
+    $form['background'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+      $image_default, $form_state, 1, 'thumbnail');
     // Convert the wrapping container to a details element.
     $form['background']['#type'] = 'details';
     $form['background']['#title'] = $this->t('Background');
@@ -145,7 +159,7 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $form['description'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Description'),
-      '#maxlength' => 255,
+      '#maxlength' => 300,
       '#default_value' => $this->configuration['description'] ?? '',
       '#required' => TRUE,
     ];
@@ -157,14 +171,20 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
         '#title' => $this->t('Button Label'),
         '#maxlength' => 15,
         '#default_value' => $this->configuration['explore_cta'],
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
       'explore_cta_link' => [
         '#type' => 'textfield',
         '#title' => $this->t('URL'),
         '#default_value' => $this->configuration['explore_cta_link'] ?? '',
-        '#required' => FALSE,
+        '#required' => TRUE,
       ],
+    ];
+
+    $form['use_dark_overlay'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use dark overlay'),
+      '#default_value' => $this->configuration['use_dark_overlay'] ?? TRUE,
     ];
 
     return $form;
@@ -181,6 +201,9 @@ class ContentFeatureModuleBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['description'] = $form_state->getValue('description');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
+    $this->configuration['use_dark_overlay'] = ($form_state->getValue('use_dark_overlay'))
+      ? TRUE
+      : FALSE;
   }
 
 }

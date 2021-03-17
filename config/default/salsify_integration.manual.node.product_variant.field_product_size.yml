@@ -1,5 +1,5 @@
-field_id: 'Case Net Weight'
-salsify_id: 'Case Net Weight'
+field_id: 'Net Content'
+salsify_id: 'Net Content'
 salsify_data_type: string
 entity_type: node
 bundle: product_variant

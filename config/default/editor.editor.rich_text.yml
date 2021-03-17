@@ -18,6 +18,7 @@ settings:
           name: Formatting
           items:
             - Bold
+            - Underline
             - Italic
             - Strike
             - Superscript
@@ -55,6 +56,8 @@ settings:
       language_list: un
     stylescombo:
       styles: ''
+    customconfig:
+      ckeditor_custom_config: "format_h1 = { \"element\": \"h1\", \"attributes\": { \"class\": \"title-h1\" } }\r\nformat_h2 = { \"element\": \"h2\", \"attributes\": { \"class\": \"title-h2\" } }\r\nformat_h3 = { \"element\": \"h3\", \"attributes\": { \"class\": \"title-h3\" } }\r\nformat_h4 = { \"element\": \"h4\", \"attributes\": { \"class\": \"title-h4\" } }\r\nformat_h5 = { \"element\": \"h5\", \"attributes\": { \"class\": \"title-h5\" } }\r\nformat_h6 = { \"element\": \"h6\", \"attributes\": { \"class\": \"title-h6\" } }\r\nformat_h1-primary = {\"name\": \"H1 Primary Font\", \"element\": \"h1\", \"attributes\": { \"class\": \"h1--primary-modifier\" } }\r\nformat_h2-primary = {\"name\": \"H2 Primary Font\", \"element\": \"h2\", \"attributes\": { \"class\": \"h2--primary-modifier\" } }\r\nformat_h3-primary = {\"name\": \"H3 Primary Font\", \"element\": \"h3\", \"attributes\": { \"class\": \"h3--primary-modifier\" } }\r\nformat_h4-primary = {\"name\": \"H4 Primary Font\", \"element\": \"h4\", \"attributes\": { \"class\": \"h4--primary-modifier\" } }\r\nformat_h5-primary = {\"name\": \"H5 Primary Font\", \"element\": \"h5\", \"attributes\": { \"class\": \"h5--primary-modifier\" } }\r\nformat_h6-primary = {\"name\": \"H6 Primary Font\", \"element\": \"h6\", \"attributes\": { \"class\": \"h6--primary-modifier\" } }\r\nformat_tags = \"p;h1;h2;h3;h4;h5;h6;h1-primary;h2-primary;h3-primary;h4-primary;h5-primary;h6-primary\""
 image_upload:
   status: true
   scheme: public

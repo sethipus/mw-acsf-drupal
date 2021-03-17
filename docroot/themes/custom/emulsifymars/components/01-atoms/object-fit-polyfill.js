@@ -1,0 +1,3 @@
+import 'objectFitPolyfill';
+
+window.objectFitPolyfill();

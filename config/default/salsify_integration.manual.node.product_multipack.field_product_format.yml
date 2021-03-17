@@ -1,5 +1,5 @@
-field_id: 'Pack Size'
-salsify_id: 'Pack Size'
+field_id: 'CMS: Format'
+salsify_id: 'CMS: Format'
 salsify_data_type: enumerated
 entity_type: node
 bundle: product_multipack

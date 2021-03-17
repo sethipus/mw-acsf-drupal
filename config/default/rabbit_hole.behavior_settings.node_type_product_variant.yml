@@ -1,0 +1,14 @@
+uuid: ada252d1-4646-44ed-9a1f-9db7928ce827
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product_variant
+id: node_type_product_variant
+entity_type_id: node_type
+entity_id: product_variant
+action: page_not_found
+allow_override: 1
+redirect: ''
+redirect_code: 301
+redirect_fallback_action: access_denied

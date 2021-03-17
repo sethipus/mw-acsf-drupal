@@ -1,0 +1,18 @@
+uuid: 6ab0408f-02ac-4800-8ca8-7e4eae4bd88e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.error_page
+id: node.error_page.created
+field_name: created
+entity_type: node
+bundle: error_page
+label: 'Authored on'
+description: 'The time that the node was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

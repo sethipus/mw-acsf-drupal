@@ -13,15 +13,6 @@
       flex-grow: 1;
       width: 100%;
       background-color: clr(subcolor-3);
-
-      &__field {
-        width: calc(100% - 20px);
-        margin: 0 20px;
-
-        @include medium {
-          width: calc(100% - 20px);
-        }
-      }
     }
   }
 
@@ -31,6 +22,15 @@
         border-bottom-right-radius: unset;
         border-bottom-left-radius: unset;
         border-bottom: none;
+
+        &__field {
+          width: calc(100% - 20px);
+          margin: 0 20px;
+
+          @include desktop {
+            width: calc(100% - 20px);
+          }
+        }
       }
       .mars-search-autocomplete-suggestions-wrapper {
         margin-top: -25px;
@@ -43,15 +43,16 @@
 }
 
 .search-filter-block {
-  position: absolute;
+  position: fixed;
   top: 30px;
   left: 0;
-  height: calc(100vh - 30px);
-  width: 100vw;
+  bottom: 0;
+  width: 100%;
   border-radius: 20px 20px 0 0;
   display: none;
+  z-index: 5;
 
-  @include xl {
+  @include desktop {
     display: block;
     position: relative;
     top: auto;
@@ -62,12 +63,8 @@
 
   &--opened {
     display: block;
-    z-index: 10;
+    z-index: 100;
     background-color: clr(subcolor-3);
-
-    @include xl {
-      background-color: clr(subcolor-2);
-    }
 
     .search-filter-block__button--apply {
       display: block;
@@ -81,13 +78,15 @@
     padding: 16px 40px;
     border-radius: variable(button-border-radius);
     font-family: variable(primary-font);
-    font-size: 14px;
-    line-height: 14px;
-    letter-spacing: .75px;
     text-transform: uppercase;
     color: clr(secondary);
     margin: 0 6px;
     text-decoration: none;
+
+    @include xs {
+      font-size: 1.4rem;
+      line-height: 1.4rem;
+    }
 
     &--highlighted {
       background-color: clr(secondary);
@@ -99,10 +98,16 @@
       margin: 0;
       padding: 0;
       line-height: 20px;
+      background: none;
     }
 
     &--hidden {
       display: none;
+    }
+
+    &--disabled {
+      opacity: .6;
+      cursor: default;
     }
   }
 }
@@ -110,15 +115,18 @@
 .filter-block .search-filter-block__button--apply {
   display: none;
 
-  @include xl {
+  @include desktop {
     display: block;
   }
 }
 
 .search-filter-header {
   height: 60px;
+  position: absolute;
+  top: 0;
+  width: 100%;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 
@@ -126,7 +134,6 @@
     padding: 30px 20px 0;
     font: 18px/25px variable(primary-font);
     color: clr(secondary);
-    letter-spacing: 0.8px;
   }
 
   &__close {
@@ -160,29 +167,39 @@
 
 .search-filter-content {
   padding: 0 20px;
-  height: calc(100vh - 170px);
-  overflow: scroll;
+  position: absolute;
+  top: 60px;
+  bottom: 80px;
+  width: 100%;
+  overflow: auto;
 
-  @include xl {
-    height: auto;
-    width: 920px;
+  @include desktop {
+    max-width: 920px;
     margin: auto;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     overflow: visible;
+    position: static;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
 .search-filter-footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   height: 80px;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 }
@@ -201,7 +218,7 @@
   max-width: 896px;
   margin: 0 auto;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 
@@ -225,15 +242,18 @@
   max-width: 688px;
 
   &__applied-label {
-    font: 16px/1.4em variable(primary-font);
     color: clr(primary);
-    letter-spacing: 0.65px;
+    font-family: variable(primary-font);
+
+    @include xs {
+      font-size: 1.6rem;
+      line-height: 2.24rem;
+    }
   }
 
   &__applied-text {
     font: 16px/1.8em variable(secondary-font);
     color: clr(primary);
-    letter-spacing: 0.65px;
     margin-top: 20px;
     padding-right: 50px;
   }
@@ -247,8 +267,11 @@
     width: 20px;
     height: 20px;
     margin-left: 8px;
+    margin-top: 5px;
     overflow: hidden;
+    border: none;
     border-radius: 10px;
+    font-size: 0; /* needed to set minimal iOS Safari button size */
     background-color: clr(secondary);
     position: relative;
     cursor: pointer;
@@ -293,8 +316,16 @@
   }
 }
 
-.search-results-page {
+.search-results-filter {
   .search-filter-container {
     background-color: clr(subcolor-3);
-  }  
+  }
+}
+
+body.locked-scroll {
+  position: fixed;
+
+  @include desktop {
+    position: static;
+  }
 }

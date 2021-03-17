@@ -3,16 +3,18 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal;
-use Drupal\Tests\UnitTestCase;
-use ReflectionClass;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Config\Config;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\mars_common\Plugin\Block\FooterBlock;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\MenuBuilder;
+use Drupal\mars_common\Plugin\Block\FooterBlock;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\Tests\UnitTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class FooterBlockTest.
@@ -36,12 +38,6 @@ class FooterBlockTest extends UnitTestCase {
    */
   private $formStateMock;
 
-  /**
-   * Menu link tree mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Menu\MenuLinkTreeInterface
-   */
-  protected $menuLinkTreeMock;
 
   /**
    * File storage.
@@ -60,7 +56,7 @@ class FooterBlockTest extends UnitTestCase {
   /**
    * ThemeConfiguratorParserMock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\mars_common\ThemeConfiguratorParser
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\ThemeConfiguratorParser
    */
   protected $themeConfiguratorParserMock;
 
@@ -84,6 +80,34 @@ class FooterBlockTest extends UnitTestCase {
    * @var array
    */
   private $configuration;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelperMock;
+
+  /**
+   * Menu builder service mock.
+   *
+   * @var \Drupal\mars_common\MenuBuilder|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $menuBuilderMock;
+
+  /**
+   * Config factory mock.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $configFactoryMock;
+
+  /**
+   * Mock.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $immutableConfigMock;
 
   /**
    * {@inheritdoc}
@@ -125,9 +149,11 @@ class FooterBlockTest extends UnitTestCase {
       $this->configuration,
       'footer_block',
       $definitions,
-      $this->menuLinkTreeMock,
       $this->entityTypeManagerMock,
-      $this->themeConfiguratorParserMock
+      $this->languageHelperMock,
+      $this->themeConfiguratorParserMock,
+      $this->menuBuilderMock,
+      $this->configFactoryMock
     );
   }
 
@@ -136,15 +162,17 @@ class FooterBlockTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->containerMock = $this->createMock(ContainerInterface::class);
+    $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
-    $this->menuLinkTreeMock = $this->createMock(MenuLinkTreeInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
-    $this->configMock = $this->createMock(Config::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->menuStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->menuBuilderMock = $this->createMock(MenuBuilder::class);
     $this->termStorageMock = $this->getMockBuilder(stdClass::class)
       ->setMethods(['loadTree'])
       ->getMock();
+    $this->immutableConfigMock = $this->createMock(ImmutableConfig::class);
   }
 
   /**
@@ -152,14 +180,22 @@ class FooterBlockTest extends UnitTestCase {
    */
   public function testBlockShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(5))
       ->method('get')
       ->withConsecutive(
-        [$this->equalTo('menu.link_tree')],
         [$this->equalTo('entity_type.manager')],
-        [$this->equalTo('mars_common.theme_configurator_parser')]
+        [$this->equalTo('mars_common.language_helper')],
+        [$this->equalTo('mars_common.theme_configurator_parser')],
+        [$this->equalTo('mars_common.menu_builder')],
+        [$this->equalTo('config.factory')]
       )
-      ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->entityTypeManagerMock, $this->themeConfiguratorParserMock));
+      ->will($this->onConsecutiveCalls(
+        $this->entityTypeManagerMock,
+        $this->languageHelperMock,
+        $this->themeConfiguratorParserMock,
+        $this->menuBuilderMock,
+        $this->configFactoryMock
+      ));
 
     $this->entityTypeManagerMock
       ->expects($this->any())
@@ -167,8 +203,7 @@ class FooterBlockTest extends UnitTestCase {
       ->withConsecutive(
         [$this->equalTo('menu')],
         [$this->equalTo('taxonomy_term')]
-      )
-      ->will($this->onConsecutiveCalls($this->menuLinkTreeMock, $this->termStorageMock));
+      );
 
     $definitions = [
       'provider'    => 'test',
@@ -190,13 +225,13 @@ class FooterBlockTest extends UnitTestCase {
       )
       ->will($this->onConsecutiveCalls('', ''));
 
-    $reflection = new ReflectionClass($this->footerBlock);
-    $method = $reflection->getMethod('buildConfigurationForm');
-    $method->setAccessible(TRUE);
-
-    $config_form = $method->invokeArgs($this->footerBlock, ['arg1' => [], 'arg2' => $this->formStateMock]);
-    $this->assertCount(11, $config_form);
+    $config_form = $this->footerBlock->buildConfigurationForm(
+      [],
+      $this->formStateMock
+    );
+    $this->assertCount(12, $config_form);
     $this->assertArrayHasKey('top_footer_menu', $config_form);
+    $this->assertArrayHasKey('override_text_color', $config_form);
     $this->assertArrayHasKey('legal_links', $config_form);
     $this->assertArrayHasKey('marketing', $config_form);
     $this->assertArrayHasKey('corporate_tout', $config_form);
@@ -215,35 +250,48 @@ class FooterBlockTest extends UnitTestCase {
 
     $this->themeConfiguratorParserMock
       ->expects($this->exactly(1))
-      ->method('getFileWithId')
-      ->willReturn('');
+      ->method('getBrandBorder')
+      ->willReturn(new SVG('<svg xmlns="http://www.w3.org/2000/svg" />', 'id'));
 
-    $this->menuLinkTreeMock
+    $this->menuBuilderMock
       ->expects($this->exactly(2))
-      ->method('load')
+      ->method('getMenuItemsArray')
       ->willReturn([]);
-
-    $this->menuLinkTreeMock
-      ->expects($this->exactly(2))
-      ->method('transform')
-      ->willReturn([]);
-
-    $this->menuLinkTreeMock
-      ->expects($this->exactly(2))
-      ->method('build');
 
     $this->termStorageMock
       ->expects($this->any())
       ->method('loadTree')
       ->willReturn([]);
 
+    $this->configFactoryMock
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($this->immutableConfigMock);
+
+    $this->immutableConfigMock
+      ->method('getCacheContexts')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheTags')
+      ->willReturn([]);
+
+    $this->immutableConfigMock
+      ->method('getCacheMaxAge')
+      ->willReturn(0);
+
     $build = $this->footerBlock->build();
 
-    $this->assertCount(10, $build);
+    $this->assertCount(16, $build);
+    $this->assertArrayHasKey('#cache', $build);
     $this->assertArrayHasKey('#top_footer_menu', $build);
     $this->assertArrayHasKey('#legal_links', $build);
     $this->assertArrayHasKey('#marketing', $build);
-    $this->assertArrayHasKey('#corporate_tout', $build);
+    $this->assertArrayHasKey('#corporate_tout_text', $build);
+    $this->assertArrayHasKey('#corporate_tout_url', $build);
+    $this->assertArrayHasKey('#region_title', $build);
+    $this->assertArrayHasKey('#social_header', $build);
+    $this->assertArrayHasKey('#text_color_override', $build);
     $this->assertCount(0, $build['#social_links']);
     $this->assertArrayHasKey('#region_selector', $build);
     $this->assertEquals('footer_block', $build['#theme']);

@@ -4,7 +4,7 @@ status: true
 dependencies: {  }
 _core:
   default_config_hash: O72eAtC9RLtIFGtvM66-pimEqKjRr7YDEEFn2sQH5pA
-name: Flavor
+name: FLAVOR
 vid: mars_flavor
 description: ''
-weight: 0
+weight: -5

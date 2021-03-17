@@ -13,7 +13,7 @@
   {% block list_content %}
     {% for faq_item in faq_items %}
       {% include "@atoms/lists/_list-item-faq.twig" with {
-        list_item_content: faq_item.content,
+        list_item_content: faq_item.items,
         li_base_class: faq_item.li_base_class,
         li_modifiers: faq_item.li_modifiers,
         li_blockname: faq_item.li_blockname,

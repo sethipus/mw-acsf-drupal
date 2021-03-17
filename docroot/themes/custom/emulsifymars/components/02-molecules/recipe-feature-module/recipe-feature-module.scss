@@ -1,126 +1,211 @@
 .recipe-feature-block {
-  margin: 20px 0;
+  $recipe-feature-desktop-max-height: 567px;
+  $recipe-feature-tablet-max-height: 432px;
+  $recipe-feature-mobile-max-height: 211px;
+
+  padding-bottom: 8rem;
+
+  &__title {
+    text-align: center;
+    font-family: variable(heading-font);
+    color: clr(primary);
+    margin-bottom: 4rem;
+
+    @include xs {
+      font-size: 2.8rem;
+      line-height: 2.8rem;
+      padding-top: 5rem;
+    }
+
+    @include medium {
+      font-size: 4rem;
+      line-height: 4rem;
+      padding-top: 6rem;
+    }
+
+    @include large {
+      font-size: 4.8rem;
+      line-height: 4.8rem;
+      margin-bottom: 6rem;
+      padding-top: 8rem;
+    }
+  }
+
+  &__graphic_divider {
+    text-align: center;
+    margin-bottom: 40px;
+
+    @include large {
+      margin-bottom: 60px;
+    }
+  }
+
+  &__border {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(-100%) translateY($brand-border-offset);
+    width: 100%;
+    z-index: 2;
+
+    @include large {
+      transform: translate(-50%, -50%) rotate(-90deg) translate(-50%, -50%) translateY($brand-border-offset);
+      width: $recipe-feature-desktop-max-height;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      fill: clr(subcolor-2);
+      -webkit-backface-visibility: hidden;
+    }
+  }
 
   .media {
     position: relative;
+    overflow: hidden;
+    @include large {
+      height: $recipe-feature-desktop-max-height;
+    }
 
     img, figure {
+      width: 100%;
+      height: $recipe-feature-mobile-max-height;
+      object-fit: cover;
+
+      @include medium {
+        height: $recipe-feature-tablet-max-height;
+      }
+
       @include large {
-        width: 75%;
+        height: 100%;
+        width: 59%;
+      }
+    }
+
+    .ambient-video__control[data-state="play"] {
+      @include medium {
+        top: 40px;
+        right: calc(5% + 40px);
+      }
+    }
+
+    .ambient-video__control[data-state="pause"] {
+      @include medium {
+        top: 40px;
+        right: calc(5% + 40px);
       }
     }
 
     .media-info {
-      background-color: clr(subcolor-3);
-      margin-top: -50px;
+      background-color: clr(subcolor-2);
       position: relative;
       text-align: center;
-      margin-right: 15px;
-      margin-left: 15px;
-
-      @include medium {
-        margin-right: 65px;
-        margin-left: 65px;
-      }
+      margin-right: 0;
+      margin-left: 0;
 
       @include large {
-        left: 50%;
-        width: 50%;
-        bottom: 82px;
+        position: absolute;
+        left: 59%;
+        width: 41%;
         margin-left: 0;
         margin-right: 0;
-      }
-
-      .stretch {
-        position: absolute;
-        width: 100%;
-        height: auto;
-        z-index: 2;
-        top: -20px;
-    
-        svg {
-          path {
-            fill: clr(subcolor-3);
-            width: 100%;
-          }
-          rect {
-            width: 100%;
-            height: 100%;
-          }
-        }
-      }
-
-      .repeat {
-        position: absolute;
-        width: 100%;
-        height: 15px;
-        top: -15px;
-
-        svg {
-          width: 100%;
-
-          path {
-            fill: clr(subcolor-3);
-          }
-          rect {
-            width: inherit;
-            height: 15px;
-          }
-        }
+        top: 0;
+        height: 100%;
+        display: inline-flex;
+        justify-content: center;
+        flex-flow: column nowrap;
+        padding: 0;
       }
 
       .eyebrow {
-        padding-top: 30px;
         font-family: variable(primary-font);
         font-size: 14px;
         line-height: 14px;
         color: clr(primary);
         text-transform: uppercase;
-        letter-spacing: 1px;
+        margin: 0;
+
+        @include xs {
+          padding-top: 3rem;
+        }
+
+        @include medium {
+          padding-top: 4rem;
+        }
+
+        @include large {
+          padding-top: 0;
+        }
       }
+
       .title {
         font-family: variable(primary-font);
-        font-size: 28px;
-        line-height: 28px;
-        text-transform: capitalize;
-        font-weight: normal;
+        font-size: 5.6rem;
+        line-height: 100%;
+        max-width: 510px;
+        font-weight: 500;
+        margin: 3rem auto 2rem;
+
+        @include xs {
+          padding: 0 1.2rem;
+        }
+
+        @include medium {
+          margin-bottom: 4rem;
+          padding: 0 4rem;
+        }
+
+        @include large {
+          font-size: 6.4rem;
+          min-height: 18rem;
+          margin: 3rem auto 4rem;
+          padding: 0;
+        }
+
+        @include xl {
+          font-size: 6.4rem;
+          min-height: 18rem;
+          margin: 4rem;
+          padding: 0;
+        }
+
+        @media (min-width: 1441px){
+          margin: 4rem;
+          max-width: 100%;
+        }
 
         a.link {
           color: clr(primary);
           text-decoration: none;
+
+          @include large {
+            display: block;
+            margin: -10px auto -5px auto;
+          }
         }
       }
 
-      .cooking-time {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: variable(primary-font);
-
-        &__icon {
-          width: 15px;
-          display: flex;
-        }
-
-        &__info {
-          display: flex;
-          font-size: 12px;
-          line-height: 110%;
-        }
-
-        &__label {
-          color: clr(primary);
-          margin: 0 5px;
-        }
-
-        &__value {
-          color: clr(secondary);
-        }
+      .cta-btn {
+        // Removing additionalspacing which comes from space
+        line-height: 0;
       }
 
       .default-link {
-        margin-top: 20px;
         background-color: clr(secondary);
+
+        @include xs {
+          margin-bottom: 40px;
+        }
+
+        @include medium {
+          margin-bottom: 60px;
+        }
+
+        @include large {
+          margin-bottom: 0;
+        }
 
         &:hover {
           color: clr(secondary);
@@ -129,3 +214,9 @@
     }
   }
 }
+
+.ambient-video .ambient-video__control[data-state="play"] .play-icon {
+  fill: #fff;
+}
+
+

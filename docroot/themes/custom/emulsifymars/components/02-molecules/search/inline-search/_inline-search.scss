@@ -19,6 +19,10 @@
     font-weight: normal;
     text-decoration: none;
 
+    svg {
+      fill: currentColor;
+    }
+
     &:hover {
       color: clr(subcolor-3);
     }
@@ -35,6 +39,7 @@
       color: clr(primary);
       font-size: 1.4rem;
       line-height: 1.4rem;
+
       &:hover {
         color: clr(secondary);
       }

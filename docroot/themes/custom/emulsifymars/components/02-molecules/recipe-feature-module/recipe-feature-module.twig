@@ -1,7 +1,15 @@
 {% set recipe_template__base_class = 'recipe-feature-block' %}
 {% set icon_clock = icon_clock|default('/' ~ base_path ~ directory ~ '/images/icons/clock.svg') %}
 {% set icon_border = icon_border|default('/' ~ base_path ~ directory ~'/images/twix-border-white.svg') %}
-<section {{ bem(recipe_template__base_class) }} data-theme="{{ theme_styles }}">
+<section {{ bem(recipe_template__base_class) }} data-theme="{{ theme_styles }}"
+  {% if title and (recipe_media.video_url is not empty) %}
+    data-component-title="{{ title }}"
+  {% endif %}
+>
+  {% if block_title %}
+    <div {{ bem('title', [], recipe_template__base_class) }}>{{ block_title }}</div>
+    <div {{ bem('graphic_divider', [], recipe_template__base_class) }}>{{graphic_divider | raw}}</div>
+  {% endif %}
   <div class="media">
     {% if recipe_media.video_url is not empty %}
       {% block recipe_media_video %}
@@ -20,11 +28,15 @@
           image_sizes: '',
           image_src: recipe_media.src,
           responsive_image_blockname: 'recipe-media',
+          height: '567px',
+          width: '850px',
         } %}
       {% endblock %}
     {% endif %}
     <div class="media-info">
-      <div class="{{ brand_shape_class }}">{{ brand_borders | raw }}</div>
+      <div {{ bem('border', [], recipe_template__base_class) }}>
+        {{ brand_borders | raw }}
+      </div>
       <div class="eyebrow"> {{ eyebrow}} </div>
       <h2 class="title">
         {% include "@atoms/links/link/link.twig" with {
@@ -33,19 +45,6 @@
           link_modifiers: {class: 'title'}
         } %}
       </h2>
-      <div class="cooking-time">
-        <div class="cooking-time__icon">
-          {% include "@atoms/images/image/_image.twig" with {
-            image_base_class: 'recipe-details-item__icon',
-            image_modifiers: ['clock'],
-            image_src: icon_clock,
-          } %}
-        </div>
-        <div class="cooking-time__info">
-          <div class="cooking-time__label">{{ 'Time'|t }}</div>
-          <div class="cooking-time__value">{{ cooking_time }}</div>
-        </div>
-      </div>
       <div class="cta-btn">
         {% set attr = {'href': cta.url} %}
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {

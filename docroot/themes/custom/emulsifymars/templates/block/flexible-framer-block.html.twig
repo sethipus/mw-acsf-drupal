@@ -8,22 +8,21 @@
  * 'items' => NULL,
  * 'brand_borders' => NULL,
  * 'divider' => NULL,
+ * 'overlaps_previous' => NULL,
  */
 #}
 {% set flexible_framer__base_class = 'flexible-framer' %}
-{% set grid_label = grid_label|default('More of your favorites' | t) %}
+{% set grid_label = grid_label %}
 
-{% set divider = '<div class=divider>'~divider~'</div>' %}
-<section {{ bem(flexible_framer__base_class) }} data-theme="drupal" style="position: relative;">
-  <div class="{{ brand_shape_class }}" style="top: -60px;">
-    {{ brand_borders | raw }}
-  </div>
-
-  {% include "@organisms/grid/grid-ff.twig" with {
-    grid_label: grid_label | t,
-    grid_type: grid_type,
-    divider: divider,
-    item_type: item_type,
-    items: items
-  } %}
-</section>
+{% include "@molecules/flexible-framer/flexible-framer.twig" with {
+  theme_styles: "drupal",
+  grid_label: grid_label | mt,
+  grid_type: grid_type,
+  divider: divider,
+  brand_borders: brand_borders,
+  item_type: item_type,
+  items: items,
+  select_background_color: select_background_color,
+  overlaps_previous : overlaps_previous,
+  text_color_override: text_color_override
+} %}

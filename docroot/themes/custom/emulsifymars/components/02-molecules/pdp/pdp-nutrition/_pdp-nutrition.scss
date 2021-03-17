@@ -2,11 +2,11 @@
   position: relative;
   padding: 3rem 2rem;
   background: $white;
-  
+
   @include medium {
     padding: 4rem;
   }
-  
+
   @include large {
     padding: 8rem 4rem 4rem;
   }
@@ -17,11 +17,11 @@
     border: solid 1px rgba(clr(subcolor-4-rgb), 0.6);
     background: rgba(clr(subcolor-4-rgb), 0.1);
     border-radius: 2rem;
-  
+
     @include medium {
       padding: 3.6rem 4rem;
     }
-    
+
     @include large {
       padding: 4.6rem 8.6rem;
     }
@@ -29,11 +29,11 @@
 
   &__heading {
     margin-bottom: 3.1rem;
-  
+
     @include medium {
       margin-bottom: 2.3rem;
     }
-    
+
     @include large {
       margin-bottom: 4.7rem;
     }
@@ -52,19 +52,16 @@
     font-family: variable(primary-font);
     font-size: 2rem;
     line-height: 1.1;
-    letter-spacing: 0.8px;
     color: clr(accent-high);
-  
+
     @include medium {
       font-size: 2.6rem;
       line-height: normal;
-      letter-spacing: 1.04px;
     }
-    
+
     @include large {
       font-size: 2.8rem;
       line-height: 1.1;
-      letter-spacing: 1.12px;
     }
 
     &--label {
@@ -102,7 +99,7 @@
 
       display: flex;
       margin: .8rem 0;
-    
+
       @include large {
         margin: 1.2rem 0;
       }
@@ -110,7 +107,7 @@
       &--heading {
         margin: 1.8rem 0 1.9rem;
         text-transform: uppercase;
-    
+
         @include large {
           margin-bottom: 1.7rem;
         }
@@ -122,6 +119,14 @@
         & + & {
           margin-top: 2rem;
         }
+      }
+
+      &--info-block {
+        display: block;
+      }
+
+      &--upper {
+        text-transform: uppercase;
       }
     }
 
@@ -145,7 +150,7 @@
       font-family: variable(secondary-font);
       font-size: 1.2rem;
       line-height: 1.1;
-    
+
       @include large {
         font-size: 1.4rem;
       }
@@ -153,7 +158,8 @@
       &--heading {
         flex: 1 0 50%;
         font-family: variable(primary-font);
-        font-weight: bold;
+        font-weight: 500;
+        font-size-adjust: 0.5;
 
         &:last-child:not(:only-child) {
           text-align: right;
@@ -162,38 +168,36 @@
 
       &--label {
         flex: 1 0 61%;
-    
+
         @include large {
           flex: 1 0 42%;
         }
 
         &.bold {
           font-family: variable(primary-font);
-          font-weight: bold;
+          font-weight: 500;
+          font-size-adjust: 0.5;
         }
       }
 
       &--value {
-        flex: 1 0 19%;
-    
+        flex: 1 0 18%;
+        text-align: right;
+
         @include large {
           flex: 1 0 27%;
         }
+      }
 
-        &:last-child {
-          flex: 1 0 39%;
-          text-align: right;
-
-          @include large {
-            flex: 1 0 58%;
-          }
-        }
+      &--mass {
+        flex: 1 0 19%;
+        text-align: right;
       }
 
       &--value-daily {
         flex: 1 0 18%;
         text-align: right;
-    
+
         @include large {
           flex: 1 0 30%;
         }
@@ -201,12 +205,27 @@
 
       &--additional-info {
         font-family: variable(primary-font);
-        font-weight: bold;
+        font-weight: 500;
+        font-size-adjust: 0.5;
 
         &:first-child {
           text-transform: uppercase;
         }
       }
+    }
+  }
+
+  .pdp-nutrition__additional-info {
+    width: 100%;
+    text-align: center;
+    padding-top: 2rem;
+
+    @include xs {
+      font-size: 1.2rem;
+    }
+
+    @include medium {
+      font-size: 1.4rem;
     }
   }
 }

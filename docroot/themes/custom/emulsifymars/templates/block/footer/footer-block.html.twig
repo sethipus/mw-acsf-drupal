@@ -8,13 +8,12 @@
  * 'corporate_tout' => NULL,
  * 'social_links' => NULL,
  * 'region_selector' => NULL,
+ * 'logo_alt' => NULL,
  */
 #}
 {% set logo_src = file_url(logo) %}
 {% set logo_srcset = '%s 375w, %s 768w, %s 1024w, %s 1440w' | format(logo_src, logo_src, logo_src, logo_src) %}
-{% set logo_title = 'Logo' | t %}
-{% set corporate_tout_button = 'See all' | t %}
-{% set region_title = 'Select Region' | t %}
+{% set corporate_tout_button = 'See all' | mt %}
 
 {% embed "@organisms/site/site-footer/site-footer.twig" with {
   theme_styles: 'drupal',
@@ -24,34 +23,37 @@
   social_menu_items: social_links,
   region_title: region_title,
   regions: region_selector,
-  corporate_tout_text: corporate_tout,
+  social_text: social_header,
+  corporate_tout_text: corporate_tout_text,
+  corporate_tout_link_attributes: corporate_tout_url,
   card__button__content: corporate_tout_button,
-  brand_shape_class: brand_shape_class,
   brand_border: brand_border,
+  footer_logo_link: url('<front>'),
 } %}
 
   {% block footer__logo %}
+    <a href="{{ footer_logo_link }}" {{ bem('logoLink', [], footer__base_class) }} aria-label="{{ "Logo image" | mt }}">
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
-      image_alt: logo_title,
+      image_alt: logo_alt,
       image_srcset: logo_srcset,
-      image_sizes: '(max-width: 375px) 101px,
-        (max-width: 768px) 151px,
-        (max-width: 1024px) 212px,
-        212px',
       image_src: logo_src,
+      height: '75px',
+	    width: '212px',
+      image_sizes: '212px',
       responsive_image_blockname: 'logo',
     } %}
+    </a>
   {% endblock %}
 
   {% block footer__brand_border %}
-    <div class="{{ brand_shape_class }}">
+    <div {{  bem('border', [], footer__base_class)  }}>
       {{ brand_border | raw }}
     </div>
   {% endblock %}
 
   {% block footer__social %}
-    <div {{ bem('section-header', [], footer__base_class) }}>{{ 'Follow Us On' | t }}</div>
+    <div {{ bem('section-header', [], footer__base_class) }}>{{ social_header }}</div>
     {% include "@molecules/menus/social/social-menu.twig" with {
       social_menu_items: social_menu_items,
     }%}
@@ -72,3 +74,19 @@
   {% endblock %}
 
 {% endembed %}
+
+{% if text_color_override is not empty %}
+  <style type="text/css">
+    .footer-menu__link {
+      color: {{ text_color_override }};
+    }
+  </style>
+{% endif %}
+
+{% if hover_color is not empty %}
+  <style type="text/css">
+    .footer-menu__link:hover {
+      color: {{ hover_color }};
+    }
+  </style>
+{% endif %}

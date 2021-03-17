@@ -1,0 +1,185 @@
+/* Keep In Touch Form */
+
+/*
+body {
+  margin: 0;
+  padding: 0;
+  background: #f9f1db;
+}
+ */
+
+.twix.keep-in-touch {
+
+.keep-in-touch-page {
+  font-family: system-ui;
+  background: #f9f1db;
+  text-align: center;
+  color: #490e00;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+  height: 718px;
+
+  &__header {
+    position: relative;
+    z-index: 2;
+    font-size: 50px;
+    text-transform: uppercase;
+    color: #490e00;
+    margin-top: 0;
+    padding-top: 50px;
+  }
+
+  &__separator {
+    position: relative;
+    z-index: 2;
+    width: 125px;
+    margin: auto auto 50px;
+  }
+
+  &__info {
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+    font-size: 18px;
+
+    @media (min-width: 768px) {
+      width: 570px;
+    }
+
+    @media (min-width: 1280px) {
+      max-width: 665px;
+    }
+  }
+
+  &__bg-image {
+    position: absolute;
+    display: block;
+    height: 600px;
+    width: 600px;
+    top: 50px;
+    right: -200px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' fill='none' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='100' fill='%23f3dea0' /%3E%3C/svg%3E%0A");
+    background-position: center;
+    background-size: contain;
+    z-index: 1;
+  }
+}
+
+.keep-in-touch-page-form {
+  position: relative;
+  margin: 30px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 2;
+
+  @media (min-width: 768px) {
+    width: 570px;
+  }
+
+  @media (min-width: 1280px) {
+    display: inline-block;
+    width: auto;
+  }
+
+  &__columns {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: stretch;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+
+    @media (min-width: 1280px) {
+      display: inline-block;
+    }
+  }
+
+  &__input,
+  &__button {
+    padding: 20px;
+    border: 1px solid white;
+    font-size: 18px;
+    color: #490e00;
+    margin: 20px 15px 0;
+    border-radius: 30px;
+    flex-grow: 1;
+  }
+
+  &__button-label {
+    color: white;
+    position: relative;
+    z-index: 1;
+    transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+  }
+
+  &__button {
+    background-color: #e62b1e;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    width: 200px;
+    overflow: hidden;
+    cursor: pointer;
+    align-self: center;
+    margin-top: 30px;
+    position: relative;
+    transition: color 1.2s cubic-bezier(.75, 0, .25, 1);
+    transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      bottom: -100px;
+      left: -120px;
+      width: 1000px;
+      transform: rotate(18deg);
+      height: 0;
+      background-color: white;
+      transition: height 1.2s cubic-bezier(.75, 0, .25, 1);
+
+      @media (min-width: 768px) {
+        width: 750px;
+      }
+    }
+
+    &:hover {
+      color: #e62b1e;
+      background-color: transparent;
+      transition: background-color 1.2s cubic-bezier(.75, 0, .25, 1);
+
+      &::before {
+        height: 300px;
+      }
+
+      .keep-in-touch-page-form__button-label {
+        color: #e62b1e;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__input {
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #490e00;
+      opacity: 1;
+    }
+  }
+}
+
+input.error {
+  border: 1px solid red;
+}
+
+}

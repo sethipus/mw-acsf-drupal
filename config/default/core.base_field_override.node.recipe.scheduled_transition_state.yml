@@ -1,0 +1,18 @@
+uuid: 5aadafba-66b8-4401-bde8-f5b9c9d18111
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.recipe
+id: node.recipe.scheduled_transition_state
+field_name: scheduled_transition_state
+entity_type: node
+bundle: recipe
+label: 'Scheduled transition state'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

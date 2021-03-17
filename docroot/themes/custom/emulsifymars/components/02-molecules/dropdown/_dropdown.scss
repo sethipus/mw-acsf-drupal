@@ -83,11 +83,11 @@
     line-height: 1.4rem;
     font-weight: normal;
     text-decoration: none;
+    outline-offset: -1px;
   
     @include medium {
       font-size: 1.8rem;
       line-height: 1.4rem;
-      letter-spacing: 0.7px;
     }
   }
 
@@ -110,9 +110,9 @@
       right: -1rem;
       transform: translateY(-50%);
       width: 2px;
-      height: 1.4em;
+      height: 1.4rem;
       opacity: 0.6;
-      background: clr(primary);
+      background: clr(subcolor-4);
     }
   }
 
@@ -167,11 +167,11 @@
     }
   }
 
-  &:hover &__title-selected {
+  &.is-expanded &__title-selected {
     display: none;
   }
 
-  &:hover &__title-selected + &__title-default {
+  &.is-expanded &__title-selected + &__title-default {
     display: inline;
   }
 }

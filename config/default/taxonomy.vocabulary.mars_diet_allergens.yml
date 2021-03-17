@@ -4,7 +4,7 @@ status: true
 dependencies: {  }
 _core:
   default_config_hash: _rw-g05iV92b3DlNUfuvC-Py9tEmQKZtlrsL2TLm5qQ
-name: 'Diet & Allergens'
+name: 'DIET & ALLERGENS'
 vid: mars_diet_allergens
 description: ''
-weight: 0
+weight: -7

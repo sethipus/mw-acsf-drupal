@@ -12,7 +12,6 @@ export default { title: 'Molecules/Social feed' };
 export const socialFeedModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div>
-    <div style={{height: '10rem'}}></div>
-    <div dangerouslySetInnerHTML={{ __html: socialFeed(socialFeedData) }} />
+    <div dangerouslySetInnerHTML={{ __html: "<div style='height: 300px; background-color: grey'></div>" + socialFeed(socialFeedData) }} />
   </div>;
 };

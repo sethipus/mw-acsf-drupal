@@ -1,0 +1,13 @@
+uuid: 0beb0695-8395-4f03-ab46-8744714fd296
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_extension_suit
+_core:
+  default_config_hash: f5zNYqrPJg1tDP4ok78AC57irUKcNSrHtAZt1-PaTLc
+id: tmgmt_extension_suit_delete_job_action
+label: 'Delete Job'
+type: tmgmt_job
+plugin: tmgmt_extension_suit_delete_job_action
+configuration: {  }

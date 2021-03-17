@@ -4,13 +4,25 @@
  #}
 {% set video__base_class = video__base_class|default('overlay-video') %}
 
-<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }} data-fullcontrol="false" data-overlay="false">
-  <video {{ bem('video', [], video__base_class) }}>
-    <source loop src="{{ video__src__url }}" type="video/mp4" />
+<figure {{ bem(video__base_class, video__modifiers, video__blockname, video__extra_classes) }}
+  data-fullcontrol="false"
+  data-overlay="false"
+  data-video-flag="Overlay"
+  data-theme={{ theme_styles }}>
+  <video {{ bem('video', [], video__base_class) }} data-theme={{ theme_styles }} data-object-fit="cover">
+    {% if '#t' in video__src__url %}
+      <source loop src="{{ video__src__url }}" type="video/mp4" />
+    {% else %}
+      <source loop src="{{ video__src__url }}#t=0.001" type="video/mp4" />
+    {% endif %}
   </video>
   <div {{ bem('controls', [], video__base_class) }} data-state="hidden">
-    <button {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play"><div {{ bem('playpause', ['inner'], video__base_class) }}/></button>
-    <button {{ bem('mute', ['inner'], video__base_class) }} type="button" data-state="mute">
+    <button {{ bem('playpause', ['inner'], video__base_class) }} type="button" data-state="play" aria-live="polite" aria-label="{{ 'Play' | mt }}">
+     <svg viewBox="0 0 320.001 320.001" style="enable-background:new 0 0 512 512" xml:space="preserve" class="play-icon"><path xmlns="http://www.w3.org/2000/svg" d="M295.84,146.049l-256-144c-4.96-2.784-11.008-2.72-15.904,0.128C19.008,5.057,16,10.305,16,16.001v288  c0,5.696,3.008,10.944,7.936,13.824c2.496,1.44,5.28,2.176,8.064,2.176c2.688,0,5.408-0.672,7.84-2.048l256-144  c5.024-2.848,8.16-8.16,8.16-13.952S300.864,148.897,295.84,146.049z"/></svg>
+      <div {{ bem('playpause', ['inner'], video__base_class) }}>
+      </div>
+    </button>
+    <button {{ bem('mute', ['inner'], video__base_class) }} title="{{ 'Mute' | mt }}" aria-label="{{ 'Mute' | mt }}" type="button" data-state="mute">
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 30 30"><path fill="#fff" d="M3.75 11.25v7.5h5L15 25V5l-6.25 6.25h-5zM20.625 15c0-2.212-1.275-4.112-3.125-5.037v10.062c1.85-.912 3.125-2.812 3.125-5.025zM17.5 4.038v2.575c3.613 1.075 6.25 4.425 6.25 8.387 0 3.963-2.637 7.313-6.25 8.388v2.575c5.012-1.138 8.75-5.613 8.75-10.963 0-5.35-3.738-9.825-8.75-10.962z"/></svg>
     </button>
     <div {{ bem('progress-time', [], video__base_class) }}>
@@ -19,14 +31,18 @@
       </progress>
     </div>
     <div {{ bem('progress-time', ['duration'], video__base_class) }}></div>
-    <button {{ bem('subtitles', ['inner'], video__base_class) }} type="button" data-state="subtitles">
+    <button {{ bem('subtitles', ['inner'], video__base_class) }} title="{{ 'Subtitles' | mt }}" aria-label="{{ 'Subtitles' | mt }}" type="button" data-state="subtitles">
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="none" viewBox="0 0 32 20"><path fill="#fff" fill-rule="evenodd" d="M2 0C.895 0 0 .895 0 2v16c0 1.105.895 2 2 2h28c1.105 0 2-.895 2-2V2c0-1.105-.895-2-2-2H2zm11.608 7.548c-.182-.224-.616-.7-1.694-.7-2.226 0-2.548 2.198-2.548 3.346 0 2.24 1.162 3.248 2.576 3.248.91 0 1.554-.42 1.89-.952.032-.053.061-.108.091-.163.05-.091.1-.184.161-.271.112-.168.322-.392.728-.392.49 0 1.12.336 1.12 1.022 0 .098-.014.28-.098.518-.154.378-.462.756-.77 1.022-1.036.91-2.212 1.05-3.136 1.05-1.456 0-2.17-.378-2.59-.63C8.134 13.932 7 12.434 7 10.11 7 7.296 8.764 5 11.872 5c.77 0 1.484.14 2.016.35.812.322 1.82 1.106 1.82 1.904 0 .644-.56 1.036-1.022 1.036-.415 0-.666-.287-.766-.402l-.004-.004c-.056-.056-.105-.112-.154-.168-.049-.056-.098-.112-.154-.168zm9.94 0c-.182-.224-.616-.7-1.694-.7-2.226 0-2.549 2.198-2.549 3.346 0 2.24 1.163 3.248 2.576 3.248.91 0 1.555-.42 1.89-.952.032-.053.062-.108.092-.163.05-.091.1-.184.16-.271.113-.168.323-.392.729-.392.49 0 1.12.336 1.12 1.022 0 .098-.014.28-.099.518-.154.378-.462.756-.77 1.022-1.035.91-2.212 1.05-3.136 1.05-1.456 0-2.17-.378-2.59-.63-1.204-.714-2.338-2.212-2.338-4.536 0-2.814 1.764-5.11 4.872-5.11.77 0 1.485.14 2.017.35.812.322 1.82 1.106 1.82 1.904 0 .644-.56 1.036-1.023 1.036-.415 0-.666-.287-.766-.402l-.004-.004c-.056-.056-.105-.112-.154-.168-.049-.056-.098-.112-.154-.168z" clip-rule="evenodd"/></svg>
     </button>
   </div>
-  <button {{ bem('close', ['inner'], video__base_class) }} type="button">
+  <button {{ bem('close', ['inner'], video__base_class) }} type="button" title="{{ 'Close' | mt }}" aria-label="{{ 'Close' | mt }}">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20"><path fill="#fff" d="M19.64 2.11c.48-.482.48-1.268 0-1.75-.482-.48-1.268-.48-1.75 0l-7.562 7.564c-.175.174-.437.174-.612 0L2.109.36C1.63-.12.842-.12.361.36-.12.84-.12 1.628.36 2.109l7.563 7.563c.174.175.174.437 0 .612L.36 17.891c-.481.48-.481 1.268 0 1.748.48.481 1.267.481 1.748 0l7.563-7.563c.175-.174.437-.174.612 0l7.563 7.563c.48.481 1.268.481 1.749 0 .48-.48.48-1.267 0-1.748l-7.52-7.563c-.174-.175-.174-.437 0-.612l7.563-7.607z"/></svg>
   </button>
   {% if video__control == true %}
-    <button {{ bem('control', [], video__base_class) }} type="button" data-state="play"><div {{ bem('control', ['inner'], video__base_class) }}/></button>
+    <button {{ bem('control', [], video__base_class) }} type="button" data-state="play" aria-label="{{ 'Play' | mt }}" aria-live="polite">
+    <svg viewBox="0 0 320.001 320.001" style="enable-background:new 0 0 512 512" xml:space="preserve" class="play-icon"><path xmlns="http://www.w3.org/2000/svg" d="M295.84,146.049l-256-144c-4.96-2.784-11.008-2.72-15.904,0.128C19.008,5.057,16,10.305,16,16.001v288  c0,5.696,3.008,10.944,7.936,13.824c2.496,1.44,5.28,2.176,8.064,2.176c2.688,0,5.408-0.672,7.84-2.048l256-144  c5.024-2.848,8.16-8.16,8.16-13.952S300.864,148.897,295.84,146.049z"/></svg>
+      <div {{ bem('control', ['inner'], video__base_class) }}>
+      </div>
+    </button>
   {% endif %}
 </figure>

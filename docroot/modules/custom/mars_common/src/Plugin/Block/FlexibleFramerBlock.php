@@ -2,10 +2,14 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
+use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -22,6 +26,8 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Mars Media Helper service.
@@ -29,6 +35,13 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
    * @var \Drupal\mars_common\MediaHelper
    */
   protected $mediaHelper;
+
+  /**
+   * Language helper service.
+   *
+   * @var \Drupal\mars_common\LanguageHelper
+   */
+  private $languageHelper;
 
   /**
    * Mars Theme Configurator Parserr service.
@@ -45,10 +58,12 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_id,
     $plugin_definition,
     MediaHelper $media_helper,
+    LanguageHelper $language_helper,
     ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaHelper = $media_helper;
+    $this->languageHelper = $language_helper;
     $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
@@ -61,6 +76,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.media_helper'),
+      $container->get('mars_common.language_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -75,7 +91,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Header'),
-      '#maxlength' => 35,
+      '#maxlength' => 55,
       '#default_value' => $config['title'] ?? '',
     ];
 
@@ -137,6 +153,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#title' => $this->t('Item title'),
         '#maxlength' => 60,
         '#default_value' => $config['items'][$key]['title'] ?? '',
+        '#required' => TRUE,
       ];
       $form['items'][$key]['cta']['title'] = [
         '#type' => 'textfield',
@@ -145,8 +162,9 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#default_value' => $config['items'][$key]['cta']['title'] ?? $this->t('Explore'),
       ];
       $form['items'][$key]['cta']['url'] = [
-        '#type' => 'url',
+        '#type' => 'textfield',
         '#title' => $this->t('CTA Link URL'),
+        '#description' => $this->t('Please check if string starts with: "/", "http://", "https://".'),
         '#maxlength' => 2048,
         '#default_value' => $config['items'][$key]['cta']['url'] ?? '',
       ];
@@ -154,15 +172,16 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#type' => 'textarea',
         '#title' => $this->t('Item description'),
         '#default_value' => $config['items'][$key]['description'] ?? '',
+        '#maxlength' => 255,
       ];
 
       $item_image = isset($config['items'][$key]['item_image']) ? $config['items'][$key]['item_image'] : NULL;
-      $form['items'][$key]['item_image'] = $this->getEntityBrowserForm(ImageVideoBlockBase::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $item_image, 1, 'thumbnail');
+      $form['items'][$key]['item_image'] = $this->getEntityBrowserForm(ImageVideoBlockBase::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID,
+        $item_image, $form_state, 1, 'thumbnail', FALSE);
       // Convert the wrapping container to a details element.
       $form['items'][$key]['item_image']['#type'] = 'details';
       $form['items'][$key]['item_image']['#title'] = $this->t('Item Image');
       $form['items'][$key]['item_image']['#open'] = TRUE;
-      $form['items'][$key]['item_image']['#required'] = TRUE;
 
       $form['items'][$key]['remove_item'] = [
         '#type'  => 'button',
@@ -186,6 +205,22 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#submit' => [[$this, 'addItemSubmitted']],
       ];
     }
+
+    // Add select background color.
+    $this->buildSelectBackground($form);
+    $this->buildOverrideColorElement($form, $config);
+
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $config['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $config['overlaps_previous'] ?? FALSE,
+    ];
 
     return $form;
   }
@@ -273,14 +308,11 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $ff_items = [];
 
     foreach ($config['items'] as $key => $item) {
-
-      var_dump($key);
-
       $ff_item = [
-        'card__heading' => $config['items'][$key]['title'] ?? NULL,
+        'card__heading' => $this->languageHelper->translate($config['items'][$key]['title']) ?? NULL,
         'card__link__url' => ($with_cta_flag) ? $config['items'][$key]['cta']['url'] : NULL,
-        'card__link__text' => ($with_cta_flag) ? $config['items'][$key]['cta']['title'] : NULL,
-        'card__body' => ($with_desc_flag) ? $config['items'][$key]['description'] : NULL,
+        'card__link__text' => ($with_cta_flag) ? $this->languageHelper->translate($config['items'][$key]['cta']['title']) : NULL,
+        'card__body' => ($with_desc_flag) ? $this->languageHelper->translate($config['items'][$key]['description']) : NULL,
       ];
 
       if (!empty($config['items'][$key]['item_image']) && $with_image_flag) {
@@ -302,23 +334,47 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
       $ff_items[] = $ff_item;
     }
 
-    $file_divider_content = $this->themeConfiguratorParser
-      ->getFileContentFromTheme('graphic_divider');
-    $file_border_content = $this->themeConfiguratorParser
-      ->getFileWithId('brand_borders_2', 'recipe-hero-border');
+    $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
+    $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
 
+    $background_color = '';
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+      && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    ) {
+      $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
+
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
+    $build['#select_background_color'] = $background_color;
     $build['#items'] = $ff_items;
     $build['#grid_type'] = 'card';
     $build['#item_type'] = 'card';
-    $build['#grid_label'] = $config['title'] ?? NULL;
+    $build['#grid_label'] = $this->languageHelper->translate($config['title'] ?? NULL);
     $build['#divider'] = $file_divider_content ?? NULL;
-    $build['#brand_borders'] = $file_border_content ?? NULL;
-    $build['#brand_shape_class'] = $this->themeConfiguratorParser
-      ->getSettingValue('brand_border_style', 'stretch');
-
+    $build['#brand_borders'] = !empty($config['with_brand_borders']) ? $file_border_content : NULL;
+    $build['#overlaps_previous'] = $config['overlaps_previous'] ?? NULL;
     $build['#theme'] = 'flexible_framer_block';
 
     return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockValidate($form, FormStateInterface $form_state) {
+    if (!empty($form_state->get('items_storage')) && is_array($form_state->get('items_storage'))) {
+      $keys = array_keys($form_state->get('items_storage'));
+      foreach ($keys as $key) {
+        $url = $form_state->getValue('items')[$key]['cta']['url'];
+        if (!empty($url) && !(UrlHelper::isValid($url) && preg_match('/^(http:\/\/|https:\/\/|\/)/', $url))) {
+          $form_state->setErrorByName('items][' . $key . '][cta][url', $this->t('The URL is not valid.'));
+        }
+      }
+    }
   }
 
 }

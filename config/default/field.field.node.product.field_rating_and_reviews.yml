@@ -1,0 +1,28 @@
+uuid: afab4e7e-8606-4377-a097-5ce03c47eab1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_rating_and_reviews
+    - node.type.product
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product.field_rating_and_reviews
+field_name: field_rating_and_reviews
+entity_type: node
+bundle: product
+label: 'Rating and reviews'
+description: 'Turn off/on rating and reviews for product (default value from global theme settings)'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

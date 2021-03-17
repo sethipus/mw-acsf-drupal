@@ -1,0 +1,20 @@
+uuid: 6e2043dd-f822-48fb-abcc-408a2ccd6b0e
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_meal_type
+  module:
+    - text
+id: taxonomy_term.mars_meal_type.description
+field_name: description
+entity_type: taxonomy_term
+bundle: mars_meal_type
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

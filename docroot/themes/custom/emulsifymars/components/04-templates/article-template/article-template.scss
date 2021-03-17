@@ -1,6 +1,48 @@
 .layout-container {
-    .main {
-        max-width: 100%;
-        margin: 0;
+  overflow: hidden;
+
+  .main {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+.node--article {
+  .article-wysiwyg {
+    margin: 30px 0 0;
+
+    @include medium {
+      margin: 40px 0 0;
     }
+
+    @include xl {
+      margin: 60px 0 0;
+    }
+
+    &__content {
+      max-width: 100%;
+      padding: 0;
+      margin: 0 20px;
+
+      @include medium {
+        margin: 0 40px;
+      }
+
+      @include xl {
+        max-width: 788px;
+        margin: 0 0 0 272px;
+      }
+    }
+  }
+
+  @include xl {
+    .list-container-block {
+      margin-left: 272px;
+
+      h2,
+      ol {
+        margin-left: 0;
+      }
+    }
+  }
 }

@@ -128,7 +128,7 @@ class Manual extends RecommendationsLogicPluginBase {
       ];
     }
 
-    if ($this->getResultsLimit() !== self::UNLIMITED && $form_state->get('items_count') < $this->getResultsLimit()) {
+    if ($this->getResultsLimit() !== static::UNLIMITED && $form_state->get('items_count') < $this->getResultsLimit()) {
       $form['nodes']['add_more'] = [
         '#type' => 'submit',
         '#value' => $this->t('Add more'),
@@ -179,7 +179,7 @@ class Manual extends RecommendationsLogicPluginBase {
   public function validateAddItem(array &$form, FormStateInterface $form_state) {
     $items_count = $form_state->get('items_count');
 
-    if ($this->getResultsLimit() !== self::UNLIMITED && $items_count < $this->getResultsLimit()) {
+    if ($this->getResultsLimit() !== static::UNLIMITED && $items_count < $this->getResultsLimit()) {
       $form_state->set('items_count', $items_count + 1);
     }
 
