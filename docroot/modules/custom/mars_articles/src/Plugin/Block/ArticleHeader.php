@@ -9,6 +9,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\SVG\SVG;
 use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -246,28 +247,22 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {
         $icon_path = $base_url . '/' . drupal_get_path('module', 'social_media') . '/icons/';
-        $social_menu_items[$name]['icon'] = [
-          '#theme' => 'image',
-          '#uri' => $icon_path . $name . '.svg',
-          '#title' => $social_media['text'],
-          '#alt' => $social_media['text'],
-          '#attributes' => [
-            'height' => '20px',
-            'width' => '20px',
-          ],
-        ];
+        try {
+          $svg = SVG::createFromFile($icon_path . $name . '.svg', '');
+          $social_menu_items[$name]['icon'] = $svg;
+        }
+        catch (\Exception $e) {
+          $social_menu_items[$name]['icon'] = $this->t('The social icon is missing.');
+        }
       }
       elseif (!empty($social_media['img'])) {
-        $social_menu_items[$name]['icon'] = [
-          '#theme' => 'image',
-          '#uri' => $base_url . '/' . $social_media['img'],
-          '#title' => $social_media['text'],
-          '#alt' => $social_media['text'],
-          '#attributes' => [
-            'height' => '20px',
-            'width' => '20px',
-          ],
-        ];
+        try {
+          $svg = SVG::createFromFile($base_url . '/' . $social_media['img'], '');
+          $social_menu_items[$name]['icon'] = $svg;
+        }
+        catch (\Exception $e) {
+          $social_menu_items[$name]['icon'] = $this->t('The social icon is missing.');
+        }
       }
     }
 
