@@ -139,6 +139,12 @@ media-carousel:
     - core/jquery
     - core/jquery.once
 
+parallax-image:
+  js:
+    dist/js/02-molecules/article-media/full-width/parallax-image.js: {}
+  dependencies:
+    - core/drupal
+
 ambient-video:
   js:
     dist/js/01-atoms/video/ambient-video/video.js: {}
@@ -254,13 +260,6 @@ flexible-framer:
 feedback-module:
   js:
     dist/js/02-molecules/feedback-module/feedback.js: {}
-  dependencies:
-    - core/drupal
-    - core/jquery
-
-cc-wtb-conflict-resolver:
-  js:
-    dist/js/02-molecules/product-selector/cc-wtb-conflicts-resolver.js: {weight: -2}
   dependencies:
     - core/drupal
     - core/jquery

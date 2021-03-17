@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_qa_item_answer
     - field.storage.node.field_brand_initiatives
-    - field.storage.node.field_product_brand
     - field.storage.node.field_product_category
     - field.storage.node.field_recipe_culture
     - field.storage.node.field_faq_filter_topic
@@ -36,16 +35,6 @@ name: 'Acquia Search Solr Index'
 description: ''
 read_only: false
 field_settings:
-  brand:
-    label: 'Brand » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_product_brand:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_product_brand
-      module:
-        - taxonomy
   bundle_weight:
     label: 'Content type weight'
     property_path: bundle_weight
@@ -100,7 +89,7 @@ field_settings:
     label: 'Brand Initiatives » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_brand_initiatives:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_brand_initiatives
@@ -397,7 +386,7 @@ processor_settings:
   mars_highlight:
     highlight: always
     highlight_partial: 0
-    excerpt: 1
+    excerpt: 0
     excerpt_length: ''
     exclude_fields: {  }
     prefix: '<strong class="search-highlight">'

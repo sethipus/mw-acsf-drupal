@@ -173,6 +173,7 @@
 
   & .media_item_1 {
     align-self: center;
+    z-index: 3;
 
     &__wrapper{
       max-height: 43.9rem;
@@ -239,6 +240,7 @@
   }
 
   & .media_item_2 {
+    z-index: 2;
     margin-left: auto;
 
     &__wrapper{
@@ -311,6 +313,7 @@
   }
 
   & .media_item_3 {
+    z-index: 2;
     margin-right: auto;
 
     @include xs {
@@ -376,7 +379,6 @@
   & .media_item_2,
   & .media_item_3 {
     position: relative;
-    z-index: 2;
     margin-bottom: 30px;
     border-bottom: 1px solid $silver;
 
@@ -505,7 +507,7 @@
 
     @include xs {
       right: -20px;
-      bottom: -53px;
+      bottom: -50px;
 
       & img {
         max-width: 182px;
@@ -525,7 +527,7 @@
 
     @include xl {
       right: -4rem;
-      bottom: -160px;
+      bottom: -120px;
       & img {
         max-width: 356px;
         height: 356px;
