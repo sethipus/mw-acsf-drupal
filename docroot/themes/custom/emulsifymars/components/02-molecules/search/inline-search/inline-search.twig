@@ -11,14 +11,6 @@
 #}
 {% set inline_search__base_class = inline_search__base_class|default('inline-search') %}
 <div {{ bem(inline_search__base_class, inline_search__modifiers, inline_search__blockname) }}>
-
-  {# {% embed "@atoms/links/link/link.twig" with {
-    link_url: inline_search_url,
-    link_base_class: inline_search_link__base_class|default(inline_search__base_class ~ '__link'),
-    link_modifiers: inline_search_link__modifiers,
-    text_color_override: false,
-  } %} #}
-
   {% embed "@atoms/buttons/twig/button.twig" with {
     button_base_class: inline_search_link__base_class|default(inline_search__base_class ~ '__link'),
     button_modifiers: inline_search_link__modifiers,

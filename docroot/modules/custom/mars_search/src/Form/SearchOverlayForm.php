@@ -111,6 +111,7 @@ class SearchOverlayForm extends FormBase {
       '#value' => $this->languageHelper->translate('Submit'),
       '#attributes' => [
         'aria-hidden' => 'true',
+        'tabindex' => '-1'
       ],
     ];
 

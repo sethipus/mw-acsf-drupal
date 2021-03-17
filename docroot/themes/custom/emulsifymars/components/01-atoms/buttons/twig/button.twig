@@ -10,11 +10,12 @@
 #}
 
 {% set button_base_class = button_base_class|default('button') %}
-{% set aria_label = aria_label|default(button_content) %}
 
 <button
   {{ bem(button_base_class, button_modifiers, button_blockname) }}
-  aria-label= "{{ aria_label }}"
+  {% if aria_label %}
+    aria-label= "{{ aria_label }}"
+  {% endif %}
   {% for attribute, value in button_attributes %}
     {{ attribute }}="{{ value }}"
   {% endfor %}
