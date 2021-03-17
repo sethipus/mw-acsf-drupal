@@ -5,6 +5,13 @@ mars_product.where_to_buy.configuration:
     _title: 'Where to buy global settigns'
   requirements:
     _permission: 'administer site configuration'
+mars_product.nutrition_table.configuration:
+  path: '/admin/config/user-interface/nutrition_table'
+  defaults:
+    _form: 'Drupal\mars_product\Form\NutritionConfigForm'
+    _title: 'Nutrition table global settigns'
+  requirements:
+    _permission: 'administer site configuration'
 mars_product.wtb_product_info:
   path: '/wtb/get_product_info/{node}'
   defaults:
