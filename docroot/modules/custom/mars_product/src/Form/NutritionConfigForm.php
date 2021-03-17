@@ -317,13 +317,12 @@ class NutritionConfigForm extends ConfigFormBase {
    * @return array
    *   Item container of configuration settings.
    */
-  public function ajaxRemoveItemCallback(array $form, FormStateInterface $form_state) {
+  public function ajaxRemoveItemCallback(array &$form, FormStateInterface $form_state) {
     $triggered = $form_state->getTriggeringElement();
     if (isset($triggered['#parents'][0])) {
       $key = $triggered['#parents'][0];
       return $form[$key . '_fieldset'][$key];
     }
-    return [];
   }
 
   /**
@@ -337,13 +336,12 @@ class NutritionConfigForm extends ConfigFormBase {
    * @return array
    *   Item container of configuration settings.
    */
-  public function ajaxAddItemCallback(array $form, FormStateInterface $form_state) {
+  public function ajaxAddItemCallback(array &$form, FormStateInterface $form_state) {
     $triggered = $form_state->getTriggeringElement();
     if (isset($triggered['#parents'][0]) && $triggered['#parents'][0] == 'add_item') {
       $key = $triggered['#attributes']['data-subgroup-id'];
       return $form[$key . '_fieldset'][$key];
     }
-    return [];
   }
 
   /**
@@ -354,7 +352,7 @@ class NutritionConfigForm extends ConfigFormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Theme settings form state.
    */
-  public function addItemSubmitted(array $form, FormStateInterface $form_state) {
+  public function addItemSubmitted(array &$form, FormStateInterface $form_state) {
     $triggered = $form_state->getTriggeringElement();
     if (isset($triggered['#parents'][0]) && $triggered['#parents'][0] == 'add_item') {
       $storage_key = $triggered['#attributes']['data-subgroup-id'] . '_storage';
@@ -398,10 +396,15 @@ class NutritionConfigForm extends ConfigFormBase {
     $config->set('view_type', $form_state->getValue('view_type'));
     foreach ($subgroups as $subgroup_key) {
       $subgroup_value = $form_state->getValue($subgroup_key) ?: [];
-      $config->set(
-        $subgroup_key,
-        $this->nutritionHelper->sortFields($subgroup_value)
-      );
+      usort($subgroup_value, function ($a, $b) {
+        if ($a['weight'] == $b['weight']) {
+          return 0;
+        }
+        return $a['weight'] < $b['weight']
+          ? -1
+          : 1;
+      });
+      $config->set($subgroup_key, $subgroup_value);
     }
     // Save the configuration.
     $config->save();
