@@ -25,7 +25,7 @@
 
     svg {
       fill: rgba(clr(subcolor-1-rgb), 0.2);
-      width: 100%;
+      width: auto;
       height: 100%;
     }
   }
@@ -162,9 +162,11 @@
 
     .freeform-story__brand-shape {
       top: 2rem;
+      width: 27rem;
+      height: 35.6rem;
       left: 0;
       right: auto;
-      transform: translateX(-35%);
+      transform: translateX(-85%);
     }
 
     .freeform-story__texts {
@@ -173,11 +175,6 @@
 
     @include xs {
       .freeform-story__brand-shape {
-        top: -2.6rem;
-        width: 27rem;
-        height: 35.6rem;
-        left: auto;
-        right: 0;
         transform: translateX(23%);
       }
 
@@ -204,7 +201,7 @@
         height: 24rem;
         left: auto;
         right: 0;
-        transform: translateX(23%);
+        transform: translateX(-11%);
       }
 
       .freeform-story__content {
@@ -236,7 +233,7 @@
         top: 4.4rem;
         width: 27.3rem;
         height: 35.6rem;
-        transform: translateX(38%);
+        transform: translateX(0%);
       }
 
       .freeform-story__content{
@@ -265,7 +262,7 @@
       top: 2rem;
       left: auto;
       right: 0;
-      transform: translateX(35%);
+      transform: translateX(-20%);
     }
 
     .freeform-story__texts {
@@ -289,7 +286,7 @@
         top: 0;
         left: 0;
         right: auto;
-        transform: translateX(-37%);
+        transform: translateX(-59%);
       }
 
       .freeform-story__content {
@@ -321,7 +318,7 @@
         top: 6.6rem;
         width: 22.7rem;
         height: 35.6rem;
-        transform: translateX(-38%);
+        transform: translateX(-100%);
       }
 
       .freeform-story__content{

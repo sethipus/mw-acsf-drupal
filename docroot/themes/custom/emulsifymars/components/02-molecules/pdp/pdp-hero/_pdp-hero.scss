@@ -224,7 +224,6 @@
       margin: 0;
       color: clr(primary);
       font-size: 1.6rem;
-      text-transform: uppercase;
 
       @include medium {
         font-size: 1.8rem;
@@ -767,9 +766,15 @@
       position: relative;
       overflow: hidden;
       display: inline-block;
+      border: 0;
       border-radius: variable(button-border-radius);
       cursor: pointer;
       width: 100%;
+
+      &[disabled] {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
     }
   }
 

@@ -246,7 +246,7 @@ social-menu:
 
 product-selector:
   js:
-    dist/js/02-molecules/product-selector/product-selector.js: {}
+    dist/js/02-molecules/product-selector/product-selector.js: {weight: -1}
   dependencies:
     - core/drupal
 

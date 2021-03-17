@@ -65,6 +65,10 @@ interface SearchBuilderInterface {
       'label' => 'METHOD',
       'content_types' => ['recipe'],
     ],
+    'mars_prep_time' => [
+      'label' => 'PREP TIME',
+      'content_types' => ['recipe'],
+    ],
     'mars_trade_item_description' => [
       'label' => 'TRADE ITEM DESCRIPTION',
       'content_types' => ['product'],
