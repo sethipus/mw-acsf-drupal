@@ -225,7 +225,7 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $form['override_text_color']['override_mobile_color'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Сhoose an alternative color for mobile Close button and sub-menu'),
+      '#title' => $this->t('Сhoose an alternative color for mobile Close button and sub-menu and Desktop dropdown icon'),
       '#default_value' => $config['override_text_color']['override_mobile_color'] ?? NULL,
     ];
 
