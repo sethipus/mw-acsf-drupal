@@ -134,22 +134,24 @@
       </div>
       <div {{ bem('nutrition-column', [], pdp_nutrition_base_class) }}>
         <div {{ bem('section-column', ['heading'], pdp_nutrition_base_class) }}>
-          <dl {{ bem('section-column-list', ['heading'], pdp_nutrition_base_class) }}>
-            <dt {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
-              {% include "@atoms/text/text/07-span.twig" with {
-                span_content: pdp_common_nutrition_data.vitamins_info_label,
-                span_base_class: pdp_nutrition_label_base_class,
-                span_blockname: pdp_nutrition_base_class,
-              } %}
-            </dt>
-            <dd {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
-              {% include "@atoms/text/text/07-span.twig" with {
-                span_content: pdp_common_nutrition_data.nutritional_info_daily_label,
-                span_base_class: pdp_nutrition_label_base_class,
-                span_blockname: pdp_nutrition_base_class,
-              } %}
-            </dd>
-          </dl>
+          {% if pdp_nutrition_data.serving_item.group_vitamins %}
+            <dl {{ bem('section-column-list', ['heading'], pdp_nutrition_base_class) }}>
+              <dt {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
+                {% include "@atoms/text/text/07-span.twig" with {
+                  span_content: pdp_common_nutrition_data.vitamins_info_label,
+                  span_base_class: pdp_nutrition_label_base_class,
+                  span_blockname: pdp_nutrition_base_class,
+                } %}
+              </dt>
+              <dd {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
+                {% include "@atoms/text/text/07-span.twig" with {
+                  span_content: pdp_common_nutrition_data.nutritional_info_daily_label,
+                  span_base_class: pdp_nutrition_label_base_class,
+                  span_blockname: pdp_nutrition_base_class,
+                } %}
+              </dd>
+            </dl>
+          {% endif %}
         </div>
         {% if pdp_nutrition_data.serving_item.group_vitamins %}
           <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
