@@ -121,6 +121,11 @@
     {% endif %}
     {% if mobile_color is not empty %}
       <style type="text/css">
+        @media (min-width: 1024px) {
+          .menu_chevron__icon {
+            fill: {{ mobile_color }};
+          }
+        }
         @media(max-width: 1023px) {
           .main-menu__link--sub,
           .toggle-expand__text,
