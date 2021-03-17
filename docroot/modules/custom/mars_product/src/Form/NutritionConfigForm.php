@@ -113,7 +113,7 @@ class NutritionConfigForm extends ConfigFormBase {
       '#default_value' => $config->get('view_type') ?? PdpHeroBlock::NUTRITION_VIEW_US,
       '#options' => [
         PdpHeroBlock::NUTRITION_VIEW_US => $this->t('US'),
-        PdpHeroBlock::NUTRITION_VIEW_UK => $this->t('UK'),
+        PdpHeroBlock::NUTRITION_VIEW_UK => $this->t('EU'),
       ],
       '#required' => TRUE,
     ];

@@ -148,7 +148,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * Nutritional table UK view.
    */
-  const NUTRITION_VIEW_UK = 'UK';
+  const NUTRITION_VIEW_UK = 'EU';
 
   /**
    * Nutritional table subgorup 1.
