@@ -1,16 +1,16 @@
 .horizontal-img {
   &__inner {
     margin: 0 auto 5rem auto;
-    width: 12.5rem;
-    min-height: 1.5rem;
+    width: 10rem;
+    min-height: 1rem;
 
-    @media (max-width: 768px) {
-      width: 10rem;
-      min-height: 1rem;
+    @include medium {
+      width: 12.5rem;
+      min-height: 1.5rem;
     }
   }
 
-  &__divider {
+  &__graphic-divider {
     height: inherit;
     width: inherit;
   }
