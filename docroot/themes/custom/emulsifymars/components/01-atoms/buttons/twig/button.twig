@@ -13,9 +13,6 @@
 
 <button
   {{ bem(button_base_class, button_modifiers, button_blockname) }}
-  {% if aria_label %}
-    aria-label= "{{ aria_label }}"
-  {% endif %}
   {% for attribute, value in button_attributes %}
     {{ attribute }}="{{ value }}"
   {% endfor %}
