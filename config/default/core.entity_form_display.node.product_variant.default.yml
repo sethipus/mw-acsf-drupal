@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.product_variant.field_product_calcium
     - field.field.node.product_variant.field_product_calcium_daily
     - field.field.node.product_variant.field_product_calories
+    - field.field.node.product_variant.field_product_calories_daily
     - field.field.node.product_variant.field_product_calories_fat
     - field.field.node.product_variant.field_product_carb
     - field.field.node.product_variant.field_product_carb_daily
@@ -34,6 +35,7 @@ dependencies:
     - field.field.node.product_variant.field_product_iron_daily
     - field.field.node.product_variant.field_product_key_image
     - field.field.node.product_variant.field_product_key_image_override
+    - field.field.node.product_variant.field_product_ltd_calories
     - field.field.node.product_variant.field_product_niacin
     - field.field.node.product_variant.field_product_niacin_daily
     - field.field.node.product_variant.field_product_potassium
@@ -226,6 +228,8 @@ third_party_settings:
     group_nutritional_subgroup_1:
       children:
         - field_product_calories
+        - field_product_ltd_calories
+        - field_product_calories_daily
         - field_product_calories_fat
       parent_name: group_nutritional_information
       weight: 20
@@ -353,8 +357,16 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_product_calories_daily:
+    weight: 23
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_product_calories_fat:
-    weight: 22
+    weight: 24
     settings:
       size: 60
       placeholder: ''
@@ -615,6 +627,17 @@ content:
       field_widget_replace: false
     region: content
     third_party_settings: {  }
+  field_product_ltd_calories:
+    weight: 22
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
   field_product_niacin:
     weight: 49
     settings:
