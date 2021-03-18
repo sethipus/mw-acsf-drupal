@@ -1,0 +1,16 @@
+uuid: f3ca1fc9-964d-4c31-8a6e-189af15ba3ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.mars_recipe_collection
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.mars_recipe_collection
+target_entity_type_id: taxonomy_term
+target_bundle: mars_recipe_collection
+default_langcode: site_default
+language_alterable: true

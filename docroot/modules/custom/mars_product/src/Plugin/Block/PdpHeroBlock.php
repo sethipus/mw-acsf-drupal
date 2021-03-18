@@ -17,6 +17,7 @@ use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_product\NutritionDataHelper;
 use Drupal\mars_product\ProductHelper;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -106,6 +107,13 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   private $wtbGlobalConfig;
 
   /**
+   * Nutrition table helper.
+   *
+   * @var \Drupal\mars_product\NutritionDataHelper
+   */
+  private $nutritionHelper;
+
+  /**
    * Whether reviews are enabled or not by default.
    *
    * @var bool
@@ -133,6 +141,36 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   const VENDOR_NONE = 'none';
 
   /**
+   * Nutritional table US view.
+   */
+  const NUTRITION_VIEW_US = 'US';
+
+  /**
+   * Nutritional table UK view.
+   */
+  const NUTRITION_VIEW_UK = 'EU';
+
+  /**
+   * Nutritional table subgorup 1.
+   */
+  const NUTRITION_SUBGROUP_1 = 'group_nutritional_subgroup_1';
+
+  /**
+   * Nutritional table subgorup 2.
+   */
+  const NUTRITION_SUBGROUP_2 = 'group_nutritional_subgroup_2';
+
+  /**
+   * Nutritional table subgorup 3.
+   */
+  const NUTRITION_SUBGROUP_3 = 'group_nutritional_subgroup_3';
+
+  /**
+   * Nutritional table subgorup vitamins.
+   */
+  const NUTRITION_SUBGROUP_VITAMINS = 'group_vitamins';
+
+  /**
    * Fields with bold labels.
    */
   const FIELDS_WITH_BOLD_LABELS = [
@@ -142,6 +180,34 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     'field_product_sodium' => 'Sodium',
     'field_product_carb' => 'Total Carbohydrate',
     'field_product_protein' => 'Protein',
+  ];
+  /**
+   * Fields with bold labels.
+   */
+  const FIELDS_MAPPING_DAILY = [
+    'field_product_calories' => FALSE,
+    'field_product_calories_fat' => FALSE,
+    'field_product_total_fat' => '',
+    'field_product_saturated_fat' => 'field_product_saturated_daily',
+    'field_product_trans_fat' => '',
+    'field_product_cholesterol' => '',
+    'field_product_sodium' => '',
+    'field_product_carb' => '',
+    'field_product_dietary_fiber' => 'field_product_dietary_daily',
+    'field_product_sugars' => '',
+    'field_product_total_sugars' => FALSE,
+    'field_product_sugar_alcohol' => FALSE,
+    'field_product_added_sugars' => '',
+    'field_product_protein' => '',
+    'field_product_vitamin_a' => '',
+    'field_product_vitamin_c' => '',
+    'field_product_vitamin_d' => '',
+    'field_product_calcium' => '',
+    'field_product_thiamin' => '',
+    'field_product_niacin' => '',
+    'field_product_iron' => '',
+    'field_product_potassium' => '',
+    'field_product_riboflavin' => '',
   ];
 
   /**
@@ -160,7 +226,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     MediaHelper $media_helper,
     ImmutableConfig $wtb_global_config,
     bool $default_review_state,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    NutritionDataHelper $nutrition_helper
   ) {
     $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->entityRepository = $entity_repository;
@@ -172,6 +239,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $this->wtbGlobalConfig = $wtb_global_config;
     $this->defaultReviewState = $default_review_state;
     $this->configFactory = $config_factory;
+    $this->nutritionHelper = $nutrition_helper;
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
@@ -197,7 +265,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('mars_common.media_helper'),
       $global_wtb_config,
       (bool) $default_review_state,
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('mars_product.nutrition_data_helper')
     );
   }
 
@@ -868,32 +937,36 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ],
     ];
 
-    $mapping = $this->getGroupingMethod($node);
+    $mapping = $this->nutritionHelper
+      ->getMapping();
+
+    $unsorted_result = [];
     foreach ($mapping as $section => $fields) {
-      foreach ($fields as $field => $field_daily) {
-        $bold_modifier = array_key_exists($field, self::FIELDS_WITH_BOLD_LABELS) ? TRUE : FALSE;
+      foreach ($fields as $field => $field_data) {
+        $bold_modifier = (bool) $field_data['bold'];
         $item = [
-          'label' => $this->languageHelper->translate(
-            $node->get($field)
-              ->getFieldDefinition()
-              ->getLabel()
-          ),
+          'label' => $field_data['label'],
           'value' => $node->get($field)->value,
           'bold_modifier' => $bold_modifier,
+          'weight' => $field_data['weight'],
         ];
-        if ($field_daily !== FALSE) {
-          $field_daily = !empty($field_daily) ? $field_daily : $field . '_daily';
+        if ($field_data['daily_field'] !== 'none') {
           $item['value_daily']
-            = $node->get($field_daily)->value;
+            = $node->get($field_data['daily_field'])->value;
         }
         if ($field === 'field_product_added_sugars') {
           $item['pre_label'] = $this->languageHelper->translate(
-            $this->configuration['nutrition']['added_sugars_label']) ?? '';
+              $this->configuration['nutrition']['added_sugars_label']) ?? '';
         }
         if (isset($item['value']) || isset($item['value_daily'])) {
-          $result_item[$section][] = $item;
+          $unsorted_result[$section][] = $item;
         }
       }
+    }
+
+    foreach ($unsorted_result as $section => $section_data) {
+      $result_item[$section] = $this->nutritionHelper
+        ->sortFields($section_data);
     }
 
     return $result_item;
@@ -918,65 +991,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       return TRUE;
     }
     return FALSE;
-  }
-
-  /**
-   * Get Field Mapping for grouping.
-   *
-   * @param object $node
-   *   Product Variant node.
-   *
-   * @return array
-   *   Size items array.
-   */
-  public function getGroupingMethod($node) {
-    $field_mapping = [
-      'field_product_calories' => FALSE,
-      'field_product_calories_fat' => FALSE,
-      'field_product_total_fat' => '',
-      'field_product_saturated_fat' => 'field_product_saturated_daily',
-      'field_product_trans_fat' => '',
-      'field_product_cholesterol' => '',
-      'field_product_sodium' => '',
-      'field_product_carb' => '',
-      'field_product_dietary_fiber' => 'field_product_dietary_daily',
-      'field_product_sugars' => '',
-      'field_product_total_sugars' => FALSE,
-      'field_product_sugar_alcohol' => FALSE,
-      'field_product_added_sugars' => '',
-      'field_product_protein' => '',
-      'field_product_vitamin_a' => '',
-      'field_product_vitamin_c' => '',
-      'field_product_vitamin_d' => '',
-      'field_product_calcium' => '',
-      'field_product_thiamin' => '',
-      'field_product_niacin' => '',
-      'field_product_iron' => '',
-      'field_product_potassium' => '',
-      'field_product_riboflavin' => '',
-    ];
-    $groups_mapping = [
-      'group_nutritional_subgroup_1',
-      'group_nutritional_subgroup_2',
-      'group_nutritional_subgroup_3',
-      'group_vitamins',
-    ];
-
-    $form = $this->entityFormBuilder->getForm($node);
-    $mapping = [];
-    foreach ($groups_mapping as $group) {
-      foreach ($form['#fieldgroups'] as $fieldgroup) {
-        if ($fieldgroup->group_name == $group) {
-          foreach ($fieldgroup->children as $field) {
-            if (strpos($field, 'daily') === FALSE) {
-              $mapping[$group][$field] = $field_mapping[$field];
-            }
-          }
-        }
-      }
-    }
-
-    return $mapping;
   }
 
   /**
