@@ -28,6 +28,7 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
             slidesOffsetAfter: 20,
             centerInsufficientSlides: true,
             watchOverflow: true,
+            threshold: 5,
             keyboard: {
               enabled: false,
             },
