@@ -152,7 +152,6 @@ class RecipeDetailHero extends BlockBase implements ContextAwarePluginInterface,
     // Get label config values.
     $label_config = $this->configFactory->get('mars_common.site_labels');
     $build['#cooking_time_label'] = $this->languageHelper->translate($label_config->get('recipe_details_time'));
-    $build['#cooking_time_measure'] = $this->languageHelper->translate($label_config->get('recipe_details_time_measurement'));
     $build['#ingredients_label'] = $this->languageHelper->translate($label_config->get('recipe_details_ingredients'));
     $build['#ingredients_measure'] = $this->languageHelper->translate($label_config->get('recipe_details_ingredients_measurement'));
     $build['#number_of_servings_label'] = $this->languageHelper->translate($label_config->get('recipe_details_servings'));
