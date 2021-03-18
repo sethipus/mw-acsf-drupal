@@ -312,7 +312,6 @@ class ProductHelper {
       $product['CMS: Product Variant Family ID'] = $product_variant['CMS: Product Variant Family ID'] ?? NULL;
       $product['CMS: Variety'] = $product_variant['CMS: Variety'] ?? NULL;
       $product['Consumption Context'] = $product_variant['Consumption Context'] ?? NULL;
-      $product['Consumption Context 1'] = $product_variant['Consumption Context 1'] ?? NULL;
       $product['Consumption Context 2'] = $product_variant['Consumption Context 2'] ?? NULL;
       $product['salsify:digital_assets'] = $product_variant['salsify:digital_assets'] ?? NULL;
 
@@ -747,7 +746,7 @@ class ProductHelper {
           SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT,
           $product
         );
-        $product_per_pack['CMS: Product Name'] = $product['Consumption Context 1'] ?? $this->t('PER PACK');
+        $product_per_pack['CMS: Product Name'] = $product['Consumption Context'] ?? $this->t('PER PACK');
         $product_per_pack['CMS: not publish'] = TRUE;
         $products[] = $product_per_pack;
         $this->mapping['primary'][$product_per_pack['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
