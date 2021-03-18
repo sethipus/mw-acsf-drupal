@@ -256,11 +256,11 @@
         ],
         "post-install-cmd": [
             "rm docroot/robots.txt",
-            "git apply patches/htaccess-no-robotstxt.patch"
+            "patch -p1 <patches/htaccess-no-robotstxt.patch"
         ],
         "post-update-cmd": [
             "rm docroot/robots.txt",
-            "git apply patches/htaccess-no-robotstxt.patch"
+            "patch -p1 <patches/htaccess-no-robotstxt.patch"
         ]
     }
 }

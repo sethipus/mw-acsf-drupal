@@ -135,13 +135,6 @@ AddEncoding gzip svgz
   # uncomment the following line:
   # RewriteBase /
 
-  # Ensure non-live sites prevent robots from crawling.
-  RewriteCond %{HTTP_HOST} "^test\." [NC,OR]
-  RewriteCond %{HTTP_HOST} "^live\." [NC]
-  RewriteCond %{REQUEST_URI} /robots.txt [NC]
-  RewriteCond %{QUERY_STRING} "!^test$" [NC]
-  RewriteRule ^ no_robots.txt [L]
-
   # Redirect common PHP files to their new locations.
   RewriteCond %{REQUEST_URI} ^(.*)?/(install.php) [OR]
   RewriteCond %{REQUEST_URI} ^(.*)?/(rebuild.php)
