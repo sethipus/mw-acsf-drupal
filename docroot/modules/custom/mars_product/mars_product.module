@@ -39,6 +39,7 @@ function mars_product_theme($existing, $type, $theme, $path) {
         'cta_link_text' => NULL,
         'supporting_card_entity' => NULL,
         'supporting_card_entity_view' => NULL,
+        'dark_overlay' => NULL,
       ],
       'template' => 'product-content-pair-up-block',
     ],
@@ -179,6 +180,7 @@ function product_card_add_wtb_vars(array &$variables) {
     $variables['wtb_button_type'] = !empty($commerce_vendor_settings['button_type']) ? $commerce_vendor_settings['button_type'] : NULL;
     $variables['wtb_account_id'] = !empty($commerce_vendor_settings['account_id']) ? $commerce_vendor_settings['account_id'] : NULL;
     $variables['wtb_widget_id'] = !empty($commerce_vendor_settings[$widget_id_field]) ? $commerce_vendor_settings[$widget_id_field] : NULL;
+    $variables['wtb_cta_title'] = !empty($commerce_vendor_settings['cta_title']) ? $commerce_vendor_settings['cta_title'] : NULL;
     $variables['wtb_display'] = $display;
   }
 }
