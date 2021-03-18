@@ -31,7 +31,7 @@
           return;
         }
         videoElements('video').controls = false;
-        videoElements('video').muted = false;
+        videoElements('video').muted = true;
         videoElements('video').loop = true;
         videoElements('video').autoplay = true;
         videoElements('video').play();
