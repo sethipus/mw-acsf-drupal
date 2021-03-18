@@ -486,7 +486,6 @@ class NutritionConfigForm extends ConfigFormBase {
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_total_sugars']['label'] = $this->t(
         'Of which Sugars'
       );
-      $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_total_sugars']['bold'] = TRUE;
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_protein']['bold'] = TRUE;
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_sodium']['label'] = $this->t('Salt');
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_sodium']['bold'] = TRUE;
