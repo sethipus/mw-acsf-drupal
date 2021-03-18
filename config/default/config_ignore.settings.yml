@@ -35,6 +35,7 @@ ignored_config_entities:
   - purge.logger_channels
   - purge.plugins
   - purge_queuer_coretags.settings
+  - nutrition_table.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true
