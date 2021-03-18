@@ -25,15 +25,14 @@
               link_blockname: menu_class,
               link_attributes: {
                 'target': '_blank',
-                'aria-label': 'Social link',
-                'name': item.title,
-                'title': item.title
               }
             } %}
               {% block link_content %}
-                {{ item.icon | raw }}
+                <span aria-hidden="true">
+                  {{ item.icon | raw }}
+                </span>
                 {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
-                  sronly_content: item.title,
+                  sronly_content: item.title ~ (' (opens in new window)' | mt),
                   sronly_modifiers: ['social_link'],
                 } %}
               {% endblock %}
