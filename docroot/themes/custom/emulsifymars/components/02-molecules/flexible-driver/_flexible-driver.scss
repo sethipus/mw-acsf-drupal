@@ -36,40 +36,40 @@
       width: 16.3rem;
       height: 16.3rem;
       left: 0;
-      bottom: -1.3rem;
+      bottom: -1.3rem; // 163 - 150 = 13
 
       @include medium {
         width: 22.2rem;
         height: 22.2rem;
         left: 1.9rem;
-        bottom: -5.8rem;
+        bottom: -5.8rem; // 222 - 164 = 58
       }
 
       @include xl {
         width: 31.6rem;
         height: 31.6rem;
         left: 1.5rem;
-        bottom: -7.8rem;
+        bottom: -7.8rem; // 316 - 238 = 78
       }
     }
 
     &--right {
       width: 11.4rem;
       height: 11.4rem;
-      right: -4.6rem;
-      top: 2.6rem;
+      right: -4.6rem; // 114 - 68 = 46
+      top: 2.1rem;
 
       @include medium {
         width: 18.9rem;
         height: 18.9rem;
-        right: -7.7rem;
-        top: 4.5rem;
+        right: -7.7rem; // 189 - 112 = 77
+        top: 4rem;
       }
 
       @include xl {
         width: 25.9rem;
         height: 25.9rem;
-        right: -10rem;
+        right: -5.2rem; // 259 - 207 = 52
         top: 2.2rem;
       }
     }
@@ -98,7 +98,6 @@
     line-height: 4.8rem;
     margin: 0 2rem;
     padding-top: 5rem;
-    text-transform: uppercase;
     text-align: center;
 
     @include medium {
@@ -134,7 +133,7 @@
     text-align: center;
 
     @include medium {
-      padding: 6.3rem 0 0 0;
+      padding: 3.3rem 0 0 0;
     }
   }
 

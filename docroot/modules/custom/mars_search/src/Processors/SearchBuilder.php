@@ -139,23 +139,16 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
-        // Temporary fix - removing top results in case user filter results.
-        if (count($searchOptions['conditions']) > 1 || !empty($searchOptions['keys'])) {
-          unset($config['top_results_wrapper']['top_results']);
-        }
+        $searchOptionsTop = $searchOptions;
         $searchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
 
         if (!empty($config['top_results_wrapper']['top_results'])) {
-          $top_result_ids = array_map(function ($value) {
-            return $value['target_id'];
-          }, $config['top_results_wrapper']['top_results']);
-          // Shift result by number of top results.
-          $top_result_ids = array_slice($top_result_ids, $searchOptions['offset'], $searchOptions['limit']);
-          foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
-            $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
-          }
-          $searchOptions['offset'] = count($build['#items']) > 0 ? 0 : $searchOptions['offset'] - count($config['top_results_wrapper']['top_results']);
-          $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
+          $this->populateItemsByTopResults(
+            $build,
+            $searchOptions,
+            $searchOptionsTop,
+            $config
+          );
         }
         $searcher_key = "grid_{$grid_id}";
         break;
@@ -207,6 +200,78 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
 
     return [$searchOptions, $query_search_results, $build];
+  }
+
+  /**
+   * Sort top results based on order in configuration.
+   *
+   * @param array $results
+   *   Results of search.
+   * @param array $weights
+   *   Weights in configuration.
+   *
+   * @return array
+   *   Sorted results.
+   */
+  private function sortTopResults(array $results, array $weights) {
+    $results_weighted = [];
+    foreach ($results as $result) {
+      /* @var \Drupal\node\NodeInterface $result */
+      $results_weighted[$weights[$result->id()]] = $result;
+    }
+    ksort($results_weighted);
+    return $results_weighted;
+  }
+
+  /**
+   * Populate build items by top results.
+   *
+   * @param array $build
+   *   Build array.
+   * @param array $searchOptions
+   *   Common search options.
+   * @param array $searchOptionsTop
+   *   Search options for top results.
+   * @param array $config
+   *   Component's config.
+   */
+  private function populateItemsByTopResults(
+    array &$build,
+    array &$searchOptions,
+    array $searchOptionsTop,
+    array $config
+  ) {
+    $top_result_ids = array_map(function ($value) {
+      return $value['target_id'];
+    }, $config['top_results_wrapper']['top_results']);
+    $searchOptionsTop['top_results_query'] = TRUE;
+    $searchOptionsTop['offset'] = 0;
+    $searchOptionsTop['limit'] = count($config['top_results_wrapper']['top_results']);
+
+    $searchOptionsTop['top_results_ids'] = $top_result_ids;
+    $searchOptionsTop = $this->searchQueryParser->parseFilterPreset($searchOptionsTop, $config);
+
+    // Getting and building search results.
+    $searcher_key_top = static::SEARCH_PAGE_QUERY_ID . '_top';
+    $top_search_results = $this->searchHelper->getSearchResults($searchOptionsTop, $searcher_key_top);
+
+    $top_results = $this->sortTopResults(
+      $top_search_results['results'],
+      array_flip($top_result_ids)
+    );
+
+    // Shift result by number of top results.
+    $top_results_slice = array_slice(
+      $top_results,
+      $searchOptions['offset'],
+      $searchOptions['limit']
+    );
+    foreach ($top_results_slice as $top_result_node) {
+      $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
+    }
+
+    $searchOptions['offset'] = count($build['#items']) > 0 ? 0 : $searchOptions['offset'] - $top_search_results['resultsCount'];
+    $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
   }
 
   /**

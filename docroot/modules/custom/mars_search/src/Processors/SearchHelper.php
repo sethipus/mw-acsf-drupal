@@ -87,6 +87,9 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     if (isset($options['offset']) && isset($options['limit'])) {
       $query->range($options['offset'], $options['limit']);
     }
+    elseif (isset($options['limit'])) {
+      $query->range(0, isset($options['limit']));
+    }
     else {
       $query->range(0, 4);
     }
@@ -188,6 +191,8 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       'mars_meal_type',
       'mars_method',
       'mars_prep_time',
+      'mars_product_used',
+      'mars_recipe_collection',
     ];
   }
 

@@ -139,6 +139,7 @@
 
   .search-input-wrapper {
     width: 100%;
+    position: relative;
 
     &.suggested {
       margin-left: 0;
@@ -154,8 +155,9 @@
       }
 
       .mars-search-autocomplete-suggestions-wrapper {
-        margin: -2.5rem 0 0;
-        padding-top: 25px;
+        position: absolute;
+        z-index: $brand-border-overflow-zindex;
+        width: 100%;
         border: 1px solid clr(subcolor-4);
         border-top: none;
       }

@@ -40,6 +40,17 @@
               data-component-title="{{ item.title }}"
             {% endif %}
           >
+            {% if loop.index == 2  %}
+              <div class="story-highlight__brand-shape_1">
+                {% include "@atoms/images/image/responsive-image.twig" with {
+                output_image_tag: true,
+                image_alt: asset_1_alt,
+                image_src: asset_1,
+                height: '118px',
+                width: '124px'
+              } %}
+              </div>
+            {% endif %}
             <div class="media_item_{{loop.index}}__wrapper">
             {% if item.image %}
 
@@ -72,16 +83,6 @@
             } %}
           </div>
         {% endfor %}
-
-        <div class="story-highlight__brand-shape_1">
-          {% include "@atoms/images/image/responsive-image.twig" with {
-          output_image_tag: true,
-          image_alt: asset_1_alt,
-          image_src: asset_1,
-          height: '118px',
-          width: '124px'
-        } %}
-        </div>
 
         <div class="story-highlight__brand-shape_2">
           {% include "@atoms/images/image/responsive-image.twig" with {

@@ -54,23 +54,31 @@
   background-color: clr(secondary);
   font-family: variable(primary-font);
   color: clr(text-inverse);
-  min-width: 20.2rem;
   padding: 0 3rem;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50px;
+  height: 50px;
+  line-height: 50px;
+  min-width: 100%;
 
   &:hover {
     color: clr(secondary);
   }
 
   @include medium {
-    line-height: 5rem;
     margin-bottom: 60px;
+    min-width: 157px;
   }
 
   @include xl {
+    height: 60px;
     line-height: 6rem;
     margin-bottom: 108px;
+    min-width: 202px;
+  }
+
+  .default-link__label {
+    vertical-align: middle;
   }
 }

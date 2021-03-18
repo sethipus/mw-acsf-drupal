@@ -1,14 +1,12 @@
-uuid: 27487085-2d0c-47fd-80e9-3281bd0fcb7e
+uuid: d030412f-c2f5-4bf0-9bcc-fe0487ad1afc
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - taxonomy
-_core:
-  default_config_hash: zxnAtXcPmJ3Vs6q3zOBwQFovvmxqHNIiA4aYQfKuoSg
-id: node.field_product_brand
-field_name: field_product_brand
+id: node.field_recipe_collection
+field_name: field_recipe_collection
 entity_type: node
 type: entity_reference
 settings:
