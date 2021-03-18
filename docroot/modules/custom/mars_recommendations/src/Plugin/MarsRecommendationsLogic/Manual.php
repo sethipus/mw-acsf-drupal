@@ -74,7 +74,7 @@ class Manual extends RecommendationsLogicPluginBase {
    */
   public function getRecommendations() {
     return array_map(function ($value) {
-      return $this->nodeStorage->load($value);
+      return !empty($value) ? $this->nodeStorage->load($value) : NULL;
     }, $this->configuration['nodes'] ?? []);
   }
 
