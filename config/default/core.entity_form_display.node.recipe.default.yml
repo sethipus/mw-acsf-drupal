@@ -119,9 +119,13 @@ content:
   field_recipe_cooking_time:
     weight: 5
     settings:
+      size: 60
       placeholder: ''
-    third_party_settings: {  }
-    type: number
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
     region: content
   field_recipe_culture:
     weight: 29
