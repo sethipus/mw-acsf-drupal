@@ -5,6 +5,7 @@ namespace Drupal\mars_common\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
@@ -167,7 +168,11 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $build['#styles'] = 'color:' . $this->getTextColor();
     $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
     $build['#theme'] = 'parent_page_header_block';
-
+    $graphic_divider = $this->themeConfiguratorParser->getUrlForFile('graphic_divider');
+    if ($graphic_divider instanceof Url) {
+      $graphic_divider = $graphic_divider->toUriString();
+    }
+    $build['#graphic_divider'] = $graphic_divider;
     return $build;
   }
 

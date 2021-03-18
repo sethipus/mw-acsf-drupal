@@ -19,8 +19,8 @@
     {% endif %}
   >
     {% if button_type == 'my_own' %}
-      <a class="cc-fi-button text_link" data-ccwid="{{ data_widget_id }}"
-         data-ean="{{ product_sku }}">{{ cta_title }}</a>
+      <button type="button" class="cc-fi-button text_link" data-ccwid="{{ data_widget_id }}"
+         data-ean="{{ product_sku }}">{{ cta_title }}</button>
     {% else %}
       <div data-ccid="wtb-target" data-ccwid="{{ data_widget_id }}" data-ean="{{ product_sku }}"></div>
     {% endif %}
