@@ -146,6 +146,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_border' => NULL,
         'text_color_override' => NULL,
         'hover_color' => NULL,
+        'mobile_color' => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],

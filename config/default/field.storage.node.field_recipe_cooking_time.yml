@@ -1,18 +1,17 @@
-uuid: 7e4e8a9a-9ab8-4dfc-807a-f9f805f08d22
+uuid: c79e790b-d176-4b97-9251-5e5735c0cefd
 langcode: en
 status: true
 dependencies:
   module:
     - node
-_core:
-  default_config_hash: Fi-0-tyk5jlPZHXSlOKFuOWSeW-t8wo7UhNnNapMyWw
 id: node.field_recipe_cooking_time
 field_name: field_recipe_cooking_time
 entity_type: node
-type: integer
+type: string
 settings:
-  unsigned: false
-  size: normal
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
 module: core
 locked: false
 cardinality: 1

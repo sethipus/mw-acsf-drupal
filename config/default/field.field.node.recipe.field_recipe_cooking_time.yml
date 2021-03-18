@@ -1,4 +1,4 @@
-uuid: 0da9e60e-c5ff-4777-9213-6b4fc371c64d
+uuid: 415ff125-5726-4605-877b-bc580382ae31
 langcode: en
 status: true
 dependencies:
@@ -10,8 +10,6 @@ dependencies:
 third_party_settings:
   tmgmt_content:
     excluded: false
-_core:
-  default_config_hash: '-lGSUKT5Rgj_KSZZS6191GiyeUxJwUEbAV5KvksipPQ'
 id: node.recipe.field_recipe_cooking_time
 field_name: field_recipe_cooking_time
 entity_type: node
@@ -19,12 +17,8 @@ bundle: recipe
 label: 'Cooking time'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
-settings:
-  min: null
-  max: null
-  prefix: ''
-  suffix: ' mins'
-field_type: integer
+settings: {  }
+field_type: string
