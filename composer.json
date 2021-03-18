@@ -255,12 +255,10 @@
             "@composer install --ansi"
         ],
         "post-install-cmd": [
-            "rm docroot/robots.txt",
-            "patch -p1 <patches/htaccess-no-robotstxt.patch"
+            "rm docroot/robots.txt"
         ],
         "post-update-cmd": [
-            "rm docroot/robots.txt",
-            "patch -p1 <patches/htaccess-no-robotstxt.patch"
+            "rm docroot/robots.txt"
         ]
     }
 }
