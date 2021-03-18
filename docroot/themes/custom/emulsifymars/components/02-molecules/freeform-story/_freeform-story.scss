@@ -206,6 +206,7 @@
 
       .freeform-story__content {
         padding-top: 2rem;
+        padding-left: 0;
         padding-bottom: 2rem;
         flex-direction: row;
 
@@ -290,6 +291,7 @@
       }
 
       .freeform-story__content {
+        padding-right: 0;
         padding-top: 2rem;
         padding-bottom: 2rem;
         flex-direction: row-reverse;

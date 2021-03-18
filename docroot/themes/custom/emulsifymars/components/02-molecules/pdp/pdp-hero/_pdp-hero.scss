@@ -766,9 +766,15 @@
       position: relative;
       overflow: hidden;
       display: inline-block;
+      border: 0;
       border-radius: variable(button-border-radius);
       cursor: pointer;
       width: 100%;
+
+      &[disabled] {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
     }
   }
 

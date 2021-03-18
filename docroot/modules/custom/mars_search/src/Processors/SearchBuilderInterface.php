@@ -69,6 +69,14 @@ interface SearchBuilderInterface {
       'label' => 'PREP TIME',
       'content_types' => ['recipe'],
     ],
+    'mars_product_used' => [
+      'label' => 'PRODUCT USED',
+      'content_types' => ['recipe'],
+    ],
+    'mars_recipe_collection' => [
+      'label' => 'RECIPE COLLECTION',
+      'content_types' => ['recipe'],
+    ],
     'mars_trade_item_description' => [
       'label' => 'TRADE ITEM DESCRIPTION',
       'content_types' => ['product'],

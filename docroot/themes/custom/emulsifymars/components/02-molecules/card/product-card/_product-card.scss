@@ -31,7 +31,7 @@
       background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary)) !important;
       transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
-      p, a, .eyebrow{
+      p, a, .eyebrow, .cc-fi-button {
         color: clr(subcolor-3);
       }
 
@@ -172,8 +172,9 @@
     }
   }
 
-  & .text_link{
-    padding: 1.5rem 2rem;
+  & .cc-fi-button {
+    display: inline-block;
+    padding: 0 1rem;
     line-height: 5rem;
     font-size: 1.4rem;
     text-decoration: none;
@@ -181,6 +182,18 @@
     color: clr(primary);
     font-family: variable(secondary-font);
     text-transform: uppercase;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .badge {
