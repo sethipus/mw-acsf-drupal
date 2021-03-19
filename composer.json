@@ -253,6 +253,12 @@
             "rm -rf vendor composer.lock docroot/core docroot/modules/contrib docroot/profiles/contrib docroot/themes/contrib",
             "@composer clearcache --ansi",
             "@composer install --ansi"
+        ],
+        "post-install-cmd": [
+            "rm docroot/robots.txt"
+        ],
+        "post-update-cmd": [
+            "rm docroot/robots.txt"
         ]
     }
 }
