@@ -40,7 +40,8 @@
                 value="edit-choice-{{key}}"
                 {% if result.key == my_vote %}checked="checked"{% endif %}
             />
-            <span class="polling__label-text">{{result['#choice']}}</span>
+            <span class="checkmark"></span>
+             <span class="polling__label-text">{{result['#choice']}}</span>
             <span class="polling__percentage">{{result['#percentage'] ~ '%'}}</span>
             <span class="polling__bar" style="right: {{(100 - result['#percentage']) ~ '%'}}"></span>
           </label>
