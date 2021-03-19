@@ -14,6 +14,16 @@ use Drupal\pathauto\Entity\PathautoPattern;
 use Drupal\pathauto\PathautoState;
 
 /**
+ * Implements hook_update_N() for rating&reviews remove from theme config.
+ */
+function mars_product_update_8928() {
+  \Drupal::configFactory()
+    ->getEditable('emulsifymars.settings')
+    ->clear('show_rating_and_reviews')
+    ->save();
+}
+
+/**
  * Implements hook_update_N() for layout builder.
  */
 function mars_product_update_8917() {
