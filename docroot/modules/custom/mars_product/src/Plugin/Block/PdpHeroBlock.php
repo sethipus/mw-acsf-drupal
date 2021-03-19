@@ -622,6 +622,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     // Commerce vendor info.
     $commerce_vendor = $this->getCommerceVendor();
     $commerce_vendor_settings = $this->getCommerceVendorInfo($commerce_vendor);
+    // Get correct widget id field name.
+    $widget_id_field = $this->productHelper->getWidgetIdField('pdp_page');
     // Get values from first Product Variant.
     $product_sku = '';
     foreach ($node->field_product_variants as $reference) {
@@ -644,7 +646,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'product_description' => $node->field_product_description->value,
         'product_sku' => !empty($this->configuration['wtb']['override_global']) && !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku,
         'commerce_vendor' => $commerce_vendor !== self::VENDOR_NONE ? $commerce_vendor : NULL,
-        'data_widget_id' => empty($this->configuration['wtb']['override_global']) && !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : $this->configuration['wtb']['data_widget_id'],
+        'data_widget_id' => empty($this->configuration['wtb']['override_global']) && !empty($commerce_vendor_settings[$widget_id_field]) ? $commerce_vendor_settings[$widget_id_field] : $this->configuration['wtb']['data_widget_id'],
         'data_token' => empty($this->configuration['wtb']['override_global']) && !empty($commerce_vendor_settings['data_token']) ? $commerce_vendor_settings['data_token'] : $this->configuration['wtb']['data_token'],
         'data_subid' => empty($this->configuration['wtb']['override_global']) && !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : $this->configuration['wtb']['data_subid'],
         'product_CTA_title' => empty($this->configuration['wtb']['override_global']) && !empty($commerce_vendor_settings['cta_title']) ? $commerce_vendor_settings['cta_title'] : $this->configuration['wtb']['cta_title'],

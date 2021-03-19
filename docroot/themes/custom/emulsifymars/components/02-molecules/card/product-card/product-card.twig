@@ -1,5 +1,5 @@
 {% set card__base_class = 'product-card' %}
-{% set link_content = 'Buy now'|mt %}
+{% set link_content = wtb_cta_title ? wtb_cta_title|mt : 'Buy now'|mt %}
 {{ attach_library('emulsifymars/product-card') }}
 
 {% set color_section = select__background__color is not empty ? select__background__color : select_background_color %}

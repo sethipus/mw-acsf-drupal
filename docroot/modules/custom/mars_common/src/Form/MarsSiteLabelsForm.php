@@ -143,13 +143,6 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
-    $form['recipe_details']['recipe_details_time_measurement'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Time measurement label'),
-      '#default_value' => $site_label_config->get('recipe_details_time_measurement'),
-      '#required' => TRUE,
-    ];
-
     $form['recipe_details']['recipe_details_ingredients'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Ingredients label'),
@@ -241,7 +234,6 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       ->set('recipe_body_products_used', $form_state->getValue('recipe_body_products_used'))
       ->set('recipe_body_ingredients_used', $form_state->getValue('recipe_body_ingredients_used'))
       ->set('recipe_details_time', $form_state->getValue('recipe_details_time'))
-      ->set('recipe_details_time_measurement', $form_state->getValue('recipe_details_time_measurement'))
       ->set('recipe_details_ingredients', $form_state->getValue('recipe_details_ingredients'))
       ->set('recipe_details_ingredients_measurement', $form_state->getValue('recipe_details_ingredients_measurement'))
       ->set('recipe_details_servings', $form_state->getValue('recipe_details_servings'))
