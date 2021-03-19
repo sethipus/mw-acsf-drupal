@@ -14,16 +14,6 @@ use Drupal\pathauto\Entity\PathautoPattern;
 use Drupal\pathauto\PathautoState;
 
 /**
- * Implements hook_update_N() for rating&reviews per site for all products (turned on by default).
- */
-function mars_product_update_8901() {
-  \Drupal::configFactory()
-    ->getEditable('emulsifymars.settings')
-    ->set('show_rating_and_reviews', TRUE)
-    ->save();
-}
-
-/**
  * Implements hook_update_N() for layout builder.
  */
 function mars_product_update_8917() {
