@@ -750,7 +750,10 @@ class ProductHelper {
           SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT,
           $product
         );
-        $product_per_pack['CMS: Product Name'] = $product['Consumption Context'] ?? $this->t('PER PACK');
+        $title_per_pac = (isset($product['Consumption Context']))
+          ? strtoupper($product['Consumption Context'])
+          : $this->t('PER PACK');
+        $product_per_pack['CMS: Product Name'] = $title_per_pac;
         $product_per_pack['CMS: not publish'] = TRUE;
         $products[] = $product_per_pack;
         $this->mapping['primary'][$product_per_pack['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
@@ -768,7 +771,10 @@ class ProductHelper {
         if (isset($generated_products[$key])) {
           $variant_per_container = $generated_products[$key . '_variant'];
           $product_per_container = $generated_products[$key];
-          $product_per_container['CMS: Product Name'] = $product['Consumption Context 2'] ?? $this->t('PER CONTAINER');
+          $title_per_container = (isset($product['Consumption Context 2']))
+            ? strtoupper($product['Consumption Context 2'])
+            : $this->t('PER CONTAINER');
+          $product_per_container['CMS: Product Name'] = $title_per_container;
           $per_container_products[] = $variant_per_container;
           $per_container_products[] = $product_per_container;
         }

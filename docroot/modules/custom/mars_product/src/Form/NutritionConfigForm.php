@@ -117,18 +117,24 @@ class NutritionConfigForm extends ConfigFormBase {
       ],
       '#required' => TRUE,
     ];
+
+    $form['general']['set_to_default_desciption'] = [
+      '#type' => 'markup',
+      '#markup' => '<p>' . $this->t('Set to default state depending on nutritional table view:') .
+      '</p>',
+    ];
+    $form['general']['set_to_default'] = [
+      '#type' => 'submit',
+      '#name' => 'set_to_default',
+      '#value' => $this->t('Set to selected state'),
+      '#limit_validation_errors' => [],
+      '#button_type' => 'danger',
+    ];
+
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_1);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_2);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_3);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS);
-
-    $form['set_to_default'] = [
-      '#type' => 'submit',
-      '#name' => 'set_to_default',
-      '#value' => $this->t('Set to Default state'),
-      '#limit_validation_errors' => [],
-      '#button_type' => 'danger',
-    ];
 
     return $form;
   }
