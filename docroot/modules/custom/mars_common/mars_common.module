@@ -61,6 +61,13 @@ function mars_common_menu_insert(Menu $menu) {
 }
 
 /**
+ * Implements hook_preprocess_node().
+ */
+function mars_common_preprocess_node(&$variables) {
+  unset($variables['attributes']['role']);
+}
+
+/**
  * Implements hook_preprocess().
  */
 function mars_common_preprocess(&$variables, $hook) {
@@ -138,6 +145,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_title' => NULL,
         'brand_border' => NULL,
         'text_color_override' => NULL,
+        'hover_color' => NULL,
+        'mobile_color' => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],
@@ -157,6 +166,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'social_header' => NULL,
         'current_region_title' => NULL,
         'text_color_override' => NULL,
+        'hover_color' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -227,6 +237,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'styles' => NULL,
         'dark_overlay' => NULL,
+        'graphic_divider' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
