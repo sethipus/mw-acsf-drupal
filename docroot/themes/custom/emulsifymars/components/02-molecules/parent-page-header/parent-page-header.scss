@@ -85,7 +85,7 @@
 
   &--with-min-height {
     min-height: 45.2rem;
-    max-height: 45.2rem;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -178,7 +178,7 @@
 
     @include large {
       min-height: 52rem;
-      max-height: 58rem;
+      max-height: 100%
     }
   }
 
