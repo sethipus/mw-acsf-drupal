@@ -462,6 +462,10 @@ class ProductHelper {
         // Add unit for the value.
         if (isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
 
+          $product[$field_name] = (is_array($product[$field_name]))
+            ? reset($product[$field_name])
+            : $product[$field_name];
+
           $product[$field_name] = $product[$field_name] .
             $product_variant[$matches[1] . ' UOM ' . $matches[2]];
         }
