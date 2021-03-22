@@ -24,6 +24,8 @@
     height: 97px;
     left: 10px;
     bottom: 25px;
+    outline: none;
+    box-shadow: none;
 
     .play-icon {
       width: 30.2px;
@@ -88,8 +90,15 @@
       background-repeat: no-repeat;
     }
 
-    button:hover,
-    button:focus {
+    button:hover {
+      opacity: 0.5;
+    }
+
+    button[data-state="unmute"]{
+      opacity: 0.5;
+    }
+
+    button[aria-label="Play"]{
       opacity: 0.5;
     }
 

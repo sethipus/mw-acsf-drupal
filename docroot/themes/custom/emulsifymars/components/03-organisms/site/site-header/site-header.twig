@@ -22,7 +22,6 @@
             {% embed "@atoms/links/link/link.twig" with {
               link_modifiers: ['logo'],
               link_url: logo_link__url|default('/'),
-              link_content: "Logo image" | mt,
               text_color_override: false,
             } %}
               {% block link_content %}
