@@ -21,11 +21,13 @@
     </div>
   </div>
 
-  <div {{ bem('content', [], homepage_hero_basic_base_class) }} >
-    {% include "@atoms/text/headings/_heading.twig" with {
-      heading_level: 1,
-      heading: homepage_hero_basic_content,
-      heading_base_class:'homepage-hero-basic__heading'
-    }%}
-  </div>
+  {% if homepage_hero_basic_content %}
+    <div {{ bem('content', [], homepage_hero_basic_base_class) }} >
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 1,
+        heading: homepage_hero_basic_content,
+        heading_base_class:'homepage-hero-basic__heading'
+      }%}
+    </div>
+  {% endif %}
 </section>
