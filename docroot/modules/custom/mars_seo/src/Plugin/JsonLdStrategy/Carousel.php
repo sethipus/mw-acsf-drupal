@@ -141,9 +141,11 @@ class Carousel extends JsonLdStrategyPluginBase {
         /** @var \Drupal\node\NodeInterface $node */
         $node = $this->getContextValue('node');
         $variant_items = iterator_to_array($node->field_product_variants);
+        $brand = !$this->configFactory->get('mars_common.system.site')->isNew() && !empty($this->configFactory->get('mars_common.system.site')->get('brand')) ? $this->configFactory->get('mars_common.system.site')->get('brand') : NULL;
 
         return Schema::itemList()
-          ->itemListElement(array_map(function ($delta, $item) use ($node) {
+          ->name($node->getTitle())
+          ->itemListElement(array_map(function ($delta, $item) use ($node, $brand) {
             $variant = $item->entity;
             $main_image_id = $this->mediaHelper->getEntityMainMediaId($variant);
 
@@ -158,8 +160,8 @@ class Carousel extends JsonLdStrategyPluginBase {
                     ->ratingCount(18)
                   )
                   ->sku($variant->field_product_sku->value)
-                  ->if($node->field_brand_initiatives->target_id, function (Product $product) use ($node) {
-                    $product->brand($node->field_brand_initiatives->entity->getName());
+                  ->if(!empty($brand), function (Product $product) use ($brand) {
+                    $product->brand($brand);
                   })
                   ->if($node->field_product_description->value, function (Product $product) use ($node) {
                     $product->description($node->field_product_description->value);

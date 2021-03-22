@@ -36,6 +36,7 @@ class Product extends JsonLdStrategyPluginBase {
   public function getStructuredData() {
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->getContextValue('node');
+    $brand = !$this->configFactory->get('mars_common.system.site')->isNew() && !empty($this->configFactory->get('mars_common.system.site')->get('brand')) ? $this->configFactory->get('mars_common.system.site')->get('brand') : NULL;
 
     $main_image_id = $this->mediaHelper->getEntityMainMediaId($node);
     $main_image_url = $this->mediaHelper->getMediaUrl($main_image_id);
@@ -47,8 +48,8 @@ class Product extends JsonLdStrategyPluginBase {
     return Schema::product()
       ->name($node->getTitle())
       ->identifier($url)
-      ->if($node->field_brand_initiatives->target_id, function (SchemaProduct $product) use ($node) {
-        $product->brand($node->field_brand_initiatives->entity->getName());
+      ->if(!empty($brand), function (SchemaProduct $product) use ($brand) {
+        $product->brand($brand);
       })
       ->if($node->field_product_description->value, function (SchemaProduct $product) use ($node) {
         $product->description($node->field_product_description->value);
