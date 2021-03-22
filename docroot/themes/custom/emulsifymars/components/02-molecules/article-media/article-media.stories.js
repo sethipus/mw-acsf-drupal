@@ -1,6 +1,8 @@
 import React from 'react';
 import { useEffect } from '@storybook/client-api';
 
+import './full-width/parallax-image';
+
 import '../../01-atoms/video/fullscreen-video/video';
 
 import fullWidthMedia from './full-width/full-width-media.twig';

@@ -9,6 +9,8 @@ dependencies:
     - field.field.node.recipe.field_product_diet_allergens
     - field.field.node.recipe.field_product_occasions
     - field.field.node.recipe.field_product_reference
+    - field.field.node.recipe.field_product_used
+    - field.field.node.recipe.field_recipe_collection
     - field.field.node.recipe.field_recipe_cooking_time
     - field.field.node.recipe.field_recipe_culture
     - field.field.node.recipe.field_recipe_description
@@ -94,12 +96,36 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_product_used:
+    weight: 35
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_recipe_collection:
+    weight: 34
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   field_recipe_cooking_time:
     weight: 5
     settings:
+      size: 60
       placeholder: ''
-    third_party_settings: {  }
-    type: number
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
     region: content
   field_recipe_culture:
     weight: 29

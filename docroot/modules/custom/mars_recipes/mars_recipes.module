@@ -21,7 +21,6 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'description' => NULL,
         'cooking_time' => NULL,
         'cooking_time_label' => NULL,
-        'cooking_time_measure' => NULL,
         'ingredients_number' => NULL,
         'ingredients_label' => NULL,
         'ingredients_measure' => NULL,

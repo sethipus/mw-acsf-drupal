@@ -21,7 +21,6 @@
   {% for attribute, value in link_attributes %}
     {{ attribute }}="{{ value }}"
   {% endfor %}
-  aria-label="{{ link_content | render | mt }}"
   href="{{ link_url }}"
   {% if text_color_override is not empty%}
     style="color: {{ text_color_override }};"
