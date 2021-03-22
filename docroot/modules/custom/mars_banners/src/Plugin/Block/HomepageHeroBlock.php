@@ -272,7 +272,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         self::KEY_OPTION_DEFAULT,
         self::KEY_OPTION_IMAGE,
         self::KEY_OPTION_VIDEO,
-        self::KEY_OPTION_IMAGE_AND_TEXT,
       ]),
       '#states' => [
         'required' => [
@@ -282,7 +281,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           'or',
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
           'or',
-          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
         ],
       ],
     ];
