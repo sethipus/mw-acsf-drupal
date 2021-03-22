@@ -9,6 +9,7 @@ use Drupal\node\NodeInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Spatie\SchemaOrg\Type;
 use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Implements hook_node_view_alter().
@@ -63,6 +64,10 @@ function mars_seo_token_info() {
     'name' => t("Hero image"),
     'description' => t('Default hero image.'),
   ];
+  $node['homepage_summary'] = [
+    'name' => t("Homepage node summary"),
+    'description' => t('Homepage node summary field.'),
+  ];
   return [
     'types' => ['og_token' => $type],
     'tokens' => ['og_token' => $node],
@@ -75,6 +80,12 @@ function mars_seo_token_info() {
 function mars_seo_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
   if ($type != 'og_token') {
     return [];
+  }
+  if (isset($options['langcode'])) {
+    $langcode = $options['langcode'];
+  }
+  else {
+    $langcode = LanguageInterface::LANGCODE_DEFAULT;
   }
 
   /** @var \Drupal\node\Entity\Node $node */
@@ -101,6 +112,40 @@ function mars_seo_tokens($type, $tokens, array $data, array $options, Bubbleable
 
           $bubbleable_metadata->merge($hero_image_service->getCacheableMetadata($node));
           $replacement = $hero_image_service->getHeroImageUrl($node);
+        }
+
+        $replacements[$original] = $replacement ?? '';
+        break;
+
+      case 'homepage_summary':
+        if ($node !== NULL) {
+          $translation = \Drupal::service('entity.repository')->getTranslationFromContext($node, $langcode, ['operation' => 'node_tokens']);
+          if ($translation->hasField('body') && ($items = $translation->get('body')) && !$items->isEmpty()) {
+            $item = $items[0];
+            // If the summary was requested and is not empty, use it.
+            if (!empty($item->summary)) {
+              $replacement = $item->summary_processed;
+            }
+            // Attempt to provide a suitable version of the 'body' field.
+            else {
+              $replacement = $item->processed;
+              // Generate an optionally trimmed summary of the body field.
+              // Get the 'trim_length' size used for the 'teaser' mode, if
+              // present, or use the default trim_length size.
+              $display_options = \Drupal::service('entity_display.repository')
+                ->getViewDisplay('node', $node->getType(), 'teaser')
+                ->getComponent('body');
+              if (isset($display_options['settings']['trim_length'])) {
+                $length = $display_options['settings']['trim_length'];
+              }
+              else {
+                $settings = \Drupal::service('plugin.manager.field.formatter')->getDefaultSettings('text_summary_or_trimmed');
+                $length = $settings['trim_length'];
+              }
+              $replacement = text_summary($replacement, $item->format, $length);
+            }
+            $bubbleable_metadata->addCacheableDependency($node);
+          }
         }
 
         $replacements[$original] = $replacement ?? '';
