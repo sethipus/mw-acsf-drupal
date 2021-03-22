@@ -682,6 +682,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     switch ($node_bundle) {
       case 'product_multipack':
         $build['#pdp_data'] = $this->getPdpMultiPackProductData($node, $more_information_id);
+        $build['#pdp_common_data']['nutrition_data']['dual_label'] = (bool) $node->get('field_product_dual_label')->value;
         break;
 
       case 'product':
