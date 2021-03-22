@@ -280,7 +280,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
           'or',
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
-          'or',
         ],
       ],
     ];
