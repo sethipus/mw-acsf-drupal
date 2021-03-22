@@ -201,6 +201,7 @@ class SalsifyFieldsMap {
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK = self::SALSIFY_FIELD_MAPPING_PRODUCT + [
     'field_product_pack_items' => ['salsify:id' => 'CMS: Child products', 'salsify:data_type' => 'entity_ref'],
+    'field_product_dual_label' => ['salsify:id' => 'CMS: Product Dual Label', 'salsify:data_type' => 'boolean'],
   ];
 
 }

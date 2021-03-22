@@ -2,7 +2,6 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -17,6 +16,7 @@ use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_product\Form\BazaarvoiceConfigForm;
 use Drupal\mars_product\NutritionDataHelper;
 use Drupal\mars_product\ProductHelper;
 use Drupal\node\NodeInterface;
@@ -250,7 +250,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $config_factory = $container->get('config.factory');
     $global_wtb_config = $config_factory->get('mars_product.wtb.settings');
     $default_review_state = $config_factory
-      ->get('emulsifymars.settings')
+      ->get(BazaarvoiceConfigForm::SETTINGS)
       ->get('show_rating_and_reviews') ?? FALSE;
     return new static(
       $configuration,
@@ -682,6 +682,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     switch ($node_bundle) {
       case 'product_multipack':
         $build['#pdp_data'] = $this->getPdpMultiPackProductData($node, $more_information_id);
+        $build['#pdp_common_data']['nutrition_data']['dual_label'] = (bool) $node->get('field_product_dual_label')->value;
         break;
 
       case 'product':
@@ -1128,12 +1129,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function pageAttachments(array &$build, NodeInterface $node = NULL) {
     if ($this->isRatingEnable($node)) {
-      if (EnvironmentDetector::isProdEnv()) {
-        $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
-      }
-      else {
-        $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
-      }
+      $build['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
     }
 
     return $build;
