@@ -141,7 +141,8 @@ class Carousel extends JsonLdStrategyPluginBase {
         /** @var \Drupal\node\NodeInterface $node */
         $node = $this->getContextValue('node');
         $variant_items = iterator_to_array($node->field_product_variants);
-        $brand = !$this->configFactory->get('mars_common.system.site')->isNew() && !empty($this->configFactory->get('mars_common.system.site')->get('brand')) ? $this->configFactory->get('mars_common.system.site')->get('brand') : NULL;
+        $brand_config = $this->configFactory->get('mars_common.system.site');
+        $brand = !$brand_config->isNew() && !empty($brand_config->get('brand')) ? $brand_config->get('brand') : NULL;
 
         return Schema::itemList()
           ->name($node->getTitle())

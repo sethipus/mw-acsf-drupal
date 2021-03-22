@@ -36,7 +36,8 @@ class Product extends JsonLdStrategyPluginBase {
   public function getStructuredData() {
     /** @var \Drupal\node\NodeInterface $node */
     $node = $this->getContextValue('node');
-    $brand = !$this->configFactory->get('mars_common.system.site')->isNew() && !empty($this->configFactory->get('mars_common.system.site')->get('brand')) ? $this->configFactory->get('mars_common.system.site')->get('brand') : NULL;
+    $brand_config = $this->configFactory->get('mars_common.system.site');
+    $brand = !$brand_config->isNew() && !empty($brand_config->get('brand')) ? $brand_config->get('brand') : NULL;
 
     $main_image_id = $this->mediaHelper->getEntityMainMediaId($node);
     $main_image_url = $this->mediaHelper->getMediaUrl($main_image_id);
