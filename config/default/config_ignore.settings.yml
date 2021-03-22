@@ -36,6 +36,7 @@ ignored_config_entities:
   - purge.plugins
   - purge_queuer_coretags.settings
   - nutrition_table.settings
+  - mars_product.bazaarvoice.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true
