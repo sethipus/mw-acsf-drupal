@@ -66,6 +66,11 @@ class MulesoftConnectorTest extends UnitTestCase {
 
     $this->productHelperMock
       ->expects($this->once())
+      ->method('addProductDualLabel')
+      ->willReturn($response);
+
+    $this->productHelperMock
+      ->expects($this->once())
       ->method('getAttributesByProducts')
       ->willReturn(['attributes']);
 

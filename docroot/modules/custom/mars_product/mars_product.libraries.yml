@@ -7,13 +7,9 @@ mars_product.commerce_connector:
     - core/drupalSettings
     - core/jquery
 
-mars_product.bazarrevoice_staging:
+mars_product.bazaarvoice:
   js:
-    https://apps.bazaarvoice.com/deployments/dovechocolates/main_site/staging/en_US/bv.js: { type: external, attributes: { async: true } }
-
-mars_product.bazarrevoice_production:
-  js:
-    https://apps.bazaarvoice.com/deployments/dovechocolates/main_site/production/en_US/bv.js: { type: external, attributes: { async: true } }
+    //[bazaarvoice_placeholder]: { type: external, attributes: { async: true } }
 
 smart_commerce:
   js:
