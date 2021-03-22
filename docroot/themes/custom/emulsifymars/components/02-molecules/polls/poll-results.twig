@@ -2,7 +2,7 @@
 {% set polling_heading_level = polling_heading_level | default(2) %}
 {% set polling_heading_base_class = polling_heading_base_class | default('polling__heading') %}
 {% set polling_paragraph_base_class = polling_paragraph_base_class | default('polling__paragraph') %}
-{% set polling_fieldset_modifier = (choices|length == 3) ? 'column-layout' : '' %}
+{% set polling_fieldset_modifier = (results|length == 3) ? 'column-layout' : '' %}
 
 <section {{ bem(polling_base_class) }} data-theme="{{ theme_styles }}">
   <div class="polling__png-asset">
