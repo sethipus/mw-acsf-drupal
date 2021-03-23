@@ -48,11 +48,11 @@
 
       &:hover {
         transform: scale(1.1);
-      }  
-    }    
+      }
+    }
   }
 
-  & .grid--card {
+  .grid--card {
     margin: 0 2rem;
     padding-bottom: 5rem;
     flex-flow: column;
@@ -65,23 +65,22 @@
       align-items: stretch;
     }
 
-    @include large {
-      padding-bottom: 6rem;
+    @include xl {
+      padding-bottom: 8rem;
       flex-flow: row nowrap;
     }
 
-    & .image-background {
+    .image-background {
       display: inline-block;
       margin: 0 auto;
       max-width: 80%;
     }
 
-    & .card {
+    .card {
       text-align: center;
       align-items: center;
 
       &__heading {
-        margin-top: 3rem;
         text-align: center;
         color: clr(primary);
         font-family: variable(primary-font);
@@ -100,10 +99,6 @@
         @include large {
           font-size: 2.4rem;
           line-height: 2.64rem;
-        }
-
-        &:last-child {
-          margin-bottom: 2rem;
         }
       }
 
@@ -146,6 +141,15 @@
         }
       }
     }
+
+    .image-wrapper + .card__heading {
+      margin-top: 3rem;
+
+      @include xl {
+        margin-top: 4rem;
+      }
+    }
+
     .grid__item{
       .image-size-large{
         .brand-shape{
@@ -165,7 +169,7 @@
           width: 100%;
           height: 100%;
           position: absolute;
-    
+
           svg {
             width: 100%;
             height: 100%;
@@ -175,7 +179,8 @@
             opacity: 0.2;
           }
         }
-      }  
+      }
+
       .image-background {
         position: relative;
 
@@ -191,10 +196,11 @@
     }
   }
 
-  & .grid__item {
+  .grid__item {
     display: flex;
     flex-flow: column;
     margin-top: 4rem;
+    margin-bottom: 0;
 
     @include medium {
       flex: 1 1 50%;
@@ -203,32 +209,30 @@
     @include large {
       flex: 1 1 100%;
     }
-    
+
     @include xl {
       margin-top: 6rem;
     }
 
-    & .cta-wrapper {
+    .cta-wrapper {
       flex: 1 0 auto;
       display: flex;
       justify-content: center;
       align-items: flex-end;
       margin-top: 3rem;
-      margin-bottom: 2rem;
 
-      @include large {
+      @include xl {
         margin-top: 4rem;
       }
     }
   }
 
   &--related-recipes {
-
-    & .image-wrapper {
+    .image-wrapper {
       align-items: center;
     }
 
-    & .grid--card {
+    .grid--card {
       @include medium {
         align-items: stretch;
       }
@@ -237,12 +241,8 @@
         align-items: stretch;
       }
 
-      & .image-background {
+      .image-background {
         margin: auto;
-      }
-
-      & .card__heading {
-        margin-top: 4rem;
       }
     }
 
@@ -262,6 +262,7 @@
           flex: 0 0 auto;
         }
       }
+
       .card__body{
         max-width: 433px;
       }
@@ -274,6 +275,7 @@
           flex: 0 0 auto;
         }
       }
+
       .card__body{
         max-width: 317px;
       }
