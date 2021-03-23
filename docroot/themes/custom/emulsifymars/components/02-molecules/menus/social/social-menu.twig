@@ -23,9 +23,11 @@
               link_base_class: 'link',
               link_modifiers: item_modifiers,
               link_blockname: menu_class,
-              link_attributes: {
-                'target': '_blank',
-              }
+              link_extra_classes: item.item_modifiers.class is not empty ? item.item_modifiers.class : [],
+              link_attributes: item.item_modifiers is not empty ? item.item_modifiers :
+                {
+                  'target': '_blank',
+                }
             } %}
               {% block link_content %}
                 <span aria-hidden="true">
