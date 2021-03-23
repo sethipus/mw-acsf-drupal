@@ -451,7 +451,7 @@ class ProductHelper {
     foreach ($nutrition_fields as $field_name) {
 
       $matches = [];
-      preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
+      preg_match('/^([a-zA-Z\/ ]+) ([0-9]+)$/', $field_name, $matches);
       $salsify_id_mapping = $this->getSalsifyKeyMapping();
 
       if (isset($product_variant[$field_name])) {
@@ -679,7 +679,7 @@ class ProductHelper {
   ) {
     foreach ($nutrion_fields as $nutrion_field) {
       $matches = [];
-      preg_match('/^' . $product_field_name . ' ([0-9]+)$/', $nutrion_field, $matches);
+      preg_match('/^' . preg_quote($product_field_name, '/') . ' ([0-9]+)$/', $nutrion_field, $matches);
       $products[$matches[1]][$product_field_name] = $product_variant[$nutrion_field];
     }
   }
