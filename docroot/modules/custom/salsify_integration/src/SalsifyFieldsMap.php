@@ -34,7 +34,12 @@ class SalsifyFieldsMap {
       'delimiter' => '/',
       'prefix_field' => 'LTD Energy Serving/kJ',
     ],
-    'field_product_calories_daily' => ['salsify:id' => 'LTD Energy Serving/kcal/Percentage', 'salsify:data_type' => 'string'],
+    'field_product_calories_daily' => [
+      'salsify:id' => 'LTD Energy Serving/kcal/Percentage',
+      'salsify:data_type' => 'string',
+      'delimiter' => '/',
+      'prefix_field' => 'LTD Energy Serving/kJ/Percentage',
+    ],
     'field_product_calories_fat' => ['salsify:id' => 'Calories from Fat', 'salsify:data_type' => 'string'],
     'field_product_total_fat' => [
       'salsify:id' => 'Total Fat',
