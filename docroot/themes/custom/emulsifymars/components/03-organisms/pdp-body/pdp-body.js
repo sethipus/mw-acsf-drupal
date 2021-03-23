@@ -61,7 +61,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       }
 
       function offsetPaddingCalc(item) {
-        let stickyNavTop = $('.pdp-hero__sticky-nav-top:visible');
+        let stickyNavTop = $('[data-pdp-size-active="true"] .pdp-hero__sticky-nav-top');
         return (stickyNavTop.length) ? stickyNavTop.eq(0).outerHeight() : 0;
       }
 
@@ -165,15 +165,23 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       };
 
       // scroll snapping
-      var optionsMandatory = {
-        proximity: 300,
+      let snapScroller = null;
+      function initSnapScroller() {
+        if(!snapScroller){
+          const options = {
+            proximity: 300,
+          };
+          snapScroller = SnapScroll('.scroll-mandatory', options);
+        }
+        if($(".pdp-hero__content-mobile:visible").length) {
+          snapScroller.init();
+        }
+        else {
+          snapScroller.destroy();
+        }
       };
-      if (!window.snapScroller && $('.pdp-body').length !== 0 && window.innerWidth < 1024 ) {
-        window.snapScroller = SnapScroll('.scroll-mandatory', optionsMandatory);
-        setTimeout(() => {
-          window.snapScroller.recalculateLayout();
-        }, 300);
-      }
+
+      initSnapScroller();
 
       // init swiper
       Swiper.use([Autoplay, Pagination]);
@@ -274,9 +282,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
           if (item.dataset.sizeSelected !== "true") {
             updateSizeSlider(e, item.dataset.sizeId);
             updateReview(e, item.dataset.sizeId);
-            if (window.snapScroller) {
-              window.snapScroller.recalculateLayout();
-            }
+            initSnapScroller();
           }
         }, false);
       });
@@ -315,7 +321,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         const pdp_wtb = $(`.where-to-buy--${pdp_size_id}`, pdp_section);
 
         const pdp_main_image_top = pdp_main_image.offset().top;
-        const pdp_hero_bottom = pdp_hero.offset().top + pdp_hero.outerHeight() - 100;
+        const pdp_hero_bottom = pdp_hero.offset().top + pdp_hero.outerHeight() - window.innerHeight / 2;
         const pdp_section_bottom = pdp_section.offset().top + pdp_section.outerHeight();
 
         var scrollEventListener = function() {
@@ -333,6 +339,11 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
       };
 
       initScrollEffects();
+
+      $(window).on('resize', _.debounce( () => {
+        initSnapScroller();
+        initScrollEffects();
+      }, 100));
     })
   },
 }
