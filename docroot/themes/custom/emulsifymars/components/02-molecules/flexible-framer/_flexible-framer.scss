@@ -54,15 +54,12 @@
 
   & .grid--card {
     margin: 0 2rem;
-    padding-bottom: 3rem;
-
-    @include xs {
-      flex-flow: column;
-    }
+    padding-bottom: 5rem;
+    flex-flow: column;
 
     @include medium {
-      margin: 0 4rem 0 4rem;
-      padding-bottom: 4rem;
+      margin: 0 4rem;
+      padding-bottom: 6rem;
       flex-flow: row;
       flex-grow: 1;
       align-items: stretch;
@@ -101,7 +98,6 @@
         }
 
         @include large {
-          margin-top: 4rem;
           font-size: 2.4rem;
           line-height: 2.64rem;
         }
@@ -182,9 +178,11 @@
       }  
       .image-background {
         position: relative;
+
         .image {
           position: relative;
         }
+
         &:hover {
           background-size: 77%;
           transition: background-size 0.8s ease;
