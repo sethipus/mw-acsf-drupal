@@ -2,12 +2,12 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_product\Form\BazaarvoiceConfigForm;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -127,12 +127,7 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
       }
 
       if ($this->isRatingEnable($node)) {
-        if (EnvironmentDetector::isProdEnv()) {
-          $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
-        }
-        else {
-          $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
-        }
+        $build['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
       }
     }
 
@@ -158,7 +153,7 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
       $result = $node->get('field_rating_and_reviews')->value;
     }
     else {
-      $result = $this->config->get('emulsifymars.settings')->get('show_rating_and_reviews');
+      $result = $this->config->get(BazaarvoiceConfigForm::SETTINGS)->get('show_rating_and_reviews');
     }
 
     return $result;

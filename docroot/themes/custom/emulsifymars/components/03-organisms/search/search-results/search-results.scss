@@ -9,7 +9,7 @@
 .results-key-header-container.active {
   font-family: variable(heading-font);
   color: clr(primary);
-  padding: 5.9rem 0;
+  padding: 5rem 0;
   font-size: 2rem;
   line-height: 2.2rem;
   font-weight: 500;
@@ -19,10 +19,12 @@
   @include medium {
     font-size: 2.6rem;
     line-height: 2.86rem;
+    padding: 6rem 0 3rem;
   }
 
   @include large {
     font-size: 2.8rem;
     line-height: 3.08rem;
+    padding: 8rem 0 5rem;
   }
 }
