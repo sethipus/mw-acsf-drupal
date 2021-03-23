@@ -574,18 +574,6 @@ class ThemeConfiguratorService {
         '#default_value' => $this->getData('product_layout', 'show_allergen_info', $config),
       ];
 
-      $form['product_rating_and_reviews'] = [
-        '#type' => 'details',
-        '#open' => TRUE,
-        '#title' => $this->t('Product rating and reviews'),
-        '#description' => $this->t("MARS theme settings for rating and reviews"),
-      ];
-      $form['product_rating_and_reviews']['show_rating_and_reviews'] = [
-        '#type' => 'checkbox',
-        '#title' => $this->t('Turn off/on rating and reviews per site for all products'),
-        '#default_value' => $this->getData('product_rating_and_reviews', 'show_rating_and_reviews', $config),
-      ];
-
       $form['card_grid'] = [
         '#type' => 'details',
         '#open' => TRUE,
