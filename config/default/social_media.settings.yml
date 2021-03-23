@@ -59,7 +59,7 @@ social_media:
     api_url: '[site:url]/node/[node:nid]/printable/pdf'
     api_event: onclick
     default_img: 0
-    attributes: ''
+    attributes: class|download
     weight: '6'
     drupalSettings: ''
     library: ''
@@ -80,11 +80,11 @@ social_media:
     show_forward: '1'
   print:
     enable: 1
-    api_url: '#'
-    api_event: onclick
+    api_url: 'javascript:print()'
+    api_event: href
     text: Print
     default_img: 0
-    attributes: class|print
+    attributes: "target|_self\r\nclass|print"
     weight: '8'
     drupalSettings: ''
     library: ''
