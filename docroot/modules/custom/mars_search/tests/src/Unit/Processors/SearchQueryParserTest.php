@@ -5,7 +5,6 @@ namespace Drupal\Tests\mars_search\Unit\Processors;
 use Drupal\mars_search\Processors\SearchQueryParser;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_search\Processors\SearchCategoriesInterface;
-use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +21,13 @@ class SearchQueryParserTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchQueryParser
    */
   private $searchQueryParser;
+
+  /**
+   * Search categories mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchCategoriesInterface
+   */
+  private $searchCategoriesMock;
 
   /**
    * Container.
@@ -44,21 +50,9 @@ class SearchQueryParserTest extends UnitTestCase {
     parent::setUp();
     $this->createMocks();
     $this->container = new ContainerBuilder();
-    $this->searchProcessFactoryMock
-      ->expects($this->any())
-      ->method('getProcessManager')
-      ->willReturnMap(
-        [
-          [
-            'search_categories',
-            $this->searchCategoriesMock,
-          ],
-        ]
-      );
-
     $this->searchQueryParser = new SearchQueryParser(
       $this->requestStackMock,
-      $this->searchProcessFactoryMock
+      $this->searchCategoriesMock
     );
   }
 
@@ -67,7 +61,6 @@ class SearchQueryParserTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->requestStackMock = $this->createMock(RequestStack::class);
-    $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
     $this->searchCategoriesMock = $this->createMock(SearchCategoriesInterface::class);
     $masterRequest = Request::create('/foo');
     $this->requestStackMock
@@ -103,8 +96,8 @@ class SearchQueryParserTest extends UnitTestCase {
       'offset' => 0,
       'options_logic' => 'AND',
       'sort' => [
-        'search_api_relevance' => 'ASC',
         'bundle_weight' => 'ASC',
+        'search_api_relevance' => 'DESC',
         'title' => 'ASC',
       ],
     ];
@@ -159,8 +152,8 @@ class SearchQueryParserTest extends UnitTestCase {
       'offset' => 0,
       'options_logic' => 'OR',
       'sort' => [
-        'search_api_relevance' => 'ASC',
         'bundle_weight' => 'ASC',
+        'search_api_relevance' => 'DESC',
         'title' => 'ASC',
       ],
     ];

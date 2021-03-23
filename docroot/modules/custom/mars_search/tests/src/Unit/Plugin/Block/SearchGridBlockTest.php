@@ -73,6 +73,13 @@ class SearchGridBlockTest extends UnitTestCase {
   private $searchProcessFactoryMock;
 
   /**
+   * Search categories mock.
+   *
+   * @var \Drupal\mars_search\SearchCategoriesInterface
+   */
+  private $searchCategoriesMock;
+
+  /**
    * Language helper mock.
    *
    * @var \Drupal\mars_common\LanguageHelper

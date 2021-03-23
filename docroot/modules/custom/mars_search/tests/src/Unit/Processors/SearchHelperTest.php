@@ -11,9 +11,7 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\Processors\SearchHelper;
-use Drupal\mars_search\Processors\SearchTermFacetProcess;
 use Drupal\mars_search\Processors\SearchCategoriesInterface;
-use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Query\ResultSet;
 use Drupal\Tests\UnitTestCase;
@@ -42,11 +40,11 @@ class SearchHelperTest extends UnitTestCase {
   private $loggerFactoryMock;
 
   /**
-   * Mock.
+   * Search categories mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchTermFacetProcess
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchCategoriesInterface
    */
-  private $searchTermFacetProcessMock;
+  private $searchCategoriesMock;
 
   /**
    * Entity type manager mock.
@@ -77,13 +75,6 @@ class SearchHelperTest extends UnitTestCase {
   protected $container;
 
   /**
-   * Url mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Url
-   */
-  private $urlMock;
-
-  /**
    * A test index for use in these tests.
    *
    * @var \Drupal\search_api\IndexInterface|null
@@ -111,27 +102,11 @@ class SearchHelperTest extends UnitTestCase {
     parent::setUp();
     $this->createMocks();
     $this->container = new ContainerBuilder();
-    $this->searchProcessFactoryMock
-      ->expects($this->any())
-      ->method('getProcessManager')
-      ->willReturnMap(
-        [
-          [
-            'search_facet_process',
-            $this->searchTermFacetProcessMock,
-          ],
-          [
-            'search_categories',
-            $this->searchCategoriesMock,
-          ],
-        ]
-      );
-
     $this->searchHelper = new SearchHelper(
       $this->entityTypeManagerMock,
       $this->loggerFactoryMock,
       $this->requestStackMock,
-      $this->searchProcessFactoryMock
+      $this->searchCategoriesMock
     );
   }
 
@@ -142,12 +117,9 @@ class SearchHelperTest extends UnitTestCase {
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->searchHelperMock = $this->createMock(SearchHelper::class);
     $this->loggerFactoryMock = $this->createMock(LoggerChannelFactoryInterface::class);
-    $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
-    $this->searchTermFacetProcessMock = $this->createMock(SearchTermFacetProcess::class);
     $this->searchCategoriesMock = $this->createMock(SearchCategoriesInterface::class);
     $this->loggerChannelMock = $this->createMock(LoggerChannelInterface::class);
     $this->requestStackMock = $this->createMock(RequestStack::class);
-    $this->urlMock = $this->createMock(Url::class);
     $this->entityStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->query = $this->createMock(QueryInterface::class);
     $this->loggerFactoryMock
