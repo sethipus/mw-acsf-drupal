@@ -12,7 +12,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
-use Drupal\mars_search\Processors\SearchBuilderInterface;
+use Drupal\mars_search\Processors\SearchCategoriesInterface;
 
 /**
  * Class SearchGridBlock.
@@ -61,6 +61,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
   protected $searchBuilder;
 
   /**
+   * Search categories processor.
+   *
+   * @var \Drupal\mars_search\Processors\SearchCategoriesInterface
+   */
+  protected $searchCategories;
+
+  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -107,6 +114,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $this->searchProcessor = $searchProcessor;
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
+    $this->searchCategories = $this->searchProcessor->getProcessManager('search_categories');
     $this->languageHelper = $language_helper;
   }
 
@@ -185,7 +193,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form['content_type'] = [
       '#type' => 'radios',
       '#title' => $this->languageHelper->translate('Content type'),
-      '#options' => SearchBuilderInterface::CONTENT_TYPES,
+      '#options' => SearchCategoriesInterface::CONTENT_TYPES,
       '#default_value' => $config['content_type'] ?? NULL,
       '#required' => TRUE,
     ];
@@ -245,7 +253,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       '#open' => FALSE,
     ];
 
-    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+    foreach ($this->searchCategories->getCategories() as $vocabulary => $vocabulary_data) {
       $label = $vocabulary_data['label'];
       /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
       $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
@@ -312,7 +320,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     ];
 
     $exclude_options = [];
-    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+    foreach ($this->searchCategories->getCategories() as $vocabulary => $vocabulary_data) {
       $label = $vocabulary_data['label'];
       /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
       $exclude_options[$vocabulary] = $label;
@@ -358,7 +366,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
         '#target_type' => 'node',
         '#title' => $this->languageHelper->translate('Top results'),
         '#selection_settings' => [
-          'target_bundles' => array_keys(SearchBuilderInterface::CONTENT_TYPES),
+          'target_bundles' => array_keys(SearchCategoriesInterface::CONTENT_TYPES),
         ],
         '#tags' => TRUE,
         '#cardinality' => 1,

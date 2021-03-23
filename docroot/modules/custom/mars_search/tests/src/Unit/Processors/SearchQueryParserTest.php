@@ -4,6 +4,8 @@ namespace Drupal\Tests\mars_search\Unit\Processors;
 
 use Drupal\mars_search\Processors\SearchQueryParser;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
+use Drupal\mars_search\Processors\SearchCategoriesInterface;
+use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,8 +44,21 @@ class SearchQueryParserTest extends UnitTestCase {
     parent::setUp();
     $this->createMocks();
     $this->container = new ContainerBuilder();
+    $this->searchProcessFactoryMock
+      ->expects($this->any())
+      ->method('getProcessManager')
+      ->willReturnMap(
+        [
+          [
+            'search_categories',
+            $this->searchCategoriesMock,
+          ],
+        ]
+      );
+
     $this->searchQueryParser = new SearchQueryParser(
-      $this->requestStackMock
+      $this->requestStackMock,
+      $this->searchProcessFactoryMock
     );
   }
 
@@ -52,6 +67,8 @@ class SearchQueryParserTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->requestStackMock = $this->createMock(RequestStack::class);
+    $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
+    $this->searchCategoriesMock = $this->createMock(SearchCategoriesInterface::class);
     $masterRequest = Request::create('/foo');
     $this->requestStackMock
       ->expects($this->any())
