@@ -5,6 +5,8 @@
  * Update scripts for the Mars Product module.
  */
 
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Site\Settings;
 use Drupal\layout_builder\SectionComponent;
 use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
 use Drupal\Core\Plugin\Context\EntityContext;
@@ -158,4 +160,19 @@ function mars_product_update_8927() {
       $multipack_product->save();
     }
   }
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Import config ignore settings in order to avoid wtb config deletion.
+ */
+function mars_product_update_8929() {
+  $config_path = Settings::get('config_sync_directory', FALSE);
+  $source = new FileStorage($config_path);
+  $config_storage = \Drupal::service('config.storage');
+  $config_storage->write(
+    'config_ignore.settings',
+    $source->read('config_ignore.settings')
+  );
 }
