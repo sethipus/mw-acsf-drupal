@@ -122,6 +122,12 @@
     border: 1px solid clr(subcolor-4);
     background-color: clr(subcolor-3);
     position: relative;
+    border-radius: var(--v-button-border-radius);
+
+    &.suggested {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
   }
 
   .mars-search-autocomplete-suggestions-wrapper {

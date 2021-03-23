@@ -335,6 +335,12 @@ class PdpHeroBlockTest extends UnitTestCase {
         '#fieldgroups' => [],
       ]);
 
+    $field = $this->createFieldMock();
+    $product_node
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($field);
+
     $build = $this->block->build();
 
     $this->assertCount(5, $build);

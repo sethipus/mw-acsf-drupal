@@ -1,0 +1,9 @@
+field_id: 'CMS: Product Dual Label'
+salsify_id: 'CMS: Product Dual Label'
+salsify_data_type: boolean
+entity_type: node
+bundle: product_multipack
+field_name: field_product_dual_label
+method: manual
+created: 1546300800
+changed: 1546300801

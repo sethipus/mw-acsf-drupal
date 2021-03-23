@@ -22,3 +22,10 @@ mars_product.wtb_product_info:
     parameters:
       node:
         type: entity:node
+mars_product.bazaarvoice_info:
+  path: '/admin/config/services/bazaarvoice'
+  defaults:
+    _form: 'Drupal\mars_product\Form\BazaarvoiceConfigForm'
+    _title: 'Bazaarvoice settigns'
+  requirements:
+    _permission: 'administer site configuration'
