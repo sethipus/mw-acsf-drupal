@@ -292,6 +292,7 @@ $xl-left-margin: 11.583rem;
   &__value {
     font: 18px/25px variable(primary-font);
     color: clr(secondary);
+    white-space: nowrap;
 
     @include xl {
       margin-top: 12px;
