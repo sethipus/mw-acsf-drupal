@@ -267,7 +267,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'image_alt' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
-        'brand_shape' => NULL,
+        'new_window' => NULL,
       ],
       'template' => 'product-feature-block',
     ],
