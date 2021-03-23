@@ -7,7 +7,15 @@
     align-items: center;
     position: relative;
     background-color: clr(subcolor-2);
-    padding: 6rem 0;
+    padding: 5rem 0 6rem;
+
+    @include medium {
+      padding-top: 6rem;
+    }
+
+    @include large {
+      padding-top: 8rem;
+    }
   }
 
   &__heading {
@@ -22,18 +30,22 @@
     @include medium {
       font-size: 5.6rem;
       line-height: 5.6rem;
-      margin-bottom: 6rem;
     }
 
     @include large {
       font-size: 6.4rem;
       line-height: 6.4rem;
+      margin-bottom: 6rem;
     }
   }
 
   &__graphic-divider {
     text-align: center;
-    margin-bottom: 6rem;
+    margin-bottom: 4rem;
+
+    @include large {
+      margin-bottom: 6rem;
+    }
   }
 
   &__items {
@@ -58,7 +70,8 @@
 
 
     & .product-card {
-      margin-bottom: 6rem;
+      margin-bottom: 5rem;
+
       & > a {
         text-decoration: none;
       }
