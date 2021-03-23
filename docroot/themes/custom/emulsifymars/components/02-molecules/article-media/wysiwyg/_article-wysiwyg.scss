@@ -1,8 +1,8 @@
 .article-wysiwyg {
   background-color: clr(subcolor-3);
   font-family: variable(secondary-font);
-  font-size: 2rem;
-  line-height: 1.8;
+  font-size: 1.8rem;
+  line-height: 1.6;
   color: clr(primary);
   margin: 40px 0;
 
@@ -11,6 +11,8 @@
   }
 
   @include xl {
+    font-size: 2rem;
+    line-height: 1.8;
     margin: 80px 0;
   }
 
