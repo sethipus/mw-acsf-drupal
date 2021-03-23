@@ -46,7 +46,7 @@ class NutritionDataHelper {
    * Get nutrition data config.
    */
   public function getNutritionConfig() {
-    return $this->configFactory->getEditable('nutrition_table.settings');
+    return $this->configFactory->getEditable('mars_product.nutrition_table_settings');
   }
 
   /**

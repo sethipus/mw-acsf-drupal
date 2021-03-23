@@ -1,0 +1,28 @@
+uuid: 7d10de13-6142-40d1-91b6-4a5bba1597e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_dual_label
+    - node.type.product_multipack
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_multipack.field_product_dual_label
+field_name: field_product_dual_label
+entity_type: node
+bundle: product_multipack
+label: 'Dual label product'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
