@@ -176,6 +176,11 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#maxlength' => 2048,
         '#default_value' => $config['items'][$key]['cta']['url'] ?? '',
       ];
+      $form['items'][$key]['cta']['new_window'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Open CTA link in a new tab'),
+        '#default_value' => $config['items'][$key]['cta']['new_window'] ?? FALSE,
+      ];
       $form['items'][$key]['description'] = [
         '#type' => 'textarea',
         '#title' => $this->t('Item description'),
@@ -322,10 +327,12 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $ff_items = [];
 
     foreach ($config['items'] as $key => $item) {
+      $new_window = $config['items'][$key]['cta']['new_window'] ?? NULL;
       $ff_item = [
         'card__heading' => $this->languageHelper->translate($config['items'][$key]['title']) ?? NULL,
         'card__link__url' => ($with_cta_flag) ? $config['items'][$key]['cta']['url'] : NULL,
         'card__link__text' => ($with_cta_flag) ? $this->languageHelper->translate($config['items'][$key]['cta']['title']) : NULL,
+        'card__link__new_window' => ($with_cta_flag) ? $new_window : NULL,
         'card__body' => ($with_desc_flag) ? $this->languageHelper->translate($config['items'][$key]['description']) : NULL,
       ];
 
