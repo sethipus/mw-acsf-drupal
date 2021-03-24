@@ -119,6 +119,9 @@
     {% if card__link__url and card__link__text %}
       <div class="cta-wrapper">
         {% set attr = {'href': card__link__url} %}
+        {% if card__link__new_window %}
+          {% set attr = attr|merge({'target':'_blank'}) %}
+        {% endif %}
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
           default_link_content: card__link__text,
           default_link_attributes: attr

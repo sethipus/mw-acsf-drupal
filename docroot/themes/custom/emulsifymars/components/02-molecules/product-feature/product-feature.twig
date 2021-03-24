@@ -36,6 +36,9 @@
             heading_level: heading_level,
             heading_url: default_link_attributes.href
           } %}
+          {% if new_window %}
+            {% set default_link_attributes = default_link_attributes|merge({'target':'_blank'}) %}
+          {% endif %}
           {% include "@atoms/links/defaultLink/defaultLink.twig" with {
             default_link_content: default_link_content,
             default_link_base_class: default_link_base_class,
