@@ -1,5 +1,5 @@
 .flexible-framer {
-  @include brand-border-overflow;
+  @include brand-border-visible-overflow;
 
   position: relative;
   font-family: variable(primary-font);
