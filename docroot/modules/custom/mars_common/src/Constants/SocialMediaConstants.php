@@ -17,6 +17,6 @@ class SocialMediaConstants {
     'pinterest',
     'whatsapp',
   ];
-  const SOCIAL_MEDIAS_ENABLED_MAXIMUM = 4;
+  const SOCIAL_MEDIAS_ENABLED_MAXIMUM = 3;
 
 }
