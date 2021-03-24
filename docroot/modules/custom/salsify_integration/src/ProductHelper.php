@@ -344,6 +344,9 @@ class ProductHelper {
   ) {
     $mapping = $this->getSalsifyKeyMapping();
     if (isset($mapping[$product_field_name]['prefix_field'])) {
+      $delimiter = (isset($mapping[$product_field_name]['delimiter']))
+        ? $mapping[$product_field_name]['delimiter']
+        : '';
 
       $prefix_field = $mapping[$product_field_name]['prefix_field'];
       $product_field_name = (isset($suffix))
@@ -354,9 +357,6 @@ class ProductHelper {
         : $prefix_field;
 
       if (isset($product_variant[$prefix_field])) {
-        $delimiter = (isset($mapping[$product_field_name]['delimiter']))
-          ? $mapping[$product_field_name]['delimiter']
-          : '';
         $product[$product_field_name] = $product_variant[$prefix_field] .
           $delimiter . $product[$product_field_name];
       }
