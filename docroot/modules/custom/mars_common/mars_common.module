@@ -1667,7 +1667,7 @@ function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterfa
     $value = isset($values[$social_media . '_enable'])
       ? $values[$social_media . '_enable']
       : $form[$social_media][$social_media . '_enable']['#default_value'];
-    $is_external_link = preg_grep('/^http/', $form[$social_media][$social_media . "_api_url"]);
+    $is_external_link = preg_grep('/^http/', $form[$social_media][$social_media . '_api_url']);
     if ($social_media_enabled_count > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM - 1) {
       if ($value) {
         $i++;
