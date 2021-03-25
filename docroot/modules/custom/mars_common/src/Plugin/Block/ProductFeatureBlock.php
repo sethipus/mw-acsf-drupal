@@ -100,7 +100,8 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     }
     $build['#explore_cta'] = $this->languageHelper->translate($conf['explore_cta'] ?? '');
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
-    $build['#new_window'] = $conf['new_window'] ?? '';
+    $new_window = $conf['new_window'] ?? NULL;
+    $build['#new_window'] = ($new_window == TRUE) ? '_blank' : '_self';
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
 
     $build['#theme'] = 'product_feature_block';
