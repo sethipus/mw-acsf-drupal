@@ -1667,20 +1667,25 @@ function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterfa
     $value = isset($values[$social_media . '_enable'])
       ? $values[$social_media . '_enable']
       : $form[$social_media][$social_media . '_enable']['#default_value'];
+    $is_external_link = preg_grep('/^http/', $form[$social_media][$social_media . '_api_url']);
     if ($social_media_enabled_count > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM - 1) {
       if ($value) {
         $i++;
         if ($i > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM) {
-          $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
-          $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
-          $form_state->setValue($social_media . '_enable', FALSE);
-          $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+          if (!empty($is_external_link)) {
+            $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+            $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+            $form_state->setValue($social_media . '_enable', FALSE);
+            $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+          }
         }
       }
       else {
-        $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
-        $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
-        $form_state->setValue($social_media . '_enable', FALSE);
+        if (!empty($is_external_link)) {
+          $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+          $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+          $form_state->setValue($social_media . '_enable', FALSE);
+        }
       }
     }
   }
