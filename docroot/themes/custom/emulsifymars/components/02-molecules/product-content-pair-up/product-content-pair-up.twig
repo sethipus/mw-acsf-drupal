@@ -1,4 +1,7 @@
 {% set product_content_pair_up_base_class = 'product-content-pair-up' %}
+{% if dark_overlay %}
+  {% set product_content_pair_up__modifiers = ['dark-overlay'] %}
+{% endif %}
 
 <section class="{{ product_content_pair_up_base_class }}" data-theme="{{ theme_styles }}">
 
@@ -15,7 +18,7 @@
     </div>
   {% endif %}
 
-  <div {{ bem('container', [], product_content_pair_up_base_class) }}>
+  <div {{ bem('container', [], product_content_pair_up_base_class, product_content_pair_up__modifiers) }}>
     <div class="lead-card" style="background-image: url('{{ background }}')">
       <div class="wrapper">
         <div class="content-pair-up-eyebrow">

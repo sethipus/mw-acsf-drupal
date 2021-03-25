@@ -28,6 +28,13 @@ class SalsifyFieldsMap {
       'salsify:data_type' => 'string',
       'prefix_field' => 'Calories Precision',
     ],
+    'field_product_ltd_calories' => [
+      'salsify:id' => 'LTD Energy Serving/kcal',
+      'salsify:data_type' => 'string',
+      'delimiter' => '/',
+      'prefix_field' => 'LTD Energy Serving/kJ',
+    ],
+    'field_product_calories_daily' => ['salsify:id' => 'LTD Energy Serving/kcal/Percentage', 'salsify:data_type' => 'string'],
     'field_product_calories_fat' => ['salsify:id' => 'Calories from Fat', 'salsify:data_type' => 'string'],
     'field_product_total_fat' => [
       'salsify:id' => 'Total Fat',
@@ -194,6 +201,7 @@ class SalsifyFieldsMap {
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK = self::SALSIFY_FIELD_MAPPING_PRODUCT + [
     'field_product_pack_items' => ['salsify:id' => 'CMS: Child products', 'salsify:data_type' => 'entity_ref'],
+    'field_product_dual_label' => ['salsify:id' => 'CMS: Product Dual Label', 'salsify:data_type' => 'boolean'],
   ];
 
 }

@@ -195,7 +195,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#eyebrow' => $this->languageHelper->translate($config['eyebrow']) ?? '',
       '#title' => $title,
       '#recipe_media' => $recipe_media_set,
-      '#cooking_time' => $node->field_recipe_cooking_time->value . $node->get('field_recipe_cooking_time')->getSettings()['suffix'],
+      '#cooking_time' => $node->field_recipe_cooking_time->value,
       '#cta' => $config['cta'],
       '#theme' => 'recipe_feature_block',
     ];

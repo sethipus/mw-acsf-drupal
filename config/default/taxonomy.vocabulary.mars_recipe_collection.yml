@@ -1,0 +1,8 @@
+uuid: ee5f37f8-528e-4a0c-8d7f-951a6f3ff198
+langcode: en
+status: true
+dependencies: {  }
+name: 'RECIPE COLLECTION'
+vid: mars_recipe_collection
+description: ''
+weight: 0

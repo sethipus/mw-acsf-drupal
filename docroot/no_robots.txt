@@ -1,0 +1,9 @@
+#
+# no_robots.txt
+#
+# This file prevents indexing of domains in the acsitefactory.com DNS zone
+#
+# See also: https://docs.acquia.com/cloud/configure/domains#robots
+#
+User-agent: *
+Disallow: /
