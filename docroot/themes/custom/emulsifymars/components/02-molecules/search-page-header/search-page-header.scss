@@ -131,8 +131,7 @@
     }
 
     &.suggested {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
+      border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
     }
   }
 
