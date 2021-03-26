@@ -146,7 +146,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    * Test.
    *
    * @test
-   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::prepareImageExtension()
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::prepareImageExtension
    */
   public function testPrepareImageExtension() {
     $sample_data = self::SAMPLE_DATA;
@@ -158,7 +158,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    * Test.
    *
    * @test
-   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMediaDataList()
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMediaDataList
    */
   public function testGetMediaDataList() {
     $count = 0;
@@ -171,7 +171,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    * Test.
    *
    * @test
-   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMediaEntity()
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMediaEntity
    */
   public function testGetMediaEntity() {
     $this->assertEquals(NULL, $this->controller->getMediaEntity('a8c7cd6sfd7s876f0fsf98'));
@@ -181,7 +181,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    * Test.
    *
    * @test
-   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getBrands()
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getBrands
    */
   public function testGetBrands() {
     $expected_options = ['' => '-- Any --'];
@@ -192,7 +192,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    * Test.
    *
    * @test
-   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMarkets()
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMarkets
    */
   public function testGetMarkets() {
     $expected_options = ['' => '-- Any --'];
