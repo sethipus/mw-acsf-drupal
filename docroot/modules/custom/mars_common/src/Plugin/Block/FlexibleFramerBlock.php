@@ -328,11 +328,12 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
     foreach ($config['items'] as $key => $item) {
       $new_window = $config['items'][$key]['cta']['new_window'] ?? NULL;
+      $new_window = ($new_window == TRUE) ? '_blank' : '_self';
       $ff_item = [
         'card__heading' => $this->languageHelper->translate($config['items'][$key]['title']) ?? NULL,
         'card__link__url' => ($with_cta_flag) ? $config['items'][$key]['cta']['url'] : NULL,
         'card__link__text' => ($with_cta_flag) ? $this->languageHelper->translate($config['items'][$key]['cta']['title']) : NULL,
-        'card__link__new_window' => ($with_cta_flag) ? $new_window : NULL,
+        'card__link__new_window' => ($with_cta_flag) ? $new_window : '_self',
         'card__body' => ($with_desc_flag) ? $this->languageHelper->translate($config['items'][$key]['description']) : NULL,
       ];
 
