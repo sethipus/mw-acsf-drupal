@@ -40,6 +40,14 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
   protected $config;
 
   /**
+   * Bazaarvoice mapping old skus with new.
+   */
+  const BAZAARVOICE_SKU_MAPPING = [
+    'new_sku' => 'old_sku',
+    "10054800423306" => "054800030767",
+  ];
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -118,6 +126,11 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
       foreach ($node->field_product_variants as $reference) {
         $product_variant = $reference->entity;
         $gtin = $product_variant->get('field_product_sku')->value;
+
+        if (array_key_exists($gtin, static::BAZAARVOICE_SKU_MAPPING)) {
+          $gtin = static::BAZAARVOICE_SKU_MAPPING[$gtin];
+        }
+
         $size_id = $product_variant->id();
         $build['#items'][] = [
           'gtin' => trim($gtin),
