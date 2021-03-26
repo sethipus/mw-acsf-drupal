@@ -2,15 +2,7 @@
   position: relative;
   width: 100%;
 
-  @include xs {
-    width: 335px;
-  }
-
-  @include medium {
-    width: 688px;
-  }
-
-  @include xl {
+  @include large {
     width: 896px;
   }
 
