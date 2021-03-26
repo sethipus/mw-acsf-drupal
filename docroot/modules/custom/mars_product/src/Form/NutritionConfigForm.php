@@ -98,7 +98,7 @@ class NutritionConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
-    $config = $this->config('nutrition_table.settings');
+    $config = $this->config('mars_product.nutrition_table_settings');
 
     $form['general'] = [
       '#type' => 'fieldset',
@@ -117,18 +117,24 @@ class NutritionConfigForm extends ConfigFormBase {
       ],
       '#required' => TRUE,
     ];
+
+    $form['general']['set_to_default_desciption'] = [
+      '#type' => 'markup',
+      '#markup' => '<p>' . $this->t('Set to default state depending on nutritional table view:') .
+      '</p>',
+    ];
+    $form['general']['set_to_default'] = [
+      '#type' => 'submit',
+      '#name' => 'set_to_default',
+      '#value' => $this->t('Set to selected state'),
+      '#limit_validation_errors' => [],
+      '#button_type' => 'danger',
+    ];
+
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_1);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_2);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_3);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS);
-
-    $form['set_to_default'] = [
-      '#type' => 'submit',
-      '#name' => 'set_to_default',
-      '#value' => $this->t('Set to Default state'),
-      '#limit_validation_errors' => [],
-      '#button_type' => 'danger',
-    ];
 
     return $form;
   }
@@ -293,7 +299,7 @@ class NutritionConfigForm extends ConfigFormBase {
     string $view_type = PdpHeroBlock::NUTRITION_VIEW_US,
     bool $set_to_default = FALSE
   ) {
-    $nutrition_config = $this->config('nutrition_table.settings');
+    $nutrition_config = $this->config('mars_product.nutrition_table_settings');
     if ($nutrition_config->isNew() || $set_to_default) {
       $config = $this->getDefaultConfiguration(
         $view_type
@@ -368,7 +374,7 @@ class NutritionConfigForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Load configuration entities.
-    $config = $this->config('nutrition_table.settings');
+    $config = $this->config('mars_product.nutrition_table_settings');
     $subgroups = [
       PdpHeroBlock::NUTRITION_SUBGROUP_1,
       PdpHeroBlock::NUTRITION_SUBGROUP_2,
@@ -417,7 +423,7 @@ class NutritionConfigForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'nutrition_table.settings',
+      'mars_product.nutrition_table_settings',
     ];
   }
 
@@ -474,8 +480,8 @@ class NutritionConfigForm extends ConfigFormBase {
     }
     if ($brand == PdpHeroBlock::NUTRITION_VIEW_UK) {
       unset($mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_calories']);
+      unset($mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_added_sugars']);
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_ltd_calories']['bold'] = TRUE;
-      $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_ltd_calories']['daily_field'] = 'field_product_calories_daily';
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_2]['field_product_total_fat']['label'] = $this->t('Fat');
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_2]['field_product_total_fat']['bold'] = TRUE;
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_2]['field_product_saturated_fat']['label'] = $this->t(
@@ -490,6 +496,8 @@ class NutritionConfigForm extends ConfigFormBase {
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_sodium']['label'] = $this->t('Salt');
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_sodium']['bold'] = TRUE;
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_sodium']['weight'] = 99;
+
+      $this->setDailyValueToNone($mapping);
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS] = [];
     }
     $result = [];
@@ -577,6 +585,28 @@ class NutritionConfigForm extends ConfigFormBase {
       $field_daily = !empty($field_daily) ? $field_daily : $field_name . '_daily';
     }
     return $field_daily;
+  }
+
+  /**
+   * Set all daily values to none for the UK market.
+   *
+   * @param array $mapping
+   *   Mapping array.
+   */
+  private function setDailyValueToNone(array &$mapping) {
+    $groups_mapping = [
+      PdpHeroBlock::NUTRITION_SUBGROUP_1,
+      PdpHeroBlock::NUTRITION_SUBGROUP_2,
+      PdpHeroBlock::NUTRITION_SUBGROUP_3,
+      PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS,
+    ];
+    foreach ($groups_mapping as $group) {
+      foreach ($mapping[$group] as $field => $field_value) {
+        if (isset($field_value['daily_field'])) {
+          $mapping[$group][$field]['daily_field'] = 'none';
+        }
+      }
+    }
   }
 
 }

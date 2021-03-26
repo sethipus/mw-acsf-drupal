@@ -335,6 +335,12 @@ class PdpHeroBlockTest extends UnitTestCase {
         '#fieldgroups' => [],
       ]);
 
+    $field = $this->createFieldMock();
+    $product_node
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($field);
+
     $build = $this->block->build();
 
     $this->assertCount(5, $build);
@@ -362,6 +368,11 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->productHelperMock = $this->createMock(ProductHelper::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->nutritionHelperMock = $this->createMock(NutritionDataHelper::class);
+
+    $this->nutritionHelperMock
+      ->expects($this->any())
+      ->method('getNutritionConfig')
+      ->willReturn($this->immutableConfigMock);
   }
 
   /**

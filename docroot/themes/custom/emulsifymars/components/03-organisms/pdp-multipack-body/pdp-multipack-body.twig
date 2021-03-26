@@ -1,4 +1,5 @@
 {% set pdp_template__base_class = 'pdp-body' %}
+{% if pdp_common_data.nutrition_data.dual_label %}{% set dual_label = true %}{% endif %}
 
 {% for pdp_item in pdp_data %}
   <section {{ bem(pdp_template__base_class) }} data-theme="{{ theme_styles }}" data-pdp-size-active={{pdp_item.active}} data-pdp-size-id={{pdp_item.size_id}}>
@@ -23,6 +24,7 @@
         pdp_common_nutrition_data: pdp_common_data.nutrition_data,
         pdp_allergen_data: pdp_product.allergen_data,
         pdp_common_allergen_data: pdp_common_data.allergen_data,
+        dual_label: dual_label,
       } %}
     {% endfor %}
   </section>

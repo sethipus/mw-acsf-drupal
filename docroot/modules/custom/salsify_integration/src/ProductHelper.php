@@ -3,6 +3,7 @@
 namespace Drupal\salsify_integration;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Class ProductHelper.
@@ -10,6 +11,8 @@ use Drupal\Component\Serialization\Json;
  * @package Drupal\salsify_integration
  */
 class ProductHelper {
+
+  use StringTranslationTrait;
 
   public const PRODUCT_CONTENT_TYPE = 'product';
 
@@ -122,6 +125,27 @@ class ProductHelper {
     }
 
     return $is_product;
+  }
+
+  /**
+   * Whether product variant or not.
+   *
+   * @param array $product
+   *   Product array.
+   *
+   * @return bool
+   *   Result.
+   */
+  public function isProductDualLabel(array $product) {
+    $is_product_dual = FALSE;
+
+    if (((isset($product['CMS: Variety']) && strtolower($product['CMS: Variety']) == 'no') ||
+      (!isset($product['CMS: Variety']))) && isset($product['Consumption Context'])) {
+
+      $is_product_dual = TRUE;
+    }
+
+    return $is_product_dual;
   }
 
   /**
@@ -287,6 +311,8 @@ class ProductHelper {
       $product['CMS: Keywords'] = $product_variant['CMS: Keywords'] ?? NULL;
       $product['CMS: Product Variant Family ID'] = $product_variant['CMS: Product Variant Family ID'] ?? NULL;
       $product['CMS: Variety'] = $product_variant['CMS: Variety'] ?? NULL;
+      $product['Consumption Context'] = $product_variant['Consumption Context'] ?? NULL;
+      $product['Consumption Context 2'] = $product_variant['Consumption Context 2'] ?? NULL;
       $product['salsify:digital_assets'] = $product_variant['salsify:digital_assets'] ?? NULL;
 
       $products[] = $product;
@@ -318,6 +344,9 @@ class ProductHelper {
   ) {
     $mapping = $this->getSalsifyKeyMapping();
     if (isset($mapping[$product_field_name]['prefix_field'])) {
+      $delimiter = (isset($mapping[$product_field_name]['delimiter']))
+        ? $mapping[$product_field_name]['delimiter']
+        : '';
 
       $prefix_field = $mapping[$product_field_name]['prefix_field'];
       $product_field_name = (isset($suffix))
@@ -328,9 +357,6 @@ class ProductHelper {
         : $prefix_field;
 
       if (isset($product_variant[$prefix_field])) {
-        $delimiter = (isset($mapping[$product_field_name]['delimiter']))
-          ? $mapping[$product_field_name]['delimiter']
-          : '';
         $product[$product_field_name] = $product_variant[$prefix_field] .
           $delimiter . $product[$product_field_name];
       }
@@ -425,7 +451,7 @@ class ProductHelper {
     foreach ($nutrition_fields as $field_name) {
 
       $matches = [];
-      preg_match('/^([a-zA-Z ]+) ([0-9]+)$/', $field_name, $matches);
+      preg_match('/^([a-zA-Z\/ ]+) ([0-9]+)$/', $field_name, $matches);
       $salsify_id_mapping = $this->getSalsifyKeyMapping();
 
       if (isset($product_variant[$field_name])) {
@@ -435,6 +461,10 @@ class ProductHelper {
 
         // Add unit for the value.
         if (isset($product_variant[$matches[1] . ' UOM ' . $matches[2]])) {
+
+          $product[$field_name] = (is_array($product[$field_name]))
+            ? reset($product[$field_name])
+            : $product[$field_name];
 
           $product[$field_name] = $product[$field_name] .
             $product_variant[$matches[1] . ' UOM ' . $matches[2]];
@@ -485,9 +515,9 @@ class ProductHelper {
     $products = [];
 
     foreach ($this->getProductsData($response) as $product) {
-      if ((isset($product['CMS: Variety']) &&
+      if (((isset($product['CMS: Variety']) &&
         strtolower($product['CMS: Variety']) == 'no') ||
-        !isset($product['CMS: Variety'])) {
+        !isset($product['CMS: Variety'])) && !$this->isProductDualLabel($product)) {
 
         if (isset($product['CMS: Product Variant Family ID']) &&
           !isset($products[$product['CMS: Product Variant Family ID']])
@@ -609,8 +639,7 @@ class ProductHelper {
       $product['salsify:updated_at'] = $product_variant['salsify:updated_at'];
       $product['CMS: content type'] = static::PRODUCT_VARIANT_CONTENT_TYPE;
       $product['CMS: multipack generated'] = TRUE;
-
-      $products_result[] = $product;
+      $products_result[$product_variant['salsify:id'] . '_' . $product_key . '_variant'] = $product;
 
       $empty_product = [];
       $salsify_id = $product_variant['salsify:id'] . '_' . $product_key . '_' . static::PRODUCT_CONTENT_TYPE;
@@ -622,7 +651,7 @@ class ProductHelper {
       $empty_product['CMS: content type'] = static::PRODUCT_CONTENT_TYPE;
       $empty_product['CMS: not publish'] = TRUE;
       $empty_product['CMS: multipack generated'] = TRUE;
-      $products_result[] = $empty_product;
+      $products_result[$product_variant['salsify:id'] . '_' . $product_key] = $empty_product;
 
       $this->mapping['primary'][$empty_product['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
     }
@@ -650,7 +679,7 @@ class ProductHelper {
   ) {
     foreach ($nutrion_fields as $nutrion_field) {
       $matches = [];
-      preg_match('/^' . $product_field_name . ' ([0-9]+)$/', $nutrion_field, $matches);
+      preg_match('/^' . preg_quote($product_field_name, '/') . ' ([0-9]+)$/', $nutrion_field, $matches);
       $products[$matches[1]][$product_field_name] = $product_variant[$nutrion_field];
     }
   }
@@ -685,6 +714,72 @@ class ProductHelper {
 
         $this->fillMappingByGeneratedProducts($generated_products, $product_multipack['salsify:id']);
         $products = array_merge($products, $generated_products);
+      }
+      $products[] = $product;
+    }
+
+    $response = Json::decode($response);
+    $response['data'] = array_values($products);
+
+    return Json::encode($response);
+  }
+
+  /**
+   * Add product dual label entities into response based on data.
+   *
+   * @param string $response
+   *   Products data.
+   *
+   * @return string
+   *   Response data.
+   */
+  public function addProductDualLabel($response) {
+
+    $products = [];
+
+    foreach ($this->getProductsData($response) as $product) {
+      if ($this->isProductDualLabel($product)) {
+        $product_multipack = $this->createProductFromProductVariant(
+          static::PRODUCT_MULTIPACK_CONTENT_TYPE,
+          SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_MULTIPACK,
+          $product
+        );
+        $product_multipack['CMS: Product Dual Label'] = TRUE;
+        $product_per_pack = $this->createProductFromProductVariant(
+          static::PRODUCT_CONTENT_TYPE,
+          SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT,
+          $product
+        );
+        $title_per_pac = (isset($product['Consumption Context']))
+          ? strtoupper($product['Consumption Context'])
+          : $this->t('PER PACK');
+        $product_per_pack['CMS: Product Name'] = $title_per_pac;
+        $product_per_pack['CMS: not publish'] = TRUE;
+        $products[] = $product_per_pack;
+        $this->mapping['primary'][$product_per_pack['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
+        $this->mapping['primary'][$product_multipack['salsify:id']][$product_per_pack['salsify:id']] = static::PRODUCT_CONTENT_TYPE;
+
+        $generated_products = $this->createNutritionProductsFromProductVariant(
+          $product
+        );
+        $products[] = $product_multipack;
+        $this->mapping['primary'][$product_multipack['salsify:id']][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
+
+        // Attach product 'PER CONTAINER' for the second nutrition table.
+        $key = $product['salsify:id'] . '_2';
+        $per_container_products = [];
+        if (isset($generated_products[$key])) {
+          $variant_per_container = $generated_products[$key . '_variant'];
+          $product_per_container = $generated_products[$key];
+          $title_per_container = (isset($product['Consumption Context 2']))
+            ? strtoupper($product['Consumption Context 2'])
+            : $this->t('PER CONTAINER');
+          $product_per_container['CMS: Product Name'] = $title_per_container;
+          $per_container_products[] = $variant_per_container;
+          $per_container_products[] = $product_per_container;
+        }
+        $this->fillMappingByGeneratedProducts($per_container_products, $product_multipack['salsify:id']);
+        $products = array_merge($products, $per_container_products);
       }
       $products[] = $product;
     }

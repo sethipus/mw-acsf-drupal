@@ -58,7 +58,7 @@ class ArticleHeaderTest extends UnitTestCase {
       'api_url' => 'http://domain.com',
       'text' => 'Test social',
       'img' => 'test/image/path/image.png',
-      'attributes' => [],
+      'attributes' => '',
     ],
   ];
 
