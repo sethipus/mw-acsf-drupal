@@ -368,6 +368,11 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->productHelperMock = $this->createMock(ProductHelper::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->nutritionHelperMock = $this->createMock(NutritionDataHelper::class);
+
+    $this->nutritionHelperMock
+      ->expects($this->any())
+      ->method('getNutritionConfig')
+      ->willReturn($this->immutableConfigMock);
   }
 
   /**

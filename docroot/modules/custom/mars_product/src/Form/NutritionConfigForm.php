@@ -481,7 +481,6 @@ class NutritionConfigForm extends ConfigFormBase {
     if ($brand == PdpHeroBlock::NUTRITION_VIEW_UK) {
       unset($mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_calories']);
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_ltd_calories']['bold'] = TRUE;
-      $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_ltd_calories']['daily_field'] = 'field_product_calories_daily';
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_2]['field_product_total_fat']['label'] = $this->t('Fat');
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_2]['field_product_total_fat']['bold'] = TRUE;
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_2]['field_product_saturated_fat']['label'] = $this->t(
@@ -496,6 +495,8 @@ class NutritionConfigForm extends ConfigFormBase {
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_sodium']['label'] = $this->t('Salt');
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_sodium']['bold'] = TRUE;
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_sodium']['weight'] = 99;
+
+      $this->setDailyValueToNone($mapping);
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS] = [];
     }
     $result = [];
@@ -583,6 +584,28 @@ class NutritionConfigForm extends ConfigFormBase {
       $field_daily = !empty($field_daily) ? $field_daily : $field_name . '_daily';
     }
     return $field_daily;
+  }
+
+  /**
+   * Set all daily values to none for the UK market.
+   *
+   * @param array $mapping
+   *   Mapping array.
+   */
+  private function setDailyValueToNone(array &$mapping) {
+    $groups_mapping = [
+      PdpHeroBlock::NUTRITION_SUBGROUP_1,
+      PdpHeroBlock::NUTRITION_SUBGROUP_2,
+      PdpHeroBlock::NUTRITION_SUBGROUP_3,
+      PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS,
+    ];
+    foreach ($groups_mapping as $group) {
+      foreach ($mapping[$group] as $field => $field_value) {
+        if (isset($field_value['daily_field'])) {
+          $mapping[$group][$field]['daily_field'] = 'none';
+        }
+      }
+    }
   }
 
 }

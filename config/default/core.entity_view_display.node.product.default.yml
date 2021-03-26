@@ -54,8 +54,6 @@ third_party_settings:
               available_sizes: 'Available sizes'
               nutrition:
                 label: Nutrition
-                serving_label: 'Amount per serving'
-                daily_label: '% Daily value'
                 vitamins_label: 'Vitamins | Minerals'
               allergen_label: 'Diet & Allergens'
               commerce_vendor: price_spider

@@ -56,13 +56,15 @@
                     span_blockname: pdp_nutrition_base_class,
                   } %}
                 </dd>
-                <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
-                  {% include "@atoms/text/text/07-span.twig" with {
-                    span_content: item.value_daily,
-                    span_base_class: pdp_nutrition_value_daily_base_class,
-                    span_blockname: pdp_nutrition_base_class,
-                  } %}
-                </dd>
+                {% if not pdp_nutrition_data.serving_item.hide_dual_label %}
+                  <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
+                    {% include "@atoms/text/text/07-span.twig" with {
+                      span_content: item.value_daily,
+                      span_base_class: pdp_nutrition_value_daily_base_class,
+                      span_blockname: pdp_nutrition_base_class,
+                    } %}
+                  </dd>
+                {% endif %}
               </dl>
             {% endfor %}
           </div>
@@ -86,13 +88,15 @@
                     span_blockname: pdp_nutrition_base_class,
                   } %}
                 </dd>
-                <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
-                  {% include "@atoms/text/text/07-span.twig" with {
-                    span_content: item.value_daily,
-                    span_base_class: pdp_nutrition_value_daily_base_class,
-                    span_blockname: pdp_nutrition_base_class,
-                  } %}
-                </dd>
+                {% if not pdp_nutrition_data.serving_item.hide_dual_label %}
+                  <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
+                    {% include "@atoms/text/text/07-span.twig" with {
+                      span_content: item.value_daily,
+                      span_base_class: pdp_nutrition_value_daily_base_class,
+                      span_blockname: pdp_nutrition_base_class,
+                    } %}
+                  </dd>
+                {% endif %}
               </dl>
             {% endfor %}
           </div>
@@ -120,13 +124,15 @@
                     span_blockname: pdp_nutrition_base_class,
                   } %}
                 </dd>
-                <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
-                  {% include "@atoms/text/text/07-span.twig" with {
-                    span_content: item.value_daily,
-                    span_base_class: pdp_nutrition_value_daily_base_class,
-                    span_blockname: pdp_nutrition_base_class,
-                  } %}
-                </dd>
+                {% if not pdp_nutrition_data.serving_item.hide_dual_label %}
+                  <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
+                    {% include "@atoms/text/text/07-span.twig" with {
+                      span_content: item.value_daily,
+                      span_base_class: pdp_nutrition_value_daily_base_class,
+                      span_blockname: pdp_nutrition_base_class,
+                    } %}
+                  </dd>
+                {% endif %}
               </dl>
             {% endfor %}
           </div>
@@ -171,13 +177,15 @@
                     span_blockname: pdp_nutrition_base_class,
                   } %}
                 </dd>
-                <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
-                  {% include "@atoms/text/text/07-span.twig" with {
-                    span_content: item.value_daily,
-                    span_base_class: pdp_nutrition_value_daily_base_class,
-                    span_blockname: pdp_nutrition_base_class,
-                  } %}
-                </dd>
+                {% if not pdp_nutrition_data.serving_item.hide_dual_label %}
+                  <dd {{ bem('section-column-item', ['value-daily'], pdp_nutrition_base_class) }}>
+                    {% include "@atoms/text/text/07-span.twig" with {
+                      span_content: item.value_daily,
+                      span_base_class: pdp_nutrition_value_daily_base_class,
+                      span_blockname: pdp_nutrition_base_class,
+                    } %}
+                  </dd>
+                {% endif %}
               </dl>
             {% endfor %}
           </div>
