@@ -68,6 +68,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
   protected $searchTermFacetProcess;
 
   /**
+   * Search categories processor.
+   *
+   * @var \Drupal\mars_search\Processors\SearchCategoriesInterface
+   */
+  protected $searchCategories;
+
+  /**
    * ThemeConfiguratorParser.
    *
    * @var \Drupal\mars_common\ThemeConfiguratorParser
@@ -324,7 +331,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
-      $default_filters = static::TAXONOMY_VOCABULARIES;
+      $this->searchCategories = $this->searchProcessor->getProcessManager('search_categories');
+      $default_filters = $this->searchCategories->getCategories();
       if (isset($config['exclude_filters'])) {
         $this->hideExcludedFacetOptions($default_filters, $config['exclude_filters']);
       }

@@ -311,7 +311,7 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
         $search_filters[] = [
           'title' => [
             '#type' => 'link',
-            '#title' => SearchBuilderInterface::CONTENT_TYPES[$type_facet['filter']] ?? $type_facet['filter'],
+            '#title' => SearchCategoriesInterface::CONTENT_TYPES[$type_facet['filter']] ?? $type_facet['filter'],
             '#url' => $url,
             '#attributes' => [
               'data-type' => $type_facet['filter'],

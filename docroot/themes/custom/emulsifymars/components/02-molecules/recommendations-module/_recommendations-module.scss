@@ -6,6 +6,8 @@
   @include brand-border-overflow;
 
   &__heading {
+    display: flex;
+    justify-content: center;
     padding-top: 2rem;
 
     &--main-heading {
@@ -15,14 +17,17 @@
       font-size: 4rem;
       line-height: 1;
       margin-bottom: 4rem;
+      width: 33.5rem;
 
       @include medium {
         font-size: 5.6rem;
+        width: 47.8rem;
       }
 
       @include xl {
         font-size: 6.4rem;
         margin-bottom: 6rem;
+        width: 89.5rem;
       }
     }
   }

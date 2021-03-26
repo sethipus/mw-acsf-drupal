@@ -145,8 +145,7 @@
       margin-left: 0;
 
       .search-input {
-        border-bottom-right-radius: unset;
-        border-bottom-left-radius: unset;
+        border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
         border-bottom: none;
 
         &__field {
