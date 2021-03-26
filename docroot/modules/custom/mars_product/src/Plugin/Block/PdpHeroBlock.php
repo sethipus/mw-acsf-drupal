@@ -639,7 +639,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $product_sku = '';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $product_sku = $this->productHelper->formatSku($product_variant->get('field_product_sku')->value);
+      if (!empty($product_variant)) {
+        $product_sku = $this->productHelper->formatSku($product_variant->get('field_product_sku')->value);
+      }
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
@@ -731,6 +733,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $main_variant = $this->productHelper->mainVariant($node);
 
     foreach ($node->field_product_variants as $reference) {
+      if (empty($reference->entity)) {
+        continue;
+      }
       $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size_id = $product_variant->id();
       $i++;
@@ -914,6 +919,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $field_size = 'field_product_size';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $this->languageHelper->getTranslation($reference->entity);
+      if (empty($product_variant)) {
+        continue;
+      }
       $size = $product_variant->get($field_size)->value;
       $size_id = $product_variant->id();
       $items[] = [
