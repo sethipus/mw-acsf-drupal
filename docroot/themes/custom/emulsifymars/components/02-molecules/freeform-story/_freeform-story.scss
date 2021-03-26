@@ -273,6 +273,8 @@
     @include xs {
       .freeform-story__content {
         padding-right: 50px;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
       }
 
       .freeform-story__texts {

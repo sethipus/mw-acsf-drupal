@@ -92,8 +92,7 @@
 
   &.suggested {
     .search-input__field {
-      border-bottom-left-radius: unset;
-      border-bottom-right-radius: unset;
+      border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
     }
 
     .autocomplete-border {
