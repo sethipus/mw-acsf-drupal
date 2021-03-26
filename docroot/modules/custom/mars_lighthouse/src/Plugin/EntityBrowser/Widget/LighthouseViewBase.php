@@ -91,6 +91,8 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * {@inheritdoc}
+   *
+   * @codeCoverageIgnore
    */
   protected function prepareEntities(array $form, FormStateInterface $form_state) {
     $userInput = $form_state->cleanValues()->getUserInput();
@@ -193,9 +195,22 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * {@inheritdoc}
+   *
+   * @codeCoverageIgnore
    */
   public function validate(array &$form, FormStateInterface $form_state) {
     // @todo Add a validation.
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @codeCoverageIgnore
+   */
+  public function defaultConfiguration() {
+    $default_configuration = parent::defaultConfiguration();
+    $default_configuration['entity_browser_id'] = 'media_library';
+    return $default_configuration;
   }
 
   /**
@@ -208,6 +223,8 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * {@inheritdoc}
+   *
+   * @codeCoverageIgnore
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     return [];
@@ -215,6 +232,8 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * Ajax search response.
+   *
+   * @codeCoverageIgnore
    */
   public function searchCallback(array &$form, FormStateInterface $form_state) {
     $form_state->setRebuild(TRUE);
@@ -230,6 +249,8 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
    *
    * @return array
    *   Render array.
+   *
+   * @codeCoverageIgnore
    */
   protected function getView(&$total_found, array $filters) {
     $view = [
@@ -305,6 +326,16 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
     }
 
     return $view;
+  }
+
+  /**
+   * Returns current media type.
+   *
+   * @return string
+   *   Returns media type name for the current widget.
+   */
+  public function getMediaType(): string {
+    return $this->mediaType;
   }
 
 }
