@@ -316,8 +316,19 @@
 }
 
 .search-results-filter {
+  margin-bottom: 4rem;
+
+  @include medium {
+    margin-bottom: 6rem;
+  }
+
+  @include large {
+    margin-bottom: 8rem;
+  }
+
   .search-filter-container {
     background-color: clr(subcolor-3);
+    padding: 0 2rem;
   }
 }
 
