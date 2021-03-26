@@ -58,7 +58,14 @@ import Swiper, {Navigation, Pagination, Scrollbar, A11y} from 'swiper';
               1440: {
                 spaceBetween: 30,
                 slidesOffsetBefore: 40,
-                slidesOffsetAfter: 40,
+                slidesOffsetAfter: 20, /* for resolution 1440:
+                                            40px(slidesOffsetBefore)
+                                            + 317px(cardWidth) + 30px(spaceBetween)
+                                            + 317px(cardWidth) + 30px(spaceBetween)
+                                            + 317px(cardWidth) + 30px(spaceBetween)
+                                            + 317px(cardWidth)
+                                            + 20px(slidesOffsetAfter)
+                                            + 17px(win scrollbarWidth) = 1435px < 1440px */
                 scrollbar: {
                   dragSize: 259,
                 }

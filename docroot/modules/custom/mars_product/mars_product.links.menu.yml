@@ -8,3 +8,8 @@ mars_product.nutrition_table.configuration:
   description: 'Global settings for Nutrition table view.'
   parent: system.admin_config_ui
   route_name: mars_product.nutrition_table.configuration
+mars_lighthouse.bazaarvoice.configuration:
+  title: 'Bazaarvoice configuration'
+  description: 'Settings related to Bazaarvoice configuration.'
+  route_name: mars_product.bazaarvoice_info
+  parent: 'system.admin_config_services'

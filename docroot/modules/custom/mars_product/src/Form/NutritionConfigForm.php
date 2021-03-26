@@ -98,7 +98,7 @@ class NutritionConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
-    $config = $this->config('nutrition_table.settings');
+    $config = $this->config('mars_product.nutrition_table_settings');
 
     $form['general'] = [
       '#type' => 'fieldset',
@@ -117,18 +117,24 @@ class NutritionConfigForm extends ConfigFormBase {
       ],
       '#required' => TRUE,
     ];
+
+    $form['general']['set_to_default_desciption'] = [
+      '#type' => 'markup',
+      '#markup' => '<p>' . $this->t('Set to default state depending on nutritional table view:') .
+      '</p>',
+    ];
+    $form['general']['set_to_default'] = [
+      '#type' => 'submit',
+      '#name' => 'set_to_default',
+      '#value' => $this->t('Set to selected state'),
+      '#limit_validation_errors' => [],
+      '#button_type' => 'danger',
+    ];
+
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_1);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_2);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_3);
     $this->getSubgroupTable($form, $form_state, PdpHeroBlock::NUTRITION_SUBGROUP_VITAMINS);
-
-    $form['set_to_default'] = [
-      '#type' => 'submit',
-      '#name' => 'set_to_default',
-      '#value' => $this->t('Set to Default state'),
-      '#limit_validation_errors' => [],
-      '#button_type' => 'danger',
-    ];
 
     return $form;
   }
@@ -293,7 +299,7 @@ class NutritionConfigForm extends ConfigFormBase {
     string $view_type = PdpHeroBlock::NUTRITION_VIEW_US,
     bool $set_to_default = FALSE
   ) {
-    $nutrition_config = $this->config('nutrition_table.settings');
+    $nutrition_config = $this->config('mars_product.nutrition_table_settings');
     if ($nutrition_config->isNew() || $set_to_default) {
       $config = $this->getDefaultConfiguration(
         $view_type
@@ -368,7 +374,7 @@ class NutritionConfigForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Load configuration entities.
-    $config = $this->config('nutrition_table.settings');
+    $config = $this->config('mars_product.nutrition_table_settings');
     $subgroups = [
       PdpHeroBlock::NUTRITION_SUBGROUP_1,
       PdpHeroBlock::NUTRITION_SUBGROUP_2,
@@ -417,7 +423,7 @@ class NutritionConfigForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'nutrition_table.settings',
+      'mars_product.nutrition_table_settings',
     ];
   }
 

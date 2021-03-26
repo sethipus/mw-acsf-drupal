@@ -10,6 +10,7 @@ use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Plugin\Block\SearchGridBlock;
 use Drupal\mars_search\Processors\SearchBuilder;
 use Drupal\mars_search\Processors\SearchHelperInterface;
+use Drupal\mars_search\Processors\SearchCategoriesInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\TermInterface;
@@ -72,6 +73,13 @@ class SearchGridBlockTest extends UnitTestCase {
   private $searchProcessFactoryMock;
 
   /**
+   * Search categories mock.
+   *
+   * @var \Drupal\mars_search\SearchCategoriesInterface
+   */
+  private $searchCategoriesMock;
+
+  /**
    * Language helper mock.
    *
    * @var \Drupal\mars_common\LanguageHelper
@@ -123,6 +131,10 @@ class SearchGridBlockTest extends UnitTestCase {
         [
           'search_helper',
           $this->searchBuilderMock,
+        ],
+        [
+          'search_categories',
+          $this->searchCategoriesMock,
         ],
       ]);
 
@@ -299,6 +311,12 @@ class SearchGridBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('loadTree')
       ->willReturn([$term]);
+
+    $this->searchCategoriesMock
+      ->expects($this->exactly(2))
+      ->method('getCategories')
+      ->willReturn(SearchCategoriesInterface::TAXONOMY_VOCABULARIES);
+
   }
 
   /**
@@ -311,6 +329,7 @@ class SearchGridBlockTest extends UnitTestCase {
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->searchBuilderMock = $this->createMock(SearchBuilder::class);
     $this->searchHelperMock = $this->createMock(SearchHelperInterface::class);
+    $this->searchCategoriesMock = $this->createMock(SearchCategoriesInterface::class);
     $this->themeConfiguratorMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->formStateMock = $this->createMock(FormStateInterface::class);
   }

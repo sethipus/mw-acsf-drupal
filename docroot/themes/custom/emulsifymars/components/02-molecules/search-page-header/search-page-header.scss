@@ -5,11 +5,11 @@
   align-items: center;
   background-color: clr(secondary);
   overflow: hidden;
-  padding: 10px 40px 40px 40px;
+  padding: 5rem 2rem 4rem;
   min-height: 578px;
 
   @include medium {
-    padding: 60px 40px;
+    padding: 10rem 4rem;
   }
 
   @include xl {
@@ -89,14 +89,19 @@
     text-align: center;
     font-weight: normal;
     z-index: 2;
-    margin: 0 auto 8rem;
+    margin: 0 auto 3rem;
+    max-width: 33.5rem;
 
     @include medium {
       font-size: 56px;
+      max-width: 55rem;
+      margin-bottom: 4rem;
     }
 
     @include xl {
       font-size: 64px;
+      max-width: 100%;
+      margin-bottom: 8rem;
     }
   }
 
@@ -117,6 +122,11 @@
     border: 1px solid clr(subcolor-4);
     background-color: clr(subcolor-3);
     position: relative;
+    border-radius: var(--v-button-border-radius);
+
+    &.suggested {
+      border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
+    }
   }
 
   .mars-search-autocomplete-suggestions-wrapper {

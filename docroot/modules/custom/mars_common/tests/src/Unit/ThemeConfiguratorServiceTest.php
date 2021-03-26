@@ -146,7 +146,6 @@ class ThemeConfiguratorServiceTest extends UnitTestCase {
     ];
     $form_state->setStorage($storage);
     $theme_configurator_form = $this->themeConfiguratorService->getThemeConfiguratorForm($form, $form_state);
-    $this->assertArrayHasKey('product_rating_and_reviews', $theme_configurator_form);
     $this->assertArrayHasKey('#validate', $theme_configurator_form);
     $this->assertArrayHasKey('#submit', $theme_configurator_form);
   }

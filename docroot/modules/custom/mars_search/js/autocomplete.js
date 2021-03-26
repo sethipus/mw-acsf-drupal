@@ -32,7 +32,7 @@
           return;
         }
         if (searchString.length > 2) {
-          var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + searchString + '&search_id=' + gridId;
+          var url = Drupal.url('mars-autocomplete') + '?search[' + gridId + ']=' + encodeURIComponent(searchString) + '&search_id=' + gridId;
           if (gridQuery) {
             url = url + '&' + gridQuery;
           }

@@ -41,7 +41,6 @@
       @media (min-width: 768px) {
         animation: moveup 2s;
       }
-
     }
 
     &--2 {
@@ -123,7 +122,6 @@
       left: 78%;
     }
   }
-
 
   &__left {
     flex-grow: 1;
@@ -224,13 +222,16 @@
     justify-content: center;
     margin-top: 60px;
 
+    @include medium {
+      width: 100%;
+      height: 100%;
+      margin-top: 0;
+    }
+
     @include large {
       position: absolute;
       left: 0;
       top: 0;
-      width: 100%;
-      height: 100%;
-      margin-top: 0;
     }
 
     & img {
@@ -238,6 +239,12 @@
       object-fit: contain;
       max-height: 210px;
       max-width: 210px;
+
+      @include medium {
+        align-self: center;
+        max-height: 310px;
+        max-width: 310px;
+      }
 
       @include large {
         margin-left: auto;
