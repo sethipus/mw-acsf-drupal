@@ -480,6 +480,7 @@ class NutritionConfigForm extends ConfigFormBase {
     }
     if ($brand == PdpHeroBlock::NUTRITION_VIEW_UK) {
       unset($mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_calories']);
+      unset($mapping[PdpHeroBlock::NUTRITION_SUBGROUP_3]['field_product_added_sugars']);
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_1]['field_product_ltd_calories']['bold'] = TRUE;
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_2]['field_product_total_fat']['label'] = $this->t('Fat');
       $mapping[PdpHeroBlock::NUTRITION_SUBGROUP_2]['field_product_total_fat']['bold'] = TRUE;

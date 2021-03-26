@@ -947,7 +947,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'label' => $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':',
         'value' => $node->get('field_product_servings_per')->value,
       ],
-      'hide_dual_label' => TRUE,
+      'hide_dialy_value_column' => TRUE,
     ];
 
     $mapping = $this->nutritionHelper
@@ -964,7 +964,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'weight' => $field_data['weight'],
         ];
         if ($field_data['daily_field'] !== 'none') {
-          $result_item['hide_dual_label'] = FALSE;
+          $result_item['hide_dialy_value_column'] = FALSE;
           $item['value_daily']
             = $node->get($field_data['daily_field'])->value;
         }
