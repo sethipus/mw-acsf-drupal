@@ -2,7 +2,9 @@
 
 namespace Drupal\mars_lighthouse\Controller;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_lighthouse\LighthouseInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
@@ -93,7 +95,9 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('lighthouse.client'),
-      $container->get('cache.default')
+      $container->get('cache.default'),
+      $container->get('config.factory'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -104,15 +108,26 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *   Lighthouse API client.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache
    *   Cache container.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(LighthouseClientInterface $lighthouse_client, CacheBackendInterface $cache) {
+  public function __construct(
+    LighthouseClientInterface $lighthouse_client,
+    CacheBackendInterface $cache,
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager
+  ) {
     $this->lighthouseClient = $lighthouse_client;
-    $this->mediaStorage = $this->entityTypeManager()->getStorage('media');
-    $this->fileStorage = $this->entityTypeManager()->getStorage('file');
-    $this->mapping = $this->config(self::CONFIG_NAME);
+    $this->entityTypeManager = $entity_type_manager;
+    $this->mediaStorage = $this->entityTypeManager->getStorage('media');
+    $this->fileStorage = $this->entityTypeManager->getStorage('file');
+    $this->configFactory = $config_factory;
+    $this->mapping = $this->configFactory->get(self::CONFIG_NAME);
     $this->cache = $cache;
   }
 
@@ -184,6 +199,8 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *
    * @return array
    *   Array ready for render.
+   *
+   * @codeCoverageIgnore
    */
   protected function prepareMediaDataList(array $data) {
     $data_list = [];
@@ -207,6 +224,8 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *   Media entity.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
+   *
+   * @codeCoverageIgnore
    */
   protected function createMediaEntity(array $data): ?MediaInterface {
     if (!$data) {
@@ -247,6 +266,8 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *   ID of File entity.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
+   *
+   * @codeCoverageIgnore
    */
   protected function createFileEntity(array $data): string {
     $file_mapping = $this->mapping->get('file');
@@ -303,6 +324,8 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *
    * @return string|null
    *   Image url or null.
+   *
+   * @codeCoverageIgnore
    */
   protected function changeExtension(string $data) {
     if (empty($data)) {
