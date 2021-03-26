@@ -9,6 +9,8 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
             e.preventDefault();
             e.currentTarget.classList.toggle('toggle-expand--open');
             $('#header-menu-trigger').toggleClass('header__primary--open');
+            // Add a class to remove the overflow hidden from the body when resizing
+            $('body').toggleClass('no-scroll');
 
             if ($('#header-menu-trigger').hasClass('header__primary--open')) {
               e.currentTarget.setAttribute('aria-pressed', true);

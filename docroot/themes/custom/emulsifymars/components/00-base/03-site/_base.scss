@@ -36,6 +36,13 @@ body {
   @include body-copy;
 }
 
+// Add a class to remove the overflow hidden from the body when resizing
+.no-scroll{
+  @include large {
+    overflow: visible !important;
+  }
+}
+
 *,
 *::after,
 *::before {
