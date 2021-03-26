@@ -174,7 +174,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMediaEntity()
    */
   public function testGetMediaEntity() {
-    $this->assertEquals(NULL, $this->controller->getMediaEntity(1));
+    $this->assertEquals(NULL, $this->controller->getMediaEntity('a8c7cd6sfd7s876f0fsf98'));
   }
 
   /**
