@@ -197,6 +197,9 @@
           flex: 1 0 20%;
         }
       }
+      &--value:last-child {
+        text-align: center;
+      }
 
       &--mass {
         flex: 1 0 19%;
