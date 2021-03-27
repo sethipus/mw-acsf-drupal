@@ -117,6 +117,9 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
     if ($node instanceof NodeInterface && $node->bundle() == 'product') {
       foreach ($node->field_product_variants as $reference) {
         $product_variant = $reference->entity;
+        if (empty($product_variant)) {
+          continue;
+        }
         $gtin = $product_variant->get('field_product_sku')->value;
         $size_id = $product_variant->id();
         $build['#items'][] = [
