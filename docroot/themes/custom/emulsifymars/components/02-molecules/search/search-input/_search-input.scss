@@ -74,10 +74,6 @@
   font-family: variable(secondary-font);
   width: 100%;
 
-  @include small {
-    width: 33.5rem;
-  }
-
   @include medium {
     width: 68.7rem;
   }

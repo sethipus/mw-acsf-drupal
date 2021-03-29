@@ -98,6 +98,12 @@
     padding-top: 1.2rem;
     max-width: 100%;
 
+    & .menu-container {
+        @include large {
+            margin-top: 14.7rem;
+        }
+    }
+
     @include large {
       padding-top: 4.2rem;
       padding-right: 6rem;
@@ -734,6 +740,7 @@
     }
 
     @include large {
+      margin: 0;
       position: static;
       text-align: left;
     }

@@ -286,12 +286,12 @@ class WhereToBuyBlockTest extends UnitTestCase {
       ->willReturn(PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR);
 
     $this->entityTypeManagerMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('getStorage')
       ->willReturn($this->entityStorageMock);
 
     $this->entityStorageMock
-      ->expects($this->once())
+      ->expects($this->any())
       ->method('loadByProperties')
       ->willReturn([$this->nodeMock]);
 

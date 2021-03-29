@@ -5,16 +5,17 @@
   align-items: center;
   background-color: clr(secondary);
   overflow: hidden;
-  padding: 5rem 2rem 4rem;
-  min-height: 578px;
+  padding: 5rem 2rem;
+  min-height: 30.5rem;
 
   @include medium {
     padding: 10rem 4rem;
+    min-height: 49.4rem;
   }
 
   @include xl {
     padding: 12rem 4rem 0;
-    height: 59.4rem;
+    min-height: 59.4rem;
   }
 
   &__brand-shape {
@@ -123,6 +124,11 @@
     background-color: clr(subcolor-3);
     position: relative;
     border-radius: var(--v-button-border-radius);
+    width: 100%;
+
+    @include large {
+      width: 89.6rem;
+    }
 
     &.suggested {
       border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
