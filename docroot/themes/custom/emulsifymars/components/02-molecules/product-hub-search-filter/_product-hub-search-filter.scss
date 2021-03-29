@@ -1,5 +1,5 @@
 .search-filter-container {
-  padding: 0 2rem;
+  padding: 2rem;
   background-color: clr(subcolor-2);
   position: relative;
 
@@ -19,8 +19,7 @@
   .search-input-wrapper {
     &.suggested {
       .search-input {
-        border-bottom-right-radius: unset;
-        border-bottom-left-radius: unset;
+        border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
         border-bottom: none;
 
         &__field {

@@ -63,7 +63,7 @@ pdp_data:
         - title: 'NUTRITION & INGREDIENTS'
           border_radius: 20
           link_attributes:
-            'href' : '#section-nutrition-1oz'
+            'href' : '#section-nutrition--1oz'
         - title: 'DIET &amp; ALLERGENS'
           border_radius: 20
           link_attributes:
@@ -153,7 +153,7 @@ pdp_data:
         - title: 'NUTRITION & INGREDIENTS'
           border_radius: 20
           link_attributes:
-            'href' : '#section-nutrition-4oz'
+            'href' : '#section-nutrition--4oz'
         - title: 'DIET &amp; ALLERGENS'
           border_radius: 20
           link_attributes:
@@ -255,7 +255,7 @@ pdp_data:
         - title: 'NUTRITION & INGREDIENTS'
           border_radius: 20
           link_attributes:
-            'href' : '#section-nutrition-6oz'
+            'href' : '#section-nutrition--6oz'
         - title: 'DIET &amp; ALLERGENS'
           border_radius: 20
           link_attributes:
