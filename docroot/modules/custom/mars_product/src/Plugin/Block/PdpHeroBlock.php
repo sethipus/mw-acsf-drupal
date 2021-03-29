@@ -748,15 +748,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $gtin = $this->productHelper->formatSku($gtin);
       }
 
-      if (array_key_exists($gtin, RatingBazarvoiceBlock::BAZAARVOICE_SKU_MAPPING)) {
-        $ratings_id = RatingBazarvoiceBlock::BAZAARVOICE_SKU_MAPPING[$gtin];
-      }
-      else {
-        $ratings_id = $gtin;
-      }
-
       $items[] = [
-        'ratings_id' => $ratings_id,
+        'ratings_id' => RatingBazarvoiceBlock::getRatingsId($gtin),
         'gtin' => $gtin,
         'size_id' => $size_id,
         'active' => $state,
