@@ -1,12 +1,8 @@
 .search-results-container {
   position: relative;
-  width: 335px;
+  width: 100%;
 
-  @include medium {
-    width: 688px;
-  }
-
-  @include xl {
+  @include large {
     width: 896px;
   }
 
