@@ -11,7 +11,7 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Url;
 use Drupal\mars_search\Processors\SearchHelper;
-use Drupal\mars_search\Processors\SearchTermFacetProcess;
+use Drupal\mars_search\Processors\SearchCategoriesInterface;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Query\ResultSet;
 use Drupal\Tests\UnitTestCase;
@@ -40,11 +40,11 @@ class SearchHelperTest extends UnitTestCase {
   private $loggerFactoryMock;
 
   /**
-   * Mock.
+   * Search categories mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchTermFacetProcess
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchCategoriesInterface
    */
-  private $searchTermFacetProcessMock;
+  private $searchCategoriesMock;
 
   /**
    * Entity type manager mock.
@@ -73,13 +73,6 @@ class SearchHelperTest extends UnitTestCase {
    * @var \Symfony\Component\DependencyInjection\ContainerInterface
    */
   protected $container;
-
-  /**
-   * Url mock.
-   *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Url
-   */
-  private $urlMock;
 
   /**
    * A test index for use in these tests.
@@ -113,7 +106,7 @@ class SearchHelperTest extends UnitTestCase {
       $this->entityTypeManagerMock,
       $this->loggerFactoryMock,
       $this->requestStackMock,
-      $this->searchTermFacetProcessMock
+      $this->searchCategoriesMock
     );
   }
 
@@ -124,10 +117,9 @@ class SearchHelperTest extends UnitTestCase {
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->searchHelperMock = $this->createMock(SearchHelper::class);
     $this->loggerFactoryMock = $this->createMock(LoggerChannelFactoryInterface::class);
-    $this->searchTermFacetProcessMock = $this->createMock(SearchTermFacetProcess::class);
+    $this->searchCategoriesMock = $this->createMock(SearchCategoriesInterface::class);
     $this->loggerChannelMock = $this->createMock(LoggerChannelInterface::class);
     $this->requestStackMock = $this->createMock(RequestStack::class);
-    $this->urlMock = $this->createMock(Url::class);
     $this->entityStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->query = $this->createMock(QueryInterface::class);
     $this->loggerFactoryMock
@@ -248,6 +240,8 @@ class SearchHelperTest extends UnitTestCase {
       'mars_meal_type',
       'mars_method',
       'mars_prep_time',
+      'mars_product_used',
+      'mars_recipe_collection',
     ];
     $this->assertArrayEquals($facet_keys_expected_result, $facet_keys);
   }

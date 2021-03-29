@@ -39,6 +39,7 @@ module:
   depcalc: 0
   diff: 0
   dropzonejs: 0
+  dynamic_page_cache: 0
   editor: 0
   editor_advanced_link: 0
   embed: 0

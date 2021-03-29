@@ -18,12 +18,21 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
   public $request;
 
   /**
+   * Search categories processor.
+   *
+   * @var \Drupal\mars_search\Processors\SearchCategoriesInterface
+   */
+  protected $searchCategories;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
-    RequestStack $request
+    RequestStack $request,
+    SearchCategoriesInterface $searchCategories
   ) {
     $this->request = $request->getMasterRequest();
+    $this->searchCategories = $searchCategories;
   }
 
   /**
@@ -99,7 +108,7 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
    *   Result mapped value.
    */
   protected function mapGridConditions($filter, $parameter_value) {
-    if (in_array($filter, array_keys(SearchBuilderInterface::TAXONOMY_VOCABULARIES))) {
+    if (in_array($filter, array_keys($this->searchCategories->getCategories()))) {
       return [
         $filter,
         explode(',', $parameter_value),
@@ -141,8 +150,8 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
       'options_logic' => 'AND',
       'keys' => '',
       'sort' => [
-        'search_api_relevance' => QueryInterface::SORT_ASC,
         'bundle_weight' => QueryInterface::SORT_ASC,
+        'search_api_relevance' => QueryInterface::SORT_DESC,
         'title' => QueryInterface::SORT_ASC,
       ],
     ];

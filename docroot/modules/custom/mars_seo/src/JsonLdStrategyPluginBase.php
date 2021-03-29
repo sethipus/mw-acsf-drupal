@@ -3,6 +3,7 @@
 namespace Drupal\mars_seo;
 
 use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
 use Drupal\Core\Routing\UrlGeneratorInterface;
@@ -36,6 +37,13 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
   protected $urlGenerator;
 
   /**
+   * Config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -44,7 +52,8 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
       $plugin_id,
       $plugin_definition,
       $container->get('mars_media.media_helper'),
-      $container->get('url_generator')
+      $container->get('url_generator'),
+      $container->get('config.factory')
     );
   }
 
@@ -56,12 +65,14 @@ abstract class JsonLdStrategyPluginBase extends ContextAwarePluginBase implement
     $plugin_id,
     $plugin_definition,
     MediaHelper $media_helper,
-    UrlGeneratorInterface $url_generator
+    UrlGeneratorInterface $url_generator,
+    ConfigFactoryInterface $config_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->mediaHelper = $media_helper;
     $this->urlGenerator = $url_generator;
+    $this->configFactory = $config_factory;
   }
 
   /**

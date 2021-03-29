@@ -179,6 +179,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       ), ['#text_color_override' => $text_color_override]);
     }
     $build['#background'] = $this->getBgImage($main_entity);
+    $build['#dark_overlay'] = $conf['use_dark_overlay'] ?? TRUE;
     return $build;
   }
 
@@ -272,6 +273,12 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->buildSelectBackground($form);
     $this->buildOverrideColorElement($form, $this->configuration);
 
+    $form['use_dark_overlay'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use dark overlay'),
+      '#default_value' => $this->configuration['use_dark_overlay'] ?? TRUE,
+    ];
+
     return $form;
   }
 
@@ -292,6 +299,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
     $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
     $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
+    $this->configuration['use_dark_overlay'] = $form_state->getValue('use_dark_overlay');
   }
 
   /**

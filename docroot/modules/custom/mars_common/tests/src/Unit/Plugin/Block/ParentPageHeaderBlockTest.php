@@ -181,7 +181,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $this->block->setConfiguration($conf);
     $build = $this->block->build();
 
-    $this->assertCount(9, $build);
+    $this->assertCount(10, $build);
     $this->assertArrayHasKey('#eyebrow', $build);
     $this->assertArrayHasKey('#description', $build);
     $this->assertArrayHasKey('#brand_shape', $build);
@@ -203,7 +203,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $this->block->setConfiguration($conf);
     $build = $this->block->build();
 
-    $this->assertCount(10, $build);
+    $this->assertCount(11, $build);
     $this->assertArrayHasKey('#eyebrow', $build);
     $this->assertArrayHasKey('#description', $build);
     $this->assertArrayHasKey('#brand_shape', $build);

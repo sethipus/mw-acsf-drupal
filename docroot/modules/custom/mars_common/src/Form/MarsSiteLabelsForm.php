@@ -4,6 +4,9 @@ namespace Drupal\mars_common\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\mars_search\SearchProcessFactoryInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Settings form for site level labels.
@@ -11,6 +14,44 @@ use Drupal\Core\Form\FormStateInterface;
  * @internal
  */
 class MarsSiteLabelsForm extends ConfigFormBase {
+
+  /**
+   * Search processing factory.
+   *
+   * @var \Drupal\mars_search\SearchProcessFactoryInterface
+   */
+  protected $searchProcessor;
+
+  /**
+   * Search categories processor.
+   *
+   * @var \Drupal\mars_search\Processors\SearchCategoriesInterface
+   */
+  protected $searchCategories;
+
+  /**
+   * MarsSiteLabelsForm constructor.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The configuration factory.
+   * @param \Drupal\mars_search\SearchProcessFactoryInterface $searchProcessor
+   *   Search processor factory.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, SearchProcessFactoryInterface $searchProcessor) {
+    parent::__construct($config_factory);
+    $this->searchProcessor = $searchProcessor;
+    $this->searchCategories = $this->searchProcessor->getProcessManager('search_categories');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('mars_search.search_factory'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -74,6 +115,18 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#default_value' => $site_label_config->get('faq_card_grid_search'),
       '#required' => TRUE,
     ];
+
+    foreach ($this->searchCategories->getCategories() as $index => $field) {
+      $bundles = implode(',', $field['content_types']);
+      $machineName = $field['machine_name'] ?? $index;
+      // @codingStandardsIgnoreStart
+      $form['search'][$index] = [
+        '#type' => 'textfield',
+        '#title' => $this->t("Search filter label for the field {$machineName}, used in node bundles: {$bundles}"),
+        '#default_value' => $field['label'],
+      ];
+      // @codingStandardsIgnoreEnd
+    }
 
     $form['card'] = [
       '#type' => 'details',
@@ -140,13 +193,6 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Time label'),
       '#default_value' => $site_label_config->get('recipe_details_time'),
-      '#required' => TRUE,
-    ];
-
-    $form['recipe_details']['recipe_details_time_measurement'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Time measurement label'),
-      '#default_value' => $site_label_config->get('recipe_details_time_measurement'),
       '#required' => TRUE,
     ];
 
@@ -226,6 +272,9 @@ class MarsSiteLabelsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = $this->config('mars_common.site_labels');
+    foreach (array_keys($this->searchCategories->getCategories()) as $index) {
+      $config->set($index, $form_state->getValue($index));
+    }
     $config->set('article_recipe_share', $form_state->getValue('article_recipe_share'))
       ->set('article_published', $form_state->getValue('article_published'))
       ->set('header_search_overlay', $form_state->getValue('header_search_overlay'))
@@ -241,7 +290,6 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       ->set('recipe_body_products_used', $form_state->getValue('recipe_body_products_used'))
       ->set('recipe_body_ingredients_used', $form_state->getValue('recipe_body_ingredients_used'))
       ->set('recipe_details_time', $form_state->getValue('recipe_details_time'))
-      ->set('recipe_details_time_measurement', $form_state->getValue('recipe_details_time_measurement'))
       ->set('recipe_details_ingredients', $form_state->getValue('recipe_details_ingredients'))
       ->set('recipe_details_ingredients_measurement', $form_state->getValue('recipe_details_ingredients_measurement'))
       ->set('recipe_details_servings', $form_state->getValue('recipe_details_servings'))

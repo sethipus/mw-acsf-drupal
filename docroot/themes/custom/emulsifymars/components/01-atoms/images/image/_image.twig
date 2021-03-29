@@ -32,7 +32,8 @@
   src="{{ image_src }}"
   {% if image_alt %}
     alt="{{ image_alt }}"
-    aria-label="{{ image_alt }}"
+  {% else %}
+    alt=""
   {% endif %}
   {% if image_title %}
     title="{{ image_title }}"

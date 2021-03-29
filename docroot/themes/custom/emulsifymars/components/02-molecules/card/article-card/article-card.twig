@@ -1,23 +1,26 @@
-{% set article_card_base_class = 'article-card' %}
+{% set card__base_class = 'article-card' %}
+{% set card__modifiers = [] %}
+{% set card__extra_classes = ['card-item'] %}
+
 {% if article_card_eyebrow %}
   {% set article_card_paragraph_modifiers = article_card_paragraph_modifiers|merge(['with-eyebrow']) %}
 {% endif %}
 
-{% if select_background_color == 'color_c' %}
-  {% set card__extra_classes = ['article-card', 'card-item', 'bg-color-C', 'bg-gradient-C'] %}
-{% elseif select_background_color == 'color_d' %}
-  {% set card__extra_classes = ['article-card', 'card-item', 'bg-color-D', 'bg-gradient-D'] %}
-{% elseif select_background_color == 'color_e' %}
-  {% set card__extra_classes = ['article-card', 'card-item', 'bg-color-E', 'bg-gradient-E'] %}
+{% if article_card_background_img_url == '' %}
+  {% if select_background_color == 'color_c' %}
+    {% set card__extra_classes = card__extra_classes | merge(['bg-color-C', 'bg-gradient-C']) %}
+  {% elseif select_background_color == 'color_d' %}
+    {% set card__extra_classes = card__extra_classes | merge(['bg-color-D', 'bg-gradient-D']) %}
+  {% elseif select_background_color == 'color_e' %}
+    {% set card__extra_classes = card__extra_classes | merge(['bg-color-E', 'bg-gradient-E']) %}
+  {% endif %}
 {% else %}
-  {% set card__extra_classes = [] %}
+  {% set card__modifiers = card__modifiers | merge(['with-bg-img']) %}
 {% endif %}
 
-<section
-  {% if card__extra_classes|length > 0 and article_card_background_img_url == '' %}
-    {{ bem('', '', '', card__extra_classes) }}
-  {% else %}
-    class="article-card article-card--with-bg-img card-item"
+<section {{ bem(card__base_class, card__modifiers, '', card__extra_classes) }}
+  {% if article_card_background_img_url != '' %}
+    style="{{ 'background-image: url(' ~ article_card_background_img_url ~ ')' }}"
   {% endif %}
 
   data-card-type="article-card"
@@ -28,7 +31,7 @@
     {% include "@atoms/badge/badge.twig" %}
   {% endif %}
 
-  {% if  article_card_background_img_url == '' %}
+  {% if article_card_background_img_url == '' %}
     <div class="article-card__brand-shape">
       {{ brand_shape | raw }}
     </div>

@@ -35,7 +35,8 @@
       <div {{ bem('polling__fieldset', [polling_fieldset_modifier]) }} >
         {% for key, value in choices %}
           <label class="polling__label" for="edit-choice-{{key}}">
-            <input class="polling__radio" type="radio" name="choice" id="edit-choice-{{key}}" value="{{key}}" data-drupal-selector="edit-choice-{{key}}" />
+            <input class="polling__radio" type="radio" name="choice" id="edit-choice-{{key}}" value="{{key}}" data-drupal-selector="edit-choice-{{key}}">
+            <span class="checkmark"></span>
             <span class="polling__label-text">{{value}}</span>
           </label>
         {% endfor %}

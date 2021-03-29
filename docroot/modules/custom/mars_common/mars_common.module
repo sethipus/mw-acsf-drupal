@@ -38,9 +38,9 @@ use Drupal\Core\Cache\Cache;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\mars_common\Constants\MenuConstants;
 use Drupal\mars_common\Constants\SocialMediaConstants;
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\node\NodeInterface;
 use Drupal\mars_common\Form\MarsCardColorSettingsForm;
+use Drupal\mars_product\Form\BazaarvoiceConfigForm;
 
 /**
  * Implements hook_menu_insert().
@@ -58,6 +58,13 @@ function mars_common_menu_insert(Menu $menu) {
       $menu_link->save();
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function mars_common_preprocess_node(&$variables) {
+  unset($variables['attributes']['role']);
 }
 
 /**
@@ -138,6 +145,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_title' => NULL,
         'brand_border' => NULL,
         'text_color_override' => NULL,
+        'hover_color' => NULL,
+        'mobile_color' => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],
@@ -157,6 +166,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'social_header' => NULL,
         'current_region_title' => NULL,
         'text_color_override' => NULL,
+        'hover_color' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -227,6 +237,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'styles' => NULL,
         'dark_overlay' => NULL,
+        'graphic_divider' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -1551,14 +1562,9 @@ function mars_common_page_attachments(&$page) {
 
   $node = $current_route->getParameter('node');
   if (!empty($node) && $node instanceof NodeInterface) {
-    $show_rating_and_reviews = \Drupal::config('emulsifymars.settings')->get('show_rating_and_reviews');
+    $show_rating_and_reviews = \Drupal::config(BazaarvoiceConfigForm::SETTINGS)->get('show_rating_and_reviews');
     if ($show_rating_and_reviews) {
-      if (EnvironmentDetector::isProdEnv()) {
-        $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
-      }
-      else {
-        $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
-      }
+      $page['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
     }
   }
 }

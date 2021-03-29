@@ -42,7 +42,6 @@
       background-repeat: no-repeat;
       background-position: center center;
       padding-top: 50px;
-      position: relative;
       height: 1000px;
 
       @include medium {
@@ -90,7 +89,7 @@
 
         .product-card, .article-card {
           min-height: 444px;
-          
+
           @include medium {
             width: 396px;
             height: 528px;
@@ -115,7 +114,7 @@
             @include large {
               max-width: 370px;
             }
-          } 
+          }
 
           @include large {
             .eyebrow {
@@ -240,6 +239,8 @@
             text-decoration: none;
             display: inline-block;
             max-width: 828px;
+            z-index: 2;
+            position: relative;
           }
         }
 
@@ -249,6 +250,7 @@
           font-weight: 500;
           color: clr(secondary);
           line-height: 5rem;
+          z-index: 2;
 
           @include xs {
             bottom: -5px;
@@ -320,6 +322,19 @@
 
       .wrapper > section {
         text-align: initial;
+      }
+    }
+
+    &.dark-overlay {
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-image: linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.49), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.29), rgba(0, 0, 0, 0.2));
       }
     }
   }

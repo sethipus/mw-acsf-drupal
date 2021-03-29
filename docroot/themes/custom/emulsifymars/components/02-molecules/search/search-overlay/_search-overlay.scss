@@ -170,7 +170,7 @@
 
     & input.mars-autocomplete-field {
       @include large {
-        border-radius: variable(card-border-radius);
+        border-radius: variable(button-border-radius);
       }
     }
 
@@ -213,6 +213,9 @@
         margin-top: 10px;
         color: clr(subcolor-3);
         line-height: 150%;
+        .empty-text{
+          font-weight: bold;
+        }
       }
     }
 

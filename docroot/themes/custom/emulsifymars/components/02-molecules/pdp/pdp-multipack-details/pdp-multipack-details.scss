@@ -1,6 +1,5 @@
 .pdp-multipack-details {
   position: relative;
-  margin-bottom: 4rem;
 
   &::after {
     content: '';
@@ -14,6 +13,8 @@
   }
 
   &:last-child {
+    margin-bottom: 4rem;
+
     &::after {
       display: none;
     }
@@ -31,6 +32,11 @@
     @include medium {
       flex-direction: row;
       height: 37.7rem;
+    }
+
+    &--dual-label {
+      height: auto;
+      padding: 75px 0 10px;
     }
   }
 
