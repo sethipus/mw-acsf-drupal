@@ -112,7 +112,6 @@
         top: calc(50% - 7.5rem / 2);
         left: calc(50% - 7.5rem / 2);
 
-
         @include medium {
           width: 8.56rem;
           height: 8.56rem;
@@ -125,6 +124,21 @@
           height: 10rem;
           top: calc(50% - 10rem / 2);
           left: calc(50% - 10rem / 2);
+        }
+
+        .play-icon {
+          width: 2.34rem;
+          height: 2.79rem;
+
+          @include medium {
+            width: 2.67rem;
+            height: 3.19rem;
+          }
+
+          @include xl {
+            width: 3.12rem;
+            height: 3.72rem;
+          }
         }
       }
 
