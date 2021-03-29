@@ -77,6 +77,13 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
   protected $currentRequest;
 
   /**
+   * File entity storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  private $fileStorage;
+
+  /**
    * LighthouseQueueWorker constructor.
    */
   public function __construct(
@@ -92,6 +99,7 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaStorage = $entity_type_manager->getStorage('media');
+    $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->configFactory = $config_factory;
     $this->lighthouseClient = $lighthouse_client;
     $this->lighthouseAdapter = $lighthouse;
@@ -127,13 +135,22 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
       $host = $this->currentRequest->getSchemeAndHttpHost();
       /* @var \Drupal\media\Entity\Media $media */
       foreach ($data as $media) {
-        $asset_ids[] = $media->field_external_id->value;
+        $note = [];
+
+        if ($media->bundle() === 'lighthouse_image') {
+          $file_id = $media->field_media_image->target_id;
+          /** @var \Drupal\file\Entity\File $file */
+          $file = $this->fileStorage->load($file_id);
+          $file_url = $file->getFileUri();
+          $note['assetUrls'] = [$file_url];
+        }
+
         $asset_list[] = [
           'assetId' => $media->field_external_id->value,
           'isDerivedAsset' => FALSE,
           'repoId' => $host . ':' . $media->id(),
           'repoLoc' => '',
-          'note' => '',
+          'note' => json_encode($note),
         ];
       }
     }

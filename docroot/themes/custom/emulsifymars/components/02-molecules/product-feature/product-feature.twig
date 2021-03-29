@@ -34,7 +34,8 @@
           {% include "@atoms/text/headings/_heading.twig" with {
             heading: heading,
             heading_level: heading_level,
-            heading_url: default_link_attributes.href
+            heading_url: default_link_attributes.href,
+            heading_link_attributes: heading_link_attributes,
           } %}
           {% include "@atoms/links/defaultLink/defaultLink.twig" with {
             default_link_content: default_link_content,
