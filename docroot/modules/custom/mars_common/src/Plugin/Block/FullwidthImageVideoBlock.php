@@ -85,6 +85,8 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         'title' => $media_params['title'] ?? NULL,
       ];
     }
+    // Add media aspect ratio.
+    $build['#media']['aspect_ratio'] = $config['aspect_ratio'] ?? '16-9';
 
     $build['#theme'] = 'fullwidth_image_video_block';
 
@@ -132,6 +134,21 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
       'required' => [
         ':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_PARALLAX_IMAGE],
       ],
+    ];
+
+    // Specify media asset aspect ratio.
+    $form['aspect_ratio'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Aspect ratio'),
+      '#description' => $this->t('Please specify the media asset aspect ratio'),
+      '#options' => [
+        '1-1' => $this->t('1:1 (Original)'),
+        '3-4' => $this->t('3:4 (Portrait)'),
+        '4-3' => $this->t('4:3 (Landscape)'),
+        '16-9' => $this->t('16:9 (Landscape)'),
+        '21-9' => $this->t('21:9 (Landscape)'),
+      ],
+      '#default_value' => $config['aspect_ratio'] ?? '16-9',
     ];
 
     return $form;

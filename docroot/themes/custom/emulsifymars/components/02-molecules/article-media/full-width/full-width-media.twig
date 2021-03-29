@@ -4,6 +4,9 @@
 {% else %}
     {% set full_width__base_class = 'article-full-width' %}
 {% endif %}
+{% if media.aspect_ratio %}
+  {% set aspect_ratio = media.aspect_ratio %}
+{% endif %}
 
 <section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}"
   {% if heading and media.video %}
