@@ -199,7 +199,12 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
         /** @var \Drupal\node\Entity\Node[] $products */
         $products = $this->entityTypeManager->getStorage('node')
           ->loadByProperties([
-            'type' => ['product', 'product_multipack'],
+            'type' => ['product_multipack'],
+          ]);
+        $products += $this->entityTypeManager->getStorage('node')
+          ->loadByProperties([
+            'type' => ['product'],
+            'field_product_generated' => FALSE,
           ]);
         $products_for_render = [];
         $default_product = [];

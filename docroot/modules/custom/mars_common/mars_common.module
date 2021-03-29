@@ -267,7 +267,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'image_alt' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
-        'brand_shape' => NULL,
+        'new_window' => NULL,
       ],
       'template' => 'product-feature-block',
     ],
@@ -903,7 +903,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     if (isset($matches[1])) {
       // Force a session for user so it would be possible to see the results
       // in case of cashed component with incorrect state.
-      $_SESSION['poll_vote'][(int) $matches[1]] = FALSE;
+      $form['#cache'] = ['max-age' => 0];
     }
     $form['actions']['cancel'] = NULL;
     if ($form['actions']['vote']['#ajax'] ?? NULL) {
@@ -1667,20 +1667,25 @@ function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterfa
     $value = isset($values[$social_media . '_enable'])
       ? $values[$social_media . '_enable']
       : $form[$social_media][$social_media . '_enable']['#default_value'];
+    $is_external_link = preg_grep('/^http/', $form[$social_media][$social_media . '_api_url']);
     if ($social_media_enabled_count > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM - 1) {
       if ($value) {
         $i++;
         if ($i > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM) {
-          $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
-          $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
-          $form_state->setValue($social_media . '_enable', FALSE);
-          $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+          if (!empty($is_external_link)) {
+            $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+            $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+            $form_state->setValue($social_media . '_enable', FALSE);
+            $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+          }
         }
       }
       else {
-        $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
-        $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
-        $form_state->setValue($social_media . '_enable', FALSE);
+        if (!empty($is_external_link)) {
+          $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+          $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+          $form_state->setValue($social_media . '_enable', FALSE);
+        }
       }
     }
   }

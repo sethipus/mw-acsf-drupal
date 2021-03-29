@@ -57,7 +57,7 @@
       <div class="image-wrapper {{image_size}}">
         <div class="image-background {{image_size}}">
         {% if card__link__url %}
-          <a href="{{card__link__url}}">
+          <a href="{{card__link__url}}" target="{{ card__link__new_window }}">
         {% endif %}
         <div class="brand-shape">
           {{ brand_shape | raw }}
@@ -81,6 +81,9 @@
     {# Heading #}
     {% if card__heading %}
       {{ title_prefix }}
+      {% set heading_link_attributes = {
+        'target': card__link__new_window,
+      } %}
       {% include "@atoms/text/headings/_heading.twig" with {
         heading_base_class: card__heading__base_class|default('heading'),
         heading_modifiers: card__heading__modifiers,
@@ -90,7 +93,8 @@
         heading_url: card__heading__link|default(card__link__url),
         heading_link_base_class: card__heading__link_base_class|default('heading-link'),
         heading_link_blockname: card__base_class,
-        text_color_override: text_color_override
+        text_color_override: text_color_override,
+        heading_link_attributes: heading_link_attributes,
       } %}
       {{ title_suffix }}
     {% endif %}
@@ -118,7 +122,10 @@
     {# Link #}
     {% if card__link__url and card__link__text %}
       <div class="cta-wrapper">
-        {% set attr = {'href': card__link__url} %}
+        {% set attr = {
+          'href': card__link__url,
+          'target': card__link__new_window,
+        } %}
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
           default_link_content: card__link__text,
           default_link_attributes: attr

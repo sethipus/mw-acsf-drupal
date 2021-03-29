@@ -243,7 +243,7 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
       }
       $social_menu_items[$name]['title'] = $social_media['text'];
       $social_menu_items[$name]['url'] = $this->token->replace($social_media['api_url'], ['node' => $node]);
-      $social_menu_items[$name]['item_modifiers'] = $social_media['attributes'];
+      $social_menu_items[$name]['item_modifiers'] = $this->socialMediaConvertAttributes($social_media['attributes']);
 
       if (isset($social_media['default_img']) && $social_media['default_img']) {
         $icon_path = $base_url . '/' . drupal_get_path('module', 'social_media') . '/icons/';
@@ -267,6 +267,31 @@ class ArticleHeader extends BlockBase implements ContextAwarePluginInterface, Co
     }
 
     return $social_menu_items;
+  }
+
+  /**
+   * Converts attributes from configuration to valid attributes for template.
+   *
+   * @param string $variables
+   *   List of configured attributes.
+   *
+   * @return array
+   *   Returns render-compatible list of link attributes.
+   */
+  protected function socialMediaConvertAttributes(string $variables): array {
+    $variable = explode("\n", $variables);
+    $attributes = [];
+    if (count($variable)) {
+      foreach ($variable as $each) {
+        if ($each === '') {
+          continue;
+        }
+        $var = explode("|", $each);
+        $value = str_replace(["\r\n", "\n", "\r"], "", $var[1]);
+        $attributes[$var[0]] = $value;
+      }
+    }
+    return $attributes;
   }
 
 }

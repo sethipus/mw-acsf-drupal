@@ -107,10 +107,11 @@
         </div>
       </div>
       {% if show_rating_and_reviews == true %}
+        {% set data_bv_product_id = gtin_old|length > 0 ? gtin_old : gtin %}
         {% if pdp_is_main_variant %}
-          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}"></div>
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ data_bv_product_id }}"></div>
         {% else %}
-          <div data-bv-show="rating_summary" data-bv-product-id="{{ gtin }}" data-bv-seo="false"></div>
+          <div data-bv-show="rating_summary" data-bv-product-id="{{ data_bv_product_id }}" data-bv-seo="false"></div>
         {% endif %}
       {% endif %}
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
