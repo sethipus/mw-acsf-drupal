@@ -221,7 +221,7 @@ class SearchResultsBlockTest extends UnitTestCase {
       ->method('getGraphicDivider');
 
     $this->languageHelperMock
-      ->expects($this->once())
+      ->expects($this->exactly(2))
       ->method('translate')
       ->willReturn('Results for: ');
 

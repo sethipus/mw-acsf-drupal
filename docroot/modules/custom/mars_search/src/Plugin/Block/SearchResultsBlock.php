@@ -88,6 +88,14 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $form = parent::buildConfigurationForm($form, $form_state);
 
     $config = $this->getConfiguration();
+
+    $form['title'] = [
+      '#title' => $this->languageHelper->translate('Title'),
+      '#type' => 'textfield',
+      '#size' => 55,
+      '#default_value' => $config['title'] ?? $this->languageHelper->translate('All results'),
+    ];
+
     $this->buildOverrideColorElement($form, $config, TRUE);
 
     return $form;
@@ -139,7 +147,7 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
                                     : '';
     $build['#graphic_divider'] = $file_divider_content ?? '';
     $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
-    $build['#ajax_card_grid_heading'] = $this->t('All results');
+    $build['#ajax_card_grid_heading'] = !empty($config['title']) ? $config['title'] : $this->languageHelper->translate('All results');
     $build['#theme'] = 'mars_search_search_results_block';
     $build['#attached']['library'][] = 'mars_search/datalayer_search';
     $build['#attached']['library'][] = 'mars_search/search_pager';

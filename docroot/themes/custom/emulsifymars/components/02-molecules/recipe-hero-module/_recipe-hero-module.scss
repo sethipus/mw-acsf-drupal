@@ -148,7 +148,7 @@ $xl-left-margin: 11.583rem;
     display: block;
     width: 100%;
     padding-bottom: 70.7%;
-    background-size: auto 150%;
+    background-size: cover;
 
     @include medium {
       padding-bottom: 60.9%;
@@ -344,7 +344,6 @@ $xl-left-margin: 11.583rem;
 
     @include small {
       margin: 0 auto;
-      max-width: 335;
       line-height: 1.6;
     }
 
@@ -379,6 +378,7 @@ $xl-left-margin: 11.583rem;
       margin-top: 52px;
       margin-bottom: 28px;
       margin-left: 116px;
+      max-width: 665px;
     }
 
     .social-menu {

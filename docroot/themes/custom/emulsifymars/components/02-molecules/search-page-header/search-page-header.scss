@@ -6,8 +6,8 @@
   background-color: clr(secondary);
   overflow: hidden;
   padding: 5rem 2rem 4rem;
-  min-height: 578px;
   margin-bottom: 5rem;
+  min-height: 30.5rem;
 
   @include medium {
     padding: 10rem 4rem;
@@ -126,6 +126,11 @@
     background-color: clr(subcolor-3);
     position: relative;
     border-radius: var(--v-button-border-radius);
+    width: 100%;
+
+    @include large {
+      width: 89.6rem;
+    }
 
     &.suggested {
       border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;

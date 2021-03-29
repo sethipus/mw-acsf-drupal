@@ -100,6 +100,8 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     }
     $build['#explore_cta'] = $this->languageHelper->translate($conf['explore_cta'] ?? '');
     $build['#explore_cta_link'] = $conf['explore_cta_link'] ?? '';
+    $new_window = $conf['new_window'] ?? NULL;
+    $build['#new_window'] = ($new_window == TRUE) ? '_blank' : '_self';
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
 
     $build['#theme'] = 'product_feature_block';
@@ -173,6 +175,11 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
         '#default_value' => $this->configuration['explore_cta_link'] ?? '',
         '#required' => TRUE,
       ],
+      'new_window' => [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Open CTA link in a new tab'),
+        '#default_value' => $this->configuration['new_window'] ?? FALSE,
+      ],
     ];
 
     return $form;
@@ -189,6 +196,7 @@ class ProductFeatureBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->configuration['image'] = $this->getEntityBrowserValue($form_state, 'image');
     $this->configuration['explore_cta'] = $form_state->getValue('explore_group')['explore_cta'];
     $this->configuration['explore_cta_link'] = $form_state->getValue('explore_group')['explore_cta_link'];
+    $this->configuration['new_window'] = $form_state->getValue('explore_group')['new_window'];
   }
 
 }
