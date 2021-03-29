@@ -49,12 +49,12 @@
   {# Image #}
   {% block card__img %}
     {% if card__image__src %}
-      <div class="image-wrapper">
-        {% if card__image__size == '16:9' %}
-            {% set image_size = 'image-size-large' %}
-          {% else %}
-            {% set image_size = 'image-size-small' %}
-          {% endif %}
+      {% if card__image__size == '16:9' %}
+        {% set image_size = 'image-size-large' %}
+      {% else %}
+        {% set image_size = 'image-size-small' %}
+      {% endif %}
+      <div class="image-wrapper {{image_size}}">
         <div class="image-background {{image_size}}">
         {% if card__link__url %}
           <a href="{{card__link__url}}">
