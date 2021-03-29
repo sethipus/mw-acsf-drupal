@@ -75,6 +75,10 @@ steps:
         composer validate --no-check-all --ansi &&
         composer install &&
         npm install npm@latest -g
+  - task: Bash@3
+    displayName: 'BLT Validation'
+    inputs:
+      filePath: '$(scriptDir)/validate.sh'
   - task: Npm@1
     inputs:
       command: 'ci'
@@ -84,10 +88,6 @@ steps:
       command: 'custom'
       workingDir: 'docroot/themes/custom/emulsifymars'
       customCommand: 'run build'
-  - task: Bash@3
-    displayName: 'BLT Validation'
-    inputs:
-      filePath: '$(scriptDir)/validate.sh'
   - task: Bash@3
     displayName: 'Setup Environment'
     inputs:
