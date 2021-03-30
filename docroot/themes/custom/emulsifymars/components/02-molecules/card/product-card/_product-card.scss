@@ -1,4 +1,6 @@
 .product-card {
+  $this: &;
+
   min-height: 520px;
   border-radius: variable(card-border-radius);
   transition: cubic-bezier(0.75, 0, 0.25, 0), 0.8s;
@@ -216,6 +218,29 @@
     color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.4rem;
+  }
+
+  &--eyebrow-with-rating {
+    @include max-width-interval(0 $medium) {
+      .eyebrow {
+        padding-top: 1.5rem;
+      }
+
+      #{$this} {
+        &__image {
+          height: 24.5rem;
+          padding-top: 2rem;
+        }
+
+        &__title {
+          margin-top: 0.5rem;
+        }
+
+        &__link_section {
+          bottom: 1.5rem;
+        }
+      }
+    }
   }
 }
 
