@@ -1,4 +1,5 @@
 {% set card__base_class = 'product-card' %}
+{% set card__modificators = [] %}
 {% set link_content = wtb_cta_title ? wtb_cta_title|mt : 'Buy now'|mt %}
 {{ attach_library('emulsifymars/product-card') }}
 
@@ -11,7 +12,11 @@
   {% set card__extra_classes = ['card-item'] %}
 {% endif %}
 
-<section {{ bem(card__base_class, [], card__blockname, card__extra_classes) }}
+{% if card__eyebrow is not empty and show_rating_and_reviews == true %}
+  {% set card__modificators = card__modificators | merge(["eyebrow-with-rating"]) %}
+{% endif %}
+
+<section {{ bem(card__base_class, card__modificators, card__blockname, card__extra_classes) }}
          data-theme="{{ theme_styles }}"
          data-site-search-clicked="{{ item.paragraph_content }}"
          data-datalayer-gtin="{{ product_sku }}"
