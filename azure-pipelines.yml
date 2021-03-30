@@ -154,7 +154,7 @@ steps:
     displayName: 'Deploy Release Branch For QA Environment'
     condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'), startsWith(variables['build.sourceBranchName'], 'release'))
     inputs:
-     targetType: 'inline'
-     script: |
-       ./scripts/deploy_branch.sh &&
-       ./scripts/deploy_db.sh 01qa $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
+      targetType: 'inline'
+      script: |
+        ./scripts/deploy_branch.sh &&
+        ./scripts/deploy_db.sh 01qa $(Build.SourceBranchName)-build code,db $(deployment_user) $(deployment_api_key) $(stack_id)
