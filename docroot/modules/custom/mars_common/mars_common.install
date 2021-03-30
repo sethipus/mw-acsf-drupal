@@ -134,7 +134,7 @@ function mars_common_update_8007() {
 /**
  * Delete syslog logs from the public filesystem.
  */
-function mars_common_update_8008() {
+function mars_common_update_8009() {
   \Drupal::service('file_system')->deleteRecursive('public://logs/archive');
   \Drupal::service('file_system')->delete('public://logs/drupal.log');
 }
