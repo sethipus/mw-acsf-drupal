@@ -168,7 +168,12 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
             'word_boundary' => TRUE,
             'ellipsis' => TRUE,
           ];
-          $suggestions[] = FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value));
+          $suggestions[] = [
+            '#type' => 'html_tag',
+            '#tag' => 'button',
+            '#attributes' => [],
+            '#value' => FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value)),
+          ];
         }
         else {
           $suggestions[] = $options['cards_view'] ? $this->viewBuilder->view($entity, 'card') : $entity->toLink();
