@@ -444,7 +444,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textfield',
       '#title' => $this->t('Daily value label'),
       '#default_value' => $this->configuration['nutrition']['daily_label'],
-      '#required' => TRUE,
     ];
     $form['nutrition']['vitamins_label'] = [
       '#type' => 'textfield',
@@ -461,7 +460,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#type' => 'textarea',
       '#title' => $this->t('Daily value information text'),
       '#default_value' => $this->configuration['nutrition']['daily_text'],
-      '#required' => TRUE,
     ];
     $form['nutrition']['refer_text'] = [
       '#type' => 'textarea',
@@ -572,6 +570,22 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $display = 'product_hero';
     $widget_id_field = $this->productHelper->getWidgetIdField($display);
 
+    $view_type = $this->nutritionHelper
+      ->getNutritionConfig()
+      ->get('view_type');
+    $serving_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
+      ? $this->languageHelper->translate('Amount per 100g')
+      : $this->languageHelper->translate('Amount per serving');
+    $daily_label = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
+      ? ''
+      : $this->languageHelper->translate('% Daily value');
+    $daily_text = (isset($view_type) && $view_type == self::NUTRITION_VIEW_UK)
+      ? ''
+      : $this->languageHelper->translate(
+        'The % Daily Value (DV) tells you how much a nutrient in a serving of food' .
+        ' contributes to a daily diet. 2,000 calories a day is used for general advice.'
+      );
+
     return [
       'label_display' => FALSE,
       'use_background_color' => $config['use_background_color'] ?? FALSE,
@@ -582,14 +596,11 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'available_sizes' => $config['available_sizes'] ?? $this->t('Available sizes'),
       'nutrition' => [
         'label' => $config['nutrition']['label'] ?? $this->t('Nutrition'),
-        'serving_label' => $config['nutrition']['serving_label'] ?? $this->t('Amount per serving'),
-        'daily_label' => $config['nutrition']['daily_label'] ?? $this->t('% Daily value'),
+        'serving_label' => $config['nutrition']['serving_label'] ?? $serving_label,
+        'daily_label' => $config['nutrition']['daily_label'] ?? $daily_label,
         'vitamins_label' => $config['nutrition']['vitamins_label'] ?? $this->t('Vitamins | Minerals'),
         'added_sugars_label' => $config['nutrition']['added_sugars_label'] ?? $this->languageHelper->translate('Includes'),
-        'daily_text' => $config['nutrition']['daily_text'] ?? $this->languageHelper->translate(
-            'The % Daily Value (DV) tells you how much a nutrient in a serving of food' .
-            ' contributes to a daily diet. 2,000 calories a day is used for general advice.'
-        ),
+        'daily_text' => $config['nutrition']['daily_text'] ?? $daily_text,
         'refer_text' => $config['nutrition']['refer_text'] ?? $this->languageHelper->translate(
             'Please refer to the product label for the most accurate nutrition, ingredient, and allergen information.'),
       ],
@@ -628,7 +639,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $product_sku = '';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $reference->entity;
-      $product_sku = $this->productHelper->formatSku($product_variant->get('field_product_sku')->value);
+      if (!empty($product_variant)) {
+        $product_sku = $this->productHelper->formatSku($product_variant->get('field_product_sku')->value);
+      }
     }
     $background_color = !empty($this->configuration['use_background_color']) && !empty($this->configuration['background_color']) ?
       '#' . $this->configuration['background_color'] : '';
@@ -720,6 +733,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $main_variant = $this->productHelper->mainVariant($node);
 
     foreach ($node->field_product_variants as $reference) {
+      if (empty($reference->entity)) {
+        continue;
+      }
       $product_variant = $this->languageHelper->getTranslation($reference->entity);
       $size_id = $product_variant->id();
       $i++;
@@ -733,6 +749,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
 
       $items[] = [
+        'ratings_id' => RatingBazarvoiceBlock::getRatingsId($gtin),
         'gtin' => $gtin,
         'size_id' => $size_id,
         'active' => $state,
@@ -799,6 +816,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $state = $i == 1 ? 'true' : 'false';
       $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
+        'ratings_id' => RatingBazarvoiceBlock::getRatingsId($gtin),
         'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,
@@ -903,6 +921,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     $field_size = 'field_product_size';
     foreach ($node->field_product_variants as $reference) {
       $product_variant = $this->languageHelper->getTranslation($reference->entity);
+      if (empty($product_variant)) {
+        continue;
+      }
       $size = $product_variant->get($field_size)->value;
       $size_id = $product_variant->id();
       $items[] = [
@@ -936,6 +957,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'label' => $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':',
         'value' => $node->get('field_product_servings_per')->value,
       ],
+      'hide_dialy_value_column' => TRUE,
     ];
 
     $mapping = $this->nutritionHelper
@@ -952,6 +974,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'weight' => $field_data['weight'],
         ];
         if ($field_data['daily_field'] !== 'none') {
+          $result_item['hide_dialy_value_column'] = FALSE;
           $item['value_daily']
             = $node->get($field_data['daily_field'])->value;
         }

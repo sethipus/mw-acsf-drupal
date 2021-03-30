@@ -5,6 +5,7 @@
   <section {{ bem(pdp_template__base_class) }} data-theme="{{ theme_styles }}" data-pdp-size-active={{pdp_item.active}} data-pdp-size-id={{pdp_item.size_id}}>
     <!-- PDP Hero Module -->
     {% include "@molecules/pdp/pdp-hero/pdp-hero.twig" with {
+      ratings_id: pdp_item.ratings_id,
       gtin: pdp_item.gtin,
       size_id: pdp_item.size_id,
       pdp_common_hero_data: pdp_common_data.hero_data,
