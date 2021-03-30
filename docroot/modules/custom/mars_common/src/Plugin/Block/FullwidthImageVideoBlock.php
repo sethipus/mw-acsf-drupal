@@ -72,6 +72,8 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         'title' => $media_params['title'] ?? NULL,
       ];
     }
+    // Add media aspect ratio.
+    $build['#media']['aspect_ratio'] = $config['aspect_ratio'] ?? '16-9';
 
     $build['#theme'] = 'fullwidth_image_video_block';
 
