@@ -8,8 +8,6 @@ import recipeHeroModuleVideoData from './recipe-hero-module-video.yml';
 import recipeHeroModuleImageData from './recipe-hero-module-image.yml';
 import recipeSocial from '../menus/social/social-menu.yml';
 
-import './recipe-hero-module';
-
 /**
  * Storybook Definition.
  */
