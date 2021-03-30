@@ -196,16 +196,13 @@ function product_card_add_wtb_vars(array &$variables) {
  */
 function product_card_add_bazaarvoice_vars(array &$variables) {
   $show_rating_and_reviews = NULL;
-  $gtin_old = NULL;
+  $ratings_id = NULL;
   $product = $variables['node'];
 
   foreach ($product->field_product_variants as $reference) {
     $product_variant = $reference->entity;
     $gtin = $product_variant->get('field_product_sku')->value;
-
-    if (array_key_exists($gtin, RatingBazarvoiceBlock::BAZAARVOICE_SKU_MAPPING)) {
-      $gtin_old = RatingBazarvoiceBlock::BAZAARVOICE_SKU_MAPPING[$gtin];
-    }
+    $ratings_id = RatingBazarvoiceBlock::getRatingsId($gtin);
   }
 
   if ($product->hasField('field_rating_and_reviews') &&
@@ -223,7 +220,7 @@ function product_card_add_bazaarvoice_vars(array &$variables) {
     $variables['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
   }
   $variables['show_rating_and_reviews'] = $show_rating_and_reviews;
-  $variables['gtin_old'] = $gtin_old;
+  $variables['ratings_id'] = $ratings_id;
 }
 
 /**

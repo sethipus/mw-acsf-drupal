@@ -1,7 +1,7 @@
 {% for pdp_item in items %}
   {% if pdp_item.show_rating_and_reviews == true %}
   <div data-review-size-id="{{ pdp_item.size_id }}" data-theme="{{ theme_styles }}">
-    <div data-bv-show="reviews" data-bv-product-id="{{ pdp_item.gtin }}" ></div>
+    <div data-bv-show="reviews" data-bv-product-id="{{ pdp_item.ratings_id }}" ></div>
   </div>
   {% endif %}
 {% endfor %}
