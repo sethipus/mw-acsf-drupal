@@ -131,38 +131,18 @@ $outer-container-break: $small;
     z-index: $brand-border-overflow-zindex;
 
     &--no-overflow {
-      display: none;
-    }
-
-    svg {
-      display: block;
-      top: $brand-border2-offset;
-      width: 100%;
-      fill: clr(subcolor-2);
-    }
-  }
-
-  .layout-builder__section & &__border {
-    position: relative;
-    transform: none;
-    background-color: $white;
-    background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
-  }
-}
-
-@mixin brand-border-visible-overflow {
-  &__border{
-    position: absolute;
-    width: 100%;
-    transform: translateY(-100%) translateY($brand-border2-offset);
-    z-index: $brand-border-overflow-zindex;
-
-    &--no-overflow {
       position: relative;
       transform: none;
-     background-color: $white;
+      background-color: $white;
+      margin-top: 5rem;
+	
+	    @include medium {
+	      margin-top: 6rem;
+	    }
+
+	    @include large {
+	      margin-top: 8rem;
+	    }
     }
 
     svg {
@@ -170,6 +150,7 @@ $outer-container-break: $small;
       top: $brand-border2-offset;
       width: 100%;
       fill: clr(subcolor-2);
+      height: auto;
     }
   }
 
