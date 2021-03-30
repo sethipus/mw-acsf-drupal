@@ -158,13 +158,9 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
         }
         $gtin = $product_variant->get('field_product_sku')->value;
 
-        if (array_key_exists($gtin, static::BAZAARVOICE_SKU_MAPPING)) {
-          $gtin = static::BAZAARVOICE_SKU_MAPPING[$gtin];
-        }
-
         $size_id = $product_variant->id();
         $build['#items'][] = [
-          'gtin' => trim($gtin),
+          'ratings_id' => static::getRatingsId($gtin),
           'show_rating_and_reviews' => $this->isRatingEnable($node),
           'size_id' => $size_id,
         ];
@@ -201,6 +197,25 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
     }
 
     return $result;
+  }
+
+  /**
+   * Get ratings id.
+   *
+   * @param string $gtin
+   *   Product gtin.
+   *
+   * @return string|null
+   *   Return ratings id.
+   */
+  public static function getRatingsId(string $gtin = NULL) {
+    if (array_key_exists($gtin, static::BAZAARVOICE_SKU_MAPPING)) {
+      $ratings_id = static::BAZAARVOICE_SKU_MAPPING[$gtin];
+    }
+    else {
+      $ratings_id = $gtin;
+    }
+    return $ratings_id;
   }
 
 }
