@@ -1,7 +1,7 @@
 enabled: false
 location: 'public://logs'
 rotation:
-  schedule: daily
+  schedule: never
   delete: false
   destination: 'archive/[date:custom:Y/m/d].log'
   gzip: true
