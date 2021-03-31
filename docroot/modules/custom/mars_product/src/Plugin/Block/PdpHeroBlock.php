@@ -749,8 +749,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
 
       $items[] = [
-        'gtin_old' => array_key_exists($gtin, RatingBazarvoiceBlock::BAZAARVOICE_SKU_MAPPING) ?
-        RatingBazarvoiceBlock::BAZAARVOICE_SKU_MAPPING[$gtin] : NULL,
+        'ratings_id' => RatingBazarvoiceBlock::getRatingsId($gtin),
         'gtin' => $gtin,
         'size_id' => $size_id,
         'active' => $state,
@@ -817,8 +816,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $state = $i == 1 ? 'true' : 'false';
       $gtin = $product_variant->get('field_product_sku')->value;
       $items[] = [
-        'gtin_old' => array_key_exists($gtin, RatingBazarvoiceBlock::BAZAARVOICE_SKU_MAPPING) ?
-        RatingBazarvoiceBlock::BAZAARVOICE_SKU_MAPPING[$gtin] : NULL,
+        'ratings_id' => RatingBazarvoiceBlock::getRatingsId($gtin),
         'gtin' => !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $gtin,
         'size_id' => $size_id,
         'active' => $state,

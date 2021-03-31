@@ -79,9 +79,8 @@
     </div>
 
     {% if show_rating_and_reviews == true %}
-      {% set data_bv_product_id = gtin_old|length > 0 ? gtin_old : product_sku %}
       <div {{ bem('rating', [], card__base_class) }}>
-        <div class="inline-rating" data-bv-show="inline_rating" data-bv-product-id="{{ data_bv_product_id }}" data-bv-redirect-url="{{ item.default_link_attributes.href }}">
+        <div class="inline-rating" data-bv-show="inline_rating" data-bv-product-id="{{ ratings_id }}" data-bv-redirect-url="{{ item.default_link_attributes.href }}">
           {{ star | raw }}
           {{ star | raw }}
           {{ star | raw }}
