@@ -10,14 +10,16 @@
     data-component-title="{{ heading }}"
   {% endif %}
 >
-  <div {{ bem('heading', [], full_width__base_class) }}>
-    {% include "@atoms/text/headings/_heading.twig" with {
-      heading_level: 3,
-      heading_base_class: 'article-full-width__heading',
-      heading_modifiers: ['main-heading'],
-      heading: heading
-    } %}
-  </div>
+  {% if media.parallax_image is empty %}
+    <div {{ bem('heading', [], full_width__base_class) }}>
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 3,
+        heading_base_class: 'article-full-width__heading',
+        heading_modifiers: ['main-heading'],
+        heading: heading
+      } %}
+    </div>
+  {% endif %}
 
   <div {{ bem('media', [], full_width__base_class) }}>
     {% if media.image %}
