@@ -58,6 +58,7 @@
     left: auto;
     height: auto;
     width: auto;
+    margin-bottom: 1rem;
   }
 
   &--opened {
@@ -215,7 +216,7 @@
   cursor: pointer;
   position: relative;
   max-width: 896px;
-  margin: 0 auto;
+  margin: 0 auto 5rem;
 
   @include desktop {
     display: none;
@@ -235,10 +236,11 @@
 }
 
 .search-filter-info {
-  margin: 5rem auto 0;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   max-width: 688px;
+  border-bottom: 1px solid clr(subcolor-4);
 
   &__applied-label {
     color: clr(primary);
@@ -253,8 +255,12 @@
   &__applied-text {
     font: 16px/1.8em variable(secondary-font);
     color: clr(primary);
-    margin-top: 20px;
-    padding-right: 50px;
+    margin: 3rem auto 2rem;
+    padding: 0 5rem 0 0;
+
+    @include xl {
+      margin-bottom: 3rem;
+    }
   }
 
   &__applied-name {
