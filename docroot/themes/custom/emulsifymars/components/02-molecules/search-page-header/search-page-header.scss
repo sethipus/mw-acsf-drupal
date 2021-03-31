@@ -5,17 +5,19 @@
   align-items: center;
   background-color: clr(secondary);
   overflow: hidden;
-  padding: 5rem 2rem;
+  padding: 5rem 2rem 4rem;
+  margin-bottom: 5rem;
   min-height: 30.5rem;
 
   @include medium {
     padding: 10rem 4rem;
-    min-height: 49.4rem;
+    margin-bottom: 6rem;
   }
 
   @include xl {
     padding: 12rem 4rem 0;
     min-height: 59.4rem;
+    margin-bottom: 8rem;
   }
 
   &__brand-shape {

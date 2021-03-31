@@ -7,15 +7,7 @@
     align-items: center;
     position: relative;
     background-color: clr(subcolor-2);
-    padding: 5rem 0 6rem;
-
-    @include medium {
-      padding-top: 6rem;
-    }
-
-    @include large {
-      padding-top: 8rem;
-    }
+    padding-bottom: 6rem;
   }
 
   &__heading {
@@ -25,16 +17,24 @@
     margin-top: 0;
     font-size: 4rem;
     line-height: 4rem;
-    margin-bottom: 4rem;
+    padding: 6rem 0;
 
     @include medium {
       font-size: 5.6rem;
       line-height: 5.6rem;
     }
 
-    @include large {
+    @include xl {
       font-size: 6.4rem;
       line-height: 6.4rem;
+    }
+  }
+
+  .search-results-page &__heading {
+    margin-bottom: 4rem;
+    padding: 0;
+
+    @include xl {
       margin-bottom: 6rem;
     }
   }
@@ -43,7 +43,7 @@
     text-align: center;
     margin-bottom: 4rem;
 
-    @include large {
+    @include xl {
       margin-bottom: 6rem;
     }
   }
@@ -70,7 +70,11 @@
 
 
     & .product-card {
-      margin-bottom: 5rem;
+      margin-bottom: 4rem;
+
+      @include xl {
+        margin-bottom: 6rem;
+      }
 
       & > a {
         text-decoration: none;
