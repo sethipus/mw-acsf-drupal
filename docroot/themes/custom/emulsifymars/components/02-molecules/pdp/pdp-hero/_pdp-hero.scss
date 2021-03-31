@@ -285,7 +285,7 @@
       font-size: 1.6rem;
     }
   }
-
+  hero__sections-item
   &__list-container {
     flex: 1 0 58%;
 
@@ -417,7 +417,7 @@
   }
 
   &__sections-item {
-    width: 100%;
+    width: calc(100% - 1rem);
     margin: 0.5rem;
   }
 
