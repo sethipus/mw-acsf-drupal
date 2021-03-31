@@ -175,12 +175,6 @@
     align-self: center;
     z-index: 3;
 
-    & img, video {
-      width: 100%;
-      max-width: 100%;
-      object-fit: cover;
-    }
-
     &__wrapper{
       max-height: 43.9rem;
       & img {
@@ -248,12 +242,6 @@
   & .media_item_2 {
     z-index: 2;
     margin-left: auto;
-
-    & img, video {
-      width: 100%;
-      max-width: 100%;
-      object-fit: cover;
-    }
 
     &__wrapper{
       max-height: 32.5rem;
@@ -326,14 +314,7 @@
 
   & .media_item_3 {
     z-index: 2;
-    border-bottom: 1px solid lightgrey;
     margin-right: auto;
-
-    & img, video {
-      width: 100%;
-      max-width: 100%;
-      object-fit: cover;
-    }
 
     @include xs {
       width: 248px;
@@ -436,41 +417,31 @@
 
   &__brand-shape_1 {
     position: absolute;
-    z-index: 1;
-    top: 90rem;
-    display: flex;
-    width: 124px;
-    height: 124px;
+    z-index: -1;
 
     & img {
-      margin-right: auto;
-      margin-left: auto;
+      width: auto;
       object-fit: contain;
-      width: 100%;
-      height: 100%;
     }
 
     @include xs {
-      top: 65rem;
-      right: -1rem;
-      width: 124px;
-      height: 124px;
+      top: -67px;
+      right: -20px;
+
+      & img {
+        height: 124px;
+        max-width: 124px;
+      }
     }
 
     @include medium {
-      top: 83rem;
-      right: -1rem;
-      z-index: 1;
-      width: 196px;
-      height: 196px;
-    }
+      top: -112px;
+      right: -40px;
 
-    @include large {
-      z-index: 1;
-      top: 47rem;
-      right: -8rem;
-      width: 242px;
-      height: 242px;
+      & img {
+        max-width: 196px;
+        height: 184px;
+      }
     }
 
     @include xl {
@@ -491,32 +462,32 @@
     z-index: 1;
 
     & img {
-      margin-right: auto;
-      margin-left: auto;
-      width: 100%;
-      height: 100%;
+      width: auto;
       object-fit: contain;
     }
 
     @include xs {
-      top: 70rem;
-      left: -5rem;
+      left: -20px;
+      top: 304px;
+
+      & img {
+        max-width: 153px;
+        height: 153px;
+      }
     }
 
     @include medium {
-      top: 95rem;
-      left: -1rem;
-      width: 237px;
-      height: 237px;
+      bottom: 358px;
+      left: -40px;
+      top: inherit;
+
+      & img {
+        height: 300px;
+        max-width: 300px;
+      }
+
     }
 
-    @include large {
-      z-index: 1;
-      top: 100rem;
-      left: -8rem;
-      width: 443px;
-      height: 443px;
-    }
 
     @include xl {
       bottom: 80px;
@@ -531,37 +502,30 @@
 
   &__brand-shape_3 {
     position: absolute;
-    display: flex;
-    width: 182px;
-    height: 182px;
 
     & img {
-      margin-right: auto;
-      margin-left: auto;
-      max-width: 100%;
-      max-height: 100%;
+      width: auto;
       object-fit: contain;
     }
 
     @include xs {
-      z-index: 0;
-      right: -3rem;
-      bottom: 7rem;
+      right: -20px;
+      bottom: -50px;
+
+      & img {
+        max-width: 182px;
+        height: 182px;
+      }
     }
 
     @include medium {
-      z-index: 0;
-      right: 0;
-      bottom: 2rem;
-      width: 314px;
-      height: 314px;
-    }
+      right: -40px;
+      bottom: -20px;
 
-    @include large {
-      z-index: 0;
-      right: 0;
-      width: 356px;
-      height: 356px;
+      & img {
+        max-width: 314px;
+        height: 315px;
+      }
     }
 
     @include xl {
