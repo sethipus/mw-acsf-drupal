@@ -45,16 +45,16 @@
  #}
 {% set card__base_class = 'card' %}
 {% set card__image__output_image_tag = true %}
+{% if card__image__size == '16:9' %}
+  {% set image_size = 'image-size-large' %}
+{% else %}
+  {% set image_size = 'image-size-small' %}
+{% endif %}
 <div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }}>
   {# Image #}
   {% block card__img %}
     {% if card__image__src %}
-      <div class="image-wrapper">
-        {% if card__image__size == '16:9' %}
-            {% set image_size = 'image-size-large' %}
-          {% else %}
-            {% set image_size = 'image-size-small' %}
-          {% endif %}
+      <div class="image-wrapper {{image_size}}">
         <div class="image-background {{image_size}}">
         {% if card__link__url %}
           <a href="{{card__link__url}}" target="{{ card__link__new_window }}">
