@@ -4,7 +4,9 @@
   heading_base_class: 'no-results-heading'
 } %}
 
-{% include "@atoms/separators/horizontal-img/horizontal-img.twig" %}
+{% include "@atoms/separators/horizontal-img/horizontal-img.twig" with {
+  graphic_divider: graphic_divider
+} %}
 
 {% include "@atoms/text/text/01-paragraph.twig" with {
   paragraph_content: no_results_text,

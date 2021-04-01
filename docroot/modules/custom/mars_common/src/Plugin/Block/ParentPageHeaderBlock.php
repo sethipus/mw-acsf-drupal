@@ -168,11 +168,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $build['#styles'] = 'color:' . $this->getTextColor();
     $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
     $build['#theme'] = 'parent_page_header_block';
-    $graphic_divider = $this->themeConfiguratorParser->getUrlForFile('graphic_divider');
-    if ($graphic_divider instanceof Url) {
-      $graphic_divider = $graphic_divider->toUriString();
-    }
-    $build['#graphic_divider'] = $graphic_divider;
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     return $build;
   }
 
