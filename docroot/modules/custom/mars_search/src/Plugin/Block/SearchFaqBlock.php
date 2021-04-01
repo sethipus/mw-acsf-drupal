@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -56,6 +57,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   private $languageHelper;
 
   /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -65,7 +73,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_definition,
       $container->get('mars_search.search_factory'),
       $container->get('config.factory'),
-      $container->get('mars_common.language_helper')
+      $container->get('mars_common.language_helper'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -78,7 +87,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $plugin_definition,
     SearchProcessFactoryInterface $searchProcessor,
     ConfigFactoryInterface $configFactory,
-    LanguageHelper $language_helper
+    LanguageHelper $language_helper,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configFactory = $configFactory;
@@ -86,6 +96,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
     $this->languageHelper = $language_helper;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -150,6 +161,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
           'mars_search/search_pager',
         ],
       ],
+      '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
     ];
 
     return array_merge($render_default, $build);
