@@ -3,33 +3,48 @@
 {% set product_selector_class = product_selector_class|default('product-selector') %}
 
 <section {{bem(product_selector_class)}} data-theme={{theme_styles}}>
-  <div {{bem('information', [], product_selector_class)}}>
-    <div {{bem('image', [], product_selector_class)}}>
-      {% include "@atoms/images/image/_image.twig" with {
-        image_alt: default_product.variants[0].image_alt,
-        image_src: default_product.variants[0].image_src,
-      } %}
+  {% for key, product in products %}
+    <div {{bem('information', [], product_selector_class, ['product-' ~ product.id, key != 0 ? 'visually-hidden' : ''])}}>
+      <div {{bem('image', [], product_selector_class)}}>
+        {% set product_images = {
+          1440: product.variants[0].image_src|resize(277, 277),
+          768: product.variants[0].image_src|resize(150, 150),
+          375: product.variants[0].image_src|resize(133, 133),
+        } %}
+        {% include "@atoms/images/image/_image.twig" with {
+          image_alt: product.variants[0].image_alt,
+          image_src: product.variants[0].image_src|resize(277, 277),
+          image_array: product_images,
+          image_extra_classes: ['variant-image']
+        } %}
+        {% for product_variant in product.variants %}
+          {% include "@atoms/images/image/_image.twig" with {
+            image_alt: product_variant.image_alt,
+            image_src: product_variant.image_src|resize(277, 277),
+            image_array: product_images,
+            image_gtin: product_variant.gtin,
+            image_extra_classes: ['visually-hidden', 'variant-image']
+          } %}
+        {% endfor %}
+      </div>
+      <div {{bem('title', [], product_selector_class)}}>
+        {{ product.title }}
+      </div>
     </div>
-    <div {{bem('title', [], product_selector_class)}}>
-      {{ default_product.title }}
-    </div>
-  </div>
+  {% endfor %}
   <div {{bem('form-container', [], product_selector_class)}}>
     <form {{bem('form', [], product_selector_class)}}>
       <div {{bem('select-wrapper', [], product_selector_class)}}>
         <select {{bem('item-selector', [], product_selector_class)}}>
           {% for product in products %}
-            <option data-id="{{ product.id }}">{{ product.title }}</option>
+            <option data-id="{{ product.id }}" data-variants="{{ product.variants_json }}">{{ product.title }}</option>
           {% endfor %}
         </select>
       </div>
       <div {{bem('select-wrapper', [], product_selector_class)}}>
         <select {{bem('product-variant-selector', [], product_selector_class)}}>
-          {% for variant in default_product.variants %}
-            <option data-id="{{ variant.gtin }}"
-                    data-image-src="{{ variant.image_src }}"
-                    data-image-alt="{{ variant.image_alt }}"
-                    value="{{ variant.size }}">{{ variant.size }}</option>
+          {% for variant in products[0].variants %}
+            <option data-id="{{ variant.gtin }}" value="{{ variant.size }}">{{ variant.size }}</option>
           {% endfor %}
         </select>
       </div>

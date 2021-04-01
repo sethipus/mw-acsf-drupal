@@ -207,25 +207,25 @@ class WhereToBuyBlock extends BlockBase implements ContainerFactoryPluginInterfa
             'field_product_generated' => FALSE,
           ]);
         $products_for_render = [];
-        $default_product = [];
         foreach ($products as $product) {
+          $variants_info = $this->addProductVariantsInfo($product);
+          if (empty($variants_info) || empty($variants_info[0]['size'])) {
+            continue;
+          }
+          // Variant data for json encoded string.
+          $variants_for_json = array_map(function ($variant_item) {
+            unset($variant_item['image_src'], $variant_item['image_alt']);
+            return $variant_item;
+          }, $variants_info);
+
           $products_for_render[] = [
             'id' => $product->id(),
             'title' => $product->label(),
+            'variants' => $variants_info,
+            'variants_json' => json_encode($variants_for_json),
           ];
-          if (empty($default_product)) {
-            $variants_info = $this->addProductVariantsInfo($product);
-            if (empty($variants_info) || empty($variants_info[0]['size'])) {
-              continue;
-            }
-
-            $default_product['id'] = $product->id();
-            $default_product['title'] = $product->label();
-            $default_product['variants'] = $variants_info;
-          }
         }
         $build['#products'] = $products_for_render;
-        $build['#default_product'] = $default_product;
         break;
 
       case PdpHeroBlock::VENDOR_SMART_COMMERCE:
