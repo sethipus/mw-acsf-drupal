@@ -18,10 +18,15 @@
           image_extra_classes: ['variant-image']
         } %}
         {% for product_variant in product.variants %}
+          {% set product_variant_images = {
+            1440: product_variant.image_src|resize(277, 277),
+            768: product_variant.image_src|resize(150, 150),
+            375: product_variant.image_src|resize(133, 133),
+          } %}
           {% include "@atoms/images/image/_image.twig" with {
             image_alt: product_variant.image_alt,
             image_src: product_variant.image_src|resize(277, 277),
-            image_array: product_images,
+            image_array: product_variant_images,
             image_gtin: product_variant.gtin,
             image_extra_classes: ['visually-hidden', 'variant-image']
           } %}
