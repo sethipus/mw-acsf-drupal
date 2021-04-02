@@ -25,6 +25,7 @@
         "drupal/advagg": "^4.1",
         "drupal/bootstrap_barrio": "^4.28",
         "drupal/ckeditor_config": "^3.0",
+        "drupal/cloudflare": "^1.0@beta",
         "drupal/cog": "^1.0.0",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
@@ -57,7 +58,7 @@
         "drupal/migrate_tools": "^5.0",
         "drupal/migration_tools": "^2.2",
         "drupal/poll": "^1.4",
-        "drupal/printable": "^1.1",
+        "drupal/printable": "^2.0",
         "drupal/publication_date": "^2.0@beta",
         "drupal/qa_accounts": "^1.0.0-alpha1",
         "drupal/rabbit_hole": "^1.0@beta",
@@ -75,7 +76,7 @@
         "drupal/social_media": "^1.8",
         "drupal/tmgmt_extension_suit": "~3.4",
         "drupal/tmgmt_smartling": "^4.12",
-        "emulsify-ds/emulsify-drupal": "^1.0@beta",
+        "emulsify-ds/emulsify-drupal": "2.2.0",
         "eyecon/jquery_colorpicker": "master",
         "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
@@ -192,9 +193,6 @@
             },
             "drupal/samlauth": {
                 "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
-            },
-            "drupal/printable": {
-                "Fix file url for lighthouse images.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
             }
         }
     },
