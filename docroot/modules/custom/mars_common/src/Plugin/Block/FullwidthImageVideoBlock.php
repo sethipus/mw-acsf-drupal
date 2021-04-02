@@ -32,39 +32,26 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
 
     if ($config['block_content_type'] == static::CONTENT_TYPE_IMAGE && !empty($config['image'])) {
 
-      $image_url = NULL;
       $media_id = $this->mediaHelper
         ->getIdFromEntityBrowserSelectValue($config['image']);
 
-      if ($media_id) {
-        $media_params = $this->mediaHelper->getMediaParametersById($media_id);
-        if (!isset($media_params['error'])) {
-          $image_url = file_create_url($media_params['src']);
-        }
-      }
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
       $build['#media'] = [
         'image' => TRUE,
-        'src' => $image_url,
+        'src' => $media_params['src'] ?? NULL,
         'alt' => $media_params['alt'] ?? NULL,
         'title' => $media_params['title'] ?? NULL,
       ];
     }
     elseif ($config['block_content_type'] == static::CONTENT_TYPE_VIDEO && !empty($config['video'])) {
 
-      $video_url = NULL;
       $media_id = $this->mediaHelper
         ->getIdFromEntityBrowserSelectValue($config['video']);
 
-      if ($media_id) {
-        $media_params = $this->mediaHelper->getMediaParametersById($media_id);
-        if (!isset($media_params['error'])) {
-          $video_url = file_create_url($media_params['src']);
-        }
-      }
-
+      $media_params = $this->mediaHelper->getMediaParametersById($media_id);
       $build['#media'] = [
         'video' => TRUE,
-        'src' => $video_url,
+        'src' => $media_params['src'] ?? NULL,
       ];
     }
     elseif ($config['block_content_type'] == static::CONTENT_TYPE_PARALLAX_IMAGE && !empty($config['parallax_image'])) {
@@ -85,6 +72,8 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
         'title' => $media_params['title'] ?? NULL,
       ];
     }
+    // Add media aspect ratio.
+    $build['#media']['aspect_ratio'] = $config['aspect_ratio'] ?? '16-9';
 
     $build['#theme'] = 'fullwidth_image_video_block';
 

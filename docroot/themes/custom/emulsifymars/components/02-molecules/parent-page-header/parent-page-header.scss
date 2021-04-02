@@ -38,6 +38,20 @@
     z-index: 3;
   }
 
+  .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
   .parent-page-heading {
     font-family: variable(primary-font);
     color: clr(primary);

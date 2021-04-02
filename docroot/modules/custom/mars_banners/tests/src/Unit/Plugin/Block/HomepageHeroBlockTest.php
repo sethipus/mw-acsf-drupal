@@ -8,7 +8,7 @@ use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
 use Drupal\mars_banners\Plugin\Block\HomepageHeroBlock;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -104,7 +104,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\mars_media\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
    */
   private $mediaHelperMock;
 
@@ -150,7 +150,7 @@ class HomepageHeroBlockTest extends UnitTestCase {
       ->willReturnMap(
         [
           [
-            'mars_common.media_helper',
+            'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
           ],

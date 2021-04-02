@@ -8,22 +8,30 @@
   {% endif %}
 >
   <div class="flexible-driver__bg-image flexible-driver__bg-image--left">
+    {% set images_1 = {
+      1440: asset_1|resize(346, 346),
+      768: asset_1|resize(280, 280),
+      375: asset_1|resize(190, 190),
+    } %}
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
       image_alt: asset_1_alt,
-      image_src: asset_1,
-      height: '280px',
-      width: '280px',
+      image_src: asset_1|resize(346, 346),
+      image_array: images_1,
     } %}
   </div>
 
   <div class="flexible-driver__bg-image flexible-driver__bg-image--right">
+    {% set images_2 = {
+      1440: asset_2|resize(289, 289),
+      768: asset_2|resize(250, 250),
+      375: asset_2|resize(170, 170),
+    } %}
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
       image_alt: asset_2_alt,
-      image_src: asset_2,
-      height: '250px',
-      width: '250px',
+      image_src: asset_2|resize(289, 289),
+      image_array: images_2,
     } %}
   </div>
 

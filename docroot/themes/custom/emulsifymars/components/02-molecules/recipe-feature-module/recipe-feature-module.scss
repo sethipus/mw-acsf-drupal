@@ -66,6 +66,15 @@
       height: $recipe-feature-desktop-max-height;
     }
 
+    &__desktop-only {
+      display: none;
+
+      @include large {
+        display: block;
+        height: 100%;
+      }
+    }
+
     img, figure {
       width: 100%;
       height: $recipe-feature-mobile-max-height;

@@ -20,6 +20,22 @@
 
   <div {{ bem('container', [], product_content_pair_up_base_class, product_content_pair_up__modifiers) }}>
     <div class="lead-card" style="background-image: url('{{ background }}')">
+      <div class="bg-image">
+        {% set images = {
+          1440: background|resizeByHeight(750),
+          768: background|resizeByHeight(1003),
+          375: background|resizeByHeight(845),
+        } %}
+        {% include "@atoms/images/image/responsive-image.twig" with {
+          output_image_tag: true,
+          image_alt: background,
+          image_src: background|resizeByHeight(750),
+          image_array: images,
+          width: '1440px',
+          height: '750px',
+          image_base_class: 'lead-card-bg',
+        } %}
+      </div>
       <div class="wrapper">
         <div class="content-pair-up-eyebrow">
           {% include "@atoms/text/eyebrow/eyebrow.twig" with {

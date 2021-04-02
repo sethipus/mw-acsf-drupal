@@ -1,10 +1,5 @@
-import { configure, addDecorator, addParameters } from '@storybook/react';
-import { withA11y } from '@storybook/addon-a11y';
-import { action } from '@storybook/addon-actions';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-
-// Theming
-import emulsifyTheme from './emulsifyTheme';
+import React from "react";
 
 const customViewports = {
   xs: {
@@ -58,9 +53,11 @@ const customViewports = {
   }
 };
 
-addParameters({
-  options: {
-    theme: emulsifyTheme,
+export const parameters = {
+  a11y: {
+    element: '#root',
+    config: {},
+    options: {},
   },
   viewport: {
     viewports: {
@@ -68,12 +65,10 @@ addParameters({
       ...customViewports,
     },
   },
-});
+};
 
 // GLOBAL CSS
 import '../components/style.scss';
-
-addDecorator(withA11y);
 
 const Twig = require('twig');
 const twigDrupal = require('twig-drupal-filters');
@@ -100,9 +95,6 @@ global._ = underscore;
 // If in a Drupal project, it's recommended to import a symlinked version of drupal.js.
 import './_drupal.js';
 
-// automatically import all files ending in *.stories.js
-configure(require.context('../components', true, /\.stories\.js$/), module);
-
 // Below is for if Emulsify Gatsby style guide is being used
 // // Gatsby's Link overrides:
 // // Gatsby defines a global called ___loader to prevent its method calls from creating console errors you override it here
@@ -116,3 +108,24 @@ configure(require.context('../components', true, /\.stories\.js$/), module);
 // window.___navigate = pathname => {
 //   action('NavigateTo:')(pathname);
 // };
+
+//  Adding toolbar to change between resize mode and use a decorator to set a global variable that will be used by the mocked js twig filters.
+global.sb_mars = global.sb_mars || {};
+
+export const globalTypes = {
+  resize_mode: {
+    name: 'Resize mode',
+    description: 'Resize mode',
+    defaultValue: 'none',
+    toolbar: {
+      icon: 'outline',
+      items: ['none', 'square', 'portrait', 'landscape'],
+    },
+  },
+};
+
+const resizeGlobalValueDecorator = (Story, context) => {
+  global.sb_mars.resize_mode = context.globals.resize_mode;
+  return (<Story {...context} />);
+}
+export const decorators = [resizeGlobalValueDecorator];

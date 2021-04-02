@@ -4,6 +4,7 @@ alert_banner: 'Give the gift of pleasure this Valentine’s Day with the Twix Si
 alert_banner_url: '#'
 language_switcher: 'true'
 search_close_label: 'Close'
+logo_src: 'twix-logo.png'
 search_results:
   - content: 'Think'
   - content: 'This'

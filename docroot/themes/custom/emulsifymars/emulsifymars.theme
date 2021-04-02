@@ -160,7 +160,7 @@ function _emulsifymars_load_images_from_theme(string &$properties) {
     'graphic-divider' => $themeParser->getGraphicDivider(),
   ];
 
-  /** @var \Drupal\mars_common\SVG\SVG|null $asset */
+  /** @var \Drupal\mars_media\SVG\SVG|null $asset */
   foreach ($assets as $var_name => $asset) {
     if ($asset) {
       $var_value = 'url("data:image/svg+xml;base64,' . $asset->toBase64() . '")';
@@ -205,7 +205,7 @@ function emulsifymars_theme() {
  */
 function emulsifymars_preprocess_views_view_unformatted(&$variables) {
   /** @var \Drupal\mars_common\MediaHelper $media_helper */
-  $media_helper = \Drupal::service('mars_common.media_helper');
+  $media_helper = \Drupal::service('mars_media.media_helper');
   $view = $variables['view'];
   $id = $view->storage->id();
   $items = [];

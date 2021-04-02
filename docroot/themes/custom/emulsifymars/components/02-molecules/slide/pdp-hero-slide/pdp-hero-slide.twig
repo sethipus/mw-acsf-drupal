@@ -1,16 +1,16 @@
 <div class="swiper-slide pdp-hero-slide">
-  {% include "@atoms/images/image/responsive-image.twig" with {
-    image_alt: item.image.alt,
-    image_srcset: item.image.srcset,
-    image_sizes: '(max-width: 375px) 375px,
-        (max-width: 768px) 768px,
-        (max-width: 1024px) 1024px,
-        1440px',
-    image_src: item.image.src,
-    height: '670px',
-    width: '670px',
-    responsive_image_blockname: 'pdp-hero-slide',
-    height: '200px',
-    width: '200px',
+  {% set images = {
+    1440: item.image.src|resize(600, 600),
+    768: item.image.src|resize(472, 472),
+    375: item.image.src|resize(277, 277),
   } %}
+  <div {{ bem('aspect-ratio-wrapper', ['1-1']) }}>
+    {% include "@atoms/images/image/responsive-image.twig" with {
+      output_image_tag: true,
+      image_alt: item.image.alt,
+      image_src: item.image.src|resize(600, 600),
+      responsive_image_blockname: 'pdp-hero-slide',
+      image_array: images,
+    } %}
+  </div>
 </div>

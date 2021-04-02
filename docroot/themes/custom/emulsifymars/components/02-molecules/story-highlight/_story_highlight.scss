@@ -421,6 +421,7 @@
 
     & img {
       width: auto;
+      object-fit: contain;
     }
 
     @include xs {
@@ -462,6 +463,7 @@
 
     & img {
       width: auto;
+      object-fit: contain;
     }
 
     @include xs {
@@ -503,6 +505,7 @@
 
     & img {
       width: auto;
+      object-fit: contain;
     }
 
     @include xs {

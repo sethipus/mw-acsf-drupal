@@ -5,7 +5,7 @@ namespace Drupal\mars_seo\Plugin\JsonLdStrategy;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_seo\JsonLdStrategyPluginBase;
 use Drupal\metatag\MetatagManager;
 use Spatie\SchemaOrg\Schema;
@@ -47,7 +47,7 @@ class Recipe extends JsonLdStrategyPluginBase implements ContainerFactoryPluginI
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('mars_common.media_helper'),
+      $container->get('mars_media.media_helper'),
       $container->get('url_generator'),
       $container->get('config.factory'),
       $container->get('metatag.manager')
