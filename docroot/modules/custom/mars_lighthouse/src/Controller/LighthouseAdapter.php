@@ -199,8 +199,6 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *
    * @return array
    *   Array ready for render.
-   *
-   * @codeCoverageIgnore
    */
   protected function prepareMediaDataList(array $data) {
     $data_list = [];
@@ -224,8 +222,6 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *   Media entity.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
-   *
-   * @codeCoverageIgnore
    */
   protected function createMediaEntity(array $data): ?MediaInterface {
     if (!$data) {
@@ -266,8 +262,6 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *   ID of File entity.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
-   *
-   * @codeCoverageIgnore
    */
   protected function createFileEntity(array $data): string {
     $file_mapping = $this->mapping->get('file');
@@ -324,8 +318,6 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *
    * @return string|null
    *   Image url or null.
-   *
-   * @codeCoverageIgnore
    */
   protected function changeExtension(string $data) {
     if (empty($data)) {
