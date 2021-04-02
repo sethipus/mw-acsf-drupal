@@ -154,25 +154,6 @@ class LighthouseAdapterTest extends UnitTestCase {
     parent::setUp();
     $this->createMocks();
 
-    $this->entityStorageMock
-      ->expects($this->at(0))
-      ->method('loadByProperties')
-      ->with(['field_external_id' => 'a8c7cd6sfd7s876f0fsf98'])
-      ->willReturn(
-        [
-          $this->mediaMock,
-          $this->mediaMock,
-        ]
-    );
-
-    $this->entityStorageMock
-      ->expects($this->at(1))
-      ->method('loadByProperties')
-      ->with(['field_external_id' => 'a000000000000000000000'])
-      ->willReturn(
-        []
-      );
-
     $this->entityTypeManagerMock
       ->expects($this->any())
       ->method('getStorage')
@@ -276,6 +257,24 @@ class LighthouseAdapterTest extends UnitTestCase {
    * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMediaEntity
    */
   public function testGetMediaEntity() {
+    $this->entityStorageMock
+      ->expects($this->at(0))
+      ->method('loadByProperties')
+      ->with(['field_external_id' => 'a8c7cd6sfd7s876f0fsf98'])
+      ->willReturn(
+        [
+          $this->mediaMock,
+          $this->mediaMock,
+        ]
+      );
+
+    $this->entityStorageMock
+      ->expects($this->at(1))
+      ->method('loadByProperties')
+      ->with(['field_external_id' => 'a000000000000000000000'])
+      ->willReturn(
+        []
+      );
     $media_entity = $this->controller->getMediaEntity('a8c7cd6sfd7s876f0fsf98');
     $this->assertNotEmpty($media_entity);
     $this->assertEmpty($this->controller->getMediaEntity('a000000000000000000000'));
