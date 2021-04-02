@@ -39,22 +39,28 @@
           updateScript(firstOption);
         }
 
+        const updateVariantImage = function () {
+          let $selectedVariant = $variantSelector.find('option:selected');
+          $productInformation.parent().find('.product-' + $itemSelector.find('option:selected').data("id")).find('img').each(function () {
+            if (!$(this).hasClass('gtin-' + $selectedVariant.data('id'))) {
+              $(this).addClass('visually-hidden');
+            }
+            $productInformation.find('img.gtin-' + $selectedVariant.attr('data-id')).removeClass('visually-hidden');
+          });
+        }
+
         const initEvents = function () {
 
           $itemSelector.on('change', function () {
             let productId = $(this).find('option:selected').data("id");
             let productTitle = $(this).val();
             updateData(productId, productTitle);
+            updateVariantImage();
           });
 
           $variantSelector.on('change', function () {
             let $selectedVariant = $(this).find('option:selected');
-            $productInformation.parent().find('.product-' + $itemSelector.find('option:selected').data("id")).find('img').each(function () {
-              if ($(this).attr('data-gtin') === undefined || $(this).attr('data-gtin') !== $selectedVariant.data('id')) {
-                $(this).addClass('visually-hidden');
-              }
-            });
-            $productInformation.find('img[data-gtin="' + $selectedVariant.attr('data-id') + '"]').removeClass('visually-hidden');
+            updateVariantImage();
             updateScript($selectedVariant);
           }).change();
         }
