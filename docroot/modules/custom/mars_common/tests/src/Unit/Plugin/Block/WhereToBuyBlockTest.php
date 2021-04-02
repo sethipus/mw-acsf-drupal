@@ -320,6 +320,12 @@ class WhereToBuyBlockTest extends UnitTestCase {
         $this->nodeMock,
       ]);
 
+    $this->fieldItemListMock
+      ->expects($this->any())
+      ->method('__get')
+      ->with('value')
+      ->willReturn('value');
+
     $this->mediaHelperMock
       ->expects($this->once())
       ->method('getMediaParametersById')
