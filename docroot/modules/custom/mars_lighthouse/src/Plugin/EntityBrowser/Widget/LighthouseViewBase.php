@@ -91,8 +91,6 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * {@inheritdoc}
-   *
-   * @codeCoverageIgnore
    */
   protected function prepareEntities(array $form, FormStateInterface $form_state) {
     $userInput = $form_state->cleanValues()->getUserInput();
@@ -195,8 +193,6 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * {@inheritdoc}
-   *
-   * @codeCoverageIgnore
    */
   public function validate(array &$form, FormStateInterface $form_state) {
     // @todo Add a validation.
@@ -204,8 +200,6 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * {@inheritdoc}
-   *
-   * @codeCoverageIgnore
    */
   public function defaultConfiguration() {
     $default_configuration = parent::defaultConfiguration();
@@ -249,8 +243,6 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
    *
    * @return array
    *   Render array.
-   *
-   * @codeCoverageIgnore
    */
   protected function getView(&$total_found, array $filters) {
     $view = [

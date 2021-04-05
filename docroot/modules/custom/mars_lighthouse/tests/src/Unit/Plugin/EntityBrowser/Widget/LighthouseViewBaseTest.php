@@ -155,6 +155,8 @@ abstract class LighthouseViewBaseTest extends UnitTestCase {
    *
    * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseView::getForm
    * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseVideoView::getForm
+   * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseVideoView::getView
+   * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseVideoView::getView
    */
   public function testGetForm() {
     $form = [];
@@ -180,6 +182,10 @@ abstract class LighthouseViewBaseTest extends UnitTestCase {
    *
    * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseView::submit
    * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseVideoView::submit
+   * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseView::prepareEntities
+   * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseVideoView::prepareEntities
+   * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseView::selectEntities
+   * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseVideoView::selectEntities
    */
   public function testSubmitNotFail() {
     $form = [];
@@ -205,6 +211,21 @@ abstract class LighthouseViewBaseTest extends UnitTestCase {
         [],
       );
     $this->assertEmpty($this->viewClass->submit($element, $form, $this->formStateMock));
+  }
+
+  /**
+   * Test default configuration.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseView::defaultConfiguration
+   * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseVideoView::defaultConfiguration
+   */
+  public function testDefaultConfiguration() {
+    $default_config = $this->viewClass->defaultConfiguration();
+    $this->assertIsArray($default_config);
+    $this->assertNotEmpty($default_config);
+    $this->assertArrayHasKey('entity_browser_id', $default_config);
   }
 
   /**
