@@ -17,18 +17,9 @@
       font-size: 4rem;
     }
 
-    @include xl {
+    @include large {
       max-width: none;
       font-size: 4.8rem;
-      margin-bottom: 6rem;
-    }
-  }
-
-  &__graphic-divider {
-    text-align: center;
-    margin-bottom: 4rem;
-
-    @include xl {
       margin-bottom: 6rem;
     }
   }

@@ -21,9 +21,10 @@
     } %}
   </div>
 
-  <div class="graphic-divider">
-    {{ graphic_divider | raw }}
-  </div>
+  {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+    graphic_divider_blockname: recommendations_base_class,
+    graphic_divider: graphic_divider
+  } %}
 
   <div class="recommendations-swiper-container-outer">
     <button class="swiper-button-prev">

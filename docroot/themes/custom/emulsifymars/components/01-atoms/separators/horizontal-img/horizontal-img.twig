@@ -1,7 +1,9 @@
+{# component is OBSOLETE! Please use @atoms/separators/graphic-divider/graphic-divider #}
+
 {% set horizontal_img_base_class = horizontal_img_base_class|default('horizontal-img') %}
 {% set horizontal_img_element = horizontal_img_element|default('inner') %}
 
 <div {{ bem(horizontal_img_element, [], horizontal_img_base_class) }} >
-    <img {{ bem('graphic-divider', '', horizontal_img_base_class)}} src="{{ graphic_divider }}">
+  {{ graphic_divider | raw }}
 </div>
 

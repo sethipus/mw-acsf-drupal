@@ -514,6 +514,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       '#no_results_heading' => $heading,
       '#no_results_text' => $config->get('no_results_text'),
       '#theme' => 'mars_search_no_results',
+      '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
     ];
 
     switch ($grid_type) {
