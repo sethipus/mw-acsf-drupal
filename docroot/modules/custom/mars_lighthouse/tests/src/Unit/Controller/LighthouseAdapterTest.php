@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_lighthouse\Unit\Controller;
 
+use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -36,60 +37,87 @@ class LighthouseAdapterTest extends UnitTestCase {
   ];
 
   const LIGHTHOUSE_SEARCH_MOCK_JSON_DATA = '[
-    {
-        "urls": {
-            "001video_thumbnail": "id_0000000000000000000000000000001\/prid_001tnmd",
-            "001orig": "id_0000000000000000000000000000001\/name_test1.gif\/test1.gif",
-            "001default_video": "id_0000000000000000000000000000001",
-            "001tnmd": "id_0000000000000000000000000000001\/prid_001tnmd",
-            "001default": "id_0000000000000000000000000000001"
-        },
-        "origAssetId": "0000000000000000000000000000001",
-        "assetId": "0000000000000000000000000000001",
-        "assetName": "test 1",
-        "subType": "Animated"
+      {
+          "urls": {
+              "001video_thumbnail": "id_0000000000000000000000000000001\/prid_001tnmd",
+              "001orig": "id_0000000000000000000000000000001\/name_test1.gif\/test1.gif",
+              "001default_video": "id_0000000000000000000000000000001",
+              "001tnmd": "id_0000000000000000000000000000001\/prid_001tnmd",
+              "001default": "id_0000000000000000000000000000001"
+          },
+          "origAssetId": "0000000000000000000000000000001",
+          "assetId": "0000000000000000000000000000001",
+          "assetName": "test 1",
+          "subType": "Animated"
+      },
+      {
+          "urls": {
+              "001video_thumbnail": "id_0000000000000000000000000000002\/prid_001tnmd",
+              "001orig": "id_0000000000000000000000000000003\/name_test2.gif\/test2.gif",
+              "001default_video": "id_0000000000000000000000000000002",
+              "001tnmd": "id_0000000000000000000000000000002\/prid_001tnmd",
+              "001default": "id_0000000000000000000000000000002"
+          },
+          "origAssetId": "0000000000000000000000000000002",
+          "assetId": "0000000000000000000000000000002",
+          "assetName": "test 2",
+          "subType": "Animated"
+      },
+      {
+          "urls": {
+              "001video_thumbnail": "id_0000000000000000000000000000003\/prid_001tnmd",
+              "001orig": "id_0000000000000000000000000000003\/name_test3.gif\/test3.gif",
+              "001default_video": "id_0000000000000000000000000000003",
+              "001tnmd": "id_0000000000000000000000000000003\/prid_001tnmd",
+              "001default": "id_0000000000000000000000000000003"
+          },
+          "origAssetId": "0000000000000000000000000000003",
+          "assetId": "0000000000000000000000000000003",
+          "assetName": "test 3",
+          "subType": "Animated"
+      },
+      {
+          "urls": {
+              "001video_thumbnail": "id_0000000000000000000000000000004\/prid_001tnmd",
+              "001orig": "id_0000000000000000000000000000004\/name_test4.gif\/test4.gif",
+              "001default_video": "id_0000000000000000000000000000004",
+              "001tnmd": "id_0000000000000000000000000000004\/prid_001tnmd",
+              "001default": "id_0000000000000000000000000000004"
+          },
+          "origAssetId": "0000000000000000000000000000004",
+          "subBrand": "N\/A",
+          "assetId": "0000000000000000000000000000004",
+          "assetName": "test4.gif",
+          "subType": "GIFs"
+      }
+  ]';
+
+  const LIGHTHOUSE_SINGLE_ASSET_JSON_DATA = '{
+    "urls": {
+        "001video_thumbnail": "id_0000000000000000000000000000001\/prid_001tnmd",
+        "001orig": "id_0000000000000000000000000000001\/name_test1.gif\/test1.gif",
+        "001default_video": "id_0000000000000000000000000000001",
+        "001tnmd": "id_0000000000000000000000000000001\/prid_001tnmd",
+        "001default": "id_0000000000000000000000000000001"
     },
-    {
-        "urls": {
-            "001video_thumbnail": "id_0000000000000000000000000000002\/prid_001tnmd",
-            "001orig": "id_0000000000000000000000000000003\/name_test2.gif\/test2.gif",
-            "001default_video": "id_0000000000000000000000000000002",
-            "001tnmd": "id_0000000000000000000000000000002\/prid_001tnmd",
-            "001default": "id_0000000000000000000000000000002"
-        },
-        "origAssetId": "0000000000000000000000000000002",
-        "assetId": "0000000000000000000000000000002",
-        "assetName": "test 2",
-        "subType": "Animated"
-    },
-    {
-        "urls": {
-            "001video_thumbnail": "id_0000000000000000000000000000003\/prid_001tnmd",
-            "001orig": "id_0000000000000000000000000000003\/name_test3.gif\/test3.gif",
-            "001default_video": "id_0000000000000000000000000000003",
-            "001tnmd": "id_0000000000000000000000000000003\/prid_001tnmd",
-            "001default": "id_0000000000000000000000000000003"
-        },
-        "origAssetId": "0000000000000000000000000000003",
-        "assetId": "0000000000000000000000000000003",
-        "assetName": "test 3",
-        "subType": "Animated"
-    },
-    {
-        "urls": {
-            "001video_thumbnail": "id_0000000000000000000000000000004\/prid_001tnmd",
-            "001orig": "id_0000000000000000000000000000004\/name_test4.gif\/test4.gif",
-            "001default_video": "id_0000000000000000000000000000004",
-            "001tnmd": "id_0000000000000000000000000000004\/prid_001tnmd",
-            "001default": "id_0000000000000000000000000000004"
-        },
-        "origAssetId": "0000000000000000000000000000004",
-        "subBrand": "N\/A",
-        "assetId": "0000000000000000000000000000004",
-        "assetName": "test4.gif",
-        "subType": "GIFs"
-    }
-]';
+    "origAssetId": "0000000000000000000000000000001",
+    "assetId": "0000000000000000000000000000001",
+    "assetName": "test 1",
+    "subType": "Animated"
+  }';
+
+  const BRANDS_MOCK_DATA = [
+    'dove' => 'Dove',
+    'twix' => 'Twix',
+    'bens' => 'Ben`s',
+    'galaxy' => 'Galaxy',
+  ];
+
+  const MARKETS_MOCK_DATA = [
+    'usa' => 'United States',
+    'uk' => 'United Kingdom',
+    'ua' => 'Ukraine',
+  ];
 
   /**
    * System under test.
@@ -161,8 +189,11 @@ class LighthouseAdapterTest extends UnitTestCase {
         ['file', $this->entityStorageMock],
         ['media', $this->entityStorageMock],
       ]);
-
+    $this->configFactoryMock = $this->getConfigFactoryStub([
+      'mars_lighthouse.mapping' => Yaml::decode(file_get_contents(getcwd() . '/modules/custom/mars_lighthouse/config/install/mars_lighthouse.mapping.yml')),
+    ]);
     $this->containerMock->set('entity_type.manager', $this->entityTypeManagerMock);
+    $this->containerMock->set('config.factory', $this->configFactoryMock);
     \Drupal::setContainer($this->containerMock);
     $this->controller = new LighthouseAdapter(
       $this->lighthouseClientMock,
@@ -213,6 +244,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    *
    * @test
    * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::prepareImageExtension
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::changeExtension
    */
   public function testPrepareImageExtension() {
     $sample_data = self::SAMPLE_DATA;
@@ -225,6 +257,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    *
    * @test
    * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMediaDataList
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::prepareMediaDataList
    */
   public function testGetMediaDataList() {
     // Validate empty search.
@@ -255,8 +288,11 @@ class LighthouseAdapterTest extends UnitTestCase {
    *
    * @test
    * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMediaEntity
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::createMediaEntity
+   * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::createFileEntity
    */
   public function testGetMediaEntity() {
+    // Validate method returns existing media entity.
     $this->entityStorageMock
       ->expects($this->at(0))
       ->method('loadByProperties')
@@ -264,10 +300,9 @@ class LighthouseAdapterTest extends UnitTestCase {
       ->willReturn(
         [
           $this->mediaMock,
-          $this->mediaMock,
+          ['test' => 'test'],
         ]
       );
-
     $this->entityStorageMock
       ->expects($this->at(1))
       ->method('loadByProperties')
@@ -275,9 +310,29 @@ class LighthouseAdapterTest extends UnitTestCase {
       ->willReturn(
         []
       );
-    $media_entity = $this->controller->getMediaEntity('a8c7cd6sfd7s876f0fsf98');
-    $this->assertNotEmpty($media_entity);
+    $existing_media_entity = $this->controller->getMediaEntity('a8c7cd6sfd7s876f0fsf98');
+    $this->assertNotEmpty($existing_media_entity);
+    $this->assertInstanceOf(MediaInterface::class, $existing_media_entity);
+
+    // Validate method returns empty result.
     $this->assertEmpty($this->controller->getMediaEntity('a000000000000000000000'));
+
+    // Validate method returns a generated media entity.
+    $this->lighthouseClientMock
+      ->expects($this->any())
+      ->method('getAssetById')
+      ->willReturn(json_decode(static::LIGHTHOUSE_SINGLE_ASSET_JSON_DATA, TRUE));
+    $entity_mock = $this->createMock(MediaInterface::class);
+    $entity_mock->expects($this->any())->method('id')->willReturn(1);
+    $this->entityStorageMock
+      ->expects($this->any())
+      ->method('create')
+      ->willReturn(
+        $entity_mock
+      );
+    $generated_media_entity = $this->controller->getMediaEntity('a000000000000000000001');
+    $this->assertNotEmpty($generated_media_entity);
+    $this->assertInstanceOf(MediaInterface::class, $generated_media_entity);
   }
 
   /**
@@ -287,8 +342,20 @@ class LighthouseAdapterTest extends UnitTestCase {
    * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getBrands
    */
   public function testGetBrands() {
+    // Validate method returns default select options.
     $expected_options = ['' => '-- Any --'];
     $this->assertEquals($expected_options, $this->controller->getBrands());
+
+    // Validate method returns options from client.
+    $this->lighthouseClientMock
+      ->expects($this->any())
+      ->method('getBrands')
+      ->willReturn(static::BRANDS_MOCK_DATA);
+    $rebuilt_mock_array = [];
+    foreach (static::BRANDS_MOCK_DATA as $v) {
+      $rebuilt_mock_array[$v] = $v;
+    }
+    $this->assertEquals(array_merge($expected_options, $rebuilt_mock_array), $this->controller->getBrands());
   }
 
   /**
@@ -298,8 +365,20 @@ class LighthouseAdapterTest extends UnitTestCase {
    * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::getMarkets
    */
   public function testGetMarkets() {
+    // Validate method returns default select options.
     $expected_options = ['' => '-- Any --'];
     $this->assertEquals($expected_options, $this->controller->getMarkets());
+
+    // Validate method returns options from client.
+    $this->lighthouseClientMock
+      ->expects($this->any())
+      ->method('getMarkets')
+      ->willReturn(static::MARKETS_MOCK_DATA);
+    $rebuilt_mock_array = [];
+    foreach (static::MARKETS_MOCK_DATA as $v) {
+      $rebuilt_mock_array[$v] = $v;
+    }
+    $this->assertEquals(array_merge($expected_options, $rebuilt_mock_array), $this->controller->getMarkets());
   }
 
   /**
