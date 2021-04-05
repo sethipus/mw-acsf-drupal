@@ -189,8 +189,12 @@ class LighthouseAdapterTest extends UnitTestCase {
         ['file', $this->entityStorageMock],
         ['media', $this->entityStorageMock],
       ]);
+    $config_path = '/modules/custom/mars_lighthouse/config/install/mars_lighthouse.mapping.yml';
+    if (!strstr(getcwd(), 'docroot')) {
+      $config_path = '/docroot' . $config_path;
+    }
     $this->configFactoryMock = $this->getConfigFactoryStub([
-      'mars_lighthouse.mapping' => Yaml::decode(file_get_contents(getcwd() . '/modules/custom/mars_lighthouse/config/install/mars_lighthouse.mapping.yml')),
+      'mars_lighthouse.mapping' => Yaml::decode(file_get_contents(getcwd() . $config_path)),
     ]);
     $this->containerMock->set('entity_type.manager', $this->entityTypeManagerMock);
     $this->containerMock->set('config.factory', $this->configFactoryMock);
