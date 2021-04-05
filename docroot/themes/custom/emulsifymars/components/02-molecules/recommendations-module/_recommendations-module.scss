@@ -24,7 +24,7 @@
         width: 47.8rem;
       }
 
-      @include xl {
+      @include large {
         font-size: 6.4rem;
         margin-bottom: 6rem;
         width: 89.5rem;
@@ -32,11 +32,10 @@
     }
   }
 
-  .graphic-divider {
-    text-align: center;
+  &__graphic-divider {
     margin-bottom: .5rem; // margin-top 3.5rem on the card due to "new" badge
 
-    @include xl {
+    @include large {
       margin-bottom: 2.5rem; // margin-top 3.5rem on the card due to "new" badge
     }
   }
