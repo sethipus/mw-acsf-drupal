@@ -251,9 +251,9 @@ class LighthouseAdapterTest extends UnitTestCase {
    * @covers \Drupal\mars_lighthouse\Controller\LighthouseAdapter::changeExtension
    */
   public function testPrepareImageExtension() {
-    $sample_data = self::SAMPLE_DATA;
+    $sample_data = static::SAMPLE_DATA;
     $this->controller->prepareImageExtension($sample_data);
-    $this->assertArrayEquals(self::EXPECTED_SAMPLE_DATA, $sample_data);
+    $this->assertArrayEquals(static::EXPECTED_SAMPLE_DATA, $sample_data);
   }
 
   /**

@@ -53,7 +53,7 @@ class LighthouseViewTest extends LighthouseViewBaseTest {
    * @covers \Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget\LighthouseView::getMediaType
    */
   public function testIsLightHouseImageView() {
-    $this->assertEquals(self::MEDIA_TYPE, $this->viewClass->getMediaType());
+    $this->assertEquals(static::MEDIA_TYPE, $this->viewClass->getMediaType());
   }
 
   /**
