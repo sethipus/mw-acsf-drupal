@@ -836,6 +836,18 @@ function mars_common_preprocess_node__landing_page__card(array &$variables) {
 /**
  * Implements hook_preprocess_HOOK().
  */
+function mars_common_preprocess_block(array &$variables) {
+  if (isset($variables['plugin_id']) &&
+    $variables['plugin_id'] == 'poll_block' &&
+    isset($variables['configuration']['ajaxId'])) {
+
+    $variables['attributes']['data-ajax-block-id'] = $variables['configuration']['ajaxId'];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
 function mars_common_preprocess_node__content_hub_page__card(array &$variables) {
   card_add_badge_text($variables);
   card_add_button_label($variables, 'content_hub_card_button');

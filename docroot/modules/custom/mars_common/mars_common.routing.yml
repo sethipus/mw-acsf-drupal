@@ -28,3 +28,10 @@ mars_common.card_color_settings:
     _title: 'Card Color Settings'
   requirements:
     _permission: 'administer site configuration'
+
+mars_common.poll_block_ajax:
+  path: '/poll_block/ajax'
+  defaults:
+    _controller: '\Drupal\mars_common\Controller\BlockAjaxController::ajaxBlock'
+  requirements:
+    _csrf_token: 'TRUE'

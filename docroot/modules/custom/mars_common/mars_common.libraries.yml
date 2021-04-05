@@ -3,3 +3,9 @@ mars_common.dialog_fix:
       js/dialogfix.js: {}
     dependencies:
       - core/drupal
+
+poll_ajax:
+  js:
+    js/poll_ajax.js: {}
+  dependencies:
+    - core/drupal

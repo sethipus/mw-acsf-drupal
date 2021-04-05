@@ -2,11 +2,14 @@
 
 namespace Drupal\mars_common\Plugin\Block;
 
+use Drupal\Component\Uuid\UuidInterface;
+use Drupal\Core\Access\CsrfTokenGenerator;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -43,6 +46,27 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $themeConfiguratorParser;
 
   /**
+   * Ajax id of block.
+   *
+   * @var string
+   */
+  protected $ajaxId;
+
+  /**
+   * Uuid service.
+   *
+   * @var \Drupal\Component\Uuid\UuidInterface
+   */
+  protected $uuid;
+
+  /**
+   * CSRF service.
+   *
+   * @var \Drupal\Core\Access\CsrfTokenGenerator
+   */
+  protected $csrf;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -51,7 +75,9 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('mars_common.theme_configurator_parser')
+      $container->get('mars_common.theme_configurator_parser'),
+      $container->get('uuid'),
+      $container->get('csrf_token')
     );
   }
 
@@ -63,12 +89,16 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_id,
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
-    ThemeConfiguratorParser $themeConfiguratorParser
+    ThemeConfiguratorParser $themeConfiguratorParser,
+    UuidInterface $uuid,
+    CsrfTokenGenerator $csrf
   ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->pollEntityStorage = $entity_type_manager->getStorage('poll');
     $this->pollViewBuilder = $entity_type_manager->getViewBuilder('poll');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
+    $this->uuid = $uuid;
+    $this->csrf = $csrf;
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
   /**
@@ -78,6 +108,36 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
     return [
       'label_display' => FALSE,
     ];
+  }
+
+  /**
+   * Generates and sets ajax id configuration value.
+   *
+   * @param array $configuration
+   *   Configuration array.
+   *
+   * @return string
+   *   Ajax id.
+   */
+  public function generateAjaxId(array &$configuration) {
+    return $configuration['ajaxId'] = $this->uuid->generate();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setConfiguration(array $configuration) {
+    // In case an ajax id has not been assigned, create one.
+    if (empty($configuration['ajaxId'])) {
+      $this->generateAjaxId($configuration);
+    }
+
+    // Make sure the configuration value is not null.
+    if (!$configuration) {
+      $configuration = [];
+    }
+
+    parent::setConfiguration($configuration);
   }
 
   /**
@@ -94,7 +154,26 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
       return [];
     }
 
-    $build['#poll'] = $this->pollViewBuilder->view($pollEntity);
+    $ajax_id = $this->configuration['ajaxId'];
+    $build['#attached']['library'] = ['mars_common/poll_ajax'];
+    $url = Url::fromRoute('mars_common.poll_block_ajax');
+    $token = $this->csrf->get($url->getInternalPath());
+    $build['#attached']['drupalSettings'] = [
+      'pollConfig' => [
+        $ajax_id => [
+          'plugin_id' => $this->pluginId,
+          'config' => [
+            'ajaxId' => $ajax_id,
+          ],
+          'block_config' => $conf,
+          'csrf_token' => $token,
+        ],
+      ],
+    ];
+
+    if (isset($conf['ajax_render']) && $conf['ajax_render'] == 'true') {
+      $build['#poll'] = $this->pollViewBuilder->view($pollEntity);
+    }
     $build['#theme'] = 'poll_block';
 
     return $build;
