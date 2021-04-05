@@ -21,12 +21,18 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
   protected const CONTENT_TYPE_PARALLAX_IMAGE = 'parallax_image';
 
   /**
+   * Default heading modifier.
+   */
+  protected const DEFAULT_HEADING_MODIFIER = 'full-width-heading-left';
+
+  /**
    * {@inheritdoc}
    */
   public function build() {
     $config = $this->getConfiguration();
 
     $build['#heading'] = $this->languageHelper->translate($config['title']);
+    $build['#heading_modifier'] = isset($config['heading_modifier']) ? $config['heading_modifier'] : static::DEFAULT_HEADING_MODIFIER;
     $build['#content'] = $this->languageHelper->translate($config['description']);
     $build['#block_type'] = $config['block_content_type'];
 
@@ -101,6 +107,22 @@ class FullwidthImageVideoBlock extends ImageVideoBlockBase {
     $form['title']['#states'] = [
       'invisible' => [
         ':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_PARALLAX_IMAGE],
+      ],
+    ];
+
+    $form['heading_modifier'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Title alignment'),
+      '#default_value' => isset($config['heading_modifier']) ? $config['heading_modifier'] : static::DEFAULT_HEADING_MODIFIER,
+      '#options' => [
+        'full-width-heading-left' => $this->t('Left'),
+        'full-width-heading-center' => $this->t('Center'),
+        'full-width-heading-right' => $this->t('Right'),
+      ],
+      '#states' => [
+        'invisible' => [
+          ':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_PARALLAX_IMAGE],
+        ],
       ],
     ];
 
