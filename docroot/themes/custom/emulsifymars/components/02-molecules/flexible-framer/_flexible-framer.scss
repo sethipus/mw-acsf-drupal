@@ -41,7 +41,22 @@
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    max-width: 80%;
+
+    &.image-size-large {
+      width: 335px;
+
+      @include medium {
+        width: 334px;
+      }
+
+      @include large {
+        width: 433px;
+      }
+    }
+
+    &.image-size-small {
+      width: 313px;
+    }
 
     & img {
       width: 100%;
