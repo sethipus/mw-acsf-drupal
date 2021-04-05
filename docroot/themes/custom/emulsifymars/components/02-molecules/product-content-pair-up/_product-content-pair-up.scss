@@ -94,6 +94,18 @@
               line-height: 3.08rem;
             }
           }
+
+          &__image {
+            height: 20rem;
+            width: 20rem;
+            padding-top: 1rem;
+
+            @include medium {
+              height: 25.5rem;
+              width: 25.5rem;
+              padding-top: 3rem;
+            }
+          }
         }
 
         .recipe-card {
