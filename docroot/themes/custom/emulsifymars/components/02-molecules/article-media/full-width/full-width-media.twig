@@ -5,6 +5,15 @@
     {% set full_width__base_class = 'article-full-width' %}
 {% endif %}
 
+{% if heading_modifier is defined and heading_modifier|length > 0 %}
+  {% set heading_modifiers = [
+    'main-heading',
+    heading_modifier,
+  ] %}
+{% else %}
+  {% set heading_modifiers = ['main-heading'] %}
+{% endif %}
+
 <section {{ bem(full_width__base_class) }} data-theme="{{ theme_styles }}"
   {% if heading and media.video %}
     data-component-title="{{ heading }}"
@@ -15,7 +24,7 @@
       {% include "@atoms/text/headings/_heading.twig" with {
         heading_level: 3,
         heading_base_class: 'article-full-width__heading',
-        heading_modifiers: ['main-heading'],
+        heading_modifiers: heading_modifiers,
         heading: heading
       } %}
     </div>

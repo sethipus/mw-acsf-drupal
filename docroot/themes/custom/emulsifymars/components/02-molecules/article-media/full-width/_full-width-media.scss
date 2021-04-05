@@ -20,7 +20,7 @@
       display: none;
     }
 
-    &--main-heading {
+    &--main-heading, &--full-width-heading-left {
       text-align: left;
       color: clr(primary);
       font-size: 2.8rem;
@@ -43,8 +43,28 @@
       @include xl {
         font-size: 2.8rem;
         max-width: 780px;
-        margin: 0 0 40px;
-        padding-left: 272px;
+        margin: 0 503px 40px 272px;
+        padding: 0;
+      }
+    }
+    
+    &--full-width-heading-center {
+      @extend .article-full-width__heading--main-heading;
+
+      text-align: center;
+
+      @include xl {
+        margin: 0 auto 40px;
+      }
+    }
+
+    &--full-width-heading-right {
+      @extend .article-full-width__heading--main-heading;
+
+      text-align: right;
+
+      @include xl {
+        margin: 0 272px 40px 503px;
       }
     }
   }

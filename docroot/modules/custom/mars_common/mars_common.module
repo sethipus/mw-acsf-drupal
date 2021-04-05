@@ -382,6 +382,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media' => NULL,
         'content' => NULL,
         'heading' => NULL,
+        'heading_modifier' => NULL,
       ],
       'template' => 'fullwidth-image-video-block',
     ],
