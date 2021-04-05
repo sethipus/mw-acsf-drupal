@@ -162,7 +162,7 @@
 
   & .default-link {
     background-color: clr(secondary);
-    min-width: 157px;
+    min-width: 355px;
     height: 50px;
     text-align: center;
     margin-right: 1rem;
@@ -174,10 +174,11 @@
       font-size: 1.6rem;
       margin-right: 3.2rem;
       line-height: 5rem;
+      min-width: 216px;
     }
 
     @include large {
-      min-width: 202px;
+      min-width: 318px;
       height: 60px;
       &__label {
         line-height: 60px;
@@ -186,6 +187,15 @@
 
     &__label {
       font-family: variable(primary-font);
+    }
+  }
+
+  & .contact-module__contact-information .default-link {
+    min-width: 157px;
+    line-height: 5rem;
+    
+    @include large {
+      min-width: 202px;
     }
   }
 }
