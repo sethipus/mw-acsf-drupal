@@ -106,6 +106,7 @@ function mars_search_theme($existing, $type, $theme, $path) {
         'filter_title_transform' => NULL,
         'text_color_override' => NULL,
         'override_filter_title_color' => NULL,
+        'overlaps_previous' => NULL,
       ],
     ],
     'mars_search_filter' => [
