@@ -39,15 +39,6 @@
     }
   }
 
-  &__graphic-divider {
-    text-align: center;
-    margin-bottom: 4rem;
-
-    @include xl {
-      margin-bottom: 6rem;
-    }
-  }
-
   &__items {
     display: flex;
     flex-direction: row;

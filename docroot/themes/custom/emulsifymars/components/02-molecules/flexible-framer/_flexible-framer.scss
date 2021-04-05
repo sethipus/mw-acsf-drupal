@@ -32,10 +32,8 @@
     }
   }
 
-  & .divider {
-    text-align: center;
-    margin-top: 2rem;
-    fill: clr(subcolor-1);
+  &__graphic-divider {
+    margin-bottom: 0;
   }
 
   & .image-wrapper {
@@ -43,7 +41,22 @@
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    max-width: 80%;
+
+    &.image-size-large {
+      width: 335px;
+
+      @include medium {
+        width: 334px;
+      }
+
+      @include large {
+        width: 433px;
+      }
+    }
+
+    &.image-size-small {
+      width: 313px;
+    }
 
     & img {
       width: 100%;
@@ -94,7 +107,7 @@
       }
 
       &.image-size-large {
-        position: relative; 
+        position: relative;
         height: 0;
         padding-top: 56.25%;
       }
@@ -240,7 +253,7 @@
       flex: 1 1 100%;
     }
 
-    @include xl {
+    @include large {
       margin-top: 6rem;
     }
 

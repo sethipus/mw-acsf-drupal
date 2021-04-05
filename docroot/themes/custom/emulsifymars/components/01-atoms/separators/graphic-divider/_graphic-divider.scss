@@ -1,0 +1,23 @@
+.block-graphic-divider {
+  text-align: center;
+  margin: 0 auto 4rem auto;
+
+  @include large {
+    margin-bottom: 6rem;
+  }
+
+  svg {
+    display: block;
+    margin: 0 auto;
+    width: 10rem;
+    height: auto;
+
+    @include medium {
+      width: 10.8rem;
+    }
+
+    @include large {
+      width: 12.5rem;
+    }
+  }
+}
