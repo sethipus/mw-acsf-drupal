@@ -275,16 +275,16 @@ class LighthouseAdapterTest extends UnitTestCase {
     );
     $response = $this->controller->getMediaDataList($count);
     $this->assertCount(4, $response);
-    $asset_ids_to_verify = [
-      '0000000000000000000000000000001',
-      '0000000000000000000000000000002',
-      '0000000000000000000000000000003',
-      '0000000000000000000000000000004',
+    $asset_names_to_verify = [
+      'test 1',
+      'test 2',
+      'test 3',
+      'test4.gif',
     ];
-    $response_asset_ids = array_map(function ($asset) {
-      return $asset['assetId'];
+    $response_asset_names = array_map(function ($asset) {
+      return $asset['name'];
     }, $response);
-    $this->assertArrayEquals($asset_ids_to_verify, $response_asset_ids);
+    $this->assertArrayEquals($asset_names_to_verify, $response_asset_names);
   }
 
   /**
