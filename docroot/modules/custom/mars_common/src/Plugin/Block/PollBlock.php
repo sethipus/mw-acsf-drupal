@@ -3,13 +3,11 @@
 namespace Drupal\mars_common\Plugin\Block;
 
 use Drupal\Component\Uuid\UuidInterface;
-use Drupal\Core\Access\CsrfTokenGenerator;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -60,13 +58,6 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $uuid;
 
   /**
-   * CSRF service.
-   *
-   * @var \Drupal\Core\Access\CsrfTokenGenerator
-   */
-  protected $csrf;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -76,8 +67,7 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('uuid'),
-      $container->get('csrf_token')
+      $container->get('uuid')
     );
   }
 
@@ -90,14 +80,12 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    UuidInterface $uuid,
-    CsrfTokenGenerator $csrf
+    UuidInterface $uuid
   ) {
     $this->pollEntityStorage = $entity_type_manager->getStorage('poll');
     $this->pollViewBuilder = $entity_type_manager->getViewBuilder('poll');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->uuid = $uuid;
-    $this->csrf = $csrf;
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
@@ -156,8 +144,6 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
     $ajax_id = $this->configuration['ajaxId'];
     $build['#attached']['library'] = ['mars_common/poll_ajax'];
-    $url = Url::fromRoute('mars_common.poll_block_ajax');
-    $token = $this->csrf->get($url->getInternalPath());
     $build['#attached']['drupalSettings'] = [
       'pollConfig' => [
         $ajax_id => [
@@ -166,7 +152,6 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
             'ajaxId' => $ajax_id,
           ],
           'block_config' => $conf,
-          'csrf_token' => $token,
         ],
       ],
     ];

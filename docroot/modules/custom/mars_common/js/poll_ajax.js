@@ -20,7 +20,7 @@
         config.block_config['ajax_render'] = true;
 
         var ajaxSettings = {
-          url: Drupal.url('poll_block/ajax') + '?token=' + config.csrf_token,
+          url: Drupal.url('poll_block/ajax'),
           submit: config,
         };
         var myAjaxObject = Drupal.ajax(ajaxSettings);
