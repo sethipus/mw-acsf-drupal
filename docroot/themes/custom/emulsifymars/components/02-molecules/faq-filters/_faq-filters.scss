@@ -1,4 +1,14 @@
 .faq-filters {
+  margin-bottom: 5rem;
+
+  @include medium {
+    margin-bottom: 6rem;
+  }
+
+  @include xl {
+    margin-bottom: 8rem;
+  }
+
   &__search {
     margin: 0;
     max-width: none;
@@ -38,7 +48,7 @@
   &__filters {
     position: relative;
     font-size: 0;
-    margin: 3rem 0 4.9rem;
+    margin-top: 3rem;
     max-width: none;
     display: none;
     flex-wrap: wrap;
@@ -50,12 +60,12 @@
     }
 
     @include medium {
-      margin: 40px 0 59px;
+      margin-top: 4rem;
       max-width: none;
     }
 
     @include xl {
-      margin: 40px auto 79px;
+      margin: 4rem auto 0;
       padding-bottom: 40px;
     }
 
