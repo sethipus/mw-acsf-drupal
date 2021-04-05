@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\mars_lighthouse\Element;
+namespace Drupal\Tests\mars_lighthouse\Unit\Element;
 
 use Drupal\mars_lighthouse\Element\LighthouseGalleryRadio;
 use Drupal\Tests\UnitTestCase;
