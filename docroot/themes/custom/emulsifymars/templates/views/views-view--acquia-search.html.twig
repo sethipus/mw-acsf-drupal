@@ -51,9 +51,10 @@
         heading_base_class: ajax_card_grid_heading_base_class
       } %}
 
-      <div class="ajax-card-grid__graphic-divider">
-        {{ graphic_divider | raw }}
-      </div>
+      {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+        graphic_divider_blockname: 'ajax-card-grid',
+        graphic_divider: graphic_divider
+      } %}
 
       <div class="ajax-card-grid__items" data-drupal-views-infinite-scroll-content-wrapper="">
         {% for item in rows[0]['#rows'] %}

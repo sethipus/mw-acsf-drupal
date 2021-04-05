@@ -19,9 +19,10 @@
       heading_base_class: content_feature_heading_base_class
     } %}
 
-    <div class="content-feature__graphic-divider">
-      {{ graphic_divider | raw }}
-    </div>
+    {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+      graphic_divider_blockname: content_feature_base_class,
+      graphic_divider: graphic_divider
+    } %}
 
     {% include "@atoms/text/text/01-paragraph.twig" with {
       paragraph_size: paragraph_size,

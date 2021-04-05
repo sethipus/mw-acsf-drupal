@@ -1,9 +1,16 @@
 {% set card_grid_filter_base_class = card_grid_filter_base_class|default('card-grid-filter') %}
+{% set related_recipes__base_class = 'card-grid' %}
+{% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
 
 <div class="card-grid" data-theme="{{ theme_styles }}">
-  <div class="card-grid__border">
-    {{ brand_border | raw }}
-  </div>
+  
+    {% if brand_border is not empty %}
+      {% block brand_border %}
+        <div {{  bem('border', [border_overflow], related_recipes__base_class)  }}>
+          {{ brand_border | raw }}
+        </div>
+      {% endblock %}
+    {% endif %}
 
   <div {{ bem(card_grid_filter_base_class, grid_modifiers, grid_blockname) }}>
     {% include "@molecules/product-hub-search-filter/product-hub-search-filter.twig" with {
@@ -37,6 +44,7 @@
       ajax_card_grid_heading: ajax_card_grid_heading,
       graphic_divider: graphic_divider,
       text_color_override: text_color_override,
+      ajax_card_grid_heading_level: 3
     } %}
   </div>
 </div>

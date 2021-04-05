@@ -21,6 +21,8 @@ block_content: 8.8.1
 breakpoint: 8.8.1
 ckeditor: 8.8.1
 ckeditor_config: 3.0.0
+cloudflare: 1.0.0-beta2
+cloudflarepurger: 1.0.0-beta2
 color: 8.8.1
 components: 1.1.0
 config: 8.8.1

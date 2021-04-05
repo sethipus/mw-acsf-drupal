@@ -916,6 +916,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       // Force a session for user so it would be possible to see the results
       // in case of cashed component with incorrect state.
       $form['#cache'] = ['max-age' => 0];
+      $_SESSION['poll_vote'][(int) $matches[1]] = FALSE;
     }
     $form['actions']['cancel'] = NULL;
     if ($form['actions']['vote']['#ajax'] ?? NULL) {

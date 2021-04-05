@@ -15,24 +15,25 @@
     color: clr(primary);
     text-align: center;
     padding-top: 8rem;
-    font-size: 2.8rem;
-    line-height: 2.8rem;
+    font-size: 4rem;
+    line-height: 4rem;
+    margin-bottom: 4rem;
 
     @include medium {
-      font-size: 4rem;
-      line-height: 4rem;
+      font-size: 5.6rem;
+      line-height: 5.6rem;
+      margin-bottom: 4rem;
     }
 
     @include large {
-      font-size: 4.8rem;
-      line-height: 4.8rem;
+      font-size: 6.4rem;
+      line-height: 6.4rem;
+      margin-bottom: 6rem;
     }
   }
 
-  & .divider {
-    text-align: center;
-    margin-top: 2rem;
-    fill: clr(subcolor-1);
+  &__graphic-divider {
+    margin-bottom: 0;
   }
 
   & .image-wrapper {
@@ -40,7 +41,22 @@
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    max-width: 80%;
+
+    &.image-size-large {
+      width: 335px;
+
+      @include medium {
+        width: 334px;
+      }
+
+      @include large {
+        width: 433px;
+      }
+    }
+
+    &.image-size-small {
+      width: 313px;
+    }
 
     & img {
       width: 100%;
@@ -91,7 +107,7 @@
       }
 
       &.image-size-large {
-        position: relative; 
+        position: relative;
         height: 0;
         padding-top: 56.25%;
       }
@@ -237,7 +253,7 @@
       flex: 1 1 100%;
     }
 
-    @include xl {
+    @include large {
       margin-top: 6rem;
     }
 

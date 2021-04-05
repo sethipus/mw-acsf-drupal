@@ -3,7 +3,6 @@
 {% set related_recipes__base_class = 'flexible-framer' %}
 {% set border_overflow = overlaps_previous ? '' : 'no-overflow' %}
 
-{% set divider = '<div class=divider>'~divider~'</div>' %}
 <section {{ bem(related_recipes__base_class) }} data-theme="{{ theme_styles }}"
   {% if select_background_color|length > 0 %}
     style="background-color: {{ 'var(' ~ select_background_color ~ ')' }}"

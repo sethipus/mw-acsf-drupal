@@ -13,9 +13,10 @@
     }
     %}
 
-    <div {{ bem('graphic-divider', [], product_content_pair_up_base_class) }}>
-      {{ graphic_divider | raw }}
-    </div>
+    {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+      graphic_divider_blockname: product_content_pair_up_base_class,
+      graphic_divider: graphic_divider
+    } %}
   {% endif %}
 
   <div {{ bem('container', [], product_content_pair_up_base_class, product_content_pair_up__modifiers) }}>
