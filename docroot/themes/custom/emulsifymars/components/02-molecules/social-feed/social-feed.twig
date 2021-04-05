@@ -29,9 +29,10 @@
       } %}
     </div>
 
-    <div class="social-feed__graphic-divider">
-      {{ graphic_divider | raw }}
-    </div>
+    {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+      graphic_divider_blockname: social_feed_base_class,
+      graphic_divider: graphic_divider
+    } %}
 
     <div class="social-feed-swiper-container-outer">
       <button type="button" class="swiper-button-prev">

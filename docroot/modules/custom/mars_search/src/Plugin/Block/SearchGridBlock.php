@@ -158,7 +158,8 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       'search_results' => $query_search_results['resultsCount'],
     ];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
-    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+    $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
+    $build['#brand_border'] = !empty($config['with_brand_borders']) ? $file_border_content : NULL;
     $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
@@ -173,6 +174,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       $build['#override_filter_title_color'] = static::$overrideColor;
     }
 
+    $build['#overlaps_previous'] = $config['overlaps_previous'] ?? NULL;
     return $build;
   }
 
@@ -204,6 +206,18 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form = array_merge($form, $this->buildTopResults());
 
     $this->buildOverrideColorElement($form, $config, TRUE);
+
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $config['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $config['overlaps_previous'] ?? FALSE,
+    ];
 
     return $form;
   }

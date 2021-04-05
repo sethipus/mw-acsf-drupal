@@ -95,3 +95,11 @@ $max-width: $xl;
     @content;
   }
 }
+
+/// Mixin - max-width with pair Breakpoint
+/// Mixin must receive value like `$xs $medium`
+@mixin max-width-interval($pair) {
+  @include breakpoint($pair) {
+    @content;
+  }
+}

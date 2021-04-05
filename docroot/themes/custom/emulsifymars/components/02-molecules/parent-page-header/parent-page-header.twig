@@ -45,8 +45,9 @@
         additional_attr: additional_attr
       } %}
 
-      {% include "@atoms/separators/horizontal-img/horizontal-img.twig" with {
-        graphic_divider: graphic_divider,
+      {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+        graphic_divider_blockname: pp_header_base_class,
+        graphic_divider: graphic_divider
       } %}
 
       {% include "@atoms/text/text/01-paragraph.twig" with {

@@ -1,0 +1,17 @@
+{#
+Available variables:
+    graphic_divider_blockname - CSS classname of parent element, block name in BEM methodology
+#}
+
+{% set graphic_divider_blockname = graphic_divider_blockname %}
+{% set graphic_divider_base_class = 'graphic-divider' %}
+{% set graphic_divider_extra_classes = ['block-graphic-divider'] %}
+
+{% if graphic_divider_blockname is empty %}
+  {% set graphic_divider_base_class = '' %}
+{% endif %}
+
+<div {{ bem(graphic_divider_base_class, [], graphic_divider_blockname, graphic_divider_extra_classes) }} >
+  {{ graphic_divider | raw }}
+</div>
+
