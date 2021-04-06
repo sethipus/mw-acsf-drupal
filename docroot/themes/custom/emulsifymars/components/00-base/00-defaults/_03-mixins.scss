@@ -131,15 +131,26 @@ $outer-container-break: $small;
     z-index: $brand-border-overflow-zindex;
 
     &--no-overflow {
-      display: none;
+      position: relative;
+      transform: none;
+      background-color: $white;
+      margin-top: 5rem;
+	
+	    @include medium {
+	      margin-top: 6rem;
+	    }
+
+	    @include large {
+	      margin-top: 8rem;
+	    }
     }
 
     svg {
       display: block;
       top: $brand-border2-offset;
       width: 100%;
-      height: auto;
       fill: clr(subcolor-2);
+      height: auto;
     }
   }
 

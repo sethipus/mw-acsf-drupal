@@ -11,9 +11,10 @@
       text_color_override: text_color_override,
     } %}
 
-    <div class="ajax-card-grid__graphic-divider">
-      {{ graphic_divider | raw }}
-    </div>
+    {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+      graphic_divider_blockname: card_grid_base_class,
+      graphic_divider: graphic_divider
+    } %}
 
     <div class="ajax-card-grid__items" aria-live="polite">
       {% for item in items %}

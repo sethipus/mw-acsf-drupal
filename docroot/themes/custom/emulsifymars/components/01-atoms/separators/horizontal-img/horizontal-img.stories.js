@@ -7,6 +7,6 @@ import horizontalImgData from './horizontal-img.yml';
  */
 export default { title: 'Atoms/Separators' };
 
-export const horizontalImage = () => (
+export const horizontalImageOBSOLETE = () => (
   <div dangerouslySetInnerHTML={{ __html: horizontalImg(horizontalImgData) }} />
 );
