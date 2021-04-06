@@ -34,6 +34,7 @@ class MarsCommonServiceProvider extends ServiceProviderBase {
       new Reference('entity_type.manager'),
       new Reference('class_resolver'),
       new Reference('form_builder'),
+      new Reference('request_stack'),
     ]);
   }
 
