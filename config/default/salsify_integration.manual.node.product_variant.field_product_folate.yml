@@ -1,0 +1,9 @@
+field_id: Folate
+salsify_id: Folate
+salsify_data_type: string
+entity_type: node
+bundle: product_variant
+field_name: field_product_folate
+method: manual
+created: 1546300800
+changed: 1546300801

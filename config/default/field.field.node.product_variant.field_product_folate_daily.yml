@@ -1,0 +1,24 @@
+uuid: 9fd8a390-dafc-4553-926e-1bdb3ab87f89
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_folate_daily
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_folate_daily
+field_name: field_product_folate_daily
+entity_type: node
+bundle: product_variant
+label: 'Folate % Daily Value'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
