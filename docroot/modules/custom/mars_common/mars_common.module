@@ -909,26 +909,6 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
     $form['settings']['label_display']['#access'] = FALSE;
   }
 
-  if (strpos($form_id, 'poll_view_form_') === 0) {
-
-    $matches = [];
-    preg_match('/^poll_view_form_([0-9]+)$/', $form_id, $matches);
-    if (isset($matches[1])) {
-      // Force a session for user so it would be possible to see the results
-      // in case of cashed component with incorrect state.
-      $form['#cache'] = ['max-age' => 0];
-      $_SESSION['poll_vote'][(int) $matches[1]] = FALSE;
-    }
-    $form['actions']['cancel'] = NULL;
-    if ($form['actions']['vote']['#ajax'] ?? NULL) {
-      $form['actions']['vote']['#ajax']['progress'] = FALSE;
-    }
-    $form['actions']['vote']['#submit'][] = 'poll_form_submit_action_callback';
-    if ($form['actions']['result']['#ajax'] ?? NULL) {
-      $form['actions']['result']['#ajax']['progress'] = FALSE;
-    }
-  }
-
   // Alter layout form related to content type
   // in order to add custom validation.
   $form_object = $form_state->getFormObject();

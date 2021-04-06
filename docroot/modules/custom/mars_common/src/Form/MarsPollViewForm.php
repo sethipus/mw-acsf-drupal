@@ -4,7 +4,6 @@ namespace Drupal\mars_common\Form;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\poll\Form\PollViewForm;
 use Drupal\poll\PollInterface;
 use Drupal\poll\PollVoteStorage;
@@ -15,13 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Mars poll view form.
  */
 class MarsPollViewForm extends PollViewForm {
-
-  /**
-   * The Private temp store service.
-   *
-   * @var \Drupal\Core\TempStore\PrivateTempStore
-   */
-  protected $privateTempStore;
 
   /**
    * The Date time Service.
@@ -41,11 +33,9 @@ class MarsPollViewForm extends PollViewForm {
    * {@inheritdoc}
    */
   public function __construct(
-    PrivateTempStoreFactory $temp_store_factory,
     TimeInterface $time,
     PollVoteStorage $voteStorage
   ) {
-    $this->privateTempStore = $temp_store_factory->get('poll_vote');
     $this->time = $time;
     $this->pollVoteStorage = $voteStorage;
   }
@@ -55,7 +45,6 @@ class MarsPollViewForm extends PollViewForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('tempstore.private'),
       $container->get('datetime.time'),
       $container->get('poll_vote.storage')
     );
@@ -85,8 +74,6 @@ class MarsPollViewForm extends PollViewForm {
       if ($request->isMethod('POST') && $this->poll->hasUserVoted()) {
         $input = $form_state->getUserInput();
         if (isset($input['op']) && $input['op'] == $this->t('Vote')) {
-          // If this happened,then the form submission was likely a cached page.
-          $this->privateTempStore->set($this->poll->id(), FALSE);
           $this->messenger()->addError($this->t('Your vote for this poll has already been submitted.'));
         }
       }
@@ -129,9 +116,15 @@ class MarsPollViewForm extends PollViewForm {
 
     $form['actions'] = $this->actions($form, $form_state, $this->poll);
 
-    $form['#cache'] = [
-      'tags' => $this->poll->getCacheTags(),
-    ];
+    $form['#cache'] = ['max-age' => 0];
+    $form['actions']['cancel'] = NULL;
+    if ($form['actions']['vote']['#ajax'] ?? NULL) {
+      $form['actions']['vote']['#ajax']['progress'] = FALSE;
+    }
+    $form['actions']['vote']['#submit'][] = 'poll_form_submit_action_callback';
+    if ($form['actions']['result']['#ajax'] ?? NULL) {
+      $form['actions']['result']['#ajax']['progress'] = FALSE;
+    }
 
     return $form;
   }
@@ -143,8 +136,6 @@ class MarsPollViewForm extends PollViewForm {
    *   Form array.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Form State object.
-   *
-   * @throws \Drupal\Core\TempStore\TempStoreException
    */
   public function save(array $form, FormStateInterface $form_state) {
     $options = [];
@@ -157,18 +148,6 @@ class MarsPollViewForm extends PollViewForm {
     // Save vote.
     $this->pollVoteStorage->saveVote($options);
     $this->messenger()->addMessage($this->t('Your vote has been recorded.'));
-
-    if ($this->currentUser()->isAnonymous()) {
-      // The vote is recorded so the user gets the result view instead of the
-      // voting form when viewing the poll. Saving a value in temp store has the
-      // convenient side effect of preventing the user from hitting the page
-      // cache. When anonymous voting is allowed, the page cache should only
-      // contain the voting form, not the results.
-      $this->privateTempStore->set(
-        $form_state->getValue('poll')->id(),
-        $form_state->getValue('choice')
-      );
-    }
 
     // In case of an ajax submission, trigger a form rebuild so that we can
     // return an updated form through the ajax callback.
@@ -197,8 +176,8 @@ class MarsPollViewForm extends PollViewForm {
       && $poll->getCancelVoteAllow()
       // And the user has the cancel own vote permission.
       && $this->currentUser()->hasPermission('cancel own vote')
-      // And the user is authenticated or session contains the voted flag.
-      && ($this->currentUser()->isAuthenticated() || !empty($this->privateTempStore->get($poll->id())))
+      // And the user is authenticated.
+      && ($this->currentUser()->isAuthenticated())
       // And poll is open.
       && $poll->isOpen();
   }
