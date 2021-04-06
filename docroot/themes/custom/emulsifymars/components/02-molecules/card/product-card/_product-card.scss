@@ -157,6 +157,7 @@
       padding: 1.8rem 1.85rem;
       line-height: 1;
       font-size: 1.4rem;
+      text-align: center;
 
       @include medium {
         transition: color 1s cubic-bezier(.75, 0, .25, .8), background-color 1s cubic-bezier(.75, 0, .25, .8);
@@ -180,6 +181,7 @@
     padding: 1.8rem 1rem;
     line-height: 1;
     font-size: 1.4rem;
+    text-align: center;
     text-decoration: none;
     font-weight: bold;
     color: clr(primary);
