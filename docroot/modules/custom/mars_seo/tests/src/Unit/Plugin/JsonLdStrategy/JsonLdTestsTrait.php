@@ -94,7 +94,12 @@ trait JsonLdTestsTrait {
         ->disableOriginalConstructor()
         ->getMock();
       foreach ($params as $method => $values) {
-        $node_mock->expects($this->any())->method($method)->willReturn($values);
+        if (is_array($values) && array_key_exists('_with', $values)) {
+          $node_mock->expects($this->any())->method($method)->with($values['_with'])->willReturn($values[$values['_with']]);
+        }
+        else {
+          $node_mock->expects($this->any())->method($method)->willReturn($values);
+        }
       }
       return $node_mock;
     }
@@ -103,10 +108,13 @@ trait JsonLdTestsTrait {
   /**
    * Helper function for creating mock.
    *
+   * @param array $params
+   *   Node mock method/values parameters.
+   *
    * @return \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Plugin\Context\Context
    */
-  protected function createNodeContextMock() {
-    $node = $this->createNodeMock();
+  protected function createNodeContextMock($params = []) {
+    $node = $this->createNodeMock($params);
     $node_context = $this->createContextMock();
     $node_context->expects($this->any())
       ->method('getContextValue')
