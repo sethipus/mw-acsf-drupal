@@ -11,7 +11,8 @@
         <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
           {% include "@atoms/images/image/responsive-image.twig" with {
             output_image_tag: true,
-            image_alt: '',
+            image_alt: hero_image.alt,
+            image_title: hero_image.title,
             image_srcset: hero_image.srcset,
             image_sizes: '(max-width: 375px) 375px,
                 (max-width: 768px) 768px,
