@@ -138,3 +138,13 @@ function mars_common_update_8009() {
   \Drupal::service('file_system')->deleteRecursive('public://logs/archive');
   \Drupal::service('file_system')->delete('public://logs/drupal.log');
 }
+
+/**
+ * Enable dependency module.
+ */
+function mars_common_update_8010() {
+  $modules = [
+    'mars_media',
+  ];
+  \Drupal::service('module_installer')->install($modules);
+}

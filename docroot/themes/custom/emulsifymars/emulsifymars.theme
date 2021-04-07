@@ -204,7 +204,7 @@ function emulsifymars_theme() {
  * Implements hook_preprocess_views_view_unformatted().
  */
 function emulsifymars_preprocess_views_view_unformatted(&$variables) {
-  /** @var \Drupal\mars_common\MediaHelper $media_helper */
+  /** @var \Drupal\mars_media\MediaHelper $media_helper */
   $media_helper = \Drupal::service('mars_media.media_helper');
   $view = $variables['view'];
   $id = $view->storage->id();
