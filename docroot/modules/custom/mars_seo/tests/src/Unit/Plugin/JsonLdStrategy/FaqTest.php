@@ -164,8 +164,6 @@ class FaqTest extends UnitTestCase {
         ],
       ],
     ];
-    $build['_layout_builder'][0]['faq_region']['faq_block']['content']['question'] = 'test';
-    $build['_layout_builder'][0]['faq_region']['faq_block']['content']['answer'] = 'test';
     // Cleanup testing object state.
     $this->jsonLdPlugin = new Faq(
       [],
