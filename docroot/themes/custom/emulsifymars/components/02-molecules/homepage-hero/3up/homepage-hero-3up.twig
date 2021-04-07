@@ -16,7 +16,8 @@
           } %}
           {% include "@atoms/images/image/responsive-image.twig" with {
             output_image_tag: true,
-            image_alt: '',
+            image_alt: hero_image.alt,
+            image_title: hero_image.title,
             image_src: hero_image.src|resizeByHeight(656),
             responsive_image_blockname: 'homepage-hero-3up',
             image_array: images,

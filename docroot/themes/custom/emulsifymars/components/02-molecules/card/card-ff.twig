@@ -58,6 +58,8 @@
         <div class="image-background {{image_size}}">
         {% if card__link__url %}
           <a href="{{card__link__url}}" target="{{ card__link__new_window }}">
+          {% else %}
+            <div class="image-container">
         {% endif %}
         <div class="brand-shape">
           {{ brand_shape | raw }}
@@ -72,6 +74,8 @@
           } %}
         {% if card__link__url %}
           </a>
+          {% else %}
+            </div>
         {% endif %}
         </div>
       </div>
