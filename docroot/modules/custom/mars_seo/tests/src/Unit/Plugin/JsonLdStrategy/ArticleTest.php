@@ -141,7 +141,7 @@ class ArticleTest extends UnitTestCase {
       '__get' => [
         '_with' => 'field_article_image',
         'field_article_image' => $this->fieldItemListMock,
-      ]
+      ],
     ];
     $this->jsonLdPlugin->setContext('node', $this->createNodeContextMock($node_context_params));
     $this->mediaHelperMock->expects($this->any())->method('getMediaUrl')->willReturn('test_image.jpeg');
