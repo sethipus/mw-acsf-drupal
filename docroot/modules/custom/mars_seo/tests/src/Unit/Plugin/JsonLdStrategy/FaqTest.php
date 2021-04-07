@@ -63,6 +63,13 @@ class FaqTest extends UnitTestCase {
   private $mediaHelperMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Layout\LayoutDefinition
+   */
+  protected $layoutDefinitionMock;
+
+  /**
    * The plugin ID.
    */
   const PLUGIN_ID = 'faq';
@@ -106,12 +113,6 @@ class FaqTest extends UnitTestCase {
     $this->jsonLdPlugin->setContext('build', $this->createBuildContext());
     $this->assertFalse($this->jsonLdPlugin->isApplicable());
     // Test system with filled in 'build' context.
-    $layout_definition = $this->getMockBuilder(LayoutDefinition::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-    $layout_definition->expects($this->any())
-      ->method('getRegionNames')
-      ->willReturn(['region' => 'faq_region']);
     $build = [
       '_layout_builder' => [
         [
@@ -121,7 +122,7 @@ class FaqTest extends UnitTestCase {
               'content' => [],
             ],
           ],
-          '#layout' => $layout_definition,
+          '#layout' => $this->layoutDefinitionMock,
         ],
       ],
     ];
@@ -138,12 +139,6 @@ class FaqTest extends UnitTestCase {
     $this->jsonLdPlugin->setContext('build', $this->createBuildContext(['_layout_builder' => []]));
     $this->assertEmpty($this->jsonLdPlugin->getStructuredData());
     // Test system with filled in 'build' context without FAQ items.
-    $layout_definition = $this->getMockBuilder(LayoutDefinition::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-    $layout_definition->expects($this->any())
-      ->method('getRegionNames')
-      ->willReturn(['region' => 'faq_region']);
     $build = [
       '_layout_builder' => [
         [
@@ -153,12 +148,14 @@ class FaqTest extends UnitTestCase {
               'content' => [],
             ],
           ],
-          '#layout' => $layout_definition,
+          '#layout' => $this->layoutDefinitionMock,
         ],
       ],
     ];
     $this->jsonLdPlugin->setContext('build', $this->createBuildContext($build));
     $this->assertEmpty($this->jsonLdPlugin->getStructuredData());
+    // Test the system with completely filled in 'build' context
+    // and clean plugin object.
     $build['_layout_builder'][0]['faq_region']['faq_block']['content']['#qa_items'] = [
       [
         'content' => [
@@ -169,6 +166,7 @@ class FaqTest extends UnitTestCase {
     ];
     $build['_layout_builder'][0]['faq_region']['faq_block']['content']['question'] = 'test';
     $build['_layout_builder'][0]['faq_region']['faq_block']['content']['answer'] = 'test';
+    // Cleanup testing object state.
     $this->jsonLdPlugin = new Faq(
       [],
       static::PLUGIN_ID,
@@ -190,6 +188,12 @@ class FaqTest extends UnitTestCase {
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->urlGeneratorMock = $this->createMock(UrlGeneratorInterface::class);
+    $this->layoutDefinitionMock = $this->getMockBuilder(LayoutDefinition::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $this->layoutDefinitionMock->expects($this->any())
+      ->method('getRegionNames')
+      ->willReturn(['region' => 'faq_region']);
   }
 
 }
