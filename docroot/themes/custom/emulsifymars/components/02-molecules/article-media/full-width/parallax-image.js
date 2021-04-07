@@ -5,8 +5,7 @@
         .find('.parallax-image')
         .each(function() {
           const parallaxImage = this;
-          const parallaxCoef = 1;
-          const imageParent = parallaxImage.closest('.article-full-width--parallax__media');
+          const parallaxCoef = .5;
 
           const isInViewport = (element) => {
             const boundingRect = element.getBoundingClientRect();
@@ -43,16 +42,7 @@
               const parallaxOverflow = containerHeight * parallaxCoef;
               const positionOffset =
                 (parallaxOverflow / 2) * parallaxEffectPercentage;
-              parallaxImage.style.transform = `translateY(${positionOffset}px)`;
-
-              // workaround for fixing top/bottom gaps
-              if(positionOffset < 0) {
-                imageParent.style.height = (containerHeight + positionOffset) + "px";
-                parallaxImage.style.marginTop = 0;
-              } else {
-                imageParent.style.height = (containerHeight - positionOffset) + "px";
-                parallaxImage.style.marginTop = (-positionOffset) + "px";
-              }
+              parallaxImage.style.transform = `translateY(${positionOffset}px) scale(1.15)`;
             }
           };
 
