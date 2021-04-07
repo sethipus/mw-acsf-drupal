@@ -68,6 +68,7 @@ trait JsonLdTestsTrait {
    * Helper function for creating mock.
    *
    * @return \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Plugin\Context\Context
+   *   Returns base context class.
    */
   protected function createContextMock() {
     return $this->getMockBuilder(Context::class)
@@ -81,9 +82,10 @@ trait JsonLdTestsTrait {
    * @param array $params
    *   Node mock method/values parameters.
    *
-   * @return \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Plugin\Context\Context
+   * @return \PHPUnit\Framework\MockObject\MockObject|\Drupal\Node\Entity\Node
+   *   Returns node entity mock.
    */
-  protected function createNodeMock($params = []) {
+  protected function createNodeMock(array $params = []) {
     if (empty($params)) {
       return $this->getMockBuilder(Node::class)
         ->disableOriginalConstructor()
@@ -96,6 +98,13 @@ trait JsonLdTestsTrait {
       foreach ($params as $method => $values) {
         if (is_array($values) && array_key_exists('_with', $values)) {
           $node_mock->expects($this->any())->method($method)->with($values['_with'])->willReturn($values[$values['_with']]);
+        }
+        elseif ($method === 'multiple_get_with') {
+          $mapped_params = [];
+          foreach ($values as $params) {
+            $mapped_params[] = [$params['_with'], $params[$params['_with']]];
+          }
+          $node_mock->expects($this->any())->method('__get')->willReturnMap($mapped_params);
         }
         else {
           $node_mock->expects($this->any())->method($method)->willReturn($values);
@@ -112,14 +121,15 @@ trait JsonLdTestsTrait {
    *   Node mock method/values parameters.
    *
    * @return \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Plugin\Context\Context
+   *   Returns node context mock.
    */
-  protected function createNodeContextMock($params = []) {
+  protected function createNodeContextMock(array $params = []) {
     $node = $this->createNodeMock($params);
     $node_context = $this->createContextMock();
     $node_context->expects($this->any())
       ->method('getContextValue')
       ->willReturn($node);
-     return $node_context;
+    return $node_context;
   }
 
   /**
@@ -129,8 +139,9 @@ trait JsonLdTestsTrait {
    *   Build array properties list.
    *
    * @return \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Plugin\Context\Context
+   *   Returns build context.
    */
-  protected function createBuildContext($build_array = []) {
+  protected function createBuildContext(array $build_array = []) {
     $build_context = $this->createContextMock();
     $build_context->expects($this->any())
       ->method('getContextValue')
