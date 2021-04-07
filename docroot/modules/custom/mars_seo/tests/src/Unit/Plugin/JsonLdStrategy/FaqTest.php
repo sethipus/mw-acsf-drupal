@@ -3,10 +3,12 @@
 namespace Drupal\Tests\mars_seo\Unit\Plugin\JsonLdStrategy;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_seo\Plugin\JsonLdStrategy\Faq;
 use Drupal\Tests\UnitTestCase;
+use Spatie\SchemaOrg\FAQPage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -95,10 +97,89 @@ class FaqTest extends UnitTestCase {
     );
   }
 
+  /**
+   * Test.
+   */
   public function testIsApplicable() {
+    // Test system with empty build context.
     $this->jsonLdPlugin->setContext('node', $this->createNodeContextMock());
     $this->jsonLdPlugin->setContext('build', $this->createBuildContext());
     $this->assertFalse($this->jsonLdPlugin->isApplicable());
+    // Test system with filled in 'build' context.
+    $layout_definition = $this->getMockBuilder(LayoutDefinition::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $layout_definition->expects($this->any())
+      ->method('getRegionNames')
+      ->willReturn(['region' => 'faq_region']);
+    $build = [
+      '_layout_builder' => [
+        [
+          'faq_region' => [
+            'faq_block' => [
+              '#plugin_id' => 'search_faq_block',
+              'content' => [],
+            ],
+          ],
+          '#layout' => $layout_definition,
+        ],
+      ],
+    ];
+    $this->jsonLdPlugin->setContext('build', $this->createBuildContext($build));
+    $this->assertTrue($this->jsonLdPlugin->isApplicable());
+  }
+
+  /**
+   * Test.
+   */
+  public function testGetStructuredData() {
+    // Test system with empty build context.
+    $this->jsonLdPlugin->setContext('node', $this->createNodeContextMock());
+    $this->jsonLdPlugin->setContext('build', $this->createBuildContext(['_layout_builder' => []]));
+    $this->assertEmpty($this->jsonLdPlugin->getStructuredData());
+    // Test system with filled in 'build' context without FAQ items.
+    $layout_definition = $this->getMockBuilder(LayoutDefinition::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $layout_definition->expects($this->any())
+      ->method('getRegionNames')
+      ->willReturn(['region' => 'faq_region']);
+    $build = [
+      '_layout_builder' => [
+        [
+          'faq_region' => [
+            'faq_block' => [
+              '#plugin_id' => 'search_faq_block',
+              'content' => [],
+            ],
+          ],
+          '#layout' => $layout_definition,
+        ],
+      ],
+    ];
+    $this->jsonLdPlugin->setContext('build', $this->createBuildContext($build));
+    $this->assertEmpty($this->jsonLdPlugin->getStructuredData());
+    $build['_layout_builder'][0]['faq_region']['faq_block']['content']['#qa_items'] = [
+      [
+        'content' => [
+          'question' => 'test',
+          'answer' => 'test',
+        ],
+      ],
+    ];
+    $build['_layout_builder'][0]['faq_region']['faq_block']['content']['question'] = 'test';
+    $build['_layout_builder'][0]['faq_region']['faq_block']['content']['answer'] = 'test';
+    $this->jsonLdPlugin = new Faq(
+      [],
+      static::PLUGIN_ID,
+      static::DEFINITIONS,
+      $this->mediaHelperMock,
+      $this->urlGeneratorMock,
+      $this->configFactoryMock
+    );
+    $this->jsonLdPlugin->setContext('build', $this->createBuildContext($build));
+    $schema = $this->jsonLdPlugin->getStructuredData();
+    $this->assertTrue($schema instanceof FAQPage);
   }
 
   /**

@@ -78,12 +78,26 @@ trait JsonLdTestsTrait {
   /**
    * Helper function for creating mock.
    *
+   * @param array $params
+   *   Node mock method/values parameters.
+   *
    * @return \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Plugin\Context\Context
    */
-  protected function createNodeMock() {
-    return $this->getMockBuilder(Node::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+  protected function createNodeMock($params = []) {
+    if (empty($params)) {
+      return $this->getMockBuilder(Node::class)
+        ->disableOriginalConstructor()
+        ->getMock();
+    }
+    else {
+      $node_mock = $this->getMockBuilder(Node::class)
+        ->disableOriginalConstructor()
+        ->getMock();
+      foreach ($params as $method => $values) {
+        $node_mock->expects($this->any())->method($method)->willReturn($values);
+      }
+      return $node_mock;
+    }
   }
 
   /**
@@ -94,7 +108,7 @@ trait JsonLdTestsTrait {
   protected function createNodeContextMock() {
     $node = $this->createNodeMock();
     $node_context = $this->createContextMock();
-    $node_context->expects($this->once())
+    $node_context->expects($this->any())
       ->method('getContextValue')
       ->willReturn($node);
      return $node_context;
@@ -110,7 +124,7 @@ trait JsonLdTestsTrait {
    */
   protected function createBuildContext($build_array = []) {
     $build_context = $this->createContextMock();
-    $build_context->expects($this->once())
+    $build_context->expects($this->any())
       ->method('getContextValue')
       ->willReturn($build_array);
     return $build_context;
