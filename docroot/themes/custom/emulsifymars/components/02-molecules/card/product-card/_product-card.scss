@@ -1,4 +1,6 @@
 .product-card {
+  $this: &;
+
   min-height: 520px;
   border-radius: variable(card-border-radius);
   transition: cubic-bezier(0.75, 0, 0.25, 0), 0.8s;
@@ -130,12 +132,13 @@
       color: clr(primary);
       margin-bottom: 0;
       line-height: 2.42rem;
+      padding-bottom: 5px;
     }
 
   }
 
   &__rating {
-    margin: 1rem 0 1rem 0;
+    margin: 0.5rem 0 1rem 0;
   }
 
   &__link_section {
@@ -150,11 +153,12 @@
   &__button{
     position: relative;
     left: -1rem;
-    a {
-      padding: 0 1.85rem;
-      line-height: 5rem;
-      font-size: 1.4rem;
 
+    a {
+      padding: 1.8rem 1.85rem;
+      line-height: 1;
+      font-size: 1.4rem;
+      text-align: center;
 
       @include medium {
         transition: color 1s cubic-bezier(.75, 0, .25, .8), background-color 1s cubic-bezier(.75, 0, .25, .8);
@@ -175,9 +179,10 @@
 
   & .cc-fi-button {
     display: inline-block;
-    padding: 0 1rem;
-    line-height: 5rem;
+    padding: 1.8rem 1rem;
+    line-height: 1;
     font-size: 1.4rem;
+    text-align: center;
     text-decoration: none;
     font-weight: bold;
     color: clr(primary);
@@ -217,6 +222,29 @@
     color: clr(primary);
     font-family: variable(secondary-font);
     font-size: 1.4rem;
+  }
+
+  &--eyebrow-with-rating {
+    @include max-width-interval(0 $medium) {
+      .eyebrow {
+        padding-top: 1.5rem;
+      }
+
+      #{$this} {
+        &__image {
+          height: 24.5rem;
+          padding-top: 2rem;
+        }
+
+        &__title {
+          margin-top: 0.5rem;
+        }
+
+        &__link_section {
+          bottom: 1.5rem;
+        }
+      }
+    }
   }
 }
 

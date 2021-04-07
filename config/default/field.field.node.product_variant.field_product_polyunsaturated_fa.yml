@@ -1,0 +1,24 @@
+uuid: fe71a1e8-25ee-4919-aaaa-6ab59e71d87b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_polyunsaturated_fa
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_polyunsaturated_fa
+field_name: field_product_polyunsaturated_fa
+entity_type: node
+bundle: product_variant
+label: 'Polyunsaturated Fat'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

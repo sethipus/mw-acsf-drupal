@@ -1,47 +1,49 @@
 {% set search_page_header_base_class = search_page_header_base_class|default('search-page-header') %}
 
 <section {{ bem(search_page_header_base_class, [], []) }} data-theme="{{ theme_styles }}">
+  <div {{ bem('background', [], search_page_header_base_class) }}>
+    <div class="search-page-header__brand-shape search-page-header__brand-shape--first">
+      {{ brand_shape | raw }}
+    </div>
 
-  <div class="search-page-header__brand-shape search-page-header__brand-shape--first">
-    {{ brand_shape | raw }}
+    <div class="search-page-header__brand-shape search-page-header__brand-shape--second">
+      {{ brand_shape | raw }}
+    </div>
+
+    <div class="search-page-header__brand-shape search-page-header__brand-shape--third">
+      {{ brand_shape | raw }}
+    </div>
   </div>
+  <div {{ bem('content', [], search_page_header_base_class) }}>
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading: search_page_header_heading,
+      heading_level: search_page_header_heading_level,
+      heading_base_class: search_page_header_heading_base_class
+    }%}
+    <div class="search-input-wrapper mars-search-form">
+      {% block search_header__input %}
+        {% include "@molecules/search/search-input/search-input.twig" %}
+      {% endblock %}
 
-  <div class="search-page-header__brand-shape search-page-header__brand-shape--second">
-    {{ brand_shape | raw }}
-  </div>
-
-  <div class="search-page-header__brand-shape search-page-header__brand-shape--third">
-    {{ brand_shape | raw }}
-  </div>
-
-  {% include "@atoms/text/headings/_heading.twig" with {
-    heading: search_page_header_heading,
-    heading_level: search_page_header_heading_level,
-    heading_base_class: search_page_header_heading_base_class
-  }%}
-  <div class="search-input-wrapper mars-search-form">
-    {% block search_header__input %}
-      {% include "@molecules/search/search-input/search-input.twig" %}
-    {% endblock %}
-
-    <div class="mars-search-autocomplete-suggestions-wrapper">
-      <div class="autocomplete-border"></div>
-      <div class="mars-suggestions">
-        {% include "@atoms/lists/ul.twig" with {
-          ul_items: search_results,
-        } %}
+      <div class="mars-search-autocomplete-suggestions-wrapper">
+        <div class="autocomplete-border"></div>
+        <div class="mars-suggestions">
+          {% include "@atoms/lists/ul.twig" with {
+            ul_items: search_results,
+          } %}
+        </div>
       </div>
     </div>
+
+    {% include "@molecules/search/search-results/search-results.twig" with {
+      search_results: search_results,
+      filters_selected_modifier: filters_selected_modifier
+    }%}
+
+    {% block search_page_header_divider %}
+      <div {{ bem('border', [], search_page_header_base_class) }}>
+        {{ brand_border | raw }}
+      </div>
+    {% endblock %}
   </div>
-
-  {% include "@molecules/search/search-results/search-results.twig" with {
-    search_results: search_results,
-    filters_selected_modifier: filters_selected_modifier
-  }%}
-
-  {% block search_page_header_divider %}
-    <div {{ bem('border', [], search_page_header_base_class) }}>
-      {{ brand_border | raw }}
-    </div>
-  {% endblock %}
 </section>

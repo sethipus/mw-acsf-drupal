@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\Plugin\Block\SearchFaqBlock;
 use Drupal\mars_search\Processors\SearchBuilder;
 use Drupal\mars_search\Processors\SearchHelperInterface;
@@ -93,6 +94,13 @@ class SearchFaqBlockTest extends UnitTestCase {
   private $languageHelperMock;
 
   /**
+   * Theme configurator parser mock.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParserMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -127,7 +135,8 @@ class SearchFaqBlockTest extends UnitTestCase {
       $definitions,
       $this->searchProcessFactoryMock,
       $this->configFactoryMock,
-      $this->languageHelperMock
+      $this->languageHelperMock,
+      $this->themeConfiguratorParserMock
     );
   }
 
@@ -136,7 +145,7 @@ class SearchFaqBlockTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(3))
+      ->expects($this->exactly(4))
       ->method('get')
       ->willReturnMap(
         [
@@ -154,6 +163,11 @@ class SearchFaqBlockTest extends UnitTestCase {
             'mars_common.language_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->languageHelperMock,
+          ],
+          [
+            'mars_common.theme_configurator_parser',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->themeConfiguratorParserMock,
           ],
         ]
       );
@@ -286,6 +300,7 @@ class SearchFaqBlockTest extends UnitTestCase {
     $this->searchProcessFactoryMock = $this->createMock(SearchProcessFactoryInterface::class);
     $this->languageHelperMock = $this->createMock(LanguageHelper::class);
     $this->searchBuilderMock = $this->createMock(SearchBuilder::class);
+    $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
   }
 
 }

@@ -14,9 +14,10 @@
       heading_base_class: error_component_heading_base_class
     } %}
 
-    <div class="error-component__graphic-divider">
-      {{graphic_divider | raw}}
-    </div>
+    {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+      graphic_divider_blockname: error_component_base_class,
+      graphic_divider: graphic_divider
+    } %}
 
     {% include "@atoms/text/text/07-element.twig" with {
       paragraph_content: error_component_paragraph_content,

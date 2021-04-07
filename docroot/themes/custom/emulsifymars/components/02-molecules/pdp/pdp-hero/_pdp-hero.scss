@@ -424,7 +424,7 @@
   }
 
   &__sections-item {
-    width: 100%;
+    width: calc(100% - 1rem);
     margin: 0.5rem;
   }
 
@@ -730,7 +730,7 @@
     right: 1.5rem;
     bottom: -12rem;
     text-align: center;
-    z-index: 10;
+    z-index: 11;
     transition: visibility 0.5s, opacity 0.5s ease-out;
     visibility: visible;
     opacity: 1;

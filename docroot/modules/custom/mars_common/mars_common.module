@@ -383,6 +383,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media' => NULL,
         'content' => NULL,
         'heading' => NULL,
+        'heading_modifier' => NULL,
       ],
       'template' => 'fullwidth-image-video-block',
     ],
@@ -837,6 +838,18 @@ function mars_common_preprocess_node__landing_page__card(array &$variables) {
 /**
  * Implements hook_preprocess_HOOK().
  */
+function mars_common_preprocess_block(array &$variables) {
+  if (isset($variables['plugin_id']) &&
+    $variables['plugin_id'] == 'poll_block' &&
+    isset($variables['configuration']['ajaxId'])) {
+
+    $variables['attributes']['data-ajax-block-id'] = $variables['configuration']['ajaxId'];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
 function mars_common_preprocess_node__content_hub_page__card(array &$variables) {
   card_add_badge_text($variables);
   card_add_button_label($variables, 'content_hub_card_button');
@@ -905,6 +918,7 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
       // Force a session for user so it would be possible to see the results
       // in case of cashed component with incorrect state.
       $form['#cache'] = ['max-age' => 0];
+      $_SESSION['poll_vote'][(int) $matches[1]] = FALSE;
     }
     $form['actions']['cancel'] = NULL;
     if ($form['actions']['vote']['#ajax'] ?? NULL) {

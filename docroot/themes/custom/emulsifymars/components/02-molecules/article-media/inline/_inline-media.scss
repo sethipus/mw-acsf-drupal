@@ -131,17 +131,47 @@
     max-height: 635px;
 
     &__control[data-state="play"] {
-      width: 9.671rem;
-      height: 9.671rem;
-      top: calc(50% - 9.671rem / 2);;
-      left: calc(50% - 9.671rem / 2);;
-    }
+      $btn-size-xs: 6.7rem;
+      $btn-size-md: 8.56rem;
+      $btn-size-xl: 9.67rem;
 
-    &__control[data-state="play"] .play-icon{
-      width: 30.2px;
-      height: 36px;
-      transform: scale(1.112, 1.193);
-      margin: auto 35%;
+      padding: 0;
+      width: #{$btn-size-xs};
+      height: #{$btn-size-xs};
+      top: calc(50% - #{$btn-size-xs / 2});
+      left: calc(50% - #{$btn-size-xs / 2});
+
+      @include medium {
+        width: #{$btn-size-md};
+        height: #{$btn-size-md};
+        top: calc(50% - #{$btn-size-md / 2});
+        left: calc(50% - #{$btn-size-md / 2});
+      }
+
+      @include xl {
+        width: #{$btn-size-xl};
+        height: #{$btn-size-xl};
+        top: calc(50% - #{$btn-size-xl / 2});
+        left: calc(50% - #{$btn-size-xl / 2});
+      }
+
+      .play-icon {
+        width: 2.09rem;
+        height: 2.5rem;
+        margin-left: 2.59rem;
+
+        @include medium {
+          width: 2.67rem;
+          height: 3.19rem;
+          margin-left: 3.31rem;
+        }
+
+        @include xl {
+          width: 3.02rem;
+          height: 3.6rem;
+          margin-left: 3.74rem;
+        }
+      }
     }
 
     &__control[data-state="pause"] {
