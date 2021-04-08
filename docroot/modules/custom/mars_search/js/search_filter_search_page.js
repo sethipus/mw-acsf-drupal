@@ -34,6 +34,7 @@
             return params;
           }
           let [key, val] = hash.split('=');
+          // Skipping GA 's' query param to don't include it into SOLR query.
           if (key === 's') {
             return params;
           }
@@ -134,6 +135,7 @@
           }
           else {
             query['search'] = { '1': searchKey };
+            // Adding 's' query param to pass search string to GA dashboard.
             query['s'] = searchKey;
           }
           pushQuery(query);
@@ -175,6 +177,7 @@
       var clearTypeFilterListener = function() {
         $('.search-results-item--active .search-results-item__clear').one('click', function (e) {
           var query = currentQuery();
+          // Adding 's' query param to pass search string to GA dashboard.
           if (query.hasOwnProperty('search') && query.search.hasOwnProperty('1')) {
             query['s'] = query.search['1'];
           }
@@ -215,6 +218,7 @@
             var filter = $(e.target).data('type');
             var query = currentQuery();
             query['type'] = { '1': filter };
+            // Adding 's' query param to pass search string to GA dashboard.
             query['s'] = query['search']['1'];
             pushQuery(query);
             query.page_id = pageId;
