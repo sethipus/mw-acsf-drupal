@@ -53,6 +53,10 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
     if (isset($query_parameters['search_id'])) {
       $search_id = $query_parameters['search_id'];
     }
+    // Remove unnecessary parameter from the search query.
+    if (isset($query_parameters['s'])) {
+      unset($query_parameters['s']);
+    }
 
     $options = $query_parameters;
     // Set default filter options.

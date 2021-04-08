@@ -155,6 +155,9 @@
           return params;
         }
         let [key, val] = hash.split('=');
+        if (key === 's') {
+          return params;
+        }
         // @TODO Find better to parse id Url not supported for IE.
         let id = decodeURIComponent(key).split('[')[1];
         id = id.replace(']', '');
@@ -175,6 +178,9 @@
             delete queryMap[item];
           }
           return false;
+        }
+        if (queryMap.hasOwnProperty('search') && queryMap.search.hasOwnProperty('1')) {
+          queryMap['s'] = queryMap.search['1'];
         }
         return true;
       });
@@ -252,6 +258,9 @@
           }
         });
         updateResults(prepareQuery(queryElements), grid);
+        if (queryElements.hasOwnProperty('search') && queryElements.search.hasOwnProperty(1)) {
+          queryElements['s'] = queryElements.search['1'];
+        }
         pushQuery(queryElements);
       };
 

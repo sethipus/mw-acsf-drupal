@@ -34,6 +34,9 @@
             return params;
           }
           let [key, val] = hash.split('=');
+          if (key === 's') {
+            return params;
+          }
           // @TODO Find better to parse id Url not supported for IE.
           let id = decodeURIComponent(key).split('[')[1];
           id = id.replace(']','');
@@ -131,6 +134,7 @@
           }
           else {
             query['search'] = { '1': searchKey };
+            query['s'] = searchKey;
           }
           pushQuery(query);
           query.page_id = pageId;
@@ -171,6 +175,9 @@
       var clearTypeFilterListener = function() {
         $('.search-results-item--active .search-results-item__clear').one('click', function (e) {
           var query = currentQuery();
+          if (query.hasOwnProperty('search') && query.search.hasOwnProperty('1')) {
+            query['s'] = query.search['1'];
+          }
           delete query.type;
           pushQuery(query);
           query.page_id = pageId;
@@ -208,6 +215,7 @@
             var filter = $(e.target).data('type');
             var query = currentQuery();
             query['type'] = { '1': filter };
+            query['s'] = query['search']['1'];
             pushQuery(query);
             query.page_id = pageId;
             query.page_revision_id = pageRevisionId;
