@@ -11,6 +11,17 @@ use Psr\Http\Message\UriInterface;
 class CFResizableImageUri implements ImageUriInterface {
 
   /**
+   * Default CF image resize parameters.
+   *
+   * @var array
+   */
+  private $defaultParams = [
+    'g' => 'auto',
+    'fit' => 'cover',
+    'f' => 'auto',
+  ];
+
+  /**
    * Url for the image.
    *
    * @var \Psr\Http\Message\UriInterface
@@ -98,7 +109,7 @@ class CFResizableImageUri implements ImageUriInterface {
    *   The new Image Uri object.
    */
   private function createResizeUriWith(array $resizeParams): self {
-    return new self($this->uri, new CFResizePathFragment($resizeParams));
+    return new self($this->uri, new CFResizePathFragment(array_merge($resizeParams, $this->defaultParams)));
   }
 
 }
