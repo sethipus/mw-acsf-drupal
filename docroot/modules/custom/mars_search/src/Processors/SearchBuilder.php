@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
@@ -17,6 +18,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInterface {
 
   use StringTranslationTrait;
+  use OverrideThemeTextColorTrait;
 
   /*
    * Quite a big value in case of query without limit.
@@ -64,6 +66,13 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
    * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
    */
   protected $searchTermFacetProcess;
+
+  /**
+   * Search categories processor.
+   *
+   * @var \Drupal\mars_search\Processors\SearchCategoriesInterface
+   */
+  protected $searchCategories;
 
   /**
    * ThemeConfiguratorParser.
@@ -137,18 +146,16 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     switch ($grid_type) {
       // Card Grid should include filter preset from configuration.
       case 'grid':
+        $searchOptionsTop = $searchOptions;
         $searchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
 
         if (!empty($config['top_results_wrapper']['top_results'])) {
-          $top_result_ids = array_map(function ($value) {
-            return $value['target_id'];
-          }, $config['top_results_wrapper']['top_results']);
-          // Shift result by number of top results.
-          $top_result_ids = array_slice($top_result_ids, $searchOptions['offset'], $searchOptions['limit']);
-          foreach ($this->entityTypeManager->getStorage('node')->loadMultiple($top_result_ids) as $top_result_node) {
-            $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
-          }
-          $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
+          $this->populateItemsByTopResults(
+            $build,
+            $searchOptions,
+            $searchOptionsTop,
+            $config
+          );
         }
         $searcher_key = "grid_{$grid_id}";
         break;
@@ -170,6 +177,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         }
 
         break;
+
+      default:
+        break;
     }
 
     // Getting and building search results.
@@ -188,10 +198,87 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       return [$searchOptions, $query_search_results, $build];
     }
     foreach ($query_search_results['results'] as $node) {
-      $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      if (!empty($config['override_text_color']['override_color'])) {
+        $build['#items'][] = array_merge($this->nodeViewBuilder->view($node, 'card'), ['#text_color_override' => static::$overrideColor]);
+      }
+      else {
+        $build['#items'][] = $this->nodeViewBuilder->view($node, 'card');
+      }
     }
 
     return [$searchOptions, $query_search_results, $build];
+  }
+
+  /**
+   * Sort top results based on order in configuration.
+   *
+   * @param array $results
+   *   Results of search.
+   * @param array $weights
+   *   Weights in configuration.
+   *
+   * @return array
+   *   Sorted results.
+   */
+  private function sortTopResults(array $results, array $weights) {
+    $results_weighted = [];
+    foreach ($results as $result) {
+      /* @var \Drupal\node\NodeInterface $result */
+      $results_weighted[$weights[$result->id()]] = $result;
+    }
+    ksort($results_weighted);
+    return $results_weighted;
+  }
+
+  /**
+   * Populate build items by top results.
+   *
+   * @param array $build
+   *   Build array.
+   * @param array $searchOptions
+   *   Common search options.
+   * @param array $searchOptionsTop
+   *   Search options for top results.
+   * @param array $config
+   *   Component's config.
+   */
+  private function populateItemsByTopResults(
+    array &$build,
+    array &$searchOptions,
+    array $searchOptionsTop,
+    array $config
+  ) {
+    $top_result_ids = array_map(function ($value) {
+      return $value['target_id'];
+    }, $config['top_results_wrapper']['top_results']);
+    $searchOptionsTop['top_results_query'] = TRUE;
+    $searchOptionsTop['offset'] = 0;
+    $searchOptionsTop['limit'] = count($config['top_results_wrapper']['top_results']);
+
+    $searchOptionsTop['top_results_ids'] = $top_result_ids;
+    $searchOptionsTop = $this->searchQueryParser->parseFilterPreset($searchOptionsTop, $config);
+
+    // Getting and building search results.
+    $searcher_key_top = static::SEARCH_PAGE_QUERY_ID . '_top';
+    $top_search_results = $this->searchHelper->getSearchResults($searchOptionsTop, $searcher_key_top);
+
+    $top_results = $this->sortTopResults(
+      $top_search_results['results'],
+      array_flip($top_result_ids)
+    );
+
+    // Shift result by number of top results.
+    $top_results_slice = array_slice(
+      $top_results,
+      $searchOptions['offset'],
+      $searchOptions['limit']
+    );
+    foreach ($top_results_slice as $top_result_node) {
+      $build['#items'][] = $this->nodeViewBuilder->view($top_result_node, 'card');
+    }
+
+    $searchOptions['offset'] = count($build['#items']) > 0 ? 0 : $searchOptions['offset'] - $top_search_results['resultsCount'];
+    $searchOptions['limit'] = $searchOptions['limit'] - count($build['#items']);
   }
 
   /**
@@ -230,6 +317,11 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         $build['#input_form'] = $this->getSearhForm($facetOptions['keys'], $placeholder, $grid_id);
         $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-card-grid';
       }
+      // Prevent building facets if they are disabled in block configuration.
+      if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
+        $build['#filters'] = [];
+        return $build;
+      }
       if (!empty($config)) {
         $facet_id = "grid_{$grid_id}_facets";
       }
@@ -239,7 +331,8 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     }
     if (!empty($facet_id)) {
       $facets_query = $this->searchHelper->getSearchResults($facetOptions, $facet_id);
-      $default_filters = static::TAXONOMY_VOCABULARIES;
+      $this->searchCategories = $this->searchProcessor->getProcessManager('search_categories');
+      $default_filters = $this->searchCategories->getCategories();
       if (isset($config['exclude_filters'])) {
         $this->hideExcludedFacetOptions($default_filters, $config['exclude_filters']);
       }
@@ -421,6 +514,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
       '#no_results_heading' => $heading,
       '#no_results_text' => $config->get('no_results_text'),
       '#theme' => 'mars_search_no_results',
+      '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
     ];
 
     switch ($grid_type) {
@@ -441,6 +535,9 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
 
       case 'grid':
         $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+        break;
+
+      default:
         break;
     }
 

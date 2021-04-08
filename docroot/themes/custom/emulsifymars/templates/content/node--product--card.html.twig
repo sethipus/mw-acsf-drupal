@@ -19,8 +19,7 @@
 {% endif %}
 
 {% set default_link_content_text = 'SEE DETAILS' | mt %}
-{% set attributes = attributes | filter((v, k) => role == 'article') %}
-{% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} | merge(attributes) %}
+{% set default_link_attributes = {href: url, 'data-click-name': default_link_content_text} %}
 {% include "@molecules/card/product-card/product-card.twig" with {
   theme_styles: 'drupal',
   card__eyebrow: elements['#eyebrow'],
@@ -50,5 +49,6 @@
   show_rating_and_reviews: show_rating_and_reviews,
   select_background_color: select_background_color,
   select__background__color: elements['#select__background__color'],
-  default_link_content: card_button_text
+  default_link_content: card_button_text,
+  text_color_override: elements['#text_color_override']
 } %}

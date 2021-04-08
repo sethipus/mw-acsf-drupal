@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,6 +27,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
   use EntityBrowserFormTrait;
   use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Mars Media Helper service.
@@ -47,6 +49,14 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
    * @var \Drupal\mars_common\ThemeConfiguratorParser
    */
   protected $themeConfiguratorParser;
+
+  /**
+   * Image sizes.
+   */
+  const IMAGE_SIZE = [
+    '1:1' => '1:1',
+    '16:9' => '16:9',
+  ];
 
   /**
    * {@inheritdoc}
@@ -166,6 +176,11 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         '#maxlength' => 2048,
         '#default_value' => $config['items'][$key]['cta']['url'] ?? '',
       ];
+      $form['items'][$key]['cta']['new_window'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Open CTA link in a new tab'),
+        '#default_value' => $config['items'][$key]['cta']['new_window'] ?? FALSE,
+      ];
       $form['items'][$key]['description'] = [
         '#type' => 'textarea',
         '#title' => $this->t('Item description'),
@@ -190,6 +205,12 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
           'wrapper' => 'items-wrapper',
         ],
       ];
+      $form['items'][$key]['image_size'] = [
+        '#type' => 'radios',
+        '#title' => $this->t('Image size'),
+        '#options' => static::IMAGE_SIZE,
+        '#default_value' => isset($config['items'][$key]['image_size']) ? $config['items'][$key]['image_size'] : static::IMAGE_SIZE['1:1'],
+      ];
     }
     if (count($items_storage) < 4) {
       $form['items']['add_item'] = [
@@ -206,6 +227,19 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
 
     // Add select background color.
     $this->buildSelectBackground($form);
+    $this->buildOverrideColorElement($form, $config);
+
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $config['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $config['overlaps_previous'] ?? FALSE,
+    ];
 
     return $form;
   }
@@ -293,10 +327,13 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $ff_items = [];
 
     foreach ($config['items'] as $key => $item) {
+      $new_window = $config['items'][$key]['cta']['new_window'] ?? NULL;
+      $new_window = ($new_window == TRUE) ? '_blank' : '_self';
       $ff_item = [
         'card__heading' => $this->languageHelper->translate($config['items'][$key]['title']) ?? NULL,
         'card__link__url' => ($with_cta_flag) ? $config['items'][$key]['cta']['url'] : NULL,
         'card__link__text' => ($with_cta_flag) ? $this->languageHelper->translate($config['items'][$key]['cta']['title']) : NULL,
+        'card__link__new_window' => ($with_cta_flag) ? $new_window : '_self',
         'card__body' => ($with_desc_flag) ? $this->languageHelper->translate($config['items'][$key]['description']) : NULL,
       ];
 
@@ -315,6 +352,7 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
         $ff_item['card__image__src'] = $image_url;
         $ff_item['card__image__alt'] = $media_params['alt'] ?? NULL;
         $ff_item['card__image__title'] = $media_params['title'] ?? NULL;
+        $ff_item['card__image__size'] = isset($config['items'][$key]['image_size']) ? $config['items'][$key]['image_size'] : static::IMAGE_SIZE['1:1'];
       }
       $ff_items[] = $ff_item;
     }
@@ -323,11 +361,15 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
 
     $background_color = '';
-    if ($this->configuration['select_background_color'] != 'default' &&
-      !empty($this->configuration['select_background_color']) &&
-      array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+    if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+      && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
     ) {
       $background_color = static::$colorVariables[$this->configuration['select_background_color']];
+    }
+
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
     }
 
     $build['#select_background_color'] = $background_color;
@@ -336,7 +378,9 @@ class FlexibleFramerBlock extends BlockBase implements ContainerFactoryPluginInt
     $build['#item_type'] = 'card';
     $build['#grid_label'] = $this->languageHelper->translate($config['title'] ?? NULL);
     $build['#divider'] = $file_divider_content ?? NULL;
-    $build['#brand_borders'] = $file_border_content ?? NULL;
+    $build['#brand_borders'] = !empty($config['with_brand_borders']) ? $file_border_content : NULL;
+    $build['#overlaps_previous'] = $config['overlaps_previous'] ?? NULL;
+    $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#theme'] = 'flexible_framer_block';
 
     return $build;

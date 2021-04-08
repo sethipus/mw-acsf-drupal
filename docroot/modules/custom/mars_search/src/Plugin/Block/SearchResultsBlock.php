@@ -3,8 +3,10 @@
 namespace Drupal\mars_search\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -15,10 +17,15 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
  * @Block(
  *   id = "search_results_block",
  *   admin_label = @Translation("MARS: Search page results"),
- *   category = @Translation("Mars Search")
+ *   category = @Translation("Mars Search"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Current Node"))
+ *   }
  * )
  */
 class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * ThemeConfiguratorParser.
@@ -77,9 +84,37 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * {@inheritdoc}
    */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+
+    $config = $this->getConfiguration();
+
+    $form['title'] = [
+      '#title' => $this->languageHelper->translate('Title'),
+      '#type' => 'textfield',
+      '#size' => 55,
+      '#default_value' => $config['title'] ?? $this->languageHelper->translate('All results'),
+    ];
+
+    $this->buildOverrideColorElement($form, $config, TRUE);
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->setConfiguration($form_state->getValues());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
     $build = [];
-    [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('search_page');
+    $config = $this->getConfiguration();
+    [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('search_page', $config);
 
     // Results will be populated after ajax request. It's not possible to
     // know right desktop type without page inner width.
@@ -89,16 +124,20 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets('search_page'));
 
     // "See more" link should be visible only if it makes sense.
-    $build['#ajax_card_grid_link_text'] = $this->t('See more');
+    $build['#ajax_card_grid_link_text'] = $this->t('@see_more_label', ['@see_more_label' => strtoupper('See more')]);
     $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
       $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
     // Build dataLayer attributes if search results are displayed for keys.
     $build['#data_layer'] = [
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_search_results['resultsCount'],
+      'page_id' => $context_node->id(),
+      'page_revision_id' => $context_node->getRevisionId(),
     ];
 
     $file_divider_content = $this->themeConfiguratorParser->getGraphicDivider();
@@ -108,10 +147,18 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
                                     : '';
     $build['#graphic_divider'] = $file_divider_content ?? '';
     $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
-    $build['#ajax_card_grid_heading'] = $this->t('All results');
+    $build['#ajax_card_grid_heading'] = !empty($config['title']) ? $config['title'] : $this->languageHelper->translate('All results');
     $build['#theme'] = 'mars_search_search_results_block';
     $build['#attached']['library'][] = 'mars_search/datalayer_search';
     $build['#attached']['library'][] = 'mars_search/search_pager';
+    $text_color_override = FALSE;
+    if (!empty($this->configuration['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
+    if (!empty($config['override_text_color']['override_filter_title_color'])) {
+      $build['#override_filter_title_color'] = static::$overrideColor;
+    }
+    $build['#text_color_override'] = $text_color_override;
     return $build;
   }
 
@@ -120,6 +167,15 @@ class SearchResultsBlock extends BlockBase implements ContainerFactoryPluginInte
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContextMapping() {
+    $mapping = parent::getContextMapping();
+    $mapping['node'] = $mapping['node'] ?? 'layout_builder.entity';
+    return $mapping;
   }
 
 }

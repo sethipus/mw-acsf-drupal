@@ -165,8 +165,9 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $build['#description'] = $this->languageHelper->translate($conf['description'] ?? '');
     $build['#brand_shape'] = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
     $build['#styles'] = 'color:' . $this->getTextColor();
+    $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
     $build['#theme'] = 'parent_page_header_block';
-
+    $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
     return $build;
   }
 
@@ -176,6 +177,7 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
   public function defaultConfiguration(): array {
     return [
       'label_display' => FALSE,
+      'use_dark_overlay' => TRUE,
       'text_color' => self::KEY_OPTION_TEXT_COLOR_DEFAULT,
     ];
   }
@@ -274,16 +276,6 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#title' => $this->t('Description'),
       '#maxlength' => 255,
       '#default_value' => $this->configuration['description'] ?? '',
-      '#required' => in_array($type_for_validation, [
-        self::KEY_OPTION_DEFAULT,
-      ]),
-      '#states' => [
-        'required' => [
-          [
-            ':input[name="settings[background_options]"]' => ['value' => self::KEY_OPTION_DEFAULT],
-          ],
-        ],
-      ],
     ];
 
     $form['text_color'] = [
@@ -300,6 +292,19 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
       '#states' => [
         'visible' => [
           [':input[name="settings[text_color]"]' => ['value' => self::KEY_OPTION_OTHER_COLOR]],
+        ],
+      ],
+    ];
+
+    $form['use_dark_overlay'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use dark overlay'),
+      '#default_value' => $this->configuration['use_dark_overlay'] ?? TRUE,
+      '#states' => [
+        'visible' => [
+          [
+            ':input[name="settings[title]"]' => ['filled' => TRUE],
+          ],
         ],
       ],
     ];
@@ -357,6 +362,9 @@ class ParentPageHeaderBlock extends BlockBase implements ContainerFactoryPluginI
     $this->configuration['background_options'] = $form_state->getValue('background_options');
     $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
+    $this->configuration['use_dark_overlay'] = ($form_state->getValue('use_dark_overlay'))
+      ? TRUE
+      : FALSE;
   }
 
 }

@@ -38,9 +38,9 @@ use Drupal\Core\Cache\Cache;
 use Drupal\mars_common\Plugin\Block\FooterBlock;
 use Drupal\mars_common\Constants\MenuConstants;
 use Drupal\mars_common\Constants\SocialMediaConstants;
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\node\NodeInterface;
 use Drupal\mars_common\Form\MarsCardColorSettingsForm;
+use Drupal\mars_product\Form\BazaarvoiceConfigForm;
 
 /**
  * Implements hook_menu_insert().
@@ -61,6 +61,13 @@ function mars_common_menu_insert(Menu $menu) {
 }
 
 /**
+ * Implements hook_preprocess_node().
+ */
+function mars_common_preprocess_node(&$variables) {
+  unset($variables['attributes']['role']);
+}
+
+/**
  * Implements hook_preprocess().
  */
 function mars_common_preprocess(&$variables, $hook) {
@@ -75,7 +82,8 @@ function mars_common_preprocess(&$variables, $hook) {
 
     $variables['theme_styles'] = 'drupal';
     $variables['graphic_divider'] = $file_divider_content ?? '';
-    $variables['brand_border'] = $file_border_content ?? '';
+    $variables['brand_border'] = ($variables['view']->args[1]) ? $file_border_content : '';
+    $variables['overlaps_previous'] = $variables['view']->args[2] ?? '';
     $variables['ajax_card_grid_heading'] = $variables['view']->args[0] ?? '';
     $variables['ajax_card_grid_link_text'] = 'See All';
     $variables['ajax_card_grid_border_radius'] = $border_radius ?? 0;
@@ -136,6 +144,9 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'search_enabled' => NULL,
         'search_title' => NULL,
         'brand_border' => NULL,
+        'text_color_override' => NULL,
+        'hover_color' => NULL,
+        'mobile_color' => NULL,
       ],
       'template' => 'block--mars-common--header',
     ],
@@ -154,6 +165,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'region_selector' => NULL,
         'social_header' => NULL,
         'current_region_title' => NULL,
+        'text_color_override' => NULL,
+        'hover_color' => NULL,
       ],
       'template' => 'footer-block',
     ],
@@ -167,6 +180,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'explore_cta_link' => NULL,
         'border_radius' => NULL,
         'graphic_divider' => NULL,
+        'dark_overlay' => NULL,
       ],
       'template' => 'content-feature-module-block',
     ],
@@ -177,6 +191,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'graphic_divider' => '',
         'brand_border' => '',
         'select_background_color' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
     ],
     'flexible_driver_block' => [
@@ -205,6 +221,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'svg_asset_alt_3' => NULL,
         'view_more_cta_url' => NULL,
         'view_more_cta_label' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'story-highlight-block',
     ],
@@ -218,6 +236,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media_format' => NULL,
         'brand_shape' => NULL,
         'styles' => NULL,
+        'dark_overlay' => NULL,
+        'graphic_divider' => NULL,
       ],
       'template' => 'parent-page-header-block',
     ],
@@ -247,7 +267,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'image_alt' => NULL,
         'explore_cta' => NULL,
         'explore_cta_link' => NULL,
-        'brand_shape' => NULL,
+        'new_window' => NULL,
       ],
       'template' => 'product-feature-block',
     ],
@@ -289,6 +309,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'help_and_contact_cta_url' => NULL,
         'social_menu_items' => NULL,
         'brand_shape' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'contact-help-banner-block',
     ],
@@ -311,12 +332,14 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'custom_background_color' => NULL,
         'use_custom_color' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'freeform-story-block',
     ],
     'poll_block' => [
       'variables' => [
         'poll' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'poll-block',
     ],
@@ -359,6 +382,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'media' => NULL,
         'content' => NULL,
         'heading' => NULL,
+        'heading_modifier' => NULL,
       ],
       'template' => 'fullwidth-image-video-block',
     ],
@@ -387,6 +411,8 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'divider' => NULL,
         'select_background_color' => NULL,
+        'overlaps_previous' => NULL,
+        'text_color_override' => NULL,
       ],
       'template' => 'flexible-framer-block',
     ],
@@ -811,6 +837,18 @@ function mars_common_preprocess_node__landing_page__card(array &$variables) {
 /**
  * Implements hook_preprocess_HOOK().
  */
+function mars_common_preprocess_block(array &$variables) {
+  if (isset($variables['plugin_id']) &&
+    $variables['plugin_id'] == 'poll_block' &&
+    isset($variables['configuration']['ajaxId'])) {
+
+    $variables['attributes']['data-ajax-block-id'] = $variables['configuration']['ajaxId'];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
 function mars_common_preprocess_node__content_hub_page__card(array &$variables) {
   card_add_badge_text($variables);
   card_add_button_label($variables, 'content_hub_card_button');
@@ -872,6 +910,15 @@ function mars_common_form_alter(&$form, FormStateInterface $form_state, $form_id
   }
 
   if (strpos($form_id, 'poll_view_form_') === 0) {
+
+    $matches = [];
+    preg_match('/^poll_view_form_([0-9]+)$/', $form_id, $matches);
+    if (isset($matches[1])) {
+      // Force a session for user so it would be possible to see the results
+      // in case of cashed component with incorrect state.
+      $form['#cache'] = ['max-age' => 0];
+      $_SESSION['poll_vote'][(int) $matches[1]] = FALSE;
+    }
     $form['actions']['cancel'] = NULL;
     if ($form['actions']['vote']['#ajax'] ?? NULL) {
       $form['actions']['vote']['#ajax']['progress'] = FALSE;
@@ -1529,14 +1576,9 @@ function mars_common_page_attachments(&$page) {
 
   $node = $current_route->getParameter('node');
   if (!empty($node) && $node instanceof NodeInterface) {
-    $show_rating_and_reviews = \Drupal::config('emulsifymars.settings')->get('show_rating_and_reviews');
+    $show_rating_and_reviews = \Drupal::config(BazaarvoiceConfigForm::SETTINGS)->get('show_rating_and_reviews');
     if ($show_rating_and_reviews) {
-      if (EnvironmentDetector::isProdEnv()) {
-        $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
-      }
-      else {
-        $page['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
-      }
+      $page['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
     }
   }
 }
@@ -1639,20 +1681,25 @@ function mars_common_form_social_media_admin_form_alter(&$form, FormStateInterfa
     $value = isset($values[$social_media . '_enable'])
       ? $values[$social_media . '_enable']
       : $form[$social_media][$social_media . '_enable']['#default_value'];
+    $is_external_link = preg_grep('/^http/', $form[$social_media][$social_media . '_api_url']);
     if ($social_media_enabled_count > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM - 1) {
       if ($value) {
         $i++;
         if ($i > SocialMediaConstants::SOCIAL_MEDIAS_ENABLED_MAXIMUM) {
-          $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
-          $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
-          $form_state->setValue($social_media . '_enable', FALSE);
-          $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+          if (!empty($is_external_link)) {
+            $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+            $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+            $form_state->setValue($social_media . '_enable', FALSE);
+            $form[$social_media][$social_media . '_enable']['#default_value'] = FALSE;
+          }
         }
       }
       else {
-        $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
-        $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
-        $form_state->setValue($social_media . '_enable', FALSE);
+        if (!empty($is_external_link)) {
+          $form[$social_media][$social_media . '_enable']['#disabled'] = TRUE;
+          $form[$social_media][$social_media . '_enable']['#description'] = $limitation_tooltip_text;
+          $form_state->setValue($social_media . '_enable', FALSE);
+        }
       }
     }
   }

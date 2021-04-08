@@ -6,6 +6,7 @@ module:
   acquia_contenthub_subscriber: 0
   acquia_lift: 0
   acquia_lift_publisher: 0
+  acquia_purge: 0
   acquia_search: 0
   admin_toolbar: 0
   admin_toolbar_tools: 0
@@ -19,6 +20,8 @@ module:
   breakpoint: 0
   ckeditor: 0
   ckeditor_config: 0
+  cloudflare: 0
+  cloudflarepurger: 0
   color: 0
   components: 0
   config: 0
@@ -38,6 +41,7 @@ module:
   depcalc: 0
   diff: 0
   dropzonejs: 0
+  dynamic_page_cache: 0
   editor: 0
   editor_advanced_link: 0
   embed: 0
@@ -50,6 +54,7 @@ module:
   entityqueue: 0
   externalauth: 0
   facets: 0
+  fast404: 0
   field: 0
   field_group: 0
   field_ui: 0
@@ -58,7 +63,7 @@ module:
   filter: 0
   gtm: 0
   help: 0
-  history: 0
+  http_cache_control: 0
   image: 0
   image_widget_crop: 0
   inline_entity_form: 0
@@ -118,6 +123,7 @@ module:
   media_entity_instagram: 0
   media_entity_twitter: 0
   media_library: 0
+  memcache: 0
   menu_link_attributes: 0
   menu_ui: 0
   metatag: 0
@@ -141,11 +147,19 @@ module:
   poll: 0
   printable: 0
   printable_pdf: 0
+  purge: 0
+  purge_drush: 0
+  purge_processor_cron: 0
+  purge_processor_lateruntime: 0
+  purge_queuer_coretags: 0
+  purge_ui: 0
   quickedit: 0
+  rabbit_hole: 0
   rdf: 0
   redirect: 0
   remote_stream_wrapper: 0
   remote_stream_wrapper_widget: 0
+  rh_node: 0
   robotstxt: 0
   salsify_integration: 0
   samlauth: 0
@@ -158,11 +172,11 @@ module:
   shortcut: 0
   simple_gmap: 0
   simple_oauth: 0
-  simple_oauth_extras: 0
   simple_sitemap: 0
   slick: 0
   slick_entityreference: 0
   social_media: 0
+  syslog: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -181,7 +195,6 @@ module:
   video_embed_field: 0
   video_embed_media: 0
   views_infinite_scroll: 0
-  views_ui: 0
   workflows: 0
   menu_link_content: 1
   pathauto: 1

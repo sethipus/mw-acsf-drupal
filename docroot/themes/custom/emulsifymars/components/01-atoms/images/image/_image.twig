@@ -1,6 +1,6 @@
 {% set image_base_class = image_base_class|default('image') %}
 
-<img loading="lazy"
+<img loading="lazy" data-object-fit
   {{ bem(image_base_class, image_modifiers, image_blockname) }}
   {% if image_srcset %}
     srcset="{{ image_srcset }}"
@@ -17,7 +17,8 @@
   src="{{ image_src }}"
   {% if image_alt %}
     alt="{{ image_alt }}"
-    aria-label="{{ image_alt }}"
+  {% else %}
+    alt=""
   {% endif %}
   {% if image_title %}
     title="{{ image_title }}"

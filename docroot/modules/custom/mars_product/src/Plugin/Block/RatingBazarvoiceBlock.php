@@ -2,12 +2,12 @@
 
 namespace Drupal\mars_product\Plugin\Block;
 
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\mars_product\Form\BazaarvoiceConfigForm;
 use Drupal\node\NodeInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -38,6 +38,42 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $config;
+
+  /**
+   * Bazaarvoice mapping old skus with new.
+   */
+  const BAZAARVOICE_SKU_MAPPING = [
+    'new_sku' => 'old_sku',
+    "10054800423306" => "054800030767",
+    "10054800423313" => "054800030774",
+    "10054800423320" => "054800030804",
+    "10054800423337" => "054800031764",
+    "10054800423344" => "054800031771",
+    "10054800423351" => "054800032341",
+    "10054800423368" => "054800085453",
+    "10054800423375" => "054800085477",
+    "10054800423382" => "054800344451",
+    "10054800423399" => "054800344468",
+    "10054800423412" => "054800233359",
+    "10054800423436" => "054800420803",
+    "10054800423429" => "054800420056",
+    "10054800423443" => "054800421848",
+    "10054800423405" => "054800207626",
+    "10054800423504" => "054800421992",
+    "10054800423511" => "054800421480",
+    "10054800423474" => "054800344475",
+    "10054800423481" => "054800420063",
+    "10054800423450" => "054800032358",
+    "10054800423542" => "054800010028",
+    "10054800423580" => "054800040230",
+    "10054800423627" => "054800339051",
+    "10054800423610" => "054800120017",
+    "10054800423603" => "054800120079",
+    "10054800423641" => "054800020010",
+    "10054800423658" => "054800020119",
+    "10054800423498" => "054800420797",
+    "10054800423467" => "054800085460",
+  ];
 
   /**
    * {@inheritdoc}
@@ -117,22 +153,21 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
     if ($node instanceof NodeInterface && $node->bundle() == 'product') {
       foreach ($node->field_product_variants as $reference) {
         $product_variant = $reference->entity;
+        if (empty($product_variant)) {
+          continue;
+        }
         $gtin = $product_variant->get('field_product_sku')->value;
+
         $size_id = $product_variant->id();
         $build['#items'][] = [
-          'gtin' => trim($gtin),
+          'ratings_id' => static::getRatingsId($gtin),
           'show_rating_and_reviews' => $this->isRatingEnable($node),
           'size_id' => $size_id,
         ];
       }
 
       if ($this->isRatingEnable($node)) {
-        if (EnvironmentDetector::isProdEnv()) {
-          $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_production';
-        }
-        else {
-          $build['#attached']['library'][] = 'mars_product/mars_product.bazarrevoice_staging';
-        }
+        $build['#attached']['library'][] = 'mars_product/mars_product.bazaarvoice';
       }
     }
 
@@ -158,10 +193,29 @@ class RatingBazarvoiceBlock extends BlockBase implements ContainerFactoryPluginI
       $result = $node->get('field_rating_and_reviews')->value;
     }
     else {
-      $result = $this->config->get('emulsifymars.settings')->get('show_rating_and_reviews');
+      $result = $this->config->get(BazaarvoiceConfigForm::SETTINGS)->get('show_rating_and_reviews');
     }
 
     return $result;
+  }
+
+  /**
+   * Get ratings id.
+   *
+   * @param string $gtin
+   *   Product gtin.
+   *
+   * @return string|null
+   *   Return ratings id.
+   */
+  public static function getRatingsId(string $gtin = NULL) {
+    if (array_key_exists($gtin, static::BAZAARVOICE_SKU_MAPPING)) {
+      $ratings_id = static::BAZAARVOICE_SKU_MAPPING[$gtin];
+    }
+    else {
+      $ratings_id = $gtin;
+    }
+    return $ratings_id;
   }
 
 }

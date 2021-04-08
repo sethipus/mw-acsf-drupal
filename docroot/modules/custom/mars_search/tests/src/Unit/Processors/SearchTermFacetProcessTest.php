@@ -2,13 +2,15 @@
 
 namespace Drupal\Tests\mars_search\Unit\Processors;
 
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\mars_search\Processors\SearchHelper;
 use Drupal\mars_search\Processors\SearchQueryParser;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
 use Drupal\mars_search\Processors\SearchTermFacetProcess;
 use Drupal\taxonomy\TermInterface;
-use Drupal\taxonomy\TermStorageInterface;
+use Drupal\taxonomy\VocabularyInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -186,7 +188,7 @@ class SearchTermFacetProcessTest extends UnitTestCase {
       ]);
     $facets_query = $searchHelperMock->getSearchResults($facetOptions, $facet_id);
 
-    $storage = $this->getMockBuilder(TermStorageInterface::class)
+    $storage = $this->getMockBuilder(EntityStorageInterface::class)
       ->disableOriginalConstructor()
       ->getMock();
 
@@ -203,33 +205,48 @@ class SearchTermFacetProcessTest extends UnitTestCase {
     $this->entityTypeManagerMock
       ->expects($this->any())
       ->method('getStorage')
-      ->with('taxonomy_term')
       ->willReturn($storage);
+
+    $vocabulary = $this->createMock(VocabularyInterface::class);
     $storage
       ->expects($this->any())
       ->method('loadMultiple')
-      ->willReturn([
-        'mars_flavor' => $term,
-      ]);
+      ->willReturnMap(
+        [
+          [
+            [],
+            ['mars_flavor' => $term],
+          ],
+          [
+            [
+              'mars_brand_initiatives',
+              'mars_occasions',
+              'mars_flavor',
+              'mars_category',
+              'mars_format',
+              'mars_diet_allergens',
+              'mars_trade_item_description',
+            ],
+            ['mars_flavor' => $vocabulary],
+          ],
+        ]
+      );
+
+    $field = $this->createMock(FieldItemListInterface::class);
+    $term
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($field);
+
+    $vocabulary
+      ->expects($this->once())
+      ->method('get')
+      ->willReturn($field);
 
     $process_filter = $this->searchTermFacetProcess->processFilter($facets_query['facets'], static::TAXONOMY_VOCABULARIES, $grid_id);
-    $expected_result = [
-      0 => [],
-      1 => [
-        0 => [
-          'filter_title' => 'FLAVOR',
-          'filter_id' => 'mars_flavor',
-          'active_filters_count' => 0,
-          'checkboxes' => [
-            0 => [
-              'title' => 'Test term',
-              'key' => '1mars_flavor',
-            ],
-          ],
-        ],
-      ],
-    ];
-    $this->assertArrayEquals($expected_result, $process_filter);
+    $this->assertCount(2, $process_filter);
+    $this->arrayHasKey('weight', $process_filter[1]);
+    $this->assertEquals('FLAVOR', $process_filter[1][0]['filter_title']);
   }
 
   /**

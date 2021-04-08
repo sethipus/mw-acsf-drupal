@@ -87,7 +87,9 @@
 
             let videoEndedHandler = () => {
               var tr = videoElements('video').played;
-              var hasLoopedOnce = (tr.end(tr.length - 1) == videoElements('video').duration);
+              var hasLoopedOnce = (tr.length > 0) ? 
+                                    (tr.end(tr.length - 1) == videoElements('video').duration):
+                                    false;
               if (hasLoopedOnce) {
                 dataLayer.push({
                   event: 'videoView',
@@ -105,11 +107,7 @@
             videoElements('video').addEventListener("timeupdate", videoEndedHandler);
           }
 
-          // Add events for all buttons
-          videoElements('playpause').addEventListener('click', function (e) {
-            if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
-            else videoElements('video').pause();
-          });
+          // Play and pause when clicking on a video
           videoElements('video').addEventListener('click', function (e) {
             if (videoElements('video').paused || videoElements('video').ended) {
               videoElements('video').play();
@@ -117,7 +115,16 @@
             else {
               videoElements('video').pause();
             }
-            changeButtonState(videoElements, 'control');
+            videoElements('controls').setAttribute('data-state', 'visible');
+            setFullcontrolData(videoContainer, videoElements, true);
+            videoElements('video').muted = !videoElements('video').muted;
+            changeButtonState(videoElements, 'mute');
+          });
+
+          // Add events for all buttons
+          videoElements('playpause').addEventListener('click', function (e) {
+            if (videoElements('video').paused || videoElements('video').ended) videoElements('video').play();
+            else videoElements('video').pause();
           });
 
           videoElements('mute').addEventListener('click', function (e) {
@@ -125,14 +132,16 @@
             changeButtonState(videoElements, 'mute');
           });
           videoElements('control').addEventListener('click', function (e) {
-
             handleFullcontrol(videoContainer, videoElements);
-            videoElements('video').muted = !videoElements('video').muted;
-            changeButtonState(videoElements, 'mute');
             videoElements('video').play();
           });
           videoElements('close').addEventListener('click', function (e) {
             handleFullcontrol(videoContainer, videoElements);
+          });
+          document.addEventListener('keyup', function (event) {
+            if (event.keyCode == 27) {
+              handleFullcontrol(videoContainer, videoElements);
+            }
           });
 
           // As the video is playing, update the progress bar
@@ -151,8 +160,6 @@
           });
 
           // Listen to scroll event to pause video when out of viewport
-          let videoVisible = false;
-          let manuallyPaused = false;
           document.addEventListener('scroll', function () {
             let videoPosition = videoElements('video').getBoundingClientRect().top;
             let videoHeight = videoElements('video').getBoundingClientRect().height;
@@ -160,7 +167,6 @@
 
             if (videoPosition - windowHeight > 0 || videoPosition + videoHeight < 0) {
               videoElements('video').pause();
-              videoVisible = false;
             }
           });
         }

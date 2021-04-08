@@ -14,6 +14,7 @@ use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,6 +32,7 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
   use EntityBrowserFormTrait;
   use SelectBackgroundColorTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * Article or recipe first.
@@ -141,6 +143,10 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
    */
   public function build() {
     $conf = $this->getConfiguration();
+    $text_color_override = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $text_color_override = static::$overrideColor;
+    }
     /** @var \Drupal\node\Entity\Node $main_entity */
     /** @var \Drupal\node\Entity\Node $supporting_entity */
     switch ($conf['entity_priority']) {
@@ -168,11 +174,12 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     }
     if ($supporting_entity) {
       $build['#supporting_card_entity'] = $supporting_entity;
-      $build['#supporting_card_entity_view'] = $this->createSupportCardRenderArray(
+      $build['#supporting_card_entity_view'] = array_merge($this->createSupportCardRenderArray(
         $supporting_entity
-      );
+      ), ['#text_color_override' => $text_color_override]);
     }
     $build['#background'] = $this->getBgImage($main_entity);
+    $build['#dark_overlay'] = $conf['use_dark_overlay'] ?? TRUE;
     return $build;
   }
 
@@ -264,6 +271,13 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
 
     // Add select background color.
     $this->buildSelectBackground($form);
+    $this->buildOverrideColorElement($form, $this->configuration);
+
+    $form['use_dark_overlay'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use dark overlay'),
+      '#default_value' => $this->configuration['use_dark_overlay'] ?? TRUE,
+    ];
 
     return $form;
   }
@@ -284,6 +298,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
     $this->configuration['supporting_card_eyebrow'] = $form_state->getValue('supporting_card_eyebrow');
     $this->configuration['background'] = $this->getEntityBrowserValue($form_state, 'background');
     $this->configuration['select_background_color'] = $form_state->getValue('select_background_color');
+    $this->configuration['override_text_color'] = $form_state->getValue('override_text_color');
+    $this->configuration['use_dark_overlay'] = $form_state->getValue('use_dark_overlay');
   }
 
   /**
@@ -343,9 +359,8 @@ class ProductContentPairUpBlock extends BlockBase implements ContainerFactoryPlu
       $brand_shape = $this->themeConfiguratorParser->getBrandShapeWithoutFill();
       $render_array['#brand_shape'] = $brand_shape;
 
-      if ($this->configuration['select_background_color'] != 'default' &&
-        !empty($this->configuration['select_background_color']) &&
-        array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
+      if (!empty($this->configuration['select_background_color']) && $this->configuration['select_background_color'] != 'default'
+         && array_key_exists($this->configuration['select_background_color'], static::$colorVariables)
       ) {
         $render_array['#select__background__color'] = $this->configuration['select_background_color'];
       }

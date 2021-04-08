@@ -130,3 +130,11 @@ function mars_common_update_8007() {
   $config = $config_factory->getEditable('card_color.settings');
   $config->delete();
 }
+
+/**
+ * Delete syslog logs from the public filesystem.
+ */
+function mars_common_update_8009() {
+  \Drupal::service('file_system')->deleteRecursive('public://logs/archive');
+  \Drupal::service('file_system')->delete('public://logs/drupal.log');
+}

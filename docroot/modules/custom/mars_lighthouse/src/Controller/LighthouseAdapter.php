@@ -2,12 +2,12 @@
 
 namespace Drupal\mars_lighthouse\Controller;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\mars_lighthouse\LighthouseAccessException;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_lighthouse\LighthouseInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
-use Drupal\mars_lighthouse\TokenIsExpiredException;
 use Drupal\media\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
@@ -95,7 +95,9 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('lighthouse.client'),
-      $container->get('cache.default')
+      $container->get('cache.default'),
+      $container->get('config.factory'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -106,66 +108,27 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *   Lighthouse API client.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache
    *   Cache container.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(LighthouseClientInterface $lighthouse_client, CacheBackendInterface $cache) {
+  public function __construct(
+    LighthouseClientInterface $lighthouse_client,
+    CacheBackendInterface $cache,
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager
+  ) {
     $this->lighthouseClient = $lighthouse_client;
-    $this->mediaStorage = $this->entityTypeManager()->getStorage('media');
-    $this->fileStorage = $this->entityTypeManager()->getStorage('file');
-    $this->mapping = $this->config(self::CONFIG_NAME);
+    $this->entityTypeManager = $entity_type_manager;
+    $this->mediaStorage = $this->entityTypeManager->getStorage('media');
+    $this->fileStorage = $this->entityTypeManager->getStorage('file');
+    $this->configFactory = $config_factory;
+    $this->mapping = $this->configFactory->get(self::CONFIG_NAME);
     $this->cache = $cache;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getToken(bool $generate_new = FALSE): array {
-    $keys = [
-      'mars_lighthouse.access_token',
-      'mars_lighthouse.headers',
-      'mars_lighthouse.refresh_token',
-    ];
-    $tokens = $this->state()->getMultiple($keys);
-
-    if (!$generate_new && !$tokens) {
-      $generate_new = TRUE;
-    }
-
-    // Check that tokens were saved.
-    foreach ($tokens as $value) {
-      if (!$value) {
-        $generate_new = TRUE;
-        break;
-      }
-    }
-
-    // Get and save new tokens.
-    if ($generate_new) {
-      $tokens = $this->lighthouseClient->getToken();
-      $tokens['mars_lighthouse.access_token'] = $tokens['response']['lhisToken'];
-      $tokens['mars_lighthouse.refresh_token'] = $tokens['response']['refreshToken'];
-      unset($tokens['response']);
-      $this->state()->setMultiple($tokens);
-    }
-
-    return $tokens;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function refreshToken(): array {
-    $tokens = $this->lighthouseClient->refreshToken($this->getToken());
-
-    // Save refreshed tokens.
-    $tokens['mars_lighthouse.access_token'] = $tokens['response']['lhisToken'];
-    $tokens['mars_lighthouse.refresh_token'] = $tokens['response']['refreshToken'];
-    unset($tokens['response']);
-    $this->state()->setMultiple($tokens);
-
-    return $tokens;
   }
 
   /**
@@ -173,20 +136,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    */
   public function getMediaDataList(&$total_found, $text = '', $filters = [], $sort_by = [], $offset = 0, $limit = 12, $media_type = 'image'): array {
     $this->mediaType = $media_type;
-    $params = $this->getToken();
-    try {
-      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params, $media_type);
-    }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->refreshToken();
-      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params, $media_type);
-    }
-    catch (LighthouseAccessException $e) {
-      // Try to force request new token.
-      $params = $this->getToken(TRUE);
-      $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $params, $media_type);
-    }
+    $response = $this->lighthouseClient->search($total_found, $text, $filters, $sort_by, $offset, $limit, $media_type);
     return $this->prepareMediaDataList($response);
   }
 
@@ -197,15 +147,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     if ($media = $this->mediaStorage->loadByProperties(['field_external_id' => $id])) {
       return array_shift($media);
     }
-    $params = $this->getToken();
-    try {
-      $data = $this->lighthouseClient->getAssetById($id, $params);
-    }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->refreshToken();
-      $data = $this->lighthouseClient->getAssetById($id, $params);
-    }
+    $data = $this->lighthouseClient->getAssetById($id);
     try {
       return $this->createMediaEntity($data);
     }
@@ -222,22 +164,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     if ($options = $this->cache->get('mars_lighthouse_brands')) {
       return $options->data;
     }
-
-    $params = $this->getToken();
-    try {
-      $data = $this->lighthouseClient->getBrands($params);
-    }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->refreshToken();
-      $data = $this->lighthouseClient->getBrands($params);
-    }
-    catch (LighthouseAccessException $e) {
-      // Try to force request new token.
-      $params = $this->getToken(TRUE);
-      $data = $this->lighthouseClient->getBrands($params);
-    }
-
+    $data = $this->lighthouseClient->getBrands();
     $options = ['' => '-- Any --'];
     foreach ($data as $v) {
       $options[$v] = $v;
@@ -254,22 +181,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     if ($options = $this->cache->get('mars_lighthouse_markets')) {
       return $options->data;
     }
-
-    $params = $this->getToken();
-    try {
-      $data = $this->lighthouseClient->getMarkets($params);
-    }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->refreshToken();
-      $data = $this->lighthouseClient->getMarkets($params);
-    }
-    catch (LighthouseAccessException $e) {
-      // Try to force request new token.
-      $params = $this->getToken(TRUE);
-      $data = $this->lighthouseClient->getMarkets($params);
-    }
-
+    $data = $this->lighthouseClient->getMarkets();
     $options = ['' => '-- Any --'];
     foreach ($data as $v) {
       $options[$v] = $v;
@@ -362,6 +274,20 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
         $value = $value[array_shift($path_to_value)] ?? NULL;
       }
       $fields_values[$field_name] = $value;
+    }
+
+    // Replace file scheme with a 001default URI scheme for creating the file
+    // if 001orig scheme URI value is longer than 255 symbols.
+    $remote_media_file_uri_scheme = explode('.', $file_mapping['uri']);
+    if (!empty($remote_media_file_uri_scheme[1]) && strlen($data['urls'][$remote_media_file_uri_scheme[1]]) >= 255) {
+      $this->messenger()->addWarning('We are trying to get the default LightHouse media component URL because the original one is longer than 255 symbols. Filename: @filename', ['@filename' => $fields_values['filename']]);
+      if (!empty($data['urls']['001default'])) {
+        $fields_values['uri'] = $data['urls']['001default'];
+      }
+      else {
+        $this->messenger()->addWarning('Alternative video URL not found. Please contact administrators to check the LightHouse response. Filename: @filename', ['@filename' => $fields_values['filename']]);
+        return '';
+      }
     }
 
     $file = $this->fileStorage->create($fields_values);

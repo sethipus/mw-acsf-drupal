@@ -6,12 +6,13 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
-use Drupal\mars_search\Processors\SearchBuilderInterface;
+use Drupal\mars_search\Processors\SearchCategoriesInterface;
 
 /**
  * Class SearchGridBlock.
@@ -28,6 +29,8 @@ use Drupal\mars_search\Processors\SearchBuilderInterface;
  * @package Drupal\mars_search\Plugin\Block
  */
 class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * The entity type manager service.
@@ -56,6 +59,13 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
    * @var \Drupal\mars_search\Processors\SearchBuilder
    */
   protected $searchBuilder;
+
+  /**
+   * Search categories processor.
+   *
+   * @var \Drupal\mars_search\Processors\SearchCategoriesInterface
+   */
+  protected $searchCategories;
 
   /**
    * ThemeConfiguratorParser.
@@ -104,6 +114,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $this->searchProcessor = $searchProcessor;
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
+    $this->searchCategories = $this->searchProcessor->getProcessManager('search_categories');
     $this->languageHelper = $language_helper;
   }
 
@@ -129,29 +140,41 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $build = array_merge($build, $this->searchBuilder->buildSearchFacets('grid', $config, $grid_id));
 
     // "See more" link should be visible only if it makes sense.
-    $build['#ajax_card_grid_link_text'] = $this->languageHelper->translate('See more');
+    $build['#ajax_card_grid_link_text'] = $this->languageHelper->translate(strtoupper('See more'));
     $build['#ajax_card_grid_link_attributes']['href'] = '/';
     if ($query_search_results['resultsCount'] > count($build['#items'])) {
       $build['#ajax_card_grid_link_attributes']['class'] = 'active';
     }
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
     $build['#ajax_card_grid_heading'] = $this->languageHelper->translate($config['title']);
     $build['#data_layer'] = [
-      'page_id' => $this->getContextValue('node')->id(),
+      'page_id' => $context_node->id(),
+      'page_revision_id' => $context_node->getRevisionId(),
       'grid_id' => $grid_id,
       'grid_name' => $config['title'],
       'search_term' => $searchOptions['keys'],
       'search_results' => $query_search_results['resultsCount'],
     ];
     $build['#graphic_divider'] = $this->themeConfiguratorParser->getGraphicDivider();
-    $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder2();
+    $file_border_content = $this->themeConfiguratorParser->getBrandBorder2();
+    $build['#brand_border'] = !empty($config['with_brand_borders']) ? $file_border_content : NULL;
     $build['#filter_title_transform'] = $this->themeConfiguratorParser->getSettingValue('facets_text_transform', 'uppercase');
     $build['#theme_styles'] = 'drupal';
     $build['#theme'] = 'mars_search_grid_block';
     $build['#attached']['library'][] = 'mars_search/datalayer.card_grid';
     $build['#attached']['library'][] = 'mars_search/search_pager';
     $build['#attached']['library'][] = 'mars_search/autocomplete';
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+    if (!empty($config['override_text_color']['override_filter_title_color'])) {
+      $build['#override_filter_title_color'] = static::$overrideColor;
+    }
 
+    $build['#overlaps_previous'] = $config['overlaps_previous'] ?? NULL;
     return $build;
   }
 
@@ -172,7 +195,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form['content_type'] = [
       '#type' => 'radios',
       '#title' => $this->languageHelper->translate('Content type'),
-      '#options' => SearchBuilderInterface::CONTENT_TYPES,
+      '#options' => SearchCategoriesInterface::CONTENT_TYPES,
       '#default_value' => $config['content_type'] ?? NULL,
       '#required' => TRUE,
     ];
@@ -181,6 +204,20 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     $form = array_merge($form, $this->buildGeneralFilters());
     $form = array_merge($form, $this->buildExcludedFilters());
     $form = array_merge($form, $this->buildTopResults());
+
+    $this->buildOverrideColorElement($form, $config, TRUE);
+
+    $form['with_brand_borders'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without brand border'),
+      '#default_value' => $config['with_brand_borders'] ?? FALSE,
+    ];
+
+    $form['overlaps_previous'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('With/without overlaps previous'),
+      '#default_value' => $config['overlaps_previous'] ?? FALSE,
+    ];
 
     return $form;
   }
@@ -230,7 +267,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
       '#open' => FALSE,
     ];
 
-    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+    foreach ($this->searchCategories->getCategories() as $vocabulary => $vocabulary_data) {
       $label = $vocabulary_data['label'];
       /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
       $term_storage = $this->entityTypeManager->getStorage('taxonomy_term');
@@ -297,7 +334,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
     ];
 
     $exclude_options = [];
-    foreach (SearchBuilderInterface::TAXONOMY_VOCABULARIES as $vocabulary => $vocabulary_data) {
+    foreach ($this->searchCategories->getCategories() as $vocabulary => $vocabulary_data) {
       $label = $vocabulary_data['label'];
       /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
       $exclude_options[$vocabulary] = $label;
@@ -343,7 +380,7 @@ class SearchGridBlock extends BlockBase implements ContextAwarePluginInterface, 
         '#target_type' => 'node',
         '#title' => $this->languageHelper->translate('Top results'),
         '#selection_settings' => [
-          'target_bundles' => array_keys(SearchBuilderInterface::CONTENT_TYPES),
+          'target_bundles' => array_keys(SearchCategoriesInterface::CONTENT_TYPES),
         ],
         '#tags' => TRUE,
         '#cardinality' => 1,

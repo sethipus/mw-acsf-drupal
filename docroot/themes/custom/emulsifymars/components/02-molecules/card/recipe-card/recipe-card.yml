@@ -22,7 +22,6 @@ recipe_card_button_text: 'SEE DEATILS'
 recipe_card_button_modifiers: ['small']
 recipe_card_button_link_attributes:
   href: 'https://storybook.js.org/'
-  target: '_blank'
 
 label_for_cooking_time: 'Cooking Time'
 label_for_ingredients: 'Ingredients'

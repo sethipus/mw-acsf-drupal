@@ -7,11 +7,12 @@
     border-bottom: none;
   }
 
-  @include xl {
+  @include desktop {
     flex-basis: 230px;
     max-width: 230px;
     flex-grow: 0;
     border: none;
+    padding-bottom: 0;
 
     &:first-child {
       .filter-title {
@@ -94,6 +95,10 @@
   background: transparent;
   border: none;
   text-align: left;
+
+  @include large {
+    margin: 0 0 3rem;
+  }
 
   &__counter {
     &::before {

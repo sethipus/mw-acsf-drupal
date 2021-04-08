@@ -147,7 +147,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(13, $config_form);
+    $this->assertCount(14, $config_form);
     $this->assertArrayHasKey('title', $config_form);
     $this->assertArrayHasKey('eyebrow', $config_form);
     $this->assertArrayHasKey('background_options', $config_form);
@@ -161,7 +161,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $form_data = [];
 
     $this->formStateMock
-      ->expects($this->exactly(8))
+      ->expects($this->exactly(9))
       ->method('getValue')
       ->willReturn('');
 
@@ -181,7 +181,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $this->block->setConfiguration($conf);
     $build = $this->block->build();
 
-    $this->assertCount(8, $build);
+    $this->assertCount(10, $build);
     $this->assertArrayHasKey('#eyebrow', $build);
     $this->assertArrayHasKey('#description', $build);
     $this->assertArrayHasKey('#brand_shape', $build);
@@ -203,7 +203,7 @@ class ParentPageHeaderBlockTest extends UnitTestCase {
     $this->block->setConfiguration($conf);
     $build = $this->block->build();
 
-    $this->assertCount(9, $build);
+    $this->assertCount(11, $build);
     $this->assertArrayHasKey('#eyebrow', $build);
     $this->assertArrayHasKey('#description', $build);
     $this->assertArrayHasKey('#brand_shape', $build);

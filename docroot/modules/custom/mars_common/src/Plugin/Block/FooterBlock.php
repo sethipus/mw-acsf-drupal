@@ -12,6 +12,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -25,6 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  use OverrideThemeTextColorTrait;
 
   /**
    * Menu storage.
@@ -182,6 +184,17 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
         }
       }
     }
+    $build['#text_color_override'] = FALSE;
+    if (!empty($conf['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
+    $build['#hover_color'] = FALSE;
+    if (!empty($conf['override_text_color']['сhoose_override_hover']) &&
+      !empty($conf['override_text_color']['hover_color'])
+    ) {
+      $build['#hover_color'] = '#' . $conf['override_text_color']['hover_color'];
+    }
 
     CacheableMetadata::createFromRenderArray($build)
       ->merge(
@@ -249,6 +262,25 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#type' => 'checkbox',
       '#title' => $this->t('Display region selector'),
       '#default_value' => $config['region_selector_toggle'] ?? TRUE,
+    ];
+
+    $this->buildOverrideColorElement($form, $config);
+
+    $form['override_text_color']['сhoose_override_hover'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Сhoose an alternative color to override the on-hover'),
+      '#default_value' => $config['override_text_color']['сhoose_override_hover'] ?? NULL,
+    ];
+
+    $form['override_text_color']['hover_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Сhoose color B on-hover'),
+      '#default_value' => $config['override_text_color']['hover_color'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[override_text_color][сhoose_override_hover]"]' => ['checked' => TRUE]],
+        ],
+      ],
     ];
 
     return $form;

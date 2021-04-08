@@ -5,29 +5,27 @@ $xl-left-margin: 11.583rem;
   padding: 30px 0 0;
   position: relative;
 
-  .swiper-wrapper {
-    @include xs {
-      flex-direction: row;
-    }
-
-    @include large {
-      flex-direction: column;
-    }
-  }
-
   @include small {
     padding: 40px 0 30px;
     border-top: 1px solid rgba(196, 196, 196, 0.6);
     border-bottom: 1px solid rgba(196, 196, 196, 0.6);
   }
 
-  @include large {
+  @include xl {
     position: absolute;
     top: 0;
     right: 4rem;
     padding: 0;
     border-top: none;
     border-bottom: none;
+  }
+
+  .swiper-wrapper {
+    flex-direction: row;
+
+    @include xl {
+      flex-direction: column;
+    }
   }
 
   &__title {
@@ -38,6 +36,10 @@ $xl-left-margin: 11.583rem;
       font-size: 26px;
       line-height: 1.1;
     }
+
+    @include xl {
+      padding-left: 1rem;
+    }
   }
 
   .swiper-container-vertical {
@@ -47,10 +49,14 @@ $xl-left-margin: 11.583rem;
 }
 
 .product-used-item {
-  margin-top: 34px;
+  margin-top: 3.4rem;
 
   @include medium {
-    margin-top: 30px;
+    margin-top: 3rem;
+  }
+
+  @include xl {
+    margin: 3rem 1rem 1rem 1rem;
   }
 }
 
@@ -118,7 +124,7 @@ $xl-left-margin: 11.583rem;
       line-height: 1.8;
       max-width: 1125px;
       padding: 0 460px 0 0;
-      margin-left: $xl-left-margin;
+      margin-left: 116px;
     }
 
     .list-item {

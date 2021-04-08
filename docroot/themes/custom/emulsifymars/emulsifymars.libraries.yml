@@ -2,6 +2,8 @@ global:
   css:
     theme:
       dist/css/theme_style.css: {}
+  js:
+    dist/js/object_fit_polyfill.js: {}
 
 main-menu:
   js:
@@ -74,9 +76,9 @@ product-card:
     - core/jquery.once
     - core/underscore
 
-recipe-hero-module:
+recipe-card:
   js:
-    dist/js/02-molecules/recipe-hero-module/recipe-hero-module.js: { }
+    dist/js/02-molecules/card/recipe-card/recipe-card.js: { }
   dependencies:
     - core/drupal
     - core/jquery
@@ -120,6 +122,12 @@ media-carousel:
     - emulsifymars/vendor-chunk-2
     - core/jquery
     - core/jquery.once
+
+parallax-image:
+  js:
+    dist/js/02-molecules/article-media/full-width/parallax-image.js: {}
+  dependencies:
+    - core/drupal
 
 ambient-video:
   js:
@@ -212,6 +220,7 @@ card-grid-filter:
     dist/js/02-molecules/product-hub-search-filter/product-hub-search-filter.js: {}
   dependencies:
     - core/drupal
+    - core/drupal.announce
 
 social-menu:
   js:
@@ -221,7 +230,7 @@ social-menu:
 
 product-selector:
   js:
-    dist/js/02-molecules/product-selector/product-selector.js: {}
+    dist/js/02-molecules/product-selector/product-selector.js: {weight: -1}
   dependencies:
     - core/drupal
 

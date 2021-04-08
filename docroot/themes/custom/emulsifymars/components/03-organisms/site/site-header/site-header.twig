@@ -22,7 +22,7 @@
             {% embed "@atoms/links/link/link.twig" with {
               link_modifiers: ['logo'],
               link_url: logo_link__url|default('/'),
-              link_content: "Logo image" | mt,
+              text_color_override: false,
             } %}
               {% block link_content %}
                 {% include "@atoms/images/image/responsive-image.twig" with {
@@ -46,6 +46,7 @@
               menu_class: 'header-primary-menu',
               items: menu_items,
               header_inline_menu_items: header_inline_menu_items,
+              text_color_override: false,
             } %}
           {% endblock %}
         </div>
@@ -61,6 +62,7 @@
                 inline_search_title: search_title ,
                 inline_search_url: '#',
                 inline_search_icon: 'search',
+                text_color_override: false,
               } %}
             {% endif %}
           {% endblock %}
@@ -83,9 +85,72 @@
           search_results: search_form,
           search_close_label: search_close_label,
           logo_src: logo_src,
-          logo_srcset: logo_srcset
+          logo_srcset: logo_srcset,
+          text_color_override: false
         }%}
       {% endblock %}
+    {% endif %}
+    {% if text_color_override is not empty %}
+      <style type="text/css">
+        @media (min-width: 1024px) {
+          .main-menu__link,
+          .header-inline-menu__link,
+          .inline-search__link {
+            color: {{ text_color_override }};
+          }
+        }
+        @media(max-width: 1023px) {
+          .main-menu__link:not(.main-menu__link--sub) {
+            color: {{ text_color_override }};
+          }
+        }
+      </style>
+    {% endif %}
+    {% if hover_color is not empty %}
+      <style type="text/css">
+        @media (min-width: 1024px) {
+          .main-nav__desktop > .main-menu > .main-menu__item > .main-menu__link:hover,
+          .main-menu__link--with-sub:hover,
+          .header-inline-menu__link:hover,
+          .inline-search__link:hover {
+            color: {{ hover_color }};
+          }
+        }
+      </style>
+    {% endif %}
+    {% if mobile_color is not empty %}
+      <style type="text/css">
+        @media (min-width: 1024px) {
+          .menu_chevron__icon {
+            fill: {{ mobile_color }};
+          }
+        }
+        @media(max-width: 1023px) {
+          .main-menu__link--sub,
+          .toggle-expand__text,
+          .main-menu__link,
+          .search-autocomplete-wrapper .search-input-wrapper.suggested .mars-suggestions,
+          .search-autocomplete-wrapper .search-input-wrapper .search-field .form-item input.mars-autocomplete-field,
+          .search-autocomplete-wrapper .search-input-wrapper .mars-search-autocomplete-suggestions-wrapper .no-results,
+          .search-autocomplete-wrapper .search-input-wrapper.suggested .mars-suggestions .suggestions-links li a,
+          .header-inline-menu__link {
+            color: {{ mobile_color }};
+          }
+          input#edit-search::placeholder {
+            color: {{ mobile_color }};
+          }
+          .search-autocomplete-wrapper .search-input-wrapper .search-field .form-item::before {
+            background-color: {{ mobile_color }};
+          }
+          .menu_chevron__icon,
+          .toggle-expand__icon {
+            fill: {{ mobile_color }};
+          }
+          .search-autocomplete-wrapper .search-input-wrapper .search-field {
+            border-color: {{ mobile_color }};
+          }
+        }
+      </style>
     {% endif %}
   </div>
 </header>

@@ -1,7 +1,7 @@
 /* Toggle */
 .toggle-expand {
   position: relative;
-  padding: 0 2rem 0 1rem;
+  padding: 0 2rem 0 0;
   text-decoration: none;
   width: 100%;
   display: block;
@@ -16,18 +16,10 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-
-    &:focus {
-      outline: none;
-    }
   }
 
   @include medium {
     padding-right: 4rem;
-
-    &:focus {
-      outline: none;
-    }
   }
 
   @include large {
@@ -41,6 +33,7 @@
   font-size: 1.4rem;
   text-transform: uppercase;
   color: clr(primary);
+  margin-left: 1rem;
 
   @include medium {
     font-size: 1.8rem;
@@ -49,9 +42,6 @@
 
 /* SVG icon */
 .toggle-expand__icon {
-  position: absolute;
-  left: -19px;
-  top: -1px;
   height: 2rem;
   width: 2rem;
   margin: 0 auto;

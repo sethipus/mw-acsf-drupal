@@ -7,8 +7,8 @@
 
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
 
-{% set heading_link_attributes = { href: url, target: '_blank', 'data-click-name': node.label } | merge(attributes) %}
-{% set button_link_attributes = { href: url, target: '_blank', 'data-click-name': button_link_content_text } | merge(attributes) %}
+{% set heading_link_attributes = { href: url, target: '_blank', 'data-click-name': node.label } %}
+{% set button_link_attributes = { href: url, target: '_blank', 'data-click-name': button_link_content_text } %}
 
 {% include "@molecules/card/recommendations-card/content-hub-card.twig" with {
   theme_styles: 'drupal',
@@ -29,4 +29,5 @@
   button_modifiers: ['small'],
   button_link_attributes: button_link_attributes,
   select_background_color: select_background_color,
+  text_color_override: elements['#text_color_override']
 } %}

@@ -1,8 +1,8 @@
 diff --git a/printable.module b/printable.module
-index 666ff69..8738813 100755
+index 5803d98..4f4b7e1 100755
 --- a/printable.module
 +++ b/printable.module
-@@ -262,38 +262,6 @@ function printable_preparing_pdf() {
+@@ -263,34 +263,6 @@ function printable_preparing_pdf() {
    );
  }
  
@@ -14,17 +14,11 @@ index 666ff69..8738813 100755
 - */
 -function printable_file_url_alter(&$uri) {
 -  if (printable_preparing_pdf()) {
--    // Using the filesystem path makes images work across all libraries but
--    // won't work with paths that require Drupal foo. I'd prefer to use URLs
--    // but that doesn't work with all libraries :(.
--    global $base_path;
+-    $scheme = \Drupal::service('stream_wrapper_manager')->isValidScheme($uri);
 -
--    $scheme = \Drupal::service('file_system')->uriScheme($uri);
--
--    // If the file uses the public scheme,
--    if ($scheme == 'public') {
--      $path = \Drupal::service('file_system')->realpath('public://');
--      $uri = $path . '/' . substr($uri, 9);
+-    if ($scheme) {
+-      $path = \Drupal::service('file_system')->realpath($scheme . '://');
+-      $uri = ($path ? $path . '/' : '') . substr($uri, strlen($scheme) + 3);
 -    }
 -    else {
 -      $base_url = \Drupal::request()->getSchemeAndHttpHost();
@@ -35,6 +29,8 @@ index 666ff69..8738813 100755
 -
 -      $uri = DRUPAL_ROOT . '/' . $uri;
 -    }
+-
+-    $uri = 'printable://' . $uri;
 -  }
 -}
 -

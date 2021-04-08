@@ -7,9 +7,9 @@
 
 {% set background_asset = node | entityMainMediaId | mediaParamsById %}
 {% set article_card_button_link_attributes = { 'href': path('entity.node.canonical', {'node': node.nid.value}),
-  'data-click-name': article_card_button_text } | merge(attributes) %}
+  'data-click-name': article_card_button_text } %}
 {% set heading_link_attributes = { 'href': path('entity.node.canonical', {'node': node.nid.value}),
-  'data-click-name': node.title.value } | merge(attributes) %}
+  'data-click-name': node.title.value } %}
 
 {% include "@molecules/card/article-card/article-card.twig" with {
   theme_styles: 'drupal',
@@ -33,5 +33,6 @@
   article_card_button_text: card_button_text,
   article_card_button_link_attributes: article_card_button_link_attributes,
   select_background_color: select_background_color,
+  text_color_override: elements['#text_color_override']
 
 } %}

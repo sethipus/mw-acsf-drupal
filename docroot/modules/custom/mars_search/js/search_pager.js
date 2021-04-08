@@ -14,6 +14,8 @@
         let resultQuery = new Map();
         for (var i = 0; i < vars.length; i++) {
           var pair = vars[i].split('=');
+          pair[0] = decodeURIComponent(pair[0]);
+          pair[1] = decodeURIComponent(pair[1]);
           if (!(pair[0].includes('grid_type') || pair[0].includes('action_type') || pair[0].includes('offset'))) {
             resultQuery[pair[0]] = pair[1];
           }
@@ -26,9 +28,10 @@
         var query = currentQuery();
         query.grid_type = $(this).closest('[data-layer-grid-type]').attr('data-layer-grid-type');
         query.action_type = 'results';
+        query.page_id = $(this).closest('.card-grid-results').attr('data-layer-page-id');
+        query.page_revision_id = $(this).closest('.card-grid-results').attr('data-layer-page-revision-id');
         if (query.grid_type === 'grid') {
           query.grid_id = $(this).closest('.card-grid-results').attr('data-layer-grid-id');
-          query.page_id = $(this).closest('.card-grid-results').attr('data-layer-page-id');
         }
         var selectorContext = $(this);
         var searchItems = selectorContext.closest('.ajax-card-grid__content').find('.ajax-card-grid__items');
@@ -64,6 +67,8 @@
         var query = currentQuery();
         query.grid_type = 'faq';
         query.action_type = 'results';
+        query.page_id = $('[data-layer-page-id]').attr('data-layer-page-id');
+        query.page_revision_id = $('[data-layer-page-revision-id]').attr('data-layer-page-revision-id');
         var searchItems = $('.faq').find('ol.faq_list');
         query.offset = searchItems.children().length;
         $.ajax({
@@ -89,9 +94,10 @@
           var query = currentQuery();
           query.grid_type = $(this).attr('data-layer-grid-type');
           query.action_type = 'results';
+          query.page_id = $(this).attr('data-layer-page-id');
+          query.page_revision_id = $(this).attr('data-layer-page-revision-id');
           if (query.grid_type === 'grid') {
             query.grid_id = $(this).attr('data-layer-grid-id');
-            query.page_id = $(this).attr('data-layer-page-id');
           }
           query.limit = Drupal.behaviors.loadMorePager.getLimitByGridType(query.grid_type);
           var selectorContext = $(this);

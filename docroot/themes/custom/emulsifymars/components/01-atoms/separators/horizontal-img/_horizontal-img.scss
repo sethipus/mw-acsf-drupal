@@ -1,17 +1,18 @@
+// component is OBSOLETE! Please use @atoms/separators/graphic-divider/graphic-divider
 .horizontal-img {
-
   &__inner {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 100%;
-    background-image: variable(graphic-divider);
     margin: 0 auto 5rem auto;
-    width: 12.5rem;
-    height: 1.5rem;
+    width: 10rem;
+    min-height: 1rem;
 
-    @media (max-width: 768px) {
-      width: 10rem;
-      height: 1rem;
+    @include medium {
+      width: 12.5rem;
+      min-height: 1.5rem;
     }
+  }
+
+  &__graphic-divider {
+    height: inherit;
+    width: inherit;
   }
 }

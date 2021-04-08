@@ -7,6 +7,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\ThemeConfiguratorParser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\mars_search\SearchProcessFactoryInterface;
@@ -17,7 +18,10 @@ use Drupal\mars_search\SearchProcessFactoryInterface;
  * @Block(
  *   id = "search_faq_block",
  *   admin_label = @Translation("MARS: Search FAQs"),
- *   category = @Translation("Mars Search")
+ *   category = @Translation("Mars Search"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node", label = @Translation("Current Node"))
+ *   }
  * )
  */
 class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterface {
@@ -53,6 +57,13 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
   private $languageHelper;
 
   /**
+   * Theme configurator parser service.
+   *
+   * @var \Drupal\mars_common\ThemeConfiguratorParser
+   */
+  private $themeConfiguratorParser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -62,7 +73,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       $plugin_definition,
       $container->get('mars_search.search_factory'),
       $container->get('config.factory'),
-      $container->get('mars_common.language_helper')
+      $container->get('mars_common.language_helper'),
+      $container->get('mars_common.theme_configurator_parser')
     );
   }
 
@@ -75,7 +87,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $plugin_definition,
     SearchProcessFactoryInterface $searchProcessor,
     ConfigFactoryInterface $configFactory,
-    LanguageHelper $language_helper
+    LanguageHelper $language_helper,
+    ThemeConfiguratorParser $theme_configurator_parser
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configFactory = $configFactory;
@@ -83,6 +96,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $this->searchHelper = $this->searchProcessor->getProcessManager('search_helper');
     $this->searchBuilder = $this->searchProcessor->getProcessManager('search_builder');
     $this->languageHelper = $language_helper;
+    $this->themeConfiguratorParser = $theme_configurator_parser;
   }
 
   /**
@@ -121,8 +135,10 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
     [$searchOptions, $query_search_results, $build] = $this->searchBuilder->buildSearchResults('faq');
     $build = array_merge($build, $this->searchBuilder->buildFaqFilters());
 
-    $cta_button_label = $this->languageHelper->translate('See more');
+    $cta_button_label = $this->languageHelper->translate(strtoupper('See all'));
     $cta_button_link = '/';
+    // Extracting the node context.
+    $context_node = $this->getContextValue('node');
 
     $render_default = [
       '#theme' => 'mars_search_faq_block',
@@ -135,6 +151,8 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#data_layer' => [
         'search_term' => $searchOptions['keys'],
         'search_results' => $query_search_results['resultsCount'],
+        'page_id' => $context_node->id(),
+        'page_revision_id' => $context_node->getRevisionId(),
       ],
       '#attached' => [
         'library' => [
@@ -143,6 +161,7 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
           'mars_search/search_pager',
         ],
       ],
+      '#graphic_divider' => $this->themeConfiguratorParser->getGraphicDivider(),
     ];
 
     return array_merge($render_default, $build);
@@ -153,6 +172,15 @@ class SearchFaqBlock extends BlockBase implements ContainerFactoryPluginInterfac
    */
   public function getCacheMaxAge() {
     return 0;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContextMapping() {
+    $mapping = parent::getContextMapping();
+    $mapping['node'] = $mapping['node'] ?? 'layout_builder.entity';
+    return $mapping;
   }
 
 }

@@ -45,19 +45,24 @@
  #}
 {% set card__base_class = 'card' %}
 {% set card__image__output_image_tag = true %}
+{% if card__image__size == '16:9' %}
+  {% set image_size = 'image-size-large' %}
+{% else %}
+  {% set image_size = 'image-size-small' %}
+{% endif %}
 <div {{ bem(card__base_class, card__modifiers, card__blockname, card__extra_classes) }}>
   {# Image #}
   {% block card__img %}
     {% if card__image__src %}
-      <div class="image-wrapper">
-        <div class="image-background">
+      <div class="image-wrapper {{image_size}}">
+        <div class="image-background {{image_size}}">
         {% if card__link__url %}
-          <a href="{{card__link__url}}">
+          <a href="{{card__link__url}}" target="{{ card__link__new_window }}">
         {% endif %}
         <div class="brand-shape">
           {{ brand_shape | raw }}
         </div>
-          {% include "@atoms/images/image/responsive-image.twig" with {
+            {% include "@atoms/images/image/responsive-image.twig" with {
             image_blockname: card__base_class,
             output_image_tag: card__image__output_image_tag,
             image_src: card__image__src,
@@ -76,6 +81,9 @@
     {# Heading #}
     {% if card__heading %}
       {{ title_prefix }}
+      {% set heading_link_attributes = {
+        'target': card__link__new_window,
+      } %}
       {% include "@atoms/text/headings/_heading.twig" with {
         heading_base_class: card__heading__base_class|default('heading'),
         heading_modifiers: card__heading__modifiers,
@@ -85,6 +93,8 @@
         heading_url: card__heading__link|default(card__link__url),
         heading_link_base_class: card__heading__link_base_class|default('heading-link'),
         heading_link_blockname: card__base_class,
+        text_color_override: text_color_override,
+        heading_link_attributes: heading_link_attributes,
       } %}
       {{ title_suffix }}
     {% endif %}
@@ -97,6 +107,7 @@
         heading_level: 3,
         heading: card__subheading,
         heading_url: card__subheading__link,
+        text_color_override: text_color_override
       } %}
     {% endif %}
     {# Body #}
@@ -105,12 +116,16 @@
           paragraph_base_class: 'body',
           paragraph_blockname: card__base_class,
           paragraph_content: card__body,
+          text_color_override: text_color_override
         } %}
     {% endif %}
     {# Link #}
     {% if card__link__url and card__link__text %}
       <div class="cta-wrapper">
-        {% set attr = {'href': card__link__url} %}
+        {% set attr = {
+          'href': card__link__url,
+          'target': card__link__new_window,
+        } %}
         {% include "@atoms/links/defaultLink/defaultLink.twig" with {
           default_link_content: card__link__text,
           default_link_attributes: attr

@@ -28,11 +28,16 @@ ignored_config_entities:
   - mars_common.system.site
   - gtm.settings
   - salsify_integration.settings
-  - system.performance
-  - mars_product.wtb.settings
+  - 'mars_product.wtb.*'
   - mars_common.site_labels
   - 'core.entity_view_display.node.*'
   - mars_common.card_color_settings
+  - purge.logger_channels
+  - purge.plugins
+  - purge_queuer_coretags.settings
+  - mars_product.bazaarvoice.settings
+  - mars_product.nutrition_table_settings
+  - cloudflare.settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true

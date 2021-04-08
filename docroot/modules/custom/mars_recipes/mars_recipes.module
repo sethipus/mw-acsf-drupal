@@ -21,7 +21,6 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'description' => NULL,
         'cooking_time' => NULL,
         'cooking_time_label' => NULL,
-        'cooking_time_measure' => NULL,
         'ingredients_number' => NULL,
         'ingredients_label' => NULL,
         'ingredients_measure' => NULL,
@@ -113,4 +112,16 @@ function mars_recipes_preprocess_node__recipe__card(array &$variables) {
   card_add_badge_text($variables);
   card_add_button_label($variables, 'recipe_card_button');
   add_cache_by_label_config($variables);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function mars_recipes_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'node_recipe_edit_form' || $form_id === 'node_recipe_form') {
+    $form["field_recipe_description"]["widget"][0]["#format"] = 'plain_text';
+    $default_value = $form["field_recipe_description"]["widget"][0]["#default_value"];
+    $default_value = strip_tags(html_entity_decode($default_value));
+    $form["field_recipe_description"]["widget"][0]["#default_value"] = $default_value;
+  }
 }

@@ -1,16 +1,16 @@
 mars_product.commerce_connector:
   version: 1.x
   js:
-    js/commerce_connector.js: {}
+    //[commerce_connector_url]: { type: external, weight: -3 }
   dependencies:
     - core/drupal
     - core/drupalSettings
     - core/jquery
 
-mars_product.bazarrevoice_staging:
+mars_product.bazaarvoice:
   js:
-    https://apps.bazaarvoice.com/deployments/dovechocolates/main_site/staging/en_US/bv.js: { type: external, attributes: { async: true } }
+    //[bazaarvoice_placeholder]: { type: external, attributes: { async: true } }
 
-mars_product.bazarrevoice_production:
+smart_commerce:
   js:
-    https://apps.bazaarvoice.com/deployments/dovechocolates/main_site/production/en_US/bv.js: { type: external, attributes: { async: true } }
+    https://click2cart.co/assets/js/smartcart_min.js: { type: external }

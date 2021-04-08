@@ -20,6 +20,7 @@ use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MenuBuilder;
 use Drupal\mars_common\ThemeConfiguratorParser;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -31,6 +32,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
+  use OverrideThemeTextColorTrait;
 
   /**
    * Drupal\Core\Routing\CurrentRouteMatch definition.
@@ -201,6 +204,42 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
       '#default_value' => $config['alert_banner']['alert_banner_url'] ?? '',
     ];
 
+    $this->buildOverrideColorElement($form, $config);
+
+    $form['override_text_color']['сhoose_override_hover'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Сhoose an alternative color to override the on-hover'),
+      '#default_value' => $config['override_text_color']['сhoose_override_hover'] ?? NULL,
+    ];
+
+    $form['override_text_color']['hover_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Сhoose color B on-hover'),
+      '#default_value' => $config['override_text_color']['hover_color'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[override_text_color][сhoose_override_hover]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
+    $form['override_text_color']['override_mobile_color'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Сhoose an alternative color for mobile Close button and sub-menu and Desktop dropdown icon'),
+      '#default_value' => $config['override_text_color']['override_mobile_color'] ?? NULL,
+    ];
+
+    $form['override_text_color']['mobile_color'] = [
+      '#type' => 'jquery_colorpicker',
+      '#title' => $this->t('Сhoose color close button and sub-menu'),
+      '#default_value' => $config['override_text_color']['mobile_color'] ?? NULL,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[override_text_color][override_mobile_color]"]' => ['checked' => TRUE]],
+        ],
+      ],
+    ];
+
     return $form;
   }
 
@@ -269,6 +308,24 @@ class HeaderBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $build['#search_title'] = $this->languageHelper->translate($this->labelConfig->get('header_search_overlay'));
 
     $build['#brand_border'] = $this->themeConfiguratorParser->getBrandBorder();
+    $build['#text_color_override'] = FALSE;
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
+    $build['#hover_color'] = FALSE;
+    if (!empty($config['override_text_color']['сhoose_override_hover']) &&
+      !empty($config['override_text_color']['hover_color'])
+    ) {
+      $build['#hover_color'] = '#' . $config['override_text_color']['hover_color'];
+    }
+
+    $build['#mobile_color'] = FALSE;
+    if (!empty($config['override_text_color']['override_mobile_color']) &&
+      !empty($config['override_text_color']['mobile_color'])
+    ) {
+      $build['#mobile_color'] = '#' . $config['override_text_color']['mobile_color'];
+    }
 
     CacheableMetadata::createFromRenderArray($build)
       ->addCacheableDependency($this->labelConfig)

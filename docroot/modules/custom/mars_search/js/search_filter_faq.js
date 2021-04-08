@@ -114,6 +114,9 @@
           pushQuery(query);
           query.grid_type = 'faq';
           query.action_type = 'results';
+          query.page_id = $('[data-layer-page-id]').attr('data-layer-page-id');
+          query.page_revision_id = $('[data-layer-page-revision-id]').attr('data-layer-page-revision-id');
+          query.limit = 4;
           query.offset = 0;
           $.ajax({
             url: '/search-callback',
@@ -149,6 +152,9 @@
         pushQuery(query);
         query.grid_type = 'faq';
         query.action_type = 'results';
+        query.page_id = $('[data-layer-page-id]').attr('data-layer-page-id');
+        query.page_revision_id = $('[data-layer-page-revision-id]').attr('data-layer-page-revision-id');
+        query.limit = 4;
         $.ajax({
           url: '/search-callback',
           data: query,

@@ -8,7 +8,6 @@
     &--main-heading {
       text-align: left;
       color: clr(primary);
-      text-transform: uppercase;
       font-size: 2.8rem;
       line-height: 1.1;
       font-weight: 500;
@@ -41,19 +40,18 @@
   }
 
   .overlay-video {
-
-    &__control[data-state="play"] {
-      width: 60px;
-      height: 65px;
+    &__control {
+      width: 75px;
+      height: 75px;
       left: 50%;
       bottom: 50%;
-    }
+      padding: 0;
+      transform: translateX(-50%) translateY(50%);
 
-    &__control[data-state="pause"] {
-      width: 60px;
-      height: 65px;
-      left: 50%;
-      bottom: 50%;
+      @include medium {
+        width: 85px;
+        height: 85px;
+      }
     }
   }
 
@@ -75,17 +73,18 @@
     background-color: clr(subcolor-2);
     color: clr(primary);
     font-family: variable(secondary-font);
-    font-size: 1.6rem;
-    line-height: 1.6rem;
-    padding: 2rem 3rem;
+    font-size: 1.2rem;
+    line-height: 1.3em;
+    padding: 6rem 3rem 0.5rem 3rem;
 
     @include medium {
       font-size: 1.4rem;
-      padding: 2rem 4rem;
+      padding: 3rem 4rem 1rem;
     }
 
     @include xl {
-      padding: 2rem 11.6rem;
+      font-size: 1.6rem;
+      padding: 2rem 11.6rem 1rem 11.6rem;
     }
   }
 
@@ -167,9 +166,21 @@
     // increasing specificity to avoid using !important
     &.swiper-container-horizontal > .swiper-scrollbar {
       position: absolute;
-      bottom: -1.5rem;
+      bottom: -4rem;
       height: 1rem;
-      transform: scale(.6);
+      transform: scale(0.45);
+
+      @include medium {
+        bottom: -1rem;
+        height: 1.8rem;
+        transform: scale(0.35);
+      }
+
+      @include xl {
+        bottom: 1rem;
+        height: 2.5rem;
+        transform: scale(0.4);
+      }
 
       & .swiper-scrollbar-drag {
         background: clr(secondary);
@@ -191,10 +202,15 @@
     }
 
     @include medium {
+      width: 6rem;
+      height: 6rem;
+      top: 88%;
+    }
+
+    @include xl {
       width: 7rem;
       height: 7rem;
-      top: 88%;
-      }
+    }
 
     &.swiper-button-disabled {
       opacity: 0;
@@ -210,10 +226,46 @@
       fill: clr(secondary);
     }
   }
+
+  .swiper-button-prev {
+    z-index: 2;
+    left: 20px;
+    top: 97.5%;
+
+    @include medium {
+      top: 88%;
+      left: 30px;
+    }
+
+    @include xl {
+      top: 90%;
+      left: 40px;
+    }
+  }
+
+  .swiper-button-next {
+    z-index: 2;
+    right: 20px;
+    top: 97.5%;
+
+    @include medium {
+      top: 88%;
+      right: 30px;
+    }
+
+    @include xl {
+      top: 90%;
+      right: 40px;
+    }
+  }
 }
 
 .overlay-video__control[data-state="play"] .play-icon {
-  margin: auto 30%;
+  position: absolute;
+  margin: 0;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-33%) translateY(-50%);
 }
 
 .overlay-video__playpause[data-state="pause"] .play-icon{

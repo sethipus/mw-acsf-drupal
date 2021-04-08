@@ -13,6 +13,7 @@ use Drupal\Core\Plugin\Context\Context;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_product\NutritionDataHelper;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\mars_product\ProductHelper;
 use Drupal\node\Entity\Node;
@@ -113,6 +114,13 @@ class PdpHeroBlockTest extends UnitTestCase {
   private $themeConfiguratorParserMock;
 
   /**
+   * Mock.
+   *
+   * @var \Drupal\mars_product\NutritionDataHelper|\PHPUnit\Framework\MockObject\MockObject
+   */
+  private $nutritionHelperMock;
+
+  /**
    * Test block configuration.
    *
    * @var array
@@ -171,7 +179,9 @@ class PdpHeroBlockTest extends UnitTestCase {
       $this->productHelperMock,
       $this->mediaHelperMock,
       $this->immutableConfigMock,
-      FALSE
+      FALSE,
+      $this->configFactoryMock,
+      $this->nutritionHelperMock
     );
   }
 
@@ -180,7 +190,7 @@ class PdpHeroBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->block->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(13, $config_form);
+    $this->assertCount(17, $config_form);
     $this->assertArrayHasKey('eyebrow', $config_form);
     $this->assertArrayHasKey('available_sizes', $config_form);
     $this->assertArrayHasKey('wtb', $config_form);
@@ -260,10 +270,10 @@ class PdpHeroBlockTest extends UnitTestCase {
         ]
       );
 
-    $this->entityFormBuilderMock
-      ->method('getForm')
+    $this->nutritionHelperMock
+      ->method('getMapping')
       ->willReturn([
-        '#fieldgroups' => [],
+        PdpHeroBlock::NUTRITION_SUBGROUP_1 => [],
       ]);
 
     $this->block->setContext('node', $nodeContext);
@@ -325,6 +335,12 @@ class PdpHeroBlockTest extends UnitTestCase {
         '#fieldgroups' => [],
       ]);
 
+    $field = $this->createFieldMock();
+    $product_node
+      ->expects($this->any())
+      ->method('get')
+      ->willReturn($field);
+
     $build = $this->block->build();
 
     $this->assertCount(5, $build);
@@ -351,6 +367,12 @@ class PdpHeroBlockTest extends UnitTestCase {
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->productHelperMock = $this->createMock(ProductHelper::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
+    $this->nutritionHelperMock = $this->createMock(NutritionDataHelper::class);
+
+    $this->nutritionHelperMock
+      ->expects($this->any())
+      ->method('getNutritionConfig')
+      ->willReturn($this->immutableConfigMock);
   }
 
   /**

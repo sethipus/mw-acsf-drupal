@@ -13,94 +13,85 @@
     &--main-heading {
       text-align: center;
       color: clr(primary);
-      text-transform: uppercase;
       font-family: variable(heading-font);
+      margin-bottom: 4rem;
 
       @include xs {
         font-size: 4rem;
         line-height: 4rem;
+        padding: 0 2rem;
       }
 
       @include medium {
         font-size: 5.6rem;
         line-height: 5.6rem;
+        padding: 0 4rem;
       }
 
       @include large {
         font-size: 6.4rem;
-        line-height: 6.4rem;
+        margin-bottom: 6rem;
       }
     }
   }
 
-  &__graphic-divider {
-    text-align: center;
-    margin-bottom: 6rem;
-
-    svg {
-      path {
-        fill: clr(subcolor-1);
-      }
-    }
+  .social-feed-swiper-container-outer {
+    position: relative;
   }
 
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .social-feed-swiper-container {
     width: 100%;
-    height: 34rem;
-
-    @media (max-width: 768px) {
-      height: 25rem;
-      padding-bottom: 41px;
-    }
-
-    @media (max-width: 375px) {
-      height: 27.5rem;
-    }
   }
 
   // increasing specificity to avoid using !important
-  .social-feed__content>.swiper-scrollbar {
-    height: 0.8rem;
-    width: 70%;
-    left: 15%;
-    background-color: rgba(clr(secondary-rgb), 0.4);
+  .swiper-scrollbar {
+    background-color: rgba(clr(secondary-rgb),0.4);
+    height: 0.5rem;
+    width: 16.1rem;
+    margin: 3rem auto 0;
+
+    @include medium {
+      height: 0.5rem;
+      width: 25.7rem;
+      margin-top: 4rem;
+    }
+
+    @include xl {
+      height: 0.8rem;
+      width: 42.7rem;
+      margin-top: 4rem;
+    }
 
     & .swiper-scrollbar-drag {
       background: clr(secondary);
     }
   }
 
-  .social-feed-slide.swiper-slide {
-    border-radius: 1rem;
-    max-height: 31.7rem;
-    overflow: hidden;
-
-    &:focus-within {
-      border: 2px solid black;
-    }
-  }
-
-  .social-feed__content .swiper-button-prev, .social-feed__content .swiper-button-next  {
-    background-color: clr(subcolor-3);
+  .swiper-button-prev, .swiper-button-next  {
+    background-color: clr(text-inverse);
     border-radius: 50%;
+    border: 0;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
-    width: 7rem;
-    height: 7rem;
-    margin-top: 4.5rem;
+    margin-top: -(5.5rem)/2;
+    width: 5.5rem;
+    height: 5.5rem;
 
-    @media (max-width: 768px) {
+    @include medium {
+      margin-top: -(6rem)/2;
       width: 6rem;
       height: 6rem;
     }
 
-    @media (max-width: 375px) {
-      width: 5.5rem;
-      height: 5.5rem;
+    @include xl {
+      margin-top: -(7rem)/2;
+      width: 7rem;
+      height: 7rem;
     }
 
     &.swiper-button-disabled {
       opacity: 0;
+      visibility: hidden;
     }
 
     &::after {
@@ -113,4 +104,21 @@
       fill: clr(secondary);
     }
   }
+
+  .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+    right: 1.5rem;
+
+    @include medium {
+      right: 3rem;
+    }
+  }
+
+  .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+    left: 1.5rem;
+
+    @include medium {
+      left: 3rem;
+    }
+  }
+
 }

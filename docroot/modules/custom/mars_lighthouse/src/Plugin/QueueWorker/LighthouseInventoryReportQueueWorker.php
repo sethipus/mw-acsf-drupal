@@ -5,10 +5,9 @@ namespace Drupal\mars_lighthouse\Plugin\QueueWorker;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\mars_lighthouse\LighthouseAccessException;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
+use Drupal\mars_lighthouse\LighthouseException;
 use Drupal\mars_lighthouse\LighthouseInterface;
-use Drupal\mars_lighthouse\TokenIsExpiredException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -78,6 +77,13 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
   protected $currentRequest;
 
   /**
+   * File entity storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  private $fileStorage;
+
+  /**
    * LighthouseQueueWorker constructor.
    */
   public function __construct(
@@ -93,6 +99,7 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->mediaStorage = $entity_type_manager->getStorage('media');
+    $this->fileStorage = $entity_type_manager->getStorage('file');
     $this->configFactory = $config_factory;
     $this->lighthouseClient = $lighthouse_client;
     $this->lighthouseAdapter = $lighthouse;
@@ -128,30 +135,30 @@ class LighthouseInventoryReportQueueWorker extends QueueWorkerBase implements Co
       $host = $this->currentRequest->getSchemeAndHttpHost();
       /* @var \Drupal\media\Entity\Media $media */
       foreach ($data as $media) {
-        $asset_ids[] = $media->field_external_id->value;
+        $note = [];
+
+        if ($media->bundle() === 'lighthouse_image') {
+          $file_id = $media->field_media_image->target_id;
+          /** @var \Drupal\file\Entity\File $file */
+          $file = $this->fileStorage->load($file_id);
+          $file_url = $file->getFileUri();
+          $note['assetUrls'] = [$file_url];
+        }
+
         $asset_list[] = [
           'assetId' => $media->field_external_id->value,
           'isDerivedAsset' => FALSE,
           'repoId' => $host . ':' . $media->id(),
           'repoLoc' => '',
-          'note' => '',
+          'note' => json_encode($note),
         ];
       }
     }
-
-    $params = $this->lighthouseAdapter->getToken();
     try {
-      $data = $this->lighthouseClient->sentInventoryReport($asset_list, $params);
+      $data = $this->lighthouseClient->sentInventoryReport($asset_list);
     }
-    catch (TokenIsExpiredException $e) {
-      // Try to refresh token.
-      $params = $this->lighthouseAdapter->refreshToken();
-      $data = $this->lighthouseClient->sentInventoryReport($asset_list, $params);
-    }
-    catch (LighthouseAccessException $e) {
-      // Try to force request new token.
-      $params = $this->lighthouseAdapter->getToken(TRUE);
-      $data = $this->lighthouseClient->sentInventoryReport($asset_list, $params);
+    catch (LighthouseException $exception) {
+      $this->logger->error('Failed to run inventory report "%error"', ['%error' => $exception->getMessage()]);
     }
 
     if (!empty($data)) {

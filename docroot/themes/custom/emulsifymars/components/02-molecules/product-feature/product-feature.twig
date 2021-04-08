@@ -19,8 +19,8 @@
             output_image_tag: true,
             image_alt: image_alt,
             image_sizes: '212px',
-            height: '442px',
-            width: '442px',
+            height: '520px',
+            width: '520px',
             image_src: image_src,
             responsive_image_blockname: 'product_image',
           } %}
@@ -34,7 +34,8 @@
           {% include "@atoms/text/headings/_heading.twig" with {
             heading: heading,
             heading_level: heading_level,
-            heading_url: default_link_attributes.href
+            heading_url: default_link_attributes.href,
+            heading_link_attributes: heading_link_attributes,
           } %}
           {% include "@atoms/links/defaultLink/defaultLink.twig" with {
             default_link_content: default_link_content,

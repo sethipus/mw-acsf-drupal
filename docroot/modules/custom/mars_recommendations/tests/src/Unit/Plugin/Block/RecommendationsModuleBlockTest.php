@@ -385,6 +385,13 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
       ->expects($this->once())
       ->method('setRebuild');
 
+    $this->formStateMock
+      ->expects($this->any())
+      ->method('getValue')
+      ->willReturn([
+        'plugin_id' => 'id',
+      ]);
+
     $block->validateConfigurationForm($form, $this->formStateMock);
   }
 
@@ -421,6 +428,15 @@ class RecommendationsModuleBlockTest extends UnitTestCase {
       ->expects($this->any())
       ->method('getValues')
       ->willReturn([]);
+
+    $this->formStateMock
+      ->expects($this->any())
+      ->method('getTriggeringElement')
+      ->willReturn(
+        [
+          '#name' => 'name',
+        ]
+      );
 
     $block->blockValidate($form, $this->formStateMock);
   }

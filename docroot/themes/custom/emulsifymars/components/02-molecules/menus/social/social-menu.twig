@@ -23,16 +23,18 @@
               link_base_class: 'link',
               link_modifiers: item_modifiers,
               link_blockname: menu_class,
-              link_attributes: {
-                'target': '_blank',
-                'aria-label': 'Social link',
-                'name': item.title
-              }
+              link_extra_classes: item.item_modifiers.class is not empty ? item.item_modifiers.class : [],
+              link_attributes: item.item_modifiers is not empty ? item.item_modifiers :
+                {
+                  'target': '_blank',
+                }
             } %}
               {% block link_content %}
-                {{ item.icon | raw }}
+                <span aria-hidden="true">
+                  {{ item.icon | raw }}
+                </span>
                 {% include "@atoms/accessibility/SROnly/SROnly.twig" with {
-                  sronly_content: item.title,
+                  sronly_content: item.title ~ (' (opens in new window)' | mt),
                   sronly_modifiers: ['social_link'],
                 } %}
               {% endblock %}

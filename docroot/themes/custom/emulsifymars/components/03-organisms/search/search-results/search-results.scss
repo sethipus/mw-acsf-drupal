@@ -7,22 +7,24 @@
 }
 
 .results-key-header-container.active {
-  font-family: variable(heading-font);
+  font-family: variable(primary-font);
   color: clr(primary);
-  padding: 5.9rem 0;
   font-size: 2rem;
   line-height: 2.2rem;
   font-weight: 500;
   text-transform: uppercase;
   text-align: center;
+  margin-bottom: 5rem;
 
   @include medium {
     font-size: 2.6rem;
     line-height: 2.86rem;
+    margin-bottom: 6rem;
   }
 
   @include large {
     font-size: 2.8rem;
     line-height: 3.08rem;
+    margin-bottom: 8rem;
   }
 }

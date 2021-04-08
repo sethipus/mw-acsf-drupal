@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Class SearchHelper.
  */
 class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterface {
+
   use StringTranslationTrait;
 
   /**
@@ -37,11 +38,11 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
   public $request;
 
   /**
-   * Taxonomy facet process service.
+   * Search categories processor.
    *
-   * @var \Drupal\mars_search\Processors\SearchTermFacetProcess
+   * @var \Drupal\mars_search\Processors\SearchCategoriesInterface
    */
-  protected $searchTermFacetProcess;
+  protected $searchCategories;
 
   /**
    * Arrays with searches metadata.
@@ -57,12 +58,12 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     EntityTypeManagerInterface $entity_type_manager,
     LoggerChannelFactoryInterface $logger_factory,
     RequestStack $request,
-    SearchTermFacetProcess $searchTermFacetProcess
+    SearchCategoriesInterface $searchCategories
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get('mars_search');
     $this->request = $request->getMasterRequest();
-    $this->searchTermFacetProcess = $searchTermFacetProcess;
+    $this->searchCategories = $searchCategories;
   }
 
   /**
@@ -86,6 +87,9 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     $query = $index->query([]);
     if (isset($options['offset']) && isset($options['limit'])) {
       $query->range($options['offset'], $options['limit']);
+    }
+    elseif (isset($options['limit'])) {
+      $query->range(0, isset($options['limit']));
     }
     else {
       $query->range(0, 4);
@@ -113,7 +117,7 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       $conditionsGroup = $query->createConditionGroup($options['options_logic']);
       foreach ($options['conditions'] as $condition) {
         // Taxonomy filters go as a separate condition group with OR/AND logic.
-        if (in_array($condition[0], array_keys(SearchBuilderInterface::TAXONOMY_VOCABULARIES))) {
+        if (in_array($condition[0], array_keys($this->searchCategories->getCategories()))) {
           $conditionsGroup->addCondition($condition[0], $condition[1], $condition[2]);
         }
         else {
@@ -181,6 +185,15 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       'mars_occasions',
       'mars_brand_initiatives',
       'mars_category',
+      'mars_diet_allergens',
+      'mars_culture',
+      'mars_food_type',
+      'mars_main_ingredient',
+      'mars_meal_type',
+      'mars_method',
+      'mars_prep_time',
+      'mars_product_used',
+      'mars_recipe_collection',
     ];
   }
 

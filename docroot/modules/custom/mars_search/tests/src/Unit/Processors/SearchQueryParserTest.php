@@ -4,6 +4,7 @@ namespace Drupal\Tests\mars_search\Unit\Processors;
 
 use Drupal\mars_search\Processors\SearchQueryParser;
 use Drupal\mars_search\Processors\SearchQueryParserInterface;
+use Drupal\mars_search\Processors\SearchCategoriesInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,13 @@ class SearchQueryParserTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\Processors\SearchQueryParser
    */
   private $searchQueryParser;
+
+  /**
+   * Search categories mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_search\SearchCategoriesInterface
+   */
+  private $searchCategoriesMock;
 
   /**
    * Container.
@@ -43,7 +51,8 @@ class SearchQueryParserTest extends UnitTestCase {
     $this->createMocks();
     $this->container = new ContainerBuilder();
     $this->searchQueryParser = new SearchQueryParser(
-      $this->requestStackMock
+      $this->requestStackMock,
+      $this->searchCategoriesMock
     );
   }
 
@@ -52,6 +61,7 @@ class SearchQueryParserTest extends UnitTestCase {
    */
   private function createMocks(): void {
     $this->requestStackMock = $this->createMock(RequestStack::class);
+    $this->searchCategoriesMock = $this->createMock(SearchCategoriesInterface::class);
     $masterRequest = Request::create('/foo');
     $this->requestStackMock
       ->expects($this->any())
@@ -73,7 +83,6 @@ class SearchQueryParserTest extends UnitTestCase {
   public function testParseQuery() {
     $filter = $this->searchQueryParser->parseQuery();
     $expected = [
-      'cards_view' => FALSE,
       'conditions' => [
         0 => [
           0 => 'type',
@@ -87,7 +96,9 @@ class SearchQueryParserTest extends UnitTestCase {
       'offset' => 0,
       'options_logic' => 'AND',
       'sort' => [
-        'created' => 'DESC',
+        'bundle_weight' => 'ASC',
+        'search_api_relevance' => 'DESC',
+        'title' => 'ASC',
       ],
     ];
     $this->assertArrayEquals($expected, $filter);
@@ -118,7 +129,6 @@ class SearchQueryParserTest extends UnitTestCase {
     $resultSearchOptions = $this->searchQueryParser->parseFilterPreset($searchOptions, $config);
 
     $expected = [
-      'cards_view' => FALSE,
       'conditions' => [
         0 => [
           0 => 'type',
@@ -142,7 +152,9 @@ class SearchQueryParserTest extends UnitTestCase {
       'offset' => 0,
       'options_logic' => 'OR',
       'sort' => [
-        'created' => 'DESC',
+        'bundle_weight' => 'ASC',
+        'search_api_relevance' => 'DESC',
+        'title' => 'ASC',
       ],
     ];
 

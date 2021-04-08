@@ -130,6 +130,7 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       $this->configuration['background_color'] : '';
     $build['#background_color'] = $background_color;
     $build['#brand_shape'] = $this->themeConfigParser->getBrandShapeWithoutFill();
+    $build['#dark_overlay'] = $this->configuration['use_dark_overlay'] ?? TRUE;
 
     if (!empty($config['card'])) {
       foreach ($config['card'] as $key => $card) {
@@ -214,6 +215,20 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         ],
       ],
     ];
+
+    $form['custom_foreground_image'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Custom Foreground Image'),
+      '#open' => TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+        ],
+      ],
+    ];
+    $fg_image_default = isset($config['custom_foreground_image']['image']) ? $config['custom_foreground_image']['image'] : NULL;
+    $form['custom_foreground_image']['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_IMAGE_ID, $fg_image_default, $form_state, 1, 'thumbnail', FALSE);
+
     $form['title'] = [
       '#type' => 'details',
       '#title' => $this->t('Title'),
@@ -257,7 +272,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         self::KEY_OPTION_DEFAULT,
         self::KEY_OPTION_IMAGE,
         self::KEY_OPTION_VIDEO,
-        self::KEY_OPTION_IMAGE_AND_TEXT,
       ]),
       '#states' => [
         'required' => [
@@ -266,8 +280,6 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
           'or',
           [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
-          'or',
-          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
         ],
       ],
     ];
@@ -538,6 +550,23 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
       ];
     }
 
+    $form['use_dark_overlay'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use dark overlay'),
+      '#default_value' => $this->configuration['use_dark_overlay'] ?? TRUE,
+      '#states' => [
+        'visible' => [
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_DEFAULT]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_VIDEO]],
+          'or',
+          [':input[name="settings[block_type]"]' => ['value' => self::KEY_OPTION_IMAGE_AND_TEXT]],
+        ],
+      ],
+    ];
+
     return $form;
   }
 
@@ -618,8 +647,12 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     $values = $form_state->getValues();
     unset($values['card']['add_card']);
     $this->setConfiguration($values);
+    $this->configuration['use_dark_overlay'] = ($values['use_dark_overlay'])
+      ? TRUE
+      : FALSE;
     $this->configuration['background_image'] = $this->getEntityBrowserValue($form_state, 'background_image');
     $this->configuration['background_video'] = $this->getEntityBrowserValue($form_state, 'background_video');
+    $this->configuration['custom_foreground_image']['image'] = $this->getEntityBrowserValue($form_state, ['custom_foreground_image', 'image']);
     if (isset($values['card']) && !empty($values['card'])) {
       foreach ($values['card'] as $key => $card) {
         $this->configuration['card'][$key]['foreground_image'] = $this->getEntityBrowserValue($form_state, [
@@ -661,9 +694,10 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
     }
 
     if (!$bg_image_url) {
+      $custom_brand_shape_url = $this->getCustomForegroundImageUrl($config);
       $bg_url_object = $this->themeConfigParser->getUrlForFile('brand_shape');
       if ($bg_url_object) {
-        $bg_image_url = $bg_url_object->toUriString();
+        $bg_image_url = !empty($custom_brand_shape_url) ? $custom_brand_shape_url : $bg_url_object->toUriString();
       }
     }
 
@@ -706,6 +740,25 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
         $form_state->setErrorByName('cta][url', $this->t('The URL is not valid.'));
       }
     }
+  }
+
+  /**
+   * Provides uploaded custom foreground image file URL.
+   *
+   * @param array $config
+   *   Block settings config array.
+   *
+   * @return string
+   *   Returns a file URL or an empty string value.
+   */
+  private function getCustomForegroundImageUrl(array $config): string {
+    $custom_shape_image_id = !empty($config["custom_foreground_image"]["image"]) ? $config["custom_foreground_image"]["image"] : NULL;
+    if (!empty($custom_shape_image_id)) {
+      $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($custom_shape_image_id);
+      $media_data = $this->mediaHelper->getMediaParametersById($media_id);
+      return !empty($media_data['src']) ? $media_data['src'] : '';
+    }
+    return '';
   }
 
 }

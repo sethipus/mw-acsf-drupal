@@ -1,5 +1,5 @@
-field_id: 'Iron Pct Daily Value'
-salsify_id: 'Iron Pct Daily Value'
+field_id: 'Iron Pct'
+salsify_id: 'Iron Pct'
 salsify_data_type: string
 entity_type: node
 bundle: product_variant

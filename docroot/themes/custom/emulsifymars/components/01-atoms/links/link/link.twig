@@ -7,6 +7,7 @@
  * - link_base_class - the base class name, default for links, text_link for text links
  * - link_modifiers - array of modifiers to add to the base classname
  * - link_blockname - blockname prepended to the base classname
+ * - link_extra_classes - additional classes for link
  *
  * Available blocks:
  * - link_content - used to replace the content of the link
@@ -16,12 +17,14 @@
 {% set link_base_class = link_base_class|default('link') %}
 
 <a
-  {{ bem(link_base_class, link_modifiers, link_blockname) }}
+  {{ bem(link_base_class, link_modifiers, link_blockname, link_extra_classes) }}
   {% for attribute, value in link_attributes %}
     {{ attribute }}="{{ value }}"
   {% endfor %}
-  aria-label="{{ link_content | render | mt }}"
   href="{{ link_url }}"
+  {% if text_color_override is not empty%}
+    style="color: {{ text_color_override }};"
+  {% endif %}
 >
   {% block link_content %}
     {{ link_content }}

@@ -16,15 +16,20 @@
   {% include "@atoms/text/headings/_heading.twig" with {
     "heading_level": 2,
     "heading": grid_label,
+    "text_color_override": text_color_override,
   } %}
-  {{ divider | raw }}
+  {% include "@atoms/separators/graphic-divider/graphic-divider.twig" with {
+    graphic_divider_blockname: related_recipes__base_class,
+    graphic_divider: divider
+  } %}
 {% endif %}
 {% set cards_count_class = 'grid-items-' ~ items|length %}
 <div {{ bem(grid_base_class, grid_modifiers, grid_blockname, [cards_count_class]) }}>
   {% block grid_content %}
     {% for item in items %}
       {% include "@organisms/grid/_grid-ff-layout.twig" with {
-        brand_shape: brand_shape
+        brand_shape: brand_shape,
+        text_color_override: text_color_override
       } %}
     {% endfor %}
   {% endblock %}

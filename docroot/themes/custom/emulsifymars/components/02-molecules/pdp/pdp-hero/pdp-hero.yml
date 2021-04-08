@@ -5,7 +5,7 @@ show_rating_and_reviews: true
 pdp_is_main_variant: false
 pdp_common_hero_data:
   background_color: 'rgba(87, 189, 244, 0.7)'
-  brand_shape: "<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='50' fill='rgba(234, 170, 0, 0.2)'></svg>"
+  brand_shape: "<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='50'></svg>"
   product_label: 'PRODUCTS'
   product_name: 'TWIX® Cookies &amp; Creme Chocolate Bar'
   product_description: 'Whether you’re a Left TWIX Bar or Right TWIX Bar person, everyone can agree the delicious taste of cookies and creme needs to be in everyones favorite chocolate cookie candy bar.'
@@ -16,6 +16,8 @@ pdp_common_hero_data:
   reference_for_analitics: ''
   button_type: 'my_own'
   product_CTA_title: 'WHERE TO BUY'
+  brand_shape_color: '123456'
+  brand_shape_opacity: 'partial'
 pdp_label_nutrition: 'NUTRITION'
 pdp_label_allergen: 'DIET & ALLERGENS'
 pdp_label_more_information: 'MORE INFORMATION'
@@ -51,7 +53,7 @@ pdp_hero_data:
     - title: 'NUTRITION & INGREDIENTS'
       border_radius: 20
       link_attributes:
-        'href' : '#section-nutrition-1oz'
+        'href' : '#section-nutrition--1oz'
     - title: 'DIET &amp; ALLERGENS'
       border_radius: 20
       link_attributes:

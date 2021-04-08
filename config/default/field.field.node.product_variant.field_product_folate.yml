@@ -1,0 +1,24 @@
+uuid: cab56825-db52-4847-ad69-eb290a23c6de
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_folate
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_folate
+field_name: field_product_folate
+entity_type: node
+bundle: product_variant
+label: Folate
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

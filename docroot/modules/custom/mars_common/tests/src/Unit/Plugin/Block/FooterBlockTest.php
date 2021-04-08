@@ -229,8 +229,9 @@ class FooterBlockTest extends UnitTestCase {
       [],
       $this->formStateMock
     );
-    $this->assertCount(11, $config_form);
+    $this->assertCount(12, $config_form);
     $this->assertArrayHasKey('top_footer_menu', $config_form);
+    $this->assertArrayHasKey('override_text_color', $config_form);
     $this->assertArrayHasKey('legal_links', $config_form);
     $this->assertArrayHasKey('marketing', $config_form);
     $this->assertArrayHasKey('corporate_tout', $config_form);
@@ -281,7 +282,7 @@ class FooterBlockTest extends UnitTestCase {
 
     $build = $this->footerBlock->build();
 
-    $this->assertCount(14, $build);
+    $this->assertCount(16, $build);
     $this->assertArrayHasKey('#cache', $build);
     $this->assertArrayHasKey('#top_footer_menu', $build);
     $this->assertArrayHasKey('#legal_links', $build);
@@ -290,6 +291,7 @@ class FooterBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('#corporate_tout_url', $build);
     $this->assertArrayHasKey('#region_title', $build);
     $this->assertArrayHasKey('#social_header', $build);
+    $this->assertArrayHasKey('#text_color_override', $build);
     $this->assertCount(0, $build['#social_links']);
     $this->assertArrayHasKey('#region_selector', $build);
     $this->assertEquals('footer_block', $build['#theme']);

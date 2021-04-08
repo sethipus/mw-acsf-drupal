@@ -1,450 +1,556 @@
 .form-integration__contact {
-  .ff-form-main {
-    position: relative;
-    display: block;
-    border-radius: 1.1rem;
-    box-shadow: 1px 1px 12px 0 rgba(0, 0, 0, 0.08);
-    max-width: 33.5rem !important;
-    background-color: white;
-    margin: auto;
+  #dvFastForms {
 
-    @include medium {
-      margin: auto;
-      max-width: 68.8rem !important;
-    }
-
-    @include large {
-      max-width: 89.5rem !important;
-    }
-  }
-
-  .group-0,
-  .group-1,
-  .group-2,
-  .group-5,
-  .group-6,
-  .group-7,
-  .ff-footnote-label {
-    margin-left: 1.6rem;
-    margin-right: -1.6rem;
-
-    @include medium {
-      margin-left: 8.5%;
-      margin-right: 0;
-    }
-  }
-
-  .ff-label-col {
-    margin-bottom: 1rem;
-  }
-
-  .ff-item-row,
-  .group-0 {
-    margin-bottom: 1.6rem;
-  }
-
-  .ff-col-1,
-  .ff-col-2 {
-    max-width: 100% !important;
-    min-width: 90% !important;
-  }
-
-  .ff-section-col {
-    width: 90% !important;
-  }
-
-  .ff-section-header {
-    color: clr(secondary);
-    font-family: variable(primary-font);
-    font-size: 2rem;
-    line-height: 3rem;
-    display: block;
-    text-transform: uppercase;
-    text-align: center;
-    margin-top: 3rem;
-
-    @include medium {
-      font-size: 2.6rem;
-    }
-
-    @include large {
-      font-size: 2.8rem;
-    }
-  }
-
-  .ff-fileupload-select {
-    color: clr(primary);
-    font-size: 1.6rem;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-
-  .ff-fileupload-select:hover {
-    color: clr(secondary) !important;
-  }
-
-  .ff-select-type {
-    position: relative;
-    display: block;
-    font-size: 1.6rem;
-    font-family: variable(secondary-font);
-    color: clr(primary);
-    line-height: 2.24rem;
-    padding: 0.6em 1.4em 0.5em 0.8em;
-    width: 100%;
-    height: 5rem;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    border: 1px solid #c4c4c4;
-    border-radius: variable(button-border-radius);
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: #fff;
-    background-image: linear-gradient(
-        45deg,
-        transparent 50%,
-        clr(secondary) 50%
-      ),
-      linear-gradient(135deg, clr(secondary) 50%, transparent 50%);
-    background-position: calc(100% - 40px) 50%, calc(100% - 32px) 50%, 100% 0;
-    background-size: 8px 8px, 8px 8px, 5em 5em;
-    background-repeat: no-repeat;
-
-    @include large {
-      font-size: 1.8rem;
-      line-height: 2.52rem;
-    }
-  }
-
-  .ff-select-type:focus {
-    background-image: linear-gradient(
-        45deg,
-        clr(secondary) 50%,
-        transparent 50%
-      ),
-      linear-gradient(135deg, transparent 50%, clr(secondary) 50%);
-    background-position: calc(100% - 32px) 50%, calc(100% - 40px) 50%, 100% 0;
-    background-size: 8px 8px, 8px 8px, 5em 5em;
-    background-repeat: no-repeat;
-    outline: 0;
-  }
-
-  .ff-select-type::-ms-expand {
-    display: none;
-  }
-
-  .ff-input-type {
-    border-style: none none solid none;
-    border-color: #c4c4c4;
-    border-width: 0.5px;
-    width: 100%;
-    color: clr(primary);
-    font-family: variable(secondary-font);
-    cursor: text;
-    font-size: 1.6rem;
-    padding-bottom: 1rem;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-
-  .ff-input-type::-webkit-input-placeholder {
-    font-family: variable(secondary-font);
-    color: clr(primary);
-    font-size: 1.6rem;
-    opacity: 1;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-  .ff-input-type::-moz-placeholder {
-    font-family: variable(secondary-font);
-    color: clr(primary);
-    font-size: 1.6rem;
-    opacity: 1;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-  .ff-input-type:-ms-input-placeholder {
-    font-family: variable(secondary-font);
-    color: clr(primary);
-    font-size: 1.6rem;
-    opacity: 1;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-  .ff-input-type:-moz-placeholder {
-    font-family: variable(secondary-font);
-    color: clr(primary);
-    font-size: 1.6rem;
-    opacity: 1;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-
-  .ff-textarea::-webkit-input-placeholder {
-    color: transparent;
-  }
-  .ff-textarea::-moz-placeholder {
-    color: transparent;
-  }
-  .ff-textarea:-ms-input-placeholder {
-    color: transparent;
-  }
-  .ff-textarea:-moz-placeholder {
-    color: transparent;
-  }
-
-  .ff-input-type:focus,
-  .ff-textarea:focus,
-  .ff-select-type:focus {
-    outline: none;
-  }
-
-  #lblCaseWeb_Reason__c,
-  .ff-fileupload-label,
-  .ff-required-mark,
-  #sectionLabel2,
-  #lblCaseAccountIdFirstName,
-  #lblCaseAccountIdLastName,
-  #lblCaseAccountIdPersonEmail,
-  #lblCaseSubject,
-  #sectionLabel5,
-  #sectionLabel7 {
-    display: none;
-  }
-
-  #GENERALTEXT195 {
-    font-family: variable(secondary-font);
-    color: clr(primary);
-    font-size: 1.6rem;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-
-  #lblCaseDescription {
-    position: absolute;
-    color: clr(primary);
-    font-size: 1.6rem;
-    font-family: variable(secondary-font);
-    cursor: text;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-
-  #dvFastForms .btnDiv input {
-    margin: 0 !important;
-    border-radius: variable(button-border-radius);
-    text-transform: uppercase;
-  }
-
-  .btnDiv input {
-    color: white;
-    background-color: clr(secondary);
-    width: 100%;
-    height: 5rem;
-    border: none;
-    font-size: 1.4rem;
-    margin-right: 5%;
-    font-family: variable(secondary-font);
-
-    @include large {
-      font-size: 1.6rem;
-    }
-  }
-
-  #dvFastForms .btnDiv {
-    text-align: center !important;
-  }
-
-  .ff-textarea {
-    height: 14rem;
-    margin-top: 2rem;
-    width: 100%;
-    border-color: #c4c4c4;
-    border-radius: variable(button-border-radius);
-    color: clr(primary);
-    font-family: variable(secondary-font);
-    padding: 1rem 1.5rem;
-    font-size: 1.6rem;
-
-    @include medium {
-      height: 20rem;
-    }
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-
-  .ff-fileupload-drop-area {
-    background-color: white;
-    text-align: left;
-    width: 100%;
-    padding: 1.15rem;
-    display: inline-block;
-    border: 0.5px solid #c4c4c4;
-    border-radius: variable(button-border-radius) !important;
-    font-family: variable(secondary-font);
-  }
-
-  .group-7 {
-    max-width: 90%;
-    margin-right: 10%;
-  }
-
-  .ff-general-text-label {
-    font-size: 1.2rem;
-    color: clr(primary);
-    font-family: variable(secondary-font);
-
-    @include medium {
-      font-size: 1.4rem;
-    }
-
-    @include large {
-      font-size: 1.6rem;
-    }
-  }
-
-  .ff-footnote-label {
-    font-size: 1.2rem;
-    color: clr(primary);
-    font-family: variable(secondary-font);
-
-    @include large {
-      font-size: 1.4rem;
-    }
-  }
-
-  .footnoteDiv {
-    margin-bottom: 1rem;
-  }
-
-  .ff-input-type.ff-type-text.ff-input-type-invalid {
-    border-style: none none solid none !important;
-    border-color: clr(secondary) !important;
-    border-width: 0.5px !important;
-    border-radius: 0;
-  }
-
-  .ff-textarea.ff-input-type-invalid {
-    border: 0.5px solid clr(secondary) !important;
-    border-radius: variable(button-border-radius) !important;
-  }
-
-  .ff-select-type.ff-input-type-invalid {
-    border: 0.5px solid clr(secondary) !important;
-    border-radius: variable(button-border-radius) !important;
-  }
-
-  #reqdvCase\.Description {
-    margin-top: 15.5rem !important;
-
-    @include medium {
-      margin-top: 21.5rem !important;
-    }
-  }
-
-  .group-1 .ff-invalid-msg,
-  .group-2 .ff-invalid-msg {
-    color: clr(secondary);
-    font-size: 1rem;
-    font-family: variable(secondary-font);
-    position: absolute;
-    margin-top: 3rem;
-  }
-
-  .group-0 .ff-invalid-msg {
-    color: clr(secondary);
-    font-size: 1rem;
-    font-family: variable(secondary-font);
-    position: absolute;
-    margin-top: 5rem;
-  }
-
-  #error {
-    font-size: 1rem;
-    margin-top: -2rem;
-    font-family: variable(secondary-font);
-    color: clr(secondary);
-  }
-
-  .ff-ui-dialog .ff-ui-dialog-content {
-    color: clr(secondary);
-    font-family: variable(secondary-font);
-    font-size: 1.6rem;
-    text-align: center;
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-
-    @include large {
-      font-size: 1.8rem;
-    }
-  }
-
-  .ff-btn-submit {
-    color: white;
-    background-color: clr(secondary);
-    width: 15rem;
-    height: 5rem;
-    border: none;
-    font-size: 1.4rem;
-    font-family: variable(secondary-font);
-    border-radius: variable(button-border-radius);
-
-    @include large {
-      font-size: 1.6rem;
-    }
-  }
-
-  .ff-btn-submit:hover {
-    background-color: white;
-    border: 1px solid #c4c4c4;
-    color: clr(secondary);
-  }
-
-  @include medium {
-    .group-1 .ff-item-row:nth-child(2) {
+    .ff-form-main {
+      position: relative;
       display: block;
-      float: left;
-      width: 47%;
+      border-radius: 2rem;
+      box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08);
+      background-color: #fff;
+      margin: 0 auto 4rem;
+      padding: 2rem 2rem 0;
+      border: 0.2rem solid #fff;
+      max-width: none;
+      width: calc(100% - 4rem);
+
+      @include medium {
+        padding: 2rem 6rem 1rem;
+        max-width: 89.5rem;
+        width: calc(100% - 8rem);
+      }
+
+      @include large {
+        padding: 2rem 6rem 3rem;
+      }
     }
 
-    .group-1 .ff-item-row:nth-child(3) {
+    .ff-group-row {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .ff-item-row {
+      margin: 0 0 3rem;
+      padding: 0;
+
+      @include medium {
+        margin: 0 0 3rem;
+      }
+    }
+
+    .ff-label-col {
+      margin-bottom: 0.5rem;
+      padding: 0 0 0 0;
+      float: none;
+    }
+
+    .ff-field-col {
       display: block;
-      float: right;
-      width: 53%;
+    }
+
+    .ff-label,
+    .ff-required-mark,
+    #GENERALTEXT894 // label of captcha
+    {
+      color: clr(primary);
+      font-size: 1.4rem;
+      font-family: variable(secondary-font);
+      line-height: 1.1;
+
+      @include large {
+        font-size: 1.6rem;
+        line-height: 1.1;
+      }
+    }
+
+    .ff-col-1,
+    .ff-col-2 {
+      max-width: 100% !important;
+      min-width: 90% !important;
+    }
+
+    .ff-section-col {
+      width: 100% !important;
+    }
+
+    .ff-section-header {
+      color: clr(secondary);
+      font-family: variable(primary-font);
+      display: block;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 1rem 0 0 0;
+      font-size: 2rem;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.1;
+      letter-spacing: 1.12px;
+
+      @include medium {
+        font-size: 2.6rem;
+        margin: 2rem 0 0 0;
+      }
+
+      @include large {
+        font-size: 2.8rem;
+        margin: 4rem 0 2rem 0;
+      }
+    }
+
+    .ff-select-type {
+      position: relative;
+      display: block;
+      font-size: 1.6rem;
+      font-family: variable(secondary-font);
+      color: clr(primary);
+      line-height: 2.24rem;
+      padding: 0.6em 4.5rem 0.5em 1.5rem;
+      width: 100%;
+      height: 5rem;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+      border: 1px solid #c4c4c4;
+      border-radius: variable(button-border-radius);
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: #fff;
+      background-image:
+        linear-gradient(45deg, transparent 5px, clr(secondary) 6.5px, clr(secondary) 7px, transparent 8px),
+        linear-gradient(135deg, transparent 11px, clr(secondary) 12px, clr(secondary) 12.5px, transparent 14px);
+      background-position:
+        calc(100% - 20px) 50%,
+        calc(100% - 20px) 50%;
+      background-size:
+        18px 9px,
+        18px 9px;
+      background-repeat: no-repeat;
+
+      @include large {
+        font-size: 1.8rem;
+        line-height: 2.52rem;
+        padding: 0.6em 4.5rem 0.5em 2rem;
+      }
+    }
+
+    .ff-select-type:focus {
+      background-image:
+        linear-gradient(135deg, transparent 5px, clr(secondary) 6.5px, clr(secondary) 7px, transparent 8px),
+        linear-gradient(45deg, transparent 11px, clr(secondary) 12px, clr(secondary) 12.5px, transparent 14px);
+      background-position:
+        calc(100% - 20px) 50%,
+        calc(100% - 20px) 50%;
+      background-size:
+        18px 9px,
+        18px 9px;
+      background-repeat: no-repeat;
+      outline: 0;
+    }
+
+    .ff-select-type::-ms-expand {
+      display: none;
+    }
+
+    .ff-input-type {
+      border-style: solid solid solid solid;
+      border-color: #c4c4c4;
+      border-width: 1px;
+      width: 100%;
+      color: clr(primary);
+      font-family: variable(secondary-font);
+      cursor: text;
+      font-size: 1.6rem;
+      line-height: 1.2;
+      padding: 1rem 1.5rem 1rem 1.5rem;
+
+      @include large {
+        font-size: 1.8rem;
+        line-height: 1.2;
+        padding: 1.3rem 2rem 1.3rem 2rem;
+      }
+    }
+
+    .ff-input-type::-webkit-input-placeholder {
+      font-family: variable(secondary-font);
+      color: clr(primary);
+      font-size: 1.6rem;
+      line-height: 1.2;
+      opacity: 1;
+
+      @include large {
+        font-size: 1.8rem;
+      }
+    }
+    .ff-input-type::-moz-placeholder {
+      font-family: variable(secondary-font);
+      color: clr(primary);
+      font-size: 1.6rem;
+      line-height: 1.2;
+      opacity: 1;
+
+      @include large {
+        font-size: 1.8rem;
+      }
+    }
+    .ff-input-type:-ms-input-placeholder {
+      font-family: variable(secondary-font);
+      color: clr(primary);
+      font-size: 1.6rem;
+      line-height: 1.2;
+      opacity: 1;
+
+      @include large {
+        font-size: 1.8rem;
+      }
+    }
+    .ff-input-type:-moz-placeholder {
+      font-family: variable(secondary-font);
+      color: clr(primary);
+      font-size: 1.6rem;
+      line-height: 1.2;
+      opacity: 1;
+
+      @include large {
+        font-size: 1.8rem;
+      }
+    }
+
+    .ff-textarea {
+      height: 14rem;
+      width: 100%;
+      border-color: #c4c4c4;
+      border-radius: variable(button-border-radius);
+      color: clr(primary);
+      font-family: variable(secondary-font);
+      padding: 1rem 1.5rem;
+      font-size: 1.6rem;
+      display: block;
+
+      @include medium {
+        height: 20rem;
+      }
+
+      @include large {
+        font-size: 1.8rem;
+      }
+    }
+
+    .ff-textarea::-webkit-input-placeholder {
+      color: transparent;
+    }
+    .ff-textarea::-moz-placeholder {
+      color: transparent;
+    }
+    .ff-textarea:-ms-input-placeholder {
+      color: transparent;
+    }
+    .ff-textarea:-moz-placeholder {
+      color: transparent;
+    }
+
+    .ff-input-type:focus,
+    .ff-textarea:focus,
+    .ff-select-type:focus {
+      outline: none;
+    }
+
+    .ff-input-type.ff-type-text.ff-input-type-invalid {
+      border-style: solid solid solid solid !important;
+      border-color: clr(secondary) !important;
+      border-width: 1px !important;
+      border-radius: 0;
+    }
+
+    .ff-textarea.ff-input-type-invalid {
+      border: 1px solid clr(secondary) !important;
+      border-radius: variable(button-border-radius) !important;
+    }
+
+    .ff-select-type.ff-input-type-invalid {
+      border: 1px solid clr(secondary) !important;
+      border-radius: variable(button-border-radius) !important;
+    }
+
+    .ff-invalid-msg {
+      color: clr(secondary);
+      font-size: 1.3rem;
+      line-height: 1.1;
+      font-family: variable(secondary-font);
+      position: relative;
+      padding: 0.5rem 0 0 0;
+    }
+
+    #error { // .ff-invalid-msg for captha
+      font-size: 1.3rem;
+      line-height: 1.1;
+      margin-top: -1.3rem;
+      font-family: variable(secondary-font);
+      color: clr(secondary);
+
+      font {
+        color: clr(secondary);
+      }
+    }
+
+    .ff-fileupload-drop-area {
+      background-color: white;
+      text-align: left;
+      width: 100%;
+      padding: 1.15rem;
+      margin: 0;
+      display: inline-block;
+      border-color: #c4c4c4;
+      border-radius: variable(button-border-radius);
+      font-family: variable(secondary-font);
+      position: relative;
+      &::before {
+        content: '';
+        position: absolute;
+        background: linear-gradient(#e62b1e, #e62b1e),
+        linear-gradient(#e62b1e, #e62b1e);
+        background-position: center;
+        background-size: 100% 2px, 2px 100%;
+        background-repeat: no-repeat;
+        width: 18px;
+        height: 18px;
+        top: calc(50% - 9px);
+        right: 20px;
+        cursor: pointer;
+      }
+      .ff-fileupload-select {
+        color: clr(primary);
+        font-size: 1.6rem;
+
+        @include large {
+          font-size: 1.8rem;
+        }
+      }
+      .ff-fileupload-select:hover {
+        color: clr(secondary) !important;
+      }
+      .ff-type-file {
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        cursor: pointer;
+      }
+    }
+
+    .g-recaptcha div iframe {
+      position: absolute; // fix cut of captcha on mobile
+    }
+
+    .ff-general-text-label { // footnotes
+      font-size: 1.2rem;
+      color: clr(primary);
+      font-family: variable(secondary-font);
+
+      @include large {
+        font-size: 1.4rem;
+      }
+    }
+
+    .group-6 .ff-item-row:nth-child(n+3),
+    .group-7 .ff-item-row
+    { // assume that ONLY .ff-general-text-label CAN BE placed there!
+      margin-bottom: 1rem;
+    }
+
+    .group-7 { // should be as regular .ff-item-row
+      margin-bottom: 2rem;
+    }
+
+    .ff-footer-group,
+    .ff-submit-btn {
+      padding: 0;
+      margin: 0;
+    }
+
+    .footnoteDiv {
+      margin: 0 0 3rem 0;
+
+      .ff-footnote-label {
+        font-size: 1.2rem;
+        color: clr(primary);
+        font-family: variable(secondary-font);
+
+        @include large {
+          font-size: 1.4rem;
+        }
+      }
+    }
+
+    .btnDiv {
+      text-align: center;
     }
 
     .btnDiv input {
-      width: 23% !important;
+      color: clr(text-inverse);
+      background-color: clr(secondary);
+      font-family: variable(primary-font);
+      font-size: 1.4rem;
+      text-decoration: none;
+      line-height: 5rem;
+      padding: 0 2.7rem;
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      border-radius: variable(button-border-radius);
+      width: 100%;
+      margin: 0;
+
+      &:hover {
+        color: clr(secondary);
+        background-color: transparent !important;
+      }
+
+      @include medium {
+        padding: 0 3.7rem;
+        width: auto;
+      }
+
+      @include large {
+        line-height: 6rem;
+        padding: 0 5.7rem;
+        font-size: 1.6rem;
+      }
     }
 
-    .group-1 .ff-item-row:nth-child(3) .ff-col-2 input {
-      width: 89%;
+    // Fisrt name and Last Name customization
+    @include medium {
+      .group-1 .ff-item-row:nth-child(2) {
+        display: block;
+        float: left;
+        width: calc(50% - 2rem);
+      }
+
+      .group-1 .ff-item-row:nth-child(3) {
+        display: block;
+        float: right;
+        width: 50%;
+      }
     }
 
-    #dvFastForms .btnDiv input:hover {
-      background-color: white;
-      border: 1px solid #c4c4c4;
-      color: clr(secondary);
+    // hide particular blocks
+    .group-1 .ff-item-row:nth-child(1), // About you
+    .group-5 .ff-item-row:nth-child(1), // Empty row
+    .group-5 .ff-item-row:nth-child(2) .ff-label-col, // Upload a photo or file
+    .group-6 .ff-item-row:nth-child(1), // Empty row
+    .group-7 .ff-item-row:nth-child(1) // Empty row
+    {
+      display: none;
+    }
+
+    /*
+     #lblCaseWeb_Reason__c,
+    .ff-fileupload-label,
+    #lblCaseAccountIdFirstName,
+    #lblCaseAccountIdLastName,
+    #lblCaseAccountIdPersonEmail,
+    #lblCaseSubject,
+    #sectionLabel1,
+    #sectionLabel5,
+    #sectionLabel7 {
+      display: none;
+    }
+    */
+
+
+  }
+}
+
+// confirmation popup
+.node--faq_contact[data-theme] {
+
+  .ff-ui-dialog {
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 2rem;
+    border: 0.2rem solid #fff !important;
+    padding: 0;
+    margin: 0;
+
+    @include small {
+      width: $small - 40px !important;
+    }
+
+    @include medium {
+      width: $medium - 40px !important;
+    }
+
+    .ff-ui-dialog-content {
+      color: clr(secondary) !important;
+      font-family: variable(primary-font);
+      display: block;
+      text-align: center;
+      margin: 3rem 0 3rem 0;
+      padding: 0 2rem;
+      font-size: 2rem;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.1;
+      letter-spacing: 1.12px;
+      overflow: visible;
+
+      @include medium {
+        font-size: 2.6rem;
+        margin: 6rem 0 6rem 0;
+        padding: 0 20%;
+      }
+
+      @include large {
+        font-size: 2.8rem;
+        margin: 6rem 0 6rem 0;
+        padding: 0 15%;
+      }
+    }
+
+    .ff-ui-dialog-buttonpane {
+      padding: 0;
+      margin: 0;
+
+      .ff-ui-dialog-buttonset {
+        float: none;
+        text-align: center;
+
+        .ff-btn-submit {
+          color: clr(text-inverse) !important;
+          background-color: clr(secondary) !important;
+          font-family: variable(primary-font) !important;
+          font-size: 1.4rem !important;
+          text-decoration: none !important;
+          line-height: 5rem !important;
+          padding: 0 2.7rem !important;
+          position: relative !important;
+          overflow: hidden !important;
+          display: inline-block !important;
+          border-radius: variable(button-border-radius) !important;
+          width: auto !important;
+          min-width: 20rem;
+          margin: 0 0 3rem 0 !important;
+
+          &:hover {
+            color: clr(secondary) !important;
+            background-color: transparent !important;
+          }
+
+          @include medium {
+            padding: 0 3.7rem !important;
+            margin: 0 0 4rem 0 !important;
+          }
+
+          @include large {
+            line-height: 6rem !important;
+            padding: 0 5.7rem !important;
+            font-size: 1.6rem !important;
+            margin: 0 0 6rem 0 !important;
+          }
+        }
+      }
     }
   }
 }

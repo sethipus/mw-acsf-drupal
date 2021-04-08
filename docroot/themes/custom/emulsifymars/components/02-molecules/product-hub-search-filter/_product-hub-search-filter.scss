@@ -1,5 +1,5 @@
 .search-filter-container {
-  padding: 20px;
+  padding: 2rem;
   background-color: clr(subcolor-2);
   position: relative;
 
@@ -19,15 +19,14 @@
   .search-input-wrapper {
     &.suggested {
       .search-input {
-        border-bottom-right-radius: unset;
-        border-bottom-left-radius: unset;
+        border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
         border-bottom: none;
 
         &__field {
           width: calc(100% - 20px);
           margin: 0 20px;
 
-          @include xl {
+          @include desktop {
             width: calc(100% - 20px);
           }
         }
@@ -46,29 +45,26 @@
   position: fixed;
   top: 30px;
   left: 0;
-  height: calc(100vh - 30px);
+  bottom: 0;
   width: 100%;
   border-radius: 20px 20px 0 0;
   display: none;
   z-index: 5;
 
-  @include xl {
+  @include desktop {
     display: block;
     position: relative;
     top: auto;
     left: auto;
     height: auto;
     width: auto;
+    margin-bottom: 1rem;
   }
 
   &--opened {
     display: block;
     z-index: 100;
     background-color: clr(subcolor-3);
-
-    @include xl {
-      background-color: clr(subcolor-2);
-    }
 
     .search-filter-block__button--apply {
       display: block;
@@ -102,6 +98,7 @@
       margin: 0;
       padding: 0;
       line-height: 20px;
+      background: none;
     }
 
     &--hidden {
@@ -118,15 +115,18 @@
 .filter-block .search-filter-block__button--apply {
   display: none;
 
-  @include xl {
+  @include desktop {
     display: block;
   }
 }
 
 .search-filter-header {
   height: 60px;
+  position: absolute;
+  top: 0;
+  width: 100%;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 
@@ -167,19 +167,21 @@
 
 .search-filter-content {
   padding: 0 20px;
-  height: calc(100vh - 170px);
-  overflow-x: hidden;
-  overflow-y: scroll;
+  position: absolute;
+  top: 60px;
+  bottom: 80px;
+  width: 100%;
+  overflow: auto;
 
-  @include xl {
-    height: auto;
-    width: 920px;
+  @include desktop {
+    max-width: 920px;
     margin: auto;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     overflow: visible;
+    position: static;
   }
 
   &::-webkit-scrollbar {
@@ -188,13 +190,16 @@
 }
 
 .search-filter-footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   height: 80px;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 }
@@ -211,9 +216,9 @@
   cursor: pointer;
   position: relative;
   max-width: 896px;
-  margin: 0 auto;
+  margin: 0 auto 5rem;
 
-  @include xl {
+  @include desktop {
     display: none;
   }
 
@@ -231,10 +236,11 @@
 }
 
 .search-filter-info {
-  margin: 60px auto 20px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   max-width: 688px;
+  border-bottom: 1px solid clr(subcolor-4);
 
   &__applied-label {
     color: clr(primary);
@@ -249,8 +255,12 @@
   &__applied-text {
     font: 16px/1.8em variable(secondary-font);
     color: clr(primary);
-    margin-top: 20px;
-    padding-right: 50px;
+    margin: 3rem auto 2rem;
+    padding: 0 5rem 0 0;
+
+    @include xl {
+      margin-bottom: 3rem;
+    }
   }
 
   &__applied-name {
@@ -312,7 +322,26 @@
 }
 
 .search-results-filter {
+  margin-bottom: 4rem;
+
+  @include medium {
+    margin-bottom: 6rem;
+  }
+
+  @include large {
+    margin-bottom: 8rem;
+  }
+
   .search-filter-container {
     background-color: clr(subcolor-3);
+    padding: 0 2rem;
+  }
+}
+
+body.locked-scroll {
+  position: fixed;
+
+  @include desktop {
+    position: static;
   }
 }

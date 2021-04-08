@@ -1,6 +1,7 @@
 .search-input {
   position: relative;
   display: inline-block;
+  width: 100%;
 
   .form-item {
     margin-bottom: 0;
@@ -28,6 +29,10 @@
     border-radius: variable(button-border-radius);
     padding: 0 10px 0 50px;
 
+    @include xs {
+      width: 100%;
+    }
+
     @include medium {
       width: 688px;
     }
@@ -45,12 +50,10 @@
 
     &::placeholder {
       font-size: 1.6rem;
-      line-height: 2.24rem;
       color: clr(primary);
 
       @include xl {
         font-size: 1.8rem;
-        line-height: 2.52rem;
       }
     }
   }
@@ -69,6 +72,15 @@
   color: clr(primary);
   z-index: 10;
   font-family: variable(secondary-font);
+  width: 100%;
+
+  @include medium {
+    width: 68.7rem;
+  }
+
+  @include xl {
+    width: 89.6rem;
+  }
 
   .mars-search-autocomplete-suggestions-wrapper {
     display: none;
@@ -76,17 +88,7 @@
 
   &.suggested {
     .search-input__field {
-      border-bottom-left-radius: unset;
-      border-bottom-right-radius: unset;
-      width: 335px;
-
-      @include medium {
-        width: 688px;
-      }
-
-      @include xl {
-        width: 896px;
-      }
+      border-radius: variable(card-border-radius) variable(card-border-radius) 0 0;
     }
 
     .autocomplete-border {
@@ -115,14 +117,12 @@
       }
 
       .show-all, .no-results {
-        margin: 0 20px;
 
         div {
           margin: 10px 0;
         }
         a {
           color: clr(primary);
-          text-decoration: none;
         }
       }
     }

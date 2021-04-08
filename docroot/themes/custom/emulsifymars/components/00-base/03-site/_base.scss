@@ -7,7 +7,7 @@ body {
   background-color: clr(background);
   color: clr(text);
 
-  p > a {
+  p a {
     color: clr(primary);
     text-decoration: none;
     border-bottom: 1px solid clr(secondary);
@@ -36,6 +36,14 @@ body {
   @include body-copy;
 }
 
+// Add a class to remove the overflow hidden from the body when resizing
+.no-scroll{
+  overflow: hidden;
+  @include large {
+    overflow: visible;
+  }
+}
+
 *,
 *::after,
 *::before {
@@ -59,6 +67,18 @@ body {
 
 .visually-hidden:focus-within {
   overflow: hidden;
+}
+
+.text-color-A {
+  color: clr(primary) !important;
+}
+
+.text-color-E {
+  color: clr(subcolor-3) !important;
+}
+
+.text-color-W {
+  color: $white !important;
 }
 
 .bg-color-C {
@@ -95,4 +115,8 @@ body {
       clr(card-background) 10%,
       clr(subcolor-3)
   ) !important;
+}
+
+#onetrust-banner-sdk, #onetrust-pc-sdk, #ot-sdk-cookie-policy, #ot-sync-ntfy {
+  font-size: 16px !important;
 }

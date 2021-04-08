@@ -1,34 +1,73 @@
 .article-full-width {
   padding: 2rem 0 2rem 0;
   overflow-x: hidden;
-  max-width: 1128px;
-  margin: 0 auto;
 
-  &__heading {
-    &--main-heading {
-      text-align: left;
-      color: clr(primary);
-      text-transform: uppercase;
-      font-size: 2.8rem;
-      line-height: 1.1;
-      font-weight: 500;
-      font-family: variable(heading-font);
-      margin: 0 0 30px 8%;
+  &--parallax {
+    max-width: 100%;
 
-      @include small {
-        font-size: 2rem;
-      }
+    &__media {
+      overflow: hidden;
 
-      @include medium {
-        font-size: 1.4rem;
-      }
-
-      @include large {
-        font-size: 2.6rem;
+      img {
+        width: 100%;
+        object-fit: cover;
       }
     }
   }
 
+  &__heading {
+    &:empty {
+      display: none;
+    }
+
+    &--main-heading, &--full-width-heading-left {
+      text-align: left;
+      color: clr(primary);
+      font-size: 2.8rem;
+      line-height: 1.1;
+      font-weight: 500;
+      font-family: variable(heading-font);
+      margin: 0 0 30px;
+      padding: 0 20px;
+
+
+      @include xs {
+        font-size: 2rem;
+      }
+
+      @include medium {
+        font-size: 2.6rem;
+        padding:  0 40px;
+      }
+
+      @include xl {
+        font-size: 2.8rem;
+        max-width: 780px;
+        margin: 0 503px 40px 272px;
+        padding: 0;
+      }
+    }
+    
+    &--full-width-heading-center {
+      @extend .article-full-width__heading--main-heading;
+
+      text-align: center;
+
+      @include xl {
+        margin: 0 auto 40px;
+      }
+    }
+
+    &--full-width-heading-right {
+      @extend .article-full-width__heading--main-heading;
+
+      text-align: right;
+
+      @include xl {
+        margin: 0 272px 40px 503px;
+      }
+    }
+  }
 
   &__content {
     color: clr(primary);
@@ -36,14 +75,15 @@
     font-size: 1.6rem;
     font-weight: normal;
     line-height: 1.82rem;
-    padding: 2rem 3rem 0 2rem;
+    max-width: 1128px;
+    margin: 3rem 2rem 0;
 
     @include medium {
-      padding: 2rem 4rem;
+      margin: 2rem 4rem 0;
     }
 
-    @include xl {
-      padding: 2rem 0;
+    @include larger {
+      margin: 3rem auto 0;
     }
 
     .paragraph {
@@ -66,6 +106,8 @@
     height: 25rem;
     overflow: hidden;
     position: relative;
+    max-width: 1128px;
+    margin: 0 auto;
 
     @include medium {
       height: 43.4rem;
@@ -77,24 +119,18 @@
 
     img {
       width: 100%;
+      height: 100%;
       object-fit: cover;
     }
 
     .inline-video {
       max-height: 635px;
 
-      &__control[data-state="play"] {
+      &__control[data-state='pause'] {
         width: 6.6rem;
         height: 7rem;
-        top: calc(50% - 7rem / 2);;
-        left: calc(50% - 6.6rem / 2);;
-      }
-
-      &__control[data-state="pause"] {
-        width: 6.6rem;
-        height: 7rem;
-        top: calc(50% - 7rem / 2);;
-        left: calc(50% - 6.6rem / 2);;
+        top: calc(50% - 7rem / 2);
+        left: calc(50% - 6.6rem / 2);
       }
     }
   }

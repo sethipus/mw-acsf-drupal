@@ -18,13 +18,14 @@
         "drupal/acquia_connector": "^1.22",
         "drupal/acquia_contenthub": "^2",
         "drupal/acquia_lift": "^4.3",
-        "drupal/acquia_purge": "^1.0-beta3",
+        "drupal/acquia_purge": "^1.1",
         "drupal/acsf": "^2.47.0",
         "drupal/admin_toolbar": "^2.0",
         "drupal/adminimal_admin_toolbar": "^1.10",
         "drupal/advagg": "^4.1",
         "drupal/bootstrap_barrio": "^4.28",
         "drupal/ckeditor_config": "^3.0",
+        "drupal/cloudflare": "^1.0@beta",
         "drupal/cog": "^1.0.0",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.0.0",
@@ -37,11 +38,13 @@
         "drupal/environment_indicator": "^3.7",
         "drupal/externalauth": "^1.3",
         "drupal/facets": "^1.5",
+        "drupal/fast_404": "^2.0@alpha",
         "drupal/field_group": "^3.1",
         "drupal/filelog": "^2.0",
         "drupal/gdpr_onetrust": "^1.0",
         "drupal/google_analytics": "^3.1",
         "drupal/gtm": "^1.6",
+        "drupal/http_cache_control": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/jquery_colorpicker": "^1.4",
         "drupal/layout_builder_lock": "^1.0@RC",
@@ -55,9 +58,10 @@
         "drupal/migrate_tools": "^5.0",
         "drupal/migration_tools": "^2.2",
         "drupal/poll": "^1.4",
-        "drupal/printable": "^1.1",
+        "drupal/printable": "^2.0",
         "drupal/publication_date": "^2.0@beta",
         "drupal/qa_accounts": "^1.0.0-alpha1",
+        "drupal/rabbit_hole": "^1.0@beta",
         "drupal/redirect": "^1.6",
         "drupal/remote_stream_wrapper": "^1.3",
         "drupal/remote_stream_wrapper_widget": "^1.2",
@@ -72,7 +76,7 @@
         "drupal/social_media": "^1.8",
         "drupal/tmgmt_extension_suit": "~3.4",
         "drupal/tmgmt_smartling": "^4.12",
-        "emulsify-ds/emulsify-drupal": "^1.0@beta",
+        "emulsify-ds/emulsify-drupal": "2.2.0",
         "eyecon/jquery_colorpicker": "master",
         "mars/mars_seo": "*",
         "mglaman/drupal-check": "1.0.14",
@@ -150,7 +154,7 @@
         },
         "patches": {
             "drupal/acquia_contenthub": {
-                "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2020-05-27/acquia_contenthub-8.x-2.13-3143039-3.patch"
+                "3143039 - file_save_data with FILE_EXISTS_REPLACE results in WSOD": "https://www.drupal.org/files/issues/2021-02-11/acquia_contenthub-8.x-2.x-3143039-5.patch"
             },
             "drupal/config_ignore": {
                 "Correct drush filtering": "https://www.drupal.org/files/issues/2020-08-18/support-for-export-2857247-54.patch",
@@ -189,9 +193,6 @@
             },
             "drupal/samlauth": {
                 "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
-            },
-            "drupal/printable": {
-                "Fix file url for lighthouse images.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
             }
         }
     },
@@ -250,6 +251,12 @@
             "rm -rf vendor composer.lock docroot/core docroot/modules/contrib docroot/profiles/contrib docroot/themes/contrib",
             "@composer clearcache --ansi",
             "@composer install --ansi"
+        ],
+        "post-install-cmd": [
+            "rm docroot/robots.txt"
+        ],
+        "post-update-cmd": [
+            "rm docroot/robots.txt"
         ]
     }
 }

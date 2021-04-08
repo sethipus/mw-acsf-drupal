@@ -22,6 +22,8 @@
 <div {{ bem(search_container_base_class, [], '', [grid_base_class]) }}
      data-layer-search-term="{{ data_layer.search_term }}"
      data-layer-search-results="{{ data_layer.search_results }}"
+     data-layer-page-id="{{ data_layer.page_id }}"
+     data-layer-page-revision-id="{{ data_layer.page_revision_id }}"
      data-layer-grid-type="search_page"
      data-theme="{{ theme_styles }}"
      id="search-result-grid"
@@ -34,5 +36,6 @@
   </div>
   {% include "@organisms/grid/ajax-card-grid.twig" with {
     theme_styles: theme_styles,
+    ajax_card_grid_heading_level: 3
   } %}
 </div>

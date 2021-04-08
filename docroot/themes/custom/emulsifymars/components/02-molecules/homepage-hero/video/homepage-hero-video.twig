@@ -1,4 +1,7 @@
 {% set homepage_hero__base_class = homepage_hero__base_class|default('homepage-hero-video') %}
+{% if dark_overlay %}
+  {% set homepage_hero__modifiers = ['dark-overlay'] %}
+{% endif %}
 
 <section {{ bem(homepage_hero__base_class) }} data-theme="{{ theme_styles }}"
   {% if title_label %}
@@ -6,14 +9,7 @@
   {% endif %}
 >
 
-  <div {{ bem('wrapper', [], homepage_hero__base_class) }}>
-    <div {{ bem('container', ['video'], homepage_hero__base_class) }}>
-      {% include "@atoms/video/fullscreen-video/video.twig" with {
-        video__src__url: video__src__url,
-        video__control: true,
-      } %}
-    </div>
-
+  <div {{ bem('wrapper', [], homepage_hero__base_class, homepage_hero__modifiers) }}>
     <div {{ bem('container', ['title'], homepage_hero__base_class) }}>
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {
         eyebrow_text: eyebrow
@@ -29,6 +25,12 @@
       {% include "@atoms/links/defaultLink/defaultLink.twig" with {
         default_link_content: cta_title,
         default_link_attributes: cta_link_attributes
+      } %}
+    </div>
+    <div {{ bem('container', ['video'], homepage_hero__base_class) }}>
+      {% include "@atoms/video/fullscreen-video/video.twig" with {
+        video__src__url: video__src__url,
+        video__control: true,
       } %}
     </div>
   </div>

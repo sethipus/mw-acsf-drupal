@@ -5,16 +5,23 @@ dependencies:
   config:
     - field.storage.node.field_qa_item_answer
     - field.storage.node.field_brand_initiatives
-    - field.storage.node.field_product_brand
     - field.storage.node.field_product_category
+    - field.storage.node.field_recipe_culture
     - field.storage.node.field_faq_filter_topic
     - field.storage.node.field_product_flavor
+    - field.storage.node.field_recipe_food_type
     - field.storage.node.field_product_format
+    - field.storage.node.field_recipe_main_ingredient
+    - field.storage.node.field_recipe_meal_type
+    - field.storage.node.field_recipe_method
     - field.storage.node.field_product_occasions
+    - field.storage.node.field_recipe_prep_time
     - field.storage.node.field_product_name
+    - field.storage.node.field_product_used
     - field.storage.node.field_product_diet_allergens
     - field.storage.node.field_product_variants
     - field.storage.node.field_qa_item_question
+    - field.storage.node.field_recipe_collection
     - field.storage.node.field_product_trade_description
     - search_api.server.acquia_search_server
   module:
@@ -30,16 +37,10 @@ name: 'Acquia Search Solr Index'
 description: ''
 read_only: false
 field_settings:
-  brand:
-    label: 'Brand » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_product_brand:entity:name'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_product_brand
-      module:
-        - taxonomy
+  bundle_weight:
+    label: 'Content type weight'
+    property_path: bundle_weight
+    type: integer
   created:
     label: 'Authored on'
     datasource_id: 'entity:node'
@@ -90,7 +91,7 @@ field_settings:
     label: 'Brand Initiatives » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_brand_initiatives:entity:name'
-    type: string
+    type: solr_text_ngram
     dependencies:
       config:
         - field.storage.node.field_brand_initiatives
@@ -108,10 +109,28 @@ field_settings:
     label: 'Category » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_category:entity:name'
-    type: text
+    type: solr_text_ngram
     dependencies:
       config:
         - field.storage.node.field_product_category
+      module:
+        - taxonomy
+  mars_culture:
+    label: Culture
+    datasource_id: 'entity:node'
+    property_path: field_recipe_culture
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_culture
+  mars_culture_name:
+    label: 'Culture » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_culture:entity:name'
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_culture
       module:
         - taxonomy
   mars_diet_allergens:
@@ -129,7 +148,7 @@ field_settings:
     label: 'Product Variants » Content » Diet & Allergens » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_variants:entity:field_product_diet_allergens:entity:name'
-    type: text
+    type: solr_text_ngram
     dependencies:
       config:
         - field.storage.node.field_product_diet_allergens
@@ -149,10 +168,28 @@ field_settings:
     label: 'Flavor » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_flavor:entity:name'
-    type: text
+    type: solr_text_ngram
     dependencies:
       config:
         - field.storage.node.field_product_flavor
+      module:
+        - taxonomy
+  mars_food_type:
+    label: 'Food Type'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_food_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_food_type
+  mars_food_type_name:
+    label: 'Food Type » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_food_type:entity:name'
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_food_type
       module:
         - taxonomy
   mars_format:
@@ -167,10 +204,64 @@ field_settings:
     label: 'Format » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_format:entity:name'
-    type: text
+    type: solr_text_ngram
     dependencies:
       config:
         - field.storage.node.field_product_format
+      module:
+        - taxonomy
+  mars_main_ingredient:
+    label: 'Main Ingredient'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_main_ingredient
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_main_ingredient
+  mars_main_ingredient_name:
+    label: 'Main Ingredient » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_main_ingredient:entity:name'
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_main_ingredient
+      module:
+        - taxonomy
+  mars_meal_type:
+    label: 'Meal Type'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_meal_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_meal_type
+  mars_meal_type_name:
+    label: 'Meal Type » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_meal_type:entity:name'
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_meal_type
+      module:
+        - taxonomy
+  mars_method:
+    label: Method
+    datasource_id: 'entity:node'
+    property_path: field_recipe_method
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_method
+  mars_method_name:
+    label: 'Method » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_method:entity:name'
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_method
       module:
         - taxonomy
   mars_occasions:
@@ -185,10 +276,64 @@ field_settings:
     label: 'Occasions » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_occasions:entity:name'
-    type: text
+    type: solr_text_ngram
     dependencies:
       config:
         - field.storage.node.field_product_occasions
+      module:
+        - taxonomy
+  mars_prep_time:
+    label: 'Prep Time'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_prep_time
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_prep_time
+  mars_prep_time_name:
+    label: 'Prep Time » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_prep_time:entity:name'
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_prep_time
+      module:
+        - taxonomy
+  mars_product_used:
+    label: 'Product used'
+    datasource_id: 'entity:node'
+    property_path: field_product_used
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_product_used
+  mars_product_used_name:
+    label: 'Product used » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_product_used:entity:name'
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_product_used
+      module:
+        - taxonomy
+  mars_recipe_collection:
+    label: 'Recipe Collection'
+    datasource_id: 'entity:node'
+    property_path: field_recipe_collection
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_collection
+  mars_recipe_collection_name:
+    label: 'Recipe Collection » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_recipe_collection:entity:name'
+    type: solr_text_ngram
+    dependencies:
+      config:
+        - field.storage.node.field_recipe_collection
       module:
         - taxonomy
   mars_trade_item_description:
@@ -203,7 +348,7 @@ field_settings:
     label: 'Trade item description » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_product_trade_description:entity:name'
-    type: text
+    type: solr_text_ngram
     dependencies:
       config:
         - field.storage.node.field_product_trade_description
@@ -261,50 +406,46 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  content_type_weight:
+    bundle_weights:
+      'entity:node':
+        bundle_weights:
+          article: '2'
+          campaign: '3'
+          faq: '5'
+          landing_page: '4'
+          product: '0'
+          product_multipack: '0'
+          recipe: '1'
+    content_type_weight: {  }
   entity_status: {  }
   faq_item_queue_weight: {  }
-  highlight:
+  language_with_fallback: {  }
+  mars_highlight:
     highlight: always
-    highlight_partial: false
-    excerpt: true
-    excerpt_length: null
+    highlight_partial: 0
+    excerpt: 0
+    excerpt_length: ''
     exclude_fields: {  }
     prefix: '<strong class="search-highlight">'
     suffix: '</strong>'
     weights:
       postprocess_query: 0
-  ignore_character:
-    all_fields: true
-    fields:
-      - brand
-      - faq_filter_topic
-      - faq_item_queue_weight
-      - field_qa_item_answer
-      - field_qa_item_question
-      - mars_brand_initiatives_name
-      - mars_category_name
-      - mars_diet_allergens_name
-      - mars_flavor_name
-      - mars_format_name
-      - mars_occasions_name
-      - mars_trade_item_description_name
-      - product_name
-      - title
-      - type
-    ignorable: '[''¿¡!?,.:;]'
-    ignorable_classes:
-      - Pc
-      - Pd
-      - Pe
-      - Pf
-      - Pi
-      - Po
-      - Ps
-    weights:
-      preprocess_index: -10
-      preprocess_query: -10
-  language_with_fallback: {  }
+  product_multipack_reference: {  }
   rendered_item: {  }
+  type_boost:
+    boosts:
+      'entity:node':
+        datasource_boost: !!float 1
+        bundle_boosts:
+          article: !!float 3
+          campaign: !!float 2
+          landing_page: !!float 1
+          product: !!float 8
+          product_multipack: !!float 8
+          recipe: !!float 5
+    weights:
+      preprocess_index: 0
 tracker_settings:
   default:
     indexing_order: fifo

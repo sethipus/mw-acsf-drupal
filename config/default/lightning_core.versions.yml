@@ -5,6 +5,7 @@ acquia_contenthub_publisher: 2.16.0
 acquia_contenthub_subscriber: 2.16.0
 acquia_lift: 4.3.0
 acquia_lift_publisher: 4.3.0
+acquia_purge: 1.1.0
 acsf: 2.63.0
 acsf_duplication: 2.63.0
 acsf_theme: 2.63.0
@@ -20,6 +21,8 @@ block_content: 8.8.1
 breakpoint: 8.8.1
 ckeditor: 8.8.1
 ckeditor_config: 3.0.0
+cloudflare: 1.0.0-beta2
+cloudflarepurger: 1.0.0-beta2
 color: 8.8.1
 components: 1.1.0
 config: 8.8.1
@@ -51,6 +54,7 @@ entity_reference: 8.8.1
 entityqueue: 1.1.0
 environment_indicator: 3.7.0
 facets: 1.5.0
+fast404: 2.0.0-alpha5
 field: 8.8.1
 field_ui: 8.8.1
 file: 8.8.1
@@ -60,6 +64,7 @@ google_tag: 1.4.0
 gtm: 1.6.0
 help: 8.8.1
 history: 8.8.1
+http_cache_control: 2.0.0
 image: 8.8.1
 image_widget_crop: 2.2.0
 inline_entity_form: 1.0.0-rc2
@@ -143,12 +148,15 @@ poll: 1.4.0
 printable: 1.1.0
 printable_pdf: 1.1.0
 publication_date: 2.0.0-beta1
+purge: 3.0.0
 quickedit: 8.8.1
+rabbit_hole: 1.0.0-beta10
 rdf: 8.8.1
 redirect: 1.5.0
 redirect_404: 1.6.0
 remote_stream_wrapper: 1.4.0
 remote_stream_wrapper_widget: 1.2.0
+rh_node: 1.0.0-beta10
 robotstxt: 1.4.0
 schemata: 1.0.0-beta1
 schemata_json_schema: 1.0.0-beta1
@@ -162,6 +170,7 @@ simple_oauth_extras: 3.16.0
 simple_sitemap: 3.7.0
 slick: 2.0.0
 slick_entityreference: 2.0.0-rc1
+syslog: 8.9.13
 system: 8.8.1
 taxonomy: 8.8.1
 text: 8.8.1

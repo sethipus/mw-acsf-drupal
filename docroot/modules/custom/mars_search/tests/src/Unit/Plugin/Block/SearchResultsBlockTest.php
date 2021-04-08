@@ -11,6 +11,8 @@ use Drupal\mars_search\Processors\SearchHelperInterface;
 use Drupal\mars_search\SearchProcessFactoryInterface;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Plugin\Context\Context;
+use Drupal\node\Entity\Node;
 
 /**
  * @coversDefaultClass \Drupal\mars_search\Plugin\Block\SearchResultsBlock
@@ -166,6 +168,21 @@ class SearchResultsBlockTest extends UnitTestCase {
    * Test block build.
    */
   public function testBuild() {
+    // Mock node context.
+    $node = $this->getMockBuilder(Node::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $node
+      ->expects($this->once())
+      ->method('id');
+    $nodeContext = $this->getMockBuilder(Context::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $nodeContext->expects($this->once())
+      ->method('getContextValue')
+      ->willReturn($node);
+    $this->block->setContext('node', $nodeContext);
+
     $this->containerMock
       ->expects($this->any())
       ->method('get')
@@ -204,7 +221,7 @@ class SearchResultsBlockTest extends UnitTestCase {
       ->method('getGraphicDivider');
 
     $this->languageHelperMock
-      ->expects($this->once())
+      ->expects($this->exactly(2))
       ->method('translate')
       ->willReturn('Results for: ');
 

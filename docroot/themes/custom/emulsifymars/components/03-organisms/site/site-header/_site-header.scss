@@ -36,6 +36,12 @@
       bottom: 0;
       width: 100%;
       z-index: $menu-overlay-zindex;
+
+      @include large {
+        position: static;
+        overflow-y: visible;
+        z-index: inherit;
+      }
     }
   }
 
@@ -97,7 +103,7 @@
 
     &--secondary-mobile {
       padding: $space-sextuple $space-quadruple;
-      background: clr(secondary);
+      background: clr(bottom-nav);
       display: flex;
       flex-flow: row wrap;
 
