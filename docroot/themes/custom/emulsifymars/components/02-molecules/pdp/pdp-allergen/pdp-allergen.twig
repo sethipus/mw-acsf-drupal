@@ -15,11 +15,19 @@
       {% for allergens_item in pdp_allergen_data.allergens_list %}
         <div {{ bem('allergen-column', [], pdp_allergen_base_class) }}>
           <div {{ bem('allergen-icon-container', [], pdp_allergen_base_class) }}>
+            {% set images = {
+              1440: allergens_item.allergen_icon|resize(104, 104),
+              768: allergens_item.allergen_icon|resize(60, 60),
+              375: allergens_item.allergen_icon|resize(80, 80),
+            } %}
             {% include "@atoms/images/image/_image.twig" with {
               image_base_class: pdp_allergen_base_class,
               image_blockname: 'allergen-icon',
               image_src: allergens_item.allergen_icon,
               image_alt: allergens_item.allergen_label,
+              width: '104px',
+              height: '104px',
+              image_array: images,
             } %}
           </div>
           {% include "@atoms/text/text/07-span.twig" with {

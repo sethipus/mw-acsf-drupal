@@ -4,7 +4,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -71,7 +71,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
   /**
    * Media Helper service Mock.
    *
-   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\mars_media\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
    */
   private $mediaHelperMock;
 

@@ -34,9 +34,15 @@ validate:
     filters:
       - entityMainMediaId
       - mt
+      - resize
+      - resizeByWidth
+      - resizeByHeight
       - mediaParamsById
       - mainVariant
       - productCardMedia
+      - resizeByHeight
+      - resizeByWidth
+      - resize
       - bgColorClassMap
 tests:
   phpunit:
