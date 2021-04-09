@@ -143,6 +143,11 @@ class SearchOverlayForm extends FormBase {
       unset($options['query'][SearchHelperInterface::MARS_SEARCH_SEARCH_KEY][$search_id]);
     }
 
+    // Adding 's' query param to pass search string to GA dashboard.
+    if ($search_id === '1' && !empty($options['query']['search'][$search_id])) {
+      $options['query']['s'] = $options['query']['search'][$search_id];
+    }
+
     $url->setOptions($options);
     $form_state->setRedirectUrl($url);
   }
