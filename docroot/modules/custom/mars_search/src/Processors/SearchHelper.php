@@ -127,6 +127,9 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       $query->addConditionGroup($conditionsGroup);
     }
 
+    // Remove unnecessary hypens from the search query.
+    $options['keys'] = preg_replace('/^-/', '', $options['keys']);
+
     // Applying search keys.
     if (!empty($options['keys'])) {
       $query->keys($options['keys']);
