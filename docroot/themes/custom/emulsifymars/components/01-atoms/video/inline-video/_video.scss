@@ -1,7 +1,4 @@
 .inline-video {
-  $article-inline: ".article-inline";
-  $article-full-width: ".article-full-width";
-
   width: 100%;
   height: 100%;
   position: relative;
@@ -35,48 +32,6 @@
       height: 36px;
       fill: clr(secondary);
       margin: auto 30%;
-
-      #{$article-inline} &,
-      #{$article-full-width} & {
-        width: 2.34rem;
-        height: 2.79rem;
-        margin-left: 2.9rem;
-
-        @include medium {
-          width: 2.67rem;
-          height: 3.19rem;
-          margin-left: 3.3rem;
-        }
-
-        @include xl {
-          width: 3.12rem;
-          height: 3.72rem;
-          margin-left: 3.8rem;
-        }
-      }
-    }
-
-    #{$article-inline} &,
-    #{$article-full-width} & {
-      padding: 0;
-      width: 7.5rem;
-      height: 7.5rem;
-      top: calc(50% - 7.5rem / 2);
-      left: calc(50% - 7.5rem / 2);
-
-      @include medium {
-        width: 8.56rem;
-        height: 8.56rem;
-        top: calc(50% - 8.56rem / 2);
-        left: calc(50% - 8.56rem / 2);
-      }
-
-      @include xl {
-        width: 10rem;
-        height: 10rem;
-        top: calc(50% - 10rem / 2);
-        left: calc(50% - 10rem / 2);
-      }
     }
   }
 
