@@ -5,18 +5,20 @@
 
 <section {{ bem(pdp_nutrition_base_class) }} data-theme="{{ theme_styles }}">
   <div {{ bem('container', [], pdp_nutrition_base_class) }}>
-    <div {{ bem('heading', [], pdp_nutrition_base_class) }}>
-      <dl {{ bem('heading-list', [], pdp_nutrition_base_class) }}>
-        <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_size.label}}</dt>
-        <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_size.value}}</dd>
-      </dl>
-      {% if pdp_nutrition_data.serving_item.serving_per_container.value %}
-      <dl {{ bem('heading-list', [], pdp_nutrition_base_class) }}>
-        <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.label}}</dt>
-        <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.value}}</dd>
-      </dl>
-      {% endif %}
-    </div>
+    {% if (dual_label and not last_product) or not dual_label %}
+      <div {{ bem('heading', [], pdp_nutrition_base_class) }}>
+        <dl {{ bem('heading-list', [], pdp_nutrition_base_class) }}>
+          <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_size.label}}</dt>
+          <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_size.value}}</dd>
+        </dl>
+        {% if pdp_nutrition_data.serving_item.serving_per_container.value %}
+        <dl {{ bem('heading-list', [], pdp_nutrition_base_class) }}>
+          <dt {{ bem('heading-item', ['label'], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.label}}</dt>
+          <dd {{ bem('heading-item', [], pdp_nutrition_base_class) }}>{{pdp_nutrition_data.serving_item.serving_per_container.value}}</dd>
+        </dl>
+        {% endif %}
+      </div>
+    {% endif %}
     <div {{ bem('nutrition-row', [], pdp_nutrition_base_class) }}>
       <div {{ bem('nutrition-column', [], pdp_nutrition_base_class) }}>
         <div {{ bem('section-column', ['heading'], pdp_nutrition_base_class) }}>
@@ -226,11 +228,13 @@
       </div>
     </div>
   </div>
-  <div {{ bem('additional-info', [], pdp_nutrition_base_class) }}>
-  {% include "@atoms/text/text/07-span.twig" with {
-    span_content: pdp_common_nutrition_data.refer_text,
-    span_base_class: pdp_nutrition_value_base_class,
-    span_blockname: pdp_nutrition_base_class,
-  } %}
-  </div>
+  {% if (dual_label and last_product) or not dual_label %}
+    <div {{ bem('additional-info', [], pdp_nutrition_base_class) }}>
+    {% include "@atoms/text/text/07-span.twig" with {
+      span_content: pdp_common_nutrition_data.refer_text,
+      span_base_class: pdp_nutrition_value_base_class,
+      span_blockname: pdp_nutrition_base_class,
+    } %}
+    </div>
+  {% endif %}
 </section>

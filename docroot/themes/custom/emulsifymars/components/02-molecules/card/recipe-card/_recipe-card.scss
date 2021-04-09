@@ -63,6 +63,8 @@
     -webkit-box-orient: vertical;
     min-height: 9rem;
     margin-top: 0;
+    margin-bottom: 0;
+    padding: 3rem 3rem 1rem 3rem;
   }
 
   &-heading__link {
@@ -71,10 +73,8 @@
     text-decoration: none;
     font-size: 2.2rem;
     line-height: 2.42rem;
-    min-height: 9rem;
-    min-width: 31.8rem;
+    min-height: 6rem;
     display: block;
-    padding: 3rem 3rem 0 3rem;
     font-weight: bold;
     overflow: hidden;
   }
