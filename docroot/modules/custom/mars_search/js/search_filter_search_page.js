@@ -219,7 +219,9 @@
             var query = currentQuery();
             query['type'] = { '1': filter };
             // Adding 's' query param to pass search string to GA dashboard.
-            query['s'] = query['search']['1'];
+            if (query.hasOwnProperty('search') && query.search.hasOwnProperty('1')) {
+              query['s'] = query['search']['1'];
+            }
             pushQuery(query);
             query.page_id = pageId;
             query.page_revision_id = pageRevisionId;
