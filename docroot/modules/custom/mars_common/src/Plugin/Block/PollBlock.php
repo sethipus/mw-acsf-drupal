@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
 
@@ -58,6 +59,13 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
   protected $uuid;
 
   /**
+   * Route m service.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -67,7 +75,8 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('mars_common.theme_configurator_parser'),
-      $container->get('uuid')
+      $container->get('uuid'),
+      $container->get('current_route_match')
     );
   }
 
@@ -80,12 +89,14 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $plugin_definition,
     EntityTypeManagerInterface $entity_type_manager,
     ThemeConfiguratorParser $themeConfiguratorParser,
-    UuidInterface $uuid
+    UuidInterface $uuid,
+    RouteMatchInterface $route_match
   ) {
     $this->pollEntityStorage = $entity_type_manager->getStorage('poll');
     $this->pollViewBuilder = $entity_type_manager->getViewBuilder('poll');
     $this->themeConfiguratorParser = $themeConfiguratorParser;
     $this->uuid = $uuid;
+    $this->routeMatch = $route_match;
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
@@ -142,6 +153,10 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
       return [];
     }
 
+    // Don't load block by ajax for layout pages in order to fix contextual
+    // link issue.
+    $ajax_block = $this->isAjaxBlock();
+
     $ajax_id = $this->configuration['ajaxId'];
     $build['#attached']['library'] = ['mars_common/poll_ajax'];
     $build['#attached']['drupalSettings'] = [
@@ -152,16 +167,38 @@ class PollBlock extends BlockBase implements ContainerFactoryPluginInterface {
             'ajaxId' => $ajax_id,
           ],
           'block_config' => $conf,
+          'ajax_block' => $ajax_block,
         ],
       ],
     ];
 
-    if (isset($conf['ajax_render']) && $conf['ajax_render'] == 'true') {
+    if ((isset($conf['ajax_render']) && $conf['ajax_render'] == 'true') ||
+      $ajax_block == FALSE) {
       $build['#poll'] = $this->pollViewBuilder->view($pollEntity);
     }
     $build['#theme'] = 'poll_block';
 
     return $build;
+  }
+
+  /**
+   * Block should be loaded by ajax or not in order to fix layout issue.
+   *
+   * @return bool
+   *   Ajax flag.
+   */
+  private function isAjaxBlock() {
+    $route_name = $this->routeMatch->getRouteName();
+    $ajax_block = TRUE;
+
+    // Don't load block by ajax for layout pages.
+    if (in_array($route_name, [
+      'layout_builder.overrides.node.view',
+      'layout_builder.defaults.node.view',
+    ])) {
+      $ajax_block = FALSE;
+    }
+    return $ajax_block;
   }
 
   /**

@@ -106,6 +106,22 @@
               padding-top: 3rem;
             }
           }
+
+          &__brand-shape {
+            top: 5rem;
+
+            @include medium {
+              top: 9rem;
+            }
+          }
+
+          &--eyebrow-with-rating .product-card__brand-shape {
+            top: 3.5rem;
+
+            @include medium {
+              top: 9rem;
+            }
+          }
         }
 
         .recipe-card {

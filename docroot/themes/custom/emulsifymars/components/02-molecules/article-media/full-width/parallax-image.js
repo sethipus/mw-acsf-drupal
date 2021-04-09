@@ -1,4 +1,4 @@
-(function($, Drupal) {
+(function($, Drupal, _) {
   Drupal.behaviors.parallaxImage = {
     attach(context) {
       $(context)
@@ -6,6 +6,7 @@
         .each(function() {
           const parallaxImage = this;
           const parallaxCoef = 1;
+          const imageParent = parallaxImage.closest('.article-full-width--parallax__media');
 
           const isInViewport = (element) => {
             const boundingRect = element.getBoundingClientRect();
@@ -43,11 +44,21 @@
               const positionOffset =
                 (parallaxOverflow / 2) * parallaxEffectPercentage;
               parallaxImage.style.transform = `translateY(${positionOffset}px)`;
+
+              // workaround for fixing top/bottom gaps
+              if(positionOffset < 0) {
+                imageParent.style.height = (containerHeight + positionOffset) + "px";
+                parallaxImage.style.marginTop = 0;
+              } else {
+                imageParent.style.height = (containerHeight - positionOffset) + "px";
+                parallaxImage.style.marginTop = (-positionOffset) + "px";
+              }
             }
           };
 
-          window.addEventListener('scroll', updateElementPosition);
+          window.addEventListener('scroll', _.throttle(updateElementPosition, 33));
+          window.addEventListener('resize', _.throttle(updateElementPosition, 33));
         });
     },
   };
-})(jQuery, Drupal);
+})(jQuery, Drupal, _);
