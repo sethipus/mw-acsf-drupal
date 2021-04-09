@@ -16,8 +16,6 @@ class CFResizableImageUri implements ImageUriInterface {
    * @var array
    */
   private $defaultParams = [
-    'g' => 'auto',
-    'fit' => 'cover',
     'f' => 'auto',
   ];
 
