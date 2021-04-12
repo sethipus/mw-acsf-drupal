@@ -120,8 +120,8 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
           'content' => $this->languageHelper->translate($item_value['description']),
           'video' => ($item_value['item_type'] == self::KEY_OPTION_VIDEO),
           'image' => ($item_value['item_type'] == self::KEY_OPTION_IMAGE),
-          'alt' => NULL,
-          'title' => NULL,
+          'alt' => $media_params['alt'] ?? '',
+          'title' => $media_params['title'] ?? '',
         ];
         $items[] = $item;
       }
