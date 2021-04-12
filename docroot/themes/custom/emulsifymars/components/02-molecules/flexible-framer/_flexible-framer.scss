@@ -55,7 +55,7 @@
     }
 
     &.image-size-small {
-      width: 313px;
+      max-width: 313px;
     }
 
     & img {
@@ -88,12 +88,20 @@
       flex-flow: row nowrap;
     }
 
+    &.grid-items-3 {
+      .image-wrapper {
+        &.image-size-small {
+          max-width: 293px;
+        }  
+      }
+    }
+
     .image-background {
       display: inline-block;
       margin: 0 auto;
       width: 100%;
 
-      a {
+      a, .image-container {
         position: absolute;
         top: 0;
         left: 0;
@@ -247,13 +255,12 @@
 
     @include medium {
       flex: 1 1 50%;
+      margin-right: 2rem;
     }
 
     @include large {
       flex: 1 1 100%;
-    }
-
-    @include large {
+      margin-right: 0;
       margin-top: 6rem;
     }
 

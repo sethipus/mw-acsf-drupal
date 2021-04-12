@@ -23,8 +23,10 @@
           url: Drupal.url('poll_block/ajax'),
           submit: config,
         };
-        var ajaxObject = Drupal.ajax(ajaxSettings);
-        ajaxObject.execute();
+        if (settings.pollConfig[blockId].ajax_block) {
+          var ajaxObject = Drupal.ajax(ajaxSettings);
+          ajaxObject.execute();
+        }
       };
 
       // Initialise ajax refresh event handlers.
