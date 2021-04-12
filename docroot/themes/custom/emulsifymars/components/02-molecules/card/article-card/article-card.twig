@@ -38,15 +38,17 @@
   {% else %}
     <div class="bg-image">
       {% set images = {
-        1440: article_card_background_img_url|resize(318, 520),
-        768: article_card_background_img_url|resize(334, 520),
-        375: article_card_background_img_url|resize(315, 520),
+        1440: article_card_background_img_url|resizeWithGravity(318, 520),
+        768: article_card_background_img_url|resizeWithGravity(334, 520),
+        375: article_card_background_img_url|resizeWithGravity(315, 520),
       } %}
       {% include "@atoms/images/image/responsive-image.twig" with {
         output_image_tag: true,
         image_alt: article_card_background_img_url,
         image_array: images,
-        image_src: article_card_background_img_url|resize(318, 520),
+        width: '318px',
+        height: '520px',
+        image_src: article_card_background_img_url|resizeWithGravity(318, 520),
       } %}
     </div>
   {% endif %}

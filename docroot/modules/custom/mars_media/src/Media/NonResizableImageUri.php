@@ -48,6 +48,20 @@ class NonResizableImageUri implements ImageUriInterface {
   /**
    * {@inheritdoc}
    */
+  public function resizeWithHighDpr(int $width, int $height, int $dpr): ImageUriInterface {
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function resizeWithGravity(int $width, int $height): ImageUriInterface {
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function __toString(): string {
     return $this->url;
   }

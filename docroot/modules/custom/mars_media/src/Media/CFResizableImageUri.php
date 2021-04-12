@@ -93,6 +93,29 @@ class CFResizableImageUri implements ImageUriInterface {
   /**
    * {@inheritdoc}
    */
+  public function resizeWithHighDpr(int $width, int $height, int $dpr): ImageUriInterface {
+    return $this->createResizeUriWith([
+      'width' => $width,
+      'height' => $height,
+      'dpr' => $dpr,
+    ]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function resizeWithGravity(int $width, int $height): ImageUriInterface {
+    return $this->createResizeUriWith([
+      'width' => $width,
+      'height' => $height,
+      'fit' => 'cover',
+      'g' => 'auto',
+    ]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function __toString(): string {
     return $this->uri->withPath((string) $this->resizePathFragment . $this->uri->getPath());
   }

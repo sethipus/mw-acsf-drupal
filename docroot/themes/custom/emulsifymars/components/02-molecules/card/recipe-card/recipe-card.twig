@@ -29,16 +29,18 @@
       aria-label="{{ recipe_card_heading | mt }}"
     >
       {% set images = {
-        1440: recipe_card_image_src|resize(318, 239),
-        768: recipe_card_image_src|resize(334, 251),
-        375: recipe_card_image_src|resize(315, 236),
+        1440: recipe_card_image_src|resizeWithGravity(318, 239),
+        768: recipe_card_image_src|resizeWithGravity(334, 251),
+        375: recipe_card_image_src|resizeWithGravity(315, 236),
       } %}
       {% include "@atoms/images/image/_image.twig" with {
         output_image_tag: true,
         image_alt: recipe_card_image_alt,
-        image_src: recipe_card_image_src|resize(318, 239),
+        image_src: recipe_card_image_src|resizeWithGravity(318, 239),
         responsive_image_blockname: 'recipe_image',
         image_array: images,
+        height: '239px',
+        width: '318px',
       } %}
     </a>
   </div>
