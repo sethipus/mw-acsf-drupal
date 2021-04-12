@@ -1,12 +1,16 @@
 .content-feature {
   position: relative;
   text-align: center;
-  padding: 8rem 4rem 7.2rem 4rem;
+  padding: 5rem 2rem;
   background-position: center center;
   background-size: cover;
 
   @include medium {
-    padding: 8rem 2rem 7.2rem 2rem;
+    padding: 6rem 2rem;
+  }
+    
+  @include xl {
+      padding: 8rem 2rem;
   }
 
   &__content {
@@ -31,7 +35,7 @@
   &__heading {
     color: clr(subcolor-3);
     font-family: variable(heading-font);
-    margin: 4rem 0;
+    margin: 3rem 0 4rem;
     word-break: break-all;
     word-break: break-word;
 
@@ -41,6 +45,7 @@
     }
 
     @include medium {
+      margin: 4rem 0;
       font-size: 5.6rem;
       line-height: 5.6rem;
     }
