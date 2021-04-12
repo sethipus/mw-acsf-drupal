@@ -127,6 +127,10 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       $query->addConditionGroup($conditionsGroup);
     }
 
+    // Remove leading hyphens from the search string
+    // to make the Solr query more accurate.
+    $options['keys'] = !empty($options['keys']) ? preg_replace('/^-/', '', $options['keys']) : '';
+
     // Applying search keys.
     if (!empty($options['keys'])) {
       $query->keys($options['keys']);

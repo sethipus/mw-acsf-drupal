@@ -188,6 +188,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
               SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
                 SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
               ],
+              // Adding 's' query param to pass search string to GA dashboard.
+              's' => $options['keys'],
             ],
           ]),
         ],
