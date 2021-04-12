@@ -65,14 +65,14 @@
           {{ brand_shape | raw }}
         </div>
           {% set images = {
-            1440: card__image__src|resize(433, 244),
-            768: card__image__src|resize(334, 188),
-            375: card__image__src|resize(335, 244),
+            1440: card__image__src|resizeWithGravity(433, 244),
+            768: card__image__src|resizeWithGravity(334, 188),
+            375: card__image__src|resizeWithGravity(335, 244),
           } %}
           {% include "@atoms/images/image/responsive-image.twig" with {
             image_blockname: card__base_class,
             output_image_tag: card__image__output_image_tag,
-            image_src: card__image__src|resize(433, 244),
+            image_src: card__image__src|resizeWithGravity(433, 244),
             image_alt: card__image__alt,
             image_array: images,
           } %}

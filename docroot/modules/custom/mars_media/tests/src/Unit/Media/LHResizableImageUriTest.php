@@ -125,6 +125,36 @@ class LHResizableImageUriTest extends UnitTestCase {
    *
    * @test
    */
+  public function shouldAddResizeHeightAndWidthWithDprToRelativeUrl() {
+    $relativeUrl = '/relative/url/to/image.jpg';
+    $expectedUrl = '/cdn-cgi/image/width=100,height=300,dpr=2,f=auto/relative/url/to/image.jpg';
+    $url = CFResizableImageUri::createFromUriString($relativeUrl);
+
+    $url = $url->resizeWithHighDpr('100', '300', '2');
+
+    $this->assertEquals($expectedUrl, (string) $url);
+  }
+
+  /**
+   * Test method.
+   *
+   * @test
+   */
+  public function shouldAddResizeHeightAndWidthWithGravityToRelativeUrl() {
+    $relativeUrl = '/relative/url/to/image.jpg';
+    $expectedUrl = '/cdn-cgi/image/width=100,height=300,fit=cover,g=auto,f=auto/relative/url/to/image.jpg';
+    $url = CFResizableImageUri::createFromUriString($relativeUrl);
+
+    $url = $url->resizeWithGravity('100', '300');
+
+    $this->assertEquals($expectedUrl, (string) $url);
+  }
+
+  /**
+   * Test method.
+   *
+   * @test
+   */
   public function shouldAddResizeWidthToAbsoluteUrl() {
     $absolutePath = 'http://domain.hu/relative/url/to/image.jpg';
     $expectedUrl = 'http://domain.hu/cdn-cgi/image/width=315,f=auto/relative/url/to/image.jpg';

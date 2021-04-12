@@ -47,13 +47,13 @@
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: 'Product image',
-          image_src: item.card__image__src|resize(255, 255),
+          image_src: item.card__image__src|resizeWithGravity(255, 255),
           responsive_image_blockname: 'product-image'
         } %}
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: 'Product image',
-          image_src: item.card__image__hover__src|resize(255, 255),
+          image_src: item.card__image__hover__src|resizeWithGravity(255, 255),
           responsive_image_blockname: 'hover-image'
         } %}
       </div>
@@ -62,7 +62,7 @@
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: 'Product image',
-          image_src: item.card__image__src|resize(255, 255),
+          image_src: item.card__image__src|resizeWithGravity(255, 255),
           responsive_image_blockname: 'product-image',
         } %}
       </div>

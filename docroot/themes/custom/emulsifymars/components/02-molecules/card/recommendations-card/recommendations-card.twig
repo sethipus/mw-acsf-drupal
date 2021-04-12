@@ -44,14 +44,14 @@
         aria-label="{{ heading | mt }}"
       >
         {% set images = {
-          1440: card_image_src|resize(318, 318),
-          768: card_image_src|resize(334, 315),
-          375: card_image_src|resize(315, 315),
+          1440: card_image_src|resizeWithGravity(318, 318),
+          768: card_image_src|resizeWithGravity(334, 315),
+          375: card_image_src|resizeWithGravity(315, 315),
         } %}
         {% include "@atoms/images/image/_image.twig" with {
           output_image_tag: true,
           image_alt: card_image_alt,
-          image_src: card_image_src|resize(318, 318),
+          image_src: card_image_src|resizeWithGravity(318, 318),
           responsive_image_blockname: 'content_hub_image',
           image_array: images,
         } %}

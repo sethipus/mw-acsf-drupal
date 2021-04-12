@@ -35,14 +35,13 @@ validate:
       - entityMainMediaId
       - mt
       - resize
+      - resizeWithHighDpr
+      - resizeWithGravity
       - resizeByWidth
       - resizeByHeight
       - mediaParamsById
       - mainVariant
       - productCardMedia
-      - resizeByHeight
-      - resizeByWidth
-      - resize
       - bgColorClassMap
 tests:
   phpunit:

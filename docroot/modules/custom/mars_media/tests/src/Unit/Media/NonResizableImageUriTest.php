@@ -59,4 +59,36 @@ class NonResizableImageUriTest extends UnitTestCase {
     $this->assertEquals($before, $after);
   }
 
+  /**
+   * Test method.
+   *
+   * @test
+   */
+  public function resizeWithHighDprShouldBeNoop() {
+    $url = '/relative/url/to/image.jpg';
+    $url = new NonResizableImageUri($url);
+
+    $before = (string) $url;
+    $url->resizeWithHighDpr(100, 100, 2);
+    $after = (string) $url;
+
+    $this->assertEquals($before, $after);
+  }
+
+  /**
+   * Test method.
+   *
+   * @test
+   */
+  public function resizeWithGravityShouldBeNoop() {
+    $url = '/relative/url/to/image.jpg';
+    $url = new NonResizableImageUri($url);
+
+    $before = (string) $url;
+    $url->resizeWithGravity(100, 100);
+    $after = (string) $url;
+
+    $this->assertEquals($before, $after);
+  }
+
 }

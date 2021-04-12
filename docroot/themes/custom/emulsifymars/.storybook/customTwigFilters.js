@@ -26,7 +26,30 @@ module.exports = function (twigInstance) {
     }
   )
 
-  twigInstance.extendFilter('resizeByWidth', function (value, args) {
+  twigInstance.extendFilter('resizeWithHighDpr', function (value, args) {
+      if (global.sb_mars.resize_mode === 'none') {
+        return value;
+      }
+      const image = resizeTargets[global.sb_mars.resize_mode];
+      const width = args[0];
+      const height = args[1];
+      const dpr = args[2];
+      return `https://lhcdn.mars.com/cdn-cgi/image/width=${width},height=${height},dpr=${dpr}${image}`;
+    }
+  )
+
+  twigInstance.extendFilter('resizeWithGravity', function (value, args) {
+      if (global.sb_mars.resize_mode === 'none') {
+        return value;
+      }
+      const image = resizeTargets[global.sb_mars.resize_mode];
+      const width = args[0];
+      const height = args[1];
+      return `https://lhcdn.mars.com/cdn-cgi/image/width=${width},height=${height},fit=cover,g=auto${image}`;
+    }
+  )
+
+twigInstance.extendFilter('resizeByWidth', function (value, args) {
       if (global.sb_mars.resize_mode === 'none') {
         return value;
       }
