@@ -168,7 +168,12 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
             'word_boundary' => TRUE,
             'ellipsis' => TRUE,
           ];
-          $suggestions[] = FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value));
+          $suggestions[] = [
+            '#type' => 'html_tag',
+            '#tag' => 'button',
+            '#attributes' => [],
+            '#value' => FieldPluginBase::trimText($alter, strip_tags($entity->get('field_qa_item_question')->value)),
+          ];
         }
         else {
           $suggestions[] = $options['cards_view'] ? $this->viewBuilder->view($entity, 'card') : $entity->toLink();
@@ -183,6 +188,8 @@ class MarsSearchController extends ControllerBase implements ContainerInjectionI
               SearchHelperInterface::MARS_SEARCH_SEARCH_KEY => [
                 SearchQueryParserInterface::MARS_SEARCH_DEFAULT_SEARCH_ID => $options['keys'],
               ],
+              // Adding 's' query param to pass search string to GA dashboard.
+              's' => $options['keys'],
             ],
           ]),
         ],
