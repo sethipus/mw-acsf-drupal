@@ -184,6 +184,25 @@ class SalsifyFieldsMap {
     'field_product_image_2' => ['salsify:id' => 'CMS: Image 3', 'salsify:data_type' => 'digital_asset'],
     'field_product_image_3' => ['salsify:id' => 'CMS: Image 4', 'salsify:data_type' => 'digital_asset'],
     'field_product_image_4' => ['salsify:id' => 'CMS: Image 5', 'salsify:data_type' => 'digital_asset'],
+    'field_product_polyunsaturated_fa' => [
+      'salsify:id' => 'Polyunsaturated Fat',
+      'salsify:data_type' => 'string',
+      'prefix_field' => 'Polyunsaturated Fat Precision',
+    ],
+    'field_product_monounsaturated_fa' => [
+      'salsify:id' => 'Monounsaturated Fat',
+      'salsify:data_type' => 'string',
+      'prefix_field' => 'Monounsaturated Fat Precision',
+    ],
+    'field_product_folate' => [
+      'salsify:id' => 'Folate',
+      'salsify:data_type' => 'string',
+      'prefix_field' => 'Folate Precision',
+    ],
+    'field_product_folate_daily' => [
+      'salsify:id' => 'Folate Pct Daily Value',
+      'salsify:data_type' => 'string',
+    ],
   ];
 
   public const SALSIFY_FIELD_MAPPING_PRODUCT = [

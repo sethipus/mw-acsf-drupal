@@ -318,7 +318,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         $build['#input_form']['#attributes']['class'][] = 'mars-autocomplete-field-card-grid';
       }
       // Prevent building facets if they are disabled in block configuration.
-      if (empty($config['exposed_filters_wrapper']['toggle_filters'])) {
+      if ($grid_type == 'grid' && empty($config['exposed_filters_wrapper']['toggle_filters'])) {
         $build['#filters'] = [];
         return $build;
       }

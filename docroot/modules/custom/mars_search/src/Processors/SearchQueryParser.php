@@ -53,6 +53,10 @@ class SearchQueryParser implements SearchQueryParserInterface, SearchProcessMana
     if (isset($query_parameters['search_id'])) {
       $search_id = $query_parameters['search_id'];
     }
+    // Removing GA 's' query param to don't include it into SOLR query.
+    if (isset($query_parameters['s'])) {
+      unset($query_parameters['s']);
+    }
 
     $options = $query_parameters;
     // Set default filter options.

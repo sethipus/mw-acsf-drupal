@@ -1,0 +1,24 @@
+uuid: da08ed30-aecc-4b44-b6d9-0d7babd3b3e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_monounsaturated_fa
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_monounsaturated_fa
+field_name: field_product_monounsaturated_fa
+entity_type: node
+bundle: product_variant
+label: 'Monounsaturated Fat'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
