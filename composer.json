@@ -189,7 +189,8 @@
                 "Ensure visibility of invalid fields (JS) https://www.drupal.org/project/field_group/issues/2787179": "https://www.drupal.org/files/issues/2020-05-19/2787179-highlight-html5-validation-52.patch"
             },
             "drupal/maxlength": {
-                "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch"
+                "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch",
+                "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-count-for-line-break-is-wrong-3198291-4.patch"
             },
             "drupal/samlauth": {
                 "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
