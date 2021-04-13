@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6daf053ab8963e15f041e7e9d19ac81e",
+    "content-hash": "bf64410567b986854765d711345780c8",
     "packages": [
         {
             "name": "acquia/acsf-tools",
@@ -8858,7 +8858,7 @@
                 },
                 "patches_applied": {
                     "Extra, unconnected max length counter with an id of undefined-counter": "https://www.drupal.org/files/issues/2020-07-27/3076581-9.patch",
-                    "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-count-for-line-break-is-wrong-3198291-4.patch"
+                    "Max length in lines (in textarea field)": "https://www.drupal.org/files/issues/2021-04-13/maxlength-max-length-in-lines-in-textarea-field-2463193-4.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
