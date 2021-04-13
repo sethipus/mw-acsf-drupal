@@ -40,15 +40,17 @@
     </div>
     <div {{ bem('right', [], homepage_hero__base_class) }} >
       <div {{ bem('container', ['image'], homepage_hero__base_class) }}>
+        {% set images = {
+          1440: hero_image.src|resize(549, 458),
+          768: hero_image.src|resize(310, 310),
+          375: hero_image.src|resize(210, 210),
+        } %}
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: hero_image.alt,
           image_title: hero_image.title,
-          image_srcset: hero_image.srcset,
-          image_sizes: '(max-width: 375px) 375px,
-                (max-width: 768px) 768px,
-                1440px',
-          image_src: hero_image.src,
+          image_src: hero_image.src|resize(549, 458),
+          image_array: images_2,
           responsive_image_blockname: 'homepage-hero-image',
           height: '549px',
           width: '485px',
