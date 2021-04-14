@@ -138,3 +138,12 @@ function mars_common_update_8009() {
   \Drupal::service('file_system')->deleteRecursive('public://logs/archive');
   \Drupal::service('file_system')->delete('public://logs/drupal.log');
 }
+
+/**
+ * Update 'field_recipe_cooking_time' field storage definitions.
+ */
+function mars_common_update_8011() {
+  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $field_storage_definition = $entity_definition_update_manager->getFieldStorageDefinition('field_recipe_cooking_time', 'node');
+  $entity_definition_update_manager->updateFieldStorageDefinition($field_storage_definition);
+}
