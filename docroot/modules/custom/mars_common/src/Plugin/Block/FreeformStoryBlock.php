@@ -141,7 +141,6 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#title' => $this->t('Header 2'),
       '#default_value' => $this->configuration['header_2'],
       '#maxlength' => 60,
-      '#required' => TRUE,
     ];
     // Entity Browser element for background image.
     $form['image'] = $this->getEntityBrowserForm(self::LIGHTHOUSE_ENTITY_BROWSER_ID,
@@ -156,7 +155,6 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#default_value' => $this->configuration['body']['value'] ?? '',
       '#format' => $this->configuration['body']['format'] ?? 'rich_text',
       '#maxlength' => 1000,
-      '#required' => TRUE,
     ];
     $form['background_shape'] = [
       '#type' => 'checkbox',
@@ -172,6 +170,11 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       '#type' => 'jquery_colorpicker',
       '#title' => $this->t('Background Color Override'),
       '#default_value' => $this->configuration['custom_background_color'] ?? '',
+    ];
+    $form['use_original_image'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use original image'),
+      '#default_value' => $this->configuration['use_original_image'] ?? FALSE,
     ];
 
     $this->buildOverrideColorElement($form, $this->configuration);
@@ -202,6 +205,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
     }
     $build['#custom_background_color'] = $this->configuration['custom_background_color'];
     $build['#use_custom_color'] = (bool) $this->configuration['use_custom_color'];
+    $build['#use_original_image'] = (bool) $this->configuration['use_original_image'];
 
     $build['#text_color_override'] = FALSE;
     if (!empty($this->configuration['override_text_color']['override_color'])) {
@@ -240,6 +244,7 @@ class FreeformStoryBlock extends BlockBase implements ContainerFactoryPluginInte
       'image' => $config['image'] ?? '',
       'custom_background_color' => $config['custom_background_color'] ?? '',
       'use_custom_color' => $config['use_custom_color'] ?? '',
+      'use_original_image' => $config['use_original_image'] ?? 0,
     ];
   }
 

@@ -332,6 +332,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'custom_background_color' => NULL,
         'use_custom_color' => NULL,
+        'use_original_image' => NULL,
         'text_color_override' => NULL,
       ],
       'template' => 'freeform-story-block',

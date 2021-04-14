@@ -6,15 +6,10 @@
 
 <section {{ bem(polling_base_class) }} data-theme="{{ theme_styles }}">
   <div class="polling__png-asset">
-    {% set images = {
-      1440: polling_png_asset|resize(346, 260),
-      768: polling_png_asset|resize(220, 165),
-      375: polling_png_asset|resize(168, 126),
-    } %}
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
       image_alt: polling_png_asset_alt,
-      image_src: polling_png_asset|resize(346, 260),
+      image_src: polling_png_asse,
       image_array: images,
       height: '260px',
 	    width: '346px',
