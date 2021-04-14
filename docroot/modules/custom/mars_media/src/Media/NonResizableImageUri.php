@@ -55,7 +55,12 @@ class NonResizableImageUri implements ImageUriInterface {
   /**
    * {@inheritdoc}
    */
-  public function resizeWithGravity(int $width, int $height): ImageUriInterface {
+  public function resizeWithGravity(
+    int $width,
+    int $height,
+    string $fit = 'cover',
+    string $gravity = 'auto'
+  ): ImageUriInterface {
     return $this;
   }
 

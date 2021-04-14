@@ -64,11 +64,15 @@ interface ImageUriInterface {
    *   The required width in pixels.
    * @param int $height
    *   The required height in pixels.
+   * @param string $fit
+   *   The resizing mode.
+   * @param string $gravity
+   *   The setting focal point.
    *
    * @return \Drupal\mars_media\Media\ImageUriInterface
    *   ImageUri instance with resize applied.
    */
-  public function resizeWithGravity(int $width, int $height): ImageUriInterface;
+  public function resizeWithGravity(int $width, int $height, string $fit, string $gravity): ImageUriInterface;
 
   /**
    * Converts the object to string.

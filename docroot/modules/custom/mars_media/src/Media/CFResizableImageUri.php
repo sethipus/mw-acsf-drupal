@@ -104,12 +104,17 @@ class CFResizableImageUri implements ImageUriInterface {
   /**
    * {@inheritdoc}
    */
-  public function resizeWithGravity(int $width, int $height): ImageUriInterface {
+  public function resizeWithGravity(
+    int $width,
+    int $height,
+    string $fit = 'cover',
+    string $gravity = 'auto'
+  ): ImageUriInterface {
     return $this->createResizeUriWith([
       'width' => $width,
       'height' => $height,
-      'fit' => 'cover',
-      'g' => 'auto',
+      'fit' => $fit,
+      'g' => $gravity,
     ]);
   }
 
