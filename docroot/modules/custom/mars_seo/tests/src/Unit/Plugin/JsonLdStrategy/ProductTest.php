@@ -114,6 +114,12 @@ class ProductTest extends UnitTestCase {
 
   /**
    * Test.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Product::isApplicable
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Product::supportedBundles
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Product::getContextValue
    */
   public function testIsApplicable() {
     // Test system with empty build & node contexts.
@@ -127,6 +133,11 @@ class ProductTest extends UnitTestCase {
 
   /**
    * Test.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Product::getStructuredData
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Product::getContextValue
    */
   public function testGetStructuredData() {
     // Prepare all necessary contexts.

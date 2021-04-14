@@ -114,6 +114,10 @@ class ArticleTest extends UnitTestCase {
 
   /**
    * Test.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Article::isApplicable
    */
   public function testIsApplicable() {
     // Test system with empty build context.
@@ -126,6 +130,10 @@ class ArticleTest extends UnitTestCase {
 
   /**
    * Test.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Article::getStructuredData
    */
   public function testGetStructuredData() {
     // Prepare all necessary contexts.

@@ -119,8 +119,11 @@ class CarouselTest extends UnitTestCase {
   /**
    * Test.
    *
+   * @test
+   *
    * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel::isApplicable
    * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel::getSupportedLayoutBuilderComponents
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel::supportedBundles
    */
   public function testIsApplicable() {
     // Test system with empty build context.
@@ -148,7 +151,10 @@ class CarouselTest extends UnitTestCase {
   /**
    * Test.
    *
+   * @test
+   *
    * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel::getStructuredData
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel::getContextValue
    * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel::getComponentSchemaBuilder
    * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel::getSupportedLayoutBuilderComponents
    */

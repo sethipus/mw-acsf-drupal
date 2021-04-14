@@ -122,6 +122,12 @@ class RecipeTest extends UnitTestCase {
 
   /**
    * Test.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Recipe::isApplicable
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Recipe::getContextValue
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Recipe::supportedBundles
    */
   public function testIsApplicable() {
     // Test system with empty build & node contexts.
@@ -135,6 +141,11 @@ class RecipeTest extends UnitTestCase {
 
   /**
    * Test.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Recipe::getStructuredData
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Recipe::getContextValue
    */
   public function testGetStructuredData() {
     // Prepare all necessary contexts.

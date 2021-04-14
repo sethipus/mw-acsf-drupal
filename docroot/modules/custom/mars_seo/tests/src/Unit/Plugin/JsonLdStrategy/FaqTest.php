@@ -106,6 +106,12 @@ class FaqTest extends UnitTestCase {
 
   /**
    * Test.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Faq::isApplicable
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Faq::getFaqComponent
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Faq::getContextValue
    */
   public function testIsApplicable() {
     // Test system with empty build context.
@@ -132,6 +138,12 @@ class FaqTest extends UnitTestCase {
 
   /**
    * Test.
+   *
+   * @test
+   *
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Faq::getStructuredData
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Faq::getFaqComponent
+   * @covers \Drupal\mars_seo\Plugin\JsonLdStrategy\Faq::getContextValue
    */
   public function testGetStructuredData() {
     // Test system with empty build context.
