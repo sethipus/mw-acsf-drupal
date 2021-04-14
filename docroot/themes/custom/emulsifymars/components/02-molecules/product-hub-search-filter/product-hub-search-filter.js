@@ -29,6 +29,7 @@
             const currentFilter = document.getElementById(event.target.getAttribute('data-id'));
             if (currentFilter !== null) {
               currentFilter.checked = false;
+              updateAriaChecked(currentFilter);
               processFilters(grid);
             }
             updateCounters(grid);
@@ -87,6 +88,7 @@
         const gridId = getGridId(grid);
         grid.querySelector(selectorSearchFilterContainer).querySelectorAll('.checkbox-item__input:checked').forEach(function (input) {
           input.checked = false;
+          updateAriaChecked(input);
         });
         event.preventDefault();
         updateCounters(grid);
@@ -115,7 +117,7 @@
         if (event.keyCode === 32) {
           event.preventDefault();
           const grid = getGridBlock(event);
-          let check = event.target.parentNode.getElementsByClassName('checkbox-item__input')[0];
+          let check = checkbox.getElementsByClassName('checkbox-item__input')[0];
           check.checked = !check.checked;
           enableApplyButtons();
           updateAriaChecked(check);
@@ -124,7 +126,7 @@
     });
 
     const updateAriaChecked = (checkboxElement) => {
-      const checkboxLabel = checkboxElement.closest('li').querySelector('label');
+      const checkboxLabel = checkboxElement.closest('li');
       if (checkboxElement.checked == true) {
         checkboxLabel.setAttribute('aria-selected', true);
       } else {
