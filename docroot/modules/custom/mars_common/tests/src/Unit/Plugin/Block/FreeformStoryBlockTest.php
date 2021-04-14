@@ -132,7 +132,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
    */
   public function testBuildConfigurationFormProperly() {
     $config_form = $this->freeformStoryBlock->buildConfigurationForm([], $this->formStateMock);
-    $this->assertCount(14, $config_form);
+    $this->assertCount(15, $config_form);
     $this->assertArrayHasKey('block_aligned', $config_form);
     $this->assertArrayHasKey('header_1', $config_form);
     $this->assertArrayHasKey('header_2', $config_form);
@@ -148,7 +148,7 @@ class FreeformStoryBlockTest extends UnitTestCase {
   public function testBuildBlockRenderArrayProperly() {
     $build = $this->freeformStoryBlock->build();
 
-    $this->assertCount(10, $build);
+    $this->assertCount(11, $build);
     $this->assertArrayNotHasKey('#image', $build);
     $this->assertArrayHasKey('#text_color_override', $build);
     $this->assertEquals('freeform_story_block', $build['#theme']);
