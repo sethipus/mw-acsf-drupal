@@ -2,16 +2,18 @@
 
 namespace Drupal\Tests\mars_seo\Unit\Plugin\JsonLdStrategy;
 
+use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Url;
 use Drupal\mars_common\MediaHelper;
 use Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel;
 use Drupal\Tests\UnitTestCase;
-use Spatie\SchemaOrg\FAQPage;
 use Spatie\SchemaOrg\ItemList;
 use Spatie\SchemaOrg\ListItem;
+use Spatie\SchemaOrg\Product;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -71,6 +73,13 @@ class CarouselTest extends UnitTestCase {
    * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Layout\LayoutDefinition
    */
   protected $layoutDefinitionMock;
+
+  /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\Field\EntityReferenceFieldItemListInterface
+   */
+  private $fieldItemListMock;
 
   /**
    * The plugin ID.
@@ -159,8 +168,28 @@ class CarouselTest extends UnitTestCase {
                     '#node' => $this->createNodeMock([
                       'toUrl' => $url_mock,
                     ]),
-                  ]
-                ]
+                  ],
+                  [
+                    '#node' => $this->createNodeMock([
+                      'toUrl' => $url_mock,
+                    ]),
+                  ],
+                  [
+                    '#node' => $this->createNodeMock([
+                      'toUrl' => $url_mock,
+                    ]),
+                  ],
+                  [
+                    '#node' => $this->createNodeMock([
+                      'toUrl' => $url_mock,
+                    ]),
+                  ],
+                  [
+                    '#node' => $this->createNodeMock([
+                      'toUrl' => $url_mock,
+                    ]),
+                  ],
+                ],
               ],
             ],
           ],
@@ -178,12 +207,16 @@ class CarouselTest extends UnitTestCase {
       $this->configFactoryMock
     );
     $this->jsonLdPlugin->setContext('build', $this->createBuildContext($build));
-    $this->assertTrue($this->jsonLdPlugin->getStructuredData() instanceof ItemList);
+    $recommended_schema = $this->jsonLdPlugin->getStructuredData();
+    $first_item = current($recommended_schema->getProperties()['itemListElement']);
+    $this->assertTrue($recommended_schema instanceof ItemList);
+    $this->assertCount(5, $recommended_schema->getProperties()['itemListElement']);
+    $this->assertTrue($first_item instanceof ListItem);
+    $this->assertCount(2, $first_item->getProperties());
     // Test the system with completely filled in 'build' context
     // and clean plugin object.
     $build['_layout_builder'][0]['recommendation_region']['recommendation_block']['#plugin_id'] = 'pdp_hero_block';
     $build['_layout_builder'][0]['recommendation_region']['recommendation_block']['content'] = [];
-    // @TODO: Test pdp_block plugin.
     // Cleanup testing object state.
     $this->jsonLdPlugin = new Carousel(
       [],
@@ -193,10 +226,65 @@ class CarouselTest extends UnitTestCase {
       $this->urlGeneratorMock,
       $this->configFactoryMock
     );
+    // Prepare all necessary mocks.
+    $config_mock = $this->createMock(Config::class);
+    $config_mock->expects($this->any())->method('get')->willReturn('Mars');
+    $config_mock->expects($this->any())->method('isNew')->willReturn(FALSE);
+    $this->configFactoryMock->expects($this->once())->method('get')->willReturn($config_mock);
+    $this->mediaHelperMock->expects($this->any())->method('getMediaUrl')->willReturn('test_image.jpeg');
+    $this->mediaHelperMock->expects($this->any())->method('getEntityMainMediaId')->willReturn(1);
+    $variants_mock_node_array = [
+      '__get' => [
+        '_with' => 'field_product_sku',
+        'field_product_sku' => $this->fieldItemListMock,
+      ],
+      'toUrl' => $url_mock,
+    ];
+
+    $this->fieldItemListMock->expects($this->any())->method('__get')->willReturnMap([
+      ['value', 'test'],
+      ['entity', $this->createNodeMock($variants_mock_node_array)],
+    ]);
+
+    $node_context_params = [
+      'getTitle' => 'test title',
+      'id' => 1,
+      'multiple_get_with' => [
+        [
+          '_with' => 'field_product_description',
+          'field_product_description' => $this->fieldItemListMock,
+        ],
+        [
+          '_with' => 'field_product_variants',
+          'field_product_variants' => new \ArrayIterator([
+            $this->fieldItemListMock,
+            $this->fieldItemListMock,
+            $this->fieldItemListMock,
+            $this->fieldItemListMock,
+            $this->fieldItemListMock,
+          ]),
+        ],
+      ],
+      'toUrl' => $url_mock,
+    ];
+    $this->jsonLdPlugin->setContext('node', $this->createNodeContextMock($node_context_params));
     $this->jsonLdPlugin->setContext('build', $this->createBuildContext($build));
-    $this->jsonLdPlugin->setContext('node', $this->createNodeContextMock());
-//    $schema = $this->jsonLdPlugin->getStructuredData();
-//    $this->assertTrue($schema instanceof ItemList);
+    // Call method with prepared contexts and mocks.
+    $pdp_schema = $this->jsonLdPlugin->getStructuredData();
+    $this->assertEquals($node_context_params['getTitle'], $pdp_schema->getProperties()['name']);
+    // Test first item.
+    $pdp_first_item = current($pdp_schema->getProperties()['itemListElement']);
+    $this->assertTrue($pdp_schema instanceof ItemList);
+    $this->assertCount(5, $pdp_schema->getProperties()['itemListElement']);
+    $this->assertTrue($pdp_first_item instanceof ListItem);
+    $this->assertCount(2, $pdp_first_item->getProperties());
+    // Test first item product.
+    $pdp_first_item_product = $pdp_first_item->getProperties()['item'];
+    $this->assertTrue($pdp_first_item_product instanceof Product);
+    $this->assertEquals('Mars', $pdp_first_item_product->getProperties()['brand']);
+    $this->assertEquals('test', $pdp_first_item_product->getProperties()['description']);
+    $this->assertEquals('test', $pdp_first_item_product->getProperties()['sku']);
+    $this->assertEquals('test_image.jpeg', current($pdp_first_item_product->getProperties()['image']));
   }
 
   /**
@@ -207,6 +295,7 @@ class CarouselTest extends UnitTestCase {
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->urlGeneratorMock = $this->createMock(UrlGeneratorInterface::class);
+    $this->fieldItemListMock = $this->createMock(EntityReferenceFieldItemListInterface::class);
     $this->layoutDefinitionMock = $this->getMockBuilder(LayoutDefinition::class)
       ->disableOriginalConstructor()
       ->getMock();
