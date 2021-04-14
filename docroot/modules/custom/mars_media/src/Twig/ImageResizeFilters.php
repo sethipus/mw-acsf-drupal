@@ -75,15 +75,25 @@ class ImageResizeFilters extends AbstractExtension {
    *   The requested width in pixels.
    * @param int $height
    *   The requested height in pixels.
+   * @param string $fit
+   *   The resizing mode.
+   * @param string $gravity
+   *   The setting focal point.
    *
    * @return \Drupal\mars_media\Media\ImageUriInterface|mixed
    *   The resulting object, or the original value if it's not an ImageUri.
    */
-  public function resizeWithGravity($value, int $width, int $height) {
+  public function resizeWithGravity(
+    $value,
+    int $width,
+    int $height,
+    string $fit = 'cover',
+    string $gravity = 'auto'
+  ) {
     if (!$value instanceof ImageUriInterface) {
       return $value;
     }
-    return $value->resizeWithGravity($width, $height);
+    return $value->resizeWithGravity($width, $height, $fit, $gravity);
   }
 
   /**
