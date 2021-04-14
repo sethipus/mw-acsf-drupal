@@ -25,6 +25,7 @@
               768: freeform_story_img_src,
               375: freeform_story_img_src,
             } %}
+            {% set classes = bem('original-image-wrapper', []) %}
           {% else %}
             {% set images = {
               1440: freeform_story_img_src|resize(705, 415),
@@ -32,8 +33,9 @@
               375: freeform_story_img_src|resize(326, 192),
             } %}
             {% set freeform_story_img_src = freeform_story_img_src|resize(580, 580) %}
+            {% set classes = bem('aspect-ratio-wrapper', ['16-9']) %}
           {% endif %}
-          <div {{ bem('aspect-ratio-wrapper', ['16-9']) }}>
+          <div {{ classes }}>
             {% include "@atoms/images/image/responsive-image.twig" with {
               output_image_tag: true,
               image_alt: freeform_story_img_alt,
