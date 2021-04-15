@@ -110,6 +110,10 @@
     animation: cubic-bezier(0, 0, 1, 1) action 4.8s infinite;
 
     img {
+      min-width: 25.5rem;
+      min-height: 25.5rem;
+      max-width: 52rem;
+      max-height: 52rem;
       object-fit: contain;
     }
 
