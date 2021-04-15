@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_common\SVG;
+namespace Drupal\mars_media\SVG;
 
 /**
  * Class for generating unique ids.

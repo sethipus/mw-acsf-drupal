@@ -20,16 +20,22 @@
           {% endif %}
         >
           {% if item.image %}
-            {% include "@atoms/images/image/_image.twig" with {
-              image_base_class: base_class,
-              image_modifiers: image_modifiers,
-              image_blockname: image_blockname,
-              image_src: item.src,
-              image_alt: item.alt,
-              image_title: item.title,
-              width: '1128px',
-              height: '635px',
+            {% set images = {
+              1440: item.src|resize(1128, 666),
+              768: item.src|resize(768, 434),
+              375: item.src|resize(375, 250),
             } %}
+            <div {{ bem('aspect-ratio-wrapper', ['16-9']) }}>
+              {% include "@atoms/images/image/_image.twig" with {
+                image_base_class: base_class,
+                image_modifiers: image_modifiers,
+                image_blockname: image_blockname,
+                image_array: images,
+                image_src: item.src|resize(1128, 666),
+                image_alt: item.alt,
+                image_title: item.title,
+              } %}
+            </div>
           {% elseif item.video %}
             {% include "@atoms/video/overlay-video/video.twig" with {
               video__src__url: item.src,

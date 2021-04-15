@@ -68,6 +68,27 @@
     @include xl {
       flex-basis: 212px;
     }
+
+    .link.link--logo {
+      display: block;
+      width: 104px;
+      height: 39px;
+
+      @include medium {
+        width: 141px;
+        height: 53px;
+      }
+
+      @include large {
+        width: 212px;
+        height: 98px;
+      }
+
+      img {
+        height: 100%;
+        object-fit: contain;
+      }
+    }
   }
 
   &__menu {
