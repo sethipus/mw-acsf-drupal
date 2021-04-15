@@ -6,7 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -48,7 +48,7 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
   /**
    * Mars Media Helper service.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   protected $mediaHelper;
 
@@ -85,7 +85,7 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.media_helper'),
+      $container->get('mars_media.media_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }
@@ -167,6 +167,21 @@ abstract class ImageVideoBlockBase extends BlockBase implements ContainerFactory
       'required' => [
         [':input[name="settings[block_content_type]"]' => ['value' => self::CONTENT_TYPE_VIDEO]],
       ],
+    ];
+
+    // Specify media asset aspect ratio.
+    $form['aspect_ratio'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Aspect ratio'),
+      '#description' => $this->t('Please specify the media asset aspect ratio'),
+      '#options' => [
+        '1-1' => $this->t('1:1 (Original)'),
+        '3-4' => $this->t('3:4 (Portrait)'),
+        '4-3' => $this->t('4:3 (Landscape)'),
+        '16-9' => $this->t('16:9 (Landscape)'),
+        '21-9' => $this->t('21:9 (Landscape)'),
+      ],
+      '#default_value' => $config['aspect_ratio'] ?? '16-9',
     ];
 
     return $form;

@@ -140,6 +140,16 @@ function mars_common_update_8009() {
 }
 
 /**
+ * Enable dependency module.
+ */
+function mars_common_update_8010() {
+  $modules = [
+    'mars_media',
+  ];
+  \Drupal::service('module_installer')->install($modules);
+}
+
+/**
  * Update 'field_recipe_cooking_time' field storage definitions.
  */
 function mars_common_update_8011() {

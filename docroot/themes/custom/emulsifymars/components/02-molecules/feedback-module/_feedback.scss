@@ -256,9 +256,12 @@
   &__png-asset {
     position: absolute;
     z-index: 2;
-    display: block;
+    display: flex;
+    justify-content: center;
+    height: 64px;
 
-    img{
+    img{ 
+      height: 100%;
       object-fit: cover;
     }
 
@@ -270,8 +273,13 @@
 
     @include medium {
       width: 19rem;
+      height: 8.3rem;
       bottom: -5rem;
       right: -8.3rem;
+    }
+
+    @include large {
+      height: 9.6rem;
     }
   }
 
