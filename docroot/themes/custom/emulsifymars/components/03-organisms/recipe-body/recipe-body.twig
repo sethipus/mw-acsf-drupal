@@ -8,11 +8,13 @@
     ul_items: ingredients_list,
     ul_base_class: 'recipe-body-ingredients-list'
   }%}
-  <div class="product-used">
-    <div class="product-used__title">{{ products_used_label }}</div>
-    {% include "@molecules/product-used-module/product-used-module.twig" with {
-      items: product_used_items
-    } %}
-  </div>
+  {% if product_used_items is not empty %}
+    <div class="product-used">
+      <div class="product-used__title">{{ products_used_label }}</div>
+      {% include "@molecules/product-used-module/product-used-module.twig" with {
+        items: product_used_items
+      } %}
+    </div>
+  {% endif %}
 </div>
 </section>
