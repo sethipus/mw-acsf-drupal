@@ -1,10 +1,16 @@
 <?php
 
-namespace Drupal\mars_common;
+namespace Drupal\mars_media;
 
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\file\FileInterface;
+use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_media\Media\ImageUriInterface;
+use Drupal\mars_media\Media\CFResizableImageUri;
+use Drupal\mars_media\Media\NonResizableImageUri;
 use Drupal\mars_product\ProductHelper;
 
 /**
@@ -36,6 +42,13 @@ class MediaHelper {
   private $languageHelper;
 
   /**
+   * Media related configuration object.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  private $mediaConfig;
+
+  /**
    * MediaHelper constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -44,6 +57,8 @@ class MediaHelper {
    *   The product helper service.
    * @param \Drupal\mars_common\LanguageHelper $language_helper
    *   The language helper service.
+   * @param \Drupal\Core\Config\ImmutableConfig $media_config
+   *   Media related config object.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -51,11 +66,13 @@ class MediaHelper {
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
     ProductHelper $product_helper,
-    LanguageHelper $language_helper
+    LanguageHelper $language_helper,
+    ImmutableConfig $media_config
   ) {
     $this->mediaStorage = $entity_type_manager->getStorage('media');
     $this->productHelper = $product_helper;
     $this->languageHelper = $language_helper;
+    $this->mediaConfig = $media_config;
   }
 
   /**
@@ -103,7 +120,8 @@ class MediaHelper {
 
         return [
           'image' => TRUE,
-          'src' => $entity->image->entity->createFileUrl(!$absolute_urls),
+          'src' => $this->getImageUriForEntity($entity->image->entity,
+            $entity->bundle()),
           'alt' => $this->languageHelper->translate($entity->image->alt),
           'title' => $entity->image->title,
         ];
@@ -115,7 +133,8 @@ class MediaHelper {
 
         return [
           'image' => TRUE,
-          'src' => $entity->field_media_image->entity->createFileUrl(!$absolute_urls),
+          'src' => $this->getImageUriForEntity($entity->field_media_image->entity,
+            $entity->bundle()),
           'alt' => $this->languageHelper->translate($entity->field_media_image->alt),
           'title' => $entity->field_media_image->title,
         ];
@@ -305,6 +324,39 @@ class MediaHelper {
         ->target_id;
     }
     return $media_id;
+  }
+
+  /**
+   * Creates an ImageUri object based on the file entity.
+   *
+   * @param \Drupal\file\FileInterface|null $entity
+   *   The file entity.
+   * @param string $bundle
+   *   The current bundle.
+   * @param bool $absolute_urls
+   *   Flag to crate absolute or relative url.
+   *
+   * @return \Drupal\mars_media\Media\ImageUriInterface|null
+   *   Image URI object or null if the entity is null.
+   */
+  private function getImageUriForEntity(
+    ?FileInterface $entity,
+    string $bundle,
+    bool $absolute_urls = FALSE
+  ): ?ImageUriInterface {
+    if ($entity === NULL) {
+      return NULL;
+    }
+
+    $fileUrl = $entity->createFileUrl(!$absolute_urls);
+
+    if (
+      $this->mediaConfig->get('cf_resize.enabled') &&
+      $this->mediaConfig->get('cf_resize.bundles.' . $bundle)
+    ) {
+      return CFResizableImageUri::createFromUriString($fileUrl);
+    }
+    return new NonResizableImageUri($fileUrl);
   }
 
 }

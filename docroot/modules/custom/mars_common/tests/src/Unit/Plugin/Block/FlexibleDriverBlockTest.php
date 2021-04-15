@@ -5,7 +5,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\Tests\UnitTestCase;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\FlexibleDriverBlock;
 
 /**
@@ -41,7 +41,7 @@ class FlexibleDriverBlockTest extends UnitTestCase {
   /**
    * Media Helper service mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   protected $mediaHelperMock;
 

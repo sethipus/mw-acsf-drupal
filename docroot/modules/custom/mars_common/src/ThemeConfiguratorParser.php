@@ -7,9 +7,9 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
-use Drupal\mars_common\SVG\SVG;
-use Drupal\mars_common\SVG\SVGException;
-use Drupal\mars_common\SVG\SVGFactory;
+use Drupal\mars_media\SVG\SVG;
+use Drupal\mars_media\SVG\SVGException;
+use Drupal\mars_media\SVG\SVGFactory;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -43,7 +43,7 @@ class ThemeConfiguratorParser {
   /**
    * The svg factory service.
    *
-   * @var \Drupal\mars_common\SVG\SVGFactory
+   * @var \Drupal\mars_media\SVG\SVGFactory
    */
   private $svgFactory;
 
@@ -61,7 +61,7 @@ class ThemeConfiguratorParser {
    *   The entity type manager service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
-   * @param \Drupal\mars_common\SVG\SVGFactory $svg_factory
+   * @param \Drupal\mars_media\SVG\SVGFactory $svg_factory
    *   The svg factory service.
    * @param \Psr\Log\LoggerInterface $logger
    *   The logger service.
@@ -122,7 +122,7 @@ class ThemeConfiguratorParser {
   /**
    * Returns the brand border svg if there are any.
    *
-   * @return \Drupal\mars_common\SVG\SVG|null
+   * @return \Drupal\mars_media\SVG\SVG|null
    *   The brand border or null.
    */
   public function getBrandBorder(): ?SVG {
@@ -149,7 +149,7 @@ class ThemeConfiguratorParser {
   /**
    * Returns the brand border 2 svg if there are any.
    *
-   * @return \Drupal\mars_common\SVG\SVG|null
+   * @return \Drupal\mars_media\SVG\SVG|null
    *   The brand border 2 or null.
    */
   public function getBrandBorder2(): ?SVG {
@@ -165,7 +165,7 @@ class ThemeConfiguratorParser {
   /**
    * Returns the graphic divider if there are any.
    *
-   * @return \Drupal\mars_common\SVG\SVG|null
+   * @return \Drupal\mars_media\SVG\SVG|null
    *   The graphic divider or null.
    */
   public function getGraphicDivider(): ?SVG {
@@ -175,7 +175,7 @@ class ThemeConfiguratorParser {
   /**
    * Returns the current brand shape without fill info if there are any.
    *
-   * @return \Drupal\mars_common\SVG\SVG|null
+   * @return \Drupal\mars_media\SVG\SVG|null
    *   The brand shape or null.
    */
   public function getBrandShapeWithoutFill(): ?SVG {
@@ -195,7 +195,7 @@ class ThemeConfiguratorParser {
    * @param string $field_name
    *   The field name.
    *
-   * @return \Drupal\mars_common\SVG\SVG|null
+   * @return \Drupal\mars_media\SVG\SVG|null
    *   The svg or null if something went wrong or missing.
    */
   private function getSvgFor(string $field_name): ?SVG {

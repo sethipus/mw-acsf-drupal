@@ -14,7 +14,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\Form\MarsCardColorSettingsForm;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_product\Form\BazaarvoiceConfigForm;
 use Drupal\mars_product\NutritionDataHelper;
@@ -88,7 +88,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * Helper service to deal with media.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   private $mediaHelper;
 
@@ -262,7 +262,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $container->get('mars_common.theme_configurator_parser'),
       $container->get('mars_common.language_helper'),
       $container->get('mars_product.product_helper'),
-      $container->get('mars_common.media_helper'),
+      $container->get('mars_media.media_helper'),
       $global_wtb_config,
       (bool) $default_review_state,
       $container->get('config.factory'),

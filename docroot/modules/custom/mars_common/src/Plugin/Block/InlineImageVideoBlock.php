@@ -55,6 +55,9 @@ class InlineImageVideoBlock extends ImageVideoBlockBase {
       $build['#video_src'] = $video_url;
     }
 
+    // Add media aspect ratio.
+    $build['#aspect_ratio'] = $config['aspect_ratio'] ?? '16-9';
+
     $build['#theme'] = 'inline_image_video_block';
 
     return $build;

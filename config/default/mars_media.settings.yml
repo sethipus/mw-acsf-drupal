@@ -1,0 +1,5 @@
+cf_resize:
+  enabled: false
+  bundles:
+    image: false
+    lighthouse_image: false

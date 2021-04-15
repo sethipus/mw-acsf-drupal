@@ -5,8 +5,8 @@ namespace Drupal\Tests\mars_recipes\Unit;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\file\Entity\File;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\MediaHelper;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\media\Entity\Media;
 use Drupal\node\Entity\Node;
@@ -21,7 +21,7 @@ use Drupal\Core\Url;
  * Class RecipeFeatureBlockTest.
  *
  * @package Drupal\Tests\mars_recipes\Unit
- * @covers \Drupal\mars_recipes\Plugin\Block\RecipeFeatureBlockTest
+ * @covers \Drupal\mars_recipes\Plugin\Block\RecipeFeatureBlock
  */
 class RecipeFeatureBlockTest extends UnitTestCase {
 
@@ -70,7 +70,7 @@ class RecipeFeatureBlockTest extends UnitTestCase {
   /**
    * Media Helper service Mock.
    *
-   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\mars_media\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
    */
   private $mediaHelperMock;
 
@@ -162,7 +162,7 @@ class RecipeFeatureBlockTest extends UnitTestCase {
         [$this->equalTo('entity_type.manager')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
         [$this->equalTo('mars_common.language_helper')],
-        [$this->equalTo('mars_common.media_helper')]
+        [$this->equalTo('mars_media.media_helper')]
       )
       ->will($this->onConsecutiveCalls($this->entityTypeManagerMock, $this->themeConfiguratorParserMock, $this->languageHelperMock, $this->mediaHelperMock));
 

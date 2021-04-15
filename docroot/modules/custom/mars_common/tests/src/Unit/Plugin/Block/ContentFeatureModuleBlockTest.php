@@ -4,7 +4,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\Core\Form\FormState;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\ContentFeatureModuleBlock;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
@@ -46,7 +46,7 @@ class ContentFeatureModuleBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 

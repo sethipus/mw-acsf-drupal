@@ -19,14 +19,32 @@
     {% if freeform_story_img_src %}
       <div class="freeform-story__content--column">
         <div class="freeform-story__img">
-          {% include "@atoms/images/image/responsive-image.twig" with {
-            output_image_tag: true,
-            image_alt: freeform_story_img_alt,
-            image_sizes: '212px',
-            image_src: freeform_story_img_src,
-            height: '415px',
-            width: '705px',
-          } %}
+          {% if use_original_image %}
+            {% set images = {
+              1440: freeform_story_img_src,
+              768: freeform_story_img_src,
+              375: freeform_story_img_src,
+            } %}
+            {% set classes = bem('original-image-wrapper', []) %}
+          {% else %}
+            {% set images = {
+              1440: freeform_story_img_src|resize(705, 415),
+              768: freeform_story_img_src|resize(374, 209),
+              375: freeform_story_img_src|resize(326, 192),
+            } %}
+            {% set freeform_story_img_src = freeform_story_img_src|resize(580, 580) %}
+            {% set classes = bem('aspect-ratio-wrapper', ['16-9']) %}
+          {% endif %}
+          <div {{ classes }}>
+            {% include "@atoms/images/image/responsive-image.twig" with {
+              output_image_tag: true,
+              image_alt: freeform_story_img_alt,
+              image_src: freeform_story_img_src,
+              image_array: images,
+              height: '415px',
+              width: '705px',
+            } %}
+          </div>
         </div>
       </div>
     {% else %}

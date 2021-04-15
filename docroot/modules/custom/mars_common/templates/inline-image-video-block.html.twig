@@ -25,6 +25,7 @@
             image_title: image_title,
             shape_motif: shape_motif,
             content: content,
+            aspect_ratio: aspect_ratio,
           } %}
         {% elseif (block_type == 'video') %}
           {% include "@molecules/article-media/inline/inline-media.twig" with {
@@ -34,6 +35,7 @@
             video__control: true,
             shape_motif: shape_motif,
             content: content,
+            aspect_ratio: aspect_ratio,
           } %}
         {% endif %}
     {% endblock %}
