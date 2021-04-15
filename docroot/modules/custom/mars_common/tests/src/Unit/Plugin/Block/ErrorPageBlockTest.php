@@ -4,7 +4,7 @@ namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\ErrorPageBlock;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\node\Entity\Node;
@@ -55,7 +55,7 @@ class ErrorPageBlockTest extends UnitTestCase {
   /**
    * Media Helper service Mock.
    *
-   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\mars_media\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
    */
   private $mediaHelperMock;
 

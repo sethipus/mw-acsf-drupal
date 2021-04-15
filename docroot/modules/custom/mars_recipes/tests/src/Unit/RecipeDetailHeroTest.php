@@ -5,7 +5,7 @@ namespace Drupal\Tests\mars_recipes\Unit;
 use Drupal;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_recipes\Plugin\Block\RecipeDetailHero;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,7 +19,7 @@ use Drupal\file\Entity\File;
 use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\Core\Utility\Token;
 
 /**
@@ -89,7 +89,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
   /**
    * Media Helper.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\mars_media\MediaHelper
    */
   protected $mediaHelperMock;
 
@@ -233,7 +233,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
         [$this->equalTo('config.factory')],
         [$this->equalTo('token')],
         [$this->equalTo('mars_common.theme_configurator_parser')],
-        [$this->equalTo('mars_common.media_helper')],
+        [$this->equalTo('mars_media.media_helper')],
         [$this->equalTo('mars_common.language_helper')]
       )
       ->will($this->onConsecutiveCalls(

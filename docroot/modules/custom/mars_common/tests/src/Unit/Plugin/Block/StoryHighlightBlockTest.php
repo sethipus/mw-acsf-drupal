@@ -7,9 +7,9 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\file\Entity\File;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\StoryHighlightBlock;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\media\Entity\Media;
 use Drupal\Tests\UnitTestCase;
@@ -72,7 +72,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
   /**
    * Media Helper service Mock.
    *
-   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\mars_media\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
    */
   private $mediaHelperMock;
 
@@ -130,7 +130,7 @@ class StoryHighlightBlockTest extends UnitTestCase {
     $container->set('string_translation', $this->getStringTranslationStub());
     $container->set('entity_type.manager', $this->entityTypeManagerMock);
     $container->set('entity_type.repository', $this->entityTypeRepositoryMock);
-    $container->set('mars_common.media_helper', $this->mediaHelperMock);
+    $container->set('mars_media.media_helper', $this->mediaHelperMock);
     $container->set('mars_common.theme_configurator_parser', $this->themeConfigurationParserMock);
     $container->set('mars_common.language_helper', $this->languageHelperMock);
     \Drupal::setContainer($container);

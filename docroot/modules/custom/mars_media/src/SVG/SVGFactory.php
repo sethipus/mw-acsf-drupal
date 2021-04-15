@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_common\SVG;
+namespace Drupal\mars_media\SVG;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
@@ -19,7 +19,7 @@ class SVGFactory {
   /**
    * Unique id generator service.
    *
-   * @var \Drupal\mars_common\SVG\SVGUniqueIdGenerator
+   * @var \Drupal\mars_media\SVG\SVGUniqueIdGenerator
    */
   private $uniqueIdGenerator;
 
@@ -28,7 +28,7 @@ class SVGFactory {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
-   * @param \Drupal\mars_common\SVG\SVGUniqueIdGenerator $unique_id_generator
+   * @param \Drupal\mars_media\SVG\SVGUniqueIdGenerator $unique_id_generator
    *   Service for generating unique ids.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
@@ -48,10 +48,10 @@ class SVGFactory {
    * @param string $file_id
    *   The file entity id.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The svg object based on the found file entity.
    *
-   * @throws \Drupal\mars_common\SVG\SVGException
+   * @throws \Drupal\mars_media\SVG\SVGException
    */
   public function createSvgFromFileId(string $file_id): SVG {
     /** @var \Drupal\file\Entity\File $drupal_file */
