@@ -207,7 +207,7 @@ vendor-chunk-1:
 
 vendor-chunk-2:
   js:
-    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~recommendations_module~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js: {}
 
 search-facet-type:
   js:
