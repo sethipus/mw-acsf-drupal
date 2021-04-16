@@ -332,6 +332,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'brand_shape' => NULL,
         'custom_background_color' => NULL,
         'use_custom_color' => NULL,
+        'use_original_image' => NULL,
         'text_color_override' => NULL,
       ],
       'template' => 'freeform-story-block',
@@ -373,6 +374,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'shape_motif' => NULL,
         'content' => NULL,
         'heading' => NULL,
+        'aspect_ratio' => NULL,
       ],
       'template' => 'inline-image-video-block',
     ],
@@ -504,8 +506,8 @@ function mars_common_preprocess_block__inline_block__media_carousel(array &$vari
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__list(array &$variables) {
-  /** @var \Drupal\mars_common\MediaHelper $media_helper */
-  $media_helper = \Drupal::service('mars_common.media_helper');
+  /** @var \Drupal\mars_media\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_media.media_helper');
 
   $field_list_items = $variables['content']['field_list_items_reference'];
 
@@ -559,8 +561,8 @@ function mars_common_preprocess_block__inline_block__text_component(array &$vari
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__inline_image(array &$variables) {
-  /** @var \Drupal\mars_common\MediaHelper $media_helper */
-  $media_helper = \Drupal::service('mars_common.media_helper');
+  /** @var \Drupal\mars_media\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_media.media_helper');
 
   /** @var \Drupal\block_content\BlockContentInterface $block */
   $block = $variables['content']['#block_content'];
@@ -605,8 +607,8 @@ function mars_common_preprocess_block__inline_block__inline_image(array &$variab
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__inline_video(array &$variables) {
-  /** @var \Drupal\mars_common\MediaHelper $media_helper */
-  $media_helper = \Drupal::service('mars_common.media_helper');
+  /** @var \Drupal\mars_media\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_media.media_helper');
 
   /** @var \Drupal\block_content\BlockContentInterface $block */
   $block = $variables['content']['#block_content'];
@@ -649,8 +651,8 @@ function mars_common_preprocess_block__inline_block__inline_video(array &$variab
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__full_width_image(array &$variables) {
-  /** @var \Drupal\mars_common\MediaHelper $media_helper */
-  $media_helper = \Drupal::service('mars_common.media_helper');
+  /** @var \Drupal\mars_media\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_media.media_helper');
 
   /** @var \Drupal\block_content\BlockContentInterface $block */
   $block = $variables['content']['#block_content'];
@@ -696,8 +698,8 @@ function mars_common_preprocess_block__inline_block__full_width_image(array &$va
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__full_width_video(array &$variables) {
-  /** @var \Drupal\mars_common\MediaHelper $media_helper */
-  $media_helper = \Drupal::service('mars_common.media_helper');
+  /** @var \Drupal\mars_media\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_media.media_helper');
 
   /** @var \Drupal\block_content\BlockContentInterface $block */
   $block = $variables['content']['#block_content'];
@@ -741,8 +743,8 @@ function mars_common_preprocess_block__inline_block__full_width_video(array &$va
  * Implements hook_preprocess_HOOK().
  */
 function mars_common_preprocess_block__inline_block__flexible_framer(array &$variables) {
-  /** @var \Drupal\mars_common\MediaHelper $media_helper */
-  $media_helper = \Drupal::service('mars_common.media_helper');
+  /** @var \Drupal\mars_media\MediaHelper $media_helper */
+  $media_helper = \Drupal::service('mars_media.media_helper');
 
   $field_ff_items = $variables['content']['field_ff_items_reference'];
   $field_ff_title = $variables['content']['field_ff_title']['#items']->value;

@@ -103,19 +103,11 @@
     text-align: center;
     font-size: 18rem;
     background: clr(subcolor-2);
-    height: 25rem;
     overflow: hidden;
     position: relative;
     max-width: 1128px;
     margin: 0 auto;
-
-    @include medium {
-      height: 43.4rem;
-    }
-
-    @include xl {
-      height: 63.5rem;
-    }
+    height: auto;
 
     img {
       width: 100%;

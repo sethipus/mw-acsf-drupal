@@ -7,7 +7,7 @@ use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\layout_builder\SectionComponent;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Utils\NodeLBComponentIterator;
 use Drupal\mars_seo\Form\OpenGraphSettingForm;
 use Drupal\node\NodeInterface;
@@ -38,7 +38,7 @@ class HeroImageService {
   /**
    * Mars Common Media Helper.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   private $mediaHelper;
 
@@ -52,7 +52,7 @@ class HeroImageService {
   /**
    * Constructs a HeroImageService object.
    *
-   * @param \Drupal\mars_common\MediaHelper $media_helper
+   * @param \Drupal\mars_media\MediaHelper $media_helper
    *   The media helper service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.

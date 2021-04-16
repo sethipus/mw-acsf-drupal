@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\Tests\mars_common\Unit\SVG;
+namespace Drupal\Tests\mars_media\Unit\SVG;
 
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -143,7 +143,7 @@ SVG;
    * @param string $content
    *   The content of the svg.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The new SVG object.
    */
   private function createNewSVG($content = self::SAMPLE_SVG): SVG {

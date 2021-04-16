@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\mars_common\SVG;
+namespace Drupal\mars_media\SVG;
 
 /**
  * Class that represents an svg structure.
@@ -27,10 +27,10 @@ class SVG {
    * @param string $id
    *   The unique id for this SVG object.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The resulting SVG object.
    *
-   * @throws \Drupal\mars_common\SVG\SVGException
+   * @throws \Drupal\mars_media\SVG\SVGException
    */
   public static function createFromFile(string $uri, string $id): self {
     if (!file_exists($uri)) {
@@ -79,7 +79,7 @@ class SVG {
   /**
    * Returns an SVG object without size information.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The new SVG object.
    */
   public function withoutSizeInfo(): self {
@@ -96,7 +96,7 @@ class SVG {
   /**
    * Returns an SVG object that will stretch to the available space.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The new SVG object.
    */
   public function stretched(): self {
@@ -112,7 +112,7 @@ class SVG {
   /**
    * Creates an SVG that scale with keeping his initial aspect ratio.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The new SVG object.
    */
   public function scaleWhileKeepingAspectRatio(): self {
@@ -128,7 +128,7 @@ class SVG {
   /**
    * Returns an SVG object that will repeat in the available space.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The new SVG object.
    */
   public function repeated(): self {
@@ -182,7 +182,7 @@ class SVG {
   /**
    * Returns an SVG object without the fill information in it.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The new SVG object.
    */
   public function withoutFillInfo() {
@@ -227,7 +227,7 @@ class SVG {
   /**
    * Returns an SVG object without size information.
    *
-   * @return \Drupal\mars_common\SVG\SVG
+   * @return \Drupal\mars_media\SVG\SVG
    *   The new SVG object.
    */
   public function withoutOpacityInfo(): self {

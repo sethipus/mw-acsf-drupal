@@ -354,9 +354,12 @@
 
     img {
       width: 27.7rem;
+      height: 27.7rem;
+      object-fit: contain;
 
       @include medium {
         width: 54.9rem;
+        height: 54.9rem;
       }
     }
   }
@@ -364,11 +367,7 @@
   &__side-image {
     display: flex;
     justify-content: center;
-    margin: 2rem 0;
-
-    @include medium {
-      margin: 4rem 0;
-    }
+    object-fit: contain;
 
     &-container {
       margin: 4.5rem 0 2rem;
@@ -384,6 +383,12 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      margin: 2rem auto;
+      max-width: 65vw;
+
+      @include medium {
+        margin: 4rem 0;
+      }
 
       @include large {
         display: block;
@@ -392,10 +397,12 @@
 
     img {
       width: 27.7rem;
-      height: 100%;
+      height: 27.7rem;
+      object-fit: contain;
 
       @include medium {
         width: 47.2rem;
+        height: 47.2rem;
       }
     }
   }
@@ -896,17 +903,34 @@
   color: var(--c-primary) !important;
 }
 
-.bv-content-list-container .bv-header .bv-action-bar .bv-write-review-container {
+.bv-cv2-cleanslate .bv-content-list-container .bv-header .bv-action-bar .bv-write-review-container {
   position: relative !important;
   top: 70px !important;
+  float: right !important;
+
+  @include xs {
+    float: right !important;
+  }
 }
 
-.bv-section-summary .bv-section-summary-inline .bv-inline-histogram .bv-inline-histogram-ratings {
-  display: none !important;
+.bv-cv2-cleanslate .bv-shared .bv-content-list-container .bv-section-summary .bv-section-summary-inline .bv-inline-histogram-ratings {
+  margin-top: 5rem !important;
+
+  @include small {
+    margin: 0 !important;
+  }
 }
 
-.bv-section-summary .bv-section-summary-table .bv-section-summary-inline .bv-inline-histogram {
-  width: 0 !important;
+.bv-cv2-cleanslate .bv-content-list-container .bv-section-summary .bv-inline-histogram-header .bv-content-title {
+  background-color: transparent !important;
+}
+
+.bv-cv2-cleanslate .bv-content-list-container .bv-section-summary .bv-secondary-rating-summary .bv-content-title {
+  background-color: transparent !important;
+
+  @include medium {
+    width: 55% !important;
+  }
 }
 
 .bv-cv2-cleanslate .bv-content-item .bv-content-feedback-vote-request p{

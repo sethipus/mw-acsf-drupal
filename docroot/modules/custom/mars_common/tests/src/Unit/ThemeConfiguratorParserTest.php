@@ -7,13 +7,13 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\file\Entity\File;
-use Drupal\mars_common\SVG\SVGFactory;
+use Drupal\mars_media\SVG\SVGFactory;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Tests\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\Core\Url;
 
 /**
@@ -62,7 +62,7 @@ class ThemeConfiguratorParserTest extends UnitTestCase {
   /**
    * Mocked SVG factory service.
    *
-   * @var \Drupal\mars_common\SVG\SVGFactory|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\mars_media\SVG\SVGFactory|\PHPUnit\Framework\MockObject\MockObject
    */
   private $svgFactoryMock;
 
