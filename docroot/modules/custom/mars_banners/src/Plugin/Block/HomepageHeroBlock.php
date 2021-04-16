@@ -748,10 +748,10 @@ class HomepageHeroBlock extends BlockBase implements ContainerFactoryPluginInter
    * @param array $config
    *   Block settings config array.
    *
-   * @return string
+   * @return mixed
    *   Returns a file URL or an empty string value.
    */
-  private function getCustomForegroundImageUrl(array $config): string {
+  private function getCustomForegroundImageUrl(array $config) {
     $custom_shape_image_id = !empty($config["custom_foreground_image"]["image"]) ? $config["custom_foreground_image"]["image"] : NULL;
     if (!empty($custom_shape_image_id)) {
       $media_id = $this->mediaHelper->getIdFromEntityBrowserSelectValue($custom_shape_image_id);
