@@ -2,7 +2,8 @@
   @include list-reset;
 
   position: relative;
-  padding: 12px 0;
+  padding: 12px 2px;
+  margin: 0 -2px;
 
   &__input {
     display: none;
@@ -23,7 +24,7 @@
       width: 20px;
       border: 1px solid clr(subcolor-4);
       top: 12px;
-      right: 0;
+      right: 2px;
     }
   }
 
@@ -41,7 +42,7 @@
       border-left: 2px solid clr(subcolor-2);
       border-bottom: 2px solid clr(subcolor-2);
       top: 16px;
-      right: 3px;
+      right: 5px;
       transform: rotate(-45deg);
     }
   }
