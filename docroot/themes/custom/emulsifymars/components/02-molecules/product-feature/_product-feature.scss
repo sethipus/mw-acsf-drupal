@@ -106,7 +106,7 @@
   }
 
   &__product_image {
-    padding: 5rem 6rem 0;
+    padding: 5rem 6rem;
     animation: cubic-bezier(0, 0, 1, 1) action 4.8s infinite;
 
     img {
@@ -119,28 +119,12 @@
 
     @include medium {
       padding: 2rem 8rem 0;
-
-      img {
-        max-width: 46.4rem;
-        max-height: 46.4rem;
-      }
+      max-width: 640px;
+      margin: 0 auto;
     }
 
     @include large {
       padding: 8rem 2rem 8rem 4rem;
-
-      img {
-        max-width: 46.4rem;
-        max-height: 46.4rem;
-      }
-    }
-
-    @include xl {
-
-      img {
-        max-width: 52rem;
-        max-height: 52rem;
-      }
     }
 
     @keyframes action {
