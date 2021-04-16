@@ -8,8 +8,8 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\EntityViewBuilderInterface;
 use Drupal\Core\Url;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\MediaHelper;
+use Drupal\mars_media\SVG\SVG;
 use Drupal\mars_product\Plugin\Block\ProductContentPairUpBlock;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\UnitTestCase;
@@ -71,7 +71,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 
@@ -152,7 +152,7 @@ class ProductContentPairUpBlockTest extends UnitTestCase {
             $this->languageHelperMock,
           ],
           [
-            'mars_common.media_helper',
+            'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
           ],

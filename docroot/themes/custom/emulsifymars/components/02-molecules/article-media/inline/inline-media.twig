@@ -1,4 +1,5 @@
 {% set inline__base_class = 'article-inline' %}
+{% set aspect_ratio = aspect_ratio %}
 
 <section {{ bem(inline__base_class) }} data-theme="{{ theme_styles }}"
   {% if heading and media_type == 'video' %}
@@ -22,16 +23,22 @@
 
   {% if media_type == 'image' %}
     <div {{ bem('media', [], inline__base_class) }}>
-      {% include "@atoms/images/image/_image.twig" with {
-        image_base_class: base_class,
-        image_modifiers: image_modifiers,
-        image_blockname: image_blockname,
-        image_src: image_src,
-        image_alt: image_alt,
-        image_title: image_title,
-        height: '780px',
-        width: '500px',
+      {% set images = {
+        1440: image_src|resize(780, 439),
+        768: image_src|resize(688, 387),
+        375: image_src|resize(335, 223),
       } %}
+      <div {{ bem('aspect-ratio-wrapper', [ aspect_ratio ]) }}>
+        {% include "@atoms/images/image/_image.twig" with {
+          image_base_class: base_class,
+          image_modifiers: image_modifiers,
+          image_blockname: image_blockname,
+          image_src: image_src|resize(780, 439),
+          image_alt: image_alt,
+          image_title: image_title,
+          image_array: images,
+        } %}
+      </div>
     </div>
   {% elseif media_type == 'video' %}
     {{ attach_library('emulsifymars/inline-video') }}

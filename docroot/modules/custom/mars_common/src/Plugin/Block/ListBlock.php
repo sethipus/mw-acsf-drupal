@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 
@@ -34,7 +34,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
   /**
    * Mars Media Helper service.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   protected $mediaHelper;
 
@@ -69,7 +69,7 @@ class ListBlock extends BlockBase implements ContextAwarePluginInterface, Contai
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.media_helper')
+      $container->get('mars_media.media_helper')
     );
   }
 

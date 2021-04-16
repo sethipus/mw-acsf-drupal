@@ -354,9 +354,12 @@
 
     img {
       width: 27.7rem;
+      height: 27.7rem;
+      object-fit: contain;
 
       @include medium {
         width: 54.9rem;
+        height: 54.9rem;
       }
     }
   }
@@ -364,11 +367,7 @@
   &__side-image {
     display: flex;
     justify-content: center;
-    margin: 2rem 0;
-
-    @include medium {
-      margin: 4rem 0;
-    }
+    object-fit: contain;
 
     &-container {
       margin: 4.5rem 0 2rem;
@@ -384,6 +383,12 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      margin: 2rem auto;
+      max-width: 65vw;
+
+      @include medium {
+        margin: 4rem 0;
+      }
 
       @include large {
         display: block;
@@ -392,10 +397,12 @@
 
     img {
       width: 27.7rem;
-      height: 100%;
+      height: 27.7rem;
+      object-fit: contain;
 
       @include medium {
         width: 47.2rem;
+        height: 47.2rem;
       }
     }
   }

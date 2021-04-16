@@ -157,3 +157,8 @@ docroot/sites/default/settings.ddev.php
 
 # Locale config translations
 /config/envs/local/languages
+
+# local environment settings
+.ddev/docker-compose.override.yml
+.ddev/commands/web/npm
+.ddev/commands/web/npx
