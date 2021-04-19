@@ -7,15 +7,15 @@
     font-size: 5rem;
 
     &--heading-font {
-      font-family: variable(heading-font);
+      @include set-font($font-type: 'heading-font');
     }
 
     &--primary-font {
-      font-family: variable(primary-font);
+      @include set-font($font-type: 'primary-font');
     }
 
     &--secondary-font {
-      font-family: variable(secondary-font);
+      @include set-font($font-type: 'secondary-font');
     }
   }
 
@@ -25,13 +25,13 @@
     font-size: 2rem;
 
     &--light {
-      font-family: variable(secondary-font);
+      @include set-font($font-type: 'secondary-font');
     }
     &--medium {
-      font-family: variable(primary-font);
+      @include set-font($font-type: 'primary-font');
     }
     &--bold {
-      font-family: variable(heading-font);
+      @include set-font($font-type: 'heading-font');
     }
   }
 }

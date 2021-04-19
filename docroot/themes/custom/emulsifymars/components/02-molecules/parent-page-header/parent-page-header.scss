@@ -53,7 +53,8 @@
   }
 
   .parent-page-heading {
-    font-family: variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
     text-align: center;
     font-weight: 500;
@@ -75,7 +76,8 @@
   }
 
   .parent-page-paragraph {
-    font-family: variable(secondary-font);
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
     text-align: center;
     margin: 0 auto;

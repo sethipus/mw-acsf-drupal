@@ -1,15 +1,17 @@
 .eyebrow {
+  @include set-font($font-type: 'secondary-font');
+
   text-transform: uppercase;
   font-size: 1.6rem;
   line-height: 1.6rem;
   color: clr(subcolor-3);
-  font-family: variable(secondary-font);
   display: block;
   margin-bottom: 3rem;
 
   &--parent-page {
+    @include set-font($font-type: 'primary-font');
+
     font-size: 1.4rem;
-    font-family: variable(primary-font);
     color: clr(primary);
     text-align: center;
   }

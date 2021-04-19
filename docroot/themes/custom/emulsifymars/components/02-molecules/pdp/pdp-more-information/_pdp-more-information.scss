@@ -1,16 +1,17 @@
 .pdp-more-information{
-    &__more-info-header {
-        font-family: variable(primary-font);
-        font-size: 2rem;
-        line-height: 1.1;
-        text-transform: uppercase;
-        color: clr(secondary);
-        text-align: center;
-        margin: 0;
-        padding: 2rem 0;
-        
-        @include large {
-            font-size: 2.4rem;
-        }
+  &__more-info-header {
+    @include set-font($font-type: 'primary-font');
+
+    font-size: 2rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: clr(secondary);
+    text-align: center;
+    margin: 0;
+    padding: 2rem 0;
+
+    @include large {
+        font-size: 2.4rem;
     }
+  }
 }

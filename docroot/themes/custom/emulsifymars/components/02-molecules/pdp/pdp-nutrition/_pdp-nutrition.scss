@@ -48,8 +48,8 @@
 
   &__heading-item {
     @include dd-reset;
+    @include set-font($font-type: 'primary-font');
 
-    font-family: variable(primary-font);
     font-size: 2rem;
     line-height: 1.1;
     color: clr(accent-high);
@@ -152,6 +152,7 @@
 
     &-item {
       @include dd-reset;
+      @include set-font($font-type: 'secondary-font');
 
       flex: 1 0 auto;
       color: $nero;
@@ -163,8 +164,9 @@
       }
 
       &--heading {
+        @include set-font($font-type: 'primary-font');
+
         flex: 1 0 50%;
-        font-family: variable(primary-font);
         font-weight: 500;
         font-size-adjust: 0.5;
 
@@ -182,7 +184,8 @@
         }
 
         &.bold {
-          font-family: variable(primary-font);
+          @include set-font($font-type: 'primary-font');
+
           font-weight: 600;
           font-size-adjust: 0.5;
         }
@@ -215,7 +218,8 @@
       }
 
       &--additional-info {
-        font-family: variable(primary-font);
+        @include set-font($font-type: 'primary-font');
+
         font-weight: 500;
         font-size-adjust: 0.5;
 

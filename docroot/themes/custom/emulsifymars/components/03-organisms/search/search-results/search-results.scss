@@ -7,7 +7,8 @@
 }
 
 .results-key-header-container.active {
-  font-family: variable(primary-font);
+  @include set-font($font-type: 'primary-font');
+
   color: clr(primary);
   font-size: 2rem;
   line-height: 2.2rem;

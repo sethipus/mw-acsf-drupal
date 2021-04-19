@@ -1,5 +1,6 @@
 .article-header-image, .article-header-noimage {
-  font-family: variable(primary-font);
+  @include set-font($font-type: 'primary-font');
+
   color: clr(primary);
   background-color: clr(subcolor-2);
   margin-bottom: 1rem; // +2rem from .article-wysiwyg padding and +2rem from .article-wysiwyg__content paragraph margin
@@ -26,9 +27,10 @@
       }
 
       & .heading {
+        @include set-font($font-type: 'primary-font');
+
         font-style: normal;
         font-weight: 500;
-        font-family: variable(primary-font);
 
         @include xs {
           font-size: 2.8rem;
@@ -52,11 +54,12 @@
 
 
       & .eyebrow {
+        @include set-font($font-type: 'primary-font');
+
         font-style: normal;
         font-weight: 500;
         text-transform: uppercase;
         color: clr(primary);
-        font-family: variable(primary-font);
         margin-top: 0;
 
         @include xs {
@@ -71,11 +74,12 @@
       }
 
       & .published {
+        @include set-font($font-type: 'secondary-font');
+
         font-style: normal;
         font-weight: normal;
         margin-bottom: 40px;
         display: block;
-        font-family: variable(secondary-font);
 
         @include xs {
           font-size: 1.4rem;
@@ -111,9 +115,10 @@
         }
 
         & .share-text {
+          @include set-font($font-type: 'primary-font');
+
           font-style: normal;
           font-weight: 500;
-          font-family: variable(primary-font);
 
           @include xs {
             font-size: 1.6rem;
@@ -151,7 +156,7 @@
 }
 
 .article-header-image {
-  font-family: variable(primary-font);
+  @include set-font($font-type: 'primary-font');
 
     &__image {
       position: relative;
@@ -189,7 +194,8 @@
 }
 
 .article-header-noimage {
-  font-family: variable(primary-font);
+  @include set-font($font-type: 'primary-font');
+
   position: relative;
   overflow: hidden;
 

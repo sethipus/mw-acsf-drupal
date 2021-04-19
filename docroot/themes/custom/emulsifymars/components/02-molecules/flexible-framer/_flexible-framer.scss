@@ -1,14 +1,15 @@
 .flexible-framer {
   @include brand-border-overflow;
+  @include set-font($font-type: 'primary-font');
 
   position: relative;
-  font-family: variable(primary-font);
   background-color: clr(subcolor-2);
   color: clr(primary);
 
   & .h2 {
+    @include set-font($font-type: 'heading-font');
+
     position: relative;
-    font-family: variable(heading-font);
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
@@ -92,7 +93,7 @@
       .image-wrapper {
         &.image-size-small {
           max-width: 293px;
-        }  
+        }
       }
     }
 
@@ -136,9 +137,10 @@
       align-items: center;
 
       &__heading {
+        @include set-font($font-type: 'primary-font');
+
         text-align: center;
         color: clr(primary);
-        font-family: variable(primary-font);
         font-size: 2rem;
         line-height: 2.2rem;
 
@@ -158,9 +160,10 @@
       }
 
       &__body {
+        @include set-font($font-type: 'secondary-font');
+
         margin-top: 1.6rem;
         margin-bottom: 0;
-        font-family: variable(secondary-font);
         font-size: 1.6rem;
         line-height: 1.4;
         flex: 1 0 auto;

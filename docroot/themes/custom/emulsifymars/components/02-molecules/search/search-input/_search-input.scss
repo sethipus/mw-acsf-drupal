@@ -19,10 +19,11 @@
   }
 
   &__field {
+    @include set-font($font-type: 'secondary-font');
+
     width: 335px;
     height: 50px;
     border: none;
-    font-family: variable(secondary-font);
     font-size: 1.6rem;
     line-height: 2.24rem;
     color: clr(primary);
@@ -67,11 +68,12 @@
 }
 
 .search-input-wrapper {
+  @include set-font($font-type: 'secondary-font');
+
   font-size: 18px;
   line-height: 140%;
   color: clr(primary);
   z-index: 10;
-  font-family: variable(secondary-font);
   width: 100%;
 
   @include medium {
