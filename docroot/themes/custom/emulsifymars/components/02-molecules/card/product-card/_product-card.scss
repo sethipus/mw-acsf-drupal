@@ -8,6 +8,8 @@
   position: relative;
   cursor: pointer;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
+  padding-bottom: 8rem; /* reserve height for buttons */
+
   @include card-width;
 
   a {
@@ -20,6 +22,10 @@
     font-family: variable(primary-font);
     text-align: center;
     margin: 0;
+
+    @include large {
+      padding-top: 4rem;
+    }
   }
 
   .product-card__image img {
@@ -65,7 +71,7 @@
     width: 20rem;
     height: 20rem;
     left: calc(50% - 100px);
-    top: 9rem;
+    margin-top: 4.2rem;
 
     svg {
       fill: rgba(clr(subcolor-1-rgb), 0.2);
@@ -119,46 +125,55 @@
   &__title {
     font-size: 2.2rem;
     font-family: variable(primary-font);
-    max-width: 75%;
-    margin: 2rem auto 0;
+    margin: 2rem 3rem 0.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: 4;
     display: -webkit-box;
     -webkit-box-orient: vertical;
 
     p {
       max-width: 255px;
       color: clr(primary);
-      margin-bottom: 0;
+      margin: 0;
       line-height: 2.42rem;
-      padding-bottom: 5px;
     }
 
   }
 
   &__rating {
-    margin: 0.5rem 0 1rem 0;
+    margin: 1.5rem 0 0.5rem;
+
+    .inline-rating {
+      margin: 0 3rem;
+    }
+
+    .score {
+      color: clr(primary);
+      font-family: variable(secondary-font);
+      font-size: 1.4rem;
+    }
   }
 
   &__link_section {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     position: absolute;
-    bottom: 2.5rem;
-    left: 3.7rem;
-
+    right: 3rem;
+    bottom: 3rem;
+    left: 3rem;
   }
 
-  &__button{
-    position: relative;
-    left: -1rem;
+  &__button {
 
     a {
+      display: block;
       padding: 1.8rem 1.85rem;
       line-height: 1;
       font-size: 1.4rem;
       text-align: center;
+      white-space: nowrap;
 
       @include medium {
         transition: color 1s cubic-bezier(.75, 0, .25, .8), background-color 1s cubic-bezier(.75, 0, .25, .8);
@@ -177,8 +192,12 @@
     }
   }
 
+  &__link {
+    padding-left: 1rem;
+  }
+
   & .cc-fi-button {
-    display: inline-block;
+    display: block;
     padding: 1.8rem 1rem;
     line-height: 1;
     font-size: 1.4rem;
@@ -213,33 +232,5 @@
     display: none !important;
   }
 
-  .inline-rating {
-    max-width: 75%;
-    margin: 0 auto;
-  }
-
-  .score {
-    color: clr(primary);
-    font-family: variable(secondary-font);
-    font-size: 1.4rem;
-  }
-
-  &--eyebrow-with-rating {
-    @include max-width-interval(0 $medium) {
-      .eyebrow {
-        padding-top: 1.5rem;
-      }
-
-      #{$this} {
-        &__title {
-          margin-top: 0.5rem;
-        }
-
-        &__link_section {
-          bottom: 1.5rem;
-        }
-      }
-    }
-  }
 }
 

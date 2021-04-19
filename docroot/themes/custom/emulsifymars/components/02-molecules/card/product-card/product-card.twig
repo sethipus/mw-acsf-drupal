@@ -12,8 +12,12 @@
   {% set card__extra_classes = ['card-item'] %}
 {% endif %}
 
-{% if card__eyebrow is not empty and show_rating_and_reviews == true %}
-  {% set card__modificators = card__modificators | merge(["eyebrow-with-rating"]) %}
+{% if card__eyebrow is not empty %}
+  {% set card__modificators = card__modificators | merge(["with-eyebrow"]) %}
+{% endif %}
+
+{% if show_rating_and_reviews == true %}
+  {% set card__modificators = card__modificators | merge(["with-rating"]) %}
 {% endif %}
 
 <section {{ bem(card__base_class, card__modificators, card__blockname, card__extra_classes) }}
