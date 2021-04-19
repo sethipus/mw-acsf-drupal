@@ -70,6 +70,8 @@
     }
 
     a {
+      @include set-font($font-type: 'primary-font');
+
       display: inline-block;
       cursor: pointer;
       position: relative;
@@ -78,7 +80,6 @@
       border: 1px solid clr(secondary);
       padding: 1.1rem;
       border-radius: variable(button-border-radius);
-      font-family: variable(primary-font);
       font-size: 1.2rem;
       line-height: 1;
       text-transform: uppercase;
@@ -175,7 +176,8 @@
 }
 
 .faq-heading {
-  font-family: variable(primary-font);
+  @include set-font($font-type: 'primary-font');
+
   font-weight: normal;
   color: clr(primary);
   text-align: center;

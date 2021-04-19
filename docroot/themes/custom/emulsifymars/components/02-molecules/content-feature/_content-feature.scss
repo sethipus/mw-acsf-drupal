@@ -8,7 +8,7 @@
   @include medium {
     padding: 6rem 2rem;
   }
-    
+
   @include xl {
       padding: 8rem 2rem;
   }
@@ -18,7 +18,8 @@
   }
 
   & .eyebrow {
-    font-family: variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
     margin-top: 0;
 
     @include xs {
@@ -33,8 +34,9 @@
   }
 
   &__heading {
+    @include set-font($font-type: 'heading-font');
+
     color: clr(subcolor-3);
-    font-family: variable(heading-font);
     margin: 3rem 0 4rem;
     word-break: break-all;
     word-break: break-word;
@@ -63,8 +65,9 @@
   }
 
   &__paragraph {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(subcolor-3);
-    font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.88rem;
     margin: 0 auto 3rem;

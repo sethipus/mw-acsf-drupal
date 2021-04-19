@@ -98,8 +98,9 @@
   }
 
   &__heading {
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
-    font-family: variable(primary-font);
     margin-top: 0;
 
     @include xs {
@@ -121,8 +122,9 @@
   }
 
   &__paragraph {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
 
     @include xs {
       font-size: 1.6rem;
@@ -260,7 +262,7 @@
     justify-content: center;
     height: 64px;
 
-    img{ 
+    img{
       height: 100%;
       object-fit: cover;
     }

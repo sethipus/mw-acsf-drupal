@@ -1,7 +1,8 @@
 .homepage-hero-block {
+  @include set-font($font-type: 'primary-font');
+
   z-index: 1;
   flex: 1 0 auto;
-  font-family: variable(primary-font);
   padding-top: 2.9rem;
 
   @include medium {
@@ -36,8 +37,9 @@
     flex-flow: column nowrap;
 
     .eyebrow {
+      @include set-font($font-type: 'primary-font');
+
       flex: 0 0 auto;
-      font-family: variable(primary-font);
       color: clr(primary);
       font-size: 1.4rem;
       line-height: 1;

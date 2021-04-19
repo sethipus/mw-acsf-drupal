@@ -2,7 +2,10 @@
 
   .list-container-block {
     h2 {
-      font: 20px/1.1em variable(primary-font);
+      @include set-font($font-type: 'primary-font');
+
+      font-size: 2rem;
+      line-height: 1.1;
       font-weight: 500;
       color: clr(primary);
       text-transform: capitalize;
@@ -14,12 +17,10 @@
       @include medium {
         margin: 40px 40px 30px 40px;
         font-size: 26px;
-        line-height: 29px;
       }
 
       @include xl {
         font-size: 28px;
-        line-height: 31px;
       }
     }
 

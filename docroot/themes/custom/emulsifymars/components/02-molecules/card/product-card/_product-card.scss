@@ -15,9 +15,10 @@
   }
 
   .eyebrow {
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
     padding-top: 3rem;
-    font-family: variable(primary-font);
     text-align: center;
     margin: 0;
   }
@@ -117,8 +118,9 @@
   }
 
   &__title {
+    @include set-font($font-type: 'primary-font');
+
     font-size: 2.2rem;
-    font-family: variable(primary-font);
     max-width: 75%;
     margin: 2rem auto 0;
     overflow: hidden;
@@ -178,6 +180,8 @@
   }
 
   & .cc-fi-button {
+    @include set-font($font-type: 'secondary-font');
+
     display: inline-block;
     padding: 1.8rem 1rem;
     line-height: 1;
@@ -186,7 +190,6 @@
     text-decoration: none;
     font-weight: bold;
     color: clr(primary);
-    font-family: variable(secondary-font);
     text-transform: uppercase;
     border: 0;
     background: transparent;
@@ -219,8 +222,9 @@
   }
 
   .score {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
     font-size: 1.4rem;
   }
 

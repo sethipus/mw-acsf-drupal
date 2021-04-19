@@ -10,9 +10,10 @@
   }
 
   &__label {
+    @include set-font($font-type: 'secondary-font');
+
     display: block;
     cursor: pointer;
-    font-family: variable(secondary-font);
     font-size: 1.6rem;
     line-height: 2.24rem;
     color: clr(primary);

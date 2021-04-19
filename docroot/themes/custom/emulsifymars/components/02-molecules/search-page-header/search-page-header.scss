@@ -98,7 +98,8 @@
   }
 
   .search-page-heading {
-    font-family: variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
     color: clr(subcolor-3);
     font-size: 40px;
     line-height: 1em;

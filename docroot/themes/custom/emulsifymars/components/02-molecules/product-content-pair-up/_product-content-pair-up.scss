@@ -1,8 +1,9 @@
 .product-content-pair-up {
   &__heading {
+    @include set-font($font-type: 'heading-font');
+
     width: 100%;
     text-align: center;
-    font-family: variable(heading-font);
     font-size: 2.8rem;
     font-weight: 500;
     line-height: 1;
@@ -225,8 +226,9 @@
         }
 
         .heading {
+          @include set-font($font-type: 'primary-font');
+
           color: clr(subcolor-3);
-          font-family: variable(primary-font);
           font-weight: 500;
           margin-top: 0;
           margin-bottom: 3rem;
@@ -264,8 +266,9 @@
         }
 
         & > .default-link {
+          @include set-font($font-type: 'primary-font');
+
           background-color: clr(subcolor-3);
-          font-family: variable(primary-font);
           font-weight: 500;
           color: clr(secondary);
           line-height: 5rem;

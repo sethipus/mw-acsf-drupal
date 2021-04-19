@@ -1,5 +1,6 @@
 .search-results-item {
-  font-family: variable(primary-font);
+  @include set-font($font-type: 'primary-font');
+
   color: clr(subcolor-3);
   font-size: 14px;
   line-height: 22px;

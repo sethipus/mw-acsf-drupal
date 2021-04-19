@@ -62,7 +62,8 @@
   }
 
   &__heading {
-    font-family: variable(heading-font);
+    @include set-font($font-type: 'heading-font');
+
     font-weight: 300;
     color: clr(subcolor-3);
     text-align: center;

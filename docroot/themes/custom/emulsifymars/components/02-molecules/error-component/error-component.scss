@@ -69,7 +69,8 @@
   }
 
   &__heading {
-    font-family: variable(heading-font);
+    @include set-font($font-type: 'heading-font');
+
     text-align: center;
     color: clr(primary);
     z-index: 5;
@@ -96,7 +97,8 @@
   }
 
   &__paragraph {
-    font-family: variable(secondary-font);
+    @include set-font($font-type: 'secondary-font');
+
     text-align: center;
     color: clr(primary);
     z-index: 5;

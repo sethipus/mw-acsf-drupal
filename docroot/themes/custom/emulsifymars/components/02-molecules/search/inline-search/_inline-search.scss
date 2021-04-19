@@ -9,11 +9,12 @@
   }
 
   &__link {
+    @include set-font($font-type: 'primary-font');
+
     position: relative;
     display: inline-block;
     padding: $space $space-one-and-half $space 2.8rem;
     color: clr(subcolor-1);
-    font-family: variable(primary-font);
     font-size: 1.8rem;
     line-height: 1.8rem;
     font-weight: normal;

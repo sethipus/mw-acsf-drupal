@@ -56,8 +56,9 @@
   }
 
   &__input {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
     padding: 1.5rem 0 1rem 0;
@@ -98,11 +99,12 @@
   }
 
   &__input-label {
+    @include set-font($font-type: 'secondary-font');
+
     position: absolute;
     text-align: center;
     font-size: 1.6rem;
     pointer-events: none;
-    font-family: variable(secondary-font);
     transition: all .3s ease;
     color: clr(primary);
     top: 50%;
@@ -115,12 +117,13 @@
   }
 
   &__submit-btn {
+    @include set-font($font-type: 'secondary-font');
+
     position: relative;
     line-height: 5rem;
     background: clr(secondary);
     color: clr(subcolor-3);
     border-radius: variable(button-border-radius);
-    font-family: variable(secondary-font);
     font-size: 1.6rem;
     font-weight: 500;
     text-transform: uppercase;
@@ -180,8 +183,9 @@
   }
 
   &__error-message {
+    @include set-font($font-type: 'secondary-font');
+
     display: none;
-    font-family: variable(secondary-font);
     color: clr(secondary);
     font-size: 1.6rem;
     text-align: left;
@@ -201,23 +205,26 @@
 
   // styling for input placeholders
   ::placeholder {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
     opacity: 1;
     font-size: 1.8rem;
     line-height: 2.5rem;
   }
 
   :-ms-input-placeholder {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
   }
 
   ::-ms-input-placeholder {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
   }
