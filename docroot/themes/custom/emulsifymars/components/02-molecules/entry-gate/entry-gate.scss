@@ -43,10 +43,11 @@
   }
 
   &__error-link {
+    @include set-font($font-type: 'primary-font');
+
     color: clr(secondary);
     display: block;
     font-size: 1.8rem;
-    font-family: variable(primary-font);
     text-decoration: none;
     text-transform: uppercase;
     padding-right: 1rem;
@@ -131,7 +132,8 @@
   }
 
   &__heading {
-    font-family: variable(heading-font);
+    @include set-font($font-type: 'heading-font');
+
     color: clr(primary);
     font-weight: 500;
     margin: 0 0 2rem;
@@ -156,7 +158,8 @@
   }
 
   &__paragraph {
-    font-family: variable(secondary-font);
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
     margin: 0 0 4rem 0;
     padding-bottom: 4rem;
@@ -173,9 +176,10 @@
   }
 
   &__eyebrow {
+    @include set-font($font-type: 'primary-font');
+
     display: block;
     color: clr(primary);
-    font-family: variable(primary-font);
     font-size: 1.8rem;
     line-height: 2.5rem;
     font-weight: 600;
@@ -194,8 +198,9 @@
 
   &__bottom-paragraph,
   &__bottom-paragraph a {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
     display: inline;
     position: relative;
     z-index: 2;

@@ -13,10 +13,6 @@ body {
     border-bottom: 1px solid clr(secondary);
   }
 
-  /* ToDo: move functionality to separate font-family mixing to have possibility to add letter spacing per font from theme configurator.
-     And update all font-family declarations.
-     Current data is for Dove Site only
-  */
   &, & button {
     letter-spacing: 0.048rem;
 
@@ -161,4 +157,17 @@ body {
 
 #onetrust-banner-sdk, #onetrust-pc-sdk, #ot-sdk-cookie-policy, #ot-sync-ntfy {
   font-size: 16px !important;
+}
+
+@mixin set-font ($font-type) {
+  font-family: variable(#{$font-type});
+  letter-spacing: variable(#{$font-type + '-m-letter-spacing'});
+
+  @include medium {
+    letter-spacing: variable(#{$font-type + '-t-letter-spacing'});
+  }
+
+  @include xl {
+    letter-spacing: variable(#{$font-type + '-d-letter-spacing'});
+  }
 }

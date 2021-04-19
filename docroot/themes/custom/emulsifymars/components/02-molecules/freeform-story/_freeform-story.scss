@@ -45,7 +45,8 @@
   }
 
   &__heading {
-    font-family: variable(heading-font);
+    @include set-font($font-type: 'heading-font');
+
     color: clr(primary);
     margin-top: 0;
     margin-bottom: 1rem;
@@ -62,7 +63,8 @@
   }
 
   &__subheading {
-    font-family: variable(heading-font);
+    @include set-font($font-type: 'heading-font');
+
     color: clr(secondary);
     margin: 0;
 
@@ -83,7 +85,8 @@
   }
 
   &__paragraph {
-    font-family: variable(secondary-font);
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
 
     @include xs {

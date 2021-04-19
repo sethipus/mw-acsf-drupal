@@ -55,7 +55,8 @@
   }
 
   &__title {
-    font-family: variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
     font-size: 20px;
     line-height: 22px;
     color: clr(primary);
@@ -88,6 +89,8 @@
 
   &__item-selector,
   &__product-variant-selector {
+    @include set-font($font-type: 'secondary-font');
+
     appearance: none;
     outline: none;
     background-color: transparent;
@@ -97,7 +100,6 @@
     border-radius: variable(button-border-radius);
     border: 1px solid clr(subcolor-4);
     color: clr(primary);
-    font-family: variable(secondary-font);
     font-size: 16px;
     line-height: 22px;
     position: relative;

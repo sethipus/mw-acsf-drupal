@@ -6,6 +6,7 @@
  */
 
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\mars_common\ThemeConfiguratorService;
 
 /**
  * Implements hook_update_N().
@@ -156,4 +157,23 @@ function mars_common_update_8011() {
   $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
   $field_storage_definition = $entity_definition_update_manager->getFieldStorageDefinition('field_recipe_cooking_time', 'node');
   $entity_definition_update_manager->updateFieldStorageDefinition($field_storage_definition);
+}
+
+/**
+ * Add letter spacing configuration.
+ */
+function mars_common_update_8012() {
+  /** @var \Drupal\Core\Config\ConfigFactoryInterface $config_factory */
+  $config_factory = \Drupal::service('config.factory');
+  $config = $config_factory->getEditable('emulsifymars.settings');
+  $config->set('headline_font_mobile_letterspacing', ThemeConfiguratorService::LETTERSPACING_MOBILE_DEFAULT);
+  $config->set('headline_font_tablet_letterspacing', ThemeConfiguratorService::LETTERSPACING_TABLET_DEFAULT);
+  $config->set('headline_font_desktop_letterspacing', ThemeConfiguratorService::LETTERSPACING_DESKTOP_DEFAULT);
+  $config->set('primary_font_mobile_letterspacing', ThemeConfiguratorService::LETTERSPACING_MOBILE_DEFAULT);
+  $config->set('primary_font_tablet_letterspacing', ThemeConfiguratorService::LETTERSPACING_TABLET_DEFAULT);
+  $config->set('primary_font_desktop_letterspacing', ThemeConfiguratorService::LETTERSPACING_DESKTOP_DEFAULT);
+  $config->set('secondary_font_mobile_letterspacing', ThemeConfiguratorService::LETTERSPACING_MOBILE_DEFAULT);
+  $config->set('secondary_font_tablet_letterspacing', ThemeConfiguratorService::LETTERSPACING_TABLET_DEFAULT);
+  $config->set('secondary_font_desktop_letterspacing', ThemeConfiguratorService::LETTERSPACING_DESKTOP_DEFAULT);
+  $config->save();
 }

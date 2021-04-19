@@ -104,6 +104,15 @@ function _emulsifymars_preprocess_css_properties(array $settings): string {
   $properties .= sprintf(" --v-heading-font: %s;", "DrupalHeadlineCampaignFont, Arial, Helvetica Neue, Helvetica, sans-serif");
   $properties .= sprintf(" --v-primary-font: %s;", "DrupalPrimaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif");
   $properties .= sprintf(" --v-secondary-font: %s;", "DrupalSecondaryTypefaceFont, Arial, Helvetica Neue, Helvetica, sans-serif");
+  $properties .= sprintf(" --v-heading-font-m-letter-spacing: %s;", $settings['headline_font_mobile_letterspacing']);
+  $properties .= sprintf(" --v-heading-font-t-letter-spacing: %s;", $settings['headline_font_tablet_letterspacing']);
+  $properties .= sprintf(" --v-heading-font-d-letter-spacing: %s;", $settings['headline_font_desktop_letterspacing']);
+  $properties .= sprintf(" --v-primary-font-m-letter-spacing: %s;", $settings['primary_font_mobile_letterspacing']);
+  $properties .= sprintf(" --v-primary-font-t-letter-spacing: %s;", $settings['primary_font_tablet_letterspacing']);
+  $properties .= sprintf(" --v-primary-font-d-letter-spacing: %s;", $settings['primary_font_desktop_letterspacing']);
+  $properties .= sprintf(" --v-secondary-font-m-letter-spacing: %s;", $settings['secondary_font_mobile_letterspacing']);
+  $properties .= sprintf(" --v-secondary-font-t-letter-spacing: %s;", $settings['secondary_font_tablet_letterspacing']);
+  $properties .= sprintf(" --v-secondary-font-d-letter-spacing: %s;", $settings['secondary_font_desktop_letterspacing']);
 
   if (theme_get_setting('button_style') == 0) {
     $properties .= sprintf(" --v-button-border-radius: %s;", '30px');

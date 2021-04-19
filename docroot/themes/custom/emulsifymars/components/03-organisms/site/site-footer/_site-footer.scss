@@ -118,22 +118,18 @@ $fence-part-size: 1440px*2/101;
 }
 
 .footer__section-header {
-  font-family: variable(primary-font);
-  color: clr(subcolor-3);
+  @include set-font($font-type: 'primary-font');
 
-  @include xs {
-    font-size: 1.6rem;
-    line-height: 1.6rem;
-  }
+  color: clr(subcolor-3);
+  font-size: 1.6rem;
+  line-height: 1;
 
   @include medium {
     flex: 0 1 50%;
-    font-size: 1.6rem;
   }
 
   @include large {
     font-size: 1.8rem;
-    line-height: 1.8rem;
   }
 }
 
@@ -240,66 +236,57 @@ $fence-part-size: 1440px*2/101;
 }
 
 .footer__marketing-text-title {
-  font-family: variable(primary-font);
-  color: clr(subcolor-3);
+  @include set-font($font-type: 'primary-font');
 
-  @include xs {
-    font-size: 1.2rem;
-    line-height: 1.92rem;
-  }
+  color: clr(subcolor-3);
+  font-size: 1.2rem;
+  line-height: 1.6;
 
   @include medium {
     font-size: 1.4rem;
-    line-height: 2.24rem;
   }
 
   @include large {
     font-size: 1.2rem;
-    line-height: 1.92rem;
   }
 }
 
 .footer__marketing-text {
-  font-family: variable(secondary-font);
+  @include set-font($font-type: 'secondary-font');
+
   color: clr(subcolor-3);
+  font-size: 1.2rem;
+  line-height: 1.6;
 
   strong {
-    font-family: variable(primary-font);
-  }
-
-  @include xs {
-    font-size: 1.2rem;
-    line-height: 1.92rem;
+    @include set-font($font-type: 'primary-font');
   }
 
   @include medium {
     font-size: 1.4rem;
-    line-height: 2.24rem;
   }
 
   @include large {
     font-size: 1.2rem;
-    line-height: 1.92rem;
   }
 }
 
 .footer__copyright {
-  font-family: variable(secondary-font);
+  @include set-font($font-type: 'secondary-font');
+
   color: clr(subcolor-3);
 
   @include xs {
     font-size: 1.2rem;
-    line-height: 1.92rem;
+    line-height: 1.6;
   }
 
   @include medium {
     font-size: 1.4rem;
-    line-height: 2.24rem;
   }
 
   @include large {
     font-size: 1.2rem;
-    line-height: 1.92rem;
   }
 }
 
@@ -333,29 +320,25 @@ $fence-part-size: 1440px*2/101;
 }
 
 .footer__corporate-tout {
+  @include set-font($font-type: 'primary-font');
+
   display: flex;
   flex-direction: column;
-  font-family: variable(primary-font);
   color: clr(subcolor-3);
   order: 6;
   flex: 0 1 100%;
   margin: 50px 0 30px;
-
-  @include xs {
-    font-size: 2rem;
-    line-height: 2.2rem;
-  }
+  font-size: 2rem;
+  line-height: 1.1;
 
   @include medium {
     margin: 30px 0 10px;
     font-size: 2.6rem;
-    line-height: 2.86rem;
   }
 
   @include large {
     margin: 30px 0 10px;
     font-size: 2.8rem;
-    line-height: 3.08rem;
   }
 
   @include xl {

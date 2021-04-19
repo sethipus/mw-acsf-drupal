@@ -43,7 +43,8 @@ ol {
     }
 
     &__content {
-      font-family: variable(secondary-font);
+      @include set-font($font-type: 'secondary-font');
+
       font-weight: normal;
       font-stretch: normal;
       font-style: normal;
@@ -62,8 +63,9 @@ ol {
     }
 
     &__number {
+      @include set-font($font-type: 'primary-font');
+
       color: clr(secondary);
-      font-family: variable(primary-font);
       font-weight: bold;
       position: absolute;
       line-height: 32px;
@@ -73,7 +75,7 @@ ol {
       @include xs {
         font-size: 2rem;
       }
-      
+
       @include medium {
         font-size: 1.6rem;
         left: calc(20px + 32px / 2);
@@ -149,31 +151,30 @@ ol {
 }
 
 .list-item__faq-mark {
-    font-family: variable(primary-font);
-    color: clr(secondary);
+  @include set-font($font-type: 'primary-font');
 
-    @include small {
-      font-size: 2rem;
-      margin-bottom: 0;
-    }
+  color: clr(secondary);
+  font-size: 2rem;
+  margin-bottom: 0;
 
-    @include medium {
-      position: absolute;
-      top: 20px;
-      left: 0;
-      font-size: 2.6rem;
-    }
+  @include medium {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    font-size: 2.6rem;
+  }
 
-    @include xl {
-      font-size: 2.8rem;
-    }
+  @include xl {
+    font-size: 2.8rem;
+  }
 }
 
 .list-item__question,
 .list-item__answer {
+  @include set-font($font-type: 'secondary-font');
+
   position: relative;
   min-height: 40px;
-  font-family: variable(secondary-font);
   font-weight: normal;
   line-height: 1.4;
 

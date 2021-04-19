@@ -35,6 +35,12 @@ class ThemeConfiguratorService {
 
   const BORDER_STYLE_STRETCH = 'stretch';
 
+  const LETTERSPACING_MOBILE_DEFAULT = '0.048rem';
+
+  const LETTERSPACING_TABLET_DEFAULT = '0.07rem';
+
+  const LETTERSPACING_DESKTOP_DEFAULT = '0.16rem';
+
   /**
    * The image factory service.
    *
@@ -329,6 +335,33 @@ class ThemeConfiguratorService {
         [OverrideFile::class, 'processFile'],
       ],
     ];
+    $headline_font_mobile_letterspacing = $this->getFontData(
+      'headline_font_mobile_letterspacing',
+      $config
+    );
+    $form['font_settings']['headline_font_mobile_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for mobile devices'),
+      '#default_value'   => $headline_font_mobile_letterspacing ?? self::LETTERSPACING_MOBILE_DEFAULT,
+    ];
+    $headline_font_tablet_letterspacing = $this->getFontData(
+      'headline_font_tablet_letterspacing',
+      $config
+    );
+    $form['font_settings']['headline_font_tablet_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for tablet devices'),
+      '#default_value'   => $headline_font_tablet_letterspacing ?? self::LETTERSPACING_TABLET_DEFAULT,
+    ];
+    $headline_font_desktop_letterspacing = $this->getFontData(
+      'headline_font_desktop_letterspacing',
+      $config
+    );
+    $form['font_settings']['headline_font_desktop_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for desktop devices'),
+      '#default_value'   => $headline_font_desktop_letterspacing ?? self::LETTERSPACING_DESKTOP_DEFAULT,
+    ];
 
     $primary_font_path = $this->getFontData('primary_font_path', $config);
 
@@ -349,6 +382,33 @@ class ThemeConfiguratorService {
         [OverrideFile::class, 'processFile'],
       ],
     ];
+    $primary_font_mobile_letterspacing = $this->getFontData(
+      'primary_font_mobile_letterspacing',
+      $config
+    );
+    $form['font_settings']['primary_font_mobile_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for mobile devices'),
+      '#default_value'   => $primary_font_mobile_letterspacing ?? self::LETTERSPACING_MOBILE_DEFAULT,
+    ];
+    $primary_font_tablet_letterspacing = $this->getFontData(
+      'primary_font_tablet_letterspacing',
+      $config
+    );
+    $form['font_settings']['primary_font_tablet_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for tablet devices'),
+      '#default_value'   => $primary_font_tablet_letterspacing ?? self::LETTERSPACING_TABLET_DEFAULT,
+    ];
+    $primary_font_desktop_letterspacing = $this->getFontData(
+      'primary_font_desktop_letterspacing',
+      $config
+    );
+    $form['font_settings']['primary_font_desktop_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for desktop devices'),
+      '#default_value'   => $primary_font_desktop_letterspacing ?? self::LETTERSPACING_DESKTOP_DEFAULT,
+    ];
 
     $secondary_font_path = $this->getFontData('secondary_font_path', $config);
 
@@ -368,6 +428,33 @@ class ThemeConfiguratorService {
       '#process'         => [
         [OverrideFile::class, 'processFile'],
       ],
+    ];
+    $secondary_font_mobile_letterspacing = $this->getFontData(
+      'secondary_font_mobile_letterspacing',
+      $config
+    );
+    $form['font_settings']['secondary_font_mobile_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for mobile devices'),
+      '#default_value'   => $secondary_font_mobile_letterspacing ?? self::LETTERSPACING_MOBILE_DEFAULT,
+    ];
+    $secondary_font_tablet_letterspacing = $this->getFontData(
+      'secondary_font_tablet_letterspacing',
+      $config
+    );
+    $form['font_settings']['secondary_font_tablet_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for tablet devices'),
+      '#default_value'   => $secondary_font_tablet_letterspacing ?? self::LETTERSPACING_TABLET_DEFAULT,
+    ];
+    $secondary_font_desktop_letterspacing = $this->getFontData(
+      'secondary_font_desktop_letterspacing',
+      $config
+    );
+    $form['font_settings']['secondary_font_desktop_letterspacing'] = [
+      '#type'  => 'textfield',
+      '#title' => $this->t('Letter-spacing value for desktop devices'),
+      '#default_value'   => $secondary_font_desktop_letterspacing ?? self::LETTERSPACING_DESKTOP_DEFAULT,
     ];
 
     $form['icons_settings'] = [
