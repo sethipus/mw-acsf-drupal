@@ -900,6 +900,7 @@
   position: relative !important;
   top: 70px !important;
   float: right !important;
+  z-index: 1 !important;
 
   @include xs {
     float: right !important;
