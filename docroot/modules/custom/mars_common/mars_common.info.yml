@@ -5,3 +5,4 @@ package: 'Mars'
 core_version_requirement: '^8.8 || ^9'
 dependencies:
   - juicer_io:juicer_io
+  - mars_media:mars_media

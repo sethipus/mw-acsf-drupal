@@ -12,16 +12,6 @@ mars_product.nutrition_table.configuration:
     _title: 'Nutrition table global settigns'
   requirements:
     _permission: 'administer site configuration'
-mars_product.wtb_product_info:
-  path: '/wtb/get_product_info/{node}'
-  defaults:
-    _controller: '\Drupal\mars_product\Controller\WtbProductController::productInfo'
-  requirements:
-    _permission: 'access content'
-  options:
-    parameters:
-      node:
-        type: entity:node
 mars_product.bazaarvoice_info:
   path: '/admin/config/services/bazaarvoice'
   defaults:

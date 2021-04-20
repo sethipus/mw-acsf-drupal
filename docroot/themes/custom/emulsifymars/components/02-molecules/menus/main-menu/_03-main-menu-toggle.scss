@@ -28,8 +28,9 @@
 }
 
 .toggle-expand__text {
+  @include set-font($font-type: 'primary-font');
+
   display: block;
-  font-family: variable(primary-font);
   font-size: 1.4rem;
   text-transform: uppercase;
   color: clr(primary);

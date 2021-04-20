@@ -89,8 +89,11 @@
 }
 
 .filter-title {
+  @include set-font($font-type: 'primary-font');
+
   margin: 30px 0 10px;
-  font: 16px/1.4em variable(primary-font);
+  font-size: 1.6rem;
+  line-height: 1.4;
   color: clr(primary);
   background: transparent;
   border: none;

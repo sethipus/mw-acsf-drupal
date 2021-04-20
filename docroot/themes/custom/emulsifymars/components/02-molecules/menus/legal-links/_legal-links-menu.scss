@@ -18,8 +18,8 @@
 
 .legal-links-menu__link {
   @include link;
+  @include set-font($font-type: 'secondary-font');
 
-  font-family: variable(secondary-font);
   color: clr(subcolor-3);
   text-decoration: none;
 

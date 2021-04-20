@@ -1,4 +1,5 @@
 theme_styles: 'twix'
+aspect_ratio: '16-9'
 media_type: 'image'
 video_src: 'https://test-cdn-lighthouse.mars.com/adaptivemedia/rendition/id_92835e13fb440485bc7865a304e007f999c6f1ad/'
 video__control: true

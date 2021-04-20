@@ -1,8 +1,9 @@
 .product-content-pair-up {
   &__heading {
+    @include set-font($font-type: 'heading-font');
+
     width: 100%;
     text-align: center;
-    font-family: variable(heading-font);
     font-size: 2.8rem;
     font-weight: 500;
     line-height: 1;
@@ -48,6 +49,31 @@
 
       @include xl {
         padding: 179px 0 0 85px;
+      }
+
+      & > .bg-image > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      &::before {
+        position: absolute;
+        content: "\200B";
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba($black, 0.4);
       }
 
       .supportive-card .wrapper {
@@ -200,8 +226,9 @@
         }
 
         .heading {
+          @include set-font($font-type: 'primary-font');
+
           color: clr(subcolor-3);
-          font-family: variable(primary-font);
           font-weight: 500;
           margin-top: 0;
           margin-bottom: 3rem;
@@ -239,8 +266,9 @@
         }
 
         & > .default-link {
+          @include set-font($font-type: 'primary-font');
+
           background-color: clr(subcolor-3);
-          font-family: variable(primary-font);
           font-weight: 500;
           color: clr(secondary);
           line-height: 5rem;

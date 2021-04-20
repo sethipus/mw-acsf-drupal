@@ -63,22 +63,25 @@ $xl-left-margin: 11.583rem;
   }
 
   &__title {
-    font: 14px/16px variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
+    font-size: 1.4rem;
+    line-height: 1.15;
     color: clr(primary);
     text-align: center;
     animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
-    @include small {
-      line-height: 1;
-    }
-
     @include medium {
-      font-size: 16px;
+      font-size: 1.6rem;
+      line-height: 1;
     }
   }
 
   &__text {
-    font: 40px/40px variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
+    font-size: 4rem;
+    line-height: 1;
     color: clr(primary);
     text-align: center;
     animation: recipe-hero-text-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
@@ -86,14 +89,12 @@ $xl-left-margin: 11.583rem;
     margin: 30px auto 60px;
 
     @include medium {
-      font-size: 56px;
-      line-height: 1;
+      font-size: 5.6rem;
       margin: 22px auto 40px;
     }
 
     @include xl {
-      font-size: 64px;
-      line-height: 64px;
+      font-size: 6.4rem;
       margin: 30px auto 60px;
     }
   }
@@ -278,26 +279,31 @@ $xl-left-margin: 11.583rem;
   }
 
   &__label {
-    font: 18px/25px variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
+    font-size: 1.8rem;
+    line-height: 1.4;
     color: clr(primary);
 
     @include xl {
       width: auto;
       display: block;
-      font-size: 20px;
-      line-height: 1.4;
+      font-size: 2rem;
     }
   }
 
   &__value {
-    font: 18px/25px variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
+    font-size: 1.8rem;
+    line-height: 1.4;
     color: clr(secondary);
     white-space: nowrap;
 
     @include xl {
       margin-top: 12px;
-      font-size: 20px;
-      line-height: 20px;
+      font-size: 2rem;
+      line-height: 1;
     }
   }
 
@@ -390,7 +396,10 @@ $xl-left-margin: 11.583rem;
   }
 
   &__social-text {
-    font: 16px/1.1em variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
+    font-size: 1.6rem;
+    line-height: 1.1;
     color: clr(primary);
     margin-right: 30px;
 

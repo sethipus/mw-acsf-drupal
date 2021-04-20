@@ -42,6 +42,8 @@
 
   &__image {
     max-width: 23.5rem;
+    max-height: 23.5rem;
+    object-fit: contain;
 
     @include xs {
       margin: 3rem auto;
@@ -53,7 +55,8 @@
   }
 
   &__heading {
-    font-family: variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
     font-size: 2.4rem;
     line-height: 2.64rem;

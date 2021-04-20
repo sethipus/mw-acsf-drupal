@@ -32,6 +32,12 @@
       border-radius: 1rem;
       border: 2px solid black;
     }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   &__header {
@@ -53,8 +59,9 @@
   }
 
   &__data {
+    @include set-font($font-type: 'primary-font');
+
     font-size: 1.4rem;
-    font-family: variable(primary-font);
     font-weight: 600;
     margin-right: 2rem;
     color: clr(subcolor-3);

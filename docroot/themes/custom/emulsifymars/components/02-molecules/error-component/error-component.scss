@@ -69,7 +69,8 @@
   }
 
   &__heading {
-    font-family: variable(heading-font);
+    @include set-font($font-type: 'heading-font');
+
     text-align: center;
     color: clr(primary);
     z-index: 5;
@@ -96,7 +97,8 @@
   }
 
   &__paragraph {
-    font-family: variable(secondary-font);
+    @include set-font($font-type: 'secondary-font');
+
     text-align: center;
     color: clr(primary);
     z-index: 5;
@@ -156,6 +158,9 @@
     right: 0;
     width: auto;
     z-index: 1;
+    min-width: 1440px;
+    margin-left: 50%;
+    transform: translateX(-50%);
 
     picture {
       min-width: initial;
@@ -166,6 +171,10 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    @include xl {
+      min-width: 100%;
     }
   }
 }
