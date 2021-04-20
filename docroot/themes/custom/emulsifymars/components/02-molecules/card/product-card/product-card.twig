@@ -78,14 +78,12 @@
       </div>
     {% endif %}
 
-    <div {{ bem('title', [], card__base_class) }}>
-      {% include "@atoms/text/text/01-paragraph.twig" with {
-        paragraph_size: 'large',
-        paragraph_content: item.paragraph_content,
-        paragraph_base_class: 'paragraph',
-        paragraph_modifiers: ['large']
-      } %}
-    </div>
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 3,
+      heading_base_class: 'title',
+      heading_blockname: card__base_class,
+      heading: item.paragraph_content
+    } %}
 
     {% if show_rating_and_reviews == true %}
       <div {{ bem('rating', [], card__base_class) }}>
