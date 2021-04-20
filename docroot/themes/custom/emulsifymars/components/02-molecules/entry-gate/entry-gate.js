@@ -93,6 +93,11 @@ import moment from 'moment';
           $(`#${a11yDateFakeLinkId}`).on('focus', event => {
             entryGate.find('a, button, input').eq(0).focus();
           });
+
+          // Add fade in animation after entry-gate render
+          setTimeout(function() {
+            entryGate.addClass('entry-gate--loaded');
+          }, 0);
         }
 
         firstInputElement.focus();
