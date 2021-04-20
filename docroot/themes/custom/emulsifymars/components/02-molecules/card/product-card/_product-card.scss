@@ -22,7 +22,7 @@
       background-image: radial-gradient(circle at 50% 50%, clr(secondary), clr(secondary)) !important;
       transition: cubic-bezier(0.75,0,0.25,0), 0.8s;
 
-      p, a, .eyebrow, .cc-fi-button {
+      a, .eyebrow, .product-card__title, .cc-fi-button {
         color: clr(subcolor-3);
       }
 
