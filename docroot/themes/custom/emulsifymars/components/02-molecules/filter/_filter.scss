@@ -92,8 +92,9 @@
   @include set-font($font-type: 'primary-font');
 
   margin: 30px 0 10px;
+  min-height: 4rem;
   font-size: 1.6rem;
-  line-height: 1.4;
+  line-height: 1;
   color: clr(primary);
   background: transparent;
   border: none;
