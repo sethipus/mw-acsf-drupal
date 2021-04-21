@@ -539,10 +539,34 @@ class ProductHelper {
       $products[] = $product;
     }
 
+    // Update products from master variations.
+    $this->updateProductsFromMaster($products);
+
     $response = Json::decode($response);
     $response['data'] = array_values($products);
 
     return Json::encode($response);
+  }
+
+  /**
+   * Update product from master.
+   *
+   * @param array $products
+   *   Products list.
+   */
+  private function updateProductsFromMaster(array &$products) {
+    foreach ($products as $product) {
+      // Is it a product variant.
+      if ($product['CMS: content type'] == 'product_variant') {
+        // Family master is it a true.
+        if ($product['CMS: Product Variant Family Master']) {
+          // Update title from product variant.
+          $products[$product['CMS: Product Variant Family ID']]['CMS: Product Name'] = $product['CMS: Product Name'];
+          // Update description from product variant.
+          $products[$product['CMS: Product Variant Family ID']]['CMS: Description'] = $product['CMS: Description'];
+        }
+      }
+    }
   }
 
   /**
