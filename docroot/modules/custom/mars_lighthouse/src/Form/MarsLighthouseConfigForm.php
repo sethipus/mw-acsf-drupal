@@ -22,6 +22,11 @@ class MarsLighthouseConfigForm extends ConfigFormBase {
   private $defaultsProvider;
 
   /**
+   * Default api key.
+   */
+  const DEFAULT_API_KEY = 'v1';
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -124,6 +129,16 @@ class MarsLighthouseConfigForm extends ConfigFormBase {
       '#title' => $this->t('Use bulk sync mode'),
       '#type' => 'checkbox',
       '#default_value' => $config->get('sync_mode'),
+    ];
+
+    $form['api_version'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Lighthouse API version'),
+      '#options' => [
+        'v1' => $this->t('v1'),
+        'v2' => $this->t('v2'),
+      ],
+      '#default_value' => $config->get('api_version') ?? static::DEFAULT_API_KEY,
     ];
 
     return $form;
