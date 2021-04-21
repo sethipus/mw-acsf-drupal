@@ -251,6 +251,7 @@
     @include set-font($font-type: 'primary-font');
 
     color: clr(primary);
+    text-transform: uppercase;
 
     @include xs {
       font-size: 1.6rem;
