@@ -116,12 +116,12 @@
       <div {{ bem('content-mobile', [], pdp_hero_base_class) }}>
         <div class='pdp-hero-main-image--{{size_id}} pdp-hero__main-image-container'>
           {% set images = {
-            768: image_items|first.image.src|resize(472, 472),
-            375: image_items|first.image.src|resize(277, 277),
+            768: pdp_main_image.image.src|resize(472, 472),
+            375: pdp_main_image.image.src|resize(277, 277),
           } %}
           {% include "@atoms/images/image/responsive-image.twig" with {
             image_alt: pdp_main_image.image.alt,
-            image_src: image_items|first.image.src|resize(472, 472),
+            image_src: pdp_main_image.image.src|resize(472, 472),
             responsive_image_base_class: 'main-image',
             responsive_image_blockname: pdp_hero_base_class,
             image_array: images,
