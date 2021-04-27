@@ -13,6 +13,16 @@
   transition: color 1s cubic-bezier(.75, 0, .25, 1), background-color 1s cubic-bezier(.75, 0, .25, 1);
   border-radius: variable(button-border-radius);
 
+  @include medium {
+    min-width: 15.7rem;
+  }
+
+  @include xl {
+    min-width: 20.2rem;
+    line-height: 6rem;
+    font-size: 1.6rem;
+  }
+
   &::after {
     content: '';
     position: absolute;
