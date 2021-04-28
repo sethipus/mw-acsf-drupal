@@ -152,7 +152,6 @@
 
     &-item {
       @include dd-reset;
-      @include set-font($font-type: 'secondary-font');
 
       flex: 1 0 auto;
       color: $nero;
