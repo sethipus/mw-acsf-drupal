@@ -56,7 +56,7 @@ function computed_field_field_asset_type_compute($entity_type_manager, $entity, 
     $asset_type = 'transparent';
   }
   elseif ($width > 1600 && $height > 1200) {
-    $asset_type = 'high-dimension';
+    $asset_type = 'high_dimension';
   }
   else {
     $asset_type = 'regular';
