@@ -82,10 +82,10 @@ class LighthouseView extends LighthouseViewBase implements ContainerFactoryPlugi
     if ($config->get('api_version') == LighthouseDefaultsProvider::API_KEY_VERSION_2) {
       $form['filter']['transparent'] = [
         '#type' => 'select',
-        '#title' => $this->t('Is transparent'),
+        '#title' => t('Is transparent'),
         '#options' => [
           '' => '-- Any --',
-          'Yes' => $this->t('Yes'),
+          'Yes' => t('Yes'),
         ],
         '#default_value' => $transparent_value,
         '#weight' => 4,
