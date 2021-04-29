@@ -68,7 +68,7 @@ function computed_field_field_asset_type_compute($entity_type_manager, $entity, 
  * Alter Lighthouse images style.
  */
 function mars_lighthouse_preprocess_image_style(&$variables) {
-  if (strpos($variables["uri"], 'lighthouse') !== false) {
+  if (strpos($variables["uri"], 'lighthouse') !== FALSE) {
     $variables["image"]["#uri"] = $variables["uri"];
   }
 }

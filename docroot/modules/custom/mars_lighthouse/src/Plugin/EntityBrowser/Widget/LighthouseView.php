@@ -30,8 +30,7 @@ class LighthouseView extends LighthouseViewBase implements ContainerFactoryPlugi
   /**
    * {@inheritdoc}
    */
-  public function getForm(array &$original_form, FormStateInterface $form_state, array $additional_widget_parameters)
-  {
+  public function getForm(array &$original_form, FormStateInterface $form_state, array $additional_widget_parameters) {
     $form = parent::getForm($original_form, $form_state, $additional_widget_parameters);
     // Disable caching on this form.
     $form_state->setCached(FALSE);
@@ -47,7 +46,8 @@ class LighthouseView extends LighthouseViewBase implements ContainerFactoryPlugi
     try {
       $brand_options = $this->lighthouseAdapter->getBrands();
       $market_options = $this->lighthouseAdapter->getMarkets();
-    } catch (LighthouseException $e) {
+    }
+    catch (LighthouseException $e) {
       $brand_options = $market_options = [];
     }
 

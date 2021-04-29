@@ -410,8 +410,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     if ($api_version == LighthouseDefaultsProvider::API_KEY_VERSION_1) {
       $file_mapping = $this->mapping->get('file');
     }
-    elseif ($api_version == LighthouseDefaultsProvider::API_KEY_VERSION_2)
-    {
+    elseif ($api_version == LighthouseDefaultsProvider::API_KEY_VERSION_2) {
       $asset_type_class = static::getAssetTypeClass($data);
       $tenant_name = static::getTenantNameByAssetType($asset_type_class);
       $uri = 'urls.' . $tenant_name;
@@ -428,10 +427,10 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * Get asset type class.
    *
    * @param array $item
-   *  Asset array data.
+   *   Asset array data.
    *
    * @return string|null
-   *  Return asset type.
+   *   Return asset type.
    */
   public static function getAssetTypeClass(array $item): ?string {
     $class_asset_type = NULL;
@@ -454,10 +453,10 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    * Get tenant name by asset type.
    *
    * @param string $asset_type_class
-   *  Asset type.
+   *   Asset type.
    *
    * @return string
-   *  Return tenant name.
+   *   Return tenant name.
    */
   public static function getTenantNameByAssetType(string $asset_type_class = NULL) {
     if ($asset_type_class == 'transparent') {
@@ -471,7 +470,6 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     }
     return $tenant_name;
   }
-
 
   /**
    * Update media entity from API response.
