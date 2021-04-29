@@ -303,6 +303,14 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
     $build = [];
     // Getting default search options.
     $facetOptions = $this->searchQueryParser->parseQuery($grid_id);
+    $conditions = array_filter($facetOptions['conditions'], function ($value) {
+      $condition_name = $value[0];
+      return ($condition_name == 'type')
+        ? TRUE
+        : FALSE;
+    });
+    $facetOptions['conditions'] = $conditions;
+
     if ($grid_type == 'grid') {
       $facetOptions = $this->searchQueryParser->parseFilterPreset($facetOptions, $config);
     }

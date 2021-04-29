@@ -1,8 +1,9 @@
 /* A */
 .main-menu__link {
+  @include set-font($font-type: 'primary-font');
+
   color: clr(primary);
   display: block;
-  font-family: variable(primary-font);
   font-size: 3.2rem;
   font-weight: 500;
   line-height: 1;
@@ -92,8 +93,9 @@
 
 /* A (Nested) */
 .main-menu__link--sub {
+  @include set-font($font-type: 'primary-font');
+
   color: clr(secondary);
-  font-family: variable(primary-font);
   font-weight: 500;
   font-size: 1.6rem;
   padding: 1.8rem 1rem 1.8rem 0;
@@ -104,8 +106,9 @@
   }
 
   @include large {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
     display: block;
     padding: 1.2rem $space-double;
     font-size: 1.4rem;
@@ -115,7 +118,8 @@
     &.active,
     &:active,
     &:hover {
-      font-family: variable(primary-font);
+      @include set-font($font-type: 'primary-font');
+
       color: clr(secondary);
       font-weight: 500;
 

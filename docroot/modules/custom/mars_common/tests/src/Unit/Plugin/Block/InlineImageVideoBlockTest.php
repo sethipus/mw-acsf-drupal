@@ -3,13 +3,13 @@
 namespace Drupal\Tests\mars_common\Unit\Plugin\Block;
 
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\Plugin\Block\InlineImageVideoBlock;
 use Drupal\Tests\UnitTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\mars_common\ThemeConfiguratorParser;
-use Drupal\mars_common\SVG\SVG;
+use Drupal\mars_media\SVG\SVG;
 
 /**
  * @coversDefaultClass \Drupal\mars_common\Plugin\Block\InlineImageVideoBlock
@@ -49,7 +49,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 
@@ -107,7 +107,7 @@ class InlineImageVideoBlockTest extends UnitTestCase {
             $this->languageHelperMock,
           ],
           [
-            'mars_common.media_helper',
+            'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
           ],

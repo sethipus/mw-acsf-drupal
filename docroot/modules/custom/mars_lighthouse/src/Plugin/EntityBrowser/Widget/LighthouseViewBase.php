@@ -201,6 +201,15 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
   /**
    * {@inheritdoc}
    */
+  public function defaultConfiguration() {
+    $default_configuration = parent::defaultConfiguration();
+    $default_configuration['entity_browser_id'] = 'media_library';
+    return $default_configuration;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function submit(array &$element, array &$form, FormStateInterface $form_state) {
     $entities = $this->prepareEntities($form, $form_state);
     $this->selectEntities($entities, $form_state);
@@ -208,6 +217,8 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * {@inheritdoc}
+   *
+   * @codeCoverageIgnore
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     return [];
@@ -215,6 +226,8 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
 
   /**
    * Ajax search response.
+   *
+   * @codeCoverageIgnore
    */
   public function searchCallback(array &$form, FormStateInterface $form_state) {
     $form_state->setRebuild(TRUE);
@@ -305,6 +318,16 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
     }
 
     return $view;
+  }
+
+  /**
+   * Returns current media type.
+   *
+   * @return string
+   *   Returns media type name for the current widget.
+   */
+  public function getMediaType(): string {
+    return $this->mediaType;
   }
 
 }

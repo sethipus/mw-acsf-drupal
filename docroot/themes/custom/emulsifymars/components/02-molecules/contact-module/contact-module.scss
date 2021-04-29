@@ -52,7 +52,8 @@
   }
 
   &__heading {
-    font-family: variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
 
     @include xs {
@@ -76,7 +77,8 @@
   }
 
   &__paragraph {
-    font-family: variable(secondary-font);
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
 
     @include xs {
@@ -136,7 +138,8 @@
   }
 
   &__social-heading {
-    font-family: variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
     text-transform: uppercase;
     margin: 0 4rem 0 0;
@@ -195,7 +198,7 @@
     }
 
     &__label {
-      font-family: variable(primary-font);
+      @include set-font($font-type: 'primary-font');
     }
   }
 

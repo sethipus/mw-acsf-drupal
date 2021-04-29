@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
+use Drupal\search_api\Query\QueryInterface;
 use Drupal\search_api\SearchApiException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -85,15 +86,7 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     $index = $this->entityTypeManager->getStorage('search_api_index')->load('acquia_search_index');
 
     $query = $index->query([]);
-    if (isset($options['offset']) && isset($options['limit'])) {
-      $query->range($options['offset'], $options['limit']);
-    }
-    elseif (isset($options['limit'])) {
-      $query->range(0, isset($options['limit']));
-    }
-    else {
-      $query->range(0, 4);
-    }
+    $this->addQueryRange($query, $options);
 
     $facet_options = [];
     // Setting facets query options.
@@ -109,27 +102,14 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
     }
     $query->setOption('search_api_facets', $facet_options);
 
-    // Applying predefined conditions.
-    // $condition[0] is a filter key.
-    // $condition[1] is a filter value.
-    // $condition[2] is a filter comparison operator: equals, not equals etc.
-    if (!empty($options['conditions'])) {
-      $conditionsGroup = $query->createConditionGroup($options['options_logic']);
-      foreach ($options['conditions'] as $condition) {
-        // Taxonomy filters go as a separate condition group with OR/AND logic.
-        if (in_array($condition[0], array_keys($this->searchCategories->getCategories()))) {
-          $conditionsGroup->addCondition($condition[0], $condition[1], $condition[2]);
-        }
-        else {
-          $query->addCondition($condition[0], $condition[1], $condition[2]);
-        }
-      }
-      $query->addConditionGroup($conditionsGroup);
-    }
+    $this->addQueryConditions($query, $options);
 
     // Remove leading hyphens from the search string
-    // to make the Solr query more accurate.
-    $options['keys'] = !empty($options['keys']) ? preg_replace('/^-/', '', $options['keys']) : '';
+    // to make the Solr query more accurate. Empty results in the case of
+    // only hyphens.
+    $initial_key_count = !empty($options['keys']) ? strlen($options['keys']) : 0;
+    $options['keys'] = !empty($options['keys']) ? preg_replace('/^[-]+/', '', $options['keys']) : '';
+    $only_hephens = ($initial_key_count && empty($options['keys'])) ? TRUE : FALSE;
 
     // Applying search keys.
     if (!empty($options['keys'])) {
@@ -163,6 +143,13 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       foreach ($facet as $facet_delta => $facet_value) {
         $facets_data[$facet_key][$facet_delta]['filter'] = trim($facets_data[$facet_key][$facet_delta]['filter'], '"');
       }
+    }
+
+    // Empty results in the case of only hyphens.
+    if ($only_hephens) {
+      $query_results->setResultItems([]);
+      $query_results->setResultCount(0);
+      $results = [];
     }
 
     $this->searches[$searcher_key] = [
@@ -199,6 +186,54 @@ class SearchHelper implements SearchHelperInterface, SearchProcessManagerInterfa
       'mars_product_used',
       'mars_recipe_collection',
     ];
+  }
+
+  /**
+   * Add range for the query.
+   *
+   * @param \Drupal\search_api\Query\QueryInterface $query
+   *   Query object.
+   * @param array $options
+   *   Options.
+   */
+  private function addQueryRange(QueryInterface &$query, array $options) {
+    if (isset($options['offset']) && isset($options['limit'])) {
+      $query->range($options['offset'], $options['limit']);
+    }
+    elseif (isset($options['limit'])) {
+      $query->range(0, isset($options['limit']));
+    }
+    else {
+      $query->range(0, 4);
+    }
+  }
+
+  /**
+   * Add conditions for the query.
+   *
+   * @param \Drupal\search_api\Query\QueryInterface $query
+   *   Query object.
+   * @param array $options
+   *   Options.
+   */
+  private function addQueryConditions(QueryInterface &$query, array $options) {
+    // Applying predefined conditions.
+    // $condition[0] is a filter key.
+    // $condition[1] is a filter value.
+    // $condition[2] is a filter comparison operator: equals, not equals etc.
+    if (!empty($options['conditions'])) {
+      $conditionsGroup = $query->createConditionGroup($options['options_logic']);
+      foreach ($options['conditions'] as $condition) {
+        // Taxonomy filters go as a separate condition group with OR/AND logic.
+        if (in_array($condition[0], array_keys($this->searchCategories->getCategories()))) {
+          $conditionsGroup->addCondition($condition[0], $condition[1], $condition[2]);
+        }
+        else {
+          $query->addCondition($condition[0], $condition[1], $condition[2]);
+        }
+      }
+      $query->addConditionGroup($conditionsGroup);
+    }
   }
 
   /**

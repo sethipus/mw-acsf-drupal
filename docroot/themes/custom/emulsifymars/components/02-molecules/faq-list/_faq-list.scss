@@ -12,7 +12,8 @@
   }
 }
 .faq-heading {
-  font-family: variable(primary-font);
+  @include set-font($font-type: 'primary-font');
+
   font-weight: normal;
   color: clr(primary);
   text-align: center;
@@ -51,8 +52,9 @@
 }
 
 .default-link--faq_see_all {
+  @include set-font($font-type: 'primary-font');
+
   background-color: clr(secondary);
-  font-family: variable(primary-font);
   color: clr(text-inverse);
   padding: 0 3rem;
   margin-left: auto;
