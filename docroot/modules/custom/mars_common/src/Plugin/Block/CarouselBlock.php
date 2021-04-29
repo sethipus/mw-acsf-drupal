@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -50,7 +50,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
   /**
    * Mars Media Helper service.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   protected $mediaHelper;
 
@@ -94,7 +94,7 @@ class CarouselBlock extends BlockBase implements ContextAwarePluginInterface, Co
       $plugin_id,
       $plugin_definition,
       $container->get('mars_common.language_helper'),
-      $container->get('mars_common.media_helper'),
+      $container->get('mars_media.media_helper'),
       $container->get('mars_common.theme_configurator_parser')
     );
   }

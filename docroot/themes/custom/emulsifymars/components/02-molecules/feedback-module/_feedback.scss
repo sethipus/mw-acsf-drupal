@@ -98,8 +98,9 @@
   }
 
   &__heading {
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
-    font-family: variable(primary-font);
     margin-top: 0;
 
     @include xs {
@@ -121,8 +122,9 @@
   }
 
   &__paragraph {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
 
     @include xs {
       font-size: 1.6rem;
@@ -256,9 +258,12 @@
   &__png-asset {
     position: absolute;
     z-index: 2;
-    display: block;
+    display: flex;
+    justify-content: center;
+    height: 64px;
 
     img{
+      height: 100%;
       object-fit: cover;
     }
 
@@ -270,8 +275,13 @@
 
     @include medium {
       width: 19rem;
+      height: 8.3rem;
       bottom: -5rem;
       right: -8.3rem;
+    }
+
+    @include large {
+      height: 9.6rem;
     }
   }
 

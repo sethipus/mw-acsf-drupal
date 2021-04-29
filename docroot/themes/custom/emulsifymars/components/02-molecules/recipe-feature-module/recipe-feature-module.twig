@@ -21,15 +21,17 @@
       {% endblock %}
     {% else %}
       {% block recipe_media_image %}
+        {% set images = {
+          1440: recipe_media.src|resizeByHeight(567),
+          768: recipe_media.src|resizeByHeight(432),
+          375: recipe_media.src|resizeByHeight(211),
+        } %}
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: recipe_media.alt,
-          image_srcset: recipe_media.srcset,
-          image_sizes: '',
-          image_src: recipe_media.src,
+          image_src: recipe_media.src|resizeByHeight(567),
           responsive_image_blockname: 'recipe-media',
-          height: '567px',
-          width: '850px',
+          image_array: images,
         } %}
       {% endblock %}
     {% endif %}

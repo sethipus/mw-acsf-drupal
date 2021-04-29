@@ -12,8 +12,12 @@
   {% set card__extra_classes = ['card-item'] %}
 {% endif %}
 
-{% if card__eyebrow is not empty and show_rating_and_reviews == true %}
-  {% set card__modificators = card__modificators | merge(["eyebrow-with-rating"]) %}
+{% if card__eyebrow is not empty %}
+  {% set card__modificators = card__modificators | merge(["with-eyebrow"]) %}
+{% endif %}
+
+{% if show_rating_and_reviews == true %}
+  {% set card__modificators = card__modificators | merge(["with-rating"]) %}
 {% endif %}
 
 <section {{ bem(card__base_class, card__modificators, card__blockname, card__extra_classes) }}
@@ -47,20 +51,18 @@
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: 'Product image',
-          image_sizes: '212px',
-          height: "225px",
-          width: "225px",
-          image_src: item.card__image__src,
-          responsive_image_blockname: 'product-image'
+          image_src: item.card__image__src|resizeWithGravity(255, 255),
+          responsive_image_blockname: 'product-image',
+          width: '255px',
+          height: '255px',
         } %}
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: 'Product image',
-          image_sizes: '212px',
-          height: "225px",
-          width: "225px",
-          image_src: item.card__image__hover__src,
-          responsive_image_blockname: 'hover-image'
+          image_src: item.card__image__hover__src|resizeWithGravity(255, 255),
+          responsive_image_blockname: 'hover-image',
+          width: '255px',
+          height: '255px',
         } %}
       </div>
     {% else %}
@@ -68,23 +70,20 @@
         {% include "@atoms/images/image/responsive-image.twig" with {
           output_image_tag: true,
           image_alt: 'Product image',
-          image_sizes: '212px',
-          height: "225px",
-          width: "225px",
-          image_src: item.card__image__src,
+          image_src: item.card__image__src|resizeWithGravity(255, 255),
           responsive_image_blockname: 'product-image',
+          width: '255px',
+          height: '255px',
         } %}
       </div>
     {% endif %}
 
-    <div {{ bem('title', [], card__base_class) }}>
-      {% include "@atoms/text/text/01-paragraph.twig" with {
-        paragraph_size: 'large',
-        paragraph_content: item.paragraph_content,
-        paragraph_base_class: 'paragraph',
-        paragraph_modifiers: ['large']
-      } %}
-    </div>
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 3,
+      heading_base_class: 'title',
+      heading_blockname: card__base_class,
+      heading: item.paragraph_content
+    } %}
 
     {% if show_rating_and_reviews == true %}
       <div {{ bem('rating', [], card__base_class) }}>

@@ -1,0 +1,7 @@
+mars_media.configuration_form:
+  path: '/admin/config/services/mars_media'
+  defaults:
+    _form: 'Drupal\mars_media\Form\MarsMediaConfigForm'
+    _title: 'Mars media configuration'
+  requirements:
+    _permission: 'administer site configuration'

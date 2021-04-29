@@ -1,5 +1,6 @@
 .story-highlight {
-  font-family: variable(primary-font);
+  @include set-font($font-type: 'primary-font');
+
   position: relative;
   margin: 0;
   z-index: 1;
@@ -40,7 +41,8 @@
   @include brand-border-overflow;
 
   & .h2 {
-    font-family: variable(heading-font);
+    @include set-font($font-type: 'heading-font');
+
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
@@ -76,18 +78,16 @@
   }
 
   &__paragraph {
-    font-family: variable(secondary-font);
+    @include set-font($font-type: 'secondary-font');
+
     text-align: center;
     color: clr(primary);
     font-weight: normal;
     font-style: normal;
-
-    @include xs {
-      padding: 0 8px;
-      margin: 20px auto 40px;
-      font-size: 1.8rem;
-      line-height: 1.8rem;
-    }
+    padding: 0 8px;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    margin: 2rem auto 4rem;
 
     @include medium {
       padding: 0 20px;
@@ -143,10 +143,11 @@
     }
 
     & .paragraph {
+      @include set-font($font-type: 'secondary-font');
+
       align-self: flex-start;
       margin: 2rem 0;
       text-align: left;
-      font-family: variable(secondary-font);
       color: clr(primary);
 
       @include xs {
@@ -421,6 +422,7 @@
 
     & img {
       width: auto;
+      object-fit: contain;
     }
 
     @include xs {
@@ -462,6 +464,7 @@
 
     & img {
       width: auto;
+      object-fit: contain;
     }
 
     @include xs {
@@ -503,6 +506,7 @@
 
     & img {
       width: auto;
+      object-fit: contain;
     }
 
     @include xs {

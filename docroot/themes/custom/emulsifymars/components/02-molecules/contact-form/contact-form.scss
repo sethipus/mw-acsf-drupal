@@ -55,9 +55,10 @@
     .ff-required-mark,
     #GENERALTEXT894 // label of captcha
     {
+      @include set-font($font-type: 'secondary-font');
+
       color: clr(primary);
       font-size: 1.4rem;
-      font-family: variable(secondary-font);
       line-height: 1.1;
 
       @include large {
@@ -77,8 +78,9 @@
     }
 
     .ff-section-header {
+      @include set-font($font-type: 'primary-font');
+
       color: clr(secondary);
-      font-family: variable(primary-font);
       display: block;
       text-transform: uppercase;
       text-align: center;
@@ -102,10 +104,11 @@
     }
 
     .ff-select-type {
+      @include set-font($font-type: 'secondary-font');
+
       position: relative;
       display: block;
       font-size: 1.6rem;
-      font-family: variable(secondary-font);
       color: clr(primary);
       line-height: 2.24rem;
       padding: 0.6em 4.5rem 0.5em 1.5rem;
@@ -157,12 +160,13 @@
     }
 
     .ff-input-type {
+      @include set-font($font-type: 'secondary-font');
+
       border-style: solid solid solid solid;
       border-color: #c4c4c4;
       border-width: 1px;
       width: 100%;
       color: clr(primary);
-      font-family: variable(secondary-font);
       cursor: text;
       font-size: 1.6rem;
       line-height: 1.2;
@@ -176,7 +180,8 @@
     }
 
     .ff-input-type::-webkit-input-placeholder {
-      font-family: variable(secondary-font);
+      @include set-font($font-type: 'secondary-font');
+
       color: clr(primary);
       font-size: 1.6rem;
       line-height: 1.2;
@@ -187,7 +192,8 @@
       }
     }
     .ff-input-type::-moz-placeholder {
-      font-family: variable(secondary-font);
+      @include set-font($font-type: 'secondary-font');
+
       color: clr(primary);
       font-size: 1.6rem;
       line-height: 1.2;
@@ -198,10 +204,10 @@
       }
     }
     .ff-input-type:-ms-input-placeholder {
-      font-family: variable(secondary-font);
+      @include set-font($font-type: 'secondary-font');
+
       color: clr(primary);
       font-size: 1.6rem;
-      line-height: 1.2;
       opacity: 1;
 
       @include large {
@@ -209,10 +215,10 @@
       }
     }
     .ff-input-type:-moz-placeholder {
-      font-family: variable(secondary-font);
+      @include set-font($font-type: 'secondary-font');
+
       color: clr(primary);
       font-size: 1.6rem;
-      line-height: 1.2;
       opacity: 1;
 
       @include large {
@@ -221,12 +227,13 @@
     }
 
     .ff-textarea {
+      @include set-font($font-type: 'secondary-font');
+
       height: 14rem;
       width: 100%;
       border-color: #c4c4c4;
       border-radius: variable(button-border-radius);
       color: clr(primary);
-      font-family: variable(secondary-font);
       padding: 1rem 1.5rem;
       font-size: 1.6rem;
       display: block;
@@ -277,19 +284,21 @@
     }
 
     .ff-invalid-msg {
+      @include set-font($font-type: 'secondary-font');
+
       color: clr(secondary);
       font-size: 1.3rem;
       line-height: 1.1;
-      font-family: variable(secondary-font);
       position: relative;
       padding: 0.5rem 0 0 0;
     }
 
     #error { // .ff-invalid-msg for captha
+      @include set-font($font-type: 'secondary-font');
+
       font-size: 1.3rem;
       line-height: 1.1;
       margin-top: -1.3rem;
-      font-family: variable(secondary-font);
       color: clr(secondary);
 
       font {
@@ -298,6 +307,8 @@
     }
 
     .ff-fileupload-drop-area {
+      @include set-font($font-type: 'secondary-font');
+
       background-color: white;
       text-align: left;
       width: 100%;
@@ -306,7 +317,6 @@
       display: inline-block;
       border-color: #c4c4c4;
       border-radius: variable(button-border-radius);
-      font-family: variable(secondary-font);
       position: relative;
       &::before {
         content: '';
@@ -347,9 +357,10 @@
     }
 
     .ff-general-text-label { // footnotes
+      @include set-font($font-type: 'secondary-font');
+
       font-size: 1.2rem;
       color: clr(primary);
-      font-family: variable(secondary-font);
 
       @include large {
         font-size: 1.4rem;
@@ -376,9 +387,10 @@
       margin: 0 0 3rem 0;
 
       .ff-footnote-label {
+        @include set-font($font-type: 'secondary-font');
+
         font-size: 1.2rem;
         color: clr(primary);
-        font-family: variable(secondary-font);
 
         @include large {
           font-size: 1.4rem;
@@ -391,9 +403,10 @@
     }
 
     .btnDiv input {
+      @include set-font($font-type: 'primary-font');
+
       color: clr(text-inverse);
       background-color: clr(secondary);
-      font-family: variable(primary-font);
       font-size: 1.4rem;
       text-decoration: none;
       line-height: 5rem;
@@ -484,8 +497,9 @@
     }
 
     .ff-ui-dialog-content {
+      @include set-font($font-type: 'primary-font');
+
       color: clr(secondary) !important;
-      font-family: variable(primary-font);
       display: block;
       text-align: center;
       margin: 3rem 0 3rem 0;
@@ -520,6 +534,8 @@
         text-align: center;
 
         .ff-btn-submit {
+          @include set-font($font-type: 'primary-font');
+
           color: clr(text-inverse) !important;
           background-color: clr(secondary) !important;
           font-family: variable(primary-font) !important;
