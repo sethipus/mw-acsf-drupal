@@ -7,13 +7,13 @@
       <span class="social-feed-slide__data">{{ item.createdAt }}</span>
     </div>
     {% set images = {
-      1440: item.image.url|resize(317, 317),
-      768: item.image.url|resize(216, 216),
-      375: item.image.url|resize(248, 248),
+      1440: item.image.url|resize(317, 317)|replace({'.com/v/':'.com/s320x320/v/'}),
+      768: item.image.url|resize(248, 248)|replace({'.com/v/':'.com/s240x240/v/'}),
+      375: item.image.url|resize(216, 216)|replace({'.com/v/':'.com/s240x240/v/'}),
     } %}
     {% include "@atoms/images/image/responsive-image.twig" with {
       output_image_tag: true,
-      image_src: item.image.url|resize(317, 317),
+      image_src: item.image.url|replace({'.com/v/':'.com/s320x320/v/'}),
       image_base_class: "social-feed-slide__image",
       image_alt: item.image.alt,
       image_array: images,
