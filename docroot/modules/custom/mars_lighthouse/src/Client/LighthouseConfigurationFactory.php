@@ -76,9 +76,9 @@ class LighthouseConfigurationFactory {
       throw new LighthouseException('Missing default port configuration for lighthouse.');
     }
 
-    $subpath = $config->get('subpath') ?? $this->defaultsProvider->getDefaultSubpath();
-    if ($subpath === NULL) {
-      throw new LighthouseException('Missing default subpath configuration for lighthouse.');
+    $api_version = $config->get('api_version') ?? $this->defaultsProvider->getDefaultApiVersion();
+    if ($api_version === NULL) {
+      throw new LighthouseException('Missing default api version configuration for lighthouse.');
     }
 
     return new LighthouseConfiguration(
@@ -87,7 +87,7 @@ class LighthouseConfigurationFactory {
       $api_key,
       $base_path,
       $port,
-      $subpath
+      $api_version,
     );
   }
 

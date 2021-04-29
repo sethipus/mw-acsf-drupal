@@ -28,6 +28,9 @@ function mars_lighthouse_preprocess_lighthouse_gallery_item(&$variables) {
   // We will provide custom wrapping HTML and label.
   $variables['label'] = $variables['element']['#title'];
   $variables['label_for'] = $variables['attributes']['id'];
+  // Will provide class for transparent and
+  // high dimension labels in image.
+  $variables['class_asset_type'] = $variables['element']['#class_asset_type'];
   // I don't think that we need a classes for the input in a such custom widget.
   unset($variables['attributes']['class']);
 }
@@ -40,4 +43,32 @@ function mars_lighthouse_cron() {
   \Drupal::service('mars_lighthouse.sync')->runLighthouseSyncQueue();
   // Run queue to make inventory report and sent to lighthouse.
   \Drupal::service('mars_lighthouse.sync')->runLighthouseInventoryReport();
+}
+
+/**
+ * Computed field.
+ */
+function computed_field_field_asset_type_compute($entity_type_manager, $entity, $fields, $delta) {
+  $width = $entity->field_dimension->width;
+  $height = $entity->field_dimension->height;
+  $is_transparent = $entity->field_is_transparent->value;
+  if ($is_transparent == 'Yes') {
+    $asset_type = 'transparent';
+  }
+  elseif ($width > 1600 && $height > 1200) {
+    $asset_type = 'high-dimension';
+  }
+  else {
+    $asset_type = 'regular';
+  }
+  return $asset_type;
+}
+
+/**
+ * Alter Lighthouse images style.
+ */
+function mars_lighthouse_preprocess_image_style(&$variables) {
+  if (strpos($variables["uri"], 'lighthouse') !== false) {
+    $variables["image"]["#uri"] = $variables["uri"];
+  }
 }

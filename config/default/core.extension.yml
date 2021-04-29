@@ -24,6 +24,7 @@ module:
   cloudflarepurger: 0
   color: 0
   components: 0
+  computed_field: 0
   config: 0
   config_filter: 0
   config_ignore: 0
@@ -40,6 +41,7 @@ module:
   datetime: 0
   depcalc: 0
   diff: 0
+  dimension: 0
   dropzonejs: 0
   dynamic_page_cache: 0
   editor: 0

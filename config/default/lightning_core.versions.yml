@@ -25,6 +25,7 @@ cloudflare: 1.0.0-beta2
 cloudflarepurger: 1.0.0-beta2
 color: 8.8.1
 components: 1.1.0
+computed_field: 2.0.0
 config: 8.8.1
 config_translation: 8.9.6
 conflict: 2.0.0-alpha1
@@ -41,6 +42,7 @@ datetime: 8.8.1
 dblog: 8.8.1
 depcalc: 1.1.0
 diff: 1.0.0
+dimension: 2.0.0
 dropzonejs: 2.0.0-alpha4
 editor: 8.8.1
 editor_advanced_link: 1.8.0
