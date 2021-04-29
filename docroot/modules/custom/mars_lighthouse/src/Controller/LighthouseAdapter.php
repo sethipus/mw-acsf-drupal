@@ -106,7 +106,7 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
   /**
    * Preview tenant for api version 2.
    */
-  const PREVIEW_TENANT_API_VERSION_2 = 'preview_default_jpg';
+  const PREVIEW_TENANT_API_VERSION_2 = 'cust_cf_originating_preview_jpg';
 
   /**
    * Source tenant transparent for api version 2.
