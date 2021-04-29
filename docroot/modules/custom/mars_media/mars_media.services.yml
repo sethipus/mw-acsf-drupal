@@ -1,0 +1,24 @@
+services:
+  mars_media.resize_twig_fitlers:
+    class: Drupal\mars_media\Twig\ImageResizeFilters
+    tags:
+      - { name: twig.extension }
+  mars_media.media_settings:
+    class: Drupal\Core\Config\ImmutableConfig
+    factory: config.factory:get
+    arguments:
+      - 'mars_media.settings'
+  mars_media.media_helper:
+    class: Drupal\mars_media\MediaHelper
+    arguments: [ '@entity_type.manager', '@mars_product.product_helper', '@mars_common.language_helper','@mars_media.media_settings']
+  mars_media.media_helper_twig_filters:
+    class: Drupal\mars_media\Twig\MediaHelperFilters
+    arguments:
+      [ '@mars_media.media_helper' ]
+    tags:
+      - { name: twig.extension }
+  mars_media.svg_factory:
+    arguments: [ '@entity_type.manager' , '@mars_media.svg_unique_id_generator' ]
+    class: Drupal\mars_media\SVG\SVGFactory
+  mars_media.svg_unique_id_generator:
+    class: Drupal\mars_media\SVG\SVGUniqueIdGenerator

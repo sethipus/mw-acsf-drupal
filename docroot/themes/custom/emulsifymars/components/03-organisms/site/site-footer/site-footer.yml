@@ -1,5 +1,6 @@
 theme_styles: 'twix'
 social_text: 'FOLLOW US ON'
+logo_src: 'twix-logo.png'
 footer_logo_link: '#homepage_link'
 region_selector_label: 'Select Region'
 marketing_text_title: 'This is a marketing site'

@@ -1,8 +1,9 @@
 .list-container-block {
 
   h2 {
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
-    font-family: variable(primary-font);
     font-weight: normal;
     font-size: 2.8rem;
     line-height: 1.1;

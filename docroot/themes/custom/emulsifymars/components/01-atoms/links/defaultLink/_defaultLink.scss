@@ -1,7 +1,8 @@
 .default-link {
+  @include set-font($font-type: 'primary-font');
+
   color: clr(text-inverse);
   background-color: clr(secondary);
-  font-family: variable(primary-font);
   font-size: 1.6rem;
   text-decoration: none;
   line-height: 6rem;

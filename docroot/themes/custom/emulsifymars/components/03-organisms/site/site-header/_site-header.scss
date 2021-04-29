@@ -68,6 +68,27 @@
     @include xl {
       flex-basis: 212px;
     }
+
+    .link.link--logo {
+      display: block;
+      width: 104px;
+      height: 39px;
+
+      @include medium {
+        width: 141px;
+        height: 53px;
+      }
+
+      @include large {
+        width: 212px;
+        height: 98px;
+      }
+
+      img {
+        height: 100%;
+        object-fit: contain;
+      }
+    }
   }
 
   &__menu {
@@ -136,11 +157,12 @@
   z-index: 1500;
 
   a {
+    @include set-font($font-type: 'primary-font');
+
     background: clr(subcolor-4);
     box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     color: clr(subcolor-3);
     font-size: 1.4rem;
-    font-family: variable(primary-font);
     padding: 3px 20px 8px;
     text-decoration: none;
     border-radius: 0 0 10px 10px;

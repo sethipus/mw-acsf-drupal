@@ -62,7 +62,8 @@
   }
 
   ::placeholder {
-    font-family: variable(secondary-font);
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(subcolor-3);
     font-size: 14px;
     line-height: 30px;
@@ -220,11 +221,12 @@
     }
 
     & .search-field {
+      @include set-font($font-type: 'secondary-font');
+
       margin-right: auto;
       margin-left: auto;
       width: 100%;
       border-bottom: 1px solid clr(subcolor-3);
-      font-family: variable(secondary-font);
       padding-bottom: 3px;
 
       @include medium {

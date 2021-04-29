@@ -4,6 +4,9 @@
 {% else %}
     {% set full_width__base_class = 'article-full-width' %}
 {% endif %}
+{% if media.aspect_ratio %}
+  {% set aspect_ratio = media.aspect_ratio %}
+{% endif %}
 
 {% set heading_modifiers = ['main-heading']|merge([heading_modifier]) %}
 
@@ -25,16 +28,22 @@
 
   <div {{ bem('media', [], full_width__base_class) }}>
     {% if media.image %}
-      {% include "@atoms/images/image/_image.twig" with {
-        image_base_class: base_class,
-        image_modifiers: image_modifiers,
-        image_blockname: image_blockname,
-        image_src: media.src,
-        image_alt: media.alt,
-        image_title: media.title,
-        height: '635px',
-        width: '1128px',
+      {% set images = {
+        1440: media.src|resize(1128, 635),
+        768: media.src|resize(768, 434),
+        375: media.src|resize(375, 250),
       } %}
+      <div {{ bem('aspect-ratio-wrapper', [ aspect_ratio ]) }}>
+        {% include "@atoms/images/image/_image.twig" with {
+          image_base_class: base_class,
+          image_modifiers: image_modifiers,
+          image_blockname: image_blockname,
+          image_src: media.src|resize(1128, 635),
+          image_alt: media.alt,
+          image_title: media.title,
+          image_array: images,
+        } %}
+      </div>
     {% elseif media.video %}
       {{ attach_library('emulsifymars/inline-video') }}
       {% include "@atoms/video/inline-video/video.twig" with {

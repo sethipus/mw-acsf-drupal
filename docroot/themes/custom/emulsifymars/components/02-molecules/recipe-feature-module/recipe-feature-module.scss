@@ -6,8 +6,9 @@
   padding-bottom: 8rem;
 
   &__title {
+    @include set-font($font-type: 'heading-font');
+
     text-align: center;
-    font-family: variable(heading-font);
     color: clr(primary);
     margin-bottom: 4rem;
     font-size: 4rem;
@@ -66,6 +67,15 @@
       height: $recipe-feature-desktop-max-height;
     }
 
+    &__desktop-only {
+      display: none;
+
+      @include large {
+        display: block;
+        height: 100%;
+      }
+    }
+
     img, figure {
       width: 100%;
       height: $recipe-feature-mobile-max-height;
@@ -117,7 +127,8 @@
       }
 
       .eyebrow {
-        font-family: variable(primary-font);
+        @include set-font($font-type: 'primary-font');
+
         font-size: 14px;
         line-height: 14px;
         color: clr(primary);
@@ -138,7 +149,8 @@
       }
 
       .title {
-        font-family: variable(primary-font);
+        @include set-font($font-type: 'primary-font');
+
         font-size: 5.6rem;
         line-height: 100%;
         max-width: 510px;

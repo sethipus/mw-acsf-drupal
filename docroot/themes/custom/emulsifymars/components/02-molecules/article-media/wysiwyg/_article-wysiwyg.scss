@@ -1,6 +1,7 @@
 .article-wysiwyg {
+  @include set-font($font-type: 'secondary-font');
+
   background-color: clr(subcolor-3);
-  font-family: variable(secondary-font);
   font-size: 1.8rem;
   line-height: 1.6;
   color: clr(primary);

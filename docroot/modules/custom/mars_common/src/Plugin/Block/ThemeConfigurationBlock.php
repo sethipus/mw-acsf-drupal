@@ -99,10 +99,19 @@ class ThemeConfigurationBlock extends BlockBase implements ContextAwarePluginInt
       'font_settings' => [
         'headline_font' => NULL,
         'headline_font_path' => NULL,
+        'headline_font_mobile_letterspacing' => ThemeConfiguratorService::LETTERSPACING_MOBILE_DEFAULT,
+        'headline_font_tablet_letterspacing' => ThemeConfiguratorService::LETTERSPACING_TABLET_DEFAULT,
+        'headline_font_desktop_letterspacing' => ThemeConfiguratorService::LETTERSPACING_DESKTOP_DEFAULT,
         'primary_font' => NULL,
         'primary_font_path' => NULL,
+        'primary_font_mobile_letterspacing' => ThemeConfiguratorService::LETTERSPACING_MOBILE_DEFAULT,
+        'primary_font_tablet_letterspacing' => ThemeConfiguratorService::LETTERSPACING_TABLET_DEFAULT,
+        'primary_font_desktop_letterspacing' => ThemeConfiguratorService::LETTERSPACING_DESKTOP_DEFAULT,
         'secondary_font' => NULL,
         'secondary_font_path' => NULL,
+        'secondary_font_mobile_letterspacing' => ThemeConfiguratorService::LETTERSPACING_MOBILE_DEFAULT,
+        'secondary_font_tablet_letterspacing' => ThemeConfiguratorService::LETTERSPACING_TABLET_DEFAULT,
+        'secondary_font_desktop_letterspacing' => ThemeConfiguratorService::LETTERSPACING_DESKTOP_DEFAULT,
       ],
     ];
   }

@@ -1,0 +1,21 @@
+mars_media.settings:
+  type: config_object
+  label: 'MARS media configuration'
+  mapping:
+    cf_resize:
+      type: mapping
+      label: 'Cloudflare image resizing configuration'
+      mapping:
+        enabled:
+          type: boolean
+          label: 'Enabled'
+        bundles:
+          type: mapping
+          label: 'Apply to the following media types'
+          mapping:
+            image:
+              type: boolean
+              label: 'Local Drupal Images'
+            lighthouse_image:
+              type: boolean
+              label: 'Lighthouse Images'
