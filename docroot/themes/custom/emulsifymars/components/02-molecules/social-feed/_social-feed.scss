@@ -11,9 +11,10 @@
 
   &__heading {
     &--main-heading {
+      @include set-font($font-type: 'heading-font');
+
       text-align: center;
       color: clr(primary);
-      font-family: variable(heading-font);
       margin-bottom: 4rem;
 
       @include xs {

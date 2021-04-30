@@ -2,7 +2,9 @@
 
 namespace Drupal\mars_lighthouse\Controller;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\file\FileInterface;
 use Drupal\mars_lighthouse\Client\LighthouseDefaultsProvider;
@@ -132,7 +134,9 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
     return new static(
       $container->get('lighthouse.client'),
       $container->get('cache.default'),
-      $container->get('file_system')
+      $container->get('file_system'),
+      $container->get('config.factory'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -145,15 +149,27 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    *   Cache container.
    * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   The file system service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(LighthouseClientInterface $lighthouse_client, CacheBackendInterface $cache, FileSystemInterface $file_system) {
+  public function __construct(
+    LighthouseClientInterface $lighthouse_client,
+    CacheBackendInterface $cache,
+    FileSystemInterface $file_system,
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager
+  ) {
     $this->lighthouseClient = $lighthouse_client;
-    $this->mediaStorage = $this->entityTypeManager()->getStorage('media');
-    $this->fileStorage = $this->entityTypeManager()->getStorage('file');
-    $this->mapping = $this->config(self::CONFIG_NAME);
+    $this->entityTypeManager = $entity_type_manager;
+    $this->mediaStorage = $this->entityTypeManager->getStorage('media');
+    $this->fileStorage = $this->entityTypeManager->getStorage('file');
+    $this->configFactory = $config_factory;
+    $this->mapping = $this->configFactory->get(self::CONFIG_NAME);
     $this->cache = $cache;
     $this->fileSystem = $file_system;
   }

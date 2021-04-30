@@ -40,6 +40,7 @@
 
   &__image {
     flex-grow: 1;
+    height: 100%;
     object-fit: cover;
     animation: hero-3up-image-animates-in 1.7s cubic-bezier(0.75,0,0.25,0);
 
@@ -61,7 +62,8 @@
   }
 
   &__heading {
-    font-family: variable(heading-font);
+    @include set-font($font-type: 'heading-font');
+
     font-weight: 300;
     color: clr(subcolor-3);
     text-align: center;

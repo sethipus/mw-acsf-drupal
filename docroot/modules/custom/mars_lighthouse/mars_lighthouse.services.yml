@@ -4,7 +4,7 @@ services:
     arguments: ['@http_client', '@mars_lighthouse.config', '@logger.factory', '@lighthouse.auth_token_provider']
   lighthouse.adapter:
     class: '\Drupal\mars_lighthouse\Controller\LighthouseAdapter'
-    arguments: ['@lighthouse.client', '@cache.default', '@file_system']
+    arguments: ['@lighthouse.client', '@cache.default', '@file_system', '@config.factory', '@entity_type.manager']
   lighthouse.base_api_abstract:
     class: '\Drupal\mars_lighthouse\Client\LighthouseBaseApiAbstract'
     arguments: ['@http_client', '@mars_lighthouse.config', '@logger.factory']

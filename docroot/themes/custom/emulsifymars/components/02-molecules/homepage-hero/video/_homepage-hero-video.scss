@@ -89,7 +89,8 @@
   }
 
   .eyebrow {
-    font-family: variable(primary-font);
+    @include set-font($font-type: 'primary-font');
+
     font-size: 14px;
     color: clr(subcolor-3);
     text-decoration: none;
@@ -109,7 +110,8 @@
     margin: 0;
 
     &__link {
-      font-family: variable(heading-font);
+      @include set-font($font-type: 'heading-font');
+
       color: clr(subcolor-3);
       text-decoration: none;
       font-weight: 300;

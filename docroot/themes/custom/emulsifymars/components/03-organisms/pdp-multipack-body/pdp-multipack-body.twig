@@ -17,6 +17,7 @@
     } %}
     {% for pdp_product in pdp_item.products %}
       <!-- PDP Multipack Product Header -->
+      {% set last_product = loop.last ? true : false %}
       {% include "@molecules/pdp/pdp-multipack-details/pdp-multipack-details.twig" with {
         size_id: pdp_item.size_id,
         product_title: pdp_product.product_title,
@@ -26,6 +27,7 @@
         pdp_allergen_data: pdp_product.allergen_data,
         pdp_common_allergen_data: pdp_common_data.allergen_data,
         dual_label: dual_label,
+        last_product: last_product
       } %}
     {% endfor %}
   </section>

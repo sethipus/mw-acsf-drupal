@@ -7,7 +7,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\mars_common\Traits\SelectBackgroundColorTrait;
 use Drupal\mars_lighthouse\Traits\EntityBrowserFormTrait;
@@ -35,7 +35,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
   /**
    * Mars Media Helper service.
    *
-   * @var \Drupal\mars_common\MediaHelper
+   * @var \Drupal\mars_media\MediaHelper
    */
   protected $mediaHelper;
 
@@ -63,7 +63,7 @@ class FlexibleDriverBlock extends BlockBase implements ContainerFactoryPluginInt
     $plugin_definition
   ) {
     $theme_configurator = $container->get('mars_common.theme_configurator_parser');
-    $media_helper = $container->get('mars_common.media_helper');
+    $media_helper = $container->get('mars_media.media_helper');
     return new self(
       $configuration,
       $plugin_id,

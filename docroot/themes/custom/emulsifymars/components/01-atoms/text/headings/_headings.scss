@@ -184,6 +184,8 @@ $color-heading: clr(accent);
 .h5,
 .h6 {
   &--primary-modifier {
+    @include set-font($font-type: 'primary-font');
+
     font-family: variable(primary-font) !important;
   }
 }

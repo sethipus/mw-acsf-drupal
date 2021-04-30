@@ -1,7 +1,22 @@
 {% set image_base_class = image_base_class|default('image') %}
 
+{% if image_array %}
+  {% set image_srcset = '' %}
+  {% set image_sizes = '' %}
+  {% for breakpoint, image in image_array %}
+    {% set image_srcset = image_srcset ~ image ~ ' ' ~ breakpoint ~ 'w' ~ ',' %}
+    {% if loop.first %}
+      {% set image_sizes = image_sizes ~ '(min-width: ' ~ (breakpoint + 1) ~ 'px) ' ~ breakpoint ~ 'px, ' %}
+    {% endif %}
+    {% set image_sizes = image_sizes ~ '(max-width: ' ~ breakpoint ~ 'px) ' ~ breakpoint ~ 'px, ' %}
+    {% if loop.last %}
+      {% set image_sizes = image_sizes ~ breakpoint ~ 'px' %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 <img loading="lazy" data-object-fit
-  {{ bem(image_base_class, image_modifiers, image_blockname) }}
+  {{ bem(image_base_class, image_modifiers, image_blockname, image_extra_classes) }}
   {% if image_srcset %}
     srcset="{{ image_srcset }}"
   {% endif %}
