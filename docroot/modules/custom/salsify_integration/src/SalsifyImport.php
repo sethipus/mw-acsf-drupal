@@ -23,6 +23,14 @@ class SalsifyImport {
 
   public const PROCESS_RESULT_CREATED = 'created';
 
+  public const CONSTANT_MULRIPACK_GENERATED_FIELDS = [
+    'field_product_key_image',
+    'field_product_image_1',
+    'field_product_image_2',
+    'field_product_image_3',
+    'field_product_image_4',
+  ];
+
   /**
    * The cache object associated with the specified bin.
    *
