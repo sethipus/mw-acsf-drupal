@@ -87,7 +87,7 @@ class LighthouseConfigurationFactory {
       $api_key,
       $base_path,
       $port,
-      $api_version,
+      $api_version
     );
   }
 
