@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'lazysizes';
 
 (function($, Drupal) {
 Drupal.behaviors.slideHelper = {
