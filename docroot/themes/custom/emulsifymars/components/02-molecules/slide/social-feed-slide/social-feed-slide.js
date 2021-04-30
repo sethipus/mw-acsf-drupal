@@ -1,3 +1,5 @@
+import 'lazysizes';
+
 (function($, Drupal) {
 Drupal.behaviors.slideHelper = {
   attach(context) {
