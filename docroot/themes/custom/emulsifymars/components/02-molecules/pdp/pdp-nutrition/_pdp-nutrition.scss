@@ -150,6 +150,10 @@
           margin-top: 0;
         }
       }
+
+      .pdp-nutrition__section-column-item:last-child {
+        text-align: right;
+      }
     }
 
     &-item {
@@ -211,7 +215,6 @@
 
       &--value-daily {
         flex: 1 0 18%;
-        text-align: right;
 
         @include large {
           flex: 1 0 20%;
