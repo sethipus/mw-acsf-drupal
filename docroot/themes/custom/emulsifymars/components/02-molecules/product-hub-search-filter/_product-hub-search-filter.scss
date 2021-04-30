@@ -72,12 +72,13 @@
   }
 
   &__button {
+    @include set-font($font-type: 'primary-font');
+
     display: inline-block;
     cursor: pointer;
     border: 2px solid clr(secondary);
     padding: 16px 40px;
     border-radius: variable(button-border-radius);
-    font-family: variable(primary-font);
     text-transform: uppercase;
     color: clr(secondary);
     margin: 0 6px;
@@ -131,8 +132,11 @@
   }
 
   &__title {
+    @include set-font($font-type: 'primary-font');
+
+    font-size: 1.8rem;
+    line-height: 1.4;
     padding: 30px 20px 0;
-    font: 18px/25px variable(primary-font);
     color: clr(secondary);
   }
 
@@ -205,11 +209,12 @@
 }
 
 .search-filter-open-button {
+  @include set-font($font-type: 'secondary-font');
+
   height: 50px;
   padding: 0 20px;
   border-radius: variable(button-border-radius);
   background-color: clr(secondary);
-  font-family: variable(secondary-font);
   color: clr(subcolor-3);
   font-size: 16px;
   line-height: 50px;
@@ -243,8 +248,10 @@
   border-bottom: 1px solid clr(subcolor-4);
 
   &__applied-label {
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
-    font-family: variable(primary-font);
+    text-transform: uppercase;
 
     @include xs {
       font-size: 1.6rem;

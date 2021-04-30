@@ -59,14 +59,6 @@ pdp-body:
     - core/jquery
     - core/jquery.once
 
-pdp-multipack:
-  js:
-    dist/js/pdp_multipack.js: {}
-  dependencies:
-    - emulsifymars/pdp-body
-    - emulsifymars/vendor-chunk-2
-    - core/drupal
-
 product-content-pair-up:
   js:
     dist/js/02-molecules/product-content-pair-up/product-content-pair-up.js: { }
@@ -215,7 +207,7 @@ vendor-chunk-1:
 
 vendor-chunk-2:
   js:
-    dist/js/vendors~media_carousel~pdp_body~pdp_multipack~product_used~recommendations_module~social_feed.js: {}
+    dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js: {}
 
 search-facet-type:
   js:

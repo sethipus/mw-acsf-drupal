@@ -3,7 +3,8 @@
 }
 
 .search-no-results-heading {
-  font-family: variable(heading-font);
+  @include set-font($font-type: 'heading-font');
+
   font-size: 64px;
   line-height: 1em;
   color: clr(primary);
@@ -14,7 +15,8 @@
 }
 
 .search-no-results-text {
-  font-family: variable(secondary-font);
+  @include set-font($font-type: 'secondary-font');
+
   font-size: 22px;
   line-height: 24px;
   margin: 60px auto;

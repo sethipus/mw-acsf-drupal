@@ -28,8 +28,8 @@
 
 .footer-menu__link {
   @include link;
+  @include set-font($font-type: 'primary-font');
 
-  font-family: variable(primary-font);
   color: clr(primary);
   text-decoration: none;
   font-size: 1.6rem;

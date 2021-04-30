@@ -11,7 +11,7 @@ use Drupal\Core\Utility\Token;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\mars_articles\Plugin\Block\ArticleHeader;
 use Drupal\mars_common\LanguageHelper;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\node\Entity\Node;
 use Drupal\Tests\UnitTestCase;
@@ -93,7 +93,7 @@ class ArticleHeaderTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \Drupal\mars_common\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\mars_media\MediaHelper|\PHPUnit\Framework\MockObject\MockObject
    */
   private $mediaHelperMock;
 
@@ -239,7 +239,7 @@ class ArticleHeaderTest extends UnitTestCase {
             $this->languageHelperMock,
           ],
           [
-            'mars_common.media_helper',
+            'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
           ],

@@ -21,15 +21,30 @@
   {% if pp_header_heading and parent_page_media_type == 'video' %}
     data-component-title="{{ pp_header_heading }}"
   {% endif %}
-  {% if parent_page_media_url and parent_page_media_type == 'image' %}
+  {# {% if parent_page_media_url and parent_page_media_type == 'image' %}
     style="background-image: url('{{ parent_page_media_url }}');"
-  {% endif %}
+  {% endif %} #}
 >
 
   {% set additional_attr = (styles is defined and styles is not empty)
     ? {"style": styles}
     : {}
   %}
+  {% if parent_page_media_url and parent_page_media_type == 'image' %}
+    <div class="bg-image">
+      {% set images = {
+        1440: parent_page_media_url|resizeByHeight(640),
+        768: parent_page_media_url|resizeByHeight(603),
+        375: parent_page_media_url|resizeByHeight(612),
+      } %}
+      {% include "@atoms/images/image/responsive-image.twig" with {
+        output_image_tag: true,
+        image_alt: parent_page_media_url,
+        image_src: parent_page_media_url|resizeByHeight(640),
+        image_array: images,
+      } %}
+    </div>
+  {% endif %}
   <div class="content">
     {% if pp_header_heading %}
       {% include "@atoms/text/eyebrow/eyebrow.twig" with {

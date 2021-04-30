@@ -22,6 +22,7 @@
   {% if article_card_background_img_url != '' %}
     style="{{ 'background-image: url(' ~ article_card_background_img_url ~ ')' }}"
   {% endif %}
+
   data-card-type="article-card"
   data-site-search-clicked="{{ article_card_heading }}"
   data-theme="{{ theme_styles }}">
@@ -33,6 +34,22 @@
   {% if article_card_background_img_url == '' %}
     <div class="article-card__brand-shape">
       {{ brand_shape | raw }}
+    </div>
+  {% else %}
+    <div class="bg-image">
+      {% set images = {
+        1440: article_card_background_img_url|resizeWithGravity(318, 520),
+        768: article_card_background_img_url|resizeWithGravity(334, 520),
+        375: article_card_background_img_url|resizeWithGravity(315, 520),
+      } %}
+      {% include "@atoms/images/image/responsive-image.twig" with {
+        output_image_tag: true,
+        image_alt: article_card_background_img_url,
+        image_array: images,
+        width: '318px',
+        height: '520px',
+        image_src: article_card_background_img_url|resizeWithGravity(318, 520),
+      } %}
     </div>
   {% endif %}
 

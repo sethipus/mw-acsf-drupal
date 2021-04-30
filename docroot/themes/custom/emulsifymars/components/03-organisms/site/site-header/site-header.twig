@@ -25,15 +25,17 @@
               text_color_override: false,
             } %}
               {% block link_content %}
+                {% set images = {
+                  1440: logo_src|resize(212, 98),
+                  768: logo_src|resize(141, 53),
+                  375: logo_src|resize(104, 39),
+                } %}
                 {% include "@atoms/images/image/responsive-image.twig" with {
                   output_image_tag: true,
                   image_alt: 'Logo',
-                  image_srcset: 'twix-logo.png 375w, twix-logo.png 768w, twix-logo.png 1024w, twix-logo.png 1440w',
-                  image_sizes: '212px',
-                  height: '75px',
-                  width: '212px',
-                  image_src: 'twix-logo.png',
+                  image_src: logo_src|resize(212, 98),
                   responsive_image_blockname: 'logo',
+                  image_array: images,
                 } %}
               {% endblock %}
             {% endembed %}

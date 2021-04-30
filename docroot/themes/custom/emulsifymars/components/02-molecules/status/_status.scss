@@ -3,10 +3,11 @@
 }
 
 .status {
+  @include set-font($font-type: 'secondary-font');
+
   display: block;
   text-align: center;
   font-size: 1.2rem;
-  font-family: variable(secondary-font);
   line-height: 1.2;
   padding: 1.2rem $space-quadruple 1.1rem;
 

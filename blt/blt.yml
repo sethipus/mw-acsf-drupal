@@ -34,6 +34,11 @@ validate:
     filters:
       - entityMainMediaId
       - mt
+      - resize
+      - resizeWithHighDpr
+      - resizeWithGravity
+      - resizeByWidth
+      - resizeByHeight
       - mediaParamsById
       - mainVariant
       - productCardMedia

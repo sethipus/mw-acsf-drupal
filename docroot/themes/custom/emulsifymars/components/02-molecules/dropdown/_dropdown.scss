@@ -6,7 +6,8 @@
 
   &__trigger {
     @include button-base;
-    
+    @include set-font($font-type: 'secondary-font');
+
     position: relative;
     width: 100%;
     background: clr(subcolor-3);
@@ -14,7 +15,6 @@
     padding: 1.4rem 5rem 1.4rem $space-double;
     color: clr(primary);
     font-size: 1.6rem;
-    font-family: variable(secondary-font);
     line-height: 1.4;
     font-weight: normal;
     text-decoration: none;
@@ -57,7 +57,7 @@
 
   &__list {
     @include list-reset;
-    
+
     position: absolute;
     top: 0;
     bottom: 0;
@@ -75,16 +75,17 @@
 
   &__span,
   &__link {
+    @include set-font($font-type: 'secondary-font');
+
     display: block;
     color: clr(primary);
     padding: $space-double $space-triple $space-double $space-double;
-    font-family: variable(secondary-font);
     font-size: 1.6rem;
     line-height: 1.4rem;
     font-weight: normal;
     text-decoration: none;
     outline-offset: -1px;
-  
+
     @include medium {
       font-size: 1.8rem;
       line-height: 1.4rem;
@@ -140,7 +141,7 @@
       border-radius: variable(card-border-radius);
     }
   }
-  
+
   &.is-expanded &__content--outer {
     display: block;
   }

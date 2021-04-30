@@ -23,7 +23,8 @@
     }
 
     &__text {
-      font-family: variable(secondary-font);
+      @include set-font($font-type: 'secondary-font');
+
       color: clr(subcolor-3);
       font-size: 14px;
       line-height: 19.6px;

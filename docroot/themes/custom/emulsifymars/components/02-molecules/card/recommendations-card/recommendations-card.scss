@@ -67,8 +67,9 @@
   }
 
   &-heading__link {
+    @include set-font($font-type: 'primary-font');
+
     color: clr(primary);
-    font-family: variable(primary-font);
     text-decoration: none;
     font-size: 2.2rem;
     line-height: 2.42rem;
@@ -89,8 +90,9 @@
 
   &-items,
   &-time {
+    @include set-font($font-type: 'secondary-font');
+
     color: clr(primary);
-    font-family: variable(secondary-font);
     font-size: 1.6rem;
     line-height: 0.1rem;
     font-weight: bold;

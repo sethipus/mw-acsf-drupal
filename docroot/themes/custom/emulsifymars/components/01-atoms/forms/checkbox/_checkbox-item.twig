@@ -1,4 +1,4 @@
-<li class="checkbox-item" role="presentation">
+<li class="checkbox-item" role="option" tabindex='0' {% if checkbox_item_checked %} aria-selected="true" {% else %} aria-selected="false" {% endif %}>
   <input class="checkbox-item__input" id="{{ key }}" name="checkbox" type="checkbox" {% if checkbox_item_checked %}checked="{{ checkbox_item_checked }}" {% endif %}>
-  <label class="checkbox-item__label" for="{{ key }}" role="option" {% if checkbox_item_checked %} aria-selected="true" {% else %} aria-selected="false" {% endif %} tabindex="0">{{ checkbox_item }}</label>
+  <label class="checkbox-item__label" for="{{ key }}">{{ checkbox_item }}</label>
 </li>
