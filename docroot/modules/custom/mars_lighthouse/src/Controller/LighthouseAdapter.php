@@ -450,8 +450,8 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
    */
   public static function getAssetTypeClass(array $item): ?string {
     $class_asset_type = NULL;
-    if ((isset($item['transparent']) && $item['transparent'] == 'Yes') ||
-      (isset($item['isTransparent']) && $item['isTransparent'] == 'Yes')) {
+    if ((isset($item['transparent']) && strtolower($item['transparent']) == 'yes') ||
+      (isset($item['isTransparent']) && strtolower($item['isTransparent']) == 'yes')) {
       $class_asset_type = 'transparent';
     }
     else {

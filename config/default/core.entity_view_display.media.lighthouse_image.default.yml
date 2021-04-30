@@ -36,33 +36,30 @@ bundle: lighthouse_image
 mode: default
 content:
   field_asset_type:
+    type: computed_string
     weight: 3
+    region: content
     label: above
     settings:
       sanitized: true
       cache_unit: -1
       cache_duration: 1
     third_party_settings: {  }
-    type: computed_string
-    region: content
   field_dimension:
+    type: area_components_field_formatter
     weight: 2
+    region: content
     label: above
     settings:
-      thousand_separator: ''
-      decimal_separator: .
-      scale: 2
-      prefix_suffix: true
+      link_to_entity: false
     third_party_settings: {  }
-    type: area_field_formatter
-    region: content
   field_is_transparent:
+    type: list_default
     weight: 1
+    region: content
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: list_default
-    region: content
   field_media_image:
     label: visually_hidden
     weight: 0

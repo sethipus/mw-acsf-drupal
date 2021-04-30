@@ -52,7 +52,7 @@ function computed_field_field_asset_type_compute($entity_type_manager, $entity, 
   $width = $entity->field_dimension->width;
   $height = $entity->field_dimension->height;
   $is_transparent = $entity->field_is_transparent->value;
-  if ($is_transparent == 'Yes') {
+  if (strtolower($is_transparent) == 'yes') {
     $asset_type = 'transparent';
   }
   elseif ($width > 1600 && $height > 1200) {
