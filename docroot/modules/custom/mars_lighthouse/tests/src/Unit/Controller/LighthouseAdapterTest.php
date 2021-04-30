@@ -7,6 +7,7 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\mars_lighthouse\Controller\LighthouseAdapter;
 use Drupal\mars_lighthouse\LighthouseClientInterface;
 use Drupal\media\MediaInterface;
@@ -30,7 +31,7 @@ class LighthouseAdapterTest extends UnitTestCase {
 
   const EXPECTED_SAMPLE_DATA = [
     'urls' => [
-      '001orig' => 'image.png.jpeg',
+      '001orig' => 'image.png',
     ],
     'assetName' => 'LH image 1.jpeg',
     'assetId' => 'a8c7cd6sfd7s876f0fsf98',
@@ -103,7 +104,8 @@ class LighthouseAdapterTest extends UnitTestCase {
     "origAssetId": "0000000000000000000000000000001",
     "assetId": "0000000000000000000000000000001",
     "assetName": "test 1",
-    "subType": "Animated"
+    "subType": "Animated",
+    "dimensions": "N/A"
   }';
 
   const BRANDS_MOCK_DATA = [
@@ -176,6 +178,13 @@ class LighthouseAdapterTest extends UnitTestCase {
   protected $mediaMock;
 
   /**
+   * Mock.
+   *
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\Core\File\FileSystemInterface
+   */
+  private $fileSystemMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
@@ -195,6 +204,9 @@ class LighthouseAdapterTest extends UnitTestCase {
     }
     $this->configFactoryMock = $this->getConfigFactoryStub([
       'mars_lighthouse.mapping' => Yaml::decode(file_get_contents(getcwd() . $config_path)),
+      'mars_lighthouse.settings' => [
+        'api_version' => 'v1',
+      ],
     ]);
     $this->containerMock->set('entity_type.manager', $this->entityTypeManagerMock);
     $this->containerMock->set('config.factory', $this->configFactoryMock);
@@ -202,6 +214,7 @@ class LighthouseAdapterTest extends UnitTestCase {
     $this->controller = new LighthouseAdapter(
       $this->lighthouseClientMock,
       $this->cacheMock,
+      $this->fileSystemMock,
       $this->configFactoryMock,
       $this->entityTypeManagerMock
     );
@@ -214,7 +227,7 @@ class LighthouseAdapterTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(4))
+      ->expects($this->exactly(5))
       ->method('get')
       ->willReturnMap(
         [
@@ -227,6 +240,11 @@ class LighthouseAdapterTest extends UnitTestCase {
             'cache.default',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->cacheMock,
+          ],
+          [
+            'file_system',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->fileSystemMock,
           ],
           [
             'config.factory',
@@ -396,6 +414,7 @@ class LighthouseAdapterTest extends UnitTestCase {
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
     $this->entityStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->mediaMock = $this->createMock(MediaInterface::class);
+    $this->fileSystemMock = $this->createMock(FileSystemInterface::class);
   }
 
 }
