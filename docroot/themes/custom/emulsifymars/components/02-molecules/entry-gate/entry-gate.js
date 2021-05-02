@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 (function($, Drupal){
   Drupal.behaviors.entryGate = {
     attach(context) {
@@ -37,16 +35,29 @@ import moment from 'moment';
           for (let i = 0; i < cookieArr.length; i++) {
             const cookiePair = cookieArr[i].split("=");
             if (name === cookiePair[0].trim()) {
-              return moment(decodeURIComponent(cookiePair[1]));
+              return decodeURIComponent(cookiePair[1]);
             }
           }
           return null;
         };
 
+        const isValidDate = (dateStr) => {
+          // assume dateStr = 'yyyy-m[m]-d[d]'
+          const [year, month, day] = dateStr.split('-').map((p) => parseInt(p, 10));
+          const d = new Date(dateStr);
+          return (d && (d.getMonth() + 1) === month && d.getDate() === day && d.getFullYear() === year);
+        };
+
         // compare cookie value against age limit
-        const isOldEnough = (date) => {
-          if (moment.isMoment(date)) {
-            return (moment(new Date()).diff(date, 'years')) >= ageLimit;
+        const isOldEnough = (dateStr) => {
+          if (dateStr && isValidDate(dateStr)) {
+            const dob = new Date(dateStr);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+              age--;
+            }
+            return (age >= ageLimit);
           }
           return false;
         };
@@ -108,19 +119,16 @@ import moment from 'moment';
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
-          const givenDate = moment(`${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`);
+          const givenDateStr = `${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`;
 
-          if (dayInput.val().length > 2 ||
-              monthInput.val().length > 2 ||
-              yearInput.val().length !== 4 ||
-              !givenDate.isValid()) {
+          if (!isValidDate(givenDateStr) || new Date(givenDateStr).getFullYear() < 1900) {
             // invalid date is entered
             fieldset.addClass('entry-gate-form__fieldset--error');
             errorMessage.css({display: 'block'})
             return;
           }
 
-          if (!isOldEnough(givenDate)) {
+          if (!isOldEnough(givenDateStr)) {
             // under the age limit, show error overlay instead of entry gate
             entryGate.addClass('age-error');
             $('.entry-gate__error-link', this)[0].focus();
@@ -142,7 +150,7 @@ import moment from 'moment';
           }
 
           // over the age limit, set cookie and hide entry gate
-          document.cookie = `dateOfBirth=${givenDate.format('YYYY-MM-DD')}; path=/`;
+          document.cookie = `dateOfBirth=${givenDateStr}; path=/`;
           entryGate.css({display: 'none'});
           $(".layout-container").attr("aria-hidden", "false");
           entryGate.attr("aria-hidden", "true");
