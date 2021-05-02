@@ -32,9 +32,11 @@
     <js-placeholder token="{{ placeholder_token|raw }}">
   </head>
   <body{{ attributes }}>
-    {{ page_top }}
-    {{ page }}
-    {{ page_bottom }}
+    {% spaceless %}
+      {{ page_top }}
+      {{ page }}
+      {{ page_bottom }}
+    {% endspaceless %}
     <js-bottom-placeholder token="{{ placeholder_token|raw }}">
   </body>
 </html>
