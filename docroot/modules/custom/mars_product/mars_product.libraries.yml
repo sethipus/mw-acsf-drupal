@@ -17,4 +17,4 @@ smart_commerce:
 
 price_spider:
   js:
-    https://cdn.pricespider.com/1/lib/ps-widget.js: { type: external , attributes: { async: true, defer: true }}
+    https://cdn.pricespider.com/1/lib/ps-widget.js: { type: external , attributes: { defer: true }}

@@ -19,7 +19,6 @@ function mars_onetrust_page_attachments(&$page) {
       '#tag' => 'script',
       '#attributes' => [
         'type' => 'text/javascript',
-        'async' => 'true',
         'defer' => 'true',
         'src' => 'https://cdn.cookielaw.org/consent/' . $data_domain . '/OtAutoBlock.js',
       ],
@@ -30,7 +29,6 @@ function mars_onetrust_page_attachments(&$page) {
       '#tag' => 'script',
       '#attributes' => [
         'type' => 'text/javascript',
-        'async' => 'true',
         'defer' => 'true',
         'src' => 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
         'charset' => 'UTF-8',
