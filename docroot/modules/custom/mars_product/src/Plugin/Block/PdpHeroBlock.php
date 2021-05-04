@@ -947,7 +947,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function getServingItems($node) {
     $result_item = [
-      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_product_ingredients')->value)),
+      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_product_ingredients')->value), '<strong>'),
       'warnings_value' => strip_tags(html_entity_decode($node->get('field_product_allergen_warnings')->value)),
       'serving_size' => [
         'label' => $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':',
