@@ -48,6 +48,7 @@
   // overrides for the default styles of swiper - container, progress bar and buttons of the carousel
   .recommendations-swiper-container {
     width: 100%;
+    overflow: visible;
   }
 
   // increasing specificity to avoid using !important

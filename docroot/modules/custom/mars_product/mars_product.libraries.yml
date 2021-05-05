@@ -14,6 +14,7 @@ mars_product.bazaarvoice:
 smart_commerce:
   js:
     https://click2cart.co/assets/js/smartcart_min.js: { type: external }
+    js/sc-refresh-buttons.js: {}
 
 price_spider:
   js:
