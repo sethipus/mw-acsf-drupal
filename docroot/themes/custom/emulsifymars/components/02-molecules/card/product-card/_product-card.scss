@@ -9,6 +9,7 @@
   cursor: pointer;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   padding-bottom: 8rem; /* reserve height for buttons */
+  box-sizing: border-box;
 
   @include card-width;
 
