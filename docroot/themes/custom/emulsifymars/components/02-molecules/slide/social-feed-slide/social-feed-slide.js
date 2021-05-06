@@ -1,4 +1,4 @@
-import moment from 'moment';
+import 'lazysizes';
 
 (function($, Drupal) {
 Drupal.behaviors.slideHelper = {
@@ -9,15 +9,20 @@ Drupal.behaviors.slideHelper = {
       const createdAtElements = Array.from(createdAt);
 
       createdAtElements.forEach(elem => {
-        if (moment().diff(elem.textContent, 'minutes') > 60) {
-          const hours = moment().diff(elem.textContent, 'hours');
-          if (hours > 24) {
-            elem.textContent = moment().diff(elem.textContent, 'days') + ' day(s) ago';
+        const d = new Date(elem.textContent);
+        const now = new Date();
+        const diffMs = now.getTime() - d.getTime();
+        const diffMins = (diffMs > 0) ? diffMs / (1000*60) : 0;
+        if (diffMins > 60) {
+          const diffHours = diffMins / 60;
+          if (diffHours > 24) {
+            const diffDays = diffHours / 24;
+            elem.textContent = Math.floor(diffDays) + ' day(s) ago';
           } else {
-            elem.textContent = hours + ' hour(s) ago';
+            elem.textContent = Math.floor(diffHours) + ' hour(s) ago';
           }
         } else {
-          elem.textContent = moment().diff(elem.textContent, 'minutes') + ' minute(s) ago';
+          elem.textContent = Math.floor(diffMins) + ' minute(s) ago';
         }
       });
     })
