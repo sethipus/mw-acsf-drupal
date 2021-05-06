@@ -17,16 +17,17 @@
         <div {{ bem('product_image', [], product_feature_base_class) }}>
           {% set images = {
             1440: image_src|resize(580, 580),
-            768: image_src|resize(608, 608),
-            375: image_src|resize(335, 335),
+            768: image_src|resize(501, 602),
+            375: image_src|resize(255, 301),
           } %}
           <div {{ bem('aspect-ratio-wrapper', ['1-1']) }}>
             {% include "@atoms/images/image/responsive-image.twig" with {
               output_image_tag: true,
               image_alt: image_alt,
               image_array: images,
-              image_src: image_src|resize(580, 580),
+              image_src: image_src|resize(501, 602),
               responsive_image_blockname: 'product_image',
+              image_extra_classes: 'lazyload',
             } %}
           </div>
         </div>
