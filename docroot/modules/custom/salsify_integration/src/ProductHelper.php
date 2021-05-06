@@ -533,6 +533,13 @@ class ProductHelper {
         elseif (isset($products[$product['CMS: Product Variant Family ID']])) {
           $product_id = $products[$product['CMS: Product Variant Family ID']]['salsify:id'];
           $this->mapping['primary'][$product_id][$product['salsify:id']] = static::PRODUCT_VARIANT_CONTENT_TYPE;
+          // Family master is it a true.
+          if ($product['CMS: Product Variant Family Master']) {
+            // Update title from product variant.
+            $products[$product['CMS: Product Variant Family ID']]['CMS: Product Name'] = $product['CMS: Product Name'];
+            // Update description from product variant.
+            $products[$product['CMS: Product Variant Family ID']]['CMS: Description'] = $product['CMS: Description'];
+          }
         }
 
       }

@@ -17,7 +17,8 @@
     image_src: image_src|default(img_element['#uri']),
     image_alt: image_alt|default(img_element['#alt']),
     image_title: image_title|default(img_element['#title']),
-    image_array: image_array
+    image_array: image_array,
+    image_extra_classes: image_extra_classes,
   } %}
 {% else %}
   {% include "@atoms/images/image/_picture.twig" with {

@@ -18,10 +18,11 @@
 <img loading="lazy" data-object-fit
   {{ bem(image_base_class, image_modifiers, image_blockname, image_extra_classes) }}
   {% if image_srcset %}
-    srcset="{{ image_srcset }}"
-  {% endif %}
-  {% if image_sizes %}
-    sizes="{{ image_sizes }}"
+    {% if image_extra_classes == 'lazyload' %}
+      data-srcset="{{ image_srcset }}"
+    {% else %}
+      srcset="{{ image_srcset }}"
+    {% endif %}
   {% endif %}
   {% if height %}
     height="{{ height }}"
@@ -29,7 +30,11 @@
   {% if width %}
     width="{{ width }}"
   {% endif %}
-  src="{{ image_src }}"
+  {% if image_extra_classes == 'lazyload' %}
+    data-src="{{ image_src }}"
+  {% else %}
+    src="{{ image_src }}"
+  {% endif %}
   {% if image_alt %}
     alt="{{ image_alt }}"
   {% else %}
