@@ -60,6 +60,7 @@ function mars_recipes_theme($existing, $type, $theme, $path) {
         'recipe_media' => [],
         'cooking_time' => NULL,
         'cta' => [],
+        'text_color_override' => NULL,
       ],
       'template' => 'block--mars-recipes--recipe-feature-block',
     ],

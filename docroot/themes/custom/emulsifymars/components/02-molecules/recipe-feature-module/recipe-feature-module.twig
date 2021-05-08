@@ -39,7 +39,13 @@
       <div {{ bem('border', [], recipe_template__base_class) }}>
         {{ brand_borders | raw }}
       </div>
-      <div class="eyebrow"> {{ eyebrow}} </div>
+      <div class="eyebrow"
+        {% if text_color_override is not empty %}
+          style="color: {{ text_color_override }};"
+        {% endif %}
+      >
+        {{ eyebrow}}
+      </div>
       <h2 class="title">
         {% include "@atoms/links/link/link.twig" with {
           link_url: cta.url,

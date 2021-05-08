@@ -1542,6 +1542,18 @@ function mars_common_taxonomy_term_presave(TermInterface $term) {
 }
 
 /**
+ * Implements hook_node_presave().
+ */
+function mars_common_node_presave(NodeInterface $node) {
+  // Filter tags in field_product_ingredients field.
+  if ($node->bundle() == 'product_variant' && !empty($node->get('field_product_ingredients')->value)) {
+    $value = strip_tags(html_entity_decode($node->get('field_product_ingredients')->value), '<strong>');
+    $node->get('field_product_ingredients')
+      ->setValue($value);
+  }
+}
+
+/**
  * Implements hook_page_attachments().
  */
 function mars_common_page_attachments(&$page) {
