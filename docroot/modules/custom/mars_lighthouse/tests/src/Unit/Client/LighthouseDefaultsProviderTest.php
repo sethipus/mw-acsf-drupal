@@ -90,22 +90,22 @@ class LighthouseDefaultsProviderTest extends UnitTestCase {
   }
 
   /**
-   * Tests that it returns the correct default subpath from settings.
+   * Tests that it returns the correct default api version from settings.
    *
    * @test
    */
-  public function shouldReturnCorrectDefaultSubpath() {
-    $expected_subpath = 'expected_subpath';
+  public function shouldReturnCorrectDefaultApiVersion() {
+    $expected_api_version = 'v1';
     $settings = new Settings([
       'mars_lighthouse_defaults' => [
-        'subpath' => $expected_subpath,
+        'api_version' => $expected_api_version,
       ],
     ]);
 
     $defaults_provider = new LighthouseDefaultsProvider($settings);
 
-    $this->assertEquals($expected_subpath,
-      $defaults_provider->getDefaultSubpath());
+    $this->assertEquals($expected_api_version,
+      $defaults_provider->getDefaultApiVersion());
   }
 
   /**

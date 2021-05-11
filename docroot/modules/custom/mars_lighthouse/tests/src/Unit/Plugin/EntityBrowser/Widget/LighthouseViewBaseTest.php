@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\mars_lighthouse\Unit\Plugin\EntityBrowser\Widget;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Pager\PagerManagerInterface;
@@ -92,6 +93,13 @@ abstract class LighthouseViewBaseTest extends UnitTestCase {
   protected $validationManagerMock;
 
   /**
+   * Media entity storage.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  protected $configFactoryMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -101,6 +109,11 @@ abstract class LighthouseViewBaseTest extends UnitTestCase {
     $this->containerMock->set('request_stack', $this->currentRequestMock);
     \Drupal::setContainer($this->containerMock);
     $this->configuration = ['entity_browser_id' => 'media_library'];
+    $this->configFactoryMock = $this->getConfigFactoryStub([
+      'mars_lighthouse.settings' => [
+        'api_version' => 'v1',
+      ],
+    ]);
   }
 
   /**
@@ -110,7 +123,7 @@ abstract class LighthouseViewBaseTest extends UnitTestCase {
    */
   public function testShouldInstantiateProperly() {
     $this->containerMock
-      ->expects($this->exactly(7))
+      ->expects($this->exactly(8))
       ->method('get')
       ->willReturnMap(
         [
@@ -143,6 +156,11 @@ abstract class LighthouseViewBaseTest extends UnitTestCase {
             'request_stack',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->currentRequestMock,
+          ],
+          [
+            'config.factory',
+            ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
+            $this->configFactoryMock,
           ],
         ]
       );
@@ -240,6 +258,7 @@ abstract class LighthouseViewBaseTest extends UnitTestCase {
     $this->eventDispatcherMock = $this->createMock(EventDispatcherInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->validationManagerMock = $this->createMock(WidgetValidationManager::class);
+    $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
   }
 
 }
