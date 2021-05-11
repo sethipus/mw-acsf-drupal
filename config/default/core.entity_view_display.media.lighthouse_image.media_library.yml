@@ -5,9 +5,12 @@ dependencies:
   config:
     - core.entity_view_mode.media.media_library
     - field.field.media.lighthouse_image.field_agency
+    - field.field.media.lighthouse_image.field_asset_type
     - field.field.media.lighthouse_image.field_brand
     - field.field.media.lighthouse_image.field_category
+    - field.field.media.lighthouse_image.field_dimension
     - field.field.media.lighthouse_image.field_external_id
+    - field.field.media.lighthouse_image.field_is_transparent
     - field.field.media.lighthouse_image.field_language
     - field.field.media.lighthouse_image.field_last_mod_date
     - field.field.media.lighthouse_image.field_marketing_country
@@ -50,9 +53,12 @@ content:
 hidden:
   created: true
   field_agency: true
+  field_asset_type: true
   field_brand: true
   field_category: true
+  field_dimension: true
   field_external_id: true
+  field_is_transparent: true
   field_language: true
   field_last_mod_date: true
   field_marketing_country: true

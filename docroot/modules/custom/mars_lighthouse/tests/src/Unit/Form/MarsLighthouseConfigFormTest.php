@@ -131,7 +131,7 @@ class MarsLighthouseConfigFormTest extends UnitTestCase {
       'client_secret',
       'api_key',
       'base_path',
-      'subpath',
+      'api_version',
       'port',
     ];
 
@@ -152,7 +152,7 @@ class MarsLighthouseConfigFormTest extends UnitTestCase {
       ['client_secret', NULL, 'sample_client_secret'],
       ['api_key', NULL, 'sample_api_key'],
       ['base_path', NULL, 'sample_base_path'],
-      ['subpath', NULL, 'sample_subpath'],
+      ['api_version', NULL, 'sample_api_version'],
       ['port', NULL, 80],
     ];
 

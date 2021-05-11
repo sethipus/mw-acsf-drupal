@@ -102,15 +102,6 @@ class MarsLighthouseConfigForm extends ConfigFormBase {
       ],
     ];
 
-    $form['subpath'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Subpath'),
-      '#default_value' => $config->get('subpath'),
-      '#attributes' => [
-        'placeholder' => $this->defaultsProvider->getDefaultSubpath(),
-      ],
-    ];
-
     $form['port'] = [
       '#type' => 'number',
       '#title' => $this->t('Port'),
@@ -126,6 +117,16 @@ class MarsLighthouseConfigForm extends ConfigFormBase {
       '#default_value' => $config->get('sync_mode'),
     ];
 
+    $form['api_version'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Lighthouse API version'),
+      '#options' => [
+        LighthouseDefaultsProvider::API_KEY_VERSION_1 => $this->t('v1'),
+        LighthouseDefaultsProvider::API_KEY_VERSION_2 => $this->t('v2'),
+      ],
+      '#default_value' => $config->get('api_version') ?? $this->defaultsProvider->getDefaultApiVersion(),
+    ];
+
     return $form;
   }
 
@@ -138,9 +139,9 @@ class MarsLighthouseConfigForm extends ConfigFormBase {
     $this->setConfigValue($config, $form_state, 'client_secret');
     $this->setConfigValue($config, $form_state, 'api_key');
     $this->setConfigValue($config, $form_state, 'base_path');
-    $this->setConfigValue($config, $form_state, 'subpath');
     $this->setConfigValue($config, $form_state, 'port');
     $this->setConfigValue($config, $form_state, 'sync_mode');
+    $this->setConfigValue($config, $form_state, 'api_version');
     $config->save();
 
     parent::submitForm($form, $form_state);

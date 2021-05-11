@@ -1,0 +1,24 @@
+uuid: 94239d38-526e-43bf-9974-c75ae1122a39
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - options
+id: media.field_is_transparent
+field_name: field_is_transparent
+entity_type: media
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'yes'
+      label: 'yes'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
