@@ -2,11 +2,14 @@
 
 namespace Drupal\mars_lighthouse\Plugin\EntityBrowser\Widget;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\entity_browser\WidgetBase;
 use Drupal\entity_browser\WidgetValidationManager;
+use Drupal\mars_lighthouse\Client\LighthouseDefaultsProvider;
+use Drupal\mars_lighthouse\Controller\LighthouseAdapter;
 use Drupal\mars_lighthouse\LighthouseException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -53,6 +56,13 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
   protected $mediaType = 'image';
 
   /**
+   * The config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -64,12 +74,14 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
     WidgetValidationManager $validation_manager,
     LighthouseInterface $lighthouse,
     PagerManagerInterface $page_manager,
-    RequestStack $request_stack
+    RequestStack $request_stack,
+    ConfigFactoryInterface $config_factory
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $event_dispatcher, $entity_type_manager, $validation_manager);
     $this->lighthouseAdapter = $lighthouse;
     $this->pageManager = $page_manager;
     $this->currentRequest = $request_stack->getCurrentRequest();
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -85,7 +97,8 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
       $container->get('plugin.manager.entity_browser.widget_validation'),
       $container->get('lighthouse.adapter'),
       $container->get('pager.manager'),
-      $container->get('request_stack')
+      $container->get('request_stack'),
+      $container->get('config.factory')
     );
   }
 
@@ -285,6 +298,7 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
     if (!empty($data)) {
       foreach ($data as $item) {
         $icon_path = NULL;
+        $class_asset_type = NULL;
         if ($this->mediaType === 'video') {
           // @todo implement Video preview image.
           // after it will be implemented on LightHouse side.
@@ -293,6 +307,11 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
         }
         else {
           $icon_path = $item['uri'];
+          $config = $this->configFactory->get('mars_lighthouse.settings');
+          $api_version = $config->get('api_version') ?? LighthouseDefaultsProvider::API_KEY_VERSION_1;
+          if ($api_version == LighthouseDefaultsProvider::API_KEY_VERSION_2) {
+            $class_asset_type = LighthouseAdapter::getAssetTypeClass($item);
+          }
         }
 
         // Adds a checkbox for each image.
@@ -300,6 +319,7 @@ abstract class LighthouseViewBase extends WidgetBase implements ContainerFactory
           '#type' => 'lighthouse_gallery_radio',
           '#title' => $item['name'],
           '#uri' => $icon_path,
+          '#class_asset_type' => $class_asset_type,
           '#return_value' => $item['assetId'],
           '#parents' => ['view'],
         ];

@@ -12,10 +12,8 @@ use Drupal\mars_lighthouse\LighthouseInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\State\StateInterface;
-use Drupal\file\FileInterface;
 use Drupal\media\MediaInterface;
 
 /**
@@ -72,13 +70,6 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
   private $fileStorage;
 
   /**
-   * The file system service.
-   *
-   * @var \Drupal\Core\File\FileSystemInterface
-   */
-  protected $fileSystem;
-
-  /**
    * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
@@ -114,22 +105,6 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
   protected $config;
 
   /**
-   * Media Type config array.
-   *
-   * @var array
-   */
-  private $mediaConfig = [
-    'lighthouse_image' => [
-      'bundle' => 'lighthouse_image',
-      'field' => 'field_media_image',
-    ],
-    'lighthouse_video' => [
-      'bundle' => 'lighthouse_video',
-      'field' => 'field_media_video_file_1',
-    ],
-  ];
-
-  /**
    * LighthouseQueueWorker constructor.
    */
   public function __construct(
@@ -140,7 +115,6 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     ConfigFactoryInterface $config_factory,
     LighthouseClientInterface $lighthouse_client,
     LighthouseInterface $lighthouse,
-    FileSystemInterface $file_system,
     LoggerChannelFactoryInterface $logger_factory,
     StateInterface $state) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -150,7 +124,6 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     $this->lighthouseClient = $lighthouse_client;
     $this->mapping = $config_factory->get(LighthouseAdapter::CONFIG_NAME);
     $this->lighthouseAdapter = $lighthouse;
-    $this->fileSystem = $file_system;
     $this->entityTypeManager = $entity_type_manager;
     $this->logger = $logger_factory->get('mars_lighthouse');
     $this->state = $state;
@@ -169,7 +142,6 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
       $container->get('config.factory'),
       $container->get('lighthouse.client'),
       $container->get('lighthouse.adapter'),
-      $container->get('file_system'),
       $container->get('logger.factory'),
       $container->get('state')
     );
@@ -195,92 +167,6 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
             '@external_id' => $media->field_external_id->value,
           ]);
         }
-      }
-    }
-  }
-
-  /**
-   * Update media entity from API response.
-   *
-   * @param \Drupal\media\MediaInterface $media
-   *   The media item.
-   * @param array $data
-   *   Response data with one entity.
-   *
-   * @return \Drupal\Core\Entity\EntityInterface|null
-   *   Media entity.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   */
-  public function updateMediaData(MediaInterface $media, array $data): ?MediaInterface {
-    if (!$data) {
-      return NULL;
-    }
-
-    // Condition to prevent wrong image extensions like (*.psd, *.iso)
-    // from lighthouse side.
-    if ($media->bundle() === 'lighthouse_image') {
-      $this->lighthouseAdapter->prepareImageExtension($data);
-    }
-
-    $file_mapping = $this->mapping->get('media');
-    $field_config = $this->mediaConfig[$media->bundle()];
-    $field_file = $field_config['field'];
-    $fid = $media->$field_file->target_id;
-    $this->updateFileEntity($fid, $data);
-
-    foreach ($file_mapping as $field_name => $path_to_value) {
-      $media->set($field_name, $data[$path_to_value]);
-    }
-    $media->save();
-
-    return $media;
-  }
-
-  /**
-   * Update file entity from API response.
-   *
-   * @param int $fid
-   *   Id of the file entity.
-   * @param array $data
-   *   Response data with one entity.
-   *
-   * @return string
-   *   ID of File entity.
-   *
-   * @throws \Drupal\Core\Entity\EntityStorageException
-   */
-  protected function updateFileEntity($fid, array $data): string {
-    $file = $this->fileStorage->load($fid);
-    $this->clearFileCache($file);
-    $file_mapping = $this->mapping->get('file');
-
-    foreach ($file_mapping as $field_name => $path_to_value) {
-      $path_to_value = explode('.', $path_to_value);
-      $value = $data[array_shift($path_to_value)] ?? NULL;
-      while ($path_to_value) {
-        $value = $value[array_shift($path_to_value)] ?? NULL;
-      }
-      $file->set($field_name, $value);
-    }
-
-    $file->save();
-    return $file->id();
-  }
-
-  /**
-   * Clear file cache.
-   */
-  protected function clearFileCache(FileInterface $file) {
-    // Get origin image URI.
-    $image_uri = $file->getFileUri();
-    $styles = $this->entityTypeManager->getStorage('image_style')->loadMultiple();
-    /** @var \Drupal\image\ImageStyleInterface $style */
-    foreach ($styles as $style) {
-      // Get URI.
-      $uri = $style->buildUri($image_uri);
-      if (is_file($uri) && file_exists($uri)) {
-        $this->fileSystem->unlink($uri);
       }
     }
   }
@@ -343,7 +229,7 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
       foreach ($media_objects as $media) {
         $external_ids[] = $media->field_external_id->value;
         if (!empty($item) && isset($item['assetId'])) {
-          $this->updateMediaData($media, $item);
+          $this->lighthouseAdapter->updateMediaData($media, $item);
         }
       }
     }
@@ -375,14 +261,14 @@ class LighthouseSyncQueueWorker extends QueueWorkerBase implements ContainerFact
     }
 
     try {
-      $data = $this->lighthouseClient->getAssetById($external_id);
+      $data = $this->lighthouseClient->getLatestAssetById($external_id);
     }
     catch (LighthouseException $exception) {
       $this->logger->error('Failed to run sync getAssetById "%error"', ['%error' => $exception->getMessage()]);
     }
 
     if (!empty($data) && isset($data['assetId'])) {
-      $this->updateMediaData($media, $data);
+      $this->lighthouseAdapter->updateMediaData($media, $data);
 
       $this->logger->info($this->t('Result processed. Media with external id was updated @external_id', [
         '@external_id' => $external_id,

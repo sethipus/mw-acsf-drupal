@@ -17,6 +17,16 @@ class LighthouseDefaultsProvider {
   private $settings;
 
   /**
+   * Api version 1 key.
+   */
+  const API_KEY_VERSION_1 = 'v1';
+
+  /**
+   * Api version 2 key.
+   */
+  const API_KEY_VERSION_2 = 'v2';
+
+  /**
    * LighthouseDefaultsProvider constructor.
    *
    * @param \Drupal\Core\Site\Settings $settings
@@ -67,16 +77,6 @@ class LighthouseDefaultsProvider {
   }
 
   /**
-   * Returns the default subpath.
-   *
-   * @return string|null
-   *   The default subpath.
-   */
-  public function getDefaultSubpath(): ?string {
-    return $this->getDefaultValue('subpath');
-  }
-
-  /**
    * Returns the default port.
    *
    * @return int|null
@@ -84,6 +84,16 @@ class LighthouseDefaultsProvider {
    */
   public function getDefaultPort(): ?int {
     return $this->getDefaultValue('port');
+  }
+
+  /**
+   * Returns the default api version.
+   *
+   * @return string|null
+   *   The default api version.
+   */
+  public function getDefaultApiVersion(): ?string {
+    return $this->settings->get('mars_lighthouse_defaults')['api_version'] ?? static::API_KEY_VERSION_1;
   }
 
   /**

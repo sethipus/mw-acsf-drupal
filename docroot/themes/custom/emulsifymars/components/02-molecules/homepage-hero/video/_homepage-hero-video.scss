@@ -133,19 +133,9 @@
       }
     }
   }
+
   .default-link {
-    margin: 3.5rem 0 3rem 0;
-    height: 5rem;
-    line-height: 5rem;
-
-    @include medium {
-      margin: 6rem 0;
-    }
-
-    @include large {
-      height: 6rem;
-      line-height: 6rem;
-    }
+    margin: 3.5rem 0 3rem;
   }
 
   .fullscreen-video__control[data-state="play"] {
