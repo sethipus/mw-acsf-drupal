@@ -81,19 +81,10 @@
   &__main-content {
     position: relative;
     z-index: 2;
-
-
-    @include xs {
-      margin-bottom: 3rem;
-    }
+    margin-bottom: 3rem;
 
     @include medium {
       margin-bottom: 6rem;
-    }
-
-    .default-link {
-      min-width: 15.7rem;
-      cursor: pointer;
     }
   }
 
@@ -144,24 +135,20 @@
 
   &__btn-group {
     height: 6.2rem;
+    margin-bottom: 3rem;
 
     .default-link {
       min-width: 15.7rem;
       cursor: pointer;
-
-      @include xs {
-        margin: .1rem .5rem;
-        line-height: 5rem;
-      }
+      margin: .1rem .5rem;
 
       @include medium {
         margin: .1rem 1rem;
-        line-height: 6rem;
       }
-    }
 
-    @include xs {
-      margin-bottom: 3rem;
+      @include xl {
+        min-width: 20.2rem;
+      }
     }
 
     @include medium {
@@ -176,7 +163,6 @@
 
   &__bottom-link {
     z-index: 2;
-    line-height: 5rem;
 
     @include medium {
       line-height: 6rem;

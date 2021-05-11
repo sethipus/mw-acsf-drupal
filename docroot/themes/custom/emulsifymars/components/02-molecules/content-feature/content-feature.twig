@@ -4,8 +4,9 @@
 {% set content_feature_paragraph_base_class = 'content-feature__paragraph' %}
 
 <section {{ bem(content_feature_base_class) }}
-  style="background-image: url('{{ background_image }}');"
-  data-bgurl="{{background_image}}"
+
+  style="background-image: url('{{ background_image|resize(768,494) }}');"
+  data-bgurl="{{background_image|resize(768,494)}}"
   data-theme="{{theme_styles}}">
   <div class="content-feature__content">
     {% include "@atoms/text/eyebrow/eyebrow.twig" with {

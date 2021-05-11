@@ -70,6 +70,7 @@ function mars_product_page_attachments(&$page) {
   switch ($vendor) {
 
     case PdpHeroBlock::VENDOR_PRICE_SPIDER:
+      $page['#attached']['library'][] = 'mars_product/price_spider';
       $metatags = [
         'ps-account' => [
           '#tag' => 'meta',
@@ -94,13 +95,6 @@ function mars_product_page_attachments(&$page) {
             'content' => strtolower(\Drupal::languageManager()
               ->getCurrentLanguage()
               ->getId()),
-          ],
-        ],
-        'price-spider' => [
-          '#tag' => 'script',
-          '#attributes' => [
-            'src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
-            'async' => TRUE,
           ],
         ],
       ];

@@ -4,6 +4,7 @@ namespace Drupal\mars_recipes\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\mars_common\LanguageHelper;
+use Drupal\mars_common\Traits\OverrideThemeTextColorTrait;
 use Drupal\mars_media\MediaHelper;
 use Drupal\mars_common\ThemeConfiguratorParser;
 use Drupal\Core\Form\FormStateInterface;
@@ -30,6 +31,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterface, ContainerFactoryPluginInterface {
 
   use EntityBrowserFormTrait;
+  use OverrideThemeTextColorTrait;
 
   /**
    * NodeStorage.
@@ -198,7 +200,14 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#cooking_time' => $node->field_recipe_cooking_time->value,
       '#cta' => $config['cta'],
       '#theme' => 'recipe_feature_block',
+      '#text_color_override' => FALSE,
     ];
+
+    // Set white color attribute for the block text.
+    if (!empty($config['override_text_color']['override_color'])) {
+      $build['#text_color_override'] = static::$overrideColor;
+    }
+
     return $build;
   }
 
@@ -335,7 +344,7 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
     ];
 
     $form['cta'] = [
-      '#type' => 'details',
+      '#type' => 'fieldset',
       '#title' => $this->t('CTA'),
       '#open' => TRUE,
     ];
@@ -346,6 +355,9 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       '#required' => TRUE,
       '#default_value' => $config['cta']['title'] ?? $this->t('Get started'),
     ];
+
+    $this->buildOverrideColorElement($form, $config);
+
     return $form;
   }
 

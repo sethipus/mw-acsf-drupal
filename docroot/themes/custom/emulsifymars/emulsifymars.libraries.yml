@@ -1,7 +1,7 @@
 global:
   css:
     theme:
-      dist/css/theme_style.css: {}
+      dist/css/theme_style.css: {} 
   js:
     dist/js/object_fit_polyfill.js: {}
 
@@ -37,7 +37,6 @@ entry-gate:
     dist/js/entry_gate.js: {}
   dependencies:
     - core/drupal
-    - emulsifymars/vendor-chunk-1
     - core/jquery
     - core/jquery.once
 
@@ -46,7 +45,6 @@ social-feed-slide:
     dist/js/social_feed_slide.js: {}
   dependencies:
     - core/drupal
-    - emulsifymars/vendor-chunk-1
     - core/jquery
     - core/jquery.once
 
@@ -201,10 +199,6 @@ search-overlay:
     - core/drupal
     - core/jquery
 
-vendor-chunk-1:
-  js:
-    dist/js/vendors~entry_gate~social_feed_slide.js: {}
-
 vendor-chunk-2:
   js:
     dist/js/vendors~media_carousel~pdp_body~product_used~recommendations_module~social_feed.js: {}
@@ -247,3 +241,8 @@ feedback-module:
   dependencies:
     - core/drupal
     - core/jquery
+
+common-assets:
+  css:
+    theme:
+      '//unpkg.com/swiper/swiper-bundle.min.css': {type: external, attributes: { defer: true, async: true }}

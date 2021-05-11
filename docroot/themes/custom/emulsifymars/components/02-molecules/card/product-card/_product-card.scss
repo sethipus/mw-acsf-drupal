@@ -9,6 +9,7 @@
   cursor: pointer;
   box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.1);
   padding-bottom: 8rem; /* reserve height for buttons */
+  box-sizing: border-box;
 
   @include card-width;
 
@@ -168,12 +169,8 @@
   }
 
   &__button {
-
-    a {
+    .default-link {
       display: block;
-      padding: 1.8rem 1.85rem;
-      line-height: 1;
-      font-size: 1.4rem;
       text-align: center;
       white-space: nowrap;
 
