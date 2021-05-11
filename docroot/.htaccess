@@ -137,7 +137,7 @@ AddEncoding gzip svgz
 
   # Ensure non-live sites prevent robots from crawling.
   RewriteCond %{HTTP_HOST} "^dev\." [NC,OR]
-  RewriteCond %{HTTP_HOST} "^qa\." [NC,OR]v
+  RewriteCond %{HTTP_HOST} "^qa\." [NC,OR]
   RewriteCond %{HTTP_HOST} "^test\." [NC,OR]
   RewriteCond %{HTTP_HOST} "^live\." [NC]
   RewriteCond %{REQUEST_URI} /robots.txt [NC]
