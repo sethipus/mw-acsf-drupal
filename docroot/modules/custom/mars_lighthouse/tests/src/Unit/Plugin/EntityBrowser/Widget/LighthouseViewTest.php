@@ -21,6 +21,13 @@ class LighthouseViewTest extends LighthouseViewBaseTest {
   protected $viewClass;
 
   /**
+   * Media entity storage.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
+   */
+  protected $configFactoryMock;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -40,7 +47,8 @@ class LighthouseViewTest extends LighthouseViewBaseTest {
       $this->validationManagerMock,
       $this->lighthouseAdapterMock,
       $this->pageManagerMock,
-      $this->currentRequestMock
+      $this->currentRequestMock,
+      $this->configFactoryMock
     );
     \Drupal::setContainer($this->containerMock);
   }

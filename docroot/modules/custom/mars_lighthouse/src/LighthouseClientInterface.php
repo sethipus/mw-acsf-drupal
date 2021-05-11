@@ -60,6 +60,21 @@ interface LighthouseClientInterface {
   public function getAssetById(string $id): array;
 
   /**
+   * Get latest asset data by its Id.
+   *
+   * @param string $id
+   *   Asset Id.
+   *
+   * @return array
+   *   An asset data.
+   *
+   * @throws \Drupal\mars_lighthouse\LighthouseException
+   * @throws \Drupal\mars_lighthouse\TokenIsExpiredException
+   * @throws \Drupal\mars_lighthouse\LighthouseAccessException
+   */
+  public function getLatestAssetById(string $id): array;
+
+  /**
    * Get an assets data by its Ids.
    *
    * @param array $ids

@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Update scripts for the Mars Lighthouse module.
+ */
+
+/**
+ * Implements hook_update_N() for api_version remove from lighthouse config.
+ */
+function mars_lighthouse_update_8901() {
+  \Drupal::configFactory()
+    ->getEditable('mars_lighthouse.settings')
+    ->clear('subpath')
+    ->save();
+}

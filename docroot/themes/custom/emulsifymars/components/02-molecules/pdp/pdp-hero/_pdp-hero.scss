@@ -731,30 +731,14 @@
 
 .where-to-buy {
   &--container {
-    position: fixed;
-    left: 2.5rem;
-    right: 1.5rem;
-    bottom: -12rem;
     text-align: center;
-    z-index: 11;
     transition: visibility 0.5s, opacity 0.5s ease-out;
     visibility: visible;
     opacity: 1;
     margin: 0 0 14.7rem 0;
 
-    @include small {
-      right: 2.5rem;
-    }
-
-    @include medium {
-      left: 4.5rem;
-      right: 4.5rem;
-      bottom: -10rem;
-    }
-
     @include large {
       margin: 0;
-      position: static;
       text-align: left;
     }
   }

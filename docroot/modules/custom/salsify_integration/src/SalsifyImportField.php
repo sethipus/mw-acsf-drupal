@@ -366,16 +366,18 @@ class SalsifyImportField extends SalsifyImport {
    *   Product data.
    */
   public static function clearEntity(EntityInterface &$entity, array $product_data) {
-    if (!isset($product_data['CMS: multipack generated']) ||
-      !$product_data['CMS: multipack generated']) {
-      if ($entity->bundle() == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
-        $fields = array_keys(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT);
-      }
-      else {
-        $fields = array_keys(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT);
-      }
+    if ($entity->bundle() == ProductHelper::PRODUCT_VARIANT_CONTENT_TYPE) {
+      $fields = array_keys(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT_VARIANT);
+    }
+    else {
+      $fields = array_keys(SalsifyFieldsMap::SALSIFY_FIELD_MAPPING_PRODUCT);
+    }
 
-      foreach ($fields as $field_name) {
+    foreach ($fields as $field_name) {
+      if (!isset($product_data['CMS: multipack generated']) ||
+        !$product_data['CMS: multipack generated'] ||
+        ($product_data['CMS: multipack generated'] && !in_array($field_name, self::CONSTANT_MULRIPACK_GENERATED_FIELDS))
+      ) {
         $entity->set($field_name, NULL);
       }
     }
