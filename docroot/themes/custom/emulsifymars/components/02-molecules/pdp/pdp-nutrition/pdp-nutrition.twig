@@ -19,8 +19,11 @@
         {% endif %}
       </div>
     {% endif %}
+    <!-- Nutrition Row -->
     <div {{ bem('nutrition-row', [], pdp_nutrition_base_class) }}>
+      <!-- Nutrition Column 1 -->
       <div {{ bem('nutrition-column', [], pdp_nutrition_base_class) }}>
+        <!-- Heading of Column 1 -->
         <div {{ bem('section-column', ['heading'], pdp_nutrition_base_class) }}>
           <dl {{ bem('section-column-list', ['heading'], pdp_nutrition_base_class) }}>
             <dt {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
@@ -30,6 +33,7 @@
                 span_blockname: pdp_nutrition_base_class,
               } %}
             </dt>
+            {% if not pdp_nutrition_data.serving_item.hide_dialy_value_column %}
             <dd {{ bem('section-column-item', ['heading'], pdp_nutrition_base_class) }}>
               {% include "@atoms/text/text/07-span.twig" with {
                 span_content: pdp_common_nutrition_data.nutritional_info_daily_label,
@@ -37,8 +41,11 @@
                 span_blockname: pdp_nutrition_base_class,
               } %}
             </dd>
+            {% endif %}
           </dl>
         </div>
+        <!-- Heading of Column 1 Ends -->
+        <!-- Data of Column 1 -->
         {% if pdp_nutrition_data.serving_item.group_nutritional_subgroup_1 %}
           <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
             {% for item in pdp_nutrition_data.serving_item.group_nutritional_subgroup_1 %}
@@ -139,8 +146,12 @@
             {% endfor %}
           </div>
         {% endif %}
+        <!-- Data of Column 1 Ends -->
       </div>
+      <!-- Nutrition Column 1 Ends -->
+      <!-- Nutrition Column 2 -->
       <div {{ bem('nutrition-column', [], pdp_nutrition_base_class) }}>
+        <!-- Heading of Column 2 -->
         <div {{ bem('section-column', ['heading'], pdp_nutrition_base_class) }}>
           {% if pdp_nutrition_data.serving_item.group_vitamins %}
             <dl {{ bem('section-column-list', ['heading'], pdp_nutrition_base_class) }}>
@@ -161,6 +172,8 @@
             </dl>
           {% endif %}
         </div>
+        <!-- Heading of Column 2 Ends -->
+        <!-- Data of Column 2 -->
         {% if pdp_nutrition_data.serving_item.group_vitamins %}
           <div {{ bem('section-column', ['data'], pdp_nutrition_base_class) }}>
             {% for item in pdp_nutrition_data.serving_item.group_vitamins %}
@@ -225,8 +238,11 @@
             </dd>
           </dl>
         </div>
+        <!-- Data of Column 2 Ends -->
       </div>
+      <!-- Nutrition Column 2 Ends -->
     </div>
+    <!-- Nutrition Row Ends -->
   </div>
   {% if (dual_label and last_product) or not dual_label %}
     <div {{ bem('additional-info', [], pdp_nutrition_base_class) }}>

@@ -44,6 +44,7 @@
 
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
   }
 
   &__heading-item {
@@ -53,6 +54,7 @@
     font-size: 2rem;
     line-height: 1.1;
     color: clr(accent-high);
+    white-space: nowrap;
 
     @include medium {
       font-size: 2.6rem;
@@ -148,6 +150,10 @@
           margin-top: 0;
         }
       }
+
+      .pdp-nutrition__section-column-item:last-child {
+        text-align: right;
+      }
     }
 
     &-item {
@@ -198,9 +204,6 @@
           flex: 1 0 20%;
         }
       }
-      &--value:last-child {
-        text-align: center;
-      }
 
       &--mass {
         flex: 1 0 19%;
@@ -209,7 +212,6 @@
 
       &--value-daily {
         flex: 1 0 18%;
-        text-align: right;
 
         @include large {
           flex: 1 0 20%;
