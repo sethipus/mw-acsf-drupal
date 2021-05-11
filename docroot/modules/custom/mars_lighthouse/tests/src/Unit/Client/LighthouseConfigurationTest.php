@@ -32,7 +32,7 @@ class LighthouseConfigurationTest extends UnitTestCase {
       'test_api_key',
       'https://base_path.test',
       80,
-      '/test/subpath',
+      'v1',
     );
   }
 
@@ -70,27 +70,27 @@ class LighthouseConfigurationTest extends UnitTestCase {
     return [
       [
         LighthouseConfiguration::ENDPOINT_GET_TOKEN,
-        'https://base_path.test:80/test/subpath/session',
+        'https://base_path.test:80/lh-integration/api/v1/session',
       ],
       [
         LighthouseConfiguration::ENDPOINT_REFRESH_TOKEN,
-        'https://base_path.test:80/test/subpath/session/refresh',
+        'https://base_path.test:80/lh-integration/api/v1/session/refresh',
       ],
       [
         LighthouseConfiguration::ENDPOINT_SEARCH,
-        'https://base_path.test:80/test/subpath/search/001',
+        'https://base_path.test:80/lh-integration/api/v1/search/001',
       ],
       [
         LighthouseConfiguration::ENDPOINT_ASSET_BY_ID,
-        'https://base_path.test:80/test/subpath/asset',
+        'https://base_path.test:80/lh-integration/api/v1/asset',
       ],
       [
         LighthouseConfiguration::ENDPOINT_GET_BRANDS,
-        'https://base_path.test:80/test/subpath/lookup/brand',
+        'https://base_path.test:80/lh-integration/api/v1/lookup/brand',
       ],
       [
         LighthouseConfiguration::ENDPOINT_GET_MARKETS,
-        'https://base_path.test:80/test/subpath/lookup/market',
+        'https://base_path.test:80/lh-integration/api/v1/lookup/market',
       ],
     ];
   }
