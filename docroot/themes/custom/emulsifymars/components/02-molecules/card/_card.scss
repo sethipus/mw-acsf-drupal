@@ -1,3 +1,14 @@
+.card-item {
+  .default-link {
+    font-size: 1.4rem;
+    min-width: 13.3rem;
+
+    @include xl {
+      line-height: 5rem;
+    }
+  }
+}
+
 .card__heading {
   @include heading-large($font-size: 1.3rem);
   @include no-bottom;
