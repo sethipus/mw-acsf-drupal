@@ -19,12 +19,12 @@
             {% block link_content %}
               {% include "@atoms/images/image/responsive-image.twig" with {
                 output_image_tag: true,
-                image_alt: 'Logo',
+                image_alt: logo_alt,
                 image_srcset: logo_srcset,
                 height: "75px",
                 width: "212px",
                 image_sizes: '212px',
-                image_src: 'twix-logo.png',
+                image_src: logo_src,
                 responsive_image_blockname: 'logo',
               } %}
             {% endblock %}
