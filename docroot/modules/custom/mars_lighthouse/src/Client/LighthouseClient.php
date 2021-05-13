@@ -61,6 +61,7 @@ class LighthouseClient extends LighthouseBaseApiAbstract implements LighthouseCl
       'orderBy' => '',
       'brand' => $filters['brand'] ?? '',
       'market' => $filters['market'] ?? '',
+      'isTransparent' => $filters['transparent'] ?? '',
       /* 'subBrand' => [],
          'subtype' => [],
          'category' => [], */
@@ -105,6 +106,22 @@ class LighthouseClient extends LighthouseBaseApiAbstract implements LighthouseCl
     }
 
     $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_ASSET_BY_ID) . '/' . $id;
+
+    $content = $this->get($endpoint_full_path, $params);
+
+    return $content['assetList'][0] ?? [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLatestAssetById(string $id): array {
+    $params = $this->lighthouseAuthTokenProvider->getAccessToken();
+    if (!isset($params['mars_lighthouse.headers']) && !isset($params['mars_lighthouse.access_token'])) {
+      return [];
+    }
+
+    $endpoint_full_path = $this->config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_ASSET_BY_ID) . '/' . $id . '/latest';
 
     $content = $this->get($endpoint_full_path, $params);
 

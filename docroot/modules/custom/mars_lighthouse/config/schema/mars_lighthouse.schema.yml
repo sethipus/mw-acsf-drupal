@@ -14,15 +14,15 @@ mars_lighthouse.settings:
     base_path:
       type: string
       label: 'Base path'
-    subpath:
-      type: string
-      label: 'Subpath'
     port:
       type: integer
       label: 'Port'
     sync_mode:
       type: boolean
       label: 'Use bulk sync mode'
+    api_version:
+      type: string
+      label: 'API version'
 
 mars_lighthouse.mapping:
   type: config_object

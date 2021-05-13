@@ -103,6 +103,9 @@ class RecipeFeatureBlockTest extends UnitTestCase {
       'eyebrow' => FALSE,
       'recipe_media_image' => 11,
       'recipe_options' => 'image',
+      'override_text_color' => [
+        'override_color' => FALSE,
+      ],
     ];
     $definitions = [
       'provider'    => 'test',
@@ -208,6 +211,7 @@ class RecipeFeatureBlockTest extends UnitTestCase {
     $this->assertArrayHasKey('#recipe_media', $build);
     $this->assertArrayHasKey('#eyebrow', $build);
     $this->assertArrayHasKey('#cta', $build);
+    $this->assertArrayHasKey('#text_color_override', $build);
   }
 
   /**

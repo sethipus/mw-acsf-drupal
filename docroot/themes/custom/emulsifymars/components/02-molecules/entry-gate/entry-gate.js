@@ -42,10 +42,10 @@
         };
 
         const isValidDate = (dateStr) => {
-          // assume dateStr = 'yyyy-m[m]-d[d]'
+          // assume dateStr = 'yyyy-mm-dd'
           const [year, month, day] = dateStr.split('-').map((p) => parseInt(p, 10));
           const d = new Date(dateStr);
-          return (d && (d.getMonth() + 1) === month && d.getDate() === day && d.getFullYear() === year);
+          return (d && (d.getUTCMonth() + 1) === month && d.getUTCDate() === day && d.getUTCFullYear() === year);
         };
 
         // compare cookie value against age limit
@@ -53,8 +53,8 @@
           if (dateStr && isValidDate(dateStr)) {
             const dob = new Date(dateStr);
             const today = new Date();
-            let age = today.getFullYear() - dob.getFullYear();
-            if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+            let age = today.getFullYear() - dob.getUTCFullYear();
+            if (today.getMonth() < dob.getUTCMonth() || (today.getMonth() === dob.getUTCMonth() && today.getDate() < dob.getUTCDate())) {
               age--;
             }
             return (age >= ageLimit);
@@ -66,7 +66,7 @@
         const checkValueLength = (event, field, limit) => {
           fieldset.removeClass('entry-gate-form__fieldset--error');
           errorMessage.css({display: 'none'})
-          if (event.keyCode >= 48 && event.keyCode <= 57) {
+          if (/[0-9]/.test(event.key)) {
             if (field.val().length > limit) {
               field.val(field.val().subString(0, limit));
             }
@@ -119,9 +119,9 @@
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
-          const givenDateStr = `${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`;
+          const givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
 
-          if (!isValidDate(givenDateStr) || new Date(givenDateStr).getFullYear() < 1900) {
+          if (!isValidDate(givenDateStr) || new Date(givenDateStr).getUTCFullYear() < 1900) {
             // invalid date is entered
             fieldset.addClass('entry-gate-form__fieldset--error');
             errorMessage.css({display: 'block'})

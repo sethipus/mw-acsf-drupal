@@ -1,0 +1,25 @@
+uuid: cfdec5d3-01f0-432f-91ab-e4ae1310103d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_is_transparent
+    - media.type.lighthouse_image
+  module:
+    - options
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: media.lighthouse_image.field_is_transparent
+field_name: field_is_transparent
+entity_type: media
+bundle: lighthouse_image
+label: 'Is Transparent'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

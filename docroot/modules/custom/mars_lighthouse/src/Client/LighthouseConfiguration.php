@@ -25,15 +25,32 @@ class LighthouseConfiguration {
 
   public const ENDPOINT_SENT_INVENTORY_REPORT = 'sent_inventory_report';
 
-  private const API_PATHS = [
-    'get_token' => '/session',
-    'refresh_token' => '/session/refresh',
-    'search' => '/search/001',
-    'asset_by_id' => '/asset',
-    'assets_by_ids' => '/search/002',
-    'get_brands' => '/lookup/brand',
-    'get_markets' => '/lookup/market',
-    'sent_inventory_report' => '/inventory/acquia',
+  /**
+   * Api version 1 endpoints.
+   */
+  private const API_PATHS_V1 = [
+    'get_token' => '/lh-integration/api/v1/session',
+    'refresh_token' => '/lh-integration/api/v1/session/refresh',
+    'search' => '/lh-integration/api/v1/search/001',
+    'asset_by_id' => '/lh-integration/api/v1/asset',
+    'assets_by_ids' => '/lh-integration/api/v1/search/002',
+    'get_brands' => '/lh-integration/api/v1/lookup/brand',
+    'get_markets' => '/lh-integration/api/v1/lookup/market',
+    'sent_inventory_report' => '/lh-integration/api/v1/inventory/acquia',
+  ];
+
+  /**
+   * Api version 2 endpoints.
+   */
+  private const API_PATHS_V2 = [
+    'get_token' => '/lh-integration/api/v1/session',
+    'refresh_token' => '/lh-integration/api/v1/session/refresh',
+    'search' => '/lh-integration/api/v1/search/003',
+    'asset_by_id' => '/lh-integration/api/v2/asset',
+    'assets_by_ids' => '/lh-integration/api/v1/search/004',
+    'get_brands' => '/lh-integration/api/v1/lookup/brand',
+    'get_markets' => '/lh-integration/api/v1/lookup/market',
+    'sent_inventory_report' => '/lh-integration/api/v1/inventory/acquia',
   ];
 
   /**
@@ -72,11 +89,11 @@ class LighthouseConfiguration {
   private $port;
 
   /**
-   * The subpath.
+   * The api version.
    *
    * @var string
    */
-  private $subPath;
+  private $apiVersion;
 
   /**
    * LighthouseConfiguration constructor.
@@ -91,8 +108,8 @@ class LighthouseConfiguration {
    *   The base path.
    * @param int $port
    *   The port.
-   * @param string $subpath
-   *   The subpath.
+   * @param string $api_version
+   *   The version.
    */
   public function __construct(
     string $username,
@@ -100,14 +117,14 @@ class LighthouseConfiguration {
     string $api_key,
     string $base_path,
     int $port,
-    string $subpath
+    string $api_version
   ) {
     $this->username = $username;
     $this->password = $password;
     $this->apiKey = $api_key;
     $this->basePath = $base_path;
     $this->port = $port;
-    $this->subPath = $subpath;
+    $this->apiVersion = $api_version;
   }
 
   /**
@@ -152,12 +169,26 @@ class LighthouseConfiguration {
    * @throws \Drupal\mars_lighthouse\LighthouseException
    */
   public function getEndpointFullPath(string $endpoint_type): string {
-    if (!isset(self::API_PATHS[$endpoint_type])) {
+    if ($this->apiVersion == LighthouseDefaultsProvider::API_KEY_VERSION_1) {
+      if (!isset(self::API_PATHS_V1[$endpoint_type])) {
+        throw new LighthouseException('Invalid endpoint type: ' . $endpoint_type);
+      }
+
+      $endpoint_path = self::API_PATHS_V1[$endpoint_type];
+      return $this->getBasePath() . ':' . $this->getPort() . $endpoint_path;
+    }
+    elseif ($this->apiVersion == LighthouseDefaultsProvider::API_KEY_VERSION_2) {
+      if (!isset(self::API_PATHS_V2[$endpoint_type])) {
+        throw new LighthouseException('Invalid endpoint type: ' . $endpoint_type);
+      }
+
+      $endpoint_path = self::API_PATHS_V2[$endpoint_type];
+      return $this->getBasePath() . ':' . $this->getPort() . $endpoint_path;
+    }
+    else {
       throw new LighthouseException('Invalid endpoint type: ' . $endpoint_type);
     }
 
-    $endpoint_path = self::API_PATHS[$endpoint_type];
-    return $this->getBasePath() . ':' . $this->getPort() . $this->getSubpath() . $endpoint_path;
   }
 
   /**
@@ -178,16 +209,6 @@ class LighthouseConfiguration {
    */
   private function getPort(): int {
     return $this->port;
-  }
-
-  /**
-   * Returns the subpath.
-   *
-   * @return string
-   *   The subpath.
-   */
-  private function getSubpath(): string {
-    return $this->subPath;
   }
 
 }

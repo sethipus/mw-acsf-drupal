@@ -49,7 +49,7 @@ class MarsSiteLabelsForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('mars_search.search_factory'),
+      $container->get('mars_search.search_factory')
     );
   }
 
