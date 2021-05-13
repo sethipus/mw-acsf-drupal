@@ -66,7 +66,7 @@
         const checkValueLength = (event, field, limit) => {
           fieldset.removeClass('entry-gate-form__fieldset--error');
           errorMessage.css({display: 'none'})
-          if (event.keyCode >= 48 && event.keyCode <= 57) {
+          if (/[0-9]/.test(event.key)) {
             if (field.val().length > limit) {
               field.val(field.val().subString(0, limit));
             }
