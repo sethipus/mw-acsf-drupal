@@ -16,7 +16,8 @@ items:
   - card__image__src: 'https://via.placeholder.com/3000x2250'
     card__image__size: '16:9'
     card__image__alt: 'Nature'
-    card__heading: 'TWIX® CARAMEL COOKIE BARS - MINIS'
+    card__heading: 'TWIX® CARAMEL COOKIE BARS - MINIS ???????????????????????????'
+    card__body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     card__link__url: '#'
     card__link__text: 'Explore'
 brand_borders: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="375" viewBox="0 0 375 20" preserveAspectRatio="xMidYMid meet">

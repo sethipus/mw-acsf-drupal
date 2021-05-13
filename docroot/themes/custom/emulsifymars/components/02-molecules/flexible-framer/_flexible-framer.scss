@@ -38,10 +38,16 @@
   }
 
   & .image-wrapper {
+    counter-increment: card-counter;
+    grid-column-start: counter(card-counter);
+    grid-column-end: counter(card-counter);
+    grid-row-start: 1;
+    grid-row-end: 1;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     width: 100%;
+    margin: auto;
 
     &.image-size-large {
       width: 335px;
@@ -72,21 +78,20 @@
   }
 
   .grid--card {
-    margin: 0 2rem;
+    display: flex;
     padding-bottom: 5rem;
-    flex-flow: column;
+    counter-reset: card-counter;
 
     @include medium {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 2rem;
       margin: 0 4rem;
       padding-bottom: 6rem;
-      flex-flow: row;
-      flex-grow: 1;
-      align-items: stretch;
     }
 
     @include xl {
       padding-bottom: 8rem;
-      flex-flow: row nowrap;
     }
 
     &.grid-items-3 {
@@ -139,6 +144,10 @@
       &__heading {
         @include set-font($font-type: 'primary-font');
 
+        grid-column-start: counter(card-counter);
+        grid-column-end: counter(card-counter);
+        grid-row-start: 2;
+        grid-row-end: 2;
         text-align: center;
         color: clr(primary);
         font-size: 2rem;
@@ -162,8 +171,11 @@
       &__body {
         @include set-font($font-type: 'secondary-font');
 
-        margin-top: 1.6rem;
-        margin-bottom: 0;
+        grid-column-start: counter(card-counter);
+        grid-column-end: counter(card-counter);
+        grid-row-start: 3;
+        grid-row-end: 3;
+        margin: 1.6rem auto 0 auto;
         font-size: 1.6rem;
         line-height: 1.4;
         flex: 1 0 auto;
@@ -197,6 +209,22 @@
         &:hover {
           color: clr(secondary);
         }
+      }
+    }
+
+    .cta-wrapper {
+      grid-column-start: counter(card-counter);
+      grid-column-end: counter(card-counter);
+      grid-row-start: 4;
+      grid-row-end: 4;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: 3rem;
+
+      @include xl {
+        margin-top: 4rem;
       }
     }
 
@@ -250,36 +278,6 @@
           background-size: 77%;
           transition: background-size 0.8s ease;
         }
-      }
-    }
-  }
-
-  .grid__item {
-    display: flex;
-    flex-flow: column;
-    margin-top: 4rem;
-    margin-bottom: 0;
-
-    @include medium {
-      flex: 1 1 50%;
-      margin-right: 2rem;
-    }
-
-    @include large {
-      flex: 1 1 100%;
-      margin-right: 0;
-      margin-top: 6rem;
-    }
-
-    .cta-wrapper {
-      flex: 1 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      margin-top: 3rem;
-
-      @include xl {
-        margin-top: 4rem;
       }
     }
   }
