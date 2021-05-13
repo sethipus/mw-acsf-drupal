@@ -74,6 +74,10 @@
           searchItems.append(elementWrapper);
           Drupal.behaviors.productCard.attach(searchItems, settings);
         });
+        // Update Smart Commerce buttons on changing grid filters.
+        if (SmartCart !== undefined) {
+          SmartCart.updateUsaWidget();
+        }
       }
 
       // Toggle pager.
