@@ -555,22 +555,6 @@
     background-color: clr(secondary);
     color: clr(subcolor-3);
     margin: 0 auto;
-
-    @include xs {
-      height: 50px;
-      min-width: 133px;
-      padding: 0;
-      font-size: 14px;
-      line-height: 50px;
-    }
-
-    @include xl {
-      height: 60px;
-      min-width: 202px;
-      padding: 0;
-      line-height: 60px;
-    }
-
   }
 
   & .default-link:hover {

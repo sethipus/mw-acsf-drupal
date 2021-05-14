@@ -188,12 +188,11 @@ class LighthouseConfigurationFactoryTest extends UnitTestCase {
 
     $this->configHasValue('base_path', 'http://x.y');
     $this->configHasValue('port', 80);
-    $this->configHasValue('subpath', '/z');
 
     $config = $this->lHconfigFactory->createConfiguration();
 
     $getTokenEndpoint = $config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_GET_TOKEN);
-    $this->assertStringStartsWith('http://x.y:80/z/', $getTokenEndpoint);
+    $this->assertStringStartsWith('http://x.y:80/lh-integration/api/v1/', $getTokenEndpoint);
   }
 
   /**
@@ -212,15 +211,10 @@ class LighthouseConfigurationFactoryTest extends UnitTestCase {
       ->method('getDefaultPort')
       ->willReturn(443);
 
-    $this->configHasNoValue('subpath');
-    $this->defaultsProviderMock
-      ->method('getDefaultSubpath')
-      ->willReturn('/default_subpath');
-
     $config = $this->lHconfigFactory->createConfiguration();
 
     $getTokenEndpoint = $config->getEndpointFullPath(LighthouseConfiguration::ENDPOINT_GET_TOKEN);
-    $this->assertStringStartsWith('http://default.a:443/default_subpath/',
+    $this->assertStringStartsWith('http://default.a:443/lh-integration/api/v1/',
       $getTokenEndpoint);
   }
 
@@ -237,7 +231,7 @@ class LighthouseConfigurationFactoryTest extends UnitTestCase {
       ['api_key'],
       ['base_path'],
       ['port'],
-      ['subpath'],
+      ['api_version'],
     ];
   }
 
@@ -272,7 +266,7 @@ class LighthouseConfigurationFactoryTest extends UnitTestCase {
     $this->configHasValue('api_key', '');
     $this->configHasValue('base_path', '');
     $this->configHasValue('port', 10);
-    $this->configHasValue('subpath', '');
+    $this->configHasValue('api_version', 'v1');
 
     $this->configMock = $this->createMock(Config::class);
     $this->configMock

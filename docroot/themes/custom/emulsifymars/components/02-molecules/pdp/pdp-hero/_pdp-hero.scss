@@ -135,7 +135,7 @@
 
     @include medium {
       flex-direction: column;
-      padding: 4rem;
+      padding: 3.25rem;
    }
 
     @include large {
@@ -203,8 +203,13 @@
     &--sticky {
       margin: 0;
       padding-right: 3.2rem;
+      padding-bottom: 0;
       color: clr(primary);
       line-height: 1;
+
+      @include medium {
+        padding-bottom: 1.5rem;
+      }
     }
   }
 

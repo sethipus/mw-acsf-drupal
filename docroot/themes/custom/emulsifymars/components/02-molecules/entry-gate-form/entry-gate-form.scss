@@ -138,6 +138,30 @@
 
     @include medium {
       min-width: 0;
+
+      &:hover {
+        color: clr(primary);
+        background-color: transparent;
+        transition: background-color 0.5s cubic-bezier(.75, 0, .25, 1);
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 500%;
+        height: 1000%;
+        background: clr(subcolor-3);
+        z-index: -1;
+        transform-origin: 0% 0%;
+        transform: translateX(0) translateY(10%) rotate(45deg);
+        transition: transform .5s;
+      }
+
+      &:hover::after {
+        transform: translateX(0) translateY(-50%) rotate(45deg);
+      }
     }
 
     @include xl {
@@ -155,30 +179,6 @@
         line-height: 1.6rem;
         font-size: 1.6rem;
       }
-    }
-
-    &:hover {
-      color: clr(primary);
-      background-color: transparent;
-      transition: background-color 0.5s cubic-bezier(.75, 0, .25, 1);
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 500%;
-      height: 1000%;
-      background: clr(subcolor-3);
-      z-index: -1;
-      transform-origin: 0% 0%;
-      transform: translateX(0) translateY(10%) rotate(45deg);
-      transition: transform .5s;
-    }
-
-    &:hover::after {
-      transform: translateX(0) translateY(-50%) rotate(45deg);
     }
   }
 

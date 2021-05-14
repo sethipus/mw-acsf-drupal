@@ -1,0 +1,22 @@
+uuid: b9eae695-d792-4c52-802b-e808c8f34a49
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - media
+id: media.field_asset_type
+field_name: field_asset_type
+entity_type: media
+type: computed_string
+settings:
+  max_length: '255'
+  is_ascii: false
+  case_sensitive: false
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
