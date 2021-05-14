@@ -313,7 +313,9 @@ class LighthouseAdapter extends ControllerBase implements LighthouseInterface {
         'height' => $height,
       ]);
     }
-    $media->set('field_is_transparent', strtolower($data['isTransparent'] ?? NULL));
+    if ($this->mediaType === 'image') {
+      $media->set('field_is_transparent', strtolower($data['isTransparent'] ?? NULL));
+    }
     $media->save();
 
     return $media;
