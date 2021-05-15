@@ -113,6 +113,17 @@ function mars_recipes_preprocess_node__recipe__card(array &$variables) {
   card_add_badge_text($variables);
   card_add_button_label($variables, 'recipe_card_button');
   add_cache_by_label_config($variables);
+
+  $language_helper = \Drupal::service('mars_common.language_helper');
+  $config = \Drupal::config('mars_common.site_labels');
+
+  // Add Cooking Time label.
+  $cooking_time_label = $config->get('recipe_card_cooking_time');
+  $variables['recipe_card_cooking_time'] = $language_helper->translate($cooking_time_label);
+
+  // Add Ingredients label.
+  $ingredients_label = $config->get('recipe_card_ingredients');
+  $variables['recipe_card_ingredients'] = $language_helper->translate($ingredients_label);
 }
 
 /**

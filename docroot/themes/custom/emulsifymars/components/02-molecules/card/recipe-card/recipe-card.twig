@@ -70,7 +70,7 @@
         {% if text_color_override is not empty %}
           style="color: {{ text_color_override }};"
         {% endif %}>
-        {{ label_for_cooking_time }}
+        {{ recipe_card_cooking_time }}
       </label>
         {% include "@atoms/text/text/01-paragraph.twig" with {
           paragraph_size: recipe_card_minutes,
@@ -85,7 +85,7 @@
         {% if text_color_override is not empty %}
           style="color: {{ text_color_override }};"
         {% endif %}>
-        {{ label_for_ingredients }}
+        {{ recipe_card_ingredients }}
       </label>
         {% include "@atoms/text/text/01-paragraph.twig" with {
           paragraph_size: recipe_card_items_size,
