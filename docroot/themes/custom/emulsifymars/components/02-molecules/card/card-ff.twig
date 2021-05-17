@@ -60,7 +60,7 @@
   {# Image #}
   {% block card__img %}
     {% if card__image__src %}
-      <div class="image-wrapper {{image_size}}">
+      <div class="image-wrapper image-wrapper--{{ card_number_modifier }} {{image_size}}">
         <div class="image-background {{image_size}}">
         {% if card__link__url %}
           <a href="{{card__link__url}}" target="{{ card__link__new_window }}">

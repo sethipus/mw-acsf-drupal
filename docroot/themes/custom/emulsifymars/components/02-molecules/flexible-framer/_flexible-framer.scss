@@ -6,7 +6,7 @@
   background-color: clr(subcolor-2);
   color: clr(primary);
 
-  & .h2 {
+  &__heading {
     @include set-font($font-type: 'heading-font');
 
     position: relative;
@@ -37,7 +37,7 @@
     margin-bottom: 0;
   }
 
-  & .image-wrapper {
+  .image-wrapper {
     counter-increment: card-counter;
     grid-column-start: counter(card-counter);
     grid-column-end: counter(card-counter);
@@ -75,16 +75,19 @@
         transform: scale(1.1);
       }
     }
+
+    .brand-shape {
+      display: none;
+    }
   }
 
   .grid--card {
-    display: flex;
+    display: block;
     padding-bottom: 5rem;
     counter-reset: card-counter;
 
     @include medium {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       grid-gap: 2rem;
       margin: 0 4rem;
       padding-bottom: 6rem;
@@ -94,11 +97,27 @@
       padding-bottom: 8rem;
     }
 
+    &.grid-items-2 {
+      @include medium {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
     &.grid-items-3 {
+      @include medium {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
       .image-wrapper {
         &.image-size-small {
           max-width: 293px;
         }
+      }
+    }
+
+    &.grid-items-4 {
+      @include medium {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
       }
     }
 
@@ -236,34 +255,20 @@
       }
     }
 
-    .grid__item{
-      .image-size-large{
-        .brand-shape{
-          display: none;
-        }
-      }
-      .image-size-small{
-        .brand-shape{
-          display: none;
-        }
-      }
-    }
-    .grid__item:nth-child(2n-1){
-      .image-size-small{
-        .brand-shape {
-          display: block;
+    .image-wrapper--odd.image-size-small {
+      .brand-shape {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+
+        svg {
           width: 100%;
           height: 100%;
-          position: absolute;
-
-          svg {
-            width: 100%;
-            height: 100%;
-            max-width: 27.7rem;
-            margin-left: 0%;
-            fill: clr(subcolor-1);
-            opacity: 0.2;
-          }
+          max-width: 27.7rem;
+          margin-left: 0%;
+          fill: clr(subcolor-1);
+          opacity: 0.2;
         }
       }
 
