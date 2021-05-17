@@ -148,6 +148,20 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       '#required' => TRUE,
     ];
 
+    $form['card']['recipe_card_cooking_time'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Recipe card Cooking Time label'),
+      '#default_value' => $site_label_config->get('recipe_card_cooking_time'),
+      '#required' => TRUE,
+    ];
+
+    $form['card']['recipe_card_ingredients'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Recipe card ingredients label'),
+      '#default_value' => $site_label_config->get('recipe_card_ingredients'),
+      '#required' => TRUE,
+    ];
+
     $form['card']['product_card_button'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Product card button label'),
@@ -282,6 +296,8 @@ class MarsSiteLabelsForm extends ConfigFormBase {
       ->set('faq_card_grid_search', $form_state->getValue('faq_card_grid_search'))
       ->set('card_new_badge', $form_state->getValue('card_new_badge'))
       ->set('recipe_card_button', $form_state->getValue('recipe_card_button'))
+      ->set('recipe_card_cooking_time', $form_state->getValue('recipe_card_cooking_time'))
+      ->set('recipe_card_ingredients', $form_state->getValue('recipe_card_ingredients'))
       ->set('product_card_button', $form_state->getValue('product_card_button'))
       ->set('article_card_button', $form_state->getValue('article_card_button'))
       ->set('landing_card_button', $form_state->getValue('landing_card_button'))

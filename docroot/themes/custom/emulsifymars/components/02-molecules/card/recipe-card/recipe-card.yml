@@ -23,7 +23,7 @@ recipe_card_button_modifiers: ['small']
 recipe_card_button_link_attributes:
   href: 'https://storybook.js.org/'
 
-label_for_cooking_time: 'Cooking Time'
-label_for_ingredients: 'Ingredients'
+recipe_card_cooking_time: 'Cooking Time'
+recipe_card_ingredients: 'Ingredients'
 
 recipe_is_new: true

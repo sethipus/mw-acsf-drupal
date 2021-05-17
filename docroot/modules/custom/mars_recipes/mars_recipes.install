@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * The Mars recipes module install file.
+ */
+
+/**
+ * Implements hook_update_N().
+ *
+ * Add default configs for Recipe card.
+ */
+function mars_recipes_update_8001() {
+  $config = \Drupal::getContainer()->get('config.factory')
+    ->getEditable('mars_common.site_labels');
+
+  $labels = [
+    'recipe_card_cooking_time' => 'Cooking time',
+    'recipe_card_ingredients' => 'Ingredients',
+  ];
+
+  foreach ($labels as $name => $label) {
+    $current_label = $config->get($name);
+    if (empty($current_label)) {
+      $config->set($name, $label);
+    }
+  }
+
+  $config->save();
+}
