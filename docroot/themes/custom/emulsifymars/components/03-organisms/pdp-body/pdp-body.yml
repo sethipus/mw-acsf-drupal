@@ -140,6 +140,16 @@ pdp_data:
             allergen_label: 'CONTAINS SOY'
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
+    benefits_data:
+      enabled: true
+      title: 'Nutritional claims & product benefits'
+      disclaimer: '* Nutritional Claims and benefits disclaimer'
+      list:
+        - content: 'No Artificial Flavors'
+        - content: 'Low Saturated Fat'
+        - content: 'Cholesterol Free Food'
+        - content: 'High in Calcium'
+        - content: 'High in Calcium'
   - size_id: '4oz'
     gtin: '01231243341232'
     active: false

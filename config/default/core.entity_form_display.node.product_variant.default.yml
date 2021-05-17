@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.lighthouse_browser
+    - field.field.node.product_variant.field_nutritional_claims_benefit
     - field.field.node.product_variant.field_product_added_sugars
     - field.field.node.product_variant.field_product_added_sugars_daily
     - field.field.node.product_variant.field_product_allergen_statement
@@ -141,6 +142,7 @@ third_party_settings:
       children:
         - field_product_serving_size
         - field_product_servings_per
+        - field_nutritional_claims_benefit
         - group_nutritional_subgroup_1
         - group_nutritional_subgroup_2
         - group_nutritional_subgroup_3
@@ -309,10 +311,21 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 2
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_nutritional_claims_benefit:
+    weight: 20
+    settings:
+      size: 255
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
   field_product_added_sugars:
     weight: 40
     settings:
@@ -368,7 +381,7 @@ content:
     type: string_textfield
     region: content
   field_product_calories_daily:
-    weight: 23
+    weight: 24
     settings:
       size: 60
       placeholder: ''
@@ -673,7 +686,7 @@ content:
     type: string_textfield
     region: content
   field_product_monounsaturated_fa:
-    weight: 28
+    weight: 32
     settings:
       size: 60
       placeholder: ''
@@ -697,7 +710,7 @@ content:
     type: string_textfield
     region: content
   field_product_polyunsaturated_fa:
-    weight: 27
+    weight: 31
     settings:
       size: 60
       placeholder: ''
@@ -761,7 +774,7 @@ content:
     type: string_textfield
     region: content
   field_product_saturated_fat:
-    weight: 22
+    weight: 27
     settings:
       size: 60
       placeholder: ''
@@ -857,7 +870,7 @@ content:
     type: string_textfield
     region: content
   field_product_total_fat:
-    weight: 20
+    weight: 25
     settings:
       size: 60
       placeholder: ''
@@ -865,7 +878,7 @@ content:
     type: string_textfield
     region: content
   field_product_total_fat_daily:
-    weight: 21
+    weight: 26
     settings:
       size: 60
       placeholder: ''
@@ -881,7 +894,7 @@ content:
     type: string_textfield
     region: content
   field_product_trans_fat:
-    weight: 25
+    weight: 29
     settings:
       size: 60
       placeholder: ''
@@ -889,7 +902,7 @@ content:
     type: string_textfield
     region: content
   field_product_trans_fat_daily:
-    weight: 26
+    weight: 30
     settings:
       size: 60
       placeholder: ''

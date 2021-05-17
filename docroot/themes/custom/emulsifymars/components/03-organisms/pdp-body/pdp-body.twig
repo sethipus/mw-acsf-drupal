@@ -16,6 +16,20 @@
       show_rating_and_reviews: pdp_item.show_rating_and_reviews,
       pdp_is_main_variant: pdp_item.is_main_variant
     } %}
+    <!-- PDP Benefits -->
+    {% set benefits_list = [] %}
+    {% for benefit_item in pdp_item.nutrition_data.claims_benefits %}
+      {% set benefits_list = benefits_list|merge([{'content' : benefit_item }])   %}
+    {% endfor %}
+    {% set benefits_data = {
+      'enabled': pdp_item.nutrition_data.claims_benefits is not empty and pdp_common_data.nutrition_data.show_claims_benefits is not empty and pdp_common_data.nutrition_data.show_claims_benefits != 0,
+      'title': pdp_common_data.nutrition_data.benefits_title,
+      'list': benefits_list,
+      'disclaimer': pdp_common_data.nutrition_data.benefits_disclaimer,
+    } %}
+    {% include "@molecules/pdp/pdp-benefits/pdp-benefits.twig" with {
+      benefits_data: benefits_data,
+    } %}
     <!-- PDP Nutrition -->
     {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
       size_id: pdp_item.size_id,

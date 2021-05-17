@@ -467,6 +467,21 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#default_value' => $this->configuration['nutrition']['refer_text'],
       '#required' => TRUE,
     ];
+    $benefits_enabled = !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits'));
+    $form['nutrition']['benefits_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Nutritional claims and benefits label'),
+      '#default_value' => $this->configuration['nutrition']['benefits_title'],
+      '#maxlength' => 55,
+      '#access' => $benefits_enabled,
+    ];
+    $form['nutrition']['benefits_disclaimer'] = [
+      '#type' => 'text_format',
+      '#title' => $this->t('Nutritional claims and benefits disclaimer'),
+      '#default_value' => $this->configuration['nutrition']['benefits_disclaimer']['value'] ?? '',
+      '#format' => 'rich_text',
+      '#access' => $benefits_enabled,
+    ];
     $form['allergen_label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Diet & Allergens part label'),
@@ -603,6 +618,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'daily_text' => $config['nutrition']['daily_text'] ?? $daily_text,
         'refer_text' => $config['nutrition']['refer_text'] ?? $this->languageHelper->translate(
             'Please refer to the product label for the most accurate nutrition, ingredient, and allergen information.'),
+        'benefits_title' => $config['nutrition']['benefits_title'] ?? '',
+        'benefits_disclaimer' => $config['nutrition']['benefits_disclaimer']['value'] ?? '',
       ],
       'allergen_label' => $config['allergen_label'] ?? $this->t('Diet & Allergens'),
       'more_information_label' => $config['more_information']['more_information_label'] ?? $this->t('More information'),
@@ -677,6 +694,9 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'vitamins_info_label' => $this->languageHelper->translate($this->configuration['nutrition']['vitamins_label']) . ':' ?? '',
         'daily_text' => $this->languageHelper->translate($this->configuration['nutrition']['daily_text']) ?? '',
         'refer_text' => $this->languageHelper->translate($this->configuration['nutrition']['refer_text']) ?? '',
+        'benefits_title' => $this->languageHelper->translate($this->configuration['nutrition']['benefits_title']) ?? '',
+        'benefits_disclaimer' => !empty($this->configuration['nutrition']['benefits_disclaimer']['value']) ? $this->languageHelper->translate($this->configuration['nutrition']['benefits_disclaimer']['value']) : '',
+        'show_claims_benefits' => !empty($this->themeConfiguratorParser->getSettingValue('show_nutrition_claims_benefits')),
       ],
       'allergen_data' => [
         'allergen_label' => $this->languageHelper->translate($this->configuration['allergen_label']),
@@ -758,6 +778,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle(), $more_information_id),
         ],
         'nutrition_data' => [
+          'claims_benefits' => $this->getNutritionClaimsBenefits($product_variant),
           'serving_item' => $this->getServingItems($product_variant),
         ],
         'allergen_data' => [
@@ -798,6 +819,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'product_title' => $product->getTitle(),
         'product_image' => $this->getProductVariantImage($product_variant_first),
         'nutrition_data' => [
+          'claims_benefits' => $this->getNutritionClaimsBenefits($product_variant_first),
           'serving_item' => $serving_items,
           'serving_item_empty' => $this->isServingItemsEmpty($serving_items),
         ],
@@ -1206,6 +1228,30 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       $commerce_vendor_settings = $this->configFactory->get('mars_product.wtb.' . $commerce_vendor . '.settings');
       $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData() : [];
       return !empty($commerce_vendor_settings['settings']) ? $commerce_vendor_settings['settings'] : [];
+    }
+    return [];
+  }
+
+  /**
+   * Get Nutrition Claims and Benefits items.
+   *
+   * @param object $variant_node
+   *   Product Variant node.
+   *
+   * @return array
+   *   Nutrition Claims and Benefits items array.
+   */
+  public function getNutritionClaimsBenefits(object $variant_node): array {
+    if (!empty($variant_node)) {
+      if ($variant_node->hasField('field_nutritional_claims_benefit') && !$variant_node->get('field_nutritional_claims_benefit')->isEmpty()) {
+        $benefits_to_render = [];
+        $benefit_items = $variant_node->get('field_nutritional_claims_benefit')->getValue();
+        foreach ($benefit_items as $item) {
+          $benefits_to_render[] = $this->languageHelper->translate($item['value']);
+        }
+        return $benefits_to_render;
+      }
+      return [];
     }
     return [];
   }

@@ -32,7 +32,7 @@ trait JsonLdTestsTrait {
       ->willReturnMap(
         [
           [
-            'mars_common.media_helper',
+            'mars_media.media_helper',
             ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE,
             $this->mediaHelperMock,
           ],

@@ -1,0 +1,21 @@
+uuid: 651c017f-9699-4084-b0b5-c669b283680f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_nutritional_claims_benefit
+field_name: field_nutritional_claims_benefit
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
