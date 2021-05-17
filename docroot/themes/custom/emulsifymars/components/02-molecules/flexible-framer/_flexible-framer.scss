@@ -34,7 +34,11 @@
   }
 
   &__graphic-divider {
-    margin-bottom: 0;
+    margin-bottom: 4rem;
+
+    @include xl {
+      margin-bottom: 6rem;
+    }
   }
 
   .image-wrapper {
@@ -88,7 +92,6 @@
 
     @include medium {
       display: grid;
-      grid-gap: 2rem;
       margin: 0 4rem;
       padding-bottom: 6rem;
     }
@@ -199,6 +202,7 @@
         line-height: 1.4;
         flex: 1 0 auto;
         max-width: 549px;
+        text-align: center;
 
         @include large {
           font-size: 1.8rem;
@@ -284,6 +288,15 @@
           transition: background-size 0.8s ease;
         }
       }
+    }
+  }
+
+  .even + .odd,
+  .odd + .even {
+    margin-top: 4rem;
+
+    @include medium {
+      margin-top: 0;
     }
   }
 
