@@ -715,7 +715,6 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     switch ($node_bundle) {
       case 'product_multipack':
         $build['#pdp_data'] = $this->getPdpMultiPackProductData($node, $more_information_id);
-        $build['#pdp_common_data']['nutrition_data']['dual_label'] = (bool) $node->get('field_product_dual_label')->value;
         break;
 
       case 'product':
@@ -768,7 +767,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         $gtin = $this->productHelper->formatSku($gtin);
       }
 
-      $items[] = [
+      $item = [
         'ratings_id' => RatingBazarvoiceBlock::getRatingsId($gtin),
         'gtin' => $gtin,
         'size_id' => $size_id,
@@ -787,6 +786,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'show_rating_and_reviews' => $this->isRatingEnable($node),
         'is_main_variant' => $i === 1,
       ];
+      if (!empty($product_variant->get('field_product_consumption_1')->value)) {
+        $item['dual_nutrition_data'] = [
+          'serving_item' => $this->getServingItems($product_variant, 'dual'),
+        ];
+        $item['nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_1')->value;
+        $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant->get('field_product_consumption_2')->value;
+      }
+      $items[] = $item;
     }
 
     return $items;
@@ -815,7 +822,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       }
       $serving_items = $this->getServingItems($product_variant_first);
 
-      $products_data[] = [
+      $item = [
         'product_title' => $product->getTitle(),
         'product_image' => $this->getProductVariantImage($product_variant_first),
         'nutrition_data' => [
@@ -827,6 +834,14 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           'allergens_list' => $this->getVisibleAllergenItems($product_variant_first),
         ],
       ];
+      if (!empty($product_variant_first->get('field_product_consumption_1')->value)) {
+        $item['dual_nutrition_data'] = [
+          'serving_item' => $this->getServingItems($product_variant_first, 'dual'),
+        ];
+        $item['nutrition_data']['serving_item']['table_label'] = $product_variant_first->get('field_product_consumption_1')->value;
+        $item['dual_nutrition_data']['serving_item']['table_label'] = $product_variant_first->get('field_product_consumption_2')->value;
+      }
+      $products_data[] = $item;
     }
 
     $items = [];
@@ -963,27 +978,31 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    *
    * @param object $node
    *   Product Variant node.
+   * @param string $field_prefix
+   *   Prefix for the field name. Dual or product.
    *
    * @return array
    *   Serving items array.
    */
-  public function getServingItems($node) {
+  public function getServingItems($node, string $field_prefix = 'product') {
     $result_item = [
-      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_product_ingredients')->value), '<strong>'),
-      'warnings_value' => strip_tags(html_entity_decode($node->get('field_product_allergen_warnings')->value)),
-      'serving_size' => [
-        'label' => $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':',
-        'value' => $node->get('field_product_serving_size')->value,
-      ],
-      'serving_per_container' => [
-        'label' => $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':',
-        'value' => $node->get('field_product_servings_per')->value,
-      ],
+      'ingredients_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_ingredients')->value), '<strong>'),
+      'warnings_value' => strip_tags(html_entity_decode($node->get('field_' . $field_prefix . '_allergen_warnings')->value)),
       'hide_dialy_value_column' => TRUE,
     ];
+    if ($field_prefix == 'product') {
+      $result_item['serving_size'] = [
+        'label' => $this->languageHelper->translate($node->get('field_product_serving_size')->getFieldDefinition()->getLabel()) . ':',
+        'value' => $node->get('field_product_serving_size')->value,
+      ];
+      $result_item['serving_per_container'] = [
+        'label' => $this->languageHelper->translate($node->get('field_product_servings_per')->getFieldDefinition()->getLabel()) . ':',
+        'value' => $node->get('field_product_servings_per')->value,
+      ];
+    }
 
     $mapping = $this->nutritionHelper
-      ->getMapping();
+      ->getMapping($field_prefix);
 
     $unsorted_result = [];
     foreach ($mapping as $section => $fields) {
@@ -1000,7 +1019,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
           $item['value_daily']
             = $node->get($field_data['daily_field'])->value;
         }
-        if ($field === 'field_product_added_sugars') {
+        if ($field === 'field_' . $field_prefix . '_added_sugars') {
           $item['pre_label'] = $this->languageHelper->translate(
               $this->configuration['nutrition']['added_sugars_label']) ?? '';
         }

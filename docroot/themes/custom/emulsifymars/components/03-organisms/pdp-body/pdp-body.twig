@@ -16,6 +16,7 @@
       show_rating_and_reviews: pdp_item.show_rating_and_reviews,
       pdp_is_main_variant: pdp_item.is_main_variant
     } %}
+
     <!-- PDP Benefits -->
     {% set benefits_list = [] %}
     {% for benefit_item in pdp_item.nutrition_data.claims_benefits %}
@@ -35,7 +36,19 @@
       size_id: pdp_item.size_id,
       pdp_nutrition_data: pdp_item.nutrition_data,
       pdp_common_nutrition_data: pdp_common_data.nutrition_data,
+      show_table_footer: pdp_item.dual_nutrition_data is empty
     } %}
+
+    <!-- PDP Dual Nutrition -->
+    {% if pdp_item.dual_nutrition_data is not empty  %}
+      {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
+        size_id: pdp_item.size_id,
+        pdp_nutrition_data: pdp_item.dual_nutrition_data,
+        pdp_common_nutrition_data: pdp_common_data.nutrition_data,
+        show_table_footer: true
+      } %}
+    {% endif %}
+
     <!-- PDP Allergen -->
     {% include "@molecules/pdp/pdp-allergen/pdp-allergen.twig" with {
       size_id: pdp_item.size_id,

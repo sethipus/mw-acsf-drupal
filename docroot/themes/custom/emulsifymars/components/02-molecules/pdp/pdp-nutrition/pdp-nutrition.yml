@@ -11,6 +11,7 @@ pdp_common_nutrition_data:
   refer_text:  'Please refer to the product label for the most accurate nutrition, ingredient and allergen information'
 pdp_nutrition_data:
   serving_item:
+    table_label: 'Per Serving'
     serving_size:
       label: 'Serving Size:'
       value: '31.00g'

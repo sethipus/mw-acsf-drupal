@@ -1,0 +1,24 @@
+uuid: 3abb6da1-7082-455a-82ae-d9cc42eea293
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_calcium
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_calcium
+field_name: field_dual_calcium
+entity_type: node
+bundle: product_variant
+label: 'Dual Calcium'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

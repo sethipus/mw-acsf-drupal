@@ -38,9 +38,19 @@
     <div {{ bem('nutrition', [], pdp_multipack_details_base_class) }} >
       {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
         size_id: size_id,
-        pdp_nutrition_data: pdp_nutrition_data
+        pdp_nutrition_data: pdp_nutrition_data,
+        show_table_footer: dual_nutrition_data is empty
       } %}
     </div>
+  {% endif %}
+
+  <!-- PDP Dual Nutrition -->
+  {% if dual_nutrition_data is not empty  %}
+    {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
+      size_id: size_id,
+      pdp_nutrition_data: dual_nutrition_data,
+      show_table_footer: true
+    } %}
   {% endif %}
 
   <div {{ bem('allergens', [], pdp_multipack_details_base_class) }} >
