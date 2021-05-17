@@ -2,7 +2,7 @@ services:
   mars_product.product_helper:
     class: Drupal\mars_product\ProductHelper
     arguments:
-      ['@mars_common.language_helper', '@config.factory']
+      ['@mars_common.language_helper', '@config.factory', '@entity_type.manager']
   mars_product.product_twig_filters:
     class: Drupal\mars_product\Twig\ProductFilters
     arguments:

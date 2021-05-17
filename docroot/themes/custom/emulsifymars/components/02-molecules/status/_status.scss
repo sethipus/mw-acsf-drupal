@@ -38,10 +38,12 @@
 
   &--alert {
     color: clr(subcolor-3);
-    background-color: clr(secondary);
+    background-color: clr(alert);
   }
 
   &-link {
     @include link;
+
+    text-decoration: none;
   }
 }
