@@ -1,0 +1,21 @@
+uuid: 1f53393e-6b42-4786-8a3e-fe587bea7cc0
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_dual_sugar_alcohol
+field_name: field_dual_sugar_alcohol
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

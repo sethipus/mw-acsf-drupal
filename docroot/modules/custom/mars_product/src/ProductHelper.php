@@ -4,6 +4,7 @@ namespace Drupal\mars_product;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\TypedData\Exception\MissingDataException;
 use Drupal\mars_common\LanguageHelper;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
@@ -28,16 +29,30 @@ class ProductHelper {
   protected $configFactory;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * ProductHelper constructor.
    *
    * @param \Drupal\mars_common\LanguageHelper $language_helper
    *   The Language helper service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct(LanguageHelper $language_helper, ConfigFactoryInterface $config_factory) {
+  public function __construct(
+    LanguageHelper $language_helper,
+    ConfigFactoryInterface $config_factory,
+    EntityTypeManagerInterface $entity_type_manager
+  ) {
     $this->languageHelper = $language_helper;
     $this->configFactory = $config_factory;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -105,6 +120,29 @@ class ProductHelper {
     }
 
     return $main_variant;
+  }
+
+  /**
+   * Returns all parent products by variant.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $variant
+   *   The product variant.
+   *
+   * @return array
+   *   Array of products.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getProductsByVariant(ContentEntityInterface $variant): array {
+    $node_storage = $this->entityTypeManager->getStorage('node');
+
+    $product_ids = $node_storage->getQuery()
+      ->condition('type', 'product')
+      ->condition('field_product_variants', $variant->id(), '=')
+      ->execute();
+
+    return $node_storage->loadMultiple($product_ids);
   }
 
   /**

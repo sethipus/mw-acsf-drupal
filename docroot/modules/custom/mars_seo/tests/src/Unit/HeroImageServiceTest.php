@@ -8,7 +8,7 @@ use Drupal\Core\Config\ImmutableConfig;
 use Drupal\layout_builder\Field\LayoutSectionItemList;
 use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionComponent;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_seo\HeroImageService;
 use Drupal\node\Entity\Node;
 use Drupal\Tests\UnitTestCase;
@@ -45,7 +45,7 @@ class HeroImageServiceTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 

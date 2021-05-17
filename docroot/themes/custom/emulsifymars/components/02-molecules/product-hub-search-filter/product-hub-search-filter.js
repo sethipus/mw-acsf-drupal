@@ -354,6 +354,10 @@
               searchBlock.classList.remove('ajax-card-grid--no-results')
             }
             dataLayerPush(xhr.response.results_count, xhr.response.search_key, grid, gridType);
+            // Update Smart Commerce buttons on changing grid filters.
+            if (SmartCart !== undefined) {
+              SmartCart.updateUsaWidget();
+            }
           }
         };
       }

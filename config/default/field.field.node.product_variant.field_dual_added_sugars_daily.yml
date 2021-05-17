@@ -1,0 +1,24 @@
+uuid: b72ffa19-53a6-4f76-ac7a-e84a950ef76a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_added_sugars_daily
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_added_sugars_daily
+field_name: field_dual_added_sugars_daily
+entity_type: node
+bundle: product_variant
+label: 'Dual Added Sugars % Daily Value'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

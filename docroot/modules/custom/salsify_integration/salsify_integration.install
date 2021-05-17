@@ -142,3 +142,23 @@ function salsify_integration_update_8005() {
     'field_product_sub_brand'
   )->delete();
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Empty field_product_dual_label in product multipacks.
+ */
+function salsify_integration_update_8006() {
+  $storage_handler = \Drupal::entityTypeManager()->getStorage('node');
+
+  $multipack_entities = $storage_handler->loadByProperties(['type' => 'product_multipack']);
+  foreach ($multipack_entities as $multipack_entity) {
+    $multipack_entity->set('field_product_dual_label', NULL);
+    $multipack_entity->save();
+  }
+  FieldConfig::loadByName(
+    'node',
+    'product_multipack',
+    'field_product_dual_label'
+  )->delete();
+}

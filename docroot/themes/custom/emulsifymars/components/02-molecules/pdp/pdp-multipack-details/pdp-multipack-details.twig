@@ -20,12 +20,37 @@
   </div>
 
   {% if pdp_nutrition_data %}
+    <!-- PDP Benefits -->
+    {% set benefits_list = [] %}
+    {% for benefit_item in pdp_nutrition_data.claims_benefits %}
+      {% set benefits_list = benefits_list|merge([{'content' : benefit_item }])   %}
+    {% endfor %}
+    {% set benefits_data = {
+      'enabled': pdp_nutrition_data.claims_benefits is not empty and pdp_common_nutrition_data.show_claims_benefits is not empty and pdp_common_nutrition_data.show_claims_benefits != 0,
+      'title': pdp_common_nutrition_data.benefits_title,
+      'list': benefits_list,
+      'disclaimer': pdp_common_nutrition_data.benefits_disclaimer,
+    } %}
+    {% include "@molecules/pdp/pdp-benefits/pdp-benefits.twig" with {
+      benefits_data: benefits_data,
+    } %}
+    <!-- PDP Nutrition -->
     <div {{ bem('nutrition', [], pdp_multipack_details_base_class) }} >
       {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
         size_id: size_id,
-        pdp_nutrition_data: pdp_nutrition_data
+        pdp_nutrition_data: pdp_nutrition_data,
+        show_table_footer: dual_nutrition_data is empty
       } %}
     </div>
+  {% endif %}
+
+  <!-- PDP Dual Nutrition -->
+  {% if dual_nutrition_data is not empty  %}
+    {% include "@molecules/pdp/pdp-nutrition/pdp-nutrition.twig" with {
+      size_id: size_id,
+      pdp_nutrition_data: dual_nutrition_data,
+      show_table_footer: true
+    } %}
   {% endif %}
 
   <div {{ bem('allergens', [], pdp_multipack_details_base_class) }} >

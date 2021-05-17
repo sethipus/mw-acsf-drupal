@@ -1,0 +1,21 @@
+uuid: eb02d022-02e4-4081-8897-b98cd328d72e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_dual_added_sugars
+field_name: field_dual_added_sugars
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

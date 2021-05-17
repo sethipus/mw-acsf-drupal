@@ -1,0 +1,24 @@
+uuid: 62c28c11-c034-4f1f-9296-9568f9ea2831
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_trans_fat
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_trans_fat
+field_name: field_dual_trans_fat
+entity_type: node
+bundle: product_variant
+label: 'Dual Trans Fat'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
