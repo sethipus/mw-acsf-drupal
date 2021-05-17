@@ -17,6 +17,7 @@ class SalsifyFieldsMap {
     'field_product_ingredients' => ['salsify:id' => 'Complete Ingredient Statement', 'salsify:data_type' => 'string'],
     'field_product_serving_size' => ['salsify:id' => 'Serving Size', 'salsify:data_type' => 'string'],
     'field_product_servings_per' => ['salsify:id' => 'Servings per Container', 'salsify:data_type' => 'string'],
+    'field_product_description' => ['salsify:id' => 'CMS: Description', 'salsify:data_type' => 'string'],
     'field_product_protein' => [
       'salsify:id' => 'Protein',
       'salsify:data_type' => 'string',

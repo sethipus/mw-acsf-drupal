@@ -1,0 +1,25 @@
+uuid: 58aac567-9ddb-48cd-809e-e439192e9249
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_product_description
+    - node.type.product_variant
+  module:
+    - text
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_product_description
+field_name: field_product_description
+entity_type: node
+bundle: product_variant
+label: 'Product Description'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -321,7 +321,7 @@ import Swiper, {Autoplay, Pagination} from 'swiper';
         const pdp_wtb = $(`.where-to-buy--${pdp_size_id}`, pdp_section);
 
         const pdp_main_image_top = pdp_main_image.offset().top;
-        const pdp_hero_bottom = pdp_hero.offset().top + pdp_hero.outerHeight() - window.innerHeight / 2;
+        const pdp_hero_bottom = pdp_hero.offset().top + pdp_hero.outerHeight() - window.innerHeight;
         const pdp_section_bottom = pdp_section.offset().top + pdp_section.outerHeight();
 
         var scrollEventListener = function() {
