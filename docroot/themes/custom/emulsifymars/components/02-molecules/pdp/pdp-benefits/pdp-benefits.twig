@@ -2,7 +2,7 @@
   {% set pdp_benefits_base_class = pdp_more_information_base_class|default('pdp-benefits') %}
   {% set scroll_mandatory_base_class = 'scroll-mandatory' %}
 
-  <section {{ bem(pdp_benefits_base_class, [], [], scroll_mandatory_base_class) }}">
+  <section {{ bem(pdp_benefits_base_class, benefits_modifiers, [], scroll_mandatory_base_class) }}">
 
     {% if benefits_data.title is not empty %}
       {% include "@atoms/text/headings/_heading.twig" with {

@@ -33,6 +33,7 @@
     } %}
     {% include "@molecules/pdp/pdp-benefits/pdp-benefits.twig" with {
       benefits_data: benefits_data,
+      benefits_modifiers: ['multipack']
     } %}
     <!-- PDP Nutrition -->
     <div {{ bem('nutrition', [], pdp_multipack_details_base_class) }} >
