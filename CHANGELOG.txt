@@ -247,3 +247,4 @@ a98f0fc1 AB#215694: content feature parallax image resize work in progress
 c71a380b AB#192028:Cover mars_search module with unit tests. Class SearchQueryParser.
 0723154e AB#192028:Cover mars_search module with unit tests. Class SearchQueryParser.
 e969b1c5 AB#192028:Cover mars_search module with unit tests.
+
