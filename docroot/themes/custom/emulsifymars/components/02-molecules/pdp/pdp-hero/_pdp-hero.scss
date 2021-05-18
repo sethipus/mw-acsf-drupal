@@ -203,13 +203,8 @@
     &--sticky {
       margin: 0;
       padding-right: 3.2rem;
-      padding-bottom: 0;
       color: clr(primary);
       line-height: 1;
-
-      @include medium {
-        padding-bottom: 1.5rem;
-      }
     }
   }
 
