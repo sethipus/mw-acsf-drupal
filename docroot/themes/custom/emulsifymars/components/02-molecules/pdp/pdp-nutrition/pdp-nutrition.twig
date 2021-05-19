@@ -215,7 +215,19 @@
             {% endfor %}
           </div>
         {% endif %}
-          <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
+
+        <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
+          <dl {{ bem('section-column-list', ['info-block'], pdp_nutrition_base_class) }}>
+            <dd {{ bem('section-column-item', ['info-block'], pdp_nutrition_base_class) }}>
+              {% include "@atoms/text/text/07-span.twig" with {
+                span_content: pdp_nutrition_data.serving_item.reference_intake_value,
+                span_base_class: pdp_nutrition_value_base_class,
+                span_blockname: pdp_nutrition_base_class,
+              } %}
+            </dd>
+          </dl>
+        </div>
+        <div {{ bem('section-column', [], pdp_nutrition_base_class) }}>
           <dl {{ bem('section-column-list', ['info-block'], pdp_nutrition_base_class) }}>
             <dd {{ bem('section-column-item', ['info-block'], pdp_nutrition_base_class) }}>
               {% include "@atoms/text/text/07-span.twig" with {

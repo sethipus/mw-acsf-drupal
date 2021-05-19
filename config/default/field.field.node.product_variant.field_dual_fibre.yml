@@ -1,0 +1,24 @@
+uuid: ba5ed9fa-1bc2-4143-ae12-44e31c2cddda
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_fibre
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_fibre
+field_name: field_dual_fibre
+entity_type: node
+bundle: product_variant
+label: 'Fibre 2'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
