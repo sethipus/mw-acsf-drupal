@@ -2,8 +2,18 @@
 {% set pdp_nutrition_label_base_class = 'nutrition-label' %}
 {% set pdp_nutrition_value_base_class = 'nutrition-value' %}
 {% set pdp_nutrition_value_daily_base_class = 'nutrition-value-daily' %}
+{% set show_table_footer = (show_table_footer is defined) ? show_table_footer : true %}
 
 <section {{ bem(pdp_nutrition_base_class) }} data-theme="{{ theme_styles }}">
+  {% if pdp_nutrition_data.serving_item.table_label is not empty  %}
+    {% include "@atoms/text/headings/_heading.twig" with {
+      heading_level: 5,
+      heading: pdp_nutrition_data.serving_item.table_label,
+      heading_blockname: pdp_nutrition_base_class,
+      heading_base_class: 'table-header',
+    } %}
+  {% endif %}
+
   <div {{ bem('container', [], pdp_nutrition_base_class) }}>
     {% if (dual_label and not last_product) or not dual_label %}
       <div {{ bem('heading', [], pdp_nutrition_base_class) }}>
@@ -244,7 +254,8 @@
     </div>
     <!-- Nutrition Row Ends -->
   </div>
-  {% if (dual_label and last_product) or not dual_label %}
+
+  {% if ((dual_label and last_product) or not dual_label) and show_table_footer %}
     <div {{ bem('additional-info', [], pdp_nutrition_base_class) }}>
     {% include "@atoms/text/text/07-span.twig" with {
       span_content: pdp_common_nutrition_data.refer_text,

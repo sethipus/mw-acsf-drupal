@@ -57,7 +57,6 @@ class MulesoftConnector {
     // data by products and product multipacks.
     $response = $this->productHelper->addProducts($response);
     $response = $this->productHelper->addProductMultipacks($response);
-    $response = $this->productHelper->addProductDualLabel($response);
 
     $data = [
       'attributes' => $this->productHelper->getAttributesByProducts($response),

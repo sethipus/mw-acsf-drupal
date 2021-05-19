@@ -203,7 +203,7 @@ class ThemeConfiguratorService {
         '#type' => 'file',
         '#title' => $this->t('Upload logo image'),
         '#maxlength' => 40,
-        '#description' => $this->t("If you don't have direct file access to the server, 
+        '#description' => $this->t("If you don't have direct file access to the server,
         use this field to upload your logo."),
         '#upload_validators' => [
           'file_validate_is_image' => [],
@@ -231,7 +231,7 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color A'),
       '#default_value' => $this->getColorData('color_a', $config),
-      '#description'   => $this->t('Primary Color. Will be used as a main color 
+      '#description'   => $this->t('Primary Color. Will be used as a main color
       throughout the site. Must be AA compliant.'),
     ];
 
@@ -239,7 +239,7 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color B'),
       '#default_value' => $this->getColorData('color_b', $config),
-      '#description'   => $this->t('Secondary Color. Will be used as a main color 
+      '#description'   => $this->t('Secondary Color. Will be used as a main color
       throughout the site. Must be AA compliant.'),
     ];
 
@@ -247,9 +247,9 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color C'),
       '#default_value' => $this->getColorData('color_c', $config),
-      '#description'   => $this->t('Includes the option to select a radial 
+      '#description'   => $this->t('Includes the option to select a radial
       gradient variation (white in the center, assigned color on the outside)
-       or keep the default flat color. Accent Color. Will be used for visual accents 
+       or keep the default flat color. Accent Color. Will be used for visual accents
        throughout the site. Must be AA compliant.'),
     ];
 
@@ -257,7 +257,7 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color D'),
       '#default_value' => $this->getColorData('color_d', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents 
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
       throughout the site. Must be AA compliant.'),
     ];
 
@@ -273,7 +273,7 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Color F'),
       '#default_value' => $this->getColorData('color_f', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents 
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
       throughout the site. Must be AA compliant.'),
     ];
 
@@ -281,7 +281,7 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Top part of the header/footer'),
       '#default_value' => $this->getColorData('top_nav', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents 
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
       throughout the site. Must be AA compliant.'),
     ];
 
@@ -289,7 +289,7 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Top part of the header/footer gradient color'),
       '#default_value' => $this->getColorData('top_nav_gradient', $config),
-      '#description'   => $this->t('Accent Color. Will be used for visual accents 
+      '#description'   => $this->t('Accent Color. Will be used for visual accents
       throughout the site. Must be AA compliant.'),
     ];
 
@@ -305,7 +305,7 @@ class ThemeConfiguratorService {
       '#type'          => 'jquery_colorpicker',
       '#title'         => $this->t('Card Background'),
       '#default_value' => $this->getColorData('card_background', $config),
-      '#description'   => $this->t('If gradient check box is checked, use HEX 
+      '#description'   => $this->t('If gradient check box is checked, use HEX
       color with white to create radial gradient.'),
     ];
 
@@ -467,7 +467,7 @@ class ThemeConfiguratorService {
     $form['icons_settings']['graphic_divider'] = [
       '#title'           => $this->t('Graphic Divider'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. 
+      '#description'     => $this->t('Will be designed by each brand team.
       Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
@@ -486,7 +486,7 @@ class ThemeConfiguratorService {
     $form['icons_settings']['brand_shape'] = [
       '#title'           => $this->t('Path to Brand Shape'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. 
+      '#description'     => $this->t('Will be designed by each brand team.
       Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
@@ -535,7 +535,7 @@ class ThemeConfiguratorService {
     $form['icons_settings']['brand_borders_2'] = [
       '#title'           => $this->t('Brand Borders for Cards'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. 
+      '#description'     => $this->t('Will be designed by each brand team.
       Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
@@ -554,7 +554,7 @@ class ThemeConfiguratorService {
     $form['icons_settings']['png_asset'] = [
       '#title'           => $this->t('PNG Asset'),
       '#type'            => 'managed_file',
-      '#description'     => $this->t('Will be designed by each brand team. 
+      '#description'     => $this->t('Will be designed by each brand team.
       Size and format requirements detailed out in the Style Guide.'),
       '#upload_location' => 'public://theme_config/',
       '#required'        => FALSE,
@@ -659,6 +659,11 @@ class ThemeConfiguratorService {
         '#type' => 'checkbox',
         '#title' => $this->t('Show allergen info'),
         '#default_value' => $this->getData('product_layout', 'show_allergen_info', $config),
+      ];
+      $form['product_layout']['show_nutrition_claims_benefits'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Show Nutrition Claims and benefits info'),
+        '#default_value' => $this->getData('product_layout', 'show_nutrition_claims_benefits', $config) ?? FALSE,
       ];
 
       $form['card_grid'] = [

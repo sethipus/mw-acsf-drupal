@@ -1,0 +1,9 @@
+field_id: 'Dual Added Sugars'
+salsify_id: 'Dual Added Sugars'
+salsify_data_type: string
+entity_type: node
+bundle: product_variant
+field_name: field_dual_added_sugars
+method: manual
+created: 1546300800
+changed: 1546300801

@@ -1,0 +1,24 @@
+uuid: 8945e5ee-8b43-4523-ae94-d12477500ab1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_vitamin_c
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_vitamin_c
+field_name: field_dual_vitamin_c
+entity_type: node
+bundle: product_variant
+label: 'Dual Vitamin C'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

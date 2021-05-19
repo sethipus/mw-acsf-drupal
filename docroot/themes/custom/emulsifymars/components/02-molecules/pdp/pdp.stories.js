@@ -7,6 +7,8 @@ import pdpAllergen from './pdp-allergen/pdp-allergen.twig';
 import pdpAllergenData from './pdp-allergen/pdp-allergen.yml';
 import pdpMoreInformation from './pdp-more-information/pdp-more-information.twig';
 import pdpMoreInformationData from './pdp-more-information/pdp-more-information.yml';
+import pdpBenefits from './pdp-benefits/pdp-benefits.twig';
+import pdpBenefitsData from './pdp-benefits/pdp-benefits.yml';
 import { useEffect } from '@storybook/client-api';
 
 import '../../03-organisms/pdp-body/pdp-body';
@@ -32,6 +34,11 @@ export const pdpNutritionModule = () => {
 export const pdpAllergenModule = () => {
   useEffect(() => Drupal.attachBehaviors(), []);
   return <div dangerouslySetInnerHTML={{ __html: pdpAllergen(pdpAllergenData) }} />
+};
+
+export const pdpBenefitsModule = () => {
+  useEffect(() => Drupal.attachBehaviors(), []);
+  return <div dangerouslySetInnerHTML={{ __html: pdpBenefits(pdpBenefitsData) }} />
 };
 
 export const pdpMoreInformationModule = () => {

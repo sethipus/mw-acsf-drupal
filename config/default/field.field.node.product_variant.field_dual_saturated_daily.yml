@@ -1,0 +1,24 @@
+uuid: d673d9c6-de5d-430f-bbad-a461496a43de
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_saturated_daily
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_saturated_daily
+field_name: field_dual_saturated_daily
+entity_type: node
+bundle: product_variant
+label: 'Dual Saturated Fat % Daily Value'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

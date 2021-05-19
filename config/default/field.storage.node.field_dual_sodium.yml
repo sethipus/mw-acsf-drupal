@@ -1,0 +1,21 @@
+uuid: 8211aa5c-3791-4bd4-96ce-7db7cb85ea09
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_dual_sodium
+field_name: field_dual_sodium
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

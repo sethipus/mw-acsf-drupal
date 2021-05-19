@@ -8,7 +8,7 @@ use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Url;
-use Drupal\mars_common\MediaHelper;
+use Drupal\mars_media\MediaHelper;
 use Drupal\mars_seo\Plugin\JsonLdStrategy\Carousel;
 use Drupal\Tests\UnitTestCase;
 use Spatie\SchemaOrg\ItemList;
@@ -63,7 +63,7 @@ class CarouselTest extends UnitTestCase {
   /**
    * Mock.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_common\MediaHelper
+   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\mars_media\MediaHelper
    */
   private $mediaHelperMock;
 

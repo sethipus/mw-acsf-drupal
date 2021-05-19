@@ -1,0 +1,30 @@
+{% if benefits_data.enabled %}
+  {% set pdp_benefits_base_class = pdp_more_information_base_class|default('pdp-benefits') %}
+  {% set scroll_mandatory_base_class = 'scroll-mandatory' %}
+
+  <section {{ bem(pdp_benefits_base_class, benefits_modifiers, [], scroll_mandatory_base_class) }}">
+
+    {% if benefits_data.title is not empty %}
+      {% include "@atoms/text/headings/_heading.twig" with {
+        heading_level: 5,
+        heading: benefits_data.title,
+        heading_blockname: pdp_benefits_base_class,
+        heading_base_class: 'header',
+      } %}
+    {% endif %}
+
+    {% include "@atoms/lists/ul.twig" with {
+      ul_items: benefits_data.list,
+      ul_blockname: pdp_benefits_base_class,
+      ul_base_class: 'list',
+    } %}
+
+    {% if benefits_data.disclaimer is not empty %}
+      {% include "@atoms/text/text/07-raw-span.twig" with {
+        span_content: benefits_data.disclaimer,
+        span_base_class: 'disclaimer',
+        span_blockname: pdp_benefits_base_class,
+      } %}
+    {% endif %}
+  </section>
+{% endif %}
