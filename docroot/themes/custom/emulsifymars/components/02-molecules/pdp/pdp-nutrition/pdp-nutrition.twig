@@ -8,7 +8,7 @@
   {% if pdp_nutrition_data.serving_item.table_label is not empty  %}
     {% include "@atoms/text/headings/_heading.twig" with {
       heading_level: 5,
-      heading: pdp_nutrition_data.serving_item.table_label,
+      heading: pdp_nutrition_data.serving_item.table_label|upper,
       heading_blockname: pdp_nutrition_base_class,
       heading_base_class: 'table-header',
     } %}
