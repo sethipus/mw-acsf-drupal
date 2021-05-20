@@ -44,6 +44,9 @@ pdp_nutrition_data:
       - label: 'Total Carbohydrate'
         value: '19g'
         value_daily: '6%'
+      - label: 'Fibre'
+        value: '18g'
+        value_daily: ''
       - label: 'Sugars'
         bold_modifier: true
         value: '18g'
@@ -66,4 +69,5 @@ pdp_nutrition_data:
         value_daily: '0%'
         value: '10g'
     ingredients_value: 'Milk Chocolate (sugar, Cocoa Butter, Skin Milk, Chocolate, Milkfat, Lactose, Soy Lcithin, Artifical Flavor).'
+    reference_intake_value: '100g'
     warnings_label: 'WARNINGS:'

@@ -117,6 +117,20 @@ class SalsifyFieldsMap {
       'salsify:data_type' => 'string',
       'prefix_field' => 'Vitamin A Precision',
     ],
+    'field_product_reference_intake' => [
+      'salsify:id' => 'LDT - Reference intake',
+      'salsify:data_type' => 'string',
+    ],
+    'field_product_fibre' => [
+      'salsify:id' => 'LTD Fibre/100g',
+      'salsify:data_type' => 'string',
+      'prefix_field' => 'LTD Fibre/100g Precision',
+    ],
+    'field_dual_fibre' => [
+      'salsify:id' => 'LTD/fibre/kcal',
+      'salsify:data_type' => 'string',
+      'prefix_field' => 'LTD/fibre/kcal Precision',
+    ],
     'field_product_vitamin_a_daily' => [
       'salsify:id' => 'Vitamin A Pct',
       'salsify:data_type' => 'string',
