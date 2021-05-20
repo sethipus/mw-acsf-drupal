@@ -12,6 +12,7 @@ use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
 use Drupal\Core\Plugin\Context\EntityContext;
 use Drupal\layout_builder_restrictions\Traits\PluginHelperTrait;
 use Drupal\layout_builder\Section;
+use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\pathauto\Entity\PathautoPattern;
 use Drupal\pathauto\PathautoState;
 
@@ -175,4 +176,52 @@ function mars_product_update_8929() {
     'config_ignore.settings',
     $source->read('config_ignore.settings')
   );
+}
+
+/**
+ * Added new field 'field_product_fibre' to the nutrition table settings.
+ */
+function mars_product_update_8930() {
+  $nutrition_helper = Drupal::service('mars_product.nutrition_data_helper');
+  $nutrition_config = $nutrition_helper->getNutritionConfig();
+
+  if (!$nutrition_config->isNew()) {
+    // Get settings for the nutrition subgroup #3.
+    $subgroup_3 = $nutrition_config->get(PdpHeroBlock::NUTRITION_SUBGROUP_3);
+
+    // Get all existing field from subgroup #3
+    // and check if 'field_product_fibre' doesn't exist.
+    $group_fields = array_column($subgroup_3, 'field');
+    if (array_search('field_product_fibre', $group_fields) === FALSE) {
+      // Generate data for the new field.
+      $new_field_data = [
+        'bold' => '0',
+        'daily_field' => 'none',
+        'field' => 'field_product_fibre',
+        'label' => 'Fibre',
+        'remove' => 'remove',
+        'weight' => '-5',
+      ];
+
+      // The new field should be inserted after 'field_product_total_sugars'.
+      $insert_after = array_search(
+        'field_product_total_sugars',
+        $group_fields
+      );
+
+      if ($insert_after !== FALSE) {
+        $new_field_data['weight'] = $subgroup_3[$insert_after]['weight'] + 1;
+        array_splice($subgroup_3, $insert_after + 1, 0, [$new_field_data]);
+      }
+      else {
+        // Add the new field at the end of subgroup #3
+        // if 'field_product_total_sugars' doesn't exist.
+        $subgroup_3[] = $new_field_data;
+      }
+
+      // Update config.
+      $nutrition_config->set(PdpHeroBlock::NUTRITION_SUBGROUP_3, $subgroup_3);
+      $nutrition_config->save();
+    }
+  }
 }
