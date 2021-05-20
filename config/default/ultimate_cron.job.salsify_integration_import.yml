@@ -1,0 +1,28 @@
+uuid: 8e1b4e6a-355c-4808-9a29-706a8e8cf10e
+langcode: en
+status: true
+dependencies: {  }
+title: 'Salsify: Import new data'
+id: salsify_integration_import
+weight: 0
+module: salsify_integration
+callback: salsify_integration_cron_salsify_import
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '5 0 * * *'
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+      max_execution_time: 3600
+    launcher:
+      max_threads: 1
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

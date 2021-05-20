@@ -1,0 +1,4 @@
+brand_drupal_salsify_bens_uk.migrate_configuration:
+  title: 'Channel approach migration settings'
+  route_name: brand_drupal_salsify_bens_uk.configuration
+  base_route: salsify_integration.configuration
