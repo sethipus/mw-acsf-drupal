@@ -41,7 +41,7 @@ class Url extends UrlBase implements ContainerFactoryPluginInterface {
       $plugin_id,
       $plugin_definition,
       $migration,
-      $container->get('config.factory')->get(ConfigForm::CONFIG_NAME),
+      $container->get('config.factory')->get(ConfigForm::CONFIG_NAME)
     );
   }
 

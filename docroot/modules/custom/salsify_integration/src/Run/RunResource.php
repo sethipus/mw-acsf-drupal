@@ -79,14 +79,14 @@ class RunResource {
     $uri = sprintf(
       static::URI,
       $config->get('salsify_multichannel_approach.org_id'),
-      $config->get('salsify_multichannel_approach.channel_id'),
+      $config->get('salsify_multichannel_approach.channel_id')
     );
 
     $response = $this->httpClient->post($uri, [
       RequestOptions::HEADERS => [
         'Authorization' => sprintf(
           static::HEADER_BEARER_AUTH,
-          $config->get('salsify_multichannel_approach.api_key'),
+          $config->get('salsify_multichannel_approach.api_key')
         ),
       ],
     ]);
@@ -127,14 +127,14 @@ class RunResource {
     $uri = sprintf(
         static::URI,
         $config->get('salsify_multichannel_approach.org_id'),
-        $config->get('salsify_multichannel_approach.channel_id'),
+        $config->get('salsify_multichannel_approach.channel_id')
       ) . '/' . $id;
 
     $response = $this->httpClient->get($uri, [
       RequestOptions::HEADERS => [
         'Authorization' => sprintf(
           static::HEADER_BEARER_AUTH,
-          $config->get('salsify_multichannel_approach.api_key'),
+          $config->get('salsify_multichannel_approach.api_key')
         ),
       ],
     ]);
