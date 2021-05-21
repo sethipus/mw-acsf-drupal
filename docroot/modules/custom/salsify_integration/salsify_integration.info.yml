@@ -6,5 +6,14 @@ package: Web services
 
 core_version_requirement: '^8.8 || ^9'
 dependencies:
-  - rabbit_hole
-  - rh_node
+  - rabbit_hole:rabbit_hole
+  - rh_node:rh_node
+  - drupal:migrate
+  - drupal:file
+  - drupal:image
+  - drupal:media
+  - migrate_file:migrate_file
+  - migrate_plus:migrate_plus
+  - migrate_tools:migrate_tools
+  - drupal:node
+  - drupal:taxonomy
