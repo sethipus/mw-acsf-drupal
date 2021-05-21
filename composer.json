@@ -196,6 +196,9 @@
             },
             "drupal/samlauth": {
                 "Basic role assignment D8 https://www.drupal.org/project/samlauth/issues/3070028": "https://www.drupal.org/files/issues/2020-11-20/patch_role_d8_20201120.patch"
+            },
+            "drupal/printable": {
+                "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
             }
         }
     },

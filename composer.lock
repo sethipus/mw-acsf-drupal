@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d529910814fe8d71540fac255dc93428",
+    "content-hash": "57a24563eaa25ccda64dd2e8bc1add63",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -1358,7 +1358,7 @@
             "version": "v2.3.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fengyuanchen/cropper.git",
+                "url": "git@github.com:fengyuanchen/cropper.git",
                 "reference": "30c58b29ee21010e17e58ebab165fbd84285c685"
             },
             "dist": {
@@ -11002,6 +11002,9 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
+                },
+                "patches_applied": {
+                    "Fix printable stream wrapper.": "patches/fix-url-scheme-for-alter-3190197-4.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",
