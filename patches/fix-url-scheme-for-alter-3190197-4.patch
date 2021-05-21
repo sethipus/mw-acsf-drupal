@@ -1,11 +1,11 @@
 diff --git a/printable.module b/printable.module
-index 5803d98..4f4b7e1 100755
+index e4b3da2..4f4b7e1 100755
 --- a/printable.module
 +++ b/printable.module
 @@ -263,34 +263,6 @@ function printable_preparing_pdf() {
    );
  }
- 
+
 -/**
 - * Make file urls absolute if we're generating a PDF.
 - *
@@ -14,7 +14,7 @@ index 5803d98..4f4b7e1 100755
 - */
 -function printable_file_url_alter(&$uri) {
 -  if (printable_preparing_pdf()) {
--    $scheme = \Drupal::service('stream_wrapper_manager')->isValidScheme($uri);
+-    $scheme = \Drupal::service('file_system')->uriScheme($uri);
 -
 -    if ($scheme) {
 -      $path = \Drupal::service('file_system')->realpath($scheme . '://');
