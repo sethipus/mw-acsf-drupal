@@ -1,0 +1,17 @@
+uuid: 1f5196ce-4cd2-47bb-bbd5-865bf0817f49
+langcode: en
+status: true
+dependencies:
+  module:
+    - tmgmt_smartling
+title: 'Default cron handler'
+id: tmgmt_smartling_cron
+weight: 0
+module: tmgmt_smartling
+callback: tmgmt_smartling_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

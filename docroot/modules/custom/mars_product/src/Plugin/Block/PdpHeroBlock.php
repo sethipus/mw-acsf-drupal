@@ -1001,6 +1001,10 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       ];
     }
 
+    if ($node->hasField('field_product_reference_intake')) {
+      $result_item['reference_intake_value'] = strip_tags(html_entity_decode($node->get('field_product_reference_intake')->value), '<strong>');
+    }
+
     $mapping = $this->nutritionHelper
       ->getMapping($field_prefix);
 
@@ -1048,6 +1052,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
    */
   public function isServingItemsEmpty(array $serving_items) {
     if (
+      empty($serving_items['reference_intake_value'] ?? NULL) &&
       empty($serving_items['ingredients_value'] ?? NULL) &&
       empty($serving_items['warnings_value'] ?? NULL) &&
       empty($serving_items['serving_size']['value'] ?? NULL) &&

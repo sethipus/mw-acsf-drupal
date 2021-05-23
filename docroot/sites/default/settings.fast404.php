@@ -45,7 +45,7 @@ $settings['fast404_exts'] = '/(?<!robots)\.(txt|png|gif|jpe?g|css|woff|ttf|tiff|
  *
  * Default value for this setting is TRUE.
  */
-$settings['fast404_allow_anon_imagecache'] = FALSE;
+$settings['fast404_allow_anon_imagecache'] = TRUE;
 
 /**
  * BE CAREFUL with this setting as some modules use their own php files and you

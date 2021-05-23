@@ -103,3 +103,16 @@ services:
     class: Drupal\salsify_integration\MulesoftConnector
     arguments:
       - '@salsify_integration.product_data_helper'
+
+  salsify_integration.salsify.runs:
+    class: Drupal\salsify_integration\Run\RunResource
+    arguments:
+      - '@http_client'
+      - '@config.factory'
+      - '@logger.factory'
+
+  salsify_integration.migrations.products:
+    class: Drupal\salsify_integration\MigrationRunner
+    arguments:
+      - '@plugin.manager.migration'
+      - '@config.factory'

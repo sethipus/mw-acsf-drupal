@@ -245,5 +245,4 @@ feedback-module:
 common-assets:
   css:
     theme:
-      '//unpkg.com/swiper/swiper-bundle.min.css': {type: external, attributes: { defer: true, async: true }}
-      'https://cdn.cookielaw.org': {type: external, attributes: { rel: 'dns-prefetch' } }
+      components/02-molecules/slide/social-feed-slide/swiper-bundle.min.css: {}

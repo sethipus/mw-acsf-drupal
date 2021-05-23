@@ -1,0 +1,10 @@
+salsify_integration.migrate_settings:
+  type: config_entity
+  label: 'Migration configuiration'
+  mapping:
+    migration_ids:
+      type: sequence
+      label: 'Migration IDs to execute'
+      sequence:
+        type: string
+        label: 'Migration ID'
