@@ -114,4 +114,5 @@ services:
   salsify_integration.migrations.products:
     class: Drupal\salsify_integration\MigrationRunner
     arguments:
+      - '@plugin.manager.migration'
       - '@config.factory'
