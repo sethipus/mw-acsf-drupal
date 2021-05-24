@@ -1,4 +1,32 @@
+/*
+      Flexible Framer CSS grids:
+
+      We use css counter (card-counter) to determine where to start next card.
+      So card grid column index is equal to card-counter value.
+
+      Image Wrapper, Card Heading, Subheading, Body and CTA Wrapper is a grid items.
+      They've got fixed grid-row values.
+
+      ╔══════════════════════════════════════╦══════════════════════════════════════╗
+      ║                                      ║                                      ║
+      ║             Image Wrapper            ║             Image Wrapper            ║
+      ║                                      ║                                      ║
+      ╠══════════════════════════════════════╬══════════════════════════════════════╣
+      ║             Card Heading             ║             Card Heading             ║
+      ╠══════════════════════════════════════╬══════════════════════════════════════╣
+      ║              Card Body               ║              Card Body               ║
+      ╠══════════════════════════════════════╬══════════════════════════════════════╣
+      ║              CTA Wrapper             ║              CTA Wrapper             ║
+      ╠══════════════════════════════════════╬══════════════════════════════════════╣
+      ║            Card Subheading           ║            Card Subheading           ║
+      ╚══════════════════════════════════════╩══════════════════════════════════════╝
+
+      For the different amount of cards we use the equivalent amount of grid-template-columns fractions.
+      For example grid-items-3 class contains 3 fractions starting from medium size viewports.
+*/
+
 .flexible-framer {
+  /* Flexible Framer basic styles */
   @include brand-border-overflow;
   @include set-font($font-type: 'primary-font');
 
@@ -41,6 +69,7 @@
     }
   }
 
+  /* Card Elements Styles */
   .image-wrapper {
     counter-increment: card-counter;
     grid-column-start: counter(card-counter);
@@ -85,7 +114,7 @@
     }
   }
 
-  .grid--card {
+  .grid {
     display: block;
     padding-bottom: 5rem;
     counter-reset: card-counter;
@@ -94,6 +123,7 @@
       display: grid;
       margin: 0 4rem;
       padding-bottom: 6rem;
+      grid-column-gap: 2rem;
     }
 
     @include xl {
@@ -160,9 +190,6 @@
     }
 
     .card {
-      text-align: center;
-      align-items: center;
-
       &__heading {
         @include set-font($font-type: 'primary-font');
 
@@ -197,7 +224,7 @@
         grid-column-end: counter(card-counter);
         grid-row-start: 3;
         grid-row-end: 3;
-        margin: 1.6rem 1.5rem 0 1.5rem;
+        margin: 1.6rem auto 0;
         font-size: 1.6rem;
         line-height: 1.4;
         flex: 1 0 auto;
@@ -206,31 +233,6 @@
 
         @include large {
           font-size: 1.8rem;
-        }
-      }
-
-      & a.default-link {
-        height: 5rem;
-        width: 13.3rem;
-        line-height: 5rem;
-        background-color: clr(secondary);
-        font-size: 1.4rem;
-        border: none;
-        padding: 0;
-
-        @include medium {
-          font-size: 1.6rem;
-          width: 15.7rem;
-        }
-
-        @include large {
-          height: 6rem;
-          line-height: 6rem;
-          width: 20.2rem;
-        }
-
-        &:hover {
-          color: clr(secondary);
         }
       }
     }
@@ -282,76 +284,17 @@
         .image {
           position: relative;
         }
-
-        &:hover {
-          background-size: 77%;
-          transition: background-size 0.8s ease;
-        }
       }
     }
   }
 
+  /* Vertical margin between cards */
   .even + .odd,
   .odd + .even {
     margin-top: 4rem;
 
     @include medium {
       margin-top: 0;
-    }
-  }
-
-  &--related-recipes {
-    .image-wrapper {
-      align-items: center;
-    }
-
-    .grid--card {
-      @include medium {
-        align-items: stretch;
-      }
-
-      @include large {
-        align-items: stretch;
-      }
-
-      .image-background {
-        margin: auto;
-      }
-    }
-
-    .grid-items-2 {
-      .image-wrapper {
-        @include large {
-          min-height: calc((100vw/2) * 0.5625);
-          flex: 0 0 auto;
-        }
-      }
-    }
-
-    .grid-items-3 {
-      .image-wrapper {
-        @include large {
-          min-height: calc((100vw/3) * 0.5625);
-          flex: 0 0 auto;
-        }
-      }
-
-      .card__body{
-        max-width: 433px;
-      }
-    }
-
-    .grid-items-4 {
-      .image-wrapper {
-        @include large {
-          min-height: calc((100vw/4) * 0.5625);
-          flex: 0 0 auto;
-        }
-      }
-
-      .card__body{
-        max-width: 317px;
-      }
     }
   }
 }
