@@ -166,7 +166,7 @@
           {% endfor %}
         </div>
       </div>
-      <div {{ bem('description', [], pdp_hero_base_class, [scroll_mandatory_base_class]) }}>
+      <div {{ bem('description', [], pdp_hero_base_class) }}>
         {% include "@atoms/text/text/07-element.twig" with {
           paragraph_content: pdp_common_hero_data.product_description,
           paragraph_extra_classes: text_color_extra_class,

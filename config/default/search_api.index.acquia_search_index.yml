@@ -62,7 +62,7 @@ field_settings:
   faq_item_queue_weight:
     label: 'FAQ item queue weight'
     property_path: faq_item_queue_weight
-    type: string
+    type: integer
   field_qa_item_answer:
     label: Answer
     datasource_id: 'entity:node'
