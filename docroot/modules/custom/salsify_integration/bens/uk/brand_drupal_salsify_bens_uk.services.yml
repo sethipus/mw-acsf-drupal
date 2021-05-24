@@ -1,0 +1,4 @@
+services:
+  brand_drupal_salsify_bens_uk.migrate_tools:
+    class: Drupal\brand_drupal_salsify_bens_uk\Service\MigrateToolsDecorator
+    arguments: ['@plugin.manager.migration', '@date.formatter', '@entity_type.manager', '@keyvalue', '@logger.factory']

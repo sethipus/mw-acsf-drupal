@@ -17,6 +17,7 @@ class CFResizableImageUri implements ImageUriInterface {
    */
   private $defaultParams = [
     'f' => 'auto',
+    'quality' => 75,
   ];
 
   /**

@@ -1,0 +1,28 @@
+id: bens_uk_term_product_category
+label:  Category Computed
+migration_group: bens_uk
+migration_tags:
+  - Term
+source:
+  plugin: brand_drupal_salsify_url
+  data_fetcher_plugin: http
+  data_parser_plugin: json
+  item_selector: /
+  fields:
+    -
+      name: source_category
+      label: 'Category Computed'
+      selector: 'field_product_category/0'
+  ids:
+    source_category:
+      type: string
+process:
+  name:
+    plugin: skip_on_empty
+    method: row
+    source: source_category
+  vid:
+    plugin: default_value
+    default_value: 'mars_category'
+destination:
+  plugin: entity:taxonomy_term

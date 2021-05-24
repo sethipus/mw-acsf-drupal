@@ -1,0 +1,24 @@
+uuid: 747b7b68-a109-4f2b-9ac6-b859bec4e526
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dual_total_sugars
+    - node.type.product_variant
+  module:
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: node.product_variant.field_dual_total_sugars
+field_name: field_dual_total_sugars
+entity_type: node
+bundle: product_variant
+label: 'Dual Total Sugars'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

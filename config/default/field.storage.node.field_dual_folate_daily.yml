@@ -1,0 +1,21 @@
+uuid: 2b0ba08f-ec5a-4bf8-9134-b8e3ec9f42fa
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_dual_folate_daily
+field_name: field_dual_folate_daily
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

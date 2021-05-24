@@ -17,6 +17,7 @@ module:
   blazy: 0
   block: 0
   block_content: 0
+  brand_drupal_salsify_bens_uk: 0
   breakpoint: 0
   ckeditor: 0
   ckeditor_config: 0
@@ -132,6 +133,10 @@ module:
   metatag: 0
   metatag_open_graph: 0
   metatag_open_graph_products: 0
+  migrate: 0
+  migrate_file: 0
+  migrate_plus: 0
+  migrate_tools: 0
   moderation_dashboard: 0
   moderation_sidebar: 0
   node: 0
@@ -175,6 +180,7 @@ module:
   shortcut: 0
   simple_gmap: 0
   simple_oauth: 0
+  simple_oauth_extras: 0
   simple_sitemap: 0
   slick: 0
   slick_entityreference: 0
@@ -193,6 +199,7 @@ module:
   tmgmt_smartling: 0
   token: 0
   toolbar: 0
+  ultimate_cron: 0
   update: 0
   user: 0
   video_embed_field: 0

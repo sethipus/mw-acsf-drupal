@@ -8,6 +8,7 @@
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Asset\AttachedAssetsInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\field\FieldConfigInterface;
 use Drupal\mars_product\Plugin\Block\PdpHeroBlock;
 use Drupal\Core\Form\FormStateInterface;
@@ -284,6 +285,47 @@ function product_card_add_labels(array &$variables) {
   card_add_badge_text($variables);
   card_add_button_label($variables, 'product_card_button');
   add_cache_by_label_config($variables);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update() for node entities.
+ */
+function mars_product_node_update(EntityInterface $node) {
+  if ($node->bundle() != 'product_variant') {
+    return;
+  }
+
+  // If we're not dealing with the default revision of the variant,
+  // do not make any change to the product.
+  if (!$node->isDefaultRevision()) {
+    return;
+  }
+
+  // Update product title and description when product variant
+  // was saved with Family Master flag.
+  $is_master_variant = $node->get('field_product_family_master')->value;
+  if ($is_master_variant) {
+    $product_helper = \Drupal::service('mars_product.product_helper');
+
+    // Get master products by variant.
+    $products = $product_helper->getProductsByVariant($node);
+
+    if (!empty($products)) {
+      foreach ($products as $product) {
+
+        // Update product title.
+        $product->setTitle($node->getTitle());
+
+        // Update product description.
+        $variant_description = $node->get('field_product_description')->value;
+        $product->set('field_product_description', $variant_description);
+
+        // Publishing the product automatically.
+        $product->set('moderation_state', 'published');
+        $product->save();
+      }
+    }
+  }
 }
 
 /**

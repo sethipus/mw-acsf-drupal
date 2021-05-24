@@ -1,0 +1,93 @@
+.pdp-benefits {
+  position: relative;
+  padding: 1.8rem 2rem 2rem;
+  background: $white;
+  text-align: center;
+  color: $nero;
+
+
+  @include medium {
+    padding: 1.7rem 4rem 2rem;
+  }
+
+  @include xl {
+    padding: 3.6rem 4rem 0;
+  }
+
+  &__header {
+    @include set-font($font-type: 'primary-font');
+
+    font-size: 1.6rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin: 2rem 0;
+
+    @include medium {
+      font-size: 1.8rem;
+    }
+
+    @include xl {
+      font-size: 2rem;
+      margin: 3rem 0;
+    }
+  }
+
+  &__list {
+    @include set-font($font-type: 'secondary-font');
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style-position: inside;
+    list-style-type: none;
+    padding: 0;
+    font-size: 1.8rem;
+    line-height: 1.6;
+    color: clr(primary);
+
+    @include xl {
+      font-size: 2rem;
+      line-height: 1.8;
+    }
+
+    .list-item {
+      position: relative;
+
+      &::before {
+        content: "";
+        background-color: clr(secondary);
+        height: 7px;
+        width: 7px;
+        border-radius: 3.5px;
+        position: absolute;
+        left: 1px;
+        top: 10px;
+
+        @include xl {
+          height: 6px;
+          width: 6px;
+          border-radius: 3px;
+          top: 14px;
+        }
+      }
+    }
+  }
+
+  &__disclaimer {
+    @include set-font($font-type: 'secondary-font');
+
+    color: clr(primary);
+    font-size: 1.8rem;
+    line-height: 1.6;
+
+    @include xl {
+      font-size: 2rem;
+      line-height: 1.8;
+    }
+  }
+
+  &--multipack {
+    padding-top: 0;
+  }
+}

@@ -1,0 +1,10 @@
+benefits_data:
+  enabled: true
+  title: 'Nutritional claims & product benefits'
+  disclaimer: '* Nutritional Claims and benefits disclaimer'
+  list:
+    - content: 'No Artificial Flavors'
+    - content: 'Low Saturated Fat'
+    - content: 'Cholesterol Free Food'
+    - content: 'High in Calcium'
+    - content: 'High in Calcium'

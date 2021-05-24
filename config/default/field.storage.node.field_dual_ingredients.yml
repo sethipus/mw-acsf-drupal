@@ -1,0 +1,19 @@
+uuid: 3caa6acb-1a41-4835-a1bf-771211d78460
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_dual_ingredients
+field_name: field_dual_ingredients
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

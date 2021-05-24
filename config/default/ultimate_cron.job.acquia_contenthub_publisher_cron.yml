@@ -1,0 +1,17 @@
+uuid: 798097b7-16dd-43a2-ab10-c1c034481f90
+langcode: en
+status: true
+dependencies:
+  module:
+    - acquia_contenthub_publisher
+title: 'Default cron handler'
+id: acquia_contenthub_publisher_cron
+weight: 0
+module: acquia_contenthub_publisher
+callback: acquia_contenthub_publisher_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
