@@ -159,6 +159,8 @@ $fence-part-size: 1440px*2/101;
   }
 }
 
+/* TODO: Merge all .footer__logoLink styles */
+
 .footer__logo {
   flex: 0 0 10.1rem;
   max-width: 10.4rem;
@@ -232,6 +234,7 @@ $fence-part-size: 1440px*2/101;
   img {
     height: 100%;
     object-fit: contain;
+    object-position: left center;
   }
 }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57a24563eaa25ccda64dd2e8bc1add63",
+    "content-hash": "f9866d381d5af52dca2680ba887aee92",
     "packages": [
         {
             "name": "acquia/acsf-contenthub-console",
@@ -4811,6 +4811,78 @@
             }
         },
         {
+            "name": "drupal/computed_field",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/computed_field.git",
+                "reference": "8.x-2.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/computed_field-8.x-2.0.zip",
+                "reference": "8.x-2.0",
+                "shasum": "71cad6581a467ed68e41ff39e4d0772a0b7d8fbd"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.0",
+                    "datestamp": "1563825485",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Agileware",
+                    "homepage": "https://www.drupal.org/user/89106"
+                },
+                {
+                    "name": "Moonshine",
+                    "homepage": "https://www.drupal.org/user/133705"
+                },
+                {
+                    "name": "Pedro Lozano",
+                    "homepage": "https://www.drupal.org/user/123766"
+                },
+                {
+                    "name": "colan",
+                    "homepage": "https://www.drupal.org/user/58704"
+                },
+                {
+                    "name": "dealancer",
+                    "homepage": "https://www.drupal.org/user/243418"
+                },
+                {
+                    "name": "markus_petrux",
+                    "homepage": "https://www.drupal.org/user/39593"
+                },
+                {
+                    "name": "nickcaballero",
+                    "homepage": "https://www.drupal.org/user/588336"
+                },
+                {
+                    "name": "ram4nd",
+                    "homepage": "https://www.drupal.org/user/601534"
+                }
+            ],
+            "description": "Defines a field type that allows values to be \"computed\" via PHP code.",
+            "homepage": "https://www.drupal.org/project/computed_field",
+            "support": {
+                "source": "https://git.drupalcode.org/project/computed_field"
+            }
+        },
+        {
             "name": "drupal/config_filter",
             "version": "1.5.0",
             "source": {
@@ -5772,13 +5844,13 @@
             "version": "3.4.0",
             "require": {
                 "drupal/core": "^8 || ^9",
-                "drupal/ctools": "self.version"
+                "drupal/ctools": "*"
             },
             "type": "metapackage",
             "extra": {
                 "drupal": {
                     "version": "8.x-3.4",
-                    "datestamp": "1585763383",
+                    "datestamp": "1620838181",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6146,6 +6218,55 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/diff",
                 "issues": "https://www.drupal.org/project/issues/diff"
+            }
+        },
+        {
+            "name": "drupal/dimension",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/dimension.git",
+                "reference": "2.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/dimension-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "7d1a7769a52a3c4cd8e4b139263b425fdf2a5c5e"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9",
+                "php": ">=7.2"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.0",
+                    "datestamp": "1607352547",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "jurgenhaas",
+                    "homepage": "https://www.drupal.org/user/168924"
+                }
+            ],
+            "description": "Defines dimension field type.",
+            "homepage": "https://www.drupal.org/project/dimension",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/dimension",
+                "issues": "http://drupal.org/project/issues/dimension"
             }
         },
         {

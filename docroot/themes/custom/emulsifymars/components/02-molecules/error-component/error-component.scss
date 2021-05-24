@@ -139,8 +139,6 @@
     .default-link {
       @include medium {
         flex-basis: auto;
-        min-width: 157px;
-        padding: 0 3rem;
         margin-right: 20px;
 
         &:last-child {

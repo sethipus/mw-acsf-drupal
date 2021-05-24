@@ -107,6 +107,8 @@
 
 /* https://dev.azure.com/MarsDevTeam/MarsExperiencePlatform/_workitems/edit/209464 */
 .block[data-block-plugin-id='mars_common_content_feature_module'] +
+.block[data-block-plugin-id='mars_common_content_feature_module'],
+.block[data-block-plugin-id='freeform_story_block'] +
 .block[data-block-plugin-id='mars_common_content_feature_module'] {
   margin-top: 50px;
 

@@ -66,20 +66,19 @@ ol {
       @include set-font($font-type: 'primary-font');
 
       color: clr(secondary);
+      font-size: 2rem;
       font-weight: bold;
       position: absolute;
       line-height: 32px;
-      left: calc(40% + 32px / 2);
+      left: 50%;
       top: calc(32px / 2);
-
-      @include xs {
-        font-size: 2rem;
-      }
+      transform: translateX(-50%);
 
       @include medium {
         font-size: 1.6rem;
         left: calc(20px + 32px / 2);
         top: calc(50% - 32px / 2);
+        transform: none;
       }
 
       @include large {
@@ -155,13 +154,14 @@ ol {
 
   color: clr(secondary);
   font-size: 2rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
 
   @include medium {
     position: absolute;
-    top: 20px;
+    top: 3.2rem;
     left: 0;
     font-size: 2.6rem;
+    margin-bottom: 0;
   }
 
   @include xl {
@@ -185,13 +185,13 @@ ol {
   }
 
   @include medium {
-    padding: 25px 40px 20px 75px;
+    padding: 30px 40px 20px 75px;
   }
 
   @include xl {
     font-size: 1.8rem;
     line-height: 2.52rem;
-    padding: 20px 40px 20px 75px;
+    padding: 32px 40px 20px 75px;
   }
 }
 

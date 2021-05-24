@@ -1,0 +1,43 @@
+uuid: a4bd7430-0655-4268-824a-01040cf633d0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_dimension
+    - media.type.lighthouse_image
+  module:
+    - dimension
+    - tmgmt_content
+third_party_settings:
+  tmgmt_content:
+    excluded: false
+id: media.lighthouse_image.field_dimension
+field_name: field_dimension
+entity_type: media
+bundle: lighthouse_image
+label: Dimension
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  width:
+    factor: '1'
+    min: ''
+    max: ''
+    prefix: ''
+    suffix: ''
+  height:
+    factor: '1'
+    min: ''
+    max: ''
+    prefix: ''
+    suffix: ''
+  value:
+    factor: 1
+    min: ''
+    max: ''
+    prefix: ''
+    suffix: ''
+field_type: area_field_type

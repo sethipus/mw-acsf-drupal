@@ -169,12 +169,8 @@
   }
 
   &__button {
-
-    a {
+    .default-link {
       display: block;
-      padding: 1.8rem 1.85rem;
-      line-height: 1;
-      font-size: 1.4rem;
       text-align: center;
       white-space: nowrap;
 
