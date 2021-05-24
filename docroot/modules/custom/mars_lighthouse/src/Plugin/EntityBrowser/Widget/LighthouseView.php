@@ -124,6 +124,7 @@ class LighthouseView extends LighthouseViewBase implements ContainerFactoryPlugi
           'text' => $text_value,
           'brand' => $brand_value,
           'market' => $market_value,
+          'transparent' => $transparent_value,
         ],
       ];
     }

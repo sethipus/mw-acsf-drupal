@@ -155,6 +155,18 @@ AddEncoding gzip svgz
   RewriteCond %{HTTP_HOST} ^www\.unclebens\.com$ [NC]
   RewriteRule ^(.*)$ https://www.bensoriginal.com/$1 [R=301,L]
 
+  # Adding redirect for unclebens.com to www.bensoriginal.co.uk
+  # Quick fix. Must be removed once redirect will be done externaly.
+  RewriteCond %{HTTP_HOST} ^unclebens\.co.uk$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^unclebens\.ie$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www.unclebens.ie$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^bensoriginal.ie$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^bensoriginal\.co.uk$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www.bensoriginal.ie/$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www.bensoriginal\.co.uk$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^www\.unclebens\.co.uk$ [NC]
+  RewriteRule ^(.*)$ https://uk.bensoriginal.com/$1 [R=301,L]
+
   # Redirect common PHP files to their new locations.
   RewriteCond %{REQUEST_URI} ^(.*)?/(install.php) [OR]
   RewriteCond %{REQUEST_URI} ^(.*)?/(rebuild.php)
