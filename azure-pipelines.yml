@@ -36,6 +36,12 @@ steps:
       sshPublicKey: $(public_ssh_key)
       sshKeySecureFile: 'mars_ssh_key'
   - task: InstallSSHKey@0
+    displayName: 'Install SSH Key for GitHub.com'
+    inputs:
+      knownHostsEntry: $(known_hosts_github)
+      sshPublicKey: $(public_ssh_key_github)
+      sshKeySecureFile: 'github.com'
+  - task: InstallSSHKey@0
     displayName: 'Install SSH Key for Acquia Cloud'
     inputs:
       knownHostsEntry: $(known_hosts_acquia)
