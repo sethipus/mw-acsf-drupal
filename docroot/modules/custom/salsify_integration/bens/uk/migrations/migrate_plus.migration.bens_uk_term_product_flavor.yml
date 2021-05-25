@@ -1,0 +1,28 @@
+id: bens_uk_term_product_flavor
+label: Flavor taxonomy
+migration_group: bens_uk
+migration_tags:
+  - Term
+source:
+  plugin: brand_drupal_salsify_url
+  data_fetcher_plugin: http
+  data_parser_plugin: json
+  item_selector: /
+  fields:
+    -
+      name: source_product_flavor
+      label: 'Marketing Flavor'
+      selector: 'field_product_flavor/0'
+  ids:
+    source_product_flavor:
+      type: string
+process:
+  name:
+    plugin: skip_on_empty
+    method: row
+    source: source_product_flavor
+  vid:
+    plugin: default_value
+    default_value: 'mars_flavor'
+destination:
+  plugin: entity:taxonomy_term

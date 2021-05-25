@@ -30,7 +30,7 @@ pdf_tool: mPDF
 paper_size: A4
 page_orientation: portrait
 path_to_binary: ''
-pdf_location: sites/g/files/printable.pdf
+pdf_location: sites/default/files/printable.pdf
 send_to_printer: false
 close_window: false
 list_attribute: false

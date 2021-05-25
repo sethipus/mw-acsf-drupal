@@ -1,0 +1,17 @@
+uuid: 338afd93-f948-4c0b-bbd7-f6c35ef3f9d9
+langcode: en
+status: true
+dependencies:
+  module:
+    - mars_lighthouse
+title: 'Default cron handler'
+id: mars_lighthouse_cron
+weight: 0
+module: mars_lighthouse
+callback: mars_lighthouse_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

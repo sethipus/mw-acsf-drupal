@@ -80,11 +80,11 @@ class RecipeDetailHeroTest extends UnitTestCase {
   protected $themeConfiguratorParserMock;
 
   /**
-   * File storage.
+   * Node storage.
    *
    * @var \PHPUnit\Framework\MockObject\MockObject||\Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $fileStorageMock;
+  protected $nodeStorageMock;
 
   /**
    * Media Helper.
@@ -138,10 +138,8 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->entityTypeManagerMock
       ->expects($this->any())
       ->method('getStorage')
-      ->withConsecutive(
-        [$this->equalTo('file')]
-      )
-      ->will($this->onConsecutiveCalls($this->fileStorageMock));
+      ->withConsecutive([$this->equalTo('node')])
+      ->will($this->onConsecutiveCalls($this->nodeStorageMock));
 
     $this->mediaHelperMock
       ->expects($this->any())
@@ -268,8 +266,6 @@ class RecipeDetailHeroTest extends UnitTestCase {
   public function buildBlockRenderArrayProperly() {
     $this->assertEquals('build', 'build', 'actual value is not equals to expected');
 
-    // Set file mock.
-    $this->setFileMock();
     // Set Config Parser Mock.
     $this->themeConfiguratorParserMock
       ->expects($this->exactly(1))
@@ -313,7 +309,7 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $this->viewBuilderMock = $this->createMock(EntityViewBuilderInterface::class);
     $this->entityTypeManagerMock = $this->createMock(EntityTypeManagerInterface::class);
     $this->configFactoryMock = $this->createMock(ConfigFactoryInterface::class);
-    $this->fileStorageMock = $this->createMock(EntityStorageInterface::class);
+    $this->nodeStorageMock = $this->createMock(EntityStorageInterface::class);
     $this->themeConfiguratorParserMock = $this->createMock(ThemeConfiguratorParser::class);
     $this->mediaHelperMock = $this->createMock(MediaHelper::class);
     $this->tokenMock = $this->createMock(Token::class);
@@ -336,6 +332,11 @@ class RecipeDetailHeroTest extends UnitTestCase {
     $node->expects($this->any())
       ->method('label')
       ->willReturn('Recipe label');
+
+    // Mock $node->bundle().
+    $node->expects($this->any())
+      ->method('bundle')
+      ->willReturn('recipe');
 
     // Mock string fields. Covers:
     // * $node->field_recipe_description.
@@ -438,25 +439,6 @@ class RecipeDetailHeroTest extends UnitTestCase {
       ->willReturn($fieldEntityMock);
 
     return $mediaMock;
-  }
-
-  /**
-   * Mock file storage.
-   */
-  protected function setFileMock(): void {
-    $fileMock = $this->getMockBuilder(stdClass::class)
-      ->setMethods(['createFileUrl'])
-      ->getMock();
-
-    $fileMock
-      ->expects($this->any())
-      ->method('createFileUrl')
-      ->willReturn('http://mars.com');
-
-    $this->fileStorageMock
-      ->expects($this->any())
-      ->method('load')
-      ->willReturn($fileMock);
   }
 
 }

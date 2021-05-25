@@ -39,6 +39,7 @@ ignored_config_entities:
   - mars_product.bazaarvoice.settings
   - mars_product.nutrition_table_settings
   - cloudflare.settings
+  - salsify_integration.migrate_settings
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
 enable_export_filtering: true
