@@ -1,7 +1,0 @@
-mars_lighthouse.configuration_form:
-  path: '/admin/config/services/lighthouse_api'
-  defaults:
-    _form: 'Drupal\mars_lighthouse\Form\MarsLighthouseConfigForm'
-    _title: 'Lighthouse API configuration'
-  requirements:
-    _permission: 'administer site configuration'
