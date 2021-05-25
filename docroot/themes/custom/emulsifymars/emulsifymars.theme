@@ -260,3 +260,22 @@ function emulsifymars_preprocess_views_view_unformatted(&$variables) {
   $variables['item_type'] = 'card';
   $variables['items'] = $items;
 }
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function emulsifymars_page_attachments_alter(array &$attachments) {
+
+  foreach ($attachments['#attached']['library'] as $key => $library) {
+
+    // Here I disable the core base library.
+    // Looks pretty ugly afterwards.
+    if ($library == 'system/base') {
+      unset($attachments['#attached']['library'][$key]);
+    }
+
+    if ($library == 'poll/drupal.poll-links') {
+      unset($attachments['#attached']['library'][$key]);
+    }
+  }
+}

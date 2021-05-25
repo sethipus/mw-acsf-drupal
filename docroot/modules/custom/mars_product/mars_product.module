@@ -68,10 +68,13 @@ function mars_product_page_attachments(&$page) {
     $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData()['settings'] : [];
   }
   $metatags = [];
+  $current_uri = \Drupal::request()->getRequestUri();
   switch ($vendor) {
 
     case PdpHeroBlock::VENDOR_PRICE_SPIDER:
-      $page['#attached']['library'][] = 'mars_product/price_spider';
+      if ($current_uri !== '/') {
+        $page['#attached']['library'][] = 'mars_product/price_spider';
+      }
       $metatags = [
         'ps-account' => [
           '#tag' => 'meta',
@@ -102,7 +105,9 @@ function mars_product_page_attachments(&$page) {
       break;
 
     case PdpHeroBlock::VENDOR_SMART_COMMERCE:
-      $page['#attached']['library'][] = 'mars_product/smart_commerce';
+      if ($current_uri !== '/') {
+        $page['#attached']['library'][] = 'mars_product/smart_commerce';
+      }
       $metatags = [
         'smart_commerce_brand_js' => [
           '#tag' => 'script',
@@ -121,15 +126,19 @@ function mars_product_page_attachments(&$page) {
       break;
 
     case PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR:
-      $page['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+      if ($current_uri !== '/') {
+        $page['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
+      }
       break;
 
     default:
       break;
   }
 
-  foreach ($metatags as $key => $metatag) {
-    $page['#attached']['html_head'][] = [$metatag, $key];
+  if ($current_uri !== '/') {
+    foreach ($metatags as $key => $metatag) {
+      $page['#attached']['html_head'][] = [$metatag, $key];
+    }
   }
 }
 
