@@ -619,7 +619,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'brand_shape_opacity' => $config['brand_shape_opacity'] ?? NULL,
       'eyebrow' => $config['eyebrow'] ?? $this->t('Products'),
       'available_sizes' => $config['available_sizes'] ?? $this->t('Available sizes'),
-      'product' => $this->nodeStorage->load($config['product']) ?? NULL,
+      'product' => !empty($config['product']) ? $this->nodeStorage->load($config['product']) : NULL,
       'nutrition' => [
         'label' => $config['nutrition']['label'] ?? $this->t('Nutrition'),
         'serving_label' => $config['nutrition']['serving_label'] ?? $serving_label,
@@ -665,7 +665,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     }
 
     // Skip build process for non product entities.
-    if (empty($node) || $node->bundle() != 'product') {
+    if (empty($node) || !in_array($node->bundle(), ['product', 'product_multipack'])) {
       return [];
     }
 
