@@ -40,7 +40,7 @@ steps:
     inputs:
       knownHostsEntry: $(known_hosts_github)
       sshPublicKey: $(public_ssh_key_github)
-      sshKeySecureFile: 'github.pub'
+      sshKeySecureFile: 'github.private'
   - task: InstallSSHKey@0
     displayName: 'Install SSH Key for Acquia Cloud'
     inputs:
