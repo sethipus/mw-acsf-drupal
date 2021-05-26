@@ -127,7 +127,7 @@ function mars_product_page_attachments(&$page) {
     default:
       break;
   }
-  
+
   foreach ($metatags as $key => $metatag) {
     $page['#attached']['html_head'][] = [$metatag, $key];
   }
@@ -353,7 +353,7 @@ function product_card_change_color(&$variables) {
  * Implements hook_js_alter().
  */
 function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
-  
+
   $current_uri = \Drupal::request()->getRequestUri();
   foreach ($javascript as $key => $script) {
     if (strpos($key, '[commerce_connector_url]') !== FALSE) {
@@ -368,8 +368,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
         $locale = \Drupal::languageManager()
           ->getCurrentLanguage()->getId();
         // Updating library JS path.
-        if($current_uri == '/')
-        {
+        if ($current_uri == '/') {
           $javascript[$key]['data'] = '\/';
         }
         else {
@@ -383,7 +382,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           'data-locale' => !empty($commerce_vendor_settings['data_locale']) ? $commerce_vendor_settings['data_locale'] : NULL,
           'data-displaylanguage' => $locale,
           'data-widgetid' => !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : NULL,
-          'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL
+          'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL,
         ];
       }
     }
@@ -403,9 +402,8 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
         }
       }
     }
-    if(strpos($key, '[price_spider_url]') !== FALSE) {
-      if($current_uri == '/')
-      {
+    if (strpos($key, '[price_spider_url]') !== FALSE) {
+      if ($current_uri == '/') {
         $javascript[$key]['data'] = '\/';
       }
       else {
@@ -413,7 +411,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       }
       $javascript[$key]['attributes'] = [
         'data-src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
-        'id' => 'ps-widget'
+        'id' => 'ps-widget',
       ];
     }
   }
