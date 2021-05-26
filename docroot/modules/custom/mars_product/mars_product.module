@@ -68,13 +68,10 @@ function mars_product_page_attachments(&$page) {
     $commerce_vendor_settings = !$commerce_vendor_settings->isNew() ? $commerce_vendor_settings->getRawData()['settings'] : [];
   }
   $metatags = [];
-  $current_uri = \Drupal::request()->getRequestUri();
   switch ($vendor) {
 
     case PdpHeroBlock::VENDOR_PRICE_SPIDER:
-      if ($current_uri !== '/') {
-        $page['#attached']['library'][] = 'mars_product/price_spider';
-      }
+      $page['#attached']['library'][] = 'mars_product/price_spider';
       $metatags = [
         'ps-account' => [
           '#tag' => 'meta',
@@ -105,9 +102,7 @@ function mars_product_page_attachments(&$page) {
       break;
 
     case PdpHeroBlock::VENDOR_SMART_COMMERCE:
-      if ($current_uri !== '/') {
-        $page['#attached']['library'][] = 'mars_product/smart_commerce';
-      }
+      $page['#attached']['library'][] = 'mars_product/smart_commerce';
       $metatags = [
         'smart_commerce_brand_js' => [
           '#tag' => 'script',
@@ -126,19 +121,15 @@ function mars_product_page_attachments(&$page) {
       break;
 
     case PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR:
-      if ($current_uri !== '/') {
-        $page['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
-      }
+      $page['#attached']['library'][] = 'mars_product/mars_product.commerce_connector';
       break;
 
     default:
       break;
   }
-
-  if ($current_uri !== '/') {
-    foreach ($metatags as $key => $metatag) {
-      $page['#attached']['html_head'][] = [$metatag, $key];
-    }
+  
+  foreach ($metatags as $key => $metatag) {
+    $page['#attached']['html_head'][] = [$metatag, $key];
   }
 }
 
@@ -362,6 +353,8 @@ function product_card_change_color(&$variables) {
  * Implements hook_js_alter().
  */
 function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
+  
+  $current_uri = \Drupal::request()->getRequestUri();
   foreach ($javascript as $key => $script) {
     if (strpos($key, '[commerce_connector_url]') !== FALSE) {
       $wtb_confg = \Drupal::config('mars_product.wtb.settings');
@@ -375,16 +368,22 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
         $locale = \Drupal::languageManager()
           ->getCurrentLanguage()->getId();
         // Updating library JS path.
-        $javascript[$key]['data'] = '//fi-v2.global.commerce-connector.com/cc.js';
+        if($current_uri == '/')
+        {
+          $javascript[$key]['data'] = '\/';
+        }
+        else {
+          $javascript[$key]['data'] = '//fi-v2.global.commerce-connector.com/cc.js';
+        }
         // Setting library attributes.
         $javascript[$key]['attributes'] = [
+          'data-src' => '//fi-v2.global.commerce-connector.com/cc.js',
           'id' => 'cci-widget',
           'data-token' => !empty($commerce_vendor_settings['data_token']) ? $commerce_vendor_settings['data_token'] : NULL,
           'data-locale' => !empty($commerce_vendor_settings['data_locale']) ? $commerce_vendor_settings['data_locale'] : NULL,
           'data-displaylanguage' => $locale,
           'data-widgetid' => !empty($commerce_vendor_settings['widget_id']) ? $commerce_vendor_settings['widget_id'] : NULL,
-          'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL,
-          'defer' => TRUE,
+          'data-subid' => !empty($commerce_vendor_settings['data_subid']) ? $commerce_vendor_settings['data_subid'] : NULL
         ];
       }
     }
@@ -403,6 +402,19 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           $javascript[$key]['data'] = $staging_url;
         }
       }
+    }
+    if(strpos($key, '[price_spider_url]') !== FALSE) {
+      if($current_uri == '/')
+      {
+        $javascript[$key]['data'] = '\/';
+      }
+      else {
+        $javascript[$key]['data'] = '//cdn.pricespider.com/1/lib/ps-widget.js';
+      }
+      $javascript[$key]['attributes'] = [
+        'data-src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+        'id' => 'ps-widget'
+      ];
     }
   }
 }
