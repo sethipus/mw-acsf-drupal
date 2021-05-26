@@ -44,6 +44,7 @@ function mars_seo_update_8002() {
     'simple_sitemap.bundle_settings.default.node.faq_contact',
     $source->read('simple_sitemap.bundle_settings.default.node.faq_contact')
   );
+  \Drupal::cache()->invalidateAll();
   \Drupal::service('simple_sitemap.generator')->setVariants(TRUE)
     ->rebuildQueue()
     ->generateSitemap();
