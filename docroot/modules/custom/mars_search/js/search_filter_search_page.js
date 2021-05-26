@@ -74,8 +74,9 @@
           searchItems.append(elementWrapper);
           Drupal.behaviors.productCard.attach(searchItems, settings);
         });
+
         // Update Smart Commerce buttons on changing grid filters.
-        if (SmartCart !== undefined) {
+        if (typeof SmartCart !== "undefined") {
           SmartCart.updateUsaWidget();
         }
       }
@@ -172,7 +173,10 @@
               filterEventSubscriber(context);
               clearTypeFilterListener();
               Drupal.behaviors.searchFilterBehaviour.attach(document, drupalSettings);
-              Drupal.behaviors.searchResultsSelectBehaviour.attach(document, drupalSettings);
+
+              if (typeof Drupal.behaviors.searchResultsSelectBehaviour !== "undefined") {
+                Drupal.behaviors.searchResultsSelectBehaviour.attach(document, drupalSettings);
+              }
             }
           });
         }
