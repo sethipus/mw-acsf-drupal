@@ -1,5 +1,0 @@
-mars_lighthouse.configuration_form:
-  title: 'Lighthouse API configuration'
-  description: 'Settings related to Lighthouse API.'
-  route_name: mars_lighthouse.configuration_form
-  parent: 'system.admin_config_services'
