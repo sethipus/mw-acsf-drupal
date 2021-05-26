@@ -159,14 +159,14 @@
       margin: auto;
 
       &.image-size-large {
-        width: 335px;
+        max-width: 335px;
 
         @include medium {
-          width: 334px;
+          max-width: 334px;
         }
 
         @include large {
-          width: 433px;
+          max-width: 433px;
         }
       }
 
