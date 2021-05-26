@@ -37,6 +37,7 @@ function mars_seo_update_8001() {
  * Update sitemap configuration for node type faq_contact & rebuild sitemap.
  */
 function mars_seo_update_8002() {
+  // Import content type sitemap config.
   $config_path = Settings::get('config_sync_directory', FALSE);
   $source = new FileStorage($config_path);
   $config_storage = \Drupal::service('config.storage');
@@ -44,6 +45,7 @@ function mars_seo_update_8002() {
     'simple_sitemap.bundle_settings.default.node.faq_contact',
     $source->read('simple_sitemap.bundle_settings.default.node.faq_contact')
   );
+  // Clear cache and rebuild queue.
   \Drupal::cache()->invalidateAll();
   \Drupal::service('simple_sitemap.generator')->setVariants(TRUE)
     ->rebuildQueue()
