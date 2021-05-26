@@ -5,6 +5,9 @@
  * Primary module hooks for mars_seo module.
  */
 
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Site\Settings;
+
 /**
  * Rename default og image config.
  */
@@ -28,4 +31,20 @@ function mars_seo_update_8001() {
   );
   $config_ignore_config->set('ignored_config_entities', $ignores);
   $config_ignore_config->save();
+}
+
+/**
+ * Update sitemap configuration for node type faq_contact & rebuild sitemap.
+ */
+function mars_seo_update_8002() {
+  $config_path = Settings::get('config_sync_directory', FALSE);
+  $source = new FileStorage($config_path);
+  $config_storage = \Drupal::service('config.storage');
+  $config_storage->write(
+    'simple_sitemap.bundle_settings.default.node.faq_contact',
+    $source->read('simple_sitemap.bundle_settings.default.node.faq_contact')
+  );
+  \Drupal::service('simple_sitemap.generator')->setVariants(TRUE)
+    ->rebuildQueue()
+    ->generateSitemap();
 }
