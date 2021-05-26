@@ -41,6 +41,13 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
   protected $viewBuilder;
 
   /**
+   * Node storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $nodeStorage;
+
+  /**
    * Config factory service.
    *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
@@ -67,6 +74,7 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->viewBuilder = $entity_type_manager->getViewBuilder('node');
+    $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->config = $config;
     $this->languageHelper = $language_helper;
   }
@@ -94,6 +102,17 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
       $text_color_override = static::$overrideColor;
     }
     $node = $this->getContextValue('node');
+
+    // Load custom product.
+    if (!empty($this->configuration['recipe'])) {
+      $node = $this->nodeStorage->load($this->configuration['recipe']) ?? $node;
+    }
+
+    // Skip build process for non product entities.
+    if (empty($node) || $node->bundle() != 'recipe') {
+      return [];
+    }
+
     $ingredients_list = [];
     if (!$node->get('field_recipe_ingredients')->isEmpty()) {
       $ingredients = $node->get('field_recipe_ingredients')->getValue();
@@ -149,6 +168,16 @@ class RecipeDetailBody extends BlockBase implements ContextAwarePluginInterface,
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
+
+    $form['recipe'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'node',
+      '#title' => $this->t('Default recipe'),
+      '#default_value' => isset($this->configuration['recipe']) ? $this->nodeStorage->load($this->configuration['recipe']) : NULL,
+      '#selection_settings' => [
+        'target_bundles' => ['recipe'],
+      ],
+    ];
 
     $config = $this->getConfiguration();
     $this->buildOverrideColorElement($form, $config);

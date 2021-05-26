@@ -37,11 +37,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
-   * File storage.
+   * Node storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected $fileStorage;
+  protected $nodeStorage;
 
   /**
    * Config Factory.
@@ -229,7 +229,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ConfigFactoryInterface $config_factory,
     NutritionDataHelper $nutrition_helper
   ) {
-    $this->fileStorage = $entity_type_manager->getStorage('file');
+    $this->nodeStorage = $entity_type_manager->getStorage('node');
     $this->entityRepository = $entity_repository;
     $this->entityFormBuilder = $entity_form_builder;
     $this->themeConfiguratorParser = $themeConfiguratorParser;
@@ -290,6 +290,16 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       '#maxlength' => 50,
       '#default_value' => $this->configuration['available_sizes'] ?? '',
       '#required' => TRUE,
+    ];
+
+    $form['product'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'node',
+      '#title' => $this->t('Default product'),
+      '#selection_settings' => [
+        'target_bundles' => ['product'],
+      ],
+      '#default_value' => isset($this->configuration['product']) ? $this->nodeStorage->load($this->configuration['product']) : NULL,
     ];
 
     $form['wtb'] = [
@@ -609,6 +619,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
       'brand_shape_opacity' => $config['brand_shape_opacity'] ?? NULL,
       'eyebrow' => $config['eyebrow'] ?? $this->t('Products'),
       'available_sizes' => $config['available_sizes'] ?? $this->t('Available sizes'),
+      'product' => !empty($config['product']) ? $this->nodeStorage->load($config['product']) : NULL,
       'nutrition' => [
         'label' => $config['nutrition']['label'] ?? $this->t('Nutrition'),
         'serving_label' => $config['nutrition']['serving_label'] ?? $serving_label,
@@ -647,6 +658,17 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
   public function build() {
     // Product node.
     $node = $this->getContextValue('node');
+
+    // Load custom product.
+    if (!empty($this->configuration['product'])) {
+      $node = $this->nodeStorage->load($this->configuration['product']) ?? $node;
+    }
+
+    // Skip build process for non product entities.
+    if (empty($node) || !in_array($node->bundle(), ['product', 'product_multipack'])) {
+      return [];
+    }
+
     // Commerce vendor info.
     $commerce_vendor = $this->getCommerceVendor();
     $commerce_vendor_settings = $this->getCommerceVendorInfo($commerce_vendor);
@@ -672,7 +694,7 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'size_label' => $this->languageHelper->translate($this->configuration['available_sizes'] ?? ''),
         'brand_shape' => $this->themeConfiguratorParser->getBrandShapeWithoutFill(),
         'background_color' => $background_color,
-        'product_name' => $node->title->value,
+        'product_name' => $node->getTitle(),
         'product_description' => $node->field_product_description->value,
         'product_sku' => !empty($this->configuration['wtb']['override_global']) && !empty($this->configuration['wtb']['product_id']) ? $this->configuration['wtb']['product_id'] : $product_sku,
         'commerce_vendor' => $commerce_vendor !== self::VENDOR_NONE ? $commerce_vendor : NULL,
