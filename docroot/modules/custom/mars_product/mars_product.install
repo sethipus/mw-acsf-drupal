@@ -225,3 +225,47 @@ function mars_product_update_8930() {
     }
   }
 }
+
+/**
+ * Implements hook_update_N() for layout builder.
+ */
+function mars_product_update_8931() {
+  $blocks = [
+    'pdp_hero_block',
+    'recipe_detail_body',
+    'recipe_detail_hero',
+    'article_header',
+  ];
+
+  $region_to = 'all_regions';
+
+  /** @var \Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay $display */
+  $display = LayoutBuilderEntityViewDisplay::load('node.campaign.default');
+
+  $contexts = [
+    'display' => EntityContext::fromEntity($display),
+  ];
+
+  $section_storage_manager = \Drupal::service('plugin.manager.layout_builder.section_storage');
+  /** @var Drupal\layout_builder\SectionStorageInterface $section_storage */
+  $section_storage = $section_storage_manager->load('defaults', $contexts);
+
+  $third_party_settings = $section_storage->getThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', []);
+
+  $whitelisted_blocks = &$third_party_settings['whitelisted_blocks']['campaign_section'];
+
+  if (isset($whitelisted_blocks[$region_to])) {
+    foreach ($blocks as $plugin_block_id) {
+      $definition = \Drupal::service('plugin.manager.block')->getDefinition($plugin_block_id);
+      $category = $definition['category']->getUntranslatedString();
+      if (isset($whitelisted_blocks[$region_to][$category])) {
+        if (!in_array($plugin_block_id, $whitelisted_blocks[$region_to][$category])) {
+          $whitelisted_blocks[$region_to][$category][] = $plugin_block_id;
+        }
+      }
+    }
+
+    $section_storage->setThirdPartySetting('layout_builder_restrictions', 'entity_view_mode_restriction_by_region', $third_party_settings);
+    $section_storage->save();
+  }
+}

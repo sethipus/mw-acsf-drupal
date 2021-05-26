@@ -205,6 +205,11 @@ class RecipeDetailBodyTest extends UnitTestCase {
       ->disableOriginalConstructor()
       ->getMock();
 
+    // Mock $node->bundle().
+    $node->expects($this->any())
+      ->method('bundle')
+      ->willReturn('recipe');
+
     // Mock string fields.
     $fieldStringMock = $this->getMockBuilder(FieldItemListInterface::class)
       ->disableOriginalConstructor()
