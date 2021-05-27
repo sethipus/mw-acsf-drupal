@@ -14,6 +14,16 @@
 {% set where_to_buy_base_class = where_to_buy_base_class|default('where-to-buy') %}
 {% if product_sku is not empty %}
   <div {{ bem(where_to_buy_base_class, where_to_buy_modifiers, where_to_buy_blockname) }}>
-      <div class="ps-widget" ps-config="{{ data_widget_id }}" ps-sku="{{ product_sku }}"></div>
+    {% set attr = {
+      'href': 'javascript:;',
+      'data-label': cta_title,
+      'class': 'ps-widget',
+      'ps-config': data_widget_id,
+      'ps-sku': product_sku
+    } %}
+    {% include "@atoms/links/defaultLink/defaultLink.twig" with {
+      default_link_content: '',
+      default_link_attributes: attr,
+    } %}
   </div>
 {% endif %}
