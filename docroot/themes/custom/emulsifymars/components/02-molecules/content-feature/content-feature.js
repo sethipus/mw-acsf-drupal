@@ -18,6 +18,27 @@
           return vertInView && horInView;
         }
 
+        const updateElementsPositions = (element) => {
+          const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+          const windowMiddle = windowHeight / 2;
+
+          const boundingRect = element.getBoundingClientRect();
+          const containerHeight = boundingRect.height;
+          const containerMiddle = boundingRect.top + containerHeight / 2;
+
+          const currentOffset = windowMiddle - containerMiddle;
+          const maxOffset = (windowHeight + containerHeight) / 2;
+          const parallaxEffectPercentage = currentOffset / maxOffset;
+
+          const parallaxOverflow = containerHeight * parallaxCoef;
+          const bgPositionOffset = parallaxOverflow / 2 * parallaxEffectPercentage;
+          if(!element.style.backgroundImage)
+          {
+              contentFeatureModule.setAttribute("style", "background-image: url(" + bgUrl + ");");         
+          }
+          element.style.backgroundPosition = `50% calc(50% - ${bgPositionOffset}px`;
+        };
+
         const updateBGSize = element => {	
           const image = document.createElement('img');	
           image.onload = () => {	
@@ -52,28 +73,7 @@
           };	
           image.src = bgUrl;	
         }	
-
-        const updateElementsPositions = (element) => {
-          const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-          const windowMiddle = windowHeight / 2;
-
-          const boundingRect = element.getBoundingClientRect();
-          const containerHeight = boundingRect.height;
-          const containerMiddle = boundingRect.top + containerHeight / 2;
-
-          const currentOffset = windowMiddle - containerMiddle;
-          const maxOffset = (windowHeight + containerHeight) / 2;
-          const parallaxEffectPercentage = currentOffset / maxOffset;
-
-          const parallaxOverflow = containerHeight * parallaxCoef;
-          const bgPositionOffset = parallaxOverflow / 2 * parallaxEffectPercentage;
-          if(!element.style.backgroundImage)
-          {
-              contentFeatureModule.setAttribute("style", "background-image: url(" + bgUrl + ");");         
-          }
-          element.style.backgroundPosition = `50% calc(50% - ${bgPositionOffset}px`;
-        };
-
+        
         const scrollListener = () => {
           if (isInViewport(contentFeatureModule)) {     
             updateElementsPositions(contentFeatureModule);
