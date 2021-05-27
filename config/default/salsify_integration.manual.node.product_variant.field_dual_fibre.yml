@@ -1,9 +1,9 @@
-field_id: 'LTD Fibre/100g'
-salsify_id: 'LTD Fibre/100g'
+field_id: LTD/fibre/kcal
+salsify_id: LTD/fibre/kcal
 salsify_data_type: string
 entity_type: node
 bundle: product_variant
-field_name: field_product_fibre
+field_name: field_dual_fibre
 method: manual
 created: 1546300800
 changed: 1546300801

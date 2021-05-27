@@ -72,6 +72,7 @@ dependencies:
     - field.field.node.product_variant.field_product_cholesterol_daily
     - field.field.node.product_variant.field_product_consumption_1
     - field.field.node.product_variant.field_product_consumption_2
+    - field.field.node.product_variant.field_product_cooking_instruct
     - field.field.node.product_variant.field_product_description
     - field.field.node.product_variant.field_product_diet_allergens
     - field.field.node.product_variant.field_product_dietary_daily
@@ -169,6 +170,7 @@ third_party_settings:
         - field_product_sku
         - field_product_size
         - field_product_description
+        - field_product_cooking_instruct
       parent_name: group_product_variant
       weight: 31
       format_type: accordion_item
@@ -1074,6 +1076,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_product_cooking_instruct:
+    weight: 26
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
     region: content
   field_product_description:
     weight: 25
