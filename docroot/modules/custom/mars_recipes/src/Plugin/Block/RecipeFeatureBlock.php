@@ -224,7 +224,8 @@ class RecipeFeatureBlock extends BlockBase implements ContextAwarePluginInterfac
       $recipe_id = $config['recipe_id'];
       if ($recipe_id) {
         $node = $this->nodeStorage->load($recipe_id);
-      } else {
+      }
+      else {
         return NULL;
       }
     }
