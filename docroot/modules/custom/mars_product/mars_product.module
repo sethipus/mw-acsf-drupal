@@ -367,16 +367,17 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       if (isset($vendor) && $vendor == PdpHeroBlock::VENDOR_COMMERCE_CONNECTOR) {
         $locale = \Drupal::languageManager()
           ->getCurrentLanguage()->getId();
+        $commerce_connector_url = '//fi-v2.global.commerce-connector.com/cc.js';
         // Updating library JS path.
         if ($current_uri == '/') {
           $javascript[$key]['data'] = '\/';
         }
         else {
-          $javascript[$key]['data'] = '//fi-v2.global.commerce-connector.com/cc.js';
+          $javascript[$key]['data'] = $commerce_connector_url;
         }
         // Setting library attributes.
         $javascript[$key]['attributes'] = [
-          'data-src' => '//fi-v2.global.commerce-connector.com/cc.js',
+          'data-src' => $commerce_connector_url,
           'id' => 'cci-widget',
           'data-token' => !empty($commerce_vendor_settings['data_token']) ? $commerce_vendor_settings['data_token'] : NULL,
           'data-locale' => !empty($commerce_vendor_settings['data_locale']) ? $commerce_vendor_settings['data_locale'] : NULL,
@@ -403,14 +404,15 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
       }
     }
     if (strpos($key, '[price_spider_url]') !== FALSE) {
+      $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
       if ($current_uri == '/') {
         $javascript[$key]['data'] = '\/';
       }
       else {
-        $javascript[$key]['data'] = '//cdn.pricespider.com/1/lib/ps-widget.js';
+        $javascript[$key]['data'] = $price_spider_url;
       }
       $javascript[$key]['attributes'] = [
-        'data-src' => '//cdn.pricespider.com/1/lib/ps-widget.js',
+        'data-src' => $price_spider_url,
         'id' => 'ps-widget',
       ];
     }
