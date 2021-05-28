@@ -34,10 +34,6 @@ source:
       name: source_sku
       label: 'GTIN'
       selector: 'field_product_sku/0'
-#    -
-#      name: source_cooking_instructions
-#      label: 'Brandbank Cooking Guidelines'
-#      selector: 'field_product_cooking_instruct/0'
     -
       name: source_product_flavor
       label: 'Brandbank Variant'
@@ -101,7 +97,6 @@ process:
     plugin: skip_on_empty
     method: row
     source: source_sku
-#  field_cooking_instructions/value: source_cooking_instructions
   field_product_flavor/target_id:
     plugin: migration_lookup
     migration:

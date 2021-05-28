@@ -23,6 +23,8 @@ pdp_common_data:
     refer_text:  'Please refer to the product label for the most accurate nutrition, ingredient and allergen information'
   allergen_data:
     allergen_label: 'DIET & ALLERGENS'
+  cooking_data:
+    cooking_label: 'Cooking instructions'
   more_information_data:
     more_information_label: 'MORE INFORMATION'
     show_more_information_label: true
@@ -68,6 +70,10 @@ pdp_data:
           border_radius: 20
           link_attributes:
             'href' : '#section-allergen-1oz'
+        - title: 'Cooking instructions'
+          border_radius: 20
+          link_attributes:
+            'href' : '#section-cooking-1oz'
         - title: 'RELATED PRODUCTS'
           border_radius: 20
           link_attributes:
@@ -199,6 +205,7 @@ pdp_data:
             allergen_label: 'CONTAINS SOY'
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
+    cooking_data: 'Cooking instructions paragraph'
     benefits_data:
       enabled: true
       title: 'Nutritional claims & product benefits'
@@ -388,6 +395,10 @@ pdp_data:
           border_radius: 20
           link_attributes:
             'href' : '#section-allergen-6oz'
+        - title: 'Cooking instructions'
+          border_radius: 20
+          link_attributes:
+            'href' : '#section-cooking-6oz'
         - title: 'RELATED PRODUCTS'
           border_radius: 20
           link_attributes:
@@ -465,6 +476,7 @@ pdp_data:
             allergen_label: 'CONTAINS SOY'
           - allergen_icon: 'twix-logo-102-x2.png'
             allergen_label: 'CONTAINS SOY'
+    cooking_data: 'Cooking instructions paragraph'
 multipack_data:
   multipack_label: 'WHAT’S IN THE PACK'
   multipack_see_all_label: 'See All'
