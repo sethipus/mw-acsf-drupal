@@ -358,6 +358,8 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
   foreach ($javascript as $key => $script) {
     if (strpos($key, '[commerce_connector_url]') !== FALSE) {
       $wtb_confg = \Drupal::config('mars_product.wtb.settings');
+      $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
+      $entry_gate_enabled = $config->get('enabled');
       $vendor = $wtb_confg->get('commerce_vendor');
       $commerce_vendor_settings = [];
       if (!empty($vendor)) {
@@ -369,7 +371,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
           ->getCurrentLanguage()->getId();
         $commerce_connector_url = '//fi-v2.global.commerce-connector.com/cc.js';
         // Updating library JS path.
-        if ($current_uri == '/') {
+        if ($current_uri == '/' && $entry_gate_enabled) {
           $javascript[$key]['data'] = '\/';
         }
         else {
@@ -405,7 +407,7 @@ function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
     }
     if (strpos($key, '[price_spider_url]') !== FALSE) {
       $price_spider_url = '//cdn.pricespider.com/1/lib/ps-widget.js';
-      if ($current_uri == '/') {
+      if ($current_uri == '/' && $entry_gate_enabled) {
         $javascript[$key]['data'] = '\/';
       }
       else {
