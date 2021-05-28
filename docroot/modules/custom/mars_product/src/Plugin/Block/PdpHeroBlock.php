@@ -731,6 +731,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
     $build['#pdp_size_data'] = $this->getSizeData($node);
+    // Sort PDP variants if there more than one item.
+    if (!empty($build['#pdp_size_data']) && count($build['#pdp_size_data']) >= 2) {
+      usort($build['#pdp_size_data'], function ($a, $b) {
+        return intval($a['title']) > intval($b['title']);
+      });
+    }
 
     $node_bundle = $node->bundle();
     $build['#pdp_bundle_type'] = $node_bundle;
