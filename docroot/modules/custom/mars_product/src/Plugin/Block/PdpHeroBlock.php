@@ -731,6 +731,12 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
     ];
     $build['#pdp_common_data'] = $pdp_common_data;
     $build['#pdp_size_data'] = $this->getSizeData($node);
+    // Sort PDP variants if there more than one item.
+    if (!empty($build['#pdp_size_data']) && count($build['#pdp_size_data']) >= 2) {
+      usort($build['#pdp_size_data'], function ($a, $b) {
+        return intval($a['title']) > intval($b['title']);
+      });
+    }
 
     $node_bundle = $node->bundle();
     $build['#pdp_bundle_type'] = $node_bundle;
@@ -794,6 +800,8 @@ class PdpHeroBlock extends BlockBase implements ContainerFactoryPluginInterface 
         'gtin' => $gtin,
         'size_id' => $size_id,
         'active' => $state,
+        'product_description' => $product_variant->hasField('field_product_description') && !$product_variant->get('field_product_description')->isEmpty() ? $product_variant->field_product_description->value : NULL,
+        'product_name' => !empty($product_variant->title->value) ? $product_variant->title->value : $node->title->value,
         'hero_data' => [
           'image_items' => $this->getImageItems($product_variant),
           'mobile_sections_items' => $this->getMobileItems($product_variant, $node->bundle(), $more_information_id),
