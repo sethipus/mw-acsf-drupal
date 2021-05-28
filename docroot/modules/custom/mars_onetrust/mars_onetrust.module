@@ -30,13 +30,15 @@ function mars_onetrust_page_attachments(&$page) {
       '#attributes' => [
         'type' => 'text/javascript',
         'defer' => 'true',
-        'src' => 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+        'src' => '\/',
+        'data-src' => 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+        'id' => 'onetrust-sdk',
         'charset' => 'UTF-8',
         'data-domain-script' => $data_domain,
       ],
       '#weight' => -2,
     ];
-
+    
     $page['#attached']['html_head'][] = [$init_script, 'onetrust_init'];
     $page['#attached']['html_head'][] = [$template_script, 'onetrust_template'];
     $page['#attached']['library'][] = 'mars_onetrust/onetrust';

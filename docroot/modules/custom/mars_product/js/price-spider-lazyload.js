@@ -1,26 +1,14 @@
-if(window.location.pathname == '/')
-{
-    $('.ps-widget span').text($('.ps-widget').attr('data-label'));
-    $('.ps-widget').css('display','block');
-   
-    $('.ps-widget').click(function() {
-
-        if ($('.ps-enabled').length == 0) {
-            
-            $.getScript($('#ps-widget').attr('data-src')).done((script, textStatus) => {
-                const checkScriptLoaded = setInterval(() => {
-                    if ($('.ps-enabled').length > 0) { 
-                        clearInterval(checkScriptLoaded);
-                        $(this).find('span:first').remove();
-                        $(this).removeClass('default-link default-link-- ');
-                        $(this).trigger('click');
-                    }
-                }, 100);
-            });
-            return false;
+function _lazyLoadWhereToBuy() {
+    
+    if(window.location.pathname == '/')
+    {
+        if($('#ps-widget').length > 0 && $('.ps-enabled').length == 0)
+        {
+            $.getScript($('#ps-widget').attr('data-src'));
         }
-    });
-}
-else {
-    $('.ps-widget').removeClass('default-link default-link-- ');
+    }
+    else {
+        $('.ps-widget').removeClass('default-link default-link-- ');
+    }
+    
 }

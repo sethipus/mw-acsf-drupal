@@ -28,7 +28,11 @@
             firstInputElement.focus();
           }
         };
-
+        // helper for lazyloading external scripts
+        const lazyLoadThirdpartyScripts = () => {
+          _lazyLoadWhereToBuy();
+          _lazyLoadCookieBanner();
+        }
         // helper for getting cooke with specified name
         const getCookieDate = name => {
           const cookieArr = document.cookie.split(";");
@@ -42,10 +46,10 @@
         };
 
         const isValidDate = (dateStr) => {
-          // assume dateStr = 'yyyy-mm-dd'
+          // assume dateStr = 'yyyy-m[m]-d[d]'
           const [year, month, day] = dateStr.split('-').map((p) => parseInt(p, 10));
           const d = new Date(dateStr);
-          return (d && (d.getUTCMonth() + 1) === month && d.getUTCDate() === day && d.getUTCFullYear() === year);
+          return (d && (d.getMonth() + 1) === month && d.getDate() === day && d.getFullYear() === year);
         };
 
         // compare cookie value against age limit
@@ -53,8 +57,8 @@
           if (dateStr && isValidDate(dateStr)) {
             const dob = new Date(dateStr);
             const today = new Date();
-            let age = today.getFullYear() - dob.getUTCFullYear();
-            if (today.getMonth() < dob.getUTCMonth() || (today.getMonth() === dob.getUTCMonth() && today.getDate() < dob.getUTCDate())) {
+            let age = today.getFullYear() - dob.getFullYear();
+            if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
               age--;
             }
             return (age >= ageLimit);
@@ -66,7 +70,7 @@
         const checkValueLength = (event, field, limit) => {
           fieldset.removeClass('entry-gate-form__fieldset--error');
           errorMessage.css({display: 'none'})
-          if (/[0-9]/.test(event.key)) {
+          if (event.keyCode >= 48 && event.keyCode <= 57) {
             if (field.val().length > limit) {
               field.val(field.val().subString(0, limit));
             }
@@ -79,6 +83,8 @@
         // display entry gate if cookie is not set or the value of cookie is not
         // enough
         if (isOldEnough(getCookieDate('dateOfBirth'))) {
+          // Lazy load scripts
+          lazyLoadThirdpartyScripts();
           entryGate.css({display: 'none'});
           entryGate.attr("aria-hidden", "true");
           $(".layout-container").attr("aria-hidden", "false");
@@ -119,9 +125,11 @@
 
         submitBtn.once('entryGate').on('click', event => {
           event.preventDefault();
-          const givenDateStr = `${yearInput.val()}-${('0'+monthInput.val()).slice(-2)}-${('0'+dayInput.val()).slice(-2)}`;
+          // Lazy load scripts
+          lazyLoadThirdpartyScripts();
+          const givenDateStr = `${yearInput.val()}-${monthInput.val()}-${dayInput.val()}`;
 
-          if (!isValidDate(givenDateStr) || new Date(givenDateStr).getUTCFullYear() < 1900) {
+          if (!isValidDate(givenDateStr) || new Date(givenDateStr).getFullYear() < 1900) {
             // invalid date is entered
             fieldset.addClass('entry-gate-form__fieldset--error');
             errorMessage.css({display: 'block'})
