@@ -7,8 +7,5 @@ function _lazyLoadWhereToBuy() {
             $.getScript($('#ps-widget').attr('data-src'));
         }
     }
-    else {
-        $('.ps-widget').removeClass('default-link default-link-- ');
-    }
     
 }
