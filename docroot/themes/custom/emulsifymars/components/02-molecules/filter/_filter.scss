@@ -7,6 +7,10 @@
     border-bottom: none;
   }
 
+  &__list {
+    padding-left: 0;
+  }
+
   @include desktop {
     flex-basis: 230px;
     max-width: 230px;
@@ -92,6 +96,7 @@
   @include set-font($font-type: 'primary-font');
 
   margin: 30px 0 10px;
+  padding: 0;
   min-height: 4rem;
   font-size: 1.6rem;
   line-height: 1;
