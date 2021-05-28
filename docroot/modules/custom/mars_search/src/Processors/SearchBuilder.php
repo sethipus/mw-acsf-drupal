@@ -350,7 +350,7 @@ class SearchBuilder implements SearchBuilderInterface, SearchProcessManagerInter
         [$build['#applied_filters_list'], $build['#filters']] = $this->searchTermFacetProcess->processFilter($facets_query['facets'], $default_filters, $grid_id);
       }
     }
-
+    $this->searchProcessor->getProcessManager('search_pretty_facet_process')->rewriteFilterKeys($build);
     return $build;
   }
 
