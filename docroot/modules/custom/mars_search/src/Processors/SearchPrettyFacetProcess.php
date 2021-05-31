@@ -46,7 +46,7 @@ class SearchPrettyFacetProcess implements SearchProcessManagerInterface, SearchP
           foreach ($terms as $term_name) {
             $term_object = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties([
               'vid' => $facet_key,
-              'name' => $term_name,
+              'name' => urldecode($term_name),
             ]);
             $term_object = reset($term_object);
             if ($term_object instanceof TermInterface) {

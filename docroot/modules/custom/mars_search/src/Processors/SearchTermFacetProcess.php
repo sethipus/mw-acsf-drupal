@@ -70,7 +70,7 @@ class SearchTermFacetProcess implements SearchTermFacetProcessInterface, SearchP
           $pretty_path_for_vocabulary = SearchPrettyFacetProcess::getPrettyFacetKeys()[$vocabulary];
           $facetValues[] = [
             'title' => $terms[$facet['filter']]->label(),
-            'key' => $grid_id . $pretty_path_for_vocabulary . $key_taxonomy_term,
+            'key' => $grid_id . $pretty_path_for_vocabulary . urlencode($key_taxonomy_term),
             'weight' => $terms[$facet['filter']]->get('weight')->value,
           ];
 
