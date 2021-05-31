@@ -355,11 +355,11 @@ function product_card_change_color(&$variables) {
 function mars_product_js_alter(&$javascript, AttachedAssetsInterface $assets) {
 
   $current_uri = \Drupal::request()->getRequestUri();
+  $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
+  $entry_gate_enabled = $entry_gate_config->get('enabled');
   foreach ($javascript as $key => $script) {
     if (strpos($key, '[commerce_connector_url]') !== FALSE) {
       $wtb_confg = \Drupal::config('mars_product.wtb.settings');
-      $entry_gate_config = \Drupal::config('mars_entry_gate.settings');
-      $entry_gate_enabled = $entry_gate_config->get('enabled');
       $vendor = $wtb_confg->get('commerce_vendor');
       $commerce_vendor_settings = [];
       if (!empty($vendor)) {
