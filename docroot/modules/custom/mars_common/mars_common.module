@@ -167,6 +167,7 @@ function mars_common_theme($existing, $type, $theme, $path) {
         'current_region_title' => NULL,
         'text_color_override' => NULL,
         'hover_color' => NULL,
+        'cta_button_label' => NULL,
       ],
       'template' => 'footer-block',
     ],

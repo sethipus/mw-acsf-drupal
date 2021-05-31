@@ -196,6 +196,8 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
       $build['#hover_color'] = '#' . $conf['override_text_color']['hover_color'];
     }
 
+    $build['#cta_button_label'] = $conf['cta_button_label'] ?? strtoupper($this->languageHelper->translate('See All'));
+
     CacheableMetadata::createFromRenderArray($build)
       ->merge(
         $this->themeConfiguratorParser->getCacheMetadataForThemeConfigurator()
@@ -281,6 +283,14 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
           [':input[name="settings[override_text_color][сhoose_override_hover]"]' => ['checked' => TRUE]],
         ],
       ],
+    ];
+
+    $form['cta_button_label'] = [
+      '#title' => $this->languageHelper->translate('CTA button label'),
+      '#type' => 'textfield',
+      '#size' => 200,
+      '#required' => TRUE,
+      '#default_value' => $config['cta_button_label'] ?? strtoupper($this->languageHelper->translate('See All')),
     ];
 
     return $form;
