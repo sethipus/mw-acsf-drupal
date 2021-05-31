@@ -64,7 +64,7 @@
   ::placeholder {
     @include set-font($font-type: 'secondary-font');
 
-    color: clr(subcolor-3);
+    color: clr(subcolor-3, mobile-search-right-menu-section);
     font-size: 14px;
     line-height: 30px;
     letter-spacing: 1.4px;
@@ -124,7 +124,7 @@
       }
 
       & .mars-suggestions {
-        color: clr(subcolor-3);
+        color: clr(subcolor-3, mobile-search-right-menu-section);
         font-size: 14px;
         line-height: 100%;
 
@@ -226,7 +226,7 @@
       margin-right: auto;
       margin-left: auto;
       width: 100%;
-      border-bottom: 1px solid clr(subcolor-3);
+      border-bottom: 1px solid clr(subcolor-3, mobile-search-right-menu-section);
       padding-bottom: 3px;
 
       @include medium {
@@ -244,7 +244,7 @@
 
         & input.mars-autocomplete-field {
           border: none;
-          color: clr(subcolor-3);
+          color: clr(subcolor-3, mobile-search-right-menu-section);
           height: 50px;
           width: 90%;
           background-color: transparent;
@@ -281,7 +281,7 @@
           height: 2rem;
           top: calc(50% - 1rem);
           left: 0;
-          background-color: clr(subcolor-3);
+          background-color: clr(subcolor-3, mobile-search-right-menu-section);
 
           @include large {
             background-color: clr(primary);

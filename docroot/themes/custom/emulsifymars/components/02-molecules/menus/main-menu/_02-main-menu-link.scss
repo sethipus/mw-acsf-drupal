@@ -2,7 +2,7 @@
 .main-menu__link {
   @include set-font($font-type: 'primary-font');
 
-  color: clr(primary);
+  color: clr(primary, mobile-main-menu-items-color, text-color-override);
   display: block;
   font-size: 3.2rem;
   font-weight: 500;
@@ -36,6 +36,7 @@
     text-transform: none;
     position: relative;
     width: auto;
+    color: clr(primary, text-color-override);
 
     &:focus {
       outline: royalblue auto 1px;
@@ -43,7 +44,7 @@
     &.active,
     &:active,
     &:hover {
-      color: clr(secondary);
+      color: clr(secondary, hover-color);
 
       & .menu_chevron__icon {
         transform: scaleX(-1);
@@ -65,7 +66,7 @@
   transform: translateY(-50%);
   width: 12px;
   height: 7px;
-  fill: clr(secondary);
+  fill: clr(secondary, mobile-sub-menu-items-color);
 
   @include xs {
     pointer-events: none;
@@ -95,7 +96,7 @@
 .main-menu__link--sub {
   @include set-font($font-type: 'primary-font');
 
-  color: clr(secondary);
+  color: clr(secondary, mobile-sub-menu-items-color);
   font-weight: 500;
   font-size: 1.6rem;
   padding: 1.8rem 1rem 1.8rem 0;
@@ -120,7 +121,7 @@
     &:hover {
       @include set-font($font-type: 'primary-font');
 
-      color: clr(secondary);
+      color: clr(secondary, hover-color);
       font-weight: 500;
 
       & .menu_chevron__icon {
